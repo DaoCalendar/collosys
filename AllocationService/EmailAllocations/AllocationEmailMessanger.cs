@@ -20,8 +20,6 @@ namespace ColloSys.AllocationService.EmailAllocations
 {
     public class AllocationEmailMessanger : IAllocationEmailMessanger
     {
-        private string ProductFirstChar = string.Empty;
-
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
@@ -30,15 +28,6 @@ namespace ColloSys.AllocationService.EmailAllocations
             List<Stakeholders> stakeholerInitialData = session.QueryOver<Stakeholders>()
                                                               .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
                                                               .List().ToList();
-
-            //var listOfStakeholderModel = (from d in stakeholerInitialData
-            //                              select
-            //                                  new
-            //                                      {
-            //                                          AllocatedStakeholder = d,
-            //                                          Manager = GetReportingManger(d.ReportingManager)
-            //                                      }).ToList();
-
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
                                                select new StakeholdersStat()
                                                    {
@@ -46,11 +35,7 @@ namespace ColloSys.AllocationService.EmailAllocations
                                                        Manager = GetReportingManger(d.ReportingManager)
                                                    }).ToList();
             Log.Info(string.Format("Stakeholders For mailing process Loaded {0}", listOfStakeholderAndMangers.Count));
-            //Log.Info(string.Format("Allocated Stake {0} and Mangers are {1}",
-            //    listOfStakeholderAndMangers.Count(x=>x.AllocatedStakeholder),
-            //    listOfStakeholderAndMangers.Count(x => x.Manager)));
             return listOfStakeholderAndMangers;
-
         }
 
         public bool InitSendingMail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers)
@@ -63,8 +48,8 @@ namespace ColloSys.AllocationService.EmailAllocations
 
                 if (allocData == null || !allocData.Any())
                     continue;
-                SendEmail(listOfStakeholdersAndMangers, allocData, products);
 
+                SendEmail(listOfStakeholdersAndMangers, allocData, products);
             }
             return true;
         }
@@ -82,9 +67,7 @@ namespace ColloSys.AllocationService.EmailAllocations
                     Log.Info(string.Format("No Allocations for {0}", products.ToString()));
                     continue;
                 }
-
-
-                var listOfAllocationStat = SetAllocationStat(allocationList, products);
+                var listOfAllocationStat = SetAllocationStat(allocationList);
 
                 if (!listOfAllocationStat.Any())
                 {
@@ -207,8 +190,6 @@ namespace ColloSys.AllocationService.EmailAllocations
         private IEnumerable<Alloc> GetAllocationData(ScbEnums.Products products)
         {
             var className = ClassType.GetAllocDataClassTypeByTableNameForAlloc(products);
-            ScbEnums.ScbSystems system = ClassType.GetScbSystemByProduct(products);
-            ProductFirstChar = system.ToString().Substring(0, 1);
             var session = SessionManager.GetNewSession();
             var criteria = CreateCriteria(className, session);
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
@@ -226,7 +207,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             //create criteria
             var criteria = session.CreateCriteria(className, "Alloc");
 
-            criteria.CreateAlias(string.Format("Alloc.{0}Info", ProductFirstChar), "Info", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
             criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
             criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
             criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
@@ -254,100 +235,109 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(List<Alloc> allocationList, ScbEnums.Products products)
+        private IList<AllocationStat> SetAllocationStat(List<Alloc> allocationList)
         {
-            var allocationStats = new List<AllocationStat>();
-            var systemOnProduct = Util.GetSystemOnProduct(products);
-            switch (systemOnProduct)
-            {
-                case ScbEnums.ScbSystems.CCMS:
-                    allocationStats = ConvertForCAllocInfo(allocationList);
-                    break;
-                case ScbEnums.ScbSystems.EBBS:
-                    allocationStats = ConvertForEAllocInfo(allocationList);
-                    break;
-                case ScbEnums.ScbSystems.RLS:
-                    allocationStats = ConvertForRAllocInfo(allocationList);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            var allocationStats = ConvertForAllocInfo(allocationList);
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForRAllocInfo(List<Alloc> allocationList)
+        private List<AllocationStat> ConvertForAllocInfo(List<Alloc> allocationList)
         {
             var list = new List<AllocationStat>();
             foreach (var sharedAlloc in allocationList)
             {
-                var alloc = (RAlloc)sharedAlloc;
+                var alloc = (Alloc)sharedAlloc;
                 var allocationStat = new AllocationStat()
-                    {
-                        AccountNo = alloc.RInfo.AccountNo,
-                        PolicyName = alloc.AllocPolicy.Name,
-                        SubPolicyName = alloc.AllocSubpolicy.Name,
-                        StakeholderName = alloc.Stakeholder.Name,
-                        StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
-                        EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
-                        Product = alloc.AllocPolicy.Products.ToString(),
-                        TotalDue = alloc.RInfo.TotalDue.ToString(),
-                        CustomerName = alloc.RInfo.CustomerName,
-                        Pincode = alloc.RInfo.Pincode.ToString()
-                    };
+                {
+                    AccountNo = alloc.Info.AccountNo,
+                    PolicyName = alloc.AllocPolicy.Name,
+                    SubPolicyName = alloc.AllocSubpolicy.Name,
+                    StakeholderName = alloc.Stakeholder.Name,
+                    StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
+                    EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
+                    Product = alloc.AllocPolicy.Products.ToString(),
+                    TotalDue = alloc.Info.TotalDue.ToString(),
+                    CustomerName = alloc.Info.CustomerName,
+                    Pincode = alloc.Info.Pincode.ToString()
+                };
                 list.Add(allocationStat);
             }
             return list;
         }
-
-        private List<AllocationStat> ConvertForCAllocInfo(List<Alloc> allocationList)
-        {
-            var list = new List<AllocationStat>();
-            foreach (var sharedAlloc in allocationList)
-            {
-                var alloc = (CAlloc)sharedAlloc;
-                var allocationStat = new AllocationStat()
-                    {
-                        AccountNo = alloc.CInfo.AccountNo,
-                        PolicyName = alloc.AllocPolicy.Name,
-                        SubPolicyName = alloc.AllocSubpolicy.Name,
-                        StakeholderName = alloc.Stakeholder.Name,
-                        StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
-                        EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
-                        Product = alloc.AllocPolicy.Products.ToString(),
-                        TotalDue = alloc.CInfo.TotalDue.ToString(),
-                        CustomerName = alloc.CInfo.CustomerName,
-                        Pincode = alloc.CInfo.Pincode.ToString()
-                    };
-                list.Add(allocationStat);
-            }
-            return list;
-        }
-
-        private List<AllocationStat> ConvertForEAllocInfo(List<Alloc> allocationList)
-        {
-            var list = new List<AllocationStat>();
-            foreach (var sharedAlloc in allocationList)
-            {
-                var alloc = (EAlloc)sharedAlloc;
-                var allocationStat = new AllocationStat()
-                    {
-                        AccountNo = alloc.EInfo.AccountNo,
-                        PolicyName = alloc.AllocPolicy.Name,
-                        SubPolicyName = alloc.AllocSubpolicy.Name,
-                        StakeholderName = alloc.Stakeholder.Name,
-                        StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
-                        EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
-                        Product = alloc.AllocPolicy.Products.ToString(),
-                        TotalDue = alloc.EInfo.TotalDue.ToString(),
-                        CustomerName = alloc.EInfo.CustomerName,
-                        Pincode = alloc.EInfo.Pincode.ToString()
-                    };
-                list.Add(allocationStat);
-            }
-            return list;
-        }
-
+        
         #endregion
 
     }
 }
+
+//Log.Info(string.Format("Allocated Stake {0} and Mangers are {1}",
+//    listOfStakeholderAndMangers.Count(x=>x.AllocatedStakeholder),
+//    listOfStakeholderAndMangers.Count(x => x.Manager)));
+//var listOfStakeholderModel = (from d in stakeholerInitialData
+//                              select
+//                                  new
+//                                      {
+//                                          AllocatedStakeholder = d,
+//                                          Manager = GetReportingManger(d.ReportingManager)
+//                                      }).ToList();
+//private List<AllocationStat> ConvertForRAllocInfo(List<Alloc> allocationList)
+//{
+//    var list = new List<AllocationStat>();
+//    foreach (var sharedAlloc in allocationList)
+//    {
+//        var alloc = (RAlloc)sharedAlloc;
+//        var allocationStat = new AllocationStat()
+//            {
+//                AccountNo = alloc.RInfo.AccountNo,
+//                PolicyName = alloc.AllocPolicy.Name,
+//                SubPolicyName = alloc.AllocSubpolicy.Name,
+//                StakeholderName = alloc.Stakeholder.Name,
+//                StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
+//                EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
+//                Product = alloc.AllocPolicy.Products.ToString(),
+//                TotalDue = alloc.RInfo.TotalDue.ToString(),
+//                CustomerName = alloc.RInfo.CustomerName,
+//                Pincode = alloc.RInfo.Pincode.ToString()
+//            };
+//        list.Add(allocationStat);
+//    }
+//    return list;
+//}
+//private List<AllocationStat> ConvertForEAllocInfo(List<Alloc> allocationList)
+//{
+//    var list = new List<AllocationStat>();
+//    foreach (var sharedAlloc in allocationList)
+//    {
+//        var alloc = (EAlloc)sharedAlloc;
+//        var allocationStat = new AllocationStat()
+//            {
+//                AccountNo = alloc.EInfo.AccountNo,
+//                PolicyName = alloc.AllocPolicy.Name,
+//                SubPolicyName = alloc.AllocSubpolicy.Name,
+//                StakeholderName = alloc.Stakeholder.Name,
+//                StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
+//                EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
+//                Product = alloc.AllocPolicy.Products.ToString(),
+//                TotalDue = alloc.EInfo.TotalDue.ToString(),
+//                CustomerName = alloc.EInfo.CustomerName,
+//                Pincode = alloc.EInfo.Pincode.ToString()
+//            };
+//        list.Add(allocationStat);
+//    }
+//    return list;
+//}
+//var systemOnProduct = Util.GetSystemOnProduct(products);
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        allocationStats = ConvertForEAllocInfo(allocationList);
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//        allocationStats = ConvertForRAllocInfo(allocationList);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}

@@ -9,6 +9,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 
@@ -26,27 +27,10 @@ namespace ColloSys.AllocationService.PincodeEntry
             {
                 if (products == ScbEnums.Products.UNKNOWN)
                     continue;
-                var systemOnProduct = Util.GetSystemOnProduct(products);
-                switch (systemOnProduct)
-                {
-                    case ScbEnums.ScbSystems.CCMS:
-                          var clinerData = DbLayer.GetDataLinerWriteOffData<CInfo>(products);
-                        if (clinerData.Count > 0)
-                            AssignPincodes(pincodelist, clinerData);
-                        break;
-                    case ScbEnums.ScbSystems.EBBS:
-                        var elinerData = DbLayer.GetDataLinerWriteOffData<EInfo>(products);
-                        if (elinerData.Count > 0)
-                            AssignPincodes(pincodelist, elinerData);
-                        break;
-                    case ScbEnums.ScbSystems.RLS:
-                         var linerData = DbLayer.GetDataLinerWriteOffData<RInfo>(products);
-                        if (linerData.Count > 0)
-                            AssignPincodes(pincodelist, linerData);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+
+                var clinerData = DbLayer.GetDataLinerWriteOffData<Info>(products);
+                if (clinerData.Count > 0)
+                    AssignPincodes(pincodelist, clinerData);
             }
         }
 
@@ -70,3 +54,22 @@ namespace ColloSys.AllocationService.PincodeEntry
         }
     }
 }
+//var systemOnProduct = Util.GetSystemOnProduct(products);
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        var elinerData = DbLayer.GetDataLinerWriteOffData<EInfo>(products);
+//        if (elinerData.Count > 0)
+//            AssignPincodes(pincodelist, elinerData);
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//         var linerData = DbLayer.GetDataLinerWriteOffData<RInfo>(products);
+//        if (linerData.Count > 0)
+//            AssignPincodes(pincodelist, linerData);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}

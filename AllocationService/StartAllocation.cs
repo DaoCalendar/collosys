@@ -87,6 +87,7 @@ namespace ColloSys.AllocationService
                 Logger.Error(exception.Message);
             }
             Logger.Info("Move allocations from one stakeholder to another ended");
+
             //ignore already allocated cases from liner/writeoff
             //Logger.Info("Ignore allocated cases from liner/Writeoff started");
             //try

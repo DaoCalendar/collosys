@@ -1,4 +1,4 @@
-﻿#region 
+﻿#region
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,8 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
+
 //using ColloSys.DataLayer.SharedDomain;
 
 #endregion
@@ -26,27 +28,12 @@ namespace ColloSys.AllocationService.IgnoreCases
             {
                 if (products == ScbEnums.Products.UNKNOWN)
                     continue;
-                var systemOnProduct = Util.GetSystemOnProduct(products);
-                switch (systemOnProduct)
-                {
-                    case ScbEnums.ScbSystems.CCMS:
-                        var dataCLiner = DataAccess.GetInfoData<CInfo>(products);
-                        if(dataCLiner.Any())
-                        listAll.AddRange(IgnoreLinerCases(dataCLiner, products));
-                        break;
-                    case ScbEnums.ScbSystems.EBBS:
-                        var dataEliner = DataAccess.GetInfoData<EInfo>(products);
-                        if(dataEliner.Any())
-                        listAll.AddRange(IgnoreLinerCases(dataEliner, products));
-                        break;
-                    case ScbEnums.ScbSystems.RLS:
-                         var dataRLiner = DataAccess.GetInfoData<RInfo>(products);
-                        if(dataRLiner.Any())
-                        listAll.AddRange(IgnoreLinerCases(dataRLiner, products));
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+
+                var dataCLiner = DataAccess.GetInfoData<Info>(products);
+                if (dataCLiner.Any())
+                    listAll.AddRange(IgnoreLinerCases(dataCLiner, products));
+
+
             }
             //TODO: save this list to database
             return listAll;
@@ -54,7 +41,7 @@ namespace ColloSys.AllocationService.IgnoreCases
 
         private static IEnumerable<Entity> IgnoreLinerCases<TLiner>(IEnumerable<TLiner> linerList, ScbEnums.Products products)
             where TLiner : Entity, IDelinquentCustomer
-            //where TInfo : SharedInfo
+        //where TInfo : SharedInfo
         {
             var listAllocs = new List<Entity>();
             foreach (var liner in linerList)
@@ -64,167 +51,181 @@ namespace ColloSys.AllocationService.IgnoreCases
                 {
                     continue;
                 }
-
-                var systemOnProduct = Util.GetSystemOnProduct(products);
-                switch (systemOnProduct)
-                {
-                    case ScbEnums.ScbSystems.CCMS:
-                         var calloc = SetCAllocLiner(oldLiner as CInfo);
-                        listAllocs.Add(calloc);
-                        break;
-                    case ScbEnums.ScbSystems.EBBS:
-                        var ealloc = SetEAllocLiner(oldLiner as EInfo);
-                        listAllocs.Add(ealloc);
-                        break;
-                    case ScbEnums.ScbSystems.RLS:
-                         var ralloc = SetRAllocLiner(oldLiner as RInfo);
-                        listAllocs.Add(ralloc);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                var calloc = SetAlloc(oldLiner as Info);
+                listAllocs.Add(calloc);
             }
             return listAllocs;
         }
 
-        private static IEnumerable<Entity> IgnoreWriteOffCases<TWriteoff>(IEnumerable<TWriteoff> writeoffList, ScbEnums.Products products)
-            where TWriteoff : Entity, IFileUploadable, IDelinquentCustomer
-            //where TInfo : SharedInfo
+        private static Alloc SetAlloc(Info cInfo)
         {
-            var listAllocs = new List<Entity>();
-            foreach (var writeoff in writeoffList)
-            {
-                var oldWriteOff = DataAccess.CheckInInfo(writeoff);
-                
-                if(oldWriteOff== null)
-                    continue;
-                var systemOnProduct = Util.GetSystemOnProduct(products);
-                switch (systemOnProduct)
+            var calloc = new Alloc
                 {
-                    case ScbEnums.ScbSystems.CCMS:
-                        var calloc = SetCAllocWriteoff(oldWriteOff as CWriteoff);
-                        listAllocs.Add(calloc);
-                        break;
-                    case ScbEnums.ScbSystems.EBBS:
-                        var ealloc = SetEAllocWriteoff(oldWriteOff as EWriteoff);
-                        listAllocs.Add(ealloc);
-                        break;
-                    case ScbEnums.ScbSystems.RLS:
-                        var ralloc = SetRAllocWriteoff(oldWriteOff as RWriteoff);
-                        listAllocs.Add(ralloc);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            return listAllocs;
-        }
-
-        private static RAlloc SetRAllocLiner(RInfo rInfo)
-        {
-            var alloc = rInfo.RAllocs.First();
-            var ralloc = new RAlloc
-                {
-                    AllocPolicy = alloc.AllocPolicy,
-                    AllocSubpolicy = alloc.AllocSubpolicy,
-                    Bucket = alloc.Bucket,
-                    EndDate = alloc.EndDate,
-                    StartDate = alloc.StartDate,
-                    AmountDue = alloc.AmountDue,
-                    IsAllocated = alloc.IsAllocated,
-                    RInfo = rInfo
+                    AllocPolicy = cInfo.Allocs.First().AllocPolicy,
+                    AllocSubpolicy = cInfo.Allocs.First().AllocSubpolicy,
+                    Bucket = (int)cInfo.Allocs.First().Bucket,
+                    EndDate = cInfo.Allocs.First().EndDate,
+                    StartDate = cInfo.Allocs.First().StartDate,
+                    AmountDue = cInfo.Allocs.First().AmountDue,
+                    IsAllocated = cInfo.Allocs.First().IsAllocated,
+                    Info = cInfo
                 };
-
-            return ralloc;
-        }
-
-        private static EAlloc SetEAllocLiner(EInfo eInfo)
-        {
-            var ealloc = new EAlloc
-                {
-                    AllocPolicy = eInfo.EAllocs.First().AllocPolicy,
-                    AllocSubpolicy = eInfo.EAllocs.First().AllocSubpolicy,
-                    Bucket = eInfo.EAllocs.First().Bucket,
-                    EndDate = eInfo.EAllocs.First().EndDate,
-                    StartDate = eInfo.EAllocs.First().StartDate,
-                    AmountDue = eInfo.EAllocs.First().AmountDue,
-                    IsAllocated = eInfo.EAllocs.First().IsAllocated,
-                    EInfo = eInfo
-                };
-
-            return ealloc;
-        }
-
-        private static CAlloc SetCAllocLiner(CInfo cInfo)
-        {
-            var calloc = new CAlloc
-                {
-                    AllocPolicy = cInfo.CAllocs.First().AllocPolicy,
-                    AllocSubpolicy = cInfo.CAllocs.First().AllocSubpolicy,
-                    Bucket =(int) cInfo.CAllocs.First().Bucket,
-                    EndDate = cInfo.CAllocs.First().EndDate,
-                    StartDate = cInfo.CAllocs.First().StartDate,
-                    AmountDue = cInfo.CAllocs.First().AmountDue,
-                    IsAllocated = cInfo.CAllocs.First().IsAllocated,
-                    CInfo = cInfo
-                };
-
             return calloc;
         }
-
-        private static RAlloc SetRAllocWriteoff(RWriteoff writeoff)
-        {
-            var ralloc = new RAlloc
-                {
-                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
-                    Bucket = writeoff.Allocs.First().Bucket,
-                    EndDate = writeoff.Allocs.First().EndDate,
-                    StartDate = writeoff.Allocs.First().StartDate,
-                    AmountDue = writeoff.Allocs.First().AmountDue,
-                    IsAllocated = writeoff.Allocs.First().IsAllocated,
-                    RWriteoff = writeoff
-                };
-
-            return ralloc;
-        }
-
-        private static EAlloc SetEAllocWriteoff(EWriteoff writeoff)
-        {
-            var ealloc = new EAlloc
-                {
-                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
-                    Bucket = writeoff.Allocs.First().Bucket,
-                    EndDate = writeoff.Allocs.First().EndDate,
-                    StartDate = writeoff.Allocs.First().StartDate,
-                    AmountDue = writeoff.Allocs.First().AmountDue,
-                    IsAllocated = writeoff.Allocs.First().IsAllocated,
-                    EWriteoff = writeoff
-                };
-
-            return ealloc;
-        }
-
-        private static CAlloc SetCAllocWriteoff(CWriteoff writeoff)
-        {
-            var calloc = new CAlloc
-                {
-                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
-                    Bucket = writeoff.Allocs.First().Bucket,
-                    EndDate = writeoff.Allocs.First().EndDate,
-                    StartDate = writeoff.Allocs.First().StartDate,
-                    AmountDue = writeoff.Allocs.First().AmountDue,
-                    IsAllocated = writeoff.Allocs.First().IsAllocated,
-                    CWriteoff = writeoff
-                };
-
-            return calloc;
-        }
-
     }
 }
+//private static RAlloc SetRAllocWriteoff(RWriteoff writeoff)
+//{
+//    var ralloc = new RAlloc
+//        {
+//            AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+//            AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+//            Bucket = writeoff.Allocs.First().Bucket,
+//            EndDate = writeoff.Allocs.First().EndDate,
+//            StartDate = writeoff.Allocs.First().StartDate,
+//            AmountDue = writeoff.Allocs.First().AmountDue,
+//            IsAllocated = writeoff.Allocs.First().IsAllocated,
+//            RWriteoff = writeoff
+//        };
+
+//    return ralloc;
+//}
+
+//private static EAlloc SetEAllocWriteoff(EWriteoff writeoff)
+//{
+//    var ealloc = new EAlloc
+//        {
+//            AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+//            AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+//            Bucket = writeoff.Allocs.First().Bucket,
+//            EndDate = writeoff.Allocs.First().EndDate,
+//            StartDate = writeoff.Allocs.First().StartDate,
+//            AmountDue = writeoff.Allocs.First().AmountDue,
+//            IsAllocated = writeoff.Allocs.First().IsAllocated,
+//            EWriteoff = writeoff
+//        };
+
+//    return ealloc;
+//}
+
+//private static CAlloc SetCAllocWriteoff(CWriteoff writeoff)
+//{
+//    var calloc = new CAlloc
+//        {
+//            AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+//            AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+//            Bucket = writeoff.Allocs.First().Bucket,
+//            EndDate = writeoff.Allocs.First().EndDate,
+//            StartDate = writeoff.Allocs.First().StartDate,
+//            AmountDue = writeoff.Allocs.First().AmountDue,
+//            IsAllocated = writeoff.Allocs.First().IsAllocated,
+//            CWriteoff = writeoff
+//        };
+
+//    return calloc;
+//}
+//private static RAlloc SetRAllocLiner(RInfo rInfo)
+//{
+//    var alloc = rInfo.RAllocs.First();
+//    var ralloc = new RAlloc
+//        {
+//            AllocPolicy = alloc.AllocPolicy,
+//            AllocSubpolicy = alloc.AllocSubpolicy,
+//            Bucket = alloc.Bucket,
+//            EndDate = alloc.EndDate,
+//            StartDate = alloc.StartDate,
+//            AmountDue = alloc.AmountDue,
+//            IsAllocated = alloc.IsAllocated,
+//            RInfo = rInfo
+//        };
+
+//    return ralloc;
+//}
+
+//private static EAlloc SetEAllocLiner(EInfo eInfo)
+//{
+//    var ealloc = new EAlloc
+//        {
+//            AllocPolicy = eInfo.EAllocs.First().AllocPolicy,
+//            AllocSubpolicy = eInfo.EAllocs.First().AllocSubpolicy,
+//            Bucket = eInfo.EAllocs.First().Bucket,
+//            EndDate = eInfo.EAllocs.First().EndDate,
+//            StartDate = eInfo.EAllocs.First().StartDate,
+//            AmountDue = eInfo.EAllocs.First().AmountDue,
+//            IsAllocated = eInfo.EAllocs.First().IsAllocated,
+//            EInfo = eInfo
+//        };
+
+//    return ealloc;
+//}
+//var systemOnProduct = Util.GetSystemOnProduct(products);
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        var ealloc = SetEAllocLiner(oldLiner as EInfo);
+//        listAllocs.Add(ealloc);
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//         var ralloc = SetRAllocLiner(oldLiner as RInfo);
+//        listAllocs.Add(ralloc);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+//var systemOnProduct = Util.GetSystemOnProduct(products);
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        var dataEliner = DataAccess.GetInfoData<EInfo>(products);
+//        if(dataEliner.Any())
+//        listAll.AddRange(IgnoreLinerCases(dataEliner, products));
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//         var dataRLiner = DataAccess.GetInfoData<RInfo>(products);
+//        if(dataRLiner.Any())
+//        listAll.AddRange(IgnoreLinerCases(dataRLiner, products));
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+//private static IEnumerable<Entity> IgnoreWriteOffCases<TWriteoff>(IEnumerable<TWriteoff> writeoffList, ScbEnums.Products products)
+//    where TWriteoff : Entity, IFileUploadable, IDelinquentCustomer
+//    //where TInfo : SharedInfo
+//{
+//    var listAllocs = new List<Entity>();
+//    foreach (var writeoff in writeoffList)
+//    {
+//        var oldWriteOff = DataAccess.CheckInInfo(writeoff);
+
+//        if(oldWriteOff== null)
+//            continue;
+//        var systemOnProduct = Util.GetSystemOnProduct(products);
+//        switch (systemOnProduct)
+//        {
+//            case ScbEnums.ScbSystems.CCMS:
+//                var calloc = SetCAllocWriteoff(oldWriteOff as CWriteoff);
+//                listAllocs.Add(calloc);
+//                break;
+//            case ScbEnums.ScbSystems.EBBS:
+//                var ealloc = SetEAllocWriteoff(oldWriteOff as EWriteoff);
+//                listAllocs.Add(ealloc);
+//                break;
+//            case ScbEnums.ScbSystems.RLS:
+//                var ralloc = SetRAllocWriteoff(oldWriteOff as RWriteoff);
+//                listAllocs.Add(ralloc);
+//                break;
+//            default:
+//                throw new ArgumentOutOfRangeException();
+//        }
+//    }
+//    return listAllocs;
+//}
 /*
  * 
  * 

@@ -6,7 +6,26 @@
     <link rel="stylesheet" href="Content/bootstrap/bootstrap.css" />
     <script type="text/javascript" src="Scripts/angularjs/angular.js"></script>
 </head>
-<body>
-    <h4>Hello World!!! {{2 * 2}}</h4>
-</body>
+    <body>
+        <h4>Hello World!!! {{2 * 2}}</h4>
+        <div id="a"></div>
+    </body>
+    <script type="text/javascript">
+        var stylePart = getStyle(document.getElementById("a"), "padding-right");
+        alert(stylePart);
+        
+        function getStyle(oElm, strCssRule) {
+            var strValue = "";
+            if (document.defaultView && document.defaultView.getComputedStyle) {
+                strValue = document.defaultView.getComputedStyle(oElm, "").getPropertyValue(strCssRule);
+            }
+            else if (oElm.currentStyle) {
+                strCssRule = strCssRule.replace(/\-(\w)/g, function (strMatch, p1) {
+                    return p1.toUpperCase();
+                });
+                strValue = oElm.currentStyle[strCssRule];
+            }
+            return strValue;
+        }
+    </script>
 </html>

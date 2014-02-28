@@ -9,7 +9,6 @@ namespace ColloSys.DataLayer.Allocation
            {
                Define(x => x.ColumnName).NotNullableAndNotEmpty();
                Define(x => x.AllocSubpolicy).NotNullable();
-
                ValidateInstance.By((instance, context) => instance.AllocSubpolicy.Id != Guid.Empty)
                                .WithMessage("NhVal : AllocCondition must belong to AllocSubpolicy");
            }

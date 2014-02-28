@@ -67,35 +67,8 @@ namespace ColloSys.AllocationService.AllocationLayer
 
                 string accountno;
 
-                //set RAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
-                {
-                    var ralloc = SetRalloc(obj, dataObject, out accountno);
-                    list.Add(ralloc);
-
-                }
-
-                //set EAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
-                {
-                    var ealloc = SetEalloc(obj, dataObject, out accountno);
-
-                    //var eInfo = SetEInfo(thisMonthStart, thisMonthEnd, ealloc, accountno);
-
-                    list.Add(ealloc);
-                    //list.Add(eInfo);
-                }
-
-                //set CAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
-                {
-                    var calloc = SetCalloc(obj, dataObject, out accountno);
-
-                    //var cInfo = SetCInfo(thisMonthStart, thisMonthEnd, calloc, accountno);
-
-                    list.Add(calloc);
-                    //list.Add(cInfo);
-                }
+                var ralloc = SetAlloc(obj, dataObject, out accountno);
+                list.Add(ralloc);
                 dataObject.GetType().GetProperty("AllocStatus").SetValue(dataObject, ColloSysEnums.AllocStatus.DoNotAllocate);
             }
 
@@ -104,49 +77,18 @@ namespace ColloSys.AllocationService.AllocationLayer
             return list;
         }
 
-
-
         #region Private
-
-      
-
-        private static CAlloc SetCalloc(Alloc obj, object dataObject, out string accno)
+        private static Alloc SetAlloc(Alloc obj, object dataObject, out string accno)
         {
-            var calloc = (CAlloc)obj;
-            calloc.CInfo = (CInfo)dataObject;
-            calloc.Bucket = (int)calloc.CInfo.Bucket;
-            calloc.AmountDue = ((CInfo)dataObject).TotalDue;
-            accno = calloc.CInfo.AccountNo;
-            //set cinfo allocstartdate and allocenddate
-            calloc.CInfo.AllocStartDate = calloc.StartDate;
-            calloc.CInfo.AllocEndDate = calloc.EndDate;
-            return calloc;
-        }
-
-        private static EAlloc SetEalloc(Alloc obj, object dataObject, out string accno)
-        {
-            var ealloc = (EAlloc)obj;
-            ealloc.EInfo = (EInfo)dataObject;
-            ealloc.Bucket = (int)ealloc.EInfo.Bucket;
-            accno = ealloc.EInfo.AccountNo;
-            ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
-            //set einfo allocstartdate and allocenddate
-            ealloc.EInfo.AllocStartDate = ealloc.StartDate;
-            ealloc.EInfo.AllocEndDate = ealloc.EndDate;
-            return ealloc;
-        }
-
-        private static RAlloc SetRalloc(Alloc obj, object dataObject, out string accno)
-        {
-            var ralloc = (RAlloc)obj;
-            ralloc.RInfo = (RInfo)dataObject;
-            ralloc.Bucket = (int)ralloc.RInfo.Bucket;
-            accno = ralloc.RInfo.AccountNo;
-            ralloc.AmountDue = ((RInfo)dataObject).TotalDue;
+            var ralloc = (Alloc)obj;
+            ralloc.Info = (Info)dataObject;
+            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            accno = ralloc.Info.AccountNo;
+            ralloc.AmountDue = ((Info)dataObject).TotalDue;
 
             //set allocstartdate and allocenddate for rinfo
-            ralloc.RInfo.AllocStartDate = ralloc.StartDate;
-            ralloc.RInfo.AllocEndDate = ralloc.EndDate;
+            ralloc.Info.AllocStartDate = ralloc.StartDate;
+            ralloc.Info.AllocEndDate = ralloc.EndDate;
             return ralloc;
         }
 
@@ -154,6 +96,59 @@ namespace ColloSys.AllocationService.AllocationLayer
     }
 }
 
+////set RAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
+//{
+
+
+//}
+
+////set EAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
+//{
+//    var ealloc = SetEalloc(obj, dataObject, out accountno);
+
+//    //var eInfo = SetEInfo(thisMonthStart, thisMonthEnd, ealloc, accountno);
+
+//    list.Add(ealloc);
+//    //list.Add(eInfo);
+//}
+
+////set CAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
+//{
+//    var calloc = SetCalloc(obj, dataObject, out accountno);
+
+//    //var cInfo = SetCInfo(thisMonthStart, thisMonthEnd, calloc, accountno);
+
+//    list.Add(calloc);
+//    //list.Add(cInfo);
+//}
+//private static CAlloc SetCalloc(Alloc obj, object dataObject, out string accno)
+//{
+//    var calloc = (CAlloc)obj;
+//    calloc.CInfo = (CInfo)dataObject;
+//    calloc.Bucket = (int)calloc.CInfo.Bucket;
+//    calloc.AmountDue = ((CInfo)dataObject).TotalDue;
+//    accno = calloc.CInfo.AccountNo;
+//    //set cinfo allocstartdate and allocenddate
+//    calloc.CInfo.AllocStartDate = calloc.StartDate;
+//    calloc.CInfo.AllocEndDate = calloc.EndDate;
+//    return calloc;
+//}
+
+//private static EAlloc SetEalloc(Alloc obj, object dataObject, out string accno)
+//{
+//    var ealloc = (EAlloc)obj;
+//    ealloc.EInfo = (EInfo)dataObject;
+//    ealloc.Bucket = (int)ealloc.EInfo.Bucket;
+//    accno = ealloc.EInfo.AccountNo;
+//    ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
+//    //set einfo allocstartdate and allocenddate
+//    ealloc.EInfo.AllocStartDate = ealloc.StartDate;
+//    ealloc.EInfo.AllocEndDate = ealloc.EndDate;
+//    return ealloc;
+//}
 //private static RInfo SetRInfo(DateTime thisMonthStart, DateTime thisMonthEnd, RAlloc ralloc, ulong accno)
 //{
 //    var rInfo = DBLayer.DbLayer.GetInfo<RInfo>(accno) ?? new RInfo();

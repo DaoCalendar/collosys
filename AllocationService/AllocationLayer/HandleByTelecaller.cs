@@ -67,26 +67,8 @@ namespace ColloSys.AllocationService.AllocationLayer
 
                 string accountno;
 
-                //set RAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
-                {
-                    var ralloc = SetRalloc(obj, dataObject, out accountno);
-                    list.Add(ralloc);
-                }
-
-                //set EAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
-                {
-                    var ealloc = SetEalloc(obj, dataObject, out accountno);
-                    list.Add(ealloc);
-                }
-
-                //set CAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
-                {
-                    var calloc = SetCalloc(obj, dataObject, out accountno);
-                    list.Add(calloc);
-                }
+                var ralloc = SetAlloc(obj, dataObject, out accountno);
+                list.Add(ralloc);
                 dataObject.GetType().GetProperty("AllocStatus").SetValue(dataObject, ColloSysEnums.AllocStatus.AllocateToTelecalling);
             }
 
@@ -101,72 +83,91 @@ namespace ColloSys.AllocationService.AllocationLayer
             var list = dataOnCondition.Cast<Info>().ToList();// ConvertList(dataOnCondition);
             var accounts = cacsData.Select(x => x.AccountNo).ToList();
             list = list.Where(x => !accounts.Contains(x.AccountNo)).ToList();
-
-            //var listToRemove = (from dd in
-            //                        (from d in cacsData
-            //                         select new
-            //                             {
-            //                                 o = (from c in list
-            //                                      where c.AccountNo == d.AccountNo
-            //                                      select c).SingleOrDefault()
-            //                             }).ToList()
-            //                    select dd.o).ToList();
-            //list = list.Except(listToRemove).ToList();
-
-            //var listToAllocate = (from d in cacsData
-            //                     select new
-            //                         {
-            //                             o = (from c in list
-            //                                  where c.AccountNo != d.AccountNo
-            //                                  select c).SingleOrDefault()
-            //                         }).ToList();
-
-            //var listToAllocate2 = (from d in listToAllocate
-            //                   select d.o).ToList();
-
-
-
             return list;
         }
 
-        private static EAlloc SetEalloc(Alloc alloc, object dataObject, out string accountno)
+        private static Alloc SetAlloc(Alloc alloc, object dataObject, out string accountno)
         {
-            var ealloc = (EAlloc)alloc;
-            ealloc.EInfo = (EInfo)dataObject;
-            ealloc.Bucket = (int)ealloc.EInfo.Bucket;
-            accountno = ealloc.EInfo.AccountNo;
-            ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
-            //set einfo allocstartdate and allocenddate
-            ealloc.EInfo.AllocStartDate = ealloc.StartDate;
-            ealloc.EInfo.AllocEndDate = ealloc.EndDate;
-            return ealloc;
-        }
-
-        private static RAlloc SetRalloc(Alloc alloc, object dataObject, out string accountno)
-        {
-            var ralloc = (RAlloc)alloc;
-            ralloc.RInfo = (RInfo)dataObject;
-            ralloc.Bucket = (int)ralloc.RInfo.Bucket;
-            accountno = ralloc.RInfo.AccountNo;
-            ralloc.AmountDue = ((RInfo)dataObject).TotalDue;
+            var ralloc = (Alloc)alloc;
+            ralloc.Info = (Info)dataObject;
+            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            accountno = ralloc.Info.AccountNo;
+            ralloc.AmountDue = ((Info)dataObject).TotalDue;
 
             //set allocstartdate and allocenddate for rinfo
-            ralloc.RInfo.AllocStartDate = ralloc.StartDate;
-            ralloc.RInfo.AllocEndDate = ralloc.EndDate;
+            ralloc.Info.AllocStartDate = ralloc.StartDate;
+            ralloc.Info.AllocEndDate = ralloc.EndDate;
             return ralloc;
         }
 
-        private static CAlloc SetCalloc(Alloc alloc, object dataObject, out string accountno)
-        {
-            var calloc = (CAlloc)alloc;
-            calloc.CInfo = (CInfo)dataObject;
-            calloc.Bucket = (int)calloc.CInfo.Bucket;
-            calloc.AmountDue = ((CInfo)dataObject).TotalDue;
-            accountno = calloc.CInfo.AccountNo;
-            //set cinfo allocstartdate and allocenddate
-            calloc.CInfo.AllocStartDate = calloc.StartDate;
-            calloc.CInfo.AllocEndDate = calloc.EndDate;
-            return calloc;
-        }
+
     }
 }
+
+//private static EAlloc SetEalloc(Alloc alloc, object dataObject, out string accountno)
+//{
+//    var ealloc = (EAlloc)alloc;
+//    ealloc.EInfo = (EInfo)dataObject;
+//    ealloc.Bucket = (int)ealloc.EInfo.Bucket;
+//    accountno = ealloc.EInfo.AccountNo;
+//    ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
+//    //set einfo allocstartdate and allocenddate
+//    ealloc.EInfo.AllocStartDate = ealloc.StartDate;
+//    ealloc.EInfo.AllocEndDate = ealloc.EndDate;
+//    return ealloc;
+//}
+
+//private static CAlloc SetCalloc(Alloc alloc, object dataObject, out string accountno)
+//{
+//    var calloc = (CAlloc)alloc;
+//    calloc.CInfo = (CInfo)dataObject;
+//    calloc.Bucket = (int)calloc.CInfo.Bucket;
+//    calloc.AmountDue = ((CInfo)dataObject).TotalDue;
+//    accountno = calloc.CInfo.AccountNo;
+//    //set cinfo allocstartdate and allocenddate
+//    calloc.CInfo.AllocStartDate = calloc.StartDate;
+//    calloc.CInfo.AllocEndDate = calloc.EndDate;
+//    return calloc;
+//}
+
+//var listToRemove = (from dd in
+//                        (from d in cacsData
+//                         select new
+//                             {
+//                                 o = (from c in list
+//                                      where c.AccountNo == d.AccountNo
+//                                      select c).SingleOrDefault()
+//                             }).ToList()
+//                    select dd.o).ToList();
+//list = list.Except(listToRemove).ToList();
+
+//var listToAllocate = (from d in cacsData
+//                     select new
+//                         {
+//                             o = (from c in list
+//                                  where c.AccountNo != d.AccountNo
+//                                  select c).SingleOrDefault()
+//                         }).ToList();
+
+//var listToAllocate2 = (from d in listToAllocate
+//                   select d.o).ToList();
+
+////set RAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
+//{
+
+//}
+
+////set EAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
+//{
+//    var ealloc = SetEalloc(obj, dataObject, out accountno);
+//    list.Add(ealloc);
+//}
+
+////set CAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
+//{
+//    var calloc = SetCalloc(obj, dataObject, out accountno);
+//    list.Add(calloc);
+//}

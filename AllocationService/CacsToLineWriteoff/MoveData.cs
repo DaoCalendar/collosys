@@ -29,21 +29,8 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
 
                     if (!productData.Any())
                         continue;
-                    var systemOfProduct = Util.GetSystemOnProduct(product);
-                    switch (systemOfProduct)
-                    {
-                        case ScbEnums.ScbSystems.CCMS:
-                            PopulateInfoList<CInfo>(productData, fileSchedualrEntry);
-                            break;
-                        case ScbEnums.ScbSystems.EBBS:
-                            PopulateInfoList<EInfo>(productData, fileSchedualrEntry);
-                            break;
-                        case ScbEnums.ScbSystems.RLS:
-                            PopulateInfoList<RInfo>(productData, fileSchedualrEntry);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                    PopulateInfoList<Info>(productData, fileSchedualrEntry);
+
                 }
             }
         }
@@ -176,4 +163,20 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
 //        list.AddRange(templist);
 //    }
 //    return list;
+//}
+
+//var systemOfProduct = Util.GetSystemOnProduct(product);
+//switch (systemOfProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+//        PopulateInfoList<CInfo>(productData, fileSchedualrEntry);
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        PopulateInfoList<EInfo>(productData, fileSchedualrEntry);
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//        PopulateInfoList<RInfo>(productData, fileSchedualrEntry);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
 //}

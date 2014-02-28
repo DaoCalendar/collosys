@@ -78,7 +78,6 @@ namespace ColloSys.AllocationService.AllocationLayer
                 var thisMonthEnd = notAllocateInMonths == 0
                                        ? DateTime.MaxValue
                                        : thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
-
                 //create object of type
                 var obj = ClassType.CreateAllocObject(classType.Name);
 
@@ -95,58 +94,17 @@ namespace ColloSys.AllocationService.AllocationLayer
                 string accountno;
                 string customerName;
 
-
-                //set RAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
+                var alloc = SetAlloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
+                if (alloc.Stakeholder != null)
                 {
-                    var ralloc = SetRalloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
-                    if (ralloc.Stakeholder != null)
-                    {
-                        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
-                        ralloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
-                        list.Add(ralloc);
-                    }
-                    else
-                    {
-                        ralloc.RInfo.AllocEndDate = null; 
-                    }
+                    delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
+                    alloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
+                    list.Add(alloc);
                 }
-
-                //set EAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
+                else
                 {
-                    var ealloc = SetEalloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
-                    if (ealloc.Stakeholder != null)
-                    {
-                        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
-                        ealloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
-                        list.Add(ealloc);
-                    }
-                    else
-                    {
-                        ealloc.EInfo.AllocEndDate = null;
-                    }
-                    
+                    alloc.Info.AllocEndDate = null;
                 }
-
-                //set CAlloc object
-                if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
-                {
-                    var calloc = SetCalloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
-
-                    if (calloc.Stakeholder != null)
-                    {
-                        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
-                        calloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
-                        list.Add(calloc);
-                    }
-                    else
-                    {
-                        calloc.CInfo.AllocEndDate = null;
-                    }
-                    
-                }
-
             }
             
             return list;
@@ -208,94 +166,28 @@ namespace ColloSys.AllocationService.AllocationLayer
 
         #region Private
 
-       
-
-        private static CAlloc SetCalloc(Alloc obj,
+        private static Alloc SetAlloc(Alloc obj,
             object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
-            var calloc = (CAlloc)obj;
-            var gpincodeId = ((CInfo)dataObject).GPincode.Id;
-            var bucket = ((CInfo) dataObject).Bucket;
-
-            //allocate to stakeholder
-            calloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
-
-            if (calloc.Stakeholder == null)
-            {
-                ((CInfo)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                ((CInfo)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
-                calloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                calloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
-                calloc.IsAllocated = false;
-            }
-
-            calloc.CInfo = (CInfo)dataObject;
-            calloc.Bucket = (int)calloc.CInfo.Bucket;
-            calloc.AmountDue = ((CInfo)dataObject).TotalDue;
-            calloc.CInfo.AllocEndDate = calloc.EndDate;
-            calloc.CInfo.AllocStartDate = calloc.StartDate;
-            var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null &&
-                                                                 calloc.Stakeholder != null &&
-                                                                 x.Stakeholders.Id == calloc.Stakeholder.Id);
-            if (stakepincode != null)
-                stakepincode.Allocations.Add(calloc);
-            accno = calloc.CInfo.AccountNo;
-            customerName = calloc.CInfo.CustomerName;
-
-            return calloc;
-        }
-
-        private static EAlloc SetEalloc(Alloc obj,
-            object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
-        {
-            var ealloc = (EAlloc)obj;
-            var gpincodeId = ((EInfo)dataObject).GPincode.Id;
-            var bucket = ((EInfo) dataObject).Bucket;
-            ealloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
-            if (ealloc.Stakeholder == null)
-            {
-                ((EInfo)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                ((EInfo)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
-                ealloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                ealloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
-                ealloc.IsAllocated = false;
-            }
-            ealloc.EInfo = (EInfo)dataObject;
-            accno = ealloc.EInfo.AccountNo;
-            customerName = ealloc.EInfo.CustomerName;
-            ealloc.Bucket = (int)ealloc.EInfo.Bucket;
-            ealloc.EInfo.AllocEndDate = ealloc.EndDate;
-            ealloc.EInfo.AllocStartDate = ealloc.StartDate;
-            ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
-            var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null
-                                                                 && ealloc.Stakeholder != null &&
-                                                                 x.Stakeholders.Id == ealloc.Stakeholder.Id);
-            if (stakepincode != null) stakepincode.Allocations.Add(ealloc);
-            return ealloc;
-        }
-
-        private static RAlloc SetRalloc(Alloc obj,
-            object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
-        {
-            var ralloc = (RAlloc)obj;
-            var gpincodeId = ((RInfo)dataObject).GPincode.Id;
-            var bucket = ((RInfo) dataObject).Bucket;
+            var ralloc = (Alloc)obj;
+            var gpincodeId = ((Info)dataObject).GPincode.Id;
+            var bucket = ((Info) dataObject).Bucket;
             ralloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
             if (ralloc.Stakeholder == null)
             {
-                ((RInfo)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                ((RInfo)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+                ((Info)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+                ((Info)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
                 ralloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
                 ralloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
                 ralloc.IsAllocated = false;
             }
-            ralloc.RInfo = (RInfo)dataObject;
-            accno = ralloc.RInfo.AccountNo;
-            customerName = ralloc.RInfo.CustomerName;
-            ralloc.Bucket = (int)ralloc.RInfo.Bucket;
-            ralloc.AmountDue = ((RInfo)dataObject).TotalDue;
-            ralloc.RInfo.AllocEndDate = ralloc.EndDate;
-            ralloc.RInfo.AllocStartDate = ralloc.StartDate;
+            ralloc.Info = (Info)dataObject;
+            accno = ralloc.Info.AccountNo;
+            customerName = ralloc.Info.CustomerName;
+            ralloc.Bucket = (int)ralloc.Info.Bucket;
+            ralloc.AmountDue = ((Info)dataObject).TotalDue;
+            ralloc.Info.AllocEndDate = ralloc.EndDate;
+            ralloc.Info.AllocStartDate = ralloc.StartDate;
             var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null &&
                                                                  ralloc.Stakeholder != null &&
                                                                  x.Stakeholders.Id == ralloc.Stakeholder.Id);
@@ -349,6 +241,119 @@ namespace ColloSys.AllocationService.AllocationLayer
     }
 }
 
+//set RAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(RAlloc)))
+//{
+//    var ralloc = SetAlloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
+//    if (ralloc.Stakeholder != null)
+//    {
+//        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
+//        ralloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
+//        list.Add(ralloc);
+//    }
+//    else
+//    {
+//        ralloc.RInfo.AllocEndDate = null; 
+//    }
+//}
+
+//set EAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(EAlloc)))
+//{
+//    var ealloc = SetEalloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
+//    if (ealloc.Stakeholder != null)
+//    {
+//        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
+//        ealloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
+//        list.Add(ealloc);
+//    }
+//    else
+//    {
+//        ealloc.EInfo.AllocEndDate = null;
+//    }
+
+//}
+
+////set CAlloc object
+//if (obj.GetType().IsAssignableFrom(typeof(CAlloc)))
+//{
+//    var calloc = SetCalloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
+
+//    if (calloc.Stakeholder != null)
+//    {
+//        delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
+//        calloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
+//        list.Add(calloc);
+//    }
+//    else
+//    {
+//        calloc.CInfo.AllocEndDate = null;
+//    }
+
+//}
+ //private static CAlloc SetCalloc(Alloc obj,
+ //           object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
+ //       {
+ //           var calloc = (CAlloc)obj;
+ //           var gpincodeId = ((CInfo)dataObject).GPincode.Id;
+ //           var bucket = ((CInfo) dataObject).Bucket;
+
+ //           //allocate to stakeholder
+ //           calloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
+
+ //           if (calloc.Stakeholder == null)
+ //           {
+ //               ((CInfo)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+ //               ((CInfo)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+ //               calloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+ //               calloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+ //               calloc.IsAllocated = false;
+ //           }
+
+ //           calloc.CInfo = (CInfo)dataObject;
+ //           calloc.Bucket = (int)calloc.CInfo.Bucket;
+ //           calloc.AmountDue = ((CInfo)dataObject).TotalDue;
+ //           calloc.CInfo.AllocEndDate = calloc.EndDate;
+ //           calloc.CInfo.AllocStartDate = calloc.StartDate;
+ //           var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null &&
+ //                                                                calloc.Stakeholder != null &&
+ //                                                                x.Stakeholders.Id == calloc.Stakeholder.Id);
+ //           if (stakepincode != null)
+ //               stakepincode.Allocations.Add(calloc);
+ //           accno = calloc.CInfo.AccountNo;
+ //           customerName = calloc.CInfo.CustomerName;
+
+ //           return calloc;
+ //       }
+
+ //       private static EAlloc SetEalloc(Alloc obj,
+ //           object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
+ //       {
+ //           var ealloc = (EAlloc)obj;
+ //           var gpincodeId = ((EInfo)dataObject).GPincode.Id;
+ //           var bucket = ((EInfo) dataObject).Bucket;
+ //           ealloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
+ //           if (ealloc.Stakeholder == null)
+ //           {
+ //               ((EInfo)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+ //               ((EInfo)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+ //               ealloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+ //               ealloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+ //               ealloc.IsAllocated = false;
+ //           }
+ //           ealloc.EInfo = (EInfo)dataObject;
+ //           accno = ealloc.EInfo.AccountNo;
+ //           customerName = ealloc.EInfo.CustomerName;
+ //           ealloc.Bucket = (int)ealloc.EInfo.Bucket;
+ //           ealloc.EInfo.AllocEndDate = ealloc.EndDate;
+ //           ealloc.EInfo.AllocStartDate = ealloc.StartDate;
+ //           ealloc.AmountDue = ((EInfo)dataObject).TotalDue;
+ //           var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null
+ //                                                                && ealloc.Stakeholder != null &&
+ //                                                                x.Stakeholders.Id == ealloc.Stakeholder.Id);
+ //           if (stakepincode != null) stakepincode.Allocations.Add(ealloc);
+ //           return ealloc;
+ //       }
 //private static RInfo SetRInfo(RAlloc ralloc, ulong accno, string customerName)
 //{
 //    var rInfo = DBLayer.DbLayer.GetInfo<RInfo>(accno) ?? new RInfo();

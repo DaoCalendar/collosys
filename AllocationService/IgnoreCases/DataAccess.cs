@@ -35,14 +35,14 @@ namespace ColloSys.AllocationService.IgnoreCases
             }
         }
 
-        public static IList<TLinerWriteOff> GetInfoData<TLinerWriteOff>(ScbEnums.Products products)
-           where TLinerWriteOff : Entity, IDelinquentCustomer
+        public static IList<TInfo> GetInfoData<TInfo>(ScbEnums.Products products)
+           where TInfo : Entity, IDelinquentCustomer
         {
             using (var session = SessionManager.GetNewSession())
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    var data = session.QueryOver<TLinerWriteOff>()
+                    var data = session.QueryOver<TInfo>()
                                       .Where(x => x.Product == products)
                                       .And(x=>x.AllocEndDate!=null)
                                       .And(x=>x.AllocEndDate<Util.GetTodayDate())

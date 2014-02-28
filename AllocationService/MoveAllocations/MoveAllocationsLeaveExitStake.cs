@@ -8,6 +8,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SharedDomain;
 using NHibernate;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
@@ -71,84 +72,32 @@ namespace ColloSys.AllocationService.MoveAllocations
         {
             if (products == ScbEnums.Products.UNKNOWN)
                 return;
-            var systemOnProduct = Util.GetSystemOnProduct(products);
-            switch (systemOnProduct)
-            {
-                case ScbEnums.ScbSystems.CCMS:
-                    var listOfCAllocations = SelectCAllocations(stakeholder);
-                    DbLayer.SaveList(listOfCAllocations);
-                    break;
-                case ScbEnums.ScbSystems.EBBS:
-                    var listOfEAllocations = SelectEAllocations(stakeholder);
-                    DbLayer.SaveList(listOfEAllocations);
-                    break;
-                case ScbEnums.ScbSystems.RLS:
-                    var listOfRAllocations = SelectRAllocations(stakeholder);
-                    DbLayer.SaveList(listOfRAllocations);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
 
-        private static IEnumerable<EInfo> SelectEAllocations(Stakeholders stakeholder)
+            var listOfCAllocations = SelectAllocations(stakeholder);
+            DbLayer.SaveList(listOfCAllocations);
+
+
+        }
+        private static IEnumerable<Info> SelectAllocations(Stakeholders stakeholder)
         {
             var _session = SessionManager.GetCurrentSession();
 
-            var listOfAllocatons = _session.QueryOver<EAlloc>()
-                                           .Fetch(x => x.EInfo).Eager
-                                           .Fetch(x => x.Stakeholder).Eager
-                                           .Where(x => x.Stakeholder != null)
-                                           .And(x => x.Stakeholder.Id == stakeholder.Id)
-                                           .Select(x => x.EInfo)
-                                           .List<EInfo>();
-
-            ((List<EInfo>)listOfAllocatons).ForEach(x =>
-            {
-                x.AllocEndDate = DateTime.Now.AddDays(-1);
-            });
-
-            return listOfAllocatons;
-        }
-
-        private static IEnumerable<CInfo> SelectCAllocations(Stakeholders stakeholder)
-        {
-            var _session = SessionManager.GetCurrentSession();
-
-            var listOfAllocatons = _session.QueryOver<CAlloc>()
-                                            .Fetch(x => x.CInfo).Eager
+            var listOfAllocatons = _session.QueryOver<Alloc>()
+                                            .Fetch(x => x.Info).Eager
                                             .Fetch(x => x.Stakeholder).Eager
                                             .Where(x => x.Stakeholder != null)
                                             .And(x => x.Stakeholder.Id == stakeholder.Id)
-                                            .Select(x => x.CInfo)
-                                            .List<CInfo>();
+                                            .Select(x => x.Info)
+                                            .List<Info>();
 
-            ((List<CInfo>)listOfAllocatons).ForEach(x =>
+            ((List<Info>)listOfAllocatons).ForEach(x =>
             {
                 x.AllocEndDate = DateTime.Now.AddDays(-1);
             });
 
             return listOfAllocatons;
         }
-
-        private static IEnumerable<RInfo> SelectRAllocations(Stakeholders stakeholder)
-        {
-            var _session = SessionManager.GetCurrentSession();
-
-            var listOfAllocatons = _session.QueryOver<RAlloc>()
-                                           .Fetch(x => x.RInfo).Eager
-                                           .Fetch(x => x.Stakeholder).Eager
-                                           .Where(x => x.Stakeholder != null)
-                                           .And(x => x.Stakeholder.Id == stakeholder.Id)
-                                           .Select(x => x.RInfo)
-                                           .List<RInfo>();
-            ((List<RInfo>)listOfAllocatons).ForEach(x =>
-            {
-                x.AllocEndDate = DateTime.Now.AddDays(-1);
-            });
-            return listOfAllocatons;
-        }
-
+        
         public static void Init()
         {
             foreach (ScbEnums.Products products in Enum.GetValues(typeof(ScbEnums.Products)))
@@ -174,3 +123,58 @@ namespace ColloSys.AllocationService.MoveAllocations
         }
     }
 }
+
+//var systemOnProduct = Util.GetSystemOnProduct(products);
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+
+//        break;
+//    case ScbEnums.ScbSystems.EBBS:
+//        var listOfEAllocations = SelectEAllocations(stakeholder);
+//        DbLayer.SaveList(listOfEAllocations);
+//        break;
+//    case ScbEnums.ScbSystems.RLS:
+//        var listOfRAllocations = SelectRAllocations(stakeholder);
+//        DbLayer.SaveList(listOfRAllocations);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+//private static IEnumerable<EInfo> SelectEAllocations(Stakeholders stakeholder)
+//{
+//    var _session = SessionManager.GetCurrentSession();
+
+//    var listOfAllocatons = _session.QueryOver<EAlloc>()
+//                                   .Fetch(x => x.EInfo).Eager
+//                                   .Fetch(x => x.Stakeholder).Eager
+//                                   .Where(x => x.Stakeholder != null)
+//                                   .And(x => x.Stakeholder.Id == stakeholder.Id)
+//                                   .Select(x => x.EInfo)
+//                                   .List<EInfo>();
+
+//    ((List<EInfo>)listOfAllocatons).ForEach(x =>
+//    {
+//        x.AllocEndDate = DateTime.Now.AddDays(-1);
+//    });
+
+//    return listOfAllocatons;
+//}
+
+//private static IEnumerable<RInfo> SelectRAllocations(Stakeholders stakeholder)
+//{
+//    var _session = SessionManager.GetCurrentSession();
+
+//    var listOfAllocatons = _session.QueryOver<RAlloc>()
+//                                   .Fetch(x => x.RInfo).Eager
+//                                   .Fetch(x => x.Stakeholder).Eager
+//                                   .Where(x => x.Stakeholder != null)
+//                                   .And(x => x.Stakeholder.Id == stakeholder.Id)
+//                                   .Select(x => x.RInfo)
+//                                   .List<RInfo>();
+//    ((List<RInfo>)listOfAllocatons).ForEach(x =>
+//    {
+//        x.AllocEndDate = DateTime.Now.AddDays(-1);
+//    });
+//    return listOfAllocatons;
+//}
