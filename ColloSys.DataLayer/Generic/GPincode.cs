@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using Iesi.Collections.Generic;
 using NHibernate;
 
@@ -25,13 +26,11 @@ namespace ColloSys.DataLayer.Domain
         //    if (!NHibernateUtil.IsInitialized(EWriteoffs) || forceEmpty) EWriteoffs = null;
         //}
 
-        public virtual ISet<CInfo> CInfos { get; set; }
         public virtual ISet<CLiner> CLiners { get; set; }
         public virtual ISet<CWriteoff> CWriteoffs { get; set; }
-        public virtual ISet<RInfo> RInfos { get; set; }
+        public virtual ISet<Info> Infos { get; set; }
         public virtual ISet<RLiner> RLiners { get; set; }
         public virtual ISet<RWriteoff> RWriteoffs { get; set; }
-        public virtual ISet<EInfo> EInfos { get; set; }
         public virtual ISet<ELiner> ELiners { get; set; }
         public virtual ISet<EWriteoff> EWriteoffs { get; set; }
 

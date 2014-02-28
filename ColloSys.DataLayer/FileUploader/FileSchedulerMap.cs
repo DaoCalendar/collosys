@@ -71,7 +71,7 @@ namespace ColloSys.DataLayer.Mapping
             }, map => map.OneToMany(x =>
             {
             }));
-            Set(x => x.CPayments, colmap =>
+            Set(x => x.Payments, colmap =>
             {
             }, map => map.OneToMany(x =>
             {
@@ -91,11 +91,7 @@ namespace ColloSys.DataLayer.Mapping
             }, map => map.OneToMany(x =>
             {
             }));
-            Set(x => x.EPayments, colmap =>
-            {
-            }, map => map.OneToMany(x =>
-            {
-            }));
+           
             Set(x => x.EWriteoffs, colmap =>
             {
             }, map => map.OneToMany(x =>
@@ -106,11 +102,7 @@ namespace ColloSys.DataLayer.Mapping
             }, map => map.OneToMany(x =>
             {
             }));
-            Set(x => x.RPayments, colmap =>
-            {
-            }, map => map.OneToMany(x =>
-            {
-            }));
+            
             Set(x => x.RWriteoffs, colmap =>
             {
             }, map => map.OneToMany(x =>

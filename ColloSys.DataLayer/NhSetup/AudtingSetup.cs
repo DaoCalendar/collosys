@@ -27,8 +27,8 @@ namespace ColloSys.DataLayer.NhSetup
             IList<Type> auditType = new List<Type>();
             IList<Type> baseTypes = new List<Type>
                 {
-                    typeof(Entity), typeof(SharedAlloc), 
-                    typeof(SharedInfo), typeof(SharedPayment),
+                    typeof(Entity), typeof(Alloc), 
+                    typeof(Info), typeof(Payment),
                     typeof(UploadableEntity)
                 };
             foreach (var type in types.Where( x=> x.IsClass && !x.IsAbstract))

@@ -7,7 +7,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
 {
     public class AllocationChurn
     {
-        public bool Init<T>(IList<T> dataToChange) where T : SharedAlloc
+        public bool Init<T>(IList<T> dataToChange) where T : Alloc
         {
             if (dataToChange == null)
                 return false;
@@ -20,7 +20,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
             return true;
         }
 
-        private static void AssignStakeholdersForAllocations<T>(List<AllocationData> revisedlist) where T : SharedAlloc
+        private static void AssignStakeholdersForAllocations<T>(List<AllocationData> revisedlist) where T : Alloc
         {
             foreach (var allocationData in revisedlist)
             {
@@ -31,7 +31,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
             }
         }
 
-        private static List<AllocationData> CreateChurnListOfAllocations<T>(List<AllocationData> listOfAllocationData) where T : SharedAlloc
+        private static List<AllocationData> CreateChurnListOfAllocations<T>(List<AllocationData> listOfAllocationData) where T : Alloc
         {
             var revisedlist = new List<AllocationData>();
             Random random = new Random();
@@ -45,7 +45,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
             return revisedlist;
         }
 
-        private static List<AllocationData> AssignAllocationDataByStakeholder<T>(IList<T> dataToChange) where T : SharedAlloc
+        private static List<AllocationData> AssignAllocationDataByStakeholder<T>(IList<T> dataToChange) where T : Alloc
         {
             var stakeholderlist = dataToChange.Select(x => x.Stakeholder).Distinct().ToList();
             var listOfAllocationData = new List<AllocationData>();
@@ -53,7 +53,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
             {
                 var allocationObj = new AllocationData();
                 allocationObj.Stakeholders = stakeholderse;
-                allocationObj.AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<SharedAlloc>();
+                allocationObj.AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<Alloc>();
                 listOfAllocationData.Add(allocationObj);
             }
             return listOfAllocationData;

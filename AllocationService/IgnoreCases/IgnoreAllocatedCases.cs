@@ -176,13 +176,13 @@ namespace ColloSys.AllocationService.IgnoreCases
         {
             var ralloc = new RAlloc
                 {
-                    AllocPolicy = writeoff.RAllocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.RAllocs.First().AllocSubpolicy,
-                    Bucket = writeoff.RAllocs.First().Bucket,
-                    EndDate = writeoff.RAllocs.First().EndDate,
-                    StartDate = writeoff.RAllocs.First().StartDate,
-                    AmountDue = writeoff.RAllocs.First().AmountDue,
-                    IsAllocated = writeoff.RAllocs.First().IsAllocated,
+                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+                    Bucket = writeoff.Allocs.First().Bucket,
+                    EndDate = writeoff.Allocs.First().EndDate,
+                    StartDate = writeoff.Allocs.First().StartDate,
+                    AmountDue = writeoff.Allocs.First().AmountDue,
+                    IsAllocated = writeoff.Allocs.First().IsAllocated,
                     RWriteoff = writeoff
                 };
 
@@ -193,13 +193,13 @@ namespace ColloSys.AllocationService.IgnoreCases
         {
             var ealloc = new EAlloc
                 {
-                    AllocPolicy = writeoff.EAllocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.EAllocs.First().AllocSubpolicy,
-                    Bucket = writeoff.EAllocs.First().Bucket,
-                    EndDate = writeoff.EAllocs.First().EndDate,
-                    StartDate = writeoff.EAllocs.First().StartDate,
-                    AmountDue = writeoff.EAllocs.First().AmountDue,
-                    IsAllocated = writeoff.EAllocs.First().IsAllocated,
+                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+                    Bucket = writeoff.Allocs.First().Bucket,
+                    EndDate = writeoff.Allocs.First().EndDate,
+                    StartDate = writeoff.Allocs.First().StartDate,
+                    AmountDue = writeoff.Allocs.First().AmountDue,
+                    IsAllocated = writeoff.Allocs.First().IsAllocated,
                     EWriteoff = writeoff
                 };
 
@@ -210,13 +210,13 @@ namespace ColloSys.AllocationService.IgnoreCases
         {
             var calloc = new CAlloc
                 {
-                    AllocPolicy = writeoff.CAllocs.First().AllocPolicy,
-                    AllocSubpolicy = writeoff.CAllocs.First().AllocSubpolicy,
-                    Bucket = writeoff.CAllocs.First().Bucket,
-                    EndDate = writeoff.CAllocs.First().EndDate,
-                    StartDate = writeoff.CAllocs.First().StartDate,
-                    AmountDue = writeoff.CAllocs.First().AmountDue,
-                    IsAllocated = writeoff.CAllocs.First().IsAllocated,
+                    AllocPolicy = writeoff.Allocs.First().AllocPolicy,
+                    AllocSubpolicy = writeoff.Allocs.First().AllocSubpolicy,
+                    Bucket = writeoff.Allocs.First().Bucket,
+                    EndDate = writeoff.Allocs.First().EndDate,
+                    StartDate = writeoff.Allocs.First().StartDate,
+                    AmountDue = writeoff.Allocs.First().AmountDue,
+                    IsAllocated = writeoff.Allocs.First().IsAllocated,
                     CWriteoff = writeoff
                 };
 

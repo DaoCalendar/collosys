@@ -60,9 +60,7 @@ namespace ColloSys.DataLayer.Mapping
             Set(x => x.BillAdhocs, colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.BillAmounts, colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.CAllocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.EAllocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.RAllocs, colmap => { }, map => map.OneToMany(x => { }));
+            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhPayments, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhRegistrations, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhWorkings, colmap => { }, map => map.OneToMany(x => { }));

@@ -131,9 +131,9 @@ namespace ColloSys.AllocationService.AllocationLayer
                             throw new ArgumentOutOfRangeException();
                     }
                     //set approve status, approvedate, approved by for allocation 
-                    allocationlist.ForEach(x => { ((SharedAlloc) x).Status = ColloSysEnums.ApproveStatus.Approved;
-                                                    ((SharedAlloc) x).ApprovedBy = "Policy";
-                                                    ((SharedAlloc) x).ApprovedOn = DateTime.Today.Date;
+                    allocationlist.ForEach(x => { ((Alloc) x).Status = ColloSysEnums.ApproveStatus.Approved;
+                                                    ((Alloc) x).ApprovedBy = "Policy";
+                                                    ((Alloc) x).ApprovedOn = DateTime.Today.Date;
                     });
 
                     DbLayer.SaveObjectList(dataOnCondition);

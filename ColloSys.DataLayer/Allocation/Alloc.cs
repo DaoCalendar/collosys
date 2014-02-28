@@ -13,12 +13,13 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.SharedDomain
 {
-    public abstract class SharedAlloc : Entity, IApproverComponent
+    public class Alloc : Entity, IApproverComponent
     {
         #region Relation
         public virtual AllocPolicy AllocPolicy { get; set; }
         public virtual AllocSubpolicy AllocSubpolicy { get; set; }
         public virtual Stakeholders Stakeholder { get; set; }
+        public virtual Info Info { get; set; }
         #endregion
 
         #region Date Range Component

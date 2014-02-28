@@ -3,17 +3,18 @@
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.SharedDomain;
 using NHibernate;
 
 #endregion
 
 namespace ColloSys.DataLayer.Mapping
 {
-    public class EAllocMap : EntityMap<EAlloc>
+    public class AllocMap : EntityMap<Alloc>
     {
-        public EAllocMap()
+        public AllocMap()
         {
-            Table("E_ALLOC");
+            Table("ALLOC");
 
             #region component
 
@@ -53,9 +54,7 @@ namespace ColloSys.DataLayer.Mapping
             ManyToOne(x => x.AllocPolicy, map => map.NotNullable(false));
             ManyToOne(x => x.AllocSubpolicy, map => map.NotNullable(false));
             ManyToOne(x => x.Stakeholder, map => map.NotNullable(false));
-            ManyToOne(x => x.ELiner);
-            ManyToOne(x => x.EWriteoff);
-            ManyToOne(x => x.EInfo, map => map.NotNullable(true));
+            ManyToOne(x => x.Info, map => map.NotNullable(true));
             #endregion
         }
     }

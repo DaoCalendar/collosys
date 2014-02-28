@@ -11,7 +11,7 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.SharedDomain
 {
-    public abstract class SharedPayment : UploadableEntity, ITransactionComponent, IUniqueKey
+    public class Payment : UploadableEntity, ITransactionComponent, IUniqueKey
     {
         #region Properties
         public virtual string AccountNo { get; set; }
@@ -28,6 +28,9 @@ namespace ColloSys.DataLayer.SharedDomain
         public virtual bool IsExcluded { get; set; }
         public virtual string ExcludeReason { get; set; }
 
+        public virtual decimal DebitAmount { get; set; }
+        public virtual decimal CreditAmount { get; set; }
+
         public virtual ColloSysEnums.ApproveStatus Status { get; set; }
         public virtual string Description { get; set; }
         public virtual string ApprovedBy { get; set; }
@@ -40,7 +43,7 @@ namespace ColloSys.DataLayer.SharedDomain
 
         protected IList<string> GetExcludeInExcelPaymentProperties()
         {
-            var memberHelper = new MemberHelper<SharedPayment>();
+            var memberHelper = new MemberHelper<Payment>();
             return new List<string> {
                 memberHelper.GetName(x => x.Id),
                 memberHelper.GetName(x => x.Version),
@@ -58,9 +61,17 @@ namespace ColloSys.DataLayer.SharedDomain
             };
         }
 
+        public override IList<string> GetExcludeInExcelProperties()
+        {
+            var memberHelper = new MemberHelper<Payment>();
+            var list = GetExcludeInExcelPaymentProperties();
+            list.Add(memberHelper.GetName(x => x.DebitAmount));
+            return list;
+        }
+
         public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
         {
-            var memberHelper = new MemberHelper<SharedPayment>();
+            var memberHelper = new MemberHelper<Payment>();
             return new List<string>
                 {
                 memberHelper.GetName(x => x.AccountNo ),

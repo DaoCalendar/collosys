@@ -8,9 +8,9 @@ namespace ColloSys.AllocationService.ChurnAllocations
     {
         public AllocationData()
         {
-            AllocList=new List<SharedAlloc>();
+            AllocList=new List<Alloc>();
         }
         public Stakeholders Stakeholders { get; set; }
-        public IList<SharedAlloc> AllocList { get; set; }  
+        public IList<Alloc> AllocList { get; set; }  
     }
 }

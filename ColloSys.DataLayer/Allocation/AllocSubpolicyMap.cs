@@ -44,9 +44,7 @@ namespace ColloSys.DataLayer.Mapping
 
             #region relationships - bags
             Set(x => x.AllocRelations, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.CAllocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.EAllocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.RAllocs, colmap => { }, map => map.OneToMany(x => { }));
+            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.Conditions, colmap => { }, map => map.OneToMany(x => { }));
             //Set(x => x.CInfos, colmap => { }, map => map.OneToMany(x => { }));
             //Set(x => x.RInfos, colmap => { }, map => map.OneToMany(x => { }));

@@ -6,7 +6,7 @@ using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.Allocation
 {
-    public class CAlloc : SharedAlloc
+    public class CAlloc : Alloc
     {
         public virtual CLiner CLiner { get; set; }
         public virtual CWriteoff CWriteoff { get; set; }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.SharedUtils;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
@@ -24,7 +25,7 @@ namespace ColloSys.Shared.ExcelWriter
         {
             if (listdata.Count == 0)
             {
-                ListToExcelGlobal(null, file, (CInfo)Activator.CreateInstance(typeof(CInfo)), excludedProps);
+                ListToExcelGlobal(null, file, (Info)Activator.CreateInstance(typeof(Info)), excludedProps);
             }
             else
             {
@@ -36,7 +37,7 @@ namespace ColloSys.Shared.ExcelWriter
         {
             if (listdata.Count == 0)
             {
-                ListToExcelGlobal(null, file, (CInfo)Activator.CreateInstance(typeof(CInfo)), excludedProps);
+                ListToExcelGlobal(null, file, (Info)Activator.CreateInstance(typeof(Info)), excludedProps);
             }
             else
             {

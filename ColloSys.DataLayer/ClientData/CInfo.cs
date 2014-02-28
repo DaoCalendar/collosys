@@ -9,7 +9,7 @@ using NHibernate.Mapping;
 
 namespace ColloSys.DataLayer.ClientData
 {
-    public class CInfo : SharedInfo
+    public class CInfo : Info
     {
         
         public virtual decimal CreditLimit { get; set; }

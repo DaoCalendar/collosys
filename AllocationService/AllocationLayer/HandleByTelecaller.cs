@@ -23,7 +23,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 
             //dataOnCondition = GetCasesToAllocate(dataOnCondition, cacsData);
 
-            dataOnCondition = dataOnCondition.Cast<SharedInfo>().Where(x => x.IsReferred).ToList();
+            dataOnCondition = dataOnCondition.Cast<Info>().Where(x => x.IsReferred).ToList();
 
             //calculate month start date and last date 
             var baseDate = Util.GetTodayDate();
@@ -91,14 +91,14 @@ namespace ColloSys.AllocationService.AllocationLayer
             }
 
             //set allocstatus
-            list.ForEach(x => ((SharedAlloc)x).AllocStatus = ColloSysEnums.AllocStatus.AllocateToTelecalling);
-            dataOnCondition.Cast<SharedInfo>().Where(x=>x.IsReferred).ToList().ForEach(x=>x.IsReferred=false);
+            list.ForEach(x => ((Alloc)x).AllocStatus = ColloSysEnums.AllocStatus.AllocateToTelecalling);
+            dataOnCondition.Cast<Info>().Where(x=>x.IsReferred).ToList().ForEach(x=>x.IsReferred=false);
             return list;
         }
 
         private static IList GetCasesToAllocate(IList dataOnCondition, IList<CacsActivity> cacsData)
         {
-            var list = dataOnCondition.Cast<SharedInfo>().ToList();// ConvertList(dataOnCondition);
+            var list = dataOnCondition.Cast<Info>().ToList();// ConvertList(dataOnCondition);
             var accounts = cacsData.Select(x => x.AccountNo).ToList();
             list = list.Where(x => !accounts.Contains(x.AccountNo)).ToList();
 
@@ -129,9 +129,9 @@ namespace ColloSys.AllocationService.AllocationLayer
             return list;
         }
 
-        private static EAlloc SetEalloc(SharedAlloc sharedAlloc, object dataObject, out string accountno)
+        private static EAlloc SetEalloc(Alloc alloc, object dataObject, out string accountno)
         {
-            var ealloc = (EAlloc)sharedAlloc;
+            var ealloc = (EAlloc)alloc;
             ealloc.EInfo = (EInfo)dataObject;
             ealloc.Bucket = (int)ealloc.EInfo.Bucket;
             accountno = ealloc.EInfo.AccountNo;
@@ -142,9 +142,9 @@ namespace ColloSys.AllocationService.AllocationLayer
             return ealloc;
         }
 
-        private static RAlloc SetRalloc(SharedAlloc sharedAlloc, object dataObject, out string accountno)
+        private static RAlloc SetRalloc(Alloc alloc, object dataObject, out string accountno)
         {
-            var ralloc = (RAlloc)sharedAlloc;
+            var ralloc = (RAlloc)alloc;
             ralloc.RInfo = (RInfo)dataObject;
             ralloc.Bucket = (int)ralloc.RInfo.Bucket;
             accountno = ralloc.RInfo.AccountNo;
@@ -156,9 +156,9 @@ namespace ColloSys.AllocationService.AllocationLayer
             return ralloc;
         }
 
-        private static CAlloc SetCalloc(SharedAlloc sharedAlloc, object dataObject, out string accountno)
+        private static CAlloc SetCalloc(Alloc alloc, object dataObject, out string accountno)
         {
-            var calloc = (CAlloc)sharedAlloc;
+            var calloc = (CAlloc)alloc;
             calloc.CInfo = (CInfo)dataObject;
             calloc.Bucket = (int)calloc.CInfo.Bucket;
             calloc.AmountDue = ((CInfo)dataObject).TotalDue;

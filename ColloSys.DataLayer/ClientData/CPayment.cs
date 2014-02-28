@@ -4,7 +4,7 @@ using ColloSys.DataLayer.SharedDomain;
 // ReSharper disable CheckNamespace
 namespace ColloSys.DataLayer.Domain
 {
-    public class CPayment : SharedPayment
+    public class CPayment : Payment
     {
         public override IList<string> GetExcludeInExcelProperties()
         {

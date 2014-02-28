@@ -5,9 +5,9 @@ using ColloSys.DataLayer.SharedDomain;
 namespace ColloSys.DataLayer.ClientData
 {
 
-    public abstract class SharedInfoMap<T> : EntityMap<T> where T : SharedInfo
+    public class InfoMap<T> : EntityMap<T> where T : Info
     {
-        protected SharedInfoMap(ScbEnums.ScbSystems tableName)
+        public InfoMap(ScbEnums.ScbSystems tableName)
         {
             var firstchar = tableName.ToString()[0];
             Table(firstchar + "_INFO");
@@ -30,11 +30,11 @@ namespace ColloSys.DataLayer.ClientData
             Property(x => x.AllocStartDate);
             Property(x => x.ChargeofDate, map => map.NotNullable(false));
            ManyToOne(x => x.GPincode, map => { });
-
+           Set(x => x.EAllocs, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
 
-    public class CInfoMap : SharedInfoMap<CInfo>
+    public class CInfoMap : InfoMap<CInfo>
     {
         public CInfoMap() : base(ScbEnums.ScbSystems.CCMS)
         {

@@ -100,7 +100,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             }
 
             //set allocstatus
-            list.ForEach(x=>((SharedAlloc)x).AllocStatus=ColloSysEnums.AllocStatus.DoNotAllocate);
+            list.ForEach(x=>((Alloc)x).AllocStatus=ColloSysEnums.AllocStatus.DoNotAllocate);
             return list;
         }
 
@@ -110,7 +110,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 
       
 
-        private static CAlloc SetCalloc(SharedAlloc obj, object dataObject, out string accno)
+        private static CAlloc SetCalloc(Alloc obj, object dataObject, out string accno)
         {
             var calloc = (CAlloc)obj;
             calloc.CInfo = (CInfo)dataObject;
@@ -123,7 +123,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return calloc;
         }
 
-        private static EAlloc SetEalloc(SharedAlloc obj, object dataObject, out string accno)
+        private static EAlloc SetEalloc(Alloc obj, object dataObject, out string accno)
         {
             var ealloc = (EAlloc)obj;
             ealloc.EInfo = (EInfo)dataObject;
@@ -136,7 +136,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return ealloc;
         }
 
-        private static RAlloc SetRalloc(SharedAlloc obj, object dataObject, out string accno)
+        private static RAlloc SetRalloc(Alloc obj, object dataObject, out string accno)
         {
             var ralloc = (RAlloc)obj;
             ralloc.RInfo = (RInfo)dataObject;

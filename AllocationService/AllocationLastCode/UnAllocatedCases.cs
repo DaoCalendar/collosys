@@ -114,7 +114,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
         }
 
         private static List<T> SetList<T>(List<T> list, ScbEnums.Products products)
-            where T : SharedInfo
+            where T : Info
         {
             if (list.Count == 0)
                 return list;

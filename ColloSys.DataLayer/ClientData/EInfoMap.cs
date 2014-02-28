@@ -2,7 +2,7 @@
 
 namespace ColloSys.DataLayer.ClientData
 {
-    public class EInfoMap : SharedInfoMap<EInfo>
+    public class EInfoMap : InfoMap<EInfo>
     {
         public EInfoMap() : base(ScbEnums.ScbSystems.EBBS)
         {

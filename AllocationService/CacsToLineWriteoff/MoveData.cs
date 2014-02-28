@@ -56,7 +56,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
         }
 
         private static void PopulateInfoList<TInfo>(IEnumerable<CacsActivity> cacsActivities, FileScheduler fileScheduler)
-            where TInfo : SharedInfo
+            where TInfo : Info
         {
             var infodata = DataAccess.GetInfoData<TInfo>(cacsActivities).ToList();
             infodata.ForEach(x =>

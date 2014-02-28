@@ -145,13 +145,11 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.MORT:
                 case ScbEnums.Products.AUTO:
                 case ScbEnums.Products.PL:
-                    return typeof(RPayment);
                 case ScbEnums.Products.CC:
-                    return typeof(CPayment);
                 case ScbEnums.Products.AUTO_OD:
                 case ScbEnums.Products.SMC:
                 case ScbEnums.Products.SME_LAP_OD:
-                    return typeof(EPayment);
+                    return typeof(Payment);
                 default:
                     throw new ArgumentOutOfRangeException("products");
             }
@@ -172,13 +170,11 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.MORT:
                 case ScbEnums.Products.AUTO:
                 case ScbEnums.Products.PL:
-                    return typeof(RAlloc);
                 case ScbEnums.Products.CC:
-                    return typeof(CAlloc);
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.SMC:
                 case ScbEnums.Products.AUTO_OD:
-                    return typeof(EAlloc);
+                    return typeof(Alloc);
 
                 default:
                     throw new ArgumentOutOfRangeException("products");
@@ -191,32 +187,26 @@ namespace ColloSys.Shared.Types4Product
             {
                 case ScbEnums.ClientDataTables.RLiner:
                     return typeof(RLiner);
-                case ScbEnums.ClientDataTables.RPayment:
-                    return typeof(RPayment);
+                case ScbEnums.ClientDataTables.Payment:
+                    return typeof(Payment);
                 case ScbEnums.ClientDataTables.RWriteoff:
                     return typeof(RWriteoff);
                 case ScbEnums.ClientDataTables.ELiner:
                     return typeof(ELiner);
-                case ScbEnums.ClientDataTables.EPayment:
-                    return typeof(EPayment);
+                
                 case ScbEnums.ClientDataTables.EWriteoff:
                     return typeof(EWriteoff);
                 case ScbEnums.ClientDataTables.CLiner:
                     return typeof(CLiner);
                 case ScbEnums.ClientDataTables.CUnbilled:
                     return typeof(CUnbilled);
-                case ScbEnums.ClientDataTables.CPayment:
-                    return typeof(CPayment);
+                
                 case ScbEnums.ClientDataTables.CWriteoff:
                     return typeof(CWriteoff);
                 case ScbEnums.ClientDataTables.CacsActivity:
                     return typeof(CacsActivity);
-                case ScbEnums.ClientDataTables.CInfo:
-                    return typeof(CInfo);
-                case ScbEnums.ClientDataTables.RInfo:
-                    return typeof(RInfo);
-                case ScbEnums.ClientDataTables.EInfo:
-                    return typeof(EInfo);
+                case ScbEnums.ClientDataTables.Info:
+                    return typeof(Info);
                 default:
                     throw new ArgumentOutOfRangeException("tableName : " + tableName);
             }
@@ -226,35 +216,19 @@ namespace ColloSys.Shared.Types4Product
             switch (tableName)
             {
                 case ScbEnums.ClientDataTables.RLiner:
-                    return typeof(RInfo);
-                case ScbEnums.ClientDataTables.RPayment:
-                    return typeof(RPayment);
-                case ScbEnums.ClientDataTables.RWriteoff:
-                    return typeof(RInfo);
-
                 case ScbEnums.ClientDataTables.ELiner:
-                    return typeof(EInfo);
-                case ScbEnums.ClientDataTables.EPayment:
-                    return typeof(EPayment);
-                case ScbEnums.ClientDataTables.EWriteoff:
-                    return typeof(EInfo);
-
                 case ScbEnums.ClientDataTables.CLiner:
-                    return typeof(CInfo);
+                case ScbEnums.ClientDataTables.RWriteoff:
+                case ScbEnums.ClientDataTables.EWriteoff:
+                case ScbEnums.ClientDataTables.CWriteoff:
+                    return typeof(Info);
+                case ScbEnums.ClientDataTables.Payment:
+                    return typeof(Payment);
                 case ScbEnums.ClientDataTables.CUnbilled:
                     return typeof(CUnbilled);
-                case ScbEnums.ClientDataTables.CPayment:
-                    return typeof(CPayment);
-                case ScbEnums.ClientDataTables.CWriteoff:
-                    return typeof(CInfo);
                 case ScbEnums.ClientDataTables.CacsActivity:
                     return typeof(CacsActivity);
-                case ScbEnums.ClientDataTables.CInfo:
-                    return typeof(CInfo);
-                case ScbEnums.ClientDataTables.RInfo:
-                    return typeof(RInfo);
-                case ScbEnums.ClientDataTables.EInfo:
-                    return typeof(EInfo);
+                
                 default:
                     throw new ArgumentOutOfRangeException("tableName : " + tableName);
             }
@@ -264,7 +238,7 @@ namespace ColloSys.Shared.Types4Product
 
         #region classobject by table-name
 
-        public static SharedAlloc CreateAllocObject(string className)
+        public static Alloc CreateAllocObject(string className)
         {
             ScbEnums.ClientDataTables tableName;
             if (Enum.TryParse(className, out tableName))
@@ -274,18 +248,11 @@ namespace ColloSys.Shared.Types4Product
                 {
                     case ScbEnums.ClientDataTables.RLiner:
                     case ScbEnums.ClientDataTables.RWriteoff:
-                    case ScbEnums.ClientDataTables.RInfo:
-                        return new RAlloc();
                     case ScbEnums.ClientDataTables.ELiner:
                     case ScbEnums.ClientDataTables.EWriteoff:
-                    case ScbEnums.ClientDataTables.EInfo:
-                        return new EAlloc();
                     case ScbEnums.ClientDataTables.CLiner:
                     case ScbEnums.ClientDataTables.CWriteoff:
-                    case ScbEnums.ClientDataTables.CInfo:
-                        return new CAlloc();
-
-
+                        return new Alloc();
                     default:
                         throw new ArgumentOutOfRangeException("table name for alloc :" + className);
                 }
@@ -327,13 +294,11 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.MORT:
                 case ScbEnums.Products.AUTO:
                 case ScbEnums.Products.PL:
-                    return typeof(RInfo);
                 case ScbEnums.Products.CC:
-                    return typeof(CInfo);
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.AUTO_OD:
                 case ScbEnums.Products.SMC:
-                    return typeof(EInfo);
+                    return typeof(Info);
                 default:
                     throw new ArgumentOutOfRangeException("can not fetch info class for product :" + product);
             }

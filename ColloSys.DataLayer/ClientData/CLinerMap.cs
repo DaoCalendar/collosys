@@ -14,7 +14,7 @@ namespace ColloSys.DataLayer.Mapping
         public CLinerMap()
         {
             Table("C_LINER");
-            Set(x => x.CAllocs, colmap => { }, map => map.OneToMany(x => { }));
+            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(true));
 
             Property(x => x.FileDate, map =>

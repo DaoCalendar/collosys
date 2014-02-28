@@ -69,7 +69,7 @@ namespace ColloSys.DataLayer.Domain
                     memberHelper.GetName(x => x.NoAllocResons),
                     memberHelper.GetName(x => x.FileScheduler),
                     memberHelper.GetName(x => x.GPincode),
-                    memberHelper.GetName(x => x.CAllocs),
+                    memberHelper.GetName(x => x.Allocs),
                     memberHelper.GetName(x => x.Product)
                 };
         }
@@ -109,7 +109,7 @@ namespace ColloSys.DataLayer.Domain
         //    if (!NHibernateUtil.IsInitialized(CAllocs) || forceEmpty) CAllocs = null;
         //}
 
-        public virtual Iesi.Collections.Generic.ISet<CAlloc> CAllocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
 
         #endregion
     }

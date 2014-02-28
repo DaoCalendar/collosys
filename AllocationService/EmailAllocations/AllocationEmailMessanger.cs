@@ -69,7 +69,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return true;
         }
 
-        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<SharedAlloc> allocData, ScbEnums.Products products)
+        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Alloc> allocData, ScbEnums.Products products)
         {
             Log.Info("In SendMail");
             foreach (var allocated in listOfStakeholdersAndMangers)
@@ -204,7 +204,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return columnPositionInfo;
         }
 
-        private IEnumerable<SharedAlloc> GetAllocationData(ScbEnums.Products products)
+        private IEnumerable<Alloc> GetAllocationData(ScbEnums.Products products)
         {
             var className = ClassType.GetAllocDataClassTypeByTableNameForAlloc(products);
             ScbEnums.ScbSystems system = ClassType.GetScbSystemByProduct(products);
@@ -213,7 +213,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             var criteria = CreateCriteria(className, session);
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
             //fetch data
-            var data = criteria.List<SharedAlloc>();
+            var data = criteria.List<Alloc>();
 
             Log.Info(string.Format("Allocation data loaded for {0} and count= {1}",
                 products.ToString(), data.Count));
@@ -254,7 +254,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(List<SharedAlloc> allocationList, ScbEnums.Products products)
+        private IList<AllocationStat> SetAllocationStat(List<Alloc> allocationList, ScbEnums.Products products)
         {
             var allocationStats = new List<AllocationStat>();
             var systemOnProduct = Util.GetSystemOnProduct(products);
@@ -275,7 +275,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForRAllocInfo(List<SharedAlloc> allocationList)
+        private List<AllocationStat> ConvertForRAllocInfo(List<Alloc> allocationList)
         {
             var list = new List<AllocationStat>();
             foreach (var sharedAlloc in allocationList)
@@ -299,7 +299,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return list;
         }
 
-        private List<AllocationStat> ConvertForCAllocInfo(List<SharedAlloc> allocationList)
+        private List<AllocationStat> ConvertForCAllocInfo(List<Alloc> allocationList)
         {
             var list = new List<AllocationStat>();
             foreach (var sharedAlloc in allocationList)
@@ -323,7 +323,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return list;
         }
 
-        private List<AllocationStat> ConvertForEAllocInfo(List<SharedAlloc> allocationList)
+        private List<AllocationStat> ConvertForEAllocInfo(List<Alloc> allocationList)
         {
             var list = new List<AllocationStat>();
             foreach (var sharedAlloc in allocationList)

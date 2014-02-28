@@ -5,7 +5,7 @@ namespace ColloSys.DataLayer.ClientData
 
     namespace ColloSys.DataLayer.ClientData
     {
-        public class RInfoMap : SharedInfoMap<RInfo>
+        public class RInfoMap : InfoMap<RInfo>
         {
             public RInfoMap() : base(ScbEnums.ScbSystems.RLS)
             {

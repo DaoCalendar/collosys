@@ -5,7 +5,7 @@ using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.ClientData
 {
-    public class EInfo : SharedInfo
+    public class EInfo : Info
     {
         public virtual Iesi.Collections.Generic.ISet<EAlloc> EAllocs { get; set; }
     }

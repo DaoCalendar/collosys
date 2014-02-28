@@ -10,7 +10,7 @@ using ColloSys.DataLayer.SharedDomain;
 namespace ColloSys.DataLayer.Mapping
 {
 
-    public abstract class PaymentMap<T> : EntityMap<T> where T : SharedPayment
+    public  class PaymentMap<T> : EntityMap<T> where T : Payment
     {
         protected PaymentMap(string cat)
         {
@@ -41,14 +41,14 @@ namespace ColloSys.DataLayer.Mapping
         }
     }
 
-    public class CPaymentMap : PaymentMap<CPayment>
-    {
-        public CPaymentMap()
-            : base("CCMS")
-        {
-            //Table("C_PAYMENT");
-        }
-    }
+    //public class CPaymentMap : PaymentMap<CPayment>
+    //{
+    //    public CPaymentMap()
+    //        : base("CCMS")
+    //    {
+    //        //Table("C_PAYMENT");
+    //    }
+    //}
 }
 
 

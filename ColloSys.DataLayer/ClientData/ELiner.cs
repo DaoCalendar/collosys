@@ -82,7 +82,7 @@ namespace ColloSys.DataLayer.Domain
                     memberHelper.GetName(x => x.GPincode),
                     memberHelper.GetName(x => x.CycleDate),
                     memberHelper.GetName(x => x.CurrentBalance),
-                    memberHelper.GetName(x => x.EAllocs)
+                    memberHelper.GetName(x => x.Allocs)
                 };
         }
 
@@ -130,7 +130,7 @@ namespace ColloSys.DataLayer.Domain
         //{
         //    if (!NHibernateUtil.IsInitialized(EAllocs) || forceEmpty) EAllocs = null;
         //}
-        public virtual Iesi.Collections.Generic.ISet<EAlloc> EAllocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
 
         #endregion
 

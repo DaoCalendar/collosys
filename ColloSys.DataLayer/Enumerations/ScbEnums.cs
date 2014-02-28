@@ -41,19 +41,20 @@ namespace ColloSys.DataLayer.Enumerations
         public enum ClientDataTables
         {
             RLiner,
-            RPayment,
+            Payment,
             RWriteoff,
             ELiner,
-            EPayment,
+            //EPayment,
             EWriteoff,
             CLiner,
             CUnbilled,
-            CPayment,
+            //CPayment,
             CWriteoff,
             CacsActivity,
-            RInfo,
-            CInfo,
-            EInfo
+            Info,
+            //RInfo,
+            //CInfo,
+            //EInfo
         }
 
     }

@@ -210,7 +210,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 
        
 
-        private static CAlloc SetCalloc(SharedAlloc obj,
+        private static CAlloc SetCalloc(Alloc obj,
             object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
             var calloc = (CAlloc)obj;
@@ -245,7 +245,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return calloc;
         }
 
-        private static EAlloc SetEalloc(SharedAlloc obj,
+        private static EAlloc SetEalloc(Alloc obj,
             object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
             var ealloc = (EAlloc)obj;
@@ -274,7 +274,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return ealloc;
         }
 
-        private static RAlloc SetRalloc(SharedAlloc obj,
+        private static RAlloc SetRalloc(Alloc obj,
             object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
             var ralloc = (RAlloc)obj;

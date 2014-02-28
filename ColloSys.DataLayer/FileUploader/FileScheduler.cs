@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
+using ColloSys.DataLayer.SharedDomain;
 using Iesi.Collections.Generic;
 using NHibernate;
 
@@ -35,17 +36,15 @@ namespace ColloSys.DataLayer.Domain
         public virtual ISet<FileStatus> FileStatuss { get; set; }
         public virtual ISet<CLiner> CLiners { get; set; }
         public virtual ISet<CUnbilled> CUnbilleds { get; set; }
-        public virtual ISet<CPayment> CPayments { get; set; }
+        public virtual ISet<Payment> Payments { get; set; }
         public virtual ISet<CWriteoff> CWriteoffs { get; set; }
         public virtual ISet<CacsActivity> CacsActivities { get; set; }
 
 
         public virtual ISet<ELiner> ELiners { get; set; }
-        public virtual ISet<EPayment> EPayments { get; set; }
         public virtual ISet<EWriteoff> EWriteoffs { get; set; }
 
         public virtual ISet<RLiner> RLiners { get; set; }
-        public virtual ISet<RPayment> RPayments { get; set; }
         public virtual ISet<RWriteoff> RWriteoffs { get; set; }
 
         #endregion

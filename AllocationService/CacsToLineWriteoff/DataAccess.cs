@@ -51,7 +51,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
         }
         
         public static IList<T> GetInfoData<T>(IEnumerable<CacsActivity> cacsActivities)
-            where T : SharedInfo
+            where T : Info
         {
             var accNoList = cacsActivities.Select(x => x.AccountNo).ToList();
             using (var session=SessionManager.GetNewSession())
@@ -69,7 +69,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
         }
 
         public static void SaveInfoDataWithFileSchedular<TInfo>(IEnumerable<TInfo> sharedInfos, FileScheduler fileScheduler)
-            where TInfo:SharedInfo
+            where TInfo:Info
         {
             using (var session=SessionManager.GetNewSession())
             {

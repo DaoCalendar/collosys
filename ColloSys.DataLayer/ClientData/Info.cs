@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
@@ -11,8 +12,10 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.SharedDomain
 {
-    public abstract class SharedInfo : Entity, IDeliquent
+    public class Info : Entity, IDeliquent
     {
+        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
+
         #region Properties
 
         public virtual ColloSysEnums.DelqFlag Flag { get; set; }
