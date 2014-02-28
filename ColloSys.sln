@@ -12,22 +12,61 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03A3E9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.DataLayer", "ColloSys.DataLayer\ColloSys.DataLayer.csproj", "{B2A3CD93-04C0-401B-AB97-C70638956AA3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Allocation", "Allocation", "{80A086E8-586D-458F-BC14-B50C877F0453}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllocationService", "AllocationService\AllocationService.csproj", "{65CA14CB-44D0-42C2-9945-CAD72FA1519A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataLayer", "DataLayer", "{6159633C-F083-421F-B9F0-05E5F999681D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.Shared", "ColloSys.Shared\ColloSys.Shared.csproj", "{670A58BA-000B-41A5-B5AF-F862EF3870A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.DataLayer.Services", "ColloSys.DataLayer.Services\ColloSys.DataLayer.Services.csproj", "{0698806C-1901-4659-ACEE-74702E507611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Testing|Any CPU = Testing|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD31537-2BFC-40FE-8344-8D87BFEB998F}.Testing|Any CPU.Build.0 = Release|Any CPU
 		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A3CD93-04C0-401B-AB97-C70638956AA3}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Testing|Any CPU.ActiveCfg = Testing|Any CPU
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A}.Testing|Any CPU.Build.0 = Testing|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{0698806C-1901-4659-ACEE-74702E507611}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65CA14CB-44D0-42C2-9945-CAD72FA1519A} = {80A086E8-586D-458F-BC14-B50C877F0453}
+		{B2A3CD93-04C0-401B-AB97-C70638956AA3} = {6159633C-F083-421F-B9F0-05E5F999681D}
+		{670A58BA-000B-41A5-B5AF-F862EF3870A1} = {6159633C-F083-421F-B9F0-05E5F999681D}
+		{0698806C-1901-4659-ACEE-74702E507611} = {6159633C-F083-421F-B9F0-05E5F999681D}
 	EndGlobalSection
 EndGlobal

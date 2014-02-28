@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{65CA14CB-44D0-42C2-9945-CAD72FA1519A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ColloSys.AllocationService</RootNamespace>
+    <AssemblyName>ColloSys.AllocationService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Testing\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.1.2\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AllocationLastCode\DbLayer.cs" />
+    <Compile Include="AllocationLastCode\UnAllocatedCases.cs" />
+    <Compile Include="AllocationLayer\AllocateAsPerPolicy.cs" />
+    <Compile Include="AllocationLayer\AllocateToStakeholder.cs" />
+    <Compile Include="AllocationLayer\Allocation.cs" />
+    <Compile Include="AllocationLayer\DoNotAllocate.cs" />
+    <Compile Include="AllocationLayer\HandleByTelecaller.cs" />
+    <Compile Include="CacsToLineWriteoff\CacsData.cs" />
+    <Compile Include="CacsToLineWriteoff\DataAccess.cs" />
+    <Compile Include="CacsToLineWriteoff\MoveData.cs" />
+    <Compile Include="ChurnAllocations\AllocationChurn.cs" />
+    <Compile Include="ChurnAllocations\AllocationData.cs" />
+    <Compile Include="ConditionLayer\Conditions.cs" />
+    <Compile Include="ConditionLayer\ConditionValues.cs" />
+    <Compile Include="DBLayer\DbLayer.cs" />
+    <Compile Include="EmailAllocations\AllocationEmailMessanger.cs" />
+    <Compile Include="EmailAllocations\AllocationStat.cs" />
+    <Compile Include="EmailAllocations\EmailProductsAllocations.cs" />
+    <Compile Include="EmailAllocations\IAllocationEmailMessanger.cs" />
+    <Compile Include="FRCases\DataAccess.cs" />
+    <Compile Include="Generic\Util.cs" />
+    <Compile Include="IgnoreCases\DataAccess.cs" />
+    <Compile Include="IgnoreCases\IgnoreAllocatedCases.cs" />
+    <Compile Include="Logging\NLogSetup.cs" />
+    <Compile Include="Models\StakePincodes.cs" />
+    <Compile Include="MoveAllocations\MoveAllocationsLeaveExitStake.cs" />
+    <Compile Include="PincodeEntry\DbLayer.cs" />
+    <Compile Include="PincodeEntry\LinerWriteoffPincodes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartAllocation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColloSys.DataLayer.Services\ColloSys.DataLayer.Services.csproj">
+      <Project>{0698806C-1901-4659-ACEE-74702E507611}</Project>
+      <Name>ColloSys.DataLayer.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
+      <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
+      <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
+      <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
+      <Name>ColloSys.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Target Name="cleanOutput" AfterTargets="Clean">
+    <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
+    <Exec Command="Del bin /s /q /f" IgnoreExitCode="true" />
+    <Message Text="obj and bin folder cleaned up." Importance="normal" />
+  </Target>
+</Project>
