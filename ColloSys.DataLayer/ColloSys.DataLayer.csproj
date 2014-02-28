@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC9C98EA-DB98-4407-B5A5-CD11A65A0ADB}</ProjectGuid>
+    <ProjectGuid>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ColloSys.DataLayer</RootNamespace>
     <AssemblyName>ColloSys.DataLayer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,8 +32,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.SysCache">
+      <HintPath>..\packages\NHibernate.Caches.SysCache.3.3.3.4000\lib\net35\NHibernate.Caches.SysCache.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Envers">
+      <HintPath>..\packages\NHibernate.Envers.1.6.0\lib\Net35\NHibernate.Envers.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator, Version=1.3.2.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.Validator.1.3.2.4000\lib\Net35\NHibernate.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator.Specific, Version=1.3.2.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.Validator.1.3.2.4000\lib\Net35\NHibernate.Validator.Specific.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,14 +68,162 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allocation\AllocCondition.cs" />
+    <Compile Include="Allocation\AllocConditionMap.cs" />
+    <Compile Include="Allocation\AllocConditionValidator.cs" />
+    <Compile Include="Allocation\AllocPolicy.cs" />
+    <Compile Include="Allocation\AllocPolicyMap.cs" />
+    <Compile Include="Allocation\AllocRelation.cs" />
+    <Compile Include="Allocation\AllocRelationMap.cs" />
+    <Compile Include="Allocation\AllocSubpolicy.cs" />
+    <Compile Include="Allocation\AllocSubpolicyMap.cs" />
+    <Compile Include="Allocation\CAlloc.cs" />
+    <Compile Include="Allocation\CAllocMap.cs" />
+    <Compile Include="Allocation\EAlloc.cs" />
+    <Compile Include="Allocation\EAllocMap.cs" />
+    <Compile Include="Allocation\RAlloc.cs" />
+    <Compile Include="Allocation\RAllocMap.cs" />
+    <Compile Include="Billing\BCondition.cs" />
+    <Compile Include="Billing\BConditionMap.cs" />
+    <Compile Include="Billing\BillAdhoc.cs" />
+    <Compile Include="Billing\BillAdhocMap.cs" />
+    <Compile Include="Billing\BillAmount.cs" />
+    <Compile Include="Billing\BillAmountMap.cs" />
+    <Compile Include="Billing\BillDetail.cs" />
+    <Compile Include="Billing\BillDetailMap.cs" />
+    <Compile Include="Billing\BillingPolicy.cs" />
+    <Compile Include="Billing\BillingPolicyMap.cs" />
+    <Compile Include="Billing\BillingRelation.cs" />
+    <Compile Include="Billing\BillingRelationMap.cs" />
+    <Compile Include="Billing\BillingSubpolicy.cs" />
+    <Compile Include="Billing\BillingSubpolicyMap.cs" />
+    <Compile Include="Billing\BillStatus.cs" />
+    <Compile Include="Billing\BillStatusMap.cs" />
+    <Compile Include="Billing\BMatrix.cs" />
+    <Compile Include="Billing\BMatrixMap.cs" />
+    <Compile Include="Billing\BMatrixValue.cs" />
+    <Compile Include="Billing\BMatrixValueMap.cs" />
+    <Compile Include="ClientData\CacsActivity.cs" />
+    <Compile Include="ClientData\CacsActivityMap.cs" />
+    <Compile Include="ClientData\CInfo.cs" />
+    <Compile Include="ClientData\CInfoMap.cs" />
+    <Compile Include="ClientData\CLiner.cs" />
+    <Compile Include="ClientData\CLinerMap.cs" />
+    <Compile Include="ClientData\IDeliquent.cs" />
+    <Compile Include="ClientData\IHardDelq.cs" />
+    <Compile Include="ClientData\CPayment.cs" />
+    <Compile Include="ClientData\CPaymentMap.cs" />
+    <Compile Include="ClientData\CUnbilled.cs" />
+    <Compile Include="ClientData\CUnbilledMap.cs" />
+    <Compile Include="ClientData\CWriteoff.cs" />
+    <Compile Include="ClientData\CWriteoffMap.cs" />
+    <Compile Include="ClientData\EInfo.cs" />
+    <Compile Include="ClientData\EInfoMap.cs" />
+    <Compile Include="ClientData\ELiner.cs" />
+    <Compile Include="ClientData\ELinerMap.cs" />
+    <Compile Include="ClientData\EPayment.cs" />
+    <Compile Include="ClientData\EPaymentMap.cs" />
+    <Compile Include="ClientData\EWriteoff.cs" />
+    <Compile Include="ClientData\EWriteoffMap.cs" />
+    <Compile Include="ClientData\ISoftDelq.cs" />
+    <Compile Include="ClientData\RInfo.cs" />
+    <Compile Include="ClientData\RInfoMap.cs" />
+    <Compile Include="ClientData\RLiner.cs" />
+    <Compile Include="ClientData\RLinerMap.cs" />
+    <Compile Include="ClientData\RPayment.cs" />
+    <Compile Include="ClientData\RPaymentMap.cs" />
+    <Compile Include="ClientData\RWriteoff.cs" />
+    <Compile Include="ClientData\RWriteoffMap.cs" />
+    <Compile Include="ClientData\UploadableEntity.cs" />
+    <Compile Include="Components\IDelinquentCustomer.cs" />
+    <Compile Include="BaseEntity\EntityMap.cs" />
+    <Compile Include="Components\IUniqueKey.cs" />
+    <Compile Include="Enumerations\ScbEnums.cs" />
+    <Compile Include="FileUploader\FileColumnMap.cs" />
+    <Compile Include="FileUploader\FileDetailMap.cs" />
+    <Compile Include="FileUploader\FileMappingMap.cs" />
+    <Compile Include="FileUploader\FileSchedulerMap.cs" />
+    <Compile Include="FileUploader\FileStatusMap.cs" />
+    <Compile Include="FileUploader\FileValueMapping.cs" />
+    <Compile Include="FileUploader\FileValueMappingMap.cs" />
+    <Compile Include="Generic\GReports.cs" />
+    <Compile Include="Generic\GReportsMap.cs" />
+    <Compile Include="Generic\StakeAddress.cs" />
+    <Compile Include="Generic\StakeAddressMap.cs" />
+    <Compile Include="Generic\GConfig.cs" />
+    <Compile Include="Generic\GConfigMap.cs" />
+    <Compile Include="Generic\GKeyValue.cs" />
+    <Compile Include="Generic\GKeyValueMap.cs" />
+    <Compile Include="Generic\GPermission.cs" />
+    <Compile Include="Generic\GPermissionMap.cs" />
+    <Compile Include="Generic\GPincode.cs" />
+    <Compile Include="FileUploader\FileColumn.cs" />
+    <Compile Include="FileUploader\FileDetail.cs" />
+    <Compile Include="FileUploader\FileMapping.cs" />
+    <Compile Include="FileUploader\FileScheduler.cs" />
+    <Compile Include="FileUploader\FileStatus.cs" />
+    <Compile Include="Generic\GPincodeMap.cs" />
+    <Compile Include="Generic\ProductConfig.cs" />
+    <Compile Include="Components\IApproverComponent.cs" />
+    <Compile Include="Components\IBillComponent.cs" />
+    <Compile Include="Components\IFileUploadable.cs" />
+    <Compile Include="Components\IPolicyStatusComponent.cs" />
+    <Compile Include="Components\ITransactionComponent.cs" />
+    <Compile Include="Generic\ProductConfigMap.cs" />
+    <Compile Include="JsonSerialization\NhEntityJsonConverter.cs" />
+    <Compile Include="LogSupport\Users.cs" />
+    <Compile Include="LogSupport\UsersMap.cs" />
+    <Compile Include="JsonSerialization\DynamicProxyJsonConverter.cs" />
+    <Compile Include="JsonSerialization\NHibernateContractResolver.cs" />
+    <Compile Include="NhSetup\AuditEventListener.cs" />
+    <Compile Include="NhSetup\AudtingExtended.cs" />
+    <Compile Include="NhSetup\AudtingSetup.cs" />
+    <Compile Include="NhSetup\ConfigurationSetup.cs" />
+    <Compile Include="NhSetup\ExtendedMsSql2008ClientDriver.cs" />
+    <Compile Include="NhSetup\ExtendedMsSql2008Dialect.cs" />
+    <Compile Include="NhSetup\MappingSetup.cs" />
+    <Compile Include="NhSetup\NHCachingSetup.cs" />
+    <Compile Include="NhSetup\NhInitParams.cs" />
+    <Compile Include="NhSetup\SessionExtension.cs" />
+    <Compile Include="NhSetup\SessionFactoryManager.cs" />
+    <Compile Include="NhSetup\ValidationSetup.cs" />
+    <Compile Include="Reporting\Reports.cs" />
+    <Compile Include="Reporting\ReportsMap.cs" />
+    <Compile Include="SessionMgr\NhRepository.cs" />
+    <Compile Include="SessionMgr\SessionManager.cs" />
+    <Compile Include="SessionMgr\UnitOfWork.cs" />
+    <Compile Include="Billing\CustBillViewModel.cs" />
+    <Compile Include="SharedDomain\ReflectionHelper.cs" />
+    <Compile Include="SharedDomain\SharedInfo.cs" />
+    <Compile Include="SharedDomain\SharedAlloc.cs" />
+    <Compile Include="BaseEntity\Entity.cs" />
+    <Compile Include="BaseEntity\IAuditedEntity.cs" />
+    <Compile Include="Enumerations\ColloSysEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedDomain\SharedPayment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Stakeholder\StakeHierarchy.cs" />
+    <Compile Include="Stakeholder\StakeHierarchyMap.cs" />
+    <Compile Include="Stakeholder\Stakeholders.cs" />
+    <Compile Include="Stakeholder\StakeholdersMap.cs" />
+    <Compile Include="Stakeholder\StkhPayment.cs" />
+    <Compile Include="Stakeholder\StkhPaymentMap.cs" />
+    <Compile Include="Stakeholder\StkhRegistration.cs" />
+    <Compile Include="Stakeholder\StkhRegistrationMap.cs" />
+    <Compile Include="Stakeholder\StkhWorking.cs" />
+    <Compile Include="Stakeholder\StkhWorkingMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="cleanOutput" AfterTargets="Clean">
+    <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
+    <Exec Command="Del bin /s /q /f" IgnoreExitCode="true" />
+    <Message Text="obj and bin folder cleaned up." Importance="normal" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
