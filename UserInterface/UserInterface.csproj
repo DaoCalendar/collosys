@@ -138,7 +138,9 @@
     <Content Include="Scripts\angularjs\angular-loader.min.js.map" />
     <Content Include="Scripts\angularjs\angular-cookies.min.js.map" />
     <Content Include="Scripts\angularjs\angular-animate.min.js.map" />
-    <Content Include="Scripts\angularjs\angular.min.js.map" />
+    <Content Include="Scripts\angularjs\angular.min.js.map">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -391,7 +393,9 @@
     <Content Include="Scripts\jquery\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery\jquery-1.9.1.min.map" />
     <Content Include="Scripts\angularjs\version.json" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -437,7 +441,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
