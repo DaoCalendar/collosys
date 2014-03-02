@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.Shared", "ColloSys
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.DataLayer.Services", "ColloSys.DataLayer.Services\ColloSys.DataLayer.Services.csproj", "{0698806C-1901-4659-ACEE-74702E507611}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.Nhibernate.Setup", "ColloSys.Nhibernate.Setup\ColloSys.Nhibernate.Setup.csproj", "{BEBED5EB-34EF-4044-AC35-A3BC2425DBF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
