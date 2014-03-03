@@ -100,6 +100,7 @@
     <Compile Include="Billing\BMatrixValueMap.cs" />
     <Compile Include="ClientData\CacsActivity.cs" />
     <Compile Include="ClientData\CacsActivityMap.cs" />
+    <Compile Include="ClientData\InfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />
     <Compile Include="ClientData\IDeliquent.cs" />
