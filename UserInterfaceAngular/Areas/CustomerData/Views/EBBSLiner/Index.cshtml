@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "EBBS Liner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-app="ebbsLinerInfoApp" data-ng-controller="ebbsLinerInfoCtrl" data-ng-cloak="">
+    <div class="alert-success text-center">
+        <h3>EBBS Liner</h3>
+    </div>
+    <div>
+        <table class="table table-bordered table-hover" style="width: 90%">
+            <thead>
+                <tr>
+                    <th>AccountNo</th>
+                    <th>Customer Name</th>
+                    <th>TotalDue</th>
+                    <th>Currentdue</th>
+                    <th>Bucketdue</th>
+                    <th>Bucket1Due</th>
+                    <th>Bucket2Due</th>
+                    <th>Bucket3Due</th>
+                    <th>Bucket4Due</th>
+                    <th>Bucket5Due</th>
+                    <th>AmountRepaid</th>
+                    <th>InterestCharge</th>
+                    <th>FeeCharge</th>
+                    <th>MinimumDue</th>
+                    <th>Bucket</th>
+                    <th>OdLimit</th>
+                    <th>DelqStatus</th>
+                    <th>DelqDate</th>
+                    <th>DelqAmount</th>
+                    <th>Products</th>
+                    <th>Starthate</th>
+                    <th>EndDate</th>
+                    <th>Cycle</th>
+                    <th>InterestPct</th>
+                    <th>Pincode</th>
+                    <th>Cluster</th>
+                    <th>DoAllocate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="ebbsLiner in ebbsLiners">
+                    <td>{{ebbsLiner.EInfo.AccountNo}}</td>
+                    <td>{{ebbsLiner.EInfo.CustomerName}}</td>
+                    <td>{{ebbsLiner.TotalDue}}</td>
+                    <td>{{ebbsLiner.CurrentDue}}</td>
+                    <td>{{ebbsLiner.BucketDue}}</td>
+                    <td>{{ebbsLiner.Bucket1Due}}</td>
+                    <td>{{ebbsLiner.Bucket2Due}}</td>
+                    <td>{{ebbsLiner.Bucket3Due}}</td>
+                    <td>{{ebbsLiner.Bucket4Due}}</td>
+                    <td>{{ebbsLiner.Bucket5Due}}</td>
+                    <td>{{ebbsLiner.AmountRepaid}}</td>
+                    <td>{{ebbsLiner.InterestCharge}}</td>
+                    <td>{{ebbsLiner.FeeCharge}}</td>
+                    <td>{{ebbsLiner.MinimumDue}}</td>
+                    <td>{{ebbsLiner.Bucket}}</td>
+                    <td>{{ebbsLiner.EInfo.OdLimit}}</td>
+                    <td>{{ebbsLiner.EInfo.DelqStatus}}</td>
+                    <td>{{ebbsLiner.EInfo.DelqDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{ebbsLiner.EInfo.DelqAmount}}</td>
+                    <td>{{ebbsLiner.EInfo.Products}}</td>
+                    <td>{{ebbsLiner.EInfo.StartDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{ebbsLiner.EInfo.EndDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{ebbsLiner.EInfo.Cycle}}</td>
+                    <td>{{ebbsLiner.EInfo.InterestPct}}</td>
+                    <td>{{ebbsLiner.EInfo.Pincode}}</td>
+                    <td>{{ebbsLiner.EInfo.Cluster}}</td>
+                    <td>{{ebbsLiner.EInfo.DoAllocate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Areas/CustomerData/ViewModels/ebbsLinerInfoCtrl.js"></script>
+}

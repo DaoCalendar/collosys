@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace ColloSys.UserInterface.Areas.Stakeholder2.Controllers
+{
+    public class HierarchyController : Controller
+    {
+        //
+        // GET: /Stakeholder2/Hierarchy/
+
+        public ActionResult AddHierarchy()
+        {
+            return View();
+        }
+        public ActionResult EditHierarchy()
+        {
+            return View();
+        }
+
+    }
+}

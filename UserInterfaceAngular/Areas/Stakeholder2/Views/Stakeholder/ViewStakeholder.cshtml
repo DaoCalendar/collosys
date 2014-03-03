@@ -1,0 +1,251 @@
+﻿@{
+    ViewBag.Title = "ViewStakeholder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" data-ng-controller="viewStake">
+
+    <div class="row-fluid">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                View Stakeholders
+            </div>
+
+            <div class="row-fluid">
+                <div class="control-group span5">
+
+                    <label class="control-label">State Hierarchy</label>
+
+                    <div class="controls">
+                        <select data-ui-select2="" class="input-medium" ng-model="stakeholder.Hierarchy">
+                            <option></option>
+                            <option ng-repeat="data in hierarchyDesignation|unique:'Hierarchy'">{{data.Hierarchy}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div data-ng-show="stakeholder.Hierarchy">
+                    <div class="control-group span5">
+
+                        <label class="control-label">Designation</label>
+
+                        <div class="controls">
+                            <select data-ui-select2="" class="input-medium" ng-model="stakeholder.Designation">
+                                <option></option>
+                                <option ng-repeat="data in hierarchyDesignation|filter:{'Hierarchy':stakeholder.Hierarchy}|orderBy:'PositionLevel'">{{getHierarchyDisplayName(data)}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group" ng-show="stakeholder.Designation">
+                        <div class="controls">
+                            <label>All</label>
+                            <input type="radio" name="filterAdd" value="All" ng-model="stakeholder.filter" />
+                            <label>Active</label>
+                            <input type="radio" name="filterAdd" value="Active" ng-model="stakeholder.filter" />
+                            <label>InActive</label>
+                            <input type="radio" name="filterAdd" value="InActive" ng-model="stakeholder.filter" />
+                        </div>
+                    </div>
+                    <div class="right" ng-show="stakeholder.filter">
+                        <button class="btn right" ng-click="getStakeData(stakeholder)">View</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-horizontal well " data-ng-show="{{showDiv}}" data-ng-repeat="data in stakeholderData">
+            <div class="row-fluid">
+                <div class="control-group span5">
+                    <label class="control-label">Name</label>
+                    <div class="controls">
+                        <input readonly type="text" value="{{data.Name}}">
+                    </div>
+                </div>
+
+                <div class="control-group span5">
+                    <label class="control-label">Email ID</label>
+                    <div class="controls">
+                        <input type="text" value="{{data.EmailId}}" readonly>
+                    </div>
+                </div>
+                <div class="controls">
+                    <input type="checkbox" /><label class="control-label">Select</label>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="control-group span5">
+                    <label class="control-label">Date of Joining</label>
+                    <div class="controls">
+                        <input type="text" readonly value="{{data.JoiningDate|date:dd-MM-yyyy}}">
+                    </div>
+                </div>
+                <div class="control-group span5">
+                    <label class="control-label">Date of Birth</label>
+                    <div class="controls">
+                        <input type="text" readonly value="{{data.BirthDate|date:dd-MM-yyyy}}">
+                    </div>
+                </div>
+                <div ng-show="moreDetails==$index+'MoreDetails'">
+                    <div class="row-fluid">
+                        <div class="control-group span5">
+                            <label class="control-label">User Id</label>
+                            <div class="controls">
+                                <input type="text" readonly value="{{data.ExternalId}}">
+                            </div>
+                        </div>
+                        <div class="control-group span5">
+                            <label class="control-label">Mobile Number</label>
+                            <div class="controls">
+                                <input type="text" readonly value="{{data.MobileNo}}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="control-group span5">
+                            <label class="control-label">Gender</label>
+                            <div class="controls">
+                                <input type="text" readonly value="{{data.Gender}}">
+                            </div>
+                        </div>
+                        <div class="control-group span5">
+                            <label class="control-label">Reporting Manager</label>
+                            <div class="controls">
+                                <input type="text" readonly value="{{getReportingManager(data)}}">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row span12" style="text-align: center">
+                    <button class="btn-link">Edit</button>
+                    <button class="btn-link" ng-click="seeMoreDetail( $index, 'MoreDetails' )">See More Details</button>
+                    <button class="btn btn-link" data-ng-disabled="data.StkhPayments.length==0" ng-click="paymentDetails($index,'PaymentDetails')" data-ng-disabled="data.StkhPayments.length==0">View Payment</button>
+                    <button class="btn btn-link" ng-click="seeMoreDetail($index,'RegistrationDetails')" data-ng-disabled="data.StkhRegistrations.length==0">View Registration</button>
+                    <button class="btn btn-link" ng-click="seeMoreDetail($index,'WorkingDetails')" data-ng-disabled="data.StkhWorkings.length==0">View Working</button>
+                    <button class="btn-link" ng-click="seeMoreDetail($index,'ReporteeDetails');clickOnReportee($index)">Check Reportee</button>
+                </div>
+            </div>
+            @*registration*@
+
+            <div ng-show="moreDetails==$index+'RegistrationDetails' && data.StkhRegistrations.length>0">
+                <div class="form-horizontal well">
+                    <div class="row-fluid">
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">TAN</label>
+                                <div class="controls">
+                                    <input name="tan" readonly type="text" value="{{data.StkhRegistrations[0].TanNo}}" data-ng-maxlength="100" />
+
+                                </div>
+                            </div>
+                            <div class="control-group span6 ">
+                                <label class="control-label">PAN</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="temp.pan" name="pan" value="{{data.StkhRegistrations[0].PanNo}}" readonly required />
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="control-group span6 ">
+                                <label class="control-label">Registration No</label>
+                                <div class="controls">
+                                    <input type="text" readonly value="{{data.StkhRegistrations[0].RegistrationNo}}" name="registration" />
+                                </div>
+                            </div>
+                            <div class="control-group span6 ">
+                                <label class="control-label">Service Tax</label>
+                                <div class="controls">
+                                    <input type="text" name="service" value="{{data.StkhRegistrations[0].ServiceTaxno}}" readonly />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*Reportee*@
+            <div ng-show="moreDetails==$index+'ReporteeDetails' && ReporteeList.length>0">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr class="info">
+                            <th>Name</th>
+                            <th>Email Id</th>
+                            <th>Date of Joining</th>
+                            <th>Payment</th>
+                            <th>Working</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="reportee in ReporteeList">
+                            <td>{{reportee.Name}}</td>
+                            <td>{{reportee.EmailId}}</td>
+                            <td>{{reportee.JoiningDate}}</td>
+                            <td>{{reportee.StkhPayments.length}}</td>
+                            <td>{{reportee.StkhWorkings.length}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            @*view workings*@
+
+            <div ng-show="show.workingDiv && data.StkhWorkings.length>0">
+                <table class="table table-bordered ">
+                    <thead>
+                        <tr>
+                            <td>Product</td>
+                            <td>Region</td>
+                            <td>State</td>
+                            <td>Cluster</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="work in data.StkhWorkings">
+                            <td>{{work.Products}}</td>
+                            <td>{{work.Region}}</td>
+                            <td>{{work.State}}</td>
+                            <td>{{work.Cluster}}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            @* view Payments*@
+            <div ng-show="moreDetails==$index+'seeMore' && data.StkhPayments.length>0">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Bank Account Number</td>
+                            <td>Bank Account Account Name</td>
+                            <td>Bank IFSC Code</td>
+                            <td>Fixpay  Total</td>
+                            <td>Service Charge</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="payment in data.StkhPayments">
+                            <td>{{payment.BankAccNo}}</td>
+                            <td>{{payment.BankAccName}}</td>
+                            <td>{{payment.BankIfscCode}}</td>
+                            <td>{{payment.FixpayTotal}}</td>
+                            <td>{{payment.ServiceCharge}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder2/ViewModels/ViewStakeholder.js"></script>
+
+}

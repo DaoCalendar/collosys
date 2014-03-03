@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "NgGrid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-app="newFileMappingApp" data-ng-controller="newFileMappingCtrl" data-ng-cloak="">
+    
+    <div data-ng-form="fileMappingform" class="form-horizontal">
+        
+        <div class="control-group">
+            <label class="control-label">File Name</label>
+            <div class="controls">
+                <select data-ng-model="fileDetail" data-ng-repeat="c.AliasName for c in fileDetails | orderBy:'AliasName'">
+                    <option value="">-- Select File --</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+@section scripts
+{    
+    <script src="~/Areas/FileUploader/jsControllers/newFileMappingCtrl.js"></script>
+}

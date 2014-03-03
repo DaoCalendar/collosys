@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "ApproveViewAllocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-controller="approveViewCntrl">
+    <div class="form-horizontal">
+        <div class="control-group span4">
+            <label class="control-label">Product</label>
+            <div class="controls">
+                <select data-ng-model="selectedProduct" class="input-large" data-ng-change="fetchData()" data-ui-select2="">
+                    <option value=""></option>
+                    <option data-ng-repeat="s in scbSystems | orderBy: 'toString()'">{{s}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group span8">
+            <label class="control-label">Allocation Status</label>
+            <div class="controls">
+                <select data-ng-model="selectedAllocation" class="input-xlarge" data-ng-change="fetchData()" data-ui-select2="">
+                    <option value="None">All</option>
+                    <option value="DoNotAllocate">Do not allocate</option>
+                    <option value="AllocateToTelecalling">Handle by telecaller</option>
+                    <option value="AllocateToStakeholder">Allocate to particular stakeholder</option>
+                    <option value="AsPerWorking">Allocate as per policy</option>
+                    <option value="AllocationError">Error in allocation</option>
+                    <option value="Submitted">Approve-changed allocation</option>
+                    <option data-ng-repeat="allocstat in AllocationStatus">{{allocstat}}</option>
+                </select>
+            </div>
+        </div>
+        <form name="formDateFilter">
+            <div class="row-fluid">
+                <div class="control-group span4">
+                    <label class="control-label">From Date- </label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-medium" type="text" name="fromDate" data-ng-model="fromDate" required
+                                   data-bs-datepicker="" />
+                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        </div>
+                        <!--formDateFilter validation-->
+                        <div data-ng-show="formDateFilter.fromDate.$dirty">
+                            <div class="field-validation-error" data-ng-show="formDateFilter.fromDate.$error.required">{{val.Required()}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--To Date -->
+                <div class="control-group span4">
+                    <label class="control-label">To Date</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" name="toDate" class="input-medium" data-ng-model="toDate" required bs-datepicker ui-validate=" '$value >  fromDate'" />
+                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        </div>
+                        <!--EndDate validation-->
+                        <div data-ng-show="formDateFilter.toDate.$dirty">
+                            <div class="field-validation-error" data-ng-show="formDateFilter.toDate.$error.required">{{val.Required()}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span2">
+                    <button class="btn btn-success" data-ng-disabled="!formDateFilter.$valid" data-ng-click="fetchData()">OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+        @GridShared.DisplayGridOptions()
+        <div style="height: 500px;" data-ng-grid="gridOptions"></div>
+    </div>
+    <button class="btn btn-info" data-ng-click="openModal=!openModal" data-ng-show="gridOptions.$gridScope.selectedItems.length>0">Change Allocation</button>
+    <button class="btn btn-info" data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()">Churn Allocation</button>
+    <button class="btn btn-info" data-ng-show="selectedAllocation=='Submitted' && gridOptions.$gridScope.selectedItems.length>0" data-ng-click="approveAllocations()">Approve Allocation</button>
+    <button class="btn btn-danger" data-ng-show="selectedAllocation=='Submitted' && gridOptions.$gridScope.selectedItems.length>0" data-ng-click="rejectAllocations()">Reject Allocation</button>
+    <div style="vertical-align: bottom; height: 60px;">
+    </div>
+    @*ChangeAllocation*@
+    <div modal="openModal">
+        <div class="form-horizontal">
+            <div class="modal-header well" style="text-align: center">
+                <h3>Change Allocation</h3>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <div class="row-fluid ">
+                    <div class="control-group span5">
+                        <div class="control-label">
+                            <label>Select Parameter </label>
+                        </div>
+                        <div class="controls">
+                            <select class="input-large" data-ui-select2="" data-ng-model="approveView.Param" data-ng-change="getstakeholders(approveView.Param)">
+                                <option></option>
+                                <option value="AllocateToTelecalling">Handle by telecaller</option>
+                                <option value="Donotallocate">Do not allocate</option>
+                                <option value="AllocateToStakeholder">Allocate to stakeholder</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group span5"
+                        data-ng-show="approveView.Param === 'AllocateToStakeholder' && selectedAllocations.length === gridOptions.$gridScope.selectedItems.length">
+                        <div class="control-label">
+                            <label>Select Stakeholder</label>
+                        </div>
+                        <div class="controls">
+                            <select class="input-large"
+                                data-ng-model="approveView.Stkh"
+                                data-ng-change="assignStakeholderToAll(approveView.Stkh)"
+                                data-ui-select2="">
+                                <option></option>
+                                <option data-ng-repeat="data in stakeholder" value="{{data}}">{{data.Name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       data-ng-model="selAll"
+                                       data-ng-click="selectAll(selAll)"
+                                       data-ng-checked="selectedAllocations.length===gridOptions.$gridScope.selectedItems.length">
+                            </td>
+                            <td>Customer Name</td>
+                            <td>Amount Due</td>
+                            <td>Start Date</td>
+                            <td>End Date</td>
+                            <td data-ng-show="approveView.Param === 'AllocateToStakeholder' && !(selectedAllocations.length === gridOptions.$gridScope.selectedItems.length)">Select Stakeholder</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
+                            <td data-ng-style="setRowColor(data)">
+                                <input type="checkbox" data-ng-model="sel"
+                                    data-ng-click="selectAllocation(sel,data)"
+                                    data-ng-checked="ticks(data)" />
+                            </td>
+                            <td data-ng-style="setRowColor(data)">{{data.CInfo.CustomerName || data.RInfo.CustomerName || data.EInfo.CustomerName}}</td>
+                            <td data-ng-style="setRowColor(data)">{{data.AmountDue}}</td>
+                            <td data-ng-style="setRowColor(data)">{{data.StartDate|date:'dd-MM-yyyy'}}</td>
+                            <td data-ng-style="setRowColor(data)">{{data.EndDate|date:'dd-MM-yyyy'}}</td>
+                            <td data-ng-style="setRowColor(data)"
+                                data-ng-show="approveView.Param === 'AllocateToStakeholder' && !(selectedAllocations.length === gridOptions.$gridScope.selectedItems.length)">
+                                <select
+                                    class="input-medium"
+                                    data-ui-select2=""
+                                    data-ng-model="selectedStakeholder"
+                                    data-ng-change="data.Stakeholder = setStakeholder(selectedStakeholder)"
+                                    data-ng-disabled="disableSelect(data)">
+                                    <option></option>
+                                    <option data-ng-repeat="stkh in stakeholder" value="{{stkh}}">{{stkh.Name}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer well">
+                <button class="btn btn-info" data-ng-click="saveAllocationChanges(approveView.Param)"
+                    data-ng-disabled="selectedAllocations.length === 0 || approveView.Param === Null">
+                    Save</button>
+                <button class="btn btn-info" data-ng-click="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    @*Churn Modal*@
+    <div modal="churnModal">
+        <div class="form-horizontal">
+            <div class="modal-header well" style="text-align: center">
+                <h3>Churn Alocation</h3>
+            </div>
+            <div class="modal-body" style="text-align: center">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>ID</td>
+                            <td>Amount Due</td>
+                            <td>Start Date</td>
+                            <td>End Date</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
+                            <td>{{data.Id}}</td>
+                            <td>{{data.AmountDue}}</td>
+                            <td>{{data.StartDate|date:'dd-MM-yyyy'}}</td>
+                            <td>{{data.EndDate|date:'dd-MM-yyyy'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer well">
+                <button class="btn btn-info">Churn</button>
+                <button class="btn btn-info" data-ng-click="churnModal=false">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+@*<style>
+    .backred {
+        background-color: blue;
+    }
+</style>*@
+@section scripts
+{
+    <script src="~/Areas/Allocation/ViewModels/ApproveViewAllocation.js"></script>
+}

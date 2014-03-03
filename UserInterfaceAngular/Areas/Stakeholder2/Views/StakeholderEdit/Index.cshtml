@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row-fluid" data-ng-controller="EditStake">
+    <form name="editStakeholder">
+        @* Basic basicInfo *@
+        <div class="panel" data-ng-show="basicInfopanel1">
+            <div class="panel-heading">
+                Basic basicInfo 
+            </div>
+            <div class="row-fluid form-horizontal" data-ng-form="basicInfoForm">
+                @Html.Partial("EditViews/EditBasicInfo")
+                <div class="row-fluid text-right">
+                    <button class="btn btn-info" data-ng-click="">Reset</button>
+                    <button class="btn btn-success" data-ng-click="Prev(2)">Prev</button>
+                    <button class="btn btn-success" data-ng-click="Next(3)" 
+                        data-ng-disabled="basicInfoForm.$invalid">Next</button>
+                    <button class="btn btn-warning" data-ng-click="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        @*   Registration *@
+        <div class="panel" data-ng-show="registrationpanel2"> <!--data-ng-show="Hierarchy.HasRegistration && Stakeholder.StkhRegistrations.length > 0"-->
+            <div class="panel-heading">
+                Registration
+            </div>
+            <div class="row-fluid form-horizontal" data-ng-form="registrationForm">
+                @Html.Partial("EditViews/EditRegistration")
+                <div class="row-fluid text-right">
+                    <button class="btn btn-info" data-ng-click="">Reset</button>
+                    <button class="btn btn-success" data-ng-click="Prev(3)">Prev</button>
+                    <button class="btn btn-success" data-ng-click="Next(4)" data-ng-disabled="!registrationForm.$valid">Next</button>
+                    <button class="btn btn-warning" data-ng-click="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        @*  Payment Details *@
+        <div class="panel" data-ng-show=""> <!--data-ng-show="Hierarchy.HasPayment"-->
+            <div class="panel-heading">
+                Payment Details
+            </div>
+            <div class="row-fluid form-horizontal" data-ng-form="paymentDetailsForm">
+                <div class="row-fluid">
+                    @Html.Partial("EditViews/EditPayment")
+                </div>
+                <div class="row-fluid text-right">
+                    <button class="btn btn-info" data-ng-click="clear(basicInfo)">Reset</button>
+                    <button class="btn btn-success" data-ng-click="Prev(4)">Prev</button>
+                    <button class="btn btn-success" data-ng-click="Next(5)" data-ng-disabled="Stakeholder.StkhPayments.length==0">Next</button>
+                    <button class="btn btn-warning" data-ng-click="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        @*   Payment Working  *@
+        <div class="panel" data-ng-show="paymentWorkingpanel4">
+            <div class="panel-heading">
+                Payment Working 
+            </div>
+            <div class="row-fluid form-horizontal" data-ng-form="paymentWorkinForm">
+                <div class="row-fluid">
+                </div>
+
+                <div class="row-fluid text-right">
+                    <button class="btn btn-info" data-ng-click="clear(basicInfo)">Reset</button>
+                    <button class="btn btn-success" data-ng-click="Prev(5)">Prev</button>
+                    <button class="btn btn-success" data-ng-click="Next(6)" data-ng-disabled="!paymentWorkinForm.$valid">Next</button>
+                    <button class="btn btn-warning" data-ng-click="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        @*   Address Details  *@
+        <div class="panel" data-ng-show="addressDetails5"><!--data-ng-show="Hierarchy.HasAddress"-->
+            <div class="panel-heading">
+                Address Details 
+            </div>
+            <div class="row-fluid form-horizontal" data-ng-form="addressDetails">
+                <div class="row-fluid">
+                    @Html.Partial("EditViews/EditAddressDetails")
+                </div>
+
+                <div class="row-fluid text-right">
+                    <button class="btn btn-info" data-ng-click="clear(basicInfo)">Reset</button>
+                    <button class="btn btn-success" data-ng-click="Prev(5)">Prev</button>
+                    <button class="btn btn-success" data-ng-click="SaveData()" data-ng-disabled="formStakeholder.$invalid">Save</button>
+                    <button class="btn btn-warning" data-ng-click="Cancel()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder2/ViewModels/Payments.js"></script>
+    <script src="~/Areas/Stakeholder2/ViewModels/EditStakeholder.js"></script>
+}
+
+
+@*
+  <div class="row-fluid" data-ng-form="basicInfo">
+            @Html.Partial("EditViews/EditBasicInfo")
+        </div>
+        <div class="row-fluid" data-ng-form="registration">
+            @Html.Partial("EditViews/EditRegistration")
+        </div>
+        <div class="row-fluid" data-ng-form="payment">
+            @Html.Partial("EditViews/EditPayment")
+        </div>
+        <div class="row-fluid" data-ng-form="working">
+            Working Details
+        </div>
+        <div class="row-fluid" data-ng-form="address">
+            @Html.Partial("EditViews/EditAddressDetails")
+        </div>
+<div class="modal-body">
+        <div>
+            <div class="btn-group">
+                <button class="btn" data-ng-class="{'btn-primary':isCurrentStep(0)}" data-ng-click="setCurrentStep(0)">Uno</button>
+                <button class="btn" data-ng-class="{'btn-primary':isCurrentStep(1)}" data-ng-click="setCurrentStep(1)">Dos</button>
+                <button class="btn" data-ng-class="{'btn-primary':isCurrentStep(2)}" data-ng-click="setCurrentStep(2)">Tres</button>
+            </div>
+            <div data-ng-switch="getCurrentStep()" data-ng-animate="'wave'" class="slide-frame">
+                <div data-ng-switch-when="one">
+                  <div class="row-fluid">Step 1</div>
+                </div>
+                <div data-ng-switch-when="two">
+                   <div class="row-fluid">Step two</div>
+                </div>
+                <div data-ng-switch-when="three">
+                   <div class="row-fluid">Step three</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-ng-click="handlePrevious()" data-ng-show="!isFirstStep()">Back</a>
+        <a class="btn btn-primary" data-ng-click="handleNext(dismiss)">{{getNextLabel()}}</a>
+    </div>
+*@

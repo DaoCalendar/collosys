@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Testing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Testing</h2>
+<div data-ng-app="testApp" data-ng-controller="testCtrl">
+    <form name="form" class="css-form" novalidate>
+        <div class="row-fluid" style="margin-left: 10px">
+            <div class="span6">
+                <label>First Name</label>
+            </div>
+            <div class="span6">
+                <input type="text" data-ng-model="name.FirstName" required />
+            </div>
+        </div>
+        <ng-form name="formlast">
+        <div class="row-fluid" style="margin-left: 10px">
+            <div class="span6">
+                <label>Last Name</label>
+            </div>
+            <div class="span6">
+                <input type="text" data-ng-model="name.LastName" required />
+            </div>
+        </div>
+        <div class="row-fluid" style="margin-left: 10px">
+            <div class="span6">
+            </div>
+            <div class="span6">
+                <button class="btn btn-success save" ng-click="saveTest(name)" ng-disabled="!formlast.$valid">Save</button>
+            </div>
+        </div>
+                </ng-form>
+    </form>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script type="text/javascript">
+        var testApp = angular.module("testApp", []);
+
+        testApp.controller("testCtrl", function ($scope) {
+
+            $scope.name = { FirstName: 'First', LastName: 'Last' };
+
+            $scope.saveTest = function (name) {
+                alert(name.FirstName + " " + name.LastName);
+            };
+
+        });
+    </script>
+}
+
+

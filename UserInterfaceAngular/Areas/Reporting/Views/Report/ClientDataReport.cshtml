@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "ClientDataReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row-fluid" ng-controller="clientDataController">
+    <!--row for combobox-->
+    <div class="row-fluid">
+        <div class="control-group">
+            <label class="control-label">Select System</label>
+            <div class="controls">
+                <select class="input-large" ui-select2 data-ng-model="fileAliasName" data-ng-change="getReport(fileAliasName)" data-placeholder="Select File Name">
+                    <option value=""></option>
+                    <option data-ng-repeat="file in fileDetails" data-ng-animate=" 'animate' ">{{file}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <!--row for grid-->
+    <div class="row-fluid span12">
+        <div style="position: relative;  left: 0; right: 0; top: 0; bottom: 0; overflow:auto; height:700px; width:auto" ng-grid="gridOptions">
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Reporting/ViewModels/clientDataReporting.js"></script>
+    <script type="text/javascript" src="~/Areas/Reporting/ViewModels/ng-grid-csv-export.js"></script>
+    <script type="text/javascript" src="~/Areas/Reporting/ViewModels/ng-grid-wysiwyg-export.js"></script>
+    <script type="text/javascript" src="~/Areas/Reporting/ViewModels/ng-grid-flexible-height.js"></script>
+    @*<script src="~/Areas/Reporting/ViewModels/layoutMain.js"></script>
+    <script src="~/Areas/Reporting/ViewModels/ng-grid-2.0.7.debug.js"></script>*@
+}

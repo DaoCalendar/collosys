@@ -1,0 +1,794 @@
+﻿<div data-ng-controller="Working">
+    <div class="row-fluid">
+        <h5 style="font-weight: bold;">Working Details</h5>
+        <hr />
+        <div class="row-fluid">
+            <!--Products-->
+            <div class="control-group span4">
+                <label class="control-label">
+                    Products
+                    <label style="font-size: large; color: red">*</label></label>
+                <div class="controls">
+                    <select data-ui-select2="" data-ng-model="StakeWork.Products" data-ng-options="c for c in WorkingData.ProductList"
+                        data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
+                    </select>
+                </div>
+            </div>
+            <!--Reports To-->
+            <div class="control-group span3" data-ng-show="StakeWork.Products ">
+                <label class="control-label">
+                    Product Manager:
+                    <label style="font-size: large; color: red">*</label></label>
+                <div class="controls">
+                    <select data-ui-select2=""
+                        data-ng-required="!WorkingData.isEditMode"
+                        data-ng-model="StakeWork.ReportsTo"
+                        style="min-width: 200px;"
+                        data-ng-change="@*getClusterList(StakeWork.ReportsTo)*@;manageDisplay(WorkingData.LocationLevel)">
+                        <option></option>
+                        <option data-ng-repeat="data in ReportsToList | unique:'Name'" value="{{data.Id}}">{{data.Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <!--Location Level-->
+            <div class="control-group span4"
+                data-ng-show="WorkingData.LocationLevelArray.length>1 && (StakeWork.Products &&  StakeWork.ReportsTo)">
+                <label class="control-label">Location Level </label>
+                <div class="controls">
+                    <select class="input-medium" data-ui-select2=""
+                            data-ng-model="WorkingData.LocationLevel"
+                            data-ng-change="@*setLocationLevel();getStates()*@;manageDisplay(WorkingData.LocationLevel)">
+                        <option value=""></option>
+                        <option data-ng-repeat="data in WorkingData.LocationLevelArray" value="{{data}}">{{data}}</option>
+                    </select>
+                </div>
+            </div>
+            @*select buckets*@
+            <div class="control-group span1"
+                data-ng-show="(StakeWork.Products &&  StakeWork.ReportsTo)&&
+                (WorkingData.Hierarchy.HasBuckets && WorkingData.LocationLevel==='Country')">
+                <label class="control-label">Buckets</label>
+                <div class="controls">
+                    <select data-ui-select2=""
+                        class="input-medium"
+                        multiple="multiple"
+                        data-ng-model="workingModel.SelectedPincodeData.BucketStart"
+                        data-ng-required="(WorkingData.Hierarchy.HasBuckets)">
+                        <option value=1>1(0-29)</option>
+                        <option value=2>2(30-59)</option>
+                        <option value=3>3(60-89)</option>
+                        <option value=4>4(90-119)</option>
+                        <option value=5>5(120-149)</option>
+                        <option value=6>6(150-179)</option>
+                        <option value=0>6+(180+)</option>
+                    </select>
+                </div>
+            </div>
+            @*select cluster*@
+            <div class="control-group span3"
+                data-ng-show="(displayManager.showDistrict && (!displayManager.showArea && !WorkingData.Hierarchy.HasBuckets)) && (StakeWork.Products &&  StakeWork.ReportsTo)">
+                <label class="control-label">District</label>
+                <div class="controls">
+                    <select data-ui-select2="" style="min-width: 200px;"
+                        data-ng-disabled="clusterArray.length>0"
+                        data-ng-model="workingModel.SelectedPincodeData.District"
+                        data-ng-change="changed.Cluster=true;changed.District=true;changed.City=false;changed.Area=false;setQueryFor()">
+                        <option value=""></option>
+                        <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}</option>
+                    </select>
+                    <button class="btn-info" data-ng-click="districtPopUp=!districtPopUp"><i class="icon-list"></i></button>
+                    <div data-ng-show="clusterArray.length>0">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{clusterArray.length}} Districts selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in clusterArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div modal="districtPopUp" options="modelOption">
+                        <div class="modal-header">
+                            <strong>Select</strong>
+                        </div>
+                        <div class="modal-body">
+                            Search :
+                            <input type="text" data-ng-model="search"><br>
+                            <div @*data-ng-show="WorkingData.cityList"*@>
+                                <input type="checkbox"
+                                    data-ng-model="selAll"
+                                    data-ng-checked="workingModel.ListOfDistricts.length===clusterArray.length"
+                                    data-ng-click="selectAll(selAll)">
+                                SELECT ALL
+                            </div>
+                            <br>
+                            <div data-ng-repeat="data in workingModel.ListOfDistricts|orderBy|filter:search">
+                                <input type="checkbox" data-ng-model="selected"
+                                    data-ng-checked="ticks(data)"
+                                    data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                {{data}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row-fluid form-horizontal text-right">
+                                <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*select region*@
+            <div class="control-group span1"
+                data-ng-show="displayManager.showRegion && (StakeWork.Products &&  StakeWork.ReportsTo)">
+                <label class="control-label">Region</label>
+                <div class="controls">
+                    <select data-ui-select2="" style="min-width: 200px;"
+                        data-ng-model="workingModel.SelectedPincodeData.Region"
+                        data-ng-change="setQueryFor('Region')">
+                        <option value=""></option>
+                        <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Working Table-->
+    <div class="row-fluid">
+        <hr />
+        <form name="validationForm">
+            <table class="table table-bordered" data-ng-show="StakeWork.ReportsTo && WorkingData.LocationLevel!='Country'">
+                <thead>
+                    <tr>
+                        <th data-ng-show="false">Country</th>
+                        <th data-ng-show="@*displayManager.showRegion*@ false">Region</th>
+                        <th data-ng-show="displayManager.showState">State</th>
+                        <th data-ng-show="@*displayManager.showCluster*@ false">Cluster</th>
+                        <th data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets)@* || WorkingData.Hierarchy.HasBuckets*@">District</th>
+                        <th data-ng-show="displayManager.showCity">City</th>
+                        <th data-ng-show="displayManager.showArea">Area</th>
+                        <th data-ng-show="WorkingData.Hierarchy.HasBuckets">Bucket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-ng-show="false">
+                            <select>
+                                <option>India</option>
+                            </select></td>
+                        <td data-ng-show="@*displayManager.showRegion*@ false">
+                            <select
+                                @*data-ui-select2=""*@ 
+                                data-ng-model="workingModel.SelectedPincodeData.Region" 
+                                data-ng-change="setQueryFor('Region')">
+                                <option>{{workingModel.SelectedPincodeData.Region || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}
+                                </option>
+                            </select></td>
+                        <td data-ng-show="displayManager.showState">
+                            <select
+                                data-ui-select2=""
+                                class="input-large"
+                                data-ng-model="workingModel.SelectedPincodeData.State"
+                                data-ng-change="setQueryFor('State')">
+                                <option>{{workingModel.SelectedPincodeData.State || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
+                                </option>
+                            </select></td>
+                        <td data-ng-show="displayManager.showCluster">
+                            <select
+                                data-ng-model="workingModel.SelectedPincodeData.Cluster"
+                                data-ng-change="changed.State=true;changed.Cluster=true;changed.District=false;
+                            setQueryFor()">
+                                <option>{{workingModel.SelectedPincodeData.Cluster || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfClusters" value="{{data}}">{{data}}
+                                </option>
+                            </select></td>
+                        <td data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets) @*|| WorkingData.Hierarchy.HasBuckets*@">
+                            <select
+                                data-ui-select2=""
+                                data-ng-disabled="clusterArray.length>0"
+                                class="input-large"
+                                data-ng-model="workingModel.SelectedPincodeData.District"
+                                data-ng-change="setQueryFor('District')">
+                                <option>{{workingModel.SelectedPincodeData.District || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
+                                </option>
+                            </select>
+                            <button class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
+                                data-ng-click="districtPopUp=!districtPopUp">
+                                <i class="icon-list"></i>
+                            </button>
+                            <div data-ng-show="clusterArray.length>0">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle">{{clusterArray.length}} Districts selected
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-repeat="data in clusterArray">
+                                            <a>{{data}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-ng-show="displayManager.showCity">
+                            <select
+                                data-ui-select2=""
+                                class="input-large"
+                                data-ng-disabled="cityArray.length>0"
+                                data-ng-model="workingModel.SelectedPincodeData.District"
+                                data-ng-change="setQueryFor('City')">
+                                <option>{{workingModel.SelectedPincodeData.District || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
+                                </option>
+                            </select>
+                            <button class="btn btn-info" data-ng-click="cityPopUp=!cityPopUp"><i class="icon-list"></i></button>
+                            <br>
+                            <div data-ng-show="cityArray.length>0">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle">{{cityArray.length}} City selected
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-repeat="data in cityArray">
+                                            <a>{{data}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div modal="cityPopUp" options="modelOption">
+                                <div class="modal-header">
+                                    <strong>Select</strong>
+                                </div>
+                                <div class="modal-body">
+                                    Search :
+                            <input type="text" data-ng-model="search"><br>
+                                    <div @*data-ng-show="WorkingData.cityList"*@>
+                                        <input type="checkbox"
+                                            data-ng-model="selAll"
+                                            data-ng-checked="workingModel.ListOfDistricts===cityArray.length"
+                                            data-ng-click="selectAll(selAll)">
+                                        SELECT ALL
+                                    </div>
+                                    <br>
+                                    <div data-ng-repeat="data in workingModel.ListOfDistricts|orderBy|filter:search">
+                                        <input type="checkbox" data-ng-model="selected"
+                                            data-ng-checked="ticks(data)"
+                                            data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                        {{data}}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row-fluid form-horizontal text-right">
+                                        <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-ng-show="displayManager.showArea">
+                            <select
+                                data-ui-select2=""
+                                class="input-large"
+                                data-ng-disabled="areaArray.length>0"
+                                data-ng-model="workingModel.SelectedPincodeData.Area"
+                                data-ng-change="setQueryFor('Area')">
+                                <option>{{workingModel.SelectedPincodeData.Area || ''}}</option>
+                                <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
+                                </option>
+                            </select>
+                            <button class="btn btn-info" data-ng-click="areaPopUp=!areaPopUp"><i class="icon-list"></i></button>
+                            <br>
+                            <div data-ng-show="areaArray.length>0">
+                                @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle">{{areaArray.length}} Area selected
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-repeat="data in areaArray">
+                                            <a>{{data}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div modal="areaPopUp" options="modelOption">
+                                <div class="modal-header">
+                                    <strong>Select</strong>
+                                </div>
+                                <div class="modal-body">
+                                    Search :
+                            <input type="text" data-ng-model="search"><br>
+                                    <div @*data-ng-show="WorkingData.cityList"*@>
+                                        <input type="checkbox"
+                                            data-ng-model="selAll"
+                                            data-ng-checked="workingModel.ListOfAreas.length===areaArray.length"
+                                            data-ng-click="selectAll(selAll)">
+                                        SELECT ALL
+                                    </div>
+                                    <br>
+                                    <div data-ng-repeat="data in workingModel.ListOfAreas|orderBy|filter:search">
+                                        <input type="checkbox" data-ng-model="selected"
+                                            data-ng-checked="ticks(data)"
+                                            data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                        {{data}}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row-fluid form-horizontal text-right">
+                                        <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-ng-show="WorkingData.Hierarchy.HasBuckets">
+                            <select data-ui-select2="" class="select-working" multiple="multiple"
+                                data-ng-model="workingModel.SelectedPincodeData.BucketStart"
+                                data-ng-required="(WorkingData.Hierarchy.HasBuckets)"
+                                data-ng-disabled="!WorkingData.Hierarchy.HasBuckets || buckArray.length>0">
+                                <option value=1>1(0-29)</option>
+                                <option value=2>2(30-59)</option>
+                                <option value=3>3(60-89)</option>
+                                <option value=4>4(90-119)</option>
+                                <option value=5>5(120-149)</option>
+                                <option value=6>6(150-179)</option>
+                                <option value=0>6+(180+)</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--Add Button-->
+            <div class="row-fluid text-right" data-ng-show="StakeWork.ReportsTo">
+                <button data-ng-disabled="validationForm.$invalid || WorkingData.LocationLevel==''||enableAddButton()" type="button" class="btn btn-success" data-ng-click="addTable(StakeWork)">Add</button>
+            </div>
+        </form>
+        <!--Show Added product in Table-->
+        <div class="row-fluid" data-ng-show="StakeWork.ReportsTo||WorkingData.PayWorkModel.WorkList.length>0||(WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))">
+            <table data-ng-show="showAddedData||WorkingData.PayWorkModel.WorkList.length>0  || (WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))" class="table table-bordered table-hover ">
+                <thead data-ng-show="WorkingData.PayWorkModel.WorkList.length>0">
+                    <tr>
+                        <th data-ng-show="enableDeleteIcon()"></th>
+                        <th>Product</th>
+                        <th>Country</th>
+                        <th @*data-ng-show="displayManager.showRegion"*@>Region</th>
+                        <th>State</th>
+                        <th data-ng-hide="true">Cluster</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Bucket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="data in WorkingData.PayWorkModel.WorkList"
+                        data-ng-show="showAddedData|| WorkingData.PayWorkModel.WorkList.length>0|| (WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))"
+                        data-ng-class="{redRow:data.RowStatus=='Delete'||endDateStatus(data)}">
+                        <td data-ng-show="enableDeleteIcon()" style="text-align: center">
+                            <button class="btn" data-ng-click="manageDelete($index,data)">
+                                <i @*;deleteAdded($index,WorkingData.Hierarchy,data)*@
+                                    class="icon-trash"
+                                    data-ng-hide="data.RowStatus=='Delete'"></i>
+                            </button>
+                            <i data-ng-click="cancelDeleted(data)"
+                                data-ng-show="data.RowStatus=='Delete'"
+                                class="icon-trash alert alert-error"></i>
+                        </td>
+                        <td>{{data.Products}}</td>
+                        <td>INDIA</td>
+                        <td @*data-ng-show="displayManager.showRegion"*@>{{replace(data.Region)}}</td>
+                        <td>{{replace(data.State)}}</td>
+                        <td data-ng-hide="true">{{replace(data.Cluster)}}</td>
+                        <td>{{replace(data.District)}}</td>
+                        <td>{{replace(data.Area)}}</td>
+                        <td>{{replace(data.BucketStart)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div modal="deleteModal">
+            <div class="modal-header">
+                <strong>Are you sure you want to delete?</strong>
+            </div>
+            <div class="modal-body">
+                <div class="control-group">
+                    <div class="control-label">End Date</div>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input readonly
+                                type="text"
+                                class="input-medium"
+                                data-date-start-date="+0d"
+                                data-ng-model="endDate"
+                                bs-datepicker required>
+                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row-fluid form-horizontal text-right">
+                    <button class="btn btn-primary" data-ng-click="setEndDate(currentDeleteData,endDate)">Ok</button>
+                    <button class="btn btn-primary" data-ng-click="cancelEndDate(currentDeleteData)">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row-fluid span12" style="overflow: auto" data-ng-show="@*StakeWork.ReportsTo && 
+                (WorkingData.LocationLevel!='Country'||WorkingData.Hierarchy.HasBuckets)*@false">
+    <table class="table table-bordered table-hover ">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Country</th>
+                <th data-ng-show="WorkingData.LocationLevel=='Region'">Region</th>
+                <th data-ng-hide="true">State</th>
+                <th>Cluster</th>
+                <th>City</th>
+                <th>Area</th>
+                <th>Bucket</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @*Product*@
+                <td>{{StakeWork.Products}}</td>
+                @*Country*@
+                <td>
+                    <input class="input-small" data-ng-enabled="WorkingData.LocationLevel!='Country'" value="INDIA" readonly />
+                </td>
+                @*Region*@
+                <td data-ng-show="WorkingData.LocationLevel=='Region'">
+                    <div data-ng-show="WorkingData.LocationLevel=='Region'">
+                        <select data-ui-select2="" class="select-working"
+                            data-ng-required="((WorkingData.LocationLevel=='Region')) && regionArray.length==0 "
+                            data-ng-disabled="regionArray.length>0"
+                            data-ng-model="StakeWork.Region">
+                            <option></option>
+                            <option data-ng-repeat="data in uniqueReg |  orderBy: 'Region'  | unique: 'Region'">{{data.toUpperCase()}}</option>
+                        </select>
+                        <button class="btn-info"
+                            data-ng-click="regionPopUp=!regionPopUp;"
+                            data-ng-show="WorkingData.LocationLevel=='Region'">
+                            <i class="icon-list"></i>
+                        </button>
+                        @* <a class="text-center" data-ng-show="regionArray.length>0"
+                                        data-ng-click="showSelRegion=!showSelRegion">{{regionArray.length}} Region selected</a>*@
+                        <div data-ng-show="regionArray.length>0">
+                            @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                            <div class="dropdown">
+                                <a class="dropdown-toggle">{{regionArray.length}} Region selected
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li data-ng-repeat="data in regionArray">
+                                        <a>{{data}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div modal="regionPopUp" options="modelOption">
+                            <div class="modal-header">
+                                <strong>Select</strong>
+                            </div>
+                            <div class="modal-body">
+                                Search :
+                                            <input type="text" data-ng-model="search"><br>
+                                <div data-ng-show="uniqueReg.length>0">
+                                    <input type="checkbox"
+                                       data-ng-model="selAll"
+                                       data-ng-checked="regionArray.length==uniqueReg.length"
+                                       @*data-ng-change="selectAll(selAll)"*@
+                                       data-ng-click="selectAll(selAll)">
+                                    SELECT ALL<br>
+                                </div>
+                                <br>
+                                <div data-ng-repeat="data in uniqueReg| orderBy| unique |filter:search">
+                                    <input type="checkbox" data-ng-model="selected"
+                                        data-ng-checked="ticks(data)"
+                                        data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                    {{data.toUpperCase()}}
+                                </div>
+                                <div data-ng-show="uniqueReg.length===0">
+                                    <a class="info">All the Regions for <b>Product: {{StakeWork.Products}}</b> are added</a>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row-fluid form-horizontal text-right">
+                                    <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                    <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                @*State*@
+                <td data-ng-hide="true">
+                    <select data-ui-select2="" class="select-working"
+                                    @* data-ng-required="(!(enableLocation() <3)) && stateArray.length==0 "*@
+                                        data-ng-disabled="(enableLocation()<3)||WorkingData.StateList.length==0||stateArray.length>0"
+                                        data-ng-model="StakeWork.State"
+                                        data-ng-change="getClusterList(StakeWork.State);clearArray()">
+                        <option></option>
+                        <option data-ng-repeat="c in WorkingData.StateList |  unique">{{c.toUpperCase()}}</option>
+                    </select>
+                    <button class="btn-info"
+                        data-ng-click="statePopUp=!statePopUp;"
+                        data-ng-show="WorkingData.LocationLevel=='State'">
+                        <i class="icon-list"></i>
+                    </button>
+                    <div data-ng-show="stateArray.length>0">
+                        @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{stateArray.length}} State selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in stateArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div modal="statePopUp" options="modelOption">
+                        <div class="modal-header">
+                            <strong>Select</strong>
+                        </div>
+                        <div class="modal-body">
+                            Search :
+                                        <input type="text" data-ng-model="search"><br>
+                            <input type="checkbox" data-ng-model="selAll"
+                                data-ng-checked="stateArray.length==WorkingData.StateList.length"
+                                data-ng-click="selectAll(selAll)">SELECT ALL<br>
+                            <br>
+                            <div data-ng-repeat="data in WorkingData.StateList|unique|filter:search">
+                                <input type="checkbox" data-ng-model="selected"
+                                    data-ng-checked="ticks(data)"
+                                    data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                {{data.toUpperCase()}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row-fluid form-horizontal text-right">
+                                <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+                @* Cluster*@
+                <td>
+                    <select data-ui-select2="" class="input-medium"
+                        data-ng-required="(!(enableLocation()<4)) && clusterArray.length==0 "
+                        data-ng-disabled="(enableLocation()<4) || WorkingData.clusterList.length==0||clusterArray.length>0"
+                        data-ng-model="StakeWork.Cluster"
+                        data-ng-change="WorkingData.cityList=pincodeManager.GetCity(StakeWork.Cluster,WorkingData.clusterList);clearArray()">
+                        <option value=""></option>
+                        <option data-ng-repeat="data in uniqueClus ">{{data.toUpperCase()}}</option>
+                    </select>
+                    <button class="btn-info"
+                        data-ng-click="clusterPopUp=!clusterPopUp"
+                        data-ng-show="WorkingData.LocationLevel=='Cluster'">
+                        <i class="icon-list text-center"></i>
+                    </button>
+                    <div data-ng-show="clusterArray.length>0">
+                        @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{clusterArray.length}} Cluster selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in clusterArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div modal="clusterPopUp" options="modelOption">
+                        <div class="modal-header">
+                            <strong>Select</strong>
+                        </div>
+                        <div class="modal-body">
+                            Search :
+                                        <input type="text" data-ng-model="search"><br>
+                            <div data-ng-show="uniqueClus.length>0">
+                                <input type="checkbox"
+                                    data-ng-model="selAll"
+                                    data-ng-checked="clusterArray.length==uniqueClus.length"
+                                    data-ng-click="selectAll(selAll)">
+                                SELECT ALL
+                            </div>
+                            <br>
+                            <div data-ng-repeat="data in uniqueClus|unique|filter:search">
+                                <input type="checkbox" data-ng-model="selected"
+                                    data-ng-checked="ticks(data)"
+                                    data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                {{data.toUpperCase()}}
+                            </div>
+                            <div data-ng-show="uniqueClus.length===0">
+                                <a class="info">All the Clusters of <b>{{StakeWork.State}}</b> for <b>Product: {{StakeWork.Products}}</b> are added</a>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row-fluid form-horizontal text-right">
+                                <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                @*City*@
+                <td>
+                    <select data-ui-select2="" class="select-working"
+                        data-ng-required="(!(enableLocation()<5) && cityArray.length==0) "
+                        data-ng-disabled="(enableLocation()<5) || WorkingData.cityList.length==0 || cityArray.length>0"
+                        data-ng-model="StakeWork.City"
+                        data-ng-change="WorkingData.areaList=pincodeManager.GetArea(StakeWork.City,WorkingData.clusterList);clearArray()">
+                        <option></option>
+                        <option data-ng-repeat="data in WorkingData.cityList">{{data.toUpperCase()}}</option>
+                    </select>
+                    <button class="btn-info"
+                        data-ng-click="cityPopUp=!cityPopUp"
+                        data-ng-show="WorkingData.LocationLevel=='City'">
+                        <i class="icon-list text-center"></i>
+                    </button>
+                    <div data-ng-show="cityArray.length>0">
+                        @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{cityArray.length}} City selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in cityArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    @*<div modal="cityPopUp" options="modelOption">
+                                    <div class="modal-header">
+                                        <strong>Select</strong>
+                                    </div>
+                                    <div class="modal-body">
+                                        Search :
+                                        <input type="text" data-ng-model="search"><br>
+                                        <div data-ng-show="WorkingData.cityList">
+                                            <input type="checkbox"
+                                                data-ng-model="selAll"
+                                                data-ng-checked="cityArray.length==WorkingData.cityList.length"
+                                                data-ng-click="selectAll(selAll)">
+                                            SELECT ALL
+                                        </div>
+                                        <br>
+                                        <div data-ng-repeat="data in WorkingData.cityList|orderBy|filter:search">
+                                            <input type="checkbox" data-ng-model="selected"
+                                                data-ng-checked="ticks(data)"
+                                                data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                            {{data.toUpperCase()}}
+                                        </div>
+                                        <div data-ng-show="WorkingData.cityList.length===0">
+                                            <a class="info">All the Cities of <b>{{StakeWork.Cluster}}</b> for <b>Product: {{StakeWork.Products}}</b> are added</a>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="row-fluid form-horizontal text-right">
+                                            <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                            <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                        </div>
+                                    </div>
+                                </div>*@
+                </td>
+                @*Area*@
+                <td>
+                    <select data-ui-select2="" class="select-working"
+                        data-ng-required="(!(enableLocation()<6) && areaArray.length==0) "
+                        data-ng-disabled="(enableLocation()<6) || WorkingData.areaList.length==0 || areaArray.length>0"
+                        data-ng-model="StakeWork.Area">
+                        <option></option>
+                        <option data-ng-repeat="data in WorkingData.areaList|orderBy| filter:search">{{data.toUpperCase()}}</option>
+                    </select>
+                    <span data-ng-show="WorkingData.LocationLevel=='Area'">
+                        <button class=" btn-info"><i class="icon-list text-center" data-ng-click="areaPopUp=!areaPopUp"></i></button>
+                    </span>
+
+                    <div data-ng-show="areaArray.length>0">
+                        @*<div data-ng-repeat="data in regionArray">{{data}}</div>*@
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{areaArray.length}} Area selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in areaArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @*<div modal="areaPopUp" options="modelOption">
+                                    <div class="modal-header">
+                                        <strong>Select</strong>
+                                    </div>
+                                    <div class="modal-body">
+                                        Search :
+                                        <input type="text" data-ng-model="search"><br>
+                                        <input type="checkbox"
+                                            data-ng-model="selAll"
+                                            data-ng-checked="areaArray.length==WorkingData.areaList.length"
+                                            data-ng-click="selectAll(selAll)">
+                                        SELECT ALL<br>
+                                        <br>
+                                        <div data-ng-repeat="data in WorkingData.areaList|orderBy|filter:search">
+                                            <input type="checkbox" data-ng-model="selected"
+                                                data-ng-checked="ticks(data)"
+                                                data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                            {{data.toUpperCase()}}
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="row-fluid form-horizontal text-right">
+                                            <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                            <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                        </div>
+                                    </div>
+                                </div>*@
+                </td>
+                @*Bucket*@
+                <td>
+                    <select data-ui-select2="" class="select-working" multiple="multiple"
+                        data-ng-model="StakeWork.BucketStart"
+                        data-ng-required="(WorkingData.Hierarchy.HasBuckets) && buckArray.length===0"
+                        data-ng-disabled="!WorkingData.Hierarchy.HasBuckets || buckArray.length>0">
+                        <option value="1">1(0-29)</option>
+                        <option value="2">2(30-59)</option>
+                        <option value="3">3(60-89)</option>
+                        <option value="4">4(90-119)</option>
+                        <option value="5">5(120-149)</option>
+                        <option value="6">6(150-179)</option>
+                        <option value="7">>6(180+)</option>
+                    </select>
+                    <button class="btn-info"
+                        data-ng-show="WorkingData.Hierarchy.HasBuckets">
+                        <i class="icon-list" data-ng-click="bucketModal=!bucketModal"></i>
+                    </button>
+                    <div data-ng-show="buckArray.length>0">
+                        <div class="dropdown">
+                            <a class="dropdown-toggle">{{buckArray.length}} Bucket selected
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li data-ng-repeat="data in buckArray">
+                                    <a>{{data}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div modal="bucketModal" options="modelOption">
+                        <div class="modal-header">
+                            <strong>Select Buckets</strong>
+                        </div>
+                        <div class="modal-body">
+                            <input type="checkbox"
+                                data-ng-model="selAll"
+                                data-ng-checked="buckArray.length===bucketArray.length"
+                                data-ng-click="selAllBuck()" />
+                            SELECT ALL<br>
+                            <br>
+                            <div data-ng-repeat="data in bucketArray">
+                                <input type="checkbox" data-ng-model="selected"
+                                    data-ng-checked="ticksBuck(data)"
+                                    data-ng-click="chooseMultiple(data,selected,'BUCKET')" />
+                                {{data.display}}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row-fluid form-horizontal text-right">
+                                <button class="btn btn-primary" data-ng-click="bucketModal=false;StakeWork.BucketStart=[]">Ok</button>
+                                <button class="btn btn-primary" data-ng-click="bucketModal=false;buckArray=[]">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

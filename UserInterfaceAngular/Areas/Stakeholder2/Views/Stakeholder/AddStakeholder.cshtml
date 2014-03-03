@@ -1,0 +1,54 @@
+﻿    @{
+    ViewBag.Title = "AddStakeholder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid ng-cloak" data-ng-cloak="" data-ng-controller="Stakeholder">
+    <form name="form" class="form-horizontal" novalidate>
+        <div class="panel">
+            <div class="panel-heading">Designation</div>
+
+            <div class="row-fluid">
+                <div class="control-group">
+                    <label class="control-label">Hierarchy</label>
+                    <div class="controls">
+                        <select data-ng-model="stakeholder.Hierarchy" class="input-large" data-ui-select2=""
+                                data-ng-requiered="true" data-ng-change="stakeholder.Designation=null">
+                            <option value=""></option>
+                            <option data-ng-repeat="data in HierarchyList | unique : 'Hierarchy'" value="{{data.Hierarchy}}">{{data.Hierarchy}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div data-ng-show="stakeholder.Hierarchy" class="row-fluid">
+                    <div class="control-group ">
+                        <label class="control-label">Designation</label>
+                        <div class="controls">
+                            <select data-ng-model="stakeholder.Designation" class="input-large" data-ui-select2=""
+                                    data-ng-required="true">
+                                <option value=""></option>
+                                <option data-ng-repeat="data in HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
+                                        value="{{data.Id}}">{{getHierarchyDisplayName(data)}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="control-group ">
+                    <div class="controls">
+                        <input type="submit" value="Proceed" class="btn btn-success" data-ng-disabled="form.$invalid"
+                            data-ng-click="ProceedClick(stakeholder)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder2/ViewModels/HierarchyModel.js"></script>
+}

@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div data-ng-controller="customerDataCtrl"> 
+
+     <div class="control-group text-center">
+        <label class="control-label">Product & Category</label>
+        <div class="controls">
+            <select class="input-large" data-ng-model="selectedProduct" data-ng-change="selectProductCategory(selectedProduct)">
+                <option value="">--Select Product--</option>
+                <option value="{{option}}" data-ng-repeat="option in productsList">{{option.System+" "+option.Category}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div ui-if="gridReady">
+        <div class="gridStyle" style="height: 500px" data-ng-grid="gridOptions"></div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/CustomerData/ViewModels/customerDataCtrl.js"></script>
+}
+

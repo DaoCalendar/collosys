@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "New File Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-app="csapp" data-ng-controller="newFileMappingCtrl" data-ng-cloak="">
+   
+    <div data-ng-show="!addFileMappings">
+          <div class="row-fluid">
+                    <table class="table table-bordered table-hover span12" data-ng-show="fileDetail.FileMappings.length>0">
+                        <thead>
+                            <tr>
+                                <th><i class="btn icon-plus" data-ng-click="openModel()"></i></th>
+                                <th>Actual Table</th>
+                                <th>Actual Column </th>
+                                <th>Possition</th>
+                                <th>Value Type</th>
+                                <th>Temp Table</th>
+                                <th>Temp Column</th>
+                                <th>Default Value</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr data-ng-repeat="fileMapping in fileDetail.FileMappings | orderBy: 'Position'" data-ng-animate="{ enter: 'animation-enter', leave: 'animation-leave'} ">
+                                <td>
+                                    <div>
+                                        <div class="btn-group">
+                                            <i class="btn icon-file-alt" data-ng-click="openModelData(fileMapping,true)"></i>
+                                            <i class="btn icon-edit" data-ng-click="openModelData(fileMapping,false,$index)"></i>
+                                            <i class="btn icon-trash" data-ng-show="true" data-ng-click="showDeleteModelPopup(fileMapping,$index)"></i>
+                                            <i class="btn icon-arrow-up" data-ng-disabled="$index==0" data-ng-click="MoveUpward(fileMapping,$index)"></i>
+                                             <i class="btn icon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1" data-ng-click="MoveDownward(fileMapping,$index)"></i>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <input type="text" data-ng-model="fileMapping.ActualTable" data-ng-disabled="true" />
+
+                                </td>
+                                <td>
+                                    <input type="number" class="input-mini" data-ng-disabled="true" min="0" data-ng-model="fileMapping.AtualColumn" />
+                                </td>
+                                <td>
+                                    <input type="number" class="input-mini" min="0" data-ng-disabled="true" data-ng-model="column.Possition" />
+                                </td>
+                                <td>
+                                    <select id="ColumnDataType" class="input-medium" name="ColumnDataType" data-ng-model="column.ValueType" data-ng-readonly="true" data-placeholder="Select Column Type">
+                                        <option value=""></option>
+                                        <option data-ng-repeat="type in valueTypes">{{type}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" data-ng-model="column.TempTable" data-ng-disabled="true" data-ng-pattern="/^\w*$/" />
+                                </td>
+                                <td style="width: 200px;">
+                                    <select id="DateFormat" class="input-medium" name="DateFormat" data-ng-show="isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-ng-disabled="true" data-placeholder="Select Date Format">
+                                        <option value=""></option>
+                                        <option data-ng-repeat="format in dateFormats">{{format}}</option>
+                                    </select>
+                                </td>
+<td>
+                                    <input type="text" class="input-medium" id="Description" data-ng-disabled="true" name="Description" data-ng-model="column.TempColumn" />
+                                </td>
+                                <td>
+                                    <!--Start Date -->
+                                    <div class="input-append">
+                                        <input type="text" name="StartDate" class="input-medium" data-ng-disabled="true" data-ng-model="column.StartDate" bs-datepicker />
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <!--End Date -->
+                                    <div class="input-append">
+                                        <input type="text" name="EndtDate" class="input-medium" ui-validate=" '$value > column.StartDate'" data-ng-disabled="true" data-ng-model="column.EndDate" bs-datepicker />
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+    </div>
+    
+    <div data-ng-show="addFileMappings">
+        <div data-ng-form="fileMappingform" class="form-horizontal">
+
+            <div class="control-group modal-header well-small2">
+                <label class="control-label">File Name</label>
+                <div class="controls">
+                    <select data-ng-model="fileDetail" data-ng-change="changeFileDetail(fileDetail)" data-ng-options="c.AliasName for c in fileDetails">
+                        <option value="">-- Select File --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div data-ng-show="fileDetail" class="modal-body">
+                <table class="table table-bordered table-hover row-fluid">
+                    <thead>
+                        <tr>
+                            <th>Actual Table</th>
+                            <th>Actual Column</th>
+                            <th>Value Type</th>
+                            <th>Excel Column</th>
+                            <th>Default Value</th>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="fileMapping in fileMappings">
+                        <td>{{fileMapping.ActualTable}}</td>
+                        <td>{{fileMapping.ActualColumn}}</td>
+                        <td>
+                            <select data-ng-model="fileMapping.ValueType" data-ng-change="selectedfileColumn=changeValueType(fileMapping,selectedfileColumn)" data-ng-options="c for c in valueTypes">
+                            </select>
+                        </td>
+                        <td>
+                            <select data-ng-show="selectedfileColumn !== null" data-ng-init="selectedfileColumn=setFileColumn(fileMapping)" data-ng-model="selectedfileColumn" data-ng-change="changeTempColumn(fileMapping,selectedfileColumn)" data-ng-options="c.TempColumnName for c in fileColumns | orderBy:'TempColumnName'">
+                                <option value="">-- Select Temp Column --</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input data-ng-show="fileMapping.DefaultValue !== null" type="text" data-ng-model="fileMapping.DefaultValue" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button data-ng-show="fileDetail" class="btn btn-success" data-ng-click="saveFileMappings()">Save</button>
+
+                <button class="btn btn-success" data-ng-click="addFileMappings=false;fileDetail='';">Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/FileUploader/ViewModels/newFileMappingCtrl.js"></script>
+}

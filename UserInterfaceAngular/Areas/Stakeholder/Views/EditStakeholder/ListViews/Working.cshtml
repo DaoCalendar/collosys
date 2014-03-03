@@ -1,0 +1,45 @@
+﻿  <!--row for table to show working list-->
+        <div class="row-fluid" ng-show="Stakeholder.StkhWorkings.length>0">
+            <table class="table  table-bordered table-hover" ng-class="{ 'alert alert-danger' : Stakeholder.IsWorkingChange}">
+                <thead>
+                    <tr class="success">
+                        <th>Product</th>
+                        <th>Country</th>
+                        <th>Region</th>
+                        <th>Cluster</th>
+                        <th>State</th>
+                        <th>District</th>
+                        <th>City</th>
+                        <th>Bucket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in Stakeholder.StkhWorkings" class="info">
+                        <td>
+                            {{data.Products}}
+                        </td>    
+                        <td>
+                            {{data.Country}}
+                        </td>
+                        <td>
+                            {{data.Region}}
+                        </td>
+                        <td>
+                            {{data.Cluster}}
+                        </td>
+                        <td>
+                            {{data.State}}
+                        </td>
+                        <td>
+                            {{data.District}}
+                        </td>
+                        <td>
+                            {{data.City}}
+                        </td>
+                        <td>
+                            {{data.BucketStart}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>

@@ -1,0 +1,871 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{001B2F7C-1452-429F-BD60-4DB7D316EA77}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ColloSys.UserInterface</RootNamespace>
+    <AssemblyName>ColloSys.UserInterface</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <JSLintSkip>\Scripts\_references.js|\Scripts\angular-cookies.min.js|\Scripts\angular-loader.js|\Scripts\angular-loader.min.js|\Scripts\angular-mobile.js|\Scripts\angular-mobile.min.js|\Scripts\angular-mocks.js|\Scripts\angular-resource.js|\Scripts\angular-resource.min.js|\Scripts\angular-sanitize.js|\Scripts\angular-sanitize.min.js|\Scripts\angular-scenario.js|\Scripts\angular-ui-ieshiv.js|\Scripts\angular-ui-ieshiv.min.js|\Scripts\angular-ui.js|\Scripts\angular-ui.min.js|\Scripts\angular.js|\Scripts\angular.min.js|\Scripts\bootstrap-datepicker.js|\Scripts\bootstrap.js|\Scripts\bootstrap.min.js|\Scripts\breeze.debug.js|\Scripts\breeze.intellisense.js|\Scripts\breeze.min.js|\Scripts\jquery-2.0.2.intellisense.js|\Scripts\jquery-2.0.2.js|\Scripts\jquery-2.0.2.min.js|\Scripts\jquery-ui-1.8.24.js|\Scripts\jquery-ui-1.8.24.min.js|\Scripts\jquery.unobtrusive-ajax.js|\Scripts\jquery.unobtrusive-ajax.min.js|\Scripts\jquery.validate-vsdoc.js|\Scripts\jquery.validate.js|\Scripts\jquery.validate.min.js|\Scripts\jquery.validate.unobtrusive.js|\Scripts\jquery.validate.unobtrusive.min.js|\Scripts\knockout-2.2.0.debug.js|\Scripts\knockout-2.2.0.js|\Scripts\modernizr-2.6.2.js|\Scripts\ng-grid-2.0.7.js|\Scripts\ng-grid-2.0.7.min.js|\Scripts\q.js|\Scripts\q.min.js|\Scripts\select2.js|\Scripts\select2.min.js|\Scripts\toastr.js|\Scripts\toastr.min.js|\Scripts\ui-bootstrap-0.4.0.js|\Scripts\ui-bootstrap-0.4.0.min.js|\Scripts\ui-bootstrap-tpls-0.4.0.js|\Scripts\ui-bootstrap-tpls-0.4.0.min.js|\Scripts\underscore.js|\Scripts\underscore.min.js|\Scripts\angular-cookies.js|\Scripts\i18n\angular-locale_af-na.js|\Scripts\i18n\angular-locale_af-za.js|\Scripts\i18n\angular-locale_af.js|\Scripts\i18n\angular-locale_am-et.js|\Scripts\i18n\angular-locale_am.js|\Scripts\i18n\angular-locale_ar-001.js|\Scripts\i18n\angular-locale_ar-ae.js|\Scripts\i18n\angular-locale_ar-bh.js|\Scripts\i18n\angular-locale_ar-dz.js|\Scripts\i18n\angular-locale_ar-eg.js|\Scripts\i18n\angular-locale_ar-iq.js|\Scripts\i18n\angular-locale_ar-jo.js|\Scripts\i18n\angular-locale_ar-kw.js|\Scripts\i18n\angular-locale_ar-lb.js|\Scripts\i18n\angular-locale_ar-ly.js|\Scripts\i18n\angular-locale_ar-ma.js|\Scripts\i18n\angular-locale_ar-om.js|\Scripts\i18n\angular-locale_ar-qa.js|\Scripts\i18n\angular-locale_ar-sa.js|\Scripts\i18n\angular-locale_ar-sd.js|\Scripts\i18n\angular-locale_ar-sy.js|\Scripts\i18n\angular-locale_ar-tn.js|\Scripts\i18n\angular-locale_ar-ye.js|\Scripts\i18n\angular-locale_ar.js|\Scripts\i18n\angular-locale_bg-bg.js|\Scripts\i18n\angular-locale_bg.js|\Scripts\i18n\angular-locale_bn-bd.js|\Scripts\i18n\angular-locale_bn-in.js|\Scripts\i18n\angular-locale_bn.js|\Scripts\i18n\angular-locale_ca-ad.js|\Scripts\i18n\angular-locale_ca-es.js|\Scripts\i18n\angular-locale_ca.js|\Scripts\i18n\angular-locale_chr.js|\Scripts\i18n\angular-locale_cs-cz.js|\Scripts\i18n\angular-locale_cs.js|\Scripts\i18n\angular-locale_cy.js|\Scripts\i18n\angular-locale_da-dk.js|\Scripts\i18n\angular-locale_da.js|\Scripts\i18n\angular-locale_de-at.js|\Scripts\i18n\angular-locale_de-be.js|\Scripts\i18n\angular-locale_de-ch.js|\Scripts\i18n\angular-locale_de-de.js|\Scripts\i18n\angular-locale_de-li.js|\Scripts\i18n\angular-locale_de-lu.js|\Scripts\i18n\angular-locale_de.js|\Scripts\i18n\angular-locale_el-cy.js|\Scripts\i18n\angular-locale_el-gr.js|\Scripts\i18n\angular-locale_el-polyton.js|\Scripts\i18n\angular-locale_el.js|\Scripts\i18n\angular-locale_en-as.js|\Scripts\i18n\angular-locale_en-au.js|\Scripts\i18n\angular-locale_en-bb.js|\Scripts\i18n\angular-locale_en-be.js|\Scripts\i18n\angular-locale_en-bm.js|\Scripts\i18n\angular-locale_en-bw.js|\Scripts\i18n\angular-locale_en-bz.js|\Scripts\i18n\angular-locale_en-ca.js|\Scripts\i18n\angular-locale_en-dsrt-us.js|\Scripts\i18n\angular-locale_en-dsrt.js|\Scripts\i18n\angular-locale_en-fm.js|\Scripts\i18n\angular-locale_en-gb.js|\Scripts\i18n\angular-locale_en-gu.js|\Scripts\i18n\angular-locale_en-gy.js|\Scripts\i18n\angular-locale_en-hk.js|\Scripts\i18n\angular-locale_en-ie.js|\Scripts\i18n\angular-locale_en-in.js|\Scripts\i18n\angular-locale_en-iso.js|\Scripts\i18n\angular-locale_en-jm.js|\Scripts\i18n\angular-locale_en-mh.js|\Scripts\i18n\angular-locale_en-mp.js|\Scripts\i18n\angular-locale_en-mt.js|\Scripts\i18n\angular-locale_en-mu.js|\Scripts\i18n\angular-locale_en-na.js|\Scripts\i18n\angular-locale_en-nz.js|\Scripts\i18n\angular-locale_en-ph.js|\Scripts\i18n\angular-locale_en-pk.js|\Scripts\i18n\angular-locale_en-pr.js|\Scripts\i18n\angular-locale_en-pw.js|\Scripts\i18n\angular-locale_en-sg.js|\Scripts\i18n\angular-locale_en-tc.js|\Scripts\i18n\angular-locale_en-tt.js|\Scripts\i18n\angular-locale_en-um.js|\Scripts\i18n\angular-locale_en-us.js|\Scripts\i18n\angular-locale_en-vg.js|\Scripts\i18n\angular-locale_en-vi.js|\Scripts\i18n\angular-locale_en-za.js|\Scripts\i18n\angular-locale_en-zw.js|\Scripts\i18n\angular-locale_en-zz.js|\Scripts\i18n\angular-locale_en.js|\Scripts\i18n\angular-locale_es-419.js|\Scripts\i18n\angular-locale_es-ar.js|\Scripts\i18n\angular-locale_es-bo.js|\Scripts\i18n\angular-locale_es-cl.js|\Scripts\i18n\angular-locale_es-co.js|\Scripts\i18n\angular-locale_es-cr.js|\Scripts\i18n\angular-locale_es-do.js|\Scripts\i18n\angular-locale_es-ea.js|\Scripts\i18n\angular-locale_es-ec.js|\Scripts\i18n\angular-locale_es-es.js|\Scripts\i18n\angular-locale_es-gq.js|\Scripts\i18n\angular-locale_es-gt.js|\Scripts\i18n\angular-locale_es-hn.js|\Scripts\i18n\angular-locale_es-ic.js|\Scripts\i18n\angular-locale_es-mx.js|\Scripts\i18n\angular-locale_es-ni.js|\Scripts\i18n\angular-locale_es-pa.js|\Scripts\i18n\angular-locale_es-pe.js|\Scripts\i18n\angular-locale_es-pr.js|\Scripts\i18n\angular-locale_es-py.js|\Scripts\i18n\angular-locale_es-sv.js|\Scripts\i18n\angular-locale_es-us.js|\Scripts\i18n\angular-locale_es-uy.js|\Scripts\i18n\angular-locale_es-ve.js|\Scripts\i18n\angular-locale_es.js|\Scripts\i18n\angular-locale_et-ee.js|\Scripts\i18n\angular-locale_et.js|\Scripts\i18n\angular-locale_eu-es.js|\Scripts\i18n\angular-locale_eu.js|\Scripts\i18n\angular-locale_fa-af.js|\Scripts\i18n\angular-locale_fa-ir.js|\Scripts\i18n\angular-locale_fa.js|\Scripts\i18n\angular-locale_fi-fi.js|\Scripts\i18n\angular-locale_fi.js|\Scripts\i18n\angular-locale_fil-ph.js|\Scripts\i18n\angular-locale_fil.js|\Scripts\i18n\angular-locale_fr-be.js|\Scripts\i18n\angular-locale_fr-bf.js|\Scripts\i18n\angular-locale_fr-bi.js|\Scripts\i18n\angular-locale_fr-bj.js|\Scripts\i18n\angular-locale_fr-bl.js|\Scripts\i18n\angular-locale_fr-ca.js|\Scripts\i18n\angular-locale_fr-cd.js|\Scripts\i18n\angular-locale_fr-cf.js|\Scripts\i18n\angular-locale_fr-cg.js|\Scripts\i18n\angular-locale_fr-ch.js|\Scripts\i18n\angular-locale_fr-ci.js|\Scripts\i18n\angular-locale_fr-cm.js|\Scripts\i18n\angular-locale_fr-dj.js|\Scripts\i18n\angular-locale_fr-fr.js|\Scripts\i18n\angular-locale_fr-ga.js|\Scripts\i18n\angular-locale_fr-gf.js|\Scripts\i18n\angular-locale_fr-gn.js|\Scripts\i18n\angular-locale_fr-gp.js|\Scripts\i18n\angular-locale_fr-gq.js|\Scripts\i18n\angular-locale_fr-km.js|\Scripts\i18n\angular-locale_fr-lu.js|\Scripts\i18n\angular-locale_fr-mc.js|\Scripts\i18n\angular-locale_fr-mf.js|\Scripts\i18n\angular-locale_fr-mg.js|\Scripts\i18n\angular-locale_fr-ml.js|\Scripts\i18n\angular-locale_fr-mq.js|\Scripts\i18n\angular-locale_fr-ne.js|\Scripts\i18n\angular-locale_fr-re.js|\Scripts\i18n\angular-locale_fr-rw.js|\Scripts\i18n\angular-locale_fr-sn.js|\Scripts\i18n\angular-locale_fr-td.js|\Scripts\i18n\angular-locale_fr-tg.js|\Scripts\i18n\angular-locale_fr-yt.js|\Scripts\i18n\angular-locale_fr.js|\Scripts\i18n\angular-locale_gl-es.js|\Scripts\i18n\angular-locale_gl.js|\Scripts\i18n\angular-locale_gsw-ch.js|\Scripts\i18n\angular-locale_gsw.js|\Scripts\i18n\angular-locale_gu-in.js|\Scripts\i18n\angular-locale_gu.js|\Scripts\i18n\angular-locale_haw.js|\Scripts\i18n\angular-locale_he-il.js|\Scripts\i18n\angular-locale_he.js|\Scripts\i18n\angular-locale_hi-in.js|\Scripts\i18n\angular-locale_hi.js|\Scripts\i18n\angular-locale_hr-hr.js|\Scripts\i18n\angular-locale_hr.js|\Scripts\i18n\angular-locale_hu-hu.js|\Scripts\i18n\angular-locale_hu.js|\Scripts\i18n\angular-locale_id-id.js|\Scripts\i18n\angular-locale_id.js|\Scripts\i18n\angular-locale_in.js|\Scripts\i18n\angular-locale_is-is.js|\Scripts\i18n\angular-locale_is.js|\Scripts\i18n\angular-locale_it-ch.js|\Scripts\i18n\angular-locale_it-it.js|\Scripts\i18n\angular-locale_it-sm.js|\Scripts\i18n\angular-locale_it.js|\Scripts\i18n\angular-locale_iw.js|\Scripts\i18n\angular-locale_ja-jp.js|\Scripts\i18n\angular-locale_ja.js|\Scripts\i18n\angular-locale_kn-in.js|\Scripts\i18n\angular-locale_kn.js|\Scripts\i18n\angular-locale_ko-kr.js|\Scripts\i18n\angular-locale_ko.js|\Scripts\i18n\angular-locale_ln-cd.js|\Scripts\i18n\angular-locale_ln-cg.js|\Scripts\i18n\angular-locale_ln.js|\Scripts\i18n\angular-locale_lt-lt.js|\Scripts\i18n\angular-locale_lt.js|\Scripts\i18n\angular-locale_lv-lv.js|\Scripts\i18n\angular-locale_lv.js|\Scripts\i18n\angular-locale_ml-in.js|\Scripts\i18n\angular-locale_ml.js|\Scripts\i18n\angular-locale_mo.js|\Scripts\i18n\angular-locale_mr-in.js|\Scripts\i18n\angular-locale_mr.js|\Scripts\i18n\angular-locale_ms-bn.js|\Scripts\i18n\angular-locale_ms-my.js|\Scripts\i18n\angular-locale_ms.js|\Scripts\i18n\angular-locale_mt-mt.js|\Scripts\i18n\angular-locale_mt.js|\Scripts\i18n\angular-locale_nl-aw.js|\Scripts\i18n\angular-locale_nl-be.js|\Scripts\i18n\angular-locale_nl-cw.js|\Scripts\i18n\angular-locale_nl-nl.js|\Scripts\i18n\angular-locale_nl-sx.js|\Scripts\i18n\angular-locale_nl.js|\Scripts\i18n\angular-locale_no.js|\Scripts\i18n\angular-locale_or-in.js|\Scripts\i18n\angular-locale_or.js|\Scripts\i18n\angular-locale_pl-pl.js|\Scripts\i18n\angular-locale_pl.js|\Scripts\i18n\angular-locale_pt-ao.js|\Scripts\i18n\angular-locale_pt-br.js|\Scripts\i18n\angular-locale_pt-gw.js|\Scripts\i18n\angular-locale_pt-mz.js|\Scripts\i18n\angular-locale_pt-pt.js|\Scripts\i18n\angular-locale_pt-st.js|\Scripts\i18n\angular-locale_pt.js|\Scripts\i18n\angular-locale_ro-md.js|\Scripts\i18n\angular-locale_ro-ro.js|\Scripts\i18n\angular-locale_ro.js|\Scripts\i18n\angular-locale_ru-md.js|\Scripts\i18n\angular-locale_ru-ru.js|\Scripts\i18n\angular-locale_ru-ua.js|\Scripts\i18n\angular-locale_ru.js|\Scripts\i18n\angular-locale_sk-sk.js|\Scripts\i18n\angular-locale_sk.js|\Scripts\i18n\angular-locale_sl-si.js|\Scripts\i18n\angular-locale_sl.js|\Scripts\i18n\angular-locale_sq-al.js|\Scripts\i18n\angular-locale_sq.js|\Scripts\i18n\angular-locale_sr-cyrl-ba.js|\Scripts\i18n\angular-locale_sr-cyrl-me.js|\Scripts\i18n\angular-locale_sr-cyrl-rs.js|\Scripts\i18n\angular-locale_sr-cyrl.js|\Scripts\i18n\angular-locale_sr-latn-ba.js|\Scripts\i18n\angular-locale_sr-latn-me.js|\Scripts\i18n\angular-locale_sr-latn-rs.js|\Scripts\i18n\angular-locale_sr-latn.js|\Scripts\i18n\angular-locale_sr-rs.js|\Scripts\i18n\angular-locale_sr.js|\Scripts\i18n\angular-locale_sv-fi.js|\Scripts\i18n\angular-locale_sv-se.js|\Scripts\i18n\angular-locale_sv.js|\Scripts\i18n\angular-locale_sw-ke.js|\Scripts\i18n\angular-locale_sw-tz.js|\Scripts\i18n\angular-locale_sw.js|\Scripts\i18n\angular-locale_ta-in.js|\Scripts\i18n\angular-locale_ta-lk.js|\Scripts\i18n\angular-locale_ta.js|\Scripts\i18n\angular-locale_te-in.js|\Scripts\i18n\angular-locale_te.js|\Scripts\i18n\angular-locale_th-th.js|\Scripts\i18n\angular-locale_th.js|\Scripts\i18n\angular-locale_tl-ph.js|\Scripts\i18n\angular-locale_tl.js|\Scripts\i18n\angular-locale_tr-tr.js|\Scripts\i18n\angular-locale_tr.js|\Scripts\i18n\angular-locale_uk-ua.js|\Scripts\i18n\angular-locale_uk.js|\Scripts\i18n\angular-locale_ur-in.js|\Scripts\i18n\angular-locale_ur-pk.js|\Scripts\i18n\angular-locale_ur.js|\Scripts\i18n\angular-locale_vi-vn.js|\Scripts\i18n\angular-locale_vi.js|\Scripts\i18n\angular-locale_zh-cn.js|\Scripts\i18n\angular-locale_zh-hans-cn.js|\Scripts\i18n\angular-locale_zh-hans-hk.js|\Scripts\i18n\angular-locale_zh-hans-mo.js|\Scripts\i18n\angular-locale_zh-hans-sg.js|\Scripts\i18n\angular-locale_zh-hans.js|\Scripts\i18n\angular-locale_zh-hant-hk.js|\Scripts\i18n\angular-locale_zh-hant-mo.js|\Scripts\i18n\angular-locale_zh-hant-tw.js|\Scripts\i18n\angular-locale_zh-hant.js|\Scripts\i18n\angular-locale_zh-hk.js|\Scripts\i18n\angular-locale_zh-tw.js|\Scripts\i18n\angular-locale_zh.js|\Scripts\i18n\angular-locale_zu-za.js|\Scripts\i18n\angular-locale_zu.js|\Scripts\ng-grid.debug.js</JSLintSkip>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper">
+      <HintPath>..\packages\CsvHelper.2.2.2\lib\net40-client\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.1.1\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.3.1.3.3\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>..\packages\ExcelDataReader.2.1.1\lib\net20\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\packages\Glimpse.AspNet.1.5.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.1.7.0\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc4">
+      <HintPath>..\packages\Glimpse.Mvc4.1.4.0\lib\net40\Glimpse.Mvc4.dll</HintPath>
+    </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernateProfiler.2.0.2207.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ExcelDataReader.2.1.1\lib\net20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Itenso.TimePeriod">
+      <HintPath>..\packages\TimePeriodLibrary.NET.1.6.0\lib\net20\Desktop.Release\Itenso.TimePeriod.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcSiteMapProvider, Version=4.0.0.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvcSiteMapProvider.MVC4.Core.4.0.6\lib\net45\MvcSiteMapProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.SysCache, Version=3.3.3.4000, Culture=neutral, PublicKeyToken=6876f2ea66c9f443, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.Caches.SysCache.3.3.3.4000\lib\net35\NHibernate.Caches.SysCache.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Glimpse">
+      <HintPath>..\packages\NHibernate.Glimpse.3.3.3.40011\lib\net35\NHibernate.Glimpse.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>..\packages\NLog.Extended.2.0.1.2\lib\net45-full\NLog.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite, Version=1.0.87.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.87.0\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq, Version=1.0.87.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.1.0.87.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.4.0.30506\lib\net40\System.Web.Http.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.2\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\packages\WebActivatorEx.2.0.2\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\NLogSetup.cs" />
+    <Compile Include="Areas\Allocation\AllocationAreaRegistration.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationApproveApiController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationBulkChangeController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationChangeController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationPolicyApiController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationsListController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Areas\Allocation\apiController\AllocationsController.cs" />
+    <Compile Include="Areas\Allocation\apiController\ApproveViewAllocationApiController.cs" />
+    <Compile Include="Areas\Allocation\apiController\CustomerInfoApiController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\AllocationApproveController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\AllocationPolicyController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\AllocationSubPolicyController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\ChangeAllocationBulkController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\ChangeAllocationController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\ApproveViewAllocationController.cs" />
+    <Compile Include="Areas\Allocation\Controllers\ViewAllocationsController.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\AllocListModel.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\AllocListModel2.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\AllocationChange.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\AllocationApprove.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\BulkAllocationModel.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\DataModel2.cs" />
+    <Compile Include="Areas\Allocation\ViewModels\DataModel.cs" />
+    <Compile Include="Areas\Billing\apiController\AddhocPayoutsApiController.cs" />
+    <Compile Include="Areas\Billing\apiController\BillingAmountApiController.cs" />
+    <Compile Include="Areas\Billing\apiController\MatrixApiController.cs" />
+    <Compile Include="Areas\Billing\apiController\PayoutPolicyApiController.cs" />
+    <Compile Include="Areas\Billing\apiController\PayoutSubpolicyApiController.cs" />
+    <Compile Include="Areas\Billing\apiController\ReadyForBillingApiController.cs" />
+    <Compile Include="Areas\Billing\BillingAreaRegistration.cs" />
+    <Compile Include="Areas\Billing\Controllers\AddhocPayoutsController.cs" />
+    <Compile Include="Areas\Billing\Controllers\BillAmountController.cs" />
+    <Compile Include="Areas\Billing\Controllers\BillingStatusController.cs" />
+    <Compile Include="Areas\Billing\Controllers\PayoutPolicyController.cs" />
+    <Compile Include="Areas\Billing\Controllers\FormulaController.cs" />
+    <Compile Include="Areas\Billing\Controllers\MatrixController.cs" />
+    <Compile Include="Areas\Billing\Controllers\PayoutSubpolicyController.cs" />
+    <Compile Include="Areas\Billing\Controllers\ReadyForBillingController.cs" />
+    <Compile Include="Areas\Billing\ViewModels\FinalBillData.cs" />
+    <Compile Include="Areas\Developer\apiController\DatabaseTablesApiController.cs" />
+    <Compile Include="Areas\Developer\apiController\DbGenerationApiController.cs" />
+    <Compile Include="Areas\Developer\apiController\LogDownloadApiController.cs" />
+    <Compile Include="Areas\Developer\Controllers\DatabaseTablesController.cs" />
+    <Compile Include="Areas\Developer\Controllers\LogDownloadController.cs" />
+    <Compile Include="Areas\Developer\DeveloperAreaRegistration.cs" />
+    <Compile Include="Areas\Developer\Models\CreateErrorTable.cs" />
+    <Compile Include="Areas\Developer\Models\LogFileModel.cs" />
+    <Compile Include="Areas\Developer\ViewModels\LogFileViewModel.cs" />
+    <Compile Include="Areas\ErrorCorrection\ErrorCorrectionAreaRegistration.cs" />
+    <Compile Include="Areas\FileUploader\apiController\AddFilesDetailsController.cs" />
+    <Compile Include="Areas\FileUploader\apiController\ClientDataDownloadApiController.cs" />
+    <Compile Include="Areas\FileUploader\apiController\PaymentReversalApiController.cs" />
+    <Compile Include="Areas\FileUploader\apiController\ProductCategoryModel.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\AddFileDetailsController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\ClientDataDownloadController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\CustomerInfoController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\PaymentReversalController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\UploadActualDataController.cs" />
+    <Compile Include="Areas\FileUploader\Models\FileColumnViewModel.cs" />
+    <Compile Include="Areas\FileUploader\Models\FileDetailViewModel.cs" />
+    <Compile Include="Areas\FileUploader\Models\FileStatusHelper.cs" />
+    <Compile Include="Areas\Generic\apiController\ExecuteQueryApiController.cs" />
+    <Compile Include="Areas\Generic\apiController\KeyValueApiController.cs" />
+    <Compile Include="Areas\Generic\apiController\PermisionData.cs" />
+    <Compile Include="Areas\Generic\apiController\PermissionScreenApiController.cs" />
+    <Compile Include="Areas\Generic\apiController\PincodeApiController.cs" />
+    <Compile Include="Areas\Generic\apiController\ProductConfigApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Generic\Controllers\EmailNotificationController.cs" />
+    <Compile Include="Areas\Developer\Controllers\GenerateDbController.cs" />
+    <Compile Include="Areas\Developer\Models\CreateDb.cs" />
+    <Compile Include="Areas\Generic\Controllers\KeyValueController.cs" />
+    <Compile Include="Areas\Generic\Controllers\PinCodeController.cs" />
+    <Compile Include="Areas\Generic\Controllers\QueryExecuterAngularController.cs" />
+    <Compile Include="Areas\Generic\Models\EmailNotification.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\BulkCopy.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\Excel2Db.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\ExcelReader.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\InitialData.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\InitStakeholder.cs" />
+    <Compile Include="Areas\Developer\Models\Excel2Db\ResourceReader.cs" />
+    <Compile Include="Areas\Generic\Models\Executer.cs" />
+    <Compile Include="Areas\Generic\Models\GPermissionViewModel.cs" />
+    <Compile Include="Areas\Generic\Models\QueryResult.cs" />
+    <Compile Include="Areas\Generic\ViewModels\pincodeData.cs" />
+    <Compile Include="Areas\OtherUploads\ApiControllers\RcodeUploadApiController.cs" />
+    <Compile Include="Areas\OtherUploads\ApiControllers\PincodeUploadApiController.cs" />
+    <Compile Include="Areas\OtherUploads\Controllers\RcodeUploadController.cs" />
+    <Compile Include="Areas\OtherUploads\Controllers\PincodeUploadController.cs" />
+    <Compile Include="Areas\OtherUploads\Helper\RcodeRow.cs" />
+    <Compile Include="Areas\OtherUploads\Helper\RcodeUploadHelper.cs" />
+    <Compile Include="Areas\OtherUploads\Helper\PincodeRow.cs" />
+    <Compile Include="Areas\OtherUploads\Helper\PincodeUploadHelper.cs" />
+    <Compile Include="Areas\OtherUploads\OtherUploadsAreaRegistration.cs" />
+    <Compile Include="Areas\Reporting\apiController\ClientDataApiController.cs" />
+    <Compile Include="Areas\ErrorCorrection\apiController\ApproveEditedErrorDataApiController.cs" />
+    <Compile Include="Areas\ErrorCorrection\Models\NgGridOptions.cs" />
+    <Compile Include="Areas\ErrorCorrection\Controllers\ApproveEditedErrorDataController.cs" />
+    <Compile Include="Areas\ErrorCorrection\Controllers\ErrorDataController.cs" />
+    <Compile Include="Areas\ErrorCorrection\ViewModels\ErrorViewModel.cs" />
+    <Compile Include="Areas\FileUploader\apiController\FileColumnApiController.cs" />
+    <Compile Include="Areas\FileUploader\apiController\FileDetailsApiController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\FileColumnController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\FileDetailsController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\FileSchedulerController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\UploadFileTempController.cs" />
+    <Compile Include="Areas\FileUploader\Models\FileMappingViewModel.cs" />
+    <Compile Include="Areas\FileUploader\Models\FileUploadHelper.cs" />
+    <Compile Include="Areas\Generic\apiController\ConnectionApiController.cs" />
+    <Compile Include="Areas\Generic\apiController\ProfileApiController.cs" />
+    <Compile Include="Areas\Generic\Controllers\ConnectionConfigController.cs" />
+    <Compile Include="Areas\Generic\Controllers\GeneralConfigController.cs" />
+    <Compile Include="Areas\Generic\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Generic\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Generic\Models\ConnectionStringMgr.cs" />
+    <Compile Include="Areas\Generic\Models\Cryptography.cs" />
+    <Compile Include="Areas\Reporting\apiController\ReportApiController.cs" />
+    <Compile Include="Areas\Reporting\apiController\GridApiController.cs" />
+    <Compile Include="Areas\Reporting\Controllers\ClientDataController.cs" />
+    <Compile Include="Areas\Reporting\Controllers\ExportController.cs" />
+    <Compile Include="Areas\Reporting\Controllers\ReportController.cs" />
+    <Compile Include="Areas\Reporting\Controllers\ReportViewController.cs" />
+    <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
+    <Compile Include="Areas\Reporting\ViewModels\commonUtility.cs" />
+    <Compile Include="Areas\Reporting\ViewModels\ExportUtility.cs" />
+    <Compile Include="Areas\Reporting\ViewModels\getTypes.cs" />
+    <Compile Include="Areas\Reporting\ViewModels\ViewClass.cs" />
+    <Compile Include="Areas\Stakeholder2\ApiController\BasicInfoApiController.cs" />
+    <Compile Include="Areas\Stakeholder2\api\AddStakeHolderApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\ManageStakeholderApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\PaymentDetailsApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\StakeApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\StakeholderApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\StakeholderEditApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\ViewStakeApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\WorkingDetailsList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\api\WorkingFactoryApiController.cs" />
+    <Compile Include="Areas\Stakeholder2\Controllers\AddStakeHolderController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Controllers\HierarchyController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Controllers\ManageStakeholdersController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Controllers\StakeholderController.cs" />
+    <Compile Include="Areas\Stakeholder2\Controllers\StakeholderEditController.cs" />
+    <Compile Include="Areas\Stakeholder2\Controllers\StakeholerViewController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Models\AddStakeholderModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Models\FinalPostModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Models\ListValue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Models\ManageWorkingModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Stakeholder2\Models\WorkingModel.cs" />
+    <Compile Include="Areas\Stakeholder2\Stakeholder2AreaRegistration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BaseWebApi\Allocation\AllocConditionApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\AllocPolicyApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\AllocRelationApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\AllocSubpolicyApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BConditionApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillAdhocApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillAmountApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillDetailApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillingPolicyApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillingRelationApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillingSubpolicyApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BillStatusApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BMatrixApiController.cs" />
+    <Compile Include="BaseWebApi\Billing\BMatrixValueApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\CacsActivityApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\CAllocApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\CLinerApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\CPaymentApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\CUnbilledApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\CWriteoffApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\EAllocApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\ELinerApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\EPaymentApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\EWriteoffApiController.cs" />
+    <Compile Include="BaseWebApi\FileUpload\FileDetailApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BaseWebApi\Generic\GAddressApiController.cs" />
+    <Compile Include="BaseWebApi\Generic\GConfigApiController.cs" />
+    <Compile Include="BaseWebApi\Generic\GPermissionApiController.cs" />
+    <Compile Include="BaseWebApi\Generic\GPincodeApiController.cs" />
+    <Compile Include="BaseWebApi\Allocation\RAllocApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\RLinerApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\RPaymentApiController.cs" />
+    <Compile Include="BaseWebApi\ClientData\RWriteoffApiController.cs" />
+    <Compile Include="BaseWebApi\Stakeholder\StakeholdersApiController.cs" />
+    <Compile Include="BaseWebApi\Stakeholder\StkhPaymentApiController.cs" />
+    <Compile Include="BaseWebApi\Stakeholder\StkhRegistrationApiController.cs" />
+    <Compile Include="BaseWebApi\Stakeholder\StkhWorkingApiController.cs" />
+    <Compile Include="BaseWebApi\Logging\UsersApiController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="AuthNAuth\Filters\UserActivityAttribute.cs" />
+    <Compile Include="AuthNAuth\Membership\FNHMembershipProvider.cs" />
+    <Compile Include="AuthNAuth\Membership\FNHRoleProvider.cs" />
+    <Compile Include="AuthNAuth\Models\ForgotPasswordModel.cs" />
+    <Compile Include="AuthNAuth\Models\LocalPasswordModel.cs" />
+    <Compile Include="AuthNAuth\Models\LoginModel.cs" />
+    <Compile Include="Areas\ErrorCorrection\apiController\ErrorDataApiController.cs" />
+    <Compile Include="Areas\FileUploader\apiController\FileMappingApiController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\FileMappingController.cs" />
+    <Compile Include="AuthNAuth\Models\NotificationModel.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\ErrorModel.cs" />
+    <Compile Include="Shared\Attributes\HttpSessionAttribute.cs" />
+    <Compile Include="Shared\Attributes\HttpTransactionAttribute.cs" />
+    <Compile Include="Shared\HomeApiController.cs" />
+    <Compile Include="Shared\MailReport.cs" />
+    <Compile Include="Shared\Attributes\MvcSessionAttribute.cs" />
+    <Compile Include="Shared\PendingApprovalData.cs" />
+    <Compile Include="Shared\SharedViewModel.cs" />
+    <Compile Include="Shared\Attributes\MvcTransactionAttribute.cs" />
+    <Compile Include="Shared\Utilities.cs" />
+    <Compile Include="Shared\BaseApiController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NHibernateConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\FileUploader\apiController\FileStatusApiController.cs" />
+    <Compile Include="Areas\FileUploader\Controllers\FileStatusController.cs" />
+    <Compile Include="Areas\FileUploader\FileUploaderAreaRegistration.cs" />
+    <Compile Include="Areas\Generic\apiController\PermissionApiController.cs" />
+    <Compile Include="Areas\Generic\Controllers\PermissionController.cs" />
+    <Compile Include="Areas\Generic\GenericAreaRegistration.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\JsonNetResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\fileupload\models.js" />
+    <Content Include="app\Stakeholder\model.js" />
+    <Content Include="Areas\Allocation\ViewModels\allocSubpolicyCtrl.js" />
+    <Content Include="Areas\Allocation\ViewModels\allocPolicyCtrl.js" />
+    <Content Include="Areas\Allocation\ViewModels\allocations.js" />
+    <Content Include="Areas\Allocation\ViewModels\approveAllocation.js" />
+    <Content Include="Areas\Allocation\ViewModels\ApproveViewAllocation.js" />
+    <Content Include="Areas\Allocation\ViewModels\bulkChangeAllocation.js" />
+    <Content Include="Areas\Allocation\ViewModels\changeAllocation.js" />
+    <Content Include="Areas\Allocation\ViewModels\ViewAllocations.js" />
+    <Content Include="Areas\Billing\ViewModels\AddhocPayouts.js" />
+    <Content Include="Areas\Billing\ViewModels\BillAmountCntrl.js" />
+    <Content Include="Areas\Billing\ViewModels\BillingStatus.js" />
+    <Content Include="Areas\Billing\ViewModels\formulaCtrl.js" />
+    <Content Include="Areas\Billing\ViewModels\matrixCtrl.js" />
+    <Content Include="Areas\Billing\ViewModels\payoutPolicyCtrl.js" />
+    <Content Include="Areas\Billing\ViewModels\payoutSubpolicyCtrl.js" />
+    <Content Include="Areas\Billing\ViewModels\ReadyForBilling.js" />
+    <Content Include="Areas\Developer\ViewModels\DatabaseTablesCtrl.js" />
+    <Content Include="Areas\Developer\ViewModels\LogDownload.js" />
+    <Content Include="Areas\Developer\ViewModels\GenerateDB.js" />
+    <Content Include="Areas\ErrorCorrection\ViewModels\approveEditedErrorDataCtrl.js" />
+    <Content Include="Areas\ErrorCorrection\ViewModels\errorDataCtrl.js" />
+    <Content Include="Areas\FileUploader\jsControllers\AllfileDetails.js" />
+    <Content Include="Areas\FileUploader\jsControllers\ClientDataDownload.js" />
+    <Content Include="Areas\FileUploader\jsControllers\CustomerInfoCtrl.js" />
+    <Content Include="Areas\FileUploader\jsControllers\FileColumn.js" />
+    <Content Include="Areas\FileUploader\jsControllers\FileDetails.js" />
+    <Content Include="Areas\FileUploader\jsControllers\fileMappingCtrl.js" />
+    <Content Include="Areas\FileUploader\jsControllers\fileStatus.js" />
+    <Content Include="Areas\FileUploader\jsControllers\FileScheduler.js" />
+    <Content Include="Areas\FileUploader\jsControllers\paymentReversalCtrl.js" />
+    <Content Include="Areas\Generic\ViewModels\connectionConfig.js" />
+    <Content Include="Areas\Generic\ViewModels\eodEmailNotification.js" />
+    <Content Include="Areas\Generic\ViewModels\generalConfig.js" />
+    <Content Include="Areas\Generic\ViewModels\keyValueCtrl.js" />
+    <Content Include="Areas\Generic\ViewModels\PermissionScreenJS.js" />
+    <Content Include="Areas\Generic\ViewModels\pincodeCtrl.js" />
+    <Content Include="Areas\Generic\ViewModels\ProductConfigModel.js" />
+    <Content Include="Areas\Generic\ViewModels\QueryExecuter.js" />
+    <Content Include="Areas\Generic\ViewModels\TestModal.js" />
+    <Content Include="Areas\OtherUploads\jsControllers\RcodeUploadController.js" />
+    <Content Include="Areas\OtherUploads\jsControllers\PincodeUploadController.js" />
+    <Content Include="Areas\Reporting\ViewModels\clientDataReporting.js" />
+    <Content Include="Areas\Reporting\ViewModels\ViewReporting.js" />
+    <Content Include="Areas\Reporting\ViewModels\Reporting.js" />
+    <Content Include="Areas\Stakeholder2\Models\AddStakeholder.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\AddressDetails.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\AddressInfo.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\BasicInfoScript.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\changeleaveperiod.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\EditAddStakeholder.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\EditHierarchy.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\EditStakeholder.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\HierarchyModel.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\Payments.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\RegistrationDetails.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\StakeholderHierarchy.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\ViewStakeholder.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\workingdemo.js" />
+    <Content Include="Areas\Stakeholder2\ViewModels\WorkingScript.js" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddAddress.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddBasic.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddHierarchy.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddPayment.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddRegistration.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\AddWorking.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\AddPartials\ShowWorkingPayment.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\Index.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Hierarchy\AddHierarchy.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Hierarchy\EditHierarchy.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\ManageStakeholders\ChangeLeavePeriod.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewBasic.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewManageWorking.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewOnLeave.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewRegistration.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewWorkings.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewStakeholder.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Web.config" />
+    <Content Include="Areas\Generic\ViewModels\UserProfile.js" />
+    <Content Include="Areas\Generic\ViewModels\stakePermission.js" />
+    <Content Include="Content\alertify\alertify.bootstrap.css" />
+    <Content Include="Content\alertify\alertify.core.css" />
+    <Content Include="Content\alertify\alertify.default.css" />
+    <Content Include="Content\angular-ui.css" />
+    <Content Include="Content\angular-ui.min.css" />
+    <Content Include="Content\animateCss\animate.css" />
+    <Content Include="Content\animateCss\animate.min.css" />
+    <Content Include="Content\bootstrap-fileupload.css" />
+    <Content Include="Content\bootstrap-fileupload.min.css" />
+    <Content Include="Content\layout\SCBLoginImage.gif" />
+    <Content Include="Content\menustyle.css" />
+    <Content Include="Content\bootstrap-datepicker.css" />
+    <Content Include="Content\images\AjaxLoader.gif" />
+    <Content Include="Content\images\invalid.png" />
+    <Content Include="Content\images\red_asterisk.png" />
+    <Content Include="Content\images\Stan2.jpg" />
+    <Content Include="Content\images\valid.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\layout\footer.png" />
+    <Content Include="Content\layout\LoginPage.png" />
+    <Content Include="Content\layout\scbcollosys.png" />
+    <Content Include="Content\select2-spinner.gif" />
+    <Content Include="Content\select2.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\angular-dragdrop.js" />
+    <Content Include="Scripts\angular-dragdrop.min.js" />
+    <Content Include="Scripts\angular-ui-select2.js" />
+    <Content Include="Content\select2.png" />
+    <Content Include="Content\select2x2.png" />
+    <Content Include="Content\spinner.gif" />
+    <Content Include="favicon.ico" />
+    <Content Include="Scripts\alertify\alertify.js" />
+    <Content Include="Scripts\alertify\alertify.min.js" />
+    <Content Include="Scripts\angular-ui-ieshiv.js" />
+    <Content Include="Scripts\angular-ui-ieshiv.min.js" />
+    <Content Include="Scripts\angular-ui.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-fileupload.js" />
+    <Content Include="Scripts\bootstrap-fileupload.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\json3.js" />
+    <Content Include="Scripts\json3.min.js" />
+    <Content Include="Scripts\lodash.js" />
+    <Content Include="Scripts\lodash.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\ng-upload.js" />
+    <Content Include="Content\ng-grid.css" />
+    <Content Include="Content\ng-grid.min.css" />
+    <Content Include="Areas\Generic\Views\Web.config" />
+    <Content Include="Areas\Generic\Views\Permission\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\Web.config" />
+    <Content Include="Areas\FileUploader\Views\FileStatus\Index.cshtml" />
+    <Content Include="Scripts\restangular.js" />
+    <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\select2Spec.js" />
+    <Content Include="AuthNAuth\ViewModels\ActivityNotifications.js" />
+    <Content Include="Areas\FileUploader\Views\FileScheduler\FileScheduler.cshtml" />
+    <Content Include="Areas\Generic\Views\Profile\ModalTest.cshtml" />
+    <Content Include="Areas\Generic\Views\Profile\UserProfile.cshtml" />
+    <Content Include="Areas\Generic\Views\Product\Index.cshtml" />
+    <Content Include="Scripts\underscore.string.js" />
+    <Content Include="Shared\cs-ng-grid.js" />
+    <Content Include="Shared\Home.js" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Home\JSDiabledError.cshtml" />
+    <Content Include="Areas\ErrorCorrection\Views\ErrorData\Index.cshtml" />
+    <Content Include="Areas\ErrorCorrection\Views\ApproveEditedErrorData\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\FileDetails\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\FileColumn\Index.cshtml" />
+    <Content Include="Areas\Generic\Views\GeneralConfig\Index.cshtml" />
+    <Content Include="Areas\Allocation\Views\Web.config" />
+    <Content Include="Areas\Generic\Views\ConnectionConfig\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BootstrapVerticalMenu.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\Mvc.sitemap">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Reporting\Views\Report\Index.cshtml" />
+    <Content Include="Areas\Reporting\Views\Web.config" />
+    <Content Include="Areas\FileUploader\Views\UploadFileTemp\Index.cshtml" />
+    <Content Include="Areas\Reporting\Views\Report\ClientDataReport.cshtml" />
+    <Content Include="Areas\Allocation\Views\AllocationSubPolicy\Index.cshtml" />
+    <Content Include="Areas\Allocation\Views\AllocationPolicy\Index.cshtml" />
+    <Content Include="Areas\Allocation\Views\ViewAllocations\Index.cshtml" />
+    <Content Include="Areas\Developer\Views\GenerateDb\GenerateDB.cshtml" />
+    <EmbeddedResource Include="ExcelData\FileUploader.xls" />
+    <Content Include="ExcelData\TestFileScheduler.xls" />
+    <Content Include="Areas\Generic\Views\Email\Index.cshtml" />
+    <Content Include="Areas\Developer\Views\Web.config" />
+    <Content Include="Areas\Billing\Views\Formula\Index.cshtml" />
+    <Content Include="Areas\Billing\Views\Web.config" />
+    <Content Include="Areas\Billing\Views\Matrix\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Billing\Views\PayoutSubpolicy\Index.cshtml" />
+    <Content Include="Areas\Billing\Views\PayoutPolicy\Index.cshtml" />
+    <Content Include="Areas\Reporting\Views\ReportView\Index.cshtml" />
+    <Content Include="Areas\Reporting\Views\ClientData\Index.cshtml" />
+    <Content Include="Areas\OtherUploads\Views\Web.config" />
+    <Content Include="Areas\OtherUploads\Views\PincodeUpload\PincodeUpload.cshtml" />
+    <Content Include="Areas\Allocation\Views\ViewAllocations\ViewAllocations.cshtml" />
+    <Content Include="Areas\Allocation\Views\ChangeAllocation\Index.cshtml" />
+    <Content Include="Areas\Allocation\Views\AllocationApprove\Index.cshtml" />
+    <Content Include="Areas\Generic\Views\PinCode\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\ClientDataDownload\ClientDataDownload.cshtml" />
+    <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\ChangeAllocationBulk.cshtml" />
+    <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\RAllocShow.cshtml" />
+    <Content Include="Areas\OtherUploads\Views\RcodeUpload\RcodeUpload.cshtml" />
+    <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\CAllocShow.cshtml" />
+    <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\EAllocShow.cshtml" />
+    <Content Include="Areas\Generic\Views\KeyValue\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\PaymentReversal\Index.cshtml" />
+    <Content Include="App_Code\GridShared.cshtml" />
+    <Content Include="Areas\FileUploader\Views\UploadActualData\Index.cshtml" />
+    <Content Include="Areas\Allocation\Views\ApproveViewAllocation\ApproveViewAllocation.cshtml" />
+    <Content Include="Areas\FileUploader\Views\AddFileDetails\Index.cshtml" />
+    <Content Include="Areas\Developer\Views\DatabaseTables\Index.cshtml" />
+    <Content Include="Areas\Generic\Views\QueryExecuterAngular\Index.cshtml" />
+    <Content Include="Areas\Developer\Views\DatabaseTables\DownLoadDatabaseTables.cshtml" />
+    <Content Include="Areas\FileUploader\Views\CustomerInfo\Index.cshtml" />
+    <Content Include="Areas\Developer\Views\LogDownload\Index.cshtml" />
+    <Content Include="Areas\Stakeholder2\ViewModels\BasicInfoScript.js.rej" />
+    <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\DummyOfIndex.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditAddressDetails.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditBasicInfo.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditPayment.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditRegistration.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditWorking.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\Index.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\MultiEdit.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\AddHierarchy.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\AddressDetails.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\AddStakeholder.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\BasicInfo.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\EditHierarchy.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\Index.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\PaymentDetails.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\RegistrationDetails.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\StakeholderRegistration.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\ViewStakeholder.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\Stakeholder\Working.cshtml" />
+    <Content Include="Areas\Stakeholder2\Views\StakeholerView\WorkingManage.cshtml" />
+    <Content Include="Areas\Generic\Views\Permission\PermissionScreen.cshtml" />
+    <Content Include="Areas\Billing\Views\AddhocPayouts\Index.cshtml" />
+    <Content Include="Areas\Billing\Views\BillAmount\Index.cshtml" />
+    <Content Include="Areas\Billing\Views\ReadyForBilling\Index.cshtml" />
+    <Content Include="Areas\Billing\Views\BillingStatus\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\123.pubxml" />
+    <None Include="Properties\PublishProfiles\CollosysDec.pubxml" />
+    <None Include="Properties\PublishProfiles\ColloSysDefaultWebSite.pubxml" />
+    <None Include="Properties\PublishProfiles\CollosysFeb.pubxml" />
+    <None Include="Properties\PublishProfiles\ColloSysFTP.pubxml" />
+    <None Include="Properties\PublishProfiles\collosysNew.pubxml" />
+    <None Include="Properties\PublishProfiles\CollosysOct.pubxml" />
+    <None Include="Properties\PublishProfiles\CollosysSCB.pubxml" />
+    <None Include="Properties\PublishProfiles\ColloSysWebDeploy.pubxml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Areas\FileUploader\Views\FileMapping\Index.cshtml" />
+    <Content Include="Areas\ErrorCorrection\Views\Web.config" />
+    <Content Include="Scripts\ng-grid-2.0.7.js" />
+    <Content Include="Content\checkbox.css" />
+    <Content Include="Content\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome-ie7.css" />
+    <Content Include="Content\font-awesome-ie7.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\angular-cookies.js" />
+    <Content Include="Scripts\angular-cookies.min.js" />
+    <Content Include="Scripts\angular-loader.js" />
+    <Content Include="Scripts\angular-loader.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-resource.js" />
+    <Content Include="Scripts\angular-resource.min.js" />
+    <Content Include="Scripts\angular-sanitize.js" />
+    <Content Include="Scripts\angular-sanitize.min.js" />
+    <Content Include="Scripts\angular-scenario.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\i18n\angular-locale_en-in.js" />
+    <Content Include="Content\font\fontawesome-webfont.woff" />
+    <Content Include="Content\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\font\fontawesome-webfont.svg" />
+    <Content Include="Content\font\fontawesome-webfont.eot" />
+    <Content Include="Content\font\FontAwesome.otf" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ui-bootstrap-0.4.0.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.4.0.js" />
+    <Content Include="Shared\ng-collosys.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <None Include="Properties\PublishProfiles\new.pubxml" />
+    <None Include="Properties\PublishProfiles\newProfile.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Billing\Views\Shared\" />
+    <Folder Include="Areas\Developer\Views\Shared\" />
+    <Folder Include="Areas\Reporting\Views\Shared\" />
+    <Folder Include="Areas\Stakeholder2\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
+      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
+      <Name>Collosys.BillingService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.DataLayer.Migrate\ColloSys.DataLayer.Migrate.csproj">
+      <Project>{808ccb95-8534-4ec4-b3b9-5bec22119be5}</Project>
+      <Name>ColloSys.DataLayer.Migrate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.DataLayer.Services\ColloSys.DataLayer.Services.csproj">
+      <Project>{0698806c-1901-4659-acee-74702e507611}</Project>
+      <Name>ColloSys.DataLayer.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
+      <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
+      <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
+      <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
+      <Name>ColloSys.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileUploadService\FileUploadService.csproj">
+      <Project>{0bc673fc-eb6c-4d50-8001-56273f9530a2}</Project>
+      <Name>FileUploadService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1477</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1110/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="cleanOutput" AfterTargets="Clean">
+    <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
+    <Exec Command="Del bin /s /q /f" IgnoreExitCode="true" />
+    <Message Text="obj and bin folder cleaned up." Importance="normal" />
+  </Target>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

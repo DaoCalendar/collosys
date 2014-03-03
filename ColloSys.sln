@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingServiceInstaller", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.DataLayer.Migrate", "ColloSys.DataLayer.Migrate\ColloSys.DataLayer.Migrate.csproj", "{808CCB95-8534-4EC4-B3B9-5BEC22119BE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterfaceAngular", "UserInterfaceAngular\UserInterfaceAngular.csproj", "{001B2F7C-1452-429F-BD60-4DB7D316EA77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,12 @@ Global
 		{808CCB95-8534-4EC4-B3B9-5BEC22119BE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{808CCB95-8534-4EC4-B3B9-5BEC22119BE5}.Testing|Any CPU.ActiveCfg = Release|Any CPU
 		{808CCB95-8534-4EC4-B3B9-5BEC22119BE5}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{001B2F7C-1452-429F-BD60-4DB7D316EA77}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

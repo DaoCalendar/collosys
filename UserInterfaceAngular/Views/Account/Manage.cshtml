@@ -1,0 +1,103 @@
+﻿@model ColloSys.UserInterface.AuthNAuth.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Manage Account";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+
+<form action="~/Account/Manage/" method="POST" name="FormChangePassword" class="form-horizontal">
+    <div class="container row-fluid" data-ng-controller="changePasswordController" data-ng-cloak="">
+        <div class="panel">
+            <div class="panel-heading">
+                Change Password
+            </div>
+
+            <div class="modal-body">
+                @if (!string.IsNullOrWhiteSpace(@ViewBag.StatusMessage))
+                {
+                    <div class="alert alert-success">
+                        <a class="close" data-dismiss="alert" href="#">×</a>@ViewBag.StatusMessage!
+                    </div>
+                }
+                <div>
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(false, string.Empty, new { @class = "alert alert-error" })
+                    @*//, string.Empty, new { @class = "alert alert-error" })*@
+
+                    <!-- Current Password -->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label" for="OldPassword">
+                                Current Password
+                            </label>
+                            <div class="controls">
+                                <input id="OldPassword" data-ng-model="managePassword.OldPassword" name="OldPassword" placeholder="Enter Current Password" type="password" required />
+                                <span class="help-inline">
+                                    <span class="field-validation-valid" data-valmsg-for="OldPassword" data-valmsg-replace="true"></span>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Password -->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label" for="NewPassword">
+                                New Password
+                            </label>
+                            <div class="controls">
+                                <input name="NewPassword" data-ng-pattern="/^\w*$/" min="6" data-ng-model="managePassword.NewPassword" name="NewPassword" placeholder="Enter New Password" type="password" required />
+                                <span class="help-inline">
+                                    <span class="field-validation-valid" data-valmsg-for="OldPassword" data-valmsg-replace="true"></span>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- COnfirm New Password -->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label" for="ConfirmPassword">
+                                Confirm Password
+                            </label>
+                            <div class="controls">
+                                <input name="ConfirmPassword" ui-validate="'$value==managePassword.NewPassword'" data-ng-pattern="/^\w*$/" data-ng-model="managePassword.ConfirmPassword" name="ConfirmPassword" placeholder="Retype New Password" type="password" required />
+                                <span class="help-inline">
+                                    <span class="field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+                                    <span data-ng-show="FormChangePassword.ConfirmPassword.$dirty">
+                                        <span data-ng-show="managePassword.NewPassword != managePassword.ConfirmPassword">Passwords do not match!! </span>
+                                    </span>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="row-fluid control-group">
+            <div class="controls">
+
+                <button class="btn btn-success " type="submit" value="Change password" data-ng-disabled="!FormChangePassword.$valid">Change Password</button>
+            </div>
+        </div>
+    </div>
+</form>
+@section scripts
+{
+    <script type="text/javascript">
+        var csapp = csapp || angular.module("ui.collosys", []);
+        csapp.controller("changePasswordController", ['$scope', function ($scope) { }]);
+    </script>
+}

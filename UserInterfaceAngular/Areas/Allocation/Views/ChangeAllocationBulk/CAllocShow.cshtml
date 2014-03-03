@@ -1,0 +1,25 @@
+﻿<tr data-ng-repeat="data in filteredTodos | filter:search">
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.Cycle}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.Cycle}}</td>
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.AccountNo}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.AccountNo}}</td>
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.CustomerName}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.CustomerName}}</td>
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.Pincode}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.Pincode}}</td>
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.Product}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.Product}}</td>
+
+    <td>{{data.AmountDue}}</td>
+    <td>{{data.StartDate | date}}</td>
+    <td>{{data.EndDate | date}}</td>
+    <td>{{data.IsAllocated}}</td>
+
+    <td data-ng-show="BulkAllocationModel.Category=='Liner'">{{data.CLiner.AllocStatus}}</td>
+    <td data-ng-show="BulkAllocationModel.Category=='Writeoff'">{{data.CWriteoff.AllocStatus}}</td>
+</tr>

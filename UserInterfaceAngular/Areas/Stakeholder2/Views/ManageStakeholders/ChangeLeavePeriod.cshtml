@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "ChangeLeavePeriod";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row-fluid" data-ng-controller="changeLeave">
+    <div class="row-fluid form-horizontal">
+        <div class="row-fluid">
+            <div class="control-group">
+                <label class="control-label">Select Stakeholder</label>
+                <div class="controls">
+                    <input 
+                        type="text" 
+                        class="input-medium"
+                        data-ng-model="StakePage.Name"
+                        required=""
+                        typeahead="c.Name for c in Stakeholders($viewValue)"
+                        typeahead-wait-ms="400"
+                        data-ng-change="setStakeholder(StakePage.Name)"
+                        />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row-fluid"  data-ng-show="Stakeholder">
+        <div class="row-fluid form-horizontal">
+            <div class="row-fluid">
+                <div class="control-group span5">
+                    <label class="control-label">Name:</label>
+                    <div class="controls">
+                        <input type="text" 
+                               class="input-medium" 
+                               readonly
+                               data-ng-model="Stakeholder.Name"
+                            />
+                    </div>
+                </div>
+                <div class="control-group span5">
+                    <label class="control-label">Designation:</label>
+                    <div class="controls">
+                        <input type="text" 
+                               class="input-medium" 
+                               readonly
+                               data-ng-model="Stakeholder.Hierarchy.Designation"
+                            />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row-fluid">
+                <div class="control-group span5">
+                    <label class="control-label">Total Workings:</label>
+                    <div class="controls">
+                        <input type="text"
+                               readonly="readonly"
+                               value="{{StakeCounts.Working}}"
+                            />
+                    </div>
+                </div>
+                <div class="control-group span5">
+                    <label class="control-label">Total Payments:</label>
+                    <div class="controls">
+                        <input type="text"
+                               readonly="readonly"
+                               value="{{StakeCounts.Payment}}"
+                            />
+                    </div>
+                </div>
+            </div>
+            @*<div class="row-fluid">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder2/ViewModels/changeleaveperiod.js"></script>
+}

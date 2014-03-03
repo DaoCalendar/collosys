@@ -1,0 +1,130 @@
+﻿<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Edit
+            </th>
+            <th>Name
+            </th>
+            <th>Vertical
+            </th>
+            <th>Designation
+            </th>
+            <th>Addresses
+            </th>
+            <th>Payments
+            </th>
+            <th>Workings
+            </th>
+            <th>Reportees
+            </th>
+        </tr>
+
+        <tr>
+            <th></th>
+            <th>
+                <div class="input-append">
+                    <input type="text" class="input-medium" data-ng-model="search.Name" placeholder="Search by Name">
+                    <span class="add-on"><i class="icon-search"></i></span>
+                </div>
+            </th>
+            <th>
+                <div class="input-append">
+                    <input type="text" class="input-medium" data-ng-model="search.Hierarchy" placeholder="Search by Hierarchy">
+                    <span class="add-on"><i class="icon-search"></i></span>
+                </div>
+            </th>
+            <th>
+                <div class="input-append">
+                    <input type="text" class="input-medium" data-ng-model="search.Designation" placeholder="Search by Designation">
+                    <span class="add-on"><i class="icon-search"></i></span>
+                </div>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="info" data-ng-repeat="data in listOfStakeholders | filter:search">
+            <td>
+                <div class="btn-group">
+                    <i class="btn icon-edit" data-ng-click="getStakeholder(data,$index)"></i>
+                </div>
+            </td>
+            <td>{{data.Name}}
+            </td>
+            <td>{{data.Hierarchy}}
+            </td>
+            <td>{{data.Designation}}
+            </td>
+            <td>
+                @* <div class="btn-group">
+                          <i class="btn icon-edit" ng-show="data.GAddress.length > 0" data-ng-click="getStakeholderForMulti($index,'Address')"></i>
+                      </div>*@
+                {{data.GAddress.length}}
+            </td>
+            <td>
+                @*  <div class="btn-group">
+                          <i class="btn icon-edit" ng-show="data.StkhPayments.length > 0" data-ng-click="getStakeholderForMulti($index,'Payments')"></i>
+                      </div>*@
+                {{data.StkhPayments.length}}
+            </td>
+            <td>
+                @*  <div class="btn-group">
+                          <i class="btn icon-edit" ng-show="data.StkhWorkings.length > 0" data-ng-click="getStakeholderForMulti($index,'Working')"></i>
+                      </div>*@
+                {{data.StkhWorkings.length}}
+            </td>
+            <td>
+                <div class="btn-group">
+                    <i class="btn icon-edit" data-ng-click="displayReporties(data.Id,data.HierarchyId,$index)"></i>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<div modal="showReposrtiesList" close="closeReportiesModel()" options="modelOption">
+
+    <div class="modal-header well-small2">
+        Stakeholder Details
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered table-hover" data-ng-show="ReportiesData.ReportsToList.length>0">
+            <thead>
+                <tr>
+                    <th>Name
+                    </th>
+                    <th>Designation
+                    </th>
+                    @*<th>Hierarchy
+                    </th>*@
+                    <th data-ng-show="ReportiesData.HasServiceCharge">Gross Pay
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="info" data-ng-repeat="data in ReportiesData.ReportsToList">
+                    <td>{{data.Name}}
+                    </td>
+                    <td>{{data.Designation}}</td>
+                    @*<td>{{data.Hierarchy}}</td>*@
+                    <td data-ng-show="ReportiesData.HasServiceCharge">
+                        {{data.StkhPayments[0].FixpayTotal}}
+                    </td>
+                </tr>
+                <tr data-ng-show="ReportiesData.HasServiceCharge">
+                    <td></td>
+                    <td class="text-right"> Total </td>
+                    <td>{{TotalPayment}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row-fluid" data-ng-show="ReportiesData.ReportsToList.length==0">
+            No reportees
+        </div>
+    </div>
+</div>

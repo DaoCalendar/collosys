@@ -1,0 +1,54 @@
+﻿
+                
+    <!-- Row 1 for name and external id-->
+    <div class="row-fluid">
+        <div class="control-group span6">
+            <label class="control-label">Name:</label>
+            <div class="controls">
+                <input type="text" ng-model="Stakeholder.Name" readonly  placeholder="Enter Name" />
+            </div>
+        </div>
+        <div class="control-group span6" ng-show="Hierarchy.IsUser">
+            <label class="control-label">User ID</label>
+            <div class="controls">
+                <input type="text" readonly ng-model="Stakeholder.ExternalId" />
+            </div>
+        </div>
+    </div>
+            
+    
+    <!-- Row 2 mobile no and email id-->
+    <div class="row-fluid">
+        <div class="control-group span6">
+            <label class="control-label">Mobile no:</label>
+            <div class="controls">
+                <input type="text" readonly ng-model="Stakeholder.MobileNo"/>
+            </div>
+        </div>
+        <div class="control-group span6">
+            <label class="control-label">Email:</label>
+            <div class="controls">
+                <input type="email" readonly ng-model="Stakeholder.EmailId"/>
+            </div>
+        </div>
+    </div>
+            
+    
+    <!-- Row 3 for date of joining-->
+   <div class="row-fluid">
+       <div class="control-group span6">
+            <label class="control-label">Date of Joining:</label>
+           <div class="controls">
+               <input type="text" readonly value="{{Stakeholder.JoiningDate | date:'dd-MM-yyyy'}}"/>
+           </div>
+       </div>
+      @* <div class="control-group span6" ng-show="Hierarchy.ManageReportsTo">
+               <label class="control-label">Reports To:</label>
+           <div class="controls">
+               <input type="text" ng-model="Stakeholder.ReportsTo"/>
+               <select id="Reportsto"  ng-model="Stakeholder.ReportsTo">
+                   <option ng-repeat="data in ReportsToList" value="{{data.Id}}">{{data.Name}}</option>
+               </select>
+           </div>
+       </div>*@
+    </div>

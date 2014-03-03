@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Ready For Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container form-horizontal" data-ng-controller="readyForBillingController">
+    <div class=" row-fluid panel">
+        <div class="panel-heading">Ready For Billing</div>
+        <div class="row-fluid">
+            <div></div>
+            <div class="control-group span4">
+                <label class="control-label">Product :</label>
+                <div class="controls">
+                    <select class="input-medium" data-ui-select2="" data-ng-change="showGrid(billing.Products,billing.BillMonth)" data-ng-model="billing.Products" data-ng-options="c for c in ProductList">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Month :</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" type="text" name="monthdate" data-ng-model="billing.BillMonth"
+                            data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="yyyy-MM-dd"
+                            data-ng-readonly="true" data-ng-change="showGrid(billing.Products,billing.BillMonth)"
+                            data-bs-datepicker="">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid text-right">
+        <span class="label-warning" data-ng-show="oldBillStatus!='null'">Billing for this product & month already created.</span>
+        <span class="label-warning" data-ng-show="pageData.length<1">There is no Billing data for this product & month</span>
+        <button class="btn btn-success" data-ng-disabled="oldBillStatus!='null' || pageData.length<1" data-ng-click="saveData(billing)">Ready For Billing</button>
+    </div>
+    <div class="row-fluid">
+        <table class="table table-bordered" data-ng-show="pageData.length>0">
+            <thead>
+                <tr>
+                    <th>AccountNo</th>
+                    <th>Product</th>
+                    <th>IsInRecovery</th>
+                    <th>Cycle</th>
+                    <th>Bucket</th>
+                    <th>Vintage</th>
+                    <th>City Category</th>
+                    <th>Allocation StartDate</th>
+                    <th>Allocation EndDate</th>
+                    <th>TotalDue</th>
+                    <th>Recovered Amount</th>
+                    <th>Stakeholder Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="d in pageData">
+                    <td>{{d.AccountNo}}</td>
+                    <td>{{d.Product}}</td>
+                    <td>{{d.IsInRecovery}}</td>
+                    <td>{{d.Cycle}}</td>
+                    <td>{{d.Bucket}}</td>
+                    <td>{{d.Vintage}}</td>
+                    <td>{{d.CityCategory}}</td>
+                    <td>{{d.AllocationStartDate | date}}</td>
+                    <td>{{d.AllocationEndDate | date}}</td>
+                    <td>{{d.TotalDueOnAllocation}}</td>
+                    <td>{{d.TotalAmountRecovered}}</td>
+                    <td>{{d.Stakeholders.Name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Grid View-->
+    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+        @GridShared.DisplayGridOptions()
+        <div style="height: 500px" data-ng-grid="gridOptions"></div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Areas/Billing/ViewModels/ReadyForBilling.js"></script>
+}

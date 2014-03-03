@@ -1,0 +1,242 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Report View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-horizontal" data-ng-form="formFileColumn">
+    <div class="container-fluid" data-ng-controller="fileColumnController" data-ng-cloak="">
+        <div class="row-fluid">
+            <div class="panel">
+                <label class="control-label">Report Name</label>
+                <div class="controls">
+                    <select class="input-large" ui-select2 data-ng-model="reportName" data-ng-change="getReport(reportName)" data-placeholder="Select File Name">
+                        <option value=""></option>
+                        <option data-ng-repeat="file in reportDetails" data-ng-animate=" 'animate' " value="{{file}}">{{file.Name}}</option>
+                    </select>&nbsp;<button ng-show="flag" class="ng-hide btn" type="button" data-ng-model="reportName" ng-click="deleteReport()"><i class="icon-trash"></i></button>
+                </div>
+            </div>
+            <div id="div-grid" ng-show="flag" class="ng-hide row-fluid">
+                <div class="span10">
+                    <div class="control-group row-fluid">
+                        <div class="row-fluid">
+                            <table cellpadding="0" style="width: 100%;">
+                                <tr>
+                                    <td style="width: 25%; vertical-align: top;">Field<br />
+                                        <select class="input-large" ui-select2 data-ng-model="columnNames" data-ng-options="op.field for op in myDefs" ng-change="selectSearchType()">
+                                            <option value=""></option>
+                                        </select></td>
+                                    <td style="text-align: left; width: 65%; vertical-align: top;">
+                                         <div ng-switch on="searchType.type">
+                                            <span class="pew" ng-switch-default>
+                                                <table>
+                                                    <tr>
+                                                        <td style="vertical-align:top;">&nbsp;Operator<br />
+                                                            <select class="input-medium" ui-select2 ng-model="test.operatortype" ng-change="setVisibility()">
+                                                                <optgroup label="Numeric">
+                                                                <option value="Equals">Equals</option>
+                                                                <option value="Not Equals">Not Equals</option>
+                                                                <option value="Is Less Than">Is Less Than</option>
+                                                                <option value="Is Less Than Equals">Is Less Than Equals</option>
+                                                                <option value="Is Greater Than">Is Greater Than</option>
+                                                                <option value="Is Greater Than Equals">Is Greater Than Equals</option>
+                                                                <option value="In Between">In Between</option>
+                                                                <option value="Is Not Less Than">Is Not Less Than</option>
+                                                                <option value="Is Not Greater Than">Is Not Greater Than</option>
+                                                                <option value="Is Not Between">Is Not Between</option>
+                                                                </optgroup>
+                                                            <optgroup label="Fields">
+                                                                <option value="Equals Field">Equals Field</option>
+                                                                <option value="Not Equals Field">Not Equals Field</option>
+                                                                <option value="Is Less Than Field">Is Less Than Field</option>
+                                                                <option value="Is Less Than Equals Field">Is Less Than Equals Field</option>
+                                                                <option value="Is Greater Than Field">Is Greater Than Field</option>
+                                                                <option value="Is Greater Than Equals Field">Is Greater Than Equals Field</option>
+                                                                <option value="In Between Field">In Between Field</option>
+                                                                <option value="Is Not Less Than Field">Is Not Less Than Field</option>
+                                                                <option value="Is Not Greater Than Field">Is Not Greater Than Field</option>
+                                                                </optgroup>
+                                                            </select>
+                                                        </td>
+                                                        <td style="vertical-align:bottom;">&nbsp;Value<br />
+                                                            <div class="ng-hide" ng-hide="filterfieldflag">
+                                                            <input ng-model="test.value1" placeholder="pre" type="number" />
+                                                                </div>
+                                                            <div class="ng-hide" ng-show="filterfieldflag">
+                                                             <select class="input-large" ui-select2 data-ng-model="test.value1" data-ng-options="op.field for op in cascadeColumns">
+                                                                 <option value=""></option>
+                                                            </select>
+                                                                </div>
+                                                            <input ng-model="test.value2" placeholder="pre" type="number"  class="ng-hide" ng-show="filterflag"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                            <span class="pew" ng-switch-when="text">
+                                                <table>
+                                                    <tr>
+                                                        <td style="vertical-align:top;">Operator<br />
+                                                            <select class="input-medium" ui-select2 ng-model="test.operatortype" ng-change="setVisibility()">
+                                                                <option value="Starts with">Starts with</option>
+                                                                <option value="Ends with">Ends with</option>
+                                                                <option value="Contains">Contains</option>
+                                                                <option value="Not Contains">Not Contains</option>
+                                                                <option value="In Multiple">In</option>
+                                                                <option value="Not In Multiple">Not In</option>
+                                                            </select></td>
+                                                        <td>&nbsp;Value<br />
+                                               <input ng-model="test.value1" placeholder="pre" type="text"  class="ng-hide" ng-hide="filterflagMulti" />
+                                                     <select multiple ng:model="test.value1" class="ng-show" ng-show="filterflagMulti" >
+                                                         <option data-ng-repeat="file in uniqueRecords" data-ng-animate=" 'animate' ">{{file}}</option>
+                                                          </select> 
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                             <span class="pew" ng-switch-when="enum">
+                                                <table>
+                                                    <tr>
+                                                        <td style="vertical-align:top;">Operator<br />
+                                                            <select class="input-medium" ui-select2 ng-model="test.operatortype" ng-change="setVisibility()">
+                                                                <option value="Equals Enum">Equals</option>
+                                                                <option value="Not Equals Enum">Not Equals</option>
+                                                                <option value="In Multiple">In</option>
+                                                                <option value="Not In Multiple">Not In</option>
+                                                            </select></td>
+                                                        <td>&nbsp;Value<br />
+                                                           <div class="ng-hide" ng-hide="filterflagMulti">
+                                               <select ui-select2 ng:model="test.value1" class="input-medium">
+                                                   <option value=""></option>
+                                                         <option data-ng-repeat="file in uniqueRecords" data-ng-animate=" 'animate' ">{{file}}</option>
+                                                          </select></div> 
+                                                             <div class="ng-hide" ng-show="filterflagMulti">
+                                                     <select multiple ng:model="test.value1">
+                                                         <option data-ng-repeat="file in uniqueRecords" data-ng-animate=" 'animate' ">{{file}}</option>
+                                                          </select> 
+                                                                 </div> 
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </span>
+                                            <span class="pew" ng-switch-when="flag">Operator<br />
+                                                <select class="input-small" ui-select2 ng-model="test.operatortype">
+                                                    <option value="True">True</option>
+                                                    <option value="False">False</option>
+                                                </select>
+                                            <input ng-model="test.value1" placeholder="pre" type="text" ng-hide="true" />
+                                            </span>
+                                            <span class="pew" ng-switch-when="datepicker">
+                                                <table><tr>
+                                                    <td style="vertical-align:top;">Operator<br />
+                                                <input ng-model="test.value1" placeholder="pre" type="text" style="display: none;" />
+                                                <select class="input-medium" ui-select2 ng-model="test.operatortype" ng-change="setVisibility()">
+                                                    <optgroup label="Date">
+                                                    <option value="Equals">Equals</option>
+                                                    <option value="Not Equals">Not Equals</option>
+                                                    <option value="Is Less Than">Is Less Than</option>
+                                                    <option value="Is Less Than Equals">Is Less Than Equals</option>
+                                                    <option value="Is Greater Than">Is Greater Than</option>
+                                                    <option value="Is Greater Than Equals">Is Greater Than Equals</option>
+                                                    <option value="In Between">In Between</option>
+                                                    <option value="Is Not Less Than">Is Not Less Than</option>
+                                                    <option value="Is Not Greater Than">Is Not Greater Than</option>
+                                                    <option value="Is Not Between">Is Not Between</option>
+                                                        </optgroup>
+                                                     <optgroup label="Fields">
+                                                                <option value="Equals Field">Equals Field</option>
+                                                                <option value="Not Equals Field">Not Equals Field</option>
+                                                                <option value="Is Less Than Field">Is Less Than Field</option>
+                                                                <option value="Is Less Than Equals Field">Is Less Than Equals Field</option>
+                                                                <option value="Is Greater Than Field">Is Greater Than Field</option>
+                                                                <option value="Is Greater Than Equals Field">Is Greater Than Equals Field</option>
+                                                                <option value="In Between Field">In Between Field</option>
+                                                                <option value="Is Not Less Than Field">Is Not Less Than Field</option>
+                                                                <option value="Is Not Greater Than Field">Is Not Greater Than Field</option>
+                                                                </optgroup>
+                                                </select></td>
+                                                    <td style="vertical-align:bottom;">&nbsp;Value<br />
+                                                <div class="input-append" lass="ng-hide" ng-hide="filterfieldflag">
+                                                    <input type="text" class="input-medium" data-ng-model="test.value1" data-date-format="dd-mm-yyyy" data-date-days-of-week-disabled="'0'" data-ng-readonly="true"  data-bs-datepicker="">
+                                                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                                </div>
+                                                        <div class="ng-hide" ng-show="filterfieldflag">
+                                                             <select class="input-large" ui-select2 data-ng-model="test.value1" data-ng-options="op.field for op in cascadeColumns">
+                                                                 <option value=""></option>
+                                                            </select>
+                                                                </div>
+                                                <div class="input-append" class="ng-hide" ng-show="filterflag">
+                                                    <input type="text" class="input-medium" data-ng-model="test.value2" data-date-format="dd-mm-yyyy" data-date-days-of-week-disabled="'0'" data-ng-readonly="true"  data-bs-datepicker="">
+                                                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                                </div></td>
+                                                       </tr></table>
+                                                <input ng-model="test.value1" placeholder="pre" type="text" ng-hide="true"  />
+                                                <input ng-model="test.value2" placeholder="pre" type="text" ng-hide="true" /></span>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: top;">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <input type="submit" value="Apply Filter" class="btn" ng-click="applyFilter()" />
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn" ng-click="resetFilter()"><i class="icon-refresh"></i></button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="margin-right: 20px;">
+                                        <div>
+                                            <ul>
+                                                <li data-ng-repeat="filter in filters">{{filter.propertyName}} &nbsp {{filter.operatortype}} &nbsp; {{filter.val1}} &nbsp;{{filter.val2}} &nbsp<button class="btn" type="button" ng-click="remove({{filter}})"><i class="icon-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right; vertical-align: top;">
+                                        @*{{report}}*@
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br />
+                        <div style="position: relative; left: 0; right: 0; top: 0; bottom: 0; height: 500px; width: auto" ng-grid="gridOptions" ng-show="flagnodata" class="ng-hide">
+                        </div>
+                        <div ng-hide="flagnodata" class="ng-hide">
+                            {{NoDataMsg}}
+                        </div>
+                        <div class="row-fluid span12"><br />
+                        <div class="span5 ng-hide" ng-show="flagnodata">
+                            <a ng-href="Export/GetExcel?name={{alias}}&JSfilter={{filters}}&colfilterstr={{CompareColFilters}}&columns={{gridColumns}}" class="siteButton" ng-hide="true">Get Excel</a>
+                            <a ng-href="Export/GetCSV?name={{alias}}&JSfilter={{filters}}&colfilterstr={{CompareColFilters}}&columns={{gridColumns}}" class="siteButton">Get CSV</a>
+                            <br />
+                            <input type="text" class="input-medium" ng-model="ReportName" data-ng-readonly="true">&nbsp;<input type="submit" value="Update Report" class="btn" ng-click="saveReport()" />
+                        </div>
+                        <div class="span6 ng-hide panel" ng-show="flagnodata">
+                            Create similar report<br />
+                            <input type="text" class="input-medium" ng-model="SimilarReportName">&nbsp;<input type="submit" value="Generate Report" class="btn" ng-click="saveNewReport()" />
+                            </div>
+                            </div>
+                    </div>
+
+                </div>
+                <div class="panel span2">
+                    <ul class="nav" style="margin-left: 10px;">
+                        <li class="ngColListItem" ng-repeat="col in gridOptions.$gridScope.columns  | filter:call">
+                            <label>
+                                <input type="checkbox" class="ngColListCheckbox" ng-model="col.visible" ng-change="getGridCol(col)" />{{col.displayName}}</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Areas/Reporting/ViewModels/ViewReporting.js"></script>
+}

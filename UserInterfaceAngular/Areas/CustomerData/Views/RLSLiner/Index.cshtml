@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "RLS Liner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-app="rlsLinerInfoApp" data-ng-controller="rlsLinerInfoCtrl" data-ng-cloak="">
+    <div class="alert-success text-center">
+        <h3>RLS Liner</h3>
+    </div>
+    <div>
+        <h3>{{rlsLiners.length}}</h3>
+        {{rlsLiners}}
+
+        <table class="table table-bordered table-hover" style="width: 90%">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>AccountNo</th>
+                    <th>Customer Name</th>
+
+                    <th>TotalDue</th>
+                    <th>CurrentDue</th>
+                    <th>EprincipalDue</th>
+                    <th>LprincipalDue</th>
+                    <th>IsImpaired</th>
+                    <th>InterestCharge</th>
+                    <th>FeeCharge</th>
+                    <th>BounceCharge</th>
+                    <th>LateCharge</th>
+                    <th>Bucket</th>
+
+                    <th>LoanAmount</th>
+                    <th>Tenure</th>
+                    <th>Emi</th>
+
+                    <th>DelqStatus</th>
+                    <th>DelqDate</th>
+                    <th>DelqAmount</th>
+
+                    <th>Products</th>
+
+                    <th>Starthate</th>
+                    <th>EndDate</th>
+
+                    <th>Cycle</th>
+                    <th>InterestPct</th>
+                    <th>Pincode</th>
+                    <th>Cluster</th>
+                    <th>DoAllocate</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="rlsLiner in rlsLiners">
+                    <td>{{$index+1}}. {{rlsLiner.Id}}</td>
+                    <td>{{rlsLiner.RInfo.AccountNo}}</td>
+                    <td>{{rlsLiner.RInfo.CustomerName}}</td>
+
+                    <td>{{rlsLiner.TotalDue}}</td>
+                    <td>{{rlsLiner.CurrentDue}}</td>
+                    <td>{{rlsLiner.EprincipalDue}}</td>
+                    <td>{{rlsLiner.LprincipalDue}}</td>
+                    <td>{{rlsLiner.IsImpaired}}</td>
+                    <td>{{rlsLiner.InterestCharge}}</td>
+                    <td>{{rlsLiner.FeeCharge}}</td>
+                    <td>{{rlsLiner.BounceCharge}}</td>
+                    <td>{{rlsLiner.LateCharge}}</td>
+                    <td>{{rlsLiner.Bucket}}</td>
+
+                    <td>{{rlsLiner.RInfo.LoanAmount}}</td>
+                    <td>{{rlsLiner.RInfo.Tenure}}</td>
+                    <td>{{rlsLiner.RInfo.Emi}}</td>
+
+                    <td>{{rlsLiner.RInfo.DelqStatus}}</td>
+                    <td>{{rlsLiner.RInfo.DelqDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{rlsLiner.RInfo.DelqAmount}}</td>
+
+                    <td>{{rlsLiner.RInfo.Products}}</td>
+
+                    <td>{{rlsLiner.RInfo.StartDate | date:'yyyy-MM-dd'}}</td>
+                    <td>{{rlsLiner.RInfo.EndDate | date:'yyyy-MM-dd'}}</td>
+
+                    <td>{{rlsLiner.RInfo.Cycle}}</td>
+                    <td>{{rlsLiner.RInfo.InterestPct}}</td>
+                    <td>{{rlsLiner.RInfo.Pincode}}</td>
+                    <td>{{rlsLiner.RInfo.Cluster}}</td>
+                    <td>{{rlsLiner.RInfo.DoAllocate}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <script src="~/Areas/CustomerData/ViewModels/rlsLinerInfoCtrl.js"></script>
+
+}

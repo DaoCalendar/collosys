@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-app="csapp" data-ng-controller="approveErrorDataCtrl" data-ng-cloak="">
+    <div ng-form="approveErrorform" class="form-horizontal">
+        <div class="well-small">
+            <div class="control-group">
+                <label class="control-label">File Name</label>
+                <div class="controls">
+                    <select data-ng-model="fileDetail" data-ng-change="showGridData(fileDetail)" data-ng-options="c.AliasName for c in fileDetails | orderBy:'AliasName'">
+                        <option value="">-- Select File --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div ui-if="gridReady">
+            <div class="btn-toolbar table-bordered well-small2">
+                <button class="btn btn-success" data-ng-disabled="!gridOptions.selectedItems.length" data-ng-click="ApproveRejectSelectedRows(gridOptions.selectedItems,true)">Approve</button>
+                <button class="btn btn-danger" data-ng-disabled="!gridOptions.selectedItems.length" data-ng-click="ApproveRejectSelectedRows(gridOptions.selectedItems,false)">Reject</button>
+            </div>
+
+            <div class="gridStyle" style="height: 450px" ng-grid="gridOptions"></div>
+        </div>
+
+
+        <div modal="showModel" close="closeModel()" options="modelOption">
+            <div class="modal-header well">
+                <h3>Approve Error Modification</h3>
+            </div>
+            <div ng-form="errorform" class="form-horizontal">
+                <div class="modal-body">
+                    <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
+                        <div class="control-group row-fluid">
+                            <label class="control-label">{{c.displayName}}</label>
+                            <div class="controls">
+                                <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer well">
+                    <label class="error">{{errorMessage}}</label>
+                    <button class="btn btn-success" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"><i class="icon-save" style="color: blue"></i>Previous</button>
+                    <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"><i class="icon-save" style="color: blue"></i>Approve</button>
+                    <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"><i class="icon-save" style="color: blue"></i>Approve & Next</button>
+                    <button class="btn btn-warning" ng-click="closeModel()"><i class="icon-off" style="color: red"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*<link href="~/Content/ng-grid.css" rel="stylesheet" />
+
+    <script src="~/Scripts/ng-grid-2.0.7.js"></script>*@
+    <script src="~/Areas/ErrorCorrection/ViewModels/approveEditedErrorDataCtrl.js"></script>
+}

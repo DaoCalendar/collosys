@@ -1,0 +1,566 @@
+﻿@{
+    ViewBag.Title = "AddFile Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="padding-top: 30px;">
+    <div class="row-fluid" data-ng-controller="AddfileDetailsController" data-ng-cloak="">
+        <form name="formAddfileDetail">
+            <div style="overflow: auto;">
+                <div class="form-horizontal">
+                    <div data-ng-show="currentStep == 'addfiledetail'">
+                        <div class="panel panel-title">
+                            <div class="alert-info text-center">
+                                <a>File Details</a>
+                            </div>
+                        </div>
+                        <div class="container-fluid well">
+                            <!--Alias Name -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Alias Name </label>
+                                <div class="controls">
+                                    <select id="AliasName" name="AliasName" data-ng-model="fileDetail.AliasName" class="input-medium" data-ng-required="true">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="alias in fileAliasNames">{{alias}}</option>
+                                    </select>
+                                    @*AliasName Validation*@
+                                    <div data-ng-show="formAddfileDetail.AliasName.$dirty && formAddfileDetail.AliasName.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.AliasName.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--AliasDescription -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Alias Description </label>
+                                <div class="controls">
+                                    <input type="text" name="AliasDescription" data-ng-model="fileDetail.AliasDescription" data-ng-required="true"
+                                        placeholder="Enter Alias Description" />
+                                    @*AliasDescription Validation*@
+                                    <div data-ng-show="formAddfileDetail.AliasDescription.$dirty && formAddfileDetail.AliasDescription.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.AliasDescription.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--SCB Systems -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">SCB Systems </label>
+                                <div class="controls">
+                                    <select id="ScbSystems" name="ScbSystems" data-ng-model="fileDetail.ScbSystems"
+                                        class="input-medium" required data-ng-change="Depends()">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="system in fileSystems">{{system}}</option>
+                                    </select>
+                                    @*SCB Validation*@
+                                    <div data-ng-show="formAddfileDetail.ScbSystems.$dirty && formAddfileDetail.ScbSystems.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.ScbSystems.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--File Frequency -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Frequency </label>
+                                <div class="controls">
+                                    <select id="Frequency" name="Frequency" data-ng-model="fileDetail.Frequency"
+                                        class="input-medium" required data-ng-change="Depends()">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="frequency in fileFrequencies">{{frequency}}</option>
+                                    </select>
+                                    @* Frequency Validation*@
+                                    <div data-ng-show="formAddfileDetail.Frequency.$dirty && formAddfileDetail.Frequency.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.Frequency.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--DependsOnAlias -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">DependsOnAlias</label>
+                                <div class="controls">
+                                    <select id="DependsOnAlias" name="DependsOnAlias" data-ng-model="fileDetail.DependsOnAlias" class="input-medium">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="dependalias in DependsOnAlias">{{dependalias}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <!--Category -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Category </label>
+                                <div class="controls">
+                                    <select id="Category" name="Category" data-ng-model="fileDetail.Category" class="input-medium" required
+                                        data-placeholder="Select Category">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="cat in fileCategories">{{cat}}</option>
+                                    </select>
+                                    @*  Category Validation*@
+                                    <div data-ng-show="formAddfileDetail.Category.$dirty && formAddfileDetail.Category.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.Category.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--File Type -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">File Type</label>
+                                <div class="controls">
+                                    <select id="FileType" name="FileType" data-ng-model="fileDetail.FileType" class="input-medium" required
+                                        data-placeholder="Select File Type">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="fileType in fileTypes">{{fileType}}</option>
+                                    </select>
+                                    @* FileType Validation*@
+                                    <div data-ng-show="formAddfileDetail.FileType.$dirty && formAddfileDetail.FileType.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.FileType.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- File Name -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">File Name</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="fileDetail.FileName" name="FileName" required class="input-medium"
+                                        placeholder="Enter File Name" />
+                                    @*FileName Validation*@
+                                    <div data-ng-show="formAddfileDetail.FileName.$dirty && formAddfileDetail.FileName.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.FileName.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--File Count -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">File Count</label>
+                                <div class="controls">
+                                    <input type="text" min="1" name="FileCount" data-ng-model="fileDetail.FileCount"
+                                        data-ng-pattern="/^[0-9]+$/" data-ng-required="true"
+                                        class="input-medium" placeholder="Enter no of files" />
+                                    @*   FileCount Validation*@
+                                    <div data-ng-show="formAddfileDetail.FileCount.$dirty && formAddfileDetail.FileCount.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.FileCount.$error.required">{{val.Required()}}</div>
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.FileCount.$error.pattern">{{val.OnlyNumbers()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Date Format -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Date Format </label>
+                                <div class="controls">
+                                    <select data-ng-model="fileDetail.DateFormat" required data-placeholder="Select Date Format"
+                                        name="date" class="input-medium">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="format in dateFormats">{{format}}</option>
+                                    </select>
+                                    @* Frequency Validation*@
+                                    <div data-ng-show="formAddfileDetail.date.$dirty && formAddfileDetail.date.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.date.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Sheet Name -->
+                            <div class="row-fluid control-group" data-ng-show="isSheetTypeColumn(fileDetail.FileType)">
+                                <label class="control-label">Sheet Name</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-model="fileDetail.SheetName" name="SheetName"
+                                        class="input-medium" data-ng-required="isSheetTypeColumn(fileDetail.FileType)" data-placeholder="Enter Sheet Name" />
+                                    @* SheetName Validation*@
+                                    <div data-ng-show="formAddfileDetail.SheetName.$dirty && formAddfileDetail.SheetName.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.SheetName.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--Skip Line -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Skip Line</label>
+                                <div class="controls">
+                                    <input type="text" min="0" name="SkipLine" data-ng-model="fileDetail.SkipLine" data-ng-required="true"
+                                        data-ng-pattern="/^[0-9]+$/" class="input-medium" placeholder="Enter Skip Lines" />
+                                    @*  Skip Line  Validation*@
+                                    <div data-ng-show="formAddfileDetail.SkipLine.$dirty && formAddfileDetail.SkipLine.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.required">{{val.Required()}}</div>
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.pattern">{{val.OnlyNumbers()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--Used for -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">UsedFor</label>
+                                <div class="controls">
+                                    <select data-ng-model="fileDetail.UsedFor" data-ng-required="true"
+                                        class="input-medium" placeholder="Enter Used For" name="UsedFor">
+                                        <option value="">--Select--</option>
+                                        <option data-ng-repeat="usedfor in UsedFor">{{usedfor}}</option>
+                                    </select>
+                                    @* UsedFor Validation*@
+                                    <div data-ng-show="formAddfileDetail.UsedFor.$dirty && formAddfileDetail.UsedFor.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.UsedFor.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--File Directory -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">FileDirectory </label>
+                                <div class="controls">
+                                    <input type="text" name="FileDirectory" data-ng-model="fileDetail.FileDirectory"
+                                        class="input-medium" placeholder="Enter File Directory Name" />
+                                </div>
+                            </div>
+
+
+                            <!--Email ID -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Email Id </label>
+                                <div class="controls">
+                                    <input type="email" data-ng-model="fileDetail.EmailId" required
+                                        name="email" placeholder="Enter Email Id" />
+                                    @* Email-Id Validation*@
+                                    <div data-ng-show="formAddfileDetail.email.$dirty && formAddfileDetail.email.$invalid">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.email.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!--Start Date -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Start Date </label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input class="input-medium" type="text" name="StartDate" data-ng-model="fileDetail.startDate" required
+                                               data-date-start-date="today" data-bs-datepicker="" data-ng-change="modelDateValidation(fileDetail.startDate,fileDetail.EndDate)"/>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                    <!--StartDate validation-->
+                                    <div data-ng-show="formAddfileDetail.StartDate.$dirty">
+                                        <div class="field-validation-error" data-ng-show="formAddfileDetail.StartDate.$error.required">{{val.Required()}}</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+
+                            <!--End Date -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">End Date </label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="fileDetail.EndDate" data-ng-change="modelDateValidation(fileDetail.startDate,fileDetail.EndDate)"
+                                               data-date-start-date="" data-bs-datepicker="today" />
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                    <div data-ng-show="formAddfileDetail.ScheduleDate.$dirty">
+                                        <div class="field-validation-error" data-ng-show="!isModalDateValid">{{val.ValidName("EndDate")}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <div data-ng-show="currentStep == 'addfilecolumn'">
+                <div class="panel panel-title">
+                    <div class="alert-info text-center">
+                        <a>File Columns</a>
+                    </div>
+                </div>
+                <div class="container-fluid well">
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <div class="controls text-center">
+                                <button class="btn-info" data-ng-click="openExcelManager()">Add Columns From Excel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div data-ng-form="formMultipleColumns">
+                            <div modal="shouldbeOpenExcelManager" close="closeExcelManager()" options="modelOption">
+                                <div class="modal-header well">
+                                    <h3 class="modal-title">Add Multiple Columns Using Excel Data</h3>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row-fluid">
+                                        <div class="control-group">
+                                            <div class=" controls">
+                                                <textarea rows="5" style="width: 100%;" placeholder="Insert or Paste Data" class="right" data-ng-model="excelData" data-ng-required="fileName.length>0"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer control-group">
+                                    <div class="controls">
+                                        <button class="btn btn-success" data-ng-click="convertData()" data-ng-disabled="!formMultipleColumns.$valid">Add</button>
+                                        <button class="btn btn-info " data-ng-click="closeExcelManager()">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div data-ng-form="fileColumngrid" data-ng-show="fileDetail.FileColumns.length>0" style="overflow: scroll; height: 400px;" data-ng-show="fileAliasName">
+
+                            <div class="row-fluid">
+                                <table class="table table-bordered table-hover" data-ng-show="fileDetail.FileColumns.length>0">
+                                    <thead>
+                                        <tr>
+                                            @*<th><i class="btn icon-plus" data-ng-click="openModel()"></i></th>*@
+                                            <th></th>
+                                            <th>File Column Name </th>
+                                            <th>Position </th>
+                                            <th>Length</th>
+                                            <th>Data Type</th>
+                                            <th>DB Column Name </th>
+                                            <th>Date Format </th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr data-ng-repeat="column in fileDetail.FileColumns | orderBy: 'Position'">
+                                            <td>
+                                                <div>
+                                                    <div class="btn-group">
+                                                        <i class="btn icon-trash" data-ng-show="true" data-ng-click="showDeleteModelPopup(column,$index)"></i>
+                                                        <i class="btn icon-arrow-up" data-ng-disabled="$index==0" data-ng-click="MoveUpward(column,$index)"></i>
+                                                        <i class="btn icon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1" data-ng-click="MoveDownward(column,$index)"></i>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" data-ng-model="column.FileColumnName" data-ng-disabled="true" />
+
+                                            </td>
+                                            <td>
+                                                <input type="text" class="input-mini" data-ng-disabled="true" min="0" data-ng-model="column.Position" />
+                                            </td>
+                                            <td>
+                                                <input type="number" class="input-mini" min="0" data-ng-model="column.Length" data-ng-required="true" />
+                                            </td>
+                                            <td>
+                                                <select id="ColumnDataType" class="input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType" data-placeholder="Select Column Type" data-ng-required="true">
+                                                    <option value=""></option>
+                                                    <option data-ng-repeat="type in dataTypes">{{type}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" data-ng-model="column.TempColumnName" data-ng-pattern="/^\w*$/" data-ng-required="true" />
+                                            </td>
+                                            <td style="width: 200px;">
+                                                <select id="DateFormat" class="input-medium" name="DateFormat" data-ng-show="isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-placeholder="Select Date Format">
+                                                    <option value=""></option>
+                                                    <option data-ng-repeat="format in dateFormats">{{format}}</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <!--Start Date -->
+                                                <div class="input-append">
+                                                    <input type="text" name="StartDate" class="input-medium" data-ng-model="column.StartDate" data-ng-required="true" data-date-start-date="" data-bs-datepicker="today" data-ng-change="dateValidation(column.StartDate,column.EndDate)" />
+                                                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <!--End Date -->
+                                                <div class="input-append">
+                                                    <input type="text" name="EndDate" class="input-medium" data-ng-model="column.EndDate" data-date-start-date="" data-bs-datepicker="today" data-ng-change="dateValidation(column.StartDate,column.EndDate)" />
+                                                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="input-medium" id="Description" name="Description" data-ng-model="column.Description" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div modal="showDeleteModel" close="noToDelete()" options="modelOption">
+                        <div class="modal-header well-small2">
+                            Confirmation
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to Delete?
+                        </div>
+                        <div class="modal-footer well">
+                            <div class="row-fluid">
+                                <span class="left">
+                                    <input type="button" value="Yes" class="btn btn-success" data-ng-click="yesToDelete()" />
+                                    <input type="button" value="No" class="btn btn-info" data-ng-click="noToDelete()" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div data-ng-show="currentStep == 'addfilemapping'">
+                <div class="panel panel-title">
+                    <div class="alert-info text-center">
+                        <a>File Mappings</a>
+                    </div>
+                </div>
+                <div class="container-fluid form-horizontal well">
+                    <div class="row-fluid">
+                        <div class="span4 control-group">
+                            <label class="control-label">Actual Table</label>
+                            <div class="controls">
+                                <select data-ng-model="sActualTable" data-ng-options="c for c in fileclassTypes"
+                                    data-ng-change="getFileMappings(sActualTable, fileDetail.TempTable)" data-placeholder="Select File Name">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="span4 control-group">
+                            <label class="control-label">Alias Name</label>
+                            <div class="controls">
+                                <input type="text" value="{{fileDetail.AliasName}}">
+                            </div>
+                        </div>
+
+                        @* <div class="span4 control-group">
+                            <label class="control-label">Actual Table</label>
+                            <div class="controls">
+                                <input data-ng-model="actualTable" readonly="readonly" />
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div style="overflow: auto;">
+                        <table class="table table-bordered table-hover span12" style="overflow: auto">
+                            <thead>
+                                <tr>
+                                    <th>Action</th>
+                                    <th>ValueType</th>
+                                    <th>Position</th>
+                                    <th>OutputPosition</th>
+                                    <th>OutputColumnName</th>
+                                    <th>ActualColumn</th>
+                                    <th>TempColumn</th>
+                                    <th>DefaultValue</th>
+                                    <th>StartDate</th>
+                                    <th>EndDate</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        <select data-ng-model="search.ValueType" data-ng-options="c for c in valueTypes"
+                                            data-ng-change="changeValueType(fileMapping)" style="width: 120px">
+                                            <option value="">- Select -</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.Position" data-ng-required="" style="width: 50px" />
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.OutputPosition" data-ng-required="" style="width: 50px" />
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.OutputColumnName" data-ng-required="" style="width: 100px" />
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.ActualColumn" style="width: 100px" />
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.TempColumn" style="width: 120px" />
+                                    </th>
+                                    <th>
+                                        <input type="text" data-ng-model="search.DefaultValue" style="width: 120px" />
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="fileMapping in fileMappings | filter:search ">
+                                    <td>
+                                        <div class="btn-group">
+                                            <i class="btn icon-arrow-up" data-ng-disabled="$index==0" data-ng-click="MoveUpwardMapping(column,$index)"></i>
+                                            <i class="btn icon-arrow-down" data-ng-disabled="$index==fileMappings.length-1" data-ng-click="MoveDownwardMapping(column,$index)"></i>
+                                            @*  <i class="btn icon-remove" data-ng-show="false" data-ng-click="deleteHierarchy(hierarchy.Id,$index)"></i>*@
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select data-ng-model="fileMapping.ValueType" data-ng-options="c for c in valueTypes" style="width: 120px">
+                                            <option value="">- Select -</option>
+                                        </select></td>
+                                    <td>
+                                        <label data-ng-model="fileMapping.Position">{{fileMapping.Position}}</label></td>
+                                    <td>
+                                        <input class="input-mini" type="text" data-ng-model="fileMapping.OutputPosition" value="{{fileMapping.OutputPosition}}" /></td>
+                                    <td>
+                                        <label data-ng-model="fileMapping.OutputColumnName">{{fileMapping.OutputColumnName}}</label></td>
+                                    <td>
+                                        <label data-ng-model="fileMapping.ActualColumn">{{fileMapping.ActualColumn}}</label></td>
+                                    <td>
+                                        <select style="width: 120px" data-ng-show="fileMapping.ValueType === 'ExcelValue'" data-ng-model="fileMapping.TempColumn" data-ng-change="outputCol(fileMapping)">
+                                            <option data-ng-repeat="data in fileDetail.FileColumns">{{data.TempColumnName}}</option>
+                                        </select></td>
+                                    <td>
+                                        <input type="text" data-ng-bind="fileMapping.DefaultValue" data-ng-show="fileMapping.ValueType === 'DefaultValue'" style="width: 120px" /></td>
+                                    <td>{{fileMapping.StartDate | date : 'yyyy-MM-dd'}}</td>
+                                    <td>{{fileMapping.EndDate | date : 'yyyy-MM-dd'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="control-group text-right">
+                <div class="controls">
+                    <button class="btn btn-success" data-ng-hide="currentStep ==='addfiledetail'" data-ng-click="HasPrevStep()">Previous</button>
+                    <button class="btn btn-info" data-ng-show="currentStep ==='addfilemapping'" data-ng-disabled="!formAddfileDetail.$valid" data-ng-click="Save(fileDetail)">Save</button>
+                    <button class="btn btn-success" data-ng-hide="currentStep ==='addfilemapping'" data-ng-disabled="!(formAddfileDetail.$valid && isModalDateValid)" data-ng-click="HasNextStep(currentStep)">Next</button>
+                    <button class="btn btn-info" data-ng-hide="currentStep === StepNames" data-ng-click="ResetStep(currentStep)">Reset</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+@section scripts
+{
+    <script src="~/Areas/FileUploader/jsControllers/AllfileDetails.js"></script>
+}

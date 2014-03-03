@@ -1,0 +1,433 @@
+﻿@{
+    ViewBag.Title = "EditHierarchy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" data-ng-cloak="" data-ng-controller="EditHierarchy">
+    <!--Data in Grid View-->
+    <div style="overflow: auto; height: 500px" data-ng-hide="active">
+        <table class="table table-bordered table-hover">
+            <thead>
+
+                <tr>
+                    <th>Action</th>
+                    <th>Designation</th>
+                    <th>Hierarchy</th>
+                    <th>Reports To</th>
+                    <th>Location Level</th>
+                    <th>Individual</th>
+                    <th>IsUser</th>
+                    <th>IsInAllocation</th>
+                    <th>IsInField</th>
+                    <th>IsEmployee</th>
+                    <th>Registration</th>
+                    <th>Address</th>
+                    <th>Working</th>
+                    <th>Payment</th>
+                </tr>
+
+            </thead>
+            <tbody>
+
+                <tr data-ng-repeat="hierarchy in HierarchyList">
+                    <!--Button Edit n Delete-->
+                    <td>
+                        <div class="btn-group">
+                            <i class="btn  icon-edit-sign" data-ng-click="openEditBox(hierarchy,$index)"></i>
+                        </div>
+                    </td>
+
+                    <td>{{hierarchy.Designation}}</td>
+                    <td>{{hierarchy.Hierarchy}}</td>
+                    <td>{{hierarchy.ReportsToName.Designation}}
+                    </td>
+                    <td>{{hierarchy.LocationLevel}}</td>
+
+                    <!--IsIndividual-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsIndividual}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.IsIndividual}}" class="btn btn-default ">No</i>
+                        </div>
+                    </td>
+
+                    <!--IsUser-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsUser}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.IsUser}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--IsInAllocation-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsInAllocation}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.IsInAllocation}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--IsInField-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsInField}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.IsInField}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--IsEmployee-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsEmployee}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.IsEmployee}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--HasRegistration-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasRegistration}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.HasRegistration}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--HasAddress-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasAddress}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.HasAddress}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--HasWorking-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasWorking}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.HasWorking}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                    <!--HasPayment-->
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasPayment}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{hierarchy.HasPayment}}" class="btn btn-default">No</i>
+                        </div>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row-fluid" style="height: 400px" data-ng-show="active">
+        
+        <form name="MyForm" class="form-horizontal" data-ng-init="step=1" novalidate>
+            
+            <!--Step-1-->
+            <div class="panel" data-ng-form="step1form" data-ng-show="step==1">
+                <div class="panel-heading">Step 1</div>
+
+                <div class="row-fluid" style="height: 400px">
+                    <!--Designation-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Designation : </label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="hierarchy.Designation" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Hierarchy-->
+                    <div class="row-fluid ">
+                        <div class="control-group">
+                            <label class="control-label">Hierarchy : </label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="hierarchy.Hierarchy" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Reports To-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">ReportsTo : </label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="hierarchy.ReportsToName.Designation" readonly/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Location Level-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Location Level : </label>
+                            <div class="controls">
+                                <select class="input-large" multiple="multiple" data-ui-select2="" data-ng-required="true" data-ng-model="hierarchy.LocationLevel">
+                                  <option data-ng-repeat="data in LocationlevelList">{{data}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                  <input type="submit" value="Next" class="btn btn-success" data-ng-disabled="step1form.$invalid" data-ng-click="step=2" data-ng-model="change" />
+                    <input type="submit" class="btn btn-warning" value="Cancel" data-ng-click="closeEditBox()" />
+                </div>
+
+            </div>
+            
+            <!--Step-2-->
+            <div class="panel" data-ng-form="step2form" data-ng-show="step==2">
+                <div class="panel-heading">Step 2</div>
+
+                <div class="row-fluid" style="height: 400px">
+                    
+                    <!--IsUser-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Is User : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.IsUser"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} is user of collosys or not</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--IsIndividual-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Is Individual : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.Individual" data-ng-change="hierarchy.IsEmployee=false"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} is an Individual or any Organization </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Registration-->
+                    <div class="row-fluid" data-ng-show="!hierarchy.Individual">
+                        <div class="control-group">
+                            <label class="control-label">Registration : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.Registration"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">Is {{hierarchy.Designation}} needs Registration</span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--IsEmployee-->
+                    <div class="row-fluid" data-ng-show="hierarchy.Individual">
+                        <div class="control-group">
+                            <label class="control-label">Is Employee : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.IsEmployee"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">Is {{hierarchy.Designation}} Employee of collosys</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Is Highest Level designation-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Is Highest Level Designation : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.ManageReportsTo"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} having any highest level designation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has Address-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Has Address : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasAddress"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} has address </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has multiple Address-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasAddress">
+                        <div class="control-group">
+                            <label class="control-label">Has Multiple Address : </label>
+                            <div class="controls">
+                                <input type="button" value="No" class="btn" data-ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel-footer text-right">
+                    <input type="submit" value="Back" class="btn btn-inverse" data-ng-click="step=1" />
+                    <input type="submit" value="Next" class="btn btn-success" data-ng-click="step=3" />
+                    <input type="submit" class="btn btn-warning" value="Cancel" data-ng-click="closeEditBox()" />
+                </div>
+
+            </div>
+            
+            <!--Step-3-->
+            <div class="panel" data-ng-form="step3form" data-ng-show="step==3">
+                <div class="panel-heading">Step 3</div>
+                <div class="row-fluid" style="height: 400px">
+                    
+                    <!--Has Working-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Has Working : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasWorking" data-ng-change="ResetBtnValue()"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} has working</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has Bucket-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasWorking">
+                        <div class="control-group">
+                            <label class="control-label">Has Buckets : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasBuckets"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} has Buckets</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Is in Allocation-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasWorking">
+                        <div class="control-group">
+                            <label class="control-label">Is In Allocation : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.IsInAllocation" data-ng-change="hierarchy.IsInField=false"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} is in allocation</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Is in field-->
+                    <div class="row-fluid" data-ng-show="hierarchy.IsInAllocation">
+                        <div class="control-group">
+                            <label class="control-label">Is In Field : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.IsInField"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} is in field</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer text-right">
+                    <input type="submit" value="Back" class="btn btn-inverse" data-ng-click="step=2" />
+                    <input type="submit" value="Next" class="btn btn-success" data-ng-click="step=4" />
+                    <input type="submit" class="btn btn-warning" value="Cancel" data-ng-click="closeEditBox()" />
+                </div>
+
+            </div>
+            
+            <!--Step-4-->
+            <div class="panel" data-ng-form="step4form" data-ng-show="step==4">
+                <div class="panel-heading">Step 4</div>
+                <div class="row-fluid" style="height: 400px">
+                    <!--Has payment-->
+                    <div class="row-fluid">
+                        <div class="control-group">
+                            <label class="control-label">Has Payment : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasPayment" data-ng-change="ResetPaymentChlidVal()"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} has Payment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has Bank Details-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
+                        <div class="control-group">
+                            <label class="control-label">Has Bank Details : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasBankDetails"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Bank Details</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has mobile Travel-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
+                        <div class="control-group">
+                            <label class="control-label">Has Mobile Travel : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasMobileTravel"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Mobile Travel</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has variable-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
+                        <div class="control-group">
+                            <label class="control-label">Has Variable : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasVariable"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Variable</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has fixed-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
+                        <div class="control-group">
+                            <label class="control-label">Has Fixed : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasFixed" data-ng-change="hierarchy.HasFixedIndividual=false"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Fixed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has fixed Individual-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasFixed">
+                        <div class="control-group">
+                            <label class="control-label">Has Fixed Individual : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasFixedIndividual"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Fixed Individual</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Has service charge-->
+                    <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
+                        <div class="control-group">
+                            <label class="control-label">Has Service Charge : </label>
+                            <div class="controls">
+                                <div btn-switch data-ng-model="hierarchy.HasServiceCharge"></div>
+                                &nbsp;&nbsp;&nbsp;<span style="color: gray">{{hierarchy.Designation}} Has Service Charge </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer text-right">
+                    <input type="submit" value="Back" class="btn btn-inverse" data-ng-click="step=3" />
+                    <input type="submit" value="Save" class="btn btn-success" data-ng-disabled="step1form.$invalid" data-ng-click="saveUpdatedData(hierarchy)"/>
+                    <input type="submit" class="btn btn-warning" value="Cancel" data-ng-click="closeEditBox()" />
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder2/ViewModels/EditHierarchy.js"></script>
+}
+

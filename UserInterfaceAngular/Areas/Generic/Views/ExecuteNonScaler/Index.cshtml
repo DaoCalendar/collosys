@@ -1,0 +1,34 @@
+﻿@using ColloSys.UserInterface.Areas.Generic.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <ul class="nav nav-tabs">
+        <li>@Html.ActionLink("Execute Select", "ExecuteNonScalerSql")</li>
+        <li>@Html.ActionLink("Execute Update, Delete", "ExecuteUpdateDelete")</li>
+        <li>@Html.ActionLink("Execute Select with Aggregate", "ExecuteScalerWithSelect")</li>
+    </ul>         
+    <hr/>
+</div>
+
+@if (QueryResult.Queries != null)
+{
+    foreach (var query in QueryResult.Queries)
+    {
+        <div class="alert-success">
+            <span>@query</span><br/>
+        </div>
+    }
+}
+
+@section styles
+{
+    <style>
+        textarea
+        {
+            width: 750px;
+            height: 200px;
+        }
+    </style>
+}

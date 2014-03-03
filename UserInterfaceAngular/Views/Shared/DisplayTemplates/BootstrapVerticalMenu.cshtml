@@ -1,0 +1,66 @@
+﻿@model MenuHelperModel
+@using System.Linq
+
+@TopMenu(Model.Nodes)
+
+@helper  TopMenu(IEnumerable<SiteMapNodeModel> nodeList)
+{
+    @:<ul>
+var roles = Roles.GetRolesForUser();
+var links = nodeList.Where(item => item.Attributes.Keys.Contains("roles"))
+                    .Where(item => roles.Contains((string)item.Attributes["roles"]))
+                    .ToList();
+
+foreach (var node in links)
+{
+    var url = node.IsClickable ? node.Url : "#";
+    <li class="text-center">                        
+        @if (!node.IsClickable)
+        {
+                <span class="icon-stack" style="font-size: 2em;">
+                    <i class="icon-check-empty icon-stack-base"></i>
+                    <i class="@node.ImageUrl spinner"></i>
+                </span>
+                <br />
+                <span style="font-weight: bold">@node.Title</span>    
+        }
+        else
+        {
+            <a href="@url">
+                <i class="@node.ImageUrl spinner" style="font-size: 2em;"></i>
+                <br />
+                <span style="font-weight: bold">@node.Title</span>    
+            </a>
+        }   
+
+        @if (node.Children.Any())
+        {
+            @DropDownMenu(node.Children, roles)
+        }
+    </li>
+}
+    @:</ul>
+}
+
+@helper DropDownMenu(IEnumerable<SiteMapNodeModel> nodeList, IEnumerable<string> roles)
+{
+    var links = (nodeList.Where(item => item.Attributes.Keys.Contains("roles"))
+                            .Where(item => item.Attributes["roles"].ToString().Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries)
+                                                                   .Any(x => roles.Contains(x) || x == "All")))
+        .ToList();
+
+    @:<ul>
+foreach (var node in links)
+{
+    if (node.Title == "Separator")
+    {
+            @:<li></li>
+        }
+    else
+    {
+        var url = node.IsClickable ? node.Url : "#";
+        <li class="text-left"><a href="@url">@node.Title</a></li>
+    }
+}
+    @:</ul>
+}

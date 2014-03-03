@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Billing Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container" data-ng-controller="BillingStatusController">
+    <div class="panel row-fluid">
+        <div class="panel-heading">Billing Status</div>
+        <div class="row-fluid" style="height:500px;overflow:auto">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Bill Month</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="bill in billingList" data-ng-class="{donebg:bill.Status==='Done',pendingbg:bill.Status==='Pending'}">
+                        <td>{{bill.Products}}</td>
+                        <td>{{bill.BillMonth}}</td>
+                        <td>{{bill.Status}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section styles{
+    <style type="text/css">
+       
+        .donebg {
+            background-color: lightgreen;
+        }
+
+        .pendingbg {
+            background-color: papayawhip;
+        }
+
+    </style>
+}
+
+@section scripts
+{
+    <script src="~/Areas/Billing/ViewModels/BillingStatus.js"></script>
+}

@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "File Mapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div data-ng-controller="fileMappingCtrl" data-ng-cloak="">
+
+    <div class="row-fluid form-horizontal">
+        <div class="span4 control-group">
+            <label class="control-label">File Name</label>
+            <div class="controls">
+                <select data-ng-model="fileDetail" data-ng-change="getFileMappings(fileDetail)" data-ng-options="c.AliasName for c in fileDetails | orderBy:'AliasName'">
+                    <option value="">-- Select File --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="span4 control-group">
+            <label class="control-label">Actual Table</label>
+            <div class="controls">
+                <input type="text" data-ng-model="actualTable" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+
+    <div style="overflow: auto;">
+        <table class="table table-bordered table-hover span12" style="overflow: auto">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>ValueType</th>
+                    <th>Position</th>
+                    <th>OutputPosition</th>
+                    <th>OutputColumnName</th>
+                    <th>ActualColumn</th>
+                    <th>TempColumn</th>
+                    <th>DefaultValue</th>
+                    <th>StartDate</th>
+                    <th>EndDate</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <select data-ng-model="search.ValueType" data-ng-options="c for c in valueTypes"
+                            data-ng-change="changeValueType(fileMapping)" style="width: 120px">
+                            <option value="">- Select -</option>
+                        </select>
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.Position" data-ng-required="" style="width: 50px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.OutputPosition" data-ng-required="" style="width: 50px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.OutputColumnName" data-ng-required="" style="width: 50px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.ActualColumn" style="width: 100px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.TempColumn" style="width: 120px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.DefaultValue" style="width: 120px" />
+                    </th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="fileMapping in fileMappings @*| orderBy: 'Position'*@ | filter:search">
+                    <td>
+                        <div class="btn-group">
+                            <i class="btn icon-file-alt" data-ng-click="openModel(fileMapping,$index,true)"></i>
+                            <i class="btn icon-edit" data-ng-click="openModel(fileMapping,$index,false)"></i>
+                            <i class="btn icon-remove" data-ng-show="false" data-ng-click="deleteHierarchy(hierarchy.Id,$index)"></i>
+                        </div>
+                    </td>
+                    <td>{{fileMapping.ValueType}}</td>
+                    <td>{{fileMapping.Position}}</td>
+                    <td>{{fileMapping.OutputPosition}}</td>
+                    <td>{{fileMapping.OutputColumnName}}</td>
+                    <td>{{fileMapping.ActualColumn}}</td>
+                    <td>{{fileMapping.TempColumn}}</td>
+                    <td>{{fileMapping.DefaultValue}}</td>
+                    <td>{{fileMapping.StartDate | date : 'yyyy-MM-dd'}}</td>
+                    <td>{{fileMapping.EndDate | date : 'yyyy-MM-dd'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div modal="shouldBeOpen" close="closeModel()" options="modelOption">
+        <form name="formAddfileMapping" novalidate="">
+            <div class="modal-header">
+                File Mapping
+            </div>
+            <div data-ng-form="formAddfileMapping" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="control-group">
+                        <label class="control-label">Actual Table</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="actualTable" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Temp Table</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="tempTable" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Actual Column</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="fileMapping.ActualColumn" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Value Type</label>
+                        <div class="controls">
+                            <select data-ng-model="fileMapping.ValueType" name="ValueType" data-ng-options="c for c in valueTypes" data-ng-change="changeValueType(fileMapping)"
+                                data-ng-disabled="isReadOnly" required>
+                                <option value="">-- Select File --</option>
+                            </select>
+                            @*ValueType Validation*@
+                            <div data-ng-show="formAddfileMapping.ValueType.$dirty && formAddfileMapping.ValueType.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.ValueType.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-ng-switch on="fileMapping.ValueType">
+                        <div data-ng-switch-when="ExcelValue" class="control-group">
+                            <label class="control-label">Temp Column</label>
+                            <div class="controls">
+                                <select data-ng-model="fileMapping.TempColumn" data-ng-change="changeFileColumn(fileMapping.TempColumn)" data-ng-disabled="isReadOnly" required>
+                                    <option value="">-- Select File --</option>
+                                    <option data-ng-repeat="c in fileColumns | orderBy: 'TempColumnName'">{{c.TempColumnName}}</option>
+                                </select>
+                                @*TempColumn Validation*@
+                                <div data-ng-show="formAddfileMapping.TempColumn.$dirty && formAddfileMapping.TempColumn.$invalid">
+                                    <span class="field-validation-error" data-ng-show="formAddfileMapping.TempColumn.$error.required">{{val.Required()}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-ng-switch-when="MappedValue" class="control-group">
+                            <label class="control-label">Temp Column</label>
+                            <div class="controls">
+                                <select data-ng-model="fileMapping.TempColumn" name="TempColumn" data-ng-change="changeFileColumn(fileMapping.TempColumn)" data-ng-disabled="isReadOnly" required>
+                                    <option value="">-- Select File --</option>
+                                    <option data-ng-repeat="c in fileColumns | orderBy: 'TempColumnName'">{{c.TempColumnName}}</option>
+                                </select>
+                                @*TempColumn Validation*@
+                                <div data-ng-show="formAddfileMapping.TempColumn.$dirty && formAddfileMapping.TempColumn.$invalid">
+                                    <span class="field-validation-error" data-ng-show="formAddfileMapping.TempColumn.$error.required">{{val.Required()}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-ng-switch-when="DefaultValue" class="control-group">
+                            <label class="control-label">Default Value</label>
+                            <div class="controls">
+                                <input type="text" name="DefaultValue" data-ng-model="fileMapping.DefaultValue" data-ng-disabled="isReadOnly" required />
+                                @*DefaultValue Validation*@
+                                <div data-ng-show="formAddfileMapping.DefaultValue.$dirty && formAddfileMapping.DefaultValue.$invalid">
+                                    <span class="field-validation-error" data-ng-show="formAddfileMapping.DefaultValue.$error.required">{{val.Required()}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-ng-switch-when="ExpressionValue" class="control-group">
+                            <label class="control-label">Default Value</label>
+                            <div class="controls">
+                                <input type="text" name="ExpressionValue" data-ng-model="fileMapping.DefaultValue" data-ng-disabled="isReadOnly" required />
+                                @*ExpressionValue Validation*@
+                                <div data-ng-show="formAddfileMapping.ExpressionValue.$dirty && formAddfileMapping.ExpressionValue.$invalid">
+                                    <span class="field-validation-error" data-ng-show="formAddfileMapping.ExpressionValue.$error.required">{{val.Required()}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div data-ng-show="(fileMapping.ValueType=='DefaultValue' || fileMapping.ValueType=='ExpressionValue')" class="control-group">
+                        <label class="control-label">Default Value</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="fileMapping.DefaultValue" data-ng-disabled="isReadOnly" required />
+                        </div>
+                    </div>*@
+                    </div>
+
+
+                    <div class="control-group">
+                        <label class="control-label">Position</label>
+                        <div class="controls">
+                            <input type="text" name="Position" data-ng-model="fileMapping.Position" readonly="readonly" required />
+                            @*Position Validation*@
+                            <div data-ng-show="formAddfileMapping.Position.$dirty && formAddfileMapping.Position.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.Position.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Output Position</label>
+                        <div class="controls">
+                            <input type="text" name="OutputPosition" data-ng-model="fileMapping.OutputPosition"  required />
+                            @*Position Validation*@
+                            <div data-ng-show="formAddfileMapping.OutputPosition.$dirty && formAddfileMapping.OutputPosition.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.OutputPosition.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">OutputColumnName</label>
+                        <div class="controls">
+                            <input type="text" name="OutputColumnName" data-ng-model="fileMapping.OutputColumnName" data-ng-change="changeFileColumn(fileMapping.TempColumn)" readonly="readonly" required />
+                            @*Position Validation*@
+                            <div data-ng-show="formAddfileMapping.OutputColumnName.$dirty && formAddfileMapping.OutputColumnName.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.OutputColumnName.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group">
+                        <label class="control-label">Start Date</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input type="text" name="StartDate" class="input-medium" data-ng-disabled="isReadOnly" data-ng-required="true" data-ng-model="fileMapping.StartDate" bs-datepicker />
+                                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                            </div>
+                            @*StartDate Validation*@
+                            <div data-ng-show="formAddfileMapping.StartDate.$dirty && formAddfileMapping.StartDate.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.StartDate.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">End Date</label>
+                        <div class="controls">
+                            <div class="input-append">
+                                <input type="text" name="EndDate" class="input-medium" data-ng-disabled="isReadOnly" data-ng-required="true" data-ng-model="fileMapping.EndDate" bs-datepicker />
+                                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                            </div>
+                            @*StartDate Validation*@
+                            <div data-ng-show="formAddfileMapping.EndDate.$dirty && formAddfileMapping.EndDate.$invalid">
+                                <span class="field-validation-error" data-ng-show="formAddfileMapping.EndDate.$error.required">{{val.Required()}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer control-group">
+                <div class="controls">
+                    <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="saveFileMapping(fileMapping)" data-ng-disabled="!formAddfileMapping.$valid">Save</button>
+                    <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="closeModel()">Cancel</button>
+                    <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="closeModel()">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section scripts{
+
+
+    <script src="~/Areas/FileUploader/jsControllers/fileMappingCtrl.js"></script>
+}
+

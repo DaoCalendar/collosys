@@ -1,0 +1,50 @@
+﻿@*@model ColloSys.UserInterface.Areas.Developer.ViewModels.LogFileViewModel*@
+@{
+    ViewBag.Title = "DownloadLogs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div data-ng-controller="logdownloadCtrl" style="padding-top: 30px">
+    <form name="pageForm">
+        <div class="form-horizontal">
+            <div>
+                <div class="row control-group">
+                    <div class="controls input-append">
+                        <select class="input-mini" data-ng-model="logfile.Drive" data-ng-change="changeDrive(logfile.Drive)">
+                            <option data-ng-repeat="d in drives">{{d}}</option>
+                        </select>
+                        <input type="text" name="directory" class="input-xxlarge" required data-ng-model="logfile.Path" />
+                        <button class="btn btn-success" data-ng-disabled="!pageForm.$valid" data-ng-click="getStatus(logfile.Path)">GO</button>
+                        <button class="btn btn-success" data-ng-disabled="!pageForm.$valid" data-ng-click="getParentDir(logfile.Path)">UP</button>
+                        <input type="search" class="search-query" data-ng-model="search.Name" placeholder="search..." />
+                    </div>
+                </div>
+
+                <div class="row-fluid control-group">
+                    <div class="controls">
+                        <span class="span5" style="margin-left: 0;" data-ng-repeat="dir in logfile.Directories|filter:search">
+                            <i class="icon-folder-open" style="color: wheat"></i>
+                            <button class="btn btn-link" data-ng-click="changeDirectory(dir)" type="button">{{dir.Name}}</button>
+                        </span>
+                        <span class="span5" style="margin-left: 0;"  data-ng-repeat="logFile in logfile.LogFiles|filter:search">
+                            <span>{{logFile.Name}}</span>
+                            <i class="btn btn-mini btn-success icon-arrow-down" data-ng-click="downloadFile(logFile)" ></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script src="~/Areas/Developer/ViewModels/LogDownload.js"></script>
+}
+

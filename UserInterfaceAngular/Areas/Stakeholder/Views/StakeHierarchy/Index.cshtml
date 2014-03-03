@@ -1,0 +1,428 @@
+﻿@{
+    ViewBag.Title = "Stake Hierarchy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row-fluid" data-ng-controller="stkHrchyCtrl" data-ng-cloak="">
+    <div style="overflow: auto; Height: 500px">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Designation</th>
+                    <th>Vertical</th>
+                    <th>Location Level</th>
+                    <th>Reports To</th>
+                    <th>Individual</th>
+                    <th>IsUser</th>
+                    <th>IsInAllocation</th>
+                    <th>IsInField</th>
+                    <th>IsEmployee</th>
+                    <th>Registration</th>
+                    <th>Address</th>
+                    <th>Working</th>
+                    <th>Payment</th>
+                </tr>
+                <tr>
+                    <th>
+                        <i class="btn icon-plus" data-ng-click="openModel()"></i>
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.Designation" style="width: 120px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.Hierarchy" style="width: 100px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.LocationLevel" style="width: 100px" />
+                    </th>
+                    <th>
+                        <input type="text" data-ng-model="search.ReportsTo" style="width: 120px" /></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="hierarchy in stkhierarchys | filter:search">
+                    <td>
+                        <div class="btn-group">
+                            <i class="btn icon-file-alt" data-ng-click="openModelData(hierarchy,true)"></i>
+                            <i class="btn icon-edit" data-ng-click="openModelData(hierarchy,false,$index)"></i>
+                            <i class="btn icon-trash" data-ng-show="false" data-ng-click="deleteHierarchy(hierarchy.Id,$index)"></i>
+                        </div>
+                    </td>
+                    <td>{{hierarchy.Designation}}</td>
+                    <td>{{hierarchy.Hierarchy}}</td>
+                    <td>{{hierarchy.LocationLevel}}</td>
+
+                    <td>
+                        <div data-ng-hide="{{hierarchy.ReportsTo == '00000000-0000-0000-0000-000000000000'}}">{{hierarchy.ReportToDetails.Designation}},{{hierarchy.ReportToDetails.Hierarchy}}</div>
+                        <div data-ng-show="{{hierarchy.ReportsTo == '00000000-0000-0000-0000-000000000000'}}"></div>
+                    </td>
+
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsIndividual}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.IsIndividual}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+
+                        @*<showboolean value="{{hierarchy.IsIndividual}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsUser}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.IsUser}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.IsUser}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsInAllocation}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.IsInAllocation}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.IsUser}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsInField}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.IsInField}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.IsUser}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.IsEmployee}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.IsEmployee}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.IsUser}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasRegistration}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.HasRegistration}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.HasRegistration}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasAddress}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.HasAddress}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.HasAddress}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasWorking}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.HasWorking}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.HasWorking}}"></showboolean>*@
+                    </td>
+                    <td>
+                        <div style="text-align: center">
+                            <i data-ng-show="{{hierarchy.HasPayment}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{hierarchy.HasPayment}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                        @*<showboolean value="{{hierarchy.HasPayment}}"></showboolean>*@
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div modal="shouldBeOpen" close="closeModel()" options="modelOption">
+        <div class="modal-header well">
+            <h3>Add New Hierarchy</h3>
+        </div>
+        <div data-ng-form="formAddStkHrchy" class="form-horizontal">
+            <div class="modal-body">
+
+                <div class="control-group row-fluid">
+                    <label class="control-label">Designation</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="stkHcy.Designation" data-ng-readonly="isReadOnly" required data-placeholder="Designation" />
+                    </div>
+                </div>
+
+                <div class="control-group row-fluid">
+                    <label class="control-label">Vertical</label>
+                    <div class="controls">
+                        <select data-ng-model="stkHcy.Hierarchy" data-ui-select2="" style="width: 220px" placeholder="Select Hierarchy" data-ng-disabled="isReadOnly" required>
+                            <option value=""></option>
+                            <option data-ng-repeat="c in hierarchys">{{c}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group row-fluid">
+
+                    <label class="control-label">Location Level</label>
+
+                    <div class="controls">
+                        <select data-ng-model="stkHcy.LocationLevel" ui-select2 multiple="multiple" class="input-medium"
+                            style="width: 220px" placeholder="Select Location" data-ng-disabled="isReadOnly" required>
+                            <option value=""></option>
+                            <option data-ng-repeat="c in locationLevels">{{c}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group row-fluid">
+                    <label class="control-label">Reports To</label>
+                    <div class="controls">
+                        <div data-ng-show="isReadOnly">
+                            <div data-ng-show="{{stkHcy.ReportsTo == '00000000-0000-0000-0000-000000000000'}}">
+                                <input type="text" data-ng-readonly="true" value="" />
+                            </div>
+                            <div data-ng-hide="{{stkHcy.ReportsTo == '00000000-0000-0000-0000-000000000000'}}">
+                                <input type="text" data-ng-readonly="true" value="{{stkHcy.ReportToDetails.Designation +  ', ' +stkHcy.ReportToDetails.Hierarchy}}" />
+                            </div>
+                        </div>
+                        <div data-ng-hide="isReadOnly">
+                            <select data-ng-model="stkHcy.ReportsTo" data-ui-select2="" style="width: 320px" placeholder="Select">
+                                <option value=""></option>
+                                <option data-ng-repeat="c in stkhierarchys" value="{{c.Id}}">{{c.Designation + ', ' + c.Hierarchy}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- isuser-->
+                <div class="control-group row-fluid">
+                    <label class="control-label">User</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.IsUser"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.IsUser}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.IsUser}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <!--isInAllocation-->
+                <div class="control-group row-fluid">
+                    <label class="control-label">IsInAllocation</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.IsInAllocation"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.IsInAllocation}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.IsInAllocation}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <!--IsInField-->
+                <div class="control-group row-fluid" data-ng-show="stkHcy.IsInAllocation">
+                    <label class="control-label">IsInField</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.IsInField"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.IsInField}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.IsInField}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+
+                <!--IsEmplyee-->
+                <div class="control-group row-fluid">
+                    <label class="control-label">IsEmployee</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.IsEmployee"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.IsEmployee}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.IsEmployee}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <!-- Individual-->
+                <div class="control-group row-fluid">
+                    <label class="control-label">Individual</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.IsIndividual"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.IsIndividual}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.IsIndividual}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <div data-ng-show="!stkHcy.IsIndividual" class="well">
+                    <!-- HasRegistration -->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Registration</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasRegistration"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasRegistration}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasRegistration}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HasAddress -->
+                <div class="control-group row-fluid">
+                    <label class="control-label">Address</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.HasAddress"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.HasAddress}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.HasAddress}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <div data-ng-show="stkHcy.HasAddress" class="well">
+                    <!-- HasMultipleAddress -->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Multiple Address</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasMultipleAddress"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasMultipleAddress}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasMultipleAddress}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Working Details -->
+                <div class="control-group row-fluid">
+                    <label class="control-label">Working Details</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.HasWorking"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.HasWorking}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.HasWorking}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <div data-ng-show="stkHcy.HasWorking" class="well">
+
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Buckets</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasBuckets"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasBuckets}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasBuckets}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Details -->
+                <div class="control-group row-fluid">
+                    <label class="control-label">Payment Details</label>
+                    <div class="controls" data-ng-hide="isReadOnly">
+                        <div btn-switch data-ng-model="stkHcy.HasPayment"></div>
+                    </div>
+                    <div class="controls" data-ng-show="isReadOnly">
+                        <i data-ng-show="{{stkHcy.HasPayment}}" class="btn icon-check" style="color: green"></i>
+                        <i data-ng-hide="{{stkHcy.HasPayment}}" class="btn icon-remove" style="color: red"></i>
+                    </div>
+                </div>
+
+                <div data-ng-show="stkHcy.HasPayment" class="well">
+
+                    <!-- Bank Details -->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Bank Details</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasBankDetails"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasBankDetails}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasBankDetails}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Travel Elg. -->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Mobile Travel Elg.</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasMobileTravel"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasMobileTravel}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasMobileTravel}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+
+                    <!--Variable Payment-->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Variable Payment</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasVarible"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasVarible}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasVarible}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+
+                    <!--Fixed Payment-->
+                    <div class="control-group row-fluid">
+                        <label class="control-label">Fixed Payment</label>
+                        <div class="controls" data-ng-hide="isReadOnly">
+                            <div btn-switch data-ng-model="stkHcy.HasFixed"></div>
+                        </div>
+                        <div class="controls" data-ng-show="isReadOnly">
+                            <i data-ng-show="{{stkHcy.HasFixed}}" class="btn icon-check" style="color: green"></i>
+                            <i data-ng-hide="{{stkHcy.HasFixed}}" class="btn icon-remove" style="color: red"></i>
+                        </div>
+                    </div>
+
+                    <div data-ng-show="stkHcy.HasFixed" class="well">
+
+                        <!--Fixed Payment Individual-->
+                        <div class="control-group row-fluid">
+                            <label class="control-label">Fixed Payment Individual</label>
+                            <div class="controls" data-ng-hide="isReadOnly">
+                                <div btn-switch data-ng-model="stkHcy.HasFixedIndividual"></div>
+                            </div>
+                            <div class="controls" data-ng-show="isReadOnly">
+                                <i data-ng-show="{{stkHcy.HasFixedIndividual}}" class="btn icon-check" style="color: green"></i>
+                                <i data-ng-hide="{{stkHcy.HasFixedIndividual}}" class="btn icon-remove" style="color: red"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-ng-show="stkHcy.HasPayment && !stkHcy.IsIndividual" class="well">
+                        <!--Service Charge-->
+                        <div class="control-group row-fluid">
+                            <label class="control-label">Service Charge</label>
+                            <div class="controls" data-ng-hide="isReadOnly">
+                                <div btn-switch data-ng-model="stkHcy.HasServiceCharge"></div>
+                            </div>
+                            <div class="controls" data-ng-show="isReadOnly">
+                                <i data-ng-show="{{stkHcy.HasServiceCharge}}" class="btn icon-check" style="color: green"></i>
+                                <i data-ng-hide="{{stkHcy.HasServiceCharge}}" class="btn icon-remove" style="color: red"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer well">
+                <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="saveHierarchy(stkHcy)" data-ng-disabled="!formAddStkHrchy.$valid">Save</button>
+                <button class="btn btn-warning" data-ng-click="closeModel()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Areas/Stakeholder/ViewModels/stakeHierarchy.js"></script>
+}

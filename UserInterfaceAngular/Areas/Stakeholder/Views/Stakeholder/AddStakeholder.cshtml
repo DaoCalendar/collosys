@@ -1,0 +1,874 @@
+﻿@{
+    ViewBag.Title = "AddStakeholder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="row-fluid" data-ng-cloak="" data-ng-controller="stakeholder">
+
+        <form name="form" class="form-horizontal" novalidate>
+
+            <div class="row-fluid" data-ng-form="formhierarchy" >
+                <div class="panel">
+                    <div class="panel-heading">Designation</div>
+                    <!-- Reports to Changes -->
+                    <div class="row-fluid">
+                        <div class="control-group span5">
+                            <label class="control-label">Add New</label>
+                            <div class="controls">
+                                <select data-ng-model="SelectedHier.Vertical" class="input-large"
+                                        data-ng-change="clearOnVertical()" data-ui-select2="" data-ng-requiered="true">
+                                    <option value="Field">Field Staff</option>
+                                    <option value="Telecalling">Telecalling Staff</option>
+                                    <option value="BackOffice">BackOffice Staff</option>
+                                    <option value="External">External Staff</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group span7">
+                            <label class="control-label">Designation</label>
+                            <div class="controls">
+                                <select data-ng-model="SelectedHier.HierarchyId" class="input-xlarge"
+                                        data-ui-select2="" data-ng-change="changeHierarchy(SelectedHier)" data-ng-requiered="true">
+                                    <option value=""></option>
+                                    <option data-ng-repeat="row in stakeHierarchy | filter : {'Hierarchy' : SelectedHier.Vertical } | orderBy: 'PositionLevel'"
+                                            value="{{row.Id}}">{{getHierarchyDisplayName(row)}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Stakeholder Controller -->
+            <div class="row-fluid">
+                <!-- Stakeholder details -->
+                <div class="panel" data-ng-show="Hierarchy">
+                    <div class="panel-heading">
+                        Details
+                    </div>
+                    <div class="row-fluid" data-ng-form="formDetails">
+
+                        <!-- Row 1 for name and external id-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Name:</label>
+                                <div class="controls">
+                                    <input type="text" class="required" required data-ng-model="Stakeholder.Name" />
+                                </div>
+                            </div>
+                            <div class="control-group span6" data-ng-show="Hierarchy.IsUser">
+                                <label class="control-label">User ID</label>
+                                <div class="controls">
+                                    <div class="input-prepend">
+                                        <span class="add-on"><i class="icon-user"></i></span>
+                                        <input type="text" class="required" data-ng-required="Hierarchy.IsUser" data-ng-pattern="/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" data-ng-model="Stakeholder.ExternalId" />
+                                    </div>
+                                    <label class="help-inline">user id must have 7 digits</label>
+                                    <label class="help-inline alert-error" data-ng-show="!checkUserID(Stakeholder.ExternalId)">User ID is exist in database</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2 mobile no and email id-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Mobile no:</label>
+                                <div class="controls">
+                                    <input type="text" required data-ng-pattern="/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" data-ng-model="Stakeholder.MobileNo" />
+                                </div>
+                            </div>
+                            <div class="control-group span6" data-ng-show="SelectedHier.Vertical == 'External'">
+                                <label class="control-label">Email:</label>
+                                <div class="controls">
+                                    <input type="email" data-ng-required="SelectedHier.Vertical == 'External'"  data-ng-model="Stakeholder.EmailId" />
+                                </div>
+                            </div>
+                            <div class="control-group span6" data-ng-show="SelectedHier.Vertical != 'External'">
+                                <label class="control-label">Email:</label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input type="text" data-ng-required="SelectedHier.Vertical != 'External'" data-ng-pattern="/^[a-zA-Z0-9.]+$/" data-ng-model="EmailId" />
+                                        <span class="add-on">@@sc.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row 3 for gender and date of birth-->
+                        <div class="row-fluid" data-ng-show="Hierarchy.IsIndividual">
+                            <div class="control-group span6">
+                                <label class="control-label">Gender</label>
+                                <div class="controls">
+                                    <input type="radio" data-ng-model="Stakeholder.Gender" value="0"><label>Male</label>
+                                    <input type="radio" data-ng-model="Stakeholder.Gender" value="1"><label>Female</label>
+                                </div>
+                            </div>
+                            <div class="control-group span6">
+                                <label class="control-label">DOB</label>
+                                <div class="controls">
+                                    <div class="input-append">
+                                        <input type="text"
+                                            class="input-medium"
+                                            data-ng-required="Hierarchy.IsIndividual"
+                                            data-ng-model="Stakeholder.BirthDate"
+                                            data-date-format="dd-mm-yyyy"
+                                            data-date-end-date="-18y"
+                                            bs-datepicker>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 4 for date of joining and Reports to-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Date of Joining :</label>
+                                <div class="controls" data-ng-hide="Hierarchy.IsIndividual">
+                                    <div class="input-append">
+                                        <input type="text" class="input-medium"
+                                            data-ng-model="Stakeholder.JoiningDate"
+                                            data-ng-required="!Hierarchy.IsIndividual"
+                                            data-date-format="dd-mm-yyyy" bs-datepicker>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="controls" data-ng-show="Hierarchy.IsIndividual">
+                                    <div class="input-append">
+                                        <input type="text" class="input-medium"
+                                            data-ng-required="Hierarchy.IsIndividual"
+                                            data-ng-model="Stakeholder.JoiningDate"
+                                            ui-validate="'(!Hierarchy.IsIndividual) || ($value > Stakeholder.BirthDate)'"
+                                            data-date-format="dd-mm-yyyy" bs-datepicker>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </div>
+                                @*<div class="controls">
+                                    <div class="input-append" data-ng-show="!Hierarchy.IsIndividual">
+                                        <input type="text" class="input-medium" data-ng-model="Stakeholder.JoiningDate" data-date-format="dd-mm-yyyy" bs-datepicker>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+
+                                    </div>
+                                    <div class="input-append" data-ng-show="Hierarchy.IsIndividual">
+                                        <input type="text" class="input-medium" data-ng-required="Hierarchy.IsIndividual" data-ng-model="Stakeholder.JoiningDate" ui-validate="'$value > Stakeholder.BirthDate'" data-date-format="dd-mm-yyyy" bs-datepicker>
+                                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                    </div>
+                                </div>*@
+                            </div>
+
+                            <div class="control-group span6" data-ng-show="Hierarchy.ManageReportsTo">
+                                <label class="control-label">Reports To:</label>
+                                <div class="controls">
+                                    <select id="Reportsto" class="input-large"
+                                        ui-select2
+                                        data-ng-required="Hierarchy.ManageReportsTo"
+                                        data-ng-model="Stakeholder.ReportsTo">
+                                        <option></option>
+                                        <option data-ng-repeat="data in ReportsToList" value="{{data.Id}}">{{data.Name}}, {{data.Designation}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stakeholder Registration-->
+                <div class="panel" data-ng-show="Hierarchy.HasRegistration">
+
+                    <div class="panel-heading">
+                        Registration
+                    </div>
+                    <div class="row-fluid" data-ng-form="formReg" id="stake-registraion">
+                        <!-- Row 1 tan no and pan no -->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">TAN:</label>
+                                <div class="controls">
+                                    @*<input type="text" data-ng-required="Hierarchy.HasRegistration" data-ng-pattern="/^[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][A-Z]$/" data-ng-model="Stakeholder.Registration.TanNo" />*@
+                                    <input type="text" data-ng-model="Stakeholder.Registration.TanNo" />
+                                    <label class="help-inline alert-error" data-ng-show="!checkTanNo(Stakeholder.Registration.TanNo)">Tan no is exist in database</label>
+                                    @*<label class="help-inline">Ex: AAAA00000A</label>*@
+                                </div>
+                            </div>
+                            <div class="control-group span6">
+                                <label class="control-label">PAN:</label>
+                                <div class="controls">
+                                    <input type="text" data-ng-required="Hierarchy.HasRegistration" data-ng-pattern="/^[A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][A-Z]$/" data-ng-model="Stakeholder.Registration.PanNo" />
+                                    <label class="help-inline alert-error" data-ng-show="!checkPanNo(Stakeholder.Registration.PanNo)">Pan no is exist in database</label>
+                                    <label class="help-inline">Ex: AAAAA0000A</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2  registration no and service tax no-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Registration:</label>
+                                <div class="controls">
+                                    @*<input type="text" data-ng-required="Hierarchy.HasRegistration" data-ng-pattern="/^[A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" data-ng-model="Stakeholder.Registration.RegistrationNo" />*@
+                                    <input type="text" data-ng-model="Stakeholder.Registration.RegistrationNo" />
+                                    <label class="help-inline alert-error" data-ng-show="!checkRegNo(Stakeholder.Registration.RegistrationNo)">RegistrationNo no is exist in database</label>
+                                    @*<label>Ex: AA00000000</label>*@
+                                </div>
+                            </div>
+                            <div class="control-group span6">
+                                <label class="control-label">Service Tax:</label>
+                                <div class="controls">
+                                    @*<input type="text" data-ng-required="Hierarchy.HasRegistration" data-ng-pattern="/^[A-Z][A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][A-Z][S][T][0][0][1-9]$/" data-ng-model="Stakeholder.Registration.ServiceTaxno" />*@
+                                    <input type="text" data-ng-model="Stakeholder.Registration.ServiceTaxno" />
+                                    <label class="help-inline alert-error" data-ng-show="!checkServiceNo(Stakeholder.Registration.ServiceTaxno)">ServiceTaxno no is exist in database</label>
+                                    @*<label>Ex: AAAAA0000AST001</label>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stakeholder Working -->
+                <div class="panel" data-ng-show="Hierarchy.HasWorking">
+                    <div class="panel-heading">
+                        Working
+                    </div>
+                    <div class="row-fluid" data-ng-form="formWorking" id="stake-working">
+                        <div class="control-group" data-ng-show="Hierarchy.LocationLevel.length > 1">
+                            <label class="control-label">Select Location Level</label>
+                            <div class="controls">
+                                <select data-ng-model="SelLocationLevel" class="input-medium" ui-select2
+                                    data-ng-options="c for c in Hierarchy.LocationLevel"
+                                    data-ng-change="setShowWorkingboxes()"
+                                    data-ng-disabled="WorkingList.length > 0">
+                                </select>
+                            </div>
+                        </div>
+                        <!--Row for display lables on top of dropdowns-->
+                        <div class="row-fluid" data-ng-show="showWorkingboxex">
+                            <div class="span2">
+                                <label>Product</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='Country'">
+                                <label>Country</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='Region'">
+                                <label>Region</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='State'">
+                                <label>State</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='Cluster'">
+                                <label>Cluster</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='City'">
+                                <label>City(Pincode)</label>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='Area'">
+                                <label>Area(Pincode)</label>
+                            </div>
+                            <div class="span1"></div>
+                            <div class="span2" data-ng-show="Hierarchy.HasBuckets">
+                                <label>Bucket</label>
+                            </div>
+                        </div>
+
+                        <!---row contains dropdowns-->
+                        <div class="row-fluid" data-ng-show="showWorkingboxex">
+                            <div class="span2">
+                                <select id="product" class="select-working" data-ng-required="Hierarchy.HasWorking" data-ng-model="Stakeholder.Working.Products" data-ng-options="c for c in ProductList">
+                                </select>
+                            </div>
+
+                            <div class="span2" data-ng-show="SelLocationLevel=='Country'">
+                                <input type="text" value="India" class="input-small" readonly="readonly" />
+                            </div>
+
+                            <div class="span2" data-ng-show="SelLocationLevel=='Region'">
+                                <select id="Region" class="select-working" data-ng-required="SelLocationLevel=='Region'" data-ng-model="Stakeholder.Working.Region">
+                                    <option>North India</option>
+                                    <option>East India</option>
+                                    <option>Central India</option>
+                                    <option>South India</option>
+                                    <option>West India</option>
+                                </select>
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='State'">
+                                <select id="state1" class="select-working" data-ng-required="SelLocationLevel=='State'"
+                                    data-ng-model="Stakeholder.Working.State"
+                                    data-ng-options="c for c in StateList | unique">
+                                </select>
+                            </div>
+
+                            @*<div class="span2" data-ng-show="SelLocationLevel=='Cluster'">
+                                <select id="state2" class="select-working"
+                                    data-ng-required="SelLocationLevel=='Cluster'"
+                                    data-ng-model="Stakeholder.Working.State"
+                                    data-ng-options="c for c in StateList | unique">
+                                </select>
+                            </div>*@
+
+                            <div class="span2" data-ng-show="SelLocationLevel=='Cluster'">
+                                @*<select id="Cluster" class="select-working"
+                                    data-ng-required="SelLocationLevel=='Cluster'"
+                                    data-ng-model="Stakeholder.Working.Cluster">
+                                    <option>North</option>
+                                    <option>East</option>
+                                    <option>South</option>
+                                    <option>West</option>
+                                    <option>Central</option>
+                                </select>*@
+                                <input type="text" id="Cluster" class="select-working"
+                                       data-ng-required="SelLocationLevel=='Cluster'"
+                                       data-ng-model="Cluster"
+                                        data-ng-class="(NoCluster=='true')?'alert-info':''"
+                                       typeahead="c.Cluster for c in Clusters($viewValue)"
+                                       typeahead-wait-ms="400"
+                                        />
+                            </div>
+                            <div class="span2" data-ng-show="SelLocationLevel=='City'">
+                                <input type="text"
+                                    data-ng-required="SelLocationLevel=='City'"
+                                    class="input-medium"
+                                    data-ng-model="Pincode"
+                                    typeahead="c.City for c in Pincodes($viewValue, 'City') "
+                                    
+                                    data-ng-change="setLocationCity(Pincode)">
+                            </div>
+
+                            <div class="span2" data-ng-show="SelLocationLevel=='Area'">
+                                <input type="text" data-ng-required="SelLocationLevel=='Area'" 
+                                       class="input-medium" 
+                                       data-ng-model="Pincode" 
+                                       typeahead="c.Area for c in Pincodes($viewValue, 'Area')" 
+                                       data-ng-change="setLocationArea(Pincode)"
+                                    >
+                            </div>
+                            <div class="span1"></div>
+                            <div class="span2" data-ng-show="Hierarchy.HasBuckets">
+                                <select data-ui-select2="" class="select-working" multiple="multiple" data-ng-required="Hierarchy.HasBuckets" data-ng-model="Stakeholder.BucketStart">
+                                    <option value="1">1(0-29)</option>
+                                    <option value="2">2(30-59)</option>
+                                    <option value="3">3(60-89)</option>
+                                    <option value="4">4(90-119)</option>
+                                    <option value="5">5(120-149)</option>
+                                    <option value="6">6(150-179)</option>
+                                    <option value="7">>6(180+)</option>
+                                </select>
+                            </div>
+
+                            <div class="span2">
+                                <input type="button" data-ng-disabled="!formWorking.$valid" value="Add Working" class="btn btn-success" data-ng-click="AddWorking(Stakeholder,Hierarchy)" />
+                            </div>
+                        </div>
+
+                        <!--row for table to show working list-->
+                        <div class="row-fluid" data-ng-show="WorkingList.length>0">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="success">
+                                        <th>Delete</th>
+                                        <th>Product</th>
+                                        <th>Country</th>
+                                        <th data-ng-show="SelLocationLevel=='Region'">Region</th>
+                                        <th data-ng-show="SelLocationLevel=='Cluster'">State</th>
+                                        <th data-ng-show="SelLocationLevel=='Cluster'">Cluster</th>
+                                        <th data-ng-show="SelLocationLevel=='State' || SelLocationLevel=='City' || SelLocationLevel=='Area'">State</th>
+                                        <th data-ng-show="SelLocationLevel=='City' || SelLocationLevel=='Area'">District</th>
+                                        <th data-ng-show="SelLocationLevel=='City' || SelLocationLevel=='Area'">City</th>
+                                        <th data-ng-show="SelLocationLevel=='Area'">Area</th>
+                                        <th data-ng-show="Hierarchy.HasBuckets">Bucket</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="data in WorkingList" class="info">
+                                        <td>
+                                            <div class="btn-group">
+                                                <i class="btn icon-trash" data-ng-click="DeleteWorking($index)"></i>
+                                            </div>
+                                        </td>
+                                        <td>{{data.Products}}
+                                        </td>
+                                        <td>{{data.Country}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel=='Region'">{{data.Region}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel=='Cluster'">{{data.State}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel=='Cluster'">{{data.Cluster}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel=='State' || SelLocationLevel=='City' || SelLocationLevel=='Area'">{{data.State}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel =='City' || SelLocationLevel=='Area'">{{data.District}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel =='City' || SelLocationLevel =='Area'">{{data.City}}
+                                        </td>
+                                        <td data-ng-show="SelLocationLevel == 'Area'">{{data.Area}}
+                                        </td>
+                                        <td data-ng-show="Hierarchy.HasBuckets">{{data.BucketStart}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Stakeholder Payment-->
+                <div class="panel" data-ng-show="Hierarchy.HasPayment">
+                    <div class="panel-heading">
+                        Payment Details
+                    </div>
+                    <!--Stakeholder Payment-->
+                    <div class="row-fluid" data-ng-form="formPayment" id="stake-payment">
+                        <div class="span12">
+
+                            <!--Date Range-->
+                            <div class="row-fluid">
+                                <h5 style="font-weight: normal;">Date Range</h5>
+                                <hr />
+                                <div class="row-fluid">
+                                    <div class="control-group span6">
+                                        <label class="control-label">Start Date</label>
+                                        <div class="controls">
+                                            <div class="input-append">
+                                                <input type="text" class="input-medium" data-ng-required="Hierarchy.HasPayment" ui-validate=" '$value >= Stakeholder.JoiningDate' " data-ng-model="Stakeholder.Payment.StartDate" data-date-format="dd-mm-yyyy" bs-datepicker>
+                                                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                            </div>
+                                            @* <label class="help-inline alert-error" data-ng-show=" !(Stakeholder.Payment.StartDate >= Stakeholder.JoiningDate )">Start date should be greater than or equal to Date of Joining</label>*@
+                                        </div>
+                                        @* <div class="controls">
+                                        <input type="date" id="startDate" data-ng-required="Hierarchy.HasPayment" data-ng-model="Stakeholder.Payment.StartDate"/>
+                                    </div>*@
+                                    </div>
+                                    <div class="control-group span6">
+                                        <label class="control-label">End Date</label>
+                                        <div class="controls">
+                                            <div class="input-append">
+                                                <input type="text" class="input-medium" data-ng-required="Hierarchy.HasPayment" ui-validate=" '$value > Stakeholder.Payment.StartDate' " data-ng-model="Stakeholder.Payment.EndDate" data-date-format="dd-mm-yyyy" bs-datepicker>
+                                                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                                            </div>
+                                        </div>
+                                        @*  <div class="controls">
+                                        <input type="date" id="endDate" data-ng-required="Hierarchy.HasPayment" ui-validate=" '$value > Stakeholder.Payment.StartDate' " required data-ng-model="Stakeholder.Payment.EndDate"/>
+                                    </div>*@
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Variable Payment-->
+                            <div class="row-fluid" data-ng-show="Hierarchy.HasVarible">
+                                <h5 style="font-weight: normal;">Variable Pay</h5>
+                                <hr />
+
+                                <div class="row-fluid">
+                                    <div class="control-group span6">
+                                        <label class="control-label">Collection Policy:</label>
+
+                                        <div class="controls">
+                                            <select id="linerPolicy" data-ng-required="Hierarchy.HasVarible" data-ng-model="Stakeholder.Payment.VariableLiner" data-ng-options="c for c in LinerPolicyList" style="min-width: 200px;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="control-group span6">
+                                        <label class="control-label">Recovery Policy:</label>
+
+                                        <div class="controls">
+                                            <select id="writeoffPolicy" data-ng-required="Hierarchy.HasVarible" data-ng-model="Stakeholder.Payment.VariableWriteoff" data-ng-options="c for c in WriteoffPolicyList" style="min-width: 200px;"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--Fixed Pay-->
+                            <div class="row-fluid" data-ng-show="Hierarchy.HasFixed">
+                                <h5 style="font-weight: normal;">Fixed Pay</h5>
+                                <hr />
+                                <div class="row-fluid">
+                                    <div class="row-fluid">
+                                        <div class="control-group span6">
+                                            <label class="control-label">Fixpay Basic:</label>
+
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasFixed" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="8" data-ng-model="Stakeholder.Payment.FixpayBasic" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group span6" data-ng-show="Hierarchy.HasFixedIndividual">
+                                            <label class="control-label">Fixpay Hra:</label>
+
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasFixedIndividual" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="8" data-ng-model="Stakeholder.Payment.FixpayHra" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row-fluid">
+                                        <div class="control-group span6" data-ng-show="Hierarchy.HasFixedIndividual">
+                                            <label class="control-label">Fixpay Other:</label>
+
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasFixedIndividual" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="8" data-ng-model="Stakeholder.Payment.FixpayOther" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group span6 info" data-ng-show="false">
+                                            <label class="control-label">Total:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-model="Stakeholder.Payment.FixpayTotal" readonly value="{{Stakeholder.Payment.FixpayTotal=TotalPayment(Stakeholder.Payment.FixpayBasic,Stakeholder.Payment.FixpayHra,Stakeholder.Payment.FixpayOther)}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid" data-ng-show="Hierarchy.HasFixedIndividual">
+                                    <table class="table table-bordered table-hover" data-ng-show="Stakeholder.Payment.FixpayBasic">
+                                        <thead>
+                                            <tr>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Basic</th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayHra && Stakeholder.Payment.FixpayOther">Allowances</th>
+
+                                                @*  <th data-ng-show="Stakeholder.Payment.FixpayBasic">Individual PF(12%)</th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Total PF</th>*@
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Employee PF</th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Employer PF</th>
+                                                <th>Employee ESIC</th>
+                                                <th>Employer ESIC</th>
+                                                <th>Service Charge</th>
+                                                <th>Service Tax</th>
+                                                <th>Gross Pay</th>
+                                            </tr>
+                                            <tr>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic"></th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayHra && Stakeholder.Payment.FixpayOther"></th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Basic * 12%</th>
+                                                <th data-ng-show="Stakeholder.Payment.FixpayBasic">Basic * 12%</th>
+                                                <th>Basic * 1.75%</th>
+                                                <th>Basic * 4.5% </th>
+                                                <th>Basic * {{SalDetails.servPer}}%</th>
+                                                <th>Basic * 12.36</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <!--  <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{Stakeholder.Payment.FixpayBasic}}</td>
+                                                    <td data-ng-show="Stakeholder.Payment.FixpayHra && Stakeholder.Payment.FixpayOther">
+                                                        {{Stakeholder.Payment.FixpayHra*1 + Stakeholder.Payment.FixpayOther*1}}
+                                                    </td>
+                                                    <td>{{Stakeholder.Payment.FixpayTotal}}</td>
+                                                    @*<td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(Stakeholder.Payment.FixpayBasic * 12)/100}}</td>
+                                                <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{((Stakeholder.Payment.FixpayBasic * 12)/100)*2}}</td>*@
+                                                    <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(Stakeholder.Payment.FixpayBasic * 12)/100}}</td>
+                                                    <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(Stakeholder.Payment.FixpayBasic * 12)/100}}</td>
+                                                    <td>{{(Stakeholder.Payment.FixpayTotal * 1.75)/100}}</td>
+                                                    <td>{{(Stakeholder.Payment.FixpayTotal * 4.5)/100}}</td> -->
+
+                                                <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{Stakeholder.Payment.FixpayBasic}}</td>
+                                                <td data-ng-show="Stakeholder.Payment.FixpayHra && Stakeholder.Payment.FixpayOther">{{Stakeholder.Payment.FixpayHra*1 + Stakeholder.Payment.FixpayOther*1}}
+                                                </td>
+
+                                                @*<td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(Stakeholder.Payment.FixpayBasic * 12)/100}}</td>
+                                                <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{((Stakeholder.Payment.FixpayBasic * 12)/100)*2}}</td>*@
+                                                <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                                                <td data-ng-show="Stakeholder.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                                                <td>{{SalDetails.esicEmployee}}</td>
+                                                <td>{{SalDetails.esicEmployer}}</td>
+                                                <td>{{SalDetails.serviceCharge}}</td>
+                                                <td>{{SalDetails.serviceTax}}</td>
+                                                <td>{{Stakeholder.Payment.FixpayTotal}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <!--Other Pay-->
+                            <div class="row-fluid" data-ng-show="Hierarchy.HasServiceCharge">
+                                <h5 style="font-weight: normal;">Other Charges</h5>
+                                <hr />
+                                <div class="row-fluid">
+                                    <div class="control-group span6">
+                                        <label class="control-label">Service Charge:</label>
+                                        <div class="controls">
+                                            <div class="input-append">
+                                                <input type="text"
+                                                    data-ng-required="Hierarchy.HasServiceCharge"
+                                                    data-ng-pattern="/^[0-9]+$/"
+                                                    data-ng-maxlength="2"
+                                                    data-ng-maxvalue="100"
+                                                    class="input-mini"
+                                                    data-ng-model="Stakeholder.Payment.ServiceCharge" />
+                                                <span class="add-on">%</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Allowances-->
+                            <div class="row-fluid" data-ng-show="Hierarchy.HasMobileTravel">
+                                <h5 style="font-weight: normal;">Reimbursements</h5>
+                                <hr />
+
+                                <div class="row-fluid">
+                                    <div class="control-group span6">
+                                        <label class="control-label">Mobile:</label>
+                                        <div class="controls">
+                                            <input data-ng-required="Hierarchy.HasMobileTravel" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="8" type="text" data-ng-model="Stakeholder.Payment.MobileElig" />
+                                        </div>
+                                    </div>
+                                    <div class="control-group span6">
+                                        <label class="control-label">Travel:</label>
+                                        <div class="controls">
+                                            <input type="text" data-ng-required="Hierarchy.HasMobileTravel" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="8" data-ng-model="Stakeholder.Payment.TravelElig" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Bank details-->
+                            <div class="row-fluid" data-ng-show="Hierarchy.HasBankDetails">
+                                <h5 style="font-weight: normal;">Bank Details</h5>
+                                <hr />
+                                <div class="row-fluid">
+                                    <div class="row-fluid">
+                                        <div class="control-group span6">
+                                            <label class="control-label">Bank Acc. No:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasBankDetails" data-ng-pattern="/^[0-9]+$/" data-ng-maxlength="20" data-ng-minlength="11" data-ng-model="Stakeholder.Payment.BankAccNo" />
+                                            </div>
+                                        </div>
+                                        <div class="control-group span6">
+                                            <label class="control-label">Bank Name:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasBankDetails" data-ng-model="Stakeholder.Payment.BankAccName" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="control-group span6">
+                                            <label class="control-label">Bank IFSC No:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-required="Hierarchy.HasBankDetails" data-ng-pattern="/^[A-Z][A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" data-ng-model="Stakeholder.Payment.BankIfscCode" />
+                                                <label class="help-inline">Ex : AAAA0000000</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Add payment-->
+                            <div class="row-fluid text-center">
+                                @* <div class="control-group">
+                                    <div class="controls">*@
+                                <input type="button" data-ng-disabled="!formPayment.$valid" class="btn btn-success" value="Add Payment" data-ng-click="AddPayment(Stakeholder)" />
+                                @* </div>
+                                </div>*@
+                            </div>
+
+                            <!--table for displaying added payments-->
+                            <div class="row-fluid" data-ng-show="PaymentList.length>0">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr class="success">
+                                            <th>Delete</th>
+                                            <th data-ng-show="Hierarchy.HasMobileTravel">Mobile Elg.</th>
+                                            <th data-ng-show="Hierarchy.HasMobileTravel">Travel Elg.</th>
+                                            <th data-ng-show="Hierarchy.HasVarible">Collection Policy</th>
+                                            <th data-ng-show="Hierarchy.HasVarible">Recovery Policy</th>
+                                            <th data-ng-show="Hierarchy.HasFixedSummary">Fixed Basic</th>
+                                            <th data-ng-show="Hierarchy.HasFixedIndividual">Fixed Basic</th>
+                                            <th data-ng-show="Hierarchy.HasFixedIndividual">Fixed Hra</th>
+                                            <th data-ng-show="Hierarchy.HasFixedIndividual">Fixed Other</th>
+                                            <th data-ng-show="Hierarchy.HasServiceCharge">Service Charge</th>
+                                            <th>Start Date </th>
+                                            <th>End Date </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="info" data-ng-repeat="c in PaymentList">
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="btn icon-trash" data-ng-click="DeletePayment($index)"></i>
+                                                </div>
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasMobileTravel">{{c.MobileElig}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasMobileTravel">{{c.TravelElig}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasVarible">{{c.VariableLiner}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasVarible">{{c.VariableWriteoff}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasFixedSummary">{{c.FixpayBasic}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasFixedIndividual">{{c.FixpayBasic}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasFixedIndividual">{{c.FixpayHra}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasFixedIndividual">{{c.FixpayOther}}
+                                            </td>
+                                            <td data-ng-show="Hierarchy.HasServiceCharge">{{c.ServiceCharge}}
+                                            </td>
+                                            <td>{{c.StartDate | date}}</td>
+                                            <td>{{c.EndDate | date}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--Stakeholder Address details single-->
+                <div class="panel" data-ng-show="Hierarchy.HasAddress">
+                    <div class="panel-heading">
+                        Address Details
+                    </div>
+                    <div class="row-fluid" data-ng-form="formAddress" id="stake-address-single">
+
+                        <!--row for address type and is official-->
+                        <div class="row-fluid" data-ng-show="Hierarchy.HasMultipleAddress">
+                            <div class="control-group span6">
+                                <label class="control-label">Address Type: </label>
+
+                                <div class="controls">
+                                    <select id="addressType"
+                                        data-ng-required="Hierarchy.HasMultipleAddress"
+                                        data-ng-model="Stakeholder.Address.AddressType"
+                                        style="min-width: 200px;">
+                                        <option value="Head Office">Head Office</option>
+                                        <option value="Local Office">Local Office</option>
+                                        <option value="Registered Office">Registered Office</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group span6" data-ng-show="Hierarchy.HasMultipleAddress">
+                                <label class="control-label">Is Communication Address:</label>
+
+                                <div class="controls">
+                                    <input type="checkbox" data-ng-model="Stakeholder.Address.IsOfficial" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row for line1 and line2-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Line 1:</label>
+
+                                <div class="controls">
+                                    <input type="text" data-ng-required="Hierarchy.HasAddress" data-ng-model="Stakeholder.Address.Line1" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row-fluid">
+
+                            <div class="control-group span6">
+                                <label class="control-label">Line 2:</label>
+
+                                <div class="controls">
+                                    <input type="text" data-ng-required="Hierarchy.HasAddress" data-ng-model="Stakeholder.Address.Line2" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row for line3-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Line 3:</label>
+
+                                <div class="controls">
+                                    <input type="text" data-ng-model="Stakeholder.Address.Line3" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--row for landline no and pincode-->
+                        <div class="row-fluid">
+                            <div class="control-group span6">
+                                <label class="control-label">Pincode:</label>
+
+                                <div class="controls">
+                                    <input type="text" data-ng-required="Hierarchy.HasAddress" data-ng-pattern="/^[0-9][0-9][0-9][0-9][0-9][0-9]$/" data-ng-model="Stakeholder.Address.Pincode" />
+                                </div>
+                            </div>
+
+                            <div class="control-group span6">
+                                <label class="control-label">Landline no:</label>
+
+                                <div class="controls">
+                                    <input type="text" data-ng-model="Stakeholder.Address.LandlineNo" data-ng-pattern="/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row-fluid control-group span6" data-ng-show="Hierarchy.HasMultipleAddress">
+                            <div class="controls">
+                                <input type="button" data-ng-disabled="!formAddress.$valid" value="Add Address" class="btn btn-success" data-ng-click="AddAddress(Stakeholder)" />
+                            </div>
+                        </div>
+
+                        <!--table for displaying added addresses-->
+                        <div class="row-fluid" data-ng-show="AddressList.length>0">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="success">
+                                        <th>Delete</th>
+                                        <th>Address Type</th>
+                                        <th>Is Official</th>
+                                        <th>Line 1</th>
+                                        <th>Line 2</th>
+                                        <th>Line 3</th>
+                                        <th>Landline No</th>
+                                        <th>Pincode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="info" data-ng-repeat="c in AddressList">
+                                        <td>
+                                            <div class="btn-group">
+                                                <i class="btn icon-trash" data-ng-click="DeleteAddress($index)"></i>
+                                            </div>
+                                        </td>
+                                        <td>{{c.AddressType}}</td>
+                                        <td>
+                                            <label data-ng-show="c.IsOfficial">Yes</label>
+                                            <label data-ng-show="!c.IsOfficial">No</label>
+                                        </td>
+                                        <td>{{c.Line1}}</td>
+                                        <td>{{c.Line2}}</td>
+                                        <td>{{c.Line3}}</td>
+                                        <td>{{c.LandlineNo}}</td>
+                                        <td>{{c.Pincode}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--Save button-->
+                <div class="row-fluid">
+                    <div class="text-center">
+                        <input type="submit"  value="Save" data-ng-show="SelectedHier.HierarchyId" data-ng-disabled="!(validateForm( formhierarchy.$valid ,Hierarchy,formDetails.$valid,formReg.$valid, formAddress.$valid))" class="btn btn-success" data-ng-click="SaveData(Stakeholder,Hierarchy)" />
+                        <input type="submit" value="Reset" data-ng-show="SelectedHier.HierarchyId" data-ng-disabled="!Hierarchy" data-ng-click="clear()" class="btn btn-info" />
+                        @Html.ActionLink("Cancel", "Index", "EditStakeholder", null, new { @class = "btn btn-success" })
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row-fluid" style="height: 200px;"></div>
+</div>
+
+@section scripts
+{
+    <script src="~/Areas/Stakeholder/ViewModels/StakeholderModel.js"></script>
+}

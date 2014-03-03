@@ -1,0 +1,28 @@
+﻿ <!--table for displaying added addresses-->
+     <div class="row-fluid" ng-show="Stakeholder.GAddress.length>0">
+         <table class="table table-bordered table-hover" ng-class="{ 'alert alert-danger' : Stakeholder.IsAddressChange}">
+             <thead>
+                 <tr class="success">
+                     <th>Address Type</th>
+                     <th>Is Official</th>
+                     <th>Line 1</th>
+                     <th>Line 2</th>
+                     <th>Line 3</th>
+                     <th>Landline No</th>
+                     <th>Pincode</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 <tr class="info" ng-repeat="c in Stakeholder.GAddress">
+                    
+                     <td>{{c.AddressType}}</td>
+                     <td>{{c.IsOfficial}}</td>
+                     <td>{{c.Line1}}</td>
+                     <td>{{c.Line2}}</td>
+                     <td>{{c.Line3}}</td>
+                     <td>{{c.LandlineNo}}</td>
+                     <td>{{c.Pincode}}</td>
+                 </tr>
+             </tbody>
+         </table>
+     </div>
