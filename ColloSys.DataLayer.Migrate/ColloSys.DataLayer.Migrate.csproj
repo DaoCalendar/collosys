@@ -79,9 +79,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Migrate.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
