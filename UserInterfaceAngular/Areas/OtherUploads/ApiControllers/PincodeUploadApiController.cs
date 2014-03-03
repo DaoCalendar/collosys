@@ -49,7 +49,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
             IList result;
             try
             {
-                var memberhelper = new MemberHelper<SharedInfo>();
+                var memberhelper = new MemberHelper<Info>();
                 var pincodename = memberhelper.GetName(x => x.Pincode);
                 var accnoname = memberhelper.GetName(x => x.AccountNo);
                 var custname = memberhelper.GetName(x => x.CustomerName);

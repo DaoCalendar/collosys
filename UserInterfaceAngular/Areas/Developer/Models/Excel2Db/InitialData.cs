@@ -1381,16 +1381,16 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             bil.WriteoffTable = null;
             smeMe.WriteoffTable = null;
 
-            creaditCard.PaymentTable = ScbEnums.ClientDataTables.CPayment;
-            autoOd.PaymentTable = ScbEnums.ClientDataTables.EPayment;
-            smartCredit.PaymentTable = ScbEnums.ClientDataTables.EPayment;
-            smelapod.PaymentTable = ScbEnums.ClientDataTables.EPayment;
-            personalLoan.PaymentTable = ScbEnums.ClientDataTables.RPayment;
-            auto.PaymentTable = ScbEnums.ClientDataTables.RPayment;
-            mortgage.PaymentTable = ScbEnums.ClientDataTables.RPayment;
-            lap.PaymentTable = ScbEnums.ClientDataTables.RPayment;
-            bil.PaymentTable = ScbEnums.ClientDataTables.RPayment;
-            smeMe.PaymentTable = ScbEnums.ClientDataTables.RPayment;
+            creaditCard.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            autoOd.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            smartCredit.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            smelapod.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            personalLoan.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            auto.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            mortgage.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            lap.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            bil.PaymentTable = ScbEnums.ClientDataTables.Payment;
+            smeMe.PaymentTable = ScbEnums.ClientDataTables.Payment;
 
             using (var session = SessionManager.GetCurrentSession())
             {

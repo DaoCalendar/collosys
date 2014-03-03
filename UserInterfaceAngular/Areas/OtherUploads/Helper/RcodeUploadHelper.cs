@@ -88,7 +88,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
         }
 
         private static void UploadRcodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
-            where TInfo : SharedInfo
+            where TInfo : Info
         {
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();

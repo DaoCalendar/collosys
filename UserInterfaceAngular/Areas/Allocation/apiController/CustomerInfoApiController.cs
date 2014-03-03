@@ -20,15 +20,15 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
     {
         public CustDisplayInfo()
         {
-            Payments = new List<SharedPayment>();
+            Payments = new List<Payment>();
         }
 
-        public SharedInfo CustInfo { get; set; }
+        public Info CustInfo { get; set; }
 
-        public List<SharedPayment> Payments { get; set; }
+        public List<Payment> Payments { get; set; }
     }
 
-    public class CustomerInfoApiController : BaseApiController<CInfo>
+    public class CustomerInfoApiController : BaseApiController<Info>
     {
         [HttpGet]
         [HttpTransaction]
@@ -44,17 +44,17 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var infoType = ClassType.GetTypeByProductCategoryForAlloc(products, ScbEnums.Category.Liner);
             var paymentType = ClassType.GetPaymentTypeByProduct(products);
 
-            var memberInfo = new MemberHelper<SharedInfo>();
+            var memberInfo = new MemberHelper<Info>();
             var custDisplayInfos = new CustDisplayInfo();
 
             custDisplayInfos.CustInfo = Session.CreateCriteria(infoType)
                                                .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo), accountNo))
-                                               .List<SharedInfo>().SingleOrDefault();
+                                               .List<Info>().SingleOrDefault();
 
             custDisplayInfos.Payments.AddRange(Session.CreateCriteria(paymentType)
                                                       .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo),
                                                                            accountNo))
-                                                      .List<SharedPayment>());
+                                                      .List<Payment>());
 
             return custDisplayInfos;
         }

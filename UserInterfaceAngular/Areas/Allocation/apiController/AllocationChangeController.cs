@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.UserInterface.Areas.Allocation.ViewModels;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Linq;
@@ -99,14 +100,14 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                             case ScbEnums.Products.MORT:
                             case ScbEnums.Products.AUTO:
                             case ScbEnums.Products.PL:
-                                var alloc = serializer.Deserialize<RAlloc>(JObject.FromObject(obj["Alloc"]).ToString());
+                                var alloc = serializer.Deserialize<Alloc>(JObject.FromObject(obj["Alloc"]).ToString());
                                 if (string.IsNullOrWhiteSpace(alloc.ChangeReason))
                                     continue;
                                 var liner = serializer.Deserialize<RLiner>(JObject.FromObject(obj["Liner"]).ToString());
                                 var newStakeholderId = Guid.Parse(obj["NewStakeholderId"].ToString());
 
-                                var oldAlloc = session.QueryOver<RAlloc>().Where(x => x.Id == alloc.Id).SingleOrDefault<RAlloc>();
-                                oldAlloc.RLiner = liner;
+                                var oldAlloc = session.QueryOver<Alloc>().Where(x => x.Id == alloc.Id).SingleOrDefault<Alloc>();
+                                //oldAlloc.RLiner = liner;
                                 oldAlloc.Stakeholder = session.QueryOver<Stakeholders>().Where(x => x.Id == newStakeholderId).SingleOrDefault<Stakeholders>();
                                 oldAlloc.ChangeReason = alloc.ChangeReason;
                                 session.SaveOrUpdate(oldAlloc);

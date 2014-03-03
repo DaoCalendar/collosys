@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -8,26 +7,23 @@ using System.Web.Http;
 using System.Web.Script.Serialization;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.NgGrid;
 using ColloSys.Shared.Types4Product;
-using ColloSys.UserInterface.Areas.Allocation.ViewModels;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
-using Newtonsoft.Json.Linq;
 
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
 
 
-    public class ApproveViewAllocationApiController : BaseApiController<CAlloc>
+    public class ApproveViewAllocationApiController : BaseApiController<Alloc>
     {
 
         public HttpResponseMessage GetScbSystems()
@@ -46,103 +42,42 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         [HttpGet]
         [HttpTransaction]
-        public IEnumerable<CAlloc> GetData()
+        public IEnumerable<Alloc> GetData()
         {
             var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<CAlloc>().Where(x => x.IsAllocated)
-                .Fetch(x => x.CInfo).Eager
+            var data = session.QueryOver<Alloc>().Where(x => x.IsAllocated)
+                .Fetch(x => x.Info).Eager
                 .Take(10).List();
             return data;
         }
-
 
         [HttpPost]
         [HttpTransaction(Persist = true)]
         public HttpResponseMessage ApproveAllocations(ChangeAllocationData changeAllocationModel)
         {
-            var products = changeAllocationModel.Products;
             var allocs = changeAllocationModel.AllocList;
-            var allocStatus = changeAllocationModel.AllocationStatus;
 
-            var serializer = new JavaScriptSerializer();
-            switch (products)
+            var cInfoList = new List<Info>();
+            foreach (var cAlloc in allocs)
             {
-                case ScbEnums.Products.CC:
-                    var callocdata = serializer.Deserialize<IEnumerable<CAlloc>>(allocs.ToString()).ToList();
-                    var cInfoList = new List<CInfo>();
-                    foreach (var cAlloc in callocdata)
-                    {
-                        var info = Session.Load<CInfo>(cAlloc.CInfo.Id);
-                        var forApproveAlloc = info.CAllocs.SingleOrDefault(x => x.Id == cAlloc.Id);
-                        info.AllocStatus = cAlloc.AllocStatus;
-                        if (forApproveAlloc != null)
-                            forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+                var info = Session.Load<Info>(cAlloc.Info.Id);
+                var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == cAlloc.Id);
+                info.AllocStatus = cAlloc.AllocStatus;
+                if (forApproveAlloc != null)
+                    forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
 
-                        var oldAlloc = info.CAllocs.SingleOrDefault(x => x.Id == cAlloc.OrigEntityId);
-                        if (oldAlloc != null)
-                        {
-                            oldAlloc.EndDate = cAlloc.StartDate.AddDays(-1);
-                            oldAlloc.Status=ColloSysEnums.ApproveStatus.Approved;
-                        }
+                var oldAlloc = info.Allocs.SingleOrDefault(x => x.Id == cAlloc.OrigEntityId);
+                if (oldAlloc != null)
+                {
+                    oldAlloc.EndDate = cAlloc.StartDate.AddDays(-1);
+                    oldAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+                }
 
-                        cInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(cInfoList);
-                    break;
-                case ScbEnums.Products.SME_BIL:
-                case ScbEnums.Products.SME_ME:
-                case ScbEnums.Products.SME_LAP:
-                case ScbEnums.Products.MORT:
-                case ScbEnums.Products.AUTO:
-                case ScbEnums.Products.PL:
-                    var rallocdata = serializer.Deserialize<IEnumerable<RAlloc>>(allocs.ToString()).ToList();
-                    var rInfoList = new List<RInfo>();
-                    foreach (var rAlloc in rallocdata)
-                    {
-                        var info = Session.Load<RInfo>(rAlloc.RInfo.Id);
-                        var forApproveAlloc = info.RAllocs.SingleOrDefault(x => x.Id == rAlloc.Id);
-                        info.AllocStatus = rAlloc.AllocStatus;
-                        if (forApproveAlloc != null)
-                            forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-
-                        var oldAlloc = info.RAllocs.SingleOrDefault(x => x.Id == rAlloc.OrigEntityId);
-                        if (oldAlloc != null)
-                        {
-                            oldAlloc.EndDate = rAlloc.StartDate.AddDays(-1);
-                            oldAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                        }
-
-                        rInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(rInfoList);
-                    break;
-                case ScbEnums.Products.AUTO_OD:
-                case ScbEnums.Products.SMC:
-                case ScbEnums.Products.SME_LAP_OD:
-                    var eallocdata = serializer.Deserialize<IEnumerable<EAlloc>>(allocs.ToString()).ToList();
-                    var eInfoList = new List<EInfo>();
-                    foreach (var eAlloc in eallocdata)
-                    {
-                        var info = Session.Load<EInfo>(eAlloc.EInfo.Id);
-                        var forApproveAlloc = info.EAllocs.SingleOrDefault(x => x.Id == eAlloc.Id);
-                        info.AllocStatus = eAlloc.AllocStatus;
-                        if (forApproveAlloc != null)
-                            forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-
-                        var oldAlloc = info.EAllocs.SingleOrDefault(x => x.Id == eAlloc.OrigEntityId);
-                        if (oldAlloc != null)
-                        {
-                            oldAlloc.EndDate = eAlloc.StartDate.AddDays(-1);
-                            oldAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                        }
-
-                        eInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(eInfoList);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                cInfoList.Add(info);
             }
+            SaveAllocationChanges(cInfoList);
+
+
 
 
             return Request.CreateResponse(HttpStatusCode.OK,
@@ -154,71 +89,22 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction(Persist = true)]
         public HttpResponseMessage RejectChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
-            var products = changeAllocationModel.Products;
             var allocs = changeAllocationModel.AllocList;
-            var allocStatus = changeAllocationModel.AllocationStatus;
-
-            var serializer = new JavaScriptSerializer();
-            switch (products)
+            var cInfoList = new List<Info>();
+            foreach (var cAlloc in allocs)
             {
-                case ScbEnums.Products.CC:
-                    var callocdata = serializer.Deserialize<IEnumerable<CAlloc>>(allocs.ToString()).ToList();
-                    var cInfoList = new List<CInfo>();
-                    foreach (var cAlloc in callocdata)
-                    {
-                        cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                        var info = Session.Load<CInfo>(cAlloc.CInfo.Id);
-                        var oldAlloc = info.CAllocs.Single(x => x.Id == cAlloc.OrigEntityId);
-                        oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
-                                              ? ColloSysEnums.ApproveStatus.NotApplicable
-                                              : ColloSysEnums.ApproveStatus.Approved;
-                        info.CAllocs.Remove(cAlloc);
-                        cInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(cInfoList);
-                    break;
-                case ScbEnums.Products.SME_BIL:
-                case ScbEnums.Products.SME_ME:
-                case ScbEnums.Products.SME_LAP:
-                case ScbEnums.Products.MORT:
-                case ScbEnums.Products.AUTO:
-                case ScbEnums.Products.PL:
-                    var rallocdata = serializer.Deserialize<IEnumerable<RAlloc>>(allocs.ToString()).ToList();
-                    var rInfoList = new List<RInfo>();
-                    foreach (var rAlloc in rallocdata)
-                    {
-                        rAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                        var info = Session.Load<RInfo>(rAlloc.RInfo.Id);
-                        var oldAlloc = info.RAllocs.Single(x => x.Id == rAlloc.OrigEntityId);
-                        oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
-                                              ? ColloSysEnums.ApproveStatus.NotApplicable
-                                              : ColloSysEnums.ApproveStatus.Approved;
-                        info.RAllocs.Remove(rAlloc);
-                        rInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(rInfoList);
-                    break;
-                case ScbEnums.Products.AUTO_OD:
-                case ScbEnums.Products.SMC:
-                case ScbEnums.Products.SME_LAP_OD:
-                    var eallocdata = serializer.Deserialize<IEnumerable<EAlloc>>(allocs.ToString()).ToList();
-                    var eInfoList = new List<EInfo>();
-                    foreach (var eAlloc in eallocdata)
-                    {
-                        eAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                        var info = Session.Load<EInfo>(eAlloc.EInfo.Id);
-                        var oldAlloc = info.EAllocs.Single(x => x.Id == eAlloc.OrigEntityId);
-                        oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
-                                              ? ColloSysEnums.ApproveStatus.NotApplicable
-                                              : ColloSysEnums.ApproveStatus.Approved;
-                        info.EAllocs.Remove(eAlloc);
-                        eInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(eInfoList);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+                var info = Session.Load<Info>(cAlloc.Info.Id);
+                var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.OrigEntityId);
+                oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
+                                      ? ColloSysEnums.ApproveStatus.NotApplicable
+                                      : ColloSysEnums.ApproveStatus.Approved;
+                info.Allocs.Remove(cAlloc);
+                cInfoList.Add(info);
             }
+            SaveAllocationChanges(cInfoList);
+
+
 
 
             return Request.CreateResponse(HttpStatusCode.OK,
@@ -257,88 +143,30 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-            var products = changeAllocationModel.Products;
             var allocs = changeAllocationModel.AllocList;
-            var allocStatus = changeAllocationModel.AllocationStatus;
             var changeAllocStatus = changeAllocationModel.ChangeAllocStatus;
             var noAllocReason = ColloSysEnums.NoAllocResons.None;
 
-            var serializer = new JavaScriptSerializer();
-            switch (products)
+            var cInfoList = new List<Info>();
+            foreach (var cAlloc in allocs)
             {
-                case ScbEnums.Products.CC:
-                    var callocdata = serializer.Deserialize<IEnumerable<CAlloc>>(allocs.ToString()).ToList();
+                var info = Session.Load<Info>(cAlloc.Info.Id);
+                info.NoAllocResons = noAllocReason;
+                var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.Id);
+                oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
 
-                    var cInfoList = new List<CInfo>();
-                    foreach (var cAlloc in callocdata)
-                    {
-                        var info = Session.Load<CInfo>(cAlloc.CInfo.Id);
-                        info.NoAllocResons = noAllocReason;
-                        var oldAlloc = info.CAllocs.Single(x => x.Id == cAlloc.Id);
-                        oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
-
-                        var newCAlloc = GetNewAlloc<CAlloc>(cAlloc, changeAllocStatus);
-                        newCAlloc.NoAllocResons = noAllocReason;
-                        info.NoAllocResons = noAllocReason;
-                        info.CAllocs.Add(newCAlloc);
-                        cInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(cInfoList);
-                    break;
-                case ScbEnums.Products.SME_BIL:
-                case ScbEnums.Products.SME_ME:
-                case ScbEnums.Products.SME_LAP:
-                case ScbEnums.Products.MORT:
-                case ScbEnums.Products.AUTO:
-                case ScbEnums.Products.PL:
-                    var rallocdata = serializer.Deserialize<IEnumerable<RAlloc>>(allocs.ToString()).ToList();
-
-                    var rInfoList = new List<RInfo>();
-                    foreach (var rAlloc in rallocdata)
-                    {
-                        var info = Session.Load<RInfo>(rAlloc.RInfo.Id);
-                        info.NoAllocResons = noAllocReason;
-                        var oldAlloc = info.RAllocs.Single(x => x.Id == rAlloc.Id);
-                        oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
-
-                        var newRAlloc = GetNewAlloc<RAlloc>(rAlloc, changeAllocStatus);
-                        newRAlloc.NoAllocResons = noAllocReason;
-                        info.NoAllocResons = noAllocReason;
-                        info.RAllocs.Add(newRAlloc);
-                        rInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(rInfoList);
-                    break;
-                case ScbEnums.Products.AUTO_OD:
-                case ScbEnums.Products.SMC:
-                case ScbEnums.Products.SME_LAP_OD:
-                    var eallocdata = serializer.Deserialize<IEnumerable<EAlloc>>(allocs.ToString()).ToList();
-
-                    var eInfoList = new List<EInfo>();
-                    foreach (var eAlloc in eallocdata)
-                    {
-                        var info = Session.Load<EInfo>(eAlloc.EInfo.Id);
-                        info.NoAllocResons = noAllocReason;
-                        var oldAlloc = info.EAllocs.Single(x => x.Id == eAlloc.Id);
-                        oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
-
-                        var newEAlloc = GetNewAlloc<EAlloc>(eAlloc, changeAllocStatus);
-                        newEAlloc.NoAllocResons = noAllocReason;
-                        info.NoAllocResons = noAllocReason;
-                        info.EAllocs.Add(newEAlloc);
-                        eInfoList.Add(info);
-                    }
-                    SaveAllocationChanges(eInfoList);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                var newCAlloc = GetNewAlloc<Alloc>(cAlloc, changeAllocStatus);
+                newCAlloc.NoAllocResons = noAllocReason;
+                info.NoAllocResons = noAllocReason;
+                info.Allocs.Add(newCAlloc);
+                cInfoList.Add(info);
             }
-
+            SaveAllocationChanges(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
         }
 
-        private T GetNewAlloc<T>(T alloc, ColloSysEnums.AllocStatus changeAllocStatus) where T : SharedAlloc
+        private T GetNewAlloc<T>(T alloc, ColloSysEnums.AllocStatus changeAllocStatus) where T : Alloc
         {
             alloc.OrigEntityId = alloc.Id;
             alloc.ResetUniqueProperties();
@@ -378,8 +206,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var allcType = ClassType.GetAllocDataClassTypeByTableNameForAlloc(viewAllocationFilter.Products);
             var firstChar = allcType.Name.Substring(0, 1);
             var aliseName = allcType.Name;
-            var infoName = firstChar + "Info";
-            var memberAlloc = new MemberHelper<SharedAlloc>();
+            var infoName = typeof(Info).Name;
+            var memberAlloc = new MemberHelper<Alloc>();
 
             var detachedCriteria = DetachedCriteria.For(allcType, aliseName);
             detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.LeftOuterJoin);
@@ -427,7 +255,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             gridData.AddNewColumn(properyStakeholder, "Stakeholder", "StakeholderName");
 
             // add Info Columns
-            var infoType = typeof(CInfo).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
+            var infoType = typeof(Info).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
             if (infoType == null)
                 return gridData;
 
@@ -452,7 +280,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         public static IList<string> GetSharedInfoPropertiesName()
         {
-            var memberHelper = new MemberHelper<CInfo>();
+            var memberHelper = new MemberHelper<Info>();
             return new List<string>
                 {
                     memberHelper.GetName(x => x.AccountNo),
@@ -463,7 +291,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         public static IList<string> GetsharedAllocExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
         {
-            var memberHelper = new MemberHelper<CAlloc>();
+            var memberHelper = new MemberHelper<Alloc>();
             return new List<string>
                 {
                     memberHelper.GetName(x => x.IsAllocated),
@@ -487,7 +315,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
     public class ChangeAllocationData : ViewAllocationFilter
     {
-        public object AllocList { get; set; }
+        public IEnumerable<Alloc> AllocList { get; set; }
         public ColloSysEnums.AllocStatus ChangeAllocStatus { get; set; }
     }
 
@@ -500,6 +328,175 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         public string ToDate { get; set; }
     }
 }
+
+//var serializer = new JavaScriptSerializer();
+//switch (products)
+//{
+//    case ScbEnums.Products.CC:
+
+//        break;
+//    case ScbEnums.Products.SME_BIL:
+//    case ScbEnums.Products.SME_ME:
+//    case ScbEnums.Products.SME_LAP:
+//    case ScbEnums.Products.MORT:
+//    case ScbEnums.Products.AUTO:
+//    case ScbEnums.Products.PL:
+//        var rallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+
+//        var rInfoList = new List<Info>();
+//        foreach (var rAlloc in rallocdata)
+//        {
+//            var info = Session.Load<Info>(rAlloc.Info.Id);
+//            info.NoAllocResons = noAllocReason;
+//            var oldAlloc = info.Allocs.Single(x => x.Id == rAlloc.Id);
+//            oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
+
+//            var newRAlloc = GetNewAlloc<Alloc>(rAlloc, changeAllocStatus);
+//            newRAlloc.NoAllocResons = noAllocReason;
+//            info.NoAllocResons = noAllocReason;
+//            info.Allocs.Add(newRAlloc);
+//            rInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(rInfoList);
+//        break;
+//    case ScbEnums.Products.AUTO_OD:
+//    case ScbEnums.Products.SMC:
+//    case ScbEnums.Products.SME_LAP_OD:
+//        var eallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+
+//        var eInfoList = new List<Info>();
+//        foreach (var eAlloc in eallocdata)
+//        {
+//            var info = Session.Load<Info>(eAlloc.Info.Id);
+//            info.NoAllocResons = noAllocReason;
+//            var oldAlloc = info.Allocs.Single(x => x.Id == eAlloc.Id);
+//            oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
+
+//            var newEAlloc = GetNewAlloc<Alloc>(eAlloc, changeAllocStatus);
+//            newEAlloc.NoAllocResons = noAllocReason;
+//            info.NoAllocResons = noAllocReason;
+//            info.Allocs.Add(newEAlloc);
+//            eInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(eInfoList);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+
+
+
+//var serializer = new JavaScriptSerializer();
+//switch (products)
+//{
+//    case ScbEnums.Products.CC:
+
+//        break;
+//    case ScbEnums.Products.SME_BIL:
+//    case ScbEnums.Products.SME_ME:
+//    case ScbEnums.Products.SME_LAP:
+//    case ScbEnums.Products.MORT:
+//    case ScbEnums.Products.AUTO:
+//    case ScbEnums.Products.PL:
+//        var rallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+//        var rInfoList = new List<Info>();
+//        foreach (var rAlloc in rallocdata)
+//        {
+//            rAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+//            var info = Session.Load<Info>(rAlloc.Info.Id);
+//            var oldAlloc = info.Allocs.Single(x => x.Id == rAlloc.OrigEntityId);
+//            oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
+//                                  ? ColloSysEnums.ApproveStatus.NotApplicable
+//                                  : ColloSysEnums.ApproveStatus.Approved;
+//            info.Allocs.Remove(rAlloc);
+//            rInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(rInfoList);
+//        break;
+//    case ScbEnums.Products.AUTO_OD:
+//    case ScbEnums.Products.SMC:
+//    case ScbEnums.Products.SME_LAP_OD:
+//        var eallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+//        var eInfoList = new List<Info>();
+//        foreach (var eAlloc in eallocdata)
+//        {
+//            eAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+//            var info = Session.Load<Info>(eAlloc.Info.Id);
+//            var oldAlloc = info.Allocs.Single(x => x.Id == eAlloc.OrigEntityId);
+//            oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
+//                                  ? ColloSysEnums.ApproveStatus.NotApplicable
+//                                  : ColloSysEnums.ApproveStatus.Approved;
+//            info.Allocs.Remove(eAlloc);
+//            eInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(eInfoList);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+
+
+//var serializer = new JavaScriptSerializer();
+//switch (products)
+//{
+//    case ScbEnums.Products.CC:
+
+//        break;
+//    case ScbEnums.Products.SME_BIL:
+//    case ScbEnums.Products.SME_ME:
+//    case ScbEnums.Products.SME_LAP:
+//    case ScbEnums.Products.MORT:
+//    case ScbEnums.Products.AUTO:
+//    case ScbEnums.Products.PL:
+//        var rallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+//        var rInfoList = new List<Info>();
+//        foreach (var rAlloc in rallocdata)
+//        {
+//            var info = Session.Load<Info>(rAlloc.Info.Id);
+//            var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == rAlloc.Id);
+//            info.AllocStatus = rAlloc.AllocStatus;
+//            if (forApproveAlloc != null)
+//                forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+
+//            var oldAlloc = info.Allocs.SingleOrDefault(x => x.Id == rAlloc.OrigEntityId);
+//            if (oldAlloc != null)
+//            {
+//                oldAlloc.EndDate = rAlloc.StartDate.AddDays(-1);
+//                oldAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+//            }
+
+//            rInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(rInfoList);
+//        break;
+//    case ScbEnums.Products.AUTO_OD:
+//    case ScbEnums.Products.SMC:
+//    case ScbEnums.Products.SME_LAP_OD:
+//        var eallocdata = serializer.Deserialize<IEnumerable<Alloc>>(allocs.ToString()).ToList();
+//        var eInfoList = new List<Info>();
+//        foreach (var eAlloc in eallocdata)
+//        {
+//            var info = Session.Load<Info>(eAlloc.Info.Id);
+//            var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == eAlloc.Id);
+//            info.AllocStatus = eAlloc.AllocStatus;
+//            if (forApproveAlloc != null)
+//                forApproveAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+
+//            var oldAlloc = info.Allocs.SingleOrDefault(x => x.Id == eAlloc.OrigEntityId);
+//            if (oldAlloc != null)
+//            {
+//                oldAlloc.EndDate = eAlloc.StartDate.AddDays(-1);
+//                oldAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
+//            }
+
+//            eInfoList.Add(info);
+//        }
+//        SaveAllocationChanges(eInfoList);
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+
 
 //private static void SetAllocStatusForAllocData(ColloSysEnums.AllocStatus allocStatus, List<SharedAlloc> Allocdata, List<object> list)
 //     {

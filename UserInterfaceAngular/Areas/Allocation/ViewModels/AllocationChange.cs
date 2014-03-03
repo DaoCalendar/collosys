@@ -27,8 +27,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             ReleatedStakes=new List<Stakeholders>();
         }
 
-        public SharedAlloc Alloc { get; set; }
-        public ISoftDelq Liner { get; set; }
+        public Alloc Alloc { get; set; }
+        public Info Liner { get; set; }
         public IDelinquentCustomer Writeoff { get; set; }
         public Stakeholders Stakeholder { get; set; }
         public List<Stakeholders> ReleatedStakes { get; set; }
@@ -71,7 +71,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    criteria = session.CreateCriteria<EAlloc>("Alloc")
+                    criteria = session.CreateCriteria<Alloc>("Alloc")
                                       .SetFetchMode("Stakeholder", FetchMode.Eager);
 
                     criteria.Add(Restrictions.Eq("Alloc.Status", ColloSysEnums.ApproveStatus.NotApplicable));
@@ -109,7 +109,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    criteria = session.CreateCriteria<RAlloc>("Alloc")
+                    criteria = session.CreateCriteria<Alloc>("Alloc")
                                       .SetFetchMode("Stakeholder", FetchMode.Eager);
 
                     criteria.Add(Restrictions.Eq("Alloc.Status", ColloSysEnums.ApproveStatus.NotApplicable));
@@ -147,7 +147,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    criteria = session.CreateCriteria<CAlloc>("Alloc")
+                    criteria = session.CreateCriteria<Alloc>("Alloc")
                                       .SetFetchMode("Stakeholder", FetchMode.Eager);
 
                     criteria.Add(Restrictions.Eq("Alloc.Status", ColloSysEnums.ApproveStatus.NotApplicable));
@@ -185,10 +185,10 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             foreach (var sharedAlloc in list)
             {
                 var temp = new AllocationChange();
-                temp.Alloc = (SharedAlloc)sharedAlloc;
-                temp.Stakeholder = DeepClone(((SharedAlloc)sharedAlloc).Stakeholder);
-                temp.Liner = DeepClone(((EAlloc)sharedAlloc).ELiner);
-                temp.Writeoff = DeepClone(((EAlloc)sharedAlloc).EWriteoff);
+                temp.Alloc = (Alloc)sharedAlloc;
+                temp.Stakeholder = DeepClone(((Alloc)sharedAlloc).Stakeholder);
+                temp.Liner = DeepClone(((Alloc)sharedAlloc).Info);
+                //temp.Writeoff = DeepClone(((Alloc)sharedAlloc).EWriteoff);
 
                 //get related stakeholders
                 if(temp.Liner!=null)
@@ -210,10 +210,10 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             foreach (var sharedAlloc in list)
             {
                 var temp = new AllocationChange();
-                temp.Alloc = (SharedAlloc)sharedAlloc;
-                temp.Stakeholder = ((SharedAlloc)sharedAlloc).Stakeholder;
-                temp.Liner = DeepClone(((RAlloc)sharedAlloc).RLiner);
-                temp.Writeoff = DeepClone(((RAlloc)sharedAlloc).RWriteoff);
+                temp.Alloc = (Alloc)sharedAlloc;
+                temp.Stakeholder = ((Alloc)sharedAlloc).Stakeholder;
+                temp.Liner = DeepClone(((Alloc)sharedAlloc).Info);
+                //temp.Writeoff = DeepClone(((RAlloc)sharedAlloc).RWriteoff);
 
                 //get related stakeholders
                 if (temp.Liner != null)
@@ -238,10 +238,10 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             foreach (var sharedAlloc in list)
             {
                 var temp = new AllocationChange();
-                temp.Alloc = (SharedAlloc)sharedAlloc;
-                temp.Stakeholder =((SharedAlloc)sharedAlloc).Stakeholder;
-                temp.Liner = DeepClone(((CAlloc)sharedAlloc).CLiner);
-                temp.Writeoff = DeepClone(((CAlloc)sharedAlloc).CWriteoff);
+                temp.Alloc = (Alloc)sharedAlloc;
+                temp.Stakeholder =((Alloc)sharedAlloc).Stakeholder;
+                temp.Liner = DeepClone(((Alloc)sharedAlloc).Info);
+               // temp.Writeoff = DeepClone(((CAlloc)sharedAlloc).CWriteoff);
                 list2.Add(temp);
             }
             return list2;

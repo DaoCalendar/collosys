@@ -8,6 +8,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -58,21 +59,12 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
             // credit card pin code
            
-            missingPincodes.AddRange(Session.Query<CInfo>()
+            missingPincodes.AddRange(Session.Query<Info>()
                                     .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
                                     .Select(x => x.Pincode.ToString())
                                     .Distinct()
                                     .ToList());
-            missingPincodes.AddRange(Session.Query<RInfo>()
-                                   .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
-                                   .Select(x => x.Pincode.ToString())
-                                   .Distinct()
-                                   .ToList());
-            missingPincodes.AddRange(Session.Query<EInfo>()
-                                   .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
-                                   .Select(x => x.Pincode.ToString())
-                                   .Distinct()
-                                   .ToList());
+
             
             return missingPincodes.Take(10).ToList();
         }
@@ -163,3 +155,14 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
     }
 }
+
+//missingPincodes.AddRange(Session.Query<RInfo>()
+//                       .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
+//                       .Select(x => x.Pincode.ToString())
+//                       .Distinct()
+//                       .ToList());
+//missingPincodes.AddRange(Session.Query<EInfo>()
+//                       .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
+//                       .Select(x => x.Pincode.ToString())
+//                       .Distinct()
+//                       .ToList());

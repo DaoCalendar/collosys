@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.Migrate.ClientData;
 using NHibernate.Linq;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;
@@ -174,7 +175,14 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                 case ColloSysEnums.FileAliasName.E_PAYMENT_LINER:
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO:
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_SMC:
-                    return types.Where(t => t == typeof(EPayment));
+                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
+                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_PLPC:
+                case ColloSysEnums.FileAliasName.R_MANUAL_REVERSAL:
+                case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
+                case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
+                case ColloSysEnums.FileAliasName.C_PAYMENT_UIT:
+                case ColloSysEnums.FileAliasName.C_PAYMENT_VISA:
+                    return types.Where(t => t == typeof(ColloSys.DataLayer.SharedDomain.Payment));
 
                 case ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN:
                 case ColloSysEnums.FileAliasName.R_LINER_MORT_LOAN:
@@ -191,18 +199,10 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
                     return types.Where(t => t == typeof(RWriteoff));
 
-                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
-                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_PLPC:
-                case ColloSysEnums.FileAliasName.R_MANUAL_REVERSAL:
-                case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
-                    return types.Where(t => t == typeof(RPayment));
-
                 case ColloSysEnums.FileAliasName.CACS_ACTIVITY:
                 case ColloSysEnums.FileAliasName.C_LINER_COLLAGE:
                 case ColloSysEnums.FileAliasName.C_LINER_UNBILLED:
-                case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
-                case ColloSysEnums.FileAliasName.C_PAYMENT_UIT:
-                case ColloSysEnums.FileAliasName.C_PAYMENT_VISA:
+                
                 case ColloSysEnums.FileAliasName.C_WRITEOFF:
                     return types.Where(t => t == typeof(string)); // for blank value return
 

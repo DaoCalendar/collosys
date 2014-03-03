@@ -6,6 +6,7 @@ using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SharedDomain;
 using Itenso.TimePeriod;
 
 namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
@@ -14,9 +15,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
     {
         public BulkAllocationModel()
         {
-            SaveRAllocs=new List<RAlloc>();
-            SaveEAllocs=new List<EAlloc>();
-            SaveCAllocs=new List<CAlloc>();
+            SaveRAllocs=new List<Alloc>();
+            SaveEAllocs=new List<Alloc>();
+            SaveCAllocs=new List<Alloc>();
         }
 
         public ScbEnums.Products Product { get; set; }
@@ -27,13 +28,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
         public ColloSysEnums.AllocationType AllocationType { get; set; }
 
 
-        public IList<RAlloc> RAllocs { get; set; }
-        public IList<CAlloc> CAllocs { get; set; }
-        public IList<EAlloc> EAllocs { get; set; }
+        public IList<Alloc> RAllocs { get; set; }
+        public IList<Alloc> CAllocs { get; set; }
+        public IList<Alloc> EAllocs { get; set; }
 
-        public IList<RAlloc> SaveRAllocs { get; set; }
-        public IList<CAlloc> SaveCAllocs { get; set; }
-        public IList<EAlloc> SaveEAllocs { get; set; }
+        public IList<Alloc> SaveRAllocs { get; set; }
+        public IList<Alloc> SaveCAllocs { get; set; }
+        public IList<Alloc> SaveEAllocs { get; set; }
 
         public BulkAllocationModel GetAllocations(BulkAllocationModel model)
         {
@@ -47,17 +48,17 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 case ScbEnums.Products.AUTO:
                 case ScbEnums.Products.PL:
                 case ScbEnums.Products.MORT:
-                    model.RAllocs = GetAllocationsForRAlloc(model);
+                    model.RAllocs = GetAllocationsForAlloc(model);
                     break;
 
                 case ScbEnums.Products.CC:
-                    model.CAllocs = GetAllocationsForCAlloc(model);
+                    model.CAllocs = GetAllocationsForAlloc(model);
                     break;
 
                 case ScbEnums.Products.AUTO_OD:
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.SMC:
-                    model.EAllocs = GetAllocationForEAlloc(model);
+                    model.EAllocs = GetAllocationsForAlloc(model);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -67,59 +68,21 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         #region get allocations 
 
-        private static IList<RAlloc> GetAllocationsForRAlloc(BulkAllocationModel model)
+        private static IList<Alloc> GetAllocationsForAlloc(BulkAllocationModel model)
         {
             using (var session = SessionManager.GetNewSession())
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    var data = session.QueryOver<RAlloc>()
+                    var data = session.QueryOver<Alloc>()
                                       .Fetch(x => x.AllocPolicy).Eager
                                       .Fetch(x => x.AllocSubpolicy).Eager
-                                      .Fetch(x => x.RLiner).Eager
-                                      .Fetch(x => x.RWriteoff).Eager
+                                      .Fetch(x=>x.Info).Eager
+                                      //.Fetch(x => x.RLiner).Eager
+                                      //.Fetch(x => x.RWriteoff).Eager
                                       .Fetch(x => x.Stakeholder).Eager
                                       .Where(x => x.Stakeholder.Id == model.Stakeholder)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
-        }
-
-        private static IList<CAlloc> GetAllocationsForCAlloc(BulkAllocationModel model)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<CAlloc>()
-                                      .Fetch(x => x.AllocPolicy).Eager
-                                      .Fetch(x => x.AllocSubpolicy).Eager
-                                      .Fetch(x => x.CLiner).Eager
-                                      .Fetch(x => x.CWriteoff).Eager
-                                      .Fetch(x => x.Stakeholder).Eager
-                                      .Where(x => x.Stakeholder.Id == model.Stakeholder)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
-        }
-
-        private static IList<EAlloc> GetAllocationForEAlloc(BulkAllocationModel model)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<EAlloc>()
-                                      .Fetch(x => x.AllocPolicy).Eager
-                                      .Fetch(x => x.AllocSubpolicy).Eager
-                                      .Fetch(x => x.ELiner).Eager
-                                      .Fetch(x => x.EWriteoff).Eager
-                                      .Fetch(x => x.Stakeholder).Eager
-                                      .Where(x => x.Stakeholder.Id == model.Stakeholder)
+                                      .And(x=>x.Info.Product==model.Product)
                                       .List();
                     trans.Rollback();
                     return data;
@@ -243,11 +206,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 rAlloc.EndDate = DateTime.Today;
                 if (model.Category == ScbEnums.Category.Liner)
                 {
-                    rAllocNew.RLiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //rAllocNew.RLiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 else
                 {
-                    rAlloc.RWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //rAlloc.RWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 model.SaveRAllocs.Add(rAllocNew);
             }
@@ -269,11 +232,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 cAlloc.EndDate = DateTime.Today;
                 if (model.Category == ScbEnums.Category.Liner)
                 {
-                    cAllocNew.CLiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //cAllocNew.CLiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 else
                 {
-                    cAlloc.CWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //cAlloc.CWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 model.SaveCAllocs.Add(cAllocNew);
             }
@@ -294,11 +257,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 eAlloc.EndDate = DateTime.Today;
                 if (model.Category == ScbEnums.Category.Liner)
                 {
-                    eAllocNew.ELiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //eAllocNew.ELiner.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 else
                 {
-                    eAlloc.EWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //eAlloc.EWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 model.SaveEAllocs.Add(eAllocNew);
             }
@@ -324,11 +287,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 rAllocNew.Stakeholder = GetStakeholder(model.ToStakeholder);
                  if (model.Category == ScbEnums.Category.Liner)
                  {
-                     rAlloc.RLiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
+                     //rAlloc.RLiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
                  }
                  else
                  {
-                     rAlloc.RWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                     //rAlloc.RWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                  }
                 model.SaveRAllocs.Add(rAllocNew);
             }
@@ -351,11 +314,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 cAllocNew.Stakeholder = GetStakeholder(model.ToStakeholder);
                 if (model.Category == ScbEnums.Category.Liner)
                 {
-                    cAlloc.CLiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
+                    //cAlloc.CLiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
                 }
                 else
                 {
-                    cAlloc.CWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //cAlloc.CWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 model.SaveCAllocs.Add(cAllocNew);
             }
@@ -377,11 +340,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
                 eAllocNew.Stakeholder = GetStakeholder(model.ToStakeholder);
                 if (model.Category == ScbEnums.Category.Liner)
                 {
-                    eAlloc.ELiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
+                    //eAlloc.ELiner.AllocStatus = ColloSysEnums.AllocStatus.AllocateToStakeholder;
                 }
                 else
                 {
-                    eAlloc.EWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
+                    //eAlloc.EWriteoff.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
                 }
                 model.SaveEAllocs.Add(eAllocNew);
             }
@@ -471,3 +434,43 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
     }
 }
+
+//private static IList<Alloc> GetAllocationsForCAlloc(BulkAllocationModel model)
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var data = session.QueryOver<Alloc>()
+//                              .Fetch(x => x.AllocPolicy).Eager
+//                              .Fetch(x => x.AllocSubpolicy).Eager
+//                              //.Fetch(x => x.CLiner).Eager
+//                              //.Fetch(x => x.CWriteoff).Eager
+//                              .Fetch(x => x.Stakeholder).Eager
+//                              .Where(x => x.Stakeholder.Id == model.Stakeholder)
+//                              .List();
+//            trans.Rollback();
+//            return data;
+//        }
+//    }
+//}
+
+//private static IList<Alloc> GetAllocationForEAlloc(BulkAllocationModel model)
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var data = session.QueryOver<Alloc>()
+//                              .Fetch(x => x.AllocPolicy).Eager
+//                              .Fetch(x => x.AllocSubpolicy).Eager
+//                              //.Fetch(x => x.ELiner).Eager
+//                              //.Fetch(x => x.EWriteoff).Eager
+//                              .Fetch(x => x.Stakeholder).Eager
+//                              .Where(x => x.Stakeholder.Id == model.Stakeholder)
+//                              .List();
+//            trans.Rollback();
+//            return data;
+//        }
+//    }
+//}

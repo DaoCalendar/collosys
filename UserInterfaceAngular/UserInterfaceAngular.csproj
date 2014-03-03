@@ -228,13 +228,9 @@
   <ItemGroup>
     <Compile Include="App_Start\NLogSetup.cs" />
     <Compile Include="Areas\Allocation\AllocationAreaRegistration.cs" />
-    <Compile Include="Areas\Allocation\apiController\AllocationApproveApiController.cs" />
     <Compile Include="Areas\Allocation\apiController\AllocationBulkChangeController.cs" />
-    <Compile Include="Areas\Allocation\apiController\AllocationChangeController.cs" />
     <Compile Include="Areas\Allocation\apiController\AllocationPolicyApiController.cs" />
-    <Compile Include="Areas\Allocation\apiController\AllocationsListController.cs" />
     <Compile Include="Areas\Allocation\apiController\AllocationSubPolicyApiController.cs" />
-    <Compile Include="Areas\Allocation\apiController\AllocationsController.cs" />
     <Compile Include="Areas\Allocation\apiController\ApproveViewAllocationApiController.cs" />
     <Compile Include="Areas\Allocation\apiController\CustomerInfoApiController.cs" />
     <Compile Include="Areas\Allocation\Controllers\AllocationApproveController.cs" />
@@ -244,13 +240,7 @@
     <Compile Include="Areas\Allocation\Controllers\ChangeAllocationController.cs" />
     <Compile Include="Areas\Allocation\Controllers\ApproveViewAllocationController.cs" />
     <Compile Include="Areas\Allocation\Controllers\ViewAllocationsController.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\AllocListModel.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\AllocListModel2.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\AllocationChange.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\AllocationApprove.cs" />
     <Compile Include="Areas\Allocation\ViewModels\BulkAllocationModel.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\DataModel2.cs" />
-    <Compile Include="Areas\Allocation\ViewModels\DataModel.cs" />
     <Compile Include="Areas\Billing\apiController\AddhocPayoutsApiController.cs" />
     <Compile Include="Areas\Billing\apiController\BillingAmountApiController.cs" />
     <Compile Include="Areas\Billing\apiController\MatrixApiController.cs" />
@@ -323,7 +313,6 @@
     <Compile Include="Areas\OtherUploads\Helper\PincodeRow.cs" />
     <Compile Include="Areas\OtherUploads\Helper\PincodeUploadHelper.cs" />
     <Compile Include="Areas\OtherUploads\OtherUploadsAreaRegistration.cs" />
-    <Compile Include="Areas\Reporting\apiController\ClientDataApiController.cs" />
     <Compile Include="Areas\ErrorCorrection\apiController\ApproveEditedErrorDataApiController.cs" />
     <Compile Include="Areas\ErrorCorrection\Models\NgGridOptions.cs" />
     <Compile Include="Areas\ErrorCorrection\Controllers\ApproveEditedErrorDataController.cs" />
@@ -427,25 +416,15 @@
     <Compile Include="BaseWebApi\Billing\BMatrixApiController.cs" />
     <Compile Include="BaseWebApi\Billing\BMatrixValueApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\CacsActivityApiController.cs" />
-    <Compile Include="BaseWebApi\Allocation\CAllocApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\CLinerApiController.cs" />
-    <Compile Include="BaseWebApi\ClientData\CPaymentApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\CUnbilledApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\CWriteoffApiController.cs" />
-    <Compile Include="BaseWebApi\Allocation\EAllocApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\ELinerApiController.cs" />
-    <Compile Include="BaseWebApi\ClientData\EPaymentApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\EWriteoffApiController.cs" />
     <Compile Include="BaseWebApi\FileUpload\FileDetailApiController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BaseWebApi\Generic\GAddressApiController.cs" />
-    <Compile Include="BaseWebApi\Generic\GConfigApiController.cs" />
-    <Compile Include="BaseWebApi\Generic\GPermissionApiController.cs" />
-    <Compile Include="BaseWebApi\Generic\GPincodeApiController.cs" />
-    <Compile Include="BaseWebApi\Allocation\RAllocApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\RLinerApiController.cs" />
-    <Compile Include="BaseWebApi\ClientData\RPaymentApiController.cs" />
     <Compile Include="BaseWebApi\ClientData\RWriteoffApiController.cs" />
     <Compile Include="BaseWebApi\Stakeholder\StakeholdersApiController.cs" />
     <Compile Include="BaseWebApi\Stakeholder\StkhPaymentApiController.cs" />
@@ -500,11 +479,8 @@
     <Content Include="Areas\Allocation\ViewModels\allocSubpolicyCtrl.js" />
     <Content Include="Areas\Allocation\ViewModels\allocPolicyCtrl.js" />
     <Content Include="Areas\Allocation\ViewModels\allocations.js" />
-    <Content Include="Areas\Allocation\ViewModels\approveAllocation.js" />
     <Content Include="Areas\Allocation\ViewModels\ApproveViewAllocation.js" />
     <Content Include="Areas\Allocation\ViewModels\bulkChangeAllocation.js" />
-    <Content Include="Areas\Allocation\ViewModels\changeAllocation.js" />
-    <Content Include="Areas\Allocation\ViewModels\ViewAllocations.js" />
     <Content Include="Areas\Billing\ViewModels\AddhocPayouts.js" />
     <Content Include="Areas\Billing\ViewModels\BillAmountCntrl.js" />
     <Content Include="Areas\Billing\ViewModels\BillingStatus.js" />
