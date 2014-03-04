@@ -31,12 +31,12 @@ namespace ColloSys.QueryBuilder.BaseTypes
             return Session.QueryOver<T>().Where(x => x.Id == id).SingleOrDefault<T>();
         }
 
-        public IList<T> GetOnExpression(Expression<Func<T,bool>>  expression)
+        public virtual IList<T> GetOnExpression(Expression<Func<T,bool>>  expression)
         {
             return Session.QueryOver<T>().Where(expression).List();
         }
 
-        public void Save(T obj)
+        public virtual void Save(T obj)
         {
             using (var trans=Session.BeginTransaction())
             {
