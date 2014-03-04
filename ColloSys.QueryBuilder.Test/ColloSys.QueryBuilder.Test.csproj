@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4450BB2E-C544-40C2-BCC3-EAB5C385FB0C}</ProjectGuid>
+    <ProjectGuid>{94615DA6-1E69-490D-8D73-4FB329E4020F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ColloSys.QueryBuilder</RootNamespace>
-    <AssemblyName>ColloSys.QueryBuilder</AssemblyName>
+    <RootNamespace>ColloSys.QueryBuilder.Test</RootNamespace>
+    <AssemblyName>ColloSys.QueryBuilder.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -38,6 +38,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration">
       <Private>True</Private>
@@ -50,20 +53,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseTypes\IQueryBuilder.cs" />
-    <Compile Include="BaseTypes\QueryBuilder.cs" />
-    <Compile Include="BaseTypes\QueryBuilderFactory.cs" />
-    <Compile Include="BaseTypes\QueryBuilderFactoryBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StakeholderBuilder\StakeQueryBuilder.cs" />
+    <Compile Include="StakeBuilder.Test\StakeBuilderTest.cs" />
+    <Compile Include="TestingSetup\GlobalSetup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
-      <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
+      <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
       <Name>ColloSys.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj">
+      <Project>{4450BB2E-C544-40C2-BCC3-EAB5C385FB0C}</Project>
+      <Name>ColloSys.QueryBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
-      <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
+      <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
   </ItemGroup>

@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.SharedDomain;

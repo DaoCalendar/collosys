@@ -2,14 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 
-namespace ColloSys.DataLayer.SharedDomain
+namespace ColloSys.DataLayer.ClientData
 {
     public class Payment : UploadableEntity, ITransactionComponent, IUniqueKey
     {

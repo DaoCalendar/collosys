@@ -182,7 +182,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                 case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
                 case ColloSysEnums.FileAliasName.C_PAYMENT_UIT:
                 case ColloSysEnums.FileAliasName.C_PAYMENT_VISA:
-                    return types.Where(t => t == typeof(ColloSys.DataLayer.SharedDomain.Payment));
+                    return types.Where(t => t == typeof(ColloSys.DataLayer.ClientData.Payment));
 
                 case ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN:
                 case ColloSysEnums.FileAliasName.R_LINER_MORT_LOAN:

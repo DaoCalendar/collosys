@@ -1,6 +1,7 @@
 ﻿#region References
 
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
@@ -14,7 +15,7 @@ namespace ColloSys.DataLayer.Mapping
     {
         protected PaymentMap(string cat)
         {
-            Table(cat[0] + "_PAYMENT");
+            Table("PAYMENT");
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
 
             Property(x => x.FileDate, map => map.Index(cat + "_IX_PAYMENT"));
