@@ -9,6 +9,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
@@ -17,10 +18,13 @@ using NHibernate.Transform;
 
 #endregion
 
+//stakeholders calls changed
+
 namespace ColloSys.AllocationService.DBLayer
 {
     public static class DbLayer
     {
+        private static StakeQueryBuilder _stakeQueryBuilder=new StakeQueryBuilder();
         /// <summary>
         /// Get Allocation Policy for product and category basis
         /// </summary>
@@ -81,31 +85,32 @@ namespace ColloSys.AllocationService.DBLayer
         //moved to query layer
         public static IList<Stakeholders> GetListOfStakeholders(ScbEnums.Products products)
         {
-            Stakeholders stakeholders = null;
-            StkhWorking workings = null;
-            StkhHierarchy hierarchy = null;
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver(() => stakeholders)
-                                      .Fetch(x => x.StkhWorkings).Eager
-                                      .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
-                                      .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
-                                                 JoinType.LeftOuterJoin)
-                                      .Where(() => workings.Products == products)
-                                      .And(() => hierarchy.IsInAllocation)
-                                      .And(()=>hierarchy.IsInField)
-                                      .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
-                                      .And(() => stakeholders.LeavingDate == null ||
-                                                 stakeholders.LeavingDate > Util.GetTodayDate())
-                                      .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
-                                      .TransformUsing(Transformers.DistinctRootEntity)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return _stakeQueryBuilder.GetStakeholdersOnProduct(products);
+            //Stakeholders stakeholders = null;
+            //StkhWorking workings = null;
+            //StkhHierarchy hierarchy = null;
+            //using (var session = SessionManager.GetNewSession())
+            //{
+            //    using (var trans = session.BeginTransaction())
+            //    {
+            //        var data = session.QueryOver(() => stakeholders)
+            //                          .Fetch(x => x.StkhWorkings).Eager
+            //                          .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
+            //                          .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
+            //                                     JoinType.LeftOuterJoin)
+            //                          .Where(() => workings.Products == products)
+            //                          .And(() => hierarchy.IsInAllocation)
+            //                          .And(()=>hierarchy.IsInField)
+            //                          .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
+            //                          .And(() => stakeholders.LeavingDate == null ||
+            //                                     stakeholders.LeavingDate > Util.GetTodayDate())
+            //                          .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+            //                          .TransformUsing(Transformers.DistinctRootEntity)
+            //                          .List();
+            //        trans.Rollback();
+            //        return data;
+            //    }
+            //}
         }
 
         public static IList<GPincode> PincodeList()
@@ -152,32 +157,31 @@ namespace ColloSys.AllocationService.DBLayer
                 }
             }
         }
-
-
-        public static AllocPolicy GetAllocationPolicyV2(ScbEnums.Products product, ScbEnums.Category category)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var allocpolicy = session.CreateCriteria<AllocPolicy>("Policy")
-                                             .Add(Restrictions.Eq("Policy.Products", product))
-                                             .Add(Restrictions.Eq("Policy.Category", category))
-                                             .SetFetchMode("AllocRelations", FetchMode.Eager)
-                                             .SetFetchMode("AllocSubpolicy", FetchMode.Eager)
-                                             .SetFetchMode("Stakeholder", FetchMode.Eager)
-                                             .CreateCriteria("AllocRelations", "Relations", JoinType.LeftOuterJoin)
-                                             .CreateCriteria("AllocSubpolicy", "subpolicy", JoinType.LeftOuterJoin)
-                                             .Add(Restrictions.Eq("subpolicy.Status",
-                                                                  ColloSysEnums.ApproveStatus.Approved))
-                                             .List<AllocPolicy>().First();
-                    trans.Rollback();
-                    return allocpolicy;
-                }
-            }
-        }
     }
 }
+
+//public static AllocPolicy GetAllocationPolicyV2(ScbEnums.Products product, ScbEnums.Category category)
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var allocpolicy = session.CreateCriteria<AllocPolicy>("Policy")
+//                                     .Add(Restrictions.Eq("Policy.Products", product))
+//                                     .Add(Restrictions.Eq("Policy.Category", category))
+//                                     .SetFetchMode("AllocRelations", FetchMode.Eager)
+//                                     .SetFetchMode("AllocSubpolicy", FetchMode.Eager)
+//                                     .SetFetchMode("Stakeholder", FetchMode.Eager)
+//                                     .CreateCriteria("AllocRelations", "Relations", JoinType.LeftOuterJoin)
+//                                     .CreateCriteria("AllocSubpolicy", "subpolicy", JoinType.LeftOuterJoin)
+//                                     .Add(Restrictions.Eq("subpolicy.Status",
+//                                                          ColloSysEnums.ApproveStatus.Approved))
+//                                     .List<AllocPolicy>().First();
+//            trans.Rollback();
+//            return allocpolicy;
+//        }
+//    }
+//}
 /*
 public static bool IsAcNoExistInDatabaseRInfo(decimal AccountNo)
         {
