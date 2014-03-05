@@ -40,25 +40,38 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return data;
         }
 
-        public override QueryOver DefaultQuery()
+        public void DefaultStakeholders()
+        {
+            var query = DefaultQuery();
+            var session = SessionManager.GetCurrentSession();
+            var data = session.QueryOver<Stakeholders>()
+                              .WithSubquery
+                              .WhereProperty(x => x.Id)
+                              .In(query)
+                              .List();
+        }
+
+        public override QueryOver<Stakeholders> DefaultQuery()
         {
             return QueryOver.Of<Stakeholders>()
                             .Fetch(x => x.StkhPayments).Eager
                             .Fetch(x => x.StkhRegistrations).Eager
                             .Fetch(x => x.StkhWorkings).Eager
                             .Fetch(x => x.Hierarchy).Eager
-                            .Fetch(x => x.GAddress).Eager;
+                            .Fetch(x => x.GAddress).Eager
+                            .TransformUsing(new DistinctRootEntityResultTransformer());
 
         }
     }
 
     public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
     {
-        public override QueryOver DefaultQuery()
+        public override QueryOver<StkhWorking> DefaultQuery()
         {
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager
-                            .Fetch(x => x.StkhPayment).Eager;
+                            .Fetch(x => x.StkhPayment).Eager
+                            .TransformUsing(new DistinctRootEntityResultTransformer());
         }
     }
 }

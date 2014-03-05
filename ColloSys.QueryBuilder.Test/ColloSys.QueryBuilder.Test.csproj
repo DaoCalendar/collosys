@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StakeBuilder.Test\StakeBuilderTest.cs" />
     <Compile Include="TestingSetup\GlobalSetup.cs" />
@@ -73,6 +74,10 @@
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
       <Name>ColloSys.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserInterfaceAngular\UserInterfaceAngular.csproj">
+      <Project>{001B2F7C-1452-429F-BD60-4DB7D316EA77}</Project>
+      <Name>UserInterfaceAngular</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

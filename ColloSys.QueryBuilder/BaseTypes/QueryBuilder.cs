@@ -40,6 +40,6 @@ namespace ColloSys.QueryBuilder.BaseTypes
             session.Save(obj);
         }
 
-        public abstract QueryOver DefaultQuery();
+        public abstract QueryOver<T> DefaultQuery();
     }
 }
