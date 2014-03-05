@@ -4,45 +4,42 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BaseTypes
 {
     public abstract class QueryBuilder<T> : IQueryBuilder<T> where T : Entity, new()
     {
-        protected ISession Session = SessionManager.GetCurrentSession();
-
+        [Transaction]
         public virtual IList<T> GetAll()
         {
-            return Session.QueryOver<T>().List<T>();
+            var session = SessionManager.GetCurrentSession();
+            return session.QueryOver<T>().List<T>();
         }
 
-        public IList<T> GetAll(bool distinct)
-        {
-            var result = GetAll();
-            if (!distinct)
-                return result;
-
-            return result.Distinct().ToList();
-        }
-
+        [Transaction]
         public virtual T GetWithId(Guid id)
         {
-            return Session.QueryOver<T>().Where(x => x.Id == id).SingleOrDefault<T>();
+            var session = SessionManager.GetCurrentSession();
+            return session.QueryOver<T>().Where(x => x.Id == id).SingleOrDefault<T>();
         }
 
-        public virtual IList<T> GetOnExpression(Expression<Func<T,bool>>  expression)
+        [Transaction]
+        public virtual IList<T> GetOnExpression(Expression<Func<T, bool>> expression)
         {
-            return Session.QueryOver<T>().Where(expression).List();
+            var session = SessionManager.GetCurrentSession();
+            return session.QueryOver<T>().Where(expression).List();
         }
 
+        [Transaction(Persist = true)]
         public virtual void Save(T obj)
         {
-            using (var trans=Session.BeginTransaction())
-            {
-                Session.Save(obj);
-                trans.Commit();
-            }
+            var session = SessionManager.GetCurrentSession();
+            session.Save(obj);
         }
+
+        public abstract QueryOver DefaultQuery();
     }
 }

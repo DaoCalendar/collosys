@@ -200,12 +200,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             var list = stakePincods
                     .Where(x => x.Pincodes.Any(y => y.Id == gpincodeId) && x.Stakeholders.StkhWorkings.Any(y=>y.BucketStart==bucket))
                     .ToList();
-            //TODO: Receive bucket as parameter and check any stakeholder working for that bucket
-            //TODO: if bucket is 0 then stakeholder working for all buckets.
-            //if (bucket != 0)
-            //{
-            //    list = list.Where(x => x.Stakeholders.StkhWorkings.Any(y => y.BucketStart == bucket));
-            //}
+          
             if (list.Count == 0)
             {
                 return null;

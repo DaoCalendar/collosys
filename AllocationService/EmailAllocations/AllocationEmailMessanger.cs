@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ColloSys.AllocationService.Generic;
-using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -21,10 +19,12 @@ namespace ColloSys.AllocationService.EmailAllocations
     public class AllocationEmailMessanger : IAllocationEmailMessanger
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
+        
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
             var session = SessionManager.GetNewSession();
+            
+            //TODO:change call here 
             List<Stakeholders> stakeholerInitialData = session.QueryOver<Stakeholders>()
                                                               .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
                                                               .List().ToList();
@@ -220,6 +220,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return criteria;
         }
 
+        //TODO:change call here
         private Stakeholders GetReportingManger(Guid reportingManager)
         {
             if (reportingManager == Guid.Empty)
@@ -246,7 +247,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             var list = new List<AllocationStat>();
             foreach (var sharedAlloc in allocationList)
             {
-                var alloc = (Alloc)sharedAlloc;
+                var alloc = sharedAlloc;
                 var allocationStat = new AllocationStat()
                 {
                     AccountNo = alloc.Info.AccountNo,

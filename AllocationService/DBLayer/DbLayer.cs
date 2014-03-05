@@ -78,7 +78,7 @@ namespace ColloSys.AllocationService.DBLayer
             }
         }
 
-
+        //moved to query layer
         public static IList<Stakeholders> GetListOfStakeholders(ScbEnums.Products products)
         {
             Stakeholders stakeholders = null;

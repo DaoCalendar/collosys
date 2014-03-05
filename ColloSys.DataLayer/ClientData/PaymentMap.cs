@@ -11,16 +11,16 @@ using ColloSys.DataLayer.SharedDomain;
 namespace ColloSys.DataLayer.Mapping
 {
 
-    public  class PaymentMap<T> : EntityMap<T> where T : Payment
+    public  class PaymentMap : EntityMap<Payment>
     {
-        protected PaymentMap(string cat)
+        public PaymentMap()
         {
             Table("PAYMENT");
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
 
-            Property(x => x.FileDate, map => map.Index(cat + "_IX_PAYMENT"));
+            Property(x => x.FileDate, map => map.Index("IX_PAYMENT"));
             Property(x => x.FileRowNo);
-            Property(x => x.AccountNo, map => map.Index(cat + "_IX_PAYMENT"));
+            Property(x => x.AccountNo, map => map.Index("PAYMENT"));
 
             Property(x => x.TransCode);
             Property(x => x.TransDate);
