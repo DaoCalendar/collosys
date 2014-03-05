@@ -29,39 +29,41 @@ namespace ColloSys.AllocationService.FRCases
 
         }
 
-        public static IList<CacsActivity> GetDataFromCacs(ScbEnums.Products products)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<CacsActivity>()
-                             .Where(x => x.Products == products)
-                             .And(x => x.ConsiderInAllocation)
-                             .And(x=>x.FileDate==Util.GetTodayDate())
-                             .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
-        }
 
-        public static IList<FileScheduler> ReadyToMoveFiles()
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<FileScheduler>()
-                              .Where(x => x.ScbSystems == ScbEnums.ScbSystems.CACS)
-                              .And(x => x.Category == ScbEnums.Category.Activity)
-                              .And(x => x.AllocBillDone == false)
-                              .Fetch(x => x.FileDetail).Eager
-                              .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
-        }
     }
 }
+
+//public static IList<CacsActivity> GetDataFromCacs(ScbEnums.Products products)
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var data = session.QueryOver<CacsActivity>()
+//                     .Where(x => x.Products == products)
+//                     .And(x => x.ConsiderInAllocation)
+//                     .And(x=>x.FileDate==Util.GetTodayDate())
+//                     .List();
+//            trans.Rollback();
+//            return data;
+//        }
+//    }
+//}
+
+//public static IList<FileScheduler> ReadyToMoveFiles()
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var data = session.QueryOver<FileScheduler>()
+//                      .Where(x => x.ScbSystems == ScbEnums.ScbSystems.CACS)
+//                      .And(x => x.Category == ScbEnums.Category.Activity)
+//                      .And(x => x.AllocBillDone == false)
+//                      .Fetch(x => x.FileDetail).Eager
+//                      .List();
+//            trans.Rollback();
+//            return data;
+//        }
+//    }
+//}

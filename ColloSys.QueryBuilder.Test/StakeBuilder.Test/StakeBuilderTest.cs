@@ -13,7 +13,6 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
         {
             var stak = new StakeQueryBuilder();
             var data = stak.GetAll();
-            stak.DefaultStakeholders();
             Assert.AreEqual(1,1);
         }
     }

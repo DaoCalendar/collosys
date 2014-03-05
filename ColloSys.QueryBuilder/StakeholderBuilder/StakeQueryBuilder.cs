@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -24,6 +25,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             var data = session.QueryOver(() => stakeholders)
                               .Fetch(x => x.StkhWorkings).Eager
                               .Fetch(x => x.StkhPayments).Eager
+                              .Fetch(x=>x.Hierarchy).Eager
                               .JoinAlias(() => stakeholders.StkhPayments, () => payment, JoinType.LeftOuterJoin)
                               .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
                               .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
@@ -38,17 +40,56 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                               .TransformUsing(Transformers.DistinctRootEntity)
                               .List();
             return data;
+
         }
 
-        public void DefaultStakeholders()
+        public IList<Stakeholders> GetStakeholdersExit(ScbEnums.Products products)
         {
-            var query = DefaultQuery();
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<Stakeholders>()
-                              .WithSubquery
-                              .WhereProperty(x => x.Id)
-                              .In(query)
-                              .List();
+            Stakeholders stakeholders = null;
+            StkhWorking working = null;
+            StkhHierarchy hierarchy = null;
+            var _session = SessionManager.GetCurrentSession();
+
+            var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
+                                             .Fetch(x => x.StkhWorkings).Eager
+                                             .Fetch(x => x.Hierarchy).Eager
+                                             .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
+                                                            JoinType.InnerJoin)
+                                             .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy,
+                                                            JoinType.InnerJoin)
+                                             .Where(() => stakeholders.LeavingDate < DateTime.Now)
+                                             .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+                                             .And(() => working.Products == products)
+                                             .And(() => hierarchy.IsInAllocation)
+                                             .And(() => hierarchy.IsInField)
+                                             .TransformUsing(Transformers.DistinctRootEntity)
+                                             .List();
+            return listOfStakeholders;
+        }
+
+        public IList<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
+        {
+            Stakeholders stakeholders = null;
+            StkhWorking working = null;
+            StkhHierarchy hierarchy = null;
+            var _session = SessionManager.GetCurrentSession();
+
+            var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
+                                             .Fetch(x => x.StkhWorkings).Eager
+                                             .Fetch(x => x.Hierarchy).Eager
+                                             .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
+                                                            JoinType.LeftOuterJoin)
+                                             .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy,
+                                                            JoinType.LeftOuterJoin)
+                                             .Where(() => stakeholders.LeavingDate == null || stakeholders.LeavingDate < DateTime.Now)
+                                             .And(() => working.Products == products)
+                                             .And(() => working.EndDate <= DateTime.Now)
+                                             .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+                                             .And(() => hierarchy.IsInAllocation)
+                                             .And(() => hierarchy.IsInField)
+                                             .TransformUsing(Transformers.DistinctRootEntity)
+                                             .List();
+            return listOfStakeholders;
         }
 
         public override QueryOver<Stakeholders> DefaultQuery()
@@ -59,7 +100,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.StkhWorkings).Eager
                             .Fetch(x => x.Hierarchy).Eager
                             .Fetch(x => x.GAddress).Eager
-                            .TransformUsing(new DistinctRootEntityResultTransformer());
+                            .TransformUsing(Transformers.DistinctRootEntity);
 
         }
     }
@@ -71,7 +112,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager
                             .Fetch(x => x.StkhPayment).Eager
-                            .TransformUsing(new DistinctRootEntityResultTransformer());
+                            .TransformUsing(Transformers.DistinctRootEntity);
         }
     }
 }

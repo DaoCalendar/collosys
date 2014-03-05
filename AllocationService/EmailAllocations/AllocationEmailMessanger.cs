@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.Types4Product;
 using NHibernate;
@@ -14,20 +15,28 @@ using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NLog;
 
+//stakeholders callls changed
+
 namespace ColloSys.AllocationService.EmailAllocations
 {
     public class AllocationEmailMessanger : IAllocationEmailMessanger
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        
+        private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
+
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
             var session = SessionManager.GetNewSession();
-            
+
             //TODO:change call here 
-            List<Stakeholders> stakeholerInitialData = session.QueryOver<Stakeholders>()
-                                                              .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
-                                                              .List().ToList();
+            List<Stakeholders> stakeholerInitialData = StakeQueryBuilder.GetOnExpression(x =>
+                                                                                         x.Status ==
+                                                                                         ColloSysEnums.ApproveStatus
+                                                                                                      .Approved)
+                                                                        .ToList();
+            //  session.QueryOver<Stakeholders>()
+            //.And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
+            //.List().ToList();
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
                                                select new StakeholdersStat()
                                                    {
@@ -227,11 +236,11 @@ namespace ColloSys.AllocationService.EmailAllocations
             {
                 return new Stakeholders();
             }
-
-            var session = SessionManager.GetNewSession();
-            return session.QueryOver<Stakeholders>()
-                          .Where(x => x.Id == reportingManager)
-                          .SingleOrDefault();
+            return StakeQueryBuilder.GetOnExpression(x => x.Id == reportingManager).Single();
+            //var session = SessionManager.GetNewSession();
+            //return session.QueryOver<Stakeholders>()
+            //              .Where(x => x.Id == reportingManager)
+            //              .SingleOrDefault();
         }
 
         #region Set AllocationStat
@@ -265,7 +274,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             }
             return list;
         }
-        
+
         #endregion
 
     }
