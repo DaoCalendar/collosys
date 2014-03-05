@@ -27,7 +27,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models
                 GenerateNewDb();
                 MigrateToLatest();
                 UploadExcelData();
-                CreatErrortable();
+                //CreatErrortable();
                 InitialData.InsertData();
                 return true;
             }
