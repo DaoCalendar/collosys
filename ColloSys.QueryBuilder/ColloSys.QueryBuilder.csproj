@@ -57,6 +57,9 @@
   <ItemGroup>
     <Compile Include="BaseTypes\IQueryBuilder.cs" />
     <Compile Include="BaseTypes\QueryBuilder.cs" />
+    <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />
+    <Compile Include="StakeholderBuilder\StakePaymentQueryBuilder.cs" />
+    <Compile Include="StakeholderBuilder\StakeWorkingQueryBuilder.cs" />
     <Compile Include="TransAttributes\SessionAttribute.cs" />
     <Compile Include="Generic\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

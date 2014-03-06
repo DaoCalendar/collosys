@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -8,6 +9,7 @@ using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
 
@@ -16,7 +18,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
     public class StakeQueryBuilder : QueryBuilder<Stakeholders>
     {
         [Transaction]
-        public IList<Stakeholders> GetStakeholdersOnProduct(ScbEnums.Products products)
+        public IList<Stakeholders> OnProduct(ScbEnums.Products products)
         {
             Stakeholders stakeholders = null;
             StkhWorking workings = null;
@@ -44,7 +46,8 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
 
         }
 
-        public IList<Stakeholders> GetStakeholdersExit(ScbEnums.Products products)
+        [Transaction]
+        public IList<Stakeholders> ExitedOnProduct(ScbEnums.Products products)
         {
             Stakeholders stakeholders = null;
             StkhWorking working = null;
@@ -68,7 +71,8 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return listOfStakeholders;
         }
 
-        public IList<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
+        [Transaction]
+        public IList<Stakeholders> OnLeaveOnProduct(ScbEnums.Products products)
         {
             Stakeholders stakeholders = null;
             StkhWorking working = null;
@@ -93,6 +97,49 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return listOfStakeholders;
         }
 
+        [Transaction]
+        public IList<Stakeholders> AllocationBulkChange()
+        {
+            var session = SessionManager.GetCurrentSession();
+            Stakeholders stake = null;
+            StkhHierarchy hierarchy = null;
+            var data = session.QueryOver<Stakeholders>(() => stake)
+                                      .Fetch(x => x.Hierarchy).Eager
+                                      .JoinAlias(() => stake.Hierarchy, () => hierarchy, JoinType.InnerJoin)
+                                      .Where(() => hierarchy.IsInAllocation)
+                                      .List();
+            return data;
+        }
+
+        [Transaction]
+        public Stakeholders OnIdWithAllReferences(Guid id)
+        {
+            Stakeholders stakeholder = null;
+            return SessionManager.GetCurrentSession()
+                                       .QueryOver<Stakeholders>(() => stakeholder)
+                                       .Fetch(x => x.Hierarchy).Eager
+                                       .Fetch(x => x.StkhRegistrations).Eager
+                                       .Fetch(x => x.GAddress).Eager
+                                       .Fetch(x => x.StkhPayments).Eager
+                                       .Fetch(x => x.StkhWorkings).Eager
+                                       .Fetch(x => x.ApprovedBy).Eager
+                                       .Where(() => stakeholder.Id == id)
+                                       .TransformUsing(Transformers.DistinctRootEntity)
+                                       .List()
+                                       .FirstOrDefault();
+        }
+
+        [Transaction]
+        public IList<Stakeholders> OnReportingHierarchy(Guid reporting)
+        {
+          return  SessionManager.GetCurrentSession().Query<Stakeholders>()
+                                        .Fetch(x => x.Hierarchy)
+                                        .Fetch(x => x.StkhWorkings)
+                                        .Where(x => x.Hierarchy.Id == reporting &&
+                                                    (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
+                                        .ToList();
+        }
+
         public override IQueryOver<Stakeholders> DefaultQuery(ISession _session)
         {
             return QueryOver.Of<Stakeholders>()
@@ -103,30 +150,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.GAddress).Eager
                             .TransformUsing(Transformers.DistinctRootEntity)
                             .GetExecutableQueryOver(_session);
-
-        }
-    }
-
-    public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
-    {
-        public override IQueryOver<StkhWorking> DefaultQuery(ISession session)
-        {
-            return QueryOver.Of<StkhWorking>()
-                            .Fetch(x => x.Stakeholder).Eager
-                            .Fetch(x => x.StkhPayment).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .GetExecutableQueryOver(session);
-        }
-    }
-
-    public class StakePaymentQueryBuilder : QueryBuilder<StkhPayment>
-    {
-        public override IQueryOver<StkhPayment> DefaultQuery(ISession session)
-        {
-            return QueryOver.Of<StkhPayment>()
-                            .Fetch(x => x.Stakeholder).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .GetExecutableQueryOver(session);
         }
     }
 }

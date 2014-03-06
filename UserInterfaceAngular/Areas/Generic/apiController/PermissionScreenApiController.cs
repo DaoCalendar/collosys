@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Net;
-using System.Net.Http;
-using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Transform;
@@ -14,20 +11,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
+//StakeHierarchy calls changed
 namespace ColloSys.UserInterface.Areas.Generic.apiController
 {
     public class PermissionScreenApiController : BaseApiController<GPermission>
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private readonly static HierarchyQueryBuilder HierarchyQuery=new HierarchyQueryBuilder();
 
         [HttpGet]
         [HttpTransaction]
         public PermisionData GetWholeData()
         {
             PermisionData permision = new PermisionData();
-            permision.HierarchyData = Session.QueryOver<StkhHierarchy>()
-                                       .Where(x => x.Hierarchy != "Developer" && x.Hierarchy != "External")
-                                       .List();
+
+            permision.HierarchyData = HierarchyQuery.ExceptDeveloperExternal().ToList();
+                //Session.QueryOver<StkhHierarchy>()
+                //       .Where(x => x.Hierarchy != "Developer" && x.Hierarchy != "External")
+                //       .List();
             permision.ActivityData = Enum.GetNames(typeof(ColloSysEnums.Activities))
                      .Where(x => ((x.ToUpperInvariant() != "ALL")
                                     && (x.ToUpperInvariant() != "DEVELOPMENT")));
@@ -106,8 +107,12 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             {
                 GPermission permission = gPermission;
                 GPermission permission1 = gPermission;
-                hierarchy = uow.QueryOver<StkhHierarchy>().Where(x => permission != null && x.Hierarchy == permission.Role.Hierarchy)
-                                   .And(x => permission1 != null && x.Designation == permission1.Role.Designation).SingleOrDefault();
+                hierarchy =
+                    HierarchyQuery.GetOnExpression(
+                        x => permission != null && x.Hierarchy == permission.Role.Hierarchy &&
+                             permission1 != null && x.Designation == permission1.Role.Designation).FirstOrDefault();
+                    //uow.QueryOver<StkhHierarchy>().Where(x => permission != null && x.Hierarchy == permission.Role.Hierarchy)
+                    //               .And(x => permission1 != null && x.Designation == permission1.Role.Designation).SingleOrDefault();
                 if (gPermission.Id == Guid.Empty)
                 {
 

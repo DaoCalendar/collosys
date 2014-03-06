@@ -85,7 +85,7 @@ namespace ColloSys.AllocationService.DBLayer
         //moved to query layer
         public static IList<Stakeholders> GetListOfStakeholders(ScbEnums.Products products)
         {
-            return _stakeQueryBuilder.GetStakeholdersOnProduct(products);
+            return _stakeQueryBuilder.OnProduct(products);
             //Stakeholders stakeholders = null;
             //StkhWorking workings = null;
             //StkhHierarchy hierarchy = null;
