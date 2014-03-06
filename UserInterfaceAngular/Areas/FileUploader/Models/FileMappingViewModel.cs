@@ -9,8 +9,6 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.DataLayer.Migrate.ClientData;
-using NHibernate.Linq;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;
 
