@@ -39,7 +39,7 @@ namespace ColloSys.UserInterface.App_Start
             var layout = new CsvLayout();
             layout.Columns.Add(new CsvColumn { Name = "Date", Layout = "${date:format = yyyyMMdd}" });
             layout.Columns.Add(new CsvColumn { Name = "Time", Layout = "${date:format = HHmmss}" });
-            layout.Columns.Add(new CsvColumn { Name = "User", Layout = "${aspnet-user-identity}" });
+            layout.Columns.Add(new CsvColumn { Name = "User", Layout = "username" });
             layout.Columns.Add(new CsvColumn { Name = "Level", Layout = "${level:uppercase=true}" });
             layout.Columns.Add(new CsvColumn { Name = "Logger", Layout = "${logger}" });
             layout.Columns.Add(new CsvColumn { Name = "Message", Layout = "${message}" });

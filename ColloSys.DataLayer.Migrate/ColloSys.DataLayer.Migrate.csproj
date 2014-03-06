@@ -58,15 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Billing\BMatrixMigration.cs" />
-    <Compile Include="Billing\BMatrixMigration_For_MatrixPerType_MatrixPerTypeName.cs" />
-    <Compile Include="Billing\BMatrixValueMigration.cs" />
-    <Compile Include="ClientData\Payment.cs" />
     <Compile Include="MigrateRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stakeholder\MoveReportsToOnWorking.cs" />
-    <Compile Include="Stakeholder\StkhHierarchyMigration.cs" />
-    <Compile Include="Stakeholder\StkhPayment_Product.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
