@@ -3,6 +3,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using NUnit.Framework;
+using System.Linq;
 
 namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
 {
@@ -14,6 +15,17 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
             var stak = new StakeQueryBuilder();
             var data = stak.GetAll();
             Assert.AreEqual(1,1);
+        }
+
+        [Test]
+        public void Check_DefaultQuery_And_ExecuteQuery()
+        {
+            var stakeQuery = new StakeQueryBuilder();
+            var query = stakeQuery.DefaultQuery();
+            var data = stakeQuery.ExecuteQuery(query);
+
+            var totalData = stakeQuery.GetAll();
+            Assert.AreEqual(data.Count(),totalData.Count);
         }
     }
 }

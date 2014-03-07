@@ -12,7 +12,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
     public class WorkingFactoryApiController : ApiController
     {
-
         [HttpPost]
         [HttpTransaction]
         public WorkingModel GetPincodeData(WorkingModel pindata)

@@ -11,6 +11,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Generic.Models;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.AuthNAuth.Membership;
@@ -27,56 +28,30 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
     public class ViewStakeApiController : ApiController
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly HierarchyQueryBuilder HierarchyQuery=new HierarchyQueryBuilder();
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
 
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetStakeHierarchy()
         {
-            var session = SessionManager.GetCurrentSession();
-
-            var designation = session.QueryOver<StkhHierarchy>().WhereNot(x => x.Hierarchy == "Developer").List();
-
-
-            //var  data = (from d in designation
-            //            select new { d.Hierarchy, d.Designation }).ToList();
-
-            return designation;
+            return HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer").ToList();
         }
 
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetAllStakeHolders()
         {
-            var session = SessionManager.GetCurrentSession();
-            var allData = session.QueryOver<Stakeholders>()
-                                 .Fetch(x => x.StkhPayments).Eager
-                                 .Fetch(x => x.StkhRegistrations).Eager
-                                 .Fetch(x => x.StkhWorkings).Eager
-                                 .Fetch(x => x.Hierarchy).Eager
-                                 .Fetch(x => x.StkhPayments).Eager
-                                 .TransformUsing(Transformers.DistinctRootEntity)
-                                 .List();
+            var query = StakeQuery.DefaultQuery();
+            
+            var allData = StakeQuery.ExecuteQuery(query).ToList();
             //remove rejected stakeholders
             allData = (from d in allData
                        where d.Status != ColloSysEnums.ApproveStatus.Rejected
                        select d).ToList();
 
-            //remove rejected workings
-
-            //foreach (var stakeholderse in allData)
-            //{
-
-            //    //remove rejected workings
-            //    stakeholderse.StkhWorkings = (from d in stakeholderse.StkhWorkings
-            //                                  where d.Status != ColloSysEnums.ApproveStatus.Rejected
-            //                                  select d).ToList();
-
-            //    stakeholderse.StkhPayments = stakeholderse.StkhPayments.Distinct().ToList();
-            //    stakeholderse.StkhWorkings = stakeholderse.StkhWorkings.Distinct().ToList();
-            //}
             RemoveUnusedPaymentsWorkings(allData);
             return allData;
-
         }
 
         [HttpGet]
@@ -91,20 +66,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public HttpResponseMessage SetLeaveForStakeholder(ManageWorkingModel manageWorkingModel)
         {
             var changesStakeholders = ManageWorkingModel.ChangeWorking(manageWorkingModel);
-            //foreach (var stakeholder in listOfStakeholders)
-            //{
-            //    SetStakeholder(stakeholder);
-            //    //foreach (var working in stakeholder.StkhWorkings)
-            //    //{
-            //    //    working.Stakeholder = stakeholder;
-            //    //}
-            //    //foreach (var stkhPayment in stakeholder.StkhPayments)
-            //    //{
-            //    //    stkhPayment.Stakeholder = stakeholder;
-            //    //}
-            //    var session = SessionManager.GetCurrentSession();
-            //    //session.Merge(stakeholder);
-            //}
+           
             return Request.CreateResponse(HttpStatusCode.OK, changesStakeholders);
         }
 
@@ -151,77 +113,67 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             return Request.CreateResponse(HttpStatusCode.OK, allLists);
         }
 
-
-
-
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetReportee(Guid stakeId)
         {
-            var session = SessionManager.GetCurrentSession();
-            var reporteeList = session.QueryOver<Stakeholders>().Where(x => x.ReportingManager == stakeId)
-                .Fetch(x => x.StkhPayments).Eager
-                .Fetch(x => x.StkhWorkings).Eager
-                .List()
-                .Distinct();
-            return reporteeList;
+            var query = StakeQuery.DefaultQuery().Where(x => x.ReportingManager == stakeId);
+            return StakeQuery.ExecuteQuery(query).Distinct().ToList();
         }
-
-
 
         [HttpGet]
         [HttpTransaction]
         public int GetTotalCount(Guid hierarchyId, string filterView)
         {
-            var session = SessionManager.GetCurrentSession();
+            var query = StakeQuery.DefaultQuery();
             if (filterView == "All")
             {
-                var count = session.QueryOver<Stakeholders>()
-                                   .Where(x => x.Hierarchy.Id == hierarchyId && x.Status == ColloSysEnums.ApproveStatus.Approved)
-                                   .List().Count();
+                query.Where(x =>
+                            x.Hierarchy.Id == hierarchyId && x.Status == ColloSysEnums.ApproveStatus.Approved);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             if (filterView == "Active")
             {
-                var count = session.QueryOver<Stakeholders>()
-                    .Where(x => x.Hierarchy.Id == hierarchyId && (x.LeavingDate <= DateTime.Now || x.LeavingDate == null))
-                    .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
-                    .List().Count();
+                query.Where(
+                    x => x.Hierarchy.Id == hierarchyId && (x.LeavingDate <= DateTime.Now || x.LeavingDate == null))
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             if (filterView == "InActive")
             {
-                var count = session.QueryOver<Stakeholders>()
-                    .Where(x => x.Hierarchy.Id == hierarchyId && x.LeavingDate <= DateTime.Now)
-                    .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
-                    .List()
-                    .Count();
+                query.Where(x => x.Hierarchy.Id == hierarchyId && x.LeavingDate <= DateTime.Now)
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             if (filterView == "ViewPending")
             {
-                var count = session.QueryOver<Stakeholders>()
-                                  .Where(x => x.Hierarchy.Id == hierarchyId && x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                                  .And(x => x.ApprovedBy == HttpContext.Current.User.Identity.Name)
-                                  .List().Count();
+                query.Where(x => x.Hierarchy.Id == hierarchyId && x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                     .And(x => x.ApprovedBy == HttpContext.Current.User.Identity.Name);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             if (filterView == "ReportingTo")
             {
-                Stakeholders stake = null;
-                StkhHierarchy stkh = null;
-                var count = session.QueryOver<Stakeholders>(() => stake)
-                                   .Fetch(x => x.Hierarchy).Eager
-                                   .Fetch(x => x.StkhPayments).Eager
-                                   .Fetch(x => x.StkhRegistrations).Eager
-                                   .Fetch(x => x.StkhPayments).Eager
-                                   .Fetch(x => x.StkhWorkings).Eager
-                                   .Fetch(x => x.GAddress).Eager
-                                   .JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                                   .Where(() => stkh.ReportsTo == hierarchyId)
-                                   .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved)
-                                   .TransformUsing(Transformers.DistinctRootEntity)
-                                   .List().Count();
+                query.Where(x => x.Hierarchy.ReportsTo == hierarchyId)
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
+                var count = StakeQuery.ExecuteQuery(query).Count();
+                //Stakeholders stake = null;
+                //StkhHierarchy stkh = null;
+                //var count = session.QueryOver<Stakeholders>(() => stake)
+                //                   .Fetch(x => x.Hierarchy).Eager
+                //                   .Fetch(x => x.StkhPayments).Eager
+                //                   .Fetch(x => x.StkhRegistrations).Eager
+                //                   .Fetch(x => x.StkhPayments).Eager
+                //                   .Fetch(x => x.StkhWorkings).Eager
+                //                   .Fetch(x => x.GAddress).Eager
+                //                   .JoinQueryOver(() => stake.Hierarchy, () => stkh)
+                //                   .Where(() => stkh.ReportsTo == hierarchyId)
+                //                   .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved)
+                //                   .TransformUsing(Transformers.DistinctRootEntity)
+                //                   .List().Count();
                 return count;
             }
 
@@ -233,20 +185,18 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public int GetTotalCountforPending(string filterView)
         {
-            var session = SessionManager.GetCurrentSession();
+            var query = StakeQuery.DefaultQuery();
             if (filterView == "PendingForAll")
             {
-                var count = session.QueryOver<Stakeholders>()
-                                  .Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                                  .List().Count();
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             if (filterView == "PendingForMe")
             {
-                var count = session.QueryOver<Stakeholders>()
-                                  .Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                      && x.ApprovedBy == HttpContext.Current.User.Identity.Name)
-                                  .List().Count();
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
+                                 && x.ApprovedBy == HttpContext.Current.User.Identity.Name);
+                var count = StakeQuery.ExecuteQuery(query).Count();
                 return count;
             }
             return 0;
@@ -256,21 +206,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public int GetTotalCountForProduct(ScbEnums.Products product)
         {
-            var session = SessionManager.GetCurrentSession();
+            var query = StakeQuery.DefaultQuery();
             Stakeholders stake = null;
             StkhWorking stkh = null;
-            var count = session.QueryOver<Stakeholders>(() => stake)
-                                          .Fetch(x => x.Hierarchy).Eager
-                                          .Fetch(x => x.StkhPayments).Eager
-                                          .Fetch(x => x.StkhRegistrations).Eager
-                                          .Fetch(x => x.StkhPayments).Eager
-                                          .Fetch(x => x.StkhWorkings).Eager
-                                          .Fetch(x => x.GAddress).Eager
-                                          .JoinQueryOver(() => stake.StkhWorkings, () => stkh)
-                                          .Where(() => stkh.Products == product)
-                                          .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved)
-                                          .TransformUsing(Transformers.DistinctRootEntity)
-                                          .List().Count();
+            query.JoinQueryOver(() => stake.StkhWorkings, () => stkh)
+                 .Where(() => stkh.Products == product)
+                 .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved);
+
+            var count = StakeQuery.ExecuteQuery(query).Count();
             return count;
         }
 

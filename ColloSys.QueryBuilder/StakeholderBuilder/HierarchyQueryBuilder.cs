@@ -4,6 +4,8 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
@@ -17,9 +19,12 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                           .Where(x => x.Hierarchy != "Developer" && x.Hierarchy != "External")
                           .List();
         }
-        public override IQueryOver<StkhHierarchy> DefaultQuery(ISession session)
+
+        public override QueryOver<StkhHierarchy,StkhHierarchy> DefaultQuery()
         {
-            return null;
+            return QueryOver.Of<StkhHierarchy>()
+                            .Fetch(x => x.GPermissions).Eager
+                            .TransformUsing(Transformers.DistinctRootEntity);
         }
     }
 }

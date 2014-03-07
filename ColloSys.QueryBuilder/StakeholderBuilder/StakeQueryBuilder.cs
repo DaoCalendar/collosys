@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
@@ -7,11 +9,12 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
@@ -130,26 +133,51 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IList<Stakeholders> OnReportingHierarchy(Guid reporting)
+        public IList<Stakeholders> OnHierarchyId(Guid reporting)
         {
-          return  SessionManager.GetCurrentSession().Query<Stakeholders>()
-                                        .Fetch(x => x.Hierarchy)
-                                        .Fetch(x => x.StkhWorkings)
-                                        .Where(x => x.Hierarchy.Id == reporting &&
-                                                    (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                                        .ToList();
+            return SessionManager.GetCurrentSession().Query<Stakeholders>()
+                                          .Fetch(x => x.Hierarchy)
+                                          .Fetch(x => x.StkhWorkings)
+                                          .Where(x => x.Hierarchy.Id == reporting &&
+                                                      (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
+                                          .ToList();
         }
 
-        public override IQueryOver<Stakeholders> DefaultQuery(ISession _session)
+        [Transaction]
+        public IEnumerable<Stakeholders> OnHieararchyIdWithPayments(Guid hierarchyid)
         {
-            return QueryOver.Of<Stakeholders>()
+            return SessionManager.GetCurrentSession().Query<Stakeholders>()
+                                 .Fetch(x => x.StkhPayments)
+                                 .Fetch(x => x.Hierarchy)
+                                 .Where(
+                                     x =>
+                                     x.Hierarchy.Id == hierarchyid &&
+                                     (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
+                                 .Select(x => x)
+                                 .OrderByDescending(
+                                     x =>
+                                     x.StkhPayments.First(y => y.StartDate < DateTime.Now && y.EndDate > DateTime.Now))
+                                 .ToList();
+        }
+
+        public override QueryOver<Stakeholders, Stakeholders> DefaultQuery()
+        {
+            var query = QueryOver.Of<Stakeholders>()
                             .Fetch(x => x.StkhPayments).Eager
                             .Fetch(x => x.StkhRegistrations).Eager
                             .Fetch(x => x.StkhWorkings).Eager
                             .Fetch(x => x.Hierarchy).Eager
                             .Fetch(x => x.GAddress).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .GetExecutableQueryOver(_session);
+                            .TransformUsing(Transformers.DistinctRootEntity);
+            return query;
+        }
+    }
+
+    public class AddressQueryBuilder : QueryBuilder<StakeAddress>
+    {
+        public override QueryOver<StakeAddress, StakeAddress> DefaultQuery()
+        {
+            return null;
         }
     }
 }

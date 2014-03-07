@@ -8,13 +8,12 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
     public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
     {
-        public override IQueryOver<StkhWorking> DefaultQuery(ISession session)
+        public override QueryOver<StkhWorking,StkhWorking> DefaultQuery()
         {
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager
                             .Fetch(x => x.StkhPayment).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .GetExecutableQueryOver(session);
+                            .TransformUsing(Transformers.DistinctRootEntity);
         }
     }
 }
