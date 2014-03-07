@@ -1,22 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.Criterion;
 using NHibernate.Linq;
-using NHibernate.Transform;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.UserInterface.Areas.Generic.apiController

@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -23,10 +24,12 @@ using UserInterfaceAngular.NgGrid;
 
 #endregion
 
+//Stakeholders calls chagned
 namespace UserInterfaceAngular.app
 {
     public class AllocationSubPolicyApiController : BaseApiController<AllocSubpolicy>
     {
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
         #region Get
 
         [HttpGet]
@@ -85,19 +88,20 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public HttpResponseMessage GetStakeholders(ScbEnums.Products products)
         {
-            Stakeholders stakeholders = null;
-            StkhWorking working = null;
-            StkhHierarchy hierarchy = null;
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<Stakeholders>(() => stakeholders)
-                              .Fetch(x => x.StkhWorkings).Eager
-                              .JoinQueryOver(() => stakeholders.StkhWorkings, () => working)
-                              .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy)
-                              .Where(() => working.Products == products)
-                              .And(() => hierarchy.IsInAllocation)
-                              .And(() => hierarchy.IsInField)
-                              .TransformUsing(Transformers.DistinctRootEntity)
-                              .List<Stakeholders>();
+            var data = StakeQuery.OnProduct(products);
+            //Stakeholders stakeholders = null;
+            //StkhWorking working = null;
+            //StkhHierarchy hierarchy = null;
+            //var session = SessionManager.GetCurrentSession();
+            //var data = session.QueryOver<Stakeholders>(() => stakeholders)
+            //                  .Fetch(x => x.StkhWorkings).Eager
+            //                  .JoinQueryOver(() => stakeholders.StkhWorkings, () => working)
+            //                  .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy)
+            //                  .Where(() => working.Products == products)
+            //                  .And(() => hierarchy.IsInAllocation)
+            //                  .And(() => hierarchy.IsInField)
+            //                  .TransformUsing(Transformers.DistinctRootEntity)
+            //                  .List<Stakeholders>();
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
@@ -222,8 +226,6 @@ namespace UserInterfaceAngular.app
             Session.SaveOrUpdate(obj);
             return obj;
         }
-
-
 
         protected override AllocSubpolicy BasePut(Guid id, AllocSubpolicy obj)
         {

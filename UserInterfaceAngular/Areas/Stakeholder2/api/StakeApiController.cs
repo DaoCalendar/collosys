@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared.Attributes;
 
+//hierarchy calls changed
 namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
     public class StakeApiController : ApiController
     {
+        private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            using (var session = SessionManager.GetCurrentSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<StkhHierarchy>().Where(x => x.Hierarchy != "Developer")
-                          .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            var data = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
+            return data;
         }
 
         [HttpGet]
@@ -35,24 +30,9 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         [HttpPost]
         [HttpTransaction(Persist = true)]
-                public void SaveHierarchy(StkhHierarchy stk)
+        public void SaveHierarchy(StkhHierarchy stk)
         {
-            using (var session = SessionManager.GetCurrentSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(stk);
-                    transaction.Commit();
-                }
-                   
-            }
+            HierarchyQuery.Save(stk);
         }
-
-        //public StkhHierarchy SaveHierarchy(StkhHierarchy stk)
-        //{
-        //    var session = SessionManager.GetCurrentSession();
-        //    session.SaveOrUpdate(stk);
-        //    return stk;
-        //}
     }
 }

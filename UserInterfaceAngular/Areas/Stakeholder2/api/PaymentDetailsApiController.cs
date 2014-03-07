@@ -1,32 +1,35 @@
-﻿using System;
-using System.Collections;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Script.Serialization;
-using System.Web.Services.Description;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using ColloSys.UserInterface.Areas.Stakeholder2.ViewModels;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
-using NHibernate.Transform;
 using NLog;
-using Newtonsoft.Json.Linq;
 
+#endregion
+
+//stakeholders calls changed
+//hierarchy calls changed
 namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
     public class PaymentDetailsApiController : ApiController
     {
-
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 
         [HttpPost]
         [HttpTransaction]
@@ -64,6 +67,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             pindata.SetWorkingList(pindata);
             return pindata;
         }
+
         [HttpPost]
         [HttpTransaction]
         public WorkingModel GetPincodeList(WorkingModel pindata)
@@ -74,6 +78,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             pindata.GetGPincodeData(pindata);
             return pindata;
         }
+
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetAllWorkingList()
@@ -104,7 +109,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 };
             return data;
         }
-
 
         public class BillingPolicyLists
         {
@@ -216,13 +220,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             StkhWorking working = null;
             StkhHierarchy hierarchy = null;
             var session = SessionManager.GetCurrentSession();
-            var stk2 = session.QueryOver<Stakeholders>(() => stakeholders)
-                              .Fetch(x => x.Hierarchy).Eager
-                              .Fetch(x => x.StkhWorkings).Eager
-                              .JoinQueryOver(() => stakeholders.StkhWorkings, () => working, JoinType.LeftOuterJoin)
-                              .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy, JoinType.LeftOuterJoin)
-                              .Where(() => stakeholders.Id == Id)
-                              .SingleOrDefault();
+            var stk2 = StakeQuery.OnIdWithAllReferences(Id);
+           
             var list = new List<string>();
             var criteria = session.CreateCriteria(typeof(GPincode));
             JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -254,13 +253,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                     break;
             }
             var gpincodeData = criteria.List<GPincode>();
-            //var stake = session.QueryOver<Stakeholders>().Where(x => x.Id == Id).SingleOrDefault();
-            //var location = session.QueryOver<StkhWorking>()
-            //                      .Where(x => x.Stakeholder.Id == stake.Id)
-            //                      .SingleOrDefault().State;
-            //var cluster = session.Query<GPincode>()
-            //                     .Where(x => x.State == location)
-            //                     .Distinct().ToList();
+           
             return gpincodeData;
         }
 
@@ -268,69 +261,40 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<Stakeholders> WorkingReportsTo(StkhHierarchy hierarchyId)
         {
-            //var session = SessionManager.GetCurrentSession();
-            //Stakeholders stake = null;
-            //StkhWorking stkh = null;
-            //StkhHierarchy hir = null;
-            //var reporteeList = session.QueryOver<Stakeholders>(() => stake)
-            //                   .Fetch(x => x.Hierarchy).Eager
-            //                   .Fetch(x => x.StkhPayments).Eager
-            //                   .Fetch(x => x.StkhRegistrations).Eager
-            //                   .Fetch(x => x.StkhPayments).Eager
-            //                   .Fetch(x => x.StkhWorkings).Eager
-            //                   .Fetch(x => x.GAddress).Eager
-            //                   .JoinQueryOver(() => stake.StkhWorkings, () => stkh)
-            //                   .JoinQueryOver(() => stake.Hierarchy, () => hir)
-            //                   .Where(() => stkh.Products == product)
-            //                   .Where(() => hir.WorkingReportsTo == hierarchyId)
-            //                   .TransformUsing(Transformers.DistinctRootEntity)
-            //                   .List();
-            //return reporteeList;
             Guid reportingHierarchy = hierarchyId.WorkingReportsTo;
-            var session = SessionManager.GetCurrentSession();
             var reportsTolist = new List<Stakeholders>();
 
             if (reportingHierarchy == Guid.Empty)
             {
                 return reportsTolist;
             }
-            var firstLevelHierarchy = session.QueryOver<StkhHierarchy>()
-                                             .Where(x => x.Id == reportingHierarchy)
-                                             .SingleOrDefault();
+            var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
+                                                    .SingleOrDefault();
+               
             if (firstLevelHierarchy == null)
             {
                 return reportsTolist;
             }
             if (hierarchyId.WorkingReportsLevel == ColloSysEnums.ReportingLevel.AllLevels)
             {
-                reportsTolist = session.Query<Stakeholders>().ToList();
+                reportsTolist = StakeQuery.GetAll().ToList();
                 return reportsTolist;
             }
-            var firstlevelData = session.Query<Stakeholders>()
-                                        .Fetch(x => x.Hierarchy)
-                                        .Fetch(x => x.StkhWorkings)
-                                        .Where(x => x.Hierarchy.Id == reportingHierarchy &&
-                                                    (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                                        .ToList();
+            var firstlevelData = StakeQuery.OnHierarchyId(reportingHierarchy);
+
             reportsTolist.AddRange(firstlevelData);
             if (hierarchyId.WorkingReportsLevel == ColloSysEnums.ReportingLevel.OneLevelUp)
             {
                 return reportsTolist;
             }
 
-            var secondLevelHierarchy = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Id == firstLevelHierarchy.WorkingReportsTo)
-                                              .SingleOrDefault();
+            var secondLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == firstLevelHierarchy.ReportsTo)
+                                                     .SingleOrDefault();
             if (secondLevelHierarchy == null)
             {
                 return reportsTolist;
             }
-            var secondLevelData = session.Query<Stakeholders>()
-                                         .Fetch(x => x.Hierarchy)
-                                         .Fetch(x => x.StkhWorkings)
-                                         .Where(x => x.Hierarchy.Id == secondLevelHierarchy.Id &&
-                                                     (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                                         .ToList();
+            var secondLevelData = StakeQuery.OnHierarchyId(secondLevelHierarchy.Id);
 
             reportsTolist.AddRange(secondLevelData);
             if (hierarchyId.WorkingReportsLevel == ColloSysEnums.ReportingLevel.TwoLevelUp)
@@ -353,33 +317,21 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 Stakeholders stake2 = null;
 
                 //Get Hierarchy by select hierarchy
-                var hierarchy = session.QueryOver<StkhHierarchy>()
-                                  .Where(x => x.Id == selHierarchyId).SingleOrDefault();
+                var hierarchy = HierarchyQuery.GetOnExpression(x => x.Id == selHierarchyId).SingleOrDefault();
 
                 // Find reporting hierarchy ReportsToId
-                var reportingHierarchy =
-                    session.QueryOver<StkhHierarchy>().Where(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
-                StkhHierarchy hierarchy2 = null;
+                var reportingHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
 
                 // list of reporting hierarchyId
-                var reportingIdlist = session.QueryOver<Stakeholders>(() => stake2)
-                                    .Fetch(x => x.Hierarchy).Eager
-                                    .JoinQueryOver(() => stake2.Hierarchy, () => hierarchy2)
-                                    .Where(() => hierarchy2.Id == reportingHierarchy.Id)
-                                    .List();
+                var reportingIdlist = StakeQuery.OnHierarchyId(reportingHierarchy.Id).ToList();
+                                   
 
-                var hlist = session.QueryOver<StkhHierarchy>().Where(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
+                var hlist = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
                 if (hlist == null)
                     return reportingIdlist;
 
-                StkhHierarchy hierarchy3 = null;
-                var hlist4 = session.QueryOver<Stakeholders>(() => stake2)
-                                   .Fetch(x => x.Hierarchy).Eager
-                                   .JoinQueryOver(() => stake2.Hierarchy, () => hierarchy3)
-                                   .Where(() => hierarchy3.Id == hlist.Id)
-                                   .List();
+                var hlist4 = StakeQuery.OnHierarchyId(hlist.Id).ToList(); 
 
-                var slist = session.QueryOver<Stakeholders>().List();
 
                 var listMarge = new List<Stakeholders>();
                 listMarge.AddRange(reportingIdlist);

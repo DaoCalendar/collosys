@@ -5,17 +5,19 @@ using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Allocation.ViewModels;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.SqlCommand;
 
 #endregion
 
-
+//stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
     public class AllocationBulkChangeController : ApiController
     {
+        private static readonly StakeQueryBuilder StakeQuery =new StakeQueryBuilder();
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<ScbEnums.Products> GetProducts()
@@ -37,22 +39,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetStakeholders()
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    Stakeholders stake = null;
-                    StkhWorking work = null;
-                    StkhHierarchy hierarchy = null;
-                    var data = session.QueryOver<Stakeholders>(() => stake)
-                                      .Fetch(x => x.Hierarchy).Eager
-                                      .JoinAlias(() => stake.Hierarchy, () => hierarchy, JoinType.InnerJoin)
-                                      .Where(() => hierarchy.IsInAllocation)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return StakeQuery.AllocationBulkChange();
         }
 
         [HttpPost]

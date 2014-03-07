@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Transform;
@@ -17,19 +18,19 @@ using System.Web.Http;
 
 #endregion
 
+//StkhHierarchy calls changed
 namespace UserInterfaceAngular.app
 {
     public class PermissionApiController : BaseApiController<GPermission>
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly HierarchyQueryBuilder hierarchyQuery=new HierarchyQueryBuilder();
 
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> HierarchyList()
         {
-            return Session.QueryOver<StkhHierarchy>()
-                          .Where(x => x.Hierarchy != "Developer" && x.Hierarchy != "External")
-                          .List();
+            return hierarchyQuery.ExceptDeveloperExternal();
         }
 
         [HttpGet]
@@ -84,9 +85,10 @@ namespace UserInterfaceAngular.app
             }
 
             var uow = SessionManager.GetCurrentSession();
-            var hierarchy = uow.QueryOver<StkhHierarchy>()
-                               .Where(x => x.Id == permissions[0].Role.Id)
-                               .SingleOrDefault();
+            var hierarchy = hierarchyQuery.GetOnExpression(x => x.Id == permissions[0].Role.Id).FirstOrDefault();
+                               // uow.QueryOver<StkhHierarchy>()
+                               //.Where(x => x.Id == permissions[0].Role.Id)
+                               //.SingleOrDefault();
 
             foreach (var gPermission in permissions)
             {

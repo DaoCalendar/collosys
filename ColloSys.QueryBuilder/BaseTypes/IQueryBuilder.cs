@@ -14,7 +14,8 @@ namespace ColloSys.QueryBuilder.BaseTypes
         IList<T> GetOnExpression(Expression<Func<T,bool>>  expression);
         void Save(T obj);
 
-        IQueryOver<T> DefaultQuery(ISession session);
+        IEnumerable<T> ExecuteQuery(QueryOver<T> query);
+        QueryOver<T,T> DefaultQuery();
 
         //IQueryOver<T> GetDefaultQuery { get;}
     }

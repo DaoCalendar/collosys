@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using Itenso.TimePeriod;
 
+//stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 {
     public class BulkAllocationModel
     {
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         public BulkAllocationModel()
         {
             SaveRAllocs=new List<Alloc>();
@@ -389,16 +390,17 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         private static Stakeholders GetStakeholder(Guid stakeholdersId)
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<Stakeholders>()
-                                      .Where(x => x.Id == stakeholdersId).SingleOrDefault();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return StakeQuery.GetWithId(stakeholdersId);
+            //using (var session = SessionManager.GetNewSession())
+            //{
+            //    using (var trans = session.BeginTransaction())
+            //    {
+            //        var data = session.QueryOver<Stakeholders>()
+            //                          .Where(x => x.Id == stakeholdersId).SingleOrDefault();
+            //        trans.Rollback();
+            //        return data;
+            //    }
+            //}
         }
 
         #endregion

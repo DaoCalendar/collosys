@@ -6,42 +6,24 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Linq;
 
+//stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
     public class ManageStakeholderApiController : ApiController
     {
-
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetStakeholders(string name)
         {
-            var session = SessionManager.GetCurrentSession();
-            var data = session.Query<Stakeholders>()
-                                      .Fetch(x => x.Hierarchy)
-                                      .Fetch(x => x.StkhWorkings)
-                                      .Fetch(x=>x.StkhPayments)
-                                      .Fetch(x=>x.StkhRegistrations)
-                                      .Where(x => x.Name.StartsWith(name))
-                                      .Take(10)
-                                      .ToList();
+            var query = StakeQuery.DefaultQuery().Where(x => x.Name.StartsWith(name));
+            
+            var data = StakeQuery.ExecuteQuery(query).Take(10).ToList(); 
             return data;
-            //using (var session = SessionManager.GetCurrentSession())
-            //{
-            //    using (var trans = session.BeginTransaction())
-            //    {
-            //        var data = session.Query<Stakeholders>()
-            //                          .Fetch(x => x.Hierarchy)
-            //                          .Fetch(x=>x.StkhWorkings)
-            //                          .Where(x => x.Name.StartsWith(name))
-            //                          .Take(10)
-            //                          .ToList();
-            //        trans.Rollback();
-            //        return data;
-            //    }
-            //}
         }
     }
 }

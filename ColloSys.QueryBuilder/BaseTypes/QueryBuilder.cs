@@ -40,7 +40,13 @@ namespace ColloSys.QueryBuilder.BaseTypes
             session.Save(obj);
         }
 
-        public abstract IQueryOver<T> DefaultQuery(ISession session);
+        [Transaction]
+        public virtual IEnumerable<T> ExecuteQuery(QueryOver<T> query)
+        {
+            var session = SessionManager.GetCurrentSession();
+            return query.GetExecutableQueryOver(session).List<T>();
+        }
+        public abstract QueryOver<T,T> DefaultQuery();
         //public abstract IQueryOver<T> GetDefaultQuery { get; }
     }
 }

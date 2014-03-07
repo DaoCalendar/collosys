@@ -18,7 +18,7 @@ namespace ColloSys.AllocationService.MoveAllocations
 
         public static IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
-            return StakeQueryBuilder.GetStakeholdersExit(products);
+            return StakeQueryBuilder.ExitedOnProduct(products);
             //Stakeholders stakeholders = null;
             //StkhWorking working = null;
             //StkhHierarchy hierarchy = null;
@@ -43,7 +43,7 @@ namespace ColloSys.AllocationService.MoveAllocations
 
         public static IEnumerable<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
         {
-           return StakeQueryBuilder.GetStakeholdersOnLeave(products);
+           return StakeQueryBuilder.OnLeaveOnProduct(products);
             //Stakeholders stakeholders = null;
             //StkhWorking working = null;
             //StkhHierarchy hierarchy = null;

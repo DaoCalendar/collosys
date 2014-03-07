@@ -1,6 +1,5 @@
-﻿using System;
-#region references
-
+﻿#region references
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +8,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -19,6 +19,8 @@ using Newtonsoft.Json.Linq;
 
 #endregion
 
+//stakeholders calls changed
+//hierarchy calls changed
 //namespace UserInterfaceAngular.app
 namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
@@ -26,61 +28,39 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
+        private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly AddressQueryBuilder AddressQuery=new AddressQueryBuilder();
+
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<StkhHierarchy>()
-                          .Where(x => x.Hierarchy != "Developer")
-                          .List();
-
-            if (data != null)
-            {
-                _log.Info("StakeHierarchy loaded in StakeholderApi/Get");
-            }
-            return data;
+            return HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
         }
 
         [HttpGet]
         [HttpTransaction]
         public bool UserIdVal(string userid)
         {
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
+            var listOfuserId = StakeQuery.GetOnExpression(x => x.ExternalId == userid).ToList();
 
-                var listOfuserId = session.QueryOver<Stakeholders>().Where(x => x.ExternalId == userid).List();
-
-                return listOfuserId.Count != 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return listOfuserId.Count != 0;
         }
 
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<string> UserIdList()
         {
-                var session = SessionManager.GetCurrentSession();
-
-                var listOfuserId = session.QueryOver<Stakeholders>()
-                                          .Select(x => x.ExternalId)
-                                          .List<string>();
-
-                return listOfuserId;
+            return StakeQuery.GetAll().Select(x => x.ExternalId).As<List<String>>();
         }
 
         [HttpGet]
         [HttpTransaction]
         public bool CheckUserId(string id)
         {
-            var session = SessionManager.GetCurrentSession();
-            var idExists = session.QueryOver<Stakeholders>().Where(x => x.ExternalId == id).List();
+            var idExists = StakeQuery.GetOnExpression(x => x.ExternalId == id);
             return (idExists.Count > 0);
-
         }
 
 
@@ -124,9 +104,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public StkhHierarchy GetHierarchyWithId(Guid hierarchyId)
         {
             _log.Info("In load hierarchy with id");
-            var session = SessionManager.GetCurrentSession();
-            var data = session.Query<StkhHierarchy>()
-                              .Where(x => x.Id == hierarchyId)
+            var data = HierarchyQuery.GetOnExpression(x => x.Id == hierarchyId)
                               .Select(x => x);
             return data.First();
         }
@@ -324,10 +302,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<Stakeholders> GetReportsToList(string reportsTo, string hierarchy)
         {
-            var session = SessionManager.GetCurrentSession();
-
-            var data = session.Query<Stakeholders>()
-                              .Where(x => x.Hierarchy.Designation == reportsTo && x.Hierarchy.Hierarchy == hierarchy)
+            var data = StakeQuery.GetOnExpression(x => x.Hierarchy.Designation == reportsTo && x.Hierarchy.Hierarchy == hierarchy)
                               .Select(x => x).ToList();
 
             LogManager.GetCurrentClassLogger()
@@ -338,37 +313,16 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<Stakeholders> GetReportsToList(Guid hierarchyId)
         {
-            var session = SessionManager.GetCurrentSession();
+            var data = StakeQuery.OnHieararchyIdWithPayments(hierarchyId).ToList();
 
-            var data = session.Query<Stakeholders>()
-                              .Fetch(x => x.StkhPayments)
-                              .Fetch(x => x.Hierarchy)
-                              .Where(
-                                  x =>
-                                  x.Hierarchy.Id == hierarchyId &&
-                                  (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                              .Select(x => x)
-                              .OrderByDescending(x => x.StkhPayments.First(y => y.StartDate < DateTime.Now && y.EndDate > DateTime.Now))
-                              .ToList();
             if (data.Any() && (data.First().ReportingManager != Guid.Empty))
             {
                 var reporttoId = data[0].ReportingManager;
                 if (reporttoId != Guid.Empty)
                 {
-                    var stakeholder = session.Query<Stakeholders>()
-                                             .Fetch(x => x.StkhPayments)
-                                             .Fetch(x => x.Hierarchy)
-                                             .Where(x => x.Id == reporttoId)
-                                             .Select(x => x.Hierarchy.Id).Single();
+                    var stakeholder = StakeQuery.OnIdWithAllReferences(reporttoId).Hierarchy.Id;
 
-
-                    var onelevelupperlist = session.Query<Stakeholders>()
-                                                   .Fetch(x => x.Hierarchy)
-                                                   .Where(
-                                                       x =>
-                                                       x.Hierarchy.Id == stakeholder &&
-                                                       (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                                                   .Select(x => x).ToList();
+                    var onelevelupperlist = StakeQuery.OnHierarchyId(stakeholder).ToList();
                     data.AddRange(onelevelupperlist);
                 }
             }
@@ -404,13 +358,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<string> UsersIDList()
         {
-            var session = SessionManager.GetCurrentSession();
-            var data = session.Query<Stakeholders>()
-                              .Select(x => x.ExternalId).ToList();
-
-            LogManager.GetCurrentClassLogger().Info("StakeholderServices: UsersIDList count: " + data.Count);
-
-            return data;
+            return StakeQuery.GetAll().Select(x => x.ExternalId).ToList();
         }
 
         #region save
@@ -418,14 +366,13 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static void Save(Stakeholders stakeholders)
         {
             stakeholders = SetStakeholder(stakeholders);
-            var session = SessionManager.GetCurrentSession();
-            session.SaveOrUpdate(stakeholders);
+            StakeQuery.Save(stakeholders);
             if (stakeholders.GAddress.Any())
             {
                 var listOfAddresses = SetGAddress(stakeholders);
                 foreach (var gAddress in listOfAddresses)
                 {
-                    session.SaveOrUpdate(gAddress);
+                    AddressQuery.Save(gAddress);
                 }
             }
         }

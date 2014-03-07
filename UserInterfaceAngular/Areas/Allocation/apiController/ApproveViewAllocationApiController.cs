@@ -4,27 +4,26 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Script.Serialization;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.NgGrid;
 using ColloSys.Shared.Types4Product;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
+//stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
-
-
     public class ApproveViewAllocationApiController : BaseApiController<Alloc>
     {
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
 
         public HttpResponseMessage GetScbSystems()
         {
@@ -116,22 +115,23 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
-            Stakeholders stakeholders = null;
-            StkhWorking workings = null;
-            StkhHierarchy hierarchy = null;
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver(() => stakeholders)
-                                      .Fetch(x => x.StkhWorkings).Eager
-                                      .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
-                                      .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
-                                                 JoinType.LeftOuterJoin)
-                                      .Where(() => workings.Products == products)
-                                      .And(() => hierarchy.IsInAllocation)
-                                      .And(() => stakeholders.JoiningDate < DateTime.Today.Date)
-                                      .And(() => stakeholders.LeavingDate == null ||
-                                                 stakeholders.LeavingDate > DateTime.Today.Date)
-                                      .TransformUsing(Transformers.DistinctRootEntity)
-                                      .List();
+            var data = StakeQuery.OnProduct(products);
+            //Stakeholders stakeholders = null;
+            //StkhWorking workings = null;
+            //StkhHierarchy hierarchy = null;
+            //var session = SessionManager.GetCurrentSession();
+            //var data = session.QueryOver(() => stakeholders)
+            //                          .Fetch(x => x.StkhWorkings).Eager
+            //                          .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
+            //                          .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
+            //                                     JoinType.LeftOuterJoin)
+            //                          .Where(() => workings.Products == products)
+            //                          .And(() => hierarchy.IsInAllocation)
+            //                          .And(() => stakeholders.JoiningDate < DateTime.Today.Date)
+            //                          .And(() => stakeholders.LeavingDate == null ||
+            //                                     stakeholders.LeavingDate > DateTime.Today.Date)
+            //                          .TransformUsing(Transformers.DistinctRootEntity)
+            //                          .List();
             return data;
         }
 
