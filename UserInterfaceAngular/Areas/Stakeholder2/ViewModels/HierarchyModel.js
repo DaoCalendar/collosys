@@ -34,22 +34,39 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         $scope.changeInHierarchy = function () {
             if ($scope.$parent.WizardData.IsEditMode() === true) {
             } else {
-                debugger;
                 $scope.$parent.WizardData.FinalPostModel.SelHierarchy.Designation = null;
                 $scope.$parent.WizardData.showBasicInfo = false;
                 // $scope.$parent.resetStakeholder();
                 $scope.$parent.resetWizardData();
             }
-
+            $scope.Designation = [];
+            var hierarchies = _.filter($scope.HierarchyList,function(item) {
+                if (item.Hierarchy === $scope.$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy)
+                    return item;
+            });
+            
+            getHierarchyDisplayName(hierarchies);
         };
 
-        $scope.getHierarchyDisplayName = function (hierarchy) {
+        var getHierarchyDisplayName = function (hierarchy) {
+
+            hierarchy =_.sortBy(hierarchy,'PositionLevel');
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
-                if ((hierarchy.Hierarchy !== 'External') || (hierarchy.IsIndividual === false)) {
-                    return hierarchy.Designation;
+                if ((hierarchy[0].Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
+                    _.forEach(hierarchy, function (item) {
+                        $scope.Designation.push(item);
+                    });
+                    
                 } else {
-                    var reportTo = _.find($scope.HierarchyList, { 'Id': hierarchy.ReportsTo });
-                    return hierarchy.Designation + ' (' + reportTo.Designation + ')';
+                    _.forEach(hierarchy, function(item) {
+                        var reportTo = _.find($scope.HierarchyList, { 'Id': item.ReportsTo });
+                        var desig = {
+                            Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
+                            Id:  item.Id
+                        };
+                        $scope.Designation.push(desig);
+                    });
+
                 }
             }
             return '';
@@ -84,10 +101,23 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             $scope.$parent.getReportsTo(hierarchy);
             $scope.$parent.WizardData.showBasicInfo = true;
             $scope.$parent.resetWizardData();
-
+            setBasicInfoModel(hierarchy);
         };
 
+        var setBasicInfoModel = function (hierarchy) {
+            debugger;
+            $scope.$parent.stakeholderModel.Email.suffix = "";
+            if (hierarchy.Hierarchy != 'External') {
+                $scope.$parent.stakeholderModel.Email.suffix = "@sc.com";//set email model
+                $scope.$parent.stakeholderModel.UserId.required = true;//set userId model
+            }
 
+            if (hierarchy.IsEmployee)
+                $scope.$parent.stakeholderModel.Date.label = "Date of Joining";
+            else $scope.$parent.stakeholderModel.Date.label = "Date of Starting";
+
+
+        };
 
 
         //#endregion

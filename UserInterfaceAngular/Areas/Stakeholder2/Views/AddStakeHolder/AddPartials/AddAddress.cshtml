@@ -3,7 +3,7 @@
 
     <div class="row-fluid">
         <!--Line-1-->
-        <div class="control-group span5">
+        @*     <div class="control-group span5">
             <label class="control-label">Line 1 <label style="font-size:large; color:red">*</label></label>
             <div class="controls">
                 <input type="text" 
@@ -18,7 +18,11 @@
                     <div class="field-validation-error" data-ng-show="addressDetailsForm.line1.$error.maxlength">{{val.MaxLength(100)}}</div>
                 </div>
             </div>
-        </div>
+        </div>*@
+        <cs-template options="$parent.stakeholderModel.Line1">
+            <cs-input-field options="$parent.stakeholderModel.Line1"
+                            cs-model="$parent.WizardData.FinalPostModel.Address.Line1"></cs-input-field>
+        </cs-template>
         <!--Line-2-->
         <div class="control-group span5">
             <label class="control-label">Line 2 <label style="font-size:large; color:red">*</label></label>

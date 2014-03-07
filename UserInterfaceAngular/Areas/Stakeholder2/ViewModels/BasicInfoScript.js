@@ -29,11 +29,17 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
         };
 
+        $scope.setEmailModel = function(hierarchy) {
+            if (hierarchy !== 'External')
+                $scope.$parent.stakeholderModel.Email.suffix = "'@sc.com'";
+        };
+
         // harish - no need... get true/false from server
         $scope.checkUser = function (userId) {
             if (angular.isUndefined(userId)) {
                 return false;
             }
+           userId = userId.toString();
             if (userId.length === 7) {
                 apistake.customGET('CheckUserId', { id: userId }).then(function (data) {
                     debugger;
@@ -67,11 +73,11 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
         var init = function () {
             $log.info("Initializing BasicInfo.");
+            $scope.options = $scope.$parent.stakeholderModel;
             $scope.duplicateUserId = false;
             // $scope.Stakeholder.Gender = 0;
             $scope.val = $val;
             $scope.UserIdList = [];
-            debugger;
             $scope.basicInfoData = {
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy(),
                 isEditMode: $scope.$parent.WizardData.IsEditMode(),
