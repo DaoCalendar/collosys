@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Piotr.ProductList</RootNamespace>
-    <AssemblyName>Piotr.ProductList</AssemblyName>
+    <RootNamespace>AngularUI</RootNamespace>
+    <AssemblyName>AngularUI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -45,10 +45,22 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\packages\NHibernateProfiler.2.0.2233.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>..\packages\NLog.Extended.2.1.0.1\lib\net45-full\NLog.Extended.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -79,7 +91,9 @@
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -94,23 +108,77 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="appCode\JsonNetResult.cs" />
+    <Compile Include="appCode\NHibernateConfig.cs" />
+    <Compile Include="appCode\NLogSetup.cs" />
+    <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
+    <Compile Include="FileUpload\filedetail\FileDetailViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\apis\BaseApiController.cs" />
+    <Compile Include="Shared\apis\HttpSessionAttribute.cs" />
+    <Compile Include="Shared\apis\HttpTransactionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap\bootstrap.css" />
-    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\angularui\angular-ui.css" />
+    <Content Include="Content\angularui\angular-ui.min.css" />
+    <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.css" />
+    <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.min.css" />
+    <Content Include="Content\bootstrap2.3.2\bootstrap.css" />
+    <Content Include="Content\bootstrap2.3.2\bootstrap.min.css" />
+    <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\stanc\footer.png" />
+    <Content Include="Content\images\stanc\LoginPage.png" />
+    <Content Include="Content\images\stanc\scbcollosys.png" />
+    <Content Include="Content\images\stanc\SCBLoginImage.gif" />
+    <Content Include="Content\images\validation\invalid.png" />
+    <Content Include="Content\images\validation\red_asterisk.png" />
+    <Content Include="Content\images\stanc\Stan2.jpg" />
+    <Content Include="Content\images\validation\valid.png" />
+    <Content Include="Content\ng-grid\ng-grid.css" />
+    <Content Include="Content\ng-grid\ng-grid.min.css" />
+    <Content Include="Content\angularui\select2.css" />
+    <Content Include="Content\angularui\select2.png" />
+    <Content Include="Content\angularui\select2x2.png" />
+    <Content Include="Content\angularui\spinner.gif" />
+    <Content Include="FileUpload\filedetail\filedetail.js" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\ngupload\ng-upload-sample.html" />
+    <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
+    <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />
+    <Content Include="Scripts\angular.ui\angular-ui.js" />
+    <Content Include="Scripts\angular.ui\angular-ui.min.js" />
+    <Content Include="Scripts\angular.ui\ui-router.js" />
+    <Content Include="Scripts\angular.ui\ui-router.min.js" />
+    <Content Include="Scripts\nggrid\ng-grid-2.0.7.js" />
+    <Content Include="Scripts\nggrid\ng-grid-2.0.7.min.js" />
+    <Content Include="Scripts\ngupload\ng-upload.js" />
+    <Content Include="Scripts\ngupload\ng-upload.min.js" />
+    <Content Include="Scripts\restangular\restangular.js" />
+    <Content Include="Scripts\restangular\restangular.min.js" />
+    <Content Include="Scripts\angular.ui\select2.js" />
+    <Content Include="Scripts\angular.ui\select2.min.js" />
+    <Content Include="Shared\app.js" />
+    <Content Include="Billing\factories.js" />
+    <Content Include="Content\bootstrap3.0\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap3.0\bootstrap.css" />
+    <Content Include="Content\bootstrap3.0\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
+    <Content Include="Content\bootstrap3.0\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\bootstrap3.0\images\glyphicons-halflings.png" />
+    <Content Include="Content\pnotify\jquery.pnotify.css" />
+    <Content Include="Content\pnotify\jquery.pnotify.icons.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\angularjs\angular-animate.js" />
     <Content Include="Scripts\angularjs\angular-animate.min.js" />
     <Content Include="Scripts\angularjs\angular-cookies.js" />
@@ -141,6 +209,12 @@
     <Content Include="Scripts\angularjs\angular.min.js.map">
       <DependentUpon>angular.js</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.eot" />
+    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.svg" />
+    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.woff" />
+    <Content Include="Content\bootstrap2.3.2\font\FontAwesome.otf" />
+    <Content Include="FileUpload\filedetail\filedetail.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -389,10 +463,38 @@
     <Content Include="Scripts\angularjs\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\angularjs\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\angularjs\i18n\angular-locale_zu.js" />
+    <Content Include="Scripts\es5-shim\es5-shim.js" />
+    <Content Include="Scripts\es5-shim\es5-shim.min.js" />
+    <Content Include="Scripts\json3\json3.js" />
+    <Content Include="Scripts\json3\json3.min.js" />
+    <Content Include="Scripts\lodash\lodash.js" />
+    <Content Include="Scripts\lodash\lodash.min.js" />
+    <Content Include="Scripts\notifyjs\notify.js" />
+    <Content Include="Scripts\notifyjs\notify.min.js" />
+    <Content Include="Scripts\pnotify\jquery.pnotify.js" />
+    <Content Include="Scripts\pnotify\jquery.pnotify.min.js" />
     <Content Include="Scripts\jquery\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery\jquery-1.9.1.min.map" />
     <Content Include="Scripts\angularjs\version.json" />
+    <Content Include="Scripts\moment\moment-with-langs.js" />
+    <Content Include="Scripts\moment\moment-with-langs.min.js" />
+    <Content Include="Scripts\moment\moment.js" />
+    <Content Include="Scripts\moment\moment.min.js" />
+    <Content Include="Scripts\spin\spin.js" />
+    <Content Include="Scripts\spin\spin.min.js" />
+    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.js" />
+    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.min.js" />
+    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.js" />
+    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="Shared\login.js" />
+    <Content Include="Shared\scripts\directives.js" />
+    <Content Include="Shared\scripts\factories.js" />
+    <Content Include="Shared\scripts\main.js" />
+    <Content Include="Shared\scripts\tplinjection.js" />
+    <Content Include="Shared\templates\login.html" />
+    <Content Include="Shared\templates\main.html" />
+    <Content Include="Shared\templates\menu.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -404,7 +506,9 @@
     </Content>
     <Content Include="Scripts\_references.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Authentication\Login\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -412,6 +516,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColloSys.DataLayer.Migrate\ColloSys.DataLayer.Migrate.csproj">
+      <Project>{808ccb95-8534-4ec4-b3b9-5bec22119be5}</Project>
+      <Name>ColloSys.DataLayer.Migrate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
+      <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
+      <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
+      <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
+      <Name>ColloSys.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,12 +1,74 @@
-﻿<!DOCTYPE html>
-<html data-ng-app="">
+﻿<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
 <head>
-    <title>Template</title>
-    <link rel="shortcut icon" href="Content/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="Content/bootstrap/bootstrap.css" />
-    <script type="text/javascript" src="Scripts/angularjs/angular.js"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+    <title>ColloSys</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<!--    <link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
+    <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />
+    <link href="Content/angularui/angular-ui.css" rel="stylesheet" />
+    <link href="Content/angularui/select2.css" rel="stylesheet" />
+    <link href="Content/ng-grid/ng-grid.css" rel="stylesheet" />
+    <link href="Content/pnotify/jquery.pnotify.css" rel="stylesheet" />
+    <link href="Content/pnotify/jquery.pnotify.icons.css" rel="stylesheet" />
+    <link href="Content/Site.css" rel="stylesheet" />
 </head>
-    <body>
-        <h4>Hello World!!! {{2 * 2}}</h4>
-    </body>
+<body data-ng-app="ui.collosys">
+    <!--[if lt IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="container">
+        <div>
+            <div data-ng-include="'Shared/templates/menu.html'" ></div>
+        </div>
+        <div>
+            <div data-ng-view=""></div>
+        </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="Scripts/es5-shim/es5-shim.min.js"></script>
+    <script src="Scripts/json3/json3.min.js"></script>
+    <![endif]-->
+
+    <script src="Scripts/jquery/jquery-1.9.1.min.js"></script>
+    <!--<script src="Scripts/bootstrap/bootstrap.js"></script>-->
+    <script src="Scripts/lodash/lodash.js"></script>
+    <script src="Scripts/moment/moment.js"></script>
+    <script src="Scripts/notifyjs/notify.js"></script>
+    <script src="Scripts/bootstrap-datepicker.js"></script>
+
+    <script src="Scripts/angularjs/angular.js"></script>
+    <script src="Scripts/angularjs/angular-route.js"></script>
+    <script src="Scripts/angularjs/angular-resource.js"></script>
+    <script src="Scripts/angularjs/angular-cookies.js"></script>
+    <script src="Scripts/angularjs/angular-sanitize.js"></script>
+    <script src="Scripts/angularjs/angular-animate.js"></script>
+    <script src="Scripts/angular.ui/angular-ui.js"></script>
+    <script src="Scripts/angular.ui/angular-ui-ieshiv.js"></script>
+    <script src="Scripts/angular.ui/select2.js"></script>
+    <script src="Scripts/angular.ui/ui-bootstrap-tpls-0.10.0.js"></script>
+    <script src="Scripts/nggrid/ng-grid-2.0.7.js"></script>
+    <script src="Scripts/ngupload/ng-upload.js"></script>
+    <script src="Scripts/restangular/restangular.js"></script>
+
+    <script src="Shared/app.js"></script>
+    <script src="Shared/scripts/directives.js"></script>
+    <script src="Shared/scripts/factories.js"></script>
+    <script src="Billing/factories.js"></script>
+    <script src="Shared/scripts/main.js"></script>
+    <script src="Shared/login.js"></script>
+    
+    <script src="FileUpload/filedetail/filedetail.js"></script>
+</body>
 </html>
