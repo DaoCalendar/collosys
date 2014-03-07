@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Shared;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,16 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class MatrixApiController : BaseApiController<BMatrix>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
+
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]

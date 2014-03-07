@@ -77,6 +77,10 @@
       <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
       <Name>ColloSys.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj">
+      <Project>{4450bb2e-c544-40c2-bcc3-eab5c385fb0c}</Project>
+      <Name>ColloSys.QueryBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
       <Name>ColloSys.Shared</Name>

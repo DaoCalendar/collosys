@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -30,13 +31,16 @@ namespace UserInterfaceAngular.app
     public class AllocationSubPolicyApiController : BaseApiController<AllocSubpolicy>
     {
         private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder(); 
+        private static readonly GKeyValueBuilder GKeyValueBuilder=new GKeyValueBuilder();
+
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data = Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -44,11 +48,12 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public HttpResponseMessage GetReasons()
         {
-            var data = Session.QueryOver<GKeyValue>()
-                       .Where(x => x.Area == ColloSysEnums.Activities.Allocation && x.Key == "DoNotAllocateReason")
-                       .Select(x => x.Value)
-                       .List<string>();
-
+            var data =
+                GKeyValueBuilder.GetAll()
+                                .Where(
+                                    x => x.Area == ColloSysEnums.Activities.Allocation && x.Key == "DoNotAllocateReason")
+                                .Select(x => x.Value)
+                                .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -279,16 +284,11 @@ namespace UserInterfaceAngular.app
         public void SetApproverId(AllocRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser =
-                Session.QueryOver<Stakeholders>()
-                        .Where(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                var reportsToUserId =
-                    Session.QueryOver<Stakeholders>()
-                            .Where(x => x.Id == currUser.ReportingManager).SingleOrDefault().ExternalId;
-                relation.ApprovedBy = reportsToUserId;
+                relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.Id).ExternalId;
             }
         }
 

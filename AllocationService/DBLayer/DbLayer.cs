@@ -9,6 +9,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate;
 using NHibernate.Criterion;
@@ -25,6 +26,7 @@ namespace ColloSys.AllocationService.DBLayer
     public static class DbLayer
     {
         private static StakeQueryBuilder _stakeQueryBuilder=new StakeQueryBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
         /// <summary>
         /// Get Allocation Policy for product and category basis
         /// </summary>
@@ -115,16 +117,7 @@ namespace ColloSys.AllocationService.DBLayer
 
         public static IList<GPincode> PincodeList()
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.Query<GPincode>()
-                                         .ToList();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return GPincodeBuilder.GetAll().ToList();
         }
 
         public static void SaveList<T>(IEnumerable<T> entityList)

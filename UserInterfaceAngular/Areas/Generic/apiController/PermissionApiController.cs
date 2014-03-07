@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -25,6 +26,7 @@ namespace UserInterfaceAngular.app
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private static readonly HierarchyQueryBuilder hierarchyQuery=new HierarchyQueryBuilder();
+        private static readonly GPermissionBuilder PermissionBuilder=new GPermissionBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -50,11 +52,7 @@ namespace UserInterfaceAngular.app
 
         private IEnumerable<GPermission> RetrievePermissions(Guid hierarchyId)
         {
-            return Session.QueryOver<GPermission>()
-                          .Where(x => x.Role.Id == hierarchyId)
-                          .Fetch(x => x.Role).Eager
-                          .TransformUsing(Transformers.DistinctRootEntity)
-                          .List();
+            return PermissionBuilder.OnHierarchyId(hierarchyId);
         }
 
         #region Post

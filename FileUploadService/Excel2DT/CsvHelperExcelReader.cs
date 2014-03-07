@@ -72,11 +72,7 @@ namespace ColloSys.FileUploadService.Excel2DT
                 }
                 dt.Rows.Add(dataRow);
             }
-
             return dt;
         }
-
-
-
     }
 }
