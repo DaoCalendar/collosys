@@ -144,7 +144,10 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
+    <Content Include="FileUpload\filedetail\deletemodel.html" />
     <Content Include="FileUpload\filedetail\filedetail.js" />
+    <Content Include="FileUpload\filedetail\filedetailadd.html" />
+    <Content Include="FileUpload\filedetail\filedetaillist.html" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
@@ -175,10 +178,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\angularjs\angular-animate.js" />
     <Content Include="Scripts\angularjs\angular-animate.min.js" />
     <Content Include="Scripts\angularjs\angular-cookies.js" />
@@ -495,6 +498,7 @@
     <Content Include="Shared\templates\login.html" />
     <Content Include="Shared\templates\main.html" />
     <Content Include="Shared\templates\menu.html" />
+    <Content Include="Shared\templates\modal.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
