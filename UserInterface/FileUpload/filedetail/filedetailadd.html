@@ -1,4 +1,4 @@
-﻿<div style="width: 300px">
+﻿<div>
     <form name="form" novalidate>
         <div class="modal-header">
             {{modelTitle}}
@@ -6,9 +6,9 @@
         <div data-ng-form="formAddfileDetail" class="form-horizontal">
             <div class="modal-body">
                 <!--Alias Name -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Alias Name </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="AliasName" name="AliasName" data-ng-model="fileDetail.AliasName" class="input-medium" data-ng-readonly="isReadOnly" data-ng-required="true" data-placeholder="Select File Alias Name">
                             <option value=""></option>
                             <option data-ng-repeat="alias in fileAliasNames">{{alias}}</option>
@@ -21,9 +21,9 @@
                 </div>
 
                 <!--AliasDescription -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Alias Description </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="text" name="AliasDescription" data-ng-model="fileDetail.AliasDescription" data-ng-readonly="isReadOnly" data-ng-required="true"
                             data-placeholder="Enter Alias Description" />
                         <!-- AliasDescription Validation-->
@@ -34,9 +34,9 @@
                 </div>
 
                 <!--SCB Systems -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">SCB Systems </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="ScbSystems" name="ScbSystems" data-ng-model="fileDetail.ScbSystems"
                             class="input-medium" data-ng-readonly="isReadOnly" required data-placeholder="Select System" data-ng-change="Depends()">
                             <option value=""></option>
@@ -50,9 +50,9 @@
                 </div>
 
                 <!--File Frequency -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Frequency </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="Frequency" name="Frequency" data-ng-model="fileDetail.Frequency" data-ng-readonly="isReadOnly"
                             class="input-medium" required placeholder="Select File Frequency" data-ng-change="Depends()">
                             <option value=""></option>
@@ -66,9 +66,9 @@
                 </div>
 
                 <!--DependsOnAlias -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">DependsOnAlias</label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="DependsOnAlias" name="DependsOnAlias" data-ng-model="fileDetail.DependsOnAlias" class="input-medium"
                             data-ng-readonly="isReadOnly" data-ng-required="false" data-placeholder="Select File DependsOnAlias">
                             <option value=""></option>
@@ -82,9 +82,9 @@
                 </div>
 
                 <!--Category -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Category </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="Category" name="Category" data-ng-model="fileDetail.Category" data-ng-readonly="isReadOnly"
                             class="input-medium" required data-placeholder="Select Category">
                             <option value=""></option>
@@ -98,9 +98,9 @@
                 </div>
 
                 <!--File Type -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">File Type</label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select id="FileType" name="FileType" data-ng-model="fileDetail.FileType"
                             class="input-medium" data-ng-readonly="isReadOnly" required data-placeholder="Select File Type">
                             <option value=""></option>
@@ -114,9 +114,9 @@
                 </div>
 
                 <!-- File Name -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">File Name </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="text" data-ng-model="fileDetail.FileName" name="FileName" data-ng-disabled="isReadOnly" required
                             class="input-medium" placeholder="Enter File Name" />
                         <!--FileName Validation-->
@@ -127,9 +127,9 @@
                 </div>
 
                 <!--File Count -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">File Count</label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="number" min="1" name="FileCount" data-ng-model="fileDetail.FileCount"
                             data-ng-pattern="/^[0-9]+$/" data-ng-disabled="isReadOnly" data-ng-required="true"
                             class="input-medium" placeholder="Enter no of files" />
@@ -142,9 +142,9 @@
                 </div>
 
                 <!--Date Format -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Date Format </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select data-ng-model="fileDetail.DateFormat" required data-placeholder="Select Date Format"
                             name="date" class="input-medium" data-ng-readonly="isReadOnly">
                             <option value=""></option>
@@ -158,9 +158,9 @@
                 </div>
 
                 <!--Sheet Name -->
-                <div class="row form-group" data-ng-show="isSheetTypeColumn(fileDetail.FileType)">
+                <div class="row control-group" data-ng-show="isSheetTypeColumn(fileDetail.FileType)">
                     <label class="control-label">Sheet Name </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="text" data-ng-model="fileDetail.SheetName" name="SheetName" data-ng-disabled="isReadOnly"
                             class="input-medium" data-ng-required="true" data-placeholder="Enter Sheet Name" />
                         <!-- SheetName Validation-->
@@ -171,9 +171,9 @@
                 </div>
 
                 <!--Skip Line -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Skip Line</label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="number" min="0" name="SkipLine" data-ng-model="fileDetail.SkipLine" data-ng-disabled="isReadOnly" data-ng-required="true"
                             data-ng-pattern="/^[0-9]+$/" class="input-medium" placeholder="Enter Skip Lines" />
                         <!--  Skip Line  Validation-->
@@ -185,9 +185,9 @@
                 </div>
 
                 <!--Used for -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">UsedFor</label>
-                    <div class="form-control">
+                    <div class="controls">
                         <select data-ng-model="fileDetail.UsedFor" data-ng-disabled="isReadOnly" data-ng-required="true"
                             class="input-medium" placeholder="Enter Used For">
                             <option value=""></option>
@@ -201,18 +201,18 @@
                 </div>
 
                 <!--File Directory -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">FileDirectory </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="text" name="FileDirectory" data-ng-model="fileDetail.FileDirectory" data-ng-disabled="isReadOnly"
                             class="input-medium" placeholder="Enter File Directory Name" />
                     </div>
                 </div>
 
                 <!--Email ID -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Email Id </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="email" data-ng-model="fileDetail.EmailId" data-ng-disabled="isReadOnly" required
                             name="email" placeholder="Enter Email Id" />
                         <!--  Email-Id Validation-->
@@ -223,9 +223,9 @@
                 </div>
 
                 <!--Start Date -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Start Date </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <div class="input-append">
                             <input type="text" name="StartDate" class="input-medium" data-ng-disabled="isReadOnly" required data-ng-model="fileDetail.StartDate" bs-datepicker />
                             <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
@@ -238,9 +238,9 @@
                 </div>
 
                 <!--End Date -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">End Date </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <div class="input-append">
                             <input type="text" name="EndDate" class="input-medium" data-ng-disabled="isReadOnly" required data-ng-model="fileDetail.EndDate" bs-datepicker />
                             <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
@@ -253,9 +253,9 @@
                 </div>
 
                 <!--Description -->
-                <div class="row form-group">
+                <div class="row control-group">
                     <label class="control-label">Description </label>
-                    <div class="form-control">
+                    <div class="controls">
                         <input type="text" data-ng-model="fileDetail.Description" data-ng-disabled="isReadOnly" required
                             name="Desc" placeholder="Enter Description" />
                         <!-- Description Validation-->
@@ -267,7 +267,7 @@
             </div>
 
             <div class="modal-footer control-group">
-                <div class="form-control">
+                <div class="controls">
                     <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="saveFileDetails(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
                     <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="closeModel('Cancel')">Cancel</button>
                     <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="closeModel('Close')">Close</button>

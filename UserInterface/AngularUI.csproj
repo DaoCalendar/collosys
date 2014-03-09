@@ -130,6 +130,10 @@
     <Content Include="Content\bootstrap2.3.2\bootstrap.min.css" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings.png" />
+    <Content Include="Content\fontawesome\font-awesome-ie7.css" />
+    <Content Include="Content\fontawesome\font-awesome-ie7.min.css" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
     <Content Include="Content\images\stanc\footer.png" />
     <Content Include="Content\images\stanc\LoginPage.png" />
     <Content Include="Content\images\stanc\scbcollosys.png" />
@@ -212,11 +216,11 @@
     <Content Include="Scripts\angularjs\angular.min.js.map">
       <DependentUpon>angular.js</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.eot" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.svg" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.ttf" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.woff" />
-    <Content Include="Content\bootstrap2.3.2\font\FontAwesome.otf" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.eot" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.svg" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.woff" />
+    <Content Include="Content\fontawesome\font\FontAwesome.otf" />
     <Content Include="FileUpload\filedetail\filedetail.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
