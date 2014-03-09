@@ -148,10 +148,9 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
-    <Content Include="FileUpload\filedetail\deletemodel.html" />
     <Content Include="FileUpload\filedetail\filedetail.js" />
-    <Content Include="FileUpload\filedetail\filedetailadd.html" />
-    <Content Include="FileUpload\filedetail\filedetaillist.html" />
+    <Content Include="FileUpload\filedetail\file-detail-add.html" />
+    <Content Include="FileUpload\filedetail\file-detail-list.html" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
@@ -221,7 +220,6 @@
     <Content Include="Content\fontawesome\font\fontawesome-webfont.ttf" />
     <Content Include="Content\fontawesome\font\fontawesome-webfont.woff" />
     <Content Include="Content\fontawesome\font\FontAwesome.otf" />
-    <Content Include="FileUpload\filedetail\filedetail.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

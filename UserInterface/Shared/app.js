@@ -83,7 +83,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: 'Shared/templates/login.html',
                     controller: 'LoginCtrl'
                 }).when('/fileupload/filedetail', {
-                    templateUrl: '/FileUpload/filedetail/filedetail.html',
+                    templateUrl: '/FileUpload/filedetail/file-detail-list.html',
                     controller: 'fileDetailsController'
                 })
                 .otherwise({

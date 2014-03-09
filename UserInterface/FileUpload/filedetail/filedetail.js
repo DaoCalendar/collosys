@@ -115,7 +115,7 @@ csapp.controller("fileDetailsController", ['$scope', '$csfactory', '$csnotify', 
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
             var modalInstance = $modal.open({
-                templateUrl: 'filedetail/filedetailadd.html',
+                templateUrl: 'filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController',
                 resolve: {
                     fileDetails: function() {
