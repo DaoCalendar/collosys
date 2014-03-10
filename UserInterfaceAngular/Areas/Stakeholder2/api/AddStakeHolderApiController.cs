@@ -12,6 +12,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -31,6 +32,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -40,9 +42,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
             stake.ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
 
-            var gKeyValue = SessionManager.GetCurrentSession().QueryOver<GKeyValue>()
-                          .Where(x => x.Area == ColloSysEnums.Activities.Stakeholder)
-                          .List<GKeyValue>();
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
 
             stake.FixedPay = gKeyValue.ToDictionary(keyValue => keyValue.Key, keyValue => decimal.Parse(keyValue.Value));
 

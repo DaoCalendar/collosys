@@ -82,7 +82,6 @@ namespace UserInterfaceAngular.app
                 return;
             }
 
-            var uow = SessionManager.GetCurrentSession();
             var hierarchy = hierarchyQuery.GetOnExpression(x => x.Id == permissions[0].Role.Id).FirstOrDefault();
                                // uow.QueryOver<StkhHierarchy>()
                                //.Where(x => x.Id == permissions[0].Role.Id)
@@ -112,7 +111,7 @@ namespace UserInterfaceAngular.app
             }
 
             // save all chagnes
-            uow.SaveOrUpdate(hierarchy);
+            hierarchyQuery.Save(hierarchy);
         }
 
         #endregion
