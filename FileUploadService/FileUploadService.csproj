@@ -58,9 +58,8 @@
     <Reference Include="FileHelpers">
       <HintPath>..\SharedLib\FileHelpers.2.0.0.0\lib\FileHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="FileHelpers.DataLink, Version=2.9.9.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\FileHelpers-Stable.2.9.9\lib\4.0\FileHelpers.DataLink.dll</HintPath>
+    <Reference Include="FileHelpers.DataLink">
+      <HintPath>..\SharedLib\FileHelpers-Stable.2.9.9\lib\4.0\FileHelpers.DataLink.dll</HintPath>
     </Reference>
     <Reference Include="FileHelpers.ExcelStorage">
       <HintPath>..\SharedLib\FileHelpers.2.0.0.0\lib\FileHelpers.ExcelStorage.dll</HintPath>
