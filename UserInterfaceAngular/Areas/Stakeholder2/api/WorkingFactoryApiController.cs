@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿#region references
+
 using System.Web.Http;
-using ColloSys.UserInterface.Areas.Generic.ViewModels;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared.Attributes;
+
+#endregion
 
 namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {

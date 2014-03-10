@@ -11,17 +11,12 @@ using System.Web.Http;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
-using Iesi.Collections;
-using Iesi.Collections.Generic;
-using NHibernate;
-using NHibernate.Linq;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
-using Newtonsoft.Json.Linq;
-using UserInterfaceAngular.app;
 
 #endregion
 
@@ -36,13 +31,15 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
 
     public class AllocationPolicyApiController : BaseApiController<AllocPolicy>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder(); 
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data = Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -168,16 +165,11 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         {
             var reportsToId = string.Empty;
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser =
-                Session.QueryOver<Stakeholders>()
-                        .Where(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                reportsToId =
-                    Session.QueryOver<Stakeholders>()
-                            .Where(x => x.Id == currUser.ReportingManager).SingleOrDefault().ExternalId;
-
+                reportsToId = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
             }
             return reportsToId;
         }

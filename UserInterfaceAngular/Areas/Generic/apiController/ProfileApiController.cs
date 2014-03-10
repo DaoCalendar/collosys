@@ -1,19 +1,27 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Configuration.Provider;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using ColloSys.DataLayer.Domain;
-using ColloSys.UserInterface.Shared.Attributes;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using NLog;
+
+#endregion
+
 
 namespace UserInterfaceAngular.app
 {
     public class ProfileApiController : ColloSys.UserInterface.Shared.BaseApiController<Stakeholders>
     {
         private readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+
         // GET api/<controller>
         [HttpGet]
         public override HttpResponseMessage Get()
@@ -27,10 +35,8 @@ namespace UserInterfaceAngular.app
                     {
                         throw new NullReferenceException("User Not Exist");
                     }
-                    
-                    var data = Session.QueryOver<Stakeholders>()
-                        .Where(x => x.ExternalId == user.UserName)
-                        .SingleOrDefault<Stakeholders>();
+
+                    var data = StakeQuery.GetOnExpression(x => x.ExternalId == user.UserName).FirstOrDefault();
 
                     return Request.CreateResponse(HttpStatusCode.Created, data);
                 }

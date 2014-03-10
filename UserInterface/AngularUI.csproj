@@ -49,18 +49,24 @@
       <HintPath>..\packages\NHibernateProfiler.2.0.2233.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\SharedLib\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Extended">
-      <HintPath>..\packages\NLog.Extended.2.1.0.1\lib\net45-full\NLog.Extended.dll</HintPath>
+      <HintPath>..\SharedLib\NLog.Extended.2.1.0.1\lib\net45-full\NLog.Extended.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -94,10 +100,6 @@
     <Reference Include="System.Configuration">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
@@ -130,6 +132,10 @@
     <Content Include="Content\bootstrap2.3.2\bootstrap.min.css" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings.png" />
+    <Content Include="Content\fontawesome\font-awesome-ie7.css" />
+    <Content Include="Content\fontawesome\font-awesome-ie7.min.css" />
+    <Content Include="Content\fontawesome\font-awesome.css" />
+    <Content Include="Content\fontawesome\font-awesome.min.css" />
     <Content Include="Content\images\stanc\footer.png" />
     <Content Include="Content\images\stanc\LoginPage.png" />
     <Content Include="Content\images\stanc\scbcollosys.png" />
@@ -145,6 +151,8 @@
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
     <Content Include="FileUpload\filedetail\filedetail.js" />
+    <Content Include="FileUpload\filedetail\file-detail-add.html" />
+    <Content Include="FileUpload\filedetail\file-detail-list.html" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
@@ -175,10 +183,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
     <Content Include="Index.html" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\bootstrap3.0\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\angularjs\angular-animate.js" />
     <Content Include="Scripts\angularjs\angular-animate.min.js" />
     <Content Include="Scripts\angularjs\angular-cookies.js" />
@@ -209,12 +217,11 @@
     <Content Include="Scripts\angularjs\angular.min.js.map">
       <DependentUpon>angular.js</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.eot" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.svg" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.ttf" />
-    <Content Include="Content\bootstrap2.3.2\font\fontawesome-webfont.woff" />
-    <Content Include="Content\bootstrap2.3.2\font\FontAwesome.otf" />
-    <Content Include="FileUpload\filedetail\filedetail.html" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.eot" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.svg" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.ttf" />
+    <Content Include="Content\fontawesome\font\fontawesome-webfont.woff" />
+    <Content Include="Content\fontawesome\font\FontAwesome.otf" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -495,6 +502,7 @@
     <Content Include="Shared\templates\login.html" />
     <Content Include="Shared\templates\main.html" />
     <Content Include="Shared\templates\menu.html" />
+    <Content Include="Shared\templates\modal.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

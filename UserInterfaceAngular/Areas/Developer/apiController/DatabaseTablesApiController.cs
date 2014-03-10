@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,10 +10,8 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Web.Http;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.DataLayer.Services.FileUpload;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.NgGrid;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -19,6 +19,9 @@ using NHibernate;
 using NHibernate.Criterion;
 using NLog;
 using System.IO.Compression;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.Developer.apiController
 {

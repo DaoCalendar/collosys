@@ -4,6 +4,8 @@ using System.IO;
 using System.Web;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -19,13 +21,15 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class PayoutSubpolicyApiController : BaseApiController<BillingSubpolicy>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -171,16 +175,11 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         public void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser =
-                Session.QueryOver<Stakeholders>()
-                        .Where(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                var reportsToUserId =
-                    Session.QueryOver<Stakeholders>()
-                            .Where(x => x.Id == currUser.ReportingManager).SingleOrDefault().ExternalId;
-                relation.ApprovedBy = reportsToUserId;
+                relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -17,6 +19,9 @@ using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
+
+#endregion
+
 
 //stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
@@ -75,10 +80,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 cInfoList.Add(info);
             }
             SaveAllocationChanges(cInfoList);
-
-
-
-
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
 
