@@ -13,7 +13,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
     public abstract class QueryBuilder<T> : IQueryBuilder<T> where T : Entity, new()
     {
         [Transaction]
-        public virtual IList<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             var session = SessionManager.GetCurrentSession();
             return session.QueryOver<T>().List<T>();
@@ -38,6 +38,16 @@ namespace ColloSys.QueryBuilder.BaseTypes
         {
             var session = SessionManager.GetCurrentSession();
             session.Save(obj);
+        }
+
+        [Transaction(Persist = true)]
+        public virtual void SaveList(IList<T> listOfObjects)
+        {
+            var session = SessionManager.GetCurrentSession();
+            foreach (var obj in listOfObjects)
+            {
+                session.Save(obj);
+            }
         }
 
         [Transaction]

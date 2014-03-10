@@ -8,6 +8,7 @@ using BillingService.DBLayer;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
 using NLog;
 
 namespace BillingService.ViewModel
@@ -15,6 +16,8 @@ namespace BillingService.ViewModel
     public static class Payouts
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly BillAdhocBuilder BillAdhocBuilder=new BillAdhocBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
 
         #region Payout
 
@@ -44,7 +47,7 @@ namespace BillingService.ViewModel
         {
             var billDetails = new List<BillDetail>();
 
-            var billingSubpolicies = BillingPolicyDbLayer.GetSubpolicies(billingPolicy, billStatus.BillMonth);
+            var billingSubpolicies =BillingSubpolicyBuilder.SubpolicyOnPolicy(billingPolicy, billStatus.BillMonth).ToList();
             for (var i = 0; i < billingSubpolicies.Count; i++)
             {
                 var billingSubpolicy = billingSubpolicies[i];
@@ -79,8 +82,8 @@ namespace BillingService.ViewModel
         {
             var billDetails = new List<BillDetail>();
 
-            var adhocPayments = BillAdhocDbLayer.GetBillAdhocForStkholder(stakeholder, billStatus.Products,
-                                                                          billStatus.BillMonth);
+            var adhocPayments = BillAdhocBuilder.ForStakeholder(stakeholder, billStatus.Products,
+                                                                          billStatus.BillMonth).ToList();
             for (var i = 0; i < adhocPayments.Count; i++)
             {
                 var adhocPayment = adhocPayments[i];
@@ -101,8 +104,7 @@ namespace BillingService.ViewModel
                 adhocPayment.RemainingAmount -= (adhocPayment.TotalAmount / adhocPayment.Tenure);
                 billDetails.Add(billDetail);
             }
-
-            BillAdhocDbLayer.SaveBillAdhoc(adhocPayments);
+            BillAdhocBuilder.SaveList(adhocPayments);
 
             return billDetails;
         }

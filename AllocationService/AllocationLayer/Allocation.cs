@@ -12,6 +12,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.Types4Product;
 using Iesi.Collections.Generic;
@@ -43,6 +44,7 @@ namespace ColloSys.AllocationService.AllocationLayer
         }
 
         #endregion
+
 
         #region allocation condition
 

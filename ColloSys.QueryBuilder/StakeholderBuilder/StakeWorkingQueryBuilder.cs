@@ -1,8 +1,11 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿#region references
+
+using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.BaseTypes;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Transform;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {

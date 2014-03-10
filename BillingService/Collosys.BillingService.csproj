@@ -34,14 +34,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\SharedLib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.3.3.3.4000\lib\Net35\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate">
+      <HintPath>..\SharedLib\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
-      <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\SharedLib\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -55,27 +54,26 @@
   <ItemGroup>
     <Compile Include="BillingService.cs" />
     <Compile Include="CustBillView\ProcessCustBillView.cs" />
-    <Compile Include="DBLayer\BillAdhocDbLayer.cs" />
-    <Compile Include="DBLayer\BillDetailDbLayer.cs" />
     <Compile Include="DBLayer\BillStatusDbLayer.cs" />
-    <Compile Include="DBLayer\BillingPolicyDbLayer.cs" />
-    <Compile Include="DBLayer\BMatrixDbLayer.cs" />
     <Compile Include="DBLayer\CustBillViewModelDbLayer.cs" />
     <Compile Include="DBLayer\MoveProductDbLayer.cs" />
-    <Compile Include="DBLayer\StakeholderDbLayer.cs" />
     <Compile Include="Logging\NLogSetup.cs" />
     <Compile Include="MoveProductToPayment\MoveProductInfoToPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Util.cs" />
     <Compile Include="ViewModel\ExpressionBuilder.cs" />
     <Compile Include="ViewModel\FormulaBuilder.cs" />
-    <Compile Include="ViewModel\MatrixCalulater.cs" />
+    <Compile Include="ViewModel\MatrixCalculator.cs" />
     <Compile Include="ViewModel\Payouts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
       <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
       <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj">
+      <Project>{4450bb2e-c544-40c2-bcc3-eab5c385fb0c}</Project>
+      <Name>ColloSys.QueryBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>

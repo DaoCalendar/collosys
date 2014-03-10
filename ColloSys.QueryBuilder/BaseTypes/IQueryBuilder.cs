@@ -8,11 +8,12 @@ namespace ColloSys.QueryBuilder.BaseTypes
 {
     public interface IQueryBuilder<T>
     {
-        IList<T> GetAll();
+        IEnumerable<T> GetAll();
         //IList<T> GetAll(bool distinct);
         T GetWithId(Guid id);
         IList<T> GetOnExpression(Expression<Func<T,bool>>  expression);
         void Save(T obj);
+        void SaveList(IList<T> listOfObjects);
 
         IEnumerable<T> ExecuteQuery(QueryOver<T> query);
         QueryOver<T,T> DefaultQuery();

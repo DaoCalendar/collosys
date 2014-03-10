@@ -26,25 +26,25 @@ namespace BillingService.MoveProductToPayment
                 switch (system)
                 {
                     case ScbEnums.ScbSystems.CCMS:
-                        var cData = MoveProductDbLayer.GetpaymentData<Payment>();
+                        var cData = MoveProductDbLayer.GetpaymentData();
                         if (!cData.Any())
                             break;
                         cData.ToList().ForEach(x => x.Products = ScbEnums.Products.CC);
                         MoveProductDbLayer.SaveList(cData);
                         break;
                     case ScbEnums.ScbSystems.EBBS:
-                        var eData = MoveProductDbLayer.GetpaymentData<Payment>();
+                        var eData = MoveProductDbLayer.GetpaymentData();
                         if (!eData.Any())
                             break;
-                        var paymentData = MoveProductDbLayer.SetPaymentToProduct<Info, Payment>(eData);
+                        var paymentData = MoveProductDbLayer.SetPaymentToProduct(eData);
                         if (paymentData.Any())
                             MoveProductDbLayer.SaveList(paymentData);
                         break;
                     case ScbEnums.ScbSystems.RLS:
-                        var rData = MoveProductDbLayer.GetpaymentData<Payment>();
+                        var rData = MoveProductDbLayer.GetpaymentData();
                         if (!rData.Any())
                             break;
-                        var paymentDataR = MoveProductDbLayer.SetPaymentToProduct<Info, Payment>(rData);
+                        var paymentDataR = MoveProductDbLayer.SetPaymentToProduct(rData);
                         if (paymentDataR.Any())
                             MoveProductDbLayer.SaveList(paymentDataR);
                         break;

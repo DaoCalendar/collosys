@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using FileHelpers.DataLink;
-using FileHelpers.Dynamic;
+//using FileHelpers.Dynamic;
+using FileHelpers.RunTime;
 
 namespace ColloSys.FileUploadService.Excel2DT
 {

@@ -25,7 +25,7 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
             var data = stakeQuery.ExecuteQuery(query);
 
             var totalData = stakeQuery.GetAll();
-            Assert.AreEqual(data.Count(),totalData.Count);
+            Assert.AreEqual(data.Count(),totalData.Count());
         }
     }
 }

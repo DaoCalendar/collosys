@@ -1,11 +1,16 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using ColloSys.AllocationService.DBLayer;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+
+#endregion
+
 
 //stakeholders calls replaced
 namespace ColloSys.AllocationService.MoveAllocations
@@ -15,56 +20,16 @@ namespace ColloSys.AllocationService.MoveAllocations
         // private static ISession _session = SessionManager.GetCurrentSession();
 
         private static readonly StakeQueryBuilder StakeQueryBuilder=new StakeQueryBuilder(); 
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
 
         public static IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             return StakeQueryBuilder.ExitedOnProduct(products);
-            //Stakeholders stakeholders = null;
-            //StkhWorking working = null;
-            //StkhHierarchy hierarchy = null;
-            //var _session = SessionManager.GetCurrentSession();
-
-            //var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
-            //                                 .Fetch(x => x.StkhWorkings).Eager
-            //                                 .Fetch(x => x.Hierarchy).Eager
-            //                                 .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
-            //                                                JoinType.InnerJoin)
-            //                                 .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy,
-            //                                                JoinType.InnerJoin)
-            //                                 .Where(() => stakeholders.LeavingDate < DateTime.Now)
-            //                                 .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
-            //                                 .And(() => working.Products == products)
-            //                                 .And(() => hierarchy.IsInAllocation)
-            //                                 .And(() => hierarchy.IsInField)
-            //                                 .TransformUsing(Transformers.DistinctRootEntity)
-            //                                 .List();
-            //return listOfStakeholders;
         }
 
         public static IEnumerable<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
         {
            return StakeQueryBuilder.OnLeaveOnProduct(products);
-            //Stakeholders stakeholders = null;
-            //StkhWorking working = null;
-            //StkhHierarchy hierarchy = null;
-            //var _session = SessionManager.GetCurrentSession();
-
-            //var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
-            //                                 .Fetch(x => x.StkhWorkings).Eager
-            //                                 .Fetch(x => x.Hierarchy).Eager
-            //                                 .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
-            //                                                JoinType.LeftOuterJoin)
-            //                                 .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy,
-            //                                                JoinType.LeftOuterJoin)
-            //                                 .Where(() => stakeholders.LeavingDate == null || stakeholders.LeavingDate < DateTime.Now)
-            //                                 .And(() => working.Products == products)
-            //                                 .And(() => working.EndDate <= DateTime.Now)
-            //                                 .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
-            //                                 .And(() => hierarchy.IsInAllocation)
-            //                                 .And(() => hierarchy.IsInField)
-            //                                 .TransformUsing(Transformers.DistinctRootEntity)
-            //                                 .List();
-            //return listOfStakeholders;
         }
 
         public static void SetAllocations(Stakeholders stakeholder, ScbEnums.Products products)
@@ -74,21 +39,11 @@ namespace ColloSys.AllocationService.MoveAllocations
 
             var listOfCAllocations = SelectAllocations(stakeholder);
             DbLayer.SaveList(listOfCAllocations);
-
-
         }
 
         private static IEnumerable<Info> SelectAllocations(Stakeholders stakeholder)
         {
-            var _session = SessionManager.GetCurrentSession();
-
-            var listOfAllocatons = _session.QueryOver<Alloc>()
-                                            .Fetch(x => x.Info).Eager
-                                            .Fetch(x => x.Stakeholder).Eager
-                                            .Where(x => x.Stakeholder != null)
-                                            .And(x => x.Stakeholder.Id == stakeholder.Id)
-                                            .Select(x => x.Info)
-                                            .List<Info>();
+            var listOfAllocatons = AllocBuilder.AllocationsForStakeholder(stakeholder);
 
             ((List<Info>)listOfAllocatons).ForEach(x =>
             {

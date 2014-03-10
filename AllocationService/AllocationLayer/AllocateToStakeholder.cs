@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
-//using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.Types4Product;
+
+#endregion
 
 namespace ColloSys.AllocationService.AllocationLayer
 {
