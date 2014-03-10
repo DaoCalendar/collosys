@@ -788,18 +788,853 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
 // 2be: file, button, password
 
-csapp.directive("csDateField", ["$csfactory", "$compile", "csInputHelper", "Logger", function ($csfactory, $compile, helper, logger) {
+//csapp.directive("csDateField", ["$csfactory", "$compile", "csInputHelper", "Logger", function ($csfactory, $compile, helper, logger) {
+
+//    var $log = logger.getInstance("csDateField");
+
+//    //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
+//    var fieldHtml = function (options) {
+//        return '<div class="input-append">' +
+//                '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true" data-ng-model="ngModel" ' +
+//                    ' data-ng-required="options.required" data-date-min-view-mode="' + options.minViewMode + '" ' +
+//                    ' data-date-days-of-week-disabled="' + options.daysOfWeekDisabled + '" data-date-format="' + options.format + '" ' +
+//                    ' placeholder="{{options.placeholder}}" data-date-start-date="' + options.startDate + '"' +
+//                    ' data-date-end-date="' + options.endDate + '" bs-datepicker="" >' +
+//                '<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
+//            '</div>';
+//    };
+
+//    var applyTemplate = function (options) {
+//        if (angular.isUndefined(options.template) || options.template === null) {
+//            return;
+//        }
+
+//        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+//        angular.forEach(tmpl, function (template) {
+//            if (template.length < 1) return;
+//            switch (template) {
+//                case "MonthPicker":
+//                    options.minViewMode = "months";
+//                    break;
+//                case "YearPicker":
+//                    options.minViewMode = "years";
+//                    break;
+//                case "future":
+//                    options.startDate = "+0";
+//                    break;
+//                case "past":
+//                    options.endDate = "+0";
+//                    break;
+//                default:
+//                    $log.error(template + " is not defined.");
+//            }
+//            return;
+//        });
+//    };
+
+//    var manageViewMode = function (options) {
+//        //month/year modes
+//        if ($csfactory.isNullOrEmptyString(options.minViewMode)) {
+//            options.minViewMode = 0;
+//        } else if (options.minViewMode === "1" || options.minViewMode === "months") {
+//            options.minViewMode = 1;
+//        } else if (options.minViewMode === "2" || options.minViewMode === "years") {
+//            options.minViewMode = 2;
+//        } else {
+//            options.minViewMode = 0;
+//        }
+
+//        //format
+//        if (options.minViewMode === 0) {
+//            options.format = "dd-M-yyyy";
+//        } else if (options.minViewMode === 1) {
+//            options.format = "M-yyyy";
+//        } else {
+//            options.format = ".yyyy";
+//        }
+
+//        //min date        
+//        if ($csfactory.isNullOrEmptyString(options.startDate)) {
+//            if (options.minViewMode === 0) {
+//                options.startDate = '01-Jan-1800';
+//            } else if (options.minViewMode === 1) {
+//                options.startDate = 'Jan-1800';
+//            } else {
+//                options.startDate = '.1800';
+//            }
+//        }
+
+//        //max date
+//        if ($csfactory.isNullOrEmptyString(options.endDate)) {
+//            if (options.minViewMode === 0) {
+//                options.endDate = '31-Dec-2400';
+//            } else if (options.minViewMode === 1) {
+//                options.endDate = 'Dec-2400';
+//            } else {
+//                options.endDate = '.2400';
+//            }
+
+//        }
+//    };
+
+//    var validateOptions = function (options) {
+//        if ($csfactory.isNullOrEmptyString(options.label)) {
+//            options.label = "Date";
+//        }
+
+//        if ($csfactory.isNullOrEmptyString(options.daysOfWeekDisabled)) {
+//            options.daysOfWeekDisabled = '[]';
+//        }
+//    };
+
+//    var compileFunction = function (element) {
+//        return function (scope) {
+//            applyTemplate(scope.options);
+//            manageViewMode(scope.options);
+//            validateOptions(scope.options);
+//            element.html(helper.getFieldHtml(fieldHtml, scope.options));
+//            $compile(element.contents())(scope);
+//        };
+//    };
+
+//    return {
+//        scope: { options: '=', ngModel: '=' },
+//        required: ['ngModel', '^form'],
+//        restrict: 'E',
+//        compile: compileFunction
+//    };
+//}]);
+
+csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    var getOptionsByType = function (type) {
+        var options = {};
+        switch (type) {
+            case "save":
+                options.class = "btn btn-success";
+                options.caption = 'Save';
+                break;
+            case "cancel":
+                options.class = "btn btn-warning";
+                options.caption = 'Cancel';
+                break;
+            case "reset":
+                options.class = "btn btn-primary";
+                options.caption = 'Reset';
+                break;
+            case "ok":
+                options.class = "btn btn-info";
+                options.caption = 'Ok';
+                break;
+            case "close":
+                options.class = "btn btn-danger";
+                options.caption = 'Close';
+                break;
+            case "delete":
+                options.class = "btn icon-trash";
+                break;
+            case "edit":
+                options.class = "btn  icon-edit-sign";
+
+                break;
+            case "add":
+                options.class = "btn icon-plus";
+                break;
+            default:
+                throw "Invalid type : " + type;
+        }
+        return options;
+    };
+
+    var generateHtml = function (scope) {
+        return '<button class="{{options.class}}" ng-click="$parent.' + scope.ngClick + '" data-ng-disabled="ngDisabled" > {{options.caption}} </button>';
+    };
+
+    var linkFunction = function (scope, element) {
+        console.log(scope);
+        scope.options = getOptionsByType(scope.type);
+        element.html(generateHtml(scope));
+        $compile(element.contents())(scope);
+    };
+
+    return {
+        restrict: 'E',
+        link: linkFunction,
+        scope: { type: '@', ngClick: '@', ngDisabled: '=' },
+        replace: true
+    };
+}]);
+
+csapp.directive("csInput", ["$csfactory", "$compile", "Logger", function ($csfactory, $compile, logManager) {
+
+    var getFactoryByType = function (type) {
+        switch (type) {
+            case "textarea":
+                return textarea;
+            case "uint":
+            case "int":
+            case "ulong":
+            case "long":
+            case "decimal":
+                return numberBox;
+            case "text":
+                return text;
+            case "email":
+                return email;
+            case "checkbox":
+                return checkbox;
+            case "radio":
+                return radio;
+            case "select":
+                return select;
+            default:
+                throw "Invalid type specification in csInput directive : " + type;
+        }
+    };
+
+    var fieldLayoutHtml = function (factory, scope) {
+
+        var html = '<div ng-form="myform">' +
+            '<div class="control-group" class="{{options.class}}" >' +
+            '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
+            '<div class="controls">';
+
+        html += factory.htmlTemplate(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required!!!</div>' +
+                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+                '</div>';
+
+        html += '</div>' + //controls
+            '</div>' + // control-group
+            '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var linkFunction = function (scope, element) { //scope, element, attr, ctrl
+        console.log("executing link function...");
+        //scope.$digest();
+        var factory = getFactoryByType(scope.options.type);
+        factory.checkOptions(scope);
+        element.html(fieldLayoutHtml(factory, scope));
+        $compile(element.contents())(scope);
+    };
+
+    return {
+        restrict: 'E',
+        scope: { options: '=', ngModel: '=', ngChange: '&' },
+        require: ['ngModel', '^form'],
+        link: linkFunction
+    };
+}]);
+
+// all checked
+
+csapp.directive("csTemplate", [function () {
+
+    var getTemplate = function () {
+        var html =  '<div class="control-group" >' +
+                    '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
+                    '<div class="controls">';
+
+        html += '<div ng-transclude></div>';
+
+        html += '</div>' + //controls
+            '</div>'; // control-group
+
+        return html;
+    };
+
+    return {
+        scope: { options: '=' }, //scopeName: 'csTemplateDirectiveScope' },
+        restrict: 'E',
+        transclude: true,
+        replace: true,
+        template: getTemplate
+    };
+}]);
+
+csapp.directive("csTextField", ["$compile", "Logger", function ($compile, logManager) {
+
+    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength
+    var $log = logManager.getInstance("csTextField");
+
+    var formTemplate = function(scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                '</div>';
+
+        html += '</div>' ; //ng-form;
+
+        return html;
+    };
+
+    var validateOptions = function (options) {
+        // manage lengths
+        options.minlength = options.length || options.minlength || 0;
+        options.maxlength = options.length || options.maxlength || 250;
+        options.minlength = (options.minlength >= 0 && options.minlength <= 250) ? options.minlength : 0;
+        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 250) ? options.maxlength : 250;
+        if (options.minlength > options.maxlength) {
+            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+            $log.error(error); throw error;
+        }
+
+        options.label = options.label || "Text";
+        options.patternMessage = options.patternMessage || ("Input is not matching with pattern : " + options.pattern);
+        options.readonly = options.readonly || options.disabled || false;
+    };
+
+    var applyTemplates = function (options) {
+        if (angular.isUndefined(options.template) || options.template === null) {
+            return;
+        }
+
+        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+        angular.forEach(tmpl, function (template) {
+            if (template.length < 1) return;
+
+            switch (template) {
+                case "alphanum":
+                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "alphabates":
+                    options.pattern = "/^[a-zA-Z ]*$/";
+                    options.patternMessage = "Value contains non-alphabtical character/s.";
+                    break;
+                case "numeric":
+                    options.pattern = "/^[0-9]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "phone":
+                    options.length = 10;
+                    options.pattern = "/^[0-9]{10}$/";
+                    options.patternMessage = "Phone number must contain 10 digits.";
+                    break;
+                case "pan":
+                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                default:
+                    $log.error(template + " is not defined");
+            }
+        });
+    };
+
+    var templateFunction = function (scope) {
+        var html =      '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+                            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
+                            ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
+                            ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
+        return html;
+    };
+
+    var linkFunction = function (scope, element) {
+        applyTemplates(scope.options);
+        validateOptions(scope.options);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        restrict: 'E',
+        link: linkFunction,
+        
+    };
+}]);
+
+csapp.directive("csNumberField", ["$csfactory", "$compile", "Logger", function ($csfactory, $compile, logManager) {
+
+    var $log = logManager.getInstance("csNumberField");
+
+    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength, min, max
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+        var html = '<div class="input-prepend ">';
+
+        if (scope.options.type === 'phone') {
+            html += '<span class=" add-on"><i class="icon-phone"></i></span>' +
+                '<span class="add-on">+91</span>';
+        }
+        if (scope.options.type === 'userId')
+            html += '<span class="add-on"><i class="icon-user"></i></span>';
+
+        html += '<input type="number" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}"  ng-maxlength="{{options.maxlength}}" ' +
+            ' step="any" ng-readonly="options.readonly"  max="{{options.max}}" min="{{options.min}}" ' +
+            ' autofocus="options.autofocus" autocomplete="off" data-ng-change="ngChange()" ' +
+            ' data-ng-model="$parent.$parent.' + scope.csModel + '"';
+        
+        if (scope.options.type === 'phone')//adjusts the size of the number input box
+            html += 'class="input-medium"';
+        
+        html += '/>';
+
+        html += '</div>';
+        
+        return html;
+    };
+
+    var applyTemplates = function (options) {
+        switch (options.type) {
+            case "uint":
+                options.min = 0;
+            case "int":
+                options.maxlength = 6;
+                break;
+            case "ulong":
+                options.min = 0;
+            case "long":
+                options.maxlength = 12;
+                break;
+            case "decimal":
+                options.maxlength = 19;
+            case "phone":
+                options.minlength = 10;
+                options.maxlength = 10;
+                break;
+            case "userId":
+                options.minlength = 7;
+                options.maxlength = 7;
+                break;
+            default:
+                $log.error(options.type + " is not defined");
+        }
+    };
+
+    var validateOptions = function (scope) {
+        applyTemplates(scope.options);
+        scope.options.minlength = scope.options.length || scope.options.minlength || 0;
+        scope.options.maxlength = scope.options.length || scope.options.maxlength || 18;
+        scope.options.minlength = (scope.options.minlength >= 0 && scope.options.minlength <= 18) ? scope.options.minlength : 0;
+        scope.options.maxlength = (scope.options.maxlength >= 0 && scope.options.maxlength <= 18) ? scope.options.maxlength : 18;
+        if (parseInt(scope.options.minlength) > parseInt(scope.options.maxlength)) {
+            var error = "minlength(" + scope.options.minlength + ") cannot be greather than maxlength(" + scope.options.maxlength + ").";
+            throw error;
+        }
+        scope.options.label = scope.options.label || "Number";
+        scope.options.patternMessage = scope.options.patternMessage || "Value cannot have non-numeric character/s.";
+    };
+
+    var linkFunction = function (scope, element) {
+        applyTemplates(scope.options);
+        validateOptions(scope);
+        var template = formTemplate(scope);
+       
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csInputSuffix", function () {
+
+    var linkFunction = function (scope, element, attrs, ctr) {
+        ctr.$parsers.unshift(function (value) {
+
+            var isValid = value !== "";
+
+            ctr.$setValidity("required", isValid);
+            if (!isValid) {
+                return undefined;
+            }
+
+            if (value.indexOf(attrs.suffix) < 0) {
+                value = value + attrs.suffix;
+            }
+
+            return value;
+        });
+
+        ctr.$formatters.unshift(function (value) {
+            value = value || "";
+            return value.replace(attrs.suffix, "");
+        });
+    };
+
+    return {
+        require: 'ngModel',
+        link: linkFunction
+    };
+});
+
+csapp.directive("csEmailField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+        var hasSuffix = angular.isDefined(scope.options.suffix) && scope.options.suffix !== null && scope.options.suffix.length > 0;
+
+        var string = '<div class="input-prepend input-append">' +
+            '<span class="add-on"><i class="icon-envelope"></i></span>' +
+            '<input type="email" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+            'ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" data-ng-change="ngChange()" ' +
+            'ng-maxlength="{{options.maxlength}}" data-ng-model="$parent.$parent.' + scope.csModel + '" ';
+        if (hasSuffix) {
+            string += 'class="input-medium" cs-input-suffix suffix="{{options.suffix}}" />';
+        } else {
+            string += 'class="input-large" />';
+        }
+
+        if (hasSuffix) {
+            string += '<span class="add-on">{{options.suffix}}</span>';
+        }
+
+        string += '</div>';
+        return string;
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "Email";
+        scope.options.placeholder = scope.options.placeholder || "Enter Email";
+        scope.options.minlength = scope.options.suffix ? scope.options.suffix.length + 4 : 8;
+        scope.options.maxlength = 250;
+        scope.options.patternMessage = "Input is not a valid email address.";
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        console.log("rendering email field");
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csTextareaField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+        var string = '<textarea type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+                    'ng-readonly="options.readonly" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
+                    'rows="{{options.rows}}" cols="{{options.columns}}" autofocus="options.autofocus" ' +
+                    'data-ng-change="ngChange()"' +
+                    ' data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
+        return string;
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "Description";
+        scope.options.rows = scope.options.rows || 2;
+        scope.options.columns = scope.options.columns || 120;
+        scope.options.placeholder = scope.options.placeholder || "Describe in detail";
+        scope.options.maxlength = scope.options.maxlength || 250;
+        scope.options.readonly = scope.options.readonly || scope.options.disabled;
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+    
+    //options: label, required, checked
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+
+        var string = '<input type="checkbox" name="myfield"  ng-required="options.required" ' +
+           ' data-ng-model="$parent.$parent.' + scope.csModel + '" data-ng-click="ngClick()" ' +
+            'data-ng-change="ngChange()"/>';
+
+        return string;
+
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "CheckBox";
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', ngClick: '&csClick' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+    
+    //options:label, required, values 
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+
+        var string = '<select data-ui-select2="" class="input-large" ng-required="options.required"  ' +
+                    'data-ng-model="$parent.$parent.' + scope.csModel + '" name="myfield" ' +
+                    'data-ng-change="ngChange()">' +
+                    ' <option value=""></option> ' +
+                    ' <option data-ng-repeat="row in options.values" value="{{row}}">{{row}}</option>' +
+                '</select> ';
+
+        return string;
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "SelectBox";
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    //options:label, required 
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+
+        var string = '<select  data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
+                 'name="myfield" ' +
+                 'ng-required="options.required" ' +
+                 'data-ng-change="ngChange()">' +
+                    ' <option value=""></option> ' +
+                    ' <option data-ng-repeat="' + scope.options.csRepeat + '"value="{{' + scope.valueField + '}}">{{'+scope.options.textField+'}}</option>' +
+                '</select> ';
+
+        return string;
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "SelectBox";
+        //set params on options
+        scope.options.csRepeat = "row in $parent.$parent." + scope.csRepeat.substring(1, scope.csRepeat.length - 1);
+        scope.options.textField = scope.textField;
+        //scope.options.valueField = scope.valueField ? "row." + scope.valueField : "row";
+        //console.log(scope.options.csRepeat);
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', csRepeat: '@', textField: '@', valueField: '@' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+    
+    //$scope.gender = { label: "Gender", required: true, textField: "text2", options: [{ text2: "Male", value: "yes" }, { text2: "Female", value: "no" }] };
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+
+        var string = '<div class="radio" ng-repeat="(key, record) in options.options">' +
+                    '<label> <input type="radio" name="myfield" value="{{' + scope.options.valueField + '}}" ' +
+                                'data-ng-model="$parent.$parent.$parent.' + scope.csModel + '" ' +
+                                'data-ng-change="ngChange()" ' +
+                                'ng-required="options.required"  />{{' + scope.options.textField + '}}' +
+                    '</label>' +
+                  '</div>';
+
+        return string;
+    };
+
+    var validateOptions = function (scope) {
+        scope.options.label = scope.options.label || "Description";
+        scope.options.textField = scope.textField ? "record." + scope.textField : "record";
+        scope.options.valueField = scope.valueField ? "record." + scope.valueField : "record";
+    };
+
+    var linkFunction = function (scope, element) {
+        validateOptions(scope);
+        var template = formTemplate(scope);
+        element.replaceWith($compile(template)(scope));
+    };
+
+    return {
+        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', textField: '@', valueField: '@' },
+        restrict: 'E',
+        link: linkFunction
+    };
+}]);
+
+csapp.directive("csDateField", ["$csfactory", "$compile",  "Logger", function ($csfactory, $compile, logger) {
 
     var $log = logger.getInstance("csDateField");
 
     //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
-    var fieldHtml = function (options) {
+   
+
+
+    var formTemplate = function (scope) {
+        var html = '<div ng-form="myform">';
+
+        html += templateFunction(scope);
+
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                '</div>';
+
+        html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
         return '<div class="input-append">' +
-                '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true" data-ng-model="ngModel" ' +
-                    ' data-ng-required="options.required" data-date-min-view-mode="' + options.minViewMode + '" ' +
-                    ' data-date-days-of-week-disabled="' + options.daysOfWeekDisabled + '" data-date-format="' + options.format + '" ' +
-                    ' placeholder="{{options.placeholder}}" data-date-start-date="' + options.startDate + '"' +
-                    ' data-date-end-date="' + options.endDate + '" bs-datepicker="" >' +
+                '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true" ' +
+                    'data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
+                    ' data-ng-required="options.required" data-date-min-view-mode="' + scope.options.minViewMode + '" ' +
+                    ' data-date-days-of-week-disabled="' + scope.options.daysOfWeekDisabled + '" data-date-format="' + scope.options.format + '" ' +
+                    ' placeholder="{{options.placeholder}}" data-date-start-date="' + scope.options.startDate + '"' +
+                    ' data-date-end-date="' + scope.options.endDate + '" bs-datepicker="" >' +
                 '<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
             '</div>';
     };
@@ -887,616 +1722,18 @@ csapp.directive("csDateField", ["$csfactory", "$compile", "csInputHelper", "Logg
         }
     };
 
-    var compileFunction = function (element) {
-        return function (scope) {
+    var linkFunction = function (scope,element) {
+        
             applyTemplate(scope.options);
             manageViewMode(scope.options);
             validateOptions(scope.options);
-            element.html(helper.getFieldHtml(fieldHtml, scope.options));
-            $compile(element.contents())(scope);
-        };
-    };
-
-    return {
-        scope: { options: '=', ngModel: '=' },
-        required: ['ngModel', '^form'],
-        restrict: 'E',
-        compile: compileFunction
-    };
-}]);
-
-csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $compile) {
-
-    var getOptionsByType = function (type) {
-        var options = {};
-        switch (type) {
-            case "save":
-                options.class = "btn btn-success";
-                options.caption = 'Save';
-                break;
-            case "cancel":
-                options.class = "btn btn-warning";
-                options.caption = 'Cancel';
-                break;
-            case "reset":
-                options.class = "btn btn-primary";
-                options.caption = 'Reset';
-                break;
-            case "ok":
-                options.class = "btn btn-info";
-                options.caption = 'Ok';
-                break;
-            case "close":
-                options.class = "btn btn-danger";
-                options.caption = 'Close';
-                break;
-            case "delete":
-                options.class = "btn icon-trash";
-                break;
-            case "edit":
-                options.class = "btn  icon-edit-sign";
-
-                break;
-            case "add":
-                options.class = "btn icon-plus";
-                break;
-            default:
-                throw "Invalid type : " + type;
-        }
-        return options;
-    };
-
-    var generateHtml = function (scope) {
-        return '<button class="{{options.class}}" ng-click="$parent.' + scope.ngClick + '" data-ng-disabled="ngDisabled" > {{options.caption}} </button>';
-    };
-
-    var linkFunction = function (scope, element) {
-        console.log(scope);
-        scope.options = getOptionsByType(scope.type);
-        element.html(generateHtml(scope));
-        $compile(element.contents())(scope);
-    };
-
-    return {
-        restrict: 'E',
-        link: linkFunction,
-        scope: { type: '@', ngClick: '@', ngDisabled: '=' },
-        replace: true
-    };
-}]);
-
-csapp.directive("csInput", ["$csfactory", "$compile", "Logger", "textareaFactory", "numberFactory", "textFactory", "emailFactory", "checkboxFactory", "radioButtonFactory", "selectFactory", function ($csfactory, $compile, logManager, textarea, numberBox, text, email, checkbox, radio, select) {
-
-    var getFactoryByType = function (type) {
-        switch (type) {
-            case "textarea":
-                return textarea;
-            case "uint":
-            case "int":
-            case "ulong":
-            case "long":
-            case "decimal":
-                return numberBox;
-            case "text":
-                return text;
-            case "email":
-                return email;
-            case "checkbox":
-                return checkbox;
-            case "radio":
-                return radio;
-            case "select":
-                return select;
-            default:
-                throw "Invalid type specification in csInput directive : " + type;
-        }
-    };
-
-    var fieldLayoutHtml = function (factory, scope) {
-
-        var html = '<div ng-form="myform">' +
-            '<div class="control-group" class="{{options.class}}" >' +
-            '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
-            '<div class="controls">';
-
-        html += factory.htmlTemplate(scope);
-
-        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required!!!</div>' +
-                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
-                '</div>';
-
-        html += '</div>' + //controls
-            '</div>' + // control-group
-            '</div>'; //ng-form;
-
-        return html;
-    };
-
-    var linkFunction = function (scope, element) { //scope, element, attr, ctrl
-        console.log("executing link function...");
-        //scope.$digest();
-        var factory = getFactoryByType(scope.options.type);
-        factory.checkOptions(scope);
-        element.html(fieldLayoutHtml(factory, scope));
-        $compile(element.contents())(scope);
-    };
-
-    return {
-        restrict: 'E',
-        scope: { options: '=', ngModel: '=', ngChange: '&' },
-        require: ['ngModel', '^form'],
-        link: linkFunction
-    };
-}]);
-
-
-// all checked
-
-csapp.directive("csTemplate", [function () {
-
-    var getTemplate = function () {
-        var html = '<div ng-form="myform">' +
-                    '<div class="control-group" class="{{options.class}}" >' +
-                    '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
-                    '<div class="controls">';
-
-        html += '<div ng-transclude></div>';
-
-        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-            '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required!!!</div>' +
-            '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-            '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-            '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-            '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
-            '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
-        '</div>';
-
-        html += '</div>' + //controls
-            '</div>' + // control-group
-            '</div>'; //ng-form;
-
-        return html;
-    };
-
-    return {
-        scope: { options: '=' },
-        restrict: 'E',
-        transclude: true,
-        template: getTemplate
-    };
-}]);
-
-csapp.directive("csTextField", ["$compile", "Logger", function ($compile, logManager) {
-
-    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength
-    var $log = logManager.getInstance("csTextField");
-
-    var validateOptions = function (options) {
-        // manage lengths
-        options.minlength = options.length || options.minlength || 0;
-        options.maxlength = options.length || options.maxlength || 250;
-        options.minlength = (options.minlength >= 0 && options.minlength <= 250) ? options.minlength : 0;
-        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 250) ? options.maxlength : 250;
-        if (options.minlength > options.maxlength) {
-            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
-            $log.error(error); throw error;
-        }
-
-        options.label = options.label || "Text";
-        options.patternMessage = options.patternMessage || ("Input is not matching with pattern : " + options.pattern);
-        options.readonly = options.readonly || options.disabled || false;
-    };
-
-    var applyTemplates = function (options) {
-        if (angular.isUndefined(options.template) || options.template === null) {
-            return;
-        }
-
-        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
-        angular.forEach(tmpl, function (template) {
-            if (template.length < 1) return;
-
-            switch (template) {
-                case "alphanum":
-                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
-                    options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "alphabates":
-                    options.pattern = "/^[a-zA-Z ]*$/";
-                    options.patternMessage = "Value contains non-alphabtical character/s.";
-                    break;
-                case "numeric":
-                    options.pattern = "/^[0-9]*$/";
-                    options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "phone":
-                    options.length = 10;
-                    options.pattern = "/^[0-9]{10}$/";
-                    options.patternMessage = "Phone number must contain 10 digits.";
-                    break;
-                case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                default:
-                    $log.error(template + " is not defined");
-            }
-        });
-    };
-
-    var templateFunction = function (scope) {
-        var html = '<cs-template options="options">' +
-                        '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-                            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
-                            ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
-                            ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.ngModel + '"/>' +
-                    '</cs-template>';
-        return html;
-    };
-
-    var linkFunction = function (scope, element) {
-        applyTemplates(scope.options);
-        validateOptions(scope.options);
-        var template = templateFunction(scope);
-        element.replaceWith($compile(template)(scope));
-    };
-
-    return {
-        scope: { options: '=', ngModel: '@csModel', ngChange: '&csChange' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csNumberField", ["$csfactory", "$compile", "Logger", function ($csfactory, $compile, logManager) {
-
-    var $log = logManager.getInstance("csNumberField");
-
-    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength, min, max
-    var fieldHtml = function (scope) {
-        var html = '<cs-template options="options">';
-        html += '<input type="number" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}"  ng-maxlength="{{options.maxlength}}" ' +
-            ' step="any" ng-readonly="options.readonly"  max="{{options.max}}" min="{{options.min}}" ' +
-            ' autofocus="options.autofocus" autocomplete="off" data-ng-change="ngChange()" ' +
-            ' data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
-        html += '</cs-template>';
-        return html;
-    };
-
-    var applyTemplates = function (options) {
-        switch (options.type) {
-            case "uint":
-                options.min = 0;
-            case "int":
-                options.maxlength = 6;
-                break;
-            case "ulong":
-                options.min = 0;
-            case "long":
-                options.maxlength = 12;
-                break;
-            case "decimal":
-                options.maxlength = 19;
-            default:
-                $log.error(options.type + " is not defined");
-        }
-    };
-
-    var validateOptions = function (scope) {
-        applyTemplates(scope.options);
-        scope.options.minlength = scope.options.length || scope.options.minlength || 0;
-        scope.options.maxlength = scope.options.length || scope.options.maxlength || 18;
-        scope.options.minlength = (scope.options.minlength >= 0 && scope.options.minlength <= 18) ? scope.options.minlength : 0;
-        scope.options.maxlength = (scope.options.maxlength >= 0 && scope.options.maxlength <= 18) ? scope.options.maxlength : 18;
-        if (parseInt(scope.options.minlength) > parseInt(scope.options.maxlength)) {
-            var error = "minlength(" + scope.options.minlength + ") cannot be greather than maxlength(" + scope.options.maxlength + ").";
-            throw error;
-        }
-        scope.options.label = scope.options.label || "Number";
-        scope.options.patternMessage = scope.options.patternMessage || "Value cannot have non-numeric character/s.";
-    };
-
-    var linkFunction = function (scope, element) {
-        applyTemplates(scope.options);
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
+            var template = formTemplate(scope);
+            element.replaceWith($compile(template)(scope));
+        
     };
 
     return {
         scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csInputSuffix", function () {
-
-    var linkFunction = function (scope, element, attrs, ctr) {
-        ctr.$parsers.unshift(function (value) {
-
-            var isValid = value !== "";
-
-            ctr.$setValidity("required", isValid);
-            if (!isValid) {
-                return undefined;
-            }
-
-            if (value.indexOf(attrs.suffix) < 0) {
-                value = value + attrs.suffix;
-            }
-
-            return value;
-        });
-
-        ctr.$formatters.unshift(function (value) {
-            value = value || "";
-            return value.replace(attrs.suffix, "");
-        });
-    };
-
-    return {
-        require: 'ngModel',
-        link: linkFunction
-    };
-});
-
-csapp.directive("csEmailField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-
-    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
-    var fieldHtml = function (scope) {
-        var hasSuffix = angular.isDefined(scope.options.suffix) && scope.options.suffix !== null && scope.options.suffix.length > 0;
-
-        var string = '<cs-template options="options">';
-
-        string += '<div class="input-prepend input-append">' +
-            '<span class="add-on"><i class="icon-envelope"></i></span>' +
-            '<input type="email" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-            'ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" data-ng-change="ngChange()" ' +
-            'ng-maxlength="{{options.maxlength}}" data-ng-model="$parent.$parent.' + scope.csModel + '" ';
-        if (hasSuffix) {
-            string += 'class="input-medium" cs-input-suffix suffix="{{options.suffix}}" />';
-        } else {
-            string += 'class="input-large" />';
-        }
-
-        if (hasSuffix) {
-            string += '<span class="add-on">{{options.suffix}}</span>';
-        }
-
-        string += '</div>';
-        string += '</cs-template>';
-        return string;
-    };
-
-    var validateOptions = function (scope) {
-        scope.options.label = scope.options.label || "Email";
-        scope.options.placeholder = scope.options.placeholder || "Enter Email";
-        scope.options.minlength = scope.options.suffix ? scope.options.suffix.length + 4 : 8;
-        scope.options.maxlength = 250;
-        scope.options.patternMessage = "Input is not a valid email address.";
-    };
-
-    var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-    };
-
-    return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csTextareaField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-
-    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
-    var fieldHtml = function (scope) {
-        var string = '<cs-template options="options">';
-        string += '<textarea type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-                    'ng-readonly="options.readonly" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
-                    'rows="{{options.rows}}" cols="{{options.columns}}" autofocus="options.autofocus" ' +
-                    'data-ng-change="ngChange()"' +
-                    ' data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
-        string += '</cs-template>';
-        return string;
-    };
-
-    var validateOptions = function (scope) {
-        scope.options.label = scope.options.label || "Description";
-        scope.options.rows = scope.options.rows || 2;
-        scope.options.columns = scope.options.columns || 120;
-        scope.options.placeholder = scope.options.placeholder || "Describe in detail";
-        scope.options.maxlength = scope.options.maxlength || 250;
-        scope.options.readonly = scope.options.readonly || scope.options.disabled;
-    };
-
-    var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-    };
-
-    return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    //options: label, required, checked
-    var fieldHtml = function (scope) {
-
-        var string = '<cs-template options="options">';
-
-        string += '<input type="checkbox" name="myfield"  ng-required="options.required" ' +
-           ' data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
-            'data-ng-click="ngClick()" ' +
-            'data-ng-change="ngChange()"/>';
-
-        string += '</cs-template>';
-
-        return string;
-
-    };
-
-    var validateOptions = function (scope) {
-        scope.options.label = scope.options.label || "CheckBox";
-    };
-
-    var linkFunction = function (scope, element) {
-
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-
-    };
-
-    return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', ngClick: '&csClick' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    //options:label, required, values 
-    var fieldHtml = function (scope) {
-
-        var string = '<cs-template options="options">';
-
-        string += '<select data-ui-select2="" class="input-large" ng-required="options.required"  ' +
-                    'data-ng-model="$parent.$parent.' + scope.csModel + '" name="myfield" ' +
-                    'data-ng-change="ngChange()">' +
-                    ' <option value=""></option> ' +
-                    ' <option data-ng-repeat="row in options.values" value="{{row}}">{{row}}</option>' +
-                '</select> ';
-
-        string += '</cs-template>';
-
-        return string;
-    };
-
-    var validateOptions = function (scope) {
-        scope.options.label = scope.options.label || "SelectBox";
-    };
-
-    var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-    };
-
-    return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-
-    //options:label, required 
-    var fieldHtml = function (scope) {
-
-        var string = '<cs-template options="options">';
-
-        string += '<select  data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
-                 'name="myfield" ' +
-                 'ng-required="options.required" ' +
-                 'data-ng-change="ngChange()">' +
-                    ' <option value=""></option> ' +
-                    ' <option data-ng-repeat="' + scope.options.csRepeat + '"value="{{' + scope.options.valueField + '}}">{{' + scope.options.textField + '}}</option>' +
-                '</select> ';
-
-        string += '</cs-template>';
-
-        return string;
-    };
-
-
-    var validateOptions = function (scope) {
-        scope.options.label = scope.options.label || "SelectBox";
-    };
-
-    var linkFunction = function (scope, element) {
-        //set params on options
-        scope.options.csRepeat = "row in $parent.$parent." + scope.csRepeat.substring(1, scope.csRepeat.length - 1);
-        scope.options.textField = scope.textField ? "row." + scope.textField : "row";
-        scope.options.valueField = scope.valueField ? "row." + scope.valueField : "row";
-        //console.log(scope.options.csRepeat);
-
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-
-    };
-
-    return {
-        scope: {
-            options: '=',
-            csModel: '@csModel',
-            ngChange: '&csChange',
-            csRepeat: '@',
-            textField: '@',
-            valueField: '@'
-        },
-        restrict: 'E',
-        link: linkFunction
-    };
-}]);
-
-csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    //$scope.gender = { label: "Gender", required: true, textField: "text2", options: [{ text2: "Male", value: "yes" }, { text2: "Female", value: "no" }] };
-    var fieldHtml = function (scope) {
-
-        var string = '<cs-template options="options">';
-
-        string += '<div class="radio" ng-repeat="(key, record) in options.options">' +
-                    '<label> <input type="radio" name="myfield" value="{{' + scope.options.valueField + '}}" ' +
-                                'data-ng-model="$parent.$parent.$parent.' + scope.csModel + '" ' +
-                                'data-ng-change="ngChange()" ' +
-                                'ng-required="options.required"  />{{' + scope.options.textField + '}}' +
-                    '</label>' +
-                  '</div>';
-
-        string += '</cs-template>';
-
-        return string;
-    };
-
-    var validateOptions = function (scope) {
-
-        scope.options.label = scope.options.label || "Description";
-        scope.options.textField = scope.textField ? "record." + scope.textField : "record";
-        scope.options.valueField = scope.valueField ? "record." + scope.valueField : "record";
-
-    };
-
-    var linkFunction = function (scope, element) {
-
-        validateOptions(scope);
-        var template = fieldHtml(scope);
-        element.replaceWith($compile(template)(scope));
-
-    };
-
-    return {
-        scope: {
-            options: '=',
-            csModel: '@csModel',
-            ngChange: '&csChange',
-            textField: '@',
-            valueField: '@'
-        },
         restrict: 'E',
         link: linkFunction
     };

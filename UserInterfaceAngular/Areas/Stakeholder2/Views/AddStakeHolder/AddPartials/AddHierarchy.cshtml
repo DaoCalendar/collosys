@@ -1,6 +1,30 @@
 ﻿<div data-ng-controller="StakeHierarchy">
     <div class="row-fluid">
-        <div class="control-group">
+        <cs-template options="$parent.hierarchyModel.Hierarchy">
+            <cs-select-field options="$parent.hierarchyModel.Hierarchy" 
+                             cs-repeat="'HierarchyList | unique : 'Hierarchy''"
+                             text-field="row.Hierarchy"
+                             value-field="row.Hierarchy"
+                             cs-model="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
+                             cs-change="changeInHierarchy()">
+            </cs-select-field>
+         </cs-template>
+
+        <div data-ui-if="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy">
+            <cs-template options="$parent.hierarchyModel.Designation">
+                <cs-select-field options="$parent.hierarchyModel.Designation" 
+                                 cs-repeat="'Designation'"
+                                 text-field="row.Designation"
+                                 value-field="row.Id"   
+                                 cs-model="$parent.WizardData.FinalPostModel.SelHierarchy.Designation" 
+                                 cs-change="assignSelectedHier()">
+            </cs-select-field>
+         </cs-template>
+        </div>
+    </div>
+</div>
+
+@*<div class="control-group">
             <label class="control-label">Hierarchy <label style="font-size:large; color:red">*</label></label>
             <div class="controls">
                 <select
@@ -16,11 +40,12 @@
                     </option>
                 </select>
             </div>
-        </div>
+  </div>*@
 
-        <div data-ng-show="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
+
+@* <div data-ng-show="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
             class="row-fluid">
-            <div class="control-group ">
+                <div class="control-group ">
                 <label class="control-label">Designation <label style="font-size:large; color:red">*</label></label>
                 <div class="controls">
                     <select
@@ -33,8 +58,5 @@
                         <option data-ng-repeat="data in HierarchyList | filter : {'Hierarchy' : $parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy } | orderBy: 'PositionLevel'"
                             value="{{data.Id}}">{{getHierarchyDisplayName(data)}} </option>
                     </select>
-                </div>
-            </div>
         </div>
-    </div>
-</div>
+     </div>*@

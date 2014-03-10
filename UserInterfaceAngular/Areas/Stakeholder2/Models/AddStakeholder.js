@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',
-function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',"StakeholderModels",
+function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants,$stakeModel) {
 
     $scope.StepManager = {
         StepNames: {
@@ -417,6 +417,10 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
     var restApi = rest.all('AddStakeHolderApi');
 
     $scope.init = function () {
+
+        $scope.stakeholderModel = $stakeModel.BasicInfoModel;
+        $scope.hierarchyModel = $stakeModel.Hierarchy;
+
         $scope.ShowPrevBtn = true;
         $scope.WizardData.prevStatus = false;
         $scope.showInEditmode = false;
@@ -477,9 +481,9 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
        
 
         //save stakeholder
-        if (hierarchy.Hierarchy !== 'External') {
-            stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
-        }
+        //if (hierarchy.Hierarchy !== 'External') {
+        //    stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
+        //}
 
         // assign approver name
         //stakeholder.ApprovedBy = getApproverName(stakeholder.ReportingManager);

@@ -1,14 +1,25 @@
 ﻿csapp.factory("StakeholderModels", ["StakeholderEnums", function (enums) {
 
     var basicInfoModel = {
-        Hierarchy: { type: "text", label: "Hierarchy", required: true },
-        Designation:{type:"text",label:"Designation",required:true},
-        Name: { type: "text", label: "Name", required: true },
-        UserId: { type: "number", label: "User Id", required: true, minlength: 7, maxlength: 7 },
-        MobileNo: { type: "number", label: "Mobile Number", required: true, minlength: 10, maxlength: 10 },
+        Name: { type: "text", label: "Name",pattern:'/^[a-zA-Z ]*$/',patternMessage:"Invalid Name", required: true },
+        UserId: { type: "userId", label: "User Id"},
+        MobileNo: { type: "phone", label: "Mobile Number", required: true,pattern:'/^[0-9]{8,10}$/',patternMessage:"invalid number"},
         Gender: { type: "enum", label: "Gender", required: true, value: enums.gender },
         DateOfBirth: { type: "text", label: "Date Of Birth", required: true, maxlength: 20 },
-        DateOfJoining: { type: "text", label: "Date Of Joining", required: true, maxlength: 20 }
+        Email:{label:"Email",required:true},
+        Date: { template: 'future', required: true },
+        TAN: { label: 'TAN', maxlength: 50 },
+        RegistrationNo: { label: 'Registration No', template: 'alphanum', maxlength: 30 },
+        ServiceTax: { label: 'ServiceTax No', template: 'alphanum', maxlength: 30 },
+        Line1: { label: 'Line11' ,required:true},
+        Line2: { label: 'Line21' ,required:true},
+        Line3: { label: 'Line31' ,required:false},
+        PAN: { label: 'PAN', pattern: "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/", patternMessage: 'Accepts only AAAAA0000A format' ,required:false}
+    };
+
+    var hierarchy = {
+        Hierarchy: {  label: "Hierarchy", required: true },
+        Designation: {  label: "Designation", required: true },
     };
 
     var workingPayment = {
@@ -36,6 +47,12 @@
          },
     };
 
+    return {
+        BasicInfoModel: basicInfoModel,
+        WorkingPayment: workingPayment,
+        Hierarchy:hierarchy
+    };
+
 }]);
 
 csapp.factory("StakeholderEnums", function () {
@@ -58,5 +75,10 @@ csapp.factory("StakeholderEnums", function () {
         CC: "CC",
         AUTO_OD: "AUTO_OD",
         SMC: "SMC"
+    };
+
+    return {
+        gender: gender,
+        products:products
     };
 });

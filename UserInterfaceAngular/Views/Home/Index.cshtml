@@ -5,19 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div data-ng-controller="testing">
-    <form name="testform">
-        <cs-input options="optionsNum" ng-model="abcd"></cs-input>
-        {{abcd}}
-        <cs-input options="optionsTxt" ng-model="txt"></cs-input>
-        {{txt}}
-        <cs-input options="optionEmail" ng-model="email"></cs-input>
-        {{email}}
-        <cs-input options="optionCheckbox" ng-model="checkbox"></cs-input>
-        <p>checked:{{checkbox}}</p>
-        <cs-input options="optionRadio" ng-model="checkbox"></cs-input>
-    </form>
+<div data-ng-controller="testing" >
+    <div data-ui-if="false">
+        <form name="testform">
+            <cs-input options="optionsNum" ng-model="abcd"></cs-input>
+            {{abcd}}
+            <cs-input options="optionsTxt" ng-model="txt"></cs-input>
+            {{txt}}
+            <cs-input options="optionEmail" ng-model="email"></cs-input>
+            {{email}}
+            <cs-input options="optionCheckbox" ng-model="checkbox"></cs-input>
+            <p>checked:{{checkbox}}</p>
+            <cs-input options="optionRadio" ng-model="checkbox"></cs-input>
+        </form>
+    </div>
+
+    <cs-date-field options="optionsDate" cs-model="date"></cs-date-field>{{date}}
+
 </div>
+
+
 
 @section scripts
 {
@@ -30,7 +37,8 @@
             $scope.optionsTxt = { type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'enter valid text' };
             $scope.optionEmail = { type: 'email', suffix: '@@soham.com' };
             $scope.optionCheckbox = { type: 'checkbox', label: 'tick' };
-            $scope.optionRadio = {type:'radio',options:['1','2']};
+            $scope.optionRadio = { type: 'radio', options: ['1', '2'] };
+            $scope.optionsDate = { template:"future" };
         });
     </script>
 }
