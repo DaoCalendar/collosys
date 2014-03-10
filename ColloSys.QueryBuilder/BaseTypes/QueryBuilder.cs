@@ -13,7 +13,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
     public abstract class QueryBuilder<T> : IQueryBuilder<T> where T : Entity, new()
     {
         [Transaction]
-        public virtual IList<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             var session = SessionManager.GetCurrentSession();
             return session.QueryOver<T>().List<T>();

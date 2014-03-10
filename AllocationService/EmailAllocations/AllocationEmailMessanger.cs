@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,8 +17,9 @@ using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NLog;
 
-//stakeholders callls changed
+#endregion
 
+//stakeholders callls changed
 namespace ColloSys.AllocationService.EmailAllocations
 {
     public class AllocationEmailMessanger : IAllocationEmailMessanger
@@ -26,14 +29,9 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
-            var session = SessionManager.GetNewSession();
-
             //TODO:change call here 
-            List<Stakeholders> stakeholerInitialData = StakeQueryBuilder.GetOnExpression(x =>
-                                                                                         x.Status ==
-                                                                                         ColloSysEnums.ApproveStatus
-                                                                                                      .Approved)
-                                                                        .ToList();
+            List<Stakeholders> stakeholerInitialData = StakeQueryBuilder
+                .GetOnExpression(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
             //  session.QueryOver<Stakeholders>()
             //.And(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
             //.List().ToList();

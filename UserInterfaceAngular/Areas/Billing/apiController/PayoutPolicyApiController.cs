@@ -10,6 +10,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -30,15 +31,15 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]

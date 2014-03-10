@@ -1,18 +1,20 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Providers.Entities;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Types4Product;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
@@ -30,11 +32,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
     public class CustomerInfoApiController : BaseApiController<Info>
     {
+
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
-            return Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            return ProductConfigBuilder.GetProducts();
         }
 
         [HttpGet]

@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region references
+
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.SharedDomain;
+
+#endregion
 
 namespace ColloSys.AllocationService.ChurnAllocations
 {

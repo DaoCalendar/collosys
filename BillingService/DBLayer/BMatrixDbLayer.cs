@@ -1,8 +1,13 @@
-﻿using System;
+﻿#region references
+
+using System;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using NLog;
+
+#endregion
+
 
 namespace BillingService.DBLayer
 {

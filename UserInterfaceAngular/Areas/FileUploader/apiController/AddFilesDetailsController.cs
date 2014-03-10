@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,13 +13,11 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared.Attributes;
-using Glimpse.AspNet.Tab;
 using NHibernate;
 using NHibernate.Transform;
 using NLog;
 
-
-
+#endregion
 
 namespace ColloSys.UserInterface.Areas.FileUploader.apiController
 {

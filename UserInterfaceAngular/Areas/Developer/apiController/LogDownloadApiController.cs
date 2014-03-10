@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +10,9 @@ using System.Web.Http;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.UserInterface.Areas.Developer.Models;
 using ColloSys.UserInterface.Areas.Developer.ViewModels;
-using NLog;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.Developer.apiController
 {

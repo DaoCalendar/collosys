@@ -49,7 +49,6 @@ namespace ColloSys.FileUploadService.Excel2DT
             {
                 return null;
             }
-
             return ReadExcelData(obj, File.OpenRead(fileInfo.FullName), dataFromRow);
         }
 

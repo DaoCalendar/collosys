@@ -31,7 +31,7 @@ namespace BillingService.CustBillView
             var systemOnProduct = Util.GetSystemOnProduct(products);
             var allocations = GetAllocations(products, session);
             var payments = GetPayment<Payment>(session);
-            billingViewModel.AddRange(allocations.Select(alloc=>CreateCustBillViewModel(alloc,alloc.Info,payments)));
+            billingViewModel.AddRange(allocations.Select(alloc => CreateCustBillViewModel(alloc, alloc.Info, payments)));
             //switch (systemOnProduct)
             //{
             //    case ScbEnums.ScbSystems.CCMS:
@@ -250,44 +250,6 @@ namespace BillingService.CustBillView
             return eAllocations;
         }
 
-        //public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, bool isInRecovery, ISession session)
-        //{
-        //    RAlloc alloc = null;
-        //    RInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
-        //                            .Fetch(x => x.RInfo).Eager
-        //                            .Fetch(x => x.RInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .And(() => info.IsInRecovery == isInRecovery)
-        //                            .List<RAlloc>();
-        //    return rAllocations;
-        //}
-
-        //public static IList<CAlloc> GetCAllocations(ScbEnums.Products products, bool isInRecovery, ISession session)
-        //{
-        //    CAlloc alloc = null;
-        //    CInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var cAllocations = session.QueryOver<CAlloc>(() => alloc)
-        //                            .Fetch(x => x.CInfo).Eager
-        //                             .Fetch(x => x.CInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.CInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .And(() => info.IsInRecovery == isInRecovery)
-        //                            .List<CAlloc>();
-        //    return cAllocations;
-        //}
-
         #region by Product
 
         public static IList<Alloc> GetAllocations(ScbEnums.Products products, ISession session)
@@ -307,42 +269,6 @@ namespace BillingService.CustBillView
                                     .List<Alloc>();
             return eAllocations;
         }
-
-        //public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, ISession session)
-        //{
-        //    RAlloc alloc = null;
-        //    RInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
-        //                            .Fetch(x => x.RInfo).Eager
-        //                            .Fetch(x => x.RInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .List<RAlloc>();
-        //    return rAllocations;
-        //}
-
-        //public static IList<CAlloc> GetCAllocations(ScbEnums.Products products, ISession session)
-        //{
-        //    CAlloc alloc = null;
-        //    CInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var cAllocations = session.QueryOver<CAlloc>(() => alloc)
-        //                            .Fetch(x => x.CInfo).Eager
-        //                             .Fetch(x => x.CInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.CInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .List<CAlloc>();
-        //    return cAllocations;
-        //}
 
         #endregion
 
@@ -366,48 +292,124 @@ namespace BillingService.CustBillView
                                     .List<Alloc>();
             return cAllocations;
         }
-
-        //public static IList<EAlloc> GetEAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
-        //{
-        //    EAlloc alloc = null;
-        //    EInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var eAllocations = session.QueryOver<EAlloc>(() => alloc)
-        //                            .Fetch(x => x.EInfo).Eager
-        //                            .Fetch(x => x.EInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.EInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-        //                            .List<EAlloc>();
-        //    return eAllocations;
-        //}
-
-        //public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
-        //{
-        //    RAlloc alloc = null;
-        //    RInfo info = null;
-        //    GPincode pincode = null;
-        //    Stakeholders stakeholders = null;
-        //    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
-        //                            .Fetch(x => x.RInfo).Eager
-        //                            .Fetch(x => x.RInfo.GPincode).Eager
-        //                            .Fetch(x => x.Stakeholder).Eager
-        //                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-        //                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-        //                            .Where(() => info.Product == products)
-        //                            .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-        //                            .List<RAlloc>();
-        //    return rAllocations;
-        //}
-
         #endregion
-
 
         #endregion
     }
 }
+
+//public static IList<EAlloc> GetEAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
+//{
+//    EAlloc alloc = null;
+//    EInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var eAllocations = session.QueryOver<EAlloc>(() => alloc)
+//                            .Fetch(x => x.EInfo).Eager
+//                            .Fetch(x => x.EInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.EInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
+//                            .List<EAlloc>();
+//    return eAllocations;
+//}
+
+//public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
+//{
+//    RAlloc alloc = null;
+//    RInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
+//                            .Fetch(x => x.RInfo).Eager
+//                            .Fetch(x => x.RInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
+//                            .List<RAlloc>();
+//    return rAllocations;
+//}
+
+
+
+//public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, ISession session)
+//{
+//    RAlloc alloc = null;
+//    RInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
+//                            .Fetch(x => x.RInfo).Eager
+//                            .Fetch(x => x.RInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .List<RAlloc>();
+//    return rAllocations;
+//}
+
+//public static IList<CAlloc> GetCAllocations(ScbEnums.Products products, ISession session)
+//{
+//    CAlloc alloc = null;
+//    CInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var cAllocations = session.QueryOver<CAlloc>(() => alloc)
+//                            .Fetch(x => x.CInfo).Eager
+//                             .Fetch(x => x.CInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.CInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .List<CAlloc>();
+//    return cAllocations;
+//}
+
+
+
+//public static IList<RAlloc> GetRAllocations(ScbEnums.Products products, bool isInRecovery, ISession session)
+//{
+//    RAlloc alloc = null;
+//    RInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var rAllocations = session.QueryOver<RAlloc>(() => alloc)
+//                            .Fetch(x => x.RInfo).Eager
+//                            .Fetch(x => x.RInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.RInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .And(() => info.IsInRecovery == isInRecovery)
+//                            .List<RAlloc>();
+//    return rAllocations;
+//}
+
+//public static IList<CAlloc> GetCAllocations(ScbEnums.Products products, bool isInRecovery, ISession session)
+//{
+//    CAlloc alloc = null;
+//    CInfo info = null;
+//    GPincode pincode = null;
+//    Stakeholders stakeholders = null;
+//    var cAllocations = session.QueryOver<CAlloc>(() => alloc)
+//                            .Fetch(x => x.CInfo).Eager
+//                             .Fetch(x => x.CInfo.GPincode).Eager
+//                            .Fetch(x => x.Stakeholder).Eager
+//                            .JoinQueryOver(() => alloc.CInfo, () => info, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+//                            .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+//                            .Where(() => info.Product == products)
+//                            .And(() => info.IsInRecovery == isInRecovery)
+//                            .List<CAlloc>();
+//    return cAllocations;
+//}

@@ -57,6 +57,8 @@
   <ItemGroup>
     <Compile Include="BaseTypes\IQueryBuilder.cs" />
     <Compile Include="BaseTypes\QueryBuilder.cs" />
+    <Compile Include="GenericBuilder\GConfigBuilder.cs" />
+    <Compile Include="StakeholderBuilder\AddressQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakePaymentQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakeWorkingQueryBuilder.cs" />

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Allocation.ViewModels;
 using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.SqlCommand;
+using System.Linq;
 
 #endregion
 
@@ -18,21 +18,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
     public class AllocationBulkChangeController : ApiController
     {
         private static readonly StakeQueryBuilder StakeQuery =new StakeQueryBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder(); 
+
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<ProductConfig>()
-                                      .Select(x => x.Product)
-                                      .List<ScbEnums.Products>();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return ProductConfigBuilder.GetProducts();
         }
 
         [HttpGet]
