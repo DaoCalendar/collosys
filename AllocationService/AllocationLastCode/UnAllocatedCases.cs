@@ -11,6 +11,8 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 
 #endregion
 
@@ -18,12 +20,14 @@ namespace ColloSys.AllocationService.AllocationLastCode
 {
     public static class UnAllocatedCases
     {
+        private static readonly InfoBuilder InfoBuilder =new InfoBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
         public static void Init(ScbEnums.Products products)
         {
-            var infoData = DbLayer.GetUnAllocatedCases<Info>(products);
-            DbLayer.SaveList(SetList(infoData,products));
+            var infoData =InfoBuilder.UnAllocatedCases(products).ToList();
+            InfoBuilder.SaveList(SetList(infoData,products));
             var allocList = SetAllocList(infoData);
-            DbLayer.SaveList(allocList);
+            AllocBuilder.SaveList(allocList);
         }
 
         private static IList<Alloc> SetAllocList(List<Info> eInfoData)

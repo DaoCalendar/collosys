@@ -29,7 +29,7 @@ namespace ColloSys.AllocationService.IgnoreCases
                 if (products == ScbEnums.Products.UNKNOWN)
                     continue;
 
-                var dataCLiner = DataAccess.GetInfoData<Info>(products);
+                var dataCLiner = DataAccess.GetInfoData(products);
                 if (dataCLiner.Any())
                     listAll.AddRange(IgnoreLinerCases(dataCLiner, products));
 

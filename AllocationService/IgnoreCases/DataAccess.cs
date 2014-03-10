@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 
 #endregion
 
@@ -17,42 +18,14 @@ namespace ColloSys.AllocationService.IgnoreCases
 {
     internal static class DataAccess
     {
-        public static IList<TLinerWriteOff> GetLinerWriteOffData<TLinerWriteOff>(ScbEnums.Products products)
-            where TLinerWriteOff : Entity, IFileUploadable, IDelinquentCustomer
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
+
+        public static IEnumerable<Info> GetInfoData(ScbEnums.Products products)
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<TLinerWriteOff>()
-                                      .Where(x => x.FileDate == Util.GetTodayDate())
-                                      .And(x => x.Product == products)
-                                      .And(x => x.AllocStatus == ColloSysEnums.AllocStatus.None)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return InfoBuilder.IgnoreAllocated(products);
         }
 
-        public static IList<TInfo> GetInfoData<TInfo>(ScbEnums.Products products)
-           where TInfo : Entity, IDelinquentCustomer
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<TInfo>()
-                                      .Where(x => x.Product == products)
-                                      .And(x=>x.AllocEndDate!=null)
-                                      .And(x=>x.AllocEndDate<Util.GetTodayDate())
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
-        }
-
+        //TODO: check here for query layer
         public static TLinerWriteOff CheckInInfo<TLinerWriteOff>(TLinerWriteOff linerWriteOff)
             //where TInfo : SharedInfo
             where TLinerWriteOff : Entity, IDelinquentCustomer
@@ -61,16 +34,7 @@ namespace ColloSys.AllocationService.IgnoreCases
             {
                 using (var trans = session.BeginTransaction())
                 {
-                    //var data = session.QueryOver<TInfo>()
-                    //                  .Where(x => x.AccountNo == linerWriteOff.AccountNo)
-                    //                  .And(x => x.AllocStartDate < Util.GetTodayDate())
-                    //                  .And(x => x.AllocEndDate > Util.GetTodayDate())
-                    //                  .SingleOrDefault();
-                    //if (data == null)
-                    //{
-                    //    trans.Rollback();
-                    //    return null;
-                    //}
+                    
                     var linerWriteoffold = session.QueryOver<TLinerWriteOff>()
                                           .Where(x => x.AccountNo == linerWriteOff.AccountNo)
                                           .And(x=>x.AllocStatus!=ColloSysEnums.AllocStatus.None)

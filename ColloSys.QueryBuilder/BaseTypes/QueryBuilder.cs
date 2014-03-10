@@ -40,6 +40,16 @@ namespace ColloSys.QueryBuilder.BaseTypes
             session.Save(obj);
         }
 
+        [Transaction(Persist = true)]
+        public virtual void SaveList(IList<T> listOfObjects)
+        {
+            var session = SessionManager.GetCurrentSession();
+            foreach (var obj in listOfObjects)
+            {
+                session.Save(obj);
+            }
+        }
+
         [Transaction]
         public virtual IEnumerable<T> ExecuteQuery(QueryOver<T> query)
         {

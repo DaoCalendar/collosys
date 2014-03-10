@@ -10,6 +10,8 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.ClientDataBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 
 #endregion
 
@@ -18,24 +20,25 @@ namespace ColloSys.AllocationService.PincodeEntry
 {
     public static class LinerWriteoffPincodes
     {
+        private static readonly InfoBuilder InfoBuilder = new InfoBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
         public static void Init()
         {
             // get pincode list
-            var pincodelist = DBLayer.DbLayer.PincodeList();
+            var pincodelist = GPincodeBuilder.GetAll().ToList();
 
             foreach (ScbEnums.Products products in Enum.GetValues(typeof(ScbEnums.Products)))
             {
                 if (products == ScbEnums.Products.UNKNOWN)
                     continue;
 
-                var clinerData = DbLayer.GetDataLinerWriteOffData<Info>(products);
+                var clinerData = InfoBuilder.NonPincodeEntries(products).ToList();
                 if (clinerData.Count > 0)
                     AssignPincodes(pincodelist, clinerData);
             }
         }
 
-        private static void AssignPincodes<T>(IList<GPincode> pincodes, List<T> dataList)
-            where T : Entity, IDelinquentCustomer
+        private static void AssignPincodes(IList<GPincode> pincodes, List<Info> dataList)
         {
             dataList.ForEach(x => x.GPincode = pincodes
                                                    .Where(y => y.Pincode == x.Pincode)
@@ -50,7 +53,7 @@ namespace ColloSys.AllocationService.PincodeEntry
                     x.NoAllocResons = ColloSysEnums.NoAllocResons.None;
                     x.AllocEndDate = DateTime.Now;
                 });
-            DbLayer.SaveList(saveList);
+            InfoBuilder.SaveList(saveList);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
         T GetWithId(Guid id);
         IList<T> GetOnExpression(Expression<Func<T,bool>>  expression);
         void Save(T obj);
+        void SaveList(IList<T> listOfObjects);
 
         IEnumerable<T> ExecuteQuery(QueryOver<T> query);
         QueryOver<T,T> DefaultQuery();
