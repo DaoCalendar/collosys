@@ -785,125 +785,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 //#endregion
 
 //#region input directives
-
 // 2be: file, button, password
-
-//csapp.directive("csDateField", ["$csfactory", "$compile", "csInputHelper", "Logger", function ($csfactory, $compile, helper, logger) {
-
-//    var $log = logger.getInstance("csDateField");
-
-//    //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
-//    var fieldHtml = function (options) {
-//        return '<div class="input-append">' +
-//                '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true" data-ng-model="ngModel" ' +
-//                    ' data-ng-required="options.required" data-date-min-view-mode="' + options.minViewMode + '" ' +
-//                    ' data-date-days-of-week-disabled="' + options.daysOfWeekDisabled + '" data-date-format="' + options.format + '" ' +
-//                    ' placeholder="{{options.placeholder}}" data-date-start-date="' + options.startDate + '"' +
-//                    ' data-date-end-date="' + options.endDate + '" bs-datepicker="" >' +
-//                '<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
-//            '</div>';
-//    };
-
-//    var applyTemplate = function (options) {
-//        if (angular.isUndefined(options.template) || options.template === null) {
-//            return;
-//        }
-
-//        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
-//        angular.forEach(tmpl, function (template) {
-//            if (template.length < 1) return;
-//            switch (template) {
-//                case "MonthPicker":
-//                    options.minViewMode = "months";
-//                    break;
-//                case "YearPicker":
-//                    options.minViewMode = "years";
-//                    break;
-//                case "future":
-//                    options.startDate = "+0";
-//                    break;
-//                case "past":
-//                    options.endDate = "+0";
-//                    break;
-//                default:
-//                    $log.error(template + " is not defined.");
-//            }
-//            return;
-//        });
-//    };
-
-//    var manageViewMode = function (options) {
-//        //month/year modes
-//        if ($csfactory.isNullOrEmptyString(options.minViewMode)) {
-//            options.minViewMode = 0;
-//        } else if (options.minViewMode === "1" || options.minViewMode === "months") {
-//            options.minViewMode = 1;
-//        } else if (options.minViewMode === "2" || options.minViewMode === "years") {
-//            options.minViewMode = 2;
-//        } else {
-//            options.minViewMode = 0;
-//        }
-
-//        //format
-//        if (options.minViewMode === 0) {
-//            options.format = "dd-M-yyyy";
-//        } else if (options.minViewMode === 1) {
-//            options.format = "M-yyyy";
-//        } else {
-//            options.format = ".yyyy";
-//        }
-
-//        //min date        
-//        if ($csfactory.isNullOrEmptyString(options.startDate)) {
-//            if (options.minViewMode === 0) {
-//                options.startDate = '01-Jan-1800';
-//            } else if (options.minViewMode === 1) {
-//                options.startDate = 'Jan-1800';
-//            } else {
-//                options.startDate = '.1800';
-//            }
-//        }
-
-//        //max date
-//        if ($csfactory.isNullOrEmptyString(options.endDate)) {
-//            if (options.minViewMode === 0) {
-//                options.endDate = '31-Dec-2400';
-//            } else if (options.minViewMode === 1) {
-//                options.endDate = 'Dec-2400';
-//            } else {
-//                options.endDate = '.2400';
-//            }
-
-//        }
-//    };
-
-//    var validateOptions = function (options) {
-//        if ($csfactory.isNullOrEmptyString(options.label)) {
-//            options.label = "Date";
-//        }
-
-//        if ($csfactory.isNullOrEmptyString(options.daysOfWeekDisabled)) {
-//            options.daysOfWeekDisabled = '[]';
-//        }
-//    };
-
-//    var compileFunction = function (element) {
-//        return function (scope) {
-//            applyTemplate(scope.options);
-//            manageViewMode(scope.options);
-//            validateOptions(scope.options);
-//            element.html(helper.getFieldHtml(fieldHtml, scope.options));
-//            $compile(element.contents())(scope);
-//        };
-//    };
-
-//    return {
-//        scope: { options: '=', ngModel: '=' },
-//        required: ['ngModel', '^form'],
-//        restrict: 'E',
-//        compile: compileFunction
-//    };
-//}]);
 
 csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $compile) {
 
@@ -965,107 +847,110 @@ csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $co
     };
 }]);
 
-csapp.directive("csInput", ["$csfactory", "$compile", "Logger", function ($csfactory, $compile, logManager) {
+csapp.directive("csInput", ["csTemplateFactory", "csNumberFieldFactory", "csTextFieldFactory", "csEmailFieldFactory", "csTextareaFieldFactory", "csCheckBoxFieldFactory",
+    "csEnumFieldFactory", "csSelectFieldFactory", "csRadioFieldFactory", "csDateFieldFactory", "$compile", "Logger",
+    function (templatefactory, numberFactory, textfactory, emailfactory, textareafactory, checkboxfactory, enumfactory, selectfactory, radiofactory, datefactory, $compile, logManager) {
 
-    var getFactoryByType = function (type) {
-        switch (type) {
-            case "textarea":
-                return textarea;
-            case "uint":
-            case "int":
-            case "ulong":
-            case "long":
-            case "decimal":
-                return numberBox;
-            case "text":
-                return text;
-            case "email":
-                return email;
-            case "checkbox":
-                return checkbox;
-            case "radio":
-                return radio;
-            case "select":
-                return select;
-            default:
-                throw "Invalid type specification in csInput directive : " + type;
-        }
+        var $log = logManager.getInstance("csInput");
+
+        var getFactory = function (type) {
+            switch (type) {
+                case "text":
+                    return textfactory;
+                case "int":
+                case "uint":
+                case "long":
+                case "ulong":
+                case "phone":
+                case "decimal":
+                case "userId":
+                    return numberFactory;
+                case "email":
+                    return emailfactory;
+                case "textarea":
+                    return textareafactory;
+                case "checkbox":
+                    return checkboxfactory;
+                case "enum":
+                    return enumfactory;
+                case "select":
+                    return selectfactory;
+                case "radio":
+                    return radiofactory;
+                case "date":
+                    return datefactory;
+                default:
+                    $log.error("Invalid type : " + type);
+                    return null;
+            }
+        };
+
+        var checkAttrs = function (scope) {
+            if (angular.isDefined(scope.csTypeahead)) {
+                scope.csTypeahead = scope.csTypeahead.substring(1, scope.csTypeahead.length - 1);
+                console.log(scope.csTypeahead);
+            }
+        };
+
+        var factory;
+        var render = function (scope, element) {
+            checkAttrs(scope);
+            factory = getFactory(scope.options.type);
+            factory.checkOptions(scope);
+            var innertemplate = factory.htmlTemplate(scope);
+            var template = templatefactory.getTemplate(innertemplate);
+            console.log(template);
+            element.html(template);
+            $compile(element.contents())(scope);
+        };
+
+        var linkFunction = function (scope, element) {
+            scope.array = ['a1', 'a2', 'a3'];
+            render(scope, element);
+        };
+
+        return {
+            scope: { options: '=', ngModel: '@', ngChange: '&', ngClick: '&', csRepeat: '@', textField: '@', valueField: '@', csTypeahead: '@' },
+            restrict: 'E',
+            link: linkFunction,
+            require: ['ngModel', '^form']
+        };
+    }]);
+
+csapp.factory("csTemplateFactory", function () {
+    var template = function (innertemplate) {
+        var string = '<div class="control-group" >' +
+                    '<div class="control-label">{{options.label}} <span class="text-error">{{options.required ? "*" : ""}} </span></div>' +
+                    '<div class="controls">';
+        string += innertemplate;
+        string += '</div>' + //controls
+            '</div>';
+        return string;
     };
-
-    var fieldLayoutHtml = function (factory, scope) {
-
-        var html = '<div ng-form="myform">' +
-            '<div class="control-group" class="{{options.class}}" >' +
-            '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
-            '<div class="controls">';
-
-        html += factory.htmlTemplate(scope);
-
-        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required!!!</div>' +
-                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
-                '</div>';
-
-        html += '</div>' + //controls
-            '</div>' + // control-group
-            '</div>'; //ng-form;
-
-        return html;
-    };
-
-    var linkFunction = function (scope, element) { //scope, element, attr, ctrl
-        console.log("executing link function...");
-        //scope.$digest();
-        var factory = getFactoryByType(scope.options.type);
-        factory.checkOptions(scope);
-        element.html(fieldLayoutHtml(factory, scope));
-        $compile(element.contents())(scope);
-    };
-
     return {
-        restrict: 'E',
-        scope: { options: '=', ngModel: '=', ngChange: '&' },
-        require: ['ngModel', '^form'],
-        link: linkFunction
+        getTemplate: template
     };
-}]);
-
-// all checked
-
-csapp.directive("csTemplate", [function () {
+});
+csapp.directive("csTemplate", ["csTemplateFactory", function (csInputTemplate) {
 
     var getTemplate = function () {
-        var html =  '<div class="control-group" >' +
-                    '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
-                    '<div class="controls">';
-
-        html += '<div ng-transclude></div>';
-
-        html += '</div>' + //controls
-            '</div>'; // control-group
-
-        return html;
+        var inner = '<div ng-transclude></div>';
+        return csInputTemplate.getTemplate(inner);
     };
 
     return {
-        scope: { options: '=' }, //scopeName: 'csTemplateDirectiveScope' },
+        scope: { options: '=' },
         restrict: 'E',
         transclude: true,
-        replace: true,
         template: getTemplate
     };
 }]);
 
-csapp.directive("csTextField", ["$compile", "Logger", function ($compile, logManager) {
+csapp.factory("csTextFieldFactory", ["$csfactory", "Logger", function ($csfactory, logManager) {
 
-    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength
     var $log = logManager.getInstance("csTextField");
 
-    var formTemplate = function(scope) {
+    var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
         html += templateFunction(scope);
@@ -1077,25 +962,42 @@ csapp.directive("csTextField", ["$compile", "Logger", function ($compile, logMan
                     '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
                 '</div>';
 
-        html += '</div>' ; //ng-form;
+        html += '</div>'; //ng-form;
 
         return html;
     };
 
-    var validateOptions = function (options) {
+    var templateFunction = function (scope) {
+        console.log(scope);
+        var html = '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ';
+
+        if (!$csfactory.isNullOrEmptyString(scope.csTypeahead))
+            html += 'typeahead="' + scope.csTypeahead + '" ';
+
+
+        html += ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
+         ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.ngModel + '"/>';
+        
+        return html;
+    };
+
+    var validateOptions = function (scope) {
+        applyTemplates(scope);
+
         // manage lengths
-        options.minlength = options.length || options.minlength || 0;
-        options.maxlength = options.length || options.maxlength || 250;
-        options.minlength = (options.minlength >= 0 && options.minlength <= 250) ? options.minlength : 0;
-        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 250) ? options.maxlength : 250;
-        if (options.minlength > options.maxlength) {
-            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+        scope.options.minlength = scope.options.length || scope.options.minlength || 0;
+        scope.options.maxlength = scope.options.length || scope.options.maxlength || 250;
+        scope.options.minlength = (scope.options.minlength >= 0 && scope.options.minlength <= 250) ? scope.options.minlength : 0;
+        scope.options.maxlength = (scope.options.maxlength >= 0 && scope.options.maxlength <= 250) ? scope.options.maxlength : 250;
+        if (scope.options.minlength > scope.options.maxlength) {
+            var error = "minlength(" + scope.options.minlength + ") cannot be greather than maxlength(" + scope.options.maxlength + ").";
             $log.error(error); throw error;
         }
 
-        options.label = options.label || "Text";
-        options.patternMessage = options.patternMessage || ("Input is not matching with pattern : " + options.pattern);
-        options.readonly = options.readonly || options.disabled || false;
+        scope.options.label = scope.options.label || "Text";
+        scope.options.patternMessage = scope.options.patternMessage || ("Input is not matching with pattern : " + scope.options.pattern);
+        scope.options.readonly = scope.options.readonly || scope.options.disabled || false;
     };
 
     var applyTemplates = function (options) {
@@ -1134,40 +1036,39 @@ csapp.directive("csTextField", ["$compile", "Logger", function ($compile, logMan
         });
     };
 
-    var templateFunction = function (scope) {
-        var html =      '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-                            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
-                            ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
-                            ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
-        return html;
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
     };
+}]);
+csapp.directive("csTextField", ["$compile", "csTextFieldFactory", function ($compile, csTextFieldFactory) {
 
+    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength
     var linkFunction = function (scope, element) {
-        applyTemplates(scope.options);
-        validateOptions(scope.options);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        csTextFieldFactory.checkOptions(scope);
+        var template = csTextFieldFactory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
         link: linkFunction,
-        
+        require: 'ngModel'
     };
 }]);
 
-csapp.directive("csNumberField", ["$csfactory", "$compile", "Logger", function ($csfactory, $compile, logManager) {
+csapp.factory("csNumberFieldFactory", ["Logger", function (logManager) {
 
     var $log = logManager.getInstance("csNumberField");
 
-    //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength, min, max
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
         html += templateFunction(scope);
 
-        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty">' +
                     '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
                     '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
                     '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
@@ -1195,15 +1096,15 @@ csapp.directive("csNumberField", ["$csfactory", "$compile", "Logger", function (
             ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}"  ng-maxlength="{{options.maxlength}}" ' +
             ' step="any" ng-readonly="options.readonly"  max="{{options.max}}" min="{{options.min}}" ' +
             ' autofocus="options.autofocus" autocomplete="off" data-ng-change="ngChange()" ' +
-            ' data-ng-model="$parent.$parent.' + scope.csModel + '"';
-        
+            ' data-ng-model="$parent.$parent.' + scope.ngModel + '"';
+
         if (scope.options.type === 'phone')//adjusts the size of the number input box
             html += 'class="input-medium"';
-        
+
         html += '/>';
 
         html += '</div>';
-        
+
         return html;
     };
 
@@ -1248,18 +1149,25 @@ csapp.directive("csNumberField", ["$csfactory", "$compile", "Logger", function (
         scope.options.patternMessage = scope.options.patternMessage || "Value cannot have non-numeric character/s.";
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csNumberField", ["$compile", "csNumberFieldFactory", function ($compile, factory) {
+
     var linkFunction = function (scope, element) {
-        applyTemplates(scope.options);
-        validateOptions(scope);
-        var template = formTemplate(scope);
-       
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
-        link: linkFunction
+        link: linkFunction,
+        require: 'ngModel'
     };
 }]);
 
@@ -1294,9 +1202,8 @@ csapp.directive("csInputSuffix", function () {
     };
 });
 
-csapp.directive("csEmailField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+csapp.factory("csEmailFieldFactory", ["Logger", function (logManager) {
 
-    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1320,7 +1227,7 @@ csapp.directive("csEmailField", ["$csfactory", "$compile", function ($csfactory,
             '<span class="add-on"><i class="icon-envelope"></i></span>' +
             '<input type="email" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
             'ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" data-ng-change="ngChange()" ' +
-            'ng-maxlength="{{options.maxlength}}" data-ng-model="$parent.$parent.' + scope.csModel + '" ';
+            'ng-maxlength="{{options.maxlength}}" data-ng-model="$parent.$parent.' + scope.ngModel + '" ';
         if (hasSuffix) {
             string += 'class="input-medium" cs-input-suffix suffix="{{options.suffix}}" />';
         } else {
@@ -1343,23 +1250,32 @@ csapp.directive("csEmailField", ["$csfactory", "$compile", function ($csfactory,
         scope.options.patternMessage = "Input is not a valid email address.";
     };
 
+
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csEmailField", ["$compile", "csEmailFieldFactory", function ($compile, factory) {
+
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        console.log("rendering email field");
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope.options);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
         link: linkFunction
     };
 }]);
 
-csapp.directive("csTextareaField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+csapp.factory("csTextareaFieldFactory", ["Logger", function (logManager) {
 
-    //options:label, placeholder, pattern, minlength, maxlength, readonly, required
+    var $log = logManager.getInstance("csTextField");
+
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1381,7 +1297,7 @@ csapp.directive("csTextareaField", ["$csfactory", "$compile", function ($csfacto
                     'ng-readonly="options.readonly" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ' +
                     'rows="{{options.rows}}" cols="{{options.columns}}" autofocus="options.autofocus" ' +
                     'data-ng-change="ngChange()"' +
-                    ' data-ng-model="$parent.$parent.' + scope.csModel + '"/>';
+                    ' data-ng-model="$parent.$parent.' + scope.ngModel + '"/>';
         return string;
     };
 
@@ -1394,22 +1310,31 @@ csapp.directive("csTextareaField", ["$csfactory", "$compile", function ($csfacto
         scope.options.readonly = scope.options.readonly || scope.options.disabled;
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csTextareaField", ["$compile", "csTextareaFieldFactory", function ($compile, factory) {
+
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope.options);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
         link: linkFunction
     };
 }]);
 
-csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    
-    //options: label, required, checked
+csapp.factory("csCheckBoxFieldFactory", ["Logger", function (logManager) {
+
+    var $log = logManager.getInstance("csCheckboxField");
+
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1427,7 +1352,7 @@ csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfacto
     var templateFunction = function (scope) {
 
         var string = '<input type="checkbox" name="myfield"  ng-required="options.required" ' +
-           ' data-ng-model="$parent.$parent.' + scope.csModel + '" data-ng-click="ngClick()" ' +
+           ' data-ng-model="$parent.$parent.' + scope.ngModel + '" data-ng-click="ngClick()" ' +
             'data-ng-change="ngChange()"/>';
 
         return string;
@@ -1438,10 +1363,19 @@ csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfacto
         scope.options.label = scope.options.label || "CheckBox";
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csCheckboxField", ["$compile", "csCheckBoxFieldFactory", function ($compile, factory) {
+
+    //options: label, required, checked
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope.options);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
@@ -1451,9 +1385,10 @@ csapp.directive("csCheckboxField", ["$csfactory", "$compile", function ($csfacto
     };
 }]);
 
-csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    
-    //options:label, required, values 
+csapp.factory("csEnumFieldFactory", ["Logger", function (logManager) {
+
+    var $log = logManager.getInstance("csEnumField");
+
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1471,7 +1406,7 @@ csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, 
     var templateFunction = function (scope) {
 
         var string = '<select data-ui-select2="" class="input-large" ng-required="options.required"  ' +
-                    'data-ng-model="$parent.$parent.' + scope.csModel + '" name="myfield" ' +
+                    'data-ng-model="$parent.$parent.' + scope.ngModel + '" name="myfield" ' +
                     'data-ng-change="ngChange()">' +
                     ' <option value=""></option> ' +
                     ' <option data-ng-repeat="row in options.values" value="{{row}}">{{row}}</option>' +
@@ -1484,22 +1419,33 @@ csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, 
         scope.options.label = scope.options.label || "SelectBox";
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    //options:label, required, values 
+
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope.options);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
         link: linkFunction
     };
 }]);
 
-csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+csapp.factory("csSelectFieldFactory", ["Logger", function (logManager) {
 
-    //options:label, required 
+    var $log = logManager.getInstance("csSelectField");
+
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1507,11 +1453,6 @@ csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory
 
         html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
                     '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
-                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
                 '</div>';
 
         html += '</div>'; //ng-form;
@@ -1521,12 +1462,12 @@ csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory
 
     var templateFunction = function (scope) {
 
-        var string = '<select  data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
+        var string = '<select  data-ng-model="$parent.$parent.' + scope.ngModel + '" ' +
                  'name="myfield" ' +
                  'ng-required="options.required" ' +
                  'data-ng-change="ngChange()">' +
                     ' <option value=""></option> ' +
-                    ' <option data-ng-repeat="' + scope.options.csRepeat + '"value="{{' + scope.valueField + '}}">{{'+scope.options.textField+'}}</option>' +
+                    ' <option data-ng-repeat="' + scope.options.csRepeat + '"value="{{' + scope.options.valueField + '}}">{{' + scope.options.textField + '}}</option>' +
                 '</select> ';
 
         return string;
@@ -1535,28 +1476,40 @@ csapp.directive("csSelectField", ["$csfactory", "$compile", function ($csfactory
     var validateOptions = function (scope) {
         scope.options.label = scope.options.label || "SelectBox";
         //set params on options
-        scope.options.csRepeat = "row in $parent.$parent." + scope.csRepeat.substring(1, scope.csRepeat.length - 1);
-        scope.options.textField = scope.textField;
-        //scope.options.valueField = scope.valueField ? "row." + scope.valueField : "row";
+        scope.options.csRepeat = "row in $parent." + scope.csRepeat.substring(1, scope.csRepeat.length - 1);
+        scope.options.textField = scope.textField ? "row." + scope.textField : "row";
+        scope.options.valueField = scope.valueField ? "row." + scope.valueField : "row";
         //console.log(scope.options.csRepeat);
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csSelectField", ["$compile", "csSelectFieldFactory", function ($compile, factory) {
+
+    //options:label, required 
+
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope);
+        var template = factory.htmlTemplate(scope);
+
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', csRepeat: '@', textField: '@', valueField: '@' },
+        scope: { options: '=', ngModel: '@', ngChange: '&', csRepeat: '@', textField: '@', valueField: '@' },
         restrict: 'E',
         link: linkFunction
     };
 }]);
 
-csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory, $compile) {
-    
-    //$scope.gender = { label: "Gender", required: true, textField: "text2", options: [{ text2: "Male", value: "yes" }, { text2: "Female", value: "no" }] };
+csapp.factory("csRadioFieldFactory", ["Logger", function (logManager) {
+
+    var $log = logManager.getInstance("csRadioField");
+
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1575,7 +1528,7 @@ csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory,
 
         var string = '<div class="radio" ng-repeat="(key, record) in options.options">' +
                     '<label> <input type="radio" name="myfield" value="{{' + scope.options.valueField + '}}" ' +
-                                'data-ng-model="$parent.$parent.$parent.' + scope.csModel + '" ' +
+                                'data-ng-model="$parent.$parent.' + scope.ngModel + '" ' +
                                 'data-ng-change="ngChange()" ' +
                                 'ng-required="options.required"  />{{' + scope.options.textField + '}}' +
                     '</label>' +
@@ -1590,27 +1543,32 @@ csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory,
         scope.options.valueField = scope.valueField ? "record." + scope.valueField : "record";
     };
 
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csRadioField", ["$csfactory", "$compile", function ($csfactory, $compile) {
+
+    //$scope.gender = { label: "Gender", required: true, textField: "text2", options: [{ text2: "Male", value: "yes" }, { text2: "Female", value: "no" }] };
+
     var linkFunction = function (scope, element) {
-        validateOptions(scope);
-        var template = formTemplate(scope);
-        element.replaceWith($compile(template)(scope));
+        factory.checkOptions(scope.options);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange', textField: '@', valueField: '@' },
+        scope: { options: '=', ngModel: '@', ngChange: '&csChange', textField: '@', valueField: '@' },
         restrict: 'E',
         link: linkFunction
     };
 }]);
 
-csapp.directive("csDateField", ["$csfactory", "$compile",  "Logger", function ($csfactory, $compile, logger) {
+csapp.factory("csDateFieldFactory", ["$csfactory", "Logger", function ($csfactory, logManager) {
 
-    var $log = logger.getInstance("csDateField");
-
-    //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
-   
-
-
+    var $log = logManager.getInstance("csDateField");
     var formTemplate = function (scope) {
         var html = '<div ng-form="myform">';
 
@@ -1630,35 +1588,35 @@ csapp.directive("csDateField", ["$csfactory", "$compile",  "Logger", function ($
     var templateFunction = function (scope) {
         return '<div class="input-append">' +
                 '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true" ' +
-                    'data-ng-model="$parent.$parent.' + scope.csModel + '" ' +
+                    'data-ng-model="$parent.$parent.' + scope.ngModel + '" ' +
                     ' data-ng-required="options.required" data-date-min-view-mode="' + scope.options.minViewMode + '" ' +
                     ' data-date-days-of-week-disabled="' + scope.options.daysOfWeekDisabled + '" data-date-format="' + scope.options.format + '" ' +
                     ' placeholder="{{options.placeholder}}" data-date-start-date="' + scope.options.startDate + '"' +
-                    ' data-date-end-date="' + scope.options.endDate + '" bs-datepicker="" >' +
+                    ' data-date-end-date="' + scope.options.endDate + '" bs-datepicker="" data-ng-change="ngChange()">' +
                 '<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
             '</div>';
     };
 
-    var applyTemplate = function (options) {
-        if (angular.isUndefined(options.template) || options.template === null) {
+    var applyTemplate = function (scope) {
+        if (angular.isUndefined(scope.options.template) || scope.options.template === null) {
             return;
         }
 
-        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+        var tmpl = scope.options.template.split(",").filter(function (str) { return str !== ''; });
         angular.forEach(tmpl, function (template) {
             if (template.length < 1) return;
             switch (template) {
                 case "MonthPicker":
-                    options.minViewMode = "months";
+                    scope.options.minViewMode = "months";
                     break;
                 case "YearPicker":
-                    options.minViewMode = "years";
+                    scope.options.minViewMode = "years";
                     break;
                 case "future":
-                    options.startDate = "+0";
+                    scope.options.startDate = "+0";
                     break;
                 case "past":
-                    options.endDate = "+0";
+                    scope.options.endDate = "+0";
                     break;
                 default:
                     $log.error(template + " is not defined.");
@@ -1667,73 +1625,87 @@ csapp.directive("csDateField", ["$csfactory", "$compile",  "Logger", function ($
         });
     };
 
-    var manageViewMode = function (options) {
+    var manageViewMode = function (scope) {
         //month/year modes
-        if ($csfactory.isNullOrEmptyString(options.minViewMode)) {
-            options.minViewMode = 0;
-        } else if (options.minViewMode === "1" || options.minViewMode === "months") {
-            options.minViewMode = 1;
-        } else if (options.minViewMode === "2" || options.minViewMode === "years") {
-            options.minViewMode = 2;
+        if ($csfactory.isNullOrEmptyString(scope.options.minViewMode)) {
+            scope.options.minViewMode = 0;
+        } else if (scope.options.minViewMode === "1" || scope.options.minViewMode === "months") {
+            scope.options.minViewMode = 1;
+        } else if (scope.options.minViewMode === "2" || scope.options.minViewMode === "years") {
+            scope.options.minViewMode = 2;
         } else {
-            options.minViewMode = 0;
+            scope.options.minViewMode = 0;
         }
 
         //format
-        if (options.minViewMode === 0) {
-            options.format = "dd-M-yyyy";
-        } else if (options.minViewMode === 1) {
-            options.format = "M-yyyy";
+        if (scope.options.minViewMode === 0) {
+            scope.options.format = "dd-M-yyyy";
+        } else if (scope.options.minViewMode === 1) {
+            scope.options.format = "M-yyyy";
         } else {
-            options.format = ".yyyy";
+            scope.options.format = ".yyyy";
         }
 
         //min date        
-        if ($csfactory.isNullOrEmptyString(options.startDate)) {
-            if (options.minViewMode === 0) {
-                options.startDate = '01-Jan-1800';
-            } else if (options.minViewMode === 1) {
-                options.startDate = 'Jan-1800';
+        if ($csfactory.isNullOrEmptyString(scope.options.startDate)) {
+            if (scope.options.minViewMode === 0) {
+                scope.options.startDate = '01-Jan-1800';
+            } else if (scope.options.minViewMode === 1) {
+                scope.options.startDate = 'Jan-1800';
             } else {
-                options.startDate = '.1800';
+                scope.options.startDate = '.1800';
             }
         }
 
         //max date
-        if ($csfactory.isNullOrEmptyString(options.endDate)) {
-            if (options.minViewMode === 0) {
-                options.endDate = '31-Dec-2400';
-            } else if (options.minViewMode === 1) {
-                options.endDate = 'Dec-2400';
+        if ($csfactory.isNullOrEmptyString(scope.options.endDate)) {
+            if (scope.options.minViewMode === 0) {
+                scope.options.endDate = '31-Dec-2400';
+            } else if (scope.options.minViewMode === 1) {
+                scope.options.endDate = 'Dec-2400';
             } else {
-                options.endDate = '.2400';
+                scope.options.endDate = '.2400';
             }
 
         }
     };
 
-    var validateOptions = function (options) {
-        if ($csfactory.isNullOrEmptyString(options.label)) {
-            options.label = "Date";
+    var validateOptions = function (scope) {
+        applyTemplate(scope);
+        manageViewMode(scope);
+        if ($csfactory.isNullOrEmptyString(scope.options.label)) {
+            scope.options.label = "Date";
         }
 
-        if ($csfactory.isNullOrEmptyString(options.daysOfWeekDisabled)) {
-            options.daysOfWeekDisabled = '[]';
+        if ($csfactory.isNullOrEmptyString(scope.options.daysOfWeekDisabled)) {
+            scope.daysOfWeekDisabled = '[]';
         }
     };
 
-    var linkFunction = function (scope,element) {
-        
-            applyTemplate(scope.options);
-            manageViewMode(scope.options);
-            validateOptions(scope.options);
-            var template = formTemplate(scope);
-            element.replaceWith($compile(template)(scope));
-        
+
+    return {
+        applyTemplate: applyTemplate,
+        manageViewMode: manageViewMode,
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+csapp.directive("csDateField", ["$compile", "Logger", "$csfactory", function ($compile, logger, factory) {
+
+    var $log = logger.getInstance("csDateField");
+
+    //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
+
+    var linkFunction = function (scope, element) {
+        factory.checkOptions(scope);
+        var template = factory.htmlTemplate(scope);
+        element.html(template);
+        $compile(element.contents())(scope);
+
     };
 
     return {
-        scope: { options: '=', csModel: '@csModel', ngChange: '&csChange' },
+        scope: { options: '=', ngModel: '@', ngChange: '&' },
         restrict: 'E',
         link: linkFunction
     };

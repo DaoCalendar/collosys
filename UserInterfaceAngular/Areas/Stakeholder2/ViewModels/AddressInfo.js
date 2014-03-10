@@ -5,7 +5,6 @@ csapp.controller('addressCntrl', ['$scope', '$http', 'Restangular', '$csfactory'
 
         var apistake = rest.all('StakeholderApi');
         var init = function () {
-            debugger;
             $scope.addData = {
                 Pincode: '',
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy()

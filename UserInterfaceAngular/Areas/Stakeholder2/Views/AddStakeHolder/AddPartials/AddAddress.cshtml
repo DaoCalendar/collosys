@@ -1,61 +1,20 @@
 ﻿<div class="form-horizontal " data-ng-controller="addressCntrl" data-ng-show="addData.Hierarchy.HasAddress">
-
-
     <div class="row-fluid">
-        <!--Line-1-->
-        @*     <div class="control-group span5">
-            <label class="control-label">Line 1 <label style="font-size:large; color:red">*</label></label>
-            <div class="controls">
-                <input type="text" 
-                       data-ng-maxlength="100" 
-                       name="line1" 
-                       data-ng-model="$parent.WizardData.FinalPostModel.Address.Line1" 
-                    data-ng-required="addData.Hierarchy.HasAddress" />
-
-                <!--Line1 validation-->
-                <div data-ng-show="addressDetailsForm.line1.$dirty">
-                    <span class="field-validation-error" data-ng-show="addressDetailsForm.line1.$error.required">{{val.Required()}}</span>
-                    <div class="field-validation-error" data-ng-show="addressDetailsForm.line1.$error.maxlength">{{val.MaxLength(100)}}</div>
-                </div>
-            </div>
-        </div>*@
-        <cs-template options="$parent.stakeholderModel.Line1">
-            <cs-input-field options="$parent.stakeholderModel.Line1"
-                            cs-model="$parent.WizardData.FinalPostModel.Address.Line1"></cs-input-field>
-        </cs-template>
+        <div class="span5">
+            <cs-input ui-if="addData.Hierarchy.HasAddress" options="$parent.stakeholderModel.Line1"
+                ng-model="$parent.WizardData.FinalPostModel.Address.Line1"></cs-input>
+        </div>
         <!--Line-2-->
-        <div class="control-group span5">
-            <label class="control-label">Line 2 <label style="font-size:large; color:red">*</label></label>
-            <div class="controls">
-                <input 
-                    type="text" 
-                    class="input-large" 
-                    name="line2" 
-                    data-ng-model="$parent.WizardData.FinalPostModel.Address.Line2" 
-                    data-ng-maxlength="100" 
-                    data-ng-required="addData.Hierarchy.HasAddress">
-                <!--Line2 validation-->
-                <div data-ng-show="addressDetailsForm.line2.$dirty ">
-                    <span class="field-validation-error" data-ng-show="addressDetailsForm.line2.$error.required">{{val.Required()}}</span>
-                    <div class="field-validation-error" data-ng-show="addressDetailsForm.line2.$error.maxlength">{{val.MaxLength(100)}}</div>
-                </div>
-            </div>
+        <div class="span5">
+            <cs-input ui-if="addData.Hierarchy.HasAddress" options="$parent.stakeholderModel.Line2"
+                ng-model="$parent.WizardData.FinalPostModel.Address.Line2"></cs-input>
         </div>
     </div>
 
     <div class="row-fluid">
-        <!--Line-3-->
-        <div class="control-group span5">
-            <label class="control-label">Line 3</label>
-            <div class="controls">
-                <input 
-                    type="text" 
-                    data-ng-maxlength="100" 
-                    name="line3" 
-                    data-ng-model="$parent.WizardData.FinalPostModel.Address.Line3" 
-                    />
-                <div class="field-validation-error" data-ng-show="addressDetailsForm.line3.$error.maxlength">{{val.MaxLength(100)}}</div>
-            </div>
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.Line3"
+                ng-model="$parent.WizardData.FinalPostModel.Address.Line3"></cs-input>
         </div>
         <!--Landline No-->
         <div class="control-group span5">
@@ -76,12 +35,72 @@
 
     <!--Pincode-->
     <div class="row-fluid">
-        <div class="control-group span5">
-            <label class="control-label">Pincode <label style="font-size:large; color:red">*</label></label>
+        <cs-input options="$parent.stakeholderModel.Pincode"
+                  ng-model="addData.Pincode"
+                  cs-typeahead="'c.Area for c in $parent.$parent.Pincodes($viewValue, 'Area')'"  
+                  data-ng-change="setPincodeOnArea(addData.Pincode)" ></cs-input>
+    </div>
+</div>
+
+
+<!--Line-1-->
+@*     <div class="control-group span5">
+            <label class="control-label">Line 1 <label style="font-size:large; color:red">*</label></label>
+            <div class="controls">
+                <input type="text" 
+                       data-ng-maxlength="100" 
+                       name="line1" 
+                       data-ng-model="$parent.WizardData.FinalPostModel.Address.Line1" 
+                    data-ng-required="addData.Hierarchy.HasAddress" />
+
+                <!--Line1 validation-->
+                <div data-ng-show="addressDetailsForm.line1.$dirty">
+                    <span class="field-validation-error" data-ng-show="addressDetailsForm.line1.$error.required">{{val.Required()}}</span>
+                    <div class="field-validation-error" data-ng-show="addressDetailsForm.line1.$error.maxlength">{{val.MaxLength(100)}}</div>
+                </div>
+            </div>
+        </div>*@
+
+
+@* <div class="control-group span5">
+            <label class="control-label">Line 2 <label style="font-size:large; color:red">*</label></label>
+            <div class="controls">
+                <input 
+                    type="text" 
+                    class="input-large" 
+                    name="line2" 
+                    data-ng-model="$parent.WizardData.FinalPostModel.Address.Line2" 
+                    data-ng-maxlength="100" 
+                    data-ng-required="addData.Hierarchy.HasAddress">
+                <!--Line2 validation-->
+                <div data-ng-show="addressDetailsForm.line2.$dirty ">
+                    <span class="field-validation-error" data-ng-show="addressDetailsForm.line2.$error.required">{{val.Required()}}</span>
+                    <div class="field-validation-error" data-ng-show="addressDetailsForm.line2.$error.maxlength">{{val.MaxLength(100)}}</div>
+                </div>
+            </div>
+        </div>*@
+
+<!--Line-3-->
+@* <div class="control-group span5">
+            <label class="control-label">Line 3</label>
+            <div class="controls">
+                <input 
+                    type="text" 
+                    data-ng-maxlength="100" 
+                    name="line3" 
+                    data-ng-model="$parent.WizardData.FinalPostModel.Address.Line3" 
+                    />
+                <div class="field-validation-error" data-ng-show="addressDetailsForm.line3.$error.maxlength">{{val.MaxLength(100)}}</div>
+            </div>
+        </div>*@
+
+ @*<div class="control-group span5">
+            <label class="control-label">Pincode
+                <label style="font-size: large; color: red">*</label></label>
             <div class="controls">
                 <input type="text"
                     name="Pincode"
-                       class="input-medium"
+                    class="input-medium"
                     maxlength="6"
                     data-ng-model="addData.Pincode"
                     typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
@@ -92,6 +111,4 @@
                     <span class="field-validation-error" data-ng-show="addressDetailsForm.Pincode.$error.required">{{val.Required()}}</span>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </div>*@

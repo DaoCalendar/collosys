@@ -1,25 +1,27 @@
 ﻿<div data-ng-controller="StakeHierarchy">
     <div class="row-fluid">
-        <cs-template options="$parent.hierarchyModel.Hierarchy">
-            <cs-select-field options="$parent.hierarchyModel.Hierarchy" 
+       
+            <cs-input options="$parent.hierarchyModel.Hierarchy" 
                              cs-repeat="'HierarchyList | unique : 'Hierarchy''"
-                             text-field="row.Hierarchy"
-                             value-field="row.Hierarchy"
-                             cs-model="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
-                             cs-change="changeInHierarchy()">
-            </cs-select-field>
-         </cs-template>
+                             text-field="Hierarchy"
+                             value-field="Hierarchy"
+                             ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
+                             ng-change="changeInHierarchy()">
+            </cs-input>
+        
 
         <div data-ui-if="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy">
-            <cs-template options="$parent.hierarchyModel.Designation">
-                <cs-select-field options="$parent.hierarchyModel.Designation" 
-                                 cs-repeat="'Designation'"
-                                 text-field="row.Designation"
-                                 value-field="row.Id"   
-                                 cs-model="$parent.WizardData.FinalPostModel.SelHierarchy.Designation" 
-                                 cs-change="assignSelectedHier()">
-            </cs-select-field>
-         </cs-template>
+          
+            <cs-input options="$parent.hierarchyModel.Designation" 
+                      cs-repeat="'Designation'"
+                      text-field="Designation"
+                      value-field="Id"   
+                      ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Designation" 
+                      ng-change="assignSelectedHier()">
+            </cs-input>
+            
+
+        
         </div>
     </div>
 </div>
