@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Generic.Models;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
@@ -33,6 +34,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -75,11 +77,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetPincodesCity(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.City.StartsWith(pin))
-                              .Take(100)
-                              .ToList();
+            var list = GPincodeBuilder.OnPinOrCity(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.City into g select g.First()).ToList();
@@ -89,11 +87,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetPincodesArea(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.Area.StartsWith(pin))
-                              .Select(x => x)
-                              .Take(100).ToList();
+            var list = GPincodeBuilder.OnPinOrArea(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.Area into g select g.First()).ToList();
