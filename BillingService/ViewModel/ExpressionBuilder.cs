@@ -207,7 +207,7 @@ namespace BillingService.ViewModel
                     Logger.Info(string.Format("Product : {0}, Formula : {1} give value : {2}", products, bCondition.RtypeName, formulaValue));
                     return formulaValue;
                 case ColloSysEnums.PayoutLRType.Matrix:
-                    var matrixValue = MatrixCalulater.CalculateMatrix<T>(products, bCondition.RtypeName, data);
+                    var matrixValue = MatrixCalculator.CalculateMatrix<T>(products, bCondition.RtypeName, data);
 
                     Logger.Info(string.Format("Product : {0}, Matrix : {1} give value : {2}", products, bCondition.RtypeName, matrixValue));
                     return matrixValue;

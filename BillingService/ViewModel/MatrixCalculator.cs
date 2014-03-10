@@ -8,14 +8,16 @@ using BillingService.DBLayer;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
 
 namespace BillingService.ViewModel
 {
-    public class MatrixCalulater
+    public class MatrixCalculator
     {
+        private static readonly BMatrixBuilder BMatrixBuilder=new BMatrixBuilder();
         public static decimal CalculateMatrix<T>(ScbEnums.Products products, string matrixName, List<T> data)
         {
-            var matrix = BMatrixDbLayer.GetMatrix(products, matrixName);
+            var matrix =BMatrixBuilder.OnProductAndName(products, matrixName);
 
             if (matrix == null)
                 return 0;

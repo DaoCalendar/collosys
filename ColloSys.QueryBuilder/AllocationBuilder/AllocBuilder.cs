@@ -1,5 +1,6 @@
 ﻿#region references
 
+using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
@@ -42,13 +43,52 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                              .Select(x => x.Info)
                                              .List<Info>();
         }
+
+        [Transaction]
+        public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, bool isInRecovery)
+        {
+            Alloc alloc = null;
+            Info info = null;
+            GPincode pincode = null;
+            Stakeholders stakeholders = null;
+            return SessionManager.GetCurrentSession().QueryOver<Alloc>(() => alloc)
+                                    .Fetch(x => x.Info).Eager
+                                    .Fetch(x => x.Info.GPincode).Eager
+                                    .Fetch(x => x.Stakeholder).Eager
+                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
+                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+                                    .Where(() => info.Product == products)
+                                    .And(() => info.IsInRecovery == isInRecovery)
+                                    .List<Alloc>();
+            
+        }
+
+        [Transaction]
+        public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, DateTime startDate, DateTime endDate)
+        {
+            Alloc alloc = null;
+            Info info = null;
+            GPincode pincode = null;
+            Stakeholders stakeholders = null;
+            return SessionManager.GetCurrentSession().QueryOver<Alloc>(() => alloc)
+                                    .Fetch(x => x.Info).Eager
+                                     .Fetch(x => x.Info.GPincode).Eager
+                                    .Fetch(x => x.Stakeholder).Eager
+                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
+                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+                                    .Where(() => info.Product == products)
+                                    .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
+                                    .List<Alloc>();
+        }
     }
 
     public class AllocConditionBuilder : QueryBuilder<AllocCondition>
     {
         public override QueryOver<AllocCondition, AllocCondition> DefaultQuery()
         {
-            throw new System.NotImplementedException();
+            return QueryOver.Of<AllocCondition>();
         }
     }
 
@@ -56,7 +96,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
     {
         public override QueryOver<AllocPolicy, AllocPolicy> DefaultQuery()
         {
-            throw new System.NotImplementedException();
+            return QueryOver.Of<AllocPolicy>();
         }
 
         [Transaction]
@@ -91,7 +131,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
     {
         public override QueryOver<AllocRelation, AllocRelation> DefaultQuery()
         {
-            throw new System.NotImplementedException();
+            return QueryOver.Of<AllocRelation>();
         }
     }
 
@@ -99,7 +139,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
     {
         public override QueryOver<AllocSubpolicy, AllocSubpolicy> DefaultQuery()
         {
-            throw new System.NotImplementedException();
+            return QueryOver.Of<AllocSubpolicy>();
         }
     }
 }

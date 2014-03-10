@@ -16,56 +16,56 @@ namespace BillingService.DBLayer
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         // get list of billing subpolicy based on billing policy and category
-        public static IList<BillingSubpolicy> GetSubpolicies(BillingPolicy billingPolicy, uint billMonth)
-        {
-            var startDate = DateTime.ParseExact(string.Format("{0}01", billMonth), "yyyyMMdd",
-                                               CultureInfo.InvariantCulture);
+        //public static IList<BillingSubpolicy> GetSubpolicies(BillingPolicy billingPolicy, uint billMonth)
+        //{
+        //    var startDate = DateTime.ParseExact(string.Format("{0}01", billMonth), "yyyyMMdd",
+        //                                       CultureInfo.InvariantCulture);
 
-            if (billingPolicy == null)
-                return new List<BillingSubpolicy>();
+        //    if (billingPolicy == null)
+        //        return new List<BillingSubpolicy>();
 
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
+        //    try
+        //    {
+        //        var session = SessionManager.GetCurrentSession();
 
-                var billingSubpolicy = session.QueryOver<BillingRelation>()
-                                              .Fetch(x => x.BillingSubpolicy).Eager
-                                              .Fetch(x => x.BillingSubpolicy.BConditions).Eager
-                                              .Where(x => x.BillingPolicy.Id == billingPolicy.Id)
-                                              .And(x => (x.EndDate == null || x.EndDate >= startDate))
-                                              .Select(x => x.BillingSubpolicy)
-                                              .OrderBy(x => x.Priority).Asc
-                                              .List<BillingSubpolicy>();
-                return billingSubpolicy;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+        //        var billingSubpolicy = session.QueryOver<BillingRelation>()
+        //                                      .Fetch(x => x.BillingSubpolicy).Eager
+        //                                      .Fetch(x => x.BillingSubpolicy.BConditions).Eager
+        //                                      .Where(x => x.BillingPolicy.Id == billingPolicy.Id)
+        //                                      .And(x => (x.EndDate == null || x.EndDate >= startDate))
+        //                                      .Select(x => x.BillingSubpolicy)
+        //                                      .OrderBy(x => x.Priority).Asc
+        //                                      .List<BillingSubpolicy>();
+        //        return billingSubpolicy;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
 
-                return new List<BillingSubpolicy>();
-            }
-        }
+        //        return new List<BillingSubpolicy>();
+        //    }
+        //}
 
 
-        public static BillingSubpolicy GetFormula(ScbEnums.Products products, string formulaName)
-        {
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
+        //public static BillingSubpolicy GetFormula(ScbEnums.Products products, string formulaName)
+        //{
+        //    try
+        //    {
+        //        var session = SessionManager.GetCurrentSession();
 
-                var formula = session.QueryOver<BillingSubpolicy>()
-                                     .Fetch(x => x.BConditions).Eager
-                                     .Where(x => x.Products == products
-                                         && x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
-                                     .And(x => x.Name == formulaName)
-                                     .SingleOrDefault();
-                return formula;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
-                return null;
-            }
-        }
+        //        var formula = session.QueryOver<BillingSubpolicy>()
+        //                             .Fetch(x => x.BConditions).Eager
+        //                             .Where(x => x.Products == products
+        //                                 && x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
+        //                             .And(x => x.Name == formulaName)
+        //                             .SingleOrDefault();
+        //        return formula;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+        //        return null;
+        //    }
+        //}
     }
 }

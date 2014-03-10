@@ -54,21 +54,16 @@
   <ItemGroup>
     <Compile Include="BillingService.cs" />
     <Compile Include="CustBillView\ProcessCustBillView.cs" />
-    <Compile Include="DBLayer\BillAdhocDbLayer.cs" />
-    <Compile Include="DBLayer\BillDetailDbLayer.cs" />
     <Compile Include="DBLayer\BillStatusDbLayer.cs" />
-    <Compile Include="DBLayer\BillingPolicyDbLayer.cs" />
-    <Compile Include="DBLayer\BMatrixDbLayer.cs" />
     <Compile Include="DBLayer\CustBillViewModelDbLayer.cs" />
     <Compile Include="DBLayer\MoveProductDbLayer.cs" />
-    <Compile Include="DBLayer\StakeholderDbLayer.cs" />
     <Compile Include="Logging\NLogSetup.cs" />
     <Compile Include="MoveProductToPayment\MoveProductInfoToPayment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\Util.cs" />
     <Compile Include="ViewModel\ExpressionBuilder.cs" />
     <Compile Include="ViewModel\FormulaBuilder.cs" />
-    <Compile Include="ViewModel\MatrixCalulater.cs" />
+    <Compile Include="ViewModel\MatrixCalculator.cs" />
     <Compile Include="ViewModel\Payouts.cs" />
   </ItemGroup>
   <ItemGroup>

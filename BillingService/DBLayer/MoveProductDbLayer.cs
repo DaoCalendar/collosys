@@ -7,6 +7,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using NHibernate.Criterion;
 
 #endregion
@@ -16,25 +17,21 @@ namespace BillingService.DBLayer
 {
     public class MoveProductDbLayer
     {
-        
-        public static IList<T> GetpaymentData<T>() where T : Payment
+        private static readonly PaymentBuilder PaymentBuilder=new PaymentBuilder();
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
+
+        public static IList<Payment> GetpaymentData() 
         {
-            var _session = SessionManager.GetCurrentSession();
-            var data = _session.QueryOver<T>()
-                               .Where(x => x.Products == ScbEnums.Products.UNKNOWN)
-                               .List();
+            var data = PaymentBuilder.GetOnExpression(x => x.Products == ScbEnums.Products.UNKNOWN);
             return data;
         }
 
-        public static List<TPayment> SetPaymentToProduct<TInfo, TPayment>(IEnumerable<Payment> payments)
-            where TInfo : Info
-            where TPayment : Payment
+        public static List<Payment> SetPaymentToProduct(IEnumerable<Payment> payments)
         {
-            var _session = SessionManager.GetCurrentSession();
-            var query = QueryOver.Of<TPayment>()
+            var query = QueryOver.Of<Payment>()
                                 .Where(x => x.Products == ScbEnums.Products.UNKNOWN).Select(x => x.AccountNo);
 
-            var customerinfo = _session.QueryOver<TInfo>().WithSubquery.WhereExists(query).List();
+            var customerinfo = InfoBuilder.ForUnkownProduct(query).ToList();
 
             var paymentList = (from payemnt in payments
                                join info in customerinfo on payemnt.AccountNo equals info.AccountNo
@@ -42,20 +39,12 @@ namespace BillingService.DBLayer
 
             paymentList.ForEach(x => x.Products = customerinfo.Single(y => y.AccountNo == x.AccountNo).Product);
 
-            return paymentList.Cast<TPayment>().ToList();
+            return paymentList;
         }
 
-        public static void SaveList(IEnumerable<Entity> payments)
+        public static void SaveList(IEnumerable<Payment> payments)
         {
-            var _session = SessionManager.GetCurrentSession();
-            using (var trans = _session.BeginTransaction())
-            {
-                foreach (var payment in payments)
-                {
-                    _session.SaveOrUpdate(payment);
-                }
-                trans.Commit();
-            }
+            PaymentBuilder.SaveList(payments.ToList());
         }
     }
 }

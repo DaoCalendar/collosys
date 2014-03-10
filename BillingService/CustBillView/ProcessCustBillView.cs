@@ -12,6 +12,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using NHibernate;
 using NHibernate.SqlCommand;
 
@@ -22,97 +24,22 @@ namespace BillingService.CustBillView
 {
     public class ProcessCustBillView
     {
-        public static List<CustBillViewModel> GetBillingServiceData(ScbEnums.Products products)
+        private static readonly PaymentBuilder PaymentBuilder=new PaymentBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
+
+
+
+        public static IEnumerable<CustBillViewModel> GetBillingServiceData(ScbEnums.Products products, bool isInRecovery)
         {
             var billingViewModel = new List<CustBillViewModel>();
 
-            var session = SessionManager.GetCurrentSession();
 
-            var systemOnProduct = Util.GetSystemOnProduct(products);
-            var allocations = GetAllocations(products, session);
-            var payments = GetPayment<Payment>(session);
-            billingViewModel.AddRange(allocations.Select(alloc => CreateCustBillViewModel(alloc, alloc.Info, payments)));
-            //switch (systemOnProduct)
-            //{
-            //    case ScbEnums.ScbSystems.CCMS:
-            //        var cAllocations = GetCAllocations(products, session);
-            //        var cPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(cAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, cPayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.EBBS:
-            //        var eAllocations = GetAllocations(products, session);
-            //        var ePayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(eAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, ePayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.RLS:
-            //        var rAllocations = GetRAllocations(products, session);
-            //        var rPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(rAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, rPayments))
-            //                                      .ToList());
-            //        break;
-            //    default:
-            //        throw new ArgumentOutOfRangeException();
-            //}
-
-            return billingViewModel;
-        }
-
-        public static List<CustBillViewModel> GetBillingServiceData(ScbEnums.Products products, bool isInRecovery)
-        {
-            var billingViewModel = new List<CustBillViewModel>();
-
-            var session = SessionManager.GetCurrentSession();
-
-            var systemOnProduct = Util.GetSystemOnProduct(products);
-
-            var cAllocations = GetAllocations(products, isInRecovery, session);
-            var cPayments = GetPayment<Payment>(session);
+            var cAllocations = AllocBuilder.ForBilling(products, isInRecovery);
+            var cPayments = PaymentBuilder.GetAll().ToList();
             billingViewModel.AddRange(cAllocations
                                           .Select(allocation =>
                                                   CreateCustBillViewModel(allocation, allocation.Info, cPayments))
                                           .ToList());
-            //switch (systemOnProduct)
-            //{
-            //    case ScbEnums.ScbSystems.CCMS:
-            //        var cAllocations = GetCAllocations(products, isInRecovery, session);
-            //        var cPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(cAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, cPayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.EBBS:
-            //        var eAllocations = GetAllocations(products, isInRecovery, session);
-            //        var ePayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(eAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, ePayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.RLS:
-            //        var rAllocations = GetRAllocations(products, isInRecovery, session);
-            //        var rPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(rAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, rPayments))
-            //                                      .ToList());
-            //        break;
-            //    default:
-            //        throw new ArgumentOutOfRangeException();
-            //}
-
             return billingViewModel;
         }
 
@@ -120,60 +47,20 @@ namespace BillingService.CustBillView
         {
             var billingViewModel = new List<CustBillViewModel>();
 
-            var session = SessionManager.GetCurrentSession();
-
-            var systemOnProduct = Util.GetSystemOnProduct(products);
-
             DateTime startDate = DateTime.ParseExact(string.Format("{0}01", billMonth), "yyyyMMdd",
                                                 CultureInfo.InvariantCulture); ;
             DateTime endDate = startDate.AddMonths(1).AddDays(-1);
 
-            var cAllocations = GetAllocations(products, startDate, endDate, session);
-            var cPayments = GetPayment<Payment>(session);
+            var cAllocations = AllocBuilder.ForBilling(products, startDate, endDate).ToList();
+            var cPayments = PaymentBuilder.GetAll().ToList();
             billingViewModel.AddRange(cAllocations
                                           .Select(allocation =>
                                                   CreateCustBillViewModel(allocation, allocation.Info, cPayments))
                                           .ToList());
 
-            //switch (systemOnProduct)
-            //{
-            //    case ScbEnums.ScbSystems.CCMS:
-            //        var cAllocations = GetAllocations(products, startDate, endDate, session);
-            //        var cPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(cAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, cPayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.EBBS:
-            //        var eAllocations = GetEAllocations(products, startDate, endDate, session);
-            //        var ePayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(eAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, ePayments))
-            //                                      .ToList());
-            //        break;
-
-            //    case ScbEnums.ScbSystems.RLS:
-            //        var rAllocations = GetRAllocations(products, startDate, endDate, session);
-            //        var rPayments = GetPayment<Payment>(session);
-            //        billingViewModel.AddRange(rAllocations
-            //                                      .Select(allocation =>
-            //                                              CreateCustBillViewModel(allocation, allocation.Info, rPayments))
-            //                                      .ToList());
-            //        break;
-            //    default:
-            //        throw new ArgumentOutOfRangeException();
-            //}
+           
 
             return billingViewModel;
-        }
-
-        public static IList<Payment> GetPayment<T>(ISession session) where T : Payment
-        {
-            var cPayments = session.QueryOver<T>().List<Payment>();
-            return cPayments;
         }
 
         public static CustBillViewModel CreateCustBillViewModel(Alloc allocation, Info info, IList<Payment> payments)
@@ -194,17 +81,6 @@ namespace BillingService.CustBillView
             custBilViewModel.TotalDueOnAllocation = allocation.AmountDue;
             custBilViewModel.MobWriteoff = Util.GetMobWriteoff(info.ChargeofDate);
             custBilViewModel.Vintage = Util.GetVintage(custBilViewModel.MobWriteoff, custBilViewModel.Product);
-
-            var test1 = payments.Where(x => x.AccountNo == custBilViewModel.AccountNo);
-            var test2 = payments.Where(x => x.AccountNo == custBilViewModel.AccountNo
-                                            && (x.IsDebit && !x.IsExcluded));
-
-
-            var tets = payments.Where(x => (x.AccountNo == custBilViewModel.AccountNo)
-                                           && (x.TransDate.Date >= custBilViewModel.AllocationStartDate.Date)
-                                           && (custBilViewModel.AllocationEndDate != null && x.TransDate.Date <= custBilViewModel.AllocationEndDate.Value.Date)
-                                           && (x.IsDebit)
-                                           && (!x.IsExcluded));
 
             var debitAmount = payments.Where(x => x.AccountNo == custBilViewModel.AccountNo
                                                   && (x.TransDate >= custBilViewModel.AllocationStartDate.Date
@@ -228,75 +104,83 @@ namespace BillingService.CustBillView
 
             return custBilViewModel;
         }
-
-        #region get allocations
-
-        public static IList<Alloc> GetAllocations(ScbEnums.Products products, bool isInRecovery, ISession session)
-        {
-            Alloc alloc = null;
-            Info info = null;
-            GPincode pincode = null;
-            Stakeholders stakeholders = null;
-            var eAllocations = session.QueryOver<Alloc>(() => alloc)
-                                    .Fetch(x => x.Info).Eager
-                                    .Fetch(x => x.Info.GPincode).Eager
-                                    .Fetch(x => x.Stakeholder).Eager
-                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-                                    .Where(() => info.Product == products)
-                                    .And(() => info.IsInRecovery == isInRecovery)
-                                    .List<Alloc>();
-            return eAllocations;
-        }
-
-        #region by Product
-
-        public static IList<Alloc> GetAllocations(ScbEnums.Products products, ISession session)
-        {
-            Alloc alloc = null;
-            Info info = null;
-            GPincode pincode = null;
-            Stakeholders stakeholders = null;
-            var eAllocations = session.QueryOver<Alloc>(() => alloc)
-                                    .Fetch(x => x.Info).Eager
-                                    .Fetch(x => x.Info.GPincode).Eager
-                                    .Fetch(x => x.Stakeholder).Eager
-                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-                                    .Where(() => info.Product == products)
-                                    .List<Alloc>();
-            return eAllocations;
-        }
-
-        #endregion
-
-        #region start date end date data
-
-        public static IList<Alloc> GetAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
-        {
-            Alloc alloc = null;
-            Info info = null;
-            GPincode pincode = null;
-            Stakeholders stakeholders = null;
-            var cAllocations = session.QueryOver<Alloc>(() => alloc)
-                                    .Fetch(x => x.Info).Eager
-                                     .Fetch(x => x.Info.GPincode).Eager
-                                    .Fetch(x => x.Stakeholder).Eager
-                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-                                    .Where(() => info.Product == products)
-                                    .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-                                    .List<Alloc>();
-            return cAllocations;
-        }
-        #endregion
-
-        #endregion
     }
 }
+
+//public static List<CustBillViewModel> GetBillingServiceData(ScbEnums.Products products)
+//{
+//    var billingViewModel = new List<CustBillViewModel>();
+//    var allocations = AllocBuilder.ForBilling(products);
+//    var payments = PaymentBuilder.GetAll();
+//    billingViewModel.AddRange(allocations.Select(alloc => CreateCustBillViewModel(alloc, alloc.Info, payments)));
+//    return billingViewModel;
+//}
+
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+//        var cAllocations = GetAllocations(products, startDate, endDate, session);
+//        var cPayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(cAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, cPayments))
+//                                      .ToList());
+//        break;
+
+//    case ScbEnums.ScbSystems.EBBS:
+//        var eAllocations = GetEAllocations(products, startDate, endDate, session);
+//        var ePayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(eAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, ePayments))
+//                                      .ToList());
+//        break;
+
+//    case ScbEnums.ScbSystems.RLS:
+//        var rAllocations = GetRAllocations(products, startDate, endDate, session);
+//        var rPayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(rAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, rPayments))
+//                                      .ToList());
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+
+
+//switch (systemOnProduct)
+//{
+//    case ScbEnums.ScbSystems.CCMS:
+//        var cAllocations = GetCAllocations(products, session);
+//        var cPayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(cAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, cPayments))
+//                                      .ToList());
+//        break;
+
+//    case ScbEnums.ScbSystems.EBBS:
+//        var eAllocations = GetAllocations(products, session);
+//        var ePayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(eAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, ePayments))
+//                                      .ToList());
+//        break;
+
+//    case ScbEnums.ScbSystems.RLS:
+//        var rAllocations = GetRAllocations(products, session);
+//        var rPayments = GetPayment<Payment>(session);
+//        billingViewModel.AddRange(rAllocations
+//                                      .Select(allocation =>
+//                                              CreateCustBillViewModel(allocation, allocation.Info, rPayments))
+//                                      .ToList());
+//        break;
+//    default:
+//        throw new ArgumentOutOfRangeException();
+//}
+
 
 //public static IList<EAlloc> GetEAllocations(ScbEnums.Products products, DateTime startDate, DateTime endDate, ISession session)
 //{

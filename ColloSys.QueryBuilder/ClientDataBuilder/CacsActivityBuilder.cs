@@ -9,6 +9,7 @@ using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 
@@ -18,7 +19,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<Info, Info> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<Info>();
         }
 
         [Transaction]
@@ -59,13 +60,23 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
                                      .And(x => x.Pincode > 0)
                                      .List();
         }
+
+        [Transaction]
+        public IEnumerable<Info> ForUnkownProduct(QueryOver<Payment, Payment> query)
+        {
+           return SessionManager.GetCurrentSession()
+               .QueryOver<Info>()
+               .WithSubquery
+               .WhereExists(query)
+               .List();
+        }
     }
 
     public class PaymentBuilder : QueryBuilder<Payment>
     {
         public override QueryOver<Payment, Payment> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<Payment>();
         }
     }
 
@@ -73,7 +84,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<CacsActivity, CacsActivity> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<CacsActivity>();
         }
 
         [Transaction]
@@ -90,7 +101,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<CLiner, CLiner> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<CLiner>();
         }
     }
 
@@ -98,7 +109,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<CUnbilled, CUnbilled> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<CUnbilled>();
         }
     }
 
@@ -106,7 +117,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<CWriteoff, CWriteoff> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<CWriteoff>();
         }
     }
 
@@ -114,7 +125,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<ELiner, ELiner> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<ELiner>();
         }
     }
 
@@ -122,7 +133,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<EWriteoff, EWriteoff> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<EWriteoff>();
         }
     }
 
@@ -132,7 +143,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<RLiner, RLiner> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<RLiner>();
         }
     }
 
@@ -140,7 +151,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<RWriteoff, RWriteoff> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<RWriteoff>();
         }
     }
 }
