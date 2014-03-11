@@ -3,38 +3,34 @@
     <div data-ui-if="basicInfoData.Hierarchy.Hierarchy">
         <div class="row-fluid">
             <div class="span5">
-                <cs-template options="$parent.stakeholderModel.Name">
-                    <cs-text-field options="$parent.stakeholderModel.Name"
-                                   cs-model="$parent.WizardData.FinalPostModel.Stakeholder.Name">
-                    </cs-text-field>
-                </cs-template>
+
+                <cs-input options="$parent.stakeholderModel.Name"
+                    ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name">
+                    </cs-input>
+
             </div>
 
             <div class="span5" data-ng-show="basicInfoData.Hierarchy.IsUser">
-                <cs-template options="$parent.stakeholderModel.UserId">
-                <cs-number-field options="$parent.stakeholderModel.UserId"
-                                 cs-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
-                                 cs-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
-                </cs-number-field>
-                    </cs-template>
-                <div class="field-validation-error" data-ng-show="$parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>
+
+                <cs-input options="$parent.stakeholderModel.UserId"
+                    ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
+                    ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
+                </cs-input>
+
+                @*<div class="field-validation-error" data-ng-show="$parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>*@
             </div>
         </div>
 
         <!--MobileNo and EmailId-->
         <div class="row-fluid">
             <div class="span5">
-                <cs-template options="$parent.stakeholderModel.MobileNo">
-                        <cs-number-field options="$parent.stakeholderModel.MobileNo"
-                                 cs-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo" />
-                </cs-template>
+                <cs-input options="$parent.stakeholderModel.MobileNo"
+                    ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"></cs-input>
             </div>
 
             <div class="span5">
-                <cs-template options="$parent.stakeholderModel.Email">
-                    <cs-email-field options="$parent.stakeholderModel.Email" 
-                        cs-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"></cs-email-field>
-                </cs-template>
+                    <cs-input options="$parent.stakeholderModel.Email" 
+                        ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"></cs-input>
             </div>
         </div>
 
@@ -76,12 +72,10 @@
                     </select>
                 </div>
             </div>
-          
+
             <div class="span5">
-                <cs-template options="$parent.stakeholderModel.Date">
-                    <cs-date-field options="$parent.stakeholderModel.Date" 
-                        cs-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"></cs-date-field>
-                </cs-template>
+                    <cs-input options="$parent.stakeholderModel.Date" 
+                        ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"></cs-input>
             </div>
         </div>
     </div>
@@ -286,8 +280,8 @@
 
 
 
-  <!--Date of Starting-->
-            @*<div class="span5 control-group">
+<!--Date of Starting-->
+@*<div class="span5 control-group">
                 <label class="control-label" data-ng-hide="basicInfoData.Hierarchy.IsEmployee">
                     Date Of Starting
                     <label style="font-size: large; color: red">*</label></label>

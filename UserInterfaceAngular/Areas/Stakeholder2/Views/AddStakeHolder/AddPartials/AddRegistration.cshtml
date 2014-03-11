@@ -1,37 +1,37 @@
 ﻿<div class="form-horizontal" data-ng-controller="Registration">
     <div class="row-fluid">
         <div class="span5">
-            <cs-template options="$parent.stakeholderModel.TAN">
-                <cs-text-field options="$parent.stakeholderModel.TAN" 
-                               cs-model="$parent.WizardData.FinalPostModel.Registration.TanNo" >
-                </cs-text-field>
-            </cs-template>
+            
+                <cs-input options="$parent.stakeholderModel.TAN" 
+                               ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo" >
+                </cs-input>
+           
         </div>
         
         <div class="span5">
-            <cs-template options="$parent.stakeholderModel.PAN">
-                <cs-text-field options="$parent.stakeholderModel.PAN" 
-                               cs-model="$parent.WizardData.FinalPostModel.Registration.PanNo" >
-                </cs-text-field>
-            </cs-template>
+            
+                <cs-input options="$parent.stakeholderModel.PAN" 
+                               ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo" >
+                </cs-input>
+           
         </div>
     </div>
 
     <div class="row-fluid">
                <div class="span5">
-            <cs-template options="$parent.stakeholderModel.RegistrationNo">
-                <cs-text-field options="$parent.stakeholderModel.RegistrationNo" 
-                               cs-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo" >
-                </cs-text-field>
-            </cs-template>
+            
+                <cs-input options="$parent.stakeholderModel.RegistrationNo" 
+                               ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo" >
+                </cs-input>
+            
         </div>
        
           <div class="span5">
-            <cs-template options="$parent.stakeholderModel.ServiceTax">
-                <cs-text-field options="$parent.stakeholderModel.ServiceTax" 
-                               cs-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno" >
-                </cs-text-field>
-            </cs-template>
+            
+                <cs-input options="$parent.stakeholderModel.ServiceTax" 
+                               ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno" >
+                </cs-input>
+           
         </div>
     </div>
 </div>
