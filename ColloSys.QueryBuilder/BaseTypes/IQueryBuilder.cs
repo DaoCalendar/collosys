@@ -14,7 +14,9 @@ namespace ColloSys.QueryBuilder.BaseTypes
         IList<T> GetOnExpression(Expression<Func<T,bool>>  expression);
         void Save(T obj);
         void SaveList(IList<T> listOfObjects);
-
+        void Delete(T obj);
+        T Load(Guid id);
+        T Merge(T obj);
         IEnumerable<T> ExecuteQuery(QueryOver<T> query);
         QueryOver<T,T> DefaultQuery();
 

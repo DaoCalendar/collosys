@@ -50,6 +50,27 @@ namespace ColloSys.QueryBuilder.BaseTypes
             }
         }
 
+        [Transaction(Persist = true)]
+        public virtual void Delete(T obj)
+        {
+            var session = SessionManager.GetCurrentSession();
+            session.Delete(obj);
+        }
+
+        [Transaction(Persist = true)]
+        public virtual T Merge(T obj)
+        {
+            var session = SessionManager.GetCurrentSession();
+           return session.Merge(obj);
+        }
+
+        [Transaction]
+        public virtual T Load(Guid id)
+        {
+            var session = SessionManager.GetCurrentSession();
+            return session.Load<T>(id);
+        }
+
         [Transaction]
         public virtual IEnumerable<T> ExecuteQuery(QueryOver<T> query)
         {

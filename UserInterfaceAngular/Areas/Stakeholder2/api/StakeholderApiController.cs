@@ -31,9 +31,11 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
-        private static readonly AddressQueryBuilder AddressQuery=new AddressQueryBuilder();
-        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
-        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
+        private static readonly AddressQueryBuilder AddressQuery = new AddressQueryBuilder();
+        private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
+        private static readonly StakeWorkingQueryBuilder StakeWorkingBuilder = new StakeWorkingQueryBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -306,25 +308,17 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static void DeleteList(IEnumerable<Guid> addresslist, IEnumerable<Guid> paymentlist, IEnumerable<Guid> working)
         {
-            var session = SessionManager.GetCurrentSession();
-            using (var transaction = session.BeginTransaction())
+            foreach (var guid in addresslist)
             {
-                foreach (var guid in addresslist)
-                {
-                    session.Delete(session.Load<StakeAddress>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Address deleted with id: " + guid);
-                }
-                foreach (var guid in paymentlist)
-                {
-                    session.Delete(session.Load<StkhPayment>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Payment deleted with id: " + guid);
-                }
-                foreach (var guid in working)
-                {
-                    session.Delete(session.Load<StkhWorking>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Working deleted with id: " + guid);
-                }
-                transaction.Commit();
+                AddressQuery.Delete(AddressQuery.Load(guid));
+            }
+            foreach (var guid in paymentlist)
+            {
+                StakePaymentBuilder.Delete(StakePaymentBuilder.Load(guid));
+            }
+            foreach (var guid in working)
+            {
+                StakeWorkingBuilder.Delete(StakeWorkingBuilder.Load(guid));
             }
         }
 

@@ -12,6 +12,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
@@ -33,6 +34,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -144,9 +146,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
             if (finalPost.IsEditMode)
             {
-                var session = SessionManager.GetCurrentSession();
                 SetApprovalStatusEdit(stakeholders);
-                session.Merge(stakeholders);
+                StakeQuery.Merge(stakeholders);
                 _log.Info("Stakeholder is saved");
                 var result =
                     Request.CreateResponse(HttpStatusCode.Created, stakeholders);
@@ -167,8 +168,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                     return Request.CreateResponse(HttpStatusCode.BadRequest, obj);
                 }
             }
-
-
 
             try
             {
@@ -193,19 +192,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         public void AssignBillingPolicies(PayWorkModel payWork)
         {
-            var session = SessionManager.GetCurrentSession();
-            var collectionPolicy =
-                session.QueryOver<BillingPolicy>()
-                       .Where(x => x.Id == payWork.CollectionBillingPolicyId)
-                       .SingleOrDefault();
-            payWork.Payment.CollectionBillingPolicy = collectionPolicy;
-
-            var recoveryPolicy =
-                session.QueryOver<BillingPolicy>()
-                .Where(x => x.Id == payWork.RecoveryBillingPolicyId)
-                .SingleOrDefault();
-            payWork.Payment.RecoveryBillingPolicy = recoveryPolicy;
-
+            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.CollectionBillingPolicyId);
+            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.RecoveryBillingPolicyId);
         }
 
         private static void SetApprovalStatusInsert(Stakeholders stakeholders)

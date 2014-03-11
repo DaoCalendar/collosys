@@ -11,6 +11,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
@@ -33,6 +34,9 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
     {
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder(); 
         private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly AllocPolicyBuilder AllocPolicyBuilder=new AllocPolicyBuilder();
+        private static readonly AllocSubpolicyBuilder AllocSubpolicyBuilder=new AllocSubpolicyBuilder();
+        private static readonly AllocRelationBuilder AllocRelationBuilder=new AllocRelationBuilder();
         #region Get
 
         [HttpGet]
@@ -47,24 +51,8 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         [HttpTransaction]
         public HttpResponseMessage GetAllocPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
-            AllocPolicy policy = null;
-            AllocRelation relation = null;
-            AllocSubpolicy subpolicy = null;
-            AllocCondition condition = null;
-            Stakeholders stakeholder = null;
 
-            var allocPolicy = Session.QueryOver(() => policy)
-                                     .Fetch(x => x.AllocRelations).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-                                     .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-                                     .Where(() => policy.Products == products && policy.Category == category)
-
-                                     .SingleOrDefault();
+            var allocPolicy = AllocPolicyBuilder.NonApproved(products, category);
 
             // create new alloc policy
             var savedAllocSubpolicyIds = new List<Guid>();
@@ -86,14 +74,8 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 }
             }
 
-            var allocSubpolicies = Session.QueryOver<AllocSubpolicy>()
-                            .Where(x => x.Products == products && x.Category == category)
-                            .WhereRestrictionOn(x => x.Id)
-                            .Not.IsIn(savedAllocSubpolicyIds)
-                            .Fetch(x => x.Stakeholder).Eager
-                            .Fetch(x => x.Conditions).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .List();
+            var allocSubpolicies = AllocSubpolicyBuilder.OnProductCategorySubPolicyGuids(products, category,
+                                                                                         savedAllocSubpolicyIds).ToList();
 
             var allocPolicyVm = new AlloPolicyVm() { AllocPolicy = allocPolicy, UnUsedSubpolicies = allocSubpolicies };
 
@@ -109,11 +91,11 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             // murge BillingRelation into added BillingPolicy
             foreach (var billingRelation in obj.AllocRelations)
             {
-                billingRelation.AllocSubpolicy = Session.Get<AllocSubpolicy>(billingRelation.AllocSubpolicy.Id);
+                billingRelation.AllocSubpolicy = AllocSubpolicyBuilder.GetWithId(billingRelation.AllocSubpolicy.Id);
                 billingRelation.AllocPolicy = obj;
             }
 
-            Session.SaveOrUpdate(obj);
+            AllocPolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -140,8 +122,8 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 if (billingRelation.OrigEntityId == Guid.Empty)
                     continue;
 
-                var delrelation = Session.Load<AllocRelation>(billingRelation.OrigEntityId);
-                deletedRelation.Add(delrelation);
+                var delrelation = AllocRelationBuilder.Load(billingRelation.OrigEntityId);
+                AllocRelationBuilder.Delete(delrelation);
                 billingRelation.OrigEntityId = Guid.Empty;
             }
 
@@ -149,15 +131,14 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             {
                 if (deletedRelation.Any(x => x.Id == billingRelation.Id))
                 {
-                    Session.Delete(billingRelation);
+                    AllocRelationBuilder.Delete(billingRelation);
                     continue;
                 }
-                Session.SaveOrUpdate(billingRelation);
+                AllocRelationBuilder.Save(billingRelation);
             }
 
             obj.AllocRelations.RemoveAll(deletedRelation);
-
-            Session.SaveOrUpdate(obj);
+            AllocPolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -188,9 +169,8 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                     throw new InvalidDataException("Id provided is empty. No entity with such id exist.");
                 }
 
-                var relation = Session.Load<AllocRelation>(id);
-                Session.Delete(relation);
-
+                var relation = AllocRelationBuilder.Load(id);
+                AllocRelationBuilder.Delete(relation);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception e)

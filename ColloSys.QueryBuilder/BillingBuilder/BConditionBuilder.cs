@@ -10,6 +10,8 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate.Criterion;
+using NHibernate.Linq;
+using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
@@ -17,7 +19,15 @@ namespace ColloSys.QueryBuilder.BillingBuilder
     {
         public override QueryOver<BCondition, BCondition> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<BCondition>();
+        }
+
+        [Transaction]
+        public IEnumerable<BCondition> OnSubpolicyId(Guid subpolicyId)
+        {
+           return SessionManager.GetCurrentSession().QueryOver<BCondition>()
+                              .Where(c => c.BillingSubpolicy.Id == subpolicyId)
+                              .List();
         }
     }
 
@@ -25,7 +35,9 @@ namespace ColloSys.QueryBuilder.BillingBuilder
     {
         public override QueryOver<BillAdhoc, BillAdhoc> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<BillAdhoc>()
+                            .Fetch(x => x.Stakeholder).Eager
+                            .Fetch(x => x.BillDetails).Eager;
         }
 
         [Transaction]
@@ -46,6 +58,15 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return QueryOver.Of<BillAmount>();
         }
+        [Transaction]
+        public BillAmount OnStakeProductMonth(ScbEnums.Products products, Guid stakeId, int month)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<BillAmount>()
+               .Where(x => x.Stakeholder.Id == stakeId)
+               .And(x => x.Products == products)
+               .And(x => x.Month == month)
+               .SingleOrDefault();
+        }
     }
 
     public class BillDetailBuilder : QueryBuilder<BillDetail>
@@ -53,6 +74,19 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         public override QueryOver<BillDetail, BillDetail> DefaultQuery()
         {
             return QueryOver.Of<BillDetail>();
+        }
+
+        [Transaction]
+        public IEnumerable<BillDetail> OnStakeProductMonth(ScbEnums.Products products, Guid stakeId, int month)
+        {
+          return SessionManager.GetCurrentSession().QueryOver<BillDetail>()
+                                    .Fetch(x => x.BillingPolicy).Eager
+                                    .Fetch(x => x.BillingSubpolicy).Eager
+                                    .Fetch(x => x.PaymentSource).Eager
+                                    .Where(x => x.Stakeholder.Id == stakeId)
+                                    .And(x => x.Products == products)
+                                    .And(x => x.BillMonth == month)
+                                    .List();
         }
     }
 
@@ -62,6 +96,33 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return QueryOver.Of<BillingPolicy>();
         }
+
+        [Transaction]
+        public BillingPolicy OnProductCategory(ScbEnums.Products products, ScbEnums.Category category)
+        {
+           return SessionManager.GetCurrentSession().Query<BillingPolicy>()
+                                     .Where(x => x.Products == products && x.Category == category)
+                                     .FetchMany(x => x.BillingRelations)
+                                     .ThenFetch(r => r.BillingSubpolicy)
+                                     .ThenFetch(s => s.BConditions)
+                                     .SingleOrDefault();
+        }
+
+        [Transaction]
+        public IEnumerable<BillingPolicy> LinePolicies(ScbEnums.Products products)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<BillingPolicy>()
+                                 .Where(x => x.Products == products && x.Category == ScbEnums.Category.Liner)
+                                 .List();
+        }
+
+        [Transaction]
+        public IEnumerable<BillingPolicy> WriteoffPolicies(ScbEnums.Products products)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<BillingPolicy>()
+                                 .Where(x => x.Products == products && x.Category == ScbEnums.Category.WriteOff)
+                                 .List();
+        }
     }
 
     public class BillingRelationBuilder : QueryBuilder<BillingRelation>
@@ -70,13 +131,19 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return QueryOver.Of<BillingRelation>();
         }
+
+        [Transaction]
+        public BillingRelation OnSubpolicyId(Guid subpolicyId)
+        {
+           return SessionManager.GetCurrentSession().QueryOver<BillingRelation>().Where(x => x.BillingSubpolicy.Id == subpolicyId).SingleOrDefault();
+        }
     }
 
     public class BillingSubpolicyBuilder : QueryBuilder<BillingSubpolicy>
     {
         public override QueryOver<BillingSubpolicy, BillingSubpolicy> DefaultQuery()
         {
-            throw new NotImplementedException();
+            return QueryOver.Of<BillingSubpolicy>();
         }
 
         [Transaction]
@@ -99,6 +166,16 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
+        public IEnumerable<BillingSubpolicy> FormulaOnProductCategory(ScbEnums.Products product,
+                                                                      ScbEnums.Category category)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
+                                 .Where(c => c.Products == product && c.Category == category
+                                             && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
+                                 .List();
+        }
+        
+        [Transaction]
         public BillingSubpolicy FormulaOnProductAndName(ScbEnums.Products products, string formulaName)
         {
 
@@ -109,6 +186,29 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                  .And(x => x.Name == formulaName)
                                  .SingleOrDefault();
         }
+
+        [Transaction]
+        public IEnumerable<BillingSubpolicy> SubPoliciesInDb(ScbEnums.Products products,ScbEnums.Category category,List<Guid> savedSubnpoliciesIds)
+        {
+          return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
+                            .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy 
+                                && x.Products == products && x.Category == category)
+                            .WhereRestrictionOn(x => x.Id)
+                            .Not.IsIn(savedSubnpoliciesIds)
+                            .Fetch(x => x.BConditions).Eager
+                            .Fetch(x => x.BillingRelations).Eager
+                            .TransformUsing(Transformers.DistinctRootEntity)
+                            .List();
+        }
+
+        [Transaction]
+        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product, ScbEnums.Category category)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<BillingSubpolicy>()
+                                 .Where(c => c.Products == product && c.Category == category)
+                                 .List();
+        }
     }
 
     public class BillStatusBuilder : QueryBuilder<BillStatus>
@@ -116,6 +216,15 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         public override QueryOver<BillStatus, BillStatus> DefaultQuery()
         {
             return QueryOver.Of<BillStatus>();
+        }
+
+        [Transaction]
+        public BillStatus OnProductMonth(ScbEnums.Products products, uint month)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<BillStatus>()
+                                 .Where(x => x.Products == products && x.BillMonth == month)
+                                 .SingleOrDefault();
         }
     }
 
@@ -135,6 +244,14 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                  .Where(x => x.Products == products && x.Name == matrixName)
                                  .SingleOrDefault();
         }
+        [Transaction]
+        public IEnumerable<BMatrix> OnProductCategory(ScbEnums.Products product, ScbEnums.Category category)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<BMatrix>()
+                                 .Where(c => c.Products == product && c.Category == category)
+                                 .List();
+        }
     }
 
     public class BMatrixValueBuilder : QueryBuilder<BMatrixValue>
@@ -142,6 +259,14 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         public override QueryOver<BMatrixValue, BMatrixValue> DefaultQuery()
         {
             return QueryOver.Of<BMatrixValue>();
+        }
+
+        [Transaction]
+        public IEnumerable<BMatrixValue> OnMatrixId(Guid matrixId)
+        {
+           return SessionManager.GetCurrentSession().QueryOver<BMatrixValue>()
+                           .Where(c => c.BMatrix.Id == matrixId)
+                           .List();
         }
     }
 }

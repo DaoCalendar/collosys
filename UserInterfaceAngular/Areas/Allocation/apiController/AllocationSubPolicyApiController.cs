@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
@@ -30,9 +31,13 @@ namespace UserInterfaceAngular.app
 {
     public class AllocationSubPolicyApiController : BaseApiController<AllocSubpolicy>
     {
-        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
-        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder(); 
-        private static readonly GKeyValueBuilder GKeyValueBuilder=new GKeyValueBuilder();
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly AllocSubpolicyBuilder AllocSubpolicyBuilder = new AllocSubpolicyBuilder();
+        private static readonly AllocPolicyBuilder AllocPolicyBuilder = new AllocPolicyBuilder();
+        private static readonly AllocRelationBuilder AllocRelationBuilder = new AllocRelationBuilder();
+        private static readonly AllocConditionBuilder AllocConditionBuilder = new AllocConditionBuilder();
 
         #region Get
 
@@ -115,8 +120,7 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public HttpResponseMessage GetSubPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
-            var data = Session.QueryOver<AllocSubpolicy>().Fetch(x => x.Stakeholder).Eager
-                .Where(x => x.Products == products && x.Category == category).List();
+            var data = AllocSubpolicyBuilder.OnProductCategory(products, category);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -133,18 +137,16 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public AllocRelation GetRelations(AllocSubpolicy subpolicy)
         {
-            var relation = Session.QueryOver<AllocRelation>().Where(x => x.AllocSubpolicy.Id == subpolicy.Id).SingleOrDefault();
+            var relation = AllocRelationBuilder.OnAllocSubpolicy(subpolicy);
             if (relation == null)
             {
-                var policy = Session.QueryOver<AllocPolicy>().Where(x => x.Products == subpolicy.Products)
-                                    .And(x => x.Category == subpolicy.Category).SingleOrDefault();
+                var policy = AllocPolicyBuilder.NonApproved(subpolicy.Products, subpolicy.Category);
                 relation = new AllocRelation
                     {
                         AllocPolicy = policy,
                         AllocSubpolicy = subpolicy
                     };
             }
-
             return (relation);
         }
 
@@ -152,55 +154,7 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public HttpResponseMessage GetConditions(Guid allocationId)
         {
-            var data = Session.QueryOver<AllocCondition>().Where(x => x.AllocSubpolicy.Id == allocationId).List();
-            AllocPolicy policy = null;
-            AllocRelation relation = null;
-            AllocSubpolicy subpolicy = null;
-            AllocCondition condition = null;
-            Stakeholders stakeholder = null;
-            //var subpolicyData = Session.QueryOver<AllocSubpolicy>().Where(x => x.Id == allocationId).SingleOrDefault();
-            var subpolicyData2 = Session.QueryOver<AllocSubpolicy>(() => subpolicy)
-                                        .Fetch(x => x.AllocRelations).Eager
-                                        .JoinAlias(() => subpolicy.AllocRelations, () => relation,
-                                                   JoinType.LeftOuterJoin)
-                                        .Where(() => subpolicy.Id == allocationId)
-                                        .SingleOrDefault();
-            //var allocPolicy = Session.QueryOver(() => policy)
-            //                         .Fetch(x => x.AllocRelations).Eager
-            //                         .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
-            //                         .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
-            //                         .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-            //                         .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
-            //                         .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
-            //                         .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
-            //                         .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-            //                         .Where(() => policy.Products == subpolicyData.Products && policy.Category == subpolicyData.Category)
-
-            //                         .SingleOrDefault();
-
-
-            //// create new alloc policy
-            //var savedAllocSubpolicyIds = new List<Guid>();
-            //if (allocPolicy == null)
-            //{
-            //    allocPolicy = new AllocPolicy() { Name = products + "_" + category, Products = products, Category = category };
-            //}
-            //else
-            //{
-            //    // make alloc subpolicy empty, json serialization hack
-            //    foreach (var relations in allocPolicy.AllocRelations)
-            //    {
-            //        relations.AllocSubpolicy.MakeEmpty();
-
-            //        if (relations.AllocSubpolicy.Stakeholder != null)
-            //            relations.AllocSubpolicy.Stakeholder.MakeEmpty();
-
-            //        savedAllocSubpolicyIds.Add(relations.AllocSubpolicy.Id);
-            //    }
-            //}
-
-
-
+            var data = AllocConditionBuilder.OnSubpolicyId(allocationId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -208,9 +162,9 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public uint GetMaxPriority()
         {
-            var data = Session.QueryOver<AllocRelation>()
-             .Select(x => x.Priority).List<uint>();
-            return data.Any()?data.Max():0;
+            var data = AllocRelationBuilder.GetAll().ToList()
+                                           .Select(x => x.Priority);
+            return data.Any() ? data.Max() : 0;
         }
 
 
@@ -227,8 +181,7 @@ namespace UserInterfaceAngular.app
 
             if (obj.Stakeholder.Id == Guid.Empty)
                 obj.Stakeholder = null;
-
-            Session.SaveOrUpdate(obj);
+            AllocSubpolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -242,15 +195,14 @@ namespace UserInterfaceAngular.app
             if (obj.Stakeholder.Id == Guid.Empty)
                 obj.Stakeholder = null;
 
-            obj = Session.Merge(obj);
+            obj = AllocSubpolicyBuilder.Merge(obj);
             return obj;
         }
 
         protected override IEnumerable<AllocSubpolicy> BaseGet()
         {
-            return Session.QueryOver<AllocSubpolicy>()
-                          .Fetch(x => x.Stakeholder).Eager
-                          .List();
+            var query = AllocSubpolicyBuilder.DefaultQuery();
+            return AllocSubpolicyBuilder.ExecuteQuery(query).ToList();
         }
 
         #endregion
@@ -259,25 +211,11 @@ namespace UserInterfaceAngular.app
         [HttpTransaction(Persist = true)]
         public AllocRelation ActivateSubpolicy(AllocRelation relation)//string startDate, string endDate, AllocSubpolicy subPolicy
         {
-
-            //var relation = Session.QueryOver<AllocRelation>().Where(x => x.AllocSubpolicy.Id == subPolicy.Id).SingleOrDefault();
-            //if (relation == null)
-            //{
-            //    var policy = Session.QueryOver<AllocPolicy>().Where(x => x.Products == subPolicy.Products)
-            //                        .And(x => x.Category == subPolicy.Category).SingleOrDefault();
-            //    relation = new AllocRelation
-            //    {
-            //        AllocPolicy = policy,
-            //        AllocSubpolicy = subPolicy
-            //    };
-            //}
-
-
             SetApproverId(relation);
             relation.Status = ColloSysEnums.ApproveStatus.Submitted;
             var maxpriority = GetMaxPriority();
             relation.Priority = maxpriority + 1;
-            Session.SaveOrUpdate(relation);
+            AllocRelationBuilder.Save(relation);
             return relation;
         }
 
@@ -294,29 +232,9 @@ namespace UserInterfaceAngular.app
 
         public void GetAllocPolicy(AllocSubpolicy allocSubpolicy, ScbEnums.Products products, ScbEnums.Category category)
         {
-            AllocPolicy policy = null;
-            AllocRelation relation = null;
-            AllocSubpolicy subpolicy = null;
-            AllocCondition condition = null;
-            Stakeholders stakeholder = null;
-
-
-
-            var allocPolicy = Session.QueryOver(() => policy)
-                                     .Fetch(x => x.AllocRelations).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-                                     .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-                                     .Where(() => policy.Products == products && policy.Category == category)
-
-                                     .SingleOrDefault();
+            var allocPolicy = AllocPolicyBuilder.NonApproved(products, category);
 
             // create new alloc policy
-            var savedAllocSubpolicyIds = new List<Guid>();
             if (allocPolicy == null)
             {
                 allocPolicy = new AllocPolicy()

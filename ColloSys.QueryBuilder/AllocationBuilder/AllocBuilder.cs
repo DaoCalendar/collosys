@@ -45,6 +45,19 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         }
 
         [Transaction]
+        public IEnumerable<Alloc> AllocationsForStakeholder(Guid stakeholderId, ScbEnums.Products products)
+        {
+           return SessionManager.GetCurrentSession().QueryOver<Alloc>()
+                                     .Fetch(x => x.AllocPolicy).Eager
+                                     .Fetch(x => x.AllocSubpolicy).Eager
+                                     .Fetch(x => x.Info).Eager
+                                     .Fetch(x => x.Stakeholder).Eager
+                                     .Where(x => x.Stakeholder.Id == stakeholderId)
+                                     .And(x => x.Info.Product == products)
+                                     .List();
+        }
+        
+        [Transaction]
         public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, bool isInRecovery)
         {
             Alloc alloc = null;
@@ -90,6 +103,15 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         {
             return QueryOver.Of<AllocCondition>();
         }
+
+        [Transaction]
+        public IEnumerable<AllocCondition> OnSubpolicyId(Guid subpolicyId)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<AllocCondition>()
+                                 .Where(x => x.AllocSubpolicy.Id == subpolicyId)
+                                 .List();
+        }
     }
 
     public class AllocPolicyBuilder : QueryBuilder<AllocPolicy>
@@ -123,7 +145,28 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                                 (relation.EndDate == null ||
                                                  relation.EndDate.Value >= Util.GetTodayDate()))
                                      .SingleOrDefault();
+            }
 
+        [Transaction]
+        public AllocPolicy NonApproved(ScbEnums.Products products, ScbEnums.Category category)
+        {
+            AllocPolicy policy = null;
+            AllocRelation relation = null;
+            AllocSubpolicy subpolicy = null;
+            AllocCondition condition = null;
+            Stakeholders stakeholder = null;
+
+            return SessionManager.GetCurrentSession().QueryOver(() => policy)
+                                     .Fetch(x => x.AllocRelations).Eager
+                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
+                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
+                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
+                                     .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
+                                     .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
+                                     .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
+                                     .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
+                                     .Where(() => policy.Products == products && policy.Category == category)
+                                     .SingleOrDefault();
         }
     }
 
@@ -133,13 +176,47 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         {
             return QueryOver.Of<AllocRelation>();
         }
+
+        [Transaction]
+        public AllocRelation OnAllocSubpolicy(AllocSubpolicy subpolicy)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<AllocRelation>()
+                                 .Where(x => x.AllocSubpolicy.Id == subpolicy.Id)
+                                 .SingleOrDefault();
+        }
     }
 
     public class AllocSubpolicyBuilder : QueryBuilder<AllocSubpolicy>
     {
         public override QueryOver<AllocSubpolicy, AllocSubpolicy> DefaultQuery()
         {
-            return QueryOver.Of<AllocSubpolicy>();
+            return QueryOver.Of<AllocSubpolicy>()
+                .Fetch(x=>x.Stakeholder).Eager;
+        }
+
+        [Transaction]
+        public IEnumerable<AllocSubpolicy> OnProductCategorySubPolicyGuids(ScbEnums.Products products, ScbEnums.Category category,
+                                                              IEnumerable<Guid> savedAllocSubpolicyIds)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<AllocSubpolicy>()
+                            .Where(x => x.Products == products && x.Category == category)
+                            .WhereRestrictionOn(x => x.Id)
+                            .Not.IsIn(savedAllocSubpolicyIds.ToList())
+                            .Fetch(x => x.Stakeholder).Eager
+                            .Fetch(x => x.Conditions).Eager
+                            .TransformUsing(Transformers.DistinctRootEntity)
+                            .List();
+        }
+
+        [Transaction]
+        public IEnumerable<AllocSubpolicy> OnProductCategory(ScbEnums.Products products, ScbEnums.Category category)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<AllocSubpolicy>()
+                                 .Fetch(x => x.Stakeholder).Eager
+                                 .Where(x => x.Products == products && x.Category == category)
+                                 .List();
         }
     }
 }

@@ -70,6 +70,16 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
                .WhereExists(query)
                .List();
         }
+
+        [Transaction]
+        public IEnumerable<string> MissingPincodeId(string pincode)
+        {
+            return SessionManager.GetCurrentSession().Query<Info>()
+                                 .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
+                                 .Select(x => x.Pincode.ToString())
+                                 .Distinct()
+                                 .ToList();
+        }
     }
 
     public class PaymentBuilder : QueryBuilder<Payment>
