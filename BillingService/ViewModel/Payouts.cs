@@ -1,8 +1,7 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BillingService.CustBillView;
 using BillingService.DBLayer;
 using ColloSys.DataLayer.Billing;
@@ -10,6 +9,9 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
 using NLog;
+
+#endregion
+
 
 namespace BillingService.ViewModel
 {
@@ -43,7 +45,7 @@ namespace BillingService.ViewModel
             return billDetail;
         }
 
-        public static IList<BillDetail> GetVariablePayout(Stakeholders stakeholder, BillStatus billStatus, BillingPolicy billingPolicy, List<CustStkhBillViewModel> custStkhBillViewModels)
+        public static IEnumerable<BillDetail> GetVariablePayout(Stakeholders stakeholder, BillStatus billStatus, BillingPolicy billingPolicy, List<CustStkhBillViewModel> custStkhBillViewModels)
         {
             var billDetails = new List<BillDetail>();
 
@@ -53,20 +55,22 @@ namespace BillingService.ViewModel
                 var billingSubpolicy = billingSubpolicies[i];
 
                 var billDetail = new BillDetail
-                {
-                    Stakeholder = stakeholder,
-                    BillMonth = billStatus.BillMonth,
-                    BillCycle = billStatus.BillCycle,
-                    Products = billStatus.Products,
-                    PaymentSource = ColloSysEnums.PaymentSource.Variable,
-                    BillingPolicy = billingPolicy,
-                    BillingSubpolicy = billingSubpolicy
-                };
+                    {
+                        Stakeholder = stakeholder,
+                        BillMonth = billStatus.BillMonth,
+                        BillCycle = billStatus.BillCycle,
+                        Products = billStatus.Products,
+                        PaymentSource = ColloSysEnums.PaymentSource.Variable,
+                        BillingPolicy = billingPolicy,
+                        BillingSubpolicy = billingSubpolicy,
+                        Amount =
+                            CustBillViewModelDbLayer.GetBillingSubpolicyAmount(billStatus.Products,
+                                                                               billingSubpolicy.BConditions.ToList(),
+                                                                               custStkhBillViewModels)
+                    };
                 
                 //var test = custStkhBillViewModels.Sum(x => x.CustBillViewModel.TotalAmountRecovered);
 
-                billDetail.Amount = CustBillViewModelDbLayer.GetBillingSubpolicyAmount(billStatus.Products, billingSubpolicy.BConditions.ToList(),
-                                                                                       custStkhBillViewModels);
                 billDetails.Add(billDetail);
 
                 Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
@@ -78,7 +82,7 @@ namespace BillingService.ViewModel
             return billDetails;
         }
 
-        public static IList<BillDetail> GetAdhocPayout(Stakeholders stakeholder, BillStatus billStatus)
+        public static IEnumerable<BillDetail> GetAdhocPayout(Stakeholders stakeholder, BillStatus billStatus)
         {
             var billDetails = new List<BillDetail>();
 

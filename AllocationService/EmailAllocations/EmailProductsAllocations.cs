@@ -7,7 +7,7 @@ using NLog;
 
 namespace ColloSys.AllocationService.EmailAllocations
 {
-    public class EmailProductsAllocations
+    public static class EmailProductsAllocations
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 

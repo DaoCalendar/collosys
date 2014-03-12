@@ -60,6 +60,7 @@
     <Compile Include="BaseTypes\QueryBuilder.cs" />
     <Compile Include="BillingBuilder\BConditionBuilder.cs" />
     <Compile Include="ClientDataBuilder\CacsActivityBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileColumnBuilder.cs" />
     <Compile Include="GenericBuilder\GConfigBuilder.cs" />
     <Compile Include="GenericBuilder\GKeyValueBuilder.cs" />
     <Compile Include="GenericBuilder\GPermissionBuilder.cs" />

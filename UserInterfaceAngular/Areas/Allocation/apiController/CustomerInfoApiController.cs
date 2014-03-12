@@ -34,6 +34,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
     {
 
         private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
+
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<ScbEnums.Products> GetProducts()

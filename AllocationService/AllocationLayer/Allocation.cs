@@ -1,8 +1,6 @@
-﻿
-#region References
+﻿#region References
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.AllocationService.ConditionLayer;
@@ -13,16 +11,15 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.Types4Product;
 using Iesi.Collections.Generic;
 using NHibernate;
 using ColloSys.AllocationService.Logging;
-using NHibernate.SqlCommand;
 using NLog;
 
 #endregion
-
 
 namespace ColloSys.AllocationService.AllocationLayer
 {
@@ -31,6 +28,8 @@ namespace ColloSys.AllocationService.AllocationLayer
         #region Memebers
 
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
 
         #endregion
 
@@ -50,9 +49,10 @@ namespace ColloSys.AllocationService.AllocationLayer
 
         public static IEnumerable<Entity> StartAllocationProcessV2(ScbEnums.Products product, ScbEnums.Category category)
         {
+            
             Log.Info(string.Format("allocation process strarted with product {0} and category {1}", product, category));
 
-            var allocationlist = new List<Entity>();
+            var allocationlist = new List<Alloc>();
 
             //get class type for generate criteria
             Type getType = ClassType.GetTypeByProductCategoryForAlloc(product, category);
@@ -81,7 +81,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             foreach (var subpolicy in subpolicyList)
             {
                 //get data on created criteria
-                IList dataOnCondition;
+                IList<Info> dataOnCondition;
                 //create criteria 
                 using (var session = SessionManager.GetNewSession())
                 {
@@ -100,7 +100,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         criteria = CreateCriteriaOnCondition(conditionList, getType, criteria);
                         Log.Info("Criteria on Condition:" + criteria);
 
-                        dataOnCondition = criteria.List();
+                        dataOnCondition = criteria.List<Info>();
                         trans.Rollback();
                     }
                 }
@@ -111,17 +111,17 @@ namespace ColloSys.AllocationService.AllocationLayer
                     switch (subpolicy.AllocateType)
                     {
                         case ColloSysEnums.AllocationType.DoNotAllocate:
-                            allocationlist = DoNotAllocate.SetDoNotAllocateAc(getType, dataOnCondition,
+                            allocationlist = DoNotAllocate.SetDoNotAllocateAc(dataOnCondition,
                                                                          subpolicy.AllocRelations.First(),
                                                                          product);
                             break;
                         case ColloSysEnums.AllocationType.AllocateAsPerPolicy:
-                            allocationlist = AllocateAsPerPolicy.Init(getType, dataOnCondition
+                            allocationlist = AllocateAsPerPolicy.Init(dataOnCondition
                                                                       , subpolicy.AllocRelations.First(), product);
                             break;
 
                         case ColloSysEnums.AllocationType.AllocateToStkholder:
-                            allocationlist = AllocateToStakeholder.Init(getType, dataOnCondition,
+                            allocationlist = AllocateToStakeholder.Init(dataOnCondition,
                                                                         subpolicy.AllocRelations.First(),
                                                                          product);
                             break;
@@ -133,13 +133,13 @@ namespace ColloSys.AllocationService.AllocationLayer
                             throw new ArgumentOutOfRangeException();
                     }
                     //set approve status, approvedate, approved by for allocation 
-                    allocationlist.ForEach(x => { ((Alloc) x).Status = ColloSysEnums.ApproveStatus.Approved;
-                                                    ((Alloc) x).ApprovedBy = "Policy";
-                                                    ((Alloc) x).ApprovedOn = DateTime.Today.Date;
+                    allocationlist.ForEach(x => { x.Status = ColloSysEnums.ApproveStatus.Approved;
+                                                    x.ApprovedBy = "Policy";
+                                                    x.ApprovedOn = DateTime.Today.Date;
                     });
 
-                    DbLayer.SaveObjectList(dataOnCondition);
-                    DbLayer.SaveList(allocationlist);
+                    InfoBuilder.SaveList(dataOnCondition);
+                    AllocBuilder.SaveList(allocationlist);
                 }
             }
             return allocationlist;

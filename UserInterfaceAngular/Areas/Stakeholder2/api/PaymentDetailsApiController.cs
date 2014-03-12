@@ -102,7 +102,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public BillingPolicyLists GetLinerWriteOff(ScbEnums.Products product)
         {
-            var session = SessionManager.GetCurrentSession();
             var data = new BillingPolicyLists
                 {
                     LinerList = BillingPolicyBuilder.LinePolicies(product).ToList(),

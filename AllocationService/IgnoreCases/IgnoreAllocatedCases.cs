@@ -31,7 +31,7 @@ namespace ColloSys.AllocationService.IgnoreCases
 
                 var dataCLiner = DataAccess.GetInfoData(products);
                 if (dataCLiner.Any())
-                    listAll.AddRange(IgnoreLinerCases(dataCLiner, products));
+                    listAll.AddRange(IgnoreLinerCases(dataCLiner));
 
 
             }
@@ -39,22 +39,17 @@ namespace ColloSys.AllocationService.IgnoreCases
             return listAll;
         }
 
-        private static IEnumerable<Entity> IgnoreLinerCases<TLiner>(IEnumerable<TLiner> linerList, ScbEnums.Products products)
+        private static IEnumerable<Entity> IgnoreLinerCases<TLiner>(IEnumerable<TLiner> linerList)
             where TLiner : Entity, IDelinquentCustomer
         //where TInfo : SharedInfo
         {
-            var listAllocs = new List<Entity>();
-            foreach (var liner in linerList)
-            {
-                var oldLiner = DataAccess.CheckInInfo(liner);
-                if (oldLiner == null)
-                {
-                    continue;
-                }
-                var calloc = SetAlloc(oldLiner as Info);
-                listAllocs.Add(calloc);
-            }
-            return listAllocs;
+            return (from liner in linerList
+                    select DataAccess.CheckInInfo(liner)
+                    into oldLiner
+                    where oldLiner != null
+                    select SetAlloc(oldLiner as Info))
+                .Cast<Entity>()
+                .ToList();
         }
 
         private static Alloc SetAlloc(Info cInfo)

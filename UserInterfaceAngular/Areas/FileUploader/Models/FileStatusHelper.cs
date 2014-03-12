@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.FileUpload;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.Types4Product;
 using NHibernate;
@@ -28,55 +29,40 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
     public static class FileStatusHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder=new FileSchedulerBuilder();
 
         public static IEnumerable<FileScheduler> GetOneWeekScheduledList()
         {
             var maxBackdate = DateTime.Today.AddMonths(-2);
-            var session = SessionManager.GetCurrentSession();
-            return session.QueryOver<FileScheduler>()
-                          .Where( x=> x.CreatedOn > maxBackdate)
-                          .OrderBy(c => c.StartDateTime).Desc
-                          .Fetch(c => c.FileStatuss).Eager
-                          .Fetch(c => c.FileDetail).Eager
-                          .TransformUsing(Transformers.DistinctRootEntity)
-                          .List();
+            return FileSchedulerBuilder.OnMaxBackDate(maxBackdate);
         }
 
         public static IEnumerable<FileScheduler> GetScheduledList(DateTime fromDate,DateTime toDate)
         {
-            var session = SessionManager.GetCurrentSession();
-            return session.QueryOver<FileScheduler>()
-                          .Where(x => x.FileDate >= fromDate && x.FileDate <= toDate)
-                          .OrderBy(c => c.StartDateTime).Desc
-                          .Fetch(c => c.FileStatuss).Eager
-                          .Fetch(c => c.FileDetail).Eager
-                          .TransformUsing(Transformers.DistinctRootEntity)
-                          .List();
+            return FileSchedulerBuilder.DateRange(fromDate, toDate);
         }
 
         public static FileScheduler ReScheduleFile(FileScheduler file)
         {
             if (file == null) return null;
-            var entity = SessionManager.GetCurrentSession().Get<FileScheduler>(file.Id);
+            var entity =FileSchedulerBuilder.GetWithId(file.Id);
             entity.IsImmediate = true;
             entity.ImmediateReason = file.ImmediateReason;
             entity.StartDateTime = DateTime.Now;
-            SessionManager.GetCurrentSession().SaveOrUpdate(entity);
+            FileSchedulerBuilder.Save(entity);
             return entity;
         }
 
         public static FileScheduler RetryUpload(Guid id)
         {
-            var session = SessionManager.GetCurrentSession();
-            var scheduler = session.Get<FileScheduler>(id);
+            var scheduler = FileSchedulerBuilder.GetWithId(id);
             scheduler.UploadStatus = ColloSysEnums.UploadStatus.RetryUpload;
             scheduler.IsImmediate = true;
             scheduler.StartDateTime = DateTime.Now;
             scheduler.EndDateTime = null;
             scheduler.ImmediateReason = "retry upload";
             scheduler.StatusDescription = "retrying upload";
-
-            session.SaveOrUpdate(scheduler);
+            FileSchedulerBuilder.Save(scheduler);
             return scheduler;
         }
 
@@ -84,10 +70,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
         {
             // get file scheduler from db
             var session = SessionManager.GetCurrentSession();
-            var uploads = session.QueryOver<FileScheduler>()
-                              .Fetch(x => x.FileDetail).Eager
-                              .WhereRestrictionOn(x => x.Id).IsIn(fileScheduler.Select(x => x.Id).ToArray())
-                              .List();
+            var uploads = FileSchedulerBuilder.OnFileSchedulers(fileScheduler).ToList();
 
             if (uploads == null)
             {

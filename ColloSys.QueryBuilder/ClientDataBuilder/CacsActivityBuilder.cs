@@ -80,6 +80,15 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
                                  .Distinct()
                                  .ToList();
         }
+
+        [Transaction]
+        public IEnumerable<Info> OnAccNoProduct(string accountNo, ScbEnums.Products products)
+        {
+            return SessionManager.GetCurrentSession().Query<Info>()
+                                 .Where(x => x.AccountNo.ToString()
+                                              .StartsWith(accountNo) && x.Product == products)
+                                 .Take(10).ToList();
+        }
     }
 
     public class PaymentBuilder : QueryBuilder<Payment>

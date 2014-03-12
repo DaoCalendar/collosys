@@ -2,12 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using ColloSys.AllocationService.DBLayer;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using System.Linq;
 
 #endregion
 
@@ -21,31 +22,32 @@ namespace ColloSys.AllocationService.MoveAllocations
 
         private static readonly StakeQueryBuilder StakeQueryBuilder=new StakeQueryBuilder(); 
         private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
 
-        public static IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
+        private static IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             return StakeQueryBuilder.ExitedOnProduct(products);
         }
 
-        public static IEnumerable<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
+        private static IEnumerable<Stakeholders> GetStakeholdersOnLeave(ScbEnums.Products products)
         {
            return StakeQueryBuilder.OnLeaveOnProduct(products);
         }
 
-        public static void SetAllocations(Stakeholders stakeholder, ScbEnums.Products products)
+        private static void SetAllocations(Stakeholders stakeholder, ScbEnums.Products products)
         {
             if (products == ScbEnums.Products.UNKNOWN)
                 return;
 
-            var listOfCAllocations = SelectAllocations(stakeholder);
-            DbLayer.SaveList(listOfCAllocations);
+            var listOfCAllocations = SelectAllocations(stakeholder).ToList();
+            InfoBuilder.SaveList(listOfCAllocations);
         }
 
         private static IEnumerable<Info> SelectAllocations(Stakeholders stakeholder)
         {
-            var listOfAllocatons = AllocBuilder.AllocationsForStakeholder(stakeholder);
+            var listOfAllocatons = AllocBuilder.AllocationsForStakeholder(stakeholder).ToList();
 
-            ((List<Info>)listOfAllocatons).ForEach(x =>
+            (listOfAllocatons).ForEach(x =>
             {
                 x.AllocEndDate = DateTime.Now.AddDays(-1);
             });

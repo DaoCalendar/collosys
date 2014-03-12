@@ -11,6 +11,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
@@ -27,11 +28,13 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+        private static readonly FileColumnBuilder FileColumnBuilder=new FileColumnBuilder();
 
-        protected ISession Session
-        {
-            get { return SessionManager.GetCurrentSession(); }
-        }
+        //protected ISession Session
+        //{
+        //    get { return SessionManager.GetCurrentSession(); }
+        //}
 
         [HttpGet]
         [HttpTransaction]
@@ -74,8 +77,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
         {
             try
             {
-                return (Session.QueryOver<FileDetail>()
-                    .Where(c => c.ScbSystems == ScbEnums.ScbSystems.EBBS || c.ScbSystems == ScbEnums.ScbSystems.RLS).List());
+                return FileDetailBuilder.ForROrE();
             }
             catch (Exception exception)
             {
@@ -111,12 +113,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
 
                 var alias = (ColloSysEnums.FileAliasName)Enum.Parse(typeof(ColloSysEnums.FileAliasName), aliasName);
 
-                var session = SessionManager.GetCurrentSession();
-                var getFileDetail = session.QueryOver<FileDetail>()
-                                           .Where(x => x.AliasName == alias)
-                                           .Fetch(x => x.FileColumns).Eager
-                                           .TransformUsing(Transformers.DistinctRootEntity)
-                                           .SingleOrDefault();
+                var getFileDetail = FileDetailBuilder.OnAliasName(alias);
 
                 _logger.Info("View File Details");
                 return Request.CreateResponse(HttpStatusCode.Created, getFileDetail);
@@ -173,7 +170,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
                 {
                     column.FileDetail = fileDetail;
                 }
-                Session.SaveOrUpdate(fileDetail);
+                FileDetailBuilder.Save(fileDetail);
 
                 return Request.CreateResponse(HttpStatusCode.Created, fileDetail);
             }
@@ -196,13 +193,11 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
             var enumerable = fileColumns as FileColumn[] ?? fileColumns.ToArray();
 
             var id = enumerable[0].FileDetail.Id;
-            var temp = SessionManager.GetCurrentSession()
-                                     .QueryOver<FileDetail>().Where(c => c.Id == id)
-                                     .SingleOrDefault();
+            var temp = FileDetailBuilder.GetWithId(id);
             foreach (var fileColumn in enumerable)
             {
                 fileColumn.FileDetail = temp;
-                Session.Merge(fileColumn);
+                FileColumnBuilder.Merge(fileColumn);
             }
 
             return Request.CreateResponse(HttpStatusCode.Created, enumerable);

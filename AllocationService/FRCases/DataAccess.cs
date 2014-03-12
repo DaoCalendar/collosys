@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
-using ColloSys.AllocationService.Generic;
+﻿#region references
+
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+
+#endregion
+
 
 namespace ColloSys.AllocationService.FRCases
 {
@@ -28,8 +32,6 @@ namespace ColloSys.AllocationService.FRCases
             }
 
         }
-
-
     }
 }
 

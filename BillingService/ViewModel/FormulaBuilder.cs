@@ -1,13 +1,12 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BillingService.DBLayer;
-using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
+
+#endregion
+
 
 namespace BillingService.ViewModel
 {

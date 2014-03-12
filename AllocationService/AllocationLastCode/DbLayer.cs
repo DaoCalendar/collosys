@@ -1,15 +1,12 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.ClientDataBuilder;
+
+#endregion
+
 
 namespace ColloSys.AllocationService.AllocationLastCode
 {

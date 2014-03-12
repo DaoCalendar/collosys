@@ -52,7 +52,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
         [HttpGet]
         [HttpTransaction]
-        public List<string> GetMissingPincodes(string pincode)
+        public IEnumerable<string> GetMissingPincodes(string pincode)
         {
             var missingPincodes = new List<string>();
             missingPincodes.AddRange(InfoBuilder.MissingPincodeId(pincode));

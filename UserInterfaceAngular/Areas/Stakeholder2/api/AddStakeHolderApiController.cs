@@ -40,9 +40,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public AddStakeholderModel GetAllHierarchies()
         {
-            var stake = new AddStakeholderModel();
-
-            stake.ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
+            var stake = new AddStakeholderModel
+                {
+                    ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer")
+                };
 
             var gKeyValue = GKeyValueBuilder.ForStakeholders();
 
@@ -233,9 +234,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static FinalPostModel ConvertToFinalPostModel(Stakeholders stakeholders)
         {
-            var finalPostModel = new FinalPostModel();
-            finalPostModel.Stakeholder = stakeholders;
-            finalPostModel.Hierarchy = stakeholders.Hierarchy;
+            var finalPostModel = new FinalPostModel {Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy};
 
             //set address of stakeholder
             if (stakeholders.GAddress.Any())
@@ -262,10 +261,11 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 stakeholders.StkhPayments = stakeholders.StkhPayments.Distinct().ToList();
                 foreach (var stkhPayment in stakeholders.StkhPayments)
                 {
-                    var payworkmodel = new PayWorkModel();
-                    payworkmodel.Payment = stkhPayment;
-                    payworkmodel.WorkList =
-                        stakeholders.StkhWorkings.Where(x => x.StkhPayment.Id == stkhPayment.Id).ToList();
+                    var payworkmodel = new PayWorkModel
+                        {
+                            Payment = stkhPayment,
+                            WorkList = stakeholders.StkhWorkings.Where(x => x.StkhPayment.Id == stkhPayment.Id).ToList()
+                        };
                     payworkmodel.WorkList = payworkmodel.WorkList.Distinct().ToList();
                     finalPostModel.PayWorkModelList.Add(payworkmodel);
                 }
@@ -273,8 +273,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
             else if (stakeholders.StkhWorkings.Any() && stakeholders.StkhPayments.Count == 0)
             {
-                var payworkmodel = new PayWorkModel();
-                payworkmodel.WorkList = stakeholders.StkhWorkings;
+                var payworkmodel = new PayWorkModel {WorkList = stakeholders.StkhWorkings};
                 finalPostModel.PayWorkModelList.Add(payworkmodel);
                 finalPostModel.PayWorkModel = payworkmodel;
                 finalPostModel.PayWorkModel = finalPostModel.PayWorkModelList[0];

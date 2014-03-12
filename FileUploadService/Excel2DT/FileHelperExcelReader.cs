@@ -1,10 +1,15 @@
-﻿using System.Data;
+﻿#region references
+
+using System.Data;
 using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using FileHelpers.DataLink;
 //using FileHelpers.Dynamic;
 using FileHelpers.RunTime;
+
+#endregion
+
 
 namespace ColloSys.FileUploadService.Excel2DT
 {

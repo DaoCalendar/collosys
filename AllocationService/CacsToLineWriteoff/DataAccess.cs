@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Components;
+﻿#region references
+
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.ClientDataBuilder;
-using NHibernate.Linq;
+using ColloSys.QueryBuilder.FileUploadBuilder;
+
+#endregion
+
 
 namespace ColloSys.AllocationService.CacsToLineWriteoff
 {
@@ -15,23 +18,11 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
     {
         private static readonly CacsActivityBuilder CacsActivityBuilder = new CacsActivityBuilder();
         private static readonly InfoBuilder InfoBuilder = new InfoBuilder();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder = new FileSchedulerBuilder();
 
-        public static IList<FileScheduler> ReadyToMoveFiles()
+        public static IEnumerable<FileScheduler> ReadyToMoveFiles()
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<FileScheduler>()
-                              .Where(x => x.ScbSystems == ScbEnums.ScbSystems.CACS)
-                              .And(x => x.Category == ScbEnums.Category.Activity)
-                              .And(x => x.AllocBillDone == false)
-                              .Fetch(x => x.FileDetail).Eager
-                              .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return FileSchedulerBuilder.CacsForAllocation();
         }
 
         public static IList<CacsActivity> GetDataFromCacs(FileScheduler fileScheduler)
@@ -48,52 +39,56 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
         public static void SaveInfoDataWithFileSchedular(IEnumerable<Info> sharedInfos, FileScheduler fileScheduler)
         {
             InfoBuilder.SaveList(sharedInfos.ToList());
-            session.SaveOrUpdate(fileScheduler);
+            FileSchedulerBuilder.Save(fileScheduler);
         }
 
-        //public static T GetAccountData<T>(CacsActivity cacsActivity)
-        //    where T : Entity, IFileUploadable, IDelinquentCustomer
-        //{
-        //    using (var session = SessionManager.GetNewSession())
-        //    {
-        //        using (var trans = session.BeginTransaction())
-        //        {
-        //            var data = session.QueryOver<T>()
-        //                      .Where(x => x.AccountNo == cacsActivity.AccountNo)
-        //                      .OrderBy(x => x.FileDate).Desc.SingleOrDefault();
-        //            trans.Rollback();
-        //            return data;
-        //        }
-        //    }
-        //}
 
-
-        public static void SaveCacsData(CacsData data)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    foreach (var entity in data.CacsList)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-                    foreach (var entity in data.LinerList)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-                    foreach (var entity in data.WriteoffList)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-                    data.FileSchedular.AllocBillDone = true;
-                    session.SaveOrUpdate(data.FileSchedular);
-                    trans.Commit();
-                }
-            }
-        }
     }
 }
+
+
+//public static T GetAccountData<T>(CacsActivity cacsActivity)
+//    where T : Entity, IFileUploadable, IDelinquentCustomer
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            var data = session.QueryOver<T>()
+//                      .Where(x => x.AccountNo == cacsActivity.AccountNo)
+//                      .OrderBy(x => x.FileDate).Desc.SingleOrDefault();
+//            trans.Rollback();
+//            return data;
+//        }
+//    }
+//}
+
+
+//public static void SaveCacsData(CacsData data)
+//{
+//    using (var session = SessionManager.GetNewSession())
+//    {
+//        using (var trans = session.BeginTransaction())
+//        {
+//            foreach (var entity in data.CacsList)
+//            {
+//                session.SaveOrUpdate(entity);
+//            }
+//            foreach (var entity in data.LinerList)
+//            {
+//                session.SaveOrUpdate(entity);
+//            }
+//            foreach (var entity in data.WriteoffList)
+//            {
+//                session.SaveOrUpdate(entity);
+//            }
+//            data.FileSchedular.AllocBillDone = true;
+//            session.SaveOrUpdate(data.FileSchedular);
+//            trans.Commit();
+//        }
+//    }
+//}
+
 
 //public static void SaveOrUpdate(object entity)
 //{

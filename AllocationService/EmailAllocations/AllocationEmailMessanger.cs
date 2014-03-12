@@ -29,7 +29,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
-            List<Stakeholders> stakeholerInitialData = StakeQueryBuilder
+            var stakeholerInitialData = StakeQueryBuilder
                 .GetOnExpression(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
            
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
@@ -237,34 +237,29 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(List<Alloc> allocationList)
+        private IList<AllocationStat> SetAllocationStat(IEnumerable<Alloc> allocationList)
         {
             var allocationStats = ConvertForAllocInfo(allocationList);
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForAllocInfo(List<Alloc> allocationList)
+        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Alloc> allocationList)
         {
-            var list = new List<AllocationStat>();
-            foreach (var sharedAlloc in allocationList)
-            {
-                var alloc = sharedAlloc;
-                var allocationStat = new AllocationStat()
+            return allocationList.Select(alloc => new AllocationStat()
                 {
                     AccountNo = alloc.Info.AccountNo,
                     PolicyName = alloc.AllocPolicy.Name,
                     SubPolicyName = alloc.AllocSubpolicy.Name,
                     StakeholderName = alloc.Stakeholder.Name,
                     StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
-                    EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
+                    EndDate = alloc.EndDate.HasValue
+                                  ? alloc.EndDate.ToString()
+                                  : string.Empty,
                     Product = alloc.AllocPolicy.Products.ToString(),
                     TotalDue = alloc.Info.TotalDue.ToString(),
                     CustomerName = alloc.Info.CustomerName,
                     Pincode = alloc.Info.Pincode.ToString()
-                };
-                list.Add(allocationStat);
-            }
-            return list;
+                }).ToList();
         }
 
         #endregion

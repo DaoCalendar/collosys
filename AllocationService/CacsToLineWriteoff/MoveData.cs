@@ -6,7 +6,6 @@ using System.Linq;
 using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 
@@ -29,7 +28,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
                     var productData = DataOnProductBase(product, fileschedulerdata);
                     if (!productData.Any())
                         continue;
-                    PopulateInfoList<Info>(productData, fileSchedualrEntry);
+                    PopulateInfoList(productData, fileSchedualrEntry);
                 }
             }
         }
@@ -41,8 +40,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
                     select d).ToList();
         }
 
-        private static void PopulateInfoList<TInfo>(IEnumerable<CacsActivity> cacsActivities, FileScheduler fileScheduler)
-            where TInfo : Info
+        private static void PopulateInfoList(IEnumerable<CacsActivity> cacsActivities, FileScheduler fileScheduler)
         {
             var infodata = DataAccess.GetInfoData(cacsActivities).ToList();
             infodata.ForEach(x =>
