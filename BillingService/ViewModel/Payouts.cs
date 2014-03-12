@@ -108,7 +108,7 @@ namespace BillingService.ViewModel
                 adhocPayment.RemainingAmount -= (adhocPayment.TotalAmount / adhocPayment.Tenure);
                 billDetails.Add(billDetail);
             }
-            BillAdhocBuilder.SaveList(adhocPayments);
+            BillAdhocBuilder.Save(adhocPayments);
 
             return billDetails;
         }

@@ -14,7 +14,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class CacsActivityBuilder : QueryBuilder<CacsActivity>
     {
-        public override QueryOver<CacsActivity, CacsActivity> DefaultQuery()
+        public override QueryOver<CacsActivity, CacsActivity> WithRelation()
         {
             return QueryOver.Of<CacsActivity>();
         }

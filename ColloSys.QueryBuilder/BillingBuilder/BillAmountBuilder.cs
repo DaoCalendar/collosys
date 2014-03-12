@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BillAmountBuilder : QueryBuilder<BillAmount>
     {
-        public override QueryOver<BillAmount, BillAmount> DefaultQuery()
+        public override QueryOver<BillAmount, BillAmount> WithRelation()
         {
             return QueryOver.Of<BillAmount>();
         }

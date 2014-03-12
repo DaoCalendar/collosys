@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BConditionBuilder : QueryBuilder<BCondition>
     {
-        public override QueryOver<BCondition, BCondition> DefaultQuery()
+        public override QueryOver<BCondition, BCondition> WithRelation()
         {
             return QueryOver.Of<BCondition>();
         }

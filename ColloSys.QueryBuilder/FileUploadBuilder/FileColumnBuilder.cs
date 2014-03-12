@@ -14,7 +14,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
     public class FileColumnBuilder : QueryBuilder<FileColumn>
     {
-        public override QueryOver<FileColumn, FileColumn> DefaultQuery()
+        public override QueryOver<FileColumn, FileColumn> WithRelation()
         {
             return QueryOver.Of<FileColumn>();
         }
@@ -32,7 +32,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
 
     public class FileMappingBuilder : QueryBuilder<FileMapping>
     {
-        public override QueryOver<FileMapping, FileMapping> DefaultQuery()
+        public override QueryOver<FileMapping, FileMapping> WithRelation()
         {
             return QueryOver.Of<FileMapping>();
         }

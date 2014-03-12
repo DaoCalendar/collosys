@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
     public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
     {
-        public override QueryOver<StkhWorking,StkhWorking> DefaultQuery()
+        public override QueryOver<StkhWorking,StkhWorking> WithRelation()
         {
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager

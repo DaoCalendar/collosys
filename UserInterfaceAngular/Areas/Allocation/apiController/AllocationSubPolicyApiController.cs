@@ -195,13 +195,13 @@ namespace UserInterfaceAngular.app
             if (obj.Stakeholder.Id == Guid.Empty)
                 obj.Stakeholder = null;
 
-            obj = AllocSubpolicyBuilder.Merge(obj);
+            AllocSubpolicyBuilder.Merge(obj);
             return obj;
         }
 
         protected override IEnumerable<AllocSubpolicy> BaseGet()
         {
-            var query = AllocSubpolicyBuilder.DefaultQuery();
+            var query = AllocSubpolicyBuilder.WithRelation();
             return AllocSubpolicyBuilder.ExecuteQuery(query).ToList();
         }
 

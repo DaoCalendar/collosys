@@ -18,7 +18,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocBuilder : QueryBuilder<Alloc>
     {
-        public override QueryOver<Alloc, Alloc> DefaultQuery()
+        public override QueryOver<Alloc, Alloc> WithRelation()
         {
             return QueryOver.Of<Alloc>()
                             .Fetch(x => x.AllocPolicy).Eager
@@ -44,16 +44,16 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         [Transaction]
         public IEnumerable<Alloc> AllocationsForStakeholder(Guid stakeholderId, ScbEnums.Products products)
         {
-           return SessionManager.GetCurrentSession().QueryOver<Alloc>()
-                                     .Fetch(x => x.AllocPolicy).Eager
-                                     .Fetch(x => x.AllocSubpolicy).Eager
-                                     .Fetch(x => x.Info).Eager
-                                     .Fetch(x => x.Stakeholder).Eager
-                                     .Where(x => x.Stakeholder.Id == stakeholderId)
-                                     .And(x => x.Info.Product == products)
-                                     .List();
+            return SessionManager.GetCurrentSession().QueryOver<Alloc>()
+                                      .Fetch(x => x.AllocPolicy).Eager
+                                      .Fetch(x => x.AllocSubpolicy).Eager
+                                      .Fetch(x => x.Info).Eager
+                                      .Fetch(x => x.Stakeholder).Eager
+                                      .Where(x => x.Stakeholder.Id == stakeholderId)
+                                      .And(x => x.Info.Product == products)
+                                      .List();
         }
-        
+
         [Transaction]
         public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, bool isInRecovery)
         {
@@ -71,7 +71,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                     .Where(() => info.Product == products)
                                     .And(() => info.IsInRecovery == isInRecovery)
                                     .List<Alloc>();
-            
+
         }
 
         [Transaction]
@@ -81,16 +81,17 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
             Info info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
-            return SessionManager.GetCurrentSession().QueryOver<Alloc>(() => alloc)
-                                    .Fetch(x => x.Info).Eager
-                                     .Fetch(x => x.Info.GPincode).Eager
-                                    .Fetch(x => x.Stakeholder).Eager
-                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-                                    .Where(() => info.Product == products)
-                                    .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-                                    .List<Alloc>();
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<Alloc>(() => alloc)
+                                 .Fetch(x => x.Info).Eager
+                                 .Fetch(x => x.Info.GPincode).Eager
+                                 .Fetch(x => x.Stakeholder).Eager
+                                 .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
+                                 .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+                                 .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+                                 .Where(() => info.Product == products)
+                                 .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
+                                 .List<Alloc>();
         }
     }
 }

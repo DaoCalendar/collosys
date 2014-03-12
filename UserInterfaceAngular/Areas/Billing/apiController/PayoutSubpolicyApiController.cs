@@ -203,7 +203,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 bcondition.BillingSubpolicy = obj;
             }
 
-            return BillingSubpolicyBuilder.Merge(obj);
+            BillingSubpolicyBuilder.Merge(obj);
+            return obj;
         }
 
         #endregion

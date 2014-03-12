@@ -20,9 +20,9 @@ namespace ColloSys.AllocationService.AllocationLastCode
         public static void Init(ScbEnums.Products products)
         {
             var infoData =InfoBuilder.UnAllocatedCases(products).ToList();
-            InfoBuilder.SaveList(SetList(infoData,products));
+            InfoBuilder.Save(SetList(infoData,products));
             var allocList = SetAllocList(infoData);
-            AllocBuilder.SaveList(allocList);
+            AllocBuilder.Save(allocList);
         }
 
         private static IList<Alloc> SetAllocList(List<Info> eInfoData)

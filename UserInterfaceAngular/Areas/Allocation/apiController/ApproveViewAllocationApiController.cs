@@ -52,7 +52,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction]
         public IEnumerable<Alloc> GetData()
         {
-            var query = AllocBuilder.DefaultQuery();
+            var query = AllocBuilder.WithRelation();
             return AllocBuilder.ExecuteQuery(query).Take(10).ToList();
         }
 
@@ -80,7 +80,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
                 cInfoList.Add(info);
             }
-            InfoBuilder.SaveList(cInfoList);
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
 
@@ -103,7 +103,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 info.Allocs.Remove(cAlloc);
                 cInfoList.Add(info);
             }
-            InfoBuilder.SaveList(cInfoList);
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
 
@@ -143,7 +143,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 info.Allocs.Add(newCAlloc);
                 cInfoList.Add(info);
             }
-            InfoBuilder.SaveList(cInfoList);
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
         }

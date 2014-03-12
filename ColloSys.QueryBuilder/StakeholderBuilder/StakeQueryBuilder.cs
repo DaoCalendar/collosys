@@ -159,7 +159,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                  .ToList();
         }
 
-        public override QueryOver<Stakeholders, Stakeholders> DefaultQuery()
+        public override QueryOver<Stakeholders, Stakeholders> WithRelation()
         {
             var query = QueryOver.Of<Stakeholders>()
                             .Fetch(x => x.StkhPayments).Eager

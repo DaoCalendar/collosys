@@ -25,7 +25,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
                                  .List();
         }
 
-        public override QueryOver<GPermission, GPermission> DefaultQuery()
+        public override QueryOver<GPermission, GPermission> WithRelation()
         {
             return QueryOver.Of<GPermission>()
                             .Fetch(x => x.Role).Eager;

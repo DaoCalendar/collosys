@@ -53,7 +53,7 @@ namespace ColloSys.AllocationService.PincodeEntry
                     x.NoAllocResons = ColloSysEnums.NoAllocResons.None;
                     x.AllocEndDate = DateTime.Now;
                 });
-            InfoBuilder.SaveList(saveList);
+            InfoBuilder.Save(saveList);
         }
     }
 }

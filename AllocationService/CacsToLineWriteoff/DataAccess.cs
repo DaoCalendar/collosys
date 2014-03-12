@@ -38,7 +38,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
 
         public static void SaveInfoDataWithFileSchedular(IEnumerable<Info> sharedInfos, FileScheduler fileScheduler)
         {
-            InfoBuilder.SaveList(sharedInfos.ToList());
+            InfoBuilder.Save(sharedInfos.ToList());
             FileSchedulerBuilder.Save(fileScheduler);
         }
 

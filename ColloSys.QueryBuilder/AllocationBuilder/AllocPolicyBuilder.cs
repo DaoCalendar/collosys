@@ -18,7 +18,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocPolicyBuilder : QueryBuilder<AllocPolicy>
     {
-        public override QueryOver<AllocPolicy, AllocPolicy> DefaultQuery()
+        public override QueryOver<AllocPolicy, AllocPolicy> WithRelation()
         {
             return QueryOver.Of<AllocPolicy>();
         }

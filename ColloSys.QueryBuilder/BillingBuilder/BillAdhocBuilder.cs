@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BillAdhocBuilder : QueryBuilder<BillAdhoc>
     {
-        public override QueryOver<BillAdhoc, BillAdhoc> DefaultQuery()
+        public override QueryOver<BillAdhoc, BillAdhoc> WithRelation()
         {
             return QueryOver.Of<BillAdhoc>()
                             .Fetch(x => x.Stakeholder).Eager

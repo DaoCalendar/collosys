@@ -138,8 +138,8 @@ namespace ColloSys.AllocationService.AllocationLayer
                                                     x.ApprovedOn = DateTime.Today.Date;
                     });
 
-                    InfoBuilder.SaveList(dataOnCondition);
-                    AllocBuilder.SaveList(allocationlist);
+                    InfoBuilder.Save(dataOnCondition);
+                    AllocBuilder.Save(allocationlist);
                 }
             }
             return allocationlist;

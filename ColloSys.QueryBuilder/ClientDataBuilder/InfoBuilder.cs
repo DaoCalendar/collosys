@@ -19,7 +19,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class InfoBuilder : QueryBuilder<Info>
     {
-        public override QueryOver<Info, Info> DefaultQuery()
+        public override QueryOver<Info, Info> WithRelation()
         {
             return QueryOver.Of<Info>();
         }

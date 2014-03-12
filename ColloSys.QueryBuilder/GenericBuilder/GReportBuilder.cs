@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GReportBuilder : QueryBuilder<GReports>
     {
-        public override QueryOver<GReports, GReports> DefaultQuery()
+        public override QueryOver<GReports, GReports> WithRelation()
         {
             return QueryOver.Of<GReports>();
         }

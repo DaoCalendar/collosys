@@ -16,7 +16,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
     public class FileDetailBuilder : QueryBuilder<FileDetail>
     {
-        public override QueryOver<FileDetail, FileDetail> DefaultQuery()
+        public override QueryOver<FileDetail, FileDetail> WithRelation()
         {
             return QueryOver.Of<FileDetail>();
         }

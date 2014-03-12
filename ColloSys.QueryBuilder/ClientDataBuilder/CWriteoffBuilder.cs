@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class CWriteoffBuilder : QueryBuilder<CWriteoff>
     {
-        public override QueryOver<CWriteoff, CWriteoff> DefaultQuery()
+        public override QueryOver<CWriteoff, CWriteoff> WithRelation()
         {
             return QueryOver.Of<CWriteoff>();
         }

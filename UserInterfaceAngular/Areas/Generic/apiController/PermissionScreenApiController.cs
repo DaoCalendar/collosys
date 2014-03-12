@@ -38,7 +38,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
                      .Where(x => ((x.ToUpperInvariant() != "ALL")
                                     && (x.ToUpperInvariant() != "DEVELOPMENT")));
 
-            var query = GPermissionBuilder.DefaultQuery();
+            var query = GPermissionBuilder.WithRelation();
             permision.PermissionData = GPermissionBuilder.ExecuteQuery(query).ToList();
             return permision;
 
@@ -59,7 +59,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             {
                 GPermissionBuilder.Save(gPermission);
             }
-            var query = GPermissionBuilder.DefaultQuery();
+            var query = GPermissionBuilder.WithRelation();
             var data = GPermissionBuilder.ExecuteQuery(query).ToList();
             return data;
         }

@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
     public class FileStatusBuilder : QueryBuilder<FileStatus>
     {
-        public override QueryOver<FileStatus, FileStatus> DefaultQuery()
+        public override QueryOver<FileStatus, FileStatus> WithRelation()
         {
             return QueryOver.Of<FileStatus>();
         }

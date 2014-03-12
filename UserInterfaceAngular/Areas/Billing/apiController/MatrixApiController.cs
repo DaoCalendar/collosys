@@ -106,7 +106,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 }
             }
 
-            return BMatrixBuilder.Merge(obj);
+            BMatrixBuilder.Merge(obj);
+            return obj;
         }
 
         #endregion

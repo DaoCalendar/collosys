@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocConditionBuilder : QueryBuilder<AllocCondition>
     {
-        public override QueryOver<AllocCondition, AllocCondition> DefaultQuery()
+        public override QueryOver<AllocCondition, AllocCondition> WithRelation()
         {
             return QueryOver.Of<AllocCondition>();
         }

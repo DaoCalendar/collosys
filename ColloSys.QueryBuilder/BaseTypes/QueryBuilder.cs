@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -10,7 +11,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BaseTypes
 {
-    public abstract class QueryBuilder<T> : IQueryBuilder<T> where T : Entity, new()
+    public abstract class QueryBuilder<T> : IRepository<T> where T : Entity, new()
     {
         [Transaction]
         public virtual IEnumerable<T> GetAll()
@@ -41,13 +42,20 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction(Persist = true)]
-        public virtual void SaveList(IList<T> listOfObjects)
+        public virtual void Save(IEnumerable<T> listOfObjects)
         {
             var session = SessionManager.GetCurrentSession();
             foreach (var obj in listOfObjects)
             {
                 session.Save(obj);
             }
+        }
+
+        [Transaction(Persist = true)]
+        public void Save(Entity entity)
+        {
+            var session = SessionManager.GetCurrentSession();
+            session.Save(entity);
         }
 
         [Transaction(Persist = true)]
@@ -58,10 +66,17 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction(Persist = true)]
-        public virtual T Merge(T obj)
+        public virtual void Merge(T obj)
+        {
+           var session = SessionManager.GetCurrentSession();
+           obj = session.Merge(obj);
+        }
+
+        [Transaction(Persist = true)]
+        public void Merge(Entity entity)
         {
             var session = SessionManager.GetCurrentSession();
-           return session.Merge(obj);
+            session.Merge(entity);
         }
 
         [Transaction]
@@ -77,7 +92,15 @@ namespace ColloSys.QueryBuilder.BaseTypes
             var session = SessionManager.GetCurrentSession();
             return query.GetExecutableQueryOver(session).List<T>();
         }
-        public abstract QueryOver<T,T> DefaultQuery();
+        public abstract QueryOver<T,T> WithRelation();
+
+        [Transaction]
+        public void Refresh(T obj)
+        {
+            var session = SessionManager.GetCurrentSession();
+            session.Refresh(obj);
+        }
+
         //public abstract IQueryOver<T> GetDefaultQuery { get; }
     }
 }

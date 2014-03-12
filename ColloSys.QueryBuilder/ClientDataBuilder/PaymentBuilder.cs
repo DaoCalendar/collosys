@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class PaymentBuilder : QueryBuilder<Payment>
     {
-        public override QueryOver<Payment, Payment> DefaultQuery()
+        public override QueryOver<Payment, Payment> WithRelation()
         {
             return QueryOver.Of<Payment>();
         }

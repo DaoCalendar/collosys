@@ -146,15 +146,15 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.DoNotAllocate)
             {
                 model = ChangeCAllocationDoNotAllocate(model);
-                AllocBuilder.SaveList(model.CAllocs);
-                AllocBuilder.SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.CAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
                 return;
             }
             if (model.AllocationType == ColloSysEnums.AllocationType.AllocateToStkholder)
             {
                 model = ChangeCAllocationsToStakeholder(model);
-                AllocBuilder.SaveList(model.CAllocs);
-                AllocBuilder.SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.CAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
             }
         }
 
@@ -163,15 +163,15 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.DoNotAllocate)
             {
                 model = ChangeEAllocationDoNotAllocate(model);
-                AllocBuilder.SaveList(model.EAllocs);
-                AllocBuilder.SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.EAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
                 return;
             }
             if (model.AllocationType == ColloSysEnums.AllocationType.AllocateToStkholder)
             {
                 model = ChangeEAllocationsToStakeholder(model);
-                AllocBuilder.SaveList(model.EAllocs);
-                AllocBuilder.SaveList(model.SaveEAllocs);
+                AllocBuilder.Save(model.EAllocs);
+                AllocBuilder.Save(model.SaveEAllocs);
             }
         }
 

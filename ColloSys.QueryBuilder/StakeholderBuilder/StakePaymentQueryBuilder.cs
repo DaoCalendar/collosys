@@ -8,7 +8,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
     public class StakePaymentQueryBuilder : QueryBuilder<StkhPayment>
     {
-        public override QueryOver<StkhPayment, StkhPayment> DefaultQuery()
+        public override QueryOver<StkhPayment, StkhPayment> WithRelation()
         {
             return QueryOver.Of<StkhPayment>()
                         .Fetch(x => x.Stakeholder).Eager

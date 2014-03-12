@@ -35,7 +35,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public HttpResponseMessage GetAdhocdata(ScbEnums.Products products)
         {
-            var query = BillAdhocBuilder.DefaultQuery();
+            var query = BillAdhocBuilder.WithRelation();
 
             var data = BillAdhocBuilder
                 .ExecuteQuery(query)
