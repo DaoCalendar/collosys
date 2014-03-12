@@ -3,11 +3,11 @@ var csapp = angular.module("ui.collosys",
     ['ui.bootstrap', 'ui', 'ngUpload', 'ngGrid', 'restangular', "ngRoute"]);
 
 csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
-    function(restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider,$locationProvider) {
+    function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
 
-        var httpInterceptor = function() {
-            $provide.factory('MyHttpInterceptor', ["$q", "$rootScope", function($q, $rootScope) {
-                var requestInterceptor = function(config) {
+        var httpInterceptor = function () {
+            $provide.factory('MyHttpInterceptor', ["$q", "$rootScope", function ($q, $rootScope) {
+                var requestInterceptor = function (config) {
                     if (config.url.indexOf("/api/") !== -1) {
                         $rootScope.$broadcast('$csShowSpinner');
                         console.log("HttpInterceptor : Request : " + moment().format("HH:mm:ss:SSS") + " : " + config.url);
@@ -18,7 +18,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     return config || $q.when(config);
                 };
 
-                var requestErrorInterceptor = function(rejection) {
+                var requestErrorInterceptor = function (rejection) {
                     if (rejection.config.url.indexOf("/api/") !== -1) {
                         $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : RequestError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
@@ -29,7 +29,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     return $q.reject(rejection);
                 };
 
-                var responseInterceptor = function(response) {
+                var responseInterceptor = function (response) {
                     if (response.config.url.indexOf("/api/") !== -1) {
                         $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : Response : " + moment().format("HH:mm:ss:SSS") + " : " + response.config.url);
@@ -40,7 +40,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     return response || $q.when(response);
                 };
 
-                var responseErrorInterceptor = function(rejection) {
+                var responseErrorInterceptor = function (rejection) {
                     if (rejection.config.url.indexOf("/api/") !== -1) {
                         $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : ResponseError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
@@ -73,13 +73,12 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
         };
         httpInterceptor();
 
-        var routeConfig = function() {
+        var routeConfig = function () {
             $routeProvider
                 .when('/', {
-                    templateUrl: 'Shared/templates/main.html',
-                    controller: 'MainCtrl'
-                })
-                .when('/login', {
+                    templateUrl: 'Shared/templates/home.html',
+                    controller: 'HomeCtrl'
+                }).when('/login', {
                     templateUrl: 'Shared/templates/login.html',
                     controller: 'LoginCtrl'
                 }).when('/fileupload/filedetail', {
@@ -91,8 +90,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/filemapping', {
                     templateUrl: '/FileUpload/filemapping/file-mapping.html',
                     controller: 'fileColumnController'
-                })
-                .otherwise({
+                }).when('/fileupload/filescheduler', {
+                    templateUrl: '/FileUpload/filescheduler/file-scheduler.html',
+                    controller: 'fileSchedulerController'
+                }).otherwise({
                     redirectTo: '/'
                 });
         };
@@ -135,3 +136,5 @@ csapp.constant("$csConstants", {
         value: { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly" }
     }
 });
+
+csapp.controller('HomeCtrl', [function () { }]);

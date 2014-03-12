@@ -123,13 +123,17 @@
     <Compile Include="FileUpload\filedetail\FileDetailViewModel.cs" />
     <Compile Include="FileUpload\filemapping\FileMappingApiController.cs" />
     <Compile Include="FileUpload\filemapping\FileMappingViewModel.cs" />
+    <Compile Include="FileUpload\filescheduler\FileSchedulerApiController.cs" />
+    <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
+    <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\apis\BaseApiController.cs" />
-    <Compile Include="Shared\apis\HttpSessionAttribute.cs" />
-    <Compile Include="Shared\apis\HttpTransactionAttribute.cs" />
+    <Compile Include="Shared\webapis\BaseApiController.cs" />
+    <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
+    <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
+    <Compile Include="Shared\webapis\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\angularui\angular-ui.css" />
@@ -168,6 +172,7 @@
     <Content Include="FileUpload\filemapping\file-mapping-edit.html" />
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
+    <Content Include="FileUpload\filescheduler\filescheduler.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
@@ -239,6 +244,7 @@
     <Content Include="Content\fontawesome\font\FontAwesome.otf" />
     <Content Include="FileUpload\filecolumn\file-column.html" />
     <Content Include="FileUpload\filemapping\file-mapping.html" />
+    <Content Include="FileUpload\filescheduler\file-scheduler.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -514,10 +520,8 @@
     <Content Include="Shared\scripts\login.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
-    <Content Include="Shared\scripts\main.js" />
-    <Content Include="Shared\scripts\tplinjection.js" />
     <Content Include="Shared\templates\login.html" />
-    <Content Include="Shared\templates\main.html" />
+    <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Web.config">
@@ -550,6 +554,10 @@
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
       <Project>{b2a3cd93-04c0-401b-ab97-c70638956aa3}</Project>
       <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj">
+      <Project>{4450BB2E-C544-40C2-BCC3-EAB5C385FB0C}</Project>
+      <Name>ColloSys.QueryBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>

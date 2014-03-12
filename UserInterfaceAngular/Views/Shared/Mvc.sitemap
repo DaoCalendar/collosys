@@ -40,22 +40,9 @@
 
     </mvcSiteMapNode>
 
-    <mvcSiteMapNode title="Upload Config" clickable="false" roles="Development" imageUrl="icon-twitter">
-
-      <mvcSiteMapNode title="File Details" controller="FileDetails" action="Index" area="FileUploader" roles="Development"/>
-
-      <mvcSiteMapNode title="Add File Details" controller="AddFileDetails" action="Index" area="FileUploader" roles="Development"/>
-
-      <mvcSiteMapNode title="File Column" controller="FileColumn" action="Index" area="FileUploader" roles="Development" />
-
-      <mvcSiteMapNode title="File Mapping" controller="FileMapping" action="Index" area="FileUploader" roles="Development"/>
-
-    </mvcSiteMapNode>
-
     <mvcSiteMapNode title="SCB Config" clickable="false" roles="Development" imageUrl="icon-twitter">
 
       <mvcSiteMapNode title="Add Hierarchy" controller="Hierarchy" action="AddHierarchy" area="Stakeholder2" roles="Development"/>
-
 
       <mvcSiteMapNode title="Edit Hierarchy" controller="Hierarchy" action="EditHierarchy" area="Stakeholder2" roles="Development"/>
 
