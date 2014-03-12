@@ -1,23 +1,24 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
+
+#endregion
+
 
 namespace BillingService.DBLayer
 {
     internal static class BillStatusDbLayer
     {
+        private static readonly BillStatusBuilder BillStatusBuilder=new BillStatusBuilder();
+
         // get list of pending billStatus
         public static IList<BillStatus> GetPendingBillStatus()
         {
-            var session = SessionManager.GetCurrentSession();
-            var billStatus = session.QueryOver<BillStatus>()
-                 .Where(x => x.Status == ColloSysEnums.BillingStatus.Pending).List();
-
+            var billStatus = BillStatusBuilder.GetOnExpression(x => x.Status == ColloSysEnums.BillingStatus.Pending);
             return billStatus;
         }
 
@@ -25,15 +26,7 @@ namespace BillingService.DBLayer
         public static bool SaveDoneBillStatus(BillStatus billStatus)
         {
             billStatus.Status = ColloSysEnums.BillingStatus.Done;
-
-            var session = SessionManager.GetCurrentSession();
-
-            using (var tx = session.BeginTransaction())
-            {
-                session.SaveOrUpdate(billStatus);
-                tx.Commit();
-            }
-
+            BillStatusBuilder.Save(billStatus);
             return true;
         }
     }

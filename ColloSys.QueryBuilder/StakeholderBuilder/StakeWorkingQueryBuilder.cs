@@ -1,14 +1,17 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿#region references
+
+using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.BaseTypes;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Transform;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
     public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
     {
-        public override QueryOver<StkhWorking,StkhWorking> DefaultQuery()
+        public override QueryOver<StkhWorking,StkhWorking> WithRelation()
         {
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
-using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
@@ -20,7 +21,18 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                           .List();
         }
 
-        public override QueryOver<StkhHierarchy,StkhHierarchy> DefaultQuery()
+        [Transaction]
+        public IEnumerable<StkhHierarchy> OnDesignationHierarchy(string designation, string hierarchy)
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            var data = session.Query<StkhHierarchy>()
+                              .Where(x => x.Designation == designation && x.Hierarchy == hierarchy)
+                              .Select(x => x).ToList();
+            return data;
+        }
+
+        public override QueryOver<StkhHierarchy,StkhHierarchy> WithRelation()
         {
             return QueryOver.Of<StkhHierarchy>()
                             .Fetch(x => x.GPermissions).Eager

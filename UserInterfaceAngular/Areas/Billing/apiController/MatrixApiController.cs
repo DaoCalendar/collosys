@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Shared;
 using System;
 using System.Collections.Generic;
@@ -18,25 +20,27 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class MatrixApiController : BaseApiController<BMatrix>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
+        private static readonly BMatrixBuilder BMatrixBuilder=new BMatrixBuilder();
+        private static readonly BMatrixValueBuilder BMatrixValueBuilder=new BMatrixValueBuilder();
+
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
         {
-            var data= Session.QueryOver<BillingSubpolicy>()
-                            .Where(c => c.Products == product && c.Category == category
-                                && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
-                            .List().Select(c => c.Name);
+            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category)
+                                              .Select(x => x.Name).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
@@ -45,7 +49,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
          [HttpTransaction]
         public HttpResponseMessage GetMatrix(ScbEnums.Products product, ScbEnums.Category category)
          {
-             var data= Session.QueryOver<BMatrix>().Where(c => c.Products == product && c.Category == category).List();
+             var data = BMatrixBuilder.OnProductCategory(product, category);
              return Request.CreateResponse(HttpStatusCode.OK, data);
 
          }
@@ -54,9 +58,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
          public HttpResponseMessage GetMatrixValues(Guid matrixId)
         {
-            var data= Session.QueryOver<BMatrixValue>()
-                            .Where(c => c.BMatrix.Id == matrixId)
-                            .List();
+            var data = BMatrixValueBuilder.OnMatrixId(matrixId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
@@ -83,8 +85,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             {
                 matrixValue.BMatrix = obj;
             }
-
-            Session.SaveOrUpdate(obj);
+            BMatrixBuilder.Save(obj);
             return obj;
         }
 
@@ -97,15 +98,16 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
                 if (matrixValue.Id == Guid.Empty)
                 {
-                    Session.SaveOrUpdate(matrixValue);
+                    BMatrixValueBuilder.Save(matrixValue);
                 }
                 else
                 {
-                    Session.Merge(matrixValue);
+                    BMatrixValueBuilder.Merge(matrixValue);
                 }
             }
 
-            return Session.Merge(obj);
+            BMatrixBuilder.Merge(obj);
+            return obj;
         }
 
         #endregion

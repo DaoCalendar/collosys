@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.Types4Product;
+
+#endregion
 
 namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class HandleByTelecaller
     {
-        public static List<Entity> Init(Type classType, IList dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
+        public static List<Alloc> Init(IList<Info> dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
         {
-            var list = new List<Entity>();
+            var list = new List<Alloc>();
 
-            //var cacsData = FRCases.DataAccess.GetDataFromCacs(product);
-
-            //dataOnCondition = GetCasesToAllocate(dataOnCondition, cacsData);
-
-            dataOnCondition = dataOnCondition.Cast<Info>().Where(x => x.IsReferred).ToList();
+            dataOnCondition = dataOnCondition.Where(x => x.IsReferred).ToList();
 
             //calculate month start date and last date 
             var baseDate = Util.GetTodayDate();
@@ -40,7 +37,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                 uint cycleCode;
                 try
                 {
-                    cycleCode = (uint)dataObject.GetType().GetProperty("Cycle").GetValue(dataObject);
+                    cycleCode = dataObject.Cycle;
                 }
                 catch (Exception)
                 {
@@ -53,46 +50,40 @@ namespace ColloSys.AllocationService.AllocationLayer
                 var thisMonthEnd = thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
 
                 //create object of type
-                var obj = ClassType.CreateAllocObject(classType.Name);
+                var obj = new Alloc
+                    {
+                        AllocPolicy = relationCondition.AllocPolicy,
+                        AllocSubpolicy = relationCondition.AllocSubpolicy,
+                        IsAllocated = false,
+                        StartDate = thisMonthStart,
+                        EndDate = thisMonthEnd,
+                        Bucket = 7,
+                        WithTelecalling = false
+                    };
 
                 //set base properties appear in SharedAlloc
-                obj.AllocPolicy = relationCondition.AllocPolicy;
-                obj.AllocSubpolicy = relationCondition.AllocSubpolicy;
-                obj.IsAllocated = false;
-                obj.StartDate = thisMonthStart;
-                obj.EndDate = thisMonthEnd;
                 //obj.AmountDue = 0;
-                obj.Bucket = 7; //for writeoff 7, for liner set in respective method
-                obj.WithTelecalling = false;
 
                 string accountno;
 
                 var ralloc = SetAlloc(obj, dataObject, out accountno);
                 list.Add(ralloc);
-                dataObject.GetType().GetProperty("AllocStatus").SetValue(dataObject, ColloSysEnums.AllocStatus.AllocateToTelecalling);
+                dataObject.AllocStatus=ColloSysEnums.AllocStatus.AllocateToTelecalling;
             }
 
             //set allocstatus
-            list.ForEach(x => ((Alloc)x).AllocStatus = ColloSysEnums.AllocStatus.AllocateToTelecalling);
-            dataOnCondition.Cast<Info>().Where(x=>x.IsReferred).ToList().ForEach(x=>x.IsReferred=false);
+            list.ForEach(x => x.AllocStatus = ColloSysEnums.AllocStatus.AllocateToTelecalling);
+            dataOnCondition.Where(x=>x.IsReferred).ToList().ForEach(x=>x.IsReferred=false);
             return list;
         }
 
-        private static IList GetCasesToAllocate(IList dataOnCondition, IList<CacsActivity> cacsData)
+        private static Alloc SetAlloc(Alloc alloc, Info dataObject, out string accountno)
         {
-            var list = dataOnCondition.Cast<Info>().ToList();// ConvertList(dataOnCondition);
-            var accounts = cacsData.Select(x => x.AccountNo).ToList();
-            list = list.Where(x => !accounts.Contains(x.AccountNo)).ToList();
-            return list;
-        }
-
-        private static Alloc SetAlloc(Alloc alloc, object dataObject, out string accountno)
-        {
-            var ralloc = (Alloc)alloc;
-            ralloc.Info = (Info)dataObject;
+            var ralloc = alloc;
+            ralloc.Info = dataObject;
             ralloc.Bucket = (int)ralloc.Info.Bucket;
             accountno = ralloc.Info.AccountNo;
-            ralloc.AmountDue = ((Info)dataObject).TotalDue;
+            ralloc.AmountDue = dataObject.TotalDue;
 
             //set allocstartdate and allocenddate for rinfo
             ralloc.Info.AllocStartDate = ralloc.StartDate;

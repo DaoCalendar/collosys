@@ -5,6 +5,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using Itenso.TimePeriod;
 
@@ -14,6 +15,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
     public class BulkAllocationModel
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
+
         public BulkAllocationModel()
         {
             SaveRAllocs=new List<Alloc>();
@@ -71,24 +74,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         private static IList<Alloc> GetAllocationsForAlloc(BulkAllocationModel model)
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<Alloc>()
-                                      .Fetch(x => x.AllocPolicy).Eager
-                                      .Fetch(x => x.AllocSubpolicy).Eager
-                                      .Fetch(x=>x.Info).Eager
-                                      //.Fetch(x => x.RLiner).Eager
-                                      //.Fetch(x => x.RWriteoff).Eager
-                                      .Fetch(x => x.Stakeholder).Eager
-                                      .Where(x => x.Stakeholder.Id == model.Stakeholder)
-                                      .And(x=>x.Info.Product==model.Product)
-                                      .List();
-                    trans.Rollback();
-                    return data;
-                }
-            }
+            return AllocBuilder.AllocationsForStakeholder(model.Stakeholder, model.Product).ToList();
         }
 
         #endregion
@@ -138,8 +124,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.DoNotAllocate)
             {
                 model = ChangeRAllocationDoNotAllocate(model);
-                Save(model.SaveRAllocs.First());
-                Save(model.RAllocs.First());
+                AllocBuilder.Save(model.SaveRAllocs.First());
+                AllocBuilder.Save(model.RAllocs.First());
                 //SaveList(model.SaveRAllocs);
                 //SaveList(model.RAllocs);
                 return;
@@ -147,8 +133,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.AllocateToStkholder)
             {
                 model = ChangeRAllocationsToStakeholder(model);
-                Save(model.RAllocs[1]);
-                Save(model.SaveRAllocs[1]);
+                AllocBuilder.Save(model.RAllocs[1]);
+                AllocBuilder.Save(model.SaveRAllocs[1]);
                 //SaveList(model.RAllocs);
                 //SaveList(model.SaveRAllocs);
             }
@@ -160,15 +146,15 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.DoNotAllocate)
             {
                 model = ChangeCAllocationDoNotAllocate(model);
-                SaveList(model.CAllocs);
-                SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.CAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
                 return;
             }
             if (model.AllocationType == ColloSysEnums.AllocationType.AllocateToStkholder)
             {
                 model = ChangeCAllocationsToStakeholder(model);
-                SaveList(model.CAllocs);
-                SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.CAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
             }
         }
 
@@ -177,15 +163,15 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
             if (model.AllocationType == ColloSysEnums.AllocationType.DoNotAllocate)
             {
                 model = ChangeEAllocationDoNotAllocate(model);
-                SaveList(model.EAllocs);
-                SaveList(model.SaveCAllocs);
+                AllocBuilder.Save(model.EAllocs);
+                AllocBuilder.Save(model.SaveCAllocs);
                 return;
             }
             if (model.AllocationType == ColloSysEnums.AllocationType.AllocateToStkholder)
             {
                 model = ChangeEAllocationsToStakeholder(model);
-                SaveList(model.EAllocs);
-                SaveList(model.SaveEAllocs);
+                AllocBuilder.Save(model.EAllocs);
+                AllocBuilder.Save(model.SaveEAllocs);
             }
         }
 
@@ -354,53 +340,11 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         #endregion
 
-        #region Save with object and list
-
-        private static void Save(object obj)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(obj);
-                    trans.Commit();
-                }
-            }
-        }
-
-        private static void SaveList(IEnumerable<object> objlist)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    foreach (var obj in objlist)
-                    {
-                        session.SaveOrUpdate(obj);
-                    }
-                    trans.Commit();
-                }
-            }
-        }
-
-        #endregion
-
-
         #region get stakeholder(id)
 
         private static Stakeholders GetStakeholder(Guid stakeholdersId)
         {
             return StakeQuery.GetWithId(stakeholdersId);
-            //using (var session = SessionManager.GetNewSession())
-            //{
-            //    using (var trans = session.BeginTransaction())
-            //    {
-            //        var data = session.QueryOver<Stakeholders>()
-            //                          .Where(x => x.Id == stakeholdersId).SingleOrDefault();
-            //        trans.Rollback();
-            //        return data;
-            //    }
-            //}
         }
 
         #endregion

@@ -1,31 +1,29 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using ColloSys.DataLayer.Components;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.FileUploader.Models
 {
     public class FileColumnViewModel
     {
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+
         public FileColumnViewModel()
         {
             ColumnDataTypes = Enum.GetNames(typeof (ColloSysEnums.FileDataType));
-
-            var session = SessionManager.GetCurrentSession();
-
-            var data = session.QueryOver<FileDetail>()
-                              .Where(x => x.ScbSystems == ScbEnums.ScbSystems.EBBS || x.ScbSystems == ScbEnums.ScbSystems.RLS)
-                              .Select(x => x.AliasName)
-                              .OrderBy(x=>x.AliasName).Asc
-                              .List<ColloSysEnums.FileAliasName>();
+            var data = FileDetailBuilder.ForROrEAliasNames();
             FileNames = data.Select(aliasName => Enum.GetName(typeof (ColloSysEnums.FileAliasName), aliasName))
                             .Distinct()
                             .ToList();
-
         }
 
         public IEnumerable<string> ColumnDataTypes;

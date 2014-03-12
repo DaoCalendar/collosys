@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.UserInterface.Shared;
 using NHibernate.Linq;
@@ -21,7 +22,8 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
     public static class FileUploadHelper
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder=new FileSchedulerBuilder();
         #region init
 
         public static FileUploadViewModel InitFileInfo(FileUploadViewModel viewModel)
@@ -31,10 +33,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
             // first populate unscheduled files
             IList<ScheduledFiles> fileList = new List<ScheduledFiles>();
 
-            var allFiles = session.QueryOver<FileDetail>()
-                                  .Where(x => x.ScbSystems == viewModel.SelectedSystem)
-                                  .And(x => x.Category == viewModel.SelectedCategory)
-                                  .Skip(0).Take(500).List();
+            var allFiles = FileDetailBuilder.OnSystemCategory(viewModel.SelectedSystem, viewModel.SelectedCategory);
 
 
             foreach (var fileDetail in allFiles)
@@ -57,12 +56,9 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
             }
 
             // then get scheduled files
-            var scheduleList = session.QueryOver<FileScheduler>()
-                                      .Where(x => x.ScbSystems == viewModel.SelectedSystem)
-                                      .And(x => x.Category == viewModel.SelectedCategory)
-                                      .And(x => x.FileDate == viewModel.ScheduleDate)
-                                      .Fetch(x => x.FileDetail).Eager
-                                      .Skip(0).Take(500).List();
+            var scheduleList = FileSchedulerBuilder.OnSystemCategoryFileDate(viewModel.SelectedSystem,
+                                                                             viewModel.SelectedCategory,
+                                                                             viewModel.ScheduleDate).ToList();
 
             foreach (var fileScheduler in scheduleList)
             {
@@ -102,10 +98,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                         Enum.Parse(typeof(ColloSysEnums.FileAliasName), aliasName, true);
 
             // get file details
-            var session = SessionManager.GetCurrentSession();
-            var fileDetails = session.QueryOver<FileDetail>()
-                                     .Where(x => x.AliasName == fileAliasName)
-                                     .SingleOrDefault<FileDetail>();
+            var fileDetails = FileDetailBuilder.OnAliasName(fileAliasName);
             if (fileDetails == null)
             {
                 Log.Fatal("Scheduling files : Received null file details, should never happen.");
@@ -153,12 +146,8 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                                        ? DateTime.Today.AddDays(-28)
                                        : DateTime.Today.AddDays(-120));
             //FileScheduler queryobj = null;
-            var wasScheduled = session.Query<FileScheduler>()
-                                      .Count(x => x.FileDetail.AliasName == fileAliasName
-                                                  && x.FileSize == (ulong) file.ContentLength
-                                                  && x.FileDate >= checkdate
-                                                  && x.FileName.Substring(16).Equals(file.FileName)
-                                                  && x.UploadStatus != ColloSysEnums.UploadStatus.Error);
+            var wasScheduled = FileSchedulerBuilder.Count(fileAliasName, (ulong) file.ContentLength, checkdate,
+                                                          file.FileName);
             if (wasScheduled > 0)
             {
                 var checkcount = (fileDetails.Frequency == ColloSysEnums.FileFrequency.Daily) ? 10 : 5;

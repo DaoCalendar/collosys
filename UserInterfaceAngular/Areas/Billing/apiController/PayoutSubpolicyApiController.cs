@@ -4,6 +4,9 @@ using System.IO;
 using System.Web;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -19,13 +22,21 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class PayoutSubpolicyApiController : BaseApiController<BillingSubpolicy>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
+        private static readonly BMatrixBuilder BMatrixBuilder=new BMatrixBuilder();
+        private static readonly BConditionBuilder BConditionBuilder=new BConditionBuilder();
+        private static readonly BillingRelationBuilder BillingRelationBuilder=new BillingRelationBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
+
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -33,10 +44,10 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
         {
-            var data= Session.QueryOver<BillingSubpolicy>()
-                            .Where(c => c.Products == product && c.Category == category
-                                && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
-                            .List().Select(c => c.Name);
+            var data=BillingSubpolicyBuilder
+                .FormulaOnProductCategory(product,category)
+                .Select(c => c.Name)
+                .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -44,8 +55,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public HttpResponseMessage GetMatrixNames(ScbEnums.Products product, ScbEnums.Category category)
         {
-            var data= Session.QueryOver<BMatrix>().Where(c => c.Products == product && c.Category == category)
-                            .List().Select(c => c.Name);
+            var data = BMatrixBuilder.OnProductCategory(product, category)
+                                     .Select(x => x.Name).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -69,30 +80,24 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ScbEnums.Category category)
         {
-            var data= Session.QueryOver<BillingSubpolicy>()
-                            .Where(c => c.Products == product && c.Category == category)
-                            .List();
+            var data = BillingSubpolicyBuilder.OnProductCategory(product, category);
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetBConditions(Guid parentId)
         {
-            var data= Session.QueryOver<BCondition>().Where(c => c.BillingSubpolicy.Id == parentId).List();
+            var data = BConditionBuilder.OnSubpolicyId(parentId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetFormulas(ScbEnums.Products product, ScbEnums.Category category)
         {
-            var data= Session.QueryOver<BillingSubpolicy>().Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula
-                                                                && x.Products == product && x.Category == category).List();
+            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category);
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]
@@ -130,8 +135,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public uint GetMaxPriority()
         {
-            var data = Session.QueryOver<BillingRelation>()
-             .Select(x => x.Priority).List<uint>();
+            var data = BillingRelationBuilder.GetAll().Select(x => x.Priority).ToList();
             return data.Any() ? data.Max() : 0;
         }
         #endregion
@@ -141,11 +145,10 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public BillingRelation GetRelations(BillingSubpolicy subpolicy)
         {
-            var relation = Session.QueryOver<BillingRelation>().Where(x => x.BillingSubpolicy.Id == subpolicy.Id).SingleOrDefault();
+            var relation = BillingRelationBuilder.OnSubpolicyId(subpolicy.Id);
             if (relation == null)
             {
-                var policy = Session.QueryOver<BillingPolicy>().Where(x => x.Products == subpolicy.Products)
-                                    .And(x => x.Category == subpolicy.Category).SingleOrDefault();
+                var policy = BillingPolicyBuilder.OnProductCategory(subpolicy.Products, subpolicy.Category);
                 relation = new BillingRelation
                 {
                     BillingPolicy = policy,
@@ -164,23 +167,18 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             relation.Status = ColloSysEnums.ApproveStatus.Submitted;
             var maxpriority = GetMaxPriority();
             relation.Priority =(uint) maxpriority + 1;
-            Session.SaveOrUpdate(relation);
+            BillingRelationBuilder.Save(relation);
             return relation;
         }
 
         public void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser =
-                Session.QueryOver<Stakeholders>()
-                        .Where(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                var reportsToUserId =
-                    Session.QueryOver<Stakeholders>()
-                            .Where(x => x.Id == currUser.ReportingManager).SingleOrDefault().ExternalId;
-                relation.ApprovedBy = reportsToUserId;
+                relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
             }
         }
 
@@ -194,8 +192,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             {
                 bcondition.BillingSubpolicy = obj;
             }
-
-            Session.SaveOrUpdate(obj);
+            BillingSubpolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -206,7 +203,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 bcondition.BillingSubpolicy = obj;
             }
 
-            return Session.Merge(obj);
+            BillingSubpolicyBuilder.Merge(obj);
+            return obj;
         }
 
         #endregion

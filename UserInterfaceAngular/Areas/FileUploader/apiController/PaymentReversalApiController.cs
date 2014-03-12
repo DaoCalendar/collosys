@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,11 +10,16 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.ClientDataBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.NgGrid;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.FileUploader.apiController
 {
@@ -24,6 +31,10 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
 
     public class PaymentReversalApiController : BaseApiController<Payment>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
+        private static readonly PaymentBuilder PaymentBuilder=new PaymentBuilder();
+
         // GET api/<controller>
         public IEnumerable<string> GetScbSystems()
         {
@@ -34,7 +45,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data = Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
 
@@ -43,12 +54,16 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
         [HttpTransaction]
         public HttpResponseMessage GetAccountNo(string accountNo, ScbEnums.Products products)
         {
-            List<CustomerAccounts> data = Session.Query<Info>()
-                               .Where(x => x.AccountNo.ToString()
-                                            .StartsWith(accountNo) && x.Product == products)
-                               .Take(10).Select(x => new CustomerAccounts { AccountNo = x.AccountNo, CustomerName = x.CustomerName })
-                               .ToList()
-                               .Distinct().ToList();
+            List<CustomerAccounts> data = InfoBuilder.OnAccNoProduct(accountNo, products)
+                                                     .Select(
+                                                         x =>
+                                                         new CustomerAccounts
+                                                             {
+                                                                 AccountNo = x.AccountNo,
+                                                                 CustomerName = x.CustomerName
+                                                             })
+                                                     .ToList()
+                                                     .Distinct().ToList();
           return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -68,7 +83,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
             foreach (var payment in payments)
             {
                 payment.IsExcluded = true;
-                Session.SaveOrUpdate(payment);
+                PaymentBuilder.Save(payment);
             }
             return Request.CreateResponse(HttpStatusCode.OK, true);
         }
@@ -87,7 +102,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.apiController
         public HttpResponseMessage AddPayments(Payment payment)
         {
             payment.FileDate = DateTime.Today;
-            Session.SaveOrUpdate(payment);
+            PaymentBuilder.Save(payment);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

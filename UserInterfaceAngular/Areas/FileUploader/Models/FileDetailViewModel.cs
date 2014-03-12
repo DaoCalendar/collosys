@@ -1,20 +1,21 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.Components;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
+
+#endregion
 
 namespace ColloSys.UserInterface.Areas.FileUploader.Models
 {
     public class FileDetailViewModel
     {
-
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
         public FileDetailViewModel()
         {
-            var session = SessionManager.GetCurrentSession();
-            FileDetails = session.QueryOver<FileDetail>().List();
+            FileDetails = FileDetailBuilder.GetAll();
             FileTypes = Enum.GetNames(typeof(ColloSysEnums.FileType));
             FileCategories = Enum.GetNames(typeof(ScbEnums.Category));
             FileAliasNames = Enum.GetNames(typeof(ColloSysEnums.FileAliasName));

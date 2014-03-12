@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.FileUploader;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -47,7 +48,7 @@ namespace UserInterfaceAngular.app
         [HttpTransaction]
         public IEnumerable<FileDetail> GetFileDetailList()
         {
-            return Session.QueryOver<FileDetail>().Select(x=>x).List();
+            return new FileDetailBuilder().GetAll();
         }
     }
 }

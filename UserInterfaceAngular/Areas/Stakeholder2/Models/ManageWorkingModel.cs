@@ -1,11 +1,15 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
-using System.Reflection;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.SharedUtils;
 
+#endregion
+//stakeholders calls changed
+//hierarchy calls changed
 namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
 {
     public class ManageWorkingModel
@@ -15,6 +19,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Reason { get; set; }
+
+        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
 
         public static IList<Stakeholders> ChangeWorking(ManageWorkingModel manageWorking)
         {
@@ -27,13 +33,12 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
             {
                 SetExitForStakeholder(manageWorking);
             }
-            var session = SessionManager.GetCurrentSession();
             manageWorking.Source = SetReferences(manageWorking.Source);
-            session.SaveOrUpdate(manageWorking.Source);
+            StakeQuery.Save(manageWorking.Source);
             foreach (var stakeWorkingVm in manageWorking.Workings)
             {
                 stakeWorkingVm.Stakeholders = SetReferences(stakeWorkingVm.Stakeholders);
-                session.SaveOrUpdate(stakeWorkingVm.Stakeholders);
+                StakeQuery.Save(stakeWorkingVm.Stakeholders);
             }
             return null;
         }

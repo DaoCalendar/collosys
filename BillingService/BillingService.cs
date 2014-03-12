@@ -15,6 +15,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 
@@ -23,6 +24,8 @@ namespace ColloSys.BillingService
     public class BillingServices
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly BillDetailBuilder BillDetailBuilder=new BillDetailBuilder();
+        private static readonly BillAmountBuilder BillAmountBuilder=new BillAmountBuilder();
 
         #region nh init
 
@@ -158,7 +161,8 @@ namespace ColloSys.BillingService
 
             var billAmount = GetBillAmountForStkholder(stakeholder, billStatus, billDetails);
 
-            BillDetailDbLayer.SaveBillDetailsBillAmount(billDetails, billAmount);
+            BillDetailBuilder.Save(billDetails);
+            BillAmountBuilder.Save(billAmount);
 
             return billDetails;
         }

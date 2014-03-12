@@ -1,19 +1,21 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BillingService.DBLayer;
-using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
+
+#endregion
+
 
 namespace BillingService.ViewModel
 {
     public class FormulaBuilder
     {
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder(); 
         internal static dynamic SolveFormula<T>(ScbEnums.Products products, string formulaName, List<T> data)
         {
-            var formula = BillingPolicyDbLayer.GetFormula(products, formulaName);
+            var formula =BillingSubpolicyBuilder.FormulaOnProductAndName(products, formulaName);
 
             if (formula == null)
                 return 0;

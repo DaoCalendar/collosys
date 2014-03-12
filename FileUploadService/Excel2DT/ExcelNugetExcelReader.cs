@@ -1,6 +1,11 @@
-﻿using System.IO;
+﻿#region references
+
+using System.IO;
 using Excel;
 using DataTable = System.Data.DataTable;
+
+#endregion
+
 
 namespace ColloSys.FileUploadService.Excel2DT
 {

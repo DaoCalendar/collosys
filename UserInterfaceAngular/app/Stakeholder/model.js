@@ -6,20 +6,24 @@
         MobileNo: { type: "phone", label: "Mobile Number", required: true,pattern:'/^[0-9]{8,10}$/',patternMessage:"invalid number"},
         Gender: { type: "enum", label: "Gender", required: true, value: enums.gender },
         DateOfBirth: { type: "text", label: "Date Of Birth", required: true, maxlength: 20 },
-        Email:{label:"Email",required:true},
-        Date: { template: 'future', required: true },
-        TAN: { label: 'TAN', maxlength: 50 },
-        RegistrationNo: { label: 'Registration No', template: 'alphanum', maxlength: 30 },
-        ServiceTax: { label: 'ServiceTax No', template: 'alphanum', maxlength: 30 },
-        Line1: { label: 'Line11' ,required:true},
-        Line2: { label: 'Line21' ,required:true},
-        Line3: { label: 'Line31' ,required:false},
-        PAN: { label: 'PAN', pattern: "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/", patternMessage: 'Accepts only AAAAA0000A format' ,required:false}
+        Email:{type:"email",label:"Email",required:true},
+        Date: { type: "date", template: 'future', required: true },
+        
+        TAN: {type:'text', label: 'TAN', maxlength: 50 },
+        RegistrationNo: { type: 'text', label: 'Registration No', template: 'alphanum', maxlength: 30 },
+        ServiceTax: { type: 'text', label: 'ServiceTax No', template: 'alphanum', maxlength: 30 },
+        PAN: { type: 'text', label: 'PAN', pattern: "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/", patternMessage: 'Accepts only AAAAA0000A format', required: false },
+        
+        Line1: { type: 'text', label: 'Line1', required: true },
+        Line2: { type: 'text', label: 'Line2', required: true },
+        Line3: { type: 'text', label: 'Line3', required: false },
+        Pincode:{type:'text',label:'Pincode',required:true}
+       
     };
 
     var hierarchy = {
-        Hierarchy: {  label: "Hierarchy", required: true },
-        Designation: {  label: "Designation", required: true },
+        Hierarchy: { type:"select", label: "Hierarchy", required: true },
+        Designation: { type:"select", label: "Designation", required: true },
     };
 
     var workingPayment = {

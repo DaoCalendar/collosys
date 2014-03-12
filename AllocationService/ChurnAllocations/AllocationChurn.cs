@@ -1,26 +1,30 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.SharedDomain;
+
+#endregion
 
 namespace ColloSys.AllocationService.ChurnAllocations
 {
     public class AllocationChurn
     {
-        public bool Init<T>(IList<T> dataToChange) where T : Alloc
+        public bool Init(IList<Alloc> dataToChange) 
         {
             if (dataToChange == null)
                 return false;
             if (dataToChange.Count == 0)
                 return true;
             var listOfAllocationData = AssignAllocationDataByStakeholder(dataToChange);
-            var revisedlist = CreateChurnListOfAllocations<T>(listOfAllocationData);
+            var revisedlist = CreateChurnListOfAllocations(listOfAllocationData);
 
-            AssignStakeholdersForAllocations<T>(revisedlist);
+            AssignStakeholdersForAllocations(revisedlist);
             return true;
         }
 
-        private static void AssignStakeholdersForAllocations<T>(List<AllocationData> revisedlist) where T : Alloc
+        private static void AssignStakeholdersForAllocations(IEnumerable<AllocationData> revisedlist)
         {
             foreach (var allocationData in revisedlist)
             {
@@ -31,32 +35,22 @@ namespace ColloSys.AllocationService.ChurnAllocations
             }
         }
 
-        private static List<AllocationData> CreateChurnListOfAllocations<T>(List<AllocationData> listOfAllocationData) where T : Alloc
+        private static IEnumerable<AllocationData> CreateChurnListOfAllocations(IReadOnlyList<AllocationData> listOfAllocationData)
         {
-            var revisedlist = new List<AllocationData>();
-            Random random = new Random();
-            foreach (var allocationData in listOfAllocationData)
-            {
-                var newallocdata = new AllocationData();
-                newallocdata.Stakeholders = allocationData.Stakeholders;
-                newallocdata.AllocList = listOfAllocationData[random.Next(1, listOfAllocationData.Count)].AllocList;
-                revisedlist.Add(newallocdata);
-            }
-            return revisedlist;
+            var random = new Random();
+            return listOfAllocationData.Select(allocationData => new AllocationData
+                {
+                    Stakeholders = allocationData.Stakeholders, AllocList = listOfAllocationData[random.Next(1, listOfAllocationData.Count)].AllocList
+                }).ToList();
         }
 
         private static List<AllocationData> AssignAllocationDataByStakeholder<T>(IList<T> dataToChange) where T : Alloc
         {
             var stakeholderlist = dataToChange.Select(x => x.Stakeholder).Distinct().ToList();
-            var listOfAllocationData = new List<AllocationData>();
-            foreach (var stakeholderse in stakeholderlist)
-            {
-                var allocationObj = new AllocationData();
-                allocationObj.Stakeholders = stakeholderse;
-                allocationObj.AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<Alloc>();
-                listOfAllocationData.Add(allocationObj);
-            }
-            return listOfAllocationData;
+            return stakeholderlist.Select(stakeholderse => new AllocationData
+                {
+                    Stakeholders = stakeholderse, AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<Alloc>()
+                }).ToList();
         }
     }
 }

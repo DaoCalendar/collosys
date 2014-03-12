@@ -238,28 +238,28 @@ namespace ColloSys.Shared.Types4Product
 
         #region classobject by table-name
 
-        public static Alloc CreateAllocObject(string className)
-        {
-            ScbEnums.ClientDataTables tableName;
-            if (Enum.TryParse(className, out tableName))
-            {
+        //public static Alloc CreateAllocObject(string className)
+        //{
+        //    ScbEnums.ClientDataTables tableName;
+        //    if (Enum.TryParse(className, out tableName))
+        //    {
 
-                switch (tableName)
-                {
-                    case ScbEnums.ClientDataTables.RLiner:
-                    case ScbEnums.ClientDataTables.RWriteoff:
-                    case ScbEnums.ClientDataTables.ELiner:
-                    case ScbEnums.ClientDataTables.EWriteoff:
-                    case ScbEnums.ClientDataTables.CLiner:
-                    case ScbEnums.ClientDataTables.CWriteoff:
-                        return new Alloc();
-                    default:
-                        throw new ArgumentOutOfRangeException("table name for alloc :" + className);
-                }
-            }
+        //        switch (tableName)
+        //        {
+        //            case ScbEnums.ClientDataTables.RLiner:
+        //            case ScbEnums.ClientDataTables.RWriteoff:
+        //            case ScbEnums.ClientDataTables.ELiner:
+        //            case ScbEnums.ClientDataTables.EWriteoff:
+        //            case ScbEnums.ClientDataTables.CLiner:
+        //            case ScbEnums.ClientDataTables.CWriteoff:
+        //                return new Alloc();
+        //            default:
+        //                throw new ArgumentOutOfRangeException("table name for alloc :" + className);
+        //        }
+        //    }
 
-            throw new InvalidProgramException("No such class exist in alloc : " + className);
-        }
+        //    throw new InvalidProgramException("No such class exist in alloc : " + className);
+        //}
 
         public static Entity GetClientDataClassObjectByTableName(ScbEnums.ClientDataTables tableName)
         {

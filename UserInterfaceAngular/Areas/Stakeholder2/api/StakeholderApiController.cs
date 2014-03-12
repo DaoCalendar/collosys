@@ -8,6 +8,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared;
@@ -30,7 +31,11 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
-        private static readonly AddressQueryBuilder AddressQuery=new AddressQueryBuilder();
+        private static readonly AddressQueryBuilder AddressQuery = new AddressQueryBuilder();
+        private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
+        private static readonly StakeWorkingQueryBuilder StakeWorkingBuilder = new StakeWorkingQueryBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
 
         [HttpGet]
         [HttpTransaction]
@@ -68,16 +73,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
-            _log.Info("In Product web api");
-
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<ProductConfig>()
-                              .Select(x => x.Product)
-                              .List<ScbEnums.Products>();
-            LogManager.GetCurrentClassLogger().Info("StakeholderServices: Total Products loaded " + data.Count());
-            _log.Info(data);
-
-            return data;
+            return ProductConfigBuilder.GetProducts();
         }
 
         [HttpGet]
@@ -113,11 +109,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<string> GetStateList()
         {
-            var session = SessionManager.GetCurrentSession();
-            var getStateList = session.Query<GPincode>()
-                              .Select(x => x.State)
-                              .Distinct().ToList();
-            return getStateList;
+            return GPincodeBuilder.StateList();
         }
 
         [HttpGet]
@@ -242,13 +234,9 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetClusterList(string cluster)
         {
-            var session = SessionManager.GetCurrentSession();
             try
             {
-                var list = session.Query<GPincode>()
-                                  .Where(x => x.Cluster.StartsWith(cluster))
-                                  .GroupBy(x => x.Cluster)
-                                  .ToList();
+                var list = GPincodeBuilder.OnCluster(cluster);
                 if (list.Count == 0) return null;
 
                 return list.OrderBy(x => x.Key).Take(10).Select(entry => entry.First()).ToList();
@@ -262,11 +250,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetPincodesCity(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.City.StartsWith(pin))
-                              .Take(100)
-                              .ToList();
+            var list = GPincodeBuilder.OnPinOrCity(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.City into g select g.First()).ToList();
@@ -277,11 +261,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetPincodesArea(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.Area.StartsWith(pin))
-                              .Select(x => x)
-                              .Take(100).ToList();
+            var list = GPincodeBuilder.OnPinOrArea(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.Area into g select g.First()).ToList();
@@ -291,13 +271,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static string GetRegionOnState(string state)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.State == state)
-                              .Select(x => x.Region)
-                              .Distinct()
-                              .FirstOrDefault();
-            return list;
+            return GPincodeBuilder.RegionOnState(state);
         }
 
         private static IEnumerable<Stakeholders> GetReportsToList(string reportsTo, string hierarchy)
@@ -334,25 +308,17 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static void DeleteList(IEnumerable<Guid> addresslist, IEnumerable<Guid> paymentlist, IEnumerable<Guid> working)
         {
-            var session = SessionManager.GetCurrentSession();
-            using (var transaction = session.BeginTransaction())
+            foreach (var guid in addresslist)
             {
-                foreach (var guid in addresslist)
-                {
-                    session.Delete(session.Load<StakeAddress>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Address deleted with id: " + guid);
-                }
-                foreach (var guid in paymentlist)
-                {
-                    session.Delete(session.Load<StkhPayment>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Payment deleted with id: " + guid);
-                }
-                foreach (var guid in working)
-                {
-                    session.Delete(session.Load<StkhWorking>(guid));
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Working deleted with id: " + guid);
-                }
-                transaction.Commit();
+                AddressQuery.Delete(AddressQuery.Load(guid));
+            }
+            foreach (var guid in paymentlist)
+            {
+                StakePaymentBuilder.Delete(StakePaymentBuilder.Load(guid));
+            }
+            foreach (var guid in working)
+            {
+                StakeWorkingBuilder.Delete(StakeWorkingBuilder.Load(guid));
             }
         }
 

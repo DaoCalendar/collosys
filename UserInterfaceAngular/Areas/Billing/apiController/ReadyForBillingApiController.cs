@@ -1,26 +1,32 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BillingService.CustBillView;
-using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.UserInterface.Shared.Attributes;
+
+#endregion
+
 
 namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class ReadyForBillingApiController : ApiController
     {
+        private static readonly BillStatusBuilder BillStatusBuilder=new BillStatusBuilder();
+
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage FetchPageData(ScbEnums.Products products, uint month)
         {
             var data = ProcessCustBillView.GetBillingServiceData(products, month);
-
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -28,11 +34,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public HttpResponseMessage GetBillStatus(ScbEnums.Products products, uint month)
         {
-            var session = SessionManager.GetCurrentSession();
-
-            var data = session.QueryOver<BillStatus>().Where(x=>x.Products==products && x.BillMonth==month).SingleOrDefault();
+            var data =BillStatusBuilder.OnProductMonth(products,month);
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
 
@@ -46,28 +49,14 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction]
         public IEnumerable<BillStatus> GetBillingStatus()
         {
-            using (var session = SessionManager.GetCurrentSession())
-            {
-                var data = session.QueryOver<BillStatus>().List();
-                return data;
-            }
-
+            return BillStatusBuilder.GetAll();
         }
 
         [HttpPost]
         [HttpTransaction(Persist = true)]
         public void SaveBillingdata(BillStatus billStatus)
         {
-            using (var session = SessionManager.GetCurrentSession())
-            {
-                using (var transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(billStatus);
-                    transaction.Commit();
-                }
-
-            }
+            BillStatusBuilder.Save(billStatus);
         }
-
     }
 }

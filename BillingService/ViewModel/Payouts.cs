@@ -1,20 +1,25 @@
-﻿using System;
+﻿#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BillingService.CustBillView;
 using BillingService.DBLayer;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
 using NLog;
+
+#endregion
+
 
 namespace BillingService.ViewModel
 {
     public static class Payouts
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly BillAdhocBuilder BillAdhocBuilder=new BillAdhocBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
 
         #region Payout
 
@@ -40,30 +45,32 @@ namespace BillingService.ViewModel
             return billDetail;
         }
 
-        public static IList<BillDetail> GetVariablePayout(Stakeholders stakeholder, BillStatus billStatus, BillingPolicy billingPolicy, List<CustStkhBillViewModel> custStkhBillViewModels)
+        public static IEnumerable<BillDetail> GetVariablePayout(Stakeholders stakeholder, BillStatus billStatus, BillingPolicy billingPolicy, List<CustStkhBillViewModel> custStkhBillViewModels)
         {
             var billDetails = new List<BillDetail>();
 
-            var billingSubpolicies = BillingPolicyDbLayer.GetSubpolicies(billingPolicy, billStatus.BillMonth);
+            var billingSubpolicies =BillingSubpolicyBuilder.SubpolicyOnPolicy(billingPolicy, billStatus.BillMonth).ToList();
             for (var i = 0; i < billingSubpolicies.Count; i++)
             {
                 var billingSubpolicy = billingSubpolicies[i];
 
                 var billDetail = new BillDetail
-                {
-                    Stakeholder = stakeholder,
-                    BillMonth = billStatus.BillMonth,
-                    BillCycle = billStatus.BillCycle,
-                    Products = billStatus.Products,
-                    PaymentSource = ColloSysEnums.PaymentSource.Variable,
-                    BillingPolicy = billingPolicy,
-                    BillingSubpolicy = billingSubpolicy
-                };
+                    {
+                        Stakeholder = stakeholder,
+                        BillMonth = billStatus.BillMonth,
+                        BillCycle = billStatus.BillCycle,
+                        Products = billStatus.Products,
+                        PaymentSource = ColloSysEnums.PaymentSource.Variable,
+                        BillingPolicy = billingPolicy,
+                        BillingSubpolicy = billingSubpolicy,
+                        Amount =
+                            CustBillViewModelDbLayer.GetBillingSubpolicyAmount(billStatus.Products,
+                                                                               billingSubpolicy.BConditions.ToList(),
+                                                                               custStkhBillViewModels)
+                    };
                 
                 //var test = custStkhBillViewModels.Sum(x => x.CustBillViewModel.TotalAmountRecovered);
 
-                billDetail.Amount = CustBillViewModelDbLayer.GetBillingSubpolicyAmount(billStatus.Products, billingSubpolicy.BConditions.ToList(),
-                                                                                       custStkhBillViewModels);
                 billDetails.Add(billDetail);
 
                 Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
@@ -75,12 +82,12 @@ namespace BillingService.ViewModel
             return billDetails;
         }
 
-        public static IList<BillDetail> GetAdhocPayout(Stakeholders stakeholder, BillStatus billStatus)
+        public static IEnumerable<BillDetail> GetAdhocPayout(Stakeholders stakeholder, BillStatus billStatus)
         {
             var billDetails = new List<BillDetail>();
 
-            var adhocPayments = BillAdhocDbLayer.GetBillAdhocForStkholder(stakeholder, billStatus.Products,
-                                                                          billStatus.BillMonth);
+            var adhocPayments = BillAdhocBuilder.ForStakeholder(stakeholder, billStatus.Products,
+                                                                          billStatus.BillMonth).ToList();
             for (var i = 0; i < adhocPayments.Count; i++)
             {
                 var adhocPayment = adhocPayments[i];
@@ -101,8 +108,7 @@ namespace BillingService.ViewModel
                 adhocPayment.RemainingAmount -= (adhocPayment.TotalAmount / adhocPayment.Tenure);
                 billDetails.Add(billDetail);
             }
-
-            BillAdhocDbLayer.SaveBillAdhoc(adhocPayments);
+            BillAdhocBuilder.Save(adhocPayments);
 
             return billDetails;
         }

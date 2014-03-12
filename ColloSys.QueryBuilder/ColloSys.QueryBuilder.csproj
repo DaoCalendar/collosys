@@ -34,10 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+      <HintPath>..\SharedLib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>..\SharedLib\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp">
       <HintPath>..\packages\PostSharp.3.1.33\lib\net20\PostSharp.dll</HintPath>
@@ -55,8 +55,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllocationBuilder\AllocBuilder.cs" />
+    <Compile Include="AllocationBuilder\AllocConditionBuilder.cs" />
+    <Compile Include="AllocationBuilder\AllocPolicyBuilder.cs" />
+    <Compile Include="AllocationBuilder\AllocRelationBuilder.cs" />
+    <Compile Include="AllocationBuilder\AllocSubpolicyBuilder.cs" />
     <Compile Include="BaseTypes\IQueryBuilder.cs" />
     <Compile Include="BaseTypes\QueryBuilder.cs" />
+    <Compile Include="BillingBuilder\BConditionBuilder.cs" />
+    <Compile Include="BillingBuilder\BillAdhocBuilder.cs" />
+    <Compile Include="BillingBuilder\BillAmountBuilder.cs" />
+    <Compile Include="BillingBuilder\BillDetailBuilder.cs" />
+    <Compile Include="BillingBuilder\BillingPolicyBuilder.cs" />
+    <Compile Include="BillingBuilder\BillingRelationBuilder.cs" />
+    <Compile Include="BillingBuilder\BillingSubpolicyBuilder.cs" />
+    <Compile Include="BillingBuilder\BillStatusBuilder.cs" />
+    <Compile Include="BillingBuilder\BMatrixBuilder.cs" />
+    <Compile Include="BillingBuilder\BMatrixValueBuilder.cs" />
+    <Compile Include="ClientDataBuilder\CacsActivityBuilder.cs" />
+    <Compile Include="ClientDataBuilder\CLinerBuilder.cs" />
+    <Compile Include="ClientDataBuilder\CUnbilledBuilder.cs" />
+    <Compile Include="ClientDataBuilder\CWriteoffBuilder.cs" />
+    <Compile Include="ClientDataBuilder\ELinerBuilder.cs" />
+    <Compile Include="ClientDataBuilder\EWriteoffBuilder.cs" />
+    <Compile Include="ClientDataBuilder\InfoBuilder.cs" />
+    <Compile Include="ClientDataBuilder\PaymentBuilder.cs" />
+    <Compile Include="ClientDataBuilder\RLinerBuilder.cs" />
+    <Compile Include="ClientDataBuilder\RWriteoffBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileColumnBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileDetailBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileSchedulerBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileStatusBuilder.cs" />
+    <Compile Include="FileUploadBuilder\FileValueMappingBuilder.cs" />
+    <Compile Include="GenericBuilder\GConfigBuilder.cs" />
+    <Compile Include="GenericBuilder\GKeyValueBuilder.cs" />
+    <Compile Include="GenericBuilder\GPermissionBuilder.cs" />
+    <Compile Include="GenericBuilder\GPincodeBuilder.cs" />
+    <Compile Include="GenericBuilder\GReportBuilder.cs" />
+    <Compile Include="GenericBuilder\ProductConfigBuilder.cs" />
+    <Compile Include="StakeholderBuilder\AddressQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakePaymentQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakeWorkingQueryBuilder.cs" />
@@ -80,6 +117,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <Import Project="..\packages\PostSharp.3.1.33\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.33\tools\PostSharp.targets')" />

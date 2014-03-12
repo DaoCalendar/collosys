@@ -55,9 +55,9 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             Stakeholders stakeholders = null;
             StkhWorking working = null;
             StkhHierarchy hierarchy = null;
-            var _session = SessionManager.GetCurrentSession();
+            var session = SessionManager.GetCurrentSession();
 
-            var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
+            var listOfStakeholders = session.QueryOver<Stakeholders>(() => stakeholders)
                                              .Fetch(x => x.StkhWorkings).Eager
                                              .Fetch(x => x.Hierarchy).Eager
                                              .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
@@ -125,7 +125,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                        .Fetch(x => x.GAddress).Eager
                                        .Fetch(x => x.StkhPayments).Eager
                                        .Fetch(x => x.StkhWorkings).Eager
-                                       .Fetch(x => x.ApprovedBy).Eager
                                        .Where(() => stakeholder.Id == id)
                                        .TransformUsing(Transformers.DistinctRootEntity)
                                        .List()
@@ -160,7 +159,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                  .ToList();
         }
 
-        public override QueryOver<Stakeholders, Stakeholders> DefaultQuery()
+        public override QueryOver<Stakeholders, Stakeholders> WithRelation()
         {
             var query = QueryOver.Of<Stakeholders>()
                             .Fetch(x => x.StkhPayments).Eager
@@ -170,14 +169,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.GAddress).Eager
                             .TransformUsing(Transformers.DistinctRootEntity);
             return query;
-        }
-    }
-
-    public class AddressQueryBuilder : QueryBuilder<StakeAddress>
-    {
-        public override QueryOver<StakeAddress, StakeAddress> DefaultQuery()
-        {
-            return null;
         }
     }
 }

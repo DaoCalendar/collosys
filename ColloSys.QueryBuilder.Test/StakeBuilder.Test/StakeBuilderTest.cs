@@ -21,11 +21,11 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
         public void Check_DefaultQuery_And_ExecuteQuery()
         {
             var stakeQuery = new StakeQueryBuilder();
-            var query = stakeQuery.DefaultQuery();
+            var query = stakeQuery.WithRelation();
             var data = stakeQuery.ExecuteQuery(query);
 
             var totalData = stakeQuery.GetAll();
-            Assert.AreEqual(data.Count(),totalData.Count);
+            Assert.AreEqual(data.Count(),totalData.Count());
         }
     }
 }

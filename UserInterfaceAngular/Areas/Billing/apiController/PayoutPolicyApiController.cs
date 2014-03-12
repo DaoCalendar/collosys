@@ -10,6 +10,8 @@ using System.Web.Http;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.QueryBuilder.BillingBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -30,27 +32,26 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
+        private static readonly BillingRelationBuilder BillingRelationBuilder=new BillingRelationBuilder();
+
         #region Get
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetProducts()
         {
-            var data= Session.QueryOver<ProductConfig>().Select(x => x.Product).List<ScbEnums.Products>();
+            var data = ProductConfigBuilder.GetProducts();
             return Request.CreateResponse(HttpStatusCode.OK, data);
-
         }
 
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage GetPayoutPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
-            var payoutPolicy = Session.Query<BillingPolicy>()
-                                     .Where(x => x.Products == products && x.Category == category)
-                                     .FetchMany(x => x.BillingRelations)
-                                     .ThenFetch(r => r.BillingSubpolicy)
-                                     .ThenFetch(s => s.BConditions)
-                                     .SingleOrDefault();
+            var payoutPolicy = BillingPolicyBuilder.OnProductCategory(products, category);
 
             // create new alloc policy
             var savedPayoutSubpolicyIds = new List<Guid>();
@@ -68,14 +69,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 }
             }
 
-            var payoutSubpolicies = Session.QueryOver<BillingSubpolicy>()
-                            .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy && x.Products == products && x.Category == category)
-                            .WhereRestrictionOn(x => x.Id)
-                            .Not.IsIn(savedPayoutSubpolicyIds)
-                            .Fetch(x => x.BConditions).Eager
-                            .Fetch(x=>x.BillingRelations).Eager
-                            .TransformUsing(Transformers.DistinctRootEntity)
-                            .List();
+            var payoutSubpolicies = BillingSubpolicyBuilder.SubPoliciesInDb(products,category,savedPayoutSubpolicyIds).ToList();
           
             var payoutPolicyVm = new PayoutPolicyVm() { PayoutPolicy = payoutPolicy, UnUsedSubpolicies = payoutSubpolicies };
 
@@ -94,8 +88,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 billingRelation.BillingSubpolicy = Session.Get<BillingSubpolicy>(billingRelation.BillingSubpolicy.Id);
                 billingRelation.BillingPolicy = obj;
             }
-
-            Session.SaveOrUpdate(obj);
+            BillingPolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -107,7 +100,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             foreach (var billingRelation in obj.BillingRelations)
             {
                 billingRelation.BillingPolicy = obj;
-                billingRelation.BillingSubpolicy = Session.Get<BillingSubpolicy>(billingRelation.BillingSubpolicy.Id);
+                billingRelation.BillingSubpolicy =BillingSubpolicyBuilder.GetWithId(billingRelation.BillingSubpolicy.Id);
 
                 //if (billingRelation.Id == Guid.Empty)
                 //{
@@ -117,9 +110,9 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
             foreach (var billingRelation in obj.BillingRelations)
             {
-                Session.SaveOrUpdate(billingRelation);
+                BillingRelationBuilder.Save(billingRelation);
             }
-            Session.SaveOrUpdate(obj);
+            BillingPolicyBuilder.Save(obj);
             return obj;
         }
 

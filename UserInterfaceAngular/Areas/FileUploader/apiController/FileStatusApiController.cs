@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -18,6 +19,7 @@ namespace UserInterfaceAngular.app
 {
     public class FileStatusApiController : ApiController
     {
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder=new FileSchedulerBuilder();
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<FileScheduler> Get()
@@ -40,9 +42,8 @@ namespace UserInterfaceAngular.app
         [HttpTransaction(Persist = true)]
         public void Delete(Guid id)
         {
-            var session = SessionManager.GetCurrentSession();
-            var entity = session.Load<FileScheduler>(id);
-            SessionManager.GetCurrentSession().Delete(entity);
+            var entity = FileSchedulerBuilder.Load(id);
+            FileSchedulerBuilder.Delete(entity);
         }
 
         [HttpPost]

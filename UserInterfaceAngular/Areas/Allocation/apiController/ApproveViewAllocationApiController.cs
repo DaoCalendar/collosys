@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,6 +12,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.NgGrid;
 using ColloSys.Shared.Types4Product;
@@ -18,12 +22,17 @@ using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 
+#endregion
+
+
 //stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
     public class ApproveViewAllocationApiController : BaseApiController<Alloc>
     {
         private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
+        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
 
         public HttpResponseMessage GetScbSystems()
         {
@@ -43,11 +52,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction]
         public IEnumerable<Alloc> GetData()
         {
-            var session = SessionManager.GetCurrentSession();
-            var data = session.QueryOver<Alloc>().Where(x => x.IsAllocated)
-                .Fetch(x => x.Info).Eager
-                .Take(10).List();
-            return data;
+            var query = AllocBuilder.WithRelation();
+            return AllocBuilder.ExecuteQuery(query).Take(10).ToList();
         }
 
         [HttpPost]
@@ -59,7 +65,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<Info>();
             foreach (var cAlloc in allocs)
             {
-                var info = Session.Load<Info>(cAlloc.Info.Id);
+                var info = InfoBuilder.Load(cAlloc.Info.Id); 
                 var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == cAlloc.Id);
                 info.AllocStatus = cAlloc.AllocStatus;
                 if (forApproveAlloc != null)
@@ -74,11 +80,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
                 cInfoList.Add(info);
             }
-            SaveAllocationChanges(cInfoList);
-
-
-
-
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
 
@@ -93,7 +95,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             foreach (var cAlloc in allocs)
             {
                 cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                var info = Session.Load<Info>(cAlloc.Info.Id);
+                var info = InfoBuilder.Load(cAlloc.Info.Id);
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.OrigEntityId);
                 oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
                                       ? ColloSysEnums.ApproveStatus.NotApplicable
@@ -101,11 +103,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 info.Allocs.Remove(cAlloc);
                 cInfoList.Add(info);
             }
-            SaveAllocationChanges(cInfoList);
-
-
-
-
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
 
@@ -116,22 +114,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
-            //Stakeholders stakeholders = null;
-            //StkhWorking workings = null;
-            //StkhHierarchy hierarchy = null;
-            //var session = SessionManager.GetCurrentSession();
-            //var data = session.QueryOver(() => stakeholders)
-            //                          .Fetch(x => x.StkhWorkings).Eager
-            //                          .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
-            //                          .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
-            //                                     JoinType.LeftOuterJoin)
-            //                          .Where(() => workings.Products == products)
-            //                          .And(() => hierarchy.IsInAllocation)
-            //                          .And(() => stakeholders.JoiningDate < DateTime.Today.Date)
-            //                          .And(() => stakeholders.LeavingDate == null ||
-            //                                     stakeholders.LeavingDate > DateTime.Today.Date)
-            //                          .TransformUsing(Transformers.DistinctRootEntity)
-            //                          .List();
             return data;
         }
 
@@ -150,7 +132,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<Info>();
             foreach (var cAlloc in allocs)
             {
-                var info = Session.Load<Info>(cAlloc.Info.Id);
+                var info = InfoBuilder.Load(cAlloc.Info.Id);
                 info.NoAllocResons = noAllocReason;
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.Id);
                 oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
@@ -161,7 +143,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 info.Allocs.Add(newCAlloc);
                 cInfoList.Add(info);
             }
-            SaveAllocationChanges(cInfoList);
+            InfoBuilder.Save(cInfoList);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           GetAllocData(changeAllocationModel));
         }
@@ -181,20 +163,20 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             return alloc;
         }
 
-        private void SaveAllocationChanges<T>(IEnumerable<T> allocData) where T : Entity
-        {
-            var allocObjects = allocData as IList<T> ?? allocData.ToList();
+        //private void SaveAllocationChanges<T>(IEnumerable<T> allocData) where T : Entity
+        //{
+        //    var allocObjects = allocData as IList<T> ?? allocData.ToList();
 
-            if (!allocObjects.Any())
-            {
-                return;
-            }
+        //    if (!allocObjects.Any())
+        //    {
+        //        return;
+        //    }
 
-            foreach (var allocObject in allocObjects)
-            {
-                Session.SaveOrUpdate(allocObject);
-            }
-        }
+        //    foreach (var allocObject in allocObjects)
+        //    {
+        //        Session.SaveOrUpdate(allocObject);
+        //    }
+        //}
 
 
         private static GridInitData GetAllocData(ViewAllocationFilter viewAllocationFilter)

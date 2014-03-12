@@ -1,6 +1,10 @@
-﻿using System;
+﻿#region references
+
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
+
+#endregion
+
 
 namespace ColloSys.FileUploadService.BaseReader
 {

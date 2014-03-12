@@ -7,24 +7,24 @@ namespace BillingService.DBLayer
     internal static class BillDetailDbLayer
     {
         // save list of bill detail
-        public static bool SaveBillDetailsBillAmount(IList<BillDetail> billDetails, BillAmount billAmount)
-        {
-            var session = SessionManager.GetCurrentSession();
+        //public static bool SaveBillDetailsBillAmount(IList<BillDetail> billDetails, BillAmount billAmount)
+        //{
+        //    var session = SessionManager.GetCurrentSession();
 
-            using (var tx = session.BeginTransaction())
-            {
-                foreach (var entity in billDetails)
-                {
-                    session.SaveOrUpdate(entity);
-                }
+        //    using (var tx = session.BeginTransaction())
+        //    {
+        //        foreach (var entity in billDetails)
+        //        {
+        //            session.SaveOrUpdate(entity);
+        //        }
 
-                session.SaveOrUpdate(billAmount);
+        //        session.SaveOrUpdate(billAmount);
 
-                tx.Commit();
-            }
+        //        tx.Commit();
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
 
     }
 }

@@ -11,6 +11,9 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.Interfaces;
+using ColloSys.QueryBuilder.ClientDataBuilder;
+using ColloSys.QueryBuilder.FileUploadBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
@@ -23,111 +26,62 @@ namespace ColloSys.FileUploadService.Implementers
     public class DBLayer : IDBLayer
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder = new FileSchedulerBuilder();
+        private static readonly FileValueMappingBuilder FileValueMappingBuilder = new FileValueMappingBuilder();
+        private static readonly CUnbilledBuilder CUnbilledBuilder = new CUnbilledBuilder();
+        private static readonly CLinerBuilder CLinerBuilder = new CLinerBuilder();
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly FileUploadableBuilder FileUploadableBuilder = new FileUploadableBuilder();
 
         public FileScheduler GetNextFileForSchedule()
         {
-            using (var session = SessionManager.GetNewSession())
+            var obj = FileSchedulerBuilder.NextFileForSchedule();
+
+            FileScheduler file2Upload = null;
+            IList<FileScheduler> filesWaiting = new List<FileScheduler>();
+            foreach (var fileScheduler in obj)
             {
-                using (var tx = session.BeginTransaction())
+                // if no depend alias then continue with upload
+                var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
+                if (dependAlias == null)
                 {
-                    FileScheduler fs = null;
-                    FileDetail fd = null;
-                    var enddatetime = DateTime.Now.AddDays(-40);
-                    var obj = session.QueryOver(() => fs)
-                                     .JoinAlias(() => fs.FileDetail, () => fd)
-                                     .Where(c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
-                                                  || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload))
-                                     .And(c => c.IsImmediate || c.StartDateTime <= DateTime.Now)
-                                     .And(c => c.CreatedOn > enddatetime)
-                                     .Fetch(x => x.FileDetail).Eager
-                                     .Fetch(x => x.FileStatuss).Eager
-                                     .Fetch(x => x.FileDetail.FileColumns).Eager
-                                     .Fetch(x => x.FileDetail.FileMappings).Eager
-                                     .TransformUsing(Transformers.DistinctRootEntity)
-                                     .OrderBy(x => x.FileDate).Asc
-                                     .ThenBy(x => x.CreatedOn).Asc
-                                     .List();
+                    file2Upload = fileScheduler;
+                    break;
+                }
 
-                    FileScheduler file2Upload = null;
-                    IList<FileScheduler> filesWaiting = new List<FileScheduler>();
-                    foreach (var fileScheduler in obj)
-                    {
-                        // if no depend alias then continue with upload
-                        var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
-                        if (dependAlias == null)
-                        {
-                            file2Upload = fileScheduler;
-                            break;
-                        }
+                var schedulerDate = fileScheduler.FileDate.Date;
+                var dependFileScheduler = FileSchedulerBuilder.DependOnAliasAndSheduleDate(schedulerDate,
+                                                                                           dependAlias).ToList();
 
-                        FileScheduler fs1 = null;
-                        FileDetail fd1 = null;
-                        var schedulerDate = fileScheduler.FileDate.Date;
-                        var dependFileScheduler = session.QueryOver(() => fs1)
-                                                         .Fetch(x => x.FileDetail).Eager
-                                                         .JoinAlias(() => fs1.FileDetail, () => fd1)
-                                                         .Where(c => c.FileDate == schedulerDate && fd1.AliasName == dependAlias)
-                                                         .And(c => c.UploadStatus == ColloSysEnums.UploadStatus.Done ||
-                                                             c.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                                         .List<FileScheduler>();
+                if ((dependFileScheduler.Count != 0)
+                    && (dependFileScheduler.Count == dependFileScheduler.First().FileDetail.FileCount))
+                {
+                    file2Upload = fileScheduler;
+                    break;
+                }
 
-                        if ((dependFileScheduler.Count != 0)
-                            && (dependFileScheduler.Count == dependFileScheduler.First().FileDetail.FileCount))
-                        {
-                            file2Upload = fileScheduler;
-                            break;
-                        }
+                // if depend File not scheduled then set description to waiting.
+                var waitingDescription = "Waiting for all " + dependAlias.ToString();
+                // if description already set then continue without set other wise set description
+                if (fileScheduler.StatusDescription == waitingDescription) continue;
+                fileScheduler.StatusDescription = waitingDescription;
+                filesWaiting.Add(fileScheduler);
+            }
 
-                        // if depend File not scheduled then set description to waiting.
-                        var waitingDescription = "Waiting for all " + dependAlias.ToString();
-                        // if description already set then continue without set other wise set description
-                        if (fileScheduler.StatusDescription == waitingDescription) continue;
-                        fileScheduler.StatusDescription = waitingDescription;
-                        filesWaiting.Add(fileScheduler);
-                    }
-
-                    // if there is any waiting files then set status description to waiting.
-                    if (filesWaiting.Count > 0)
-                    {
-                        foreach (var fileScheduler in filesWaiting)
-                        {
-                            session.SaveOrUpdate(fileScheduler);
-                        }
-
-                        tx.Commit();
-                    }
-                    else
-                    {
-                        tx.Rollback();
-                    }
-
-                    return file2Upload;
+            // if there is any waiting files then set status description to waiting.
+            if (filesWaiting.Count > 0)
+            {
+                foreach (var fileScheduler in filesWaiting)
+                {
+                    FileSchedulerBuilder.Save(fileScheduler);
                 }
             }
+            return file2Upload;
         }
 
         public int GetDoneFile(ColloSysEnums.FileAliasName aliasName, DateTime date)
         {
-            var date2 = date.Date;
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    FileScheduler fs = null;
-                    FileDetail fd = null;
-                    var list = session.QueryOver(() => fs)
-                                      .JoinAlias(() => fs.FileDetail, () => fd)
-                                      .Fetch(x => x.FileDetail).Eager
-                                      .Where(x => x.FileDate == date2 && fd.AliasName == aliasName)
-                                      .And(x => x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
-                                          x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                      .RowCount();
-
-                    tx.Rollback();
-
-                    return list;
-                }
-            }
+            return FileSchedulerBuilder.DoneFileCount(date, aliasName);
         }
 
         public void CommitData<TEntity>(IList<TEntity> data, FileScheduler file, IRowCounter counter)
@@ -143,308 +97,181 @@ namespace ColloSys.FileUploadService.Implementers
                            "rows uploaded {0}. valid {1}",
                            counter.GetTotalRecordCount(), counter.GetValidRecordCount()));
 
-            using (var session = SessionManager.GetNewSession())
+            foreach (var entity in data)
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    foreach (var entity in data)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-
-                    var status = new FileStatus
-                    {
-                        TotalRows = counter.GetTotalRecordCount(),
-                        ValidRows = counter.GetValidRecordCount(),
-                        UploadedRows = counter.GetUploadedRecordCount(),
-                        DuplicateRows = counter.GetDuplicateRecordCount(),
-                        IgnoredRows = counter.GetIgnoredRecordCount(),
-                        ErrorRows = counter.GetErrorRecordCount(),
-                        FileScheduler = file,
-                        UploadStatus = ColloSysEnums.UploadStatus.ActInserting,
-                        EntryDateTime = DateTime.Now
-                    };
-                    session.SaveOrUpdate(status);
-
-                    tx.Commit();
-                }
+                FileSchedulerBuilder.Save(entity);
             }
+
+            var status = new FileStatus
+            {
+                TotalRows = counter.GetTotalRecordCount(),
+                ValidRows = counter.GetValidRecordCount(),
+                UploadedRows = counter.GetUploadedRecordCount(),
+                DuplicateRows = counter.GetDuplicateRecordCount(),
+                IgnoredRows = counter.GetIgnoredRecordCount(),
+                ErrorRows = counter.GetErrorRecordCount(),
+                FileScheduler = file,
+                UploadStatus = ColloSysEnums.UploadStatus.ActInserting,
+                EntryDateTime = DateTime.Now
+            };
+            FileSchedulerBuilder.Save(status);
 
         }
 
         public IEnumerable<FileValueMapping> GetFieldValueMappings(Guid id)
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var list = session.QueryOver<FileValueMapping>()
-                                      .Where(x => x.FileMapping.Id == id)
-                                      .List();
-                    tx.Rollback();
-                    return list;
-                }
-            }
+            return FileValueMappingBuilder.OnFileMappingId(id);
         }
 
         public void SetDoneStatus(FileScheduler fileScheduler, IRowCounter counter)
         {
-            using (var session = SessionManager.GetNewSession())
+            //var fx = session.Get<FileScheduler>(fileScheduler.Id);
+            FileSchedulerBuilder.Refresh(fileScheduler);
+
+            fileScheduler.ErrorRows = counter.GetErrorRecordCount();
+            fileScheduler.ValidRows = counter.GetUploadedRecordCount();
+            fileScheduler.TotalRows = counter.GetTotalRecordCount();
+            fileScheduler.EndDateTime = DateTime.Now;
+
+            if (fileScheduler.ValidRows <= 0)
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    //var fx = session.Get<FileScheduler>(fileScheduler.Id);
-                    session.Refresh(fileScheduler);
-
-                    fileScheduler.ErrorRows = counter.GetErrorRecordCount();
-                    fileScheduler.ValidRows = counter.GetUploadedRecordCount();
-                    fileScheduler.TotalRows = counter.GetTotalRecordCount();
-                    fileScheduler.EndDateTime = DateTime.Now;
-
-                    if (fileScheduler.ValidRows <= 0)
-                    {
-                        fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Error;
-                        fileScheduler.StatusDescription = "0 Valid Rows";
-                    }
-                    else if (fileScheduler.ErrorRows > 0)
-                    {
-                        fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.DoneWithError;
-                    }
-                    else
-                    {
-                        fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Done;
-                    }
-
-                    _logger.Info(string.Format("ReadFile: updating fileschduler-status table. " +
-                                               "rows uploaded {0}. status {1}",
-                                               fileScheduler.TotalRows,
-                                               fileScheduler.UploadStatus));
-
-                    fileScheduler.FileStatuss.Add(new FileStatus
-                    {
-                        EntryDateTime = DateTime.Now,
-                        FileScheduler = fileScheduler,
-                        TotalRows = counter.GetTotalRecordCount(),
-                        ValidRows = counter.GetValidRecordCount(),
-                        UploadedRows = counter.GetUploadedRecordCount(),
-                        DuplicateRows = counter.GetDuplicateRecordCount(),
-                        ErrorRows = counter.GetErrorRecordCount(),
-                        IgnoredRows = counter.GetIgnoredRecordCount(),
-                        UploadStatus = fileScheduler.UploadStatus,
-                    });
-
-                    session.SaveOrUpdate(fileScheduler);
-                    tx.Commit();
-                }
+                fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Error;
+                fileScheduler.StatusDescription = "0 Valid Rows";
             }
+            else if (fileScheduler.ErrorRows > 0)
+            {
+                fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.DoneWithError;
+            }
+            else
+            {
+                fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Done;
+            }
+
+            _logger.Info(string.Format("ReadFile: updating fileschduler-status table. " +
+                                       "rows uploaded {0}. status {1}",
+                                       fileScheduler.TotalRows,
+                                       fileScheduler.UploadStatus));
+
+            fileScheduler.FileStatuss.Add(new FileStatus
+            {
+                EntryDateTime = DateTime.Now,
+                FileScheduler = fileScheduler,
+                TotalRows = counter.GetTotalRecordCount(),
+                ValidRows = counter.GetValidRecordCount(),
+                UploadedRows = counter.GetUploadedRecordCount(),
+                DuplicateRows = counter.GetDuplicateRecordCount(),
+                ErrorRows = counter.GetErrorRecordCount(),
+                IgnoredRows = counter.GetIgnoredRecordCount(),
+                UploadStatus = fileScheduler.UploadStatus,
+            });
+
+            FileSchedulerBuilder.Save(fileScheduler);
         }
 
         public void ChangeStatus(FileScheduler fileScheduler)
         {
-            using (var session = SessionManager.GetNewSession())
+
+            _logger.Info(string.Format("ReadFile: updating fileschduler-status table. " +
+                                       "rows uploaded {0}. status {1}",
+                                       fileScheduler.TotalRows,
+                                       fileScheduler.UploadStatus));
+
+            fileScheduler.FileStatuss.Add(new FileStatus
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    //session.Refresh(fileScheduler);
+                EntryDateTime = DateTime.Now,
+                FileScheduler = fileScheduler,
+                TotalRows = fileScheduler.TotalRows,
+                ValidRows = fileScheduler.ValidRows,
+                UploadedRows = 0,
+                DuplicateRows = 0,
+                IgnoredRows = 0,
+                ErrorRows = 0,
+                UploadStatus = fileScheduler.UploadStatus
+            });
 
-                    _logger.Info(string.Format("ReadFile: updating fileschduler-status table. " +
-                                               "rows uploaded {0}. status {1}",
-                                               fileScheduler.TotalRows,
-                                               fileScheduler.UploadStatus));
-
-                    fileScheduler.FileStatuss.Add(new FileStatus
-                    {
-                        EntryDateTime = DateTime.Now,
-                        FileScheduler = fileScheduler,
-                        TotalRows = fileScheduler.TotalRows,
-                        ValidRows = fileScheduler.ValidRows,
-                        UploadedRows = 0,
-                        DuplicateRows = 0,
-                        IgnoredRows = 0,
-                        ErrorRows = 0,
-                        UploadStatus = fileScheduler.UploadStatus
-                    });
-
-                    session.SaveOrUpdate(fileScheduler);
-                    tx.Commit();
-                }
-            }
+            FileSchedulerBuilder.Save(fileScheduler);
         }
 
         public List<TEntity> GetDataForDate<TEntity>(DateTime dateTime)
             where TEntity : Entity, IFileUploadable
         {
-            using (var session = SessionManager.GetStatelessSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<TEntity>()
-                                      .Where(x => x.FileDate == dateTime)
-                                      .List();
-                    tx.Rollback();
-                    return new List<TEntity>(data);
-                }
-            }
+            return FileUploadableBuilder.GetDataForDate<TEntity>(dateTime).ToList();
         }
 
         public List<string> GetAccountNosForDate<TEntity>(DateTime dateTime)
            where TEntity : Entity, IUniqueKey
         {
-            using (var session = SessionManager.GetStatelessSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<TEntity>()
-                                      .Where(x => x.FileDate == dateTime)
-                                      .Select(x=>x.AccountNo)
-                                      .List<string>();
-                    tx.Rollback();
-                    return new List<string>(data);
-                }
-            }
+            return FileUploadableBuilder.GetAccountNosForDate<TEntity>(dateTime);
         }
 
         public IList<TEntity> GetTableData<TEntity>()
              where TEntity : Entity
         {
-            using (var session = SessionManager.GetStatelessSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<TEntity>()
-                                      .List();
-                    tx.Rollback();
-                    return data;
-                }
-            }
+            return FileUploadableBuilder.GetTableData<TEntity>();
         }
 
         public IList<TEntity> GetDataForPreviousDay<TEntity>(ColloSysEnums.FileAliasName aliasName,
         DateTime date, uint filecount)
             where TEntity : Entity, IFileUploadable
         {
-            using (var session = SessionManager.GetStatelessSession())
+            var lastuploadedfile = FileSchedulerBuilder.LastUploadedFiles(aliasName, date, (int)filecount).ToList();
+
+            if (lastuploadedfile.Count <= 0)
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    FileScheduler fs = null;
-                    FileDetail fd = null;
-                    var date2 = date.Date;
-                    var lastuploadedfile = session.QueryOver(() => fs)
-                                               .JoinAlias(x => x.FileDetail, () => fd)
-                                               .Where(() => fd.AliasName == aliasName)
-                                               .And(x => x.FileDate < date2)
-                                               .And(x => x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
-                                                         x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                               .OrderBy(x => x.FileDate).Desc
-                                               .Take((int)filecount)
-                                               .List<FileScheduler>();
-
-                    if (lastuploadedfile.Count <= 0)
-                    {
-                        return new List<TEntity>();
-                    }
-                    var maxdate = lastuploadedfile.Max(x => x.FileDate);
-                    var lastuploadedfileid = lastuploadedfile.Where(x => x.FileDate == maxdate).Select(x => x.Id);
-
-                    var data = session.QueryOver<TEntity>()
-                                      .WhereRestrictionOn(x => x.FileScheduler.Id)
-                                      .IsIn(lastuploadedfileid.ToArray())
-                                      .List();
-
-                    tx.Rollback();
-                    return data;
-                }
+                return new List<TEntity>();
             }
+            var maxdate = lastuploadedfile.Max(x => x.FileDate);
+            var lastuploadedfileid = lastuploadedfile.Where(x => x.FileDate == maxdate).Select(x => x.Id);
+
+            var data = FileUploadableBuilder.GetDataForPreviousDay<TEntity>(lastuploadedfileid);
+
+            return data;
         }
 
         public IList<string> GetValuesFromKey(ColloSysEnums.Activities area, string key)
         {
-            using (var session = SessionManager.GetStatelessSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var data = session.QueryOver<GKeyValue>()
-                                      .Where(x => x.Area == area && x.Key == key)
-                                      .Select(x => x.Value)
-                                      .List<string>();
-                    tx.Rollback();
-                    return data;
-                }
-            }
+            return GKeyValueBuilder.ValueListOnAreaKey(area, key).ToList();
         }
 
         public bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
             where TEntity : Entity
         {
             var dataList = data as IList<TEntity> ?? data.ToList();
-            for (var i = 0; i < dataList.Count(); i+=1000)
+            for (var i = 0; i < dataList.Count(); i += 1000)
             {
-
                 var batchToSave = dataList.Skip(i).Take(1000);
-
-                using (var session = SessionManager.GetNewSession())
+                foreach (var entity in batchToSave)
                 {
-                    using (var tx = session.BeginTransaction())
-                    {
-                        foreach (var entity in batchToSave)
-                        {
-                            session.SaveOrUpdate(entity);
-                        }
-
-                        tx.Commit();
-                    }
+                    FileSchedulerBuilder.Save(entity);
                 }
             }
-
             return true;
         }
 
         public bool MergeData<TEntity>(IEnumerable<TEntity> data)
            where TEntity : Entity, IFileUploadable
         {
-            using (var session = SessionManager.GetNewSession())
+            foreach (var entity in data)
             {
-                using (var tx = session.BeginTransaction())
-                {
-                    foreach (var entity in data)
-                    {
-                        session.Merge(entity);
-                    }
-
-                    tx.Commit();
-                    return true;
-                }
+                FileSchedulerBuilder.Merge(entity);
             }
+            return true;
         }
 
         public void ResetFileStatus()
         {
             try
             {
-                using (var session = SessionManager.GetNewSession())
+                var fileSchedulerList = FileSchedulerBuilder.ResetFileStatus().ToList();
+
+                foreach (var fileScheduler in fileSchedulerList)
                 {
-                    using (var tx = session.BeginTransaction())
-                    {
-                        var fileSchedulerList = session.QueryOver<FileScheduler>()
-                                                       .Where(c => c.StartDateTime <= DateTime.Now)
-                                                       .And(c => (c.UploadStatus != ColloSysEnums.UploadStatus.Done) &&
-                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.DoneWithError) &&
-                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.Error) &&
-                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.UploadRequest))
-                                                       .List();
-
-                        foreach (var fileScheduler in fileSchedulerList)
-                        {
-                            fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.UploadRequest;
-                            session.SaveOrUpdate(fileScheduler);
-                        }
-
-                        _logger.Fatal(string.Format("DB Layer - ResetStatus: Resetting status of {0} files.",
-                                                  fileSchedulerList.Count));
-                        tx.Commit();
-                    }
+                    fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.UploadRequest;
+                    FileSchedulerBuilder.Save(fileScheduler);
                 }
+
+                _logger.Fatal(string.Format("DB Layer - ResetStatus: Resetting status of {0} files.",
+                                          fileSchedulerList.Count));
             }
             catch (HibernateException e)
             {
@@ -455,189 +282,23 @@ namespace ColloSys.FileUploadService.Implementers
         public Dictionary<string, Decimal> GetUnbilledAmounts(DateTime date)
         {
             var unbilledAmounts = new Dictionary<string, decimal>();
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    session.QueryOver<CUnbilled>()
-                           .Where(x => x.FileDate == date)
-                           .SelectList(list => list.SelectGroup(m => m.AccountNo).SelectSum(m => m.UnbilledAmount))
-                           .List<object[]>()
-                           .ForEach(props => unbilledAmounts.Add((string)props[0], (decimal)props[1]));
-
-                    tx.Rollback();
-                }
-            }
-
+            CUnbilledBuilder.OnFileDate(date)
+                   .ForEach(props => unbilledAmounts.Add((string)props[0], (decimal)props[1]));
             return unbilledAmounts;
         }
 
         public Dictionary<string, Decimal> GetCustTotalDue(DateTime date)
         {
             var dueAmount = new Dictionary<string, decimal>();
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    session.QueryOver<CLiner>()
-                           .Where(x => x.FileDate == date)
-                           .SelectList(
-                               list => list.SelectGroup(m => m.GlobalCustId).SelectSum(m => m.OutStandingBalance))
-                           .List<object[]>()
-                           .ForEach(props => dueAmount.Add((string)props[0], (decimal)props[1]));
-
-                    tx.Rollback();
-                }
-            }
-
+            CLinerBuilder.OnFileDate(date)
+                         .ForEach(props => dueAmount.Add((string)props[0], (decimal)props[1]));
             return dueAmount;
         }
 
         public ISet<string> GetZGlobalCustId(DateTime date)
         {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var result = session.QueryOver<CLiner>()
-                                        .Where(x => x.FileDate == date && x.Flag == ColloSysEnums.DelqFlag.Z)
-                                        .Select(x => x.GlobalCustId).List<string>();
-
-                    tx.Rollback();
-                    return new HashSet<string>(result);
-                }
-            }
+            var result = CLinerBuilder.GlobelCustIdList(date);
+            return new HashSet<string>(result);
         }
-
     }
-
 }
-
-
-
-
-//public void AddErrorStatus(FileScheduler currentFile, string message)
-//{
-//    if (string.IsNullOrWhiteSpace(message))
-//    {
-//        throw new InvalidDataException("Please provide error message as to why the file is in error");
-//    }
-
-//    currentFile.UploadStatus = EnumHelper.UploadStatus.Error;
-//    currentFile.StatusDescription = message;
-
-//    currentFile.FileStatuss.Add(new FileStatus
-//        {
-//            EntryDateTime = DateTime.Now,
-//            FileScheduler = currentFile,
-//            TotalRows = currentFile.TotalRows,
-//            UploadStatus = currentFile.UploadStatus,
-//            UploadedRows = currentFile.ValidRows,
-//            ValidRows = currentFile.ValidRows
-//        });
-//}
-
-//public void AddUploadStartStatus(FileScheduler currentFile)
-//{
-//    currentFile.UploadStatus = EnumHelper.UploadStatus.UploadStarted;
-//    currentFile.StatusDescription = string.Empty;
-
-//    currentFile.FileStatuss.Add(new FileStatus
-//        {
-//            EntryDateTime = DateTime.Now,
-//            FileScheduler = currentFile,
-//            TotalRows = currentFile.TotalRows,
-//            UploadStatus = currentFile.UploadStatus,
-//            UploadedRows = currentFile.ValidRows,
-//            ValidRows = currentFile.ValidRows
-//        });
-//}
-
-//ActInserting,
-//Done,
-//DoneWithErrorData,
-//Error,
-//UploadStarted,
-//UploadRequest,
-//RetryingUpload
-
-
-
-//public FileScheduler GetNextFileForSchedule()
-//{
-//    using (var session = SessionManager.GetNewSession())
-//    {
-//        using (var tx = session.BeginTransaction())
-//        {
-//            FileScheduler fs = null;
-//            FileDetail fd = null;
-//            var obj = session.QueryOver<FileScheduler>(() => fs)
-//                        .JoinAlias(() => fs.FileDetail, () => fd)
-//                             .Where(
-//                                 c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
-//                                        || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload) &&
-//                                      (c.IsImmediate || c.StartDateTime <= DateTime.Now) && fd.DependsOnAlias == null)
-//                             .Fetch(x => x.FileDetail).Eager
-//                             .Fetch(x => x.FileStatuss).Eager
-//                             .Fetch(x => x.FileDetail.FileColumns).Eager
-//                             .Fetch(x => x.FileDetail.FileMappings).Eager
-//                             .TransformUsing(Transformers.DistinctRootEntity)
-//                             .OrderBy(x => x.CreatedOn).Asc
-//                             .List();
-//            if (obj.Count > 0)
-//            {
-//                tx.Rollback();
-//                return obj[0];
-//            }
-
-//            obj = session.QueryOver(() => fs)
-//                         .JoinAlias(() => fs.FileDetail, () => fd)
-//                         .Where(c => (c.IsImmediate || c.StartDateTime <= DateTime.Now))
-//                         .Fetch(x => x.FileDetail).Eager
-//                         .Fetch(x => x.FileStatuss).Eager
-//                         .Fetch(x => x.FileDetail.FileColumns).Eager
-//                         .Fetch(x => x.FileDetail.FileMappings).Eager
-//                         .TransformUsing(Transformers.DistinctRootEntity)
-//                         .OrderBy(x => x.CreatedOn).Asc
-//                         .List();
-
-//            if (obj == null)
-//            {
-//                tx.Rollback();
-//                return null;
-//            }
-
-//            foreach (var fileScheduler in obj.Where(c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
-//                                    || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload)))
-//            {
-//                if ((fileScheduler == null) || (fileScheduler.FileDetail.DependsOnAlias == null))
-//                {
-//                    continue;
-//                }
-
-//                if (fileScheduler.FileDetail.Frequency != ColloSysEnums.FileFrequency.Daily)
-//                {
-//                    _logger.Fatal("non-daily dependency not implemented yet!!");
-//                    fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Waiting;
-//                    continue;
-//                }
-
-//                var fileAliases = obj.Where(x => x.FileDate.Date == fileScheduler.FileDate.Date &&
-//                                                 (x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
-//                                                  x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError))
-//                                     .Select(x => x.FileDetail.AliasName);
-
-//                var alias = fileScheduler.FileDetail.DependsOnAlias.Value;
-//                if (fileAliases.Contains(alias))
-//                {
-//                    tx.Rollback();
-//                    return fileScheduler;
-//                }
-//            }
-
-//            tx.Rollback();
-//            return null;
-//        }
-//    }
-//}
-

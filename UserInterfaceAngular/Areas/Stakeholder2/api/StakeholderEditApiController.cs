@@ -19,7 +19,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public Stakeholders GetStakeholderEditMode()
         {
-            var query = _stakeQuery.DefaultQuery();
+            var query = _stakeQuery.WithRelation();
             var stake = _stakeQuery.ExecuteQuery(query).FirstOrDefault();
             return stake;
         }

@@ -11,6 +11,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -28,8 +30,11 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 {
     public class PaymentDetailsApiController : ApiController
     {
-        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         [HttpPost]
         [HttpTransaction]
@@ -97,15 +102,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public BillingPolicyLists GetLinerWriteOff(ScbEnums.Products product)
         {
-            var session = SessionManager.GetCurrentSession();
             var data = new BillingPolicyLists
                 {
-                    LinerList = session.QueryOver<BillingPolicy>()
-                                       .Where(x => x.Products == product && x.Category == ScbEnums.Category.Liner)
-                                       .List(),
-                    WriteOffList = session.QueryOver<BillingPolicy>()
-                    .Where(x => x.Products == product && x.Category == ScbEnums.Category.WriteOff)
-                    .List()
+                    LinerList = BillingPolicyBuilder.LinePolicies(product).ToList(),
+                    WriteOffList = BillingPolicyBuilder.WriteoffPolicies(product).ToList()
                 };
             return data;
         }
@@ -120,17 +120,9 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public PaymentDetails GetPaymentDetails()
         {
-            var session = SessionManager.GetCurrentSession();
-
             var payment = new PaymentDetails();
 
-            //payment.ListOfStakeHierarchy = session.QueryOver<StkhHierarchy>()
-            //              .Where(x => x.Hierarchy != "Developer")
-            //              .List();
-
-            var gKeyValue = session.QueryOver<GKeyValue>()
-                                   .Where(x => x.Area == ColloSysEnums.Activities.Stakeholder)
-                                   .List<GKeyValue>();
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
 
             payment.FixedPay = gKeyValue.ToDictionary(keyValue => keyValue.Key, keyValue => decimal.Parse(keyValue.Value));
 
@@ -147,42 +139,29 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<string> GetStateList()
         {
-            var session = SessionManager.GetCurrentSession();
-            var getStateList = session.Query<GPincode>()
-                              .Select(x => x.State)
-                              .Distinct().ToList();
-            return getStateList;
+            return GPincodeBuilder.StateList();
         }
 
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<GPincode> GetCompleteClusterData()
         {
-            var session = SessionManager.GetCurrentSession();
-            var cluster = session.QueryOver<GPincode>().List();
-            return cluster;
+            return GPincodeBuilder.GetAll();
         }
 
         public IEnumerable<RegionState> GetRegionList()
         {
             var regionList = new List<RegionState>();
-            var session = SessionManager.GetCurrentSession();
 
-            var states =
-                session.Query<GPincode>().Select(x => x.State).Distinct().ToList();
+            var states = GPincodeBuilder.StateList();
 
             foreach (var state in states)
             {
-                var reg = session.Query<GPincode>().FirstOrDefault(x => x.State == state);
+                var reg = GPincodeBuilder.OnState(state);
                 if (reg != null) regionList.Add(new RegionState { Region = reg.Region, State = state });
             }
 
-            //var data = session.QueryOver<GPincode>().List();
-            //var regionState = (from d in data
-            //                   select new RegionState { Region = d.Region, State = d.State })
-            //                   .Distinct(new RegionState.Comparer()).ToList();
             return regionList;
-
         }
 
         public class RegionState
@@ -212,16 +191,9 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<GPincode> GetClusters(Guid Id)
         {
-            //if (state == null)
-            //{
-            //    return null;
-            //}
-            Stakeholders stakeholders = null;
-            StkhWorking working = null;
-            StkhHierarchy hierarchy = null;
             var session = SessionManager.GetCurrentSession();
             var stk2 = StakeQuery.OnIdWithAllReferences(Id);
-           
+
             var list = new List<string>();
             var criteria = session.CreateCriteria(typeof(GPincode));
             JavaScriptSerializer ser = new JavaScriptSerializer();
@@ -253,7 +225,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                     break;
             }
             var gpincodeData = criteria.List<GPincode>();
-           
+
             return gpincodeData;
         }
 
@@ -270,7 +242,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
             var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
                                                     .SingleOrDefault();
-               
+
             if (firstLevelHierarchy == null)
             {
                 return reportsTolist;
@@ -310,46 +282,29 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<Stakeholders> StakeHolderList(string product, Guid selHierarchyId)
         {
-            var eProduct = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product);
+            //Get Hierarchy by select hierarchy
+            var hierarchy = HierarchyQuery.GetOnExpression(x => x.Id == selHierarchyId).SingleOrDefault();
 
-            using (var session = SessionManager.GetCurrentSession())
-            {
-                Stakeholders stake2 = null;
+            // Find reporting hierarchy ReportsToId
+            var reportingHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
 
-                //Get Hierarchy by select hierarchy
-                var hierarchy = HierarchyQuery.GetOnExpression(x => x.Id == selHierarchyId).SingleOrDefault();
-
-                // Find reporting hierarchy ReportsToId
-                var reportingHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
-
-                // list of reporting hierarchyId
-                var reportingIdlist = StakeQuery.OnHierarchyId(reportingHierarchy.Id).ToList();
-                                   
-
-                var hlist = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
-                if (hlist == null)
-                    return reportingIdlist;
-
-                var hlist4 = StakeQuery.OnHierarchyId(hlist.Id).ToList(); 
+            // list of reporting hierarchyId
+            var reportingIdlist = StakeQuery.OnHierarchyId(reportingHierarchy.Id).ToList();
 
 
-                var listMarge = new List<Stakeholders>();
-                listMarge.AddRange(reportingIdlist);
-                listMarge.AddRange(hlist4);
+            var hlist = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
+            if (hlist == null)
+                return reportingIdlist;
 
-                //product base
-                //return listMarge.Where(x=>x.StkhWorkings.First().Products == eProduct);
+            var hlist4 = StakeQuery.OnHierarchyId(hlist.Id).ToList();
 
-                return listMarge;
-            }
+
+            var listMarge = new List<Stakeholders>();
+            listMarge.AddRange(reportingIdlist);
+            listMarge.AddRange(hlist4);
+
+            return listMarge;
         }
-
-        //[HttpGet]
-        //[HttpTransaction]
-        //public IEnumerable<GPincode> GetClusters(string cluster)
-        //{
-        //    return GetClusterList(cluster);
-        //}
 
         [HttpGet]
         [HttpTransaction]
@@ -368,33 +323,29 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         #region
 
-        private static IEnumerable<GPincode> GetClusterList(string cluster)
-        {
-            var session = SessionManager.GetCurrentSession();
-            try
-            {
-                var list = session.Query<GPincode>()
-                                  .Where(x => x.Cluster.StartsWith(cluster))
-                                  .GroupBy(x => x.Cluster)
-                                  .ToList();
-                if (list.Count == 0) return null;
+        //private static IEnumerable<GPincode> GetClusterList(string cluster)
+        //{
+        //    var session = SessionManager.GetCurrentSession();
+        //    try
+        //    {
+        //        var list = session.Query<GPincode>()
+        //                          .Where(x => x.Cluster.StartsWith(cluster))
+        //                          .GroupBy(x => x.Cluster)
+        //                          .ToList();
+        //        if (list.Count == 0) return null;
 
-                return list.OrderBy(x => x.Key).Take(10).Select(entry => entry.First()).ToList();
-            }
-            catch (HibernateException exception)
-            {
-                LogManager.GetCurrentClassLogger().InfoException("Error while fetching Pincode list.", exception);
-                throw;
-            }
-        }
+        //        return list.OrderBy(x => x.Key).Take(10).Select(entry => entry.First()).ToList();
+        //    }
+        //    catch (HibernateException exception)
+        //    {
+        //        LogManager.GetCurrentClassLogger().InfoException("Error while fetching Pincode list.", exception);
+        //        throw;
+        //    }
+        //}
 
         private static IEnumerable<GPincode> GetPincodesCity(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.City.StartsWith(pin))
-                              .Take(100)
-                              .ToList();
+            var list = GPincodeBuilder.OnPinOrCity(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.City into g select g.First()).ToList();
@@ -404,11 +355,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<GPincode> GetPincodesArea(string pin)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.Pincode.ToString().StartsWith(pin) || x.Area.StartsWith(pin))
-                              .Select(x => x)
-                              .Take(100).ToList();
+            var list = GPincodeBuilder.OnPinOrArea(pin).ToList();
             if (list.Count == 0) return null;
 
             var uniq = (from l in list group l by l.Area into g select g.First()).ToList();
@@ -418,13 +365,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static string GetRegionOnState(string state)
         {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.Query<GPincode>()
-                              .Where(x => x.State == state)
-                              .Select(x => x.Region)
-                              .Distinct()
-                              .FirstOrDefault();
-            return list;
+            return GPincodeBuilder.RegionOnState(state);
         }
 
         #endregion

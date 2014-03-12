@@ -12,6 +12,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -31,18 +33,19 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
 
         [HttpGet]
         [HttpTransaction]
         public AddStakeholderModel GetAllHierarchies()
         {
-            var stake = new AddStakeholderModel();
+            var stake = new AddStakeholderModel
+                {
+                    ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer")
+                };
 
-            stake.ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
-
-            var gKeyValue = SessionManager.GetCurrentSession().QueryOver<GKeyValue>()
-                          .Where(x => x.Area == ColloSysEnums.Activities.Stakeholder)
-                          .List<GKeyValue>();
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
 
             stake.FixedPay = gKeyValue.ToDictionary(keyValue => keyValue.Key, keyValue => decimal.Parse(keyValue.Value));
 
@@ -144,9 +147,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
             if (finalPost.IsEditMode)
             {
-                var session = SessionManager.GetCurrentSession();
                 SetApprovalStatusEdit(stakeholders);
-                session.Merge(stakeholders);
+                StakeQuery.Merge(stakeholders);
                 _log.Info("Stakeholder is saved");
                 var result =
                     Request.CreateResponse(HttpStatusCode.Created, stakeholders);
@@ -167,8 +169,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                     return Request.CreateResponse(HttpStatusCode.BadRequest, obj);
                 }
             }
-
-
 
             try
             {
@@ -193,19 +193,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         public void AssignBillingPolicies(PayWorkModel payWork)
         {
-            var session = SessionManager.GetCurrentSession();
-            var collectionPolicy =
-                session.QueryOver<BillingPolicy>()
-                       .Where(x => x.Id == payWork.CollectionBillingPolicyId)
-                       .SingleOrDefault();
-            payWork.Payment.CollectionBillingPolicy = collectionPolicy;
-
-            var recoveryPolicy =
-                session.QueryOver<BillingPolicy>()
-                .Where(x => x.Id == payWork.RecoveryBillingPolicyId)
-                .SingleOrDefault();
-            payWork.Payment.RecoveryBillingPolicy = recoveryPolicy;
-
+            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.CollectionBillingPolicyId);
+            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.RecoveryBillingPolicyId);
         }
 
         private static void SetApprovalStatusInsert(Stakeholders stakeholders)
@@ -245,9 +234,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static FinalPostModel ConvertToFinalPostModel(Stakeholders stakeholders)
         {
-            var finalPostModel = new FinalPostModel();
-            finalPostModel.Stakeholder = stakeholders;
-            finalPostModel.Hierarchy = stakeholders.Hierarchy;
+            var finalPostModel = new FinalPostModel {Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy};
 
             //set address of stakeholder
             if (stakeholders.GAddress.Any())
@@ -274,10 +261,11 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 stakeholders.StkhPayments = stakeholders.StkhPayments.Distinct().ToList();
                 foreach (var stkhPayment in stakeholders.StkhPayments)
                 {
-                    var payworkmodel = new PayWorkModel();
-                    payworkmodel.Payment = stkhPayment;
-                    payworkmodel.WorkList =
-                        stakeholders.StkhWorkings.Where(x => x.StkhPayment.Id == stkhPayment.Id).ToList();
+                    var payworkmodel = new PayWorkModel
+                        {
+                            Payment = stkhPayment,
+                            WorkList = stakeholders.StkhWorkings.Where(x => x.StkhPayment.Id == stkhPayment.Id).ToList()
+                        };
                     payworkmodel.WorkList = payworkmodel.WorkList.Distinct().ToList();
                     finalPostModel.PayWorkModelList.Add(payworkmodel);
                 }
@@ -285,8 +273,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
             else if (stakeholders.StkhWorkings.Any() && stakeholders.StkhPayments.Count == 0)
             {
-                var payworkmodel = new PayWorkModel();
-                payworkmodel.WorkList = stakeholders.StkhWorkings;
+                var payworkmodel = new PayWorkModel {WorkList = stakeholders.StkhWorkings};
                 finalPostModel.PayWorkModelList.Add(payworkmodel);
                 finalPostModel.PayWorkModel = payworkmodel;
                 finalPostModel.PayWorkModel = finalPostModel.PayWorkModelList[0];
