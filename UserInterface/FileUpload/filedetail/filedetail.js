@@ -1,105 +1,156 @@
 ﻿
-csapp.controller("fileDetailsAddEditController", ["$scope", "Restangular", '$Validations', "$csfactory", "$csnotify", "$modalInstance", "fileDetails", "Logger",
-    function ($scope, rest, $val, $csfactory, $csnotify, $modalInstance, fileDetails, logManager) {
-        
-        "use strict";
-        
-        var $log = logManager.getInstance("fileDetailsAddEditController");
-        switch (fileDetails.displayMode) {
-            case "add":
-                $scope.modelTitle = "Add New File Details";
-                $scope.isReadOnly = false;
-                break;
-            case "edit":
-                $scope.modelTitle = "Add New File Details";
-                $scope.isReadOnly = false;
-                break;
-            case "view":
-                $scope.modelTitle = "";
-                $scope.isReadOnly = true;
-                break;
-            default:
-                $log.error("Invalid display mode : " + JSON.stringify(fileDetails));
+csapp.factory("fileDetailFactory", [function () {
+
+    var isSheetTypeColumn = function (type) {
+        return (type == 'xls' || type == 'xlsx');
+    };
+
+    var dateFormats = ['dd-mm-yyyy', 'yyyy-mm-dd', 'dddd-MMMM-yyyy'];
+    var usedFor = ['Allocation', 'Billing'];
+
+    var depends = function (file, list) {
+        if (angular.isUndefined(file)) return [];
+        var system = file.ScbSystems, frequency = file.Frequency;
+        if (angular.isDefined(system) && angular.isDefined(frequency)) {
+            return _.pluck(_.filter(list, function (fileDetail) {
+                return (fileDetail.ScbSystems == system) && (fileDetail.Frequency == frequency);
+            }), 'AliasName');
+        }
+        return [];
+    };
+
+    return {
+        isSheetTypeColumn: isSheetTypeColumn,
+        dateFormats: dateFormats,
+        usedFor: usedFor,
+        getDependsOnAlias: depends
+    };
+}]);
+
+csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function(rest, $csnotify, $csfactory) {
+
+    var apictrl = rest.all('FileDetailsApi');
+    var dldata = {};
+
+    var errorDisplay = function(response) {
+        $csnotify.error(response);
+    };
+
+    var getAllFileDetails = function() {
+        apictrl.customGET('Fetch')
+            .then(function(data) {
+                $csnotify.success("All File Details Loaded Successfully.");
+                dldata.fileDetailsList = data.FileDetails;
+                dldata.enums = {
+                    fileCategories: data.FileCategories,
+                    fileAliasNames: data.FileAliasNames,
+                    dependsOnAlias: data.FileAliasNames,
+                    fileFrequencies: data.FileFrequencies,
+                    fileTypes: data.FileTypes,
+                    fileSystems: data.FileSystems
+                };
+            }, errorDisplay);
+    };
+
+    var deleteFileDetails = function(id) {
+        apictrl.customDELETE('Delete', { id: id }).then(function() {
+            $csnotify.success('File Detail Deleted Successfully.');
+            var index = _.findIndex(dldata.fileDetailsList, { 'Id': id });
+            dldata.fileDetailsList.splice(index, 1);
+        }, errorDisplay);
+    };
+
+    var saveFileDetails = function(fileDetail) {
+        if (angular.isUndefined(fileDetail) || $csfactory.isEmptyObject(fileDetail)) {
+            throw "Invalid fileDetail object";
         }
 
-        $scope.fileCategories = fileDetails.enums.fileCategories;
-        $scope.fileAliasNames = fileDetails.enums.fileAliasNames;
-        //$scope.DependsOnAlias = fileDetails.enums.fileAliasNames;
-        $scope.fileFrequencies = fileDetails.enums.fileFrequencies;
-        $scope.fileTypes = fileDetails.enums.fileTypes;
-        $scope.fileSystems = fileDetails.enums.fileSystems;
-        
-        $scope.isSheetTypeColumn = function (type) {
-            if (type == 'xls' || type == 'xlsx') {
-                return true;
-            } else {
-                return false;
-            }
-        };
+        fileDetail.FileServer = "localhost";
+        fileDetail.TempTable = "TEMP_" + fileDetail.AliasName;
+        fileDetail.ErrorTable = "ERROR_" + fileDetail.AliasName;
+        if (fileDetail.Id) {
+            return apictrl.customPUT(fileDetail, 'Put', { id: fileDetail.Id })
+                .then(function(data) {
+                    var index = _.findIndex(dldata.fileDetailsList, { Id: fileDetail.Id });
+                    dldata.fileDetailsList[index] = data;
+                    $csnotify.success("File Detail Updated Successfully");
+                }, errorDisplay);
+        } else {
+            return apictrl.customPOST(fileDetail, 'Post')
+                .then(function() {
+                    $csnotify.success("File Detail added Successfully");
+                    dldata.fileDetailsList.push(data);
+                }, errorDisplay);
+        }
+    };
 
-        $scope.Depends = function () {
-            if (angular.isDefined($scope.fileDetail.ScbSystems) && angular.isDefined($scope.fileDetail.Frequency)) {
-                $scope.DependsOnAlias = _.pluck(_.filter($scope.fileDetailsList, function (fileDetail) {
-                    return (fileDetail.ScbSystems == $scope.fileDetail.ScbSystems)
-                        && (fileDetail.Frequency == $scope.fileDetail.Frequency);
-                }), 'AliasName');
-            }
-        };
+    return {
+        Save: saveFileDetails,
+        Delete: deleteFileDetails,
+        GetAll: getAllFileDetails,
+        dldata: dldata
+    };
+}]);
 
-        var apictrl = rest.all('FileDetailsApi');
-        
-        $scope.fileDetail = fileDetails.fileDetail;
-        
-        $scope.closeModel = function (closer) {
+csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$modalInstance", "fileDetails", "fileDetailDataLayer", "fileDetailFactory",
+    function ($scope, $val, $modalInstance, fileDetails, datalayer, factory) {
+        "use strict";
+
+        $scope.close = function (closer) {
             $modalInstance.dismiss(closer);
         };
-        
-        $scope.val = $val;
 
-        //$scope.dateFormats = [{ format: 'dd-mm-yyyy', group: "date" }, { format: 'yyyy-mm-dd', group: "date" }, { format: 'dddd-MMMM-yyyy', group: "date" }];
-        $scope.dateFormats = ['dd-mm-yyyy', 'yyyy-mm-dd', 'dddd-MMMM-yyyy'];
-        $scope.UsedFor = ['Allocation', 'Billing'];
-        $scope.Button = {
-            save: { btnType: "save" },
-            cancel: { btnType: "cancel" }
+        $scope.add = function (fileDetail) {
+            datalayer.Save(fileDetail).then(function (data) {
+                $modalInstance.close(data);
+            });
         };
 
-        //for save file details
-        $scope.saveFileDetails = function (fileDetail) {
-            if (angular.isUndefined(fileDetail) || $csfactory.isEmptyObject(fileDetail)) {
-                return;
-            }
-            fileDetail.FileServer = "localhost";
-            $scope.fileDetail.TempTable = "TEMP_" + $scope.fileDetail.AliasName;
-            $scope.fileDetail.ErrorTable = "ERROR_" + $scope.fileDetail.AliasName;
-            if (fileDetail.Id) {
-                apictrl.customPUT(fileDetail, 'Put', { id: fileDetail.Id }).then(function (data) {
-                    $csnotify.success("File Detail Updated Successfully");
-                    $modalInstance.close(data);
-                }, function (response) {
-                    $csnotify.error(response);
-                });
-            } else {
-                apictrl.customPOST(fileDetail, 'Post').then(function (data) {
-                    $csnotify.success("File Detail added Successfully");
-                    $modalInstance.close(data);
-                }, function (response) {
-                    $csnotify.error(response);
-                });
-            }
+        $scope.updateDependsOnAlias = function (details) {
+            if (angular.isUndefined(details)) details = {};
+            details.dependsOnAliasList = factory.getDependsOnAlias(details, datalayer.dldata.fileDetailsList);
+            console.log(details.dependsOnAliasList);
         };
+
+        (function () {
+            $scope.fileDetail = fileDetails.fileDetail;
+            $scope.val = $val;
+            $scope.datalayer = datalayer;
+            $scope.factory = factory;
+            $scope.updateDependsOnAlias($scope.fileDetail);
+        })();
+
+        (function (mode) {
+            switch (mode) {
+                case "add":
+                    $scope.modelTitle = "Add New File Details";
+                    $scope.isReadOnly = false;
+                    break;
+                case "edit":
+                    $scope.modelTitle = "Add New File Details";
+                    $scope.isReadOnly = false;
+                    break;
+                case "view":
+                    $scope.modelTitle = "";
+                    $scope.isReadOnly = true;
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(fileDetails));
+            }
+        })(fileDetails.displayMode);
     }
 ]);
 
-csapp.controller("fileDetailsController", ['$scope', '$csfactory', '$csnotify', 'Restangular', "modalService", "$modal",
-    function ($scope, $csfactory, $csnotify, rest, modalService, $modal) {
+csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer",
+    function ($scope, modalService, $modal, datalayer) {
         "use strict";
 
-        var apictrl = rest.all('FileDetailsApi');
-        
-        //#region other Operations
-        
-        $scope.showDeleteModelPopup = function (fileDetail, index) {
+        (function () {
+            $scope.datalayer = datalayer;
+            datalayer.GetAll();
+        })();
+
+        $scope.showDeleteModelPopup = function (fileDetail) {
             var modalOptions = {
                 closeButtonText: 'Cancel',
                 actionButtonText: 'Delete File',
@@ -108,66 +159,23 @@ csapp.controller("fileDetailsController", ['$scope', '$csfactory', '$csnotify', 
             };
 
             modalService.showModal({}, modalOptions).then(function () {
-                $scope.deleteFileDetails(fileDetail.Id, index);
+                datalayer.Delete(fileDetail.Id);
             });
-
         };
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
-            var modalInstance = $modal.open({
+            $modal.open({
                 templateUrl: 'filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController',
                 resolve: {
-                    fileDetails: function() {
+                    fileDetails: function () {
                         return {
                             fileDetail: angular.copy(fileDetails),
-                            displayMode: mode,
-                            enums: $scope.enums
+                            displayMode: mode
                         };
                     }
                 }
             });
-
-            modalInstance.result.then(function(data) {
-                if (mode === 'add') {
-                    $scope.fileDetailsList.push(data);
-                } else if (mode === 'edit') {
-                    var index = _.findIndex($scope.fileDetailsList, { 'Id': fileDetails.Id });
-                    $scope.fileDetailsList[index] = data;
-                }
-            });
         };
-
-        //#endregion
-
-        //#region Db operations
-
-        //for getting all file details
-        apictrl.customGET('Fetch').then(function (data) {
-            $csnotify.success("All File Details Loaded Successfully.");
-            $scope.fileDetailsList = data.FileDetails;
-            $scope.enums = {
-                fileCategories: data.FileCategories,
-                fileAliasNames: data.FileAliasNames,
-                dependsOnAlias: data.FileAliasNames,
-                fileFrequencies: data.FileFrequencies,
-                fileTypes: data.FileTypes,
-                fileSystems: data.FileSystems
-            };
-        }, function (response) {
-            $csnotify.error(response);
-        });
-
-        //for delete file details
-        $scope.deleteFileDetails = function (id, index) {
-            apictrl.customDELETE('Delete', { id: id }).then(function () {
-                $csnotify.success('File Detail Deleted Successfully.');
-                $scope.fileDetailsList.splice(index, 1);
-            }, function (response) {
-                $csnotify.error(response);
-            });
-        };
-
-        //#endregion
-
-    }]);
+    }
+]);

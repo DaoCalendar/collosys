@@ -60,9 +60,8 @@
             <th></th>
         </tr>
     </thead>
-
     <tbody>
-        <tr data-ng-repeat="fileDetail in fileDetailsList | filter:search">
+        <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
             <td>
                 <div>
                     <div class="btn-group">
@@ -121,3 +120,4 @@
         </tr>
     </tbody>
 </table>
+

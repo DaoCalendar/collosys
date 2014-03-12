@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularUI", "UserInterface\AngularUI.csproj", "{DDD31537-2BFC-40FE-8344-8D87BFEB998F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03A3E9F8-1E99-49A2-AE14-370E029E2AF0}"
@@ -51,6 +53,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.QueryBuilder", "ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj", "{4450BB2E-C544-40C2-BCC3-EAB5C385FB0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColloSys.QueryBuilder.Test", "ColloSys.QueryBuilder.Test\ColloSys.QueryBuilder.Test.csproj", "{94615DA6-1E69-490D-8D73-4FB329E4020F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5BDD4D65-DF48-41B7-BAB7-A07C1606E6BF}"
+	ProjectSection(SolutionItems) = preProject
+		WebEssentials-Settings.json = WebEssentials-Settings.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

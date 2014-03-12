@@ -379,7 +379,7 @@ csapp.service('modalService', ['$modal', function($modal) {
         backdrop: true,
         keyboard: true,
         modalFade: true,
-        templateUrl: '/Shared/templates/modal.html'
+        templateUrl: '/Shared/templates/confirm-modal.html'
     };
 
     var modalOptions = {

@@ -1,0 +1,24 @@
+﻿<div data-ng-controller="fileMappingCtrl" data-ng-cloak="">
+    <div class="row-fluid form-horizontal">
+        <div class="span4 control-group">
+            <label class="control-label">File Name</label>
+            <div class="controls">
+                <select data-ng-model="fileDetail" data-ng-change="datalayer.GetFileMappings(fileDetail.Id)"
+                    data-ng-options="c.AliasName for c in datalayer.dldata.fileDetails | orderBy:'AliasName'">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="span4 control-group">
+            <label class="control-label">Actual Table</label>
+            <div class="controls">
+                <input type="text" data-ng-model="datalayer.dldata.actualTable" readonly="readonly" />
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="fileDetail">
+        <div data-ng-include="'filemapping/file-mapping-list.html'"></div>
+    </div>
+</div>
+

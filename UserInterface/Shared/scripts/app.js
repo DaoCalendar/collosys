@@ -85,6 +85,12 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/filedetail', {
                     templateUrl: '/FileUpload/filedetail/file-detail-list.html',
                     controller: 'fileDetailsController'
+                }).when('/fileupload/filecolumn', {
+                    templateUrl: '/FileUpload/filecolumn/file-column.html',
+                    controller: 'fileColumnController'
+                }).when('/fileupload/filemapping', {
+                    templateUrl: '/FileUpload/filemapping/file-mapping.html',
+                    controller: 'fileColumnController'
                 })
                 .otherwise({
                     redirectTo: '/'

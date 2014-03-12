@@ -1,10 +1,12 @@
 ﻿<!doctype html>
+<!-- ReSharper disable UnknownCssClass -->
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
+<!-- ReSharper restore UnknownCssClass -->
 
 <head>
     <meta charset="utf-8" />
@@ -26,7 +28,7 @@
 </head>
 <body data-ng-app="ui.collosys">
     <!--[if lt IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
@@ -44,7 +46,7 @@
     <script src="Scripts/json3/json3.min.js"></script>
     <![endif]-->
 
-    <script src="Scripts/jquery/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/jquery/jquery-1.9.1.js"></script>
     <!--<script src="Scripts/bootstrap/bootstrap.js"></script>-->
     <script src="Scripts/lodash/lodash.js"></script>
     <script src="Scripts/moment/moment.js"></script>
@@ -65,13 +67,15 @@
     <script src="Scripts/ngupload/ng-upload.js"></script>
     <script src="Scripts/restangular/restangular.js"></script>
 
-    <script src="Shared/app.js"></script>
+    <script src="Shared/scripts/app.js"></script>
     <script src="Shared/scripts/directives.js"></script>
     <script src="Shared/scripts/factories.js"></script>
     <script src="Billing/factories.js"></script>
     <script src="Shared/scripts/main.js"></script>
-    <script src="Shared/login.js"></script>
+    <script src="Shared/scripts/login.js"></script>
 
     <script src="FileUpload/filedetail/filedetail.js"></script>
+    <script src="FileUpload/filecolumn/filecolumn.js"></script>
+    <script src="FileUpload/filemapping/filemapping.js"></script>
 </body>
 </html>
