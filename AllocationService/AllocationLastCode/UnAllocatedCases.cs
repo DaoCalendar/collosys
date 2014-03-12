@@ -17,6 +17,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
     {
         private static readonly InfoBuilder InfoBuilder =new InfoBuilder();
         private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
+
         public static void Init(ScbEnums.Products products)
         {
             var infoData =InfoBuilder.UnAllocatedCases(products).ToList();
@@ -25,28 +26,30 @@ namespace ColloSys.AllocationService.AllocationLastCode
             AllocBuilder.Save(allocList);
         }
 
-        private static IList<Alloc> SetAllocList(List<Info> eInfoData)
+        private static IEnumerable<Alloc> SetAllocList(List<Info> eInfoData)
         {
             var allocList = new List<Alloc>();
             if (eInfoData == null || eInfoData.Count == 0)
                 return allocList;
-            foreach (var cInfo in eInfoData)
-            {
-                var alloc = new Alloc();
-                alloc.IsAllocated = false;
-                alloc.AmountDue = cInfo.TotalDue;
-                alloc.AllocStatus = cInfo.AllocStatus;
-                alloc.NoAllocResons = cInfo.NoAllocResons;
-                alloc.Bucket = (int)cInfo.Bucket;
-                alloc.StartDate = cInfo.AllocStartDate.HasValue ? cInfo.AllocStartDate.Value : DateTime.Today;
-                alloc.EndDate = cInfo.AllocEndDate.HasValue ? cInfo.AllocEndDate.Value : DateTime.Today.AddMonths(1);
-                alloc.Info = cInfo;
-                allocList.Add(alloc);
-            }
+            allocList.AddRange(eInfoData.Select(cInfo => new Alloc
+                {
+                    IsAllocated = false,
+                    AmountDue = cInfo.TotalDue,
+                    AllocStatus = cInfo.AllocStatus,
+                    NoAllocResons = cInfo.NoAllocResons,
+                    Bucket = (int) cInfo.Bucket,
+                    StartDate = cInfo.AllocStartDate.HasValue
+                                    ? cInfo.AllocStartDate.Value
+                                    : DateTime.Today,
+                    EndDate = cInfo.AllocEndDate.HasValue
+                                  ? cInfo.AllocEndDate.Value
+                                  : DateTime.Today.AddMonths(1),
+                    Info = cInfo
+                }));
             return allocList;
         }
 
-        private static List<T> SetList<T>(List<T> list, ScbEnums.Products products)
+        private static IEnumerable<T> SetList<T>(IReadOnlyCollection<T> list, ScbEnums.Products products)
             where T : Info
         {
             if (list.Count == 0)

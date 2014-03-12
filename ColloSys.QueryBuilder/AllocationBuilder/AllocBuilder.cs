@@ -2,12 +2,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
@@ -92,6 +96,39 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .Where(() => info.Product == products)
                                  .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
                                  .List<Alloc>();
+        }
+
+        [Transaction]
+        public ICriteria CriteriaForEmail()
+        {
+            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Alloc), "Alloc");
+
+            criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+            //add condition for createdon and alloc status
+            criteria.Add(Restrictions.Ge("CreatedOn", DateTime.Today));
+            criteria.Add(Restrictions.Le("CreatedOn", DateTime.Today.AddDays(1)));
+            criteria.Add(Restrictions.Or(
+                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
+                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
+            return criteria;
+        }
+    }
+
+    public class AllocGenericCalls
+    {
+        public static TLinerWriteOff CheckInInfo<TLinerWriteOff>(TLinerWriteOff linerWriteOff)
+            where TLinerWriteOff : Entity, IDelinquentCustomer
+        {
+
+            return SessionManager.GetCurrentSession().QueryOver<TLinerWriteOff>()
+                                 .Where(x => x.AccountNo == linerWriteOff.AccountNo)
+                                 .And(x => x.AllocStatus != ColloSysEnums.AllocStatus.None)
+                                 .OrderBy(x => x.CreatedOn).Desc
+                                 .List()
+                                 .FirstOrDefault();
         }
     }
 }

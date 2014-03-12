@@ -41,8 +41,6 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
             InfoBuilder.Save(sharedInfos.ToList());
             FileSchedulerBuilder.Save(fileScheduler);
         }
-
-
     }
 }
 

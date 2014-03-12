@@ -38,7 +38,6 @@ namespace ColloSys.AllocationService.DBLayer
 
         public static bool IsMonthWiseReset(ScbEnums.Products products)
         {
-
             var reset = ProductConfigBuilder.GetOnExpression(x => x.Product == products)
                                .Select(x => x.AllocationResetStrategy)
                                .SingleOrDefault();
