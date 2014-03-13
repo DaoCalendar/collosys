@@ -216,4 +216,36 @@ csapp.constant("$csConstants", {
     }
 });
 
-csapp.controller('HomeCtrl', [function () { }]);
+
+csapp.controller("HomeCtrl", [
+    function() {
+
+    }
+]);
+
+csapp.controller('RootCtrl', ["$rootScope", "$csStopWatch", function ($rootScope, $csStopWatch) {
+    $rootScope.loadingElement.stopwatch = $csStopWatch;
+    $rootScope.loadingElement.showLoadingElement = false;
+    $rootScope.loadingElement.loadingElementText = "processing...";
+    $rootScope.loadingElement.disableSpiner = false;
+
+    $rootScope.$watch("loadingElement.waitingForServerResponse", function () {
+        if ($rootScope.loadingElement.disableSpiner === true) {
+            $rootScope.loadingElement.disableSpiner = false;
+            return;
+        }
+
+        if ($rootScope.loadingElement.waitingForServerResponse === true) {
+            $rootScope.loadingElement.stopwatch.start();
+            $rootScope.loadingElement.showLoadingElement = true;
+        } else {
+            $rootScope.loadingElement.showLoadingElement = false;
+            $rootScope.loadingElement.stopwatch.reset();
+            $rootScope.loadingElement.loadingElementText = "processing...";
+        }
+    });
+
+    $rootScope.hideSpiner = function () {
+        $rootScope.loadingElement.disableSpiner = true;
+    };
+}]);

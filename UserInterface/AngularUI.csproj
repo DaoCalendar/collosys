@@ -175,6 +175,9 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
+    <Content Include="Content\bootstrap-datepicker\bootstrap-datepicker.css" />
+    <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.css" />
+    <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.min.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap.css" />
@@ -210,7 +213,9 @@
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
-    <Content Include="Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.js" />
+    <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />
