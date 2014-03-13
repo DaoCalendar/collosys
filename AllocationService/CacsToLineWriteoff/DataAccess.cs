@@ -48,7 +48,7 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
         public static void SaveInfoDataWithFileSchedular(IEnumerable<Info> sharedInfos, FileScheduler fileScheduler)
         {
             InfoBuilder.SaveList(sharedInfos.ToList());
-            session.SaveOrUpdate(fileScheduler);
+            //session.SaveOrUpdate(fileScheduler);
         }
 
         //public static T GetAccountData<T>(CacsActivity cacsActivity)

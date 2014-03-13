@@ -17,7 +17,11 @@
                 ng-model="$parent.WizardData.FinalPostModel.Address.Line3"></cs-input>
         </div>
         <!--Landline No-->
-        <div class="control-group span5">
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.LandlineNo"
+                ng-model="$parent.WizardData.FinalPostModel.Address.LandlineNo"></cs-input>
+        </div>
+            @* <div class="control-group span5">
             <label class="control-label">Landline No</label>
             <div class="controls">
                 <div class="input-prepend">
@@ -30,15 +34,15 @@
                 </div>
                 <div class="field-validation-error" data-ng-show="addressDetailsForm.landline.$error.pattern">{{val.Pattern(11)}}</div>
             </div>
+        </div>*@
         </div>
-    </div>
 
     <!--Pincode-->
     <div class="row-fluid">
         <cs-input options="$parent.stakeholderModel.Pincode"
-                  ng-model="addData.Pincode"
+                  ng-model="add.Pincode"
                   cs-typeahead="'c.Area for c in $parent.$parent.Pincodes($viewValue, 'Area')'"  
-                  data-ng-change="setPincodeOnArea(addData.Pincode)" ></cs-input>
+                  ng-change="setPincodeOnArea(add.Pincode)" ></cs-input>
     </div>
 </div>
 

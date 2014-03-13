@@ -105,13 +105,16 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         };
 
         var setBasicInfoModel = function (hierarchy) {
-            debugger;
+            
             $scope.$parent.stakeholderModel.Email.suffix = "";
             if (hierarchy.Hierarchy != 'External') {
                 $scope.$parent.stakeholderModel.Email.suffix = "@sc.com";//set email model
                 $scope.$parent.stakeholderModel.UserId.required = true;//set userId model
+                $scope.$parent.stakeholderModel.ReportingManager.label = "Line Manager";//set reporting manager label
             }
 
+            setReportingManagerLabel(hierarchy);
+            
             if (hierarchy.IsEmployee)
                 $scope.$parent.stakeholderModel.Date.label = "Date of Joining";
             else $scope.$parent.stakeholderModel.Date.label = "Date of Starting";
@@ -119,7 +122,16 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
         };
 
+        var setReportingManagerLabel = function(hierarchy) {
+            if (hierarchy.Hierarchy == 'External' && !(hierarchy.Designation == 'ExternalAgency'
+                || hierarchy.Designation == 'ManpowerAgency'))
+                $scope.$parent.stakeholderModel.ReportingManager.label = "Agency Name ";
 
+            if (hierarchy.Designation == 'ExternalAgency' ||
+                hierarchy.Designation == 'ManpowerAgency')
+                $scope.$parent.stakeholderModel.ReportingManager.label = "Agency Supervisor";
+
+        };
         //#endregion
 
     }])

@@ -35,8 +35,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\SharedLib\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
@@ -196,6 +197,9 @@
     <Compile Include="Stakeholder\StkhRegistrationMap.cs" />
     <Compile Include="Stakeholder\StkhWorking.cs" />
     <Compile Include="Stakeholder\StkhWorkingMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="cleanOutput" AfterTargets="Clean">

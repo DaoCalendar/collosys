@@ -420,6 +420,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
 
         $scope.stakeholderModel = $stakeModel.BasicInfoModel;
         $scope.hierarchyModel = $stakeModel.Hierarchy;
+        $scope.workingPaymentModel = $stakeModel.WorkingPayment;
+
 
         $scope.ShowPrevBtn = true;
         $scope.WizardData.prevStatus = false;
