@@ -115,21 +115,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
-    <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
-    <Compile Include="Allocation\subpolicy\NgGridOptions.cs" />
-    <Compile Include="Allocation\subpolicy\SharedViewModel.cs" />
-    <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
     <Compile Include="appCode\NLogSetup.cs" />
-    <Compile Include="Billing\adhoc\AddhocPayoutsApiController.cs" />
-    <Compile Include="Billing\matrix\MatrixApiController.cs" />
-    <Compile Include="Billing\policy\PayoutPolicyApiController.cs" />
-    <Compile Include="Billing\readybilling\ReadyForBillingApiController.cs" />
-    <Compile Include="Billing\subpolicy\PayoutSubpolicyApiController.cs" />
-    <Compile Include="Billing\summary\BillingAmountApiController.cs" />
-    <Compile Include="Billing\summary\FinalBillData.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnViewModel.cs" />
     <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
@@ -147,32 +135,8 @@
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
-    <Compile Include="Stakeholder\add\AddStakeHolderApiController.cs" />
-    <Compile Include="Stakeholder\add\AddStakeholderModel.cs" />
-    <Compile Include="Stakeholder\add\FinalPostModel.cs" />
-    <Compile Include="Stakeholder\add\ListValue.cs" />
-    <Compile Include="Stakeholder\add\ManageWorkingModel.cs" />
-    <Compile Include="Stakeholder\add\PaymentDetailsApiController.cs" />
-    <Compile Include="Stakeholder\add\pincodeData.cs" />
-    <Compile Include="Stakeholder\add\StakeApiController.cs" />
-    <Compile Include="Stakeholder\add\StakeholderApiController.cs" />
-    <Compile Include="Stakeholder\add\WorkingModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Allocation\policy\allocPolicyCtrl.js" />
-    <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
-    <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
-    <Content Include="Billing\adhoc\AddhocPayouts.js" />
-    <Content Include="Billing\formula\formulaCtrl.js" />
-    <Content Include="Billing\matrix\matrixCtrl.js" />
-    <Content Include="Billing\policy\payoutPolicyCtrl.js" />
-    <Content Include="Billing\readybilling\ReadyForBilling.js" />
-    <Content Include="Billing\status\BillingStatus.js" />
-    <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
-    <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\bootstrap-datepicker\bootstrap-datepicker.css" />
@@ -232,7 +196,6 @@
     <Content Include="Scripts\angular.ui\select2.js" />
     <Content Include="Scripts\angular.ui\select2.min.js" />
     <Content Include="Shared\scripts\app.js" />
-    <Content Include="Billing\factories.js" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.css" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.css" />
@@ -287,17 +250,6 @@
     <Content Include="FileUpload\filecolumn\file-column.html" />
     <Content Include="FileUpload\filemapping\file-mapping.html" />
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
-    <Content Include="Allocation\policy\index.html" />
-    <Content Include="Allocation\subpolicy\index.html" />
-    <Content Include="Allocation\viewapprove\index.html" />
-    <Content Include="Billing\policy\index.html" />
-    <Content Include="Billing\subpolicy\index.html" />
-    <Content Include="Billing\adhoc\index.html" />
-    <Content Include="Billing\summary\index.html" />
-    <Content Include="Billing\status\index.html" />
-    <Content Include="Billing\formula\index.html" />
-    <Content Include="Billing\matrix\index.html" />
-    <Content Include="Billing\readybilling\index.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -578,15 +530,6 @@
     <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
-    <Content Include="Stakeholder\add\AddressInfo.js" />
-    <Content Include="Stakeholder\add\AddStakeholder.js" />
-    <Content Include="Stakeholder\add\BasicInfoScript.js" />
-    <Content Include="Stakeholder\add\HierarchyModel.js" />
-    <Content Include="Stakeholder\add\Payments.js" />
-    <Content Include="Stakeholder\add\RegistrationDetails.js" />
-    <Content Include="Stakeholder\add\WorkingScript.js" />
-    <Content Include="Stakeholder\hierarchy\EditHierarchy.js" />
-    <Content Include="Stakeholder\view\ViewStakeholder.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -597,21 +540,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Stakeholder\add\index.html" />
-    <Content Include="Stakeholder\add\registration.html" />
-    <Content Include="Stakeholder\add\address.html" />
-    <Content Include="Stakeholder\add\working.html" />
-    <Content Include="Stakeholder\add\payment.html" />
-    <Content Include="Stakeholder\add\show-working-payment.html" />
-    <Content Include="Stakeholder\add\basic.html" />
-    <Content Include="Stakeholder\add\hierarchy.html" />
-    <Content Include="Stakeholder\hierarchy\edit.html" />
-    <Content Include="Stakeholder\hierarchy\add.html" />
-    <Content Include="Stakeholder\view\index.html" />
-    <Content Include="Stakeholder\view\basic.html" />
-    <Content Include="Stakeholder\view\registration.html" />
-    <Content Include="Stakeholder\view\workings.html" />
-    <Content Include="Stakeholder\view\onleave.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Login\" />
