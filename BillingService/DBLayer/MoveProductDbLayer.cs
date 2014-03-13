@@ -44,7 +44,7 @@ namespace BillingService.DBLayer
 
         public static void SaveList(IEnumerable<Payment> payments)
         {
-            PaymentBuilder.SaveList(payments.ToList());
+            PaymentBuilder.Save(payments.ToList());
         }
     }
 }

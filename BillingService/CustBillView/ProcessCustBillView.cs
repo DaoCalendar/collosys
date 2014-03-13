@@ -65,21 +65,23 @@ namespace BillingService.CustBillView
 
         public static CustBillViewModel CreateCustBillViewModel(Alloc allocation, Info info, IList<Payment> payments)
         {
-            var custBilViewModel = new CustBillViewModel();
+            var custBilViewModel = new CustBillViewModel
+                {
+                    AccountNo = info.AccountNo,
+                    GlobalCustId = info.GlobalCustId,
+                    Flag = info.Flag,
+                    Product = info.Product,
+                    Cycle = info.Cycle,
+                    Bucket = (uint) allocation.Bucket,
+                    IsInRecovery = info.IsInRecovery,
+                    IsXHoldAccount = info.IsXHoldAccount,
+                    CityCategory = info.GPincode.CityCategory,
+                    AllocationStartDate = allocation.StartDate,
+                    AllocationEndDate = allocation.EndDate,
+                    TotalDueOnAllocation = allocation.AmountDue,
+                    MobWriteoff = Util.GetMobWriteoff(info.ChargeofDate)
+                };
 
-            custBilViewModel.AccountNo = info.AccountNo;
-            custBilViewModel.GlobalCustId = info.GlobalCustId;
-            custBilViewModel.Flag = info.Flag;
-            custBilViewModel.Product = info.Product;
-            custBilViewModel.Cycle = info.Cycle;
-            custBilViewModel.Bucket = (uint)allocation.Bucket;
-            custBilViewModel.IsInRecovery = info.IsInRecovery;
-            custBilViewModel.IsXHoldAccount = info.IsXHoldAccount;
-            custBilViewModel.CityCategory = info.GPincode.CityCategory;
-            custBilViewModel.AllocationStartDate = allocation.StartDate;
-            custBilViewModel.AllocationEndDate = allocation.EndDate;
-            custBilViewModel.TotalDueOnAllocation = allocation.AmountDue;
-            custBilViewModel.MobWriteoff = Util.GetMobWriteoff(info.ChargeofDate);
             custBilViewModel.Vintage = Util.GetVintage(custBilViewModel.MobWriteoff, custBilViewModel.Product);
 
             var debitAmount = payments.Where(x => x.AccountNo == custBilViewModel.AccountNo

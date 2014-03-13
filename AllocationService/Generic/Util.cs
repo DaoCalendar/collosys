@@ -1,7 +1,12 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Diagnostics;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.Shared.ConfigSectionReader;
+
+#endregion
+
 
 namespace ColloSys.AllocationService.Generic
 {

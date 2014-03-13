@@ -6,7 +6,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
     public class AddressQueryBuilder : QueryBuilder<StakeAddress>
     {
-        public override QueryOver<StakeAddress, StakeAddress> DefaultQuery()
+        public override QueryOver<StakeAddress, StakeAddress> WithRelation()
         {
             return null;
         }

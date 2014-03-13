@@ -7,6 +7,7 @@ using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -19,6 +20,9 @@ namespace UserInterfaceAngular.app
     public class FileMappingApiController : BaseApiController<FileMapping>
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+        private static readonly FileColumnBuilder FileColumnBuilder=new FileColumnBuilder();
+
 
         #region Get
 
@@ -34,8 +38,7 @@ namespace UserInterfaceAngular.app
         {
             try
             {
-                return (Session.QueryOver<FileDetail>()
-                    .Where(c => c.ScbSystems == ScbEnums.ScbSystems.EBBS || c.ScbSystems == ScbEnums.ScbSystems.RLS).List());
+                return FileDetailBuilder.ForROrE();
             }
             catch (Exception exception)
             {
@@ -65,7 +68,7 @@ namespace UserInterfaceAngular.app
         {
             try
             {
-                return (Session.QueryOver<FileColumn>().Where(c => c.FileDetail.Id == fileDetailId).List());
+                return FileColumnBuilder.OnFileDetailId(fileDetailId);
             }
             catch (Exception exception)
             {

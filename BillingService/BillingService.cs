@@ -161,7 +161,7 @@ namespace ColloSys.BillingService
 
             var billAmount = GetBillAmountForStkholder(stakeholder, billStatus, billDetails);
 
-            BillDetailBuilder.SaveList(billDetails);
+            BillDetailBuilder.Save(billDetails);
             BillAmountBuilder.Save(billAmount);
 
             return billDetails;

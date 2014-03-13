@@ -2,18 +2,19 @@
 
 using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.Allocation;
+using System.Linq;
+using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.BaseTypes;
-using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
-using System.Linq;
 
 #endregion
 
@@ -21,7 +22,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocBuilder : QueryBuilder<Alloc>
     {
-        public override QueryOver<Alloc, Alloc> DefaultQuery()
+        public override QueryOver<Alloc, Alloc> WithRelation()
         {
             return QueryOver.Of<Alloc>()
                             .Fetch(x => x.AllocPolicy).Eager
@@ -45,6 +46,19 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         }
 
         [Transaction]
+        public IEnumerable<Alloc> AllocationsForStakeholder(Guid stakeholderId, ScbEnums.Products products)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<Alloc>()
+                                      .Fetch(x => x.AllocPolicy).Eager
+                                      .Fetch(x => x.AllocSubpolicy).Eager
+                                      .Fetch(x => x.Info).Eager
+                                      .Fetch(x => x.Stakeholder).Eager
+                                      .Where(x => x.Stakeholder.Id == stakeholderId)
+                                      .And(x => x.Info.Product == products)
+                                      .List();
+        }
+
+        [Transaction]
         public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, bool isInRecovery)
         {
             Alloc alloc = null;
@@ -61,7 +75,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                     .Where(() => info.Product == products)
                                     .And(() => info.IsInRecovery == isInRecovery)
                                     .List<Alloc>();
-            
+
         }
 
         [Transaction]
@@ -71,75 +85,50 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
             Info info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
-            return SessionManager.GetCurrentSession().QueryOver<Alloc>(() => alloc)
-                                    .Fetch(x => x.Info).Eager
-                                     .Fetch(x => x.Info.GPincode).Eager
-                                    .Fetch(x => x.Stakeholder).Eager
-                                    .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
-                                    .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
-                                    .Where(() => info.Product == products)
-                                    .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-                                    .List<Alloc>();
-        }
-    }
-
-    public class AllocConditionBuilder : QueryBuilder<AllocCondition>
-    {
-        public override QueryOver<AllocCondition, AllocCondition> DefaultQuery()
-        {
-            return QueryOver.Of<AllocCondition>();
-        }
-    }
-
-    public class AllocPolicyBuilder : QueryBuilder<AllocPolicy>
-    {
-        public override QueryOver<AllocPolicy, AllocPolicy> DefaultQuery()
-        {
-            return QueryOver.Of<AllocPolicy>();
+            return SessionManager.GetCurrentSession()
+                                 .QueryOver<Alloc>(() => alloc)
+                                 .Fetch(x => x.Info).Eager
+                                 .Fetch(x => x.Info.GPincode).Eager
+                                 .Fetch(x => x.Stakeholder).Eager
+                                 .JoinQueryOver(() => alloc.Info, () => info, JoinType.InnerJoin)
+                                 .JoinQueryOver(() => info.GPincode, () => pincode, JoinType.InnerJoin)
+                                 .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
+                                 .Where(() => info.Product == products)
+                                 .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
+                                 .List<Alloc>();
         }
 
         [Transaction]
-        public AllocPolicy OnProductAndSystem(ScbEnums.Products products, ScbEnums.Category category)
+        public ICriteria CriteriaForEmail()
         {
-            AllocPolicy policy = null;
-            AllocRelation relation = null;
-            AllocSubpolicy subpolicy = null;
-            AllocCondition condition = null;
-            Stakeholders stakeholder = null;
+            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Alloc), "Alloc");
 
-            return SessionManager.GetCurrentSession().QueryOver(() => policy)
-                                     .Fetch(x => x.AllocRelations).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
-                                     .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-                                     .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
-                                     .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-                                     .Where(() => policy.Products == products && policy.Category == category)
-                                     .And(() => relation.Status == ColloSysEnums.ApproveStatus.Approved)
-                                     .And(() => relation.StartDate <= Util.GetTodayDate() &&
-                                                (relation.EndDate == null ||
-                                                 relation.EndDate.Value >= Util.GetTodayDate()))
-                                     .SingleOrDefault();
-
+            criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
+            criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+            //add condition for createdon and alloc status
+            criteria.Add(Restrictions.Ge("CreatedOn", DateTime.Today));
+            criteria.Add(Restrictions.Le("CreatedOn", DateTime.Today.AddDays(1)));
+            criteria.Add(Restrictions.Or(
+                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
+                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
+            return criteria;
         }
     }
 
-    public class AllocRelationBuilder : QueryBuilder<AllocRelation>
+    public class AllocGenericCalls
     {
-        public override QueryOver<AllocRelation, AllocRelation> DefaultQuery()
+        public static TLinerWriteOff CheckInInfo<TLinerWriteOff>(TLinerWriteOff linerWriteOff)
+            where TLinerWriteOff : Entity, IDelinquentCustomer
         {
-            return QueryOver.Of<AllocRelation>();
-        }
-    }
 
-    public class AllocSubpolicyBuilder : QueryBuilder<AllocSubpolicy>
-    {
-        public override QueryOver<AllocSubpolicy, AllocSubpolicy> DefaultQuery()
-        {
-            return QueryOver.Of<AllocSubpolicy>();
+            return SessionManager.GetCurrentSession().QueryOver<TLinerWriteOff>()
+                                 .Where(x => x.AccountNo == linerWriteOff.AccountNo)
+                                 .And(x => x.AllocStatus != ColloSysEnums.AllocStatus.None)
+                                 .OrderBy(x => x.CreatedOn).Desc
+                                 .List()
+                                 .FirstOrDefault();
         }
     }
 }

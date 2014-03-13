@@ -18,6 +18,7 @@ namespace ColloSys.FileUploadService.Excel2DT
     public static class CsvHelperExcelReader
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public static DataTable GenerateDataTable(FileScheduler fileScheduler, FileInfo fileInfo, string delimiter, IRowCounter counter)
         {
             var dt = new DataTable();

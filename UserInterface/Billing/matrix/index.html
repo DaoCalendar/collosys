@@ -1,0 +1,299 @@
+﻿<div data-ng-controller="matrixCtrl" style="padding-top: 30px">
+    <div class="span2 ">
+        <ul role="menu" class="nav nav-tabs nav-stacked">
+            <li class="alert-info">
+                <a>Matrix</a>
+            </li>
+            <li class="content" data-ng-repeat="smatrix in matrixList | orderBy : 'Name'">
+                <a data-ng-style="highlightSelectedMatrix(smatrix)" class="btn-link" data-ng-click="selectMatrix(smatrix)">{{smatrix.Name}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="span10">
+        <div class="form-horizontal well">
+            <form name="matrixForm">
+                <div class="row">
+                    <div class="control-group span5">
+                        <label class="control-label">Product</label>
+                        <div class="controls">
+                            <select class="input-large" data-ng-model="matrix.Products" data-ng-disabled="isMatrixCreated"
+                                data-ng-change="changeProductCategory()" data-ui-select2="" data-ng-required="!isMatrixCreated">
+                                <option value=""></option>
+                                <option data-ng-repeat="c in productsList">{{c}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Category</label>
+                        <div class="controls">
+                            <csswitch ngbind="matrix.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch" ngdisabled="isMatrixCreated"></csswitch>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" data-ng-show="matrix.Category && matrix.Products">
+                    <div class="control-group span5">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <input type="text"
+                                name="matrixName"
+                                data-ng-model="matrix.Name"
+                                data-ng-pattern="/^\w*$/"
+                                data-ng-required="!isMatrixCreated"
+                                data-ng-change="checkDupName(matrix.Name)"
+                                data-ng-disabled="isMatrixCreated" />
+                            <div data-ng-show="isDuplicate">
+                                <label class="text-error">Name Aready Exixts</label>
+                            </div>
+                            <div data-ng-show="matrixForm.matrixName.$dirty">
+                                <span data-ng-show="matrixForm.matrixName.$error.required" class="field-validation-error">{{val.Required()}}</span>
+                                <span data-ng-show="matrixForm.matrixName.$error.pattern" class="field-validation-error">{{val.SpecialCharNotAllow()}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Dimension</label>
+                        <div class="controls">
+                            <select class="input-large" data-ng-model="matrix.Dimension" data-ng-disabled="isMatrixCreated"
+                                data-ng-change="changeDimension(matrix)" ui-select2 required>
+                                <option value=""></option>
+                                <option value="1">1D</option>
+                                <option value="2">2D</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--row for MatrixPerType and MatrixPerTypeName-->
+                <div class="row-fluid" data-ng-show="matrix.Category && matrix.Products">
+                    <div class="control-group span5">
+                        <label class="control-label">Matrix Per Type</label>
+                        <div class="controls">
+                            <csswitch ngbind="matrix.MatrixPerType" namevalues="typeSwitch" ngdisabled="isMatrixCreated"></csswitch>
+                        </div>
+                    </div>
+                    <div class="control-group span6" data-ng-show="matrix.MatrixPerType">
+                        <label class="control-label">Matrix Per Type Name</label>
+                        <div class="controls">
+                            <div data-ng-switch on="matrix.MatrixPerType">
+                                <div data-ng-switch-when="Table">
+                                    <select class="input-xlarge" data-ng-model="matrix.MatrixPerTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ui-select2="" data-ng-required="!isMatrixCreated">
+                                        <option value=""></option>
+                                        <option data-ng-repeat="c in columnNames | custBillSubString">{{c}}</option>
+                                    </select>
+                                </div>
+                                <div data-ng-switch-when="Formula">
+                                    <select class="input-xlarge" data-ng-model="matrix.MatrixPerTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ui-select2="" required>
+                                        <option value=""></option>
+                                        <option data-ng-repeat="c in formulaNames">{{c}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <table data-ng-show="matrix.Dimension" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td>Count</td>
+                            <td>Type</td>
+                            <td>Type Name</td>
+                            <td>Operator</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Rows 1D</td>
+                            <td>
+                                <input type="number" min="1" max="10" class="input-small" data-ng-model="matrix.Row1DCount" data-ng-disabled="isMatrixCreated" />
+                            </td>
+                            <td>
+                                <csswitch ngbind="matrix.Row1DType" namevalues="typeSwitch" ngdisabled="isMatrixCreated"></csswitch>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="matrix.Row1DType">
+                                    <div data-ng-switch-when="Table">
+                                        <select class="input-xlarge" data-ng-model="matrix.Row1DTypeName"
+                                            data-ng-disabled="isMatrixCreated"
+                                            data-ui-select2="" data-ng-required="!isMatrixCreated"
+                                            data-ng-change="setInputTypeForRow(matrix.Row1DTypeName)">
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in columnNames" value="{{c}}">{{c | custBillSubString2}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-switch-when="Formula">
+                                        <select class="input-xlarge" data-ng-model="matrix.Row1DTypeName"
+                                            data-ng-disabled="isMatrixCreated"
+                                            data-ui-select2=""
+                                            required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in formulaNames" value="{{c}}">{{c}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!--opertor select box-->
+                                <select ui-select2 class="input-small" data-ng-model="matrix.RowsOperator" required="">
+                                    <option value="EqualTo">EqualTo </option>
+                                    <option value="GreaterThan">Greater Than </option>
+                                    <option value="LessThan">Less Than</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr data-ng-show="matrix.Dimension>1">
+                            <td>Columns 2D</td>
+                            <td>
+                                <input type="number" min="1" max="10" class="input-small" data-ng-model="matrix.Column2DCount" data-ng-disabled="isMatrixCreated" />
+                            </td>
+                            <td>
+                                <csswitch ngbind="matrix.Column2DType" namevalues="typeSwitch" ngdisabled="isMatrixCreated"></csswitch>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="matrix.Column2DType">
+                                    <div data-ng-switch-when="Table">
+                                        <select class="input-xlarge"
+                                            data-ng-model="matrix.Column2DTypeName"
+                                            data-ng-disabled="isMatrixCreated"
+                                            data-ui-select2=""
+                                            data-ng-required="!isMatrixCreated && matrix.Dimension!=='1'"
+                                            data-ng-change="setInputTypeForColumn(matrix.Column2DTypeName)">
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in columnNames" value="{{c}}">{{c | custBillSubString2}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-switch-when="Formula">
+                                        <select class="input-xlarge" data-ng-model="matrix.Column2DTypeName"
+                                            data-ng-disabled="isMatrixCreated" data-ui-select2="">
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in formulaNames" value="{{c}}">{{c}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-show="buttonDisable(matrix.Dimension)">
+                                        <span class="field-validation-error">Type Names cannot be same </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <!--opertor select box-->
+                                <select ui-select2 class="input-small"
+                                    data-ng-model="matrix.ColumnsOperator"
+                                    data-ng-required="matrix.Dimension!=='1'">
+                                    <option value="EqualTo">EqualTo </option>
+                                    <option value="GreaterThan">Greater Than </option>
+                                    <option value="LessThan">Less Than</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr data-ng-show="matrix.Dimension>2">
+                            <td>Rows 3D</td>
+                            <td>
+                                <input type="number" min="1" max="10" class="input-small" data-ng-model="matrix.Row3DCount" data-ng-disabled="isMatrixCreated" />
+                            </td>
+                            <td>
+                                <csswitch ngbind="matrix.Row3DType" namevalues="typeSwitch" ngdisabled="isMatrixCreated"></csswitch>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="matrix.Row3DType">
+                                    <select data-ng-switch-when="Table" class="input-medium" data-ng-model="matrix.Row3DTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ng-options="c for c in columnNames  | custBillSubString">
+                                    </select>
+                                    <select data-ng-switch-when="Formula" class="input-medium" data-ng-model="matrix.Row3DTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ng-options="c for c in formulaNames">
+                                    </select>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr data-ng-show="matrix.Dimension>3">
+                            <td>Columns 4D</td>
+                            <td>
+                                <input type="number" min="1" max="10" class="input-small" data-ng-model="matrix.Column4DCount" data-ng-disabled="isMatrixCreated" />
+                            </td>
+                            <td>
+                                <csswitch ngbind="matrix.Column4DType" namevalues="typeSwitch" ngdisabled="isMatrixCreated"></csswitch>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="matrix.Column4DType">
+                                    <select data-ng-switch-when="Table" class="input-medium" data-ng-model="matrix.Column4DTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ng-options="c for c in columnNames | custBillSubString">
+                                    </select>
+                                    <select data-ng-switch-when="Formula" class="input-medium" data-ng-model="matrix.Column4DTypeName"
+                                        data-ng-disabled="isMatrixCreated" data-ng-options="c for c in formulaNames">
+                                    </select>
+                                </div>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <div class="text-right">
+                                    <button class="btn btn-primary" data-ng-disabled="(isMatrixCreated || !matrixForm.$valid) 
+                                        ||(buttonDisable(matrix.Dimension)||isDuplicate)"
+                                        data-ng-click="createMatrix(matrix)">
+                                        Create Matrix</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ui-if="isMatrixCreated" class="panel">
+                    <div class="panel-heading">Matrix</div>
+                    <div style="overflow: auto">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr data-ng-repeat="n in [matrix.Row1DCount+1] | csmakeRange" data-ng-style="highlightColumn(n)">
+                                    <td data-ng-repeat="m in [matrix.Column2DCount+1] | csmakeRange" data-ng-style="highlightColumn(m)">
+                                        <div data-ng-init="matrixValue=getMatrixValue($parent.$index,$index)" 
+                                            data-ng-show="m===0 && n===0">
+                                            <p class="text-right">{{matrix.Column2DTypeName}}</p>
+                                            <hr style="border-top: 1px solid #111010;">
+                                            <p>{{matrix.Row1DTypeName}}</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <!--opertor box-->
+                                            <input type="text"
+                                                class="input-mini"
+                                                data-ng-init="matrixValue=getMatrixValue($parent.$index,$index)"
+                                                value="{{matrixValue.ColumnOperator=opertorValue($index,matrix.Column2DCount,matrix.ColumnsOperator)}}"
+                                                data-ng-disabled="true"
+                                                data-ng-show="matrixValue && n===0 && m!==0"
+                                                data-ng-model="matrixValue.ColumnOperator"
+                                                 />
+                                            <input type="text"
+                                                class="input-mini"
+                                                data-ng-init="matrixValue=getMatrixValue($parent.$index,$index)"
+                                                value="{{matrixValue.RowOperator=opertorValue($parent.$index,matrix.Row1DCount,matrix.RowsOperator)}}"
+                                                data-ng-disabled="true"
+                                                data-ng-show="matrixValue && m===0 && n!==0"
+                                                data-ng-model="matrixValue.RowOperator"  />
+
+                                            <input data-ng-init="matrixValue=getMatrixValue($parent.$index,$index)"  
+                                                   type="text"
+                                                   data-ng-pattern="{{getInputPattern(n,m)}}"
+                                                   data-ng-hide="m===0 && n===0" 
+                                                   data-ng-disabled="isDisabled(n,m,matrix.Row1DCount,matrix.Column2DCount,matrixValue)"
+                                                   data-ng-change="setNextValue(n,m,matrix.Row1DCount,matrix.Column2DCount,matrixValue.Value)"
+                                                   class="input-small text-center" data-ng-model="matrixValue.Value"
+                                                    />
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer" data-ng-show="matrix.BMatricesValues.length>0">
+                    <button class="btn btn-success" data-ng-show="isMatrixCreated" data-ng-disabled="!(matrixForm.$valid && matrix.BMatricesValues.length>0)" data-ng-click="saveMatrix(matrix)">Save</button>
+                    <button class="btn btn-warning" data-ng-click="isMatrixCreated=false; matrix = {}; matrix.Category='Liner'">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

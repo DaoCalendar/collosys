@@ -1,15 +1,11 @@
 ﻿#region references
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
-using ColloSys.Shared.Types4Product;
 
 #endregion
 
@@ -18,10 +14,10 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class DoNotAllocate
     {
-        public static List<Entity> SetDoNotAllocateAc(Type classType, IList data, AllocRelation relationCondition,
+        public static List<Alloc> SetDoNotAllocateAc(IEnumerable<Info> data, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
-            var list = new List<Entity>();
+            var list = new List<Alloc>();
 
             //calculate month start date and last date 
             var baseDate = Util.GetTodayDate();
@@ -38,7 +34,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                 uint cycleCode;
                 try
                 {
-                    cycleCode = (uint)dataObject.GetType().GetProperty("Cycle").GetValue(dataObject);
+                    cycleCode = dataObject.Cycle;
                 }
                 catch (Exception)
                 {
@@ -53,38 +49,37 @@ namespace ColloSys.AllocationService.AllocationLayer
                                        : thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
 
                 //create object of type
-                var obj = ClassType.CreateAllocObject(classType.Name);
-
-                //set base properties appear in SharedAlloc
-                obj.AllocPolicy = relationCondition.AllocPolicy;
-                obj.AllocSubpolicy = relationCondition.AllocSubpolicy;
-                obj.IsAllocated = false;
-                obj.StartDate = thisMonthStart;
-                obj.EndDate = thisMonthEnd;
-                //obj.AmountDue = 0;
-                obj.Bucket = 7; //for writeoff 7, for liner set in respective method
-                obj.WithTelecalling = false;
+                var obj = new Alloc
+                    {
+                        AllocPolicy = relationCondition.AllocPolicy,
+                        AllocSubpolicy = relationCondition.AllocSubpolicy,
+                        IsAllocated = false,
+                        StartDate = thisMonthStart,
+                        EndDate = thisMonthEnd,
+                        Bucket = 7,
+                        WithTelecalling = false
+                    };
 
                 string accountno;
 
                 var ralloc = SetAlloc(obj, dataObject, out accountno);
                 list.Add(ralloc);
-                dataObject.GetType().GetProperty("AllocStatus").SetValue(dataObject, ColloSysEnums.AllocStatus.DoNotAllocate);
+                dataObject.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate;
             }
 
             //set allocstatus
-            list.ForEach(x=>((Alloc)x).AllocStatus=ColloSysEnums.AllocStatus.DoNotAllocate);
+            list.ForEach(x => x.AllocStatus = ColloSysEnums.AllocStatus.DoNotAllocate);
             return list;
         }
 
         #region Private
-        private static Alloc SetAlloc(Alloc obj, object dataObject, out string accno)
+        private static Alloc SetAlloc(Alloc obj, Info dataObject, out string accno)
         {
-            var ralloc = (Alloc)obj;
-            ralloc.Info = (Info)dataObject;
+            var ralloc = obj;
+            ralloc.Info = dataObject;
             ralloc.Bucket = (int)ralloc.Info.Bucket;
             accno = ralloc.Info.AccountNo;
-            ralloc.AmountDue = ((Info)dataObject).TotalDue;
+            ralloc.AmountDue = dataObject.TotalDue;
 
             //set allocstartdate and allocenddate for rinfo
             ralloc.Info.AllocStartDate = ralloc.StartDate;

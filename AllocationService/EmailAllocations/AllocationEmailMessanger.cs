@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.DataLayer.SharedDomain;
+using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.Types4Product;
@@ -26,10 +27,11 @@ namespace ColloSys.AllocationService.EmailAllocations
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
+        private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
 
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
-            List<Stakeholders> stakeholerInitialData = StakeQueryBuilder
+            var stakeholerInitialData = StakeQueryBuilder
                 .GetOnExpression(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
            
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
@@ -193,9 +195,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         private IEnumerable<Alloc> GetAllocationData(ScbEnums.Products products)
         {
-            var className = ClassType.GetAllocDataClassTypeByTableNameForAlloc(products);
-            var session = SessionManager.GetNewSession();
-            var criteria = CreateCriteria(className, session);
+            var criteria = AllocBuilder.CriteriaForEmail();
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
             //fetch data
             var data = criteria.List<Alloc>();
@@ -204,24 +204,6 @@ namespace ColloSys.AllocationService.EmailAllocations
                 products.ToString(), data.Count));
 
             return data;
-        }
-
-        private ICriteria CreateCriteria(Type className, ISession session)
-        {
-            //create criteria
-            var criteria = session.CreateCriteria(className, "Alloc");
-
-            criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
-            //add condition for createdon and alloc status
-            criteria.Add(Restrictions.Ge("CreatedOn", DateTime.Today));
-            criteria.Add(Restrictions.Le("CreatedOn", DateTime.Today.AddDays(1)));
-            criteria.Add(Restrictions.Or(
-                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
-                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
-            return criteria;
         }
 
         //TODO:change call here
@@ -237,40 +219,56 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(List<Alloc> allocationList)
+        private IList<AllocationStat> SetAllocationStat(IEnumerable<Alloc> allocationList)
         {
             var allocationStats = ConvertForAllocInfo(allocationList);
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForAllocInfo(List<Alloc> allocationList)
+        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Alloc> allocationList)
         {
-            var list = new List<AllocationStat>();
-            foreach (var sharedAlloc in allocationList)
-            {
-                var alloc = sharedAlloc;
-                var allocationStat = new AllocationStat()
+            return allocationList.Select(alloc => new AllocationStat()
                 {
                     AccountNo = alloc.Info.AccountNo,
                     PolicyName = alloc.AllocPolicy.Name,
                     SubPolicyName = alloc.AllocSubpolicy.Name,
                     StakeholderName = alloc.Stakeholder.Name,
                     StartDate = alloc.StartDate.ToString("yyyy-MM-dd"),
-                    EndDate = alloc.EndDate.HasValue ? alloc.EndDate.ToString() : string.Empty,
+                    EndDate = alloc.EndDate.HasValue
+                                  ? alloc.EndDate.ToString()
+                                  : string.Empty,
                     Product = alloc.AllocPolicy.Products.ToString(),
                     TotalDue = alloc.Info.TotalDue.ToString(),
                     CustomerName = alloc.Info.CustomerName,
                     Pincode = alloc.Info.Pincode.ToString()
-                };
-                list.Add(allocationStat);
-            }
-            return list;
+                }).ToList();
         }
 
         #endregion
 
     }
 }
+
+
+//private ICriteria CreateCriteria(Type className, ISession session)
+//{
+//    //create criteria
+//    var criteria = session.CreateCriteria(className, "Alloc");
+
+//    criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
+//    criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
+//    criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
+//    criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+//    //add condition for createdon and alloc status
+//    criteria.Add(Restrictions.Ge("CreatedOn", DateTime.Today));
+//    criteria.Add(Restrictions.Le("CreatedOn", DateTime.Today.AddDays(1)));
+//    criteria.Add(Restrictions.Or(
+//        Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
+//        Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
+//    return criteria;
+//}
+
+
 
 //Log.Info(string.Format("Allocated Stake {0} and Mangers are {1}",
 //    listOfStakeholderAndMangers.Count(x=>x.AllocatedStakeholder),

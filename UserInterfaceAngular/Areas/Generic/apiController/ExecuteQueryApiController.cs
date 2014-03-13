@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region references
+
+using System;
 using System.Data;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ColloSys.UserInterface.Shared.Attributes;
 using ColloSys.UserInterface.Areas.Generic.Models;
+
+#endregion
+
 namespace ColloSys.UserInterface.Areas.Generic.apiController
 {
     public class ExecuteQueryApiController : ApiController

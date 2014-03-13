@@ -24,7 +24,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
                           .Select(x => x.Product).List<ScbEnums.Products>();
         }
 
-        public override QueryOver<ProductConfig, ProductConfig> DefaultQuery()
+        public override QueryOver<ProductConfig, ProductConfig> WithRelation()
         {
             return QueryOver.Of<ProductConfig>();
         }

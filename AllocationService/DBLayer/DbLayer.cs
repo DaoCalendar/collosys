@@ -26,7 +26,7 @@ namespace ColloSys.AllocationService.DBLayer
 {
     public static class DbLayer
     {
-        private static StakeQueryBuilder _stakeQueryBuilder = new StakeQueryBuilder();
+        private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
         private static readonly AllocPolicyBuilder AllocPolicyBuilder = new AllocPolicyBuilder();
@@ -38,7 +38,6 @@ namespace ColloSys.AllocationService.DBLayer
 
         public static bool IsMonthWiseReset(ScbEnums.Products products)
         {
-
             var reset = ProductConfigBuilder.GetOnExpression(x => x.Product == products)
                                .Select(x => x.AllocationResetStrategy)
                                .SingleOrDefault();
@@ -47,43 +46,12 @@ namespace ColloSys.AllocationService.DBLayer
 
         public static IEnumerable<Stakeholders> GetListOfStakeholders(ScbEnums.Products products)
         {
-            return _stakeQueryBuilder.OnProduct(products);
+            return StakeQueryBuilder.OnProduct(products);
         }
 
         public static IList<GPincode> PincodeList()
         {
             return GPincodeBuilder.GetAll().ToList();
-        }
-
-        public static void SaveList<T>(IEnumerable<T> entityList)
-           where T : Entity
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    foreach (var entity in entityList)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-                    trans.Commit();
-                }
-            }
-        }
-
-        public static void SaveObjectList(IList entityList)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var trans = session.BeginTransaction())
-                {
-                    foreach (var entity in entityList)
-                    {
-                        session.SaveOrUpdate(entity);
-                    }
-                    trans.Commit();
-                }
-            }
         }
     }
 }

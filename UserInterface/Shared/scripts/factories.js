@@ -177,7 +177,7 @@ csapp.factory('$Validations', function() {
     };
 });
 
-csapp.factory('csStopWatch', ["$timeout", function($timeout) {
+csapp.factory('$csStopWatch', ["$timeout", function($timeout) {
     var data = { value: 1, laps: [], stringValue: '' };
     var stopwatch = null;
 
@@ -379,7 +379,7 @@ csapp.service('modalService', ['$modal', function($modal) {
         backdrop: true,
         keyboard: true,
         modalFade: true,
-        templateUrl: '/Shared/templates/modal.html'
+        templateUrl: '/Shared/templates/confirm-modal.html'
     };
 
     var modalOptions = {

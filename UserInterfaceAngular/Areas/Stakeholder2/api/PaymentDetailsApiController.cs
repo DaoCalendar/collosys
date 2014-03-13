@@ -11,6 +11,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
@@ -33,6 +34,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         [HttpPost]
         [HttpTransaction]
@@ -100,15 +102,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public BillingPolicyLists GetLinerWriteOff(ScbEnums.Products product)
         {
-            var session = SessionManager.GetCurrentSession();
             var data = new BillingPolicyLists
                 {
-                    LinerList = session.QueryOver<BillingPolicy>()
-                                       .Where(x => x.Products == product && x.Category == ScbEnums.Category.Liner)
-                                       .List(),
-                    WriteOffList = session.QueryOver<BillingPolicy>()
-                    .Where(x => x.Products == product && x.Category == ScbEnums.Category.WriteOff)
-                    .List()
+                    LinerList = BillingPolicyBuilder.LinePolicies(product).ToList(),
+                    WriteOffList = BillingPolicyBuilder.WriteoffPolicies(product).ToList()
                 };
             return data;
         }
@@ -155,7 +152,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public IEnumerable<RegionState> GetRegionList()
         {
             var regionList = new List<RegionState>();
-            var session = SessionManager.GetCurrentSession();
 
             var states = GPincodeBuilder.StateList();
 

@@ -107,7 +107,7 @@
                     </div> -->
 
 <!--Name-->
-@* <div class="span5 control-group">
+ <div class="span5 control-group">
             <label class="control-label">Name <label style="font-size:large; color:red">*</label></label>
             <div class="controls">
                 <input type="text"
@@ -116,14 +116,14 @@
                     name="Name"
                     data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name"
                     data-ng-readonly="basicInfoData.isEditMode"
-                    required />*@
-@*Name Validation*@
-@* <div data-ng-show="basicInfoForm.Name.$dirty">
+                    required />
+
+ <div data-ng-show="basicInfoForm.Name.$dirty">
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.required">{{val.Required()}}</span>
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.pattern">{{val.OnlyText()}}</span>
                 </div>
             </div>
-        </div>*@
+        </div>
 
 
 <!--UserId-->

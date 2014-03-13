@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GConfigBuilder : QueryBuilder<GConfig>
     {
-        public override QueryOver<GConfig, GConfig> DefaultQuery()
+        public override QueryOver<GConfig, GConfig> WithRelation()
         {
             return QueryOver.Of<GConfig>();
 

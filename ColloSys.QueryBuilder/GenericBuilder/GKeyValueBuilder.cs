@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GKeyValueBuilder : QueryBuilder<GKeyValue>
     {
-        public override QueryOver<GKeyValue, GKeyValue> DefaultQuery()
+        public override QueryOver<GKeyValue, GKeyValue> WithRelation()
         {
             return QueryOver.Of<GKeyValue>();
         }
@@ -26,6 +26,15 @@ namespace ColloSys.QueryBuilder.GenericBuilder
             return SessionManager.GetCurrentSession().QueryOver<GKeyValue>()
                                  .Where(x => x.Area == ColloSysEnums.Activities.Stakeholder)
                                  .List<GKeyValue>();
+        }
+
+        [Transaction]
+        public IEnumerable<string> ValueListOnAreaKey(ColloSysEnums.Activities activities,string key)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<GKeyValue>()
+                                 .Where(x => x.Area == activities && x.Key == key)
+                                 .Select(x => x.Value)
+                                 .List<string>();
         }
     }
 }

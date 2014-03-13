@@ -1,0 +1,113 @@
+﻿
+<script>
+   // var stakeholderId = '@ViewData["StakeholderId"]'
+</script>
+<style>
+    .redRow {
+        background-color: #F24E4B;
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="row-fluid" data-ng-cloak="">
+        <div data-ng-form="formStakeholder" class="form-horizontal" data-ng-init="init()">
+            <!-- basic info -->
+            <div class="row-fluid" data-ng-if="currentStep==StepManager.StepNames.BasicInfo ">
+                <div class="panel">
+                    <div class="row-fluid" data-ng-show="!(WizardData.IsEditMode() === true)">
+                        <div class="panel-heading">
+                            Select Hierarchy/Designation
+                        </div>
+                        <div class="row-fluid" data-ng-form="addHierarchyForm" data-ng-init="$parent.currentForm=addHierarchyForm">
+                            <div data-ng-include="'add/hierarchy.html'"></div>
+                        </div>
+                    </div>
+                    <!--Basic Information-->
+                    <div class="row-fluid" data-ng-hide="!(WizardData.IsEditMode() === true || $parent.WizardData.FinalPostModel.SelHierarchy.Designation)">
+                        <div class="panel-heading">
+                            Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
+                        </div>
+                        <div class="row-fluid" data-ng-form="basicInfoForm">
+                            <div data-ng-include="'add/basic.html'"></div>
+                        </div>
+                    </div>
+                    <!--Registration-->
+                    <div class="row-fluid" data-ng-show="((WizardData.IsEditMode() === true && indexData.Hierarchy.HasRegistration) || (WizardData.showBasicInfo!=false) && indexData.Hierarchy.HasRegistration)">
+                        <div class="panel-heading">
+                            Registration :
+                        </div>
+                        <div class="row-fluid" data-ng-form="registrationForm" data-ng-if="indexData.Hierarchy.HasRegistration">
+                            <div data-ng-include="'add/registration.html'"></div>
+                        </div>
+                    </div>
+                    <!--Add Address-->
+                    <div class="row-fluid" data-ng-show="((WizardData.IsEditMode() === true && indexData.Hierarchy.HasAddress)||(WizardData.showBasicInfo!=false) && indexData.Hierarchy.HasAddress)">
+                        <div class="panel-heading">
+                            Address Details  :<span>{{indexData.Hierarchy.HasAddress}}</span>
+                        </div>
+                        <div class="row-fluid" data-ng-form="addressDetailsForm" data-ng-if="indexData.Hierarchy.HasAddress">
+                            <div data-ng-include="'add/address.html'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- payment details -->
+            <div class="row-fluid" data-ng-if="currentStep===StepManager.StepNames.Working ">
+                <h5>{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</h5>
+                <!--Working-->
+                <div class="row-fluid">
+                    <div class="panel">
+                        <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasWorking">
+                            <div class="panel-heading">
+                                Working  
+                            </div>
+                            <div class="row-fluid" data-ng-form="paymentWorkinForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
+                                <div data-ng-include="'add/working.html'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment">
+                            <div class="panel-heading">
+                                Payment    
+                            </div>
+                            <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment" data-ng-form="paymentDetailsForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
+                                <div data-ng-include="'add/payment.html'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid text-center">
+                    <button
+                        data-ng-show="indexData.Hierarchy.HasPayment"
+                        class="btn btn-success"
+                        data-ng-disabled="enableAddToList(paymentDetailsForm.$invalid)"
+                        data-ng-click="addAnotherWorking()">
+                        Add To List</button>
+                </div>
+                <div class="row-fluid" data-ng-show="displayPaymentWorkingData(indexData.Hierarchy,WizardData.FinalPostModel.PayWorkModelList.length)">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Added Payment Working Groups 
+                        </div>
+                        <div data-ng-include="'add/show-working-payment.html'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field-validation-error text-right" data-ng-show="formStakeholder.$invalid">{{val.Mandatory()}}</div>
+            <br />
+            <!-- buttons -->
+            <div class="row-fluid text-right">
+                <button class="btn btn-info" data-ng-hide="currentStep===StepManager.StepNames.Working" data-ng-click="Reset()">Reset</button>
+                <button class="btn btn-success" data-ng-show="StepManager.HasPrevStep() && ShowPrevBtn" data-ng-disabled="WizardData.isFromPayment" data-ng-click="StepManager.StepBackward()"><i class="icon-arrow-left"></i>Prev</button>
+                
+                <button class="btn btn-success" data-ng-show="StepManager.HasNextStep()" data-ng-disabled="(formStakeholder.$invalid || StepManager.IsStepInvalid())&& !(WizardData.IsEditMode() === true )" data-ng-click="StepManager.StepForward()">Next <i class="icon-arrow-right"></i></button>
+                <button class="btn btn-success" data-ng-show="StepManager.ShowSaveButton()" data-ng-disabled="enableShowForCurrentStep(currentStep,formStakeholder.$invalid) && !(WizardData.IsEditMode() === true )" data-ng-click="SaveData()">Save</button>
+                <button class="btn btn-warning" data-ng-click="StepManager.Cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div style="vertical-align: bottom; height: 60px;"></div>
+</div>

@@ -13,6 +13,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
@@ -27,6 +28,8 @@ namespace UserInterfaceAngular.app
     public class FileColumnApiController : BaseApiController<FileColumn>
     {
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+        static readonly FileColumnBuilder FileColumnBuilder=new FileColumnBuilder();
 
         // GET api/<controller>
         [HttpGet]
@@ -40,12 +43,7 @@ namespace UserInterfaceAngular.app
 
                 var alias = (ColloSysEnums.FileAliasName)Enum.Parse(typeof(ColloSysEnums.FileAliasName), aliasName);
 
-                var session = SessionManager.GetCurrentSession();
-                var getFileDetail = session.QueryOver<FileDetail>()
-                                           .Where(x => x.AliasName == alias)
-                                           .Fetch(x => x.FileColumns).Eager
-                                           .TransformUsing(Transformers.DistinctRootEntity)
-                                           .SingleOrDefault();
+                var getFileDetail = FileDetailBuilder.OnAliasName(alias);
 
                 _logger.Info("View File Details");
                 return Request.CreateResponse(HttpStatusCode.Created, getFileDetail);
@@ -95,9 +93,8 @@ namespace UserInterfaceAngular.app
 
             var fileDetailId = fileColumn.FileDetail.Id;
             fileColumn.FileDetail = null;
-            var session = SessionManager.GetCurrentSession();
-            fileColumn.FileDetail = session.QueryOver<FileDetail>().Where(c => c.Id == fileDetailId).SingleOrDefault();
-            SessionManager.GetCurrentSession().SaveOrUpdate(fileColumn);
+            fileColumn.FileDetail =FileDetailBuilder.GetWithId(fileDetailId);
+            FileColumnBuilder.Save(fileColumn);
             return fileColumn;
         }
 
@@ -114,7 +111,7 @@ namespace UserInterfaceAngular.app
                 {
                     column.FileDetail = fileDetail;
                 }
-                Session.SaveOrUpdate(fileDetail);
+                FileDetailBuilder.Save(fileDetail);
 
                 return Request.CreateResponse(HttpStatusCode.Created, fileDetail);
             }
@@ -137,13 +134,11 @@ namespace UserInterfaceAngular.app
             var enumerable = fileColumns as FileColumn[] ?? fileColumns.ToArray();
 
             var id = enumerable[0].FileDetail.Id;
-            var temp = SessionManager.GetCurrentSession()
-                                     .QueryOver<FileDetail>().Where(c => c.Id == id)
-                                     .SingleOrDefault();
+            var temp = FileDetailBuilder.GetWithId(id);
             foreach (var fileColumn in enumerable)
             {
                 fileColumn.FileDetail = temp;
-                Session.Merge(fileColumn);
+                FileColumnBuilder.Merge(fileColumn);
             }
 
             return Request.CreateResponse(HttpStatusCode.Created, enumerable);

@@ -7,8 +7,7 @@ using System.Reflection;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.FileUploadBuilder;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;
 
@@ -19,13 +18,14 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
 {
     public class FileMappingViewModel
     {
+        private static readonly FileMappingBuilder FileMappingBuilder=new FileMappingBuilder();
+        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
+
         public static NgGridOptions GetNgGridOptions()
         {
-            var session = SessionManager.GetCurrentSession();
             var gridOptions = new NgGridOptions
                 {
-                    data = session.QueryOver<FileMapping>()
-                                  .List<FileMapping>().Select(JObject.FromObject)
+                    data =FileMappingBuilder.GetAll().Select(JObject.FromObject)
                 };
 
             var gridColumns = GetPropertyList(typeof(FileMapping))
@@ -39,12 +39,9 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
 
         public static IEnumerable<FileMapping> GetFileMappings(string actualTableName, string tempTableName)
         {
-            var session = SessionManager.GetCurrentSession();
-
             var classTypes = typeof(CLiner).Assembly.GetTypes().Where(x => x.Name == actualTableName);
 
-            var fileMappings = session.QueryOver<FileMapping>().Where(m => m.TempTable == tempTableName)
-                                      .List<FileMapping>();
+            var fileMappings =FileMappingBuilder.GetOnExpression(m => m.TempTable == tempTableName).ToList();
 
             foreach (var type in classTypes)
             {
@@ -80,14 +77,11 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
 
         public static IEnumerable<FileMapping> GetFileMappings(Guid fileDetailId)
         {
-            var session = SessionManager.GetCurrentSession();
-
-            var fileDetail = (session.QueryOver<FileDetail>().Where(c => c.Id == fileDetailId).SingleOrDefault());
+            var fileDetail = FileDetailBuilder.GetOnExpression(c => c.Id == fileDetailId).FirstOrDefault();
 
             var classTypes = UploadableClass(fileDetail.AliasName);
 
-            var fileMappings = session.QueryOver<FileMapping>().Where(m => m.TempTable == fileDetail.TempTable)
-                                      .List<FileMapping>();
+            var fileMappings = FileMappingBuilder.GetOnExpression(m => m.TempTable == fileDetail.TempTable).ToList();
 
             //var fileMappings =
             //  session.Query<FileMapping>()

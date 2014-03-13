@@ -1,14 +1,11 @@
 ﻿#region references
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.AllocationService.Generic;
 using ColloSys.AllocationService.Models;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
@@ -21,11 +18,11 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class AllocateAsPerPolicy
     {
-        public static List<Entity> Init(Type classType, IList delqList, AllocRelation relationCondition,
+        public static List<Alloc> Init(IEnumerable<Info> delqList, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
             //allocatin list
-            var list = new List<Entity>();
+            var list = new List<Alloc>();
 
             //stakeholders with theire pincodes list
             var stakePincodeList = new List<StakePincodes>();
@@ -65,7 +62,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                 uint cycleCode;
                 try
                 {
-                    cycleCode = (uint)delqCust.GetType().GetProperty("Cycle").GetValue(delqCust);
+                    cycleCode = delqCust.Cycle;
                 }
                 catch (Exception)
                 {
@@ -79,25 +76,25 @@ namespace ColloSys.AllocationService.AllocationLayer
                                        ? DateTime.MaxValue
                                        : thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
                 //create object of type
-                var obj = ClassType.CreateAllocObject(classType.Name);
+                var obj =new Alloc
+                    {
+                        AllocPolicy = relationCondition.AllocPolicy,
+                        AllocSubpolicy = relationCondition.AllocSubpolicy,
+                        IsAllocated = true,
+                        StartDate = thisMonthStart,
+                        EndDate = thisMonthEnd,
+                        Bucket = 7,
+                        WithTelecalling = false
+                    };
 
-                //set base properties appear in SharedAlloc
-                obj.AllocPolicy = relationCondition.AllocPolicy;
-                obj.AllocSubpolicy = relationCondition.AllocSubpolicy;
-                obj.IsAllocated = true;
-                obj.StartDate = thisMonthStart;
-                obj.EndDate = thisMonthEnd;
-                //obj.Stakeholder = relationCondition.AllocSubpolicy.Stakeholder;
-                obj.Bucket = 7; //for writeoff 7, for liner set in respective method
-                obj.WithTelecalling = false;
-
+                
                 string accountno;
                 string customerName;
 
                 var alloc = SetAlloc(obj, delqCust, out accountno, out customerName, stakePincodeList);
                 if (alloc.Stakeholder != null)
                 {
-                    delqCust.GetType().GetProperty("AllocStatus").SetValue(delqCust, ColloSysEnums.AllocStatus.AsPerWorking);
+                    delqCust.AllocStatus=ColloSysEnums.AllocStatus.AsPerWorking;
                     alloc.AllocStatus = ColloSysEnums.AllocStatus.AsPerWorking;
                     list.Add(alloc);
                 }
@@ -110,7 +107,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return list;
         }
 
-        public static List<GPincode> GeneratePincodeList(Stakeholders stakeholders
+        private static List<GPincode> GeneratePincodeList(Stakeholders stakeholders
             , IList<GPincode> pincodeData)
         {
             var stkhpincodes = new List<GPincode>();
@@ -167,25 +164,25 @@ namespace ColloSys.AllocationService.AllocationLayer
         #region Private
 
         private static Alloc SetAlloc(Alloc obj,
-            object dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
+            Info dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
-            var ralloc = (Alloc)obj;
-            var gpincodeId = ((Info)dataObject).GPincode.Id;
-            var bucket = ((Info) dataObject).Bucket;
+            var ralloc = obj;
+            var gpincodeId = dataObject.GPincode.Id;
+            var bucket =  dataObject.Bucket;
             ralloc.Stakeholder = GetStakeholderForAllocation(gpincodeId, stakePincods,bucket);
             if (ralloc.Stakeholder == null)
             {
-                ((Info)dataObject).AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
-                ((Info)dataObject).NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
+                dataObject.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
+                dataObject.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
                 ralloc.AllocStatus = ColloSysEnums.AllocStatus.AllocationError;
                 ralloc.NoAllocResons = ColloSysEnums.NoAllocResons.NoStakeholder;
                 ralloc.IsAllocated = false;
             }
-            ralloc.Info = (Info)dataObject;
+            ralloc.Info = dataObject;
             accno = ralloc.Info.AccountNo;
             customerName = ralloc.Info.CustomerName;
             ralloc.Bucket = (int)ralloc.Info.Bucket;
-            ralloc.AmountDue = ((Info)dataObject).TotalDue;
+            ralloc.AmountDue =dataObject.TotalDue;
             ralloc.Info.AllocEndDate = ralloc.EndDate;
             ralloc.Info.AllocStartDate = ralloc.StartDate;
             var stakepincode = stakePincods.SingleOrDefault(x => x.Stakeholders != null &&
@@ -223,11 +220,8 @@ namespace ColloSys.AllocationService.AllocationLayer
             var min = listSumAndStake.Min(y => y.TotalAmount);
             var minstakeholder = listSumAndStake.Where(x => x.TotalAmount <= min)
                                                 .Select(x => x.Stakeholder)
-                                                .ToList().Cast<Stakeholders>()
+                                                .ToList()
                                                 .First();
-            //if (minstakeholder.Count() > 1)
-            //    return (Stakeholders) minstakeholder.First();
-
             return  minstakeholder;
         }
 

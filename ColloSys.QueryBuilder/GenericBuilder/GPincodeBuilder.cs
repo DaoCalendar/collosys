@@ -16,7 +16,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GPincodeBuilder : QueryBuilder<GPincode>
     {
-        public override QueryOver<GPincode, GPincode> DefaultQuery()
+        public override QueryOver<GPincode, GPincode> WithRelation()
         {
             return QueryOver.Of<GPincode>();
         }
@@ -25,7 +25,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> StateList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.State)
+                                 .Select(x => x.State.ToUpper())
                                  .Distinct().ToList();
         }
 
@@ -72,6 +72,27 @@ namespace ColloSys.QueryBuilder.GenericBuilder
                                  .Select(x => x.Region)
                                  .Distinct()
                                  .FirstOrDefault();
+        }
+
+        [Transaction]
+        public IEnumerable<string> AreaOnCityAndArea(string area, string city)
+        {
+          return  SessionManager.GetCurrentSession().Query<GPincode>()
+                          .Where(x => x.Area.ToString().StartsWith(area) && x.City == city)
+                          .Take(10).Select(x => x.Area)
+                          .ToList()
+                          .Distinct()
+                          .ToList();
+        }
+
+        [Transaction]
+        public IEnumerable<string> CitiesOnCityDistrict(string city, string district)
+        {
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                          .Where(x => x.City.ToString().StartsWith(city) && x.District == district)
+                          .Take(10).Select(x => x.City)
+                          .ToList()
+                          .Distinct();
         }
     }
 }

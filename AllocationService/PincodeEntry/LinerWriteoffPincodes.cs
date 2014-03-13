@@ -38,7 +38,7 @@ namespace ColloSys.AllocationService.PincodeEntry
             }
         }
 
-        private static void AssignPincodes(IList<GPincode> pincodes, List<Info> dataList)
+        private static void AssignPincodes(IEnumerable<GPincode> pincodes, List<Info> dataList)
         {
             dataList.ForEach(x => x.GPincode = pincodes
                                                    .Where(y => y.Pincode == x.Pincode)
@@ -53,10 +53,14 @@ namespace ColloSys.AllocationService.PincodeEntry
                     x.NoAllocResons = ColloSysEnums.NoAllocResons.None;
                     x.AllocEndDate = DateTime.Now;
                 });
-            InfoBuilder.SaveList(saveList);
+            InfoBuilder.Save(saveList);
         }
     }
 }
+
+
+
+
 //var systemOnProduct = Util.GetSystemOnProduct(products);
 //switch (systemOnProduct)
 //{
