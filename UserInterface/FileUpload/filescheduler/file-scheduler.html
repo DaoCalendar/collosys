@@ -1,156 +1,135 @@
-﻿    <form class="form-horizontal">
-        <div class="panel">
-            <div class="panel-heading">Schedule File For Upload</div>
-            <!-- System -->
-            <div class="control-group row" data-ng-show="datalayer.dldata.fileDetails">
-                <label class="control-label">System</label>
-                <div class="controls">
-                    <select class="input-large" data-ui-select2="" data-ng-model="SelectedSystem" name="SelectedSystem"
+﻿<form class="form-horizontal">
+    <div class="panel">
+        <div class="panel-heading">Schedule File For Upload</div>
+        <!-- System -->
+        <div class="control-group row" data-ng-show="datalayer.dldata.fileDetails">
+            <label class="control-label">System</label>
+            <div class="controls">
+                <select class="input-large" data-ui-select2="" data-ng-model="SelectedSystem" name="SelectedSystem"
                         data-ng-change="SelectedCategory = '';ResetPage();">
-                        <option value=""></option>
-                        <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
-                    </select>
-                </div>
+                    <option value=""></option>
+                    <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
+                </select>
             </div>
+        </div>
 
-            <!-- Product -->
-            <div class="control-group row" data-ng-show="SelectedSystem">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-large" data-ui-select2="" data-ng-model="SelectedCategory" name="SelectedCategory"
+        <!-- Product -->
+        <div class="control-group row" data-ng-show="SelectedSystem">
+            <label class="control-label">Product</label>
+            <div class="controls">
+                <select class="input-large" data-ui-select2="" data-ng-model="SelectedCategory" name="SelectedCategory"
                         data-ng-change="ResetPage();changeSelectedFrequency();">
-                        <option value=""></option>
-                        <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
-                    </select>
-                </div>
+                    <option value=""></option>
+                    <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
+                </select>
             </div>
+        </div>
 
-            <!-- upload date -->
-            <div class="control-group row" data-ng-show="SelectedCategory">
-                <label class="control-label">File Date</label>
-                <div class="controls">
-                    <div class="input-append">
-                        <div data-ng-show="SelectedFrequency == 'Daily'">
-                            <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
-                                data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
-                                data-date-start-date="-15d" data-date-end-date="+5d" data-ng-readonly="true"
-                                data-bs-datepicker="">
-                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                        </div>
-                        <div data-ng-show="SelectedFrequency == 'Weekly'">
-                            <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
-                                data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
-                                data-date-start-date="-30d" data-date-end-date="+15d" data-ng-readonly="true"
-                                data-bs-datepicker="">
-                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                        </div>
-                        <div data-ng-show="SelectedFrequency == 'Monthly'">
-                            <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
-                                data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
-                                data-date-min-view-mode="1" data-date-format="M-yyyy"
-                                data-date-start-date="-80d" data-date-end-date="+30d" data-ng-readonly="true"
-                                data-bs-datepicker="">
-                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                        </div>
+        <!-- upload date -->
+        <div class="control-group row" data-ng-show="SelectedCategory">
+            <label class="control-label">File Date</label>
+            <div class="controls">
+                <div class="input-append">
+                    <div data-ng-show="SelectedFrequency == 'Daily'">
+                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
+                               data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
+                               data-date-start-date="-15d" data-date-end-date="+5d" data-ng-readonly="true"
+                               data-bs-datepicker="">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                    <div data-ng-show="SelectedFrequency == 'Weekly'">
+                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
+                               data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
+                               data-date-start-date="-30d" data-date-end-date="+15d" data-ng-readonly="true"
+                               data-bs-datepicker="">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                    <div data-ng-show="SelectedFrequency == 'Monthly'">
+                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
+                               data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
+                               data-date-min-view-mode="1" data-date-format="M-yyyy"
+                               data-date-start-date="-80d" data-date-end-date="+30d" data-ng-readonly="true"
+                               data-bs-datepicker="">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Display File Upload Controls -->
-            <div data-ng-show="SelectedDate" class="row-fluid">
-                <div data-ng-show="hasUnscheduledFiles">
-                    <hr />
-                    <h5>Files to Schedule</h5>
-                    <div data-ng-repeat="file in fileScheduleDetails | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
-                        <div class="control-group row-fluid">
-                            <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
-                            <div class="">
-                                <div class="span4">
-                                    <div class="fileupload fileupload-new" data-provides="fileupload">
-                                        <div class="input-append">
-                                            <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i><span class="fileupload-preview"></span></div>
-                                            <span class="btn btn-file">
-                                                <span class="fileupload-new">Select file</span>
-                                                <span class="fileupload-exists">Change</span>
-                                                <input type="file" name="{{file.AliasName}}" />
-                                            </span>
-                                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="offset1 span4">
-                                    <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div data-ng-show="hasScheduledFiles" class="row-fluid ">
-                    <hr />
-                    <h5>Files Scheduled</h5>
-                    <table class="table table-condensed table-bordered">
-                        <tr data-ng-repeat="file in fileScheduleDetails | orderBy : 'FileName' | filter: {IsScheduled: 'true'}">
-                            <td class="span1">{{$index + 1}}.</td>
-                            <td class="span3">{{file.FileName.substring(16)}}</td>
-                            <td class="span1">{{file.FileSize | bytes}}</td>
-                            <td class="span3">Scheduled {{file.ScheduleDate | fromNow}}</td>
-                            <td class="span2">{{file.FileStatus}}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- immediate -->
+        <!-- Display File Upload Controls -->
+        <div data-ng-show="SelectedDate" class="row-fluid">
             <div data-ng-show="hasUnscheduledFiles">
                 <hr />
-                <div class="control-group row-fluid">
-                    <label class="control-label">Select Schedule</label>
-                    <div class="controls">
-                        <div style="float: left; margin-right: 10px" class="well">
-                            <input type="radio" id="Immdediate" value="true" data-ng-model="IsImmediate" name="IsImmediate">
-                            <label for="Immdediate">Immediate</label>
-                            <br />
-                            <input type="radio" id="Nightly" value="false" data-ng-model="IsImmediate" name="IsImmediate" checked="checked">
-                            <label for="Nightly">Nightly</label>
-                            <br />
+                <h5>Files to Schedule</h5>
+                <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
+                    <div class="control-group row-fluid">
+                        <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
+                        <div class="">
+                            <div class="span4">
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="input-append">
+                                        <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i><span class="fileupload-preview"></span></div>
+                                        <span class="btn btn-file">
+                                            <span class="fileupload-new">Select file</span>
+                                            <span class="fileupload-exists">Change</span>
+                                            <input type="file" name="{{file.AliasName}}" />
+                                        </span>
+                                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="offset1 span4">
+                                <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
+                            </div>
                         </div>
-                        <div data-ng-show="IsImmediate == 'true'">
-                            <textarea data-ng-model="immedateReason" placeholder="Enter Reason (min 5 characters)"
-                                name="immedateReason"></textarea>
-                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div data-ng-show="hasScheduledFiles" class="row-fluid ">
+                <hr />
+                <h5>Files Scheduled</h5>
+                <table class="table table-condensed table-bordered">
+                    <tr data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'true'}">
+                        <td class="span1">{{$index + 1}}.</td>
+                        <td class="span3">{{file.FileName.substring(16)}}</td>
+                        <td class="span1">{{file.FileSize | bytes}}</td>
+                        <td class="span3">Scheduled {{file.ScheduleDate | fromNow}}</td>
+                        <td class="span2">{{file.FileStatus}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- immediate -->
+        <div data-ng-show="hasUnscheduledFiles">
+            <hr />
+            <div class="control-group row-fluid">
+                <label class="control-label">Select Schedule</label>
+                <div class="controls">
+                    <div style="float: left; margin-right: 10px" class="well">
+                        <input type="radio" id="Immdediate" value="true" data-ng-model="IsImmediate" name="IsImmediate">
+                        <label for="Immdediate">Immediate</label>
+                        <br />
+                        <input type="radio" id="Nightly" value="false" data-ng-model="IsImmediate" name="IsImmediate" checked="checked">
+                        <label for="Nightly">Nightly</label>
+                        <br />
+                    </div>
+                    <div data-ng-show="IsImmediate == 'true'">
+                        <textarea data-ng-model="immedateReason" placeholder="Enter Reason (min 5 characters)"
+                                  name="immedateReason"></textarea>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- post the form -->
-            <div class="text-center" data-ng-show="hasUnscheduledFiles">
-                <hr />
-                <button class="btn btn-success upload-submit" data-ng-disabled="validatePage()" type="submit" data-ng-click="showProgressBar">Schedule Files</button>
-            </div>
+        <!-- post the form -->
+        <div class="text-center" data-ng-show="hasUnscheduledFiles">
+            <hr />
+            <button class="btn btn-success upload-submit" data-ng-disabled="validatePage()" type="submit" data-ng-click="showProgressBar">Schedule Files</button>
+        </div>
 
-            <!-- END -->
-        </div>
-    </form>
-
-    <!-- modal popup for progress bar -->
-    <div modal="showProgressBar" options="{keyboard: false, backdropClick: false}">
-        <div class="modal-header text-center">
-            <h3>Uploading Files</h3>
-        </div>
-        <div class="modal-body">
-            <progress percent="100" class="progress-striped progress-success active"></progress>
-        </div>
-        <div class="modal-footer">
-            <span>Time Spent : {{stopwatch.data.stringValue}}</span>
-        </div>
+        <!-- END -->
     </div>
-
-
-<!-- data-date-start-date="{{MinFreqDate}}" data-date-end-date="{{MaxFreqDate}}" -->
-<!-- data-date-start-date="'-8d'" data-date-end-date="'+2d'" -->
-<!--data-date-start-date="getMinFreqDate()" data-date-end-date="getMaxFreqDate()"-->
-<!--span>MinDate : {{MinFreqDate}} </span>
-                            <br />
-                            <span>Max Date : {{MaxFreqDate}} </span-->
+</form>

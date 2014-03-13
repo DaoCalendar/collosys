@@ -177,7 +177,7 @@ csapp.factory('$Validations', function() {
     };
 });
 
-csapp.factory('csStopWatch', ["$timeout", function($timeout) {
+csapp.factory('$csStopWatch', ["$timeout", function($timeout) {
     var data = { value: 1, laps: [], stringValue: '' };
     var stopwatch = null;
 
