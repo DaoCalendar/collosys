@@ -919,6 +919,7 @@ csapp.directive("csInput", ["csTemplateFactory", "csNumberFieldFactory", "csText
 
 csapp.factory("csTemplateFactory", function () {
     var template = function (innertemplate) {
+
         var string = '<div class="control-group" >' +
                     '<div class="control-label">{{options.label}} <span class="text-error">{{options.required ? "*" : ""}} </span></div>' +
                     '<div class="controls">';
@@ -927,120 +928,73 @@ csapp.factory("csTemplateFactory", function () {
             '</div>';
         return string;
     };
+
+    var validation = function (inner) {
+
+        var string = '<ng-form name="myform">';
+
+        string += inner;
+
+        string += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty">' +
+            '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+            '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+            '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+            '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+            '</div>';
+
+        string += '</ng-form>';
+
+        return template(string);
+    };
+
+
+    var prefix = function () {
+        return '<ng-form name="myform">';
+
+    };
+
+    var suffixTemplate = function () {
+
+
+        return '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty">' +
+            '<div data-ng-hide="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+            '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+            '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+            '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+            '</div>';
+    };
     return {
-        getTemplate: template
+        getTemplate: template,
+        getValTemplate: validation,
+        prefix: prefix,
+        suffixTemplate: suffixTemplate
     };
 });
-csapp.directive("csTemplate", ["csTemplateFactory", function (csInputTemplate) {
+csapp.directive("csTemplate", ["$compile", "csTemplateFactory", function ($compile, csInputTemplate) {
 
     var getTemplate = function () {
         var inner = '<div ng-transclude></div>';
-        return csInputTemplate.getTemplate(inner);
+        return csInputTemplate.getValTemplate(inner);
     };
+
+    function linkFunction(scope, element) {
+        $compile(element[0].form)(scope);
+    }
 
     return {
         scope: { options: '=' },
         restrict: 'E',
         transclude: true,
-        template: getTemplate
+        template: getTemplate,
+        link: linkFunction
     };
 }]);
 
-csapp.factory("csTextFieldFactory", ["$csfactory", "Logger", function ($csfactory, logManager) {
 
-    var $log = logManager.getInstance("csTextField");
-
-    var formTemplate = function (scope) {
-        var html = '<div ng-form="myform">';
-
-        html += templateFunction(scope);
-
-        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-                    '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
-                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-                '</div>';
-
-        html += '</div>'; //ng-form;
-
-        return html;
-    };
-
-    var templateFunction = function (scope) {
-        console.log(scope);
-        var html = '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
-            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ';
-
-        if (!$csfactory.isNullOrEmptyString(scope.csTypeahead))
-            html += 'typeahead="' + scope.csTypeahead + '" ';
-
-
-        html += ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
-         ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.ngModel + '"/>';
-        
-        return html;
-    };
-
-    var validateOptions = function (scope) {
-        applyTemplates(scope);
-
-        // manage lengths
-        scope.options.minlength = scope.options.length || scope.options.minlength || 0;
-        scope.options.maxlength = scope.options.length || scope.options.maxlength || 250;
-        scope.options.minlength = (scope.options.minlength >= 0 && scope.options.minlength <= 250) ? scope.options.minlength : 0;
-        scope.options.maxlength = (scope.options.maxlength >= 0 && scope.options.maxlength <= 250) ? scope.options.maxlength : 250;
-        if (scope.options.minlength > scope.options.maxlength) {
-            var error = "minlength(" + scope.options.minlength + ") cannot be greather than maxlength(" + scope.options.maxlength + ").";
-            $log.error(error); throw error;
-        }
-
-        scope.options.label = scope.options.label || "Text";
-        scope.options.patternMessage = scope.options.patternMessage || ("Input is not matching with pattern : " + scope.options.pattern);
-        scope.options.readonly = scope.options.readonly || scope.options.disabled || false;
-    };
-
-    var applyTemplates = function (options) {
-        if (angular.isUndefined(options.template) || options.template === null) {
-            return;
-        }
-
-        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
-        angular.forEach(tmpl, function (template) {
-            if (template.length < 1) return;
-
-            switch (template) {
-                case "alphanum":
-                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
-                    options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "alphabates":
-                    options.pattern = "/^[a-zA-Z ]*$/";
-                    options.patternMessage = "Value contains non-alphabtical character/s.";
-                    break;
-                case "numeric":
-                    options.pattern = "/^[0-9]*$/";
-                    options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "phone":
-                    options.length = 10;
-                    options.pattern = "/^[0-9]{10}$/";
-                    options.patternMessage = "Phone number must contain 10 digits.";
-                    break;
-                case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                default:
-                    $log.error(template + " is not defined");
-            }
-        });
-    };
-
-    return {
-        htmlTemplate: formTemplate,
-        checkOptions: validateOptions
-    };
-}]);
 csapp.directive("csTextField", ["$compile", "csTextFieldFactory", function ($compile, csTextFieldFactory) {
 
     //options: label, autofocus,  placeholder, required, readonly, minlength, maxlength
@@ -1405,7 +1359,7 @@ csapp.factory("csEnumFieldFactory", ["Logger", function (logManager) {
 
     var templateFunction = function (scope) {
 
-        var string = '<select data-ui-select2="" class="input-large" ng-required="options.required"  ' +
+        var string = '<select  class="input-large" ng-required="options.required"  ' +
                     'data-ng-model="$parent.$parent.' + scope.ngModel + '" name="myfield" ' +
                     'data-ng-change="ngChange()">' +
                     ' <option value=""></option> ' +
@@ -1424,6 +1378,298 @@ csapp.factory("csEnumFieldFactory", ["Logger", function (logManager) {
         checkOptions: validateOptions
     };
 }]);
+
+csapp.directive("csOptions", ["$compile","$csfactory", function ($compile,$csfactory) {
+
+    function getPropertyByKeyPath(targetObj, keyPath) {
+        var keys = keyPath.split('.');
+        if (keys.length === 0) return undefined;
+        keys = keys.reverse();
+        var subObject = targetObj;
+        while (keys.length) {
+            var k = keys.pop();
+            if (!subObject.hasOwnProperty(k)) {
+                return undefined;
+            } else {
+                subObject = subObject[k];
+            }
+        }
+        return subObject;
+    }
+
+    function preCompileFn(scope, element, attrs) {
+
+        var getHtml = function () {
+            return '<div data-ng-show="myform.myfield.$invalid">' +
+            '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required</div>' +
+            '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}} pattern</div>' +
+            '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+            '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
+            '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
+            '</div>';
+        };
+
+        var fieldText = attrs['csOptions'];
+        var fieldValue = getPropertyByKeyPath(scope, fieldText);
+        element.attr('name', 'myfield');
+
+       
+
+        if (!$csfactory.isNullOrEmptyString(fieldValue.suffix)) {
+            var html = '<div class="input-prepend input-append" cs-input-suffix >'+
+                '<div class="add-on"><i class="icon-envelope"></i></div>' +
+                '<div class="add-on">' + fieldValue.suffix + '</div>' +
+                '</div>';
+        }
+        
+        element.wrap('<ng-form name="myform"></ng-form>');
+        element.wrap(html);
+        element.after(getHtml());
+        element.removeAttr('cs-options');
+
+        element.attr('cs-validator', fieldText);
+
+        $compile(element.parent())(scope);
+    }
+
+    return {
+        restrict: 'A',
+        require: ["ngModel"],
+        compile: function () {
+            return {
+                pre: preCompileFn
+            };
+        }
+    };
+
+}]);
+
+csapp.factory("csTextFieldFactory", ["$csfactory", "Logger", function ($csfactory, logManager) {
+
+    var $log = logManager.getInstance("csTextField");
+
+    var formTemplate = function (scope) {
+        //var html = '<div ng-form="myform">';
+
+        //html += templateFunction(scope);
+
+        var html = '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+                    '<div data-ng-show="myform.myfield.$error.required ">{{optionsTxt.label}} is required</div>' +
+                    '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
+                    '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
+                    '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
+                '</div>';
+
+        //html += '</div>'; //ng-form;
+
+        return html;
+    };
+
+    var templateFunction = function (scope) {
+        console.log(scope);
+        var html = '<input type="text" name="myfield" placeholder="{{options.placeholder}}" ng-required="options.required" ' +
+            ' ng-pattern="{{options.pattern}}" ng-minlength="{{options.minlength}}" ng-maxlength="{{options.maxlength}}" ';
+
+        if (!$csfactory.isNullOrEmptyString(scope.csTypeahead))
+            html += 'typeahead="' + scope.csTypeahead + '" ';
+
+
+        html += ' ng-readonly="options.readonly" autofocus="options.autofocus" data-ng-change="ngChange()" ' +
+         ' autocomplete="off" data-ng-model="$parent.$parent.' + scope.ngModel + '"/>';
+
+        return html;
+    };
+
+    var validateOptions = function (options) {
+        applyTemplates(options);
+
+        // manage lengths
+        options.minlength = options.length || options.minlength || 0;
+        options.maxlength = options.length || options.maxlength || 250;
+        options.minlength = (options.minlength >= 0 && options.minlength <= 250) ? options.minlength : 0;
+        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 250) ? options.maxlength : 250;
+        if (options.minlength > options.maxlength) {
+            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+            $log.error(error); throw error;
+        }
+
+        options.label = options.label || "Text";
+        options.patternMessage = options.patternMessage || ("Input is not matching with pattern : " + options.pattern);
+        options.readonly = options.readonly || options.disabled || false;
+    };
+
+    var setElementAttr = function (element, fieldText) {
+        //if (!element.attr('ng-required'))
+        //    element.attr("ng-required", fieldText + ".required");
+        //if (!element.attr('ng-maxlength'))
+        //    element.attr("ng-maxlength", fieldText + ".maxlength");
+        //if (!element.attr('ng-minlength'))
+        //    element.attr("ng-minlength", fieldText + ".minlength");
+        //if (!element.attr('ng-pattern'))
+        //    element.attr("ng-pattern", fieldText + ".pattern");
+        //if (!element.attr('name'))
+        //    element.attr("name", "myfield");
+
+        element.removeAttr("cs-options");
+        element.removeAttr("data-cs-options");
+        //element.attr("cs-validator", fieldText);
+
+
+    };
+
+    var applyTemplates = function(options) {
+        if (angular.isUndefined(options.template) || options.template === null) {
+            return;
+        }
+
+        var tmpl = options.template.split(",").filter(function(str) { return str !== ''; });
+        angular.forEach(tmpl, function(template) {
+            if (template.length < 1) return;
+
+            switch (template) {
+            case "alphanum":
+                options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                options.patternMessage = "Value contains non-numeric character/s.";
+                break;
+            case "alphabates":
+                options.pattern = "/^[a-zA-Z ]*$/";
+                options.patternMessage = "Value contains non-alphabtical character/s.";
+                break;
+            case "numeric":
+                options.pattern = "/^[0-9]*$/";
+                options.patternMessage = "Value contains non-numeric character/s.";
+                break;
+            case "phone":
+                options.length = 10;
+                options.pattern = "/^[0-9]{10}$/";
+                options.patternMessage = "Phone number must contain 10 digits.";
+                break;
+            case "pan":
+                options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+            default:
+                $log.error(template + " is not defined");
+            }
+        });
+    };
+
+    return {
+        htmlTemplate: formTemplate,
+        checkOptions: validateOptions,
+        setElementAttr: setElementAttr
+    };
+}]);
+
+
+csapp.directive("csValidator", ["$compile", "$csfactory", function ($compile, $csfactory) {
+
+    function getPropertyByKeyPath(targetObj, keyPath) {
+        var keys = keyPath.split('.');
+        if (keys.length === 0) return undefined;
+        keys = keys.reverse();
+        var subObject = targetObj;
+        while (keys.length) {
+            var k = keys.pop();
+            if (!subObject.hasOwnProperty(k)) {
+                return undefined;
+            } else {
+                subObject = subObject[k];
+            }
+        }
+        return subObject;
+    }
+
+    function linkFn(scope, element, attrs, ngModel) {
+
+        var performValidation = function (value, restrictions) {
+
+            ngModel.$setValidity("required", true);
+            ngModel.$setValidity("minlength", true);
+            ngModel.$setValidity("maxlength", true);
+            ngModel.$setValidity("max", true);
+            ngModel.$setValidity("min", true);
+
+            if ($csfactory.isNullOrEmptyString(value)) {
+                if (restrictions.required === true) {
+                    ngModel.$setValidity("required", false);
+                    return;
+                }
+            }
+
+            if (!$csfactory.isNullOrEmptyString(restrictions.minlength)) {
+                if ($csfactory.isNullOrEmptyString(value)) {
+                    ngModel.$setValidity("minlength", false);
+                    return;
+                } else {
+                    var validmin = value.length >= restrictions.minlength;
+                    ngModel.$setValidity("minlength", validmin);
+                    if (!validmin) return;
+                }
+            }
+
+            if (!$csfactory.isNullOrEmptyString(restrictions.maxlength)) {
+                if ($csfactory.isNullOrEmptyString(value)) {
+                    ngModel.$setValidity("minlength", false);
+                    return;
+                } else {
+                    var validmax = value.length <= restrictions.maxlength;
+                    ngModel.$setValidity("maxlength", validmax);
+                    if (!validmax) return;
+                }
+            }
+
+            if (!$csfactory.isNullOrEmptyString(restrictions.min)) {
+                if ($csfactory.isNullOrEmptyString(value)) {
+                    ngModel.$setValidity("min", false);
+                    return;
+                } else {
+                    var minval = value >= restrictions.min;
+                    ngModel.$setValidity("min", minval);
+                    if (!minval) return;
+                }
+            }
+
+            if (!$csfactory.isNullOrEmptyString(restrictions.max)) {
+                if ($csfactory.isNullOrEmptyString(value)) {
+                    ngModel.$setValidity("max", false);
+                    return;
+                } else {
+                    var maxVal = value <= restrictions.max;
+                    ngModel.$setValidity("max", maxVal);
+                    if (!maxVal) return;
+                }
+            }
+        };
+
+        scope.$watch(function () {
+            return ngModel.$viewValue;
+        }, function (newval) {
+            var fieldText = attrs['csValidator'];
+            console.log('fieldText: ', fieldText);
+            var fieldValue = getPropertyByKeyPath(scope, fieldText);
+            console.log('fieldValue: ', fieldValue);
+            performValidation(newval, fieldValue);
+        });
+
+        scope.$watch(function () {
+            var fieldText = attrs['csValidator'];
+            return getPropertyByKeyPath(scope, fieldText);
+        }, function (newval) {
+            performValidation(ngModel.$viewValue, newval);
+        }, true);
+    }
+
+    return {
+        restrict: 'A',
+        link: linkFn,
+        require: "ngModel"
+    };
+
+}]);
+
+
+
 csapp.directive("csEnumField", ["$csfactory", "$compile", function ($csfactory, $compile) {
 
     //options:label, required, values 
