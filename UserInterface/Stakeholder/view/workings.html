@@ -1,0 +1,40 @@
+﻿<div data-ng-show="moreDetails==$index+'WorkingDetails' && data.StkhWorkings.length>0">
+    <table class="table table-hover table-bordered ">
+        <thead>
+            <tr>
+                <td>Product</td>
+                <td>Region</td>
+                <td>State</td>
+                <td>Cluster</td>
+                <td>City</td>
+                <td>Area</td>
+                <td>Bucket</td>
+                <td>Start Date</td>
+                <td>End Date </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="work in data.StkhWorkings" data-ng-class="{backred:displayApproveReject(data)}">
+                <td>{{work.Products}}</td>
+                <td>{{replace(work.Region)}}</td>
+                <td>{{replace(work.State)}}</td>
+                <td>{{replace(work.Cluster)}}</td>
+                <td>{{replace(work.District)}}</td>
+                <td>{{replace(work.Area)}}</td>
+                <td>{{replace(work.BucketStart,work)}}</td>
+                <td>{{work.StartDate | date}}</td>
+                <td>{{work.EndDate | date}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row-fluid" data-ng-show="displayApproveReject(data)">
+        <button class="btn btn-mini btn-success" data-ng-show="canModify||canApprove" data-ng-click="approveWorkings(data)">Approve Working</button>
+        <button class="btn btn-mini btn-danger" data-ng-show="canModify||canApprove" data-ng-click="rejectWorkings(data)">Reject Working</button>
+        <button class="btn btn-mini btn-success" data-ng-show="CurrUserInfo.Permission =='Modify'||CurrUserInfo.Permission =='Approve'" data-ng-click="pushToHigher(data)">Push Approval Higher</button>
+    </div>
+</div>
+<style>
+    .backred {
+        background-color: #D6543A;
+    }
+</style>

@@ -93,7 +93,86 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/filescheduler', {
                     templateUrl: '/FileUpload/filescheduler/file-scheduler.html',
                     controller: 'fileSchedulerController'
-                }).otherwise({
+                }).when('/stakeholder/add', {
+                    templateUrl: '/Stakeholder/add/index.html',
+                    controller: 'AddStakeHolderCtrl'
+                }).when('/stakeholder/hierarchy', {
+                    templateUrl: '/Stakeholder/hierarchy/add.html',
+                    controller: 'EditHierarchy'
+                }).when('/stakeholder/view', {
+                    templateUrl: '/Stakeholder/view/index.html',
+                    controller: 'viewStake'
+                }).when('/allocation/policy', {
+                    templateUrl: '/Allocation/policy/index.html',
+                    controller: 'allocPolicyCtrl'
+                }).when('/allocation/subpolicy', {
+                    templateUrl: '/Allocation/subpolicy/index.html',
+                    controller: 'allocSubpolicyCtrl'
+                }).when('/allocation/viewapprove', {
+                    templateUrl: '/Allocation/viewapprove/index.html',
+                    controller: 'approveViewCntrl'
+                    
+                }).when('/billing/policy', {
+                    templateUrl: '/Billing/policy/index.html',
+                    controller: 'payoutPolicyCtrl'
+                    
+                }).when('/billing/subpolicy', {
+                    templateUrl: '/Billing/subpolicy/index.html',
+                    controller: 'payoutSubpolicyCtrl'
+                    
+                }).when('/billing/formula', {
+                    templateUrl: '/Billing/formula/index.html',
+                    controller: 'formulaCtrl'
+                    
+                }).when('/billing/matrix', {
+                    templateUrl: '/Billing/matrix/index.html',
+                    controller: 'matrixCtrl'
+                    
+                }).when('/billing/adhoc', {
+                    templateUrl: '/Billing/adhoc/index.html',
+                    controller: 'adhocPayoutCtrl'
+                    
+                }).when('/billing/readybilling', {
+                    templateUrl: '/Billing/readybilling/index.html',
+                    controller: 'readyForBillingController'
+                    
+                }).when('/billing/status', {
+                    templateUrl: '/Billing/status/index.html',
+                    controller: 'BillingStatusController'
+                    
+                }).when('/billing/summary', {
+                    templateUrl: '/Billing/summary/index.html',
+                    controller: 'BillAmountCntrl'
+
+                }).when('', {
+                    templateUrl: '',
+                    controller:''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                }).when('', {
+                    templateUrl: '',
+                    controller: ''
+                })
+                .otherwise({
                     redirectTo: '/'
                 });
         };
