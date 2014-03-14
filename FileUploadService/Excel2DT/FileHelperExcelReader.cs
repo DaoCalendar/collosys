@@ -6,7 +6,7 @@ using System.Linq;
 using ColloSys.DataLayer.Domain;
 using FileHelpers.DataLink;
 //using FileHelpers.Dynamic;
-using FileHelpers.RunTime;
+using FileHelpers.Dynamic;
 
 #endregion
 
