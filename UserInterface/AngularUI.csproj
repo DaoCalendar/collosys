@@ -138,7 +138,8 @@
     <Compile Include="FileUpload\filescheduler\FileSchedulerApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
-    <Compile Include="FileUpload\fileuploadtest\FileTransferController.cs" />
+    <Compile Include="FileUpload\filestatus\FileStatusApiController.cs" />
+    <Compile Include="FileUpload\filestatus\FileStatusHelper.cs" />
     <Compile Include="Generic\connection\ConnectionApiController.cs" />
     <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
     <Compile Include="Generic\connection\Cryptography.cs" />
@@ -249,8 +250,7 @@
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
-    <Content Include="FileUpload\fileuploadtest\file-upload-test.html" />
-    <Content Include="FileUpload\fileuploadtest\fileuploadtest.js" />
+    <Content Include="FileUpload\filestatus\filestatus.js" />
     <Content Include="Generic\connection\connection.html" />
     <Content Include="Generic\connection\connectionConfig.js" />
     <Content Include="Generic\general\generalConfig.js" />
@@ -356,6 +356,7 @@
     <Content Include="FileUpload\filecolumn\file-column.html" />
     <Content Include="FileUpload\filemapping\file-mapping.html" />
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
+    <Content Include="FileUpload\filestatus\file-status.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

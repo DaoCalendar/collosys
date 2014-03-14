@@ -93,12 +93,12 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/filescheduler', {
                     templateUrl: '/FileUpload/filescheduler/file-scheduler.html',
                     controller: 'fileSchedulerController'
+                }).when('/fileupload/filestatus', {
+                    templateUrl: '/FileUpload/filestatus/file-status.html',
+                    controller: 'fileStatusController'
                 }).when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'
-                }).when('/fileupload/testing', {
-                    templateUrl: '/FileUpload/fileuploadtest/file-upload-test.html',
-                    controller: 'fileUploadTestController'
                 }).when('/stakeholder/hierarchy', {
                     templateUrl: '/Stakeholder/hierarchy/add.html',
                     controller: 'EditHierarchy'
