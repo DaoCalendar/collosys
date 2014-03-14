@@ -9,7 +9,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
         public static Stream GetEmbeddedResourceAsStream(string name)
         {
             var asm = Assembly.GetExecutingAssembly();
-            var resourceName = String.Format("ColloSys.UserInterface.ExcelData.{0}", name);
+            var resourceName = String.Format("AngularUI.ExcelData.{0}", name);
             return asm.GetManifestResourceStream(resourceName);
         }
     }

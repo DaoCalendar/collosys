@@ -1,5 +1,5 @@
 ﻿(
-    csapp.controller("DbGenerationController", ["$scope", "Restangular", "$csnotify", "$window", function ($scope, rest, $csnotify, $window) {
+    csapp.controller("DbGenerationController", ["$scope", "Restangular", "$csnotify", "$location", function ($scope, rest, $csnotify, $location) {
 
         var restApi = rest.all('DbGenerationApi');
    
@@ -8,7 +8,7 @@
             debugger;
             restApi.customGET("CreateDatabase").then(function () {
                 $csnotify.success("DB Generated Successfully");
-                $window.location = $window.mvcBaseUrl + "Account/LogOff";
+                $location.path('/account/logoff');
             });
         };
 

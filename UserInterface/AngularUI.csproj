@@ -357,6 +357,7 @@
     <Content Include="FileUpload\filemapping\file-mapping.html" />
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
     <Content Include="FileUpload\filestatus\file-status.html" />
+    <EmbeddedResource Include="ExcelData\FileUploader.xls" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
