@@ -42,7 +42,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-   
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
@@ -103,9 +102,33 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
+    <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Allocation\subpolicy\NgGridOptions.cs" />
+    <Compile Include="Allocation\subpolicy\SharedViewModel.cs" />
+    <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
     <Compile Include="appCode\NLogSetup.cs" />
+    <Compile Include="Billing\adhoc\AddhocPayoutsApiController.cs" />
+    <Compile Include="Billing\matrix\MatrixApiController.cs" />
+    <Compile Include="Billing\policy\PayoutPolicyApiController.cs" />
+    <Compile Include="Billing\readybilling\ReadyForBillingApiController.cs" />
+    <Compile Include="Billing\subpolicy\PayoutSubpolicyApiController.cs" />
+    <Compile Include="Billing\summary\BillingAmountApiController.cs" />
+    <Compile Include="Billing\summary\FinalBillData.cs" />
+    <Compile Include="Developer\downloadtables\DatabaseTablesApiController.cs" />
+    <Compile Include="Developer\generatedb\CreateDb.cs" />
+    <Compile Include="Developer\generatedb\DbGenerationApiController.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\BulkCopy.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\Excel2Db.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\ExcelReader.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\InitialData.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\InitStakeholder.cs" />
+    <Compile Include="Developer\generatedb\Excel2Db\ResourceReader.cs" />
+    <Compile Include="Developer\logdownload\LogDownloadApiController.cs" />
+    <Compile Include="Developer\logdownload\LogFileModel.cs" />
+    <Compile Include="Developer\logdownload\LogFileViewModel.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnViewModel.cs" />
     <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
@@ -116,16 +139,69 @@
     <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
     <Compile Include="FileUpload\fileuploadtest\FileTransferController.cs" />
+    <Compile Include="Generic\connection\ConnectionApiController.cs" />
+    <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
+    <Compile Include="Generic\connection\Cryptography.cs" />
+    <Compile Include="Generic\keyvalue\KeyValueApiController.cs" />
+    <Compile Include="Generic\permissionscreen\PermissionScreenApiController.cs" />
+    <Compile Include="Generic\permission\PermisionData.cs" />
+    <Compile Include="Generic\permission\PermissionApiController.cs" />
+    <Compile Include="Generic\pincode\PincodeApiController.cs" />
+    <Compile Include="Generic\pincode\pincodeData.cs" />
+    <Compile Include="Generic\product\ProductConfigApiController.cs" />
+    <Compile Include="Generic\profile\ProfileApiController.cs" />
+    <Compile Include="Generic\query\ExecuteQueryApiController.cs" />
+    <Compile Include="Generic\query\Executer.cs" />
+    <Compile Include="Generic\query\QueryResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporting\clientdata\ClientDataApiController.cs" />
+    <Compile Include="Reporting\generate\commonUtility.cs" />
+    <Compile Include="Reporting\generate\getTypes.cs" />
+    <Compile Include="Reporting\generate\ReportApiController.cs" />
+    <Compile Include="Reporting\generate\ViewClass.cs" />
+    <Compile Include="Reporting\GridApiController.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
+    <Compile Include="Stakeholder\add\AddStakeHolderApiController.cs" />
+    <Compile Include="Stakeholder\add\AddStakeholderModel.cs" />
+    <Compile Include="Stakeholder\add\FinalPostModel.cs" />
+    <Compile Include="Stakeholder\add\ListValue.cs" />
+    <Compile Include="Stakeholder\add\ManageWorkingModel.cs" />
+    <Compile Include="Stakeholder\add\PaymentDetailsApiController.cs" />
+    <Compile Include="Stakeholder\add\StakeApiController.cs" />
+    <Compile Include="Stakeholder\add\StakeholderApiController.cs" />
+    <Compile Include="Stakeholder\add\WorkingModel.cs" />
+    <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Allocation\policy\allocPolicyCtrl.js" />
+    <Content Include="Allocation\policy\index.html" />
+    <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
+    <Content Include="Allocation\subpolicy\index.html" />
+    <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
+    <Content Include="Allocation\viewapprove\index.html" />
+    <Content Include="Billing\adhoc\AddhocPayouts.js" />
+    <Content Include="Billing\adhoc\index.html" />
+    <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\formulaCtrl.js" />
+    <Content Include="Billing\formula\index.html" />
+    <Content Include="Billing\matrix\index.html" />
+    <Content Include="Billing\matrix\matrixCtrl.js" />
+    <Content Include="Billing\policy\index.html" />
+    <Content Include="Billing\policy\payoutPolicyCtrl.js" />
+    <Content Include="Billing\readybilling\index.html" />
+    <Content Include="Billing\readybilling\ReadyForBilling.js" />
+    <Content Include="Billing\status\BillingStatus.js" />
+    <Content Include="Billing\status\index.html" />
+    <Content Include="Billing\subpolicy\index.html" />
+    <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
+    <Content Include="Billing\summary\BillAmountCntrl.js" />
+    <Content Include="Billing\summary\index.html" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\bootstrap-datepicker\bootstrap-datepicker.css" />
@@ -155,6 +231,13 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
+    <Content Include="Developer\downloadtables\DatabaseTablesCtrl.js" />
+    <Content Include="Developer\downloadtables\downloadtables.html" />
+    <Content Include="Developer\generatedb\generatedb.html" />
+    <Content Include="Developer\generatedb\GenerateDB.js" />
+    <Content Include="Developer\logdownload\logdownload.html" />
+    <Content Include="Developer\logdownload\LogDownload.js" />
+    <Content Include="Developer\viewtables\viewtables.html" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -168,6 +251,30 @@
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
     <Content Include="FileUpload\fileuploadtest\file-upload-test.html" />
     <Content Include="FileUpload\fileuploadtest\fileuploadtest.js" />
+    <Content Include="Generic\connection\connection.html" />
+    <Content Include="Generic\connection\connectionConfig.js" />
+    <Content Include="Generic\general\generalConfig.js" />
+    <Content Include="Generic\general\index.html" />
+    <Content Include="Generic\keyvalue\keyvalue.html" />
+    <Content Include="Generic\keyvalue\keyValueCtrl.js" />
+    <Content Include="Generic\permissionscreen\permissionscreen.html" />
+    <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
+    <Content Include="Generic\permission\permission.html" />
+    <Content Include="Generic\permission\stakePermission.js" />
+    <Content Include="Generic\pincode\pincode.html" />
+    <Content Include="Generic\pincode\pincodeCtrl.js" />
+    <Content Include="Generic\product\product.html" />
+    <Content Include="Generic\product\ProductConfigModel.js" />
+    <Content Include="Generic\profile\userprofile.html" />
+    <Content Include="Generic\profile\UserProfile.js" />
+    <Content Include="Generic\query\query.html" />
+    <Content Include="Generic\query\QueryExecuter.js" />
+    <Content Include="Reporting\clientdata\clientdata.html" />
+    <Content Include="Reporting\clientdata\clientDataReporting.js" />
+    <Content Include="Reporting\generate\generate.html" />
+    <Content Include="Reporting\generate\Reporting.js" />
+    <Content Include="Reporting\view\view.html" />
+    <Content Include="Reporting\view\ViewReporting.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />
@@ -529,6 +636,30 @@
     <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
+    <Content Include="Stakeholder\add\address.html" />
+    <Content Include="Stakeholder\add\AddressInfo.js" />
+    <Content Include="Stakeholder\add\AddStakeholder.js" />
+    <Content Include="Stakeholder\add\basic.html" />
+    <Content Include="Stakeholder\add\BasicInfoScript.js" />
+    <Content Include="Stakeholder\add\hierarchy.html" />
+    <Content Include="Stakeholder\add\HierarchyModel.js" />
+    <Content Include="Stakeholder\add\index.html" />
+    <Content Include="Stakeholder\add\payment.html" />
+    <Content Include="Stakeholder\add\Payments.js" />
+    <Content Include="Stakeholder\add\registration.html" />
+    <Content Include="Stakeholder\add\RegistrationDetails.js" />
+    <Content Include="Stakeholder\add\show-working-payment.html" />
+    <Content Include="Stakeholder\add\working.html" />
+    <Content Include="Stakeholder\add\WorkingScript.js" />
+    <Content Include="Stakeholder\hierarchy\add.html" />
+    <Content Include="Stakeholder\hierarchy\edit.html" />
+    <Content Include="Stakeholder\hierarchy\EditHierarchy.js" />
+    <Content Include="Stakeholder\view\basic.html" />
+    <Content Include="Stakeholder\view\index.html" />
+    <Content Include="Stakeholder\view\onleave.html" />
+    <Content Include="Stakeholder\view\registration.html" />
+    <Content Include="Stakeholder\view\ViewStakeholder.js" />
+    <Content Include="Stakeholder\view\workings.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

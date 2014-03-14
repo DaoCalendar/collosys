@@ -12,8 +12,6 @@ using ColloSys.UserInterface.Shared.Attributes;
 using UserInterfaceAngular.Areas.Reporting.ViewModels;
 using ColloSys.UserInterface.Areas.Reporting.ViewModels;
 using System.Collections;
-using System.Web.Script.Serialization;
-using UserInterfaceAngular.Filters;
 using ColloSys.DataLayer.Enumerations;
 using System.Web.Compilation;
 //using ColloSys.UserInterface.Areas.Reporting.ViewModels;
@@ -91,10 +89,10 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
 
             if (filter != null && filter.Length > 0) commonUtility.BuildHql(filter,_filters);
             
-            JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+            //JavaScriptSerializer json_serializer = new JavaScriptSerializer();
              Reports rs = new Reports();
             rs.Name = reportName;
-            rs.Filter = json_serializer.Serialize(filter);// query;
+            rs.Filter = Newtonsoft.Json.JsonConvert.SerializeObject(filter);// json_serializer.Serialize(filter);// query;
             rs.TableName = aliasName;
             rs.Columns = columns;
             rs.ColumnsFilter = colfilter;

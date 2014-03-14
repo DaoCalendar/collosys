@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
-using System.Web.Providers.Entities;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -72,7 +72,7 @@ namespace ColloSys.UserInterface.Areas.ClientData
                 case "CREDIT CARD PAYMENT":
                     rw.DataList = GetDataList("CPayment", pageSize, currentPage,date, out value);
                     rw.totalRecords = value;
-                    rw.Columns = getColumns(typeof(CPayment).GetProperties());
+                    rw.Columns = getColumns(typeof(Payment).GetProperties());
                     break;
                 case "CREDIT CARD UNBILLED":
                     rw.DataList = GetDataList("CUnbilled", pageSize, currentPage,date, out value);
@@ -92,7 +92,7 @@ namespace ColloSys.UserInterface.Areas.ClientData
                 case "RLS PAYMENT":
                     rw.DataList = GetDataList("RPayment", pageSize, currentPage,date, out value);
                     rw.totalRecords = value;
-                    rw.Columns = getColumns(typeof(RPayment).GetProperties());
+                    rw.Columns = getColumns(typeof(Payment).GetProperties());
                     break;
                 case "RLS WRITEOFF":
                     rw.DataList = GetDataList("RWriteoff", pageSize, currentPage,date, out value);
@@ -107,7 +107,7 @@ namespace ColloSys.UserInterface.Areas.ClientData
                 case "EBBS PAYMENT":
                     rw.DataList = GetDataList("EPayment", pageSize, currentPage,date, out value);
                     rw.totalRecords = value;
-                    rw.Columns = getColumns(typeof(EPayment).GetProperties());
+                    rw.Columns = getColumns(typeof(Payment).GetProperties());
                     break;
                 case "EBBS WRITEOFF":
                     rw.DataList = GetDataList("EWriteoff", pageSize, currentPage,date, out value);
