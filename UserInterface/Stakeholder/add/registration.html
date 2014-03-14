@@ -1,0 +1,28 @@
+﻿<div class="form-horizontal" data-ng-controller="Registration">
+    <div class="row-fluid">
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.TAN"
+                ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo">
+                </cs-input>
+        </div>
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.PAN"
+                ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo">
+                </cs-input>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.RegistrationNo"
+                ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo">
+                </cs-input>
+
+        </div>
+        <div class="span5">
+            <cs-input options="$parent.stakeholderModel.ServiceTax"
+                ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno">
+                </cs-input>
+
+        </div>
+    </div>
+</div>

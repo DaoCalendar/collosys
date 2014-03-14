@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <SkipPostSharp>True</SkipPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,7 +60,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SharedLib\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -206,7 +207,6 @@
     <Content Include="Scripts\angular.ui\select2.js" />
     <Content Include="Scripts\angular.ui\select2.min.js" />
     <Content Include="Shared\scripts\app.js" />
-    <Content Include="Billing\factories.js" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.css" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.css" />
@@ -536,6 +536,7 @@
     <Content Include="Shared\scripts\login.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
+    <Content Include="Shared\templates\displayGridOptions.html" />
     <Content Include="Shared\templates\login.html" />
     <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />
@@ -553,6 +554,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Login\" />
+    <Folder Include="Generic\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -563,6 +565,10 @@
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
+      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
+      <Name>Collosys.BillingService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ColloSys.DataLayer.Migrate\ColloSys.DataLayer.Migrate.csproj">
       <Project>{808ccb95-8534-4ec4-b3b9-5bec22119be5}</Project>
       <Name>ColloSys.DataLayer.Migrate</Name>
@@ -579,6 +585,9 @@
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

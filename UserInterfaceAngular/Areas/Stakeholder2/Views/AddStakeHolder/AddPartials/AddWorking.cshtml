@@ -4,7 +4,7 @@
         <hr />
         <div class="row-fluid">
             <!--Products-->
-             <div class="control-group span4">
+            @* <div class="control-group span4">
                 <label class="control-label">
                     Products
                     <label style="font-size: large; color: red">*</label></label>
@@ -13,7 +13,10 @@
                         data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
                     </select>
                 </div>
-            </div>
+            </div>*@ 
+            <cs-input options="$parent.workingPaymentModel.Working.Products" 
+                      ng-model="StakeWork.Products"
+                      ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)"></cs-input>{{StakeWork.Products}}
             <!--Reports To-->
             <div class="control-group span3" data-ng-show="StakeWork.Products ">
                 <label class="control-label">

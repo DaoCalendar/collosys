@@ -34,32 +34,10 @@
             </div>
         </div>
 
-
         <div class="row-fluid">
             <!--Reporting to manager-->
             <div class="span5 control-group" data-ng-show="basicInfoData.Hierarchy.ManageReportsTo">
-
-                <label class="control-label" @*data-ng-show="basicInfoData.Hierarchy.IsIndividual "*@
-                       data-ng-show="basicInfoData.Hierarchy.Hierarchy!='External'">
-                    Line Manager 
-                    <label style="font-size: large; color: red">*</label>
-                </label>
-                <label class="control-label" @*data-ng-hide="basicInfoData.Hierarchy.IsIndividual"*@
-                       data-ng-show="basicInfoData.Hierarchy.Hierarchy=='External' &&
-                !(basicInfoData.Hierarchy.Designation=='ExternalAgency' || 
-                basicInfoData.Hierarchy.Designation =='ManpowerAgency')">
-                    Agency Name 
-                    <label style="font-size: large; color: red">*</label>
-
-                </label>
-
-                <label class="control-label" data-ng-show="basicInfoData.Hierarchy.Designation=='ExternalAgency' ||
-                basicInfoData.Hierarchy.Designation=='ManpowerAgency'">
-                    Agency Supervisor
-                    <label style="font-size: large; color: red">*</label>
-                </label>
-
-                <div class="controls">
+                @*<div class="controls">
                     <select
                         class="input-medium"
                         ui-select2=""
@@ -70,6 +48,13 @@
                             data-ng-repeat="managers in $parent.WizardData.FinalPostModel.ReportsToList"
                             value="{{managers.Id}}">{{managers.Name}}</option>
                     </select>
+                </div>*@ 
+                <div class="span5">
+                    <cs-input options="$parent.stakeholderModel.ReportingManager" 
+                              ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
+                              cs-Repeat="'$parent.WizardData.FinalPostModel.ReportsToList'" 
+                              text-field="Name"
+                              value-field="Id"></cs-input>
                 </div>
             </div>
 
@@ -122,7 +107,7 @@
                     </div> -->
 
 <!--Name-->
-@* <div class="span5 control-group">
+ <div class="span5 control-group">
             <label class="control-label">Name <label style="font-size:large; color:red">*</label></label>
             <div class="controls">
                 <input type="text"
@@ -131,14 +116,14 @@
                     name="Name"
                     data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name"
                     data-ng-readonly="basicInfoData.isEditMode"
-                    required />*@
-@*Name Validation*@
-@* <div data-ng-show="basicInfoForm.Name.$dirty">
+                    required />
+
+ <div data-ng-show="basicInfoForm.Name.$dirty">
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.required">{{val.Required()}}</span>
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.pattern">{{val.OnlyText()}}</span>
                 </div>
             </div>
-        </div>*@
+        </div>
 
 
 <!--UserId-->
@@ -306,3 +291,24 @@
                     </div>
                 </div>
             </div>*@
+
+
+ @*<label class="control-label" 
+                       data-ng-show="basicInfoData.Hierarchy.Hierarchy!='External'">
+                    Line Manager 
+                    <label style="font-size: large; color: red">*</label>
+                </label>
+                <label class="control-label"
+                       data-ng-show="basicInfoData.Hierarchy.Hierarchy=='External' &&
+                !(basicInfoData.Hierarchy.Designation=='ExternalAgency' || 
+                basicInfoData.Hierarchy.Designation =='ManpowerAgency')">
+                    Agency Name 
+                    <label style="font-size: large; color: red">*</label>
+
+                </label>
+
+                <label class="control-label" data-ng-show="basicInfoData.Hierarchy.Designation=='ExternalAgency' ||
+                basicInfoData.Hierarchy.Designation=='ManpowerAgency'">
+                    Agency Supervisor
+                    <label style="font-size: large; color: red">*</label>
+                </label>*@

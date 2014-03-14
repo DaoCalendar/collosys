@@ -1,0 +1,115 @@
+﻿<div class="container">
+    <div class="row-fluid form-horizontal" data-ng-form="formLeave">
+        <div class="row-fluid">
+            <div class="control-group span5">
+                <label class="control-label">Name:</label>
+                <div class="controls">
+                    <input type="text"
+                        class="input-medium"
+                        value="{{StakeForLeave.Name}}"
+                        readonly="readonly" />
+                </div>
+            </div>
+            <div class="control-group span5">
+                <label class="control-label">Reports To:</label>
+                <div class="controls">
+                    <input type="text"
+                        class="input-medium"
+                        value="{{ReportsToStake.Name}}"
+                        readonly="readonly" />
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span5">
+                <label class="control-label">Reason :</label>
+                <div class="controls">
+                    <select class="input-large" data-ui-select2="" data-ng-model="reason" data-ng-change="manageLeave()">
+                        <option value="leave">Leave</option>
+                        <option value="exit">Exit</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group span5">
+                <label class="control-label">From:</label>
+                <div class="controls">
+                    <input type="text"
+                        class="input-medium"
+                        data-ng-model="ChangedDates.LeaveFrom"
+                        data-date-format="dd-mm-yyyy"
+                        data-date-start-date="+1d"
+                        data-ng-required="true"
+                        bs-datepicker />
+                </div>
+            </div>
+            <div class="control-group span5" data-ng-show="showme">
+                <label class="control-label">To:</label>
+                <div class="controls">
+                    <input type="text"
+                        class="input-medium"
+                        data-ng-model="ChangedDates.LeaveTo"
+                        data-date-format="dd-mm-yyyy"
+                           data-ng-required="showme"
+                        data-ng-change="checkStakeholderForLeave(ChangedDates.LeaveFrom)"
+                        data-date-start-date="+1m"
+                        bs-datepicker />
+                </div>
+            </div>
+        </div>
+        <!--table-->
+        <div class="control-group span12" data-ng-show="StakeForLeave.StkhWorkings.length>0">
+            <table class="table table-bordered table-hover ">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Country</th>
+                        <th>Region</th>
+                        <th>State</th>
+                        <th>Cluster</th>
+                        <th>City</th>
+                        <th>Area</th>
+                        <th>Pincode</th>
+                        <th>Bucket</th>
+                        <th>Replace By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="data in StakeForLeave.StkhWorkings">
+                        <td>{{data.Products}}</td>
+                        <td>India</td>
+                        <td>{{replace(data.Region)}}</td>
+                        <td>{{replace(data.State)}}</td>
+                        <td>{{replace(data.Cluster)}}</td>
+                        <td>{{replace(data.City)}}</td>
+                        <td>{{replace(data.Area)}}</td>
+                        <td>{{data.Pincode}}</td>
+                        <td>{{data.BucketStart}}</td>
+                        <td>
+                            <select
+                                class="input-large"
+                                data-ui-select2=""
+                                data-ng-required="!data.EndDate"
+                                data-ng-model="data.ReplaceBy"
+                                data-ng-disabled="data.EndDate">
+                                <option></option>
+                                <option data-ng-repeat="stake in StakeListLeave"
+                                    value="{{stake.Id}}">{{stake.Name}}/{{stake.Hierarchy.Designation}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--for button-->
+        <div class="control-group span5">
+            <div class="controls">
+                <button class="btn btn-success"
+                    data-ng-disabled="formLeave.$invalid"
+                    data-ng-click="changeWorking(StakeForLeave)">
+                    Change Working</button>
+            </div>
+        </div>
+    </div>
+</div>

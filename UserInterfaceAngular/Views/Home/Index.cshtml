@@ -6,7 +6,7 @@
 }
 
 @*<div data-ng-controller="testing">*@
-    @*<div data-ui-if="false">
+@*<div data-ui-if="false">
         <form name="testform">
             <cs-input options="optionsNum" ng-model="abcd"></cs-input>
             {{abcd}}
@@ -22,7 +22,7 @@
 
     <cs-date-field options="optionsDate" cs-model="date"></cs-date-field>{{date}}*@
 
-  @*  <form>
+@*  <form>
 
         <br />
         {{updatedValue}}
@@ -50,44 +50,46 @@
         {{num}}
     </form>*@
 
-    @* <cs-template options="optionsTxt">
+@* <cs-template options="optionsTxt">
         <cs-text-field ng-model="text" options="optionsTxt"  ></cs-text-field> 
     </cs-template>*@
-
-
-
-@*</div>
-
-
-
+@*</div>*@
+<div data-ng-controller="testing">
+        <input type="text" cs-options="optionsTxt"  data-ng-change="changeFunction(txt)" data-ng-model="txt" />{{txt}}{{count}}
+</div>
 @section scripts
 {
     <script src="~/Shared/Home.js"></script>
     <script src="~/app/fileupload/models.js"></script>
     <script type="text/javascript">
         csapp.controller("testing", function ($scope) {
-
+            $scope.pattern = "/^[a-zA-Z ]{1,10}$/";
             $scope.array = [1, 2, 3, 4];
 
             $scope.count = 0;
-            $scope.update = function (value) {
-                $scope.updatedValue = value;
-                $scope.count++;
-            };
+            //$scope.update = function (value) {
+            //    $scope.updatedValue = value;
+            //    $scope.count++;
+            //};
 
+            $scope.changeFunction = function (text) {
+                
+                $scope.count++;
+                console.log('change: ', text);
+            };
 
             $scope.optionEnum = { type: 'enum', values: $scope.array };
             $scope.optionSel = { type: 'select' };
             $scope.optionsTA = { type: 'textarea', minlength: '2' };
             $scope.optionsNum = { type: 'uint', required: true };
-            $scope.optionsTxt = { type: 'text', label: 'abcd', required: true, pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'enter valid text' };
+            $scope.optionsTxt = { type: 'text', label: 'abcd', required: true, minlength: 2,maxlength:5,suffix:'soham'};
             $scope.optionEmail = { type: 'email', suffix: '@@soham.com' };
             $scope.optionCheckbox = { type: 'checkbox', label: 'tick' };
             $scope.optionRadio = { type: 'radio', options: ['1', '2'] };
             $scope.optionsDate = { type: 'date' };
         });
     </script>
-}*@
+}
 
 
 
