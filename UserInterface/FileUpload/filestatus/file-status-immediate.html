@@ -1,0 +1,11 @@
+﻿<ng-form name="immidiateform">
+    <div class="modal-header">Provide Immediate Reason</div>
+
+    <div class="modal-body">
+        <textarea rows="4" style="width: 80%" data-ng-model="file.ImmediateReason" required></textarea>
+    </div>
+    <div class="modal-footer well">
+        <button class="btn btn-primary" data-ng-disabled="immidiateform.$invalid" data-ng-click="reschedule()">Reschedule</button>
+        <button class="btn btn-warning" data-ng-click="close()">Cancel</button>
+    </div>
+</ng-form>

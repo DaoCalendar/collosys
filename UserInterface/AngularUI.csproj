@@ -250,6 +250,9 @@
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
+    <Content Include="FileUpload\filestatus\file-status-detail.html" />
+    <Content Include="FileUpload\filestatus\file-status-grid.html" />
+    <Content Include="FileUpload\filestatus\file-status-immediate.html" />
     <Content Include="FileUpload\filestatus\filestatus.js" />
     <Content Include="Generic\connection\connection.html" />
     <Content Include="Generic\connection\connectionConfig.js" />

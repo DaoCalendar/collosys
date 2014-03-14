@@ -116,14 +116,14 @@ csapp.controller("fileMappingCtrl", ["$scope", "fileMappingDataLayer", "$modal",
             templateUrl: 'filemapping/file-mapping-edit.html',
             controller: 'fileMappingViewEditController',
             resolve: {
-                FileMapping: function () {
+                FileMapping: function() {
                     return {
                         mapping: filemapping,
                         mode: mode,
                         fileDetail: $scope.fileDetail
-                    }
+                    };
                 }
             }
-        })
+        });
     };
 }]);

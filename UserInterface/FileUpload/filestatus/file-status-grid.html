@@ -1,0 +1,103 @@
+﻿<!-- update counter -->
+<div class="row-fluid text-left alert alert-success" style="margin: 0; padding: 0">
+    <div data-ng-show="doUpdate">
+        <span>Refreshing upload status from DB!!!</span>
+    </div>
+    <div data-ng-hide="doUpdate">
+        <button class="btn btn-link" data-ng-click="factory.refresh.toggle()">{{factory.refresh.refreshText()}}</button>
+        <span>...Refreshing upload status in {{factory.timer.timePending}} seconds</span>
+    </div>
+</div>
+
+<!-- status display -->
+<div class="span12" style="overflow: auto; margin: 0; padding: 0; height: 450px; width: 100%">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th colspan="2">Actions</th>
+                <th>Systems</th>
+                <th>Category</th>
+                <th>File Name</th>
+                <th>Total Rows</th>
+                <th>Valid Rows</th>
+                <th>File Date</th>
+                <th>Upload Status</th>
+                <th>Status Description</th>
+                <th>File Size</th>
+                <th>Requested On</th>
+                <th>Upload Done On</th>
+                <th>Immediate</th>
+                <th>Immediate Reason</th>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th>
+                    <input type="text" data-ng-model="search.ScbSystems" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.Category" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.FileName" style="width: 220px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.TotalRows" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.ValidRows" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.FileDate" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.UploadStatus" style="width: 120px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.StatusDescription" style="width: 120px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.FileSize" style="width: 70px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.StartDateTime" style="width: 120px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.EndDateTime" style="width: 120px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.IsImmediate" style="width: 50px" />
+                </th>
+                <th>
+                    <input type="text" data-ng-model="search.ImmediateReason" style="width: 120px" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="fileScheduler in datalayer.dldata.fileSchedulers | filter:search"
+                data-ng-class="{'progress-bar-danger': fileScheduler.UploadStatus == 'Error', 'progress-bar-info': fileScheduler.UploadStatus == 'UploadStarted', 'progress-bar-success': fileScheduler.UploadStatus == 'Done' || fileScheduler.UploadStatus == 'DoneWithError','progress-bar-info': fileScheduler.UploadStatus == 'PostProcessing'}">
+                <td colspan="2">
+                    <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="showDeleteModelPopup(fileScheduler,$index)" type="button">Delete</button>
+                    <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Done' || fileScheduler.UploadStatus=='DoneWithError'}}" data-ng-click="downloadFile(fileScheduler)" type="button">Download</button>
+                    <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='UploadRequest' && fileScheduler.IsImmediate != true }}" data-ng-click="showImmediateModal(fileScheduler)" type="button">Immediate</button>
+                    <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="retryFileUpload(fileScheduler, $index)" type="button">Retry</button>
+                    <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus!='UploadRequest' && fileScheduler.UploadStatus!='Error' && fileScheduler.UploadStatus!='RetryUpload' }}" data-ng-click="openModelData(fileScheduler)" type="button">Status</button>
+                </td>
+                <td>{{fileScheduler.ScbSystems}}</td>
+                <td>{{fileScheduler.Category}}</td>
+                <td>
+                    <button class="btn btn-link" data-ng-click="downloadInputFile(fileScheduler)" type="button">{{fileScheduler.FileNameDisplay}}</button>
+                </td>
+                <td>{{fileScheduler.TotalRows}}</td>
+                <td>{{fileScheduler.ValidRows}}</td>
+                <td>{{fileScheduler.FileDate | date:'yyyy-MM-dd'}}</td>
+                <td>{{fileScheduler.UploadStatus}}</td>
+                <td>{{fileScheduler.StatusDescription}}</td>
+                <td>{{fileScheduler.FileSize | bytes}}</td>
+                <td>{{fileScheduler.StartDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{fileScheduler.EndDateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{fileScheduler.IsImmediate}} </td>
+                <td>{{fileScheduler.ImmediateReason}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
