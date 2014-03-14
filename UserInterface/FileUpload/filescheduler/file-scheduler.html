@@ -66,7 +66,7 @@
                         <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
                         <div class="">
                             <div class="span4">
-                                <input type="file" name="{{file.AliasName}}" ng-file-select="onFileSelect(file, $files)" />
+                                <input type="file" ng-file-select="onFileSelect(file, $files, $index)" />
                             </div>
 
                             <div class="offset1 span4">
