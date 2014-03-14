@@ -24,11 +24,12 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify", "$filter",
             });
         };
 
-        var scheduleFiles = function() {
-            return restApi.customGET("Upload", { 'scheduledFiles': dldata.fileScheduleDetails })
-                .then(function(data) {
+        var scheduleFiles = function () {
+            var scheduledFiles = dldata.fileScheduleDetails;
+            return restApi.customPOST(scheduledFiles, "Upload")
+                .then(function (data) {
                     dldata.fileScheduleDetails = data;
-                }, function() {
+                }, function () {
                     $csnotify.error("Could not schedule files.");
                 });
         };
@@ -99,18 +100,24 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
 
         //#region upload
         $scope.uploadCount = 0;
+        $scope.upload = [];
         $scope.onFileSelect = function (file, $files, $index) {
             var cfile = $files[0];
             file.IsUploading = true;
             $scope.uploadCount++;
+            $csfactory.hideSpinner();
+            file.UploadPercent = 10;
             $scope.upload[$index] = $upload.upload({
-                url: '/api/FileTransfer/SaveFileOnServer',
+                url: '/api/FileSchedulerApi/SaveFileOnServer',
                 method: "Post",
                 file: cfile,
+                data: { schedulerInfo: file },
             }).progress(function (evt) {
                 file.UploadPercent = parseInt(100.0 * evt.loaded / evt.total);
             }).success(function (data) {
-                file = data;
+                file.UploadPath = data.UploadPath;
+                file.FileName = data.FileName;
+                file.FileSize = data.FileSize;
                 file.IsUploading = false;
                 $scope.uploadCount--;
             }).error(function () {
@@ -119,8 +126,8 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             });
         };
 
-        $scope.scheduleFiles = function() {
-            datalayer.Schedule.then(function () {
+        $scope.scheduleFiles = function () {
+            datalayer.Schedule().then(function () {
                 $scope.upload = [];
                 hasAnyUnscheduledFiles();
             });
@@ -130,7 +137,8 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         //#region validate page
         $scope.validatePage = function () {
             var isPageValid = isReasonValid();
-            isPageValid = isPageValid && ($scope.uploadCount === 0);
+            isPageValid = isPageValid && ($scope.uploadCount === 0); // no files being copied
+            isPageValid = isPageValid && ($scope.upload.length > 0); // atleast one file scheduled
             return !isPageValid;
         };
 
