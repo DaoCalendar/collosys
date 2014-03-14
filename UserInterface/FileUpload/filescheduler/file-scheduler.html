@@ -66,17 +66,7 @@
                         <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
                         <div class="">
                             <div class="span4">
-                                <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="input-append">
-                                        <div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i><span class="fileupload-preview"></span></div>
-                                        <span class="btn btn-file">
-                                            <span class="fileupload-new">Select file</span>
-                                            <span class="fileupload-exists">Change</span>
-                                            <input type="file" name="{{file.AliasName}}" />
-                                        </span>
-                                        <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                                    </div>
-                                </div>
+                                <input type="file" name="{{file.AliasName}}" ng-file-select="onFileSelect(file, $files)" />
                             </div>
 
                             <div class="offset1 span4">

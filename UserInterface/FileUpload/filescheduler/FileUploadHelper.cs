@@ -12,24 +12,22 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.UserInterface.Shared;
-using NHibernate.Linq;
 using NLog;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.FileUploader.Models
+namespace AngularUI.FileUpload.filescheduler
 {
     public static class FileUploadHelper
     {
-        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private static readonly FileDetailBuilder FileDetailBuilder=new FileDetailBuilder();
-        private static readonly FileSchedulerBuilder FileSchedulerBuilder=new FileSchedulerBuilder();
         #region init
+
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private static readonly FileDetailBuilder FileDetailBuilder = new FileDetailBuilder();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder = new FileSchedulerBuilder();
 
         public static FileUploadViewModel InitFileInfo(FileUploadViewModel viewModel)
         {
-            var session = SessionManager.GetCurrentSession();
-
             // first populate unscheduled files
             IList<ScheduledFiles> fileList = new List<ScheduledFiles>();
 
@@ -49,8 +47,8 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                         FileStatus = ColloSysEnums.UploadStatus.Error,
                         IsScheduled = false,
                         HasError = false,
-                        ErrorMessage = string.Empty
-
+                        ErrorMessage = string.Empty,
+                        IsUploading = false
                     });
                 }
             }
@@ -75,6 +73,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
                 listelement.IsScheduled = true;
                 listelement.HasError = false;
                 listelement.ErrorMessage = string.Empty;
+                listelement.IsUploading = false;
             }
 
             Log.Info(string.Format("FileUpload: Total {0} files are already scheduled.", scheduleList.Count));
@@ -117,7 +116,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
 
             ColloSysEnums.FileType fileType;
             var currentExtension = Path.GetExtension(fileName);
-            if (currentExtension != null) currentExtension = currentExtension.Replace(".", "");
+            currentExtension = currentExtension.Replace(".", "");
 
             if ((!Enum.TryParse(currentExtension, true, out fileType)) || (fileDetails.FileType != fileType))
             {
@@ -297,6 +296,7 @@ namespace ColloSys.UserInterface.Areas.FileUploader.Models
         public ColloSysEnums.UploadStatus FileStatus { get; set; }
         public bool HasError { get; set; }
         public string ErrorMessage { get; set; }
+        public bool IsUploading { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 
