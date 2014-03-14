@@ -122,30 +122,6 @@
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
     <Compile Include="appCode\NLogSetup.cs" />
-    <Compile Include="Developer\downloadtables\DatabaseTablesApiController.cs" />
-    <Compile Include="Developer\generatedb\CreateDb.cs" />
-    <Compile Include="Developer\generatedb\DbGenerationApiController.cs" />
-    <Compile Include="Developer\generatedb\Excel2Db\BulkCopy.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\generatedb\Excel2Db\Excel2Db.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\generatedb\Excel2Db\ExcelReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\generatedb\Excel2Db\InitialData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\generatedb\Excel2Db\InitStakeholder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\generatedb\Excel2Db\ResourceReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Developer\logdownload\LogDownloadApiController.cs" />
-    <Compile Include="Developer\logdownload\LogFileModel.cs" />
-    <Compile Include="Developer\logdownload\LogFileViewModel.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnViewModel.cs" />
     <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
@@ -156,29 +132,10 @@
     <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
     <Compile Include="FileUpload\fileuploadtest\FileTransferController.cs" />
-    
-    <Compile Include="Generic\connection\ConnectionApiController.cs" />
-    <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
-    <Compile Include="Generic\connection\Cryptography.cs" />
-    <Compile Include="Generic\keyvalue\KeyValueApiController.cs" />
-    <Compile Include="Generic\permissionscreen\PermissionScreenApiController.cs" />
-    <Compile Include="Generic\permission\PermisionData.cs" />
-    <Compile Include="Generic\permission\PermissionApiController.cs" />
-    <Compile Include="Generic\pincode\PincodeApiController.cs" />
-    <Compile Include="Generic\pincode\pincodeData.cs" />
-    <Compile Include="Generic\product\ProductConfigApiController.cs" />
-    <Compile Include="Generic\profile\ProfileApiController.cs" />
-    <Compile Include="Generic\query\ExecuteQueryApiController.cs" />
-    <Compile Include="Generic\query\Executer.cs" />
-    <Compile Include="Generic\query\QueryResult.cs" />
-
-    
-
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\GridApiController.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
@@ -214,9 +171,6 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
-    <Content Include="Developer\downloadtables\DatabaseTablesCtrl.js" />
-    <Content Include="Developer\generatedb\GenerateDB.js" />
-    <Content Include="Developer\logdownload\LogDownload.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -228,17 +182,6 @@
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
-
-    <Content Include="Generic\connection\connectionConfig.js" />
-    <Content Include="Generic\general\generalConfig.js" />
-    <Content Include="Generic\keyvalue\keyValueCtrl.js" />
-    <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
-    <Content Include="Generic\permission\stakePermission.js" />
-    <Content Include="Generic\pincode\pincodeCtrl.js" />
-    <Content Include="Generic\product\ProductConfigModel.js" />
-    <Content Include="Generic\profile\UserProfile.js" />
-    <Content Include="Generic\query\QueryExecuter.js" />
-
     <Content Include="FileUpload\fileuploadtest\file-upload-test.html" />
     <Content Include="FileUpload\fileuploadtest\fileuploadtest.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
@@ -247,7 +190,6 @@
     <Content Include="Scripts\file-upload\angular-file-upload-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload.js" />
     <Content Include="Scripts\file-upload\angular-file-upload.min.js" />
-
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.js" />
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
@@ -323,19 +265,6 @@
     <Content Include="FileUpload\filecolumn\file-column.html" />
     <Content Include="FileUpload\filemapping\file-mapping.html" />
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
-    <Content Include="Generic\connection\connection.html" />
-    <Content Include="Generic\general\index.html" />
-    <Content Include="Generic\keyvalue\keyvalue.html" />
-    <Content Include="Generic\permission\permission.html" />
-    <Content Include="Generic\permissionscreen\permissionscreen.html" />
-    <Content Include="Generic\pincode\pincode.html" />
-    <Content Include="Generic\product\product.html" />
-    <Content Include="Generic\profile\userprofile.html" />
-    <Content Include="Generic\query\query.html" />
-    <Content Include="Developer\viewtables\viewtables.html" />
-    <Content Include="Developer\downloadtables\downloadtables.html" />
-    <Content Include="Developer\generatedb\generatedb.html" />
-    <Content Include="Developer\logdownload\logdownload.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
