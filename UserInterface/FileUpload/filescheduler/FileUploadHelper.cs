@@ -2,9 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Web;
+using System.Net.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
@@ -12,6 +13,7 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.UserInterface.Shared;
+using Newtonsoft.Json;
 using NLog;
 
 #endregion
@@ -36,19 +38,18 @@ namespace AngularUI.FileUpload.filescheduler
 
             foreach (var fileDetail in allFiles)
             {
-                var aliasName = Enum.GetName(typeof(ColloSysEnums.FileAliasName), fileDetail.AliasName);
                 for (var i = 0; i < fileDetail.FileCount; i++)
                 {
                     fileList.Add(new ScheduledFiles
                     {
-                        AliasName = i + "_" + aliasName,
+                        AliasName = fileDetail.AliasName,
                         FileName = fileDetail.FileName,
                         FileSize = 0,
                         FileStatus = ColloSysEnums.UploadStatus.Error,
                         IsScheduled = false,
                         HasError = false,
                         ErrorMessage = string.Empty,
-                        IsUploading = false
+                        FileType = fileDetail.FileType
                     });
                 }
             }
@@ -60,12 +61,8 @@ namespace AngularUI.FileUpload.filescheduler
 
             foreach (var fileScheduler in scheduleList)
             {
-                var aliasName = Enum.GetName(typeof(ColloSysEnums.FileAliasName), fileScheduler.FileDetail.AliasName);
-                var listelement = fileList.First(x =>
-                                                 x.AliasName.Substring(
-                                                     x.AliasName.IndexOf("_", StringComparison.Ordinal) + 1) ==
-                                                 aliasName &&
-                                                 x.IsScheduled == false);
+                var listelement = fileList.First(x => x.AliasName == fileScheduler.FileDetail.AliasName &&
+                                                      x.IsScheduled == false);
                 listelement.FileName = fileScheduler.FileName;
                 listelement.FileSize = fileScheduler.FileSize;
                 listelement.FileStatus = fileScheduler.UploadStatus;
@@ -73,7 +70,7 @@ namespace AngularUI.FileUpload.filescheduler
                 listelement.IsScheduled = true;
                 listelement.HasError = false;
                 listelement.ErrorMessage = string.Empty;
-                listelement.IsUploading = false;
+                listelement.FileType = fileScheduler.FileDetail.FileType;
             }
 
             Log.Info(string.Format("FileUpload: Total {0} files are already scheduled.", scheduleList.Count));
@@ -85,57 +82,14 @@ namespace AngularUI.FileUpload.filescheduler
 
         #region schedule file
 
-        public static bool ScheduleFile(string requestFile, string aliasName, string directory,
-                    HttpPostedFileBase file, FileUploadViewModel scheduledFiles)
+        public static bool ScheduleFile(FileUploadViewModel scheduledFiles, ScheduledFiles schedulerInfo, string directory)
         {
-            //get alias name
-            if (string.IsNullOrWhiteSpace(aliasName))
-            {
-                return false;
-            }
-            var fileAliasName = (ColloSysEnums.FileAliasName)
-                        Enum.Parse(typeof(ColloSysEnums.FileAliasName), aliasName, true);
-
             // get file details
-            var fileDetails = FileDetailBuilder.OnAliasName(fileAliasName);
+            var fileDetails = FileDetailBuilder.OnAliasName(schedulerInfo.AliasName);
             if (fileDetails == null)
             {
                 Log.Fatal("Scheduling files : Received null file details, should never happen.");
-                throw new InvalidDataException("Database Issue. File Details must have details for alias : " + aliasName);
-            }
-
-            //get the file
-            var sfile = scheduledFiles.ScheduleInfo.First(x => x.AliasName == requestFile);
-
-            // check extension
-            var fileName = Path.GetFileName(file.FileName);
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                return false;
-            }
-
-            ColloSysEnums.FileType fileType;
-            var currentExtension = Path.GetExtension(fileName);
-            currentExtension = currentExtension.Replace(".", "");
-
-            if ((!Enum.TryParse(currentExtension, true, out fileType)) || (fileDetails.FileType != fileType))
-            {
-                var expectedExtension = Enum.GetName(typeof(ColloSysEnums.FileType), fileDetails.FileType);
-                sfile.HasError = true;
-                sfile.ErrorMessage = "Please provide file with '" + expectedExtension + "' extensions only.";
-                return false;
-            }
-
-            //check duplicate
-            var isduplicate = scheduledFiles.ScheduleInfo.Any(f =>
-                                                              (!string.IsNullOrWhiteSpace(f.FileName)) &&
-                                                              (f.IsScheduled) &&
-                                                              (f.FileName.Substring(16) == file.FileName));
-            if (isduplicate)
-            {
-                sfile.HasError = true;
-                sfile.ErrorMessage = string.Format("File with name {0} is already scheduled.", file.FileName);
-                return false;
+                throw new InvalidDataException("Database Issue. File Details must have details for alias : " + schedulerInfo.AliasName);
             }
 
             // check duplicate by name & size
@@ -145,21 +99,22 @@ namespace AngularUI.FileUpload.filescheduler
                                        ? DateTime.Today.AddDays(-28)
                                        : DateTime.Today.AddDays(-120));
             //FileScheduler queryobj = null;
-            var wasScheduled = FileSchedulerBuilder.Count(fileAliasName, (ulong) file.ContentLength, checkdate,
-                                                          file.FileName);
+            var file = new FileInfo(schedulerInfo.UploadPath);
+            var wasScheduled = FileSchedulerBuilder.Count(schedulerInfo.AliasName, (ulong)file.Length, checkdate,
+                                                          file.Name);
             if (wasScheduled > 0)
             {
                 var checkcount = (fileDetails.Frequency == ColloSysEnums.FileFrequency.Daily) ? 10 : 5;
-                sfile.HasError = true;
-                sfile.ErrorMessage =
+                schedulerInfo.HasError = true;
+                schedulerInfo.ErrorMessage =
                     string.Format("warning: File with same name {0} & size was found in last {1} uploads." +
                                   "\n if thats conincidence, please rename the file and reupload.",
-                                  file.FileName, checkcount);
+                                  file.Name, checkcount);
                 return false;
             }
 
             //save the file
-            directory += aliasName.ToUpperInvariant();
+            directory += schedulerInfo.AliasName.ToString().ToUpperInvariant();
             try
             {
                 if (!Directory.Exists(directory))
@@ -169,27 +124,18 @@ namespace AngularUI.FileUpload.filescheduler
             }
             catch (Exception)
             {
-                sfile.HasError = true;
-                sfile.ErrorMessage = "Not able to create directory '" + directory + "' for writing.";
+                schedulerInfo.HasError = true;
+                schedulerInfo.ErrorMessage = "Not able to create directory '" + directory + "' for writing.";
                 Log.Error("Scheduling files : not able to access the directory." + directory);
                 return false;
             }
 
-            fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss_") + fileName;
+            var fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss_") + file.Name;
             var path = Path.Combine(directory, fileName);
 
-            Log.Info("Scheduling files : saving file - " + aliasName + ", filesize : "
-                + Utilities.ByteSize(file.ContentLength));
-            file.SaveAs(path);
-
-            var checkFileInfo = new FileInfo(path);
-            if (!checkFileInfo.Exists || checkFileInfo.Length != file.ContentLength)
-            {
-                sfile.HasError = true;
-                sfile.ErrorMessage = "Not able to save files to '" + directory + "'.";
-                Log.Fatal("Scheduling files : file has been moved from its location : " + fileName);
-                return false;
-            }
+            Log.Info("Scheduling files : saving file - " + schedulerInfo.AliasName + ", filesize : "
+                + Utilities.ByteSize(file.Length));
+            file.MoveTo(path);
 
             // immediate reason
             if (scheduledFiles.IsImmediate && scheduledFiles.ImmediateReason != null)
@@ -199,7 +145,7 @@ namespace AngularUI.FileUpload.filescheduler
             }
 
             // save file schedulers
-            var fileschedule = CreateFileScheduler(directory, (ulong)file.ContentLength,
+            var fileschedule = CreateFileScheduler(directory, (ulong)file.Length,
                                     scheduledFiles, fileDetails, fileName);
             try
             {
@@ -208,20 +154,17 @@ namespace AngularUI.FileUpload.filescheduler
             }
             catch (Exception ex)
             {
-                sfile.HasError = true;
-                sfile.ErrorMessage = "Not able to schedule file: '" + fileName + "'.\n" + ex.Message;
+                schedulerInfo.HasError = true;
+                schedulerInfo.ErrorMessage = "Not able to schedule file: '" + fileName + "'.\n" + ex.Message;
                 return false;
             }
 
             // add to file upload view model
-            sfile.AliasName = aliasName;
-            sfile.FileName = fileschedule.FileName;
-            sfile.FileSize = (ulong)file.ContentLength;
-            sfile.FileStatus = fileschedule.UploadStatus;
-            sfile.ScheduleDate = fileschedule.StartDateTime;
-            sfile.IsScheduled = true;
-            sfile.HasError = false;
-            sfile.ErrorMessage = string.Empty;
+            schedulerInfo.FileStatus = fileschedule.UploadStatus;
+            schedulerInfo.ScheduleDate = fileschedule.StartDateTime;
+            schedulerInfo.IsScheduled = true;
+            schedulerInfo.HasError = false;
+            schedulerInfo.ErrorMessage = string.Empty;
 
             return true;
         }
@@ -268,6 +211,50 @@ namespace AngularUI.FileUpload.filescheduler
         }
 
         #endregion
+
+        #region file reader
+
+        public static MultipartFormDataStreamProvider GetMultipartProvider()
+        {
+            var uploadFolder = Path.GetTempPath();
+            return new MultipartFormDataStreamProvider(uploadFolder);
+        }
+
+        // Extracts Request FormatData as a strongly typed model
+        public static T GetFormData<T>(MultipartFormDataStreamProvider result) where T:class 
+        {
+            if (!result.FormData.HasKeys()) return null;
+            var values = result.FormData.GetValues(0);
+            if (values == null) return null;
+            var unescapedFormData = Uri.UnescapeDataString(values.FirstOrDefault() ?? String.Empty);
+            if (String.IsNullOrEmpty(unescapedFormData)) return null;
+            return JsonConvert.DeserializeObject<T>(unescapedFormData);
+        }
+
+        public static string GetDeserializedFileName(MultipartFileData fileData)
+        {
+            var fileName = GetFileName(fileData);
+            return JsonConvert.DeserializeObject(fileName).ToString();
+        }
+
+        public static string GetFileName(MultipartFileData fileData)
+        {
+            return fileData.Headers.ContentDisposition.FileName;
+        }
+
+        public static FileInfo MoveToTemp(MultipartFormDataStreamProvider result)
+        {
+            var originalFileName = GetDeserializedFileName(result.FileData.First());
+            var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
+            string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
+            var folder = Directory.CreateDirectory(Path.GetTempPath() + "/" + timestamp);
+            if(folder.Exists) folder.Create();
+            var filename = folder.FullName + "/" + originalFileName;
+            uploadedFileInfo.MoveTo(filename);
+            return uploadedFileInfo;
+        }
+
+        #endregion
     }
 
     #region supporting structures
@@ -288,7 +275,8 @@ namespace AngularUI.FileUpload.filescheduler
     public class ScheduledFiles
     {
         // ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string AliasName { get; set; }
+        public ColloSysEnums.FileAliasName AliasName { get; set; }
+        public ColloSysEnums.FileType FileType { get; set; }
         public bool IsScheduled { get; set; }
         public DateTime ScheduleDate { get; set; }
         public string FileName { get; set; }
@@ -296,7 +284,7 @@ namespace AngularUI.FileUpload.filescheduler
         public ColloSysEnums.UploadStatus FileStatus { get; set; }
         public bool HasError { get; set; }
         public string ErrorMessage { get; set; }
-        public bool IsUploading { get; set; }
+        public string UploadPath { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 

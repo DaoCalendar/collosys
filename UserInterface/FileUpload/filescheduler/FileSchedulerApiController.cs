@@ -3,9 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Net.Cache;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
@@ -13,7 +15,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.SharedUtils;
-using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
@@ -46,109 +47,84 @@ namespace AngularUI.FileUpload.filescheduler
         }
 
         [HttpPost]
-        public HttpResponseMessage Upload(FileUploadViewModel scheduledFiles)
+        public async Task<HttpResponseMessage> SaveFileOnServer()
         {
             if (!Request.Content.IsMimeMultipartContent())
-            {
                 Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
-            }
 
-            //// init schedule info from db, just to be safe ;)
-            //var duplicateName = GetDuplicateFileNames();
+            var provider = FileUploadHelper.GetMultipartProvider();
 
-            //foreach (string requestFile in Request.Files)
-            //{
-            //    HttpPostedFileBase file;
-            //    if (requestFile.IndexOf("_", StringComparison.Ordinal) < 1)
-            //    {
-            //        throw new InvalidProgramException("Invalid alias name. it must be prepended with index.");
-            //    }
+            var result = await Request.Content.ReadAsMultipartAsync(provider);
+            var fileInfo = FileUploadHelper.MoveToTemp(result);
 
-            //    var aliasName = requestFile.Substring(requestFile.IndexOf("_", StringComparison.Ordinal) + 1);
-            //    if (IsInvalidFile(scheduledFiles, requestFile, aliasName, duplicateName, out file))
-            //        continue;
+            var pageData = FileUploadHelper.GetFormData<ScheduledFiles>(result);
+            pageData.UploadPath = fileInfo.FullName;
+            pageData.FileName = fileInfo.Name;
 
-            //    // schedule the file
-            //    var path = ColloSysParam.WebParams.UploadPath;
-            //    var directory = Path.IsPathRooted(path) ? path : Server.MapPath(path);
-            //    FileUploadHelper.ScheduleFile(requestFile, aliasName, directory, file, scheduledFiles);
-            //}
-
-            return Request.CreateResponse(HttpStatusCode.OK, scheduledFiles);
+            return Request.CreateResponse(HttpStatusCode.OK, pageData);
         }
 
+        [HttpPost]
+        public HttpResponseMessage Upload(FileUploadViewModel scheduledFiles)
+        {
+            var duplicateName = StringUtils.GetDuplicates(scheduledFiles.ScheduleInfo.Select(x => x.FileName).ToList());
 
+            foreach (var schedulerInfo in scheduledFiles.ScheduleInfo.Where( x=> !x.IsScheduled))
+            {
+                if (IsInvalidFile(schedulerInfo, duplicateName))
+                    continue;
 
-        //private bool IsInvalidFile(FileUploadViewModel scheduledFiles, string requestFile,
-        //    string aliasName, ICollection<string> duplicateName,
-        //    Dictionary<string, HttpPostedFileBase> requestedFiles, out HttpPostedFileBase file)
-        //{
-        //    // check that file is not already scheduled
-        //    ColloSysEnums.FileAliasName name;
-        //    if (!Enum.TryParse(aliasName, true, out name))
-        //    {
-        //        throw new InvalidDataException("Alias name must be from enum.");
-        //    }
+                // schedule the file
+                var path = ColloSysParam.WebParams.UploadPath;
+                var directory = Path.IsPathRooted(path) ? path : HostingEnvironment.MapPath(path);
+                FileUploadHelper.ScheduleFile(scheduledFiles, schedulerInfo, directory);
+            }
 
-        //    // get the non-empty valid file
-        //    file = requestedFiles[requestFile];
-        //    if (file == null)
-        //    {
-        //        _log.Fatal("Scheduling files : Received null file, should never happen.");
-        //        return true;
-        //    }
+            return Request.CreateResponse(HttpStatusCode.OK,scheduledFiles);
+        }
 
-        //    if (scheduledFiles.ScheduleInfo.Count(x => x.AliasName == requestFile && x.IsScheduled) > 0)
-        //    {
-        //        _log.Info(string.Format("'{0}' file is already scheduled.", requestFile));
-        //        return true;
-        //    }
+        private bool IsInvalidFile(ScheduledFiles scheduledFiles, IList<string> duplicateName)
+        {
+            // get the non-empty valid file
+            var file = new FileInfo(scheduledFiles.UploadPath);
+            if (!file.Exists)
+            {
+                scheduledFiles.HasError = true;
+                scheduledFiles.ErrorMessage = "File has been removed from the server!!!";
+            }
 
-        //    var sfile = scheduledFiles.ScheduleInfo.First(x => x.AliasName == requestFile);
-        //    if (string.IsNullOrWhiteSpace(file.FileName))
-        //    {
-        //        sfile.HasError = true;
-        //        sfile.ErrorMessage = string.Empty;
-        //        return true;
-        //    }
+            if (string.IsNullOrWhiteSpace(file.Name))
+            {
+                scheduledFiles.HasError = true;
+                scheduledFiles.ErrorMessage = string.Empty;
+                return true;
+            }
 
-        //    if (duplicateName.Contains(file.FileName))
-        //    {
-        //        sfile.HasError = true;
-        //        sfile.ErrorMessage = string.Format("File '{0}' is provided multiple times", file.FileName);
-        //        return true;
-        //    }
+            if (file.Length == 0)
+            {
+                scheduledFiles.HasError = true;
+                scheduledFiles.ErrorMessage = "Please provide non-empty file.";
+                return true;
+            }
 
-        //    if (file.ContentLength == 0)
-        //    {
-        //        sfile.HasError = true;
-        //        sfile.ErrorMessage = "Please provide non-empty file.";
-        //        return true;
-        //    }
+            if (duplicateName.Contains(file.Name))
+            {
+                scheduledFiles.HasError = true;
+                scheduledFiles.ErrorMessage = string.Format("File '{0}' is provided multiple times", file.Name);
+                return true;
+            }
 
-        //    if (string.IsNullOrWhiteSpace(Path.GetFileName(file.FileName)))
-        //    {
-        //        sfile.HasError = true;
-        //        sfile.ErrorMessage = "Please provide file with valid name.";
-        //        _log.Fatal("Scheduling files : Received empty filename, should never happen.");
-        //        return true;
-        //    }
+            // check extension
+            ColloSysEnums.FileType fileType;
+            if ((!Enum.TryParse(file.Extension.Replace(".", ""), true, out fileType)) || (scheduledFiles.FileType != fileType))
+            {
+                var expectedExtension = Enum.GetName(typeof(ColloSysEnums.FileType), scheduledFiles.FileType);
+                scheduledFiles.HasError = true;
+                scheduledFiles.ErrorMessage = "Please provide file with '" + expectedExtension + "' extensions only.";
+                return true;
+            }
 
-        //    return false;
-        //}
-
-        //private IList<string> GetDuplicateFileNames(IReadOnlyDictionary<string, HttpPostedFileBase> fileList)
-        //{
-
-        //    IList<string> fileNames = (from string requestFile in fileList
-        //                               select fileList[requestFile]
-        //                                   into file
-        //                                   where (file != null) && (!string.IsNullOrWhiteSpace(file.FileName))
-        //                                   select file.FileName)
-        //        .ToList();
-
-        //    return StringUtils.GetDuplicates(fileNames);
-        //}
-
+            return false;
+        }
     }
 }
