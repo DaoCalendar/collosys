@@ -130,12 +130,12 @@ namespace AngularUI.FileUpload.filescheduler
                 return false;
             }
 
-            var fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss_") + file.Name;
-            var path = Path.Combine(directory, fileName);
-
+            var path = Path.Combine(directory, DateTime.Now.ToString("yyyyMMdd_HHmmss_") + file.Name);
             Log.Info("Scheduling files : saving file - " + schedulerInfo.AliasName + ", filesize : "
                 + Utilities.ByteSize(file.Length));
             file.MoveTo(path);
+            schedulerInfo.UploadPath = file.FullName;
+            schedulerInfo.FileName = file.Name;
 
             // immediate reason
             if (scheduledFiles.IsImmediate && scheduledFiles.ImmediateReason != null)
@@ -146,16 +146,23 @@ namespace AngularUI.FileUpload.filescheduler
 
             // save file schedulers
             var fileschedule = CreateFileScheduler(directory, (ulong)file.Length,
-                                    scheduledFiles, fileDetails, fileName);
+                                    scheduledFiles, fileDetails, schedulerInfo.FileName);
             try
             {
-                SessionManager.GetCurrentSession().SaveOrUpdate(fileschedule);
-                Log.Info("Scheduling files : file has been scheduled : " + fileName);
+                using (var session = SessionManager.GetNewSession())
+                {
+                    using (var tx = session.BeginTransaction())
+                    {
+                        session.SaveOrUpdate(fileschedule);
+                        tx.Commit();
+                    }
+                }
+                Log.Info("Scheduling files : file has been scheduled : " + schedulerInfo.FileName);
             }
             catch (Exception ex)
             {
                 schedulerInfo.HasError = true;
-                schedulerInfo.ErrorMessage = "Not able to schedule file: '" + fileName + "'.\n" + ex.Message;
+                schedulerInfo.ErrorMessage = "Not able to schedule file: '" + schedulerInfo.FileName + "'.\n" + ex.Message;
                 return false;
             }
 
@@ -247,9 +254,9 @@ namespace AngularUI.FileUpload.filescheduler
             var originalFileName = GetDeserializedFileName(result.FileData.First());
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
             string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
-            var folder = Directory.CreateDirectory(Path.GetTempPath() + "/" + timestamp);
+            var folder = Directory.CreateDirectory(Path.GetTempPath() + @"\" + timestamp);
             if(folder.Exists) folder.Create();
-            var filename = folder.FullName + "/" + originalFileName;
+            var filename = folder.FullName + @"\" + originalFileName;
             uploadedFileInfo.MoveTo(filename);
             return uploadedFileInfo;
         }

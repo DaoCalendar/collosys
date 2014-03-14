@@ -263,8 +263,4 @@ csapp.controller('RootCtrl', ["$rootScope", "$csStopWatch", function ($rootScope
             $rootScope.loadingElement.loadingElementText = "processing...";
         }
     });
-
-    $rootScope.hideSpiner = function () {
-        $rootScope.loadingElement.disableSpiner = true;
-    };
 }]);

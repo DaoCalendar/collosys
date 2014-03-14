@@ -64,7 +64,7 @@
                 <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
                     <div class="control-group row-fluid">
                         <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
-                        <div class="">
+                        <div data-ng-hide="file.IsUploading">
                             <div class="span4">
                                 <input type="file" ng-file-select="onFileSelect(file, $files, $index)" />
                             </div>
@@ -72,6 +72,9 @@
                             <div class="offset1 span4">
                                 <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
                             </div>
+                        </div>
+                        <div class="span6" data-ng-show="file.IsUploading">
+                            <progressbar class="progress-striped active" value="file.UploadPercent" type="success"></progressbar>
                         </div>
                     </div>
 
@@ -117,7 +120,7 @@
         <!-- post the form -->
         <div class="text-center" data-ng-show="hasUnscheduledFiles">
             <hr />
-            <button class="btn btn-success upload-submit" data-ng-disabled="validatePage()" type="submit" data-ng-click="showProgressBar">Schedule Files</button>
+            <button class="btn btn-success" data-ng-disabled="validatePage()" data-ng-click="scheduleFiles()">Schedule Files</button>
         </div>
 
         <!-- END -->

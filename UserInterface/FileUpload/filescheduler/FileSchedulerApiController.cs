@@ -59,17 +59,29 @@ namespace AngularUI.FileUpload.filescheduler
 
             var pageData = FileUploadHelper.GetFormData<ScheduledFiles>(result);
             pageData.UploadPath = fileInfo.FullName;
-            pageData.FileName = fileInfo.Name;
+            //pageData.FileName = DateTime.Now.ToString("yyyyMMdd_HHmmss_") + fileInfo.Name;
+            pageData.FileSize = (ulong)fileInfo.Length;
 
             return Request.CreateResponse(HttpStatusCode.OK, pageData);
         }
 
         [HttpPost]
+        [HttpTransaction]
         public HttpResponseMessage Upload(FileUploadViewModel scheduledFiles)
         {
-            var duplicateName = StringUtils.GetDuplicates(scheduledFiles.ScheduleInfo.Select(x => x.FileName).ToList());
+            var filenameslist = new List<string>();
+            filenameslist.AddRange(scheduledFiles.ScheduleInfo.
+                Where(x => x.IsScheduled)
+                .Select(x => x.FileName.Substring(16))
+                .ToList());
+            filenameslist.AddRange(scheduledFiles.ScheduleInfo
+                .Where(x => !x.IsScheduled && string.IsNullOrWhiteSpace(x.FileName))
+                .Select(x => new FileInfo(x.UploadPath).Name)
+                .ToList());
+            var duplicateName = StringUtils.GetDuplicates(filenameslist);
 
-            foreach (var schedulerInfo in scheduledFiles.ScheduleInfo.Where( x=> !x.IsScheduled))
+            foreach (var schedulerInfo in scheduledFiles.ScheduleInfo.Where(x => !x.IsScheduled
+                && !string.IsNullOrWhiteSpace(x.UploadPath)))
             {
                 if (IsInvalidFile(schedulerInfo, duplicateName))
                     continue;
@@ -80,7 +92,7 @@ namespace AngularUI.FileUpload.filescheduler
                 FileUploadHelper.ScheduleFile(scheduledFiles, schedulerInfo, directory);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK,scheduledFiles);
+            return Request.CreateResponse(HttpStatusCode.OK, scheduledFiles);
         }
 
         private bool IsInvalidFile(ScheduledFiles scheduledFiles, IList<string> duplicateName)

@@ -1,4 +1,8 @@
-﻿csapp.factory("$csfactory", ["$csConstants", function(consts) {
+﻿csapp.factory("$csfactory", ["$csConstants", "$rootScope", function(consts, $rootScope) {
+
+    var hideSpinner = function () {
+        $rootScope.loadingElement.disableSpiner = true;
+    };
 
     var isNullOrEmptyString = function(val) {
 
@@ -64,7 +68,8 @@
         isNullOrEmptyString: isNullOrEmptyString,
         isNullOrEmptyGuid: isNullOrEmptyGuid,
         getDefaultGuid: getDefaultGuid,
-        isEmptyObject: isEmptyObject
+        isEmptyObject: isEmptyObject,
+        hideSpinner: hideSpinner
     };
 }]);
 
