@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
+using ColloSys.Shared.ErrorTables;
 using NLog;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;

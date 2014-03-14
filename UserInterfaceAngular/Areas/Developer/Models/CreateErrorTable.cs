@@ -7,6 +7,7 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploadService.BaseReader;
+using ColloSys.Shared.ErrorTables;
 using ColloSys.Shared.SharedUtils;
 using NLog;
 

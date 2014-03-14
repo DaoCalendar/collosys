@@ -144,33 +144,50 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/summary/index.html',
                     controller: 'BillAmountCntrl'
 
-                }).when('', {
-                    templateUrl: '',
-                    controller:''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
-                }).when('', {
-                    templateUrl: '',
-                    controller: ''
+                }).when('/generic/permission', {
+                    templateUrl: '/Generic/permission/permission.html',
+                    controller: 'stkPermissionCtrl'
+                    
+                }).when('/generic/permissionscreen', {
+                    templateUrl: '/Generic/permissionscreen/permissionscreen.html',
+                    controller: 'stkPermissionCtrl'
+                    
+                }).when('/generic/product', {
+                    templateUrl: '/Generic/product/product.html',
+                    controller: 'ProductConfigController'
+                    
+                }).when('/generic/keyvalue', {
+                    templateUrl: '/Generic/keyvalue/keyvalue.html',
+                    controller: 'keyValueCtrl'
+                    
+                }).when('/developer/logdownload', {
+                    templateUrl: '/Developer/logdownload/logdownload.html',
+                    controller: 'logdownloadCtrl'
+                    
+                }).when('/generic/connection', {
+                    templateUrl: '/Generic/connection/connection.html',
+                    controller: 'connection'
+                    
+                }).when('/developer/generatedb', {
+                    templateUrl: '/Developer/generatedb/generatedb.html',
+                    controller: 'DbGenerationController'
+                    
+                }).when('/developer/viewtables', {
+                    templateUrl: '/Developer/viewtables/viewtables.html',
+                    controller: 'databaseTablesCtrl'
+                    
+                }).when('/developer/downloadtables', {
+                    templateUrl: '/Developer/downloadtables/downloadtables.html',
+                    controller: 'databaseTablesCtrl'
+                    
+                }).when('/generic/query', {
+                    templateUrl: '/Generic/query/query.html',
+                    controller: 'QueryExecuterCntrl'
+                    
+                }).when('/generic/profile', {
+                    templateUrl: '/Generic/profle/userprofile.html',
+                    controller: 'ProfileController'
+                    
                 })
                 .otherwise({
                     redirectTo: '/'

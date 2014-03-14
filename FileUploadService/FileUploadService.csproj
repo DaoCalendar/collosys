@@ -85,7 +85,8 @@
       <HintPath>..\SharedLib\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\SharedLib\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Administrator.AST001-PC\Documents\GitHub\collosys\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Extended">
       <HintPath>..\SharedLib\NLog.Extended.2.1.0.1\lib\net45-full\NLog.Extended.dll</HintPath>
@@ -160,7 +161,6 @@
     <Compile Include="UtilityClasses\MultiKeyEntityList.cs" />
     <Compile Include="UtilityClasses\SaveEditedErrorRecord.cs" />
     <Compile Include="UtilityClasses\SqlDataLayer.cs" />
-    <Compile Include="UtilityClasses\UploaderConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ColloSys.DataLayer.Services\ColloSys.DataLayer.Services.csproj">

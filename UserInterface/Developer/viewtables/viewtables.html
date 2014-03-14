@@ -1,0 +1,20 @@
+﻿<div data-ng-controller="databaseTablesCtrl">
+    <div class="row-fluid form-horizontal">
+        <div class="row">
+            <div class="control-group">
+                <label class="control-label">Tables</label>
+                <div class="controls">
+                    <select data-ng-model="selectedTable" class="input-large" data-ng-change="fetchData()" data-ui-select2="">
+                        <option value=""></option>
+                        <option data-ng-repeat="s in dbTables | orderBy: 'toString()'">{{s}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+        <div class="row" data-ng-include="../Shared/templates/displayGridOptions.html"></div>
+        <div style="height: 500px" data-ng-grid="gridOptions"></div>
+    </div>
+
+</div>

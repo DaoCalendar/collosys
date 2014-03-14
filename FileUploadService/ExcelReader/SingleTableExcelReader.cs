@@ -11,6 +11,7 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.FileUploadService.UtilityClasses;
+using ColloSys.Shared.ErrorTables;
 using NLog;
 
 #endregion

@@ -1,5 +1,5 @@
 ﻿
-namespace ColloSys.FileUploadService.BaseReader
+namespace ColloSys.Shared.ErrorTables
 {
     public static class UploaderConstants
     {

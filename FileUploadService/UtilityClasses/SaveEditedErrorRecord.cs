@@ -5,6 +5,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
 using ColloSys.FileUploadService.ExcelReader;
+using ColloSys.Shared.ErrorTables;
 using NHibernate.Transform;
 
 namespace ColloSys.FileUploadService.BaseReader
