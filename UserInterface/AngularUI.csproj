@@ -155,6 +155,8 @@
     <Compile Include="FileUpload\filescheduler\FileSchedulerApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
+    <Compile Include="FileUpload\fileuploadtest\FileTransferController.cs" />
+    
     <Compile Include="Generic\connection\ConnectionApiController.cs" />
     <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
     <Compile Include="Generic\connection\Cryptography.cs" />
@@ -169,6 +171,9 @@
     <Compile Include="Generic\query\ExecuteQueryApiController.cs" />
     <Compile Include="Generic\query\Executer.cs" />
     <Compile Include="Generic\query\QueryResult.cs" />
+
+    
+
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -223,6 +228,7 @@
     <Content Include="FileUpload\filemapping\file-mapping-list.html" />
     <Content Include="FileUpload\filemapping\filemapping.js" />
     <Content Include="FileUpload\filescheduler\filescheduler.js" />
+
     <Content Include="Generic\connection\connectionConfig.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
@@ -232,9 +238,21 @@
     <Content Include="Generic\product\ProductConfigModel.js" />
     <Content Include="Generic\profile\UserProfile.js" />
     <Content Include="Generic\query\QueryExecuter.js" />
+
+    <Content Include="FileUpload\fileuploadtest\file-upload-test.html" />
+    <Content Include="FileUpload\fileuploadtest\fileuploadtest.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload-shim.min.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload.js" />
+    <Content Include="Scripts\file-upload\angular-file-upload.min.js" />
+
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.js" />
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
+    <Content Include="Scripts\file-upload\FileAPI.flash.swf" />
+    <Content Include="Scripts\file-upload\FileAPI.min.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />

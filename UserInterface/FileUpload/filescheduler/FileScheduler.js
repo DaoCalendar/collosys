@@ -37,6 +37,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
     function ($scope, $filter, $csfactory, $csnotify, datalayer) {
         "use strict";
 
+        //#region helpers
         $scope.ResetPage = function () {
             $scope.SelectedDate = null;
             $scope.fileScheduleDetails = {};
@@ -84,6 +85,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
                 $scope.hasScheduledFiles = false;
             }
         };
+        //#endregion
 
         //#region validate page
         $scope.validatePage = function () {

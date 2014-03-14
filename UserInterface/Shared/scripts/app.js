@@ -1,6 +1,6 @@
 ﻿
 var csapp = angular.module("ui.collosys",
-    ['ui.bootstrap', 'ui', 'ngUpload', 'ngGrid', 'restangular', "ngRoute"]);
+    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload"]);
 
 csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
     function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
@@ -96,6 +96,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'
+                }).when('/fileupload/testing', {
+                    templateUrl: '/FileUpload/fileuploadtest/file-upload-test.html',
+                    controller: 'fileUploadTestController'
                 }).when('/stakeholder/hierarchy', {
                     templateUrl: '/Stakeholder/hierarchy/add.html',
                     controller: 'EditHierarchy'
@@ -232,7 +235,6 @@ csapp.constant("$csConstants", {
         value: { Daily: "Daily", Weekly: "Weekly", Monthly: "Monthly" }
     }
 });
-
 
 csapp.controller("HomeCtrl", [
     function() {

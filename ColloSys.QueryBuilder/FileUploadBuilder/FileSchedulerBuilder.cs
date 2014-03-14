@@ -72,10 +72,10 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
         public IEnumerable<FileScheduler> OnSystemCategoryFileDate(ScbEnums.ScbSystems systems, ScbEnums.Category category, DateTime fileDate)
         {
             return SessionManager.GetCurrentSession().QueryOver<FileScheduler>()
+                                 .Fetch(x => x.FileDetail).Eager
                                  .Where(x => x.ScbSystems == systems)
                                  .And(x => x.Category == category)
                                  .And(x => x.FileDate == fileDate)
-                                 .Fetch(x => x.FileDetail).Eager
                                  .Skip(0).Take(500).List();
         }
 
