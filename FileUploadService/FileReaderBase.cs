@@ -172,7 +172,7 @@ namespace ColloSys.FileUploadService
             try
             {
                 // get file scheduler from db
-                var session = SessionManager.BindNewSession();
+                var session = SessionManager.GetCurrentSession();
                 var fileScheduler = session.QueryOver<FileScheduler>()
                                            .Fetch(x => x.FileDetail).Eager
                                            .Where(x => x.Id == scheduler.Id)

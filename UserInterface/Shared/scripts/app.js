@@ -89,7 +89,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     controller: 'fileColumnController'
                 }).when('/fileupload/filemapping', {
                     templateUrl: '/FileUpload/filemapping/file-mapping.html',
-                    controller: 'fileColumnController'
+                    controller: 'fileMappingController'
                 }).when('/fileupload/filescheduler', {
                     templateUrl: '/FileUpload/filescheduler/file-scheduler.html',
                     controller: 'fileSchedulerController'

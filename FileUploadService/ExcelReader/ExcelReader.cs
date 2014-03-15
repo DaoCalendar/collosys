@@ -338,7 +338,6 @@ namespace ColloSys.FileUploadService.ExcelReader
         }
         #endregion
 
-
         #region Retry Error Rows
         public bool RetryErrorRows()
         {
@@ -354,8 +353,6 @@ namespace ColloSys.FileUploadService.ExcelReader
                 return false;
             }
 
-            SessionManager.BindNewSession();
-
             foreach (DataRow errorRow in dataTable.Rows)
             {
                 SaveEditedErrorRecord.SaveErrorRow(Reader.UploadedFile.FileDetail.AliasName, errorRow, out errorMessage);
@@ -369,12 +366,10 @@ namespace ColloSys.FileUploadService.ExcelReader
                 dbLayer.UpdateErrorData(errorDictionary, out errorMessage);
             }
 
-            SessionManager.UnbindSession();
             return true;
         }
 
         #endregion
-
 
         #region locking/unlocking
         public void EnqueueRowList()

@@ -142,7 +142,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         [HttpGet]
         public HttpResponseMessage DownloadFile(string filename)
         {
-            filename = filename.Replace("\\\\", "\\").Replace("'", "");
+            filename = filename.Replace("\\\\", "\\").Replace("'", "").Replace("\"","");
             if (!char.IsLetter(filename[0]))
             {
                 filename = filename.Substring(2);

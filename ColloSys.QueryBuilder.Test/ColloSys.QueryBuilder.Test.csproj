@@ -80,6 +80,10 @@
       <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileUploadService\FileUploadService.csproj">
+      <Project>{0BC673FC-EB6C-4D50-8001-56273F9530A2}</Project>
+      <Name>FileUploadService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserInterfaceAngular\UserInterfaceAngular.csproj">
       <Project>{001B2F7C-1452-429F-BD60-4DB7D316EA77}</Project>
       <Name>UserInterfaceAngular</Name>

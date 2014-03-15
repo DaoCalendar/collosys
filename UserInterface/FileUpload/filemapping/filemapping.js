@@ -46,7 +46,7 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
         fileMapping.FileDetail = fileDetail;
 
         return restApi.customPOST(fileMapping, 'SaveMapping')
-            .then(function (data) {
+            .then(function () {
                 $csnotify.success("File Column Updated Successfully");
             }, errorDisplay);
     };
@@ -99,10 +99,9 @@ csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$mo
                     $modalInstance.close(data);
                 });
         };
-
     }]);
 
-csapp.controller("fileMappingCtrl", ["$scope", "fileMappingDataLayer", "$modal", function ($scope, datalayer, $modal) {
+csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", function ($scope, datalayer, $modal) {
     "use strict";
 
     (function () {

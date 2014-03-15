@@ -65,10 +65,11 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", function (rest
         var scheduler = [];
         scheduler.push(fileScheduler);
         dldata.isHttpCallInProgress = true;
-        restApi.customPOST(scheduler, "DownloadFile")
-            .then(function () { //success
+        return restApi.customPOST(scheduler, "DownloadFile")
+            .then(function (data) {
                 dldata.isHttpCallInProgress = false;
-            }, function (data) { //error
+                return data;
+            }, function (data) {
                 dldata.isHttpCallInProgress = false;
                 $csnotify.error(data.data);
             });
@@ -176,7 +177,11 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
             if (factory.refresh.suspend) return;
             factory.timer.update();
         };
-        $interval(updateTimer, 1000);
+
+        var interval = $interval(updateTimer, 1000);
+        $scope.$on('$destroy', function () {
+            $interval.cancel(interval);
+        });
         //#endregion
 
         //#region modal delete/reschedule/status
@@ -227,8 +232,9 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
 
         $scope.downloadOutput = function (filescheduler) {
             datalayer.GenerateExcel(filescheduler)
-                .then(function (filename) {
-                    $csfactory.downloadFile(filename);
+                .then(function (data) {
+                    console.log(data);
+                    $csfactory.downloadFile(data);
                 });
         };
 
