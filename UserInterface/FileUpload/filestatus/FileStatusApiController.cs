@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.FileUploadBuilder;
@@ -16,7 +18,7 @@ namespace AngularUI.FileUpload.filestatus
 {
     public class FileStatusApiController : ApiController
     {
-        private static readonly FileSchedulerBuilder FileSchedulerBuilder=new FileSchedulerBuilder();
+        private static readonly FileSchedulerBuilder FileSchedulerBuilder = new FileSchedulerBuilder();
         [HttpGet]
         [HttpTransaction]
         public IEnumerable<FileScheduler> Get()
@@ -26,7 +28,7 @@ namespace AngularUI.FileUpload.filestatus
 
         [HttpGet]
         [HttpTransaction]
-        public IEnumerable<FileScheduler> GetStatusByDate(string fromDate,string toDate)
+        public IEnumerable<FileScheduler> GetStatusByDate(string fromDate, string toDate)
         {
             var fromdate = Convert.ToDateTime(fromDate);
 
@@ -70,6 +72,11 @@ namespace AngularUI.FileUpload.filestatus
             {
                 return Request.CreateResponse(HttpStatusCode.ExpectationFailed, exception.Message);
             }
+        }
+
+        public class Helper
+        {
+            public string Filename;
         }
     }
 }

@@ -61,27 +61,17 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", function (rest
             });
     };
 
-    var downloadFile = function (fileScheduler) {
+    var createDownloadableExcel = function (fileScheduler) {
         var scheduler = [];
         scheduler.push(fileScheduler);
         dldata.isHttpCallInProgress = true;
         restApi.customPOST(scheduler, "DownloadFile")
-            .then(function (filename) { //success
-                //var downloadpath = $csConstants.MVC_BASE_URL + "FileUploader/FileStatus/Download?fullfilename='" + filename + "'";
-                //window.location = downloadpath;
+            .then(function () { //success
                 dldata.isHttpCallInProgress = false;
             }, function (data) { //error
                 dldata.isHttpCallInProgress = false;
                 $csnotify.error(data.data);
             });
-    };
-
-    var downloadInputFile = function (fileScheduler) {
-        dldata.isHttpCallInProgress = true;
-        //var filename = fileScheduler.FileDirectory + '\\' + fileScheduler.FileName;
-        //var downloadpath = $csConstants.MVC_BASE_URL + "FileUploader/FileStatus/Download?fullfilename=" + filename + "";
-        //window.location = downloadpath;
-        dldata.isHttpCallInProgress = false;
     };
 
     return {
@@ -90,8 +80,7 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", function (rest
         Retry: retryFileUpload,
         Delete: deleteUpload,
         MakeImmediate: rescheduleFile,
-        DownloadOutput: downloadFile,
-        DownloadInput: downloadInputFile
+        GenerateExcel: createDownloadableExcel,
     };
 }]);
 
@@ -161,8 +150,8 @@ csapp.controller("fileStatusDetailsController", ["$scope", "fileStatusDataLayer"
     }
 ]);
 
-csapp.controller("fileStatusController", ["$scope", "$timeout", "$csConstants", "fileStatusDataLayer", "fileStatusFactory", "modalService", "$modal",
-    function ($scope, $timeout, $csConstants, datalayer, factory, modalServer, $modal) {
+csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "fileStatusDataLayer", "fileStatusFactory", "modalService", "$modal",
+    function ($scope, $interval, $csfactory, datalayer, factory, modalServer, $modal) {
         "use strict";
 
         //#region auto refresh
@@ -187,7 +176,7 @@ csapp.controller("fileStatusController", ["$scope", "$timeout", "$csConstants", 
             if (factory.refresh.suspend) return;
             factory.timer.update();
         };
-        setInterval(function () { $scope.$apply(updateTimer); }, 1000);
+        $interval(updateTimer, 1000);
         //#endregion
 
         //#region modal delete/reschedule/status
@@ -201,7 +190,7 @@ csapp.controller("fileStatusController", ["$scope", "$timeout", "$csConstants", 
 
             factory.refresh.pause();
             modalServer.showModal({}, modalOptions).then(function () {
-                datalayer.Delete(fileScheduler.Id, index);
+                datalayer.Delete(fileScheduler);
                 factory.refresh.cont();
             }, function () { factory.refresh.cont(); });
         };
@@ -211,7 +200,7 @@ csapp.controller("fileStatusController", ["$scope", "$timeout", "$csConstants", 
             var inst1 = $modal.open({
                 templateUrl: 'filestatus/file-status-immediate.html',
                 controller: 'fileImmediateController',
-                resolve: { fileScheduled: function() { return file; } }
+                resolve: { fileScheduled: function () { return file; } }
             });
 
             inst1.result.then(function () { factory.refresh.cont(); },
@@ -228,6 +217,24 @@ csapp.controller("fileStatusController", ["$scope", "$timeout", "$csConstants", 
 
             inst2.result.then(function () { factory.refresh.cont(); },
                 function () { factory.refresh.cont(); });
+        };
+        //#endregion
+
+        //#region download
+        $scope.retryUpload = function (filescheduler) {
+            datalayer.Retry(filescheduler);
+        };
+
+        $scope.downloadOutput = function (filescheduler) {
+            datalayer.GenerateExcel(filescheduler)
+                .then(function (filename) {
+                    $csfactory.downloadFile(filename);
+                });
+        };
+
+        $scope.downloadInput = function (fileScheduler) {
+            var filename = fileScheduler.FileDirectory + '\\' + fileScheduler.FileName;
+            $csfactory.downloadFile(filename);
         };
         //#endregion
     }

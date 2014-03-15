@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
@@ -135,6 +137,40 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
                                       .List<Stakeholders>();
 
             return Request.CreateResponse(HttpStatusCode.OK, stakeholders);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage DownloadFile(string filename)
+        {
+            filename = filename.Replace("\\\\", "\\").Replace("'", "");
+            if (!char.IsLetter(filename[0]))
+            {
+                filename = filename.Substring(2);
+            }
+
+            var fileinfo = new FileInfo(filename);
+            if (!fileinfo.Exists)
+            {
+                throw new FileNotFoundException(fileinfo.Name);
+            }
+
+            try
+            {
+                var excelData = File.ReadAllBytes(filename);
+                var result = new HttpResponseMessage(HttpStatusCode.OK);
+                var stream = new MemoryStream(excelData);
+                result.Content = new StreamContent(stream);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = fileinfo.Name
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, ex);
+            }
         }
 
         #region random helpers

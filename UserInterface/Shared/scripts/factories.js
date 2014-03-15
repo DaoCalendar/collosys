@@ -1,10 +1,21 @@
-﻿csapp.factory("$csfactory", ["$csConstants", "$rootScope", function(consts, $rootScope) {
+﻿csapp.factory("$csfactory", ["$csConstants", "$rootScope", function (consts, $rootScope) {
+
+    var downloadFile = function (filename) {
+        var ifr = document.createElement('iframe');
+        ifr.style.display = 'none';
+        document.body.appendChild(ifr);
+        ifr.src = "/api/GridApi/DownloadFile?filename='" + filename + "'";
+        ifr.onload = function () {
+            document.body.removeChild(ifr);
+            ifr = null;
+        };
+    };
 
     var hideSpinner = function () {
         $rootScope.loadingElement.disableSpiner = true;
     };
 
-    var isNullOrEmptyString = function(val) {
+    var isNullOrEmptyString = function (val) {
 
         if (angular.isUndefined(val)) {
             return true;
@@ -25,7 +36,7 @@
         return false;
     };
 
-    var isEmptyObject = function(obj) {
+    var isEmptyObject = function (obj) {
         var name;
         // ReSharper disable AssignedValueIsNeverUsed
         for (name in obj) {
@@ -35,7 +46,7 @@
         return true;
     };
 
-    var isNullOrEmptyArray = function(val) {
+    var isNullOrEmptyArray = function (val) {
         if (isNullOrEmptyString(val)) {
             return true;
         }
@@ -47,7 +58,7 @@
         return false;
     };
 
-    var isNullOrEmptyGuid = function(val) {
+    var isNullOrEmptyGuid = function (val) {
         if (isNullOrEmptyString(val)) {
             return true;
         }
@@ -59,7 +70,7 @@
         return false;
     };
 
-    var getDefaultGuid = function() {
+    var getDefaultGuid = function () {
         return consts.GUID_EMPTY;
     };
 
@@ -69,17 +80,18 @@
         isNullOrEmptyGuid: isNullOrEmptyGuid,
         getDefaultGuid: getDefaultGuid,
         isEmptyObject: isEmptyObject,
-        hideSpinner: hideSpinner
+        hideSpinner: hideSpinner,
+        downloadFile: downloadFile
     };
 }]);
 
-csapp.factory('$csnotify', function() {
+csapp.factory('$csnotify', function () {
 
-    var success = function(messege) {
+    var success = function (messege) {
         $.notify(messege, "success");
     };
 
-    var log = function(messege) {
+    var log = function (messege) {
         $.notify(messege, "info");
         //if (isSticky) {
         //    alertify.log(messege, '', 0);
@@ -88,7 +100,7 @@ csapp.factory('$csnotify', function() {
         //}
     };
 
-    var error = function(messege) {
+    var error = function (messege) {
         $.notify(messege, "error");
     };
 
@@ -99,66 +111,66 @@ csapp.factory('$csnotify', function() {
     };
 });
 
-csapp.factory('$Validations', function() {
+csapp.factory('$Validations', function () {
 
-    var required = function() {
+    var required = function () {
         return 'Required field';
     };
 
-    var validName = function(val) {
+    var validName = function (val) {
         return 'Enter valid ' + val;
     };
 
-    var format = function(frmt) {
+    var format = function (frmt) {
         return 'Accepts only ' + frmt + ' format';
     };
 
-    var equalvalue = function(val) {
+    var equalvalue = function (val) {
         return 'Length should be equal to' + val;
     };
 
-    var onlyNumbers = function() {
+    var onlyNumbers = function () {
         return 'Accept only numbers. ';
     };
 
-    var graterThan = function(property, value) {
+    var graterThan = function (property, value) {
         return property + ' must be greater than ' + value;
     };
 
-    var maxlength = function(val) {
+    var maxlength = function (val) {
 
         return 'Exceeds maximum size ( ' + val + ' )';
     };
 
-    var minlength = function(val) {
+    var minlength = function (val) {
 
         return 'Minimum required length is ' + val;
     };
 
-    var onlytext = function() {
+    var onlytext = function () {
         return 'Accept characters only.';
     };
 
-    var mandatory = function() {
+    var mandatory = function () {
         return '';
     };
 
-    var specialChar = function() {
+    var specialChar = function () {
         return 'Special characters not allowed';
     };
 
-    var pattern = function(val) {
+    var pattern = function (val) {
         return 'Only number with ' + val + ' digits.';
     };
-    var mobile = function() {
+    var mobile = function () {
         return 'Accept 10 digit mobile number.';
     };
 
-    var alreadyExist = function(val) {
+    var alreadyExist = function (val) {
         return val + ' already exist.';
     };
 
-    var maxAmt = function(maxamt) {
+    var maxAmt = function (maxamt) {
         return 'Exceeds maximum amount limit ( ' + maxamt + ' )';
     };
 
@@ -182,35 +194,35 @@ csapp.factory('$Validations', function() {
     };
 });
 
-csapp.factory('$csStopWatch', ["$timeout", function($timeout) {
+csapp.factory('$csStopWatch', ["$timeout", function ($timeout) {
     var data = { value: 1, laps: [], stringValue: '' };
     var stopwatch = null;
 
-    var start = function() {
-        stopwatch = $timeout(function() {
+    var start = function () {
+        stopwatch = $timeout(function () {
             data.value++;
             data.stringValue = getTime(data.value);
             start();
         }, 1000);
     };
 
-    var stop = function() {
+    var stop = function () {
         $timeout.cancel(stopwatch);
         stopwatch = null;
     };
 
-    var reset = function() {
+    var reset = function () {
         stop();
         data.value = 0;
         data.stringValue = '';
         data.laps = [];
     };
 
-    var lap = function() {
+    var lap = function () {
         data.laps.push(data.value);
     };
 
-    var getTime = function(totalTime) {
+    var getTime = function (totalTime) {
 
         var secs = totalTime % 60;
         var mins = (totalTime - secs) / 60;
@@ -250,8 +262,8 @@ csapp.factory('$csStopWatch', ["$timeout", function($timeout) {
     };
 }]);
 
-csapp.filter("minLength", ["$csfactory", function($csfactory) {
-    return function(array, value, length) {
+csapp.filter("minLength", ["$csfactory", function ($csfactory) {
+    return function (array, value, length) {
         if (angular.isUndefined(array)
             || $csfactory.isNullOrEmptyString(value)
             || $csfactory.isNullOrEmptyString(length)
@@ -259,25 +271,25 @@ csapp.filter("minLength", ["$csfactory", function($csfactory) {
             return [];
         }
 
-        var filteredRow = _.where(array, function(row) { return (row[value].length > length); });
+        var filteredRow = _.where(array, function (row) { return (row[value].length > length); });
         return filteredRow;
     };
 }]);
 
-csapp.filter('csmakeRange', function() {
-    return function(input) {
+csapp.filter('csmakeRange', function () {
+    return function (input) {
         var lowBound, highBound;
         switch (input.length) {
-        case 1:
-            lowBound = 0;
-            highBound = parseInt(input[0]) - 1;
-            break;
-        case 2:
-            lowBound = parseInt(input[0]);
-            highBound = parseInt(input[1]);
-            break;
-        default:
-            return input;
+            case 1:
+                lowBound = 0;
+                highBound = parseInt(input[0]) - 1;
+                break;
+            case 2:
+                lowBound = parseInt(input[0]);
+                highBound = parseInt(input[1]);
+                break;
+            default:
+                return input;
         }
         if (highBound < lowBound)
             highBound = lowBound;
@@ -288,8 +300,8 @@ csapp.filter('csmakeRange', function() {
     };
 });
 
-csapp.filter('bytes', function() {
-    return function(bytes, precision) {
+csapp.filter('bytes', function () {
+    return function (bytes, precision) {
         if (bytes == 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
         if (typeof precision === 'undefined') precision = 1;
         var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'],
@@ -298,8 +310,8 @@ csapp.filter('bytes', function() {
     };
 });
 
-csapp.filter('fromNow', function() {
-    return function(dateString) {
+csapp.filter('fromNow', function () {
+    return function (dateString) {
         return moment(dateString).fromNow();
     };
 });
@@ -378,7 +390,7 @@ csapp.provider('Logger', [function () {
     }];
 }]);
 
-csapp.service('modalService', ['$modal', function($modal) {
+csapp.service('modalService', ['$modal', function ($modal) {
 
     var modalDefaults = {
         backdrop: true,
@@ -394,13 +406,13 @@ csapp.service('modalService', ['$modal', function($modal) {
         bodyText: 'Perform this action?'
     };
 
-    this.showModal = function(customModalDefaults, customModalOptions) {
+    this.showModal = function (customModalDefaults, customModalOptions) {
         if (!customModalDefaults) customModalDefaults = {};
         customModalDefaults.backdrop = 'static';
         return this.show(customModalDefaults, customModalOptions);
     };
 
-    this.show = function(customModalDefaults, customModalOptions) {
+    this.show = function (customModalDefaults, customModalOptions) {
         //Create temp objects to work with since we're in a singleton service
         var tempModalDefaults = {};
         var tempModalOptions = {};
@@ -412,12 +424,12 @@ csapp.service('modalService', ['$modal', function($modal) {
         angular.extend(tempModalOptions, modalOptions, customModalOptions);
 
         if (!tempModalDefaults.controller) {
-            tempModalDefaults.controller = function($scope, $modalInstance) {
+            tempModalDefaults.controller = function ($scope, $modalInstance) {
                 $scope.modalOptions = tempModalOptions;
-                $scope.modalOptions.ok = function(result) {
+                $scope.modalOptions.ok = function (result) {
                     $modalInstance.close(result);
                 };
-                $scope.modalOptions.close = function() {
+                $scope.modalOptions.close = function () {
                     $modalInstance.dismiss('cancel');
                 };
             };
