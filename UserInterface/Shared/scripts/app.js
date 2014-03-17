@@ -96,6 +96,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/filestatus', {
                     templateUrl: '/FileUpload/filestatus/file-status.html',
                     controller: 'fileStatusController'
+                }).when('/fileupload/clientdatadownload', {
+                    templateUrl: '/FileUpload/clientdatadownload/client-data-download.html',
+                    controller: 'ClientDataDownloadController'
                 }).when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'

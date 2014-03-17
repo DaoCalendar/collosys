@@ -269,8 +269,6 @@
     <Compile Include="Areas\FileUploader\Controllers\ClientDataDownloadController.cs" />
     <Compile Include="Areas\FileUploader\Controllers\CustomerInfoController.cs" />
     <Compile Include="Areas\FileUploader\Controllers\PaymentReversalController.cs" />
-    <Compile Include="Areas\FileUploader\Controllers\UploadActualDataController.cs" />
-    <Compile Include="Areas\FileUploader\Models\FileStatusHelper.cs" />
     <Compile Include="Areas\Generic\apiController\ExecuteQueryApiController.cs" />
     <Compile Include="Areas\Generic\apiController\KeyValueApiController.cs" />
     <Compile Include="Areas\Generic\apiController\PermisionData.cs" />
@@ -310,7 +308,6 @@
     <Compile Include="Areas\ErrorCorrection\Controllers\ApproveEditedErrorDataController.cs" />
     <Compile Include="Areas\ErrorCorrection\Controllers\ErrorDataController.cs" />
     <Compile Include="Areas\ErrorCorrection\ViewModels\ErrorViewModel.cs" />
-    <Compile Include="Areas\FileUploader\Controllers\UploadFileTempController.cs" />
     <Compile Include="Areas\Generic\apiController\ConnectionApiController.cs" />
     <Compile Include="Areas\Generic\apiController\ProfileApiController.cs" />
     <Compile Include="Areas\Generic\Controllers\ConnectionConfigController.cs" />
@@ -445,8 +442,6 @@
     <Compile Include="App_Start\NHibernateConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\FileUploader\apiController\FileStatusApiController.cs" />
-    <Compile Include="Areas\FileUploader\Controllers\FileStatusController.cs" />
     <Compile Include="Areas\FileUploader\FileUploaderAreaRegistration.cs" />
     <Compile Include="Areas\Generic\apiController\PermissionApiController.cs" />
     <Compile Include="Areas\Generic\Controllers\PermissionController.cs" />
@@ -479,7 +474,6 @@
     <Content Include="Areas\ErrorCorrection\ViewModels\errorDataCtrl.js" />
     <Content Include="Areas\FileUploader\jsControllers\ClientDataDownload.js" />
     <Content Include="Areas\FileUploader\jsControllers\CustomerInfoCtrl.js" />
-    <Content Include="Areas\FileUploader\jsControllers\fileStatus.js" />
     <Content Include="Areas\FileUploader\jsControllers\paymentReversalCtrl.js" />
     <Content Include="Areas\Generic\ViewModels\connectionConfig.js" />
     <Content Include="Areas\Generic\ViewModels\eodEmailNotification.js" />
@@ -582,8 +576,6 @@
     <Content Include="Content\ng-grid.min.css" />
     <Content Include="Areas\Generic\Views\Web.config" />
     <Content Include="Areas\Generic\Views\Permission\Index.cshtml" />
-    <Content Include="Areas\FileUploader\Views\Web.config" />
-    <Content Include="Areas\FileUploader\Views\FileStatus\Index.cshtml" />
     <Content Include="Scripts\restangular.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
@@ -610,7 +602,6 @@
     </Content>
     <Content Include="Areas\Reporting\Views\Report\Index.cshtml" />
     <Content Include="Areas\Reporting\Views\Web.config" />
-    <Content Include="Areas\FileUploader\Views\UploadFileTemp\Index.cshtml" />
     <Content Include="Areas\Reporting\Views\Report\ClientDataReport.cshtml" />
     <Content Include="Areas\Allocation\Views\AllocationSubPolicy\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\AllocationPolicy\Index.cshtml" />
@@ -644,7 +635,6 @@
     <Content Include="Areas\Generic\Views\KeyValue\Index.cshtml" />
     <Content Include="Areas\FileUploader\Views\PaymentReversal\Index.cshtml" />
     <Content Include="App_Code\GridShared.cshtml" />
-    <Content Include="Areas\FileUploader\Views\UploadActualData\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\ApproveViewAllocation\ApproveViewAllocation.cshtml" />
     <Content Include="Areas\Developer\Views\DatabaseTables\Index.cshtml" />
     <Content Include="Areas\Generic\Views\QueryExecuterAngular\Index.cshtml" />

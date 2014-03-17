@@ -13,7 +13,7 @@ using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.FileUploader.apiController
+namespace AngularUI.FileUpload.clientdatadownload
 {
     public class ClientDataDownloadApiController : ApiController
     {

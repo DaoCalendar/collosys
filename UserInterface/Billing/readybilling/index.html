@@ -69,8 +69,7 @@
 
     <!--Grid View-->
     <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
-        <div class="row" data-ng-include="../Shared/templates/displayGridOptions.html"></div>
-        @GridShared.DisplayGridOptions()
+        <div data-ng-include="'/Shared/templates/grid/grid-layout.html'"></div>
         <div style="height: 500px" data-ng-grid="gridOptions"></div>
     </div>
 </div>

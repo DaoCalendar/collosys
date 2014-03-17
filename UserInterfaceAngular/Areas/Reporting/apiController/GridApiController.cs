@@ -13,7 +13,6 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Generic;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.Shared.NgGrid;
-using ColloSys.UserInterface.Areas.FileUploader.Models;
 using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion

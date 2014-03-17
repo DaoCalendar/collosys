@@ -62,7 +62,7 @@
         </form>
     </div>
     <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
-       <div class="row" data-ng-include="../Shared/templates/displayGridOptions.html"></div>
+        <div data-ng-include="'/Shared/templates/grid/grid-layout.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
     </div>
     <button class="btn btn-info" data-ng-click="openModal=!openModal" data-ng-show="gridOptions.$gridScope.selectedItems.length>0">Change Allocation</button>

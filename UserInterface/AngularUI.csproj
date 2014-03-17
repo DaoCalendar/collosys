@@ -129,6 +129,8 @@
     <Compile Include="Developer\logdownload\LogDownloadApiController.cs" />
     <Compile Include="Developer\logdownload\LogFileModel.cs" />
     <Compile Include="Developer\logdownload\LogFileViewModel.cs" />
+    <Compile Include="FileUpload\clientdatadownload\ClientDataDownloadApiController.cs" />
+    <Compile Include="FileUpload\clientdatadownload\ProductCategoryModel.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnViewModel.cs" />
     <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
@@ -239,6 +241,7 @@
     <Content Include="Developer\logdownload\logdownload.html" />
     <Content Include="Developer\logdownload\LogDownload.js" />
     <Content Include="Developer\viewtables\viewtables.html" />
+    <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -361,6 +364,7 @@
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
     <Content Include="FileUpload\filestatus\file-status.html" />
     <EmbeddedResource Include="ExcelData\FileUploader.xls" />
+    <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -633,10 +637,14 @@
     <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.min.js" />
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="Shared\scripts\cs-ng-grid.js" />
     <Content Include="Shared\scripts\login.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
-    <Content Include="Shared\templates\displayGridOptions.html" />
+    <Content Include="Shared\templates\grid\grid-layout.html" />
+    <Content Include="Shared\templates\grid\grid-settings.html" />
+    <Content Include="Shared\templates\grid\grid-stakeholder.html" />
+    <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Shared\templates\login.html" />
     <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />

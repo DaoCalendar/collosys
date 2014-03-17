@@ -1,0 +1,44 @@
+﻿     <!-- StakeholderData -->
+
+<div class="row-fluid">
+    <div modal="gridOptions.showstakeholders" options="{keyboard: false, backdropClick: false}">
+        <div class="modal-header well" style="text-align: center">
+            <h4>Select Stakeholder</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Hierarchy</th>
+                        <th>EmailId</th>
+
+                    </tr>
+                    <tr>
+                        <td><label>Select All :</label><input type="checkbox" data-ng-model="gridOptions.selectAll" data-ng-click="$grid.SelectAllStakeholder(gridOptions)" /></td>
+                        <td> <input class="input-small" type="text" data-ng-model="search.Name" /></td>
+                        <td> <input class="input-small" type="text" data-ng-model="search.Hierarchy.Designation" /></td>
+                        <td> <input class="input-small" type="text" data-ng-model="search.Hierarchy.Hierarchy" /></td>
+                        <td> <input class="input-small" type="text" data-ng-model="search.EmailId" /></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="stake in gridOptions.stakeholderList | filter:$grid.SearchStakeholder(search)">
+                        <td><input type="checkbox" data-ng-checked="$grid.SelectedStake(stake,gridOptions)" data-ng-click="$grid.SelectStakeholder(gridOptions,stake)" /></td>
+                        <td>{{stake.Name}}</td>
+                        <td>{{stake.Hierarchy.Designation}}</td>
+                        <td>{{stake.Hierarchy.Hierarchy}}</td>
+                        <td>{{stake.EmailId}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-success" data-ng-click="$grid.SelectstakeholderClose(gridOptions)">ok</button>
+        </div>
+
+    </div>
+</div>
+

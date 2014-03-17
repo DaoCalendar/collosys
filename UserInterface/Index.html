@@ -43,13 +43,8 @@
         </div>
     </div>
     
-    <!-- modal popup for progress bar -->
-    <div data-ng-show="loadingElement.showLoadingElement" class="loading-element">
-        <i class="icon-spinner icon-spin icon-5x icon-white"></i>
-        <br />
-        <span>{{loadingElement.loadingElementText}} {{loadingElement.stopwatch.data.stringValue}}</span>
-    </div>
-
+    <div data-ng-include="'Shared/templates/loading-element.html'"></div>
+    
     <!--[if lt IE 9]>
     <script src="Scripts/es5-shim/es5-shim.min.js"></script>
     <script src="Scripts/json3/json3.min.js"></script>
@@ -61,27 +56,26 @@
     <script src="Scripts/moment/moment.js"></script>
     <script src="Scripts/notifyjs/notify.js"></script>
     <script src="Scripts/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-    <!--<script src="Scripts/bootstrap-datepicker/bootstrap-fileupload.js"></script>-->
 
     <script src="Scripts/file-upload/FileAPI.min.js"></script>
     <script src="Scripts/file-upload/angular-file-upload-shim.js"></script>
     <script src="Scripts/file-upload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angularjs/angular.js"></script>
     <script src="Scripts/angularjs/angular-route.js"></script>
-    <script src="Scripts/angularjs/angular-resource.js"></script>
-    <script src="Scripts/angularjs/angular-cookies.js"></script>
-    <script src="Scripts/angularjs/angular-sanitize.js"></script>
     <script src="Scripts/angularjs/angular-animate.js"></script>
+    <!--<script src="Scripts/angularjs/angular-resource.js"></script>-->
+    <!--<script src="Scripts/angularjs/angular-sanitize.js"></script>-->
+    <!--<script src="Scripts/angularjs/angular-cookies.js"></script>-->
     <script src="Scripts/angular.ui/angular-ui.js"></script>
     <script src="Scripts/angular.ui/angular-ui-ieshiv.js"></script>
     <script src="Scripts/angular.ui/select2.js"></script>
     <script src="Scripts/angular.ui/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="Scripts/nggrid/ng-grid-2.0.7.js"></script>
-    <!--<script src="Scripts/ngupload/ng-upload.js"></script>-->
     <script src="Scripts/file-upload/angular-file-upload.js"></script>
     <script src="Scripts/restangular/restangular.js"></script>
 
     <script src="Shared/scripts/app.js"></script>
+    <script src="Shared/scripts/cs-ng-grid.js"></script>
     <script src="Shared/scripts/directives.js"></script>
     <script src="Shared/scripts/factories.js"></script>
     <script src="Billing/factories.js"></script>
@@ -92,7 +86,8 @@
     <script src="FileUpload/filemapping/filemapping.js"></script>
     <script src="FileUpload/filescheduler/filescheduler.js"></script>
     <script src="FileUpload/filestatus/filestatus.js"></script>
-    
+    <script src="FileUpload/clientdatadownload/client-data-download.js"></script>
+
     <script src="Stakeholder/add/HierarchyModel.js"></script>
     <script src="Stakeholder/add/BasicInfoScript.js"></script>
     <script src="Stakeholder/add/AddressInfo.js"></script>
@@ -100,15 +95,12 @@
     <script src="Stakeholder/add/RegistrationDetails.js"></script>
     <script src="Stakeholder/add/WorkingScript.js"></script>
     <script src="Stakeholder/add/AddStakeholder.js"></script>
-    
     <script src="Stakeholder/hierarchy/EditHierarchy.js"></script>
-
     <script src="Stakeholder/view/ViewStakeholder.js"></script>
     
     <script src="Allocation/policy/allocPolicyCtrl.js"></script>
     <script src="Allocation/subpolicy/allocSubpolicyCtrl.js"></script>
     <script src="Allocation/viewapprove/ApproveViewAllocation.js"></script>
-    
     
     <script src="Billing/adhoc/AddhocPayouts.js"></script>
     <script src="Billing/formula/formulaCtrl.js"></script>
@@ -127,6 +119,5 @@
     <script src="Developer/downloadtables/DatabaseTablesCtrl.js"></script>
     <script src="Developer/generatedb/GenerateDB.js"></script>
     <script src="Developer/logdownload/LogDownload.js"></script>
-
 </body>
 </html>
