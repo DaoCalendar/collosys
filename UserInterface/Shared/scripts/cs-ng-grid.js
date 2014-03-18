@@ -1,6 +1,18 @@
 ﻿
-csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$window", "$csConstants", "$rootScope",
-    function ($restangular, $timeout, $csnotify, $csfactory, $log, $window, $csConstants, $rootScope) {
+csapp.controller("gridSettingsController", [
+    "$scope", "gridOptions", "$csGrid", "$modalInstance", function ($scope, gridOptions, $grid, $modalInstance) {
+        $scope.gridOptions = gridOptions;
+        $scope.$grid = $grid;
+
+        $scope.close = function () {
+            $modalInstance.dismiss();
+        };
+    }
+]);
+
+
+csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$window", "$csConstants", "$rootScope", "$modal",
+    function ($restangular, $timeout, $csnotify, $csfactory, $log, $window, $csConstants, $rootScope, $modal) {
 
         //#region serverData
         var restapi = $restangular.all("GridApi");
@@ -572,13 +584,24 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
 
         //#region random-helpers
         var helpers = {
-            toggleSettings: function (gridOptions) {
-                gridOptions.showSettings = !gridOptions.showSettings;
+            showSettings: function (gridOptions) {
+                helpers.showModal(gridOptions);
                 gridOptions.totalSelectedStake = false;
                 gridOptions.SelectedStakeholderIds = [];
                 gridOptions.Reporting.Params.Send2Hierarchy = false;
                 gridOptions.selectAll = false;
-                $log.info("$csgrid : settings toggled " + gridOptions.showSettings);
+                $log.info("$csgrid : showing settings." );
+            },
+            showModal: function (gridOptions) {
+                $modal.open({
+                    templateUrl: '/Shared/templates/grid/grid-settings.html',
+                    controller: 'gridSettingsController',
+                    resolve: {
+                        gridOptions: function () {
+                            return gridOptions;
+                        }
+                    }
+                });
             },
         };
 
@@ -1047,7 +1070,6 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
         };
     }]);
 
-//#endregion
 
 
 
@@ -1111,5 +1133,42 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
 //            }
 //        }
 //    }, true);
+
+//csapp.directive("csGrid", function () {
+
+//    function getTemplate() {
+//        return '<div class="row-fluid" data-ui-if="showgrid">' +
+//            '<div data-ng-include="\'/Shared/templates/grid/grid-layout.html\'"></div>' +
+//            '<div style="height: 500px" data-ng-grid="gridOptions"></div>' +
+//            '</div>';
+//    }
+
+//    function linkFunction(scope, element, attrs) {
+
+//        if (angular.isUndefined(scope.showgrid)) {
+//            scope.showgrid = true;
+//        }
+
+//        if (angular.isUndefined(attrs.getdata)) {
+
+//        }
+
+//        scope.$watch('showgrid', function(newval, oldval) {
+//            if (newval === oldval) return;
+//            if (newval === true) {
+//                scope.$apply(function () {
+//                    scope.$eval(attrs.getdata);
+//                });
+//            }
+//        });
+//    }
+
+//    return {
+//        scope: {showgrid: '=', getdata:'&'},
+//        restrict: 'E',
+//        template: getTemplate,
+//        link: linkFunction
+//    };
+//});
 
 

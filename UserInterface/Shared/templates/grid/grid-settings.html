@@ -1,13 +1,12 @@
 ﻿
 <style>
     .tabhight {
-        height: 400px;
+        height: inherit;
         overflow: auto;
         text-align: right;
     }
 </style>
 
-<!--<div modal="gridOptions.showSettings" options="{keyboard: false, backdropClick: false}"></div>-->
 <tabset style="height: 400px;">
     <tab data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'">
         <tab-heading>Save Report</tab-heading>
@@ -131,7 +130,7 @@
                            data-ng-disabled="gridSaveAsReportForm.$invalid"
                            data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
                     <input type="button" class="btn btn-warning" value="Close"
-                           data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                           data-ng-click="close()" />
                 </div>
                 <div data-ng-show="gridOptions.Reporting.isEditMode">
                     <input type="button" class="btn btn-success" value="Update Report"
@@ -142,7 +141,7 @@
                     <input type="button" class="btn btn-link" value="Clone Report"
                            data-ng-click="$grid.RepotingHelper.CloneReport(gridOptions)" />
                     <input type="button" class="btn btn-warning" value="Close"
-                           data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                           data-ng-click="close()" />
                 </div>
             </div>
         </div>
@@ -190,7 +189,7 @@
                 <hr />
                 <input type="button" class="btn" value="Reset Selected" data-ng-click="$grid.ResetHelper.ResetSelected(gridOptions)" />
                 <input type="button" class="btn" value="Reset All" data-ng-click="$grid.ResetHelper.ResetAll(gridOptions)" />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
         </div>
@@ -209,7 +208,7 @@
             </div>
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
         </div>
@@ -228,7 +227,7 @@
             </div>
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
         </div>
@@ -248,7 +247,7 @@
             </div>
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
 
@@ -268,7 +267,7 @@
 
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
 
@@ -314,7 +313,7 @@
             </div>*@
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
 
@@ -415,7 +414,7 @@
             <!-- close button-->
             <div class="text-center">
                 <hr />
-                <input type="button" class="btn" value="Close" data-ng-click="$grid.Helper.toggleSettings(gridOptions)" />
+                <input type="button" class="btn" value="Close" data-ng-click="close()" />
                 <hr />
             </div>
         </div>
