@@ -641,7 +641,7 @@
     <Content Include="Shared\scripts\login.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
-    <Content Include="Shared\templates\grid\grid-layout.html" />
+    <Content Include="Shared\templates\grid\grid-buttons.html" />
     <Content Include="Shared\templates\grid\grid-settings.html" />
     <Content Include="Shared\templates\grid\grid-stakeholder.html" />
     <Content Include="Shared\templates\loading-element.html" />
