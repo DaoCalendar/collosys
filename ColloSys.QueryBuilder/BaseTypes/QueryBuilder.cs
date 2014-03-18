@@ -38,7 +38,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
         public virtual void Save(T obj)
         {
             var session = SessionManager.GetCurrentSession();
-            session.Save(obj);
+            session.SaveOrUpdate(obj);
         }
 
         [Transaction(Persist = true)]
@@ -47,7 +47,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
             var session = SessionManager.GetCurrentSession();
             foreach (var obj in listOfObjects)
             {
-                session.Save(obj);
+                session.SaveOrUpdate(obj);
             }
         }
 
@@ -55,7 +55,7 @@ namespace ColloSys.QueryBuilder.BaseTypes
         public void Save(Entity entity)
         {
             var session = SessionManager.GetCurrentSession();
-            session.Save(entity);
+            session.SaveOrUpdate(entity);
         }
 
         [Transaction(Persist = true)]

@@ -22,7 +22,7 @@ namespace ColloSys.UserInterface.App_Start
 
             SessionManager.InitNhibernate(initNh);
 
-            //HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 
             //NHibernate.Glimpse.Plugin.RegisterSessionFactory(SessionManager.GetSessionFactory());
         }

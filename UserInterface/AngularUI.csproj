@@ -45,6 +45,9 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\packages\NHibernateProfiler.2.0.2207.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -172,7 +175,7 @@
     <Compile Include="Stakeholder\add\ListValue.cs" />
     <Compile Include="Stakeholder\add\ManageWorkingModel.cs" />
     <Compile Include="Stakeholder\add\PaymentDetailsApiController.cs" />
-    <Compile Include="Stakeholder\add\StakeApiController.cs" />
+    <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\add\StakeholderApiController.cs" />
     <Compile Include="Stakeholder\add\WorkingModel.cs" />
     <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
@@ -180,6 +183,7 @@
   <ItemGroup>
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\index.html" />
+    <Content Include="Allocation\policy\policy-modal.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\index.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
@@ -659,9 +663,10 @@
     <Content Include="Stakeholder\add\show-working-payment.html" />
     <Content Include="Stakeholder\add\working.html" />
     <Content Include="Stakeholder\add\WorkingScript.js" />
-    <Content Include="Stakeholder\hierarchy\add.html" />
-    <Content Include="Stakeholder\hierarchy\edit.html" />
-    <Content Include="Stakeholder\hierarchy\EditHierarchy.js" />
+    <Content Include="Stakeholder\hierarchy\hierarchy-add.html" />
+    <Content Include="Stakeholder\hierarchy\hierarchy-edit.html" />
+    <Content Include="Stakeholder\hierarchy\hierarchy-grid.html" />
+    <Content Include="Stakeholder\hierarchy\hierarchy.js" />
     <Content Include="Stakeholder\view\basic.html" />
     <Content Include="Stakeholder\view\index.html" />
     <Content Include="Stakeholder\view\onleave.html" />

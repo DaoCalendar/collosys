@@ -2,6 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -12,9 +14,9 @@ using ColloSys.UserInterface.Shared.Attributes;
 
 
 //hierarchy calls changed
-namespace ColloSys.UserInterface.Areas.Stakeholder2.api
+namespace AngularUI.Stakeholder.hierarchy
 {
-    public class StakeApiController : ApiController
+    public class HierarchyApiController : ApiController
     {
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 
@@ -35,9 +37,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         [HttpPost]
         [HttpTransaction(Persist = true)]
-        public void SaveHierarchy(StkhHierarchy stk)
+        public HttpResponseMessage SaveHierarchy(StkhHierarchy stk)
         {
             HierarchyQuery.Save(stk);
+            return Request.CreateResponse(HttpStatusCode.OK, stk);
         }
     }
 }
