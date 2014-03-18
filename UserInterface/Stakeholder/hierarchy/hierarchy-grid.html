@@ -1,0 +1,99 @@
+﻿<!--Data in Grid View-->
+<div style="overflow: auto; height: 500px" data-ng-hide="active">
+    <table class="table table-bordered table-hover">
+        <thead>
+
+            <tr>
+                <th>Action</th>
+                <th>Designation</th>
+                <th>Hierarchy</th>
+                <th>Reports To</th>
+                <th>Reporting Level</th>
+                <th>Working Reports To</th>
+                <th>Working Reports Level</th>
+                <th>Location Level</th>
+                <th>Individual</th>
+                <th>IsUser</th>
+                <th>IsInAllocation</th>
+                <th>IsInField</th>
+                <th>IsEmployee</th>
+                <th>Registration</th>
+                <th>Address</th>
+                <th>Working</th>
+                <th>Payment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="hierarchy in dldata.HierarchyList">
+                <!--Button Edit n Delete-->
+                <td>
+                    <div class="btn-group">
+                        <i class="btn  icon-edit-sign" data-ng-click="openEditModal(hierarchy)"></i>
+                    </div>
+                </td>
+
+                <td>{{hierarchy.Designation}}</td>
+                <td>{{hierarchy.Hierarchy}}</td>
+                <td>{{hierarchy.ReportsToName.Designation}}</td>
+                <td>{{hierarchy.ReportingLevel}}</td>
+                <td>{{hierarchy.WorkingReportsToName.Designation}}</td>
+                <td>{{hierarchy.WorkingReportsLevel}}</td>
+                <td>{{hierarchy.LocationLevel}}</td>
+
+                <!--IsIndividual-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.IsIndividual}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.IsIndividual}}" class="btn ">No</i>
+                </td>
+
+                <!--IsUser-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.IsUser}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.IsUser}}" class="btn">No</i>
+                </td>
+
+                <!--IsInAllocation-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.IsInAllocation}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.IsInAllocation}}" class="btn">No</i>
+                </td>
+
+                <!--IsInField-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.IsInField}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.IsInField}}" class="btn">No</i>
+                </td>
+
+                <!--IsEmployee-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.IsEmployee}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.IsEmployee}}" class="btn">No</i>
+                </td>
+
+                <!--HasRegistration-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.HasRegistration}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.HasRegistration}}" class="btn">No</i>
+                </td>
+
+                <!--HasAddress-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.HasAddress}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.HasAddress}}" class="btn">No</i>
+                </td>
+
+                <!--HasWorking-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.HasWorking}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.HasWorking}}" class="btn">No</i>
+                </td>
+
+                <!--HasPayment-->
+                <td style="text-align: center">
+                    <i data-ng-show="{{hierarchy.HasPayment}}" class="btn btn-primary">Yes</i>
+                    <i data-ng-hide="{{hierarchy.HasPayment}}" class="btn">No</i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

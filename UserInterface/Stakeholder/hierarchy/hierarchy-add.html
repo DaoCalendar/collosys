@@ -30,7 +30,7 @@
                                 <select class="input-large" data-ui-select2="" data-ng-model="stakeholder.Hierarchy" data-ng-required="true"
                                     data-ng-change="reloadReportsTo()">
                                     <option value=""></option>
-                                    <option data-ng-repeat="data in HierarchyList|unique:'Hierarchy'">{{data.Hierarchy}}</option>
+                                    <option data-ng-repeat="data in dldata.HierarchyList|unique:'Hierarchy'">{{data.Hierarchy}}</option>
                                 </select>
                             </div>
                         </div>
@@ -44,8 +44,8 @@
                                 <select class="input-large" data-ui-select2="" data-ng-required="true"
                                         data-ng-model="stakeholder.ReportsTo">
                                     <option value=""></option>
-                                    <option data-ng-repeat="data in HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
-                                            value="{{data.Id}}">{{DesignationName(data)}}</option>
+                                    <option data-ng-repeat="data in dldata.HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
+                                            value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
                                 </select>
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                             </div>
@@ -59,7 +59,7 @@
                             <div class="controls">
                                 <select class="input-large" data-ui-select2="" data-ng-required="true" data-ng-model="stakeholder.ReportingLevel">
                                     <option value=""></option>
-                                    <option data-ng-repeat="data in ReportingLevelList">{{data}}</option>
+                                    <option data-ng-repeat="data in dldata.ReportingLevelEnum">{{data}}</option>
                                 </select>
                             </div>
                         </div>
@@ -73,8 +73,8 @@
                                 <select class="input-large" data-ui-select2="" data-ng-required="true"
                                         data-ng-model="stakeholder.WorkingReportsTo">
                                     <option value=""></option>
-                                    <option data-ng-repeat="data in HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
-                                            value="{{data.Id}}">{{DesignationName(data)}}</option>
+                                    <option data-ng-repeat="data in dldata.HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
+                                            value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
                                 </select>
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                             </div>
@@ -88,7 +88,7 @@
                             <div class="controls">
                                 <select class="input-large" data-ui-select2="" data-ng-required="true" data-ng-model="stakeholder.WorkingReportsLevel">
                                     <option value=""></option>
-                                    <option data-ng-repeat="data in ReportingLevelList">{{data}}</option>
+                                    <option data-ng-repeat="data in dldata.ReportingLevelEnum">{{data}}</option>
                                 </select>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                             <div class="controls">
                                 <select class="input-large" multiple="multiple" data-ui-select2="" data-ng-required="true"
                                     data-ng-model="stakeholder.LocationLevel">
-                                    <option data-ng-repeat="data in LocationlevelList" value="{{data.value}}">{{data.key}}</option>
+                                    <option data-ng-repeat="data in dldata.LocationlevelList" value="{{data.value}}">{{data.key}}</option>
                                 </select>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
                         <div class="control-group">
                             <label class="control-label">Has Payment : </label>
                             <div class="controls">
-                                <div btn-switch data-ng-model="stakeholder.HasPayment" data-ng-change="ResetPaymentChlidVal()"></div>
+                                <div btn-switch data-ng-model="stakeholder.HasPayment" data-ng-change="factoryMethod.resetPaymentChlidVal()"></div>
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has Payment</span>
                             </div>
                         </div>
@@ -332,7 +332,7 @@
             <div class="panel-footer text-right">
                 <input type="submit" value="Back" data-ng-model="back" class="btn btn-inverse" data-ng-disabled="step==1" data-ng-click="step=step-1" />
                 <input type="submit" value="Next" class="btn btn-success" data-ng-disabled="step1form.$invalid || step==4" data-ng-click="step=step+1" />
-                <input type="submit" value="Save" class="btn btn-success" data-ng-click="saveUpdatedData(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4"/>
+                <input type="submit" value="Save" class="btn btn-success" data-ng-click="datalayer.Save(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4"/>
                 <input type="submit" value="Cancel" class="btn btn-warning" data-ng-click="closeform()" />
             </div>
         </div>
