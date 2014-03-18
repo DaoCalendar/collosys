@@ -1,0 +1,26 @@
+﻿<div class="container">
+    <div data-ng-show="gridOptions.$gridScope.columns">
+        <!-- view report -->
+        <!--span data-ng-show="gridOptions.primaryKey" style="font-size: 11px">Primary Key : {{gridOptions.primaryKey}}</!--span-->
+        <select class="input-medium" data-ng-model="gridOptions.Reporting.SelectedReportIndex"
+                data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'"
+                data-ng-change="$grid.RepotingHelper.GetReportData(gridOptions)">
+            <option value="">Select Report</option>
+            <option data-ng-repeat="report in gridOptions.Reporting.savedReportList" value="{{report.Id}}">{{report.ReportName}}</option>
+        </select>
+        <span data-ng-show="gridOptions.Reporting.isEditMode === true" style="font-size: 14px">Current Report : {{gridOptions.Reporting.Params.ReportName}}</span>
+        <!-- download -->
+        <button class="btn" data-ng-disabled="gridOptions.TotalRowCount == 0"
+                data-ng-click="$grid.Download(gridOptions)">
+            Download
+        </button>
+        <!-- email now -->
+        <button class="btn" data-ng-disabled="gridOptions.TotalRowCount == 0"
+                data-ng-click="$grid.EmailNow(gridOptions)">
+            E-Mail
+        </button>
+        <!-- settings -->
+        <button class="btn" data-ng-click="$grid.Helper.showSettings(gridOptions)">Options</button>
+    </div>
+    <div class="row-fluid" style="height:5px"></div>
+</div>
