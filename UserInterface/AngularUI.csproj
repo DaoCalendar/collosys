@@ -184,6 +184,7 @@
   <ItemGroup>
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\index.html" />
+    <Content Include="Allocation\policy\policy-modal.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\index.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
