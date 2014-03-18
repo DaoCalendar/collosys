@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
+﻿using System.Configuration;
 using System.Web.Configuration;
 
-namespace UserInterfaceAngular.Areas.Generic.Models
+namespace AngularUI.Generic.connection
 {
     public static class Cryptography
     {

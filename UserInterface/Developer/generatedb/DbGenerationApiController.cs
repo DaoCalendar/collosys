@@ -2,10 +2,11 @@
 
 using System.Collections.Generic;
 using System.Web.Http;
+using AngularUI.Generic.connection;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.UserInterface.Areas.Developer.Models;
 using ColloSys.UserInterface.Shared.Attributes;
-using UserInterfaceAngular.Areas.Generic.Models;
+
 #endregion
 
 

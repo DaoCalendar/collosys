@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 using ColloSys.UserInterface.Shared.Attributes;
-using UserInterfaceAngular.Areas.Generic.Models;
 
-namespace UserInterfaceAngular.Areas.Generic.apiController
+namespace AngularUI.Generic.connection
 {
     public class ConnectionApiController : ApiController
     {

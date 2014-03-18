@@ -1,6 +1,6 @@
-﻿
-csapp.controller("CustomerInfoCtrl", [
-    "$scope", "$csnotify", "Restangular", function ($scope, $csnotify, rest) {
+﻿csapp.controller("customerInfoController", [
+    "$scope", "$csnotify", "Restangular",
+    function($scope, $csnotify, rest) {
         "use strict";
 
         var restApi = rest.all("CustomerInfoApi");
@@ -8,17 +8,17 @@ csapp.controller("CustomerInfoCtrl", [
         $scope.productsList = [];
         $scope.customerInfos = [];
 
-        restApi.customGET("GetProducts").then(function (data) {
+        restApi.customGET("GetProducts").then(function(data) {
             $scope.productsList = data;
-        }, function (data) {
+        }, function(data) {
             $csnotify.error(data.data.Message);
         });
 
-        $scope.GetCustomerDetails = function (custInfo) {
+        $scope.GetCustomerDetails = function(custInfo) {
             if (angular.isDefined($scope.custInfo.Products) && angular.isDefined($scope.custInfo.AccountNo)) {
-                restApi.customGET("GetCustomerInfo", { products: custInfo.Products, accountNo: custInfo.AccountNo }).then(function (data) {
+                restApi.customGET("GetCustomerInfo", { products: custInfo.Products, accountNo: custInfo.AccountNo }).then(function(data) {
                     $scope.customerInfos = data;
-                }, function (data) {
+                }, function(data) {
                     $csnotify.error(data.data.Message);
                 });
             }
