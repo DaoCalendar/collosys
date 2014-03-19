@@ -81,7 +81,13 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/login', {
                     templateUrl: 'Shared/templates/login.html',
                     controller: 'LoginCtrl'
-                }).when('/fileupload/filedetail', {
+                }).when('/generic/profile', {
+                    templateUrl: '/Generic/profle/userprofile.html',
+                    controller: 'ProfileController'
+                })
+
+                //file upload
+                .when('/fileupload/filedetail', {
                     templateUrl: '/FileUpload/filedetail/file-detail-list.html',
                     controller: 'fileDetailsController'
                 }).when('/fileupload/filecolumn', {
@@ -105,7 +111,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/paymentchanges', {
                     templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                     controller: 'paymentManagerController'
-                }).when('/stakeholder/add', {
+                })
+
+                //stakeholder
+                .when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'
                 }).when('/generic/hierarchy', {
@@ -117,7 +126,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/stakeholder/view', {
                     templateUrl: '/Stakeholder/view/index.html',
                     controller: 'viewStake'
-                }).when('/allocation/policy', {
+                })
+
+                //allocation
+                .when('/allocation/policy', {
                     templateUrl: '/Allocation/policy/index.html',
                     controller: 'allocPolicyCtrl'
                 }).when('/allocation/subpolicy', {
@@ -126,8 +138,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/allocation/viewapprove', {
                     templateUrl: '/Allocation/viewapprove/index.html',
                     controller: 'approveViewCntrl'
-                    
-                }).when('/billing/policy', {
+                })
+
+                //billing
+                .when('/billing/policy', {
                     templateUrl: '/Billing/policy/index.html',
                     controller: 'payoutPolicyCtrl'
                 }).when('/billing/subpolicy', {
@@ -151,11 +165,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/billing/summary', {
                     templateUrl: '/Billing/summary/index.html',
                     controller: 'BillAmountCntrl'
+                })
 
-                }).when('/generic/permission', {
-                    templateUrl: '/Generic/permission/permission.html',
-                    controller: 'stkPermissionCtrl'
-                }).when('/generic/permissionscreen', {
+                //generic
+                .when('/generic/permissionscreen', {
                     templateUrl: '/Generic/permissionscreen/permissionscreen.html',
                     controller: 'stkPermissionCtrl'
                 }).when('/generic/product', {
@@ -164,36 +177,24 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/generic/keyvalue', {
                     templateUrl: '/Generic/keyvalue/keyvalue.html',
                     controller: 'keyValueCtrl'
-                    
-                }).when('/developer/logdownload', {
+                })
+
+                //developer
+                .when('/developer/logdownload', {
                     templateUrl: '/Developer/logdownload/logdownload.html',
                     controller: 'logdownloadCtrl'
-                    
-                }).when('/generic/connection', {
-                    templateUrl: '/Generic/connection/connection.html',
-                    controller: 'connection'
-                    
                 }).when('/developer/generatedb', {
                     templateUrl: '/Developer/generatedb/generatedb.html',
                     controller: 'DbGenerationController'
-                    
-                }).when('/developer/viewtables', {
-                    templateUrl: '/Developer/viewtables/viewtables.html',
+                }).when('/developer/viewdbtables', {
+                    templateUrl: '/Developer/dbtable/viewtables.html',
                     controller: 'databaseTablesCtrl'
-                    
-                }).when('/developer/downloadtables', {
-                    templateUrl: '/Developer/downloadtables/downloadtables.html',
-                    controller: 'databaseTablesCtrl'
-                    
-                }).when('/generic/query', {
-                    templateUrl: '/Generic/query/query.html',
+                }).when('/developer/queryexecuter', {
+                    templateUrl: '/Developer/queryexecuter/query-executer.html',
                     controller: 'QueryExecuterCntrl'
-                    
-                }).when('/generic/profile', {
-                    templateUrl: '/Generic/profle/userprofile.html',
-                    controller: 'ProfileController'
-                    
                 })
+
+                //otherwise
                 .otherwise({
                     redirectTo: '/'
                 });

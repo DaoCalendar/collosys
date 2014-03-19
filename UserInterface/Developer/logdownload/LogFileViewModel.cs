@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ColloSys.UserInterface.Areas.Developer.Models;
 
-namespace ColloSys.UserInterface.Areas.Developer.ViewModels
+namespace AngularUI.Developer.logdownload
 {
     public class LogFileViewModel
     {
