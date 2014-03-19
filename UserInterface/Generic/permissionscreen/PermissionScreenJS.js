@@ -1,25 +1,198 @@
-﻿/*global csapp*/
-(
+﻿csapp.factory("Datalayer", ["$csnotify", "Restangular", function ($csnotify, rest) {
+    var dldata = {};
+
+    var restApi = rest.all('PermissionScreenApi');
+
+    var getWholeData = function () {
+        restApi.customGET('GetWholeData').then(function (data) {
+            dldata.Activities = data.ActivityData;
+            dldata.stakeHierarchy = data.HierarchyData;
+            dldata.Permissions = data.PermissionData;
+        });
+    };
+
+
+
+    return {
+        dldata: dldata,
+        GetWholeData: getWholeData
+    };
+}]);
+
+csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
+
+    var setFinalPermission = function (vertical, activity, dldata) {
+        console.log('setFinalPermission factory');
+        var perm = _.where(dldata.Permissions, function (item) {
+            if (!$csfactory.isEmptyObject(item.Role)) {
+                if (item.Role.Hierarchy === vertical && item.Activity === activity)
+                    return item;
+            }
+        });
+        dldata.finalPermissionList = perm;
+    };
+
+    var getPermission = function (id, activity, dldata) {
+        console.log('get permissions factory');
+        dldata.eccalationDays = [];
+        var perm = _.find(dldata.Permissions, function (par) {
+            if (!$csfactory.isEmptyObject(par.Role)) {
+                if (par.Activity == activity && par.Role.Id == id) {
+                    return par;
+                }
+            }
+        });
+        if (!$csfactory.isEmptyObject(perm)) {
+            return perm.Permission;
+        }
+    };
+
+    var approvPositionlevel = function (hierarchy, permission, dldata) {
+        if ($csfactory.isEmptyObject(hierarchy)) {
+            return;
+        }
+        var maxposition = _.find(dldata.SortedHierarchyList, function (item) {
+            return (item.Id === hierarchy.Id);
+        });
+        dldata.selectedposition = maxposition.PositionLevel;
+    };
+
+    var clearOnVertical = function (hierarchy, activity,selectPermission, dldata) {
+        console.log('clearOnVertical factory');
+        if ($csfactory.isNullOrEmptyGuid(hierarchy)) {
+            return;
+        }
+        var list = [];
+        dldata.SavePermissions = [];
+        _.forEach(dldata.stakeHierarchy, function (item) {
+            if (item.Hierarchy != hierarchy) {
+                return [];
+            }
+            list.push(item);
+        });
+        dldata.SortedHierarchyList = _.sortBy(list, 'PositionLevel');
+        selectPermission = new Array(dldata.SortedHierarchyList.length); //sets the array length
+        approvPositionlevel();
+        getPermission(hierarchy.Id,activity, dldata);
+    };
+
+    var changePermission = function(activity, permission, hierarchy, index, selectPermission, dldata) {
+
+        if (permission !== 'Approve') {
+            //set permission object
+            var PermissionObj = {
+                Activity: activity,
+                Permission: permission,
+                EscalationDays: 0,
+                Role: hierarchy
+            };
+            setFinalPermissionsArray(activity, PermissionObj, hierarchy, dldata);
+        }
+
+        if (permission === 'Approve') {
+            for (var j = 0; j < index; j++) {
+                selectPermission[j] = 'Approve';
+            }
+            for (var i = dldata.SortedHierarchyList[0].PositionLevel; i <= hierarchy.PositionLevel; i++) {
+
+                var newHierarchy = _.find(dldata.SortedHierarchyList, function(item) {
+                    if (item.PositionLevel === i)
+                        return item;
+                });
+                //set permission object
+                PermissionObj = {
+                    Activity: activity,
+                    Permission: permission,
+                    EscalationDays: '3',
+                    Role: newHierarchy
+                };
+                setFinalPermissionsArray(activity,PermissionObj, newHierarchy, dldata);
+            }
+        }
+    };
+
+    var setFinalPermissionsArray = function (activity, permissionObj, hierarchy, dldata) {
+        
+        var index = dldata.finalPermissionList.indexOf(permissionObj);
+        if (index === -1) {
+            //finds the data with same Activity and Hierarchy
+            var data = _.find(dldata.finalPermissionList, function (item) {
+                if (item.Activity === activity && item.Role.Id === hierarchy.Id)
+                    return item;
+            });
+            //deletes the 'data' 
+            var index2 = dldata.finalPermissionList.indexOf(data);
+            if (index2 !== -1) dldata.finalPermissionList.splice(index2, 1);
+            //add the updated permission object
+            dldata.finalPermissionList.push(angular.copy(permissionObj));
+        }
+    };
+
+    var enableEscalation = function (hierarchy, activity, index, eccalationDays, dldata) {
+        if (!$csfactory.isEmptyObject(hierarchy)) {
+            var permissionObj = _.find(dldata.finalPermissionList, function (item) {
+                if (!$csfactory.isEmptyObject(item.Role)) {
+                    if (item.Role.Id === hierarchy.Id && item.Activity === activity)
+                        return item;
+                }
+            });
+            if (!$csfactory.isEmptyObject(permissionObj)) {
+                if (permissionObj.Permission === 'Approve') {
+                    dldata.eccalationDays[index] = permissionObj.EscalationDays;
+                    eccalationDays[index] = permissionObj.EscalationDays;
+                    return false;
+                } else {
+                    dldata.eccalationDays[index] = '';
+                    eccalationDays[index] = '';
+                    return true;
+                }
+
+            } else {
+                dldata.eccalationDays[index] = '';
+                eccalationDays[index] = '';
+                return true;
+            }
+        }
+    };
+    
+    var assignEscalationDay = function (noOfDays, hierarchy,dldata) {
+        var permissionObj = _.find(dldata.finalPermissionList, function (item) {
+            if (item.Role.Id === hierarchy.Id) {
+                return item;
+            }
+        });
+        if (!$csfactory.isEmptyObject(permissionObj))
+            permissionObj.EscalationDays = noOfDays;
+    };
+    
+    var enableSelect = function (positionLevel, selectPermission, index) {
+        if (!$csfactory.isNullOrEmptyString(selectPermission[index + 1])) {
+            if (selectPermission[index + 1] === 'Approve')
+                return true;
+            else return false;
+        }
+    };
+
+    return {
+        setFinalPermission: setFinalPermission,
+        changePermission: changePermission,
+        getPermission: getPermission,
+        clearOnVertical: clearOnVertical,
+        enableEscalation: enableEscalation,
+        assignEscalationDay: assignEscalationDay,
+        enableSelect:enableSelect
+    };
+}]);
+
 csapp.controller("PermissionscreenCtrl",
-    ["$scope", "$csfactory", "$csnotify", "Restangular", "permissionFactory", "$log",
-        function ($scope, $csfactory, $csnotify, rest, permissionFactory, $log) {
+    ["$scope", "$csfactory", "$csnotify", "Restangular", "permissionFactory", "$log", "Datalayer","PermissionsFactory",
+        function ($scope, $csfactory, $csnotify, rest, permissionFactory, $log, datalayer,factory) {
             "use strict";
 
             //#region datalayer
 
-            var permApi = rest.all('PermissionScreenApi');
-
-            $scope.getwholedata = function () {
-                permissionFactory.GetwholeData().then(function (data) {
-                    $scope.Activities = data.ActivityData;
-                    $scope.stakeHierarchy = data.HierarchyData;
-                    $scope.Permissions = data.PermissionData;
-                });
-
-            };
-
-            var init = function () {
-                $scope.escDate = [3, 4, 5, 6, 7, 8, 9, 10];
+            (function () {
+                $scope.escDate = ['3', '4', '5',' 6', '7', '8', '9', '10'];
                 $scope.eccalationDays = [];
                 $scope.finalPermissionList = [];
                 $scope.SelectPermission = [];
@@ -32,7 +205,7 @@ csapp.controller("PermissionscreenCtrl",
                 $scope.modifyPermissions = [];
                 $scope.FinalPermission = [];
                 $scope.Permissions = [];
-                $scope.getwholedata();
+
                 $scope.selectedposition = '';
 
                 $scope.PermissionObj = {
@@ -43,45 +216,48 @@ csapp.controller("PermissionscreenCtrl",
                     Role: {}
                 };
 
-            };
-            init();
+                $scope.dldata = datalayer.dldata;
+                $scope.factory = factory;
+                datalayer.GetWholeData();
+
+            })();
+
             $scope.enableSelect = function (positionLevel, selectedPosition, index) {
                 if (!$csfactory.isNullOrEmptyString($scope.SelectPermission[index + 1])) {
                     if ($scope.SelectPermission[index + 1] === 'Approve')
                         return true;
                     else return false;
-                    // return ($scope.SelectPermission[index + 1] === 'Approve' ? true : false);
                 }
-
             };
+
             $scope.SavePermission = function () {
-                if ($scope.finalPermissionList.length === 0) {
+                if ($scope.dldata.finalPermissionList.length === 0) {
                     return;
                 }
-                for (var i = 0; i < $scope.finalPermissionList.length; i++) {
-                    var activity = $scope.finalPermissionList[i].Activity;
-                    var id = $scope.finalPermissionList[i].Role.Id;
+                for (var i = 0; i < $scope.dldata.finalPermissionList.length; i++) {
+                    var activity = $scope.dldata.finalPermissionList[i].Activity;
+                    var id = $scope.dldata.finalPermissionList[i].Role.Id;
                     for (var j = 0; j < $scope.Permissions.length; j++) {
-                        if ($scope.Permissions[j].Activity === activity && $scope.Permissions[j].Role.Id === id) {
-                            var permObj = $scope.Permissions[j];
+                        if ($scope.dldata.Permissions[j].Activity === activity && $scope.dldata.Permissions[j].Role.Id === id) {
+                            var permObj = $scope.dldata.Permissions[j];
                             break;
                         }
                     }
                     if (!$csfactory.isEmptyObject(permObj)) {
-                        $scope.finalPermissionList[i].Id = permObj.Id;
-                        $scope.finalPermissionList[i].Version = permObj.Version;
+                        $scope.dldata.finalPermissionList[i].Id = permObj.Id;
+                        $scope.dldata.finalPermissionList[i].Version = permObj.Version;
                         permObj = {};
                     }
                 }
-                permApi.customPOST($scope.finalPermissionList, 'SavePermissions')
-                      .then(function (data) {
-                          $csnotify.success("Permission Saved");
-                          $scope.Permissions = data;
-                          //$scope.modifyPermissions = [];
-                          //$scope.Hierarchy = [];
-                      }, function () {
-                          $csnotify.error("Not able to save the permissions");
-                      });
+                permApi.customPOST($scope.dldata.finalPermissionList, 'SavePermissions')
+                    .then(function (data) {
+                        $csnotify.success("Permission Saved");
+                        $scope.Permissions = data;
+                        //$scope.modifyPermissions = [];
+                        //$scope.Hierarchy = [];
+                    }, function () {
+                        $csnotify.error("Not able to save the permissions");
+                    });
             };
 
             //#endregion
@@ -90,23 +266,27 @@ csapp.controller("PermissionscreenCtrl",
 
             $scope.enumPermission = ["NoAccess", "View", "Modify", "Approve"];
 
-            $scope.clearOnVertical = function (hierarchy) {
+            $scope.clearOnVertical = function (hierarchy,activity,selectPermission,dldata) {
+                
+                factory.clearOnVertical(hierarchy, activity,selectPermission, dldata);
                 $scope.designationshow = true;
-                if ($csfactory.isNullOrEmptyGuid(hierarchy)) {
-                    return;
-                }
-                var list = [];
-                $scope.SavePermissions = [];
-                _.forEach($scope.stakeHierarchy, function (item) {
-                    if (item.Hierarchy != hierarchy) {
-                        return [];
-                    }
-                    list.push(item);
-                });
-                $scope.SortedHierarchyList = _.sortBy(list, 'PositionLevel');
-                $scope.SelectPermission = new Array($scope.SortedHierarchyList.length);//sets the array length
-                $scope.approvPositionlevel();
-                $scope.getPermission(hierarchy.Id);
+
+                //if ($csfactory.isNullOrEmptyGuid(hierarchy)) {
+                //    return;
+                //}
+                //var list = [];
+                //$scope.SavePermissions = [];
+                //_.forEach($scope.dldata.stakeHierarchy, function (item) {
+                //    if (item.Hierarchy != hierarchy) {
+                //        return [];
+                //    }
+                //    list.push(item);
+                //});
+                //$scope.SortedHierarchyList = _.sortBy(list, 'PositionLevel');
+                //$scope.SelectPermission = new Array($scope.SortedHierarchyList.length); //sets the array length
+                //$scope.approvPositionlevel();
+                //$scope.getPermission(hierarchy.Id);
+                //$scope.SelectPermission = new Array($scope.dldata.SortedHierarchyList.length);
             };
 
             $scope.changeActivity = function () {
@@ -114,20 +294,10 @@ csapp.controller("PermissionscreenCtrl",
                 $scope.designationshow = false;
             };
 
-            $scope.approvPositionlevel = function (hierarchy, permission) {
+            $scope.approvPositionlevel = function (hierarchy) {
                 if ($csfactory.isEmptyObject(hierarchy)) {
                     return;
                 }
-                var perlist = [];
-                //_.forEach($scope.SortedHierarchyList, function (hie) {
-                //    var item = _.find($scope.Permissions, function (permission) {
-                //        return (permission.Activity === $scope.SelectedHier.Activity && permission.Role.Id === hie.Id && permission.Permission === 'Approve');
-                //    });
-                //    if (item) {
-                //        perlist.push(item);
-                //    }
-                //});
-                // if (perlist.length != 0) {
                 var maxposition = _.find($scope.SortedHierarchyList, function (item) {
                     return (item.Id === hierarchy.Id);
                 });
@@ -138,30 +308,34 @@ csapp.controller("PermissionscreenCtrl",
             //#region display/save activity & permission
 
             $scope.getPermission = function (id, activity) {
-                $scope.eccalationDays = [];
-                var perm = _.find($scope.Permissions, function (par) {
-                    if (!$csfactory.isEmptyObject(par.Role)) {
-                        if (par.Activity == activity && par.Role.Id == id) {
-                            return par;
-                        }
-                    }
-                });
-                if (!$csfactory.isEmptyObject(perm)) {
-                    return perm.Permission;
-                }
+                factory.getPermission(id, activity, $scope.dldata);
+                //$scope.eccalationDays = [];
+                //var perm = _.find($scope.dldata.Permissions, function (par) {
+                //    if (!$csfactory.isEmptyObject(par.Role)) {
+                //        if (par.Activity == activity && par.Role.Id == id) {
+                //            return par;
+                //        }
+                //    }
+                //});
+                //if (!$csfactory.isEmptyObject(perm)) {
+                //    return perm.Permission;
+                //}
             };
 
             $scope.changePermission1 = function (activity, permission, hierarchy, index) {
-                $log.info("changing permission...");
+
+                //factory.changePermission(activity, permission, hierarchy, index,$scope.dldata);
+
                 if (permission !== 'Approve') {
                     //set permission object
                     $scope.PermissionObj = {
-                        Activity: $scope.SelectedHier.Activity,
+                        Activity: activity,
                         Permission: permission,
                         EscalationDays: 0,
                         Role: hierarchy
                     };
-                    setFinalPermissionsArray($scope.PermissionObj, hierarchy);
+                    setFinalPermissionsArray(activity, $scope.PermissionObj, hierarchy);
+                    //setFinalPermissionsArray(activity,$scope.PermissionObj, hierarchy,$scope.dldata);
                 }
 
                 if (permission === 'Approve') {
@@ -176,30 +350,33 @@ csapp.controller("PermissionscreenCtrl",
                         });
                         //set permission object
                         $scope.PermissionObj = {
-                            Activity: $scope.SelectedHier.Activity,
+                            Activity: activity,
                             Permission: permission,
                             EscalationDays: 3,
                             Role: newHierarchy
                         };
                         setFinalPermissionsArray($scope.PermissionObj, newHierarchy);
+                        //setFinalPermissionsArray(activity,$scope.PermissionObj, hierarchy,$scope.dldata);
                     }
                 }
             };
 
             $scope.setFinalPermission = function (vertical, activity) {
-                var permissions = _.where($scope.Permissions, function (item) {
+
+                //factory.setFinalPermission(vertical, activity, $scope.dldata);
+
+                var permissions = _.where($scope.dldata.Permissions, function (item) {
                     if (!$csfactory.isEmptyObject(item.Role)) {
                         if (item.Role.Hierarchy === vertical && item.Activity === activity)
                             return item;
                     }
                 });
-                $scope.finalPermissionList = permissions;
+                $scope.dldata.finalPermissionList = permissions;
             };
 
             $scope.enableEscalation = function (hierarchy, activity, index) {
-                $log.info("enable function...");
-                if (!$csfactory.isEmptyObject(hierarchy)) {
-                    var permissionObj = _.find($scope.finalPermissionList, function (item) {
+               if (!$csfactory.isEmptyObject(hierarchy)) {
+                    var permissionObj = _.find($scope.dldata.finalPermissionList, function (item) {
                         if (!$csfactory.isEmptyObject(item.Role)) {
                             if (item.Role.Id === hierarchy.Id && item.Activity === activity)
                                 return item;
@@ -222,7 +399,7 @@ csapp.controller("PermissionscreenCtrl",
             };
 
             $scope.assignEscalationDay = function (noOfDays, hierarchy) {
-                var permissionObj = _.find($scope.finalPermissionList, function (item) {
+                var permissionObj = _.find($scope.dldata.finalPermissionList, function (item) {
                     if (item.Role.Id === hierarchy.Id) {
                         return item;
                     }
@@ -231,19 +408,20 @@ csapp.controller("PermissionscreenCtrl",
                     permissionObj.EscalationDays = noOfDays;
             };
 
-            var setFinalPermissionsArray = function (permissionObj, hierarchy) {
-                var index = $scope.finalPermissionList.indexOf(permissionObj);
+            var setFinalPermissionsArray = function (activity, permissionObj, hierarchy) {
+                console.log('setFinalPermissionArray controller');
+                var index = $scope.dldata.finalPermissionList.indexOf(permissionObj);
                 if (index === -1) {
                     //finds the data with same Activity and Hierarchy
-                    var data = _.find($scope.finalPermissionList, function (item) {
-                        if (item.Activity === $scope.SelectedHier.Activity && item.Role.Id === hierarchy.Id)
+                    var data = _.find($scope.dldata.finalPermissionList, function (item) {
+                        if (item.Activity === activity && item.Role.Id === hierarchy.Id)
                             return item;
                     });
                     //deletes the 'data' 
-                    var index2 = $scope.finalPermissionList.indexOf(data);
-                    if (index2 !== -1) $scope.finalPermissionList.splice(index2, 1);
+                    var index2 = $scope.dldata.finalPermissionList.indexOf(data);
+                    if (index2 !== -1) $scope.dldata.finalPermissionList.splice(index2, 1);
                     //add the updated permission object
-                    $scope.finalPermissionList.push(angular.copy(permissionObj));
+                    $scope.dldata.finalPermissionList.push(angular.copy(permissionObj));
                 }
             };
 
@@ -311,10 +489,10 @@ csapp.controller("PermissionscreenCtrl",
                     }
                 });
             };
-        }])
-);
+        }]);
+
 //#region "Factory"
-(
+
 csapp.factory('permissionFactory', ['Restangular', '$csfactory', '$csnotify', function (rest, $csfactory, $csnotify) {
     var restapi = rest.all('PermissionScreenApi');
     var getwholeData = function () {
@@ -325,9 +503,9 @@ csapp.factory('permissionFactory', ['Restangular', '$csfactory', '$csnotify', fu
         GetwholeData: getwholeData
     };
 
-}])
+}]);
 
-);
+
 //#endregion
 
 //#region " Row Code"
@@ -401,4 +579,14 @@ csapp.factory('permissionFactory', ['Restangular', '$csfactory', '$csnotify', fu
 //    return 3;
 //};
 
+//var perlist = [];
+//_.forEach($scope.SortedHierarchyList, function (hie) {
+//    var item = _.find($scope.Permissions, function (permission) {
+//        return (permission.Activity === $scope.SelectedHier.Activity && permission.Role.Id === hie.Id && permission.Permission === 'Approve');
+//    });
+//    if (item) {
+//        perlist.push(item);
+//    }
+//});
+// if (perlist.length != 0) {
 //#endregion
