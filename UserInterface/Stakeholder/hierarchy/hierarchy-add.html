@@ -332,7 +332,7 @@
             <div class="panel-footer text-right">
                 <input type="submit" value="Back" data-ng-model="back" class="btn btn-inverse" data-ng-disabled="step==1" data-ng-click="step=step-1" />
                 <input type="submit" value="Next" class="btn btn-success" data-ng-disabled="step1form.$invalid || step==4" data-ng-click="step=step+1" />
-                <input type="submit" value="Save" class="btn btn-success" data-ng-click="datalayer.Save(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4"/>
+                <input type="submit" value="Save" class="btn btn-success" data-ng-click="save(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4"/>
                 <input type="submit" value="Cancel" class="btn btn-warning" data-ng-click="closeform()" />
             </div>
         </div>

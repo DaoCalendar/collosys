@@ -1,0 +1,24 @@
+﻿<div>
+    <div class="row-fluid form-horizontal">
+        <div class="row">
+            <div class="control-group">
+                <label class="control-label">System</label>
+                <div class="controls">
+                    <select data-ng-model="selectedSystem" class="input-large" data-ng-change="getData(selectedSystem)" data-ui-select2="">
+                        <option value=""></option>
+                        <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
+                    </select>
+                    <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Payment</button>
+                    <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row-fluid control-group">
+        <div data-ui-if="gridOptions.showGrid == true">
+            <div data-ng-include="'/Shared/templates/grid/grid-buttons.html'"></div>
+            <div style="height: 500px" data-ng-grid="gridOptions"></div>
+        </div>
+    </div>
+</div>

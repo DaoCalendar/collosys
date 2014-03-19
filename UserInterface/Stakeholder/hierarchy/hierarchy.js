@@ -4,13 +4,17 @@
 
     var apiCalls = rest.all('HierarchyApi');
 
+    var setHierarchy = function (hierarchy, hierarchyList) {
+        hierarchy.ReportsToName = _.find(hierarchyList, { 'Id': hierarchy.ReportsTo });
+        hierarchy.WorkingReportsToName = _.find(hierarchyList, { 'Id': hierarchy.WorkingReportsTo });
+        hierarchy.LocationLevel = JSON.parse(hierarchy.LocationLevel);
+    };
+
     var getAllHierarchy = function () {
         return apiCalls.customGET('GetAllHierarchies').then(function (data) {
             dldata.HierarchyList = data;
             _.forEach(dldata.HierarchyList, function (item) {
-                item.ReportsToName = _.find(dldata.HierarchyList, { 'Id': item.ReportsTo });
-                item.WorkingReportsToName = _.find(dldata.HierarchyList, { 'Id': item.WorkingReportsTo });
-                item.LocationLevel = JSON.parse(item.LocationLevel);
+                setHierarchy(item, dldata.HierarchyList);
             });
             getReportee();
         }, function () {
@@ -34,55 +38,16 @@
         hierarchy.LocationLevel = JSON.stringify(hierarchy.LocationLevel);
         return apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function (data) {
             $csnotify.success('Data Saved');
-           var index = _.indexOf(dldata.HierarchyList, { 'Id': data.Id });
-            //_.forEach(dldata.HierarchyList, function(item) {
-            //    if (item.Id === data.Id)
-            //        item = data;
-            //});
-            if (index !== -1) dldata.HierarchyList[index] = hierarchy;
-            return data;
+            setHierarchy(data, dldata.HierarchyList);
+            var index = _.indexOf(_.pluck(dldata.HierarchyList, 'Id'), data.Id);
+            if (index !== -1) dldata.HierarchyList[index] = data;
+            console.log('saving data...');
+            //return data;
         }, function () {
             $csnotify.error('error in saving hierarchy');
         });
     };
 
-    //#region Save Hierarchy
-
-    //$scope.saveUpdatedData = function (hierarchy) {
-    //    $scope.closeform();
-
-    //    datalayer.saveUpdatedData(hierarchy);
-
-    //    //hierarchy.ApplicationName = 'collosys';
-    //    //hierarchy.PositionLevel = 0;
-    //    //var list = JSON.stringify(hierarchy.LocationLevel);
-    //    //hierarchy.LocationLevel = list;
-    //    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
-    //    //    $scope.stakeholder = {};
-    //    //    $scope.hierarchy = {};
-    //    //    if ($scope.isInEditMode === true) {
-    //    //        displayHierarchy();
-    //    //        getReporty();
-    //    //    }
-    //    //    $scope.closeEditBox();
-    //    //    $csnotify.success('Data Saved');
-    //    //}, function () {
-    //    //    $csnotify.error('error in saving hierarchy');
-    //    //});
-
-
-    //    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
-    //    //    $scope.hierarchy = {};
-    //    //    $scope.closeEditBox();
-    //    //    $csnotify.success(' Data Updated');
-
-    //    //}, function () {
-    //    //    $csnotify.error('error in saving hierarchy');
-    //    //});
-    //};
-
-
-    //#endregion
 
     return {
         dldata: dldata,
@@ -91,7 +56,7 @@
     };
 }]);
 
-csapp.factory("hierarchyFactory", ["$csfactory","hierarchyDataLayer", function ($csfactory,datalayer) {
+csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function ($csfactory, datalayer) {
 
     var initLocationLevelList = function (dldata) {
         dldata.LocationlevelList = [{ key: 'Pincode', value: 'Pincode' },
@@ -120,6 +85,9 @@ csapp.factory("hierarchyFactory", ["$csfactory","hierarchyDataLayer", function (
     };
 
     var reloadReportsTo = function (stakeholder) {
+        stakeholder.Designation = '';
+        stakeholder.Hierarchy = '';
+        stakeholder.ReportingLevel = '';
         stakeholder.ReportsTo = '';
         stakeholder.WorkingReportsTo = '';
     };
@@ -136,12 +104,18 @@ csapp.factory("hierarchyFactory", ["$csfactory","hierarchyDataLayer", function (
         return '';
     };
 
+    var setHierarchy = function (hierarchy, hierarchyList) {
+        hierarchy.ReportsToName = _.find(hierarchyList, { 'Id': item.ReportsTo });
+        hierarchy.WorkingReportsToName = _.find(hierarchyList, { 'Id': item.WorkingReportsTo });
+        hierarchy.LocationLevel = JSON.parse(item.LocationLevel);
+    };
     return {
         initLocationLevelList: initLocationLevelList,
         resetPaymentChlidVal: resetPaymentChlidVal,
         ResetBtnValue: resetBtnValue,
         reloadReportsTo: reloadReportsTo,
-        DesignationName: designationName
+        DesignationName: designationName,
+        setHierarchy: setHierarchy
     };
 }]);
 
@@ -178,12 +152,19 @@ csapp.controller("hierarchyAddController", ["$scope", '$csfactory', '$Validation
             $scope.datalayer = datalayer;
             $scope.val = $validation;
             $scope.dldata = datalayer.dldata;
-            
+
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
-           
+
         })();
 
+
+        $scope.save = function (hierarchy) {
+            datalayer.Save(hierarchy).then(function () {
+                $scope.step = 1;
+                $scope.stakeholder = {};
+            });
+        };
 
         $scope.closeform = function () {
             $scope.step = 1;
@@ -198,11 +179,10 @@ csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalI
             $scope.hierarchy = angular.copy(editHierarchy);
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            console.log('edit mode: ', $scope.dldata);
         })();
 
         $scope.save = function (hierarchy) {
-            datalayer.Save(hierarchy).then(function (data) {
+            datalayer.Save(hierarchy).then(function () {
                 $modalInstance.close();
             });
         };
@@ -211,3 +191,43 @@ csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalI
             $modalInstance.dismiss();
         };
     }]);
+
+
+
+//#region Save Hierarchy
+
+//$scope.saveUpdatedData = function (hierarchy) {
+//    $scope.closeform();
+
+//    datalayer.saveUpdatedData(hierarchy);
+
+//    //hierarchy.ApplicationName = 'collosys';
+//    //hierarchy.PositionLevel = 0;
+//    //var list = JSON.stringify(hierarchy.LocationLevel);
+//    //hierarchy.LocationLevel = list;
+//    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
+//    //    $scope.stakeholder = {};
+//    //    $scope.hierarchy = {};
+//    //    if ($scope.isInEditMode === true) {
+//    //        displayHierarchy();
+//    //        getReporty();
+//    //    }
+//    //    $scope.closeEditBox();
+//    //    $csnotify.success('Data Saved');
+//    //}, function () {
+//    //    $csnotify.error('error in saving hierarchy');
+//    //});
+
+
+//    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
+//    //    $scope.hierarchy = {};
+//    //    $scope.closeEditBox();
+//    //    $csnotify.success(' Data Updated');
+
+//    //}, function () {
+//    //    $csnotify.error('error in saving hierarchy');
+//    //});
+//};
+
+
+//#endregion

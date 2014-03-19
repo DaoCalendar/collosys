@@ -1,6 +1,5 @@
-﻿/// <reference path="QueryExecuter.js" />
-(
-csapp.controller("QueryExecuterCntrl", ["$scope", "Restangular", "$csnotify", "$csfactory", function ($scope, rest, $csnotify, $csfactory) {
+﻿
+csapp.controller("queryExecuterController", ["$scope", "Restangular", "$csnotify", "$csfactory", function ($scope, rest, $csnotify, $csfactory) {
 
     var restApi = rest.all("ExecuteQueryApi");
     $scope.gridOptions = {
@@ -63,4 +62,4 @@ csapp.controller("QueryExecuterCntrl", ["$scope", "Restangular", "$csnotify", "$
         $scope.queryList.splice($scope.queryList.indexOf(data), 1);
     };
 }])
-);
+;

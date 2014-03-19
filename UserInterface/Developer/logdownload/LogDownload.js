@@ -1,59 +1,87 @@
-﻿(
-csapp.controller("logdownloadCtrl", ["$scope", "Restangular", "$csnotify", "$csConstants",
-    function ($scope, rest, $csnotify, $csConstants) {
-        "use strict";
+﻿
+csapp.factory("driveExplorerDataLayer", [
+    "Restangular", "$csnotify", "driveExplorerFactory", function (rest, $csnotify, factory) {
+
         var restApi = rest.all("LogDownloadApi");
-        var currentPath = {};
-        
-        restApi.customGET("GetDrives")
-            .then(function(data) {
-                $scope.drives = data;
-            }, function(response) {
-                $csnotify.error(response.data.Message);
-            });
+        var dldata = {};
 
-        $scope.getStatus = function (path) {
+        var getDrives = function () {
+            restApi.customGET("GetDrives")
+                        .then(function (data) {
+                            dldata.drives = data;
+                        }, function (response) {
+                            $csnotify.error(response.data.Message);
+                        });
+        };
+
+        var getStatus = function (path) {
             restApi.customGET("Fetch", { dir: path })
-                .then(function(data) {
-                    $scope.logfile = data;
-                    $scope.logfile.Path = stripTrailingSlash($scope.logfile.Path);
-                    currentPath = $scope.logfile.Path;
-                }, function(response) {
+                .then(function (data) {
+                    dldata.logfile = data;
+                    dldata.logfile.Path = factory.stripTrailingSlash(dldata.logfile.Path);
+                    dldata.currentPath = dldata.logfile.Path;
+                }, function (response) {
                     $csnotify.error(response.data.Message);
-                    $scope.logfile.Path = currentPath;
-                });            
-        };
-        $scope.getStatus();
-
-        function stripTrailingSlash(str) {
-            if (str.substr(-1) == '\\') {
-                return str.substr(0, str.length - 1);
-            }
-            return str;
-        }
-
-        $scope.changeDrive = function(d) {
-            $scope.getStatus(d);
+                    dldata.logfile.Path = dldata.currentPath;
+                });
         };
 
-        $scope.changeDirectory = function (dir) {
-            $scope.logfile.Path = $scope.logfile.Path + "\\" + dir.Name;
-            $scope.getStatus($scope.logfile.Path);
-        };
-        
-        $scope.getParentDir = function (path) {
-            var lpath = stripTrailingSlash(path);
+        var getParentDir = function (path) {
+            var lpath = factory.stripTrailingSlash(path);
             restApi.customGET("FetchParent", { dir: lpath })
                 .then(function (data) {
-                    $scope.logfile = data;
+                    dldata.logfile = data;
                 }, function (response) {
                     $csnotify.error(response.data.Message);
                 });
         };
 
-        $scope.downloadFile = function (logFile) {
-            var downloadpath = $csConstants.MVC_BASE_URL + "Developer/LogDownload/Download?filePathNName=" + logFile.FullName + "";
-            window.location = downloadpath;
+        return {
+            dldata: dldata,
+            getDrives: getDrives,
+            getStatus: getStatus,
+            getParentDir: getParentDir
         };
-    }])
-);
+    }
+]);
+
+csapp.factory("driveExplorerFactory", function () {
+
+    function stripTrailingSlash(str) {
+        if (str.substr(-1) == '\\') {
+            return str.substr(0, str.length - 1);
+        }
+        return str;
+    };
+
+    return {
+        stripTrailingSlash: stripTrailingSlash
+    };
+});
+
+csapp.controller("driveExplorerController", [
+    "$scope", "$csConstants", "$csfactory", "driveExplorerDataLayer",
+    function ($scope, $csConstants, $csfactory, datalayer) {
+        "use strict";
+        (function () {
+            $scope.currentPath = {};
+            datalayer.getDrives();
+            datalayer.getStatus();
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+        })();
+
+        $scope.changeDrive = function (d) {
+            datalayer.getStatus(d);
+        };
+
+        $scope.changeDirectory = function (dir) {
+            $scope.dldata.logfile.Path = $scope.dldata.logfile.Path + "\\" + dir.Name;
+            datalayer.getStatus($scope.dldata.logfile.Path);
+        };
+
+        $scope.downloadFile = function (logFile) {
+            $csfactory.downloadFile(logFile.FullName);
+        };
+    }
+]);
