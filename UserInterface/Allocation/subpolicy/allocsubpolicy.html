@@ -208,7 +208,7 @@
 
             <div class="modal-footer">
                 <button class="btn btn-success" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved"  data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
-                <button class="btn btn-primary" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| disableIfRelationExists()" data-ng-click="showStartEndModalPopup(allocSubpolicy)">Activate</button>
+                <button class="btn btn-primary" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
                 <button class="btn btn-warning" data-ng-click="factory.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicy.Category)">Reset</button>
             </div>
         </div>

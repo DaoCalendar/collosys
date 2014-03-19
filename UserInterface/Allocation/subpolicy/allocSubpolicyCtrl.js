@@ -27,38 +27,19 @@
 
 
 
-    $scope.modelDateValidation = function (startDate, endDate) {
-        if (angular.isUndefined(endDate) || endDate == null) {
-            $scope.isModalDateValid = true;
-            return;
-        }
-        startDate = moment(startDate);
-        endDate = moment(endDate);
-        $scope.isModalDateValid = (endDate > startDate);
-    };
+    
 
-    $scope.activateSubPoicy = function (modelData) {
-        $scope.curRelation.StartDate = modelData.startDate;
-        $scope.curRelation.EndDate = modelData.endDate;
-        restApi.customPOST($scope.curRelation, "ActivateSubpolicy").then(function (data) {
-            data.AllocPolicy = null;
-            data.AllocSubpolicy = null;
-            $scope.curRelation = data;
-            $csnotify.success("Policy Activated");
-        });
-    };
+   
 
     $scope.showStartEndModalPopup = function () {
-        $scope.modalData.forActivate = true;
-        $scope.modalData.startDate = null;
-        $scope.modalData.endDate = null;
+       
         $scope.openDateModel = true;
     };
 
 }]);
 
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory',
-    function ($scope, datalayer, factory) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory','$modal',
+    function ($scope, datalayer, factory,$modal) {
         "use strict";
 
 
@@ -75,6 +56,22 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         { display: "Do Not Allocate", value: "DoNotAllocate" },
         { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
         { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
+
+        $scope.openmodal = function () {
+            $scope.modalData = $scope.dldata.allocSubpolicy;
+            $scope.modalData.forActivate = true;
+            $scope.modalData.startDate = null;
+            $scope.modalData.endDate = null;
+            $modal.open({
+                templateUrl: '/Allocation/subpolicy/date-model.html',
+                controller: 'datemodelCtrl',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+        };
 
         $scope.$watch('allocSubpolicy.AllocateType', factory.watchAllocateType());
 
@@ -141,7 +138,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 dldata.allocSubpolicy.AllocateType = '';
                 dldata.allocSubpolicy.NoAllocMonth = 1;
             } else {
-                check($scope.allocSubpolicy.ReasonNotAllocate);
+                check(dldata.allocSubpolicy.ReasonNotAllocate);
             }
             resetCondition();
 
@@ -230,13 +227,23 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 restApi.customPOST(allocSubpolicy, "Post").then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
-                    dldata.resetAllocSubpolicy(data.Products, data.Category);
-                    dldata.selectAllocSubpolicy(data);
+                    datalayer.resetAllocSubpolicy(data.Products, data.Category);
+                    datalayer.selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
                 });
             }
+        };
+
+        var activateSubpolicy = function (currelation) {
+            return restApi.customPOST(currelation, "ActivateSubpolicy")
+                .then(function (data) {
+                data.AllocPolicy = null;
+                data.AllocSubpolicy = null;
+                $csnotify.success("Policy Activated");
+               return data;
+           });
         };
 
         return {
@@ -246,7 +253,8 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             selectAllocSubpolicy: selectAllocSubpolicy,
             getColumnValues: getColumnValues,
             saveAllocSubpolicy: saveAllocSubpolicy,
-            changeProductCategory: changeProductCategory
+            changeProductCategory: changeProductCategory,
+            activateSubpolicy: activateSubpolicy
         };
 
     }]);
@@ -373,7 +381,9 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
         var resetCondition = function () {
             dldata.newCondition = {};
         };
-
+        
+       
+        
         return {
             disableIfRelationExists: disableIfRelationExists,
             checkDuplicateName: checkDuplicateName,
@@ -382,6 +392,37 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             addNewCondition: addNewCondition,
             deleteCondition: deleteCondition,
             resetAllocSubpolicy: resetAllocSubpolicy
+        };
+
+    }]);
+
+csapp.controller('datemodelCtrl', ['$scope','modalData','subpolicyDataLayer','$modalInstance',
+    function ($scope, modalData, datalayer, $modalInstance) {
+        $scope.dldata = datalayer.dldata;
+        
+        $scope.modalData = modalData;
+        
+        $scope.modelDateValidation = function (startDate, endDate) {
+            if (angular.isUndefined(endDate) || endDate == null) {
+                $scope.isModalDateValid = true;
+                return;
+            }
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            $scope.isModalDateValid = (endDate > startDate);
+        };
+        
+        $scope.activateSubPoicy = function (modelData) {
+            $scope.dldata.curRelation.StartDate = modelData.startDate;
+            $scope.dldata.curRelation.EndDate = modelData.endDate;
+            datalayer.activateSubpolicy($scope.dldata.curRelation).then(function (data) {
+                $scope.dldata.curRelation = data;
+                $modalInstance.close();
+            });
+        };
+
+        $scope.closeModel = function () {
+            $modalInstance.close();
         };
 
     }]);
