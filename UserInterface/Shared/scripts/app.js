@@ -1,6 +1,6 @@
 ﻿
 var csapp = angular.module("ui.collosys",
-    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload"]);
+    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload", 'ngAnimate']);
 
 csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
     function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
