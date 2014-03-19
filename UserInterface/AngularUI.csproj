@@ -107,8 +107,8 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
-    <Compile Include="Allocation\subpolicy\NgGridOptions.cs" />
-    <Compile Include="Allocation\subpolicy\SharedViewModel.cs" />
+    <Compile Include="Shared\NgGridOptions.cs" />
+    <Compile Include="Shared\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
@@ -189,10 +189,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
-    <Content Include="Allocation\policy\index.html" />
+    <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
-    <Content Include="Allocation\subpolicy\index.html" />
+    <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
+    <Content Include="Allocation\subpolicy\date-model.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
     <Content Include="Allocation\viewapprove\index.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />

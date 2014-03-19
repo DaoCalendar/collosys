@@ -130,13 +130,12 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Stakeholder/view/index.html',
                     controller: 'viewStake'
                 })
-
                 //allocation
                 .when('/allocation/policy', {
-                    templateUrl: '/Allocation/policy/index.html',
+                    templateUrl: '/Allocation/policy/allocpolicy.html',
                     controller: 'allocPolicyCtrl'
                 }).when('/allocation/subpolicy', {
-                    templateUrl: '/Allocation/subpolicy/index.html',
+                    templateUrl: '/Allocation/subpolicy/allocsubpolicy.html',
                     controller: 'allocSubpolicyCtrl'
                 }).when('/allocation/viewapprove', {
                     templateUrl: '/Allocation/viewapprove/index.html',
