@@ -613,6 +613,8 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
             } else {
                 gridOptions.PageData = queryResult.PageData;
                 gridOptions.TotalRowCount = queryResult.TotalRowCount;
+                $log.info("$csgrid : total initial rows : " + gridOptions.TotalRowCount +
+                    ", displayed rows : " + queryResult.PageData.length);
             }
         };
 

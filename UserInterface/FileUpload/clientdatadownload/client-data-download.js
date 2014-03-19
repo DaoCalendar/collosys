@@ -42,8 +42,8 @@ csapp.factory("ClientDataDownloadDataLayer", [
     }
 ]);
 
-csapp.controller("ClientDataDownloadController", ["$scope", "$csfactory", "$csGrid", "ClientDataDownloadDataLayer", "$modal",
-    function ($scope, $csfactory, $grid, datalayer, $modal) {
+csapp.controller("ClientDataDownloadController", ["$scope", "$csfactory", "$csGrid", "ClientDataDownloadDataLayer",
+    function ($scope, $csfactory, $grid, datalayer) {
 
         //#region init
         (function () {

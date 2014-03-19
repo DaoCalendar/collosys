@@ -102,6 +102,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/customerinfo', {
                     templateUrl: '/FileUpload/customerinfo/customer-info.html',
                     controller: 'customerInfoController'
+                }).when('/fileupload/paymentchanges', {
+                    templateUrl: '/FileUpload/paymentreversal/view-payments.html',
+                    controller: 'paymentManagerController'
                 }).when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'

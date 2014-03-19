@@ -28,9 +28,9 @@ namespace AngularUI.FileUpload.paymentreversal
 
     public class PaymentReversalApiController : BaseApiController<Payment>
     {
-        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
-        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
-        private static readonly PaymentBuilder PaymentBuilder=new PaymentBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly InfoBuilder InfoBuilder = new InfoBuilder();
+        private static readonly PaymentBuilder PaymentBuilder = new PaymentBuilder();
 
         // GET api/<controller>
         public IEnumerable<string> GetScbSystems()
@@ -52,26 +52,24 @@ namespace AngularUI.FileUpload.paymentreversal
         public HttpResponseMessage GetAccountNo(string accountNo, ScbEnums.Products products)
         {
             List<CustomerAccounts> data = InfoBuilder.OnAccNoProduct(accountNo, products)
-                                                     .Select(
-                                                         x =>
-                                                         new CustomerAccounts
+                                                     .Select(x =>new CustomerAccounts
                                                              {
                                                                  AccountNo = x.AccountNo,
                                                                  CustomerName = x.CustomerName
-                                                             })
-                                                     .ToList()
-                                                     .Distinct().ToList();
-          return Request.CreateResponse(HttpStatusCode.OK, data);
+                                                             }).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
-       
+
         [HttpGet]
         [HttpTransaction]
         public HttpResponseMessage FetchPageData(ScbEnums.ScbSystems systems)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, GetRPaymentData());
+            var data = DetachedCriteria.For(typeof(Payment));
+            //data.CreateCriteria("payment.FileScheduler", "fileScheduler", JoinType.InnerJoin);
+            var grid = new GridInitData(data, typeof(Payment)) { ScreenName = ColloSysEnums.GridScreenName.Payment };
+            return Request.CreateResponse(HttpStatusCode.OK, grid);
         }
-
 
         [HttpPost]
         [HttpTransaction(Persist = true)]
@@ -85,15 +83,6 @@ namespace AngularUI.FileUpload.paymentreversal
             return Request.CreateResponse(HttpStatusCode.OK, true);
         }
 
-        private static GridInitData GetRPaymentData()
-        {
-            var data = DetachedCriteria.For(typeof(Payment));
-            //data.CreateCriteria("payment.FileScheduler", "fileScheduler", JoinType.InnerJoin);
-            var grid= new GridInitData(data, typeof(Payment));
-            grid.ScreenName=ColloSysEnums.GridScreenName.Payment;
-            return grid;
-        }
-
         [HttpPost]
         [HttpTransaction(Persist = true)]
         public HttpResponseMessage AddPayments(Payment payment)
@@ -104,116 +93,3 @@ namespace AngularUI.FileUpload.paymentreversal
         }
     }
 }
-
-//switch (products)
-//{
-//    case ScbEnums.Products.CC:
-//        data = Session.Query<Info>()
-//                 .Where(x => x.AccountNo.ToString()
-//                                         .StartsWith(accountNo) && x.Product == products)
-//                 .Take(10).Select(x => new CustomerAccounts { AccountNo = x.AccountNo, CustomerName = x.CustomerName })
-//                 .ToList()
-//                 .Distinct().ToList();
-//        return Request.CreateResponse(HttpStatusCode.OK, data);
-//    case ScbEnums.Products.AUTO_OD:
-//    case ScbEnums.Products.SMC:
-
-//    case ScbEnums.Products.AUTO:
-//    case ScbEnums.Products.MORT:
-//    case ScbEnums.Products.PL:
-//    case ScbEnums.Products.SME_BIL:
-//    case ScbEnums.Products.SME_LAP:
-//    case ScbEnums.Products.SME_LAP_OD:
-//    case ScbEnums.Products.SME_ME:
-//        data = Session.Query<Info>()
-//                  .Where(x => x.AccountNo.ToString()
-//                                         .StartsWith(accountNo) && x.Product == products)
-//                 .Take(10).Select(x => new CustomerAccounts { AccountNo = x.AccountNo, CustomerName = x.CustomerName })
-//                 .ToList()
-//                 .Distinct().ToList();
-//        return Request.CreateResponse(HttpStatusCode.OK, data);
-//    default:
-//        throw new ArgumentOutOfRangeException("products");
-//}
-
-
-
-//switch (systems)
-//{
-//    case ScbEnums.ScbSystems.CCMS:
-//        return Request.CreateResponse(HttpStatusCode.OK, GetRPaymentData<Payment>());
-//    case ScbEnums.ScbSystems.EBBS:
-//        return Request.CreateResponse(HttpStatusCode.OK, GetRPaymentData<Payment>());
-//    case ScbEnums.ScbSystems.RLS:
-//        return Request.CreateResponse(HttpStatusCode.OK, GetRPaymentData<Payment>());
-//    default:
-//        throw new ArgumentOutOfRangeException("systems");
-//}
-
-
-//switch (sharedPayment.Products)
-//{
-//    case ScbEnums.Products.CC:
-//        var cPayments = payment.ToObject<Payment>();
-//        cPayments.FileDate = DateTime.Today;
-//        Session.SaveOrUpdate(cPayments);
-//        break;
-//    case ScbEnums.Products.AUTO_OD:
-//    case ScbEnums.Products.SMC:
-//        var ePayments = payment.ToObject<Payment>();
-//        ePayments.FileDate = DateTime.Today;
-//        Session.SaveOrUpdate(ePayments);
-//        break;
-//    case ScbEnums.Products.AUTO:
-//    case ScbEnums.Products.MORT:
-//    case ScbEnums.Products.PL:
-//    case ScbEnums.Products.SME_BIL:
-//    case ScbEnums.Products.SME_LAP:
-//    case ScbEnums.Products.SME_LAP_OD:
-//    case ScbEnums.Products.SME_ME:
-//        var rPayments = payment.ToObject<Payment>();
-//        rPayments.FileDate = DateTime.Today;
-//        Session.SaveOrUpdate(rPayments);
-//        break;
-
-//    default:
-//        throw new ArgumentOutOfRangeException("products");
-//}
-
-
-
-
-//switch (systems)
-//{
-//    case ScbEnums.ScbSystems.CCMS:
-//        var cPayments = payments.Select(x => x.ToObject<Payment>());
-
-
-//        break;
-//    case ScbEnums.ScbSystems.EBBS:
-//        var ePayments = payments.Select(x => x.ToObject<Payment>());
-
-//        if (ePayments == null)
-//            break;
-
-//        foreach (var payment in ePayments)
-//        {
-//            payment.IsExcluded = true;
-//            Session.SaveOrUpdate(payment);
-//        }
-//        break;
-//    case ScbEnums.ScbSystems.RLS:
-//        var rPayments = payments.Select(x => x.ToObject<Payment>());
-
-//        if (rPayments == null)
-//            break;
-
-//        foreach (var payment in rPayments)
-//        {
-//            payment.IsExcluded = true;
-//            Session.SaveOrUpdate(payment);
-//        }
-//        break;
-//    default:
-//        throw new ArgumentOutOfRangeException("systems");
-//}
