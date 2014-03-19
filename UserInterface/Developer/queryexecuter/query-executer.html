@@ -1,37 +1,36 @@
-﻿<div data-ng-controller="QueryExecuterCntrl" class="form-horizontal ">
+﻿<div class="form-horizontal ">
     <div>
         <div class="row-fluid">
             <div class="control-group span12">
                 <label class="control-label">Enter Query</label>
                 <div class="controls">
-                    <textarea style="width: 500px" data-ng-model="query">
-                    </textarea>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <button class="btn btn-success" data-ng-click="executeQuery()">Submit</button>
+                    <textarea style="width: 500px" data-ng-model="query"></textarea>
+                    <button class="btn btn-success" data-ng-click="executeQuery(query)">Submit</button>
                 </div>
             </div>
         </div>
-        <ul class="nav nav-tabs">
-            <li class="nav-list">
-                <button data-ng-click="view='viewData'" class="btn btn-link">View Data</button></li>
-            <li class="nav-list" data-ng-click="view='viewQuery'">
-                <button data-ng-click="view='viewQuery'" class="btn btn-link">View Query</button></li>
+        <ul class="nav nav-pills">
+            <li ng-class="{'active' : view==='viewData'}">
+                <button data-ng-click="view='viewData'" class="btn btn-link">View Data</button>
+            </li>
+            <li ng-class="{'active' : view==='viewQuery'}">
+                <button data-ng-click="view='viewQuery'" class="btn btn-link">View Query</button>
+            </li>
+            <li ng-class="{'active' : view==='viewError'}">
+                <button data-ng-click="view='viewError'" class="btn btn-link">View Error</button>
+            </li>
         </ul>
     </div>
     <div data-ng-show="view ==='viewData'">
         <div class="text-success" data-ng-show="queryType==='UPD'||queryType==='INS'||queryType==='DEL'">
             <span data-ng-if="properties[0]!='Exception'">Number of Rows Affected: {{tableData}}</span>
         </div>
-        <div style="overflow: auto; height: 400px; width: 100%">
-            <table class="table table-bordered ">
+        <div style="overflow: auto; height: 300px; width: 100%">
+            <table class="table table-bordered" data-ng-show="tableData.length > 0">
                 <thead>
                     <tr>
                         <th data-ng-repeat="data in properties">{{data}}</th>
                     </tr>
-
                 </thead>
                 <tbody>
                     <tr data-ng-repeat="values in tableData">
@@ -42,17 +41,17 @@
         </div>
     </div>
     <div data-ng-show="view ==='viewQuery'">
-        <div data-ng-repeat="data in queryList">
-            {{data}} 
-            <button class="btn btn-link" data-ng-click="executeQuery(data)">Execute</button>
-            <button class="btn btn-link" data-ng-click="deleteQuery(data)">Delete</button>
+        <div style="overflow: auto; height: 300px; width: 100%">
+            <div data-ng-repeat="query in queryList">
+                <span>{{query}}</span>
+                <button class="btn btn-link" data-ng-click="executeQuery(query)">Execute</button>
+                <button class="btn btn-link" data-ng-click="deleteQuery(query)">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div data-ng-show="view ==='viewError'">
+        <div style="overflow: auto; height: 300px; width: 100%">
+            <pre>{{queryError}}</pre>
         </div>
     </div>
 </div>
-<style>
-    .gridStyle {
-        border: 1px solid rgb(212, 212, 212);
-        width: 100%;
-        height: 300px;
-    }
-</style>
