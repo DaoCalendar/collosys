@@ -51,7 +51,6 @@ csapp.controller("allocPolicyCtrl", ["$scope", "$csnotify", "Restangular", funct
     };
 
     $scope.getDisplaySubPolicy = function (subPolicy) {
-
         var displaySubPolicy = {};
         displaySubPolicy.Name = subPolicy.Name;
         displaySubPolicy.Condition = getOuputConditionString(subPolicy);

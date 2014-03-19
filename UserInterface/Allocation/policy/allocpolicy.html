@@ -15,19 +15,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="row" data-ng-show="false">
-            <div class="control-group span5">
-                <label class="control-label">Name</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.allocPolicy.Name"
-                           data-ng-pattern="/^\w*$/" 
-                           readonly="readonly" 
-                           required 
-                        />
-                </div>
-            </div>
-        </div>
     </div>
 
     <tabset>
@@ -36,7 +23,7 @@
             <table class="table table-bordered form-horizontal" style="border-color: green">
                 <tr data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
                     <td  style="border-color: green">
-                        <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(dldata.allocRelation.AllocSubpolicy)" class=" row-fluid span12">
+                        <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(allocRelation.AllocSubpolicy)" class=" row-fluid span12">
                             <div class="row-fluid span10">
                                 <!--Name & Policy-->
                                 <div class="row-fluid">
@@ -55,21 +42,21 @@
                                     <div class="control-group span5">
                                         <label class="control-label">Policy</label>
                                         <div class="controls">
-                                            <input type="text" data-ng-model="dldata.disSubPolicy.Policy" readonly="readonly" />
+                                            <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                                         </div>
                                     </div>
                                     <!--POlicy Reason-->
-                                    <div class="control-group span5" data-ng-show="dldata.disSubPolicy.Policy=='DoNotAllocate'">
+                                    <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
                                         <label class="control-label">Reason</label>
                                         <div class="controls">
-                                            <input type="text" data-ng-model="dldata.disSubPolicy.Reason" readonly="readonly" />
+                                            <input type="text" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
                                         </div>
                                     </div>
                                     <!--Policy Stakeholder-->
-                                    <div class="control-group span5" data-ng-show="dldata.disSubPolicy.Policy=='AllocateToStkholder'">
+                                    <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                         <label class="control-label">Stakeholder</label>
                                         <div class="controls">
-                                            <input type="text" readonly="readonly" data-ng-model="dldata.disSubPolicy.StakeholdersName"/>
+                                            <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +82,7 @@
                                     <div class="control-group span5">
                                         <label class="control-label">Condition</label>
                                         <div class="controls">
-                                            <textarea class="resize" data-ng-model="dldata.disSubPolicy.Condition" style="width: 622px" readonly="readonly"></textarea>
+                                            <textarea class="resize" data-ng-model="disSubPolicy.Condition" style="width: 622px" readonly="readonly"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +101,7 @@
                             <div class="row-fluid span2">
                                 <div class="row-fluid span12 text-right">
                                     <div class="btn-group btn-group-vertical">
-                                        <button class="btn btn-mini icon-arrow-up" data-ng-disabled="$first" data-ng-click="facotry.upside(dldata.disSubPolicy,$index)"></button>
+                                        <button class="btn btn-mini icon-arrow-up" data-ng-disabled="$first" data-ng-click="facotry.upside(disSubPolicy,$index)"></button>
                                         <button class="btn btn-mini icon-arrow-down" data-ng-disabled="$last" data-ng-click="factory.downside(dldata.subPolicy,$index)"></button>
                                     </div>
                                 </div>
@@ -123,7 +110,7 @@
                             <div class="row-fluid span2">
                                 <div class="row-fluid" >
                                     <div class="row-fluid text-left" >
-                                        <label ng-style="color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
+                                        <label ng-style="dldata.color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedBy-->
@@ -187,23 +174,23 @@
                                     <div class="control-group span5">
                                         <label class="control-label">Policy</label>
                                         <div class="controls">
-                                            <input type="text" data-ng-model="dldata.disSubPolicy.Policy" readonly="readonly" />
+                                            <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                                         </div>
                                     </div>
                                     <!--POlicy Reason-->
-                                    <div class="control-group span5" data-ng-show="dldata.disSubPolicy.Policy=='DoNotAllocate'">
+                                    <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
                                         <label class="control-label">Reason</label>
                                         <div class="controls">
-                                            <input type="text" data-ng-model="dldata.disSubPolicy.Reason" readonly="readonly" />
+                                            <input type="text" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
                                         </div>
                                     </div>
                                     <!--Policy Stakeholder-->
                                     <div class="control-group span5"
-                                         data-ng-show="dldata.disSubPolicy.Policy=='AllocateToStkholder'">
+                                         data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                         <label class="control-label">Stakeholder</label>
                                         <div class="controls">
                                             <input type="text" readonly="readonly" 
-                                                data-ng-model="dldata.disSubPolicy.StakeholdersName"/>
+                                                data-ng-model="disSubPolicy.StakeholdersName"/>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +216,7 @@
                                     <div class="control-group span5">
                                         <label class="control-label">Condition</label>
                                         <div class="controls">
-                                            <textarea class="resize" data-ng-model="dldata.disSubPolicy.Condition" 
+                                            <textarea class="resize" data-ng-model="disSubPolicy.Condition" 
                                                 style="width: 622px" readonly="readonly"></textarea>
                                         </div>
                                     </div>
@@ -251,7 +238,7 @@
                             <div class="row-fluid span2">
                                 <div class="row-fluid" >
                                     <div class="row-fluid text-left" >
-                                        <label ng-style="color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
+                                        <label ng-style="dldata.color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedBy-->
@@ -297,7 +284,7 @@
             <table class="table table-bordered form-horizontal" style="border-color: red">
                 <tr data-ng-repeat="billingRelation in allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
                     <td style="border-color: red">
-                        <div data-ng-init="dldata.disSubPolicy = datalayer.getDisplaySubPolicy(billingRelation.AllocSubpolicy)" class="row-fluid span10">
+                        <div data-ng-init="disSubPolicy = datalayer.getDisplaySubPolicy(billingRelation.AllocSubpolicy)" class="row-fluid span10">
                             <!--Name & Policy-->
                             <div class="row-fluid">
                                 <!--Name-->
@@ -314,21 +301,21 @@
                                 <div class="control-group span5">
                                     <label class="control-label">Policy</label>
                                     <div class="controls">
-                                        <input type="text" data-ng-model="dldata.disSubPolicy.Policy" readonly="readonly" />
+                                        <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                                     </div>
                                 </div>
                                 <!--Policy Reason-->
-                                <div class="control-group span5" data-ng-show="dldata.disSubPolicy.Policy=='DoNotAllocate'">
+                                <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
                                     <label class="control-label">Reason</label>
                                     <div class="controls">
-                                        <input type="text" data-ng-model="dldata.disSubPolicy.Reason" readonly="readonly" />
+                                        <input type="text" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
                                     </div>
                                 </div>
                                 <!--Policy Stakeholder-->
-                                <div class="control-group span5" data-ng-show="dldata.disSubPolicy.Policy=='AllocateToStkholder'">
+                                <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                     <label class="control-label">Stakeholder</label>
                                     <div class="controls">
-                                        <input type="text" readonly="readonly" data-ng-model="dldata.disSubPolicy.StakeholdersName"/>
+                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +341,7 @@
                                 <div class="control-group span5">
                                     <label class="control-label">Condition</label>
                                     <div class="controls">
-                                        <textarea class="resize" data-ng-model="dldata.disSubPolicy.Condition"
+                                        <textarea class="resize" data-ng-model="disSubPolicy.Condition"
                                              style="width: 622px" readonly="readonly"></textarea>
                                     </div>
                                 </div>
@@ -374,7 +361,7 @@
                         <div class=" row-fluid span2">
                              <div class="row-fluid " >
                                     <div class="row-fluid text-left" >
-                                        <label ng-style="color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
+                                        <label ng-style="dldata.color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
                                     </div>
                                 </div>
                             <!--CreatedBy-->
@@ -420,7 +407,7 @@
             <table class="table table-bordered form-horizontal" style="border-color: blue">
                 <tr data-ng-repeat="subPolicy in dldata.subPolicyList">
                     <td style="border-color: blue">
-                        <div data-ng-init="dldata.disSubPolicy = factory.getDisplaySubPolicy(subPolicy)" class="span10">
+                        <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(subPolicy)" class="span10">
                             <div class="row">
                                 <div class="control-group span6">
                                     <label class="control-label">Name</label>
@@ -435,19 +422,19 @@
                                 <div class="control-group span5">
                                 <label class="control-label">Policy</label>
                                 <div class="controls">
-                                    <input type="text" data-ng-model="dldata.disSubPolicy.Policy" readonly="readonly" />
+                                    <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                                 </div>
                                </div>
-                                <div data-ng-show="dldata.disSubPolicy.Policy=='DoNotAllocate'" class="control-group span5">
+                                <div data-ng-show="disSubPolicy.Policy=='DoNotAllocate'" class="control-group span5">
                                     <label class="control-label">Reason</label>
                                     <div class="controls">
-                                        <input type="text" data-ng-model="dldata.disSubPolicy.Reason" readonly="readonly" />
+                                        <input type="text" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
                                     </div>
                                 </div>
-                                <div data-ng-show="dldata.disSubPolicy.Policy=='AllocateToStkholder'" class="control-group span5">
+                                <div data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'" class="control-group span5">
                                     <label class="control-label">Stakeholder</label>
                                     <div class="controls">
-                                        <input type="text" readonly="readonly" data-ng-model="dldata.disSubPolicy.StakeholdersName"/>
+                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
                                     </div>
                                 </div>
                             </div>
@@ -456,7 +443,7 @@
                                 <div class="control-group span5">
                                     <label class="control-label">Condition</label>
                                     <div class="controls">
-                                        <textarea id="foo" data-ng-model="dldata.disSubPolicy.Condition" style="width: 635px" readonly="readonly"></textarea>
+                                        <textarea id="foo" data-ng-model="disSubPolicy.Condition" style="width: 635px" readonly="readonly"></textarea>
                                     </div>
                                 </div>
                               </div>

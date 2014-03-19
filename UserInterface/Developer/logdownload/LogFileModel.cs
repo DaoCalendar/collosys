@@ -1,4 +1,4 @@
-﻿namespace ColloSys.UserInterface.Areas.Developer.Models
+﻿namespace AngularUI.Developer.logdownload
 {
     public class LogFileModel
     {

@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="modal-footer well">
-            <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
+            <button class="btn btn-danger" data-ng-disabled="!dldata.isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
             <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
             <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
         </div>

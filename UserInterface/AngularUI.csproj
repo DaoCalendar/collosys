@@ -107,8 +107,8 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
-    <Compile Include="Allocation\subpolicy\NgGridOptions.cs" />
-    <Compile Include="Allocation\subpolicy\SharedViewModel.cs" />
+    <Compile Include="Shared\NgGridOptions.cs" />
+    <Compile Include="Shared\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
@@ -120,7 +120,16 @@
     <Compile Include="Billing\subpolicy\PayoutSubpolicyApiController.cs" />
     <Compile Include="Billing\summary\BillingAmountApiController.cs" />
     <Compile Include="Billing\summary\FinalBillData.cs" />
-    <Compile Include="Developer\downloadtables\DatabaseTablesApiController.cs" />
+    <Compile Include="Developer\connection\ConnectionApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Developer\connection\ConnectionStringMgr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Developer\connection\Cryptography.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Developer\dbtable\DatabaseTablesApiController.cs" />
     <Compile Include="Developer\generatedb\CreateDb.cs" />
     <Compile Include="Developer\generatedb\DbGenerationApiController.cs" />
     <Compile Include="Developer\generatedb\Excel2Db\BulkCopy.cs" />
@@ -147,9 +156,6 @@
     <Compile Include="FileUpload\filestatus\FileStatusApiController.cs" />
     <Compile Include="FileUpload\filestatus\FileStatusHelper.cs" />
     <Compile Include="FileUpload\paymentreversal\PaymentReversalApiController.cs" />
-    <Compile Include="Generic\connection\ConnectionApiController.cs" />
-    <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
-    <Compile Include="Generic\connection\Cryptography.cs" />
     <Compile Include="Generic\keyvalue\KeyValueApiController.cs" />
     <Compile Include="Generic\permissionscreen\PermissionScreenApiController.cs" />
     <Compile Include="Generic\permission\PermisionData.cs" />
@@ -158,9 +164,9 @@
     <Compile Include="Generic\pincode\pincodeData.cs" />
     <Compile Include="Generic\product\ProductConfigApiController.cs" />
     <Compile Include="Generic\profile\ProfileApiController.cs" />
-    <Compile Include="Generic\query\ExecuteQueryApiController.cs" />
-    <Compile Include="Generic\query\Executer.cs" />
-    <Compile Include="Generic\query\QueryResult.cs" />
+    <Compile Include="Developer\queryexecuter\ExecuteQueryApiController.cs" />
+    <Compile Include="Developer\queryexecuter\Executer.cs" />
+    <Compile Include="Developer\queryexecuter\QueryResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -183,10 +189,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
-    <Content Include="Allocation\policy\index.html" />
+    <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
-    <Content Include="Allocation\subpolicy\index.html" />
+    <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
+    <Content Include="Allocation\subpolicy\date-model.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
     <Content Include="Allocation\viewapprove\index.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
@@ -236,13 +243,15 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
-    <Content Include="Developer\downloadtables\DatabaseTablesCtrl.js" />
-    <Content Include="Developer\downloadtables\downloadtables.html" />
+    <Content Include="Developer\connection\connection.html" />
+    <Content Include="Developer\connection\connectionConfig.js" />
+    <Content Include="Developer\dbtable\dbtables.js" />
+    <Content Include="Developer\dbtable\downloadtables.html" />
     <Content Include="Developer\generatedb\generatedb.html" />
-    <Content Include="Developer\generatedb\GenerateDB.js" />
+    <Content Include="Developer\generatedb\generatedb.js" />
     <Content Include="Developer\logdownload\logdownload.html" />
-    <Content Include="Developer\logdownload\LogDownload.js" />
-    <Content Include="Developer\viewtables\viewtables.html" />
+    <Content Include="Developer\logdownload\logdownload.js" />
+    <Content Include="Developer\dbtable\viewtables.html" />
     <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
     <Content Include="FileUpload\customerinfo\customer-info.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
@@ -262,8 +271,6 @@
     <Content Include="FileUpload\filestatus\filestatus.js" />
     <Content Include="FileUpload\paymentreversal\payment-add.html" />
     <Content Include="FileUpload\paymentreversal\paymentmanager.js" />
-    <Content Include="Generic\connection\connection.html" />
-    <Content Include="Generic\connection\connectionConfig.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
@@ -278,8 +285,8 @@
     <Content Include="Generic\product\ProductConfigModel.js" />
     <Content Include="Generic\profile\userprofile.html" />
     <Content Include="Generic\profile\UserProfile.js" />
-    <Content Include="Generic\query\query.html" />
-    <Content Include="Generic\query\QueryExecuter.js" />
+    <Content Include="Developer\queryexecuter\query-executer.html" />
+    <Content Include="Developer\queryexecuter\queryexecuter.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />

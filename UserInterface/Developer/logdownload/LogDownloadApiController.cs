@@ -8,13 +8,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ColloSys.Shared.ConfigSectionReader;
-using ColloSys.UserInterface.Areas.Developer.Models;
-using ColloSys.UserInterface.Areas.Developer.ViewModels;
 
 #endregion
 
-
-namespace ColloSys.UserInterface.Areas.Developer.apiController
+namespace AngularUI.Developer.logdownload
 {
     public class LogDownloadApiController : ApiController
     {

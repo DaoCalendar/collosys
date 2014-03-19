@@ -65,7 +65,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
 
         var openModal = function (modalData) {
             $modal.open({
-                templateUrl: '',
+                templateUrl: '/Allocation/policy/policy-modal.html',
                 controller: 'datemodelctrl',
                 resolve: {
                     modalData: function () {
@@ -220,21 +220,19 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
 csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer) {
 
     var setStatus = function (status) {
-        var color = {};
         if (status === 'Rejected') {
-            color = { color: 'red' };
+            datalayer.dldata.color = { color: 'red' };
         }
         if (status === 'Approved') {
-            color = { color: 'green' };
+            datalayer.dldata.color = { color: 'green' };
         }
         if (status === 'Submitted') {
-            color = { color: 'blue' };
+            datalayer.dldata.color = { color: 'blue' };
         }
-        return color;
-    };
+        return status;
+       };
 
     var getDisplaySubPolicy = function (subPolicy) {
-
         var displaySubPolicy = {};
         displaySubPolicy.Name = subPolicy.Name;
         displaySubPolicy.Condition = getOuputConditionString(subPolicy);
