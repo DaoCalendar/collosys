@@ -1,19 +1,18 @@
 ﻿#region references
 
-using System;
 using System.Data;
 using System.Data.SqlClient;
 using ColloSys.Shared.ConfigSectionReader;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.Generic.Models
+namespace AngularUI.Developer.queryexecuter
 {
     public static class QueryExecuter
     {
         private static readonly string ConnString = ColloSysParam.WebParams.ConnectionString.ConnectionString;
 
-        public static DataTable ExecuteNonScaler(string query2Execute)
+        public static DataTable ExecuteSelect(string query2Execute)
         {
             if (string.IsNullOrEmpty(query2Execute))
             {
@@ -21,61 +20,39 @@ namespace ColloSys.UserInterface.Areas.Generic.Models
             }
             var query = query2Execute;
             var dataTable = new DataTable();
-            try
+            using (var conn = new SqlConnection(ConnString))
             {
-                var conn = new SqlConnection(ConnString);
-                var cmd = new SqlCommand(query, conn);
                 conn.Open();
-
-                // create data adapter
-                var da = new SqlDataAdapter(cmd);
-                // this will query your database and return the result to your datatable
-                da.Fill(dataTable);
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    using (var da = new SqlDataAdapter(cmd))
+                    {
+                        da.Fill(dataTable);
+                    }
+                }
                 conn.Close();
-                da.Dispose();
             }
-            catch (Exception ex)
-            {
-                dataTable = new DataTable();
-                dataTable.Columns.Add("Exception");
-                var dr = dataTable.NewRow();
-                dr["Exception"] = ex;
-                dataTable.Rows.Add(dr);
-            }
-            
+
             return dataTable;
         }
 
-        public static int ExecuteNonQueryUpdateDelete(string query2Execute)
+        public static int ExecuteDataChange(string query2Execute)
         {
+            var result = 0;
             if (string.IsNullOrEmpty(query2Execute))
             {
-                return 0;
+                return result;
             }
-            
-                var connection = new SqlConnection(ConnString);
-                connection.Open();
-                var cmd = connection.CreateCommand();
-                cmd.CommandText = query2Execute;
-                var result = cmd.ExecuteNonQuery();
-                connection.Close();
-            
-            return result;
-        }
 
-        public static int ExecuteScalerSelect(string query2Execute)
-        {
-            if (string.IsNullOrEmpty(query2Execute))
+            using (var conn = new SqlConnection(ConnString))
             {
-                return 0;
+                conn.Open();
+                using (var cmd = new SqlCommand(query2Execute, conn))
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                conn.Close();
             }
-            var connection = new SqlConnection(ConnString);
-            connection.Open();
-            var cmd = connection.CreateCommand();
-            cmd.CommandText = query2Execute;
-
-            var result = ((int)cmd.ExecuteScalar());
-            connection.Close();
             return result;
         }
     }
