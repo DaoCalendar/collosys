@@ -11,17 +11,13 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
-using Newtonsoft.Json.Linq;
+
 //using UserInterfaceAngular.NgGrid;
 
 #endregion
