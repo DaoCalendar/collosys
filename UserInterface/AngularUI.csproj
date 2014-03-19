@@ -120,6 +120,15 @@
     <Compile Include="Billing\subpolicy\PayoutSubpolicyApiController.cs" />
     <Compile Include="Billing\summary\BillingAmountApiController.cs" />
     <Compile Include="Billing\summary\FinalBillData.cs" />
+    <Compile Include="Developer\connection\ConnectionApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Developer\connection\ConnectionStringMgr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Developer\connection\Cryptography.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Developer\dbtable\DatabaseTablesApiController.cs" />
     <Compile Include="Developer\generatedb\CreateDb.cs" />
     <Compile Include="Developer\generatedb\DbGenerationApiController.cs" />
@@ -233,6 +242,8 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
+    <Content Include="Developer\connection\connection.html" />
+    <Content Include="Developer\connection\connectionConfig.js" />
     <Content Include="Developer\dbtable\dbtables.js" />
     <Content Include="Developer\dbtable\downloadtables.html" />
     <Content Include="Developer\generatedb\generatedb.html" />

@@ -59,7 +59,7 @@ csapp.factory("driveExplorerFactory", function () {
     };
 });
 
-csapp.controller("logdownloadCtrl", [
+csapp.controller("driveExplorerController", [
     "$scope", "$csConstants", "$csfactory", "driveExplorerDataLayer",
     function ($scope, $csConstants, $csfactory, datalayer) {
         "use strict";

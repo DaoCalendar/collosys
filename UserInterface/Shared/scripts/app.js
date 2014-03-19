@@ -182,7 +182,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 //developer
                 .when('/developer/logdownload', {
                     templateUrl: '/Developer/logdownload/logdownload.html',
-                    controller: 'logdownloadCtrl'
+                    controller: 'driveExplorerController'
                 }).when('/developer/generatedb', {
                     templateUrl: '/Developer/generatedb/generatedb.html',
                     controller: 'DbGenerationController'
@@ -191,7 +191,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     controller: 'databaseTablesCtrl'
                 }).when('/developer/queryexecuter', {
                     templateUrl: '/Developer/queryexecuter/query-executer.html',
-                    controller: 'QueryExecuterCntrl'
+                    controller: 'queryExecuterController'
                 })
 
                 //otherwise
