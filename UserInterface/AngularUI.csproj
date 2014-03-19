@@ -134,6 +134,7 @@
     <Compile Include="Developer\logdownload\LogFileViewModel.cs" />
     <Compile Include="FileUpload\clientdatadownload\ClientDataDownloadApiController.cs" />
     <Compile Include="FileUpload\clientdatadownload\ProductCategoryModel.cs" />
+    <Compile Include="FileUpload\customerinfo\CustomerInfoApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnApiController.cs" />
     <Compile Include="FileUpload\filecolumn\FileColumnViewModel.cs" />
     <Compile Include="FileUpload\filedetail\FileDetailsApiController.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
     <Compile Include="FileUpload\filestatus\FileStatusApiController.cs" />
     <Compile Include="FileUpload\filestatus\FileStatusHelper.cs" />
+    <Compile Include="FileUpload\paymentreversal\PaymentReversalApiController.cs" />
     <Compile Include="Generic\connection\ConnectionApiController.cs" />
     <Compile Include="Generic\connection\ConnectionStringMgr.cs" />
     <Compile Include="Generic\connection\Cryptography.cs" />
@@ -163,13 +165,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporting\clientdata\ClientDataApiController.cs" />
-    <Compile Include="Reporting\generate\commonUtility.cs" />
-    <Compile Include="Reporting\generate\getTypes.cs" />
-    <Compile Include="Reporting\generate\ReportApiController.cs" />
-    <Compile Include="Reporting\generate\ViewClass.cs" />
-    <Compile Include="Reporting\GridApiController.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
+    <Compile Include="Shared\webapis\GridApiController.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
@@ -211,6 +208,7 @@
     <Content Include="Billing\summary\index.html" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
+    <Content Include="Content\animation\animate.css" />
     <Content Include="Content\bootstrap-datepicker\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.css" />
     <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.min.css" />
@@ -246,6 +244,7 @@
     <Content Include="Developer\logdownload\LogDownload.js" />
     <Content Include="Developer\viewtables\viewtables.html" />
     <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
+    <Content Include="FileUpload\customerinfo\customer-info.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -261,6 +260,8 @@
     <Content Include="FileUpload\filestatus\file-status-grid.html" />
     <Content Include="FileUpload\filestatus\file-status-immediate.html" />
     <Content Include="FileUpload\filestatus\filestatus.js" />
+    <Content Include="FileUpload\paymentreversal\payment-add.html" />
+    <Content Include="FileUpload\paymentreversal\paymentmanager.js" />
     <Content Include="Generic\connection\connection.html" />
     <Content Include="Generic\connection\connectionConfig.js" />
     <Content Include="Generic\general\generalConfig.js" />
@@ -279,12 +280,6 @@
     <Content Include="Generic\profile\UserProfile.js" />
     <Content Include="Generic\query\query.html" />
     <Content Include="Generic\query\QueryExecuter.js" />
-    <Content Include="Reporting\clientdata\clientdata.html" />
-    <Content Include="Reporting\clientdata\clientDataReporting.js" />
-    <Content Include="Reporting\generate\generate.html" />
-    <Content Include="Reporting\generate\Reporting.js" />
-    <Content Include="Reporting\view\view.html" />
-    <Content Include="Reporting\view\ViewReporting.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />
@@ -369,6 +364,8 @@
     <Content Include="FileUpload\filestatus\file-status.html" />
     <EmbeddedResource Include="ExcelData\FileUploader.xls" />
     <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
+    <Content Include="FileUpload\customerinfo\customer-info.html" />
+    <Content Include="FileUpload\paymentreversal\view-payments.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

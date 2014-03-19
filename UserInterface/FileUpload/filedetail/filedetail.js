@@ -141,12 +141,13 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
     }
 ]);
 
-csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer",
-    function ($scope, modalService, $modal, datalayer) {
+csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer", "$csfactory",
+    function ($scope, modalService, $modal, datalayer, $csfactory) {
         "use strict";
 
         (function () {
             $scope.datalayer = datalayer;
+            $csfactory.hideSpinner();
             datalayer.GetAll();
         })();
 

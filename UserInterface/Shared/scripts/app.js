@@ -1,6 +1,6 @@
 ﻿
 var csapp = angular.module("ui.collosys",
-    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload"]);
+    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload", 'ngAnimate']);
 
 csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
     function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
@@ -99,6 +99,12 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/fileupload/clientdatadownload', {
                     templateUrl: '/FileUpload/clientdatadownload/client-data-download.html',
                     controller: 'ClientDataDownloadController'
+                }).when('/fileupload/customerinfo', {
+                    templateUrl: '/FileUpload/customerinfo/customer-info.html',
+                    controller: 'customerInfoController'
+                }).when('/fileupload/paymentchanges', {
+                    templateUrl: '/FileUpload/paymentreversal/view-payments.html',
+                    controller: 'paymentManagerController'
                 }).when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index.html',
                     controller: 'AddStakeHolderCtrl'

@@ -4,10 +4,9 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Configuration;
 
-namespace UserInterfaceAngular.Areas.Generic.Models
+namespace AngularUI.Generic.connection
 {
     public class ConnectionStringMgr
     {
@@ -106,7 +105,7 @@ namespace UserInterfaceAngular.Areas.Generic.Models
 
         private static bool CreateConnection(string connectionString)
         {
-            var isValidConnectionString = false;
+            bool isValidConnectionString;
             using (var con = new SqlConnection(connectionString))
             {
                 try
