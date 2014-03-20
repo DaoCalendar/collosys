@@ -130,6 +130,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Stakeholder/view/index.html',
                     controller: 'viewStake'
                 })
+
                 //allocation
                 .when('/allocation/policy', {
                     templateUrl: '/Allocation/policy/allocpolicy.html',
@@ -150,8 +151,8 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/subpolicy/index.html',
                     controller: 'payoutSubpolicyCtrl'
                 }).when('/billing/formula', {
-                    templateUrl: '/Billing/formula/index.html',
-                    controller: 'formulaCtrl'
+                    templateUrl: '/Billing/formula/formula.html',
+                    controller: 'formulaController'
                 }).when('/billing/matrix', {
                     templateUrl: '/Billing/matrix/index.html',
                     controller: 'matrixCtrl'
