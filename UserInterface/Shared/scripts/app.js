@@ -82,7 +82,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: 'Shared/templates/home.html',
                     controller: 'HomeCtrl'
                 }).when('/login', {
-                    templateUrl: 'Shared/templates/login.html',
+                    templateUrl: 'Shared/templates/login-holder.html',
                     controller: 'LoginCtrl'
                 }).when('/generic/profile', {
                     templateUrl: '/Generic/profle/userprofile.html',
@@ -173,7 +173,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 //generic
                 .when('/generic/permissionscreen', {
                     templateUrl: '/Generic/permissionscreen/permissionscreen.html',
-                    controller: 'stkPermissionCtrl'
+                    controller: 'PermissionscreenCtrl'
                 }).when('/generic/product', {
                     templateUrl: '/Generic/product/product.html',
                     controller: 'ProductConfigController'
@@ -243,30 +243,48 @@ csapp.constant("$csConstants", {
 });
 
 csapp.controller("HomeCtrl", [
-    function() {
+    function () {
 
     }
 ]);
 
-csapp.controller('RootCtrl', ["$rootScope", "$csStopWatch", function ($rootScope, $csStopWatch) {
-    $rootScope.loadingElement.stopwatch = $csStopWatch;
-    $rootScope.loadingElement.showLoadingElement = false;
-    $rootScope.loadingElement.loadingElementText = "processing...";
-    $rootScope.loadingElement.disableSpiner = false;
+csapp.controller('RootCtrl', ["$scope", "$rootScope", "$csStopWatch", "$csAuthFactory", "$location", "Logger",
+    function ($scope, $rootScope, $csStopWatch, $csAuthFactory, $location, logManager) {
 
-    $rootScope.$watch("loadingElement.waitingForServerResponse", function () {
-        if ($rootScope.loadingElement.disableSpiner === true) {
-            $rootScope.loadingElement.disableSpiner = false;
-            return;
-        }
+        var $log = logManager.getInstance("RootController");
+        $scope.$csAuthFactory = $csAuthFactory;
 
-        if ($rootScope.loadingElement.waitingForServerResponse === true) {
-            $rootScope.loadingElement.stopwatch.start();
-            $rootScope.loadingElement.showLoadingElement = true;
+        $rootScope.loadingElement.stopwatch = $csStopWatch;
+        $rootScope.loadingElement.showLoadingElement = false;
+        $rootScope.loadingElement.loadingElementText = "processing...";
+        $rootScope.loadingElement.disableSpiner = false;
+
+        $rootScope.$watch("loadingElement.waitingForServerResponse", function () {
+            if ($rootScope.loadingElement.disableSpiner === true) {
+                $rootScope.loadingElement.disableSpiner = false;
+                return;
+            }
+
+            if ($rootScope.loadingElement.waitingForServerResponse === true) {
+                $rootScope.loadingElement.stopwatch.start();
+                $rootScope.loadingElement.showLoadingElement = true;
+            } else {
+                $rootScope.loadingElement.showLoadingElement = false;
+                $rootScope.loadingElement.stopwatch.reset();
+                $rootScope.loadingElement.loadingElementText = "processing...";
+            }
+        });
+
+        if ($csAuthFactory.testingMode() === true) {
+            $csAuthFactory.loginUser("scbuser");
+            $location.path("/home");
         } else {
-            $rootScope.loadingElement.showLoadingElement = false;
-            $rootScope.loadingElement.stopwatch.reset();
-            $rootScope.loadingElement.loadingElementText = "processing...";
+            if ($csAuthFactory.hasLoggedIn()) {
+                $log.info("Routing user to home page.");
+                $location.path("/home");
+            } else {
+                $log.info("Routing user to login page.");
+                $location.path("/login");
+            }
         }
-    });
-}]);
+    }]);
