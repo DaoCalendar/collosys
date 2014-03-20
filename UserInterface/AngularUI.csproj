@@ -279,8 +279,10 @@
     <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
+    <Content Include="Generic\product\confirmDelete.html" />
     <Content Include="Generic\product\product.html" />
     <Content Include="Generic\product\ProductConfigModel.js" />
+    <Content Include="Generic\product\updateViewConfiguration.html" />
     <Content Include="Generic\profile\userprofile.html" />
     <Content Include="Generic\profile\UserProfile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />
