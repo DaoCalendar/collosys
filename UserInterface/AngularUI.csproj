@@ -107,6 +107,9 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Generic\permissionscreen\PermisionData.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Shared\NgGridOptions.cs" />
     <Compile Include="Shared\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
@@ -158,8 +161,6 @@
     <Compile Include="FileUpload\paymentreversal\PaymentReversalApiController.cs" />
     <Compile Include="Generic\keyvalue\KeyValueApiController.cs" />
     <Compile Include="Generic\permissionscreen\PermissionScreenApiController.cs" />
-    <Compile Include="Generic\permission\PermisionData.cs" />
-    <Compile Include="Generic\permission\PermissionApiController.cs" />
     <Compile Include="Generic\pincode\PincodeApiController.cs" />
     <Compile Include="Generic\pincode\pincodeData.cs" />
     <Compile Include="Generic\product\ProductConfigApiController.cs" />
@@ -277,8 +278,6 @@
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
     <Content Include="Generic\permissionscreen\permissionscreen.html" />
     <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
-    <Content Include="Generic\permission\permission.html" />
-    <Content Include="Generic\permission\stakePermission.js" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
     <Content Include="Generic\product\product.html" />
