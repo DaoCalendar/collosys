@@ -348,7 +348,6 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     Username = "devadmin",
                 };
 
-
             var user2 = new Users
                 {
                     Role = role2,
@@ -368,10 +367,27 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     Username = "scbuser",
                 };
 
+            var user2Stkh = new Stakeholders
+            {
+                Status = ColloSysEnums.ApproveStatus.Approved,
+                ApprovedBy = "System",
+                ApprovedOn = DateTime.Now,
+                ExternalId = "devadmin",
+                Password = PasswordUtility.EncryptText("p@55w0rld"),
+                BirthDate = DateTime.Today.AddYears(-20),
+                EmailId = "collosys@sc.com",
+                Gender = ColloSysEnums.Gender.Male,
+                JoiningDate = DateTime.Today,
+                MobileNo = "9999999999",
+                Name = "Developer",
+                Hierarchy = role4,
+            };
+
             using (var trans = session.BeginTransaction())
             {
                 session.SaveOrUpdate(user1);
                 session.SaveOrUpdate(user2);
+                session.SaveOrUpdate(user2Stkh);
                 trans.Commit();
             }
         }
