@@ -652,6 +652,7 @@
     <Content Include="Shared\templates\grid\grid-settings.html" />
     <Content Include="Shared\templates\grid\grid-stakeholder.html" />
     <Content Include="Shared\templates\loading-element.html" />
+    <Content Include="Shared\templates\login-holder.html" />
     <Content Include="Shared\templates\login.html" />
     <Content Include="Shared\templates\home.html" />
     <Content Include="Shared\templates\menu.html" />
