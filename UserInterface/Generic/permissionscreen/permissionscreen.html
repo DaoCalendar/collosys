@@ -1,6 +1,6 @@
 ﻿
 <h2>PermissionScreen</h2>
-<div data-ng-controller="PermissionscreenCtrl" data-ng-cloak="" data-ng-form="frmPermission" class="form-horizontal">
+<div data-ng-cloak="" data-ng-form="frmPermission" class="form-horizontal">
     <!-- hierarchies part -->
     <div class="row-fluid">
         <div class="panel">
@@ -64,7 +64,7 @@
             </table>
             <hr />
             <div class="text-center">
-                <button data-ng-disabled="permissionForm.$invalid" class="btn btn-success" data-ng-click="SavePermission()">Save</button>
+                <button data-ng-disabled="permissionForm.$invalid" class="btn btn-success" data-ng-click="datalayer.Save()">Save</button>
             </div>
         </form>
     </div>
