@@ -1,0 +1,29 @@
+﻿<div class="form-horizontal">
+    <div class="modal-header well" style="text-align: center">
+        <h3>Churn Alocation</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Amount Due</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="data in dldata.gridOptions.$gridScope.selectedItems">
+                    <td>{{data.Id}}</td>
+                    <td>{{data.AmountDue}}</td>
+                    <td>{{data.StartDate|date:'dd-MM-yyyy'}}</td>
+                    <td>{{data.EndDate|date:'dd-MM-yyyy'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer well">
+        <button class="btn btn-info">Churn</button>
+        <button class="btn btn-info" data-ng-click="closeModel()">Close</button>
+    </div>
+</div>
