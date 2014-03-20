@@ -84,6 +84,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/login', {
                     templateUrl: 'Shared/templates/login-holder.html',
                     controller: 'LoginCtrl'
+                }).when('/logout', {
+                    templateUrl: 'Shared/templates/login-holder.html',
+                    controller: 'logoutController'
                 }).when('/generic/profile', {
                     templateUrl: '/Generic/profle/userprofile.html',
                     controller: 'ProfileController'

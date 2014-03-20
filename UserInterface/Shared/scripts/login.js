@@ -1,6 +1,7 @@
 ﻿
-csapp.factory("$csAuthFactory", function () {
+csapp.factory("$csAuthFactory", ["Logger", function (logManager) {
 
+    var $log = logManager.getInstance("$csAuthFactory");
     var authInfo = {
         isAuthorized: false,
         username: ''
@@ -13,6 +14,7 @@ csapp.factory("$csAuthFactory", function () {
     var loginUser = function (user) {
         authInfo.isAuthorized = true;
         authInfo.username = user;
+        $log.info(user + " has logged in.");
     };
 
     var getUsername = function() {
@@ -21,6 +23,7 @@ csapp.factory("$csAuthFactory", function () {
 
     var logoutUser = function () {
         authInfo.isAuthorized = false;
+        $log.info(authInfo.username + " has logged out.");
         authInfo.username = undefined;
     };
 
@@ -36,8 +39,14 @@ csapp.factory("$csAuthFactory", function () {
         testingMode: testingMode
     };
 
-});
+}]);
 
+csapp.controller("logoutController", [ "$scope", "$csAuthFactory", "$location",
+    function ($scope, $csAuthFactory, $location) {
+        $csAuthFactory.logoutUser();
+        $location.path("/login");
+    }
+]);
 
 csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", "Logger",
     function ($scope, $modalInstance, $csAuthFactory, logManager) {
@@ -47,7 +56,9 @@ csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory
             showForgot: false
         };
         var $log = logManager.getInstance("loginModalController");
-        $csAuthFactory.logoutUser();
+        if ($csAuthFactory.hasLoggedIn) {
+            $csAuthFactory.logoutUser();
+        }
 
         $scope.loginUser = function (login) {
             if (login.username === login.password) {
