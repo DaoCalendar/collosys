@@ -1,12 +1,11 @@
-﻿<div data-ng-controller="formulaCtrl">
-
+﻿<div>
     <div class="span2">
         <ul role="menu" class="nav nav-tabs nav-stacked">
-            <li class="alert-info">
+            <li class="alert alert-info">
                 <a>Formula List</a>
             </li>
-            <li class="content" data-ng-repeat="sformula in formulaList | orderBy : 'Name'">
-                <a class="btn-link" data-ng-click="selectFormula(sformula)">{{sformula.Name}}</a>
+            <li data-ng-repeat="sformula in formulaList | orderBy : 'Name'">
+                <a class="btn btn-link" data-ng-click="selectFormula(sformula)">{{sformula.Name}}</a>
             </li>
         </ul>
     </div>
@@ -205,11 +204,9 @@
             </select>
         </div>
 
-        <div class="modal-footer">
+        <div>
             <button class="btn btn-success" data-ng-disabled="!(formulaForm.$valid && (formula.BConditions.length>0 || formula.BOutputs.length>0))" data-ng-click="saveFormula(formula)">Save</button>
             <button class="btn btn-warning" data-ng-click="resetFormula(formula.Products)">Reset</button>
         </div>
     </div>
 </div>
-
-    <script src="~/Areas/Billing/ViewModels/formulaCtrl.js"></script>

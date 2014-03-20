@@ -200,8 +200,8 @@
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\index.html" />
     <Content Include="Billing\factories.js" />
-    <Content Include="Billing\formula\formulaCtrl.js" />
-    <Content Include="Billing\formula\index.html" />
+    <Content Include="Billing\formula\formula.js" />
+    <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\matrix\index.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\index.html" />

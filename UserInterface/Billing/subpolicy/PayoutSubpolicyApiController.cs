@@ -1,7 +1,11 @@
 ﻿#region references
 
-using System.IO;
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web;
+using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -11,15 +15,10 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
-using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.Billing.apiController
+namespace AngularUI.Billing.subpolicy
 {
     public class PayoutSubpolicyApiController : BaseApiController<BillingSubpolicy>
     {
@@ -209,29 +208,5 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         #endregion
-
-        //#region Delete
-        //[HttpDelete]
-        //[HttpTransaction(Persist = true)]
-        //public virtual HttpResponseMessage RejectSubpolicy(Guid id)
-        //{
-        //    try
-        //    {
-        //        if (id.Equals(Guid.Empty))
-        //        {
-        //            throw new InvalidDataException("Id provided is empty. No entity with such id exist.");
-        //        }
-
-        //        var relation = Session.Load<BillingRelation>(id);
-        //        Session.Delete(relation);
-
-        //        return Request.CreateResponse(HttpStatusCode.OK);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.ExpectationFailed, e);
-        //    }
-        //}
-        //#endregion
     }
 }

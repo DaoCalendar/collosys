@@ -53,32 +53,8 @@
         debugger;
         $scope.moreDetails = _.filter($scope.billDetails, function (billDetail) {
             var test = (billDetail.PaymentSource == paymentSource);
-             return billDetail.PaymentSource == paymentSource;
+            return billDetail.PaymentSource == paymentSource;
         });
-
-        //if (stakeholderId != '') {
-        //    var yearMonth = moment(month).format('YYYYMM');
-        //    restApi.customGET('GetBillingDetailData', {'product':product, 'stakeId': stakeholderId, 'month': yearMonth }).
-        //        then(function (data) {
-        //            $scope.billDetails = data;
-        //            //_.forEach(data, function (item) {
-        //            //    if (data.PaymentSource == 'Fixed') {
-        //            //        return;
-        //            //    }
-        //            //    if (data.PaymentSource == 'Variable' && billdata == $scope.billingData.VariableAmount) {
-        //            //        $scope.moreDetails.push(item);
-        //            //    }
-        //            //    if (data.PaymentSource == 'Adhoc' && billdata == $scope.billingData.Deductions) {
-        //            //        $scope.moreDetails.push(item);
-        //            //    }
-
-        //            //});
-
-        //            if ($scope.billDetails.length === 0) {
-        //                $csnotify.success("Matching Data is not Available ");
-        //            }
-        //        });
-        //}
     };
 
     $scope.approvePayBillingAmount = function (billingAmount, param) {
