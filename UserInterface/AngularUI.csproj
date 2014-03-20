@@ -45,8 +45,9 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>..\packages\NHibernateProfiler.2.0.2207.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
@@ -196,9 +197,7 @@
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
-    <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
-    <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
-    <Content Include="Allocation\viewapprove\view-approve.html" />
+    <Content Include="Allocation\viewapprove\index.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\index.html" />
     <Content Include="Billing\factories.js" />
