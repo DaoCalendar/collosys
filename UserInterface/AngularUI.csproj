@@ -195,7 +195,9 @@
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
-    <Content Include="Allocation\viewapprove\index.html" />
+    <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
+    <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
+    <Content Include="Allocation\viewapprove\view-approve.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\index.html" />
     <Content Include="Billing\factories.js" />
