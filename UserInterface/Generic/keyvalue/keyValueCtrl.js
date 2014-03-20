@@ -107,18 +107,18 @@ csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "Datalay
 }]);
 
 
-$scope.openModel = function (keyValue) {
-    $scope.shouldBeOpen = true;
-    $scope.dldata.gKeyValue = angular.copy(keyValue);
-    $scope.dldata.Values = [];
-    $scope.dldata.gKeyValue.Key = '';
-    $scope.dldata.gKeyValue.ValueType = '';
-};
+//$scope.openModel = function (keyValue) {
+//    $scope.shouldBeOpen = true;
+//    $scope.dldata.gKeyValue = angular.copy(keyValue);
+//    $scope.dldata.Values = [];
+//    $scope.dldata.gKeyValue.Key = '';
+//    $scope.dldata.gKeyValue.ValueType = '';
+//};
 
-$scope.closeModel = function () {
-    $scope.shouldBeOpen = false;
-    // $scope.gKeyValue.ValueType = '';
-};
+//$scope.closeModel = function () {
+//    $scope.shouldBeOpen = false;
+//    // $scope.gKeyValue.ValueType = '';
+//};
 
 
 
