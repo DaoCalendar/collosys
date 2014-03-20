@@ -45,9 +45,6 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>..\packages\NHibernateProfiler.2.0.2207.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
-    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
