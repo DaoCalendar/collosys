@@ -45,8 +45,9 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>..\packages\NHibernateProfiler.2.0.2207.0\lib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
@@ -284,8 +285,10 @@
     <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
+    <Content Include="Generic\product\confirmDelete.html" />
     <Content Include="Generic\product\product.html" />
     <Content Include="Generic\product\ProductConfigModel.js" />
+    <Content Include="Generic\product\updateViewConfiguration.html" />
     <Content Include="Generic\profile\userprofile.html" />
     <Content Include="Generic\profile\UserProfile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />

@@ -1,0 +1,101 @@
+﻿  <div modal="shouldBeOpen" close="closeModel()" options="modelOption">
+                <form name="form" novalidate>
+                    <div class="modal-header well">
+                        <div class="modal-title">{{dldata.modelHeader}}</div>
+                    </div>
+
+                    <div data-ng-form="formAddProduct">
+                        <div class="modal-body form-horizontal">
+                            
+                            <!--Product Name -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Product Name </label>
+                                <div class="controls">
+                                    <input type="text" maxlength="40" name="input" data-ng-model="dldata.productconfig.Product" data-ng-pattern="/^\w*$/" data-ng-disabled="true" required placeholder="Enter Product Name" />
+                                </div>
+                            </div>
+
+                            <!--Product Group -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Product Group </label>
+                                <div class="controls">
+                                    <input type="text" maxlength="40" data-ng-model="dldata.productconfig.ProductGroup" data-ng-pattern="/^\w*$/" data-ng-disabled="true" required placeholder="Enter Product Group" />
+                                </div>
+                            </div>
+
+                            <!--Allocation Reset Strategy -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Allocation Reset Strategy </label>
+                                <div class="controls">
+                                    <div class="btn-group">
+                                        <button type="button" data-ng-class="isSelected(dldata.productconfig.AllocationResetStrategy,'Monthly')" btn-radio="'Monthly'" value="Monthly" data-ng-disabled="dldata.isReadOnly">Has Month End Reset</button>
+                                        <button type="button" data-ng-class="isSelected(dldata.productconfig.AllocationResetStrategy,'Cyclewise')" btn-radio="'Cyclewise'" value="Cyclewise" data-ng-disabled="dldata.isReadOnly">Has Cycle Wise Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Billing Reset Strategy -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Billing Reset Strategy </label>
+                                <div class="controls">
+                                    <div class="btn-group">
+                                        <button type="button" data-ng-disabled="dldata.isReadOnly" data-ng-class="isSelected(dldata.productconfig.BillingStrategy,'Cyclewise')" data-ng-model="dldata.productconfig.BillingStrategy" btn-radio="'Cyclewise'" value="Cyclewise">Cycle End</button>
+                                        <button type="button" data-ng-disabled="dldata.isReadOnly" data-ng-class="isSelected(dldata.productconfig.BillingStrategy,'Monthly')" data-ng-model="dldata.productconfig.BillingStrategy" btn-radio="'Monthly'" value="Monthly">Month End(Open And Close Cycle)</button>
+                                        <button type="button" data-ng-disabled="dldata.isReadOnly" data-ng-class="isSelected(dldata.productconfig.BillingStrategy,'MonthlyConfirmed')" data-ng-model="dldata.productconfig.BillingStrategy" btn-radio="'MonthlyConfirmed'" value="MonthlyConfirmed">Month End(Close Cycle Only)</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Has Telecalling -->
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Has Telecalling </label>
+                                <div class="controls">
+                                    <div class="btn-group" data-ng-disabled="isReadOnly">
+                                        <button type="button" data-ng-class="isSelected(dldata.productconfig.HasTelecalling,true)" data-ng-model="dldata.productconfig.HasTelecalling" btn-radio="true" data-ng-disabled="isReadOnly">Yes</button>
+                                        <button type="button" data-ng-class="isSelected(dldata.productconfig.HasTelecalling,false)" data-ng-model="dldata.productconfig.HasTelecalling" btn-radio="false" data-ng-change="noTelecalling(dldata.productconfig)" data-ng-disabled="dldata.isReadOnly">No</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div data-ng-show="dldata.productconfig.HasTelecalling" class="well">
+
+                                <div class="row-fluid control-group">
+                                    <label class="control-label">FR Cycle Cut Off Days *</label>
+                                    <div class="controls">
+                                        <input type="number" data-ng-model="dldata.productconfig.FrCutOffDaysCycle" data-ng-disabled="dldata.isReadOnly" min="0" max="30" data-ng-required="dldata.productconfig.HasTelecalling" placeholder="Enter FR Cycle Cut Off Days" />
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid control-group">
+                                    <label class="control-label">FR Month Cut Off Days *</label>
+                                    <div class="controls">
+                                        <input type="number" data-ng-model="dldata.productconfig.FrCutOffDaysMonth" data-ng-disabled="dldata.isReadOnly" min="0" max="30" data-ng-required="dldata.productconfig.HasTelecalling" placeholder="Enter FR Month Cut Off Days" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row-fluid control-group">
+                                <label class="control-label">Cycle Codes *</label>
+                                <div class="controls">
+                                    <select ui-select2="select2Options" class="select2-container-multi input-large" data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple" data-placeholder="Select Cycle Codes" data-ng-readonly="dldata.isReadOnly" data-ng-required="true">
+                                        <option data-ng-repeat="code in dldata.codes" value="{{code}}">{{code}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer well">
+
+                            <div class="row-fluid control-group">
+                                <div class="controls">
+                                    <button class="btn btn-success" data-ng-show="!dldata.isReadOnly" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid">Save</button>
+                                    <button class="btn btn-info" data-ng-show="!dldata.isReadOnly" data-ng-click="closeModel()">Cancel</button>
+                                    <button class="btn btn-info" data-ng-show="dldata.isReadOnly" data-ng-click="closeModel()">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>

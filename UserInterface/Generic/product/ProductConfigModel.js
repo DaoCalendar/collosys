@@ -1,21 +1,201 @@
 ﻿
 //#region controller
-(
-csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular', function ($scope, $csnotify, rest) {
 
-    'use strict';
+csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, $csnotify) {
 
-    var apictrl = rest.all('ProductConfigApi');
+    var reatApi = rest.all('ProductConfigApi');
+    var dldata = {};
+    dldata.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
 
-    $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+    var getAll = function () {
+        reatApi.customGETLIST('Get').then(function (data) {
+            dldata.productList = data;
+            $csnotify.success('All Products Loaded Successfully.');
+        });
+    };
+
+    var saveProduct = function (productconfig) {
+
+        productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
+        if (productconfig.Id) {
+            return reatApi.customPUT(productconfig, 'Put', { id: productconfig.Id }).then(function (data) {
+                $csnotify.success('Product Configuration Updated Successfully.');
+            }, function (response) {
+                $csnotify.error(response);
+            });
+        } else {
+            return reatApi.customPOST(productconfig, 'Post').then(function (data) {
+                $csnotify.success('Product Configuration Saved Successfully.');
+            }, function (response) {
+                $csnotify.error(response);
+            });
+        }
+    };
 
 
-    //#region Other functions
+    return {
+        dldata: dldata,
+        GetAll: getAll,
+        Save: saveProduct
+    };
 
-    $scope.reset = function () {
-        $scope.isReadOnly = false;
-        $scope.editIndex = -1;
-        $scope.productconfig = {
+}]);
+
+csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular', '$modal', "ProductsDatalayer",
+    function($scope, $csnotify, rest, $modal, datalayer) {
+
+        'use strict';
+
+        var apictrl = rest.all('ProductConfigApi');
+
+        $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+        (function() {
+            $scope.dldata = datalayer.dldata;
+            datalayer.GetAll();
+        })();
+
+        //#region Other functions
+
+        $scope.reset = function() {
+            $scope.isReadOnly = false;
+            $scope.editIndex = -1;
+            $scope.productconfig = {
+                ProductName: "",
+                ProductGroup: "",
+                AllocationResetStrategy: "HasMonthEndReset",
+                BillingStrategy: "MonthEndOpenAndCloseCycle",
+                HasTelecalling: true,
+                FrCutOffDaysCycle: 5,
+                FrCutOffDaysMonth: 7,
+                CycleCodes: ["1", "5", "15", "25"]
+            };
+        };
+
+        $scope.select2Options = {
+            'multiple': true
+        };
+
+        $scope.isSelected = function(item, val) {
+            if (item === val) {
+                return "btn btn-small btn-success";
+            } else {
+                return "btn btn-small btn-info";
+            }
+
+        };
+
+        //#endregion
+
+        //#region Model Operations
+
+        $scope.openModel = function() {
+            $scope.reset();
+            $scope.modelHeader = "Add New Product Configuration";
+            $scope.shouldBeOpen = true;
+        };
+
+        
+
+        $scope.modelOption = {
+            backdropFade: true,
+            dialogFade: true
+        };
+
+        $scope.yesToDelete = function() {
+            $scope.deleteProduct($scope.deletedProduct.Id, $scope.editIndex);
+            $scope.showDeleteModel = false;
+        };
+
+        $scope.noToDelete = function() {
+            $scope.deletedProduct = {};
+            $scope.editIndex = -1;
+            $scope.showDeleteModel = false;
+        };
+
+        $scope.showDeleteModelPopup = function(product, index) {
+            $scope.deletedProduct = product;
+            $scope.editIndex = index;
+            $scope.showDeleteModel = true;
+        };
+
+        $scope.openModelData = function(productRow, readOnly, index) {
+            $scope.dldata.productconfig = {};
+            if (readOnly === false) {
+                $scope.dldata.modelHeader = "Update Product Configuration";
+                $scope.dldata.isReadOnly = readOnly;
+            } else {
+                $scope.dldata.modelHeader = "View Product Configuration";
+                $scope.dldata.isReadOnly = readOnly;
+            }
+            $scope.dldata.productconfig = angular.copy(productRow);
+            $scope.dldata.productconfig.CycleCodes = JSON.parse($scope.dldata.productconfig.CycleCodes);
+            $scope.dldata.editIndex = index;
+
+            $modal.open({
+                templateUrl: '/Generic/product/updateViewConfiguration.html',
+                controller: 'updateView',
+            });
+
+
+            $scope.shouldBeOpen = true;
+            
+        };       
+
+
+        $scope.AddinLocal = function(productconfig) {
+            if ($scope.editIndex === -1) {
+                $scope.productList.push(productconfig);
+            } else {
+                $scope.productList[$scope.editIndex] = productconfig;
+            }
+        };
+
+        //#endregion
+
+        //#region DB Operations
+
+
+        $scope.saveProduct = function(productconfig) {
+            productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
+            if (productconfig.Id) {
+                apictrl.customPUT(productconfig, 'Put', { id: productconfig.Id }).then(function(data) {
+                    $csnotify.success('Product Configuration Updated Successfully.');
+                    $scope.AddinLocal(data);
+                    $scope.reset();
+                    $scope.closeModel();
+                }, function(response) {
+                    $csnotify.error(response);
+                });
+            } else {
+                apictrl.customPOST(productconfig, 'Post').then(function(data) {
+                    $csnotify.success('Product Configuration Saved Successfully.');
+                    $scope.AddinLocal(data);
+                    $scope.reset();
+                    $scope.closeModel();
+                }, function(response) {
+                    $csnotify.error(response);
+                });
+            }
+        };
+
+        $scope.deleteProduct = function(id, index) {
+            apictrl.customDELETE('Delete', { id: id })
+                .then(function() {
+                    $csnotify.success('Product Configuration Deleted Successfully.');
+                    $scope.productList.splice(index, 1);
+                });
+        };
+
+        //#endregion
+
+    }]);
+
+csapp.factory("ProductFactory", [function() {
+
+    var reset = function (dldata) {
+        dldata.isReadOnly = false;
+        dldata.editIndex = -1;
+        dldata.productconfig = {
             ProductName: "",
             ProductGroup: "",
             AllocationResetStrategy: "HasMonthEndReset",
@@ -27,70 +207,91 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
         };
     };
 
-    $scope.select2Options = {
-        'multiple': true
-
+    var addinLocal = function (productconfig,dldata) {
+        if (dldata.editIndex === -1) {
+            dldata.productList.push(productconfig);
+        } else {
+            dldata.productList[dldata.editIndex] = productconfig;
+        }
     };
 
+    return {
+        reset: reset,
+        AddinLocal: addinLocal
+    };
+}]);
+
+csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance", "ProductFactory",
+    function ($scope, datalayer, $modalInstance,factory) {
+    
+    (function() {
+        $scope.dldata = datalayer.dldata;
+    })();
+    
     $scope.isSelected = function (item, val) {
         if (item === val) {
             return "btn btn-small btn-success";
         } else {
             return "btn btn-small btn-info";
         }
-       
     };
-
-    //#endregion
-
-    //#region Model Operations
-
-    $scope.openModel = function () {
-        $scope.reset();
-        $scope.modelHeader = "Add New Product Configuration";
-        $scope.shouldBeOpen = true;
-    };
-
+    
     $scope.closeModel = function () {
-        $scope.shouldBeOpen = false;
+        $modalInstance.dismiss();
     };
 
-    $scope.modelOption = {
-        backdropFade: true,
-        dialogFade: true
+    $scope.reset = function () {
+        $scope.dldata.isReadOnly = false;
+        $scope.dldata.editIndex = -1;
+        $scope.dldata.productconfig = {
+            ProductName: "",
+            ProductGroup: "",
+            AllocationResetStrategy: "HasMonthEndReset",
+            BillingStrategy: "MonthEndOpenAndCloseCycle",
+            HasTelecalling: true,
+            FrCutOffDaysCycle: 5,
+            FrCutOffDaysMonth: 7,
+            CycleCodes: ["1", "5", "15", "25"]
+        };
     };
 
-    $scope.yesToDelete = function () {
-        $scope.deleteProduct($scope.deletedProduct.Id, $scope.editIndex);
-        $scope.showDeleteModel = false;
-    };
-
-    $scope.noToDelete = function () {
-        $scope.deletedProduct = {};
-        $scope.editIndex = -1;
-        $scope.showDeleteModel = false;
-    };
-
-    $scope.showDeleteModelPopup = function (product, index) {
-        $scope.deletedProduct = product;
-        $scope.editIndex = index;
-        $scope.showDeleteModel = true;
-    };
-
-    $scope.openModelData = function (productRow, readOnly, index) {
-        debugger;
-        if (readOnly === false) {
-            $scope.modelHeader = "Update Product Configuration";
-            $scope.isReadOnly = readOnly;
+    $scope.AddinLocal = function (productconfig) {
+        if ($scope.dldata.editIndex === -1) {
+            $scope.dldata.productList.push(productconfig);
         } else {
-            $scope.modelHeader = "View Product Configuration";
-            $scope.isReadOnly = readOnly;
+            $scope.dldata.productList[$scope.dldata.editIndex] = productconfig;
         }
-        $scope.productconfig = angular.copy(productRow);
-        $scope.productconfig.CycleCodes = JSON.parse($scope.productconfig.CycleCodes);
-        $scope.shouldBeOpen = true;
-        $scope.editIndex = index;
     };
+
+    $scope.saveProduct = function (productconfig) {
+        datalayer.Save(productconfig).then(function (data) {
+            factory.AddinLocal(data,dldata);
+            factory.reset($scope.dldata);
+            $modalInstance.close();
+        });
+
+        //productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
+        //if (productconfig.Id) {
+        //    apictrl.customPUT(productconfig, 'Put', { id: productconfig.Id }).then(function (data) {
+        //        $csnotify.success('Product Configuration Updated Successfully.');
+        //        $scope.AddinLocal(data);
+        //        $scope.reset();
+        //        $scope.closeModel();
+        //    }, function (response) {
+        //        $csnotify.error(response);
+        //    });
+        //} else {
+        //    apictrl.customPOST(productconfig, 'Post').then(function (data) {
+        //        $csnotify.success('Product Configuration Saved Successfully.');
+        //        $scope.AddinLocal(data);
+        //        $scope.reset();
+        //        $scope.closeModel();
+        //    }, function (response) {
+        //        $csnotify.error(response);
+        //    });
+        //}
+    };
+
 
     $scope.noTelecalling = function (productconfig) {
         if (productconfig.HasTelecalling == false) {
@@ -98,59 +299,6 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
             productconfig.FrCutOffDaysMonth = 0;
         }
     };
+}]);
 
-
-    $scope.AddinLocal = function (productconfig) {
-        if ($scope.editIndex === -1) {
-            $scope.productList.push(productconfig);
-        } else {
-            $scope.productList[$scope.editIndex] = productconfig;
-        }
-    };
-
-    //#endregion
-
-    //#region DB Operations
-
-    apictrl.customGETLIST('Get').then(function (data) {
-        $scope.productList = data;
-        $csnotify.success('All Products Loaded Successfully.');
-    });
-
-    $scope.saveProduct = function (productconfig) {
-
-        productconfig.CycleCodes = JSON.stringify(productconfig.CycleCodes);
-        if (productconfig.Id) {
-            apictrl.customPUT(productconfig, 'Put', { id: productconfig.Id }).then(function (data) {
-                $csnotify.success('Product Configuration Updated Successfully.');
-                $scope.AddinLocal(data);
-                $scope.reset();
-                $scope.closeModel();
-            }, function (response) {
-                $csnotify.error(response);
-            });
-        } else {
-            apictrl.customPOST(productconfig, 'Post').then(function (data) {
-                $csnotify.success('Product Configuration Saved Successfully.');
-                $scope.AddinLocal(data);
-                $scope.reset();
-                $scope.closeModel();
-            }, function (response) {
-                $csnotify.error(response);
-            });
-        }
-    };
-
-    $scope.deleteProduct = function (id, index) {
-        apictrl.customDELETE('Delete', { id: id })
-            .then(function () {
-                $csnotify.success('Product Configuration Deleted Successfully.');
-                $scope.productList.splice(index, 1);
-            });
-    };
-
-    //#endregion
-
-}])
-);
 //#endregion
