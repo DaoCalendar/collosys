@@ -145,10 +145,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 //billing
                 .when('/billing/policy', {
-                    templateUrl: '/Billing/policy/index.html',
+                    templateUrl: '/Billing/policy/billingpolicy.html',
                     controller: 'payoutPolicyCtrl'
                 }).when('/billing/subpolicy', {
-                    templateUrl: '/Billing/subpolicy/index.html',
+                    templateUrl: '/Billing/subpolicy/billing-subpolicy.html',
                     controller: 'payoutSubpolicyCtrl'
                 }).when('/billing/formula', {
                     templateUrl: '/Billing/formula/formula.html',

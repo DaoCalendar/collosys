@@ -259,6 +259,35 @@
 
 }]));
 
+csapp.controller('payoutPolicyCtrl', [
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory','$modal',
+    function($scope, datalayer, factory,$modal) {
+
+        (function () {
+            $scope.factory = factory;
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+        })();
+
+    }]);
+
+csapp.factory('payoutPolicyDataLayer'['Restangular', '$csnotify',
+    function (rest, $csnotify) {
+        var restApi = rest.all("PayoutPolicyApi");
+        var dldata = {};
+
+        return {
+            dldata: dldata
+        };
+    }]);
+
+csapp.factory('payoutPolicyFactory', [
+    '$csfactory', 'payoutPolicyDataLayer',
+    function($csfactory, datalayer) {
+
+
+    }
+]);
 
 //restApi.customGET("GetPayoutPolicy", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
 //    restApi.customGET("GetPayoutSubpolicy", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (spdata) {
