@@ -171,14 +171,20 @@ namespace AngularUI.Billing.subpolicy
             return relation;
         }
 
-        public void SetApproverId(BillingRelation relation)
+        private void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
-
-            if (currUser != null && currUser.ReportingManager != Guid.Empty)
+            try
             {
-                relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
+                var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+                if (currUser != null && currUser.ReportingManager != Guid.Empty)
+                {
+                    relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch (Exception)
+            {
             }
         }
 

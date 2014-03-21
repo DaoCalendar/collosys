@@ -1,6 +1,6 @@
 ﻿
 csapp.factory("loginDataLayer", [
-    "Restangular", function(rest) {
+    "Restangular", function (rest) {
 
     }
 ]);
@@ -18,7 +18,7 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
         var cookie = $cookieStore.get("authInfo");
         if (angular.isDefined(cookie) && cookie.isAuthorized === true) {
             var time = moment(cookie.loginTime);
-            if ( time.isValid() && moment().diff(time, 'minutes') <= 30) {
+            if (time.isValid() && moment().diff(time, 'minutes') <= 30) {
                 authInfo = cookie;
                 $log.info(authInfo.username + "has logged in from cookie.");
             }
@@ -66,7 +66,7 @@ csapp.controller("logoutController", [
     }
 ]);
 
-csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", 
+csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory",
     function ($scope, $modalInstance, $csAuthFactory) {
         $scope.loginErrorMessage = "Invalid username or password.";
         $scope.login = {
@@ -89,15 +89,18 @@ csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory
         };
     }]);
 
-csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", function ($scope, $modal, $location) {
-    var modalInst = $modal.open({
-        controller: "loginController",
-        templateUrl: "/Generic/login/login.html",
-        backdrop: false,
-        keyboard: false
-    });
+csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", "Logger",
+    function ($scope, $modal, $location, logManager) {
+        var $log = logManager.getInstance("LoginCtrl");
+        var modalInst = $modal.open({
+            controller: "loginController",
+            templateUrl: "/Generic/login/login.html",
+            backdrop: false,
+            keyboard: false
+        });
 
-    modalInst.result.then(function () {
-        $location.path("/home");
-    });
-}]);
+        modalInst.result.then(function () {
+            $log.info("redirecting user to home page");
+            $location.path("/home");
+        });
+    }]);
