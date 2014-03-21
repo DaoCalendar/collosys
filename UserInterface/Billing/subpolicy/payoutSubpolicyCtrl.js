@@ -1,9 +1,8 @@
-﻿/// <reference path="../../../Scripts/angular.js" />
-
+﻿
 (csapp.controller("payoutSubpolicyCtrl", ["$scope", "$csnotify", "$csfactory", "Restangular", "$Validations", function ($scope, $csnotify, $csfactory, rest, $validation) {
     "use strict";
 
-    var restApi = rest.all("PayoutSubpolicyApi");
+    
     
     $scope.val = $validation;
     $scope.payoutSubpolicyList = [];
@@ -390,6 +389,31 @@
     //#endregion
 
 }]));
+
+
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal',
+    function ($scope, datalayer, factory,$modal) {
+        (function () {
+            $scope.factory = factory;
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+        })();
+}]);
+
+csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify',
+    function (rest, csnotify) {
+        var restApi = rest.all("PayoutSubpolicyApi");
+        var dldata = {};
+
+        return {
+            dldata:dldata
+        };
+    }]);
+
+csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory',
+    function (datalayer, $csfactory) {
+    
+}]);
 
 //#region RowData
 

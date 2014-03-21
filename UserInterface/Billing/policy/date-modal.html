@@ -1,0 +1,36 @@
+﻿<div modal="openDateModel">
+    <div class="form-horizontal" data-ng-form="payoutpolicyDateRangeForm">
+        <div class="modal-header well" style="text-align: center">
+            <h3>{{modalData.PayoutRelation.BillingSubpolicy.Name}}</h3>
+        </div>
+        <div class="modal-body" style="text-align: center">
+            <div class="control-group">
+                <label class="control-label">Start Date</label>
+                <div class="controls">
+                    <div class="input-append">
+
+                        <input class="input-medium" data-ng-disabled="!modalData.forActivate" type="text" name="ScheduleDate" data-ng-model="modalData.startDate" required
+                               data-date-start-date="+1d" data-ng-readonly="true" data-bs-datepicker="" data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">End Date</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="modalData.endDate" data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"
+                               data-date-start-date="+1d" data-ng-readonly="true"
+                               data-bs-datepicker="">
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer well">
+            <button class="btn btn-danger" data-ng-show="!modalData.forActivate" data-ng-disabled="payoutpolicyDateRangeForm.$invalid" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
+            <button class="btn btn-primary" data-ng-show="modalData.forActivate" data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-click="activateSubPoicy(modalData)">Activate</button>
+            <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
+        </div>
+    </div>
+</div>

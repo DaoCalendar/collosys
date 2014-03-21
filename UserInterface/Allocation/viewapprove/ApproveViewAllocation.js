@@ -61,6 +61,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
         var restApi = rest.all("ApproveViewAllocationApi");
 
         var dldata = {};
+        dldata.selectedAllocations = [];
 
         dldata.fromDate = moment().startOf('month').add('minute', 330).format('YYYY-MM-DD');
         dldata.toDate = moment().endOf('month').format('YYYY-MM-DD');

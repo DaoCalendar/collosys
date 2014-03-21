@@ -39,8 +39,8 @@
                     <td>
                         <input type="checkbox"
                             data-ng-model="dldata.selAll"
-                            data-ng-click="factory.selectAll(dldata.selAll)"
-                            data-ng-checked="dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length">
+                            data-ng-click=""
+                            data-ng-checked="factory.selectAll(dldata.selAll);dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length">
                     </td>
                     <td>Customer Name</td>
                     <td>Amount Due</td>
@@ -52,11 +52,11 @@
             <tbody>
                 <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
                     <td data-ng-style="factory.setRowColor(data)">
-                        <input type="checkbox" data-ng-model="sel"
-                            data-ng-click="factory.selectAllocation(sel,data)"
-                            data-ng-checked="factory.ticks(data)" />
+                        <input type="checkbox" data-ng-model="dldata.sel"
+                            data-ng-click=""
+                            data-ng-checked="factory.selectAllocation(dldata.sel,data);factory.ticks(data)" />
                     </td>
-                    <td data-ng-style="factory.setRowColor(data)">{{data.CInfo.CustomerName || data.RInfo.CustomerName || data.EInfo.CustomerName}}</td>
+                    <td data-ng-style="factory.setRowColor(data)">{{data.Info.CustomerName}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.AmountDue}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.StartDate|date:'dd-MM-yyyy'}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.EndDate|date:'dd-MM-yyyy'}}</td>
