@@ -6,7 +6,9 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -16,11 +18,13 @@ namespace AngularUI.Generic.profile
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
 
-        [HttpGet]
+        [HttpSession]
         public HttpResponseMessage GetUser(string username)
         {
             var data = StakeQuery.GetOnExpression(x => x.ExternalId == username).FirstOrDefault();
-            return Request.CreateResponse(HttpStatusCode.Created, data);
+            if (data == null) return Request.CreateResponse(HttpStatusCode.OK, "");
+            var data2 = StakeQuery.OnIdWithAllReferences(data.Id);
+            return Request.CreateResponse(HttpStatusCode.Created, data2);
         }
     }
 }

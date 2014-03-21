@@ -704,11 +704,6 @@
     <Folder Include="Authentication\Login\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>
   <ItemGroup>
