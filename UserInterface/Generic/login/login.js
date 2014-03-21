@@ -1,10 +1,9 @@
 ﻿
-csapp.factory("authenticationDataLayer", [
+csapp.factory("loginDataLayer", [
     "Restangular", function(rest) {
 
     }
 ]);
-
 
 csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStore, logManager) {
     var $log = logManager.getInstance("$csAuthFactory");

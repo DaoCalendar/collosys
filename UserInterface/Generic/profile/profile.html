@@ -1,20 +1,20 @@
 ﻿<form class="form-horizontal">
-    <div data-ng-controller="ProfileController" data-ng-cloak="" class="panel">
+    <div class="panel">
         <div class="panel-heading">Profile</div>
-        <div data-ng-hide="profile">
+        <div data-ng-hide="dldata.profile">
             <div class="well-small">
                 No Profile Present For Display
             </div>
 
         </div> 
 
-        <div data-ng-show="profile">
+        <div data-ng-show="dldata.profile">
 
             <!-- Name -->
             <div class="control-group row-fluid">
                 <label class="control-label">Name</label>
                 <div class="controls">
-                    <input type="text" data-ng-model="profile.Name" readonly="readonly" />
+                    <input type="text" data-ng-model="dldata.profile.Name" readonly="readonly" />
                 </div>
             </div>
 
@@ -22,7 +22,7 @@
             <div class="control-group row-fluid">
                 <label class="control-label">User Id</label>
                 <div class="controls">
-                    <input type="text" data-ng-model="profile.ExternalId" readonly="readonly" />
+                    <input type="text" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
                 </div>
             </div>
 
@@ -31,7 +31,8 @@
                 <label class="control-label">Joining Date</label>
                 <div class="controls">
                     <div class="input-append">
-                        <input type="text" name="DateOfJoining" class="input-medium" data-ng-disabled="true" data-ng-model="profile.JoiningDate" bs-datepicker />
+                        <input type="text" name="DateOfJoining" class="input-medium" 
+                            data-ng-disabled="true" data-ng-model="profile.JoiningDate" bs-datepicker />
                         <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                     </div>
                 </div>

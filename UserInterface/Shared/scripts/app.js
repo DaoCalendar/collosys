@@ -83,17 +83,17 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
         var routeConfig = function () {
             $routeProvider
                 .when('/', {
-                    templateUrl: 'Shared/templates/home.html',
+                    templateUrl: '/Generic/home/home.html',
                     controller: 'HomeCtrl'
                 }).when('/login', {
-                    templateUrl: 'Shared/templates/login-holder.html',
+                    templateUrl: '/Generic/login/login-holder.html',
                     controller: 'LoginCtrl'
                 }).when('/logout', {
-                    templateUrl: 'Shared/templates/login-holder.html',
+                    templateUrl: 'Generic/login/login-holder.html',
                     controller: 'logoutController'
                 }).when('/generic/profile', {
-                    templateUrl: '/Generic/profle/userprofile.html',
-                    controller: 'ProfileController'
+                    templateUrl: '/Generic/profle/profile.html',
+                    controller: 'profileController'
                 })
 
                 //file upload
@@ -178,9 +178,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 })
 
                 //generic
-                .when('/generic/permissionscreen', {
-                    templateUrl: '/Generic/permissionscreen/permissionscreen.html',
-                    controller: 'PermissionscreenCtrl'
+                .when('/generic/permission', {
+                    templateUrl: '/Generic/permissions/permission.html',
+                    controller: 'PermissionCtrl'
                 }).when('/generic/product', {
                     templateUrl: '/Generic/product/product.html',
                     controller: 'ProductConfigController'
@@ -249,46 +249,3 @@ csapp.constant("$csConstants", {
     }
 });
 
-csapp.controller("HomeCtrl", [
-    function () {
-
-    }
-]);
-
-csapp.controller('RootCtrl', ["$scope", "$rootScope", "$csStopWatch", "$csAuthFactory", "$location", "Logger",
-    function ($scope, $rootScope, $csStopWatch, $csAuthFactory, $location, logManager) {
-
-        var $log = logManager.getInstance("RootController");
-        $scope.$csAuthFactory = $csAuthFactory;
-
-        $rootScope.loadingElement.stopwatch = $csStopWatch;
-        $rootScope.loadingElement.showLoadingElement = false;
-        $rootScope.loadingElement.loadingElementText = "processing...";
-        $rootScope.loadingElement.disableSpiner = false;
-
-        $rootScope.$watch("loadingElement.waitingForServerResponse", function () {
-            if ($rootScope.loadingElement.disableSpiner === true) {
-                $rootScope.loadingElement.disableSpiner = false;
-                return;
-            }
-
-            if ($rootScope.loadingElement.waitingForServerResponse === true) {
-                $rootScope.loadingElement.stopwatch.start();
-                $rootScope.loadingElement.showLoadingElement = true;
-            } else {
-                $rootScope.loadingElement.showLoadingElement = false;
-                $rootScope.loadingElement.stopwatch.reset();
-                $rootScope.loadingElement.loadingElementText = "processing...";
-            }
-        });
-
-        $csAuthFactory.loadAuthCookie();
-        if ($csAuthFactory.hasLoggedIn()) {
-            $log.info("Routing user to home page.");
-            $location.path("/home");
-        } else {
-            $log.info("Routing user to login page.");
-            $location.path("/login");
-        }
-    }
-]);
