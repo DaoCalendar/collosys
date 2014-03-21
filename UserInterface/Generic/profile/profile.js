@@ -41,10 +41,12 @@ csapp.factory("profileDataLayer", ["$csnotify", 'Restangular', "$csAuthFactory",
     }
 ]);
 
-csapp.controller("ProfileController", ["$scope", "profileDataLayer",
+csapp.controller("profileController", ["$scope", "profileDataLayer",
     function ($scope, datalayer) {
         'use strict';
         (function() {
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
             datalayer.Get().then(function() {
                 datalayer.GetManager();
             });

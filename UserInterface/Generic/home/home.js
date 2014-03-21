@@ -1,0 +1,5 @@
+﻿csapp.controller("HomeCtrl", [
+    function () {
+
+    }
+]);
