@@ -4,32 +4,9 @@
     $scope.productsList = [];
     $scope.payoutPolicy = {};
     $scope.payoutPolicy.Category = "Liner";
-    $scope.modalData = {
-        BillingRelation: {},
-        StartDate: null,
-        endDate: null,
-        subPolicyIndex: -1,
-        forActivate: true
-    };
+   
     $scope.openDateModel = false;
     $scope.isModalDateValid = false;
-
-    $scope.openModelNewSubPolicy = function (subPolicy, index) {
-        $scope.modalData.BillingRelations = { BillingSubpolicy: subPolicy };
-        $scope.modalData.subPolicyIndex = index;
-        $scope.modalData.startDate = null;
-        $scope.modalData.endDate = null;
-        $scope.modalData.forActivate = true;
-        $scope.openDateModel = true;
-    };
-
-    $scope.openModel = function (billingRelations, forActivate) {
-        $scope.modalData.BillingRelations = billingRelations;
-        $scope.modalData.startDate = billingRelations.StartDate;
-        $scope.modalData.endDate = billingRelations.EndDate;
-        $scope.modalData.forActivate = forActivate;
-        $scope.openDateModel = true;
-    };
 
     $scope.closeModel = function () {
         $scope.modalData = {
@@ -42,55 +19,48 @@
         $scope.openDateModel = false;
     };
 
-    $scope.modelDateValidation = function (startDate, endDate) {
-        if (angular.isUndefined(endDate) || endDate == null) {
-            $scope.isModalDateValid = true;
-            return;
-        }
-
-        startDate = moment(startDate);
-        endDate = moment(endDate);
-        $scope.isModalDateValid = (endDate >= startDate);
-    };
-
-    $scope.activateSubPoicy = function (modalData) {
-        var maxPriorityPolicy = _.max($scope.payoutPolicy.BillingRelations, 'Priority');
-        modalData.BillingRelations.Priority = maxPriorityPolicy.Priority + 1;
-        modalData.BillingRelations.StartDate = modalData.startDate;
-        modalData.BillingRelations.EndDate = modalData.endDate;
-        modalData.BillingRelations.Status = "Submitted";
-
-        if (modalData.subPolicyIndex > -1) {
-            $scope.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
-            $scope.subPolicyList.splice(modalData.subPolicyIndex, 1);
-        }
-        $scope.savePayoutPolicy($scope.payoutPolicy);
-        $scope.closeModel();
-    };
-
-    $scope.deactivateSubPoicy = function (modalData) {
-        modalData.payoutRelation.StartDate = modalData.startDate;
-        modalData.payoutRelation.EndDate = modalData.endDate;
-        $scope.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
-        $scope.savePayoutPolicy($scope.payoutPolicy);
-        $scope.closeModel();
-    };
-
-    $scope.openModelDeactivateSubPolicy = function (relation) {
-        $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
-        $scope.modalData.payoutRelation.Status = "Submitted";
-        $scope.modalData.subPolicyIndex = -1;
-        $scope.modalData.startDate = relation.StartDate;
-        $scope.modalData.endDate = null;
-        $scope.modalData.forActivate = false;
-        $scope.openDateModel = true;
-    };
-
     $scope.SaveSubPolicy = function () {
         $scope.savePayoutPolicy($scope.payoutPolicy);
     };
 
 }]);
+
+csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer',
+    function ($scope, modaldata, $modalInstance, factory, datalayer) {
+        $scope.modelData = modaldata;
+        var dldata = datalayer.dldata;
+
+        $scope.activateSubPoicy = function (modalData) {
+            var maxPriorityPolicy = _.max(dldata.payoutPolicy.BillingRelations, 'Priority');
+            modalData.BillingRelations.Priority = maxPriorityPolicy.Priority + 1;
+            modalData.BillingRelations.StartDate = modalData.startDate;
+            modalData.BillingRelations.EndDate = modalData.endDate;
+            modalData.BillingRelations.Status = "Submitted";
+
+            if (modalData.subPolicyIndex > -1) {
+                dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
+                dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
+            }
+            datalayer.savePayoutPolicy(dldata.payoutPolicy).then
+            (function() {
+                $modalInstance.close();
+            });
+            
+        };
+
+        $scope.deactivateSubPoicy = function (modalData) {
+            modalData.payoutRelation.StartDate = modalData.startDate;
+            modalData.payoutRelation.EndDate = modalData.endDate;
+            dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
+            datalayer.savePayoutPolicy($scope.payoutPolicy).then(function() {
+                $modalInstance.close();
+            });
+        };
+
+        $scope.closeModal = function() {
+            $modalInstance.dismiss();
+        };
+    }]);
 
 csapp.factory('payoutPolicyFactory', [
     '$csfactory', 'payoutPolicyDataLayer',
@@ -195,6 +165,17 @@ csapp.factory('payoutPolicyFactory', [
             dldata.payoutPolicy.Category = "Liner";
         };
 
+        var modelDateValidation = function (startDate, endDate) {
+            if (angular.isUndefined(endDate) || endDate == null) {
+                dldata.isModalDateValid = true;
+                return;
+            }
+
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            dldata.isModalDateValid = (endDate >= startDate);
+        };
+
         return {
             getDisplaySubPolicy: getDisplaySubPolicy,
             filterRelation: filterRelation,
@@ -202,12 +183,13 @@ csapp.factory('payoutPolicyFactory', [
             relationValidToday: relationValidToday,
             upside: upside,
             downside: downside,
-            reset: reset
+            reset: reset,
+            modelDateValidation: modelDateValidation
         };
     }
 ]);
 
-csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory', function(rest, $csnotify, $csfactory) {
+csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory', function (rest, $csnotify, $csfactory) {
     var restApi = rest.all("PayoutPolicyApi");
     var dldata = {};
 
@@ -222,6 +204,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var changeProductCategory = function () {
+        if (angular.isUndefined(dldata.payoutPolicy))
+            return;
         var payoutPolicy = dldata.payoutPolicy;
         if (!angular.isUndefined(payoutPolicy.Products) && !angular.isUndefined(payoutPolicy.Category)) {
             restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
@@ -251,7 +235,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 detelatedData = angular.copy(rejectedRelation);
                 payoutPolicy.BillingRelations.splice(payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             }
-            restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
+          return restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
                 dldata.payoutPolicy = data;
                 if (detelatedData != '') {
                     dldata.subPolicyList.push(detelatedData.BillingSubpolicy);
@@ -262,7 +246,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 $csnotify.error(data);
             });
         } else {
-            restApi.customPOST(payoutPolicy, "POST").then(function (data) {
+           return restApi.customPOST(payoutPolicy, "POST").then(function (data) {
                 dldata.payoutPolicy = data;
                 $csnotify.success("Policy Saved");
             }, function (data) {
@@ -281,8 +265,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
 }]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer','payoutPolicyFactory',
-    function ($scope, datalayer, factory) {
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory','$modal',
+    function ($scope, datalayer, factory, $modal) {
 
         (function () {
             $scope.factory = factory;
@@ -291,6 +275,51 @@ csapp.controller('payoutPolicyCtrl', [
             datalayer.getProducts();
         })();
 
+        $scope.modalData = {
+            BillingRelation: {},
+            StartDate: null,
+            endDate: null,
+            subPolicyIndex: -1,
+            forActivate: true
+        };
+
+        var openmodal = function (modaldata) {
+            $modal.open({
+                templateUrl: '/Billing/policy/date-modal.html',
+                controller: 'policymodal',
+                resolve: {
+                    modaldata: function () {
+                        return modaldata;
+                    }
+                }
+            });
+        };
+
+        $scope.openModelNewSubPolicy = function (subPolicy, index) {
+            $scope.modalData.BillingRelations = { BillingSubpolicy: subPolicy };
+            $scope.modalData.subPolicyIndex = index;
+            $scope.modalData.startDate = null;
+            $scope.modalData.endDate = null;
+            $scope.modalData.forActivate = true;
+            openmodal($scope.modalData);
+        };
+
+        $scope.openModelDeactivateSubPolicy = function (relation) {
+            $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
+            $scope.modalData.payoutRelation.Status = "Submitted";
+            $scope.modalData.subPolicyIndex = -1;
+            $scope.modalData.startDate = relation.StartDate;
+            $scope.modalData.endDate = null;
+            $scope.modalData.forActivate = false;
+            openmodal($scope.modalData);
+        };
+
+        $scope.openModel = function (billingRelations, forActivate) {
+            $scope.modalData.BillingRelations = billingRelations;
+            $scope.modalData.startDate = billingRelations.StartDate;
+            $scope.modalData.endDate = billingRelations.EndDate;
+            $scope.modalData.forActivate = forActivate;
+            openmodal($scope.modalData);
+        };
+
     }]);
-//, 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal',
-//, datalayer, factory, $modal

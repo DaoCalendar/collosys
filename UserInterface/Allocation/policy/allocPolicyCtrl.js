@@ -27,6 +27,7 @@
 csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer',
     function ($scope, modeldata, $modalInstance, datalayer) {
         $scope.modalData = modeldata;
+
         $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.allocPolicy.AllocRelations, 'Priority');
             modalData.AllocRelations.Priority = maxPriorityPolicy.Priority + 1;

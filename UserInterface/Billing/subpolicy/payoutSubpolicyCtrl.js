@@ -26,13 +26,9 @@ csapp.controller("payoutSubpolicyCtrl1", ["$scope", "$csnotify", "$csfactory", "
     $scope.modalData = {};
     $scope.isDuplicateName = false;
     $scope.policyapproved = false;
-    $scope.showStartEndModalPopup = function () {
-        $scope.modalData.forActivate = true;
-        $scope.modalData.startDate = null;
-        $scope.modalData.endDate = null;
-        $scope.openDateModel = true;
-    };
-    
+
+   
+
 }]);
 
 csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
@@ -91,6 +87,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var changeProductCategory = function () {
+
+            if (angular.isUndefined(dldata.payoutSubpolicy))
+                return;
 
             if (angular.isUndefined(dldata.payoutSubpolicy.Id)) {
                 dldata.payoutSubpolicy.BConditions = [];
@@ -191,7 +190,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 restApi.customPOST(payoutSubpolicy, "Post").then(function (data) {
                     dldata.payoutSubpolicyList = _.reject(dldata.payoutSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.payoutSubpolicyList.push(data);
-                    dldata.selectPayoutSubpolicy(data);
+                    datalayer.selectPayoutSubpolicy(data);
                     $csnotify.success("Payout Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -210,7 +209,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         var activateSubPoicy = function (modelData) {
             dldata.curRelation.StartDate = modelData.startDate;
             dldata.curRelation.EndDate = modelData.endDate;
-            restApi.customPOST(dldata.curRelation, "ActivateSubpolicy").then(function (data) {
+           return  restApi.customPOST(dldata.curRelation, "ActivateSubpolicy").then(function (data) {
                 data.BillingPolicy = null;
                 data.BillingSubpolicy = null;
                 dldata.curRelation = data;
@@ -372,8 +371,10 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             condition.Rvalue = '';
         };
 
-        var watchPayoutSubpolicy = function() {
-            var outResult = _.find(dldata.payoutSubpolicy.BOutputs, function(output) {
+        var watchPayoutSubpolicy = function () {
+            if (angular.isUndefined(dldata.payoutSubpolicy))
+                return false;
+            var outResult = _.find(dldata.payoutSubpolicy.BOutputs, function (output) {
                 return (output.Lsqlfunction != "");
             });
 
@@ -410,10 +411,53 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.dldata.payoutSubpolicy = {};
+            $scope.dldata.payoutSubpolicy.Category = "Liner";
+            $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
+            $scope.dldata.newCondition = {};
+            $scope.dldata.newCondition.Rtype = "Value";
+
             $scope.datalayer.getProducts();
         })();
+
+        $scope.openmodal = function () {
+            $scope.modalData = {};
+            $scope.modalData.forActivate = true;
+            $scope.modalData.startDate = null;
+            $scope.modalData.endDate = null;
+            $modal.open({
+                templateUrl: '/Billing/subpolicy/subpolicy-date-model.html',
+                controller: 'subpolicydatemodel',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+        };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);
 
     }]);
 
+csapp.controller('subpolicydatemodel', [
+    '$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', 'modalData', '$modalInstance',
+    function($scope, datalayer, factory, modaldata, $modalInstance) {
+        $scope.datalayer = datalayer;
+        $scope.dldata = datalayer.dldata;
+        $scope.factory = factory;
+
+        $scope.modalData = modaldata;
+
+        $scope.closeModel = function() {
+            $modalInstance.dismiss();
+        };
+
+        $scope.activateSubPolicy = function(modalData) {
+            $scope.datalayer.activateSubPoicy(modalData).then(function () {
+                $modalInstance.close();
+            });
+        };
+    }
+
+]);
