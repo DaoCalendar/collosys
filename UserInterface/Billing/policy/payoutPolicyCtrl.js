@@ -1,9 +1,6 @@
-﻿
-
-(csapp.controller("payoutPolicyCtrl", ["$scope", "$csnotify", "Restangular", function ($scope, $csnotify, rest) {
+﻿csapp.controller("payoutPolicyCtrl1", ["$scope", "$csnotify", "Restangular", function ($scope, $csnotify, rest) {
     "use strict";
 
-    var restApi = rest.all("PayoutPolicyApi");
     $scope.productsList = [];
     $scope.payoutPolicy = {};
     $scope.payoutPolicy.Category = "Liner";
@@ -17,64 +14,6 @@
     $scope.openDateModel = false;
     $scope.isModalDateValid = false;
 
-    $scope.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
-
-    restApi.customGET("GetProducts").then(function (data) {
-        $scope.productsList = data;
-    }, function (data) {
-        $csnotify.error(data);
-    });
-
-
-    $scope.changeProductCategory = function () {
-        var payoutPolicy = $scope.payoutPolicy;
-        if (!angular.isUndefined(payoutPolicy.Products) && !angular.isUndefined(payoutPolicy.Category)) {
-            restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
-                $scope.payoutPolicy = data.PayoutPolicy;
-                $scope.subPolicyList = data.UnUsedSubpolicies;
-            }, function (data) {
-                $csnotify.error(data);
-            });
-        }
-    };
-
-    $scope.getDisplaySubPolicy = function (subPolicy) {
-        var displaySubPolicy = {};
-        displaySubPolicy.Name = subPolicy.Name;
-        displaySubPolicy.Condition = getOuputConditionString(subPolicy, 'Condition');
-        displaySubPolicy.Output = getOuputConditionString(subPolicy, 'Output');
-        return displaySubPolicy;
-    };
-
-    var getOuputConditionString = function (subPolicy, conditionType) {
-        var conditionList = _.sortBy(_.filter(subPolicy.BConditions, function (bcond) { return (bcond.ConditionType == conditionType); }), 'Priority');
-
-        var conditionString = "";
-        for (var i = 0; i < conditionList.length; i++) {
-            if (conditionType == 'Condition') {
-                var condition = conditionList[i];
-                conditionString = conditionString + condition.RelationType + ' ( ' + condition.LtypeName + ' ' + condition.Operator + ' ' + condition.RtypeName +
-                                                                                        (condition.Rvalue) + ' ) ';
-            } else {
-                var output = conditionList[i];
-                if (output.RtypeName) {
-                    conditionString = conditionString +
-                        (output.Operator == 'None' ? '' : output.Operator) +
-                        (output.Lsqlfunction == 'None' ? '' : output.Lsqlfunction) +
-                        '( ' + output.RtypeName + ' )';
-                } else {
-                    conditionString =
-                        conditionString +
-                            (output.Operator == 'None' ? '' : output.Operator) +
-                           (output.Lsqlfunction == 'None' ? '' : output.Lsqlfunction) +
-                            '( ' + output.Rvalue + ' )';
-                }
-
-            }
-        }
-
-        return conditionString;
-    };
     $scope.openModelNewSubPolicy = function (subPolicy, index) {
         $scope.modalData.BillingRelations = { BillingSubpolicy: subPolicy };
         $scope.modalData.subPolicyIndex = index;
@@ -137,9 +76,6 @@
         $scope.closeModel();
     };
 
-
-
-
     $scope.openModelDeactivateSubPolicy = function (relation) {
         $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
         $scope.modalData.payoutRelation.Status = "Submitted";
@@ -150,92 +86,175 @@
         $scope.openDateModel = true;
     };
 
-
-
     $scope.SaveSubPolicy = function () {
         $scope.savePayoutPolicy($scope.payoutPolicy);
     };
 
-    $scope.filterRelation = function (todayActive, status) {
-        return function (relation) {
+}]);
+
+csapp.factory('payoutPolicyFactory', [
+    '$csfactory', 'payoutPolicyDataLayer',
+    function ($csfactory, datalayer) {
+        var dldata = datalayer.dldata;
+
+        var getDisplaySubPolicy = function (subPolicy) {
+            var displaySubPolicy = {};
+            displaySubPolicy.Name = subPolicy.Name;
+            displaySubPolicy.Condition = getOuputConditionString(subPolicy, 'Condition');
+            displaySubPolicy.Output = getOuputConditionString(subPolicy, 'Output');
+            return displaySubPolicy;
+        };
+
+        var getOuputConditionString = function (subPolicy, conditionType) {
+            var conditionList = _.sortBy(_.filter(subPolicy.BConditions, function (bcond) { return (bcond.ConditionType == conditionType); }), 'Priority');
+
+            var conditionString = "";
+            for (var i = 0; i < conditionList.length; i++) {
+                if (conditionType == 'Condition') {
+                    var condition = conditionList[i];
+                    conditionString = conditionString + condition.RelationType + ' ( ' + condition.LtypeName + ' ' + condition.Operator + ' ' + condition.RtypeName +
+                                                                                            (condition.Rvalue) + ' ) ';
+                } else {
+                    var output = conditionList[i];
+                    if (output.RtypeName) {
+                        conditionString = conditionString +
+                            (output.Operator == 'None' ? '' : output.Operator) +
+                            (output.Lsqlfunction == 'None' ? '' : output.Lsqlfunction) +
+                            '( ' + output.RtypeName + ' )';
+                    } else {
+                        conditionString =
+                            conditionString +
+                                (output.Operator == 'None' ? '' : output.Operator) +
+                               (output.Lsqlfunction == 'None' ? '' : output.Lsqlfunction) +
+                                '( ' + output.Rvalue + ' )';
+                    }
+
+                }
+            }
+
+            return conditionString;
+        };
+
+        var filterRelation = function (todayActive, status) {
+            return function (relation) {
+                var today = moment();
+                // var startDate = moment(relation.StartDate);
+                var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
+                var diff = endDate.diff(today, 'days');
+                var dateFilter = ((diff >= 0) === todayActive);
+                var statusfilter = true;
+                if (status != '') {
+                    statusfilter = relation.Status == status;
+                }
+                return (dateFilter && statusfilter);
+            };
+        };
+
+        var setStatus = function (status) {
+            if (status === 'Rejected') {
+                dldata.color = { color: 'red' };
+            }
+            if (status === 'Approved') {
+                dldata.color = { color: 'green' };
+            }
+            if (status === 'Submitted') {
+                dldata.color = { color: 'blue' };
+            }
+            return status;
+        };
+
+        var relationValidToday = function (relation, todayActive) {
             var today = moment();
             // var startDate = moment(relation.StartDate);
             var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
-            var diff = endDate.diff(today, 'days');
-            var dateFilter = ((diff >= 0) === todayActive);
-            var statusfilter = true;
-            if (status != '') {
-                statusfilter = relation.Status == status;
-            }
-            return (dateFilter && statusfilter);
+            return ((today <= endDate) === todayActive);
         };
+
+        var upside = function (subPolicy, index) {
+            var test = _.filter(dldata.payoutPolicy.BillingRelations, function (relation) { return relationValidToday(relation, true); });
+            var relations = _.sortBy(test, 'Priority');
+
+            var tempPriority = relations[index].Priority;
+            relations[index].Priority = relations[index - 1].Priority;
+            relations[index - 1].Priority = tempPriority;
+            datalayer.savePayoutPolicy(dldata.payoutPolicy);
+        };
+
+        var downside = function (subPolicy, index) {
+            var test = _.filter(dldata.payoutPolicy.BillingRelations, function (relation) { return relationValidToday(relation, true); });
+            var relations = _.sortBy(test, 'Priority');
+
+            var tempPriority = relations[index].Priority;
+            relations[index].Priority = relations[index + 1].Priority;
+            relations[index + 1].Priority = tempPriority;
+            datalayer.savePayoutPolicy($scope.payoutPolicy);
+        };
+
+        var reset = function () {
+            dldata.payoutPolicy = {};
+            dldata.payoutPolicy.Category = "Liner";
+        };
+
+        return {
+            getDisplaySubPolicy: getDisplaySubPolicy,
+            filterRelation: filterRelation,
+            setStatus: setStatus,
+            relationValidToday: relationValidToday,
+            upside: upside,
+            downside: downside,
+            reset: reset
+        };
+    }
+]);
+
+csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory', function(rest, $csnotify, $csfactory) {
+    var restApi = rest.all("PayoutPolicyApi");
+    var dldata = {};
+
+    dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
+
+    var getProducts = function () {
+        restApi.customGET("GetProducts").then(function (data) {
+            dldata.productsList = data;
+        }, function (data) {
+            $csnotify.error(data);
+        });
     };
 
-    $scope.setStatus = function (status) {
-        if (status === 'Rejected') {
-            $scope.color = { color: 'red' };
+    var changeProductCategory = function () {
+        var payoutPolicy = dldata.payoutPolicy;
+        if (!angular.isUndefined(payoutPolicy.Products) && !angular.isUndefined(payoutPolicy.Category)) {
+            restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
+                dldata.payoutPolicy = data.PayoutPolicy;
+                dldata.subPolicyList = data.UnUsedSubpolicies;
+            }, function (data) {
+                $csnotify.error(data);
+            });
         }
-        if (status === 'Approved') {
-            $scope.color = { color: 'green' };
-        }
-        if (status === 'Submitted') {
-            $scope.color = { color: 'blue' };
-        }
-        return status;
     };
 
-    var relationValidToday = function (relation, todayActive) {
-        var today = moment();
-        // var startDate = moment(relation.StartDate);
-        var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
-        return ((today <= endDate) === todayActive);
-    };
-
-    $scope.upside = function (subPolicy, index) {
-        var test = _.filter($scope.payoutPolicy.BillingRelations, function (relation) { return relationValidToday(relation, true); });
-        var relations = _.sortBy(test, 'Priority');
-
-        var tempPriority = relations[index].Priority;
-        relations[index].Priority = relations[index - 1].Priority;
-        relations[index - 1].Priority = tempPriority;
-        $scope.savePayoutPolicy($scope.payoutPolicy);
-    };
-
-    $scope.downside = function (subPolicy, index) {
-        var test = _.filter($scope.payoutPolicy.BillingRelations, function (relation) { return relationValidToday(relation, true); });
-        var relations = _.sortBy(test, 'Priority');
-
-        var tempPriority = relations[index].Priority;
-        relations[index].Priority = relations[index + 1].Priority;
-        relations[index + 1].Priority = tempPriority;
-        $scope.savePayoutPolicy($scope.payoutPolicy);
-    };
-
-
-    $scope.RejectSubPolicy = function (rejectedRelation) {
+    var rejectSubPolicy = function (rejectedRelation) {
         restApi.customDELETE("RejectSubpolicy", { id: rejectedRelation.Id }).then(function () {
-            $scope.payoutPolicy.BillingRelations.splice($scope.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
-            $scope.subPolicyList.push(rejectedRelation.BillingSubpolicy);
+            dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
+            dldata.subPolicyList.push(rejectedRelation.BillingSubpolicy);
             $csnotify.success("Subpolicy Rejected");
         }, function (data) {
             $csnotify.error(data);
         });
     };
 
-
-    $scope.savePayoutPolicy = function (payoutPolicy) {
+    var savePayoutPolicy = function (payoutPolicy) {
         var detelatedData = '';
-        if (payoutPolicy.Id != "00000000-0000-0000-0000-000000000000") {
+        if (!$csfactory.isNullOrEmptyGuid(payoutPolicy.Id)) {
             var rejectedRelation = _.find(payoutPolicy.BillingRelations, { Status: 'Rejected' });
             if (angular.isDefined(rejectedRelation)) {
                 detelatedData = angular.copy(rejectedRelation);
                 payoutPolicy.BillingRelations.splice(payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             }
-
             restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
-                $scope.payoutPolicy = data;
+                dldata.payoutPolicy = data;
                 if (detelatedData != '') {
-                    $scope.subPolicyList.push(detelatedData.BillingSubpolicy);
+                    dldata.subPolicyList.push(detelatedData.BillingSubpolicy);
                     detelatedData = '';
                 }
                 $csnotify.success("Policy Saved");
@@ -244,7 +263,7 @@
             });
         } else {
             restApi.customPOST(payoutPolicy, "POST").then(function (data) {
-                $scope.payoutPolicy = data;
+                dldata.payoutPolicy = data;
                 $csnotify.success("Policy Saved");
             }, function (data) {
                 $csnotify.error(data);
@@ -252,89 +271,26 @@
         }
     };
 
-    $scope.reset = function () {
-        $scope.payoutPolicy = {};
-        $scope.payoutPolicy.Category = "Liner";
+    return {
+        dldata: dldata,
+        getProducts: getProducts,
+        changeProductCategory: changeProductCategory,
+        RejectSubPolicy: rejectSubPolicy,
+        savePayoutPolicy: savePayoutPolicy
     };
-
-}]));
+}]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory','$modal',
-    function($scope, datalayer, factory,$modal) {
+    '$scope', 'payoutPolicyDataLayer','payoutPolicyFactory',
+    function ($scope, datalayer, factory) {
 
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            datalayer.getProducts();
         })();
 
     }]);
-
-csapp.factory('payoutPolicyDataLayer'['Restangular', '$csnotify',
-    function (rest, $csnotify) {
-        var restApi = rest.all("PayoutPolicyApi");
-        var dldata = {};
-
-        return {
-            dldata: dldata
-        };
-    }]);
-
-csapp.factory('payoutPolicyFactory', [
-    '$csfactory', 'payoutPolicyDataLayer',
-    function($csfactory, datalayer) {
-
-
-    }
-]);
-
-//restApi.customGET("GetPayoutPolicy", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
-//    restApi.customGET("GetPayoutSubpolicy", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (spdata) {
-//        restApi.customGET("GetBConditions", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (conddata) {
-//            debugger;
-//            $scope.BConditionList = conddata;
-
-//            var savedSubpolicyNames = _.pluck(_.pluck(data.BillingRelations, 'BillingSubpolicy'), 'Name');
-//            $scope.subPolicyList = _.filter(spdata, function (sdata) { return !_.contains(savedSubpolicyNames, sdata.Name); });
-
-//            $scope.payoutPolicy = data;
-//        }, function (conddata) {
-//            $csnotify.error(conddata);
-//        });
-//    }, function (spdata) {
-//        $csnotify.error(spdata);
-//    });
-//}, function (data) {
-//    $csnotify.error(data);
-//});
-
-//var conditionList = _.sortBy(_.filter($scope.BConditionList, function (bcond) {
-//    return (bcond.BillingSubpolicy.Id == subPolicy.Id && bcond.ConditionType == conditionType);
-//}), 'Priority');
-
-
-//GetPayoutPolicyDetails
-//restApi.customGET("GetPayoutPolicyDetails", { product: payoutPolicy.Products, category: payoutPolicy.Category }).then(function(data) {
-//    debugger;
-//    $scope.BConditionList = data.conditionList;
-//    $scope.subPolicyList = data.subPolicy;
-//    $scope.payoutPolicy = data.policy;
-//}, function (data) {
-//    $csnotify.error(data);
-//});
-
-//var getOuputConditionString = function (subPolicy, conditionType) {
-//    var conditionList = _.sortBy(_.filter(subPolicy.BConditions, function (bcond) { return (bcond.ConditionType == conditionType); }), 'Priority');
-
-//    var conditionString = "";
-//    for (var i = 0; i < conditionList.length; i++) {
-//        var condition = conditionList[i];
-//        conditionString = conditionString + condition.RelationType + ' ( ' + condition.LtypeName + ' ' + condition.Operator + ' ' + condition.RtypeName +
-//                                                                                    (condition.Rvalue) + ' ) ';
-
-//        //conditionString + condition.RelationType + ' ( ' + condition.ColumnName + ' ' + condition.Operator + ' ' + condition.Value + ' ) ';
-//    }
-
-//    return conditionString;
-//};
+//, 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal',
+//, datalayer, factory, $modal
