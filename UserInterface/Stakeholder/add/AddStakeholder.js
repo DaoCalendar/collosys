@@ -477,9 +477,9 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
        
 
         //save stakeholder
-        //if (hierarchy.Hierarchy !== 'External') {
-        //    stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
-        //}
+        if (hierarchy.Hierarchy !== 'External') {
+            stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
+        }
 
         // assign approver name
         //stakeholder.ApprovedBy = getApproverName(stakeholder.ReportingManager);
@@ -614,6 +614,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
 
 }])
 );
+
+
 
 //$scope.Stakeholder = {
 //    StkhPayments: [],

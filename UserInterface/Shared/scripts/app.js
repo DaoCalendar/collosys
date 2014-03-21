@@ -122,17 +122,17 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 //stakeholder
                 .when('/stakeholder/add', {
-                    templateUrl: '/Stakeholder/add/index.html',
+                    templateUrl: '/Stakeholder/add/index2.html',
                     controller: 'AddStakeHolderCtrl'
+                }).when('/stakeholder/view', {
+                    templateUrl: '/Stakeholder/view/index.html',
+                    controller: 'viewStake'
                 }).when('/generic/hierarchy', {
                     templateUrl: '/Stakeholder/hierarchy/hierarchy-grid.html',
                     controller: 'hierarchyController'
                 }).when('/generic/hierarchy/add', {
                     templateUrl: '/Stakeholder/hierarchy/hierarchy-add.html',
                     controller: 'hierarchyAddController'
-                }).when('/stakeholder/view', {
-                    templateUrl: '/Stakeholder/view/index.html',
-                    controller: 'viewStake'
                 })
 
                 //allocation

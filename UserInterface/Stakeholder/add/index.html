@@ -9,7 +9,7 @@
 </style>
 
 <div class="container-fluid">
-    <div class="row-fluid" data-ng-cloak="">
+    <div class="row-fluid" data-ng-cloak="" data-ng-controller="AddStakeHolderCtrl">
         <div data-ng-form="formStakeholder" class="form-horizontal" data-ng-init="init()">
             <!-- basic info -->
             <div class="row-fluid" data-ng-if="currentStep==StepManager.StepNames.BasicInfo ">
@@ -19,7 +19,7 @@
                             Select Hierarchy/Designation
                         </div>
                         <div class="row-fluid" data-ng-form="addHierarchyForm" data-ng-init="$parent.currentForm=addHierarchyForm">
-                            <div data-ng-include="'add/hierarchy.html'"></div>
+                            <div data-ng-include="'/Stakeholder/add/hierarchy.html'"> </div>
                         </div>
                     </div>
                     <!--Basic Information-->
@@ -28,7 +28,7 @@
                             Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
                         </div>
                         <div class="row-fluid" data-ng-form="basicInfoForm">
-                            <div data-ng-include="'add/basic.html'"></div>
+                            <div ng-include="'/Stakeholder/add/basic.html'"> </div>
                         </div>
                     </div>
                     <!--Registration-->
@@ -37,7 +37,7 @@
                             Registration :
                         </div>
                         <div class="row-fluid" data-ng-form="registrationForm" data-ng-if="indexData.Hierarchy.HasRegistration">
-                            <div data-ng-include="'add/registration.html'"></div>
+                            <div ng-include="'/Stakeholder/add/registration.html'"> </div>
                         </div>
                     </div>
                     <!--Add Address-->
@@ -46,7 +46,8 @@
                             Address Details  :<span>{{indexData.Hierarchy.HasAddress}}</span>
                         </div>
                         <div class="row-fluid" data-ng-form="addressDetailsForm" data-ng-if="indexData.Hierarchy.HasAddress">
-                            <div data-ng-include="'add/address.html'">
+                            <div class="row-fluid">
+                                <div ng-include="'/Stakeholder/add/address.html'"> </div>
                             </div>
                         </div>
                     </div>
@@ -63,7 +64,8 @@
                                 Working  
                             </div>
                             <div class="row-fluid" data-ng-form="paymentWorkinForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
-                                <div data-ng-include="'add/working.html'">
+                                <div class="row-fluid">
+                                    <div ng-include="'/Stakeholder/add/working.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +74,8 @@
                                 Payment    
                             </div>
                             <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment" data-ng-form="paymentDetailsForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
-                                <div data-ng-include="'add/payment.html'">
+                                <div class="row-fluid">
+                                    <div ng-include="'/Stakeholder/add/payment.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -91,20 +94,25 @@
                         <div class="panel-heading">
                             Added Payment Working Groups 
                         </div>
-                        <div data-ng-include="'add/show-working-payment.html'">
+                        <div class="row-fluid">
+                            <div ng-include="'/Stakeholder/add/show-working-payment.html'"> </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="field-validation-error text-right" data-ng-show="formStakeholder.$invalid">{{val.Mandatory()}}</div>
             <br />
+
             <!-- buttons -->
             <div class="row-fluid text-right">
                 <button class="btn btn-info" data-ng-hide="currentStep===StepManager.StepNames.Working" data-ng-click="Reset()">Reset</button>
                 <button class="btn btn-success" data-ng-show="StepManager.HasPrevStep() && ShowPrevBtn" data-ng-disabled="WizardData.isFromPayment" data-ng-click="StepManager.StepBackward()"><i class="icon-arrow-left"></i>Prev</button>
-                
+               
                 <button class="btn btn-success" data-ng-show="StepManager.HasNextStep()" data-ng-disabled="(formStakeholder.$invalid || StepManager.IsStepInvalid())&& !(WizardData.IsEditMode() === true )" data-ng-click="StepManager.StepForward()">Next <i class="icon-arrow-right"></i></button>
                 <button class="btn btn-success" data-ng-show="StepManager.ShowSaveButton()" data-ng-disabled="enableShowForCurrentStep(currentStep,formStakeholder.$invalid) && !(WizardData.IsEditMode() === true )" data-ng-click="SaveData()">Save</button>
+                
+
                 <button class="btn btn-warning" data-ng-click="StepManager.Cancel()">Cancel</button>
             </div>
         </div>
