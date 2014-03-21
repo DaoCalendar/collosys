@@ -23,19 +23,12 @@ namespace AngularUI.Developer.generatedb
             if (!DeleteAllTables())
                 return false;
 
-            try
-            {
-                GenerateNewDb();
-                MigrateToLatest();
-                UploadExcelData();
-                CreatErrortable();
-                InitialData.InsertData();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            GenerateNewDb();
+            MigrateToLatest();
+            UploadExcelData();
+            CreatErrortable();
+            InitialData.InsertData();
+            return true;
         }
 
         private static void MigrateToLatest()
@@ -44,7 +37,7 @@ namespace AngularUI.Developer.generatedb
             QueryExecuter.ExecuteDataChange(createTable);
             var connString = ColloSysParam.WebParams.ConnectionString.ConnectionString;
             var insertInto = MigrateRunner.VersionInfoTableInsert(connString);
-            if(string.IsNullOrWhiteSpace(insertInto)) return;
+            if (string.IsNullOrWhiteSpace(insertInto)) return;
             QueryExecuter.ExecuteDataChange(insertInto);
         }
 

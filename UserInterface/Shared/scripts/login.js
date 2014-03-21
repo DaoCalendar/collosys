@@ -1,9 +1,29 @@
 ﻿
-csapp.factory("$csAuthFactory", function () {
+csapp.factory("authenticationDataLayer", [
+    "Restangular", function(rest) {
+
+    }
+]);
+
+
+csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStore, logManager) {
+    var $log = logManager.getInstance("$csAuthFactory");
 
     var authInfo = {
         isAuthorized: false,
-        username: ''
+        username: '',
+        loginTime: null
+    };
+
+    var loadCookie = function () {
+        var cookie = $cookieStore.get("authInfo");
+        if (angular.isDefined(cookie) && cookie.isAuthorized === true) {
+            var time = moment(cookie.loginTime);
+            if ( time.isValid() && moment().diff(time, 'minutes') <= 30) {
+                authInfo = cookie;
+                $log.info(authInfo.username + "has logged in from cookie.");
+            }
+        }
     };
 
     var hasLoggedIn = function () {
@@ -13,19 +33,22 @@ csapp.factory("$csAuthFactory", function () {
     var loginUser = function (user) {
         authInfo.isAuthorized = true;
         authInfo.username = user;
+        authInfo.loginTime = moment().format();
+        $cookieStore.remove("authInfo");
+        $cookieStore.put("authInfo", authInfo);
+        $log.info(authInfo.username + "has logged in from ui.");
     };
 
-    var getUsername = function() {
+    var getUsername = function () {
         return authInfo.username;
     };
 
     var logoutUser = function () {
         authInfo.isAuthorized = false;
         authInfo.username = undefined;
-    };
-
-    var testingMode = function() {
-        return true;
+        $cookieStore.remove("authInfo");
+        $cookieStore.put("authInfo", authInfo);
+        $log.info(authInfo.username + "has logged out.");
     };
 
     return {
@@ -33,26 +56,29 @@ csapp.factory("$csAuthFactory", function () {
         loginUser: loginUser,
         logoutUser: logoutUser,
         getUsername: getUsername,
-        testingMode: testingMode
+        loadAuthCookie: loadCookie
     };
+}]);
 
-});
+csapp.controller("logoutController", [
+    "$csAuthFactory", "$location", function ($csAuthFactory, $location) {
+        $csAuthFactory.logoutUser();
+        $location.path("/login");
+    }
+]);
 
-
-csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", "Logger",
-    function ($scope, $modalInstance, $csAuthFactory, logManager) {
+csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", 
+    function ($scope, $modalInstance, $csAuthFactory) {
         $scope.loginErrorMessage = "Invalid username or password.";
         $scope.login = {
             error: false,
             showForgot: false
         };
-        var $log = logManager.getInstance("loginModalController");
         $csAuthFactory.logoutUser();
 
         $scope.loginUser = function (login) {
             if (login.username === login.password) {
                 $csAuthFactory.loginUser(login.username);
-                $log.info(login.username + " has logged in.");
                 $modalInstance.close(login.username);
             } else {
                 login.error = true;
@@ -72,7 +98,7 @@ csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", function ($scope
         keyboard: false
     });
 
-    modalInst.result.then(function() {
+    modalInst.result.then(function () {
         $location.path("/home");
     });
 }]);

@@ -1,6 +1,10 @@
 ﻿
 var csapp = angular.module("ui.collosys",
-    ['ui.bootstrap', 'ui', 'ngGrid', 'restangular', "ngRoute", "angularFileUpload", 'ngAnimate']);
+[
+    'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
+    'ngRoute', 'angularFileUpload', 'ngAnimate',
+    'ngCookies'
+]);
 
 
 csapp.value("lodash", "_");
@@ -84,6 +88,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/login', {
                     templateUrl: 'Shared/templates/login-holder.html',
                     controller: 'LoginCtrl'
+                }).when('/logout', {
+                    templateUrl: 'Shared/templates/login-holder.html',
+                    controller: 'logoutController'
                 }).when('/generic/profile', {
                     templateUrl: '/Generic/profle/userprofile.html',
                     controller: 'ProfileController'
@@ -145,10 +152,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 //billing
                 .when('/billing/policy', {
-                    templateUrl: '/Billing/policy/index.html',
+                    templateUrl: '/Billing/policy/billingpolicy.html',
                     controller: 'payoutPolicyCtrl'
                 }).when('/billing/subpolicy', {
-                    templateUrl: '/Billing/subpolicy/index.html',
+                    templateUrl: '/Billing/subpolicy/billing-subpolicy.html',
                     controller: 'payoutSubpolicyCtrl'
                 }).when('/billing/formula', {
                     templateUrl: '/Billing/formula/formula.html',
@@ -275,16 +282,13 @@ csapp.controller('RootCtrl', ["$scope", "$rootScope", "$csStopWatch", "$csAuthFa
             }
         });
 
-        if ($csAuthFactory.testingMode() === true) {
-            $csAuthFactory.loginUser("scbuser");
+        $csAuthFactory.loadAuthCookie();
+        if ($csAuthFactory.hasLoggedIn()) {
+            $log.info("Routing user to home page.");
             $location.path("/home");
         } else {
-            if ($csAuthFactory.hasLoggedIn()) {
-                $log.info("Routing user to home page.");
-                $location.path("/home");
-            } else {
-                $log.info("Routing user to login page.");
-                $location.path("/login");
-            }
+            $log.info("Routing user to login page.");
+            $location.path("/login");
         }
-    }]);
+    }
+]);

@@ -84,9 +84,9 @@
       <Project>{0BC673FC-EB6C-4D50-8001-56273F9530A2}</Project>
       <Name>FileUploadService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UserInterfaceAngular\UserInterfaceAngular.csproj">
-      <Project>{001B2F7C-1452-429F-BD60-4DB7D316EA77}</Project>
-      <Name>UserInterfaceAngular</Name>
+    <ProjectReference Include="..\UserInterface\AngularUI.csproj">
+      <Project>{ddd31537-2bfc-40fe-8344-8d87bfeb998f}</Project>
+      <Name>AngularUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
