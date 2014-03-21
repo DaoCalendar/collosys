@@ -43,11 +43,11 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
     };
 
     var logoutUser = function () {
+        $log.info(authInfo.username + " has logged out.");
         authInfo.isAuthorized = false;
         authInfo.username = undefined;
         $cookieStore.remove("authInfo");
         $cookieStore.put("authInfo", authInfo);
-        $log.info(authInfo.username + "has logged out.");
     };
 
     return {
@@ -92,7 +92,7 @@ csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory
 csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", function ($scope, $modal, $location) {
     var modalInst = $modal.open({
         controller: "loginController",
-        templateUrl: "/Shared/templates/login.html",
+        templateUrl: "/Generic/login/login.html",
         backdrop: false,
         keyboard: false
     });

@@ -6,9 +6,6 @@ var csapp = angular.module("ui.collosys",
     'ngCookies'
 ]);
 
-
-csapp.value("lodash", "_");
-
 csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
     function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
 
@@ -92,7 +89,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: 'Generic/login/login-holder.html',
                     controller: 'logoutController'
                 }).when('/generic/profile', {
-                    templateUrl: '/Generic/profle/profile.html',
+                    templateUrl: '/Generic/profile/profile.html',
                     controller: 'profileController'
                 })
 
@@ -219,8 +216,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
     }
 ]);
 
-csapp.run(function ($rootScope, $log, $window) {
-    $rootScope.$log = $log;
+csapp.run(function ($rootScope, $location) {
     $rootScope.loadingElement = { waitingForServerResponse: false };
 
     $rootScope.$on("$csHideSpinner", function () {
@@ -232,8 +228,7 @@ csapp.run(function ($rootScope, $log, $window) {
     });
 
     $rootScope.$on("$csLoginRequired", function () {
-        $log.info("FATAL: Unauthorized access");
-        $window.location = $window.mvcBaseUrl + "Account/Login";
+        $location.path("/login");
     });
 });
 
