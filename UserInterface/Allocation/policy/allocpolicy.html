@@ -23,7 +23,7 @@
                 <tr data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
                     <td style="border-color: green">
                         <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(allocRelation.AllocSubpolicy)" class=" row-fluid span12">
-                            <div class="row-fluid span10">
+                            <div class="row-fluid span9">
                                 <!--Name & Policy-->
                                 <div class="row-fluid">
                                     <!--Name-->
@@ -100,7 +100,7 @@
                             </div>
                             <!--upward downward arrows-->
                             <div class="row-fluid span2">
-                                <div class="row-fluid span12 text-right">
+                                <div class="row-fluid text-left">
                                     <div class="btn-group btn-group-vertical">
                                         <button class="btn btn-mini icon-arrow-up" data-ng-disabled="$first" data-ng-click="facotry.upside(disSubPolicy,$index)"></button>
                                         <button class="btn btn-mini icon-arrow-down" data-ng-disabled="$last" data-ng-click="factory.downside(dldata.subPolicy,$index)"></button>
@@ -157,7 +157,7 @@
                 <tr data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
                     <td style="border-color: green">
                         <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(allocRelation.AllocSubpolicy)" class=" row-fluid span12">
-                            <div class="row-fluid span10">
+                            <div class="row-fluid span9">
                                 <!--Name & Policy-->
                                 <div class="row-fluid">
                                     <!--Name-->
