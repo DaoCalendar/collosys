@@ -46,10 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
+    <Compile Include="SetUpAssemblies.cs" />
+    <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />
     <Compile Include="ExcelReader.Test\ExcelReaderHelper.cs" />
     <Compile Include="ExcelReader.Test\NpOiExcelReaderTest.cs" />
-    <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ReflectionGetValueTest.cs" />
     <Compile Include="Reflection\ReflectionTest.cs" />
@@ -76,6 +77,10 @@
     <ProjectReference Include="..\FileUploader\FileUploader.csproj">
       <Project>{12419049-4F49-4557-91CD-188D60E0C565}</Project>
       <Name>FileUploader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserInterface\AngularUI.csproj">
+      <Project>{ddd31537-2bfc-40fe-8344-8d87bfeb998f}</Project>
+      <Name>AngularUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

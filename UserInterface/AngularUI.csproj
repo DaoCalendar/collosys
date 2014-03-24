@@ -377,6 +377,8 @@
     <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
     <Content Include="FileUpload\customerinfo\customer-info.html" />
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xls" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

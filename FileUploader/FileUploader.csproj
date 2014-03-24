@@ -77,7 +77,6 @@
     <Compile Include="ValueSetters\ValueSetter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExcelReader\ExampleData.xls" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

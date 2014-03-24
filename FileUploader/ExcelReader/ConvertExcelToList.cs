@@ -15,7 +15,7 @@ namespace FileUploader.ExcelReader
 
         private IExcelReader _iExcelReader;
 
-        public ConvertExcelToList(FileInfo fileInfo)
+        public ConvertExcelToList(FileStream fileInfo)
         {
             _iExcelReader = GetInstance(fileInfo);
         }
@@ -25,9 +25,10 @@ namespace FileUploader.ExcelReader
             _iExcelReader = reader;
         }
 
-        private IExcelReader GetInstance(FileInfo fileInfo)
+        private IExcelReader GetInstance(FileStream fileInfo)
         {
-            switch (fileInfo.Extension)
+            var file = Path.GetExtension(fileInfo.Name);
+            switch (file)
             {
                 case ".xlsx":
                     return _iExcelReader = new EpPlusExcelReader(fileInfo);

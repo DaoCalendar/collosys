@@ -1,69 +1,29 @@
 ﻿using System.IO;
+using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
+using ReflectionExtension.Tests;
 
 namespace FileUploader.Tests.ExcelReader.Test
 {
     [TestFixture]
-    class NpOiExcelReaderTest
+    class NpOiExcelReaderTest: SetUpAssemblies
     {
-        private NpOiExcelReader _npOiExcelReader;
-        //private ConvertExcelToList<ExcelReaderHelper> _data;
-       
+        private NpOiExcelReader Excel;
+     
         [SetUp]
         public void Init()
         {
-            var fileInfo = new FileInfo("c:\\ExampleData.xls");
-            _npOiExcelReader = new NpOiExcelReader(fileInfo);
-           // _data=new ConvertExcelToList<ExcelReaderHelper>(_npOiExcelReader);
+            Excel = new NpOiExcelReader(FileStream);
         }
 
-        #region::Assiging Diffrent Files To constructor ::
-
-        [Test]
-        public void Assigning_xls_File_to_FileStream()
-        {
-            var fileInfo = new FileInfo(@"c:\\ExampleData.xls");
-            _npOiExcelReader = new NpOiExcelReader(fileInfo);
-            Assert.IsNotNull(_npOiExcelReader.TotalRows);
-        }
-
-        [Test]
-        [ExpectedException]
-        public void Assigning_Empty_xls_File_To_FileStream_ThrowsException()
-        {
-            var fileInfo = new FileInfo(@"c:\\Empty.xls");
-            _npOiExcelReader = new NpOiExcelReader(fileInfo);
-        }
-
-        [Test]
-        [ExpectedException]
-        public void Assigning_Docx_File_To_FileStream_ThrowsException()
-        {
-            var fileInfo = new FileInfo("c:\\abc.docx");
-            _npOiExcelReader = new NpOiExcelReader(fileInfo);
-        }
-
-        [Test]
-        [ExpectedException]
-        public void Assigning_NotPresented_File_To_FileInfo_ThrowsException()
-        {
-            var fileInfo = new FileInfo("c:\\ExampleData123.xls");
-            _npOiExcelReader = new NpOiExcelReader(fileInfo);
-        }
-
-
-        #endregion
 
         //[TestCase(1, 1, "Skydiving", "Property1")]
         //public void Test(int rowPos, int colPos, string value, string propertyName)
         //{
-        //    var fileInfo = new FileInfo("c:\\ExampleData.xls");
-        //    _npOiExcelReader = new NpOiExcelReader(fileInfo);
-            
-        //  _data.SetValue(propertyName,   1, 1);
+        //   _data.SetValue(propertyName, 1, 1);
 
-        //    Assert.AreEqual(value, _npOiExcelReader.GetValue((uint)colPos, (uint)rowPos));
+        //    Assert.AreEqual(value, Excel.GetValue((uint)colPos, (uint)rowPos));
 
         //}
         #region:: ColumnWise Test Case ::
@@ -76,8 +36,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(1, 6, "non Numbric string")]
         public void Read_String_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -86,11 +46,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(2, 3, "10000")]
         [TestCase(2, 4, "(3214)")]
         [TestCase(2, 5, "123321")]
-        [TestCase(2, 6, "asdf")]
+        [TestCase(2, 6, "123")]
         public void Read_Int32_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -102,8 +62,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(3, 6, "18-Nov-03 11:25 ")]
         public void Read_DateTime_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -115,8 +75,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(4, 6, "654")]
         public void Read_Double_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
         [TestCase(5, 1, "12.3215")]
@@ -127,8 +87,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(5, 6, "654")]
         public void Read_Float_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -140,8 +100,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(6, 6, "684")]
         public void Read_Int64_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -153,8 +113,8 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(7, 6, "789")]
         public void Read_Uint32_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -166,46 +126,46 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(8, 6, "5441")]
         public void Read_Decimal_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
         [TestCase(9, 1, "10132154")]
-        [TestCase(9, 2, "-965464")]
-        [TestCase(9, 3, "asd456")]
-        [TestCase(9, 4, "(123524164)")]
+        [TestCase(9, 2, "965464")]
+        [TestCase(9, 3, "456")]
+        [TestCase(9, 4, "123524164")]
         [TestCase(9, 5, "1233214")]
-        [TestCase(9, 6, "5441")]
+        [TestCase(9, 6, "123")]
         public void Read_Uint64_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
         [TestCase(10, 1, "101")]
-        [TestCase(10, 2, "-964")]
-        [TestCase(10, 3, "#546")]
+        [TestCase(10, 2, "964")]
+        [TestCase(10, 3, "546")]
         [TestCase(10, 4, "(123)")]
         [TestCase(10, 5, "123,0")]
         [TestCase(10, 6, "123")]
         public void Read_int16_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
         [TestCase(11, 1, "A")]
-        [TestCase(11, 2, "#")]
+        [TestCase(11, 2, "6")]
         [TestCase(11, 3, "F")]
         [TestCase(11, 4, "$")]
         [TestCase(11, 5, "5")]
-        [TestCase(11, 6, "213")]
+        [TestCase(11, 6, "d")]
         public void Read_Character_Column_Values(int colPos, int rowPos, string expected)
         {
-            _npOiExcelReader.NextRow();
-            string value = _npOiExcelReader.GetValue((uint)rowPos, (uint)colPos);
+            Excel.NextRow();
+            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 

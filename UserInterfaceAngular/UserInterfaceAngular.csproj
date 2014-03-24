@@ -653,6 +653,8 @@
     <Content Include="Areas\Billing\Views\BillAmount\Index.cshtml" />
     <Content Include="Areas\Billing\Views\ReadyForBilling\Index.cshtml" />
     <Content Include="Areas\Billing\Views\BillingStatus\Index.cshtml" />
+    <Content Include="ExcelData\ExampleData.xls" />
+    <Content Include="ExcelData\ExampleData.xlsx" />
     <None Include="Properties\PublishProfiles\123.pubxml" />
     <None Include="Properties\PublishProfiles\CollosysDec.pubxml" />
     <None Include="Properties\PublishProfiles\ColloSysDefaultWebSite.pubxml" />
