@@ -17,9 +17,9 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
-    public class FileSchedulerBuilder : QueryBuilder<FileScheduler>
+    public class FileSchedulerBuilder : Repository<FileScheduler>
     {
-        public override QueryOver<FileScheduler, FileScheduler> WithRelation()
+        public override QueryOver<FileScheduler, FileScheduler> ApplyRelations()
         {
             return QueryOver.Of<FileScheduler>();
         }
@@ -153,7 +153,8 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
         }
 
         [Transaction]
-        public IEnumerable<FileScheduler> LastUploadedFiles(ColloSysEnums.FileAliasName aliasName, DateTime fileDate, int filecount = 10)
+        public IEnumerable<FileScheduler> LastUploadedFiles(ColloSysEnums.FileAliasName aliasName, 
+            DateTime fileDate, uint filecount = 10)
         {
             FileScheduler fs = null;
             FileDetail fd = null;

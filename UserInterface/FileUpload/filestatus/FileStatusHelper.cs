@@ -44,7 +44,7 @@ namespace AngularUI.FileUpload.filestatus
         public static FileScheduler ReScheduleFile(FileScheduler file)
         {
             if (file == null) return null;
-            var entity =FileSchedulerBuilder.GetWithId(file.Id);
+            var entity =FileSchedulerBuilder.Get(file.Id);
             entity.IsImmediate = true;
             entity.ImmediateReason = file.ImmediateReason;
             entity.StartDateTime = DateTime.Now;
@@ -54,7 +54,7 @@ namespace AngularUI.FileUpload.filestatus
 
         public static FileScheduler RetryUpload(Guid id)
         {
-            var scheduler = FileSchedulerBuilder.GetWithId(id);
+            var scheduler = FileSchedulerBuilder.Get(id);
             scheduler.UploadStatus = ColloSysEnums.UploadStatus.RetryUpload;
             scheduler.IsImmediate = true;
             scheduler.StartDateTime = DateTime.Now;

@@ -108,11 +108,11 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
-    <Compile Include="Generic\permissionscreen\PermisionData.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Shared\NgGridOptions.cs" />
-    <Compile Include="Shared\SharedViewModel.cs" />
+    <Compile Include="Generic\login\AutheticationController.cs" />
+    <Compile Include="Generic\permissions\PermisionData.cs" />
+    <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
+    <Compile Include="Generic\csgrid\NgGridOptions.cs" />
+    <Compile Include="Billing\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
     <Compile Include="appCode\JsonNetResult.cs" />
     <Compile Include="appCode\NHibernateConfig.cs" />
@@ -161,7 +161,6 @@
     <Compile Include="FileUpload\filestatus\FileStatusHelper.cs" />
     <Compile Include="FileUpload\paymentreversal\PaymentReversalApiController.cs" />
     <Compile Include="Generic\keyvalue\KeyValueApiController.cs" />
-    <Compile Include="Generic\permissionscreen\PermissionScreenApiController.cs" />
     <Compile Include="Generic\pincode\PincodeApiController.cs" />
     <Compile Include="Generic\pincode\pincodeData.cs" />
     <Compile Include="Generic\product\ProductConfigApiController.cs" />
@@ -174,7 +173,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
-    <Compile Include="Shared\webapis\GridApiController.cs" />
+    <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
@@ -200,21 +199,24 @@
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\view-approve.html" />
+    <Content Include="Billing\adhoc\add-hoc-payment-details.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
-    <Content Include="Billing\adhoc\index.html" />
+    <Content Include="Billing\adhoc\adhoc.html" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\matrix\index.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
-    <Content Include="Billing\policy\index.html" />
+    <Content Include="Billing\policy\date-modal.html" />
+    <Content Include="Billing\policy\billingpolicy.html" />
     <Content Include="Billing\policy\payoutPolicyCtrl.js" />
     <Content Include="Billing\readybilling\index.html" />
     <Content Include="Billing\readybilling\ReadyForBilling.js" />
     <Content Include="Billing\status\BillingStatus.js" />
     <Content Include="Billing\status\index.html" />
-    <Content Include="Billing\subpolicy\index.html" />
+    <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
+    <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\index.html" />
     <Content Include="Content\angularui\angular-ui.css" />
@@ -277,18 +279,19 @@
     <Content Include="FileUpload\paymentreversal\paymentmanager.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
+    <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
-    <Content Include="Generic\permissionscreen\permissionscreen.html" />
-    <Content Include="Generic\permissionscreen\PermissionScreenJS.js" />
+    <Content Include="Generic\permissions\permission.html" />
+    <Content Include="Generic\permissions\permission.js" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
     <Content Include="Generic\product\confirmDelete.html" />
     <Content Include="Generic\product\product.html" />
     <Content Include="Generic\product\ProductConfigModel.js" />
     <Content Include="Generic\product\updateViewConfiguration.html" />
-    <Content Include="Generic\profile\userprofile.html" />
-    <Content Include="Generic\profile\UserProfile.js" />
+    <Content Include="Generic\profile\profile.html" />
+    <Content Include="Generic\profile\profile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />
     <Content Include="Developer\queryexecuter\queryexecuter.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
@@ -651,17 +654,18 @@
     <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.min.js" />
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
-    <Content Include="Shared\scripts\cs-ng-grid.js" />
-    <Content Include="Shared\scripts\login.js" />
+    <Content Include="Generic\csgrid\cs-ng-grid.js" />
+    <Content Include="Generic\login\login.js" />
+    <Content Include="Shared\scripts\controllers.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
-    <Content Include="Shared\templates\grid\grid-buttons.html" />
-    <Content Include="Shared\templates\grid\grid-settings.html" />
-    <Content Include="Shared\templates\grid\grid-stakeholder.html" />
+    <Content Include="Generic\csgrid\grid-buttons.html" />
+    <Content Include="Generic\csgrid\grid-settings.html" />
+    <Content Include="Generic\csgrid\grid-stakeholder.html" />
     <Content Include="Shared\templates\loading-element.html" />
-    <Content Include="Shared\templates\login-holder.html" />
-    <Content Include="Shared\templates\login.html" />
-    <Content Include="Shared\templates\home.html" />
+    <Content Include="Generic\login\login-holder.html" />
+    <Content Include="Generic\login\login.html" />
+    <Content Include="Generic\home\home.html" />
     <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Stakeholder\add\address.html" />
@@ -702,11 +706,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Login\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />

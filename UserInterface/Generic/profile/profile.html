@@ -1,0 +1,90 @@
+﻿<form class="form-horizontal">
+    <div class="panel">
+        <div class="panel-heading">Profile</div>
+        <div data-ng-hide="dldata.profile">
+            <div class="well-small">
+                No Profile Present For Display
+            </div>
+
+        </div>
+
+        <div data-ng-show="dldata.profile">
+
+            <!-- Name -->
+            <div class="control-group row-fluid">
+                <label class="control-label">Name</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="dldata.profile.Name" readonly="readonly" />
+                </div>
+            </div>
+
+            <!-- User Id -->
+            <div class="control-group row-fluid">
+                <label class="control-label">User Id</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
+                </div>
+            </div>
+
+            <!-- Joining Date -->
+            <div class="control-group row-fluid">
+                <label class="control-label">Joining Date</label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input type="text" name="DateOfJoining" class="input-medium"
+                            data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- StkhType -->
+            <div class="control-group row-fluid">
+                <label class="control-label">Hierarchy</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
+                </div>
+            </div>
+
+            <!-- StkhSubtype -->
+            <div class="control-group row-fluid">
+                <label class="control-label">Designation</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
+                </div>
+            </div>
+
+            <hr />
+
+            <!-- Email -->
+            <div class="control-group row-fluid">
+                <label class="control-label">Email Id</label>
+                <div class="controls">
+                    <input type="email" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
+                </div>
+            </div>
+
+            <!-- Mobile No -->
+            <div class="control-group row-fluid" data-ng-form="mobileNoForm">
+                <label class="control-label">Mobile Number</label>
+                <div class="controls">
+                    <input type="text" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
+                        data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
+                    <button data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
+                        data-ng-click="saveMobile()" class="btn btn-success">
+                        Save</button>
+                    <button data-ng-show="isChangingMobile" data-ng-click="resetMobile()" 
+                        class="btn btn-warning">Cancel</button>
+                    <button data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile" 
+                        class="btn btn-success">Change</button>
+                    <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
+                        <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
+                        <div data-ng-show="mobileNoForm.mobileNo.$error.maxlength">Phone Number can have max 11 digits</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

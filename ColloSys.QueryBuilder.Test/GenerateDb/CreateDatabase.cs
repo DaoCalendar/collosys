@@ -1,5 +1,5 @@
-﻿using ColloSys.FileUploadService;
-using ColloSys.UserInterface.Areas.Developer.Models;
+﻿using AngularUI.Developer.generatedb;
+using ColloSys.FileUploadService;
 using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb

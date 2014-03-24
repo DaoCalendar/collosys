@@ -24,12 +24,12 @@
     <link href="Content/angularui/angular-ui.css" rel="stylesheet" />
     <link href="Content/angularui/select2.css" rel="stylesheet" />
     <link href="Content/ng-grid/ng-grid.css" rel="stylesheet" />
-    <link href="Content/pnotify/jquery.pnotify.css" rel="stylesheet" />
-    <link href="Content/pnotify/jquery.pnotify.icons.css" rel="stylesheet" />
+    <!--<link href="Content/pnotify/jquery.pnotify.css" rel="stylesheet" />-->
+    <!--<link href="Content/pnotify/jquery.pnotify.icons.css" rel="stylesheet" />-->
     <link href="Content/animation/animate.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
-<body data-ng-app="ui.collosys" ng-controller="RootCtrl">
+<body data-ng-app="ui.collosys" data-ng-controller="RootCtrl">
     <!--[if lt IE 8]>
       <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -76,11 +76,9 @@
     <script src="Scripts/restangular/restangular.js"></script>
 
     <script src="Shared/scripts/app.js"></script>
-    <script src="Shared/scripts/cs-ng-grid.js"></script>
+    <script src="Shared/scripts/controllers.js"></script>
     <script src="Shared/scripts/directives.js"></script>
     <script src="Shared/scripts/factories.js"></script>
-    <script src="Billing/factories.js"></script>
-    <script src="Shared/scripts/login.js"></script>
 
     <script src="FileUpload/filedetail/filedetail.js"></script>
     <script src="FileUpload/filecolumn/filecolumn.js"></script>
@@ -105,6 +103,7 @@
     <script src="Allocation/subpolicy/allocSubpolicyCtrl.js"></script>
     <script src="Allocation/viewapprove/ApproveViewAllocation.js"></script>
     
+    <script src="Billing/factories.js"></script>
     <script src="Billing/adhoc/AddhocPayouts.js"></script>
     <script src="Billing/formula/formula.js"></script>
     <script src="Billing/matrix/matrixCtrl.js"></script>
@@ -114,10 +113,14 @@
     <script src="Billing/subpolicy/payoutSubpolicyCtrl.js"></script>
     <script src="Billing/summary/BillAmountCntrl.js"></script>
     
-    <script src="Generic/permissionscreen/PermissionScreenJS.js"></script>
+    <script src="Generic/permissions/permission.js"></script>
     <script src="Generic/product/ProductConfigModel.js"></script>
     <script src="Generic/keyvalue/keyValueCtrl.js"></script>
-    
+    <script src="Generic/profile/profile.js"></script>
+    <script src="Generic/login/login.js"></script>
+    <script src="Generic/csgrid/cs-ng-grid.js"></script>
+    <script src="Generic/home/home.js"></script>
+
     <script src="Developer/dbtable/dbtables.js"></script>
     <script src="Developer/generatedb/generatedb.js"></script>
     <script src="Developer/logdownload/logdownload.js"></script>

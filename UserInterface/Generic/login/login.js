@@ -1,5 +1,12 @@
 ﻿
-csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStore, logManager) {
+csapp.factory("loginDataLayer", [
+    "Restangular", function (rest) {
+
+    }
+]);
+
+csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", "$csfactory",
+    function ($cookieStore, logManager, $csfactory) {
     var $log = logManager.getInstance("$csAuthFactory");
 
     var authInfo = {
@@ -10,11 +17,14 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
 
     var loadCookie = function () {
         var cookie = $cookieStore.get("authInfo");
-        if (angular.isDefined(cookie) && cookie.isAuthorized === true) {
+        if (angular.isUndefined(cookie)) return;
+        if (cookie.isAuthorized === true && !$csfactory.isNullOrEmptyString(cookie.username)) {
             var time = moment(cookie.loginTime);
-            if ( time.isValid() && moment().diff(time, 'minutes') <= 30) {
+            if (time.isValid() && moment().diff(time, 'minutes') <= 30) {
                 authInfo = cookie;
                 $log.info(authInfo.username + "has logged in from cookie.");
+            } else {
+                $log.info("cookie expired!!!");
             }
         }
     };
@@ -37,11 +47,11 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
     };
 
     var logoutUser = function () {
+        $log.info(authInfo.username + " has logged out.");
         authInfo.isAuthorized = false;
         authInfo.username = undefined;
         $cookieStore.remove("authInfo");
         $cookieStore.put("authInfo", authInfo);
-        $log.info(authInfo.username + "has logged out.");
     };
 
     return {
@@ -60,7 +70,7 @@ csapp.controller("logoutController", [
     }
 ]);
 
-csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", 
+csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory",
     function ($scope, $modalInstance, $csAuthFactory) {
         $scope.loginErrorMessage = "Invalid username or password.";
         $scope.login = {
@@ -83,15 +93,18 @@ csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory
         };
     }]);
 
-csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", function ($scope, $modal, $location) {
-    var modalInst = $modal.open({
-        controller: "loginController",
-        templateUrl: "/Shared/templates/login.html",
-        backdrop: false,
-        keyboard: false
-    });
+csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", "Logger",
+    function ($scope, $modal, $location, logManager) {
+        var $log = logManager.getInstance("LoginCtrl");
+        var modalInst = $modal.open({
+            controller: "loginController",
+            templateUrl: "/Generic/login/login.html",
+            backdrop: false,
+            keyboard: false
+        });
 
-    modalInst.result.then(function () {
-        $location.path("/home");
-    });
-}]);
+        modalInst.result.then(function () {
+            $log.info("redirecting user to home page");
+            $location.path("/home");
+        });
+    }]);

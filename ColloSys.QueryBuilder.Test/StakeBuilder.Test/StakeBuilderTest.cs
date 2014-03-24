@@ -21,8 +21,8 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
         public void Check_DefaultQuery_And_ExecuteQuery()
         {
             var stakeQuery = new StakeQueryBuilder();
-            var query = stakeQuery.WithRelation();
-            var data = stakeQuery.ExecuteQuery(query);
+            var query = stakeQuery.ApplyRelations();
+            var data = stakeQuery.Execute(query);
 
             var totalData = stakeQuery.GetAll();
             Assert.AreEqual(data.Count(),totalData.Count());
