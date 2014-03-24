@@ -18,7 +18,7 @@
                         <div class="panel-heading">
                             Select Hierarchy/Designation
                         </div>
-                        <div class="row-fluid" data-ng-form="addHierarchyForm" data-ng-init="$parent.currentForm=addHierarchyForm">
+                        <div class="row-fluid" data-ng-form="addHierarchyForm" data-ng-init="currentForm=addHierarchyForm">
                             <div data-ng-include="'/Stakeholder/add/hierarchy.html'"> </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
                         </div>
                         <div class="row-fluid" data-ng-form="basicInfoForm">
-                            <div ng-include="'/Stakeholder/add/basic.html'"> </div>
+                            <div data-ng-include="'/Stakeholder/add/basic.html'"> </div>
                         </div>
                     </div>
                     <!--Registration-->
@@ -37,7 +37,7 @@
                             Registration :
                         </div>
                         <div class="row-fluid" data-ng-form="registrationForm" data-ng-if="indexData.Hierarchy.HasRegistration">
-                            <div ng-include="'/Stakeholder/add/registration.html'"> </div>
+                            <div data-ng-include="'/Stakeholder/add/registration.html'"> </div>
                         </div>
                     </div>
                     <!--Add Address-->
@@ -47,7 +47,7 @@
                         </div>
                         <div class="row-fluid" data-ng-form="addressDetailsForm" data-ng-if="indexData.Hierarchy.HasAddress">
                             <div class="row-fluid">
-                                <div ng-include="'/Stakeholder/add/address.html'"> </div>
+                                <div data-ng-include="'/Stakeholder/add/address.html'"> </div>
                             </div>
                         </div>
                     </div>
@@ -63,9 +63,9 @@
                             <div class="panel-heading">
                                 Working  
                             </div>
-                            <div class="row-fluid" data-ng-form="paymentWorkinForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
+                            <div class="row-fluid" data-ng-form="paymentWorkinForm" data-ng-init="currentForm=paymentDetailsForm">
                                 <div class="row-fluid">
-                                    <div ng-include="'/Stakeholder/add/working.html'"> </div>
+                                    <div data-ng-include="'/Stakeholder/add/working.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -73,9 +73,9 @@
                             <div class="panel-heading">
                                 Payment    
                             </div>
-                            <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment" data-ng-form="paymentDetailsForm" data-ng-init="$parent.currentForm=paymentDetailsForm">
+                            <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment" data-ng-form="paymentDetailsForm" data-ng-init="currentForm=paymentDetailsForm">
                                 <div class="row-fluid">
-                                    <div ng-include="'/Stakeholder/add/payment.html'"> </div>
+                                    <div data-ng-include="'/Stakeholder/add/payment.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             Added Payment Working Groups 
                         </div>
                         <div class="row-fluid">
-                            <div ng-include="'/Stakeholder/add/show-working-payment.html'"> </div>
+                            <div data-ng-include="'/Stakeholder/add/show-working-payment.html'"> </div>
                         </div>
                     </div>
                 </div>
@@ -108,11 +108,8 @@
             <div class="row-fluid text-right">
                 <button class="btn btn-info" data-ng-hide="currentStep===StepManager.StepNames.Working" data-ng-click="Reset()">Reset</button>
                 <button class="btn btn-success" data-ng-show="StepManager.HasPrevStep() && ShowPrevBtn" data-ng-disabled="WizardData.isFromPayment" data-ng-click="StepManager.StepBackward()"><i class="icon-arrow-left"></i>Prev</button>
-               
-                <button class="btn btn-success" data-ng-show="StepManager.HasNextStep()" data-ng-disabled="(formStakeholder.$invalid || StepManager.IsStepInvalid())&& !(WizardData.IsEditMode() === true )" data-ng-click="StepManager.StepForward()">Next <i class="icon-arrow-right"></i></button>
+                <button class="btn btn-success" data-ng-show="StepManager.HasNextStep()" data-ng-disabled="(formStakeholder.$invalid || StepManager.IsStepInvalid())&& !(WizardData.IsEditMode() === true )" data-ng-click="StepManager.StepForward()">Next<i class="icon-arrow-right"></i></button>
                 <button class="btn btn-success" data-ng-show="StepManager.ShowSaveButton()" data-ng-disabled="enableShowForCurrentStep(currentStep,formStakeholder.$invalid) && !(WizardData.IsEditMode() === true )" data-ng-click="SaveData()">Save</button>
-                
-
                 <button class="btn btn-warning" data-ng-click="StepManager.Cancel()">Cancel</button>
             </div>
         </div>

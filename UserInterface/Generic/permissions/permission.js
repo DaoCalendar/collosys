@@ -1,4 +1,4 @@
-﻿csapp.factory("Datalayer", ["$csnotify","$csfactory", "Restangular", function ($csnotify,$csfactory, rest) {
+﻿csapp.factory("PermissionsDatalayer", ["$csnotify","$csfactory", "Restangular", function ($csnotify,$csfactory, rest) {
     var dldata = {};
 
     var restApi = rest.all('PermissionScreenApi');
@@ -216,7 +216,7 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
 }]);
 
 csapp.controller("PermissionscreenCtrl",
-    ["$scope", "$csfactory", "$csnotify", "Restangular", "$log", "Datalayer", "PermissionsFactory",
+    ["$scope", "$csfactory", "$csnotify", "Restangular", "$log", "PermissionsDatalayer", "PermissionsFactory",
         function ($scope, $csfactory, $csnotify, rest, $log, datalayer, factory) {
             "use strict";
 

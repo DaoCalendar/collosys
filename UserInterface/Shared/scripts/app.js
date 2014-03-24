@@ -177,7 +177,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 //generic
                 .when('/generic/permission', {
                     templateUrl: '/Generic/permissions/permission.html',
-                    controller: 'PermissionCtrl'
+                    controller: 'PermissionscreenCtrl'
                 }).when('/generic/product', {
                     templateUrl: '/Generic/product/product.html',
                     controller: 'ProductConfigController'

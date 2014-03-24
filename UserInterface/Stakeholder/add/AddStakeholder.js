@@ -124,7 +124,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         BillingPolicy: {
             LinerPolicies: [],
             WriteOffPolicies: [],
-            
+
         },
         FinalPostModel: {
             Stakeholder: {
@@ -144,7 +144,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             PayWorkModel: {
                 Payment: {
                     Products: '',
-                    CollectionBillingPolicy:'' ,
+                    CollectionBillingPolicy: '',
                     RecoveryBillingPolicy: '',
                     BillingPolicyId: ''
                 },
@@ -420,6 +420,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         $scope.ShowPrevBtn = true;
         $scope.WizardData.prevStatus = false;
         $scope.showInEditmode = false;
+        $scope.showBasicInfo = true;
+
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
@@ -434,6 +436,39 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
 
         $log.info("$stakeholder : intialization done.");
     };
+
+    //#region show/hide forms
+    $scope.showWorkingScreen = function () {
+        $scope.showBasicInfo = false;
+        $scope.showWorking = true;
+    };
+
+    $scope.showBasicInfoScreen = function () {
+
+        $scope.showBasicInfo = true;
+        $scope.showWorking = false;
+
+    };
+
+    $scope.enableSave = function (indexData) {
+
+        if ($scope.WizardData.IsEditMode()) {
+            if ($scope.WizardData.FinalPostModel.Hierarchy.HasPayment && $scope.WizardData.FinalPostModel.Hierarchy.HasWorking) {
+                return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
+            } else {
+                return ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length === 0);
+            }
+        }
+
+        if (indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment)
+            return ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length == 0);
+
+        if (indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment)
+            return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
+
+
+    };
+    //#endregion
 
     var setLocalHierarchy = function () {
         $scope.indexData.Hierarchy = $scope.WizardData.GetHierarchy();
@@ -470,11 +505,11 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
                 return;
             }
         }
-        
+
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
         var finalPostModel = $scope.WizardData.FinalPostModel;
-       
+
 
         //save stakeholder
         if (hierarchy.Hierarchy !== 'External') {
@@ -504,7 +539,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             if (finalPostModel.PayWorkModelList.length === 0 || $scope.WizardData.IsEditMode()) {
                 if (finalPostModel.PayWorkModel.WorkList.length > 0) {
-                    
+
                     finalPostModel.PayWorkModelList.push(finalPostModel.PayWorkModel);
                 }
             }
@@ -523,7 +558,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             });
             //finalPostModel.PayWorkModel.BillingPolicy = policy;
             //finalPostModel.PayWorkModel.Payment.Products = product;
-           
+
         }
         finalPostModel.Stakeholder = stakeholder;
 
@@ -598,7 +633,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         if (angular.isUndefined(hierarchy)) {
             return;
         }
-        restApi.customPOST(hierarchy,'GetReportsToInHierarchy')
+        restApi.customPOST(hierarchy, 'GetReportsToInHierarchy')
                .then(function (data) {
                    $scope.WizardData.FinalPostModel.ReportsToList = data;
                    if (!$scope.$$phase) {
