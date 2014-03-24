@@ -16,7 +16,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GPincodeBuilder : Repository<GPincode>
     {
-        public override QueryOver<GPincode, GPincode> WithRelation()
+        public override QueryOver<GPincode, GPincode> ApplyRelations()
         {
             return QueryOver.Of<GPincode>();
         }

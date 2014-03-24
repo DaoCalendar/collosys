@@ -18,7 +18,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocSubpolicyBuilder : Repository<AllocSubpolicy>
     {
-        public override QueryOver<AllocSubpolicy, AllocSubpolicy> WithRelation()
+        public override QueryOver<AllocSubpolicy, AllocSubpolicy> ApplyRelations()
         {
             return QueryOver.Of<AllocSubpolicy>()
                             .Fetch(x=>x.Stakeholder).Eager;

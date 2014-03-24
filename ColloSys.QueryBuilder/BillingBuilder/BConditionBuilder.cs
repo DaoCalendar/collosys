@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BConditionBuilder : Repository<BCondition>
     {
-        public override QueryOver<BCondition, BCondition> WithRelation()
+        public override QueryOver<BCondition, BCondition> ApplyRelations()
         {
             return QueryOver.Of<BCondition>();
         }

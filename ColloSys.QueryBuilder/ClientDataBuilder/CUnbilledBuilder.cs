@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class CUnbilledBuilder : Repository<CUnbilled>
     {
-        public override QueryOver<CUnbilled, CUnbilled> WithRelation()
+        public override QueryOver<CUnbilled, CUnbilled> ApplyRelations()
         {
             return QueryOver.Of<CUnbilled>();
         }

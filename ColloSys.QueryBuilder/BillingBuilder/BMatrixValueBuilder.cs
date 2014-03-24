@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BMatrixValueBuilder : Repository<BMatrixValue>
     {
-        public override QueryOver<BMatrixValue, BMatrixValue> WithRelation()
+        public override QueryOver<BMatrixValue, BMatrixValue> ApplyRelations()
         {
             return QueryOver.Of<BMatrixValue>();
         }

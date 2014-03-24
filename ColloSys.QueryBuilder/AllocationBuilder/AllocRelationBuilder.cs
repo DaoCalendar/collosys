@@ -13,7 +13,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
 {
     public class AllocRelationBuilder : Repository<AllocRelation>
     {
-        public override QueryOver<AllocRelation, AllocRelation> WithRelation()
+        public override QueryOver<AllocRelation, AllocRelation> ApplyRelations()
         {
             return QueryOver.Of<AllocRelation>();
         }

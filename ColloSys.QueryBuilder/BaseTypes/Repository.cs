@@ -18,14 +18,14 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction]
-        public virtual T GetWithId(Guid id)
+        public virtual T Get(Guid id)
         {
             var session = SessionManager.GetCurrentSession();
             return session.QueryOver<T>().Where(x => x.Id == id).SingleOrDefault<T>();
         }
 
         [Transaction]
-        public virtual IList<T> GetOnExpression(Expression<Func<T, bool>> expression)
+        public virtual IList<T> FilterBy(Expression<Func<T, bool>> expression)
         {
             var session = SessionManager.GetCurrentSession();
             return session.QueryOver<T>().Where(expression).List();
@@ -72,12 +72,12 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction]
-        public virtual IEnumerable<T> ExecuteQuery(QueryOver<T> query)
+        public virtual IEnumerable<T> Execute(QueryOver<T> query)
         {
             var session = SessionManager.GetCurrentSession();
             return query.GetExecutableQueryOver(session).List<T>();
         }
-        public abstract QueryOver<T, T> WithRelation();
+        public abstract QueryOver<T, T> ApplyRelations();
 
         [Transaction]
         public T Refresh(T obj)
@@ -86,7 +86,5 @@ namespace ColloSys.QueryBuilder.BaseTypes
             session.Refresh(obj);
             return obj;
         }
-
-        //public abstract IQueryOver<T> GetDefaultQuery { get; }
     }
 }

@@ -176,7 +176,7 @@ namespace AngularUI.Billing.subpolicy
             var currUserId = HttpContext.Current.User.Identity.Name;
             try
             {
-                var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+                var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
                 if (currUser != null && currUser.ReportingManager != Guid.Empty)
                 {
                     relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;

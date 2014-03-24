@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GKeyValueBuilder : Repository<GKeyValue>
     {
-        public override QueryOver<GKeyValue, GKeyValue> WithRelation()
+        public override QueryOver<GKeyValue, GKeyValue> ApplyRelations()
         {
             return QueryOver.Of<GKeyValue>();
         }

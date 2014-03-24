@@ -236,7 +236,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             {
                 return reportsTolist;
             }
-            var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
+            var firstLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy)
                                                     .SingleOrDefault();
 
             if (firstLevelHierarchy == null)
@@ -256,7 +256,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 return reportsTolist;
             }
 
-            var secondLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == firstLevelHierarchy.ReportsTo)
+            var secondLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == firstLevelHierarchy.ReportsTo)
                                                      .SingleOrDefault();
             if (secondLevelHierarchy == null)
             {
@@ -279,16 +279,16 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public IEnumerable<Stakeholders> StakeHolderList(string product, Guid selHierarchyId)
         {
             //Get Hierarchy by select hierarchy
-            var hierarchy = HierarchyQuery.GetOnExpression(x => x.Id == selHierarchyId).SingleOrDefault();
+            var hierarchy = HierarchyQuery.FilterBy(x => x.Id == selHierarchyId).SingleOrDefault();
 
             // Find reporting hierarchy ReportsToId
-            var reportingHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
+            var reportingHierarchy = HierarchyQuery.FilterBy(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
 
             // list of reporting hierarchyId
             var reportingIdlist = StakeQuery.OnHierarchyId(reportingHierarchy.Id).ToList();
 
 
-            var hlist = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
+            var hlist = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
             if (hlist == null)
                 return reportingIdlist;
 

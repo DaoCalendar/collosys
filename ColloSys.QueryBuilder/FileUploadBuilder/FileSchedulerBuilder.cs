@@ -19,7 +19,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
     public class FileSchedulerBuilder : Repository<FileScheduler>
     {
-        public override QueryOver<FileScheduler, FileScheduler> WithRelation()
+        public override QueryOver<FileScheduler, FileScheduler> ApplyRelations()
         {
             return QueryOver.Of<FileScheduler>();
         }

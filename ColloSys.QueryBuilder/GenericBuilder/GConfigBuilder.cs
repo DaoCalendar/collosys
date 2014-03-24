@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
 {
     public class GConfigBuilder : Repository<GConfig>
     {
-        public override QueryOver<GConfig, GConfig> WithRelation()
+        public override QueryOver<GConfig, GConfig> ApplyRelations()
         {
             return QueryOver.Of<GConfig>();
 

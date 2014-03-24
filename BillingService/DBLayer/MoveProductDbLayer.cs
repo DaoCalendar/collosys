@@ -22,7 +22,7 @@ namespace BillingService.DBLayer
 
         public static IList<Payment> GetpaymentData() 
         {
-            var data = PaymentBuilder.GetOnExpression(x => x.Products == ScbEnums.Products.UNKNOWN);
+            var data = PaymentBuilder.FilterBy(x => x.Products == ScbEnums.Products.UNKNOWN);
             return data;
         }
 

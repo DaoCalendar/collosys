@@ -4,11 +4,11 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GUsersRepository : Repository<GConfig>
+    public class GUsersRepository : Repository<Users>
     {
-        public override QueryOver<GConfig, GConfig> WithRelation()
+        public override QueryOver<Users, Users> ApplyRelations()
         {
-            return QueryOver.Of<GConfig>();
+            return QueryOver.Of<Users>();
         }
     }
 }

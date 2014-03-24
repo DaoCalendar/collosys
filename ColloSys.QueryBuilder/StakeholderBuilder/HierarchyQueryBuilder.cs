@@ -32,7 +32,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return data;
         }
 
-        public override QueryOver<StkhHierarchy,StkhHierarchy> WithRelation()
+        public override QueryOver<StkhHierarchy,StkhHierarchy> ApplyRelations()
         {
             return QueryOver.Of<StkhHierarchy>()
                             .Fetch(x => x.GPermissions).Eager

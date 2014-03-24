@@ -197,8 +197,8 @@ namespace UserInterfaceAngular.app
 
         protected override IEnumerable<AllocSubpolicy> BaseGet()
         {
-            var query = AllocSubpolicyBuilder.WithRelation();
-            return AllocSubpolicyBuilder.ExecuteQuery(query).ToList();
+            var query = AllocSubpolicyBuilder.ApplyRelations();
+            return AllocSubpolicyBuilder.Execute(query).ToList();
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace UserInterfaceAngular.app
         public void SetApproverId(AllocRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {

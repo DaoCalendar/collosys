@@ -17,7 +17,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 {
     public class BillingPolicyBuilder : Repository<BillingPolicy>
     {
-        public override QueryOver<BillingPolicy, BillingPolicy> WithRelation()
+        public override QueryOver<BillingPolicy, BillingPolicy> ApplyRelations()
         {
             return QueryOver.Of<BillingPolicy>();
         }

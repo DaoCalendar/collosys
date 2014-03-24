@@ -11,7 +11,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
     public class RLinerBuilder : Repository<RLiner>
     {
-        public override QueryOver<RLiner, RLiner> WithRelation()
+        public override QueryOver<RLiner, RLiner> ApplyRelations()
         {
             return QueryOver.Of<RLiner>();
         }
