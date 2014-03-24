@@ -1,4 +1,4 @@
-﻿<div data-ng-controller="formulaController">
+﻿<div>
     <div class="span2">
         <ul role="menu" class="nav nav-tabs nav-stacked">
             <li class="alert alert-info">
@@ -9,6 +9,7 @@
             </li>
         </ul>
     </div>
+
     <div class="span10">
         <div class="panel form-horizontal" data-ng-form="formulaForm">
             <div class="panel-heading">Formula</div>
@@ -16,7 +17,8 @@
                 <div class="control-group span5">
                     <label class="control-label">Product</label>
                     <div class="controls">
-                        <select class="input-large" data-ng-disabled="dldata.formula.Id" 
+                        <select class="input-large" 
+                                data-ng-disabled="dldata.formula.Id" 
                                 data-ng-model="dldata.formula.Products" 
                             data-ng-change="datalayer.changeProductCategory()" ui-select2 required>
                             <option value=""></option>
@@ -27,8 +29,10 @@
                 <div class="control-group span6">
                     <label class="control-label">Category</label>
                     <div class="controls">
-                        <csswitch ngbind="dldata.formula.Category" ngdisabled="dldata.formula.Id" 
-                            onbtnclick="datalayer.changeProductCategory()" namevalues="dldata.categorySwitch"></csswitch>
+                        <csswitch ngbind="dldata.formula.Category" 
+                                  ngdisabled="dldata.formula.Id" 
+                                  onbtnclick="datalayer.changeProductCategory()" 
+                                  namevalues="dldata.categorySwitch"></csswitch>
                     </div>
                 </div>
             </div>
@@ -38,14 +42,17 @@
                     <label class="control-label">Name</label>
                     <div class="controls">
                         <input type="text" data-ng-disabled="dldata.formula.Id" 
-                            data-ng-model="dldata.formula.Name" data-ng-pattern="/^\w*$/" required />
+                               data-ng-model="dldata.formula.Name" 
+                               data-ng-pattern="/^\w*$/" required />
                     </div>
                 </div>
                 <div class="control-group span6">
                     <label class="control-label">Output Type</label>
                     <div class="controls">
                         <csswitch ngbind="dldata.formula.OutputType" 
-                            ngdisabled="dldata.formula.Id" onbtnclick="factory.changeOutputType()" namevalues="dldata.outputTypeSwitch"></csswitch>
+                                  ngdisabled="dldata.formula.Id" 
+                                  onbtnclick="factory.changeOutputType()" 
+                                  namevalues="dldata.outputTypeSwitch"></csswitch>
                     </div>
                 </div>
             </div>
@@ -65,32 +72,43 @@
                         <td></td>
                     </tr>
                     <tr data-ng-form="newConditionForm">
-                        <td>
-                            <csswitch ngdisabled="dldata.formula.BConditions.length<1" ngbind="dldata.newCondition.RelationType" 
-                                namevalues="dldata.relationTypeSwitch"></csswitch>
+                        <td> <!-- ngdisabled="dldata.formula.BConditions.length<1"-->
+                            <csswitch 
+                                      ngbind="dldata.newCondition.RelationType" 
+                                      namevalues="dldata.relationTypeSwitch">
+                            </csswitch>
                         </td>
                         <td>
-                            <select class="input-xlarge" data-ng-model="dldata.newCondition.LtypeName" 
-                                data-ng-change="factory.changeLeftTypeName(dldata.newCondition)" ui-select2 required>
+                            <select class="input-xlarge" 
+                                    data-ng-model="dldata.newCondition.LtypeName" 
+                                    data-ng-change="factory.changeLeftTypeName(dldata.newCondition)" 
+                                    ui-select2 required>
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
                             </select>
                         </td>
                         <td>
-                            <select class="input-medium" data-ng-model="dldata.newCondition.Operator" ui-select2 required>
+                            <select class="input-medium" 
+                                    data-ng-model="dldata.newCondition.Operator" 
+                                    ui-select2 required>
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
                             </select>
                         </td>
                         <td>
-                            <csswitch ngbind="dldata.newCondition.Rtype" onbtnclick="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''" namevalues="dldata.typeSwitch"></csswitch>
+                            <csswitch ngbind="dldata.newCondition.Rtype" 
+                                      onbtnclick="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''" 
+                                      namevalues="dldata.typeSwitch"></csswitch>
                         </td>
                         <td class="input-large">
                             <div data-ng-switch on="dldata.newCondition.Rtype">
                                 <div data-ng-switch-when="Table">
-                                    <select class="input-xlarge" data-ng-model="dldata.newCondition.RtypeName" ui-select2 required>
+                                    <select class="input-xlarge" 
+                                            data-ng-model="dldata.newCondition.RtypeName" 
+                                            ui-select2 required>
                                         <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.RcolumnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                        <option data-ng-repeat="c in dldata.RcolumnNames" 
+                                                value="{{c.field}}">{{c.displayName}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Value" data-ng-switch on="dldata.selectedLeftColumn.InputType">
@@ -110,18 +128,17 @@
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
                                     </select>
-
-                                    <select data-ng-switch-when="dropdown" class="input-small" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required>
+                                    <select data-ng-switch-when="dropdown" class="input-small" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for c in dldata.conditionValues" required>
                                     </select>
                                     <div data-ng-switch-when="text">
-                                        <select class="input-large" ui-select2 data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required>
+                                        <select class="input-large" ui-select2 data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for c in dldata.conditionValues" required>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <button class="btn icon-plus" data-ng-disabled="!(dldata.newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
+                            <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
                                 data-ng-click="factory.addNewCondition(dldata.newCondition);">
                             </button>
                         </td>
@@ -150,35 +167,43 @@
                     </tr>
                     <tr data-ng-form="newOutputForm">
                         <td class="input-medium">
-                            <csswitch ngbind="dldata.newOutput.Operator" namevalues="OperatorSwitch" ngdisabled="dldata.formula.BOutputs<1"></csswitch>
+                            <csswitch ngbind="dldata.newOutput.Operator" 
+                                      namevalues="dldata.OperatorSwitch" 
+                                      ngdisabled="dldata.formula.BOutputs<1"></csswitch>
                         </td>
                         <td>
-                            <csswitch ngbind="dldata.newOutput.Rtype" onbtnclick="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue='';dldata.newOutput.RtypeName=''" namevalues="typeSwitch"></csswitch>
+                            <csswitch ngbind="dldata.newOutput.Rtype" 
+                                      onbtnclick="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue='';dldata.newOutput.RtypeName=''" 
+                                      namevalues="dldata.typeSwitch"></csswitch>
                         </td>
                         <td>
                             <div data-ng-switch on="dldata.newOutput.Rtype">
                                 <div data-ng-switch-when="Table">
-                                    <select class="input-small" ui-select2 data-ng-model="dldata.newOutput.Lsqlfunction">
+                                    <select class="input-small" ui-select2 
+                                            data-ng-model="dldata.newOutput.Lsqlfunction">
                                         <option value="">-Fun-</option>
                                         <option value="Sum">Sum</option>
                                         <option value="Count">Count</option>
                                         <option value="Avg">Avg</option>
                                     </select>
-                                    <select class="input-xlarge" ui-select2 data-ng-model="dldata.newOutput.RtypeName" required>
+                                    <select class="input-xlarge" ui-select2 
+                                            data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
-                                        <option data-ng-repeat="c in outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                        <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Formula">
-                                    <select data-ng-switch-when="Formula" class="input-large" ui-select2 data-ng-model="dldata.newOutput.RtypeName" required>
+                                    <select data-ng-switch-when="Formula" class="input-large" ui-select2 
+                                            data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
-                                        <option data-ng-repeat="c in formulaNames">{{c}}</option>
+                                        <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Matrix">
-                                    <select data-ng-switch-when="Matrix" class="input-large" ui-select2 data-ng-model="dldata.newOutput.RtypeName" required>
+                                    <select data-ng-switch-when="Matrix" class="input-large" ui-select2 
+                                            data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
-                                        <option data-ng-repeat="c in matrixNames">{{c}}</option>
+                                        <option data-ng-repeat="c in dldata.matrixNames">{{c}}</option>
                                     </select>
                                 </div>
 
@@ -186,7 +211,7 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn icon-plus" data-ng-disabled="!(dldata.newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
+                            <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
                                 data-ng-click="factory.addNewOutput(dldata.newOutput)">
                             </button>
                         </td>
@@ -204,10 +229,10 @@
             </table>
         </div>
 
-        <div data-ng-show="outputWithFunction" class="panel">
+        <div data-ng-show="dldata.outputWithFunction" class="panel">
             <div class="panel-heading">Group by</div>
             <select class="input-xxlarge" data-ui-select2="" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
-                 <option data-ng-repeat="c for c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
+                 <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
             </select>
         </div>
 

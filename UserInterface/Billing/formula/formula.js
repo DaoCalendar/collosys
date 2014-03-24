@@ -44,8 +44,8 @@
 //    }
 //]);
 
-csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
-    function(rest, $csnotify) {
+csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
+    function(rest, $csnotify,$csfactory) {
         var dldata = {};
         var restApi = rest.all("PayoutSubpolicyApi");
 
@@ -81,6 +81,9 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
             });
         };
         var changeProductCategory = function () {
+            if (angular.isUndefined(dldata.formula)) {
+                dldata.formula = {};
+            }
             if (angular.isUndefined(dldata.formula.Id)) {
                 dldata.formula.BConditions = [];
                 dldata.formula.BOutputs = [];
@@ -212,7 +215,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
             resetCondition: resetCondition,
             resetOutput: resetOutput,
             saveFormula: saveFormula,
-            resetFormula: resetFormula
+            resetFormula: resetFormula,
+            changeProductCategory: changeProductCategory
         };
     }]);
 
