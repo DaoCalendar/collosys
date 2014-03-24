@@ -8,27 +8,35 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
+using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
 namespace AngularUI.Generic.login
 {
-    public class AutheticationController : ApiController
+    public class AutheticationApiController : ApiController
     {
         private readonly IRepository<Users> _usersRepo = new GUsersRepository();
 
         [HttpPost]
-        public HttpResponseMessage AutheticateUser(string login, string password)
+        [HttpSession]
+        public HttpResponseMessage AutheticateUser(LoginModel loginInfo)
         {
-            var users = _usersRepo.FilterBy(x => x.Username == login);
+            var users = _usersRepo.FilterBy(x => x.Username == loginInfo.username);
             var autheticated = false;
             if (users.Count != 1) return Request.CreateResponse(HttpStatusCode.OK, false);
-            if (PasswordUtility.DoMatch(password, users.First().Password))
+            if (PasswordUtility.DoMatch(loginInfo.password, users.First().Password))
             {
                 autheticated = true;
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, autheticated);
         }
+    }
+
+    public class LoginModel
+    {
+        public string username { get; set; }
+        public string password { get; set; }
     }
 }
