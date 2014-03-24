@@ -1,4 +1,4 @@
-﻿csapp.factory("$csfactory", ["$csConstants", function (consts) {
+﻿csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", function (consts, auth) {
 
     var downloadFile = function (filename) {
         var ifr = document.createElement('iframe');
@@ -70,13 +70,18 @@
         return consts.GUID_EMPTY;
     };
 
+    var getCurrentUserName = function() {
+        return auth.getUsername();
+    };
+
     return {
         isNullOrEmptyArray: isNullOrEmptyArray,
         isNullOrEmptyString: isNullOrEmptyString,
         isNullOrEmptyGuid: isNullOrEmptyGuid,
         getDefaultGuid: getDefaultGuid,
         isEmptyObject: isEmptyObject,
-        downloadFile: downloadFile
+        downloadFile: downloadFile,
+        getCurrentUserName: getCurrentUserName
     };
 }]);
 

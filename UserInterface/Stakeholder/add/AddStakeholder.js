@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',
-function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',"$location",
+function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants,$location) {
 
     $scope.StepManager = {
         StepNames: {
@@ -408,9 +408,10 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
     };
 
     var goToViewPage = function () {
-        var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/StakeholerView/ViewStakeholder";
-        $log.info(downloadpath);
-        $window.location = downloadpath;
+        //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/StakeholerView/ViewStakeholder";
+         $location.path('/stakeholder/view');
+        //$log.info(downloadpath);
+        
     };
 
     //#region init
@@ -421,6 +422,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         $scope.WizardData.prevStatus = false;
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
+        $scope.showWorking = false;
 
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
@@ -509,7 +511,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
         var finalPostModel = $scope.WizardData.FinalPostModel;
-
+        
 
         //save stakeholder
         if (hierarchy.Hierarchy !== 'External') {
@@ -560,6 +562,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             //finalPostModel.PayWorkModel.Payment.Products = product;
 
         }
+        stakeholder.CreatedBy = $csfactory.getCurrentUserName();
         finalPostModel.Stakeholder = stakeholder;
 
         $log.info($scope.Stakeholder);

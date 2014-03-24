@@ -69,7 +69,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;
-            var currUserId = HttpContext.Current.User.Identity.Name;
+            var currUserId = finalPost.Stakeholder.CreatedBy;
             var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)

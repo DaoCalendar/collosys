@@ -97,7 +97,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public HttpResponseMessage AllData()
         {
             var allLists = new
@@ -108,6 +108,15 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 //.Where(x => x.Activity == ColloSysEnums.Activities.Stakeholder).SingleOrDefault(),
                 products = Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != ScbEnums.Products.UNKNOWN.ToString()).ToList()
             };
+
+            foreach (var stkh in allLists.completeData)
+            {
+                stkh.AllocSubpolicies = null;
+                stkh.Allocs = null;
+                stkh.BillAdhocs = null;
+                stkh.BillAmounts = null;
+                stkh.BillDetails= null;
+            }
             return Request.CreateResponse(HttpStatusCode.OK, allLists);
         }
 

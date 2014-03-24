@@ -189,9 +189,24 @@
 
         $scope.manageDelete = function (index, data) {
             if ($scope.WorkingData.isEditMode) {
-                $scope.deleteModal = !$scope.deleteModal;
-                $scope.endDate = data.EndDate;
-                $scope.currentDeleteData = data;
+
+                $scope.modalData = {};
+                $scope.modalData.endDate = data.EndDate;
+                $scope.modalData.currentDeleteData = data;
+
+                $modal.open({
+                    templateUrl: '/Stakeholder/add/DeleteWorkingPopUp.html',
+                    controller: 'deleteWorkingController',
+                    resolve: {
+                        modalData: function () {
+                            return $scope.modalData;
+                        }
+                    }
+                });
+
+                //$scope.deleteModal = !$scope.deleteModal;
+                //$scope.endDate = data.EndDate;
+                //$scope.currentDeleteData = data;
             } else {
                 $scope.deleteAdded(index, $scope.WorkingData.Hierarchy, data);
             }
@@ -1723,6 +1738,28 @@ csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", 
 
 }]);
 
+csapp.controller("deleteWorkingController", ["$scope", "$csfactory", "modalData", "$modalInstance",
+    function ($scope, $csfactory, modalData, $modalInstance) {
+        
+        (function() {
+            $scope.modalData = modalData;
+        })();
+        
+
+        $scope.setEndDate = function (data, endDate) {
+            var date = angular.copy(endDate);
+            data.EndDate = date;
+            modalData.endDate = '';
+            $modalInstance.close();
+        };
+
+        $scope.cancelEndDate = function (currentDeleteData) {
+            currentDeleteData.EndDate = undefined;
+            $modalInstance.close();
+        };
+
+
+    }]);
 
 
 
