@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using FileUploader.Reflection;
-using FileUploader.Reflection;
 
 namespace FileUploader.Tests.Reflection
 {

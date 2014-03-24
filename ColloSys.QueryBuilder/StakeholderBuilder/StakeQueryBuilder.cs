@@ -117,15 +117,14 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         [Transaction]
         public Stakeholders OnIdWithAllReferences(Guid id)
         {
-            Stakeholders stakeholder = null;
             return SessionManager.GetCurrentSession()
-                                       .QueryOver<Stakeholders>(() => stakeholder)
+                                       .QueryOver<Stakeholders>()
                                        .Fetch(x => x.Hierarchy).Eager
                                        .Fetch(x => x.StkhRegistrations).Eager
                                        .Fetch(x => x.GAddress).Eager
                                        .Fetch(x => x.StkhPayments).Eager
                                        .Fetch(x => x.StkhWorkings).Eager
-                                       .Where(() => stakeholder.Id == id)
+                                       .Where(x => x.Id == id)
                                        .TransformUsing(Transformers.DistinctRootEntity)
                                        .List()
                                        .FirstOrDefault();
