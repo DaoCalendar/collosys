@@ -16,7 +16,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
-    public class FileValueMappingBuilder : QueryBuilder<FileValueMapping>
+    public class FileValueMappingBuilder : Repository<FileValueMapping>
     {
         public override QueryOver<FileValueMapping, FileValueMapping> WithRelation()
         {

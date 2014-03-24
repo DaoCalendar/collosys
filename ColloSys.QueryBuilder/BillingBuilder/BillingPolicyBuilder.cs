@@ -15,7 +15,7 @@ using NHibernate.Linq;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
-    public class BillingPolicyBuilder : QueryBuilder<BillingPolicy>
+    public class BillingPolicyBuilder : Repository<BillingPolicy>
     {
         public override QueryOver<BillingPolicy, BillingPolicy> WithRelation()
         {

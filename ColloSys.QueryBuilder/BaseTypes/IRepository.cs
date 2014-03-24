@@ -6,22 +6,18 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BaseTypes
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : Entity
     {
         IEnumerable<T> GetAll();
         T GetWithId(Guid id);
         T Load(Guid id);
         IList<T> GetOnExpression(Expression<Func<T, bool>> expression);
-        void Save(T obj);
+        T Save(T obj);
         void Save(IEnumerable<T> listOfObjects);
-        void Save(Entity entity);
         void Delete(T obj);
-        void Merge(T obj);
-        void Merge(Entity entity);
+        T Merge(T obj);
         IEnumerable<T> ExecuteQuery(QueryOver<T> query);
-        QueryOver<T,T> WithRelation();
-        void Refresh(T obj);
-
-        //IQueryOver<T> GetDefaultQuery { get;}
+        QueryOver<T, T> WithRelation();
+        T Refresh(T obj);
     }
 }

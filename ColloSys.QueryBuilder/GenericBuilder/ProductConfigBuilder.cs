@@ -13,7 +13,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class ProductConfigBuilder : QueryBuilder<ProductConfig>
+    public class ProductConfigBuilder : Repository<ProductConfig>
     {
         [Transaction]
 

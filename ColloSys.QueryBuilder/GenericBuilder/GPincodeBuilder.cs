@@ -14,7 +14,7 @@ using NHibernate.Linq;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GPincodeBuilder : QueryBuilder<GPincode>
+    public class GPincodeBuilder : Repository<GPincode>
     {
         public override QueryOver<GPincode, GPincode> WithRelation()
         {

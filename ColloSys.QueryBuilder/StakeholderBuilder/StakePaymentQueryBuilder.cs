@@ -6,7 +6,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class StakePaymentQueryBuilder : QueryBuilder<StkhPayment>
+    public class StakePaymentQueryBuilder : Repository<StkhPayment>
     {
         public override QueryOver<StkhPayment, StkhPayment> WithRelation()
         {

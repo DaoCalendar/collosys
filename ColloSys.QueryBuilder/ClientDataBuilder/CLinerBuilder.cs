@@ -14,7 +14,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
-    public class CLinerBuilder : QueryBuilder<CLiner>
+    public class CLinerBuilder : Repository<CLiner>
     {
         public override QueryOver<CLiner, CLiner> WithRelation()
         {

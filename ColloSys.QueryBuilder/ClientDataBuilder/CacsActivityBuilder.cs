@@ -12,7 +12,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
-    public class CacsActivityBuilder : QueryBuilder<CacsActivity>
+    public class CacsActivityBuilder : Repository<CacsActivity>
     {
         public override QueryOver<CacsActivity, CacsActivity> WithRelation()
         {

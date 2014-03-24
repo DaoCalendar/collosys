@@ -14,7 +14,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
-    public class FileDetailBuilder : QueryBuilder<FileDetail>
+    public class FileDetailBuilder : Repository<FileDetail>
     {
         public override QueryOver<FileDetail, FileDetail> WithRelation()
         {

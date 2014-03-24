@@ -9,7 +9,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
-    public class RWriteoffBuilder : QueryBuilder<RWriteoff>
+    public class RWriteoffBuilder : Repository<RWriteoff>
     {
         public override QueryOver<RWriteoff, RWriteoff> WithRelation()
         {

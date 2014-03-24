@@ -9,7 +9,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
+    public class StakeWorkingQueryBuilder : Repository<StkhWorking>
     {
         public override QueryOver<StkhWorking,StkhWorking> WithRelation()
         {

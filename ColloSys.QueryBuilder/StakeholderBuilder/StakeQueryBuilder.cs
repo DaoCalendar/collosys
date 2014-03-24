@@ -18,7 +18,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class StakeQueryBuilder : QueryBuilder<Stakeholders>
+    public class StakeQueryBuilder : Repository<Stakeholders>
     {
         [Transaction]
         public IList<Stakeholders> OnProduct(ScbEnums.Products products)

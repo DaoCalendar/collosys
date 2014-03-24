@@ -10,7 +10,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class HierarchyQueryBuilder:QueryBuilder<StkhHierarchy>
+    public class HierarchyQueryBuilder:Repository<StkhHierarchy>
     {
         [Transaction]
         public IEnumerable<StkhHierarchy> ExceptDeveloperExternal()

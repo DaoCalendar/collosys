@@ -5,7 +5,8 @@ csapp.factory("loginDataLayer", [
     }
 ]);
 
-csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStore, logManager) {
+csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", "$csfactory",
+    function ($cookieStore, logManager, $csfactory) {
     var $log = logManager.getInstance("$csAuthFactory");
 
     var authInfo = {
@@ -16,11 +17,14 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
 
     var loadCookie = function () {
         var cookie = $cookieStore.get("authInfo");
-        if (angular.isDefined(cookie) && cookie.isAuthorized === true) {
+        if (angular.isUndefined(cookie)) return;
+        if (cookie.isAuthorized === true && !$csfactory.isNullOrEmptyString(cookie.username)) {
             var time = moment(cookie.loginTime);
             if (time.isValid() && moment().diff(time, 'minutes') <= 30) {
                 authInfo = cookie;
                 $log.info(authInfo.username + "has logged in from cookie.");
+            } else {
+                $log.info("cookie expired!!!");
             }
         }
     };

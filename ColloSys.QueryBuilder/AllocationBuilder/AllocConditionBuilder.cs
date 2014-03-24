@@ -13,7 +13,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.AllocationBuilder
 {
-    public class AllocConditionBuilder : QueryBuilder<AllocCondition>
+    public class AllocConditionBuilder : Repository<AllocCondition>
     {
         public override QueryOver<AllocCondition, AllocCondition> WithRelation()
         {

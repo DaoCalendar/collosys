@@ -12,7 +12,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
-    public class FileColumnBuilder : QueryBuilder<FileColumn>
+    public class FileColumnBuilder : Repository<FileColumn>
     {
         public override QueryOver<FileColumn, FileColumn> WithRelation()
         {
@@ -30,7 +30,7 @@ namespace ColloSys.QueryBuilder.FileUploadBuilder
         }
     }
 
-    public class FileMappingBuilder : QueryBuilder<FileMapping>
+    public class FileMappingBuilder : Repository<FileMapping>
     {
         public override QueryOver<FileMapping, FileMapping> WithRelation()
         {

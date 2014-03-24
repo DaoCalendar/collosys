@@ -9,7 +9,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
-    public class PaymentBuilder : QueryBuilder<Payment>
+    public class PaymentBuilder : Repository<Payment>
     {
         public override QueryOver<Payment, Payment> WithRelation()
         {

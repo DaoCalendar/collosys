@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.TransAttributes;
-using NHibernate;
 using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BaseTypes
 {
-    public abstract class QueryBuilder<T> : IRepository<T> where T : Entity, new()
+    public abstract class Repository<T> : IRepository<T> where T : Entity, new()
     {
         [Transaction]
         public virtual IEnumerable<T> GetAll()
@@ -35,10 +32,11 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction(Persist = true)]
-        public virtual void Save(T obj)
+        public virtual T Save(T obj)
         {
             var session = SessionManager.GetCurrentSession();
             session.SaveOrUpdate(obj);
+            return obj;
         }
 
         [Transaction(Persist = true)]
@@ -52,13 +50,6 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction(Persist = true)]
-        public void Save(Entity entity)
-        {
-            var session = SessionManager.GetCurrentSession();
-            session.SaveOrUpdate(entity);
-        }
-
-        [Transaction(Persist = true)]
         public virtual void Delete(T obj)
         {
             var session = SessionManager.GetCurrentSession();
@@ -66,17 +57,11 @@ namespace ColloSys.QueryBuilder.BaseTypes
         }
 
         [Transaction(Persist = true)]
-        public virtual void Merge(T obj)
-        {
-           var session = SessionManager.GetCurrentSession();
-           obj = session.Merge(obj);
-        }
-
-        [Transaction(Persist = true)]
-        public void Merge(Entity entity)
+        public virtual T Merge(T obj)
         {
             var session = SessionManager.GetCurrentSession();
-            session.Merge(entity);
+            obj = session.Merge(obj);
+            return obj;
         }
 
         [Transaction]
@@ -92,13 +77,14 @@ namespace ColloSys.QueryBuilder.BaseTypes
             var session = SessionManager.GetCurrentSession();
             return query.GetExecutableQueryOver(session).List<T>();
         }
-        public abstract QueryOver<T,T> WithRelation();
+        public abstract QueryOver<T, T> WithRelation();
 
         [Transaction]
-        public void Refresh(T obj)
+        public T Refresh(T obj)
         {
             var session = SessionManager.GetCurrentSession();
             session.Refresh(obj);
+            return obj;
         }
 
         //public abstract IQueryOver<T> GetDefaultQuery { get; }

@@ -13,7 +13,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GPermissionBuilder : QueryBuilder<GPermission>
+    public class GPermissionBuilder : Repository<GPermission>
     {
         [Transaction]
         public IEnumerable<GPermission> OnHierarchyId(Guid hierarchyId)

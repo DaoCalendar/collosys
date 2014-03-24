@@ -13,7 +13,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
-    public class BMatrixBuilder : QueryBuilder<BMatrix>
+    public class BMatrixBuilder : Repository<BMatrix>
     {
         public override QueryOver<BMatrix, BMatrix> WithRelation()
         {

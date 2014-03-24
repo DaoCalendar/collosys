@@ -9,7 +9,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GReportBuilder : QueryBuilder<GReports>
+    public class GReportBuilder : Repository<GReports>
     {
         public override QueryOver<GReports, GReports> WithRelation()
         {
