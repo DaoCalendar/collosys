@@ -1,54 +1,8 @@
-﻿//csapp.controller("formulaController1", [
-//    "$scope", "$csnotify", '$csfactory', "Restangular",
-//    function ($scope, $csnotify, $csfactory, rest) {
-//        "use strict";
-
-//        $scope.formulaList = [];
-//        $scope.productsList = [];
-//        $scope.columnNames = [];
-//        $scope.formulaNames = [];
-//        $scope.columnDefs = [];
-//        $scope.matrixNames = [];
-//        $scope.AllBConditions = [];
-//        $scope.formula = {};
-//        $scope.formula.BConditions = [];
-//        $scope.formula.BOutputs = [];
-//        $scope.deleteConditions = [];
-//        $scope.newCondition = {};
-//        $scope.newOutput = {};
-//        //$scope.formula.BMatricesValues = [];
-//        //$scope.isPayoutSubpolicyCreated = false;
-//        $scope.formula.Category = "Liner";
-//        $scope.formula.PayoutSubpolicyType = 'Formula';
-//        $scope.formula.OutputType = 'Boolean';
-//        $scope.newCondition.Rtype = 'Value';
-//        $scope.newOutput.Rtype = 'Value';
-//        $scope.outputWithFunction = false;
-//        //$scope.formula.Row1DType = "Table";
-//        //$scope.formula.Column2DType = "Table";
-//        //$scope.formula.Row3DType = "Table";
-//        //$scope.formula.Column4DType = "Table";
-
-//     $scope.$watch("formula.BOutputs.length", function () {
-//            var outResult = _.find($scope.formula.BOutputs, function (output) {
-//                return (output.Lsqlfunction && output.Lsqlfunction != "");
-//            });
-
-//            $scope.outputWithFunction = (outResult) ? true : false;
-//        });
-
-//      $scope.chnageDataFormat = function (date) {
-//        };
-       
-
-//    }
-//]);
-
+﻿
 csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
-    function(rest, $csnotify) {
+    function (rest, $csnotify) {
         var dldata = {};
         var restApi = rest.all("PayoutSubpolicyApi");
-
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
                 dldata.productsList = data;
@@ -64,7 +18,7 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
                 }
             }
 
-            restApi.customGET("GetBConditions", { parentId: sformula.Id }).then(function (data) {
+            return restApi.customGET("GetBConditions", { parentId: sformula.Id }).then(function (data) {
                 dldata.AllBConditions = data;
                 dldata.formula.BConditions = _.filter(data, { ConditionType: 'Condition' });
 
@@ -75,7 +29,6 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
                     dldata.formula.BOutputs[0].Operator = '';
                 }
 
-                changeProductCategory();
             }, function (data) {
                 $csnotify.error(data);
             });
@@ -96,7 +49,6 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
                 }, function (data) {
                     $csnotify.error(data);
                 });
-
 
                 //get column names
                 restApi.customGET("GetColumns", { product: formula.Products, category: formula.Category }).then(function (data) {
@@ -149,37 +101,18 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
             dldata.formula.Category = "Liner";
             dldata.formula.PayoutSubpolicyType = 'Formula';
             dldata.formula.OutputType = 'Number';
-
             resetCondition();
             resetOutput();
         };
         var saveFormula = function (formula) {
-           // var operator = $scope.newOutput.Operator;
+            // var operator = $scope.newOutput.Operator;
             formula.GroupBy = JSON.stringify(formula.GroupBy);
-
-           // var saveBConditions = [];
-            //_.forEach(formula.BConditions, function (con) {
-            //    saveBConditions.push(con);
-            //});
-
-            //_.forEach(formula.BOutputs, function (out) {
-            //    saveBConditions.push(out);
-            //});
-
-            //_.forEach($scope.deleteConditions, function (dcond) {
-            //    saveBConditions.push(dcond);
-            //});
 
             _.forEach(formula.BOutputs, function (out) {
                 out.Operator = operatorsEnum[out.Operator];
                 formula.BConditions.push(out);
             });
-
-            //var savedata = {
-            //    payoutSubpolicy: formula,
-            //    conditions: saveBConditions
-            //};
-
+            
             if (formula.Id) {
 
                 restApi.customPUT(formula, "Put", { id: formula.Id }).then(function (data) {
@@ -212,13 +145,14 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
             resetCondition: resetCondition,
             resetOutput: resetOutput,
             saveFormula: saveFormula,
-            resetFormula: resetFormula
+            resetFormula: resetFormula,
+            changeProductCategory: changeProductCategory
         };
     }]);
 
-csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
+csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     var dldata = datalayer.dldata;
-    
+
     var initEnums = function () {
         dldata.operatorsEnum = {
             '>': 'GreaterThan',
@@ -252,7 +186,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
         dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
     };
-    
+
     var changeLeftTypeName = function (condition) {
         condition.RtypeName = '';
         dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.LtypeName });
@@ -297,7 +231,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
             datalayer.resetCondition();
             datalayer.resetOutput();
         }
-       
+
     };
     var addNewCondition = function (condition) {
         condition.Ltype = "Column";
@@ -368,7 +302,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
             return operator;
         return operatorsEnumReverse[operator];
     };
-    
+
     return {
         initEnums: initEnums,
         changeLeftTypeName: changeLeftTypeName,
@@ -382,8 +316,8 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
     };
 }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory','$csfactory',
-    function ($scope, datalayer, factory,$csfactory) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory',
+    function ($scope, datalayer, factory, $csfactory) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -401,4 +335,11 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
                 $scope.dldata.outputWithFunction = (outResult) ? true : false;
             });
         })();
+
+        $scope.selectFormula = function (sformula) {
+            datalayer.selectFormula(sformula).then(function () {
+                datalayer.changeProductCategory();
+            });
+        };
+
     }]);
