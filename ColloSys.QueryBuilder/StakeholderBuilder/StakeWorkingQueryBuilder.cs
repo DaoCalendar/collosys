@@ -9,9 +9,9 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class StakeWorkingQueryBuilder : QueryBuilder<StkhWorking>
+    public class StakeWorkingQueryBuilder : Repository<StkhWorking>
     {
-        public override QueryOver<StkhWorking,StkhWorking> WithRelation()
+        public override QueryOver<StkhWorking,StkhWorking> ApplyRelations()
         {
             return QueryOver.Of<StkhWorking>()
                             .Fetch(x => x.Stakeholder).Eager

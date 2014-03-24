@@ -8,22 +8,19 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.FileUploadBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using NHibernate;
-using NHibernate.Linq;
-using NHibernate.Transform;
 using NLog;
 
 #endregion
 
 namespace ColloSys.FileUploadService.Implementers
 {
-    public class DBLayer : IDBLayer
+    public class DbLayer : IDBLayer
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
         private static readonly FileSchedulerBuilder FileSchedulerBuilder = new FileSchedulerBuilder();
@@ -85,7 +82,7 @@ namespace ColloSys.FileUploadService.Implementers
         }
 
         public void CommitData<TEntity>(IList<TEntity> data, FileScheduler file, IRowCounter counter)
-                where TEntity : Entity
+                where TEntity : Entity, new()
         {
 
             if (data.Count == 0)
@@ -97,9 +94,10 @@ namespace ColloSys.FileUploadService.Implementers
                            "rows uploaded {0}. valid {1}",
                            counter.GetTotalRecordCount(), counter.GetValidRecordCount()));
 
+            var session = SessionManager.GetCurrentSession();
             foreach (var entity in data)
             {
-                FileSchedulerBuilder.Save(entity);
+                session.Save(entity);
             }
 
             var status = new FileStatus
@@ -114,7 +112,8 @@ namespace ColloSys.FileUploadService.Implementers
                 UploadStatus = ColloSysEnums.UploadStatus.ActInserting,
                 EntryDateTime = DateTime.Now
             };
-            FileSchedulerBuilder.Save(status);
+
+            session.Save(status);
 
         }
 
@@ -214,7 +213,7 @@ namespace ColloSys.FileUploadService.Implementers
         DateTime date, uint filecount)
             where TEntity : Entity, IFileUploadable
         {
-            var lastuploadedfile = FileSchedulerBuilder.LastUploadedFiles(aliasName, date, (int)filecount).ToList();
+            var lastuploadedfile = FileSchedulerBuilder.LastUploadedFiles(aliasName, date, filecount).ToList();
 
             if (lastuploadedfile.Count <= 0)
             {
@@ -237,23 +236,26 @@ namespace ColloSys.FileUploadService.Implementers
             where TEntity : Entity
         {
             var dataList = data as IList<TEntity> ?? data.ToList();
+            var session = SessionManager.GetCurrentSession();
             for (var i = 0; i < dataList.Count(); i += 1000)
             {
                 var batchToSave = dataList.Skip(i).Take(1000);
                 foreach (var entity in batchToSave)
                 {
-                    FileSchedulerBuilder.Save(entity);
+                    session.Save(entity);
                 }
             }
             return true;
         }
 
         public bool MergeData<TEntity>(IEnumerable<TEntity> data)
-           where TEntity : Entity, IFileUploadable
+           where TEntity : Entity, IFileUploadable, new()
         {
+            var session = SessionManager.GetCurrentSession();
+
             foreach (var entity in data)
             {
-                FileSchedulerBuilder.Merge(entity);
+                session.Merge(entity);
             }
             return true;
         }

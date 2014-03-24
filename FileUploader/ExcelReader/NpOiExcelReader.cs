@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Linq;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using OfficeOpenXml;
 
 namespace FileUploader.ExcelReader
 {
@@ -11,14 +13,24 @@ namespace FileUploader.ExcelReader
         public uint CurrentRow { get; private set; }
         private readonly ISheet _currentWorkSheet;
 
+        public NpOiExcelReader(FileStream fileStreams)
+        {
+            HSSFWorkbook workBook;
+            var fileStream = new FileStream(fileStreams.Name, FileMode.Open, FileAccess.Read);
+             workBook = new HSSFWorkbook(fileStream);
+            _currentWorkSheet = workBook.GetSheetAt(0);
+            TotalRows = (uint)_currentWorkSheet.LastRowNum + 1;
+            TotalColumns = (uint)_currentWorkSheet.GetRow(0).LastCellNum;
+        }
+
         public NpOiExcelReader(FileInfo fileInfo)
         {
             HSSFWorkbook workBook;
-            using (var fileStream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
+           var fileStream = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
             {
-                 workBook = new HSSFWorkbook(fileStream);
+             workBook = new HSSFWorkbook(fileStream);
+                
             }
-           // CurrentRow = 0;
             _currentWorkSheet = workBook.GetSheetAt(0);
             TotalRows = (uint)_currentWorkSheet.LastRowNum + 1;
             TotalColumns = (uint)_currentWorkSheet.GetRow(0).LastCellNum;

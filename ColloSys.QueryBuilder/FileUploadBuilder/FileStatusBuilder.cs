@@ -9,9 +9,9 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.FileUploadBuilder
 {
-    public class FileStatusBuilder : QueryBuilder<FileStatus>
+    public class FileStatusBuilder : Repository<FileStatus>
     {
-        public override QueryOver<FileStatus, FileStatus> WithRelation()
+        public override QueryOver<FileStatus, FileStatus> ApplyRelations()
         {
             return QueryOver.Of<FileStatus>();
         }

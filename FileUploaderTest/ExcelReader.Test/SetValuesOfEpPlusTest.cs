@@ -18,7 +18,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         public void Init()
         {
             var fileInfo = new FileInfo("c:\\ExampleData.xlsx");
-            _excel = new EpPlusExcelReader(fileInfo);
+            //_excel = new EpPlusExcelReader(fileInfo);
             _data = new ConvertExcelToList<ExcelReaderHelper>(_excel);
             _list = ExcelReaderHelper.GetMappingInfo();
             _objList = _data.GetList(_list);

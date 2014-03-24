@@ -1,58 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
+using ReflectionExtension.Tests;
+
 
 namespace FileUploader.Tests.ExcelReader.Test
 {
     [TestFixture]
-    internal class EpPlusExcelReaderTest
+    internal class EpPlusExcelReaderTest :SetUpAssemblies
     {
         private ConvertExcelToList<ExcelReaderHelper> _data;
         private IExcelReader _excel;
+        //private FileStream _filetream;
 
         [SetUp]
         public void Init()
         {
-            var fileInfo = new FileInfo("c:\\ExampleData.xlsx");
-            _excel = new EpPlusExcelReader(fileInfo);
-            _data = new ConvertExcelToList<ExcelReaderHelper>(_excel);
+            _excel = new EpPlusExcelReader(FileStream);
         }
-
 
         #region::Assigning Diffrent files to Constructor::
 
         [Test]
         public void Assigning_xlsx_File_To_FileInfo()
         {
-            Assert.AreNotEqual(_excel.TotalRows,0);
+            Assert.AreNotEqual(_excel.TotalRows, 0);
         }
 
         [Test]
-        [ExpectedException(typeof(Exception))]
-        public void Assigning_Empty_xlsx_File_To_FileInfo_ThrowsException()
+        public void Assigning_FileInfo_To_EpPlusConstructor()
         {
-            var fileInfo = new FileInfo("c:\\Empty.xlsx");
+            var fileInfo = new FileInfo("c:\\ExampleData.xlsx");
             _excel = new EpPlusExcelReader(fileInfo);
+            Assert.AreNotEqual(_excel.TotalRows, 0);
         }
 
-        [Test]
-        [ExpectedException]
-        public void Assigning_Docx_File_To_FileInfo_ThrowsException()
-        {
-            var fileInfo = new FileInfo("c:\\abc.docx");
-          _excel = new EpPlusExcelReader(fileInfo);
-        }
+        //[Test]
+        //[ExpectedException]
+        //public void Assigning_Docx_File_To_FileInfo_ThrowsException()
+        //{
+        //    var fileInfo = new FileInfo("c:\\abc.docx");
+        // // _excel = new EpPlusExcelReader(fileInfo);
+        //}
 
-        [Test]
-        [ExpectedException]
-        public void Assigning_NotPresented_File_To_FileInfo_ThrowsException()
-        {
-            var fileInfo = new FileInfo("c:\\ExampleData123.xlsx");
-            _excel = new EpPlusExcelReader(fileInfo);
-        }
+        //[Test]
+        //[ExpectedException]
+        //public void Assigning_NotPresented_File_To_FileInfo_ThrowsException()
+        //{
+        //    var fileInfo = new FileInfo("c:\\ExampleData123.xlsx");
+        //   // _excel = new EpPlusExcelReader(fileInfo);
+        //}
 
      
 
@@ -79,7 +76,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(2, 3, "10000")]
         [TestCase(2, 4, "(3214)")]
         [TestCase(2, 5, "123321")]
-        [TestCase(2, 6, "asdf")]
+        [TestCase(2, 6, "123")]
         public void Read_Int32_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -105,7 +102,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(4, 3, "16013")]
         [TestCase(4, 4, "(123,54)")]
         [TestCase(4, 5, "12222")]
-        [TestCase(4, 6, "sdfsdf")]
+        [TestCase(4, 6, "654")]
         public void Read_Double_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -114,11 +111,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         }
 
         [TestCase(5, 1, "12.3215")]
-        [TestCase(5, 2, "12.32f")]
+        [TestCase(5, 2, "12.32")]
         [TestCase(5, 3, "-56.369")]
         [TestCase(5, 4, "(132.32)")]
         [TestCase(5, 5, "12,321")]
-        [TestCase(5, 6, "sdfsdf")]
+        [TestCase(5, 6, "654")]
         public void Read_Float_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -131,7 +128,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(6, 3, "26013")]
         [TestCase(6, 4, "(123)")]
         [TestCase(6, 5, "32214254")]
-        [TestCase(6, 6, "sdfdsf")]
+        [TestCase(6, 6, "684")]
         public void Read_Int64_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -140,11 +137,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         }
 
         [TestCase(7, 1, "98721")]
-        [TestCase(7, 2, "-3654")]
-        [TestCase(7, 3, "asd654")]
-        [TestCase(7, 4, "(12354)")]
-        [TestCase(7, 5, "(12,325)")]
-        [TestCase(7, 6, "sdfsdf")]
+        [TestCase(7, 2, "3654")]
+        [TestCase(7, 3, "654")]
+        [TestCase(7, 4, "12354")]
+        [TestCase(7, 5, "12,325")]
+        [TestCase(7, 6, "789")]
         public void Read_Uint32_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -157,7 +154,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(8, 3, "-654.35")]
         [TestCase(8, 4, "(32165)")]
         [TestCase(8, 5, "12321.33")]
-        [TestCase(8, 6, "sdfsdf")]
+        [TestCase(8, 6, "5441")]
         public void Read_Decimal_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -166,11 +163,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         }
 
         [TestCase(9, 1, "10132154")]
-        [TestCase(9, 2, "-965464")]
-        [TestCase(9, 3, "asd456")]
-        [TestCase(9, 4, "(123524164)")]
+        [TestCase(9, 2, "965464")]
+        [TestCase(9, 3, "456")]
+        [TestCase(9, 4, "123524164")]
         [TestCase(9, 5, "1233214")]
-        [TestCase(9, 6, "sdfsdf")]
+        [TestCase(9, 6, "123")]
         public void Read_Uint64_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -179,11 +176,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         }
 
         [TestCase(10, 1, "101")]
-        [TestCase(10, 2, "-964")]
-        [TestCase(10, 3, "#546")]
+        [TestCase(10, 2, "964")]
+        [TestCase(10, 3, "546")]
         [TestCase(10, 4, "(123)")]
         [TestCase(10, 5, "123,0")]
-        [TestCase(10, 6, "sdfsd")]
+        [TestCase(10, 6, "123")]
         public void Read_int16_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -192,11 +189,11 @@ namespace FileUploader.Tests.ExcelReader.Test
         }
 
         [TestCase(11, 1, "A")]
-        [TestCase(11, 2, "#")]
+        [TestCase(11, 2, "6")]
         [TestCase(11, 3, "F")]
         [TestCase(11, 4, "$")]
         [TestCase(11, 5, "5")]
-        [TestCase(11, 6, "dsfd")]
+        [TestCase(11, 6, "d")]
         public void Read_Character_Column_Values(int colPos, int rowPos, string expected)
         {
             _excel.NextRow();
@@ -207,7 +204,7 @@ namespace FileUploader.Tests.ExcelReader.Test
 
         #endregion
 
-       
+      
 
     }
 }

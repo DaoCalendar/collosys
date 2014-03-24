@@ -42,7 +42,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         {
             var stake = new AddStakeholderModel
                 {
-                    ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer")
+                    ListOfStakeHierarchy = HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer")
                 };
 
             var gKeyValue = GKeyValueBuilder.ForStakeholders();
@@ -65,16 +65,16 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                var singleOrDefault = StakeQuery.GetOnExpression(x => x.Id == currUser.ReportingManager).SingleOrDefault();
+                var singleOrDefault = StakeQuery.FilterBy(x => x.Id == currUser.ReportingManager).SingleOrDefault();
                 if (singleOrDefault != null)
                 {
                     var reportsToUserId = singleOrDefault.ExternalId;
@@ -193,8 +193,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         public void AssignBillingPolicies(PayWorkModel payWork)
         {
-            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.CollectionBillingPolicyId);
-            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.RecoveryBillingPolicyId);
+            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.Get(payWork.CollectionBillingPolicyId);
+            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.Get(payWork.RecoveryBillingPolicyId);
         }
 
         private static void SetApprovalStatusInsert(Stakeholders stakeholders)
@@ -314,7 +314,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<string> UsersIDList()
         {
-            var data = StakeQuery.GetOnExpression(x => x.ExternalId != string.Empty)
+            var data = StakeQuery.FilterBy(x => x.ExternalId != string.Empty)
                                  .Select(x => x.ExternalId).ToList();
 
             LogManager.GetCurrentClassLogger().Info("StakeholderServices: UsersIDList count: " + data.Count);
@@ -336,7 +336,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             {
                 return list;
             }
-            var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
+            var firstLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy)
                                                     .SingleOrDefault();
 
             if (firstLevelHierarchy == null)
@@ -356,7 +356,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 return list;
             }
 
-            var secondLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == firstLevelHierarchy.ReportsTo)
+            var secondLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == firstLevelHierarchy.ReportsTo)
                                                      .SingleOrDefault();
 
             if (secondLevelHierarchy == null)

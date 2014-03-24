@@ -16,9 +16,9 @@ using NHibernate.SqlCommand;
 
 namespace ColloSys.QueryBuilder.AllocationBuilder
 {
-    public class AllocPolicyBuilder : QueryBuilder<AllocPolicy>
+    public class AllocPolicyBuilder : Repository<AllocPolicy>
     {
-        public override QueryOver<AllocPolicy, AllocPolicy> WithRelation()
+        public override QueryOver<AllocPolicy, AllocPolicy> ApplyRelations()
         {
             return QueryOver.Of<AllocPolicy>();
         }

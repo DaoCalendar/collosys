@@ -1,6 +1,6 @@
 ﻿
-csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify", "$filter",
-    function (restangular, $csnotify, $filter) {
+csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
+    function (restangular, $csnotify) {
         var restApi = restangular.all('FileSchedulerApi');
         var dldata = {};
 
@@ -105,7 +105,6 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             var cfile = $files[0];
             file.IsUploading = true;
             $scope.uploadCount++;
-            $csfactory.hideSpinner();
             file.UploadPercent = 10;
             $scope.upload[$index] = $upload.upload({
                 url: '/api/FileSchedulerApi/SaveFileOnServer',

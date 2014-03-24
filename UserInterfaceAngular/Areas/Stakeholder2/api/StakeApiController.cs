@@ -22,7 +22,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            var data = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
+            var data = HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
             return data;
         }
 

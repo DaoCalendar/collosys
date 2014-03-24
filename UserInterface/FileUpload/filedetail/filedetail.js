@@ -147,7 +147,6 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "
 
         (function () {
             $scope.datalayer = datalayer;
-            $csfactory.hideSpinner();
             datalayer.GetAll();
         })();
 

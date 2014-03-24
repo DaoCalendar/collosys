@@ -24,7 +24,7 @@ namespace AngularUI.Stakeholder.hierarchy
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            var data = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
+            var data = HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
             return data;
         }
 

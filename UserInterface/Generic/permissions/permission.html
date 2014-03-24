@@ -1,5 +1,4 @@
-﻿
-<h2>PermissionScreen</h2>
+﻿<h2>PermissionScreen</h2>
 <div data-ng-cloak="" data-ng-form="frmPermission" class="form-horizontal">
     <!-- hierarchies part -->
     <div class="row-fluid">
@@ -52,14 +51,14 @@
                         </select>
                     </td>
                     <td>
-                        <select data-ui-select2=""
-                            data-ng-disabled="factory.enableEscalation(row,SelectedHier.Activity,$index,eccalationDays,dldata)" 
+                        <select
+                            data-ng-disabled="factory.enableEscalation(row,SelectedHier.Activity,$index,eccalationDays,dldata)"
                             class="input-mini"
                             data-ng-model="eccalationDays[$index]"
                             data-ng-change="factory.assignEscalationDay(eccalationDays[$index],row,dldata)">
-                            <option></option>
+                            <option value=""></option>
                             <option data-ng-repeat="data in escDate">{{data}}</option>
-                        </select>{{eccalationDays}}</td>
+                        </select></td>
                 </tr>
             </table>
             <hr />

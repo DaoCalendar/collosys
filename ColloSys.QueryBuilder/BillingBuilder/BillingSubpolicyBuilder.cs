@@ -16,9 +16,9 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
-    public class BillingSubpolicyBuilder : QueryBuilder<BillingSubpolicy>
+    public class BillingSubpolicyBuilder : Repository<BillingSubpolicy>
     {
-        public override QueryOver<BillingSubpolicy, BillingSubpolicy> WithRelation()
+        public override QueryOver<BillingSubpolicy, BillingSubpolicy> ApplyRelations()
         {
             return QueryOver.Of<BillingSubpolicy>();
         }

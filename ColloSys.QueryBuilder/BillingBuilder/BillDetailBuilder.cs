@@ -14,9 +14,9 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
-    public class BillDetailBuilder : QueryBuilder<BillDetail>
+    public class BillDetailBuilder : Repository<BillDetail>
     {
-        public override QueryOver<BillDetail, BillDetail> WithRelation()
+        public override QueryOver<BillDetail, BillDetail> ApplyRelations()
         {
             return QueryOver.Of<BillDetail>();
         }

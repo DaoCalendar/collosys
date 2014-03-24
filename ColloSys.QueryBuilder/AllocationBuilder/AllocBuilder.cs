@@ -20,9 +20,9 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.AllocationBuilder
 {
-    public class AllocBuilder : QueryBuilder<Alloc>
+    public class AllocBuilder : Repository<Alloc>
     {
-        public override QueryOver<Alloc, Alloc> WithRelation()
+        public override QueryOver<Alloc, Alloc> ApplyRelations()
         {
             return QueryOver.Of<Alloc>()
                             .Fetch(x => x.AllocPolicy).Eager

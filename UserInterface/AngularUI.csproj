@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -381,6 +382,8 @@
     <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
     <Content Include="FileUpload\customerinfo\customer-info.html" />
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xls" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -672,9 +675,12 @@
     <Content Include="Stakeholder\add\AddStakeholder.js" />
     <Content Include="Stakeholder\add\basic.html" />
     <Content Include="Stakeholder\add\BasicInfoScript.js" />
+    <Content Include="Stakeholder\add\deletePopUp.html" />
+    <Content Include="Stakeholder\add\DistrictPopUp.html" />
     <Content Include="Stakeholder\add\hierarchy.html" />
     <Content Include="Stakeholder\add\HierarchyModel.js" />
     <Content Include="Stakeholder\add\index.html" />
+    <Content Include="Stakeholder\add\index2.html" />
     <Content Include="Stakeholder\add\payment.html" />
     <Content Include="Stakeholder\add\Payments.js" />
     <Content Include="Stakeholder\add\registration.html" />

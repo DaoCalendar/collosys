@@ -361,7 +361,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     IsLockedOut = false,
                     LastActivityDate = SqlDateTime.MinValue.Value,
                     LastLockedOutDate = SqlDateTime.MinValue.Value,
-                    Password = PasswordUtility.EncryptText("p@55w0rld"),
+                    Password = PasswordUtility.EncryptText("password"),
                     PasswordAnswer = "20100101",
                     PasswordQuestion = "Joining Date?",
                     Username = "scbuser",

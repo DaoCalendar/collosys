@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ColloSys.Shared.Encryption
 {
-    public class PasswordUtility
+    public static class PasswordUtility
     {
         public static string EncryptText(string password)
         {
@@ -13,7 +13,7 @@ namespace ColloSys.Shared.Encryption
                 );
         }
 
-        public static bool Compare(string password, string encryptedText)
+        public static bool DoMatch(string password, string encryptedText)
         {
             var hash = EncryptText(password);
             return hash == encryptedText;

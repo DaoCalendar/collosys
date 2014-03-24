@@ -13,7 +13,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GPermissionBuilder : QueryBuilder<GPermission>
+    public class GPermissionBuilder : Repository<GPermission>
     {
         [Transaction]
         public IEnumerable<GPermission> OnHierarchyId(Guid hierarchyId)
@@ -25,7 +25,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
                                  .List();
         }
 
-        public override QueryOver<GPermission, GPermission> WithRelation()
+        public override QueryOver<GPermission, GPermission> ApplyRelations()
         {
             return QueryOver.Of<GPermission>()
                             .Fetch(x => x.Role).Eager;

@@ -18,7 +18,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class StakeQueryBuilder : QueryBuilder<Stakeholders>
+    public class StakeQueryBuilder : Repository<Stakeholders>
     {
         [Transaction]
         public IList<Stakeholders> OnProduct(ScbEnums.Products products)
@@ -158,7 +158,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                  .ToList();
         }
 
-        public override QueryOver<Stakeholders, Stakeholders> WithRelation()
+        public override QueryOver<Stakeholders, Stakeholders> ApplyRelations()
         {
             var query = QueryOver.Of<Stakeholders>()
                             .Fetch(x => x.StkhPayments).Eager

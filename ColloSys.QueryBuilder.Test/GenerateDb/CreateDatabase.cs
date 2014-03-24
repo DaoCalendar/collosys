@@ -1,5 +1,11 @@
-﻿using AngularUI.Developer.generatedb;
+﻿using System.Linq;
+using AngularUI.Developer.generatedb;
+using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService;
+using ColloSys.QueryBuilder.BaseTypes;
+using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.Shared.Encryption;
 using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
@@ -16,6 +22,22 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         public void UploadFile()
         {
             FileUploaderService.UploadFiles();
+        }
+
+        [Test]
+        public void UpdateScbuserPassword()
+        {
+            var usersRepo = new GUsersRepository();
+            var users = usersRepo.FilterBy(x => x.Username == "scbuser");
+            if (users.Count != 1) return;
+            var user = users.First();
+            var session = SessionManager.GetCurrentSession();
+            using (var tx = session.BeginTransaction())
+            {
+                user.Password = PasswordUtility.EncryptText("password");
+                session.SaveOrUpdate(user);
+                tx.Commit();
+            }
         }
     }
 }

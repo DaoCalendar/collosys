@@ -1,4 +1,4 @@
-﻿csapp.factory("$csfactory", ["$csConstants", "$rootScope", function (consts, $rootScope) {
+﻿csapp.factory("$csfactory", ["$csConstants", function (consts) {
 
     var downloadFile = function (filename) {
         var ifr = document.createElement('iframe');
@@ -9,10 +9,6 @@
             document.body.removeChild(ifr);
             ifr = null;
         };
-    };
-
-    var hideSpinner = function () {
-        $rootScope.loadingElement.disableSpiner = true;
     };
 
     var isNullOrEmptyString = function (val) {
@@ -80,7 +76,6 @@
         isNullOrEmptyGuid: isNullOrEmptyGuid,
         getDefaultGuid: getDefaultGuid,
         isEmptyObject: isEmptyObject,
-        hideSpinner: hideSpinner,
         downloadFile: downloadFile
     };
 }]);
