@@ -1,11 +1,20 @@
 ﻿
 csapp.factory("loginDataLayer", [
     "Restangular", function (rest) {
+        var restApi = rest.all("AutheticationApi");
 
+        var authenticate = function (loginInfo) {
+            return restApi.customPOST(loginInfo, "AutheticateUser");
+        };
+
+        return {
+            authenticate: authenticate
+        };
     }
 ]);
 
-csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStore, logManager) {
+csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", "$csfactory",
+    function ($cookieStore, logManager, $csfactory) {
     var $log = logManager.getInstance("$csAuthFactory");
 
     var authInfo = {
@@ -16,11 +25,14 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger", function ($cookieStor
 
     var loadCookie = function () {
         var cookie = $cookieStore.get("authInfo");
-        if (angular.isDefined(cookie) && cookie.isAuthorized === true) {
+        if (angular.isUndefined(cookie)) return;
+        if (cookie.isAuthorized === true && !$csfactory.isNullOrEmptyString(cookie.username)) {
             var time = moment(cookie.loginTime);
             if (time.isValid() && moment().diff(time, 'minutes') <= 30) {
                 authInfo = cookie;
                 $log.info(authInfo.username + "has logged in from cookie.");
+            } else {
+                $log.info("cookie expired!!!");
             }
         }
     };
@@ -66,22 +78,28 @@ csapp.controller("logoutController", [
     }
 ]);
 
-csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory",
-    function ($scope, $modalInstance, $csAuthFactory) {
-        $scope.loginErrorMessage = "Invalid username or password.";
+csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", "loginDataLayer",
+    function ($scope, $modalInstance, $csAuthFactory, datalayer) {
         $scope.login = {
             error: false,
             showForgot: false
         };
         $csAuthFactory.logoutUser();
 
-        $scope.loginUser = function (login) {
-            if (login.username === login.password) {
-                $csAuthFactory.loginUser(login.username);
-                $modalInstance.close(login.username);
-            } else {
-                login.error = true;
-            }
+        $scope.loginUser = function () {
+            $scope.login.error = false;
+            datalayer.authenticate($scope.login).then(function (data) {
+                if (data === "true") {
+                    $csAuthFactory.loginUser($scope.login.username);
+                    $modalInstance.close($scope.login.username);
+                } else {
+                    $scope.login.error = true;
+                    $scope.loginErrorMessage = "Invalid username or password.";
+                }
+            },function() {
+                $scope.login.error = true;
+                $scope.loginErrorMessage = "Server unavailable.";
+            });
         };
 
         $scope.forgotPassword = function () {

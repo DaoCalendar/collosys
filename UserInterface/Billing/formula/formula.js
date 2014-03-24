@@ -1,6 +1,6 @@
 ﻿csapp.controller("formulaController", [
     "$scope", "$csnotify", '$csfactory', "Restangular",
-    function($scope, $csnotify, $csfactory, rest) {
+    function ($scope, $csnotify, $csfactory, rest) {
         "use strict";
 
         var restApi = rest.all("PayoutSubpolicyApi");
@@ -41,13 +41,13 @@
         $scope.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
 
 
-        restApi.customGET("GetProducts").then(function(data) {
+        restApi.customGET("GetProducts").then(function (data) {
             $scope.productsList = data;
-        }, function(data) {
+        }, function (data) {
             $csnotify.error(data);
         });
 
-        $scope.selectFormula = function(sformula) {
+        $scope.selectFormula = function (sformula) {
             $scope.formula = sformula;
             if (!angular.isUndefined(sformula.GroupBy)) {
                 if (!$csfactory.isNullOrEmptyString(sformula.GroupBy)) {
@@ -56,7 +56,7 @@
 
             }
 
-            restApi.customGET("GetBConditions", { parentId: sformula.Id }).then(function(data) {
+            restApi.customGET("GetBConditions", { parentId: sformula.Id }).then(function (data) {
                 $scope.AllBConditions = data;
                 $scope.formula.BConditions = _.filter(data, { ConditionType: 'Condition' });
 
@@ -68,12 +68,12 @@
                 }
 
                 $scope.changeProductCategory();
-            }, function(data) {
+            }, function (data) {
                 $csnotify.error(data);
             });
         };
 
-        $scope.changeProductCategory = function() {
+        $scope.changeProductCategory = function () {
             if (angular.isUndefined($scope.formula.Id)) {
                 $scope.formula.BConditions = [];
                 $scope.formula.BOutputs = [];
@@ -84,19 +84,19 @@
             if (!angular.isUndefined(formula.Products) && !angular.isUndefined(formula.Category)) {
 
                 // get formulas
-                restApi.customGET("GetFormulas", { product: formula.Products, category: formula.Category }).then(function(data) {
+                restApi.customGET("GetFormulas", { product: formula.Products, category: formula.Category }).then(function (data) {
                     $scope.formulaList = _.filter(data, { PayoutSubpolicyType: 'Formula' });
-                }, function(data) {
+                }, function (data) {
                     $csnotify.error(data);
                 });
 
 
                 //get column names
-                restApi.customGET("GetColumns", { product: formula.Products, category: formula.Category }).then(function(data) {
+                restApi.customGET("GetColumns", { product: formula.Products, category: formula.Category }).then(function (data) {
                     $scope.columnDefs = data;
                     $scope.columnNames = data;
                     $scope.outColumnNames = _.filter($scope.columnDefs, { InputType: 'number' });
-                }, function(data) {
+                }, function (data) {
                     $csnotify.error(data);
                 });
 
@@ -108,22 +108,22 @@
         };
 
 
-        $scope.changeOutputType = function() {
+        $scope.changeOutputType = function () {
             $scope.formula.BConditions = [];
             $scope.formula.BOutputs = [];
             $scope.resetCondition();
             $scope.resetOutput();
         };
 
-        var getColumnValues = function(columnName) {
-            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function(data) {
+        var getColumnValues = function (columnName) {
+            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
                 $scope.conditionValues = data;
-            }, function(data) {
+            }, function (data) {
                 $csnotify.error(data);
             });
         };
 
-        $scope.changeLeftTypeName = function(condition) {
+        $scope.changeLeftTypeName = function (condition) {
             condition.RtypeName = '';
             $scope.selectedLeftColumn = _.find($scope.columnDefs, { field: condition.LtypeName });
 
@@ -162,7 +162,7 @@
         };
 
 
-        $scope.resetCondition = function() {
+        $scope.resetCondition = function () {
             $scope.newCondition = {};
             $scope.newCondition.Rtype = 'Value';
             if ($scope.formula.BConditions.length < 1) {
@@ -172,7 +172,7 @@
             }
         };
 
-        $scope.addNewCondition = function(condition) {
+        $scope.addNewCondition = function (condition) {
 
 
             condition.Ltype = "Column";
@@ -192,7 +192,7 @@
             $scope.resetCondition();
         };
 
-        $scope.deleteCondition = function(condition, index) {
+        $scope.deleteCondition = function (condition, index) {
             if (($scope.formula.BConditions.length == 1)) {
                 $scope.newCondition.RelationType = '';
             }
@@ -209,7 +209,7 @@
             }
         };
 
-        $scope.resetOutput = function() {
+        $scope.resetOutput = function () {
             $scope.newOutput = {};
             $scope.newOutput.Rtype = 'Value';
             if ($scope.formula.BOutputs.length < 1) {
@@ -219,7 +219,7 @@
             }
         };
 
-        $scope.addNewOutput = function(output) {
+        $scope.addNewOutput = function (output) {
             output.ConditionType = 'Output';
             output.ParentId = $scope.formula.Id;
             output.Priority = $scope.formula.BOutputs.length;
@@ -229,7 +229,7 @@
             $scope.resetOutput();
         };
 
-        $scope.deleteOutput = function(output, index) {
+        $scope.deleteOutput = function (output, index) {
             if (($scope.formula.BOutputs.length == 1)) {
                 $scope.newOutput.Operator = '';
             }
@@ -247,15 +247,15 @@
             }
         };
 
-        $scope.$watch("formula.BOutputs.length", function() {
-            var outResult = _.find($scope.formula.BOutputs, function(output) {
+        $scope.$watch("formula.BOutputs.length", function () {
+            var outResult = _.find($scope.formula.BOutputs, function (output) {
                 return (output.Lsqlfunction && output.Lsqlfunction != "");
             });
 
             $scope.outputWithFunction = (outResult) ? true : false;
         });
 
-        $scope.resetFormula = function(product) {
+        $scope.resetFormula = function (product) {
             $scope.formula = {};
 
             $scope.formula.BConditions = [];
@@ -272,11 +272,11 @@
             $scope.resetOutput();
         };
 
-        $scope.chnageDataFormat = function(date) {
+        $scope.chnageDataFormat = function (date) {
 
         };
 
-        $scope.saveFormula = function(formula) {
+        $scope.saveFormula = function (formula) {
             var operator = $scope.newOutput.Operator;
             formula.GroupBy = JSON.stringify(formula.GroupBy);
 
@@ -293,7 +293,7 @@
             //    saveBConditions.push(dcond);
             //});
 
-            _.forEach(formula.BOutputs, function(out) {
+            _.forEach(formula.BOutputs, function (out) {
                 out.Operator = operatorsEnum[out.Operator];
                 formula.BConditions.push(out);
             });
@@ -305,24 +305,24 @@
 
             if (formula.Id) {
 
-                restApi.customPUT(formula, "Put", { id: formula.Id }).then(function(data) {
-                    $scope.formulaList = _.reject($scope.formulaList, function(form) { return form.Id == data.Id; });
+                restApi.customPUT(formula, "Put", { id: formula.Id }).then(function (data) {
+                    $scope.formulaList = _.reject($scope.formulaList, function (form) { return form.Id == data.Id; });
                     $scope.formulaList.push(data);
                     $scope.formula = data;
                     $scope.resetFormula(data.Products);
                     $csnotify.success("Formula saved");
-                }, function(data) {
+                }, function (data) {
                     $csnotify.error(data);
                 });
 
             } else {
-                restApi.customPOST(formula, "Post").then(function(data) {
-                    $scope.formulaList = _.reject($scope.formulaList, function(form) { return form.Id == data.Id; });
+                restApi.customPOST(formula, "Post").then(function (data) {
+                    $scope.formulaList = _.reject($scope.formulaList, function (form) { return form.Id == data.Id; });
                     $scope.formulaList.push(data);
                     $scope.formula = data;
                     $scope.resetFormula(data.Products);
                     $csnotify.success("Payout Subpolicy saved");
-                }, function(data) {
+                }, function (data) {
                     $csnotify.error(data);
                 });
             }
@@ -352,14 +352,14 @@
             'Divide': '/'
         };
 
-        $scope.checkString = function(inputString) {
+        $scope.checkString = function (inputString) {
             if (inputString === 'None') {
                 return '';
             }
             return inputString;
         };
 
-        $scope.convertOperatorToReverse = function(operator) {
+        $scope.convertOperatorToReverse = function (operator) {
             if (operator === undefined || operator === '')
                 return operator;
             return operatorsEnumReverse[operator];
@@ -367,3 +367,23 @@
 
     }
 ]);
+
+csapp.factory('formulaDataLayer', ['Restangular', '$csnotify',
+    function(rest, $csnotify) {
+        var dldata = {};
+
+        return {
+            dldata:dldata
+        };
+    }]);
+
+csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) { }]);
+
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory',
+    function ($scope, datalayer, factory) {
+        (function () {
+            $scope.dldata = datalayer.dldata;
+            $scope.datalayer = datalayer;
+            $scope.factory = factory;
+        })();
+    }]);

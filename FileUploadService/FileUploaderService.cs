@@ -64,7 +64,7 @@ namespace ColloSys.FileUploadService
             }
 
             // get next file for uploading
-            IDBLayer dbLayer = new DBLayer();
+            IDBLayer dbLayer = new DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
             if (file == null)
             {
@@ -103,7 +103,7 @@ namespace ColloSys.FileUploadService
 
         public static void ResetFiles()
         {
-            IDBLayer db = new DBLayer();
+            IDBLayer db = new DbLayer();
             db.ResetFileStatus();
         }
 

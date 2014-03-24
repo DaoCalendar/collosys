@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
 
@@ -20,7 +21,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [SetUp]
         public void Init()
         {
-            var fileInfo = new FileInfo("c:\\ExampleData.xls");
+            var fileInfo = ResourceReader.GetEmbeddedResourceAsFileStream("ExampleData.xls");
             _excel=new NpOiExcelReader(fileInfo);
             _data=new ConvertExcelToList<ExcelReaderHelper>(_excel);
             _list = ExcelReaderHelper.GetMappingInfo();

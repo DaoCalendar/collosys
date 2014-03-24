@@ -29,7 +29,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         [HttpTransaction]
         public IEnumerable<GKeyValue> GetKeyValues(ColloSysEnums.Activities area)
         {
-            return GKeyValueBuilder.GetOnExpression(x => x.Area == area);
+            return GKeyValueBuilder.FilterBy(x => x.Area == area);
         }
 
 

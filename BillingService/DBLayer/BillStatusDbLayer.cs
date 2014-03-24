@@ -18,7 +18,7 @@ namespace BillingService.DBLayer
         // get list of pending billStatus
         public static IList<BillStatus> GetPendingBillStatus()
         {
-            var billStatus = BillStatusBuilder.GetOnExpression(x => x.Status == ColloSysEnums.BillingStatus.Pending);
+            var billStatus = BillStatusBuilder.FilterBy(x => x.Status == ColloSysEnums.BillingStatus.Pending);
             return billStatus;
         }
 

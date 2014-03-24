@@ -10,7 +10,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class HierarchyQueryBuilder:QueryBuilder<StkhHierarchy>
+    public class HierarchyQueryBuilder:Repository<StkhHierarchy>
     {
         [Transaction]
         public IEnumerable<StkhHierarchy> ExceptDeveloperExternal()
@@ -32,7 +32,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return data;
         }
 
-        public override QueryOver<StkhHierarchy,StkhHierarchy> WithRelation()
+        public override QueryOver<StkhHierarchy,StkhHierarchy> ApplyRelations()
         {
             return QueryOver.Of<StkhHierarchy>()
                             .Fetch(x => x.GPermissions).Eager

@@ -53,8 +53,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpTransaction]
         public IEnumerable<Alloc> GetData()
         {
-            var query = AllocBuilder.WithRelation();
-            return AllocBuilder.ExecuteQuery(query).Take(10).ToList();
+            var query = AllocBuilder.ApplyRelations();
+            return AllocBuilder.Execute(query).Take(10).ToList();
         }
 
         [HttpPost]

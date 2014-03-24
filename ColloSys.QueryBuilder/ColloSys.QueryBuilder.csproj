@@ -60,8 +60,8 @@
     <Compile Include="AllocationBuilder\AllocPolicyBuilder.cs" />
     <Compile Include="AllocationBuilder\AllocRelationBuilder.cs" />
     <Compile Include="AllocationBuilder\AllocSubpolicyBuilder.cs" />
-    <Compile Include="BaseTypes\IQueryBuilder.cs" />
-    <Compile Include="BaseTypes\QueryBuilder.cs" />
+    <Compile Include="BaseTypes\IRepository.cs" />
+    <Compile Include="BaseTypes\Repository.cs" />
     <Compile Include="BillingBuilder\BConditionBuilder.cs" />
     <Compile Include="BillingBuilder\BillAdhocBuilder.cs" />
     <Compile Include="BillingBuilder\BillAmountBuilder.cs" />
@@ -92,6 +92,7 @@
     <Compile Include="GenericBuilder\GPermissionBuilder.cs" />
     <Compile Include="GenericBuilder\GPincodeBuilder.cs" />
     <Compile Include="GenericBuilder\GReportBuilder.cs" />
+    <Compile Include="GenericBuilder\GUsersRepository.cs" />
     <Compile Include="GenericBuilder\ProductConfigBuilder.cs" />
     <Compile Include="StakeholderBuilder\AddressQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />

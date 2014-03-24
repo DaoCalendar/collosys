@@ -33,10 +33,10 @@ namespace ColloSys.FileUploadService
 
         #region interface - properties
 
-        private IDBLayer _dataLayer = new DBLayer();
+        private IDBLayer _dataLayer = new DbLayer();
         public IDBLayer GetDataLayer
         {
-            get { return _dataLayer ?? (_dataLayer = new DBLayer()); }
+            get { return _dataLayer ?? (_dataLayer = new DbLayer()); }
         }
 
         private const int BatchSize = 1000;

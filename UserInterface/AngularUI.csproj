@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -198,8 +199,9 @@
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\view-approve.html" />
+    <Content Include="Billing\adhoc\add-hoc-payment-details.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
-    <Content Include="Billing\adhoc\index.html" />
+    <Content Include="Billing\adhoc\adhoc.html" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
@@ -378,6 +380,8 @@
     <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
     <Content Include="FileUpload\customerinfo\customer-info.html" />
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xls" />
+    <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -705,11 +709,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\Login\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />

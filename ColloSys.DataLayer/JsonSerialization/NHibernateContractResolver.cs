@@ -13,6 +13,16 @@ namespace ColloSys.DataLayer.JsonSerialization
 {
     public class NHibernateContractResolver : DefaultContractResolver
     {
+        protected override JsonContract CreateContract(Type objectType)
+        {
+            if (typeof(NHibernate.Proxy.INHibernateProxy).IsAssignableFrom(objectType))
+                return base.CreateContract(objectType.BaseType);
+            return base.CreateContract(objectType);
+        }
+    }
+
+    public class NHibernateContractResolver2 : DefaultContractResolver
+    {
         
         private static readonly MemberInfo[] NHibernateProxyInterfaceMembers = typeof(INHibernateProxy).GetMembers();
 

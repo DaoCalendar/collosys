@@ -41,14 +41,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            return HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer");
+            return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
         }
 
         [HttpGet]
         [HttpTransaction]
         public bool UserIdVal(string userid)
         {
-            var listOfuserId = StakeQuery.GetOnExpression(x => x.ExternalId == userid).ToList();
+            var listOfuserId = StakeQuery.FilterBy(x => x.ExternalId == userid).ToList();
 
             return listOfuserId.Count != 0;
         }
@@ -64,7 +64,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public bool CheckUserId(string id)
         {
-            var idExists = StakeQuery.GetOnExpression(x => x.ExternalId == id);
+            var idExists = StakeQuery.FilterBy(x => x.ExternalId == id);
             return (idExists.Count > 0);
         }
 
@@ -100,7 +100,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         public StkhHierarchy GetHierarchyWithId(Guid hierarchyId)
         {
             _log.Info("In load hierarchy with id");
-            var data = HierarchyQuery.GetOnExpression(x => x.Id == hierarchyId)
+            var data = HierarchyQuery.FilterBy(x => x.Id == hierarchyId)
                               .Select(x => x);
             return data.First();
         }
@@ -276,7 +276,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<Stakeholders> GetReportsToList(string reportsTo, string hierarchy)
         {
-            var data = StakeQuery.GetOnExpression(x => x.Hierarchy.Designation == reportsTo && x.Hierarchy.Hierarchy == hierarchy)
+            var data = StakeQuery.FilterBy(x => x.Hierarchy.Designation == reportsTo && x.Hierarchy.Hierarchy == hierarchy)
                               .Select(x => x).ToList();
 
             LogManager.GetCurrentClassLogger()

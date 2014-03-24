@@ -174,7 +174,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         public void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {

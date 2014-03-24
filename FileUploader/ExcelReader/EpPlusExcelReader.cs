@@ -12,13 +12,24 @@ namespace FileUploader.ExcelReader
         public uint TotalColumns { get; private set; }
         public uint CurrentRow { get; private set; }
 
+        public EpPlusExcelReader(FileStream fileStream)
+        {
+            var file = new FileStream(fileStream.Name, FileMode.Open, FileAccess.Read);
+            using (var package = new ExcelPackage(file))
+            {
+                _worksheet = package.Workbook.Worksheets.First();
+            }
+           
+            TotalRows = (uint)_worksheet.Dimension.End.Row;
+            TotalColumns = (uint)_worksheet.Dimension.End.Column;
+        }
         public EpPlusExcelReader(FileInfo fileInfo)
         {
             using (var package = new ExcelPackage(fileInfo))
             {
                 _worksheet = package.Workbook.Worksheets.First();
             }
-           
+
             TotalRows = (uint)_worksheet.Dimension.End.Row;
             TotalColumns = (uint)_worksheet.Dimension.End.Column;
         }

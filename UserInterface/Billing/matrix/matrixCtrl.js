@@ -279,3 +279,25 @@
         '=': 'EqualTo'
     };
 }]));
+
+csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
+    function (rest, $csnotify) {
+        var restApi = rest.all("MatrixApi");
+        var dldata = {};
+
+        return {
+            dldata:dldata
+        };
+    }]);
+
+csapp.factory('matrixFactory', ['matrixDataLayer', function (datalayer) { }]);
+
+csapp.controller('matrixCtrl', [
+    '$scope', 'matrixDataLayer', 'matrixFactory',
+    function($scope, datalyer, factory) {
+        (function () {
+            $scope.dldata = datalayer.dldata;
+            $scope.datalayer = datalayer;
+            $scope.factory = factory;
+        })();
+}]);

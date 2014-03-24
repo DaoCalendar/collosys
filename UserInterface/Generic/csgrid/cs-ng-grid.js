@@ -11,8 +11,8 @@ csapp.controller("gridSettingsController", [
 ]);
 
 
-csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$window", "$csConstants", "$rootScope", "$modal",
-    function ($restangular, $timeout, $csnotify, $csfactory, $log, $window, $csConstants, $rootScope, $modal) {
+csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$window", "$csConstants", "$modal",
+    function ($restangular, $timeout, $csnotify, $csfactory, $log, $window, $csConstants, $modal) {
 
         //#region serverData
         var restapi = $restangular.all("GridApi");
@@ -67,7 +67,6 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
                     $log.debug(dataParams);
                     serverData.fixpaging(gridOptions);
 
-                    $rootScope.loadingElement.disableSpiner = true;
                     restapi.customPOST(dataParams, "FetchGridData")
                         .then(
                             function (data) {

@@ -96,6 +96,7 @@
                 });
         }
     };
+
     var convertToDate = function (billingData) {
         billingData.EndDate = moment(billingData.EndDate).format('L');
         billingData.StartDate = moment(billingData.StartDate).format('L');

@@ -6,7 +6,7 @@
                 No Profile Present For Display
             </div>
 
-        </div> 
+        </div>
 
         <div data-ng-show="dldata.profile">
 
@@ -31,8 +31,8 @@
                 <label class="control-label">Joining Date</label>
                 <div class="controls">
                     <div class="input-append">
-                        <input type="text" name="DateOfJoining" class="input-medium" 
-                            data-ng-disabled="true" data-ng-model="profile.JoiningDate" bs-datepicker />
+                        <input type="text" name="DateOfJoining" class="input-medium"
+                            data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
                         <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
             <div class="control-group row-fluid">
                 <label class="control-label">Hierarchy</label>
                 <div class="controls">
-                    <input type="text" data-ng-model="profile.Hierarchy" readonly="readonly" />
+                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
             <div class="control-group row-fluid">
                 <label class="control-label">Designation</label>
                 <div class="controls">
-                    <input type="text" data-ng-model="profile.Designation" readonly="readonly" />
+                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
                 </div>
             </div>
 
@@ -62,50 +62,29 @@
             <div class="control-group row-fluid">
                 <label class="control-label">Email Id</label>
                 <div class="controls">
-                    <input type="email" data-ng-model="profile.EmailId" readonly="readonly" />
+                    <input type="email" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
                 </div>
             </div>
 
             <!-- Mobile No -->
-            <div class="control-group row-fluid">
+            <div class="control-group row-fluid" data-ng-form="mobileNoForm">
                 <label class="control-label">Mobile Number</label>
                 <div class="controls">
-                    <input type="text" data-ng-model="profile.MobileNo" data-ng-disabled="isReadOnly" />
-                    <i class="btn icon-edit" data-ng-show="isProfileExist(profile)" data-ng-click="open()"></i>
-                </div>
-            </div>
-
-            <!-- Mobile No change popup -->
-            <div data-ng-form="formChangeMobileNo" modal="shouldBeOpen" close="close()" options="opts">
-                <div class="modal-header">
-                    <h3>Change Mobile Number</h3>
-                </div>
-                <div class="modal-body form-horizontal">
-                    <div class="control-group">
-                        <label class="control-label">Mobile Number</label>
-
-                        <div class="controls">
-                            <input type="text" name="profile.MobileNo" data-ng-model="profile.MobileNo" required data-ng-pattern="/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$/" />
-                        </div>
-                        
+                    <input type="text" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
+                        data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
+                    <button data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
+                        data-ng-click="saveMobile()" class="btn btn-success">
+                        Save</button>
+                    <button data-ng-show="isChangingMobile" data-ng-click="resetMobile()" 
+                        class="btn btn-warning">Cancel</button>
+                    <button data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile" 
+                        class="btn btn-success">Change</button>
+                    <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
+                        <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
+                        <div data-ng-show="mobileNoForm.mobileNo.$error.maxlength">Phone Number can have max 11 digits</div>
                     </div>
                 </div>
-
-                <div class="modal-footer">
-                    <div class="row-fluid control-group">
-                        <div class="controls">
-                            <button class="btn btn-success" data-ng-disabled="profile.MobileNo.$invalid" data-ng-click="saveOrUpdateProfile(profile)">Save</button>
-
-                            <button class="btn btn-warning" data-ng-click="close()">Cancel</button>
-
-                        </div>
-                    </div>
-
-                </div>
             </div>
-
-        </div>   
-
+        </div>
     </div>
-
 </form>
