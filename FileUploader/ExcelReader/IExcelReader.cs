@@ -9,5 +9,6 @@
         bool EndOfFile();
         string GetValue(uint pos);
         string GetValue(uint rowPos, uint pos);
+        void Skip(uint count);
     }
 }

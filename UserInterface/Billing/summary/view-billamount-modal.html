@@ -1,0 +1,28 @@
+﻿<div>
+    <div class="modal-header">
+        <strong>Details</strong>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Billing Policy</th>
+                    <th>Billing Subpolicy</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="data in dldata.moreDetails">
+                    <td>{{data.BillingPolicy.Name}}</td>
+                    <td>{{data.BillingSubpolicy.Name}}</td>
+                    <td>{{data.Amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right">
+            <button class="btn btn-success" data-ng-click="closeModal()">Close</button>
+        </div>
+    </div>
+</div>

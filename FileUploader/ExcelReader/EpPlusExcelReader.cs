@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using OfficeOpenXml;
@@ -19,7 +21,7 @@ namespace FileUploader.ExcelReader
             {
                 _worksheet = package.Workbook.Worksheets.First();
             }
-           
+            CurrentRow = 1;
             TotalRows = (uint)_worksheet.Dimension.End.Row;
             TotalColumns = (uint)_worksheet.Dimension.End.Column;
         }
@@ -42,7 +44,7 @@ namespace FileUploader.ExcelReader
             }
             else
             {
-                throw new Exception("Current row is out of range");
+                //throw new Exception("Current row is out of range");
             }
         }
 
@@ -63,5 +65,12 @@ namespace FileUploader.ExcelReader
             return value.ToString();
         }
 
+        public void Skip(uint count) 
+        {
+            for (uint i = 0; i < count; i++)
+            {
+                NextRow();
+            }
+        }
     }
 }

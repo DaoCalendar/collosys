@@ -205,7 +205,7 @@
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
-    <Content Include="Billing\matrix\index.html" />
+    <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
@@ -217,8 +217,10 @@
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
     <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
+    <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
-    <Content Include="Billing\summary\index.html" />
+    <Content Include="Billing\summary\summary.html" />
+    <Content Include="Billing\summary\view-billamount-modal.html" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />

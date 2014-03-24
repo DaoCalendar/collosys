@@ -154,10 +154,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/formula/formula.html',
                     controller: 'formulaController'
                 }).when('/billing/matrix', {
-                    templateUrl: '/Billing/matrix/index.html',
+                    templateUrl: '/Billing/matrix/matrix.html',
                     controller: 'matrixCtrl'
                 }).when('/billing/adhoc', {
-                    templateUrl: '/Billing/adhoc/index.html',
+                    templateUrl: '/Billing/adhoc/adhoc.html',
                     controller: 'adhocPayoutCtrl'
                 }).when('/billing/readybilling', {
                     templateUrl: '/Billing/readybilling/index.html',
@@ -166,7 +166,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/status/index.html',
                     controller: 'BillingStatusController'
                 }).when('/billing/summary', {
-                    templateUrl: '/Billing/summary/index.html',
+                    templateUrl: '/Billing/summary/summary.html',
                     controller: 'BillAmountCntrl'
                 })
 
