@@ -1,7 +1,7 @@
 ﻿/*global csapp*/
 
 
-csapp.factory("Datalayer", ['$csnotify', 'Restangular', function ($csnotify, rest) {
+csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnotify, rest) {
 
     var restApi = rest.all('KeyValueApi');
 
@@ -62,7 +62,7 @@ csapp.factory("Datalayer", ['$csnotify', 'Restangular', function ($csnotify, res
     };
 }]);
 
-csapp.factory("KeyValueFactory", ['$csfactory', function ($csfactory) {
+csapp.factory("KeyValueFactory", function () {
 
     var setShowAddButton = function (buttonVal, dldata) {
         return (_.indexOf(['TextList', 'NumberList', 'DateList'], dldata.gKeyValue.ValueType) > -1);
@@ -80,9 +80,9 @@ csapp.factory("KeyValueFactory", ['$csfactory', function ($csfactory) {
         setShowAddButton: setShowAddButton,
         changeKey: changeKey
     };
-}]);
+});
 
-csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "Datalayer", "KeyValueFactory", function ($scope, $csnotify, rest, datalayer, factory) {
+csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValueDatalayer", "KeyValueFactory", function ($scope, $csnotify, rest, datalayer, factory) {
     "use strict";
     (function () {
         $scope.showAddButton = false;
