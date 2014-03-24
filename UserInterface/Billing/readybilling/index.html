@@ -6,7 +6,7 @@
             <div class="control-group span4">
                 <label class="control-label">Product :</label>
                 <div class="controls">
-                    <select class="input-medium" data-ui-select2="" data-ng-change="showGrid(billing.Products,billing.BillMonth)" data-ng-model="billing.Products" data-ng-options="c for c in ProductList">
+                    <select class="input-medium" data-ui-select2="" data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)" data-ng-model="dldata.billing.Products" data-ng-options="c for c in dldata.ProductList">
                         <option></option>
                     </select>
                 </div>
@@ -15,9 +15,9 @@
                 <label class="control-label">Month :</label>
                 <div class="controls">
                     <div class="input-append">
-                        <input class="input-medium" type="text" name="monthdate" data-ng-model="billing.BillMonth"
+                        <input class="input-medium" type="text" name="monthdate" data-ng-model="dldata.billing.BillMonth"
                             data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="yyyy-MM-dd"
-                            data-ng-readonly="true" data-ng-change="showGrid(billing.Products,billing.BillMonth)"
+                            data-ng-readonly="true" data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)"
                             data-bs-datepicker="">
                         <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                     </div>
@@ -26,12 +26,12 @@
         </div>
     </div>
     <div class="row-fluid text-right">
-        <span class="label-warning" data-ng-show="oldBillStatus!='null'">Billing for this product & month already created.</span>
-        <span class="label-warning" data-ng-show="pageData.length<1">There is no Billing data for this product & month</span>
-        <button class="btn btn-success" data-ng-disabled="oldBillStatus!='null' || pageData.length<1" data-ng-click="saveData(billing)">Ready For Billing</button>
+        <span class="label-warning" data-ng-show="dldata.oldBillStatus!='null'">Billing for this product & month already created.</span>
+        <span class="label-warning" data-ng-show="dldata.pageData.length<1">There is no Billing data for this product & month</span>
+        <button class="btn btn-success" data-ng-disabled="dldata.oldBillStatus!='null' || dldata.pageData.length<1" data-ng-click="saveData(dldata.billing)">Ready For Billing</button>
     </div>
     <div class="row-fluid">
-        <table class="table table-bordered" data-ng-show="pageData.length>0">
+        <table class="table table-bordered" data-ng-show="dldata.pageData.length>0">
             <thead>
                 <tr>
                     <th>AccountNo</th>
@@ -49,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="d in pageData">
+                <tr data-ng-repeat="d in dldata.pageData">
                     <td>{{d.AccountNo}}</td>
                     <td>{{d.Product}}</td>
                     <td>{{d.IsInRecovery}}</td>
