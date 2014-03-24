@@ -84,7 +84,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
             if (string.IsNullOrWhiteSpace(pincodedata.Region))
             {
-                var regiondata = GPincodeBuilder.GetOnExpression(x => x.Country == pincodedata.Country)
+                var regiondata = GPincodeBuilder.FilterBy(x => x.Country == pincodedata.Country)
                                                 .Select(x => x.Region)
                                                 .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, regiondata);
@@ -93,7 +93,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.State))
             {
                 var statedata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x => x.Country == pincodedata.Country && x.Region == pincodedata.Region)
                                    .Select(x => x.State)
                                    .ToList();
@@ -102,7 +102,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
             if (string.IsNullOrWhiteSpace(pincodedata.Cluster))
             {
-                var clusterdata = GPincodeBuilder.GetOnExpression(x => x.Country == pincodedata.Country && x.Region == pincodedata.Region && x.State == pincodedata.State)
+                var clusterdata = GPincodeBuilder.FilterBy(x => x.Country == pincodedata.Country && x.Region == pincodedata.Region && x.State == pincodedata.State)
                               .Select(x => x.Cluster)
                               .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, clusterdata);
@@ -111,7 +111,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.District))
             {
                 var districtdata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x =>
                         x.Country == pincodedata.Country && x.Region == pincodedata.Region &&
                         x.State == pincodedata.State && x.Cluster == pincodedata.Cluster)
@@ -123,7 +123,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.City))
             {
                 var citydata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x =>
                         x.Country == pincodedata.Country && x.Region == pincodedata.Region &&
                         x.State == pincodedata.State && x.Cluster == pincodedata.Cluster &&

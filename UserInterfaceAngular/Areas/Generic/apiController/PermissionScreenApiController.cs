@@ -38,8 +38,8 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
                      .Where(x => ((x.ToUpperInvariant() != "ALL")
                                     && (x.ToUpperInvariant() != "DEVELOPMENT")));
 
-            var query = GPermissionBuilder.WithRelation();
-            permision.PermissionData = GPermissionBuilder.ExecuteQuery(query).ToList();
+            var query = GPermissionBuilder.ApplyRelations();
+            permision.PermissionData = GPermissionBuilder.Execute(query).ToList();
             return permision;
 
         }
@@ -59,8 +59,8 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             {
                 GPermissionBuilder.Save(gPermission);
             }
-            var query = GPermissionBuilder.WithRelation();
-            var data = GPermissionBuilder.ExecuteQuery(query).ToList();
+            var query = GPermissionBuilder.ApplyRelations();
+            var data = GPermissionBuilder.Execute(query).ToList();
             return data;
         }
 
@@ -77,7 +77,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
                 GPermission permission = gPermission;
                 GPermission permission1 = gPermission;
                 hierarchy =
-                    HierarchyQuery.GetOnExpression(
+                    HierarchyQuery.FilterBy(
                         x => permission != null && x.Hierarchy == permission.Role.Hierarchy &&
                              permission1 != null && x.Designation == permission1.Role.Designation).FirstOrDefault();
                 if (gPermission.Id == Guid.Empty)

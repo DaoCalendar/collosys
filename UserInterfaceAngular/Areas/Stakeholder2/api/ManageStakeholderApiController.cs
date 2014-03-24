@@ -19,9 +19,9 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         [HttpTransaction]
         public IEnumerable<Stakeholders> GetStakeholders(string name)
         {
-            var query = StakeQuery.WithRelation().Where(x => x.Name.StartsWith(name));
+            var query = StakeQuery.ApplyRelations().Where(x => x.Name.StartsWith(name));
             
-            var data = StakeQuery.ExecuteQuery(query).Take(10).ToList(); 
+            var data = StakeQuery.Execute(query).Take(10).ToList(); 
             return data;
         }
     }

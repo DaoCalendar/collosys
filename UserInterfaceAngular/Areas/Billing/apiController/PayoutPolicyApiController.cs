@@ -100,7 +100,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             foreach (var billingRelation in obj.BillingRelations)
             {
                 billingRelation.BillingPolicy = obj;
-                billingRelation.BillingSubpolicy =BillingSubpolicyBuilder.GetWithId(billingRelation.BillingSubpolicy.Id);
+                billingRelation.BillingSubpolicy =BillingSubpolicyBuilder.Get(billingRelation.BillingSubpolicy.Id);
 
                 //if (billingRelation.Id == Guid.Empty)
                 //{
