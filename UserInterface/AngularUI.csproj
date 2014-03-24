@@ -205,7 +205,7 @@
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
-    <Content Include="Billing\matrix\index.html" />
+    <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
@@ -217,8 +217,10 @@
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
     <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
+    <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
-    <Content Include="Billing\summary\index.html" />
+    <Content Include="Billing\summary\summary.html" />
+    <Content Include="Billing\summary\view-billamount-modal.html" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />
@@ -673,9 +675,12 @@
     <Content Include="Stakeholder\add\AddStakeholder.js" />
     <Content Include="Stakeholder\add\basic.html" />
     <Content Include="Stakeholder\add\BasicInfoScript.js" />
+    <Content Include="Stakeholder\add\deletePopUp.html" />
+    <Content Include="Stakeholder\add\DistrictPopUp.html" />
     <Content Include="Stakeholder\add\hierarchy.html" />
     <Content Include="Stakeholder\add\HierarchyModel.js" />
     <Content Include="Stakeholder\add\index.html" />
+    <Content Include="Stakeholder\add\index2.html" />
     <Content Include="Stakeholder\add\payment.html" />
     <Content Include="Stakeholder\add\Payments.js" />
     <Content Include="Stakeholder\add\registration.html" />

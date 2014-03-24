@@ -65,7 +65,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;

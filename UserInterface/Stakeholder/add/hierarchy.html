@@ -31,7 +31,7 @@
                         data-ng-change="assignSelectedHier()">
                         <option></option>
                         <option data-ng-repeat="data in HierarchyList | filter : {'Hierarchy' : $parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy } | orderBy: 'PositionLevel'"
-                            value="{{data.Id}}">{{getHierarchyDisplayName(data)}} </option>
+                            value="{{data.Id}}">{{data.Designation}} </option>
                     </select>
                 </div>
             </div>

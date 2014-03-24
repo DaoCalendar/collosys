@@ -13,7 +13,6 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
             $provide.factory('MyHttpInterceptor', ["$q", "$rootScope", function ($q, $rootScope) {
                 var requestInterceptor = function (config) {
                     if (config.url.indexOf("/api/") !== -1) {
-                        $rootScope.$broadcast('$csShowSpinner');
                         console.log("HttpInterceptor : Request : " + moment().format("HH:mm:ss:SSS") + " : " + config.url);
                         //console.log(config);
                     }
@@ -24,7 +23,6 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 var requestErrorInterceptor = function (rejection) {
                     if (rejection.config.url.indexOf("/api/") !== -1) {
-                        $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : RequestError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
                         console.log(rejection);
                     }
@@ -35,7 +33,6 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 var responseInterceptor = function (response) {
                     if (response.config.url.indexOf("/api/") !== -1) {
-                        $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : Response : " + moment().format("HH:mm:ss:SSS") + " : " + response.config.url);
                         //console.log(response);
                     }
@@ -46,7 +43,6 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 var responseErrorInterceptor = function (rejection) {
                     if (rejection.config.url.indexOf("/api/") !== -1) {
-                        $rootScope.$broadcast('$csHideSpinner');
                         console.log("HttpInterceptor : ResponseError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
                         console.log(rejection);
                     }
@@ -122,17 +118,17 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
                 //stakeholder
                 .when('/stakeholder/add', {
-                    templateUrl: '/Stakeholder/add/index.html',
+                    templateUrl: '/Stakeholder/add/index2.html',
                     controller: 'AddStakeHolderCtrl'
+                }).when('/stakeholder/view', {
+                    templateUrl: '/Stakeholder/view/index.html',
+                    controller: 'viewStake'
                 }).when('/generic/hierarchy', {
                     templateUrl: '/Stakeholder/hierarchy/hierarchy-grid.html',
                     controller: 'hierarchyController'
                 }).when('/generic/hierarchy/add', {
                     templateUrl: '/Stakeholder/hierarchy/hierarchy-add.html',
                     controller: 'hierarchyAddController'
-                }).when('/stakeholder/view', {
-                    templateUrl: '/Stakeholder/view/index.html',
-                    controller: 'viewStake'
                 })
 
                 //allocation
@@ -158,10 +154,10 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/formula/formula.html',
                     controller: 'formulaController'
                 }).when('/billing/matrix', {
-                    templateUrl: '/Billing/matrix/index.html',
+                    templateUrl: '/Billing/matrix/matrix.html',
                     controller: 'matrixCtrl'
                 }).when('/billing/adhoc', {
-                    templateUrl: '/Billing/adhoc/index.html',
+                    templateUrl: '/Billing/adhoc/adhoc.html',
                     controller: 'adhocPayoutCtrl'
                 }).when('/billing/readybilling', {
                     templateUrl: '/Billing/readybilling/index.html',
@@ -170,14 +166,14 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                     templateUrl: '/Billing/status/index.html',
                     controller: 'BillingStatusController'
                 }).when('/billing/summary', {
-                    templateUrl: '/Billing/summary/index.html',
+                    templateUrl: '/Billing/summary/summary.html',
                     controller: 'BillAmountCntrl'
                 })
 
                 //generic
                 .when('/generic/permission', {
                     templateUrl: '/Generic/permissions/permission.html',
-                    controller: 'PermissionCtrl'
+                    controller: 'PermissionscreenCtrl'
                 }).when('/generic/product', {
                     templateUrl: '/Generic/product/product.html',
                     controller: 'ProductConfigController'
@@ -217,16 +213,6 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 ]);
 
 csapp.run(function ($rootScope, $location) {
-    $rootScope.loadingElement = { waitingForServerResponse: false };
-
-    $rootScope.$on("$csHideSpinner", function () {
-        $rootScope.loadingElement.waitingForServerResponse = false;
-    });
-
-    $rootScope.$on("$csShowSpinner", function () {
-        $rootScope.loadingElement.waitingForServerResponse = true;
-    });
-
     $rootScope.$on("$csLoginRequired", function () {
         $location.path("/login");
     });

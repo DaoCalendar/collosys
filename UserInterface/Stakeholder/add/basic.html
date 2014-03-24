@@ -12,6 +12,7 @@
                     data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name"
                     data-ng-readonly="basicInfoData.isEditMode"
                     required />
+               
                 <div data-ng-show="basicInfoForm.Name.$dirty">
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.required">{{val.Required()}}</span>
                     <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.pattern">{{val.OnlyText()}}</span>
@@ -90,7 +91,7 @@
                             name="scEmail"
                             data-ng-model="$parent.WizardData.FinalPostModel.EmailId"
                             data-ng-required="basicInfoData.Hierarchy.IsUser" />
-                        <span class="add-on">@@sc.com</span>
+                        <span class="add-on">@sc.com</span>
                     </div>
 
                 </div>
