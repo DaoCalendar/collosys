@@ -17,6 +17,7 @@ using ColloSys.Shared.Types4Product;
 using Iesi.Collections.Generic;
 using NHibernate;
 using ColloSys.AllocationService.Logging;
+using NHibernate.Linq;
 using NLog;
 
 #endregion
@@ -43,7 +44,6 @@ namespace ColloSys.AllocationService.AllocationLayer
         }
 
         #endregion
-
 
         #region allocation condition
 
@@ -80,13 +80,11 @@ namespace ColloSys.AllocationService.AllocationLayer
 
             foreach (var subpolicy in subpolicyList)
             {
+                var session = SessionManager.GetCurrentSession();
                 //get data on created criteria
                 IList<Info> dataOnCondition;
                 //create criteria 
-                using (var session = SessionManager.GetNewSession())
-                {
-                    using (var trans = session.BeginTransaction())
-                    {
+               
                         ICriteria criteria = session.CreateCriteria(getType, getType.Name);
 
                         //get list of conditions
@@ -101,9 +99,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         Log.Info("Criteria on Condition:" + criteria);
 
                         dataOnCondition = criteria.List<Info>();
-                        trans.Rollback();
-                    }
-                }
+                       
                 Log.Info("Total no a/c for allocation: " + dataOnCondition.Count);
 
                 if (dataOnCondition.Count > 0)
@@ -137,8 +133,33 @@ namespace ColloSys.AllocationService.AllocationLayer
                                                     x.ApprovedBy = "Policy";
                                                     x.ApprovedOn = DateTime.Today.Date;
                     });
+                    //foreach (var info in dataOnCondition)
+                    //{
+                    //    info.MakeEmpty();
+                    //    info.GPincode.MakeEmpty();
+                    //    info.Allocs = null;
+                    //    if(info.Allocs!=null)
+                    //    foreach (var alloc in info.Allocs)
+                    //    {
+                    //        if(alloc!=null)
+                    //            alloc.MakeEmpty();
+                    //    }
+                    //}
+                    //InfoBuilder.Save(dataOnCondition);
+                    var data = dataOnCondition.First();
+                    data.GPincode = null;
+                    data.Allocs = null;
+                    InfoBuilder.Save(data);
+                    //foreach (var alloc in allocationlist)
+                    //{
+                    //    if(alloc.AllocPolicy!=null)
+                    //    alloc.AllocPolicy.MakeEmpty();
+                    //    if(alloc.AllocSubpolicy!=null)
+                    //    alloc.AllocSubpolicy.MakeEmpty();
 
-                    InfoBuilder.Save(dataOnCondition);
+                    //    if(alloc.Stakeholder!=null)
+                    //        alloc.Stakeholder.MakeEmpty();
+                    //}
                     AllocBuilder.Save(allocationlist);
                 }
             }

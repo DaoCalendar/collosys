@@ -68,6 +68,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AllocationService\AllocationService.csproj">
+      <Project>{65ca14cb-44d0-42c2-9945-cad72fa1519a}</Project>
+      <Name>AllocationService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
       <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
       <Name>ColloSys.DataLayer</Name>

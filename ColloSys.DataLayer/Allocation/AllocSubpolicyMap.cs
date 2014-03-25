@@ -2,6 +2,7 @@
 
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
+using NHibernate.Mapping.ByCode;
 
 #endregion
 
@@ -43,9 +44,9 @@ namespace ColloSys.DataLayer.Mapping
             #endregion
 
             #region relationships - bags
-            Set(x => x.AllocRelations, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.Conditions, colmap => { }, map => map.OneToMany(x => { }));
+            Set(x => x.AllocRelations, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
+            Set(x => x.Allocs, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
+            Set(x => x.Conditions, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
             //Set(x => x.CInfos, colmap => { }, map => map.OneToMany(x => { }));
             //Set(x => x.RInfos, colmap => { }, map => map.OneToMany(x => { }));
             //Set(x => x.EInfos, colmap => { }, map => map.OneToMany(x => { }));
