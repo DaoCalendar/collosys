@@ -2,7 +2,7 @@
 csapp.factory("fileDetailFactory", [function () {
 
     var isSheetTypeColumn = function (type) {
-        return (type == 'xls' || type == 'xlsx');
+        return (type === 'xls' || type === 'xlsx');
     };
 
     var dateFormats = ['dd-mm-yyyy', 'yyyy-mm-dd', 'dddd-MMMM-yyyy'];
@@ -60,7 +60,8 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
         }, errorDisplay);
     };
 
-    var saveFileDetails = function(fileDetail) {
+    var saveFileDetails = function (fileDetail) {
+         
         if (angular.isUndefined(fileDetail) || $csfactory.isEmptyObject(fileDetail)) {
             throw "Invalid fileDetail object";
         }

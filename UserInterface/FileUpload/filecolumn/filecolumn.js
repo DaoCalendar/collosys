@@ -114,7 +114,7 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
     var getFileColumns = function (aliasName) {
         if (!aliasName) { return; }
         dldata.fileDetail = {};
-        
+
         apictrl.customGET("GetFileColumns", { aliasName: aliasName }).then(function (data) {
             if (!data) { return; }
             dldata.fileDetail = data;
@@ -166,6 +166,7 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
     };
 
     var saveFileColumn = function (fileColumn, fileDetail) {
+         
         if (!(fileColumn && fileDetail)) { return; }
 
         fileColumn.FileDetail = fileDetail;
@@ -236,6 +237,8 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
         (function () {
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.dldata = datalayer.dldata;
+           
         })();
 
         $scope.close = function () {
@@ -257,6 +260,8 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.datalayer.GetAliases();
+            $scope.dldata = datalayer.dldata;
+            console.log($scope.dldata);
         })();
 
         $scope.showDeleteModal = function (fileColumn, index) {
