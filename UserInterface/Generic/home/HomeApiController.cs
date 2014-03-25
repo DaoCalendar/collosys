@@ -23,7 +23,7 @@ namespace AngularUI.Generic.home
             var session = SessionManager.GetCurrentSession();
             var data = new
             {
-                stakeholder = session.QueryOver<ColloSys.DataLayer.Domain.Stakeholders>().Where(x => x.ApprovedBy == id
+                stakeholder = session.QueryOver<Stakeholders>().Where(x => x.ApprovedBy == id
                     && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),
                 working = session.QueryOver<StkhWorking>().Where(x => x.ApprovedBy == id
                     && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),

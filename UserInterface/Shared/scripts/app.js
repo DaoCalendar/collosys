@@ -6,8 +6,8 @@ var csapp = angular.module("ui.collosys",
     'ngCookies'
 ]);
 
-csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider", "$locationProvider",
-    function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider, $locationProvider) {
+csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "$routeProvider",
+    function (restangularProvider, $logProvider, $provide, $httpProvider, $routeProvider) {
 
         var httpInterceptor = function () {
             $provide.factory('MyHttpInterceptor', ["$q", "$rootScope", function ($q, $rootScope) {
@@ -76,6 +76,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
         var routeConfig = function () {
             $routeProvider
                 .when('/', {
+                    templateUrl: '/Generic/home/home.html',
+                    controller: 'HomeCtrl'
+                }).when('/home', {
                     templateUrl: '/Generic/home/home.html',
                     controller: 'HomeCtrl'
                 }).when('/login', {
@@ -183,6 +186,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/generic/keyvalue', {
                     templateUrl: '/Generic/keyvalue/keyvalue.html',
                     controller: 'keyValueCtrl'
+                }).when('/generic/pincode', {
+                    templateUrl: '/Generic/pincode/pincode.html',
+                    controller: 'pincodeCtrl'
                 })
 
                 //developer
@@ -211,7 +217,7 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
 
         restangularProvider.setBaseUrl("/api/");
 
-        $locationProvider.html5Mode(true);
+        //$locationProvider.html5Mode(true);
     }
 ]);
 
