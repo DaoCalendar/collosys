@@ -75,7 +75,7 @@
 
         <!--Description-->
         <div class="row-fluid control-group">
-            <label class="control-label">Description</label>
+            <label class="control-label">Remark</label>
             <div class="controls">
                 <input name="Description" type="text" class="input-large" data-ng-model="addpayment.TransDesc" required />
                 <div data-ng-show="addpaymentform.Description.$dirty && addpaymentform.Description.$invalid">
@@ -98,10 +98,10 @@
 
         <!--IsDebit-->
         <div class="row-fluid control-group">
-            <label class="control-label">IsDebit</label>
+            <label class="control-label">Transaction Type</label>
             <div class="controls">
-                <input type="radio" name="IsDebit" data-ng-model="addpayment.IsDebit" value="false"><label>Credit</label>
-                <input type="radio" name="IsDebit" data-ng-model="addpayment.IsDebit" value="true"><label>Debit</label>
+                <input type="radio" name="IsDebit" data-ng-model="addpayment.IsDebit" value="false"><label>Payment</label>
+                <input type="radio" name="IsDebit" data-ng-model="addpayment.IsDebit" value="true"><label>Reversal</label>
                 <div data-ng-show="addpaymentform.IsDebit.$dirty && addpaymentform.IsDebit.$invalid">
                     <div class="field-validation-error" data-ng-show="addpaymentform.IsDebit.$error.required">{{val.Required()}}</div>
                 </div>
