@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants','$location',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants,$location) {
 
 
         var restApi = rest.all('ViewStakeApi');
@@ -209,17 +209,25 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                 
                                 $log.info("stakeholders list: ", data);
                                 $scope.stakeholderData = data;
-                                
+                                console.log($scope.stakeholderData);
                                 deleteExpiredWorkings
                                 ($scope.stakeholderData);
-                               
+
                                 if ($scope.stakeholderData.length == 0) {
                                     $scope.showDiv = false;
                                     $csnotify.success("Stakeholder not available");
                                 } else {
                                     $scope.showDiv = true;
+                                    //gets the total count of records
+                                    restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter })
+                                        .then(function (data) {
+                                            $log.info("total number of records: ", data);
+                                            $scope.tolRec = data;
+                                        });
+
                                     //attatches Reporting Manager
-                                    restApi.customPOST($scope.stakeholderData, 'GetReportingManager').then(function (reportingMngr) {
+                                    restApi.customPOST($scope.stakeholderData, 'GetReportingManager')
+                                        .then(function (reportingMngr) {
                                         $log.info("reporting manager name: ", reportingMngr);
                                         if (reportingMngr.length > 0) {
                                             $log.info("reporting manager name: ", reportingMngr);
@@ -230,15 +238,10 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                     });
                                 }
                             }, function () {
-                                alertify.error("Error in Loading Data");
+                                $csnotify.error("Error in Loading Data");
                                 $scope.showDiv = false;
                             });
-                        //gets the total count of records
-                        restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter })
-                            .then(function (data) {
-                                $log.info("total number of records: ", data);
-                                $scope.tolRec = data;
-                            });
+                       
                         return;
                     }
                     break;
@@ -598,9 +601,10 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         $scope.editStakeholder = function (data) {
             $log.info("Edit Model");
-            var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeHolder/EditStakeholder?id=" + data.Id;
-            $log.info(downloadpath);
-            $window.location = downloadpath;
+            $location.path('/stakeholder/edit/' + data.Id);
+            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeHolder/EditStakeholder?id=" + data.Id;
+            //$log.info(downloadpath);
+            //$window.location = downloadpath;
         };
 
         $scope.rejectedSelected = function (description) {
@@ -781,6 +785,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //Permissions
         var init = function () {
+            
             $scope.startCount = 0;
             $scope.showDiv = false;
             $scope.showme = false;
@@ -800,7 +805,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.CurrUserInfo = {};
             $scope.Approved = true;
             $scope.Rejected = true;
-
+            
             $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo"];
 
             $scope.stakeholder = {

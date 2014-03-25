@@ -75,7 +75,8 @@ namespace ColloSys.QueryBuilder.BaseTypes
         public virtual IEnumerable<T> Execute(QueryOver<T> query)
         {
             var session = SessionManager.GetCurrentSession();
-            return query.GetExecutableQueryOver(session).List<T>();
+            var data = query.GetExecutableQueryOver(session).List<T>();
+            return data;
         }
         public abstract QueryOver<T, T> ApplyRelations();
 

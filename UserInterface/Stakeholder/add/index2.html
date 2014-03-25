@@ -39,16 +39,16 @@
                         </div>
                     </div>
                 </div>
-                <div data-ng-if="WizardData.FinalPostModel.SelHierarchy.Designation">
+                <div data-ng-show="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode()">
                     <div class="text-right">
                         <button class="btn btn-success"
-                            data-ng-hide="indexData.Hierarchy.HasWorking"
-                            data-ng-disabled="basicInfoForm.$invalid "
-                            data-ng-click="SaveData()">
+                                data-ng-show="!indexData.Hierarchy.HasWorking"
+                                data-ng-disabled="basicInfoForm.$invalid "
+                                data-ng-click="SaveData()">
                             Save</button>
                         <button class="btn btn-success" data-ng-show="indexData.Hierarchy.HasWorking"
-                            data-ng-disabled="basicInfoForm.$invalid"
-                            data-ng-click="showWorkingScreen()">
+                                data-ng-disabled="basicInfoForm.$invalid"
+                                data-ng-click="showWorkingScreen()">
                             <i class="icon-arrow-right"></i>Next</button>
                     </div>
                 </div>
