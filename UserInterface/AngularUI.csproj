@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
@@ -286,6 +287,8 @@
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
+    <Content Include="Generic\pincode\editPincode-modal.html" />
+    <Content Include="Generic\pincode\pincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
     <Content Include="Generic\product\confirmDelete.html" />
@@ -675,9 +678,7 @@
     <Content Include="Stakeholder\add\AddStakeholder.js" />
     <Content Include="Stakeholder\add\basic.html" />
     <Content Include="Stakeholder\add\BasicInfoScript.js" />
-    <Content Include="Stakeholder\add\deletePopUp.html" />
     <Content Include="Stakeholder\add\DeleteWorkingPopUp.html" />
-    <Content Include="Stakeholder\add\DistrictPopUp.html" />
     <Content Include="Stakeholder\add\hierarchy.html" />
     <Content Include="Stakeholder\add\HierarchyModel.js" />
     <Content Include="Stakeholder\add\index.html" />

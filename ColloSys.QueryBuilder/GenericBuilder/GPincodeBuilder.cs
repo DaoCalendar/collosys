@@ -56,6 +56,14 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         }
 
         [Transaction]
+        public IEnumerable<GPincode> OnStateGetList(string state)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .Query<GPincode>()
+                                 .Where(x => x.State == state)
+                                 .ToList();
+        }
+        [Transaction]
         public IEnumerable<GPincode> OnPinOrArea(string value)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()

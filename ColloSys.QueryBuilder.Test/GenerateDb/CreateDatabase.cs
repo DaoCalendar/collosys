@@ -1,12 +1,16 @@
-﻿using System.Linq;
+﻿#region references
+
+using System.Linq;
 using AngularUI.Developer.generatedb;
-using ColloSys.DataLayer.Domain;
+using ColloSys.AllocationService.AllocationLayer;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService;
-using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
 using NUnit.Framework;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
 {
@@ -38,6 +42,18 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 session.SaveOrUpdate(user);
                 tx.Commit();
             }
+        }
+
+        [Test]
+        public void StartAllocation()
+        {
+           ColloSys.AllocationService.StartAllocation.Start();
+        }
+
+        [Test]
+        public void AllocateAc()
+        {
+            Allocation.StartAllocationProcessV2(ScbEnums.Products.MORT, ScbEnums.Category.Liner);
         }
     }
 }

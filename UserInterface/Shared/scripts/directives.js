@@ -260,6 +260,47 @@ csapp.directive('bsDatepicker', function() {
 
 //#endregion
 
+
+
+csapp.directive('cspagination', function () {
+
+    return {
+        restrict: 'E',
+        scope: {
+            gotofirstpage: '&',
+            gotolastpage: '&',
+            stepforward: '&',
+            stepbackward: '&',
+            totalrecords: '=',
+            currpagenum: '=',
+            pagesize: '='
+        },
+
+        link: function (scope) {
+            scope.pagesize = 5;
+            scope.currpagenum = 1;
+            scope.getrecordnum = function () {
+                if (scope.currpagenum * scope.pagesize > scope.totalrecords)
+                    return scope.totalrecords;
+                else return (scope.currpagenum * scope.pagesize);
+            };
+        },
+
+        template: '<div>' +
+            '<div class="text-right">' +
+            '<div><b>Records: {{(pagesize*(currpagenum-1))+1}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
+            '<button class="btn" data-ng-click="gotofirstpage()"><i class="icon-step-backward"></i></button>' +
+            '<button class="btn" data-ng-click="stepbackward()"><i class="icon-caret-left icon-large"></i></button>' +
+            '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="input-mini text-center">' +
+            '<button class="btn" data-ng-click="stepforward()"><i class="icon-caret-right icon-large"></i></button>' +
+            '<button class="btn" data-ng-click="gotolastpage()"><i class="icon-step-forward"></i></button>' +
+            '</div>' +
+            '</div>'
+    };
+
+
+});
+
 ////#region input-directives
 
 //csapp.directive("csTextField", ["$csfactory", "$compile", "csInputHelper", "Logger", function ($csfactory, $compile, helper, logManager) {

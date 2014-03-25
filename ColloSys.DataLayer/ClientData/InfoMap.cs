@@ -1,6 +1,7 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
+using NHibernate.Mapping.ByCode;
 
 namespace ColloSys.DataLayer.ClientData
 {
@@ -29,7 +30,7 @@ namespace ColloSys.DataLayer.ClientData
             Property(x => x.AllocStartDate);
             Property(x => x.ChargeofDate, map => map.NotNullable(false));
            ManyToOne(x => x.GPincode, map => { });
-           Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
+           Set(x => x.Allocs, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
         }
     }
 

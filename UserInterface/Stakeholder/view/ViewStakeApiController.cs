@@ -11,22 +11,19 @@ using System.Web.Security;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
-//using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-//using ColloSys.UserInterface.Areas.Generic.Models;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-//using ColloSys.UserInterface.AuthNAuth.Membership;
 using NHibernate.Linq;
 using ColloSys.UserInterface.Shared.Attributes;
+using NHibernate.SqlCommand;
 using NLog;
 
 #endregion
 
 //stakeholders calls changed
 //hierarchy calls changed
-namespace ColloSys.UserInterface.Areas.Stakeholder2.api
+namespace AngularUI.Stakeholder.view
 {
 
     public class ViewStakeApiController : ApiController
@@ -38,14 +35,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly GPermissionBuilder GPermissionBuilder=new GPermissionBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<StkhHierarchy> GetStakeHierarchy()
         {
             return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer").ToList();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetAllStakeHolders()
         {
             var query = StakeQuery.ApplyRelations();
@@ -61,14 +58,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<GPincode> GetPincodes(string pincode, string level)
         {
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public HttpResponseMessage SetLeaveForStakeholder(ManageWorkingModel manageWorkingModel)
         {
             var changesStakeholders = ManageWorkingModel.ChangeWorking(manageWorkingModel);
@@ -111,17 +108,23 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
             foreach (var stkh in allLists.completeData)
             {
-                stkh.AllocSubpolicies = null;
-                stkh.Allocs = null;
-                stkh.BillAdhocs = null;
-                stkh.BillAmounts = null;
-                stkh.BillDetails= null;
+                stkh.MakeEmpty();
+                stkh.StkhPayments.ForEach(x=>x.MakeEmpty());
+                foreach (var stkhPayment in stkh.StkhPayments)
+                {
+                    if (stkhPayment.CollectionBillingPolicy != null) 
+                    stkhPayment.CollectionBillingPolicy.MakeEmpty();
+                    if(stkhPayment.RecoveryBillingPolicy!=null)
+                        stkhPayment.RecoveryBillingPolicy.MakeEmpty();
+
+                }
+                stkh.StkhWorkings.ForEach(x=>x.MakeEmpty());
             }
             return Request.CreateResponse(HttpStatusCode.OK, allLists);
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetReportee(Guid stakeId)
         {
             var query = StakeQuery.ApplyRelations().Where(x => x.ReportingManager == stakeId);
@@ -129,7 +132,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public int GetTotalCount(Guid hierarchyId, string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -175,7 +178,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public int GetTotalCountforPending(string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -196,7 +199,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public int GetTotalCountForProduct(ScbEnums.Products product)
         {
             var query = StakeQuery.ApplyRelations();
@@ -211,7 +214,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public int GetTotalCountForStake(Guid Id)
         {
             var query = StakeQuery.ApplyRelations();
@@ -222,7 +225,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetStakeholder(Guid hierarchyId, int start, int size, string filterView)
         {
             if (hierarchyId == Guid.Empty)
@@ -232,39 +235,28 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             Stakeholders stake = null;
             StkhHierarchy stkh = null;
             var query = StakeQuery.ApplyRelations();
-            query.JoinQueryOver(() => stake);
+            //query.JoinQueryOver(() => stake).JoinQueryOver(()=>stake.Hierarchy,()=>stkh,JoinType.InnerJoin);
             if (filterView == "All")
             {
-                query.JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                     .Where(() => stkh.Id == hierarchyId)
-                     .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved);
+                query.Where(x => x.Hierarchy.Id == hierarchyId)
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
             }
             if (filterView == "Active")
             {
-                query.JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                     .Where(
-                         () =>
-                         stkh.Id == hierarchyId && (stake.LeavingDate <= DateTime.Now || stake.LeavingDate == null))
-                     .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved);
+                query.Where(
+                         x =>
+                         x.Hierarchy.Id == hierarchyId && (x.LeavingDate <= DateTime.Now || x.LeavingDate == null))
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
             }
             if (filterView == "Inactive")
             {
-                query.JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                     .Where(() => stkh.Id == hierarchyId && stake.LeavingDate <= DateTime.Now)
-                     .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved);
-            }
-            if (filterView == "ViewPending")
-            {
-                query.JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                     .Where(() => stkh.Id == hierarchyId)
-                     .And(() => stake.ApprovedBy == HttpContext.Current.User.Identity.Name
-                                && stake.Status == ColloSysEnums.ApproveStatus.Submitted);
+                query.Where(x => x.Hierarchy.Id == hierarchyId && x.LeavingDate <= DateTime.Now)
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
             }
             if (filterView == "ReportingTo")
             {
-                query.JoinQueryOver(() => stake.Hierarchy, () => stkh)
-                     .Where(() => stkh.Id == hierarchyId)
-                     .And(() => stake.Status == ColloSysEnums.ApproveStatus.Approved);
+                query.Where(x => x.Hierarchy.Id == hierarchyId)
+                     .And(x => x.Status == ColloSysEnums.ApproveStatus.Approved);
             }
             var result = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
             return RemoveUnusedPaymentsWorkings(result);
@@ -272,7 +264,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetReportees(Guid Id, int start, int size)
         {
             var query = StakeQuery.ApplyRelations();
@@ -283,7 +275,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetStakeByProduct(ScbEnums.Products product, int start, int size)
         {
             Stakeholders stake = null;
@@ -299,7 +291,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetPendingStakeholder(int start, int size, string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -321,7 +313,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public HttpResponseMessage GetStakeholderData(Guid hierarchyId, int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetStakeholder(hierarchyId, start, size, filterView);
@@ -335,7 +327,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public HttpResponseMessage GetPendingStkhData(int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetPendingStakeholder(start, size, filterView);
@@ -349,7 +341,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public HttpResponseMessage GetStkhDataForProduct(ScbEnums.Products product, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetStakeByProduct(product, start, size);
@@ -363,7 +355,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetReportingManager(List<Stakeholders> data)
         {
             if (data != null)
@@ -388,7 +380,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public HttpResponseMessage GetStkhDataByStakeHolder(Guid Id, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetReportees(Id, start, size);
@@ -402,7 +394,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetReportsToStake(Guid stakeId)
         {
             Stakeholders stake = null;
@@ -444,7 +436,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             return stakeholderses;
         }
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<GPermission> GetPermissions()
         {
             var query = GPermissionBuilder.ApplyRelations();
@@ -452,7 +444,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        [HttpSession]
         public IEnumerable<Stakeholders> GetStakeListForManageWorking(Guid stakeholders, Guid hierarcyId)
         {
             if (hierarcyId == Guid.Empty)
@@ -479,7 +471,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         //TODO:Amol
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public void SaveApprovedAndRejectUser(Stakeholders stakeholders)
         {
             var hierarchy = GetHierarchy(stakeholders.Hierarchy.Designation, stakeholders.Hierarchy.Hierarchy).ToList().FirstOrDefault();
@@ -525,7 +517,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public void SaveApprovedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -550,7 +542,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public void SaveRejectedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -597,7 +589,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public void SaveListApprovedAndRejectUser(IEnumerable<Stakeholders> stakeholderses)
         {
             foreach (var stake in stakeholderses)
@@ -606,7 +598,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
         }
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        [HttpSession]
         public void SavePushToHigher(Stakeholders data)
         {
             if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)
@@ -784,10 +776,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
         #endregion
 
-        public static IEnumerable<StkhHierarchy> GetHierarchy(string designation, string hierarchy)
+        private static IEnumerable<StkhHierarchy> GetHierarchy(string designation, string hierarchy)
         {
             var data = HierarchyQuery.OnDesignationHierarchy(designation, hierarchy);
-            if (data.Any())
+            if (data != null && data.Any())
                 LogManager.GetCurrentClassLogger().Info("StakeholderServices: Total Hierarchy loaded " + data.Count());
             return data;
 
