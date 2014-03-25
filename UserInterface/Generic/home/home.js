@@ -1,9 +1,10 @@
-﻿csapp.controller("HomeCtrl", ['$scope', '$csnotify','$csfactory',
-    function ($scope, $csnotify,$csfactory) {
+﻿csapp.controller("HomeCtrl", ['$scope', '$csnotify','$csfactory','Restangular',
+    function ($scope, $csnotify,$csfactory,rest) {
 
         var restApi = rest.all("HomeApi");
         
         (function () {
+            console.log($csfactory.getCurrentUserName());
             restApi.customGET("GetData",{'currentUser':$csfactory.getCurrentUserName()}).then(function (data) {
                 $scope.datalist = data;
             }, function (data) {
