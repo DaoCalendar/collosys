@@ -1749,7 +1749,9 @@ csapp.controller("deleteWorkingController", ["$scope", "$csfactory", "modalData"
         $scope.setEndDate = function (data, endDate) {
             var date = angular.copy(endDate);
             data.EndDate = date;
-            modalData.endDate = '';
+// ReSharper disable AssignedValueIsNeverUsed
+            endDate = '';
+// ReSharper restore AssignedValueIsNeverUsed
             $modalInstance.close();
         };
 
