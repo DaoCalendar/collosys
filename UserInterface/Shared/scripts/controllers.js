@@ -12,17 +12,18 @@
             }
 
             $log.debug("Changing location : " + $location.path());
-            $cookieStore.put("$route.lastroute", $location.path());
+            $cookieStore.remove("routelastroute");
+            $cookieStore.put("routelastroute", $location.path());
         };
 
         var $routeChangeStart = function () {
         };
 
         var getLastLocation = function() {
-            var location = $cookieStore.get("$route.lastroute");
+            var location = $cookieStore.get("routelastroute");
             if (angular.isUndefined(location) || location === null || location === "")
                 location = "/home";
-            $log.debug("previous location was : " + location);
+            $log.info("previous location was : " + location);
             return location;
         };
 
