@@ -120,6 +120,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 .when('/stakeholder/add', {
                     templateUrl: '/Stakeholder/add/index2.html',
                     controller: 'AddStakeHolderCtrl'
+                }).when('/stakeholder/edit/:data', {
+                    templateUrl: '/Stakeholder/add/index2.html',
+                    controller: 'AddStakeHolderCtrl'
                 }).when('/stakeholder/view', {
                     templateUrl: '/Stakeholder/view/index.html',
                     controller: 'viewStake'

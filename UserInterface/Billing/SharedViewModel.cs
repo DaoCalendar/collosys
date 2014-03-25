@@ -25,6 +25,7 @@ namespace ColloSys.UserInterface.Shared
             propertyList.ForEach(c => columns.Add(new ColumnDef
             {
                 field = classType.Name + "." + c.Name,
+                displayName = classType.Name + "." + c.Name,
                 InputType = GetHtmlInputType(c.PropertyType),
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
@@ -34,6 +35,7 @@ namespace ColloSys.UserInterface.Shared
             gpincodeprops.ForEach(c => columns.Add(new ColumnDef
             {
                 field = "GPincode." + c.Name,
+                displayName = "Pincode"+c.Name,
                 InputType = GetHtmlInputType(c.PropertyType),
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
@@ -62,21 +64,21 @@ namespace ColloSys.UserInterface.Shared
             gpincodeprops.ForEach(c => columns.Add(new ColumnDef
             {
                 field = gPincodeType.Name + "." + c.Name,
-                displayName = gPincodeType.Name + "." + c.Name,
+                displayName = "Pincode" + "." + c.Name,
                 InputType = GetHtmlInputType(c.PropertyType),
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
 
-            var stkhBillType = typeof(StkhBillViewModel);
-            var stkhBillprops = new List<PropertyInfo>();
-            stkhBillprops.AddRange(GetPropertyList(stkhBillType));
-            stkhBillprops.ForEach(c => columns.Add(new ColumnDef
-            {
-                field = stkhBillType.Name + "." + c.Name,
-                displayName = "Stakeholder." + c.Name,
-                InputType = GetHtmlInputType(c.PropertyType),
-                dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
-            }));
+            //var stkhBillType = typeof(StkhBillViewModel);
+            //var stkhBillprops = new List<PropertyInfo>();
+            //stkhBillprops.AddRange(GetPropertyList(stkhBillType));
+            //stkhBillprops.ForEach(c => columns.Add(new ColumnDef
+            //{
+            //    field = stkhBillType.Name + "." + c.Name,
+            //    displayName = "Stakeholder." + c.Name,
+            //    InputType = GetHtmlInputType(c.PropertyType),
+            //    dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
+            //}));
 
             return columns;
         }

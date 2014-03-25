@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',"$location",
-function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants,$location) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location",
+function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location) {
 
     $scope.StepManager = {
         StepNames: {
@@ -409,9 +409,9 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
 
     var goToViewPage = function () {
         //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/StakeholerView/ViewStakeholder";
-         $location.path('/stakeholder/view');
+        $location.path('/stakeholder/view');
         //$log.info(downloadpath);
-        
+
     };
 
     //#region init
@@ -430,8 +430,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             Hierarchy: $scope.WizardData.GetHierarchy(),
             ShowHierarchyDesignation: true
         };
-        if (!$csfactory.isNullOrEmptyGuid($window.stakeholderId)) {
-            getStakeholderForEdit($window.stakeholderId);
+        if (!$csfactory.isNullOrEmptyGuid($routeParams.data)) {
+            getStakeholderForEdit($routeParams.data);
         } else {
             $scope.StepManager.SetDefaultStep();
         }
@@ -494,6 +494,11 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             $scope.indexData.Hierarchy = $scope.WizardData.GetHierarchy();
             $scope.StepManager.SetDefaultStep();
             $scope.StepManager.PopulateSteps($scope.indexData.Hierarchy);
+            if ($scope.indexData.Hierarchy.IsUser) {
+                var index = $scope.WizardData.FinalPostModel.Stakeholder.EmailId.indexOf('@');
+                $scope.WizardData.FinalPostModel.EmailId = angular.copy($scope.WizardData.FinalPostModel.Stakeholder.EmailId.substring(0, index));
+            }
+           
         }, function () {
             $csnotify.error('Error in loading stakeholder for edit');
             $log.error('Error in loading stakeholder for edit');
@@ -511,7 +516,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
         var finalPostModel = $scope.WizardData.FinalPostModel;
-        
+
 
         //save stakeholder
         if (hierarchy.Hierarchy !== 'External') {
