@@ -677,7 +677,6 @@
     <Content Include="Stakeholder\add\BasicInfoScript.js" />
     <Content Include="Stakeholder\add\deletePopUp.html" />
     <Content Include="Stakeholder\add\DeleteWorkingPopUp.html" />
-    <Content Include="Stakeholder\add\DistrictPopUp.html" />
     <Content Include="Stakeholder\add\hierarchy.html" />
     <Content Include="Stakeholder\add\HierarchyModel.js" />
     <Content Include="Stakeholder\add\index.html" />
