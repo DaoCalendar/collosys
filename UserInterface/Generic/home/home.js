@@ -4,7 +4,6 @@
         var restApi = rest.all("HomeApi");
         
         (function () {
-            console.log($csfactory.getCurrentUserName());
             restApi.customGET("GetData",{'currentUser':$csfactory.getCurrentUserName()}).then(function (data) {
                 $scope.datalist = data;
             }, function (data) {
