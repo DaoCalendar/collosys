@@ -593,6 +593,7 @@ csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory",
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            //dldata.isInEditMode = '';
             datalayer.cityCategoty();
             datalayer.getState();
             datalayer.getWholePincode();
@@ -601,7 +602,7 @@ csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory",
         })();
 
         $scope.openAddModel = function () {
-            dldata.isInEditMode = false;
+            $scope.dldata.isInEditMode = false;
            // dldata.eGPincode = angular.copy(gpincode);
             dldata.shouldBeOpen = true;
             datalayer.getData();
@@ -613,7 +614,7 @@ csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory",
         };
 
         $scope.openEditModal = function (gPincode) {
-            dldata.isInEditMode = true;
+            $scope.dldata.isInEditMode = true;
             datalayer.getData();
             $modal.open({
                 templateUrl: '/Generic/pincode/editPincode-modal.html',
