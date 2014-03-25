@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',"$location",
-function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants,$location) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location",
+function ($routeParams,$scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants,$location) {
 
     $scope.StepManager = {
         StepNames: {
@@ -430,8 +430,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             Hierarchy: $scope.WizardData.GetHierarchy(),
             ShowHierarchyDesignation: true
         };
-        if (!$csfactory.isNullOrEmptyGuid($window.stakeholderId)) {
-            getStakeholderForEdit($window.stakeholderId);
+        if (!$csfactory.isNullOrEmptyGuid($routeParams.data)) {
+            getStakeholderForEdit($routeParams.data);
         } else {
             $scope.StepManager.SetDefaultStep();
         }
@@ -494,6 +494,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             $scope.indexData.Hierarchy = $scope.WizardData.GetHierarchy();
             $scope.StepManager.SetDefaultStep();
             $scope.StepManager.PopulateSteps($scope.indexData.Hierarchy);
+            console.log($scope.indexData);
         }, function () {
             $csnotify.error('Error in loading stakeholder for edit');
             $log.error('Error in loading stakeholder for edit');
