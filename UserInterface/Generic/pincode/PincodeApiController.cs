@@ -39,7 +39,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         [HttpTransaction]
         public HttpResponseMessage GetPincodes(string state)
         {
-            var data = GPincodeBuilder.OnState(state);
+            var data = GPincodeBuilder.OnStateGetList(state);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
