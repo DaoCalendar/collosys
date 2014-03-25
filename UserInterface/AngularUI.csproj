@@ -286,6 +286,8 @@
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
+    <Content Include="Generic\pincode\editPincode-modal.html" />
+    <Content Include="Generic\pincode\pincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />
     <Content Include="Generic\pincode\pincodeCtrl.js" />
     <Content Include="Generic\product\confirmDelete.html" />

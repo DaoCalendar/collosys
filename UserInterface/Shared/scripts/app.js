@@ -180,6 +180,9 @@ csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider"
                 }).when('/generic/keyvalue', {
                     templateUrl: '/Generic/keyvalue/keyvalue.html',
                     controller: 'keyValueCtrl'
+                }).when('/generic/pincode', {
+                    templateUrl: '/Generic/pincode/pincode.html',
+                    controller: 'pincodeCtrl'
                 })
 
                 //developer
