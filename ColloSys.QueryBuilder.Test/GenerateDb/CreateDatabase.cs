@@ -17,7 +17,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
     public class CreateDatabase
     {
         [Test]
-        public void GenerateDB()
+        public void GenerateDb()
         {
             CreateDb.CreateDatabse();
         }

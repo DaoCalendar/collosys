@@ -36,10 +36,7 @@
       <HintPath>..\SharedLib\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Excel">
-      <HintPath>..\packages\ExcelDataReader.2.1.2.2\lib\net45\Excel.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\SharedLib\Ionic.Zip.dll</HintPath>
@@ -82,10 +79,6 @@
     <Compile Include="ValueSetters\UInt32Setter.cs" />
     <Compile Include="ValueSetters\UInt64Setter.cs" />
     <Compile Include="ValueSetters\ValueSetter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
