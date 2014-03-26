@@ -60,18 +60,18 @@
                 <div class="control-group row-fluid">
                     <label class="control-label">City</label>
                     <div class="controls">
-                        <span data-ng-hide="showTextBox">
+                        <span data-ng-hide="dldata.showTextBox">
                             <select class="input-large" ui-select2 data-ng-model="dldata.GPincodedata.City" data-ng-required="!dldata.isInEditMode"
                                 data-ng-disabled="!dldata.GPincodedata.District" data-ng-change="factory.cityChange()">
                                 <option></option>
                                 <option data-ng-repeat="city in dldata.CityList |unique:'City' ">{{city}}</option>
                             </select>
                         </span>
-                        <span data-ng-show="showTextBox">
+                        <span data-ng-show="dldata.showTextBox">
                             <input type="text" class="input-large" data-ng-model="dldata.GPincodedata.City" data-ng-required="!dldata.isInEditMode" />
                         </span>
-                        <button class="btn btn-success" data-ng-click="factory.addNewCity()" data-ng-hide="showTextBox" data-ng-disabled="!citydata">Add New City</button>
-                        <button class="btn btn-warning" data-ng-click="factory.cancleAddCity()" data-ng-show="showTextBox">Not Now</button>
+                        <button class="btn btn-success" data-ng-click="factory.addNewCity()" data-ng-hide="dldata.showTextBox" data-ng-disabled="!dldata.citydata">Add New City</button>
+                        <button class="btn btn-warning" data-ng-click="factory.cancleAddCity()" data-ng-show="dldata.showTextBox">Not Now</button>
                     </div>
                 </div>
 
@@ -93,12 +93,12 @@
                         <input type="text" name="area"
                             data-ng-model="dldata.GPincodedata.Area"
                             required
-                            typeahead="c for c in pincodeArea($viewValue,dldata.GPincodedata.City)"
+                            typeahead="c for c in datalayer.pincodeArea($viewValue,dldata.GPincodedata.City)"
                             data-ng-change="areaChange()"
                             data-ng-disabled="!dldata.GPincodedata.CityCategory"
                             data-placeholder="Area" />
                         <div data-ng-show="formEditPincode.area.$dirty">
-                            <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{val.Required()}}</span>
+                            <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{dldata.val.Required()}}</span>
                         </div>
                     </div>
                 </div>
@@ -106,19 +106,19 @@
                 <div class="control-group row-fluid">
                     <label class="control-label">Pincode</label>
                     <div class="controls">
-                        <input type="text" name="pincode" data-ng-model="dldata.GPincodedata.Pincode" required data-ng-change="pincodedata(dldata.GPincodedata.Pincode)"
+                        <input type="text" name="pincode" data-ng-model="dldata.GPincodedata.Pincode" required data-ng-change="factory.pincodedata(dldata.GPincodedata.Pincode)"
                             data-ng-disabled="!dldata.GPincodedata.Area" data-ng-pattern="/^[0-9]{6}$/"
-                            typeahead="c for c in datalayer.missingPincode($viewValue)" />
+                            typeahead="c for c in datalayer.missingPincode($viewValue)"/>
                         <div data-ng-show="formEditPincode.pincode.$dirty">
-                            <span class="field-validation-error" data-ng-show="formEditPincode.pincode.$error.required && !dldata.alreadyExit">{{val.Required()}}</span>
-                            <div class="field-validation-error" data-ng-show="formEditPincode.pincode.$error.pattern">{{val.Pattern(6)}}</div>
-                            <div class="field-validation-error" data-ng-show="dldata.alreadyExit">{{val.AlreadyExist(dummyPincode)}}</div>
+                            <span class="field-validation-error" data-ng-show="formEditPincode.pincode.$error.required && !dldata.alreadyExit">{{dldata.val.Required()}}</span>
+                            <div class="field-validation-error" data-ng-show="formEditPincode.pincode.$error.pattern">{{dldata.val.Pattern(6)}}</div>
+                            <div class="field-validation-error" data-ng-show="dldata.alreadyExit">{{dldata.val.AlreadyExist(dldata.GPincodedata.Pincode)}}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer well">
-                <button class="btn btn-success" data-ng-click="datalayer.editPincode(dldata.GPincodedata)" data-ng-disabled="!formEditPincode.$valid || dldata.alreadyExit">Save</button>
+                <button class="btn btn-success" data-ng-click="save()" data-ng-disabled="!formEditPincode.$valid || dldata.alreadyExit">Save</button>
                 <button class="btn btn-primary" data-ng-hide="dldata.isInEditMode" data-ng-click="reset()">Reset</button>
                 <button class="btn btn-warning" data-ng-click="closeAddModal()">Close</button>
             </div>

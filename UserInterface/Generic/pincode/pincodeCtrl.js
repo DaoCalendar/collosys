@@ -253,8 +253,7 @@
 //    };
 
 //    $scope.pincodedata = function (pincode) {
-//        debugger;
-//        $scope.alreadyExit = false;
+//       //        $scope.alreadyExit = false;
 //        if ($scope.isInEditMode == true) {
 //            return;
 //        }
@@ -324,15 +323,22 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", function (rest, $
         if (dldata.isInEditMode == true) {
             return;
         }
+        if (angular.isDefined(dldata.GPincodedata)) {
+            dldata.GPincodedata = {
+                Country: 'India',
+                Region: dldata.GPincodedata.Region,
+                State: dldata.GPincodedata.State,
+                Cluster: dldata.GPincodedata.Cluster,
+                District: dldata.GPincodedata.District,
+                City: dldata.GPincodedata.City
+            };
+        }
+        if (angular.isUndefined(dldata.GPincodedata)) {
+            dldata.GPincodedata = {};
+            dldata.GPincodedata.Country = 'India';
+        }
         //#region Set value in Object
-        dldata.GPincodedata = {
-            Country: 'India',
-            Region: dldata.GPincodedata.Region,
-            State: dldata.GPincodedata.State,
-            Cluster: dldata.GPincodedata.Cluster,
-            District: dldata.GPincodedata.District,
-            City: dldata.GPincodedata.City
-        };
+
         //#endregion
 
         var gPincodedata = dldata.GPincodedata;
@@ -418,27 +424,24 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", function (rest, $
     };
 
     var editPincode = function (gpincode) {
-
-        dldata.eGPincode.Country = 'India';
+        // eGPincode.Country = 'India';
         if (dldata.isInEditMode === true) {
-
-            pincodeApi.customPUT(gpincode, "Put", { id: gpincode.Id }).then(function (data) {
+            return pincodeApi.customPUT(gpincode, "Put", { id: gpincode.Id }).then(function (data) {
                 dldata.GPincodes = _.reject(dldata.GPincodes, function (pincode) { return pincode.Id == gpincode.Id; });
                 dldata.GPincodes.push(data);
                 dldata.shouldBeOpen = false;
                 dldata.showTextBox = false;
-                dldata.clearSearchTextbox();
                 dldata.GPincodes = [];
-                dldata.selectedState = '';
+                dldata.States = [];
+                dldata.isInEditMode = false;
                 $csnotify.success("Data saved");
             }, showErrorMessage);
         } else {
-            pincodeApi.customPOST(gpincode, 'Post').then(function () {
+            return pincodeApi.customPOST(gpincode, 'Post').then(function () {
                 $csnotify.success("Pincode saved..!!");
                 dldata.GPincodes = [];
-                dldata.selectedState = '';
+                dldata.States = [];
                 dldata.shouldBeOpenAdd = false;
-                dldata.closeModel();
             }, function (data) {
                 $csnotify.error("Error occured, can't saved", data);
             });
@@ -463,24 +466,25 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
     function (datalayer) {
 
         var dldata = datalayer.dldata;
-
         var regionChange = function () {
             if (angular.isDefined(dldata.GPincodedata.State)) {
-                dldata.GPincodedata.State = '';
-                dldata.GPincodedata.Cluster = '';
-                dldata.GPincodedata.District = '';
-                dldata.GPincodedata.City = '';
-                dldata.citydata = false;
+                dldata.StateList = [];
+                dldata.ClusterList = [];
+                dldata.DistrictList = [];
+                dldata.CityList = [];
+                dldata.CityCategoryList = [];
                 dldata.GPincodedata.Area = '';
+                dldata.showTextBox = false;
                 dldata.GPincodedata.Pincode = '';
             }
         };
 
         var stateChange = function () {
             if (angular.isDefined(dldata.GPincodedata.Cluster)) {
-                dldata.GPincodedata.Cluster = '';
-                dldata.GPincodedata.District = '';
-                dldata.GPincodedata.City = '';
+                dldata.ClusterList = [];
+                dldata.DistrictList = [];
+                dldata.CityList = [];
+                dldata.CityCategoryList = [];
                 dldata.citydata = false;
                 dldata.GPincodedata.Area = '';
                 dldata.GPincodedata.Pincode = '';
@@ -489,8 +493,9 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
 
         var clusterChange = function () {
             if (angular.isDefined(dldata.GPincodedata.District)) {
-                dldata.GPincodedata.District = '';
-                dldata.GPincodedata.City = '';
+                dldata.DistrictList = [];
+                dldata.CityList = [];
+                dldata.CityCategoryList = [];
                 dldata.citydata = false;
                 dldata.GPincodedata.Area = '';
                 dldata.GPincodedata.Pincode = '';
@@ -499,10 +504,13 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
 
         var districtChange = function () {
             if (angular.isDefined(dldata.GPincodedata.City)) {
-                dldata.GPincodedata.City = '';
+                dldata.CityList = [];
+                dldata.CityCategoryList = [];
                 dldata.GPincodedata.Area = '';
                 dldata.GPincodedata.Pincode = '';
             }
+            dldata.showTextBox = false;
+            dldata.citydata = true;
         };
 
         var cityChange = function () {
@@ -518,7 +526,7 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
             }
         };
 
-        var addNewCity = function (city) {
+        var addNewCity = function () {
             dldata.showTextBox = true;
             dldata.GPincodedata.City = '';
 
@@ -551,25 +559,15 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
         };
 
         var reset = function () {
-            if (dldata.isInEditMode == true) {
-                dldata.eGPincode.Region = '';
-                dldata.eGPincode.State = '';
-                dldata.eGPincode.Cluster = '';
-                dldata.eGPincode.District = '';
-                dldata.eGPincode.City = '';
-                dldata.eGPincode.Area = '';
-                dldata.eGPincode.Pincode = '';
-
-            } else {
-                dldata.GPincodedata.Region = '';
-                dldata.GPincodedata.State = '';
-                dldata.GPincodedata.Cluster = '';
-                dldata.GPincodedata.District = '';
-                dldata.GPincodedata.City = '';
-                dldata.GPincodedata.Area = '';
-                dldata.showTextBox = false;
-                dldata.GPincodedata.Pincode = '';
-            }
+            dldata.RegionList = [];
+            dldata.StateList = [];
+            dldata.ClusterList = [];
+            dldata.DistrictList = [];
+            dldata.CityList = [];
+            dldata.CityCategoryList = [];
+            dldata.GPincodedata.Area = '';
+            dldata.showTextBox = false;
+            dldata.GPincodedata.Pincode = '';
 
         };
 
@@ -588,23 +586,23 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
         };
     }]);
 
-csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory", "$modal",
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory", "$modal", "$Validations",
+    function ($scope, datalayer, factory, $modal, $Validation) {
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            //dldata.isInEditMode = '';
+            $scope.dldata.val = $Validation;
+            $scope.dldata.States = [];
             datalayer.cityCategoty();
             datalayer.getState();
             datalayer.getWholePincode();
             $scope.factory = factory;
-          
+
         })();
 
         $scope.openAddModel = function () {
             $scope.dldata.isInEditMode = false;
-           // dldata.eGPincode = angular.copy(gpincode);
-            dldata.shouldBeOpen = true;
+            $scope.dldata.shouldBeOpen = true;
             datalayer.getData();
             $modal.open({
                 templateUrl: '/Generic/pincode/pincode-modal.html',
@@ -630,23 +628,48 @@ csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory",
 
 csapp.controller("pincodeModalController", ["$scope", "pincodeDataLayer", "pincodeFactory", "$modalInstance",
     function ($scope, datalayer, factory, $modalInstance) {
-        $scope.datalayer = datalayer;
-        $scope.dldata = datalayer.dldata;
-        $scope.factory = factory;
+        $scope.save = function () {
+            datalayer.editPincode($scope.dldata.GPincodedata).then(function() {
+                $scope.closeAddModal();
+            });
+        };
+
         $scope.closeAddModal = function () {
             $modalInstance.dismiss();
             factory.reset();
         };
-     
+        $scope.reset = function () {
+            factory.reset();
+        };
+        (function () {
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+            $scope.factory = factory;
+        })();
     }]);
 
 csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "pincodeFactory", "$modalInstance", "gPincode",
     function ($scope, datalayer, factory, $modalInstance, gPincode) {
-        $scope.datalayer = datalayer;
-        $scope.factory = factory;
-        $scope.eGPincode = gPincode;
+
         $scope.closeEditModel = function () {
             $modalInstance.dismiss();
+        };
+        $scope.reset = function () {
             factory.reset();
         };
+
+        $scope.save = function () {
+            datalayer.editPincode($scope.eGPincode).then(function () {
+                $scope.closeEditModel();
+            });
+
+        };
+        (function () {
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+            $scope.factory = factory;
+            $scope.eGPincode = gPincode;
+            datalayer.cityCategoty();
+
+        })();
     }]);
