@@ -8,9 +8,11 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Security;
+using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
@@ -26,7 +28,7 @@ using NLog;
 namespace AngularUI.Stakeholder.view
 {
 
-    public class ViewStakeApiController : ApiController
+    public class ViewStakeApiController : BaseApiController<Stakeholders>
     {
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
@@ -101,7 +103,7 @@ namespace AngularUI.Stakeholder.view
             {
                 completeData = GetAllStakeHolders(),
                 hierarchyDesignation = GetStakeHierarchy(),
-                //currUserData = AuthService.GetPremissionsForCurrentUser()
+                currUserData = AuthService.GetPremissionsForCurrentUser(GetUsername()),
                 //.Where(x => x.Activity == ColloSysEnums.Activities.Stakeholder).SingleOrDefault(),
                 products = Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != ScbEnums.Products.UNKNOWN.ToString()).ToList()
             };
@@ -296,17 +298,17 @@ namespace AngularUI.Stakeholder.view
         {
             var query = StakeQuery.ApplyRelations();
             Stakeholders stake = null;
-            query.JoinQueryOver(() => stake);
+            //query.JoinQueryOver(() => stake);
 
             if (filterView == "PendingForAll")
             {
-                query.Where(() => stake.Status == ColloSysEnums.ApproveStatus.Submitted);
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
             }
 
             if (filterView == "PendingForMe")
             {
-                query.Where(() => stake.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && stake.ApprovedBy == HttpContext.Current.User.Identity.Name);
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
+                                  && x.ApprovedBy == HttpContext.Current.User.Identity.Name);
             }
             var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
             return RemoveUnusedPaymentsWorkings(stakeholder);

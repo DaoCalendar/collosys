@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Web.Http;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -210,6 +211,20 @@ namespace AngularUI.Shared.apis
         }
 
         #endregion
+
+        protected string GetUsername()
+        {
+            var username = string.Empty;
+            var jobject = Request.Headers.Authorization;
+            if (jobject != null && !string.IsNullOrWhiteSpace(jobject.Scheme)) 
+                username = jobject.Scheme;
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new AuthenticationException("User has not logged in");
+            }
+
+            return username;
+        }
     }
 }
 
