@@ -47,7 +47,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         [Test]
         public void StartAllocation()
         {
-           ColloSys.AllocationService.StartAllocation.Start();
+           AllocationService.StartAllocation.Start();
         }
 
         [Test]

@@ -9,33 +9,33 @@ namespace ColloSys.QueryBuilder.TransAttributes
     public class TransactionAttribute:OnMethodBoundaryAspect
     {
         public bool Persist { get; set; }
-        private ITransaction transaction;
-        private ISession Session;
+        private ITransaction _transaction;
 
         public TransactionAttribute()
         {
             Persist = false;
-            
         }
 
         public override void OnEntry(MethodExecutionArgs args)
         {
-            Session = SessionManager.GetCurrentSession();
-            transaction = Session.BeginTransaction();
+            var session = SessionManager.GetCurrentSession();
+            _transaction = session.BeginTransaction();
         }
 
         public override void OnExit(MethodExecutionArgs args)
         {
-            if (transaction != null && transaction.IsActive)
+            if (_transaction == null || !_transaction.IsActive)
             {
-                if (Persist)
-                {
-                    transaction.Commit();
-                }
-                else
-                {
-                    transaction.Rollback();
-                }
+                return;
+            }
+
+            if (Persist)
+            {
+                _transaction.Commit();
+            }
+            else
+            {
+                _transaction.Rollback();
             }
         }
     }
