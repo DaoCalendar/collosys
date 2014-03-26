@@ -1,9 +1,5 @@
-#region references
-
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
-
-#endregion
 
 namespace ColloSys.DataLayer.Mapping
 {
@@ -11,10 +7,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public FileStatusMap()
         {
-            Table("FILE_STATUS");
-
-            #region properties
-
             Property(x => x.UploadedRows);
             Property(x => x.DuplicateRows);
             Property(x => x.ValidRows);
@@ -24,17 +16,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.UploadStatus);
             Property(x => x.EntryDateTime);
 
-            #endregion
-
-            #region relationships
-
-            ManyToOne(x => x.FileScheduler, map =>
-                {
-                    map.NotNullable(true);
-                    map.Index("IX_FILESTATUS");
-                }); //Index
-
-            #endregion
+            ManyToOne(x => x.FileScheduler, map => { map.NotNullable(true); map.Index("IX_FILESTATUS"); });
         }
     }
 }

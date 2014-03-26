@@ -174,7 +174,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.SMC:
                 case ScbEnums.Products.AUTO_OD:
-                    return typeof(Alloc);
+                    return typeof(Allocations);
 
                 default:
                     throw new ArgumentOutOfRangeException("products");
@@ -206,7 +206,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.ClientDataTables.CacsActivity:
                     return typeof(CacsActivity);
                 case ScbEnums.ClientDataTables.Info:
-                    return typeof(Info);
+                    return typeof(CustomerInfo);
                 default:
                     throw new ArgumentOutOfRangeException("tableName : " + tableName);
             }
@@ -221,7 +221,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.ClientDataTables.RWriteoff:
                 case ScbEnums.ClientDataTables.EWriteoff:
                 case ScbEnums.ClientDataTables.CWriteoff:
-                    return typeof(Info);
+                    return typeof(CustomerInfo);
                 case ScbEnums.ClientDataTables.Payment:
                     return typeof(Payment);
                 case ScbEnums.ClientDataTables.CUnbilled:
@@ -298,7 +298,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.AUTO_OD:
                 case ScbEnums.Products.SMC:
-                    return typeof(Info);
+                    return typeof(CustomerInfo);
                 default:
                     throw new ArgumentOutOfRangeException("can not fetch info class for product :" + product);
             }

@@ -30,13 +30,13 @@ namespace ColloSys.AllocationService.CacsToLineWriteoff
             return CacsActivityBuilder.DataOnFileSchedular(fileScheduler).ToList();
         }
 
-        public static IEnumerable<Info> GetInfoData(IEnumerable<CacsActivity> cacsActivities)
+        public static IEnumerable<CustomerInfo> GetInfoData(IEnumerable<CacsActivity> cacsActivities)
         {
             var accNoList = cacsActivities.Select(x => x.AccountNo).ToList();
             return InfoBuilder.OnAccNo(accNoList).ToList();
         }
 
-        public static void SaveInfoDataWithFileSchedular(IEnumerable<Info> sharedInfos, FileScheduler fileScheduler)
+        public static void SaveInfoDataWithFileSchedular(IEnumerable<CustomerInfo> sharedInfos, FileScheduler fileScheduler)
         {
             InfoBuilder.Save(sharedInfos.ToList());
             FileSchedulerBuilder.Save(fileScheduler);

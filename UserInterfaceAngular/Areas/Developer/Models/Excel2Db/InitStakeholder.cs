@@ -32,12 +32,12 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
         {
             var stakeholder = new Stakeholders
                 {
-                    BirthDate = new DateTime(1986, 2, 5),
+                    //BirthDate = new DateTime(1986, 2, 5),
                     JoiningDate = DateTime.Now,
                     //Designation = "HOC",
                     EmailId = "hoc@gmail.com",
                     ExternalId = "1236547",
-                    Gender = 0,
+                    //Gender = 0,
                     //Hierarchy = "Field",
                     MobileNo = "1236547891",
                     Name = "Hoc1",

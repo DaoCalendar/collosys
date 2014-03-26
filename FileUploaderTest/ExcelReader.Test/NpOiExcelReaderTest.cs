@@ -2,6 +2,7 @@
 using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
+using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests;
 
 namespace FileUploader.Tests.ExcelReader.Test
@@ -29,6 +30,14 @@ namespace FileUploader.Tests.ExcelReader.Test
         #region:: ColumnWise Test Case ::
 
         [Test]
+        public void Test_GetList_For_NpOiExcelReader()
+        {
+            var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
+            var excelmaping = ExcelReaderHelper.GetMappingInfo();
+            obj.GetList(excelmaping);
+        }
+
+        [Test]
         public void Read_String_StartAt_Initial_Column_Values()
         {
             string value = Excel.GetValue(1);
@@ -50,8 +59,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(1, 6, "non Numbric string")]
         public void Read_String_Column_Values(int colPos, int rowPos, string expected)
         {
-          //  Excel.NextRow();
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+         string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -63,8 +71,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(2, 6, "123")]
         public void Read_Int32_Column_Values(int colPos, int rowPos, string expected)
         {
-            //Excel.NextRow();
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+           string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -76,7 +83,6 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(3, 6, "18-Nov-03 11:25 ")]
         public void Read_DateTime_Column_Values(int colPos, int rowPos, string expected)
         {
-            //Excel.NextRow();
             string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
@@ -89,8 +95,7 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(4, 6, "654")]
         public void Read_Double_Column_Values(int colPos, int rowPos, string expected)
         {
-            //Excel.NextRow();
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+           string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
         [TestCase(5, 1, "12.3215")]
@@ -101,7 +106,6 @@ namespace FileUploader.Tests.ExcelReader.Test
         [TestCase(5, 6, "654")]
         public void Read_Float_Column_Values(int colPos, int rowPos, string expected)
         {
-            //Excel.NextRow();
             string value = Excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
@@ -181,6 +185,64 @@ namespace FileUploader.Tests.ExcelReader.Test
 
         #endregion
 
+
+        #region ::GetVal With ColPos::
+
+        [TestCase(1, "Skydiving")]
+        [TestCase(2, "710")]
+        [TestCase(3, "14/7/2000")]
+        [TestCase(4, "1,20,000")]
+        [TestCase(5, "12.3215")]
+        [TestCase(6, "710")]
+        [TestCase(7, "98721")]
+        [TestCase(8, "1235")]
+        [TestCase(9, "10132154")]
+        [TestCase(10, "101")]
+        [TestCase(11, "A")]
+        public void Test_Read_firstRow_Each_Columns(int pos, string expected)
+        {
+            string val = Excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        [TestCase(1, "Elevator")]
+        [TestCase(2, "575")]
+        [TestCase(3, "14,7,2002")]
+        [TestCase(4, "52544")]
+        [TestCase(5, "12.32")]
+        [TestCase(6, "53119")]
+        [TestCase(7, "3654")]
+        [TestCase(8, "321.12")]
+        [TestCase(9, "965464")]
+        [TestCase(10, "964")]
+        [TestCase(11, "6")]
+        public void Test_Read_SecoundRow_Each_Columns(int pos, string expected)
+        {
+            Excel.NextRow();
+            string val = Excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        [TestCase(1, "algo")]
+        [TestCase(2, "10000")]
+        [TestCase(3, "831.01289631332")]
+        [TestCase(4, "16013")]
+        [TestCase(5, "-56.369")]
+        [TestCase(6, "26013")]
+        [TestCase(7, "654")]
+        [TestCase(8, "-654.35")]
+        [TestCase(9, "456")]
+        [TestCase(10, "546")]
+        [TestCase(11, "F")]
+        public void Test_Read_ThirdRow_Each_Columns(int pos, string expected)
+        {
+            Excel.NextRow();
+            Excel.NextRow();
+            string val = Excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        #endregion
         #region:: Test Skip Fuction::
         [Test]
         public void Assigning_Count_To_Skip()
@@ -202,6 +264,14 @@ namespace FileUploader.Tests.ExcelReader.Test
             Excel.NextRow();
             Excel.Skip(3);
             Assert.AreEqual(Excel.CurrentRow, 5);
+        }
+
+        [Test]
+        public void Test_Constructor_With_FileInfo()
+        {
+            Excel = new NpOiExcelReader(FileInfo);
+            Assert.AreEqual(Excel.TotalRows, 6);
+            Assert.AreEqual(Excel.TotalColumns, 11);
         }
         #endregion
 

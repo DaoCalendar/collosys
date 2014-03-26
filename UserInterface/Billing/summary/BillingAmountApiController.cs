@@ -10,8 +10,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Billing.ViewModels;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -27,7 +25,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         private static readonly BillAdhocBuilder BillAdhocBuilder=new BillAdhocBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetProducts()
         {
             return Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != "UNKNOWN")
@@ -35,7 +33,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products product)
         {
             var data = StakeQuery.OnProduct(product);
@@ -43,14 +41,14 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public BillAmount GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
         {
             return BillAmountBuilder.OnStakeProductMonth(products, stakeId, month);
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public BillAmount ApproveBillingAmount(BillAmount billAmount)
         {
             BillAmountBuilder.Save(billAmount);
@@ -58,7 +56,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<BillDetail> GetBillingDetailData(ScbEnums.Products products, Guid stakeId, int month)
         {
             return BillDetailBuilder.OnStakeProductMonth(products, stakeId, month);
@@ -66,7 +64,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public FinalBillData SaveBillAdhoc(FinalBillData finalBill)
         {
             var newBillDetail = new BillDetail
@@ -96,7 +94,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 }
 
 //[HttpPost]
-//[HttpTransaction(Persist = true)]
+//
 //public void SaveBillAdhoc(BillAdhoc billAdhoc,BillAmount billAmount)
 //{
 //    var newBillDetail = new BillDetail();

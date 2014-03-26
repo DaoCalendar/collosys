@@ -9,11 +9,12 @@ namespace ReflectionExtension.Tests
     {
 
         protected readonly FileStream FileStream;
+        protected readonly FileInfo FileInfo;
 
         public SetUpAssemblies()
         {
-            FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("ExampleData.xls");
-
+             FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("ExampleData.xls");
+            FileInfo=new FileInfo(FileStream.Name);
         }
     }
 }

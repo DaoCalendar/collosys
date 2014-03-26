@@ -129,7 +129,7 @@ namespace ColloSys.DataLayer.Domain
                 };
         }
 
-        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         //public override void MakeEmpty(bool forceEmpty = false)
         //{

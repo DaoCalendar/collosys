@@ -12,7 +12,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.NgGrid;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 
 #endregion
@@ -39,7 +38,7 @@ namespace AngularUI.FileUpload.paymentreversal
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -48,7 +47,7 @@ namespace AngularUI.FileUpload.paymentreversal
 
         //GET AccountNumber for Typeahead
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetAccountNo(string accountNo, ScbEnums.Products products)
         {
             List<CustomerAccounts> data = InfoBuilder.OnAccNoProduct(accountNo, products)
@@ -62,7 +61,7 @@ namespace AngularUI.FileUpload.paymentreversal
 
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchPageData(ScbEnums.ScbSystems systems)
         {
             var data = DetachedCriteria.For(typeof(Payment));
@@ -72,7 +71,7 @@ namespace AngularUI.FileUpload.paymentreversal
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage ExcludePayment(IEnumerable<Payment> payments, ScbEnums.ScbSystems systems)
         {
             foreach (var payment in payments)
@@ -84,7 +83,7 @@ namespace AngularUI.FileUpload.paymentreversal
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage AddPayments(Payment payment)
         {
             payment.FileDate = DateTime.Today;

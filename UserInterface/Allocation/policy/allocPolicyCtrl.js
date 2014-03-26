@@ -61,6 +61,13 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.modalData = {
+                AllocRelation: {},
+                StartDate: null,
+                endDate: null,
+                subPolicyIndex: -1,
+                forActivate: true
+            };
             $scope.datalayer.getProducts();
         })();
 
@@ -69,7 +76,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 templateUrl: '/Allocation/policy/policy-modal.html',
                 controller: 'datemodelctrl',
                 resolve: {
-                    modalData: function () {
+                    modelData: function () {
                         return modalData;
                     }
                 }
@@ -169,7 +176,14 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 $csnotify.error(data);
             });
         };
-
+        var approveRelation = function(relation) {
+            var origId = relation.OrigEntityId;
+            var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
+            api.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
+                dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
+                $csnotify.success('Subpolicy Approved');
+            });
+        };
         var saveAllocPolicy = function (allocPolicy) {
 
             var deletedData = '';
@@ -212,7 +226,8 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             changeProductCategory: changeProductCategory,
             RejectSubPolicy: rejectSubPolicy,
             saveAllocPolicy: saveAllocPolicy,
-            reset: reset
+            reset: reset,
+            approveRelation: approveRelation
         };
     }]);
 

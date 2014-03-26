@@ -15,13 +15,6 @@ namespace ColloSys.DataLayer.Domain
     {
         #region relationships
 
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    if (!NHibernateUtil.IsInitialized(BillingRelations) || forceEmpty) BillingRelations = null;
-        //    if (!NHibernateUtil.IsInitialized(StkhPayments) || forceEmpty) StkhPayments = null;
-        //}
-
-
         public virtual Iesi.Collections.Generic.ISet<BillingRelation> BillingRelations { get; set; }
         public virtual IList<StkhPayment> CollectionStkhPayments { get; set; }
         public virtual IList<StkhPayment> RecoveryStkhPayments { get; set; }

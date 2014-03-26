@@ -8,12 +8,9 @@ using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
 using NHibernate.Linq;
 using NLog;
@@ -39,14 +36,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
             return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public bool UserIdVal(string userid)
         {
             var listOfuserId = StakeQuery.FilterBy(x => x.ExternalId == userid).ToList();
@@ -55,14 +52,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> UserIdList()
         {
             return StakeQuery.GetAll().Select(x => x.ExternalId).As<List<String>>();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public bool CheckUserId(string id)
         {
             var idExists = StakeQuery.FilterBy(x => x.ExternalId == id);
@@ -71,7 +68,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
             return ProductConfigBuilder.GetProducts();
@@ -97,7 +94,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public StkhHierarchy GetHierarchyWithId(Guid hierarchyId)
         {
             _log.Info("In load hierarchy with id");
@@ -107,27 +104,27 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetStateList()
         {
             return GPincodeBuilder.StateList();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<GPincode> GetPincodes(string pincode, string level)
         {
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<GPincode> GetClusters(string cluster)
         {
             return GetClusterList(cluster);
         }
         [HttpGet]
-        [HttpTransaction]
+        
         public string GetRegionOfState(string state)
         {
             var data = GetRegionOnState(state);
@@ -135,7 +132,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> GetReportingList(string reportsTo, string hierarchy)
         {
             var data = GetReportsToList(reportsTo, hierarchy);
@@ -145,7 +142,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> GetReportsToInHierarchy(Guid reportsto)
         {
             var data = GetReportsToList(reportsto);
@@ -156,7 +153,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage SaveStakeholder(Stakeholders stakeholders)
         {
             var usersList = UsersIDList();
@@ -174,8 +171,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             try
             {
                 //save stakeholder here
-                if (DateTime.MinValue == stakeholders.BirthDate)
-                    stakeholders.BirthDate = null;
+                //if (DateTime.MinValue == stakeholders.BirthDate)
+                    //stakeholders.BirthDate = null;
                 Save(stakeholders);
                 _log.Info("Stakeholder is saved in StakeholderApi/Save");
                 var result =
@@ -193,7 +190,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage DeleteLists(IList<ListValue> list)
         {
             _log.Info("In StakeholderApi/DeleteLists");
@@ -222,7 +219,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> ListOfUserID()
         {
             var data = UsersIDList();

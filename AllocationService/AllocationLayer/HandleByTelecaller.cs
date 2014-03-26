@@ -16,9 +16,9 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class HandleByTelecaller
     {
-        public static List<Alloc> Init(IList<Info> dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
+        public static List<Allocations> Init(IList<CustomerInfo> dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
         {
-            var list = new List<Alloc>();
+            var list = new List<Allocations>();
 
             dataOnCondition = dataOnCondition.Where(x => x.IsReferred).ToList();
 
@@ -50,7 +50,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                 var thisMonthEnd = thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
 
                 //create object of type
-                var obj = new Alloc
+                var obj = new Allocations
                     {
                         AllocPolicy = relationCondition.AllocPolicy,
                         AllocSubpolicy = relationCondition.AllocSubpolicy,
@@ -77,7 +77,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return list;
         }
 
-        private static Alloc SetAlloc(Alloc alloc, Info dataObject, out string accountno)
+        private static Allocations SetAlloc(Allocations alloc, CustomerInfo dataObject, out string accountno)
         {
             var ralloc = alloc;
             ralloc.Info = dataObject;

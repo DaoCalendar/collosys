@@ -14,11 +14,11 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class AllocateToStakeholder
     {
-        public static List<Alloc> Init(IEnumerable<Info> data, AllocRelation relationCondition,
+        public static List<Allocations> Init(IEnumerable<CustomerInfo> data, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
             //allocatin list
-            var list = new List<Alloc>();
+            var list = new List<Allocations>();
 
             //calculate month start date and last date 
             var baseDate = Util.GetTodayDate();
@@ -50,7 +50,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                                        : thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
 
                 //create object of type
-                var obj = new Alloc
+                var obj = new Allocations
                     {
                         AllocPolicy = relationCondition.AllocPolicy,
                         AllocSubpolicy = relationCondition.AllocSubpolicy,
@@ -78,7 +78,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 
         #region Private
 
-        private static Alloc SetAlloc(Alloc obj, Info dataObject, out string accno)
+        private static Allocations SetAlloc(Allocations obj, CustomerInfo dataObject, out string accno)
         {
             var ralloc = obj;
             ralloc.Info = dataObject;

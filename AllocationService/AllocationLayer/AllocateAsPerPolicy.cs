@@ -18,11 +18,11 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class AllocateAsPerPolicy
     {
-        public static List<Alloc> Init(IEnumerable<Info> delqList, AllocRelation relationCondition,
+        public static List<Allocations> Init(IEnumerable<CustomerInfo> delqList, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
             //allocatin list
-            var list = new List<Alloc>();
+            var list = new List<Allocations>();
 
             //stakeholders with theire pincodes list
             var stakePincodeList = new List<StakePincodes>();
@@ -76,7 +76,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                                        ? DateTime.MaxValue
                                        : thisMonthStart.AddMonths(notAllocateInMonths).AddSeconds(-1);
                 //create object of type
-                var obj =new Alloc
+                var obj =new Allocations
                     {
                         AllocPolicy = relationCondition.AllocPolicy,
                         AllocSubpolicy = relationCondition.AllocSubpolicy,
@@ -163,8 +163,8 @@ namespace ColloSys.AllocationService.AllocationLayer
 
         #region Private
 
-        private static Alloc SetAlloc(Alloc obj,
-            Info dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
+        private static Allocations SetAlloc(Allocations obj,
+            CustomerInfo dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
             var ralloc = obj;
             var gpincodeId = dataObject.GPincode.Id;

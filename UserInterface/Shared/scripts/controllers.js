@@ -5,18 +5,22 @@
         var $log = logManager.getInstance("RootController");
 
         var $locationChangeStart = function () { //evt, next, current
+        };
 
-            if (!$csAuthFactory.hasLoggedIn()) {
-                $location.path('/login');
-                return;
-            }
-
-            $log.debug("Changing location : " + $location.path());
-            $cookieStore.remove("routelastroute");
-            $cookieStore.put("routelastroute", $location.path());
+        var $locationChangeSuccess = function () { //evt, next, current
+            $log.debug("Changed to location : " + $location.path());
+            saveLastLocation();
         };
 
         var $routeChangeStart = function () {
+        };
+
+        var $routeChangeSuccess = function () {
+        };
+
+        var saveLastLocation = function() {
+            $cookieStore.remove("routelastroute");
+            $cookieStore.put("routelastroute", $location.path());
         };
 
         var getLastLocation = function() {
@@ -30,7 +34,9 @@
         return {
             getLastLocation: getLastLocation,
             $locationChangeStart: $locationChangeStart,
-            $routeChangeStart: $routeChangeStart
+            $locationChangeSuccess: $locationChangeSuccess,
+            $routeChangeStart: $routeChangeStart,
+            $routeChangeSuccess: $routeChangeSuccess,
         };
     }
 ]);
@@ -39,13 +45,21 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
     function ($scope, $csAuthFactory, routeManagerFactory, $location) {
 
         $scope.$on("$locationChangeStart", routeManagerFactory.$locationChangeStart);
+        $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
         $scope.$on("$routeChangeStart", routeManagerFactory.$routeChangeStart);
+        $scope.$on("$routeChangeSuccess", routeManagerFactory.$routeChangeSuccess);
 
         (function () {
             $scope.$csAuthFactory = $csAuthFactory;
             $csAuthFactory.loadAuthCookie();
-            $location.path("/home");
         })();
+
+        if (!$csAuthFactory.hasLoggedIn()) {
+            $location.path('/login');
+        } else {
+            $location.path("/home");
+            //$location.path(routeManagerFactory.getLastLocation());
+        }
 
     }
 ]);

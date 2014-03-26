@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
+    <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />
@@ -79,6 +80,9 @@
       <Project>{ddd31537-2bfc-40fe-8344-8d87bfeb998f}</Project>
       <Name>AngularUI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
