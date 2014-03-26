@@ -26,12 +26,12 @@ namespace ColloSys.AllocationService.AllocationLastCode
             AllocBuilder.Save(allocList);
         }
 
-        private static IEnumerable<Alloc> SetAllocList(List<Info> eInfoData)
+        private static IEnumerable<Allocations> SetAllocList(List<Info> eInfoData)
         {
-            var allocList = new List<Alloc>();
+            var allocList = new List<Allocations>();
             if (eInfoData == null || eInfoData.Count == 0)
                 return allocList;
-            allocList.AddRange(eInfoData.Select(cInfo => new Alloc
+            allocList.AddRange(eInfoData.Select(cInfo => new Allocations
                 {
                     IsAllocated = false,
                     AmountDue = cInfo.TotalDue,

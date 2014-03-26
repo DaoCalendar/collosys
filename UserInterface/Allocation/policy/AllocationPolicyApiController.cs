@@ -133,7 +133,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 AllocRelationBuilder.Save(billingRelation);
             }
 
-            obj.AllocRelations.RemoveAll(deletedRelation);
+            obj.AllocRelations.Clear();
             AllocPolicyBuilder.Save(obj);
             return obj;
         }

@@ -14,7 +14,7 @@ namespace ColloSys.DataLayer.SharedDomain
 {
     public class Info : Entity, IDeliquent
     {
-        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         #region Properties
 

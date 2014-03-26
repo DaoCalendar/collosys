@@ -27,7 +27,7 @@ namespace ColloSys.DataLayer.NhSetup
             IList<Type> auditType = new List<Type>();
             IList<Type> baseTypes = new List<Type>
                 {
-                    typeof(Entity), typeof(Alloc), 
+                    typeof(Entity), typeof(Allocations), 
                     typeof(Info), typeof(Payment),
                     typeof(UploadableEntity)
                 };

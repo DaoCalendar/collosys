@@ -37,7 +37,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual Iesi.Collections.Generic.ISet<BillAdhoc> BillAdhocs { get; set; }
         public virtual Iesi.Collections.Generic.ISet<BillAmount> BillAmounts { get; set; }
         public virtual Iesi.Collections.Generic.ISet<BillDetail> BillDetails { get; set; }
-        public virtual Iesi.Collections.Generic.ISet<Alloc> Allocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
         public virtual IList<StkhPayment> StkhPayments { get; set; }
         public virtual IList<StkhRegistration> StkhRegistrations { get; set; }
         public virtual IList<StkhWorking> StkhWorkings { get; set; }

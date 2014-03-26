@@ -52,9 +52,9 @@ namespace ColloSys.AllocationService.IgnoreCases
                 .ToList();
         }
 
-        private static Alloc SetAlloc(Info cInfo)
+        private static Allocations SetAlloc(Info cInfo)
         {
-            var calloc = new Alloc
+            var calloc = new Allocations
                 {
                     AllocPolicy = cInfo.Allocs.First().AllocPolicy,
                     AllocSubpolicy = cInfo.Allocs.First().AllocSubpolicy,

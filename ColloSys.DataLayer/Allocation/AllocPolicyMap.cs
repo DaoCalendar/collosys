@@ -13,16 +13,10 @@ namespace ColloSys.DataLayer.Mapping
     {
         public AllocPolicyMap()
         {
-            Table("ALLOC_POLICY");
-
-            #region properties
             Property(x => x.Name);
             Property(x => x.Products, map => map.UniqueKey("UK_ALLOC_POLICY"));
-
             Property(x => x.Category, map => map.UniqueKey("UK_ALLOC_POLICY"));
-            #endregion
 
-            #region IApprove
             Property(x => x.Status);
             Property(x => x.ApprovedBy, map => map.NotNullable(false));
             Property(p => p.ApprovedOn);
@@ -30,17 +24,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.OrigEntityId);
             Property(x => x.RowStatus);
 
-            #endregion
-
-            #region relationships - bags
-            Set(x => x.AllocRelations, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
-           
-            //Set(x => x.CInfos, colmap => { }, map => map.OneToMany(x => { }));
-            //Set(x => x.RInfos, colmap => { }, map => map.OneToMany(x => { }));
-            //Set(x => x.EInfos, colmap => { }, map => map.OneToMany(x => { }));
-
-            #endregion
+            Bag(x => x.AllocRelations, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
 }
