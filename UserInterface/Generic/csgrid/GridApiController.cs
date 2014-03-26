@@ -15,8 +15,6 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Generic;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.Shared.NgGrid;
-using ColloSys.UserInterface.Areas.FileUploader.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -25,7 +23,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
     public class GridApiController : ApiController
     {
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchGridData(GridQueryParams gridWrapper)
         {
             var data = ClientDataDownloadHelper.GetGridData(gridWrapper);
@@ -33,7 +31,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage DownloadGridData(GridQueryParams gridWrapper)
         {
             try
@@ -48,7 +46,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage EmailGridData(GridQueryParams gridWrapper)
         {
             try
@@ -64,7 +62,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage SaveReport(ReportsVM report)
         {
             var session = SessionManager.GetCurrentSession();
@@ -78,7 +76,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetReportsContents(GetReportContentParams param)
         {
             var report = ReportingService.FetchReport(param.ReportId);
@@ -87,7 +85,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage DeleteReport(GetReportContentParams param)
         {
             var session = SessionManager.GetCurrentSession();
@@ -97,7 +95,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetReportsList(GetReportListParams param)
         {
             var session = SessionManager.GetCurrentSession();
@@ -127,7 +125,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetStakeholderList()
         {
             var session = SessionManager.GetCurrentSession();

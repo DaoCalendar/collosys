@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
 using ReflectionExtension.Tests;
@@ -37,23 +38,15 @@ namespace FileUploader.Tests.ExcelReader.Test
             Assert.AreNotEqual(_excel.TotalRows, 0);
         }
 
-        //[Test]
-        //[ExpectedException]
-        //public void Assigning_Docx_File_To_FileInfo_ThrowsException()
-        //{
-        //    var fileInfo = new FileInfo("c:\\abc.docx");
-        // // _excel = new EpPlusExcelReader(fileInfo);
-        //}
+        [Test]
+        public void Test_GetList_For_EpPlusReader()
+        {
+            var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
+            var excelmaping = ExcelReaderHelper.GetMappingInfo();
+            obj.GetList(excelmaping);
+        }
 
-        //[Test]
-        //[ExpectedException]
-        //public void Assigning_NotPresented_File_To_FileInfo_ThrowsException()
-        //{
-        //    var fileInfo = new FileInfo("c:\\ExampleData123.xlsx");
-        //   // _excel = new EpPlusExcelReader(fileInfo);
-        //}
 
-     
 
         #endregion
 
@@ -96,7 +89,7 @@ namespace FileUploader.Tests.ExcelReader.Test
             Assert.AreEqual(value, expected);
         }
 
-        [TestCase(4, 1, "12387")]
+        [TestCase(4, 1, "1,20,000")]
         [TestCase(4, 2, "52544")]
         [TestCase(4, 3, "16013")]
         [TestCase(4, 4, "(123,54)")]
@@ -120,7 +113,7 @@ namespace FileUploader.Tests.ExcelReader.Test
             Assert.AreEqual(value, expected);
         }
 
-        [TestCase(6, 1, "13097")]
+        [TestCase(6, 1, "710")]
         [TestCase(6, 2, "53119")]
         [TestCase(6, 3, "26013")]
         [TestCase(6, 4, "(123)")]
@@ -195,6 +188,62 @@ namespace FileUploader.Tests.ExcelReader.Test
 
         #endregion
 
+        #region ::GetVal With ColPos::
+        [TestCase(1, "Skydiving")]
+        [TestCase(2, "710")]
+        [TestCase(3, "14/7/2000")]
+        [TestCase(4, "1,20,000")]
+        [TestCase(5, "12.3215")]
+        [TestCase(6, "710")]
+        [TestCase(7, "98721")]
+        [TestCase(8, "1235")]
+        [TestCase(9, "10132154")]
+        [TestCase(10, "101")]
+        [TestCase(11, "A")]
+        public void Test_Read_firstRow_Each_Columns(int pos, string expected)
+        {
+            string val = _excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        [TestCase(1, "Elevator")]
+        [TestCase(2, "575")]
+        [TestCase(3, "14,7,2002")]
+        [TestCase(4, "52544")]
+        [TestCase(5, "12.32")]
+        [TestCase(6, "53119")]
+        [TestCase(7, "3654")]
+        [TestCase(8, "321.12")]
+        [TestCase(9, "965464")]
+        [TestCase(10, "964")]
+        [TestCase(11, "6")]
+        public void Test_Read_SecoundRow_Each_Columns(int pos, string expected)
+        {
+            _excel.NextRow();
+            string val = _excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        [TestCase(1, "algo")]
+        [TestCase(2, "10000")]
+        [TestCase(3, "831.01289631332")]
+        [TestCase(4, "16013")]
+        [TestCase(5, "-56.369")]
+        [TestCase(6, "26013")]
+        [TestCase(7, "654")]
+        [TestCase(8, "-654.35")]
+        [TestCase(9, "456")]
+        [TestCase(10, "546")]
+        [TestCase(11, "F")]
+        public void Test_Read_ThirdRow_Each_Columns(int pos, string expected)
+        {
+            _excel.NextRow();
+            _excel.NextRow();
+            string val = _excel.GetValue((uint)pos);
+            Assert.AreEqual(val, expected);
+        }
+
+        #endregion
 
         #region:: Test Skip Fuction::
 

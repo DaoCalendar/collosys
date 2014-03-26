@@ -73,9 +73,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
         var init = function () {
             $log.info("Initializing BasicInfo.");
-            $scope.options = $scope.$parent.stakeholderModel;
             $scope.duplicateUserId = false;
-            // $scope.Stakeholder.Gender = 0;
             $scope.val = $val;
             $scope.UserIdList = [];
             $scope.basicInfoData = {

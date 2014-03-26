@@ -9,7 +9,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Types4Product;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 
 #endregion
@@ -24,37 +23,37 @@ namespace AngularUI.FileUpload.customerinfo
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
-        public Info CustInfo { get; set; }
+        public CustomerInfo CustInfo { get; set; }
 
         public List<Payment> Payments { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 
-    public class CustomerInfoApiController : BaseApiController<Info>
+    public class CustomerInfoApiController : BaseApiController<CustomerInfo>
     {
 
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
             return ProductConfigBuilder.GetProducts();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public CustDisplayInfo GetCustomerInfo(ScbEnums.Products products, string accountNo)
         {
             var infoType = ClassType.GetTypeByProductCategoryForAlloc(products, ScbEnums.Category.Liner);
             var paymentType = ClassType.GetPaymentTypeByProduct(products);
 
-            var memberInfo = new MemberHelper<Info>();
+            var memberInfo = new MemberHelper<CustomerInfo>();
             var custDisplayInfos = new CustDisplayInfo();
 
             custDisplayInfos.CustInfo = Session.CreateCriteria(infoType)
                                                .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo), accountNo))
-                                               .List<Info>().SingleOrDefault();
+                                               .List<CustomerInfo>().SingleOrDefault();
 
             custDisplayInfos.Payments.AddRange(Session.CreateCriteria(paymentType)
                                                       .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo),

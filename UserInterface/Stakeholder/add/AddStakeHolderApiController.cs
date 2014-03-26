@@ -5,18 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 using NLog;
 using Newtonsoft.Json.Linq;
 
@@ -37,7 +33,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public AddStakeholderModel GetAllHierarchies()
         {
             var stake = new AddStakeholderModel
@@ -54,7 +50,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> GetReportsToInHierarchy(StkhHierarchy reportsto)
         {
             var data = GetReportsToList(reportsto);
@@ -65,7 +61,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpSession]
+        
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;
@@ -173,8 +169,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             try
             {
                 //save stakeholder here
-                if (DateTime.MinValue == stakeholders.BirthDate)
-                    stakeholders.BirthDate = null;
+                //if (DateTime.MinValue == stakeholders.BirthDate)
+                    //stakeholders.BirthDate = null;
                 SetApprovalStatusInsert(stakeholders);
                 Save(stakeholders);
                 _log.Info("Stakeholder is saved in StakeholderApi/Save");
@@ -224,7 +220,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
         }
         [HttpGet]
-        [HttpTransaction]
+        
         public FinalPostModel GetStakeholderEditMode(Guid stakeholderId)
         {
             var stakeholder = GetStakeholder(stakeholderId);

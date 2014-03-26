@@ -27,9 +27,9 @@ namespace FileUploader.ExcelReader
         public NpOiExcelReader(FileInfo fileInfo)
         {
             HSSFWorkbook workBook;
-           var fileStream = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
+          // var fileStream = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
             {
-             workBook = new HSSFWorkbook(fileStream);
+             workBook = new HSSFWorkbook(fileInfo.OpenRead());
                 
             }
             _currentWorkSheet = workBook.GetSheetAt(0);

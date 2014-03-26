@@ -38,5 +38,18 @@ namespace ColloSys.DataLayer.Services.Shared
                                     .List<GPermission>();
             return permisions;
         }
+
+        public static IEnumerable<GPermission> GetPremissionsForCurrentUser(string username)
+        {
+            var session = SessionManager.GetCurrentSession();
+            var currUserInfo = session.QueryOver<Users>()
+                                      .Where(x => x.Username == username)
+                                      .Select(x => x.Role)
+                                      .SingleOrDefault<StkhHierarchy>();
+            var permisions = session.QueryOver<GPermission>()
+                                    .Where(x => x.Role.Id == currUserInfo.Id)
+                                    .List<GPermission>();
+            return permisions;
+        }
     }
 }

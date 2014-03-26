@@ -10,15 +10,10 @@ using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
 #endregion
 
@@ -41,7 +36,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         #region Get
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -49,7 +44,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetAllocPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
 
@@ -138,7 +133,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 AllocRelationBuilder.Save(billingRelation);
             }
 
-            obj.AllocRelations.RemoveAll(deletedRelation);
+            obj.AllocRelations.Clear();
             AllocPolicyBuilder.Save(obj);
             return obj;
         }
@@ -181,7 +176,6 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         #endregion
 
         [HttpGet]
-        [HttpSession]
         public HttpResponseMessage ApproveRelation(Guid relationId)
         {
             var relation = AllocRelationBuilder.Get(relationId);

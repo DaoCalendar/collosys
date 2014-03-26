@@ -8,7 +8,7 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BaseTypes
 {
-    public abstract class Repository<T> : IRepository<T> where T : Entity, new()
+    public class Repository<T> : IRepository<T> where T : Entity, new()
     {
         [Transaction]
         public virtual IEnumerable<T> GetAll()
@@ -78,7 +78,11 @@ namespace ColloSys.QueryBuilder.BaseTypes
             var data = query.GetExecutableQueryOver(session).List<T>();
             return data;
         }
-        public abstract QueryOver<T, T> ApplyRelations();
+
+        public virtual QueryOver<T, T> ApplyRelations()
+        {
+            return QueryOver.Of<T>();
+        }
 
         [Transaction]
         public T Refresh(T obj)

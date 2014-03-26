@@ -1,5 +1,4 @@
-﻿using System;
-using ColloSys.DataLayer.BaseEntity;
+﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 
 namespace ColloSys.DataLayer.FileUploader
@@ -10,14 +9,5 @@ namespace ColloSys.DataLayer.FileUploader
         public virtual string DestinationValue { get; set; }
         public virtual uint Priority { get; set; }
         public virtual FileMapping FileMapping { get; set; }
-
-        //#region Relationship None
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    return;
-        //}
-        //#endregion
-
-
     }
 }

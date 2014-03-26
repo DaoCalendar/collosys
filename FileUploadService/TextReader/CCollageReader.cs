@@ -298,13 +298,13 @@ namespace ColloSys.FileUploadService.TextReader
         
         private void InsertIntoCInfo()
         {
-            var cinfos = Reader.GetDataLayer.GetTableData<Info>().ToDictionary(x => x.AccountNo);
+            var cinfos = Reader.GetDataLayer.GetTableData<CustomerInfo>().ToDictionary(x => x.AccountNo);
 
-            var newAccounts = new List<Info>();
+            var newAccounts = new List<CustomerInfo>();
 
             foreach (var kvpair in TodayRecordList)
             {
-                var cinfo = cinfos.ContainsKey(kvpair.Key) ? cinfos[kvpair.Key] : new Info();
+                var cinfo = cinfos.ContainsKey(kvpair.Key) ? cinfos[kvpair.Key] : new CustomerInfo();
                 var cLiner = kvpair.Value;
 
                 cinfo.AccountNo = cLiner.AccountNo;

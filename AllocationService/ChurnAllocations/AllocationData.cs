@@ -12,9 +12,9 @@ namespace ColloSys.AllocationService.ChurnAllocations
     {
         public AllocationData()
         {
-            AllocList=new List<Alloc>();
+            AllocList=new List<Allocations>();
         }
         public Stakeholders Stakeholders { get; set; }
-        public IList<Alloc> AllocList { get; set; }  
+        public IList<Allocations> AllocList { get; set; }  
     }
 }

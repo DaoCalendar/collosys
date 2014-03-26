@@ -65,9 +65,6 @@
     <Compile Include="TestingSetup\GlobalSetup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AllocationService\AllocationService.csproj">
       <Project>{65ca14cb-44d0-42c2-9945-cad72fa1519a}</Project>
       <Name>AllocationService</Name>

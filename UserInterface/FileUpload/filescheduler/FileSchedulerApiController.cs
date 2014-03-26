@@ -15,7 +15,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.SharedUtils;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -24,7 +23,7 @@ namespace AngularUI.FileUpload.filescheduler
     public class FileSchedulerApiController : BaseApiController<FileScheduler>
     {
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFileDetails()
         {
             var data = Session.QueryOver<FileDetail>().List();
@@ -32,7 +31,7 @@ namespace AngularUI.FileUpload.filescheduler
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFileStatus(ScbEnums.ScbSystems isystem, ScbEnums.Category icategory, DateTime idate)
         {
             var viewModel = new FileUploadViewModel
@@ -66,7 +65,7 @@ namespace AngularUI.FileUpload.filescheduler
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage Upload(FileUploadViewModel scheduledFiles)
         {
             var filenameslist = new List<string>();
