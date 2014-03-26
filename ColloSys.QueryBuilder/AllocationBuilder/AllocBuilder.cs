@@ -33,7 +33,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         }
 
         [Transaction]
-        public IEnumerable<Info> AllocationsForStakeholder(Stakeholders stakeholders)
+        public IEnumerable<CustomerInfo> AllocationsForStakeholder(Stakeholders stakeholders)
         {
 
             return SessionManager.GetCurrentSession().QueryOver<Allocations>()
@@ -42,7 +42,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                              .Where(x => x.Stakeholder != null)
                                              .And(x => x.Stakeholder.Id == stakeholders.Id)
                                              .Select(x => x.Info)
-                                             .List<Info>();
+                                             .List<CustomerInfo>();
         }
 
         [Transaction]
@@ -62,7 +62,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         public IEnumerable<Allocations> ForBilling(ScbEnums.Products products, bool isInRecovery)
         {
             Allocations alloc = null;
-            Info info = null;
+            CustomerInfo info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
             return SessionManager.GetCurrentSession().QueryOver<Allocations>(() => alloc)
@@ -82,7 +82,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         public IEnumerable<Allocations> ForBilling(ScbEnums.Products products, DateTime startDate, DateTime endDate)
         {
             Allocations alloc = null;
-            Info info = null;
+            CustomerInfo info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
             return SessionManager.GetCurrentSession()
@@ -101,18 +101,20 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         [Transaction]
         public ICriteria CriteriaForEmail()
         {
-            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Allocations), "Alloc");
+            var allocationName = typeof(Allocations).Name;
+            var infoName = typeof(CustomerInfo).Name;
+            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Allocations), allocationName);
 
-            criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
-            criteria.CreateAlias("Alloc.AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+            criteria.CreateAlias(allocationName + "." + infoName, infoName, JoinType.InnerJoin);
+            criteria.CreateAlias(allocationName + ".Stakeholder", "Stakeholder", JoinType.InnerJoin);
+            criteria.CreateAlias(allocationName + ".AllocPolicy", "AllocPolicy", JoinType.InnerJoin);
+            criteria.CreateAlias(allocationName + ".AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
             //add condition for createdon and alloc status
             criteria.Add(Restrictions.Ge("CreatedOn", DateTime.Today));
             criteria.Add(Restrictions.Le("CreatedOn", DateTime.Today.AddDays(1)));
             criteria.Add(Restrictions.Or(
-                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
-                Restrictions.Eq("Info.AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
+                Restrictions.Eq(infoName + ".AllocStatus", ColloSysEnums.AllocStatus.AsPerWorking),
+                Restrictions.Eq(infoName + ".AllocStatus", ColloSysEnums.AllocStatus.AllocateToStakeholder)));
             return criteria;
         }
     }

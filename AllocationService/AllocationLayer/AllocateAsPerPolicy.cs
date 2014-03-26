@@ -18,7 +18,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class AllocateAsPerPolicy
     {
-        public static List<Allocations> Init(IEnumerable<Info> delqList, AllocRelation relationCondition,
+        public static List<Allocations> Init(IEnumerable<CustomerInfo> delqList, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
             //allocatin list
@@ -164,7 +164,7 @@ namespace ColloSys.AllocationService.AllocationLayer
         #region Private
 
         private static Allocations SetAlloc(Allocations obj,
-            Info dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
+            CustomerInfo dataObject, out string accno, out string customerName, List<StakePincodes> stakePincods)
         {
             var ralloc = obj;
             var gpincodeId = dataObject.GPincode.Id;

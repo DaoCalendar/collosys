@@ -16,7 +16,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class HandleByTelecaller
     {
-        public static List<Allocations> Init(IList<Info> dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
+        public static List<Allocations> Init(IList<CustomerInfo> dataOnCondition, AllocRelation relationCondition, ScbEnums.Products product)
         {
             var list = new List<Allocations>();
 
@@ -77,7 +77,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             return list;
         }
 
-        private static Allocations SetAlloc(Allocations alloc, Info dataObject, out string accountno)
+        private static Allocations SetAlloc(Allocations alloc, CustomerInfo dataObject, out string accountno)
         {
             var ralloc = alloc;
             ralloc.Info = dataObject;

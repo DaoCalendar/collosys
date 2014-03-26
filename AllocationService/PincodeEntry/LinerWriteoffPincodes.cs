@@ -38,7 +38,7 @@ namespace ColloSys.AllocationService.PincodeEntry
             }
         }
 
-        private static void AssignPincodes(IEnumerable<GPincode> pincodes, List<Info> dataList)
+        private static void AssignPincodes(IEnumerable<GPincode> pincodes, List<CustomerInfo> dataList)
         {
             dataList.ForEach(x => x.GPincode = pincodes
                                                    .Where(y => y.Pincode == x.Pincode)

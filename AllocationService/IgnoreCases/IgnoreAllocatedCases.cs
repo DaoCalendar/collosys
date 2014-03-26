@@ -47,12 +47,12 @@ namespace ColloSys.AllocationService.IgnoreCases
                     select DataAccess.CheckInInfo(liner)
                     into oldLiner
                     where oldLiner != null
-                    select SetAlloc(oldLiner as Info))
+                    select SetAlloc(oldLiner as CustomerInfo))
                 .Cast<Entity>()
                 .ToList();
         }
 
-        private static Allocations SetAlloc(Info cInfo)
+        private static Allocations SetAlloc(CustomerInfo cInfo)
         {
             var calloc = new Allocations
                 {

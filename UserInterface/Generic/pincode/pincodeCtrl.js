@@ -645,6 +645,8 @@ csapp.controller("pincodeModalController", ["$scope", "pincodeDataLayer", "pinco
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
+            datalayer.cityCategoty();
+
         })();
     }]);
 
