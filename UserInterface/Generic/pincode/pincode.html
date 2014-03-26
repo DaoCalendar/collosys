@@ -1,11 +1,12 @@
-﻿<h2>Pincode</h2>
-<div>
+﻿
+<div class="panel">
+    <div class="panel-heading"><h5>Pincode</h5></div>
     <div class="container ng-cloak">
-        <div class="row-fluid form-horizontal">
+        <div class="row-fluid form-horizontal" data-ng-show="(dldata.States.length>0)">
             <div class="control-group span5">
                 <label class="control-label">State</label>
                 <div class="controls">
-                    <select data-ng-model="dldata.selectedState" class="input-large" data-ng-change="datalayer.changeState(dldata.selectedState)" data-ui-select2="">
+                    <select data-ng-model="selectedState" class="input-large" data-ng-change="datalayer.changeState(selectedState)" data-ui-select2="">
                         <option value=""></option>
                         <option data-ng-repeat="s in dldata.States | orderBy: 'toString()'">{{s}}</option>
                     </select>
@@ -15,72 +16,73 @@
                 <button class="btn btn-primary" data-ng-click="openAddModel()">Add New Pincode</button>
             </div>
         </div>
-
-        <div class="row-fluid">
-            <label class="control-label">Total Pincode : {{dldata.GPincodes.length}}</label>
-        </div>
-        <div class="row-fluid">
-            <label class="control-label ">Filter Pincode : {{(dldata.GPincodes | filter:search | orderBy: 'Pincode').length}}</label>
-        </div>
-        <div class="row-fluid" style="overflow: auto; height: 600px">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Pincode</th>
-                        <th>Area</th>
-                        <th>City</th>
-                        <th>City Category</th>
-                        <th>District</th>
-                        <th>Cluster</th>
-                        <th>Region</th>
+        <div class="row-fluid form-horizontal" data-ng-show="(dldata.GPincodes.length>0)">
+            <div class="row-fluid">
+                <label class="control-label">Total Pincode : {{dldata.GPincodes.length}}</label>
+            </div>
+            <div class="row-fluid">
+                <label class="control-label ">Filter Pincode : {{(dldata.GPincodes | filter:search | orderBy: 'Pincode').length}}</label>
+            </div>
+            <div class="row-fluid" style="overflow: auto; height: 600px">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Pincode</th>
+                            <th>Area</th>
+                            <th>City</th>
+                            <th>City Category</th>
+                            <th>District</th>
+                            <th>Cluster</th>
+                            <th>Region</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input class="input-small" type="text" data-ng-model="search.Pincode" required />
+                            </td>
+                            <td>
+                                <input class="input-medium" type="text" data-ng-model="search.Area" required />
+                            </td>
+                            <td>
+                                <input class="input-small" type="text" data-ng-model="search.City" required />
+                            </td>
+                            <td>
+                                <select data-ng-model="search.CityCategory" class="input-medium" data-ui-select2="{allowClear:true}">
+                                    <option value=""></option>
+                                    <option data-ng-repeat="category in dldata.CityCategoryList">{{category}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="input-small" type="text" data-ng-model="search.District" required />
+                            </td>
+                            <td>
+                                <select data-ng-model="search.Cluster" class="input-medium" data-ui-select2="{allowClear:true}">
+                                    <option value=""></option>
+                                    <option data-ng-repeat="c in dldata.stateClusters">{{c}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="input-small" type="text" data-ng-model="search.Region" required />
+                            </td>
+                        </tr>
+                    </thead>
+                    <tr data-ng-repeat="GPincode in dldata.GPincodes | filter:search | orderBy: 'Pincode'">
+                        <td>
+                            <div class="btn-group">
+                                <i class="btn icon-edit" data-ng-click="openEditModal(GPincode)"></i>
+                            </div>
+                        </td>
+                        <td>{{GPincode.Pincode}}</td>
+                        <td>{{GPincode.Area}}</td>
+                        <td>{{GPincode.City}}</td>
+                        <td>{{GPincode.CityCategory}}</td>
+                        <td>{{GPincode.District}}</td>
+                        <td>{{GPincode.Cluster}}</td>
+                        <td>{{GPincode.Region}}</td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input class="input-small" type="text" data-ng-model="search.Pincode" required />
-                        </td>
-                        <td>
-                            <input class="input-medium" type="text" data-ng-model="search.Area" required />
-                        </td>
-                        <td>
-                            <input class="input-small" type="text" data-ng-model="search.City" required />
-                        </td>
-                        <td>
-                            <select data-ng-model="search.CityCategory" class="input-medium" data-ui-select2="{allowClear:true}">
-                                <option value=""></option>
-                                <option data-ng-repeat="category in dldata.CityCategoryList">{{category}}</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input class="input-small" type="text" data-ng-model="search.District" required />
-                        </td>
-                        <td>
-                            <select data-ng-model="search.Cluster" class="input-medium" data-ui-select2="{allowClear:true}">
-                                <option value=""></option>
-                                <option data-ng-repeat="c in dldata.stateClusters">{{c}}</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input class="input-small" type="text" data-ng-model="search.Region" required />
-                        </td>
-                    </tr>
-                </thead>
-                <tr data-ng-repeat="GPincode in dldata.GPincodes | filter:search | orderBy: 'Pincode'">
-                    <td>
-                        <div class="btn-group">
-                            <i class="btn icon-edit" data-ng-click="openEditModal(GPincode)"></i>
-                        </div>
-                    </td>
-                    <td>{{GPincode.Pincode}}</td>
-                    <td>{{GPincode.Area}}</td>
-                    <td>{{GPincode.City}}</td>
-                    <td>{{GPincode.CityCategory}}</td>
-                    <td>{{GPincode.District}}</td>
-                    <td>{{GPincode.Cluster}}</td>
-                    <td>{{GPincode.Region}}</td>
-                </tr>
-            </table>
+                </table>
+            </div>
         </div>
         <div class="bottom" style="height: 50px"></div>
        
