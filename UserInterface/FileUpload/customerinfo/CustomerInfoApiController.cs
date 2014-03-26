@@ -9,7 +9,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Types4Product;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 
 #endregion
@@ -36,14 +35,14 @@ namespace AngularUI.FileUpload.customerinfo
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<ScbEnums.Products> GetProducts()
         {
             return ProductConfigBuilder.GetProducts();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public CustDisplayInfo GetCustomerInfo(ScbEnums.Products products, string accountNo)
         {
             var infoType = ClassType.GetTypeByProductCategoryForAlloc(products, ScbEnums.Category.Liner);

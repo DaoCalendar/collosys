@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.Domain;
 
 namespace ColloSys.UserInterface.Areas.Billing.ViewModels
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using ColloSys.UserInterface.Shared.Attributes;
 
 namespace AngularUI.Generic.connection
 {
@@ -13,14 +12,14 @@ namespace AngularUI.Generic.connection
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public ConnectionStringData Save(ConnectionStringData connection)
         {
             return ConnectionStringMgr.Save(connection);
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public bool CheckConnection(ConnectionStringData connection)
         {
             return ConnectionStringMgr.CheckConnection(connection);

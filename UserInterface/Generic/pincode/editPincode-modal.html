@@ -73,7 +73,7 @@
                                 data-ng-change="eGPincode.Area"
                                 data-placeholder="Area" />
                             <div data-ng-show="formEditPincode.area.$dirty">
-                                <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{val.Required()}}</span>
+                                <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{dldata.val.Required()}}</span>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="modal-footer well">
-                    <button class="btn btn-success" data-ng-click="datalayer.editPincode(eGPincode)" data-ng-disabled="!formEditPincode.$valid">Save</button>
+                    <button class="btn btn-success" data-ng-click="save()" data-ng-disabled="!formEditPincode.$valid">Save</button>
                     <button class="btn btn-primary" data-ng-hide="dldata.isInEditMode" data-ng-click="reset()">Reset</button>
                     <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
                 </div>

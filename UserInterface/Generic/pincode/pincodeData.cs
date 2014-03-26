@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Enumerations;
+﻿using ColloSys.DataLayer.Enumerations;
 
 
 namespace ColloSys.UserInterface.Areas.Generic.ViewModels

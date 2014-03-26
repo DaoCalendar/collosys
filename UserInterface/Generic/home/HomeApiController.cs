@@ -2,9 +2,6 @@
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.UserInterface.Shared.Attributes;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,7 +13,7 @@ namespace AngularUI.Generic.home
     public class HomeApiController : ApiController
     {
         [HttpGet]
-        [HttpSession]
+        
         public HttpResponseMessage GetData(string currentUser)
         {
             var id = currentUser;

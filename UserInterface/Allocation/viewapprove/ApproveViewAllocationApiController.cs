@@ -8,18 +8,14 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.NgGrid;
 using ColloSys.Shared.Types4Product;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
 
@@ -43,14 +39,14 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchPageData(ViewAllocationFilter viewAllocationFilter)
         {
             return Request.CreateResponse(HttpStatusCode.OK, GetAllocData(viewAllocationFilter));
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Alloc> GetData()
         {
             var query = AllocBuilder.ApplyRelations();
@@ -58,7 +54,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage ApproveAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -88,7 +84,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage RejectChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -111,7 +107,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
@@ -119,7 +115,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage ChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             if (changeAllocationModel == null)

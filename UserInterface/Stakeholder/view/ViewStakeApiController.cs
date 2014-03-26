@@ -16,9 +16,6 @@ using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using NHibernate.Linq;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.SqlCommand;
 using NLog;
 
 #endregion
@@ -37,14 +34,12 @@ namespace AngularUI.Stakeholder.view
         private static readonly GPermissionBuilder GPermissionBuilder=new GPermissionBuilder();
 
         [HttpGet]
-        [HttpSession]
         public IEnumerable<StkhHierarchy> GetStakeHierarchy()
         {
             return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer").ToList();
         }
 
         [HttpGet]
-        [HttpSession]
         public IEnumerable<Stakeholders> GetAllStakeHolders()
         {
             var query = StakeQuery.ApplyRelations();
@@ -60,14 +55,12 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
         public IEnumerable<GPincode> GetPincodes(string pincode, string level)
         {
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);
         }
 
         [HttpPost]
-        [HttpSession]
         public HttpResponseMessage SetLeaveForStakeholder(ManageWorkingModel manageWorkingModel)
         {
             var changesStakeholders = ManageWorkingModel.ChangeWorking(manageWorkingModel);
@@ -96,7 +89,6 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
         public HttpResponseMessage AllData()
         {
             var allLists = new
@@ -108,25 +100,24 @@ namespace AngularUI.Stakeholder.view
                 products = Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != ScbEnums.Products.UNKNOWN.ToString()).ToList()
             };
 
-            foreach (var stkh in allLists.completeData)
-            {
-                stkh.MakeEmpty();
-                stkh.StkhPayments.ForEach(x=>x.MakeEmpty());
-                foreach (var stkhPayment in stkh.StkhPayments)
-                {
-                    if (stkhPayment.CollectionBillingPolicy != null) 
-                    stkhPayment.CollectionBillingPolicy.MakeEmpty();
-                    if(stkhPayment.RecoveryBillingPolicy!=null)
-                        stkhPayment.RecoveryBillingPolicy.MakeEmpty();
+            //foreach (var stkh in allLists.completeData)
+            //{
+            //    stkh.MakeEmpty();
+            //    stkh.StkhPayments.ForEach(x=>x.MakeEmpty());
+            //    foreach (var stkhPayment in stkh.StkhPayments)
+            //    {
+            //        if (stkhPayment.CollectionBillingPolicy != null) 
+            //        stkhPayment.CollectionBillingPolicy.MakeEmpty();
+            //        if(stkhPayment.RecoveryBillingPolicy!=null)
+            //            stkhPayment.RecoveryBillingPolicy.MakeEmpty();
 
-                }
-                stkh.StkhWorkings.ForEach(x=>x.MakeEmpty());
-            }
+            //    }
+            //    stkh.StkhWorkings.ForEach(x=>x.MakeEmpty());
+            //}
             return Request.CreateResponse(HttpStatusCode.OK, allLists);
         }
 
         [HttpGet]
-        [HttpSession]
         public IEnumerable<Stakeholders> GetReportee(Guid stakeId)
         {
             var query = StakeQuery.ApplyRelations().Where(x => x.ReportingManager == stakeId);
@@ -134,7 +125,6 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
         public int GetTotalCount(Guid hierarchyId, string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -180,7 +170,7 @@ namespace AngularUI.Stakeholder.view
 
 
         [HttpGet]
-        [HttpSession]
+        
         public int GetTotalCountforPending(string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -201,7 +191,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public int GetTotalCountForProduct(ScbEnums.Products product)
         {
             var query = StakeQuery.ApplyRelations();
@@ -216,7 +206,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public int GetTotalCountForStake(Guid Id)
         {
             var query = StakeQuery.ApplyRelations();
@@ -227,7 +217,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetStakeholder(Guid hierarchyId, int start, int size, string filterView)
         {
             if (hierarchyId == Guid.Empty)
@@ -266,7 +256,7 @@ namespace AngularUI.Stakeholder.view
 
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetReportees(Guid Id, int start, int size)
         {
             var query = StakeQuery.ApplyRelations();
@@ -277,7 +267,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetStakeByProduct(ScbEnums.Products product, int start, int size)
         {
             Stakeholders stake = null;
@@ -293,12 +283,10 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetPendingStakeholder(int start, int size, string filterView)
         {
             var query = StakeQuery.ApplyRelations();
-            Stakeholders stake = null;
-            //query.JoinQueryOver(() => stake);
 
             if (filterView == "PendingForAll")
             {
@@ -315,7 +303,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public HttpResponseMessage GetStakeholderData(Guid hierarchyId, int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetStakeholder(hierarchyId, start, size, filterView);
@@ -329,7 +317,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public HttpResponseMessage GetPendingStkhData(int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetPendingStakeholder(start, size, filterView);
@@ -343,7 +331,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public HttpResponseMessage GetStkhDataForProduct(ScbEnums.Products product, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetStakeByProduct(product, start, size);
@@ -357,7 +345,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetReportingManager(List<Stakeholders> data)
         {
             if (data != null)
@@ -382,7 +370,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public HttpResponseMessage GetStkhDataByStakeHolder(Guid Id, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetReportees(Id, start, size);
@@ -396,7 +384,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetReportsToStake(Guid stakeId)
         {
             Stakeholders stake = null;
@@ -438,7 +426,7 @@ namespace AngularUI.Stakeholder.view
             return stakeholderses;
         }
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<GPermission> GetPermissions()
         {
             var query = GPermissionBuilder.ApplyRelations();
@@ -446,7 +434,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        [HttpSession]
+        
         public IEnumerable<Stakeholders> GetStakeListForManageWorking(Guid stakeholders, Guid hierarcyId)
         {
             if (hierarcyId == Guid.Empty)
@@ -473,7 +461,7 @@ namespace AngularUI.Stakeholder.view
 
         //TODO:Amol
         [HttpPost]
-        [HttpSession]
+        
         public void SaveApprovedAndRejectUser(Stakeholders stakeholders)
         {
             var hierarchy = GetHierarchy(stakeholders.Hierarchy.Designation, stakeholders.Hierarchy.Hierarchy).ToList().FirstOrDefault();
@@ -519,7 +507,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        [HttpSession]
+        
         public void SaveApprovedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -544,7 +532,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        [HttpSession]
+        
         public void SaveRejectedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -591,7 +579,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        [HttpSession]
+        
         public void SaveListApprovedAndRejectUser(IEnumerable<Stakeholders> stakeholderses)
         {
             foreach (var stake in stakeholderses)
@@ -600,7 +588,7 @@ namespace AngularUI.Stakeholder.view
             }
         }
         [HttpPost]
-        [HttpSession]
+        
         public void SavePushToHigher(Stakeholders data)
         {
             if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)
@@ -791,7 +779,7 @@ namespace AngularUI.Stakeholder.view
 
 }
 //[HttpGet]
-//[HttpTransaction]
+//
 //public IEnumerable<Stakeholders> GetInActiveData(Guid hierarchyId)
 //{
 //    if (hierarchyId == Guid.Empty)
@@ -823,7 +811,7 @@ namespace AngularUI.Stakeholder.view
 
 //}
 //[HttpGet]
-//[HttpTransaction]
+//
 //public IEnumerable<Stakeholders> GetActiveData(Guid hierarchyId)
 //{
 //    if (hierarchyId == Guid.Empty)

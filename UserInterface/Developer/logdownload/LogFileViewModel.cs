@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ColloSys.UserInterface.Areas.Developer.Models;
 
 namespace AngularUI.Developer.logdownload
 {

@@ -1,0 +1,15 @@
+﻿<!--modal for set leave of single stakeholder-->
+<div modal="showLeaveModal" options="modelOption" close="closeSetLeave()">
+    <div class="modal-header">
+        <strong>Change working for stakeholder</strong>
+    </div>
+    <div class="modal-body">
+        <div class="row" data-ng-include="'/Stakeholder/view/onleave.html'"></div>
+    </div>
+    <div class="modal-footer">
+        <div class="row-fluid form-horizontal text-right">
+            <button class="btn btn-primary" data-ng-click="closeSetLeave()">Close</button>
+        </div>
+    </div>
+
+</div>
