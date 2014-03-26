@@ -200,7 +200,7 @@
                                 <div class="control-group span4">
                                     <div class="controls btn-group">
                                         <button class="btn btn-success" data-ng-show="payoutRelation.Status=='Submitted'"
-                                                data-ng-click="payoutRelation.Status='Approved';datalayer.savePayoutPolicy(dldata.payoutPolicy)">
+                                                data-ng-click="payoutRelation.Status='Approved';datalayer.approveRelation(payoutRelation)">
                                             Approve
                                         </button>
                                         <button class="btn btn-success" data-ng-show="payoutRelation.Status=='Submitted'"

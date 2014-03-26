@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
@@ -108,15 +109,40 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 //    Session.SaveOrUpdate(billingRelation);
                 //}
             }
-
-            foreach (var billingRelation in obj.BillingRelations)
-            {
-                BillingRelationBuilder.Save(billingRelation);
-            }
+            BillingRelationBuilder.Save(obj.BillingRelations);
             BillingPolicyBuilder.Save(obj);
             return obj;
         }
 
+        #endregion
+
+        #region approve and reject relation
+
+        [HttpGet]
+        [HttpSession]
+        public HttpResponseMessage RejectRelation(Guid relationId)
+        {
+            var relation = BillingRelationBuilder.Get(relationId);
+            BillingRelationBuilder.Delete(relation);
+            return  Request.CreateResponse(HttpStatusCode.OK, "");
+        }
+
+        [HttpGet]
+        [HttpSession]
+        public HttpResponseMessage ApproveRelation(Guid relationId)
+        {
+            var relation = BillingRelationBuilder.Get(relationId);
+            relation.Status = ColloSysEnums.ApproveStatus.Approved;
+            if (relation.OrigEntityId != Guid.Empty)
+            {
+                var origRelation = BillingRelationBuilder.Get(relation.OrigEntityId);
+                origRelation.EndDate = relation.StartDate.AddDays(-1);
+                BillingRelationBuilder.Delete(origRelation);
+            }
+            relation.OrigEntityId = Guid.Empty;
+            BillingRelationBuilder.Save(relation);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
         #endregion
     }
 }
