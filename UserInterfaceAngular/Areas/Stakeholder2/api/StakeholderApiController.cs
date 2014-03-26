@@ -173,8 +173,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             try
             {
                 //save stakeholder here
-                if (DateTime.MinValue == stakeholders.BirthDate)
-                    stakeholders.BirthDate = null;
+                //if (DateTime.MinValue == stakeholders.BirthDate)
+                    //stakeholders.BirthDate = null;
                 Save(stakeholders);
                 _log.Info("Stakeholder is saved in StakeholderApi/Save");
                 var result =

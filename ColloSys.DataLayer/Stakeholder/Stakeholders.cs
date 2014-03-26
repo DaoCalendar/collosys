@@ -72,9 +72,9 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual DateTime? LeavingDate { get; set; }
 
-        public virtual ColloSysEnums.Gender Gender { get; set; }
+        //public virtual ColloSysEnums.Gender Gender { get; set; }
 
-        public virtual DateTime? BirthDate { get; set; }
+        //public virtual DateTime? BirthDate { get; set; }
 
         public virtual StkhHierarchy Hierarchy { get; set; }
 

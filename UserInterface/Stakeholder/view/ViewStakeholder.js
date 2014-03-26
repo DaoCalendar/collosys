@@ -123,13 +123,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             });
         };
 
-        var getCurrUserInfo = function() {
-            restApi.customGET("GetCurrUserInfo", { currUser: $csfactory.getCurrentUserName() }).then(function (data) {
-                $scope.CurrUserInfo = data;
-            });
-        };
-
-
         //harish - get reporting manager from server side
         //$scope.getReportingManager = function (data) {
         //    //if ($csfactory.isNullOrEmptyGuid(data.ReportingManager)) {
@@ -501,8 +494,9 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.addStakeholder = function () {
-            var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
-            $window.location = downloadpath;
+            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
+            //$window.location = downloadpath;
+            $location.path('/stakeholder/add');
         };
 
         $scope.reject = function (stakeholder, description) {
