@@ -11,7 +11,7 @@ namespace ColloSys.AllocationService.ChurnAllocations
 {
     public class AllocationChurn
     {
-        public bool Init(IList<Alloc> dataToChange) 
+        public bool Init(IList<Allocations> dataToChange) 
         {
             if (dataToChange == null)
                 return false;
@@ -44,12 +44,12 @@ namespace ColloSys.AllocationService.ChurnAllocations
                 }).ToList();
         }
 
-        private static List<AllocationData> AssignAllocationDataByStakeholder<T>(IList<T> dataToChange) where T : Alloc
+        private static List<AllocationData> AssignAllocationDataByStakeholder<T>(IList<T> dataToChange) where T : Allocations
         {
             var stakeholderlist = dataToChange.Select(x => x.Stakeholder).Distinct().ToList();
             return stakeholderlist.Select(stakeholderse => new AllocationData
                 {
-                    Stakeholders = stakeholderse, AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<Alloc>()
+                    Stakeholders = stakeholderse, AllocList = dataToChange.Where(x => x.Stakeholder.Id == stakeholderse.Id).ToList<Allocations>()
                 }).ToList();
         }
     }

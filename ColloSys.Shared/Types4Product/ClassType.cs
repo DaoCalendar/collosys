@@ -174,7 +174,7 @@ namespace ColloSys.Shared.Types4Product
                 case ScbEnums.Products.SME_LAP_OD:
                 case ScbEnums.Products.SMC:
                 case ScbEnums.Products.AUTO_OD:
-                    return typeof(Alloc);
+                    return typeof(Allocations);
 
                 default:
                     throw new ArgumentOutOfRangeException("products");

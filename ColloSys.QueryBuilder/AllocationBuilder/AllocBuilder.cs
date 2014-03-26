@@ -20,11 +20,11 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.AllocationBuilder
 {
-    public class AllocBuilder : Repository<Alloc>
+    public class AllocBuilder : Repository<Allocations>
     {
-        public override QueryOver<Alloc, Alloc> ApplyRelations()
+        public override QueryOver<Allocations, Allocations> ApplyRelations()
         {
-            return QueryOver.Of<Alloc>()
+            return QueryOver.Of<Allocations>()
                             .Fetch(x => x.AllocPolicy).Eager
                             .Fetch(x => x.AllocSubpolicy).Eager
                             .Fetch(x => x.Info).Eager
@@ -36,7 +36,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         public IEnumerable<Info> AllocationsForStakeholder(Stakeholders stakeholders)
         {
 
-            return SessionManager.GetCurrentSession().QueryOver<Alloc>()
+            return SessionManager.GetCurrentSession().QueryOver<Allocations>()
                                              .Fetch(x => x.Info).Eager
                                              .Fetch(x => x.Stakeholder).Eager
                                              .Where(x => x.Stakeholder != null)
@@ -46,9 +46,9 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         }
 
         [Transaction]
-        public IEnumerable<Alloc> AllocationsForStakeholder(Guid stakeholderId, ScbEnums.Products products)
+        public IEnumerable<Allocations> AllocationsForStakeholder(Guid stakeholderId, ScbEnums.Products products)
         {
-            return SessionManager.GetCurrentSession().QueryOver<Alloc>()
+            return SessionManager.GetCurrentSession().QueryOver<Allocations>()
                                       .Fetch(x => x.AllocPolicy).Eager
                                       .Fetch(x => x.AllocSubpolicy).Eager
                                       .Fetch(x => x.Info).Eager
@@ -59,13 +59,13 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         }
 
         [Transaction]
-        public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, bool isInRecovery)
+        public IEnumerable<Allocations> ForBilling(ScbEnums.Products products, bool isInRecovery)
         {
-            Alloc alloc = null;
+            Allocations alloc = null;
             Info info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
-            return SessionManager.GetCurrentSession().QueryOver<Alloc>(() => alloc)
+            return SessionManager.GetCurrentSession().QueryOver<Allocations>(() => alloc)
                                     .Fetch(x => x.Info).Eager
                                     .Fetch(x => x.Info.GPincode).Eager
                                     .Fetch(x => x.Stakeholder).Eager
@@ -74,19 +74,19 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                     .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
                                     .Where(() => info.Product == products)
                                     .And(() => info.IsInRecovery == isInRecovery)
-                                    .List<Alloc>();
+                                    .List<Allocations>();
 
         }
 
         [Transaction]
-        public IEnumerable<Alloc> ForBilling(ScbEnums.Products products, DateTime startDate, DateTime endDate)
+        public IEnumerable<Allocations> ForBilling(ScbEnums.Products products, DateTime startDate, DateTime endDate)
         {
-            Alloc alloc = null;
+            Allocations alloc = null;
             Info info = null;
             GPincode pincode = null;
             Stakeholders stakeholders = null;
             return SessionManager.GetCurrentSession()
-                                 .QueryOver<Alloc>(() => alloc)
+                                 .QueryOver<Allocations>(() => alloc)
                                  .Fetch(x => x.Info).Eager
                                  .Fetch(x => x.Info.GPincode).Eager
                                  .Fetch(x => x.Stakeholder).Eager
@@ -95,13 +95,13 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .JoinQueryOver(() => alloc.Stakeholder, () => stakeholders, JoinType.InnerJoin)
                                  .Where(() => info.Product == products)
                                  .And(() => info.AllocStartDate >= startDate && info.AllocEndDate <= endDate)
-                                 .List<Alloc>();
+                                 .List<Allocations>();
         }
 
         [Transaction]
         public ICriteria CriteriaForEmail()
         {
-            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Alloc), "Alloc");
+            var criteria = SessionManager.GetCurrentSession().CreateCriteria(typeof(Allocations), "Alloc");
 
             criteria.CreateAlias("Alloc.Info", "Info", JoinType.InnerJoin);
             criteria.CreateAlias("Alloc.Stakeholder", "Stakeholder", JoinType.InnerJoin);

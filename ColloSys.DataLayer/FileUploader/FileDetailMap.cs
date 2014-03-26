@@ -1,10 +1,5 @@
-﻿#region References
-
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.FileUploader;
-using NHibernate;
-#endregion
 
 namespace ColloSys.DataLayer.Mapping
 {
@@ -12,15 +7,7 @@ namespace ColloSys.DataLayer.Mapping
     {
         public FileDetailMap()
         {
-            Table("FILE_DETAILS");
-
-            #region Property
-
-            Property(x => x.AliasName, map =>
-            {
-                map.UniqueKey("UK_FILE_DETAILS");
-                map.Index("IX_FILE_DETAILS");
-            });
+            Property(x => x.AliasName, map =>{map.UniqueKey("UK_FILE_DETAILS");map.Index("IX_FILE_DETAILS");});
             Property(x => x.AliasDescription);
             Property(x => x.FileName);
             Property(x => x.FileCount);
@@ -44,16 +31,9 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.StartDate);
             Property(x => x.EndDate);
 
-            #endregion
-
-            #region Relationship set
-
-            Set(x => x.FileColumns, colmap => { }, map => map.OneToMany());
-            Set(x => x.FileMappings, colmap => { }, map => map.OneToMany());
-            Set(x => x.FileSchedulers, colmap => { }, map => map.OneToMany());
-
-            #endregion
-
+            Bag(x => x.FileColumns, colmap => { }, map => map.OneToMany());
+            Bag(x => x.FileMappings, colmap => { }, map => map.OneToMany());
+            Bag(x => x.FileSchedulers, colmap => { }, map => map.OneToMany());
         }
     }
 }

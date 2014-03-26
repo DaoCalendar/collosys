@@ -81,7 +81,7 @@ namespace ColloSys.FileUploadService
                 file.UploadStatus = ColloSysEnums.UploadStatus.UploadStarted;
                 file.StatusDescription = string.Empty;
                 dbLayer.ChangeStatus(file);
-                Logger.Info("FileUpload: uploading file : " + file.FileNameDisplay + ", for date" + file.FileDate.ToShortDateString());
+                Logger.Info("FileUpload: uploading file : " + file.FileName + ", for date" + file.FileDate.ToShortDateString());
 
                 AllFileUploader.UploadFile(file);
             }

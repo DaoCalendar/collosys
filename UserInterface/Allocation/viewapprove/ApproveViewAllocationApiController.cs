@@ -25,7 +25,7 @@ using NHibernate.SqlCommand;
 //stakeholders calls changed
 namespace ColloSys.UserInterface.Areas.Allocation.apiController
 {
-    public class ApproveViewAllocationApiController : BaseApiController<Alloc>
+    public class ApproveViewAllocationApiController : BaseApiController<Allocations>
     {
         private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
         private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
@@ -47,7 +47,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         [HttpGet]
         
-        public IEnumerable<Alloc> GetData()
+        public IEnumerable<Allocations> GetData()
         {
             var query = AllocBuilder.ApplyRelations();
             return AllocBuilder.Execute(query).Take(10).ToList();
@@ -134,7 +134,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.Id);
                 oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
 
-                var newCAlloc = GetNewAlloc<Alloc>(cAlloc, changeAllocStatus);
+                var newCAlloc = GetNewAlloc<Allocations>(cAlloc, changeAllocStatus);
                 newCAlloc.NoAllocResons = noAllocReason;
                 info.NoAllocResons = noAllocReason;
                 info.Allocs.Add(newCAlloc);
@@ -145,7 +145,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                                           GetAllocData(changeAllocationModel));
         }
 
-        private T GetNewAlloc<T>(T alloc, ColloSysEnums.AllocStatus changeAllocStatus) where T : Alloc
+        private T GetNewAlloc<T>(T alloc, ColloSysEnums.AllocStatus changeAllocStatus) where T : Allocations
         {
             alloc.OrigEntityId = alloc.Id;
             alloc.ResetUniqueProperties();
@@ -186,7 +186,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var firstChar = allcType.Name.Substring(0, 1);
             var aliseName = allcType.Name;
             var infoName = typeof(Info).Name;
-            var memberAlloc = new MemberHelper<Alloc>();
+            var memberAlloc = new MemberHelper<Allocations>();
 
             var detachedCriteria = DetachedCriteria.For(allcType, aliseName);
             detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.LeftOuterJoin);
@@ -270,7 +270,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         public static IList<string> GetsharedAllocExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
         {
-            var memberHelper = new MemberHelper<Alloc>();
+            var memberHelper = new MemberHelper<Allocations>();
             return new List<string>
                 {
                     memberHelper.GetName(x => x.IsAllocated),
@@ -294,7 +294,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
     public class ChangeAllocationData : ViewAllocationFilter
     {
-        public IEnumerable<Alloc> AllocList { get; set; }
+        public IEnumerable<Allocations> AllocList { get; set; }
         public ColloSysEnums.AllocStatus ChangeAllocStatus { get; set; }
     }
 
