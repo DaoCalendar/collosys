@@ -7,7 +7,7 @@ using ColloSys.Shared.ConfigSectionReader;
 
 #endregion
 
-namespace ColloSys.UserInterface.App_Start
+namespace AngularUI.appCode
 {
     public static class NHibernateConfig
     {

@@ -198,9 +198,6 @@
     <Compile Include="Stakeholder\StkhWorking.cs" />
     <Compile Include="Stakeholder\StkhWorkingMap.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="cleanOutput" AfterTargets="Clean">
     <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />

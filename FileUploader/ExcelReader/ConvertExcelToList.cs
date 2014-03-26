@@ -15,9 +15,9 @@ namespace FileUploader.ExcelReader
 
         private IExcelReader _iExcelReader;
 
-        public ConvertExcelToList(FileStream fileInfo)
+        public ConvertExcelToList(FileStream fileStream)
         {
-            _iExcelReader = GetInstance(fileInfo);
+            _iExcelReader = GetInstance(fileStream);
         }
 
         public ConvertExcelToList(IExcelReader reader)
@@ -49,7 +49,7 @@ namespace FileUploader.ExcelReader
             for (var i = 0; i < _iExcelReader.TotalRows; i++)
             {
                 var obj = (TU)Activator.CreateInstance(typeof(TU));
-                _iExcelReader.NextRow();
+                //_iExcelReader.NextRow();
                 foreach (var mapping in mappingList)
                 {
                     var value = _iExcelReader.GetValue((uint)mapping.Position);

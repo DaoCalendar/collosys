@@ -14,7 +14,6 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.NgGrid;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
 using NHibernate.Criterion;
 using NLog;
@@ -40,7 +39,7 @@ namespace ColloSys.UserInterface.Areas.Developer.apiController
 
         // GET api/<controller>/5
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchPageData(string tableName)
         {
             var type = typeof(CLiner).Assembly.GetTypes().SingleOrDefault(x => x.Name == tableName);
@@ -56,7 +55,7 @@ namespace ColloSys.UserInterface.Areas.Developer.apiController
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage DownLoadTables(List<string> tableNames)
         {
             // create excel from data

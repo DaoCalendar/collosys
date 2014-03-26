@@ -12,8 +12,6 @@ namespace ColloSys.DataLayer.Domain
 {
     public class BCondition : Entity
     {
-        #region Properties
-
         public virtual ColloSysEnums.PayoutLRType Ltype { get; set; }
 
         public virtual string LtypeName { get; set; }
@@ -35,17 +33,5 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.ConditionType ConditionType { get; set; }
 
         public virtual BillingSubpolicy BillingSubpolicy { get; set; }
-
-        #endregion
-
-        //#region relationships - none
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    return;
-        //}
-
-        //#endregion
-
     }
 }

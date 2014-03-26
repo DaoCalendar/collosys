@@ -115,6 +115,7 @@ namespace ColloSys.AllocationService.EmailAllocations
                 try
                 {
                     EmailService.EmailReport(fileInfo, allocated.Manager.EmailId, subjectForEmail);
+                    EmailService.EmailReport(fileInfo,allocated.AllocatedStakeholder.EmailId,subjectForEmail);
                 }
                 catch (Exception e)
                 {

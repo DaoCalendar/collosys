@@ -37,6 +37,7 @@ namespace ColloSys.AllocationService
                         DbType = ConfiguredDbTypes.MsSql,
                         IsWeb = false
                     });
+                SessionManager.BindNewSession();
             }
             catch (Exception ex)
             {

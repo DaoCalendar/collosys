@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ColloSys.UserInterface.Areas.Generic.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 

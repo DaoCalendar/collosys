@@ -37,9 +37,9 @@
                     <input type="number" class="input-mini" min="0" data-ng-model="column.Length" />
                 </td>
                 <td>
-                    <select class="input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType" data-placeholder="Select Column Type">
+                    <select class="input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType" >
                         <option value=""></option>
-                        <option data-ng-repeat="type in dataTypes">{{type}}</option>
+                        <option data-ng-repeat="type in dldata.dataTypes">{{type}}</option>
                     </select>
                 </td>
                 <td>

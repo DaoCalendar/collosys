@@ -4,12 +4,8 @@ using System;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.Transform;
 using NLog;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +22,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         private readonly static GPermissionBuilder GPermissionBuilder = new GPermissionBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public PermisionData GetWholeData()
         {
             PermisionData permision = new PermisionData();
@@ -53,7 +49,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         #region Post
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public IEnumerable<GPermission> SavePermissions(IList<GPermission> permissions)
         {
             foreach (var gPermission in permissions)

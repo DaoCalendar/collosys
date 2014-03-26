@@ -8,13 +8,9 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.Linq;
 using ColloSys.DataLayer.Enumerations;
 
 #endregion
@@ -28,7 +24,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetStates()
         {
             var data = GPincodeBuilder.StateList();
@@ -36,7 +32,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodes(string state)
         {
             var data = GPincodeBuilder.OnStateGetList(state);
@@ -44,7 +40,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodesArea(string area, string city)
         {
             var data = GPincodeBuilder.AreaOnCityAndArea(area, city);
@@ -52,7 +48,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetMissingPincodes(string pincode)
         {
             var missingPincodes = new List<string>();
@@ -61,7 +57,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodeCity(string city, string district)
         {
             var data = GPincodeBuilder.CitiesOnCityDistrict(city, district);
@@ -70,14 +66,14 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetCityCategory()
         {
            return Enum.GetNames(typeof (ColloSysEnums.CityCategory));
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetWholedata(PincodeData pincodedata)
         {
             if (pincodedata == null)
@@ -137,7 +133,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetWholePincode()
         {
             var data = GPincodeBuilder.GetAll().Select(x => x.Pincode).ToList();

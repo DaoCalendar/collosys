@@ -8,7 +8,6 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -19,7 +18,7 @@ namespace AngularUI.Generic.login
         private readonly IRepository<Users> _usersRepo = new GUsersRepository();
 
         [HttpPost]
-        [HttpSession]
+        
         public HttpResponseMessage AutheticateUser(LoginModel loginInfo)
         {
             var users = _usersRepo.FilterBy(x => x.Username == loginInfo.username);

@@ -1,13 +1,13 @@
 ﻿(
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants','$location',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants,$location) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location) {
 
 
         var restApi = rest.all('ViewStakeApi');
 
         //#region pagination 
 
-        $scope.setPageNumber = function() {
+        $scope.setPageNumber = function () {
             $scope.startCount = 0;
             $scope.pagenum = 1;
         };
@@ -117,11 +117,18 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             restApi.customGET("AllData").then(function (data) {
                 $scope.completeData = data.completeData;
                 $scope.hierarchyDesignation = data.hierarchyDesignation;
-                $scope.CurrUserInfo = data.currUserData;
                 $scope.productList = data.products;
+                $scope.CurrUserInfo = data.currUserData;
                 showButton();
             });
         };
+
+        var getCurrUserInfo = function() {
+            restApi.customGET("GetCurrUserInfo", { currUser: $csfactory.getCurrentUserName() }).then(function (data) {
+                $scope.CurrUserInfo = data;
+            });
+        };
+
 
         //harish - get reporting manager from server side
         //$scope.getReportingManager = function (data) {
@@ -206,7 +213,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                     if ($scope.stakeholder.Hierarchy != "" && $scope.stakeholder.Designation != "") {
                         restApi.customGET('GetStakeholder', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter, start: $scope.startCount, size: $scope.size })
                             .then(function (data) {
-                                
+
                                 $log.info("stakeholders list: ", data);
                                 $scope.stakeholderData = data;
                                 console.log($scope.stakeholderData);
@@ -228,20 +235,20 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                     //attatches Reporting Manager
                                     restApi.customPOST($scope.stakeholderData, 'GetReportingManager')
                                         .then(function (reportingMngr) {
-                                        $log.info("reporting manager name: ", reportingMngr);
-                                        if (reportingMngr.length > 0) {
                                             $log.info("reporting manager name: ", reportingMngr);
-                                            for (var i = 0; i < $scope.stakeholderData.length; i++) {
-                                                $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
+                                            if (reportingMngr.length > 0) {
+                                                $log.info("reporting manager name: ", reportingMngr);
+                                                for (var i = 0; i < $scope.stakeholderData.length; i++) {
+                                                    $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
                                 }
                             }, function () {
                                 $csnotify.error("Error in Loading Data");
                                 $scope.showDiv = false;
                             });
-                       
+
                         return;
                     }
                     break;
@@ -282,7 +289,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 }
             }
         };
-        
+
         $scope.getReportsToStakeholders = function (stakeId) {
             debugger;
             if (!$csfactory.isNullOrEmptyString(stakeId)) {
@@ -770,7 +777,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             newPayment.Version = 0;
             return newPayment;
         };
-        $scope.replace = function (info,data) {
+        $scope.replace = function (info, data) {
             if (info === 'ALL') return "-";
             if (info.toString() === "0") return "-";
             if (info.toString() === "7") return "6+";
@@ -785,7 +792,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //Permissions
         var init = function () {
-            
+
             $scope.startCount = 0;
             $scope.showDiv = false;
             $scope.showme = false;
@@ -805,7 +812,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.CurrUserInfo = {};
             $scope.Approved = true;
             $scope.Rejected = true;
-            
+
             $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo"];
 
             $scope.stakeholder = {
