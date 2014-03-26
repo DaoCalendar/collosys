@@ -23,13 +23,13 @@ namespace AngularUI.FileUpload.customerinfo
         }
 
         // ReSharper disable UnusedAutoPropertyAccessor.Global
-        public Info CustInfo { get; set; }
+        public CustomerInfo CustInfo { get; set; }
 
         public List<Payment> Payments { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 
-    public class CustomerInfoApiController : BaseApiController<Info>
+    public class CustomerInfoApiController : BaseApiController<CustomerInfo>
     {
 
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
@@ -48,12 +48,12 @@ namespace AngularUI.FileUpload.customerinfo
             var infoType = ClassType.GetTypeByProductCategoryForAlloc(products, ScbEnums.Category.Liner);
             var paymentType = ClassType.GetPaymentTypeByProduct(products);
 
-            var memberInfo = new MemberHelper<Info>();
+            var memberInfo = new MemberHelper<CustomerInfo>();
             var custDisplayInfos = new CustDisplayInfo();
 
             custDisplayInfos.CustInfo = Session.CreateCriteria(infoType)
                                                .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo), accountNo))
-                                               .List<Info>().SingleOrDefault();
+                                               .List<CustomerInfo>().SingleOrDefault();
 
             custDisplayInfos.Payments.AddRange(Session.CreateCriteria(paymentType)
                                                       .Add(Restrictions.Eq(memberInfo.GetName(x => x.AccountNo),

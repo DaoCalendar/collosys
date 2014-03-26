@@ -20,7 +20,7 @@ namespace ColloSys.AllocationService.IgnoreCases
         private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
         private static readonly AllocGenericCalls AllocGenericCalls=new AllocGenericCalls();
 
-        public static IEnumerable<Info> GetInfoData(ScbEnums.Products products)
+        public static IEnumerable<CustomerInfo> GetInfoData(ScbEnums.Products products)
         {
             return InfoBuilder.IgnoreAllocated(products);
         }

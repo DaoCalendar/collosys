@@ -13,7 +13,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
     public class DbLayer
     {
         private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
-        public static IEnumerable<Info> GetUnAllocatedCases(ScbEnums.Products products)
+        public static IEnumerable<CustomerInfo> GetUnAllocatedCases(ScbEnums.Products products)
         {
             return InfoBuilder.UnAllocatedCases(products);
         }

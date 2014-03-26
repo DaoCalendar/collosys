@@ -26,7 +26,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
             AllocBuilder.Save(allocList);
         }
 
-        private static IEnumerable<Allocations> SetAllocList(List<Info> eInfoData)
+        private static IEnumerable<Allocations> SetAllocList(List<CustomerInfo> eInfoData)
         {
             var allocList = new List<Allocations>();
             if (eInfoData == null || eInfoData.Count == 0)
@@ -50,7 +50,7 @@ namespace ColloSys.AllocationService.AllocationLastCode
         }
 
         private static IEnumerable<T> SetList<T>(IReadOnlyCollection<T> list, ScbEnums.Products products)
-            where T : Info
+            where T : CustomerInfo
         {
             if (list.Count == 0)
                 return list;

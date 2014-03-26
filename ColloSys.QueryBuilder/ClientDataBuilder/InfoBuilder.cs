@@ -17,26 +17,26 @@ using NHibernate.Linq;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
-    public class InfoBuilder : Repository<Info>
+    public class InfoBuilder : Repository<CustomerInfo>
     {
-        public override QueryOver<Info, Info> ApplyRelations()
+        public override QueryOver<CustomerInfo, CustomerInfo> ApplyRelations()
         {
-            return QueryOver.Of<Info>();
+            return QueryOver.Of<CustomerInfo>();
         }
 
         [Transaction]
-        public IEnumerable<Info> UnAllocatedCases(ScbEnums.Products products)
+        public IEnumerable<CustomerInfo> UnAllocatedCases(ScbEnums.Products products)
         {
-            return SessionManager.GetCurrentSession().QueryOver<Info>()
+            return SessionManager.GetCurrentSession().QueryOver<CustomerInfo>()
                                  .Where(x => x.Product == products)
                                  .And(x => x.AllocEndDate == null)
                                  .List();
         }
 
         [Transaction]
-        public IEnumerable<Info> OnAccNo(IList<string> accNoList)
+        public IEnumerable<CustomerInfo> OnAccNo(IList<string> accNoList)
         {
-            return SessionManager.GetCurrentSession().Query<Info>()
+            return SessionManager.GetCurrentSession().Query<CustomerInfo>()
                                  .Where(x => accNoList.Contains(x.AccountNo)
                                              && x.AllocStatus ==
                                              ColloSysEnums.AllocStatus.AllocateToTelecalling)
@@ -44,9 +44,9 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
         }
 
         [Transaction]
-        public IEnumerable<Info> IgnoreAllocated(ScbEnums.Products products)
+        public IEnumerable<CustomerInfo> IgnoreAllocated(ScbEnums.Products products)
         {
-            return SessionManager.GetCurrentSession().QueryOver<Info>()
+            return SessionManager.GetCurrentSession().QueryOver<CustomerInfo>()
                                  .Where(x => x.Product == products)
                                  .And(x => x.AllocEndDate != null)
                                  .And(x => x.AllocEndDate < Util.GetTodayDate())
@@ -54,9 +54,9 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
         }
 
         [Transaction]
-        public IEnumerable<Info> NonPincodeEntries(ScbEnums.Products products)
+        public IEnumerable<CustomerInfo> NonPincodeEntries(ScbEnums.Products products)
         {
-            return SessionManager.GetCurrentSession().QueryOver<Info>()
+            return SessionManager.GetCurrentSession().QueryOver<CustomerInfo>()
                                  .Where(x => x.GPincode == null)
                                  .And(x => x.Product == products)
                                  .And(x => x.Pincode > 0)
@@ -64,10 +64,10 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
         }
 
         [Transaction]
-        public IEnumerable<Info> ForUnkownProduct(QueryOver<Payment, Payment> query)
+        public IEnumerable<CustomerInfo> ForUnkownProduct(QueryOver<Payment, Payment> query)
         {
             return SessionManager.GetCurrentSession()
-                                 .QueryOver<Info>()
+                                 .QueryOver<CustomerInfo>()
                                  .WithSubquery
                                  .WhereExists(query)
                                  .List();
@@ -76,7 +76,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
         [Transaction]
         public IEnumerable<string> MissingPincodeId(string pincode)
         {
-            return SessionManager.GetCurrentSession().Query<Info>()
+            return SessionManager.GetCurrentSession().Query<CustomerInfo>()
                                  .Where(x => x.GPincode == null && x.Pincode.ToString().StartsWith(pincode))
                                  .Select(x => x.Pincode.ToString())
                                  .Distinct()
@@ -84,9 +84,9 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
         }
 
         [Transaction]
-        public IEnumerable<Info> OnAccNoProduct(string accountNo, ScbEnums.Products products)
+        public IEnumerable<CustomerInfo> OnAccNoProduct(string accountNo, ScbEnums.Products products)
         {
-            return SessionManager.GetCurrentSession().Query<Info>()
+            return SessionManager.GetCurrentSession().Query<CustomerInfo>()
                                  .Where(x => x.AccountNo.ToString()
                                               .StartsWith(accountNo) && x.Product == products)
                                  .Take(10).ToList();

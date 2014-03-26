@@ -97,7 +97,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         criteria = CreateCriteriaOnCondition(conditionList, getType, criteria);
                         Log.Info("Criteria on Condition:" + criteria);
 
-                        IList<Info> dataOnCondition = criteria.List<Info>();
+                        IList<CustomerInfo> dataOnCondition = criteria.List<CustomerInfo>();
                        
                 Log.Info("Total no a/c for allocation: " + dataOnCondition.Count);
 

@@ -14,7 +14,7 @@ namespace ColloSys.AllocationService.AllocationLayer
 {
     public static class DoNotAllocate
     {
-        public static List<Allocations> SetDoNotAllocateAc(IEnumerable<Info> data, AllocRelation relationCondition,
+        public static List<Allocations> SetDoNotAllocateAc(IEnumerable<CustomerInfo> data, AllocRelation relationCondition,
             ScbEnums.Products product)
         {
             var list = new List<Allocations>();
@@ -73,7 +73,7 @@ namespace ColloSys.AllocationService.AllocationLayer
         }
 
         #region Private
-        private static Allocations SetAlloc(Allocations obj, Info dataObject, out string accno)
+        private static Allocations SetAlloc(Allocations obj, CustomerInfo dataObject, out string accno)
         {
             var ralloc = obj;
             ralloc.Info = dataObject;

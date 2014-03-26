@@ -59,7 +59,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         {
             var allocs = changeAllocationModel.AllocList;
 
-            var cInfoList = new List<Info>();
+            var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
                 var info = InfoBuilder.Load(cAlloc.Info.Id); 
@@ -88,7 +88,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         public HttpResponseMessage RejectChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
-            var cInfoList = new List<Info>();
+            var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
                 cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
@@ -126,7 +126,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var changeAllocStatus = changeAllocationModel.ChangeAllocStatus;
             var noAllocReason = ColloSysEnums.NoAllocResons.None;
 
-            var cInfoList = new List<Info>();
+            var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
                 var info = InfoBuilder.Load(cAlloc.Info.Id);
@@ -185,7 +185,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var allcType = ClassType.GetAllocDataClassTypeByTableNameForAlloc(viewAllocationFilter.Products);
             var firstChar = allcType.Name.Substring(0, 1);
             var aliseName = allcType.Name;
-            var infoName = typeof(Info).Name;
+            var infoName = typeof(CustomerInfo).Name;
             var memberAlloc = new MemberHelper<Allocations>();
 
             var detachedCriteria = DetachedCriteria.For(allcType, aliseName);
@@ -234,7 +234,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             gridData.AddNewColumn(properyStakeholder, "Stakeholder", "StakeholderName");
 
             // add Info Columns
-            var infoType = typeof(Info).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
+            var infoType = typeof(CustomerInfo).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
             if (infoType == null)
                 return gridData;
 
@@ -259,7 +259,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
         public static IList<string> GetSharedInfoPropertiesName()
         {
-            var memberHelper = new MemberHelper<Info>();
+            var memberHelper = new MemberHelper<CustomerInfo>();
             return new List<string>
                 {
                     memberHelper.GetName(x => x.AccountNo),

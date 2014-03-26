@@ -28,7 +28,7 @@ namespace ColloSys.DataLayer.NhSetup
             IList<Type> baseTypes = new List<Type>
                 {
                     typeof(Entity), typeof(Allocations), 
-                    typeof(Info), typeof(Payment),
+                    typeof(CustomerInfo), typeof(Payment),
                     typeof(UploadableEntity)
                 };
             foreach (var type in types.Where( x=> x.IsClass && !x.IsAbstract))

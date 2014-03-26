@@ -12,7 +12,7 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.SharedDomain
 {
-    public class Info : Entity, IDeliquent
+    public class CustomerInfo : Entity, IDeliquent
     {
         public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
@@ -60,17 +60,3 @@ namespace ColloSys.DataLayer.SharedDomain
        
     }
 }
-
-//#region Relationship - None
-//public override void MakeEmpty(bool forceEmpty = false)
-//{
-//}
-//#endregion
-//    public virtual bool DoAllocate { get; set; }
-//    public virtual DateTime? AllocStartDate { get; set; }
-//    public virtual DateTime? AllocEndDate { get; set; }
-//    public virtual ulong AccountNo { get; set; }
-//    public virtual Allocation.AllocPolicy AllocPolicy { get; set; }
-//    public virtual Allocation.AllocSubpolicy AllocSubpolicy { get; set; }
-
-
