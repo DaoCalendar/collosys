@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using NHibernate;
 using NHibernate.Criterion;

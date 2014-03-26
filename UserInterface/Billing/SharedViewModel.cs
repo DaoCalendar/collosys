@@ -7,7 +7,6 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.Types4Product;
 using UserInterfaceAngular.NgGrid;
 

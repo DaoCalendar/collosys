@@ -3,8 +3,6 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using AngularUI.Generic.connection;
-using ColloSys.UserInterface.Areas.Developer.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -14,7 +12,7 @@ namespace AngularUI.Developer.generatedb
     public class DbGenerationApiController : ApiController
     {
         [HttpGet]
-        [HttpTransaction]
+        
         public void CreateDatabase()
         {
             CreateDb.CreateDatabse();

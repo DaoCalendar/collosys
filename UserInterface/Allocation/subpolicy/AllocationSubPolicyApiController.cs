@@ -15,7 +15,6 @@ using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 
 //using UserInterfaceAngular.NgGrid;
@@ -38,7 +37,7 @@ namespace UserInterfaceAngular.app
         #region Get
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -46,7 +45,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetReasons()
         {
             var data =
@@ -59,7 +58,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetValuesofColumn(string columnName)
         {
             var column = columnName.Split('.');
@@ -91,7 +90,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
@@ -113,7 +112,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetSubPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
             var data = AllocSubpolicyBuilder.OnProductCategory(products, category);
@@ -130,7 +129,7 @@ namespace UserInterfaceAngular.app
 
 
         [HttpPost]
-        [HttpTransaction]
+        
         public AllocRelation GetRelations(AllocSubpolicy subpolicy)
         {
             var relation = AllocRelationBuilder.OnAllocSubpolicy(subpolicy);
@@ -147,7 +146,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetConditions(Guid allocationId)
         {
             var data = AllocConditionBuilder.OnSubpolicyId(allocationId);
@@ -155,7 +154,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public uint GetMaxPriority()
         {
             var data = AllocRelationBuilder.GetAll().ToList()
@@ -204,7 +203,7 @@ namespace UserInterfaceAngular.app
         #endregion
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public AllocRelation ActivateSubpolicy(AllocRelation relation)//string startDate, string endDate, AllocSubpolicy subPolicy
         {
             SetApproverId(relation);

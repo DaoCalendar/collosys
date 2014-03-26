@@ -10,9 +10,7 @@ using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Shared;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -29,7 +27,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         #region Get
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -37,7 +35,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category)
@@ -47,7 +45,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
          [HttpGet]
-         [HttpTransaction]
+         
         public HttpResponseMessage GetMatrix(ScbEnums.Products product, ScbEnums.Category category)
          {
              var data = BMatrixBuilder.OnProductCategory(product, category);
@@ -56,7 +54,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
          }
 
         [HttpGet]
-        [HttpTransaction]
+        
          public HttpResponseMessage GetMatrixValues(Guid matrixId)
         {
             var data = BMatrixValueBuilder.OnMatrixId(matrixId);

@@ -175,8 +175,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
-    <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
-    <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
+    <Compile Include="Shared\webapis\SessionPerRequest.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
     <Compile Include="Stakeholder\add\AddStakeHolderApiController.cs" />
     <Compile Include="Stakeholder\add\AddStakeholderModel.cs" />
@@ -695,8 +694,10 @@
     <Content Include="Stakeholder\hierarchy\hierarchy-edit.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy-grid.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy.js" />
+    <Content Include="Stakeholder\view\approve.html" />
     <Content Include="Stakeholder\view\basic.html" />
     <Content Include="Stakeholder\view\index.html" />
+    <Content Include="Stakeholder\view\leavemodal.html" />
     <Content Include="Stakeholder\view\onleave.html" />
     <Content Include="Stakeholder\view\registration.html" />
     <Content Include="Stakeholder\view\ViewStakeholder.js" />
