@@ -23,8 +23,10 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
     };
 
     var getFileMappings = function (id) {
+
         restApi.customGET("GetFileMappings", { fileDetailId: id })
             .then(function (data) {
+                $csnotify.success("All Files loaded Successfully");
                 if ($csfactory.isNullOrEmptyArray(data)) {
                     dldata.fileMappings = [];
                     return;
@@ -36,6 +38,7 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
     };
 
     var getFileColumns = function (id) {
+
         restApi.customGET("GetFileColumns", { fileDetailId: id })
             .then(function (data) {
                 dldata.fileColumns = data;
@@ -47,7 +50,7 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
 
         return restApi.customPOST(fileMapping, 'SaveMapping')
             .then(function () {
-                $csnotify.success("File Column Updated Successfully");
+                $csnotify.success("File Updated Successfully");
             }, errorDisplay);
     };
 
@@ -112,10 +115,10 @@ csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$m
 
     $scope.openEditModalPopup = function (mode, filemapping) {
         $modal.open({
-            templateUrl: 'filemapping/file-mapping-edit.html',
+            templateUrl: 'FileUpload/filemapping/file-mapping-edit.html',
             controller: 'fileMappingViewEditController',
             resolve: {
-                FileMapping: function() {
+                FileMapping: function () {
                     return {
                         mapping: filemapping,
                         mode: mode,

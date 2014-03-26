@@ -27,18 +27,18 @@ csapp.factory("fileDetailFactory", [function () {
     };
 }]);
 
-csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function(rest, $csnotify, $csfactory) {
+csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
 
     var apictrl = rest.all('FileDetailsApi');
     var dldata = {};
 
-    var errorDisplay = function(response) {
+    var errorDisplay = function (response) {
         $csnotify.error(response);
     };
 
-    var getAllFileDetails = function() {
+    var getAllFileDetails = function () {
         apictrl.customGET('Fetch')
-            .then(function(data) {
+            .then(function (data) {
                 $csnotify.success("All File Details Loaded Successfully.");
                 dldata.fileDetailsList = data.FileDetails;
                 dldata.enums = {
@@ -52,8 +52,8 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
             }, errorDisplay);
     };
 
-    var deleteFileDetails = function(id) {
-        apictrl.customDELETE('Delete', { id: id }).then(function() {
+    var deleteFileDetails = function (id) {
+        apictrl.customDELETE('Delete', { id: id }).then(function () {
             $csnotify.success('File Detail Deleted Successfully.');
             var index = _.findIndex(dldata.fileDetailsList, { 'Id': id });
             dldata.fileDetailsList.splice(index, 1);
@@ -61,7 +61,6 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
     };
 
     var saveFileDetails = function (fileDetail) {
-         
         if (angular.isUndefined(fileDetail) || $csfactory.isEmptyObject(fileDetail)) {
             throw "Invalid fileDetail object";
         }
@@ -69,18 +68,22 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
         fileDetail.FileServer = "localhost";
         fileDetail.TempTable = "TEMP_" + fileDetail.AliasName;
         fileDetail.ErrorTable = "ERROR_" + fileDetail.AliasName;
+
         if (fileDetail.Id) {
             return apictrl.customPUT(fileDetail, 'Put', { id: fileDetail.Id })
-                .then(function(data) {
+                .then(function (data) {
                     var index = _.findIndex(dldata.fileDetailsList, { Id: fileDetail.Id });
                     dldata.fileDetailsList[index] = data;
                     $csnotify.success("File Detail Updated Successfully");
+                    return;
                 }, errorDisplay);
         } else {
             return apictrl.customPOST(fileDetail, 'Post')
-                .then(function() {
+                .then(function (data) {
                     $csnotify.success("File Detail added Successfully");
                     dldata.fileDetailsList.push(data);
+                    return data;
+                    //$modalInstance.close();
                 }, errorDisplay);
         }
     };
@@ -102,8 +105,8 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
         };
 
         $scope.add = function (fileDetail) {
-            datalayer.Save(fileDetail).then(function (data) {
-                $modalInstance.close(data);
+            datalayer.Save(fileDetail).then(function () {
+                $modalInstance.close();
             });
         };
 
@@ -166,7 +169,7 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
             $modal.open({
-                templateUrl: 'filedetail/file-detail-add.html',
+                templateUrl: 'FileUpload/filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController',
                 resolve: {
                     fileDetails: function () {
