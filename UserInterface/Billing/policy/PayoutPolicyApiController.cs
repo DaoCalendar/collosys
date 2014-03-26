@@ -136,7 +136,6 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             if (relation.OrigEntityId != Guid.Empty)
             {
                 var origRelation = BillingRelationBuilder.Get(relation.OrigEntityId);
-                origRelation.EndDate = relation.StartDate.AddDays(-1);
                 BillingRelationBuilder.Delete(origRelation);
             }
             relation.OrigEntityId = Guid.Empty;

@@ -91,7 +91,8 @@
                                     <div class="control-group span4">
                                         <div class="controls btn-group">
                                             <button class="btn  btn-danger"
-                                                    data-ng-show="allocRelation.Status=='Approved'" data-ng-click="openModelDeactivateSubPolicy(dldata.allocRelation)">
+                                                    data-ng-show="allocRelation.Status=='Approved'" 
+                                                    data-ng-click="openModelDeactivateSubPolicy(allocRelation)">
                                                 Deactivate
                                             </button>
                                         </div>
@@ -229,10 +230,11 @@
                                         <div class="controls btn-group">
                                             <button class="btn btn-success"
                                                     data-ng-show="allocRelation.Status=='Submitted'"
-                                                    data-ng-click="allocRelation.Status='Approved';datalayer.saveAllocPolicy(dldata.allocPolicy)">
+                                                    data-ng-click="allocRelation.Status='Approved';datalayer.approveRelation(allocRelation)">
                                                 Approve
                                             </button>
-                                            <button class="btn btn-success" data-ng-show="allocRelation.Status=='Submitted'" data-ng-click="allocRelation.Status='Rejected';datalayer.RejectSubPolicy(allocRelation)">Reject</button>
+                                            <button class="btn btn-success" data-ng-show="allocRelation.Status=='Submitted'" 
+                                                    data-ng-click="allocRelation.Status='Rejected';datalayer.RejectSubPolicy(allocRelation)">Reject</button>
                                         </div>
                                     </div>
                                 </div>

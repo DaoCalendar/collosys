@@ -160,7 +160,6 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
 
         #region Delete
         [HttpDelete]
-        [HttpTransaction(Persist = true)]
         public virtual HttpResponseMessage RejectSubpolicy(Guid id)
         {
             try
@@ -180,5 +179,23 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             }
         }
         #endregion
+
+        [HttpGet]
+        [HttpSession]
+        public HttpResponseMessage ApproveRelation(Guid relationId)
+        {
+            var relation = AllocRelationBuilder.Get(relationId);
+            relation.Status = ColloSysEnums.ApproveStatus.Approved;
+            if (relation.OrigEntityId != Guid.Empty)
+            {
+                var origRelation = AllocRelationBuilder.Get(relation.OrigEntityId);
+                AllocRelationBuilder.Delete(origRelation);
+            }
+            relation.OrigEntityId = Guid.Empty;
+            AllocRelationBuilder.Save(relation);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
+
+       
     }
 }
