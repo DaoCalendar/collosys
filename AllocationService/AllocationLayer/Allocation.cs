@@ -132,33 +132,8 @@ namespace ColloSys.AllocationService.AllocationLayer
                                                     x.ApprovedBy = "Policy";
                                                     x.ApprovedOn = DateTime.Today.Date;
                     });
-                    //foreach (var info in dataOnCondition)
-                    //{
-                    //    info.MakeEmpty();
-                    //    info.GPincode.MakeEmpty();
-                    //    info.Allocs = null;
-                    //    if(info.Allocs!=null)
-                    //    foreach (var alloc in info.Allocs)
-                    //    {
-                    //        if(alloc!=null)
-                    //            alloc.MakeEmpty();
-                    //    }
-                    //}
-                    //InfoBuilder.Save(dataOnCondition);
-                    var data = dataOnCondition.First();
-                    data.GPincode = null;
-                    data.Allocs = null;
-                    InfoBuilder.Save(data);
-                    //foreach (var alloc in allocationlist)
-                    //{
-                    //    if(alloc.AllocPolicy!=null)
-                    //    alloc.AllocPolicy.MakeEmpty();
-                    //    if(alloc.AllocSubpolicy!=null)
-                    //    alloc.AllocSubpolicy.MakeEmpty();
 
-                    //    if(alloc.Stakeholder!=null)
-                    //        alloc.Stakeholder.MakeEmpty();
-                    //}
+                    InfoBuilder.Save(dataOnCondition);
                     AllocBuilder.Save(allocationlist);
                 }
             }

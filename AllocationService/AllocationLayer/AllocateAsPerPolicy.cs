@@ -190,7 +190,6 @@ namespace ColloSys.AllocationService.AllocationLayer
                                                                  ralloc.Stakeholder != null &&
                                                                  x.Stakeholders.Id == ralloc.Stakeholder.Id);
             if (stakepincode != null) stakepincode.Allocations.Add(ralloc);
-            dataObject.Allocs.Add(ralloc);
             return ralloc;
         }
 
