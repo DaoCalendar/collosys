@@ -9,7 +9,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -18,7 +17,7 @@ namespace AngularUI.FileUpload.clientdatadownload
     public class ClientDataDownloadApiController : ApiController
     {
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchProductCategory()
         {
             //System.Threading.Thread.Sleep(10*1000);
@@ -37,7 +36,7 @@ namespace AngularUI.FileUpload.clientdatadownload
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage FetchPageData(DownloadParams downloadParams)
         {
             var data = ClientDataDownloadHelper.GetPageData(downloadParams);

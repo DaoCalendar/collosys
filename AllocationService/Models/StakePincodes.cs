@@ -14,11 +14,11 @@ namespace ColloSys.AllocationService.Models
         public StakePincodes()
         {
             Pincodes=new List<GPincode>();
-            Allocations=new List<Alloc>();
+            Allocations=new List<Allocations>();
         }
 
         public Stakeholders Stakeholders { get; set; }
         public List<GPincode> Pincodes { get; set; }
-        public List<Alloc> Allocations { get; set; }
+        public List<Allocations> Allocations { get; set; }
     }
 }

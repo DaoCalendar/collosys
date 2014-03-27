@@ -14,10 +14,8 @@ using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.Types4Product;
-using Iesi.Collections.Generic;
 using NHibernate;
 using ColloSys.AllocationService.Logging;
-using NHibernate.Linq;
 using NLog;
 
 #endregion
@@ -52,7 +50,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             
             Log.Info(string.Format("allocation process strarted with product {0} and category {1}", product, category));
 
-            var allocationlist = new List<Alloc>();
+            var allocationlist = new List<Allocations>();
 
             //get class type for generate criteria
             Type getType = ClassType.GetTypeByProductCategoryForAlloc(product, category);
@@ -74,7 +72,9 @@ namespace ColloSys.AllocationService.AllocationLayer
                                       .ToList();
             foreach (var subpolicy in subpolicyList)
             {
-                subpolicy.AllocRelations = new HashedSet<AllocRelation>(policy.AllocRelations.Where(x => x.AllocSubpolicy.Id == subpolicy.Id).ToList());
+                subpolicy.AllocRelations = policy.AllocRelations
+                    .Where(x => x.AllocSubpolicy.Id == subpolicy.Id)
+                    .ToList();
             }
             Log.Info("Conditions count under Policy.SubPolicy: " + subpolicyList.Select(x => x.Conditions.Count));
 
@@ -82,7 +82,6 @@ namespace ColloSys.AllocationService.AllocationLayer
             {
                 var session = SessionManager.GetCurrentSession();
                 //get data on created criteria
-                IList<Info> dataOnCondition;
                 //create criteria 
                
                         ICriteria criteria = session.CreateCriteria(getType, getType.Name);
@@ -98,7 +97,7 @@ namespace ColloSys.AllocationService.AllocationLayer
                         criteria = CreateCriteriaOnCondition(conditionList, getType, criteria);
                         Log.Info("Criteria on Condition:" + criteria);
 
-                        dataOnCondition = criteria.List<Info>();
+                        IList<CustomerInfo> dataOnCondition = criteria.List<CustomerInfo>();
                        
                 Log.Info("Total no a/c for allocation: " + dataOnCondition.Count);
 
@@ -133,33 +132,8 @@ namespace ColloSys.AllocationService.AllocationLayer
                                                     x.ApprovedBy = "Policy";
                                                     x.ApprovedOn = DateTime.Today.Date;
                     });
-                    //foreach (var info in dataOnCondition)
-                    //{
-                    //    info.MakeEmpty();
-                    //    info.GPincode.MakeEmpty();
-                    //    info.Allocs = null;
-                    //    if(info.Allocs!=null)
-                    //    foreach (var alloc in info.Allocs)
-                    //    {
-                    //        if(alloc!=null)
-                    //            alloc.MakeEmpty();
-                    //    }
-                    //}
-                    //InfoBuilder.Save(dataOnCondition);
-                    var data = dataOnCondition.First();
-                    data.GPincode = null;
-                    data.Allocs = null;
-                    InfoBuilder.Save(data);
-                    //foreach (var alloc in allocationlist)
-                    //{
-                    //    if(alloc.AllocPolicy!=null)
-                    //    alloc.AllocPolicy.MakeEmpty();
-                    //    if(alloc.AllocSubpolicy!=null)
-                    //    alloc.AllocSubpolicy.MakeEmpty();
 
-                    //    if(alloc.Stakeholder!=null)
-                    //        alloc.Stakeholder.MakeEmpty();
-                    //}
+                    InfoBuilder.Save(dataOnCondition);
                     AllocBuilder.Save(allocationlist);
                 }
             }

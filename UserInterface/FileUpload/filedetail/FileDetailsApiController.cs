@@ -8,7 +8,6 @@ using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
 using NLog;
 
@@ -22,7 +21,7 @@ namespace AngularUI.FileUpload.filedetail
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage Fetch()
         {
             try
@@ -43,7 +42,7 @@ namespace AngularUI.FileUpload.filedetail
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<FileDetail> GetFileDetailList()
         {
             return Session.QueryOver<FileDetail>().Select(x=>x).List();

@@ -53,8 +53,8 @@ namespace ColloSys.DataLayer.Mapping
             #region Relationships - ManyToOne
 
             ManyToOne(x => x.Stakeholder, map => map.NotNullable(true));
-            ManyToOne(x => x.CollectionBillingPolicy);
-            ManyToOne(x => x.RecoveryBillingPolicy);
+            ManyToOne(x => x.CollectionBillingPolicy, map => map.Column("CollectionBillingPolicy"));
+            ManyToOne(x => x.RecoveryBillingPolicy, map => map.Column("RecoveryBillingPolicy"));
             Bag(x => x.StkhWorkings, colmap => { }, map => map.OneToMany(x => { }));
 
             #endregion

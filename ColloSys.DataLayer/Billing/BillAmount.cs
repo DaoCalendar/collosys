@@ -11,16 +11,15 @@ namespace ColloSys.DataLayer.Domain
 {
     public class BillAmount : Entity, IApproverComponent
     {
-        // relationships
         public virtual Stakeholders Stakeholder { get; set; }
 
         #region Propertity
 
         public virtual ScbEnums.Products Products { get; set; }
 
-        public virtual UInt32 Month { get; set; }
+        public virtual uint Month { get; set; }
 
-        public virtual UInt32 Cycle { get; set; }
+        public virtual uint Cycle { get; set; }
 
         public virtual decimal FixedAmount { get; set; }
 
@@ -54,9 +53,5 @@ namespace ColloSys.DataLayer.Domain
         public virtual RowStatus RowStatus { get; set; }
 
         #endregion
-
-        //#region Relationship None
-        //public override void MakeEmpty(bool forceEmpty = false) { }
-        //#endregion
     }
 }

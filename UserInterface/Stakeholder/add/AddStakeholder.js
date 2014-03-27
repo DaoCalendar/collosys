@@ -327,7 +327,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return $scope.WizardData.FinalPostModel.IsEditMode;
         },
         ResetPayWorkModel: function () {
-            //$scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
             $scope.WizardData.FinalPostModel.PayWorkModel.WorkList = [];
         },
         ResetPayWorkModelList: function () {
@@ -336,7 +336,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         ResetStakeholderData: function () {
             $scope.WizardData.FinalPostModel.Stakeholder = {};
             $scope.WizardData.FinalPostModel.EmailId = null;
-            $scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
+            //$scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
             $scope.WizardData.FinalPostModel.Registration = {};
             $scope.WizardData.FinalPostModel.Address = {};
             $scope.WizardData.FinalPostModel.Pincode = '';
@@ -619,7 +619,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             $scope.WizardData.FinalPostModel.SelHierarchy = {};
             $scope.WizardData.FinalPostModel.Stakeholder = {};
             $scope.WizardData.FinalPostModel.EmailId = null;
-            $scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
+            //$scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
             $scope.WizardData.FinalPostModel.Registration = {};
             $scope.WizardData.FinalPostModel.Address = {};
             $scope.WizardData.FinalPostModel.Pincode = '';

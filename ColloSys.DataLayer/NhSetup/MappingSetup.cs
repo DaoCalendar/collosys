@@ -44,35 +44,39 @@ namespace ColloSys.DataLayer.NhSetup
         private static void RelationshipMappingConventions(ModelMapper mapper)
         {
             // foreign key convention (many2one side)
-            //mapper.BeforeMapManyToMany += (insp, prop, map) =>
-            //                              map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
-            mapper.BeforeMapManyToOne += (insp, prop, map) => map.Cascade(Cascade.None);
+            mapper.BeforeMapManyToMany += (insp, prop, map) =>
+                                          map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
+            mapper.BeforeMapManyToMany += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
 
             // foreign key convention (many2one side)
-            //mapper.BeforeMapManyToOne += (insp, prop, map) =>
-            //                             map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
+            mapper.BeforeMapManyToOne += (insp, prop, map) =>
+                                         map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
             mapper.BeforeMapManyToOne += (insp, prop, map) => map.Cascade(Cascade.None);
+            mapper.BeforeMapManyToOne += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
 
             // bag conventions (one2many side)
-            //mapper.BeforeMapBag += (insp, prop, map) =>
-            //                       map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
+            mapper.BeforeMapBag += (insp, prop, map) =>
+                                   map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
             mapper.BeforeMapBag += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapBag += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapBag += (insp, prop, map) => map.Inverse(true);
+            mapper.BeforeMapBag += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
 
             // set conventions (one2many side)
-            //mapper.BeforeMapSet +=
-            //    (insp, prop, map) => map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
+            mapper.BeforeMapSet +=
+                (insp, prop, map) => map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
             mapper.BeforeMapSet += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapSet += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapSet += (insp, prop, map) => map.Inverse(true);
+            mapper.BeforeMapSet += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
 
             // list conventions (one2many side)
-            //mapper.BeforeMapList +=
-            //    (insp, prop, map) => map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
+            mapper.BeforeMapList +=
+                (insp, prop, map) => map.Key(km => km.Column(prop.GetContainerEntity(insp).Name + "Id"));
             mapper.BeforeMapList += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapList += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapList += (insp, prop, map) => map.Inverse(true);
+            mapper.BeforeMapList += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
         }
 
         private static void FieldMappingConvention(ModelMapper mapper)

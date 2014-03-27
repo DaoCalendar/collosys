@@ -60,7 +60,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return true;
         }
 
-        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Alloc> allocData, ScbEnums.Products products)
+        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Allocations> allocData, ScbEnums.Products products)
         {
             Log.Info("In SendMail");
             foreach (var allocated in listOfStakeholdersAndMangers)
@@ -194,12 +194,12 @@ namespace ColloSys.AllocationService.EmailAllocations
             return columnPositionInfo;
         }
 
-        private IEnumerable<Alloc> GetAllocationData(ScbEnums.Products products)
+        private IEnumerable<Allocations> GetAllocationData(ScbEnums.Products products)
         {
             var criteria = AllocBuilder.CriteriaForEmail();
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
             //fetch data
-            var data = criteria.List<Alloc>();
+            var data = criteria.List<Allocations>();
 
             Log.Info(string.Format("Allocation data loaded for {0} and count= {1}",
                 products.ToString(), data.Count));
@@ -220,13 +220,13 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(IEnumerable<Alloc> allocationList)
+        private IList<AllocationStat> SetAllocationStat(IEnumerable<Allocations> allocationList)
         {
             var allocationStats = ConvertForAllocInfo(allocationList);
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Alloc> allocationList)
+        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Allocations> allocationList)
         {
             return allocationList.Select(alloc => new AllocationStat()
                 {

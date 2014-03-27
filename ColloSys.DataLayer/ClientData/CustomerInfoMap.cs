@@ -6,12 +6,11 @@ using NHibernate.Mapping.ByCode;
 namespace ColloSys.DataLayer.ClientData
 {
 
-    public class InfoMap : EntityMap<Info>
+    public class CustomerInfoMap : EntityMap<CustomerInfo>
     {
-        public InfoMap()
+        public CustomerInfoMap()
         {
-            Table("INFO");
-            Property(x => x.AccountNo, map => map.UniqueKey("UK_" +  "INFO_ACNO"));
+            Property(x => x.AccountNo, map => map.UniqueKey("UK_" +  "CUST_INFO_ACNO"));
             Property(x => x.GlobalCustId, map => map.NotNullable(false));
             Property(x => x.CustomerName, map => map.NotNullable(false));
             Property(x => x.Pincode);

@@ -28,7 +28,7 @@ namespace ReflectionExtension.ExcelReader
         public ExcelDataReader(FileInfo fileInfo)
         {
             //var file = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
-            string extention = Path.GetExtension(fileInfo.Name);
+            var extention = Path.GetExtension(fileInfo.Name);
             _excelReader = extention.Contains(".xlsx")
                       ? ExcelReaderFactory.CreateOpenXmlReader(fileInfo.OpenRead())
                       : ExcelReaderFactory.CreateBinaryReader(fileInfo.OpenRead());

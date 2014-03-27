@@ -118,9 +118,9 @@ namespace ColloSys.FileUploadService.ExcelReader
 
         private void InsertIntoInfo()
         {
-            var infos = Reader.GetDataLayer.GetTableData<Info>();
+            var infos = Reader.GetDataLayer.GetTableData<CustomerInfo>();
 
-            ISet<Info> isetInfo = new HashSet<Info>(infos);
+            ISet<CustomerInfo> isetInfo = new HashSet<CustomerInfo>(infos);
 
             //var todayWriteoff = OldDbRecordList.Where(x => x.FileDate.Date == Reader.UploadedFile.FileDate.Date).ToList();
             var todayWriteoff = TodayRecordList.GetEntities(Reader.UploadedFile.FileDate.Date);
@@ -148,7 +148,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 }
                 else
                 {
-                    info = new Info
+                    info = new CustomerInfo
                     {
                         AccountNo = writeoff.AccountNo,
                         CustomerName = writeoff.CustomerName,

@@ -52,7 +52,7 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
             modalData.payoutRelation.StartDate = modalData.startDate;
             modalData.payoutRelation.EndDate = modalData.endDate;
             dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
-            datalayer.savePayoutPolicy($scope.payoutPolicy).then(function() {
+            datalayer.savePayoutPolicy(dldata.payoutPolicy).then(function() {
                 $modalInstance.close();
             });
         };
@@ -218,12 +218,21 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var rejectSubPolicy = function (rejectedRelation) {
-        restApi.customDELETE("RejectSubpolicy", { id: rejectedRelation.Id }).then(function () {
+        restApi.customGET( "RejectRelation",{ relationId: rejectedRelation.Id }).then(function () {
             dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             dldata.subPolicyList.push(rejectedRelation.BillingSubpolicy);
             $csnotify.success("Subpolicy Rejected");
         }, function (data) {
             $csnotify.error(data);
+        });
+    };
+
+    var approveRelation = function (relation) {
+        var orgId = relation.OrigEntityId;
+        var rejectedRelation = _.find(dldata.payoutPolicy.BillingRelations, { Id: orgId });
+        restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
+            dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
+            $csnotify.success('Subpolicy Approved');
         });
     };
 
@@ -260,7 +269,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         getProducts: getProducts,
         changeProductCategory: changeProductCategory,
         RejectSubPolicy: rejectSubPolicy,
-        savePayoutPolicy: savePayoutPolicy
+        savePayoutPolicy: savePayoutPolicy,
+        approveRelation: approveRelation
     };
 }]);
 
@@ -305,6 +315,7 @@ csapp.controller('payoutPolicyCtrl', [
         };
 
         $scope.openModelDeactivateSubPolicy = function (relation) {
+            console.log(relation);
             $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
             $scope.modalData.payoutRelation.Status = "Submitted";
             $scope.modalData.subPolicyIndex = -1;

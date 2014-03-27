@@ -261,7 +261,6 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
             $scope.factory = factory;
             $scope.datalayer.GetAliases();
             $scope.dldata = datalayer.dldata;
-            console.log($scope.dldata);
         })();
 
         $scope.showDeleteModal = function (fileColumn, index) {
@@ -279,14 +278,14 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
 
         $scope.showAddMultiColumnModal = function () {
             $modal.open({
-                templateUrl: 'filecolumn/file-column-multi.html',
+                templateUrl: 'FileUpload/filecolumn/file-column-multi.html',
                 controller: 'fileColumnMultiAddModalController',
             });
         };
 
         $scope.showAddSingleColumnModal = function () {
             $modal.open({
-                templateUrl: 'filecolumn/file-column-add.html',
+                templateUrl: 'FileUpload/filecolumn/file-column-add.html',
                 controller: 'fileColumnAddEditController',
             });
         };

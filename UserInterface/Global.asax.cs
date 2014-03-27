@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Validation.Providers;
 using AngularUI.appCode;
+using AngularUI.Shared.webapis;
 using ColloSys.UserInterface.App_Start;
 
 namespace AngularUI
@@ -22,6 +23,7 @@ namespace AngularUI
             NLogConfig.InitConFig();
             NHibernateConfig.InitNHibernate();
             NHibernateConfig.ApplyDatabaseChanges();
+            GlobalConfiguration.Configuration.Filters.Add(new SessionPerRequest());
 
             RegisterWebApiConfig(GlobalConfiguration.Configuration);
 

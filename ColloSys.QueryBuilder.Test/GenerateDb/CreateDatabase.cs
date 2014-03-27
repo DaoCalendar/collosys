@@ -17,7 +17,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
     public class CreateDatabase
     {
         [Test]
-        public void GenerateDB()
+        public void GenerateDb()
         {
             CreateDb.CreateDatabse();
         }
@@ -47,7 +47,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         [Test]
         public void StartAllocation()
         {
-           ColloSys.AllocationService.StartAllocation.Start();
+           AllocationService.StartAllocation.Start();
         }
 
         [Test]

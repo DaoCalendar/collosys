@@ -43,7 +43,7 @@ namespace ColloSys.AllocationService.MoveAllocations
             InfoBuilder.Save(listOfCAllocations);
         }
 
-        private static IEnumerable<Info> SelectAllocations(Stakeholders stakeholder)
+        private static IEnumerable<CustomerInfo> SelectAllocations(Stakeholders stakeholder)
         {
             var listOfAllocatons = AllocBuilder.AllocationsForStakeholder(stakeholder).ToList();
 
