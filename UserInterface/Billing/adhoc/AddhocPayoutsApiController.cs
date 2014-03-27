@@ -1,4 +1,6 @@
-﻿#region references
+﻿using System.Collections.Generic;
+
+#region references
 
 using System.Linq;
 using System.Net;
@@ -45,11 +47,11 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
         [HttpGet]
         
-        public HttpResponseMessage GetStakeHolders(ScbEnums.Products products)
+        public IList<Stakeholders> GetStakeHolders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-
+            return data;
+            //return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

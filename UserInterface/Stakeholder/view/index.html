@@ -117,11 +117,11 @@
             </div>
         </div>
         <div class="form-horizontal well " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
-            <div data-ng-include="'view/basic.html'"></div>
+            <div data-ng-include="'/Stakeholder/view/basic.html'"></div>
 
             <div data-ng-show="moreDetails==$index+'RegistrationDetails' && data.StkhRegistrations.length>0">
                 <div class="form-horizontal well">
-                    <div class="row" data-ng-include="'view/registration.html'"></div>
+                    <div class="row" data-ng-include="'/Stakeholder/view/registration.html'"></div>
                 </div>
             </div>
             <div data-ng-show="moreDetails==$index+'ReporteeDetails' && ReporteeList.length>0">
@@ -147,7 +147,7 @@
                 </table>
             </div>
             
-            <div class="row" data-ng-include="'view/workings.html'"></div>
+            <div class="row" data-ng-include="'/Stakeholder/view/workings.html'"></div>
      
 
             <div data-ng-show="moreDetails==$index+'PaymentDetails' && data.StkhPayments.length>0">
