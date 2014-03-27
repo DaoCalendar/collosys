@@ -121,6 +121,9 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.WizardData = {
+
+        Payment: {},
+
         BillingPolicy: {
             LinerPolicies: [],
             WriteOffPolicies: [],
@@ -472,6 +475,10 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         if (indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment)
             return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
 
+        if (!indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment) {
+            return true;
+        }
+
 
     };
     //#endregion
@@ -510,12 +517,15 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.SaveData = function () {
+
         if (($scope.indexData.Hierarchy.IsUser === true)) {
             if ($scope.WizardData.userExists === true) {
                 $csnotify.error("UserId Already Exist");
                 return;
             }
         }
+
+
 
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
@@ -555,6 +565,17 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
                 }
             }
         }
+
+        if (hierarchy.HasPayment && !hierarchy.HasWorking) {
+            
+            var dummyWorking = {
+                Country: 'INDIA',
+            };
+            $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummyWorking);
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = $scope.WizardData.Payment;
+            $scope.WizardData.FinalPostModel.PayWorkModelList.push($scope.WizardData.FinalPostModel.PayWorkModel);
+        }
+
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             var product; //= finalPostModel.PayWorkModelList[0].WorkList[0].Products;
             var policyCollection; //= finalPostModel.PayWorkModelList[0].Payment.CollectionBillingPolicy;
