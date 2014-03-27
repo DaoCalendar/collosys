@@ -116,6 +116,7 @@
             return;
         }
         pincodeApi.customGETLIST("GetPincodes", { state: stateName }).then(function (data) {
+            $csnotify.success("Data loaded successfully");
             dldata.GPincodes = data;
             dldata.stateClusters = _.uniq(_.pluck(dldata.GPincodes, 'Cluster'));
         }, showErrorMessage);
@@ -138,7 +139,7 @@
                 $csnotify.success("Pincode saved..!!");
                 dldata.GPincodes.push(data);
                 dldata.PincodeUintList.push(data);
-                return;
+                return data;
             }, function (data) {
                 $csnotify.error("Error occured, can't saved", data);
             });
