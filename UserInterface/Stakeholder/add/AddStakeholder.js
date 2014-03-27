@@ -402,7 +402,11 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     $scope.enableAddToList = function (invalid) {
         if ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length > 0 && invalid == false) {
             return false;
-        } else {
+        }
+        else if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
+            return false;
+        }
+        else {
             return true;
         }
     };
@@ -498,7 +502,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
                 var index = $scope.WizardData.FinalPostModel.Stakeholder.EmailId.indexOf('@');
                 $scope.WizardData.FinalPostModel.EmailId = angular.copy($scope.WizardData.FinalPostModel.Stakeholder.EmailId.substring(0, index));
             }
-           
+
         }, function () {
             $csnotify.error('Error in loading stakeholder for edit');
             $log.error('Error in loading stakeholder for edit');

@@ -26,10 +26,10 @@ namespace AngularUI.Generic.home
                     && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),
                 payment = session.QueryOver<StkhPayment>().Where(x => x.ApprovedBy == id
                     && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),
-                allocation = session.QueryOver<AllocRelation>().Where(x => x.ApprovedBy == id
-                    && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),
-                allocationpolicy = session.QueryOver<AllocRelation>().Where(x => x.ApprovedBy == id
-                    && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count()
+                //allocation = session.QueryOver<AllocRelation>().Where(x => x.ApprovedBy == id
+                //    && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count(),
+                //allocationpolicy = session.QueryOver<AllocRelation>().Where(x => x.ApprovedBy == id
+                //    && x.Status == ColloSysEnums.ApproveStatus.Submitted).List().Count()
             };
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
