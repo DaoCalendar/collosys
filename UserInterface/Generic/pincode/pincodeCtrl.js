@@ -91,7 +91,6 @@
             return [];
         }
         return pincodeApi.customGET('GetMissingPincodes', { pincode: pincode }).then(function (data) {
-            console.log(data);
             return data;
         });
     };
@@ -108,7 +107,6 @@
         }
 
         pincodeApi.customGET('GetWholePincode').then(function (data) {
-            console.log(data);
             dldata.PincodeUintList = data;
         });
     };
@@ -129,13 +127,18 @@
             return pincodeApi.customPUT(gpincode, "Put", { id: gpincode.Id }).then(function (data) {
                 dldata.GPincodes = _.reject(dldata.GPincodes, function (pincode) { return pincode.Id == gpincode.Id; });
                 dldata.GPincodes.push(data);
+                dldata.PincodeUintList.push(data);
                 dldata.showTextBox = false;
                 dldata.isInEditMode = false;
                 $csnotify.success("Data saved");
+                return;
             }, showErrorMessage);
         } else {
-            return pincodeApi.customPOST(gpincode, 'Post').then(function () {
+            return pincodeApi.customPOST(gpincode, 'Post').then(function (data) {
                 $csnotify.success("Pincode saved..!!");
+                dldata.GPincodes.push(data);
+                dldata.PincodeUintList.push(data);
+                return;
             }, function (data) {
                 $csnotify.error("Error occured, can't saved", data);
             });
@@ -321,7 +324,7 @@ csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "pincodeFactory",
 csapp.controller("pincodeModalController", ["$scope", "pincodeDataLayer", "pincodeFactory", "$modalInstance",
     function ($scope, datalayer, factory, $modalInstance) {
         $scope.save = function () {
-            datalayer.editPincode($scope.dldata.GPincodedata).then(function() {
+            datalayer.editPincode($scope.dldata.GPincodedata).then(function () {
                 $scope.closeAddModal();
             });
         };
