@@ -246,7 +246,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             dldata.newCondition = {};
             dldata.allocSubpolicy.Products = products;
             dldata.allocSubpolicy.Category = category;
-            dldata.allocSubpolicy.DoAllocate = 1;
+            //dldata.allocSubpolicy.DoAllocate = 1;
             dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
         };
@@ -259,7 +259,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             getColumnValues: getColumnValues,
             saveAllocSubpolicy: saveAllocSubpolicy,
             changeProductCategory: changeProductCategory,
-            activateSubpolicy: activateSubpolicy
+            activateSubpolicy: activateSubpolicy,
+            resetAllocSubpolicy: resetAllocSubpolicy,
+            resetCondition: resetCondition
         };
 
     }]);
