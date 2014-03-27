@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace FileUploader.ExcelReader
+namespace ReflectionExtension.ExcelReader
 {
     public class MappingInfo
     {

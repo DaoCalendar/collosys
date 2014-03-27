@@ -5,7 +5,7 @@ using FileUploader.ExcelReader;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests;
 
-namespace FileUploader.Tests.ExcelReader.Test
+namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
     class NpOiExcelReaderTest: SetUpAssemblies

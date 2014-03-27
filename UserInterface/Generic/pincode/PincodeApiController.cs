@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
@@ -136,8 +137,9 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         
         public HttpResponseMessage GetWholePincode()
         {
-            var data = GPincodeBuilder.GetAll().Select(x => x.Pincode).ToList();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            var session = SessionManager.GetCurrentSession();
+            var result = session.QueryOver<GPincode>().Select(x => x.Pincode).List<uint>();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
     }

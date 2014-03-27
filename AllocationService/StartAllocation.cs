@@ -27,22 +27,23 @@ namespace ColloSys.AllocationService
 
         static StartAllocation()
         {
-            try
-            {
-                ConnString = ColloSysParam.WebParams.ConnectionString;
-                Logger.Info(string.Format("Allocation Service: Connection String : {0}", ConnString.ConnectionString));
-                SessionManager.InitNhibernate(new NhInitParams
-                    {
-                        ConnectionString = ConnString,
-                        DbType = ConfiguredDbTypes.MsSql,
-                        IsWeb = false
-                    });
-                SessionManager.BindNewSession();
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("FileUploader : " + ex);
-            }
+            //try
+            //{
+            //    ConnString = ColloSysParam.WebParams.ConnectionString;
+            //    Logger.Info(string.Format("Allocation Service: Connection String : {0}", ConnString.ConnectionString));
+            //    SessionManager.InitNhibernate(new NhInitParams
+            //        {
+            //            ConnectionString = ConnString,
+            //            DbType = ConfiguredDbTypes.MsSql,
+            //            IsWeb = false
+            //        });
+            //    HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+            //    SessionManager.BindNewSession();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logger.Error("FileUploader : " + ex);
+            //}
         }
 
 

@@ -44,6 +44,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>

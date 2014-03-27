@@ -111,6 +111,12 @@ csapp.factory("routeConfig", ["$routeProvider", function ($routeProvider) {
             }).when('/fileupload/paymentchanges', {
                 templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
+            }).when('/fileupload/pincodeupload', {
+                templateUrl: '/FileUpload/pincodeupload/PincodeUpload.html',
+                controller: 'PincodeUploadController'
+            }).when('/fileupload/rcodeupload', {
+                templateUrl: '/FileUpload/rcodeupload/RcodeUpload.html',
+                controller: 'RcodeUploadController'
             })
 
             //stakeholder

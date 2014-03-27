@@ -38,13 +38,13 @@ namespace ColloSys.DataLayer.Mapping
             ManyToOne(x => x.BillingPolicy, map =>
                 {
                     map.NotNullable(true);
-                    map.UniqueKey("UQ_BILLING_RELATION");
+                    //map.UniqueKey("UQ_BILLING_RELATION");
                 });
 
             ManyToOne(x => x.BillingSubpolicy,
                     map =>
                     {   map.NotNullable(true);
-                        map.UniqueKey("UQ_BILLING_RELATION");
+                       // map.UniqueKey("UQ_BILLING_RELATION");
                      });
             #endregion
            

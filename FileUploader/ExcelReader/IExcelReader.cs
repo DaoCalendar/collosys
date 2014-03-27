@@ -1,4 +1,4 @@
-﻿namespace FileUploader.ExcelReader
+﻿namespace ReflectionExtension.ExcelReader
 {
     public interface IExcelReader
     {

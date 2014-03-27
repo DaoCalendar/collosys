@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.Shared.ConfigSectionReader;
 using NUnit.Framework;
 
-namespace ColloSys.QueryBuilder.Test
+namespace ReflectionExtension.Tests.FileUploader.Test
 {
     [SetUpFixture]
     public class GlobalSetup
@@ -43,7 +38,6 @@ namespace ColloSys.QueryBuilder.Test
             var obj = new NhInitParams { ConnectionString = _connectionString, DbType = _dbType, IsWeb = false };
 
             SessionManager.InitNhibernate(obj);
-            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             SessionManager.BindNewSession();
         }
 
