@@ -7,7 +7,7 @@ using FileUploader.Reflection;
 
 #endregion
 
-namespace FileUploader.ExcelReader
+namespace ReflectionExtension.ExcelReader
 {
     public class ConvertExcelToList<TU> where TU : class, new()
     {

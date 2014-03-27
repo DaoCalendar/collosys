@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using OfficeOpenXml;
 
-namespace FileUploader.ExcelReader
+namespace ReflectionExtension.ExcelReader
 {
     public class EpPlusExcelReader : IExcelReader
     {
@@ -42,10 +39,7 @@ namespace FileUploader.ExcelReader
             {
                 CurrentRow++;
             }
-            else
-            {
-                //throw new Exception("Current row is out of range");
-            }
+          
         }
 
         public bool EndOfFile()

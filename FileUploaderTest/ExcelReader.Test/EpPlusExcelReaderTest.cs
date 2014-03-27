@@ -2,10 +2,11 @@
 using System.Runtime.InteropServices.WindowsRuntime;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
+using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests;
 
 
-namespace FileUploader.Tests.ExcelReader.Test
+namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
     internal class EpPlusExcelReaderTest :SetUpAssemblies

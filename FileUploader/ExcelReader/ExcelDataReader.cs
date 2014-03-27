@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Excel;
-using FileUploader.ExcelReader;
 
 namespace ReflectionExtension.ExcelReader
 {
@@ -15,7 +9,7 @@ namespace ReflectionExtension.ExcelReader
         public uint TotalRows { get; private set; }
         public uint TotalColumns { get; private set; }
         public uint CurrentRow { get; private set; }
-        public  IExcelDataReader _excelReader;
+        private readonly IExcelDataReader _excelReader;
 
         public ExcelDataReader(FileStream fileStream)
         {
@@ -35,7 +29,7 @@ namespace ReflectionExtension.ExcelReader
         {
             //var file = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
             string extention = Path.GetExtension(fileInfo.Name);
-            _excelReader = extention != null && extention.Contains(".xlsx")
+            _excelReader = extention.Contains(".xlsx")
                       ? ExcelReaderFactory.CreateOpenXmlReader(fileInfo.OpenRead())
                       : ExcelReaderFactory.CreateBinaryReader(fileInfo.OpenRead());
             var dataset = _excelReader.AsDataSet();

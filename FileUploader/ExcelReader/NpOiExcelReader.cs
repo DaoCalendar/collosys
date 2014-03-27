@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using System.Linq;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-using OfficeOpenXml;
 
-namespace FileUploader.ExcelReader
+namespace ReflectionExtension.ExcelReader
 {
     public class NpOiExcelReader : IExcelReader
     {
@@ -17,9 +15,9 @@ namespace FileUploader.ExcelReader
         {
             HSSFWorkbook workBook;
             var fileStream = new FileStream(fileStreams.Name, FileMode.Open, FileAccess.Read);
-             workBook = new HSSFWorkbook(fileStream);
+            workBook = new HSSFWorkbook(fileStream);
             _currentWorkSheet = workBook.GetSheetAt(0);
-           
+
             TotalRows = (uint)_currentWorkSheet.LastRowNum + 1;
             TotalColumns = (uint)_currentWorkSheet.GetRow(0).LastCellNum;
         }
@@ -27,10 +25,10 @@ namespace FileUploader.ExcelReader
         public NpOiExcelReader(FileInfo fileInfo)
         {
             HSSFWorkbook workBook;
-          // var fileStream = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
+            // var fileStream = new FileStream(fileInfo.Name, FileMode.Open, FileAccess.Read);
             {
-             workBook = new HSSFWorkbook(fileInfo.OpenRead());
-                
+                workBook = new HSSFWorkbook(fileInfo.OpenRead());
+
             }
             _currentWorkSheet = workBook.GetSheetAt(0);
             TotalRows = (uint)_currentWorkSheet.LastRowNum + 1;
@@ -52,13 +50,13 @@ namespace FileUploader.ExcelReader
 
         public string GetValue(uint pos)
         {
-            var cell = _currentWorkSheet.GetRow((int)CurrentRow ).GetCell((int)pos - 1);
+            var cell = _currentWorkSheet.GetRow((int)CurrentRow).GetCell((int)pos - 1);
             return cell.GetValue(cell.CellType);
 
         }
         public string GetValue(uint rowPos, uint pos)
         {
-            var cell = _currentWorkSheet.GetRow((int)rowPos-1 ).GetCell((int)pos-1);
+            var cell = _currentWorkSheet.GetRow((int)rowPos - 1).GetCell((int)pos - 1);
             return cell.GetValue(cell.CellType);
         }
 

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using NPOI.SS.UserModel;
 
-namespace FileUploader.ExcelReader
+namespace ReflectionExtension.ExcelReader
 {
     public static class NPOIExtensions
     {
