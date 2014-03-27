@@ -45,6 +45,11 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                               .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
                               .TransformUsing(Transformers.DistinctRootEntity)
                               .List();
+            data.ForEach(x =>
+            {
+                x.Allocs = null;
+                x.AllocSubpolicies = null;
+            });
             return data;
 
         }

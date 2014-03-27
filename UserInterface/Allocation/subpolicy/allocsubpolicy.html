@@ -152,7 +152,7 @@
                                 </td>
                                 <!--Value-->
                                 <td class="input-large">
-                                    <div data-ng-switch on="selectedLeftColumn.InputType">
+                                    <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
                                         <input class="input-small" data-ng-switch-when="number" type="number" data-ng-model="dldata.newCondition.Value" required />
                                         <input class="input-medium" data-ng-switch-default="text" type="text" data-ng-model="dldata.newCondition.Value" required />
 
@@ -209,7 +209,7 @@
             <div class="modal-footer">
                 <button class="btn btn-success" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved"  data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                 <button class="btn btn-primary" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                <button class="btn btn-warning" data-ng-click="factory.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicy.Category)">Reset</button>
+                <button class="btn btn-warning" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,dldata.allocSubpolicy.Category)">Reset</button>
             </div>
         </div>
     </div>

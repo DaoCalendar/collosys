@@ -1,11 +1,8 @@
 ﻿#region References
-using System;
-using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using Iesi.Collections.Generic;
-using NHibernate;
 
 #endregion
 
@@ -41,6 +38,8 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.OutputType OutputType { get; set; }
 
         public virtual string GroupBy { get; set; }
+
+        public virtual string Description { get; set; }
         #endregion
 
         #region IStatusComponent

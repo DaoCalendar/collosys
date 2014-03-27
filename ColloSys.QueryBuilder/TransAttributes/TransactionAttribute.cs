@@ -35,8 +35,16 @@ namespace ColloSys.QueryBuilder.TransAttributes
                 }
                 else
                 {
-                    transaction.Rollback();
-                    Session.Clear();
+                    try
+                    {
+                        transaction.Rollback();
+                        Session.Clear();
+                    }
+                    catch (Exception e)
+                    {
+                        Session.Clear();
+                    }
+                    
                 }
             }
         }
