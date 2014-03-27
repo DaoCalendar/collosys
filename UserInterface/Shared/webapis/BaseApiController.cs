@@ -190,7 +190,7 @@ namespace AngularUI.Shared.apis
 
         protected virtual TEntity BasePut(Guid id, TEntity obj)
         {
-            return _repository.Merge(obj);
+            return _repository.Save(obj);
         }
 
         protected virtual TEntity BasePost(TEntity obj)
