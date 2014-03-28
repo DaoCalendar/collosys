@@ -65,6 +65,11 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                 }
             });
         };
+        
+        $scope.showIndividual = function (stkh) {
+            if (angular.isUndefined(stkh.Hierarchy)) return false;
+            return (stkh.Hierarchy.IsIndividual === true);
+        };
 
         $scope.$watch('allocSubpolicy.AllocateType', factory.watchAllocateType());
 
