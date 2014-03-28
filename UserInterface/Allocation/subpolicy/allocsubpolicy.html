@@ -100,12 +100,12 @@
                         <label class="control-label">Select Stakeholder</label>
                         <div class="controls">
                             <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id"  data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
-                                <option></option>
+                                <option value=""></option>
                                 <optgroup label="Collector">
-                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'true'}" value="{{c.Id}}">{{c.Name}}</option>
+                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
                                 </optgroup>
                                 <optgroup label="Agency">
-                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'false'}" value="{{c.Id}}">{{c.Name}}</option>
+                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
                                 </optgroup>
                             </select>
                         </div>

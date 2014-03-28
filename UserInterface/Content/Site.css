@@ -450,6 +450,7 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 .main-box {
     background-color: #EBEEF0;
     width: 900px;
+    border: 1px gainsboro groove
  /*background-image: -webkit-gradient(
 	linear,
 	left top,
@@ -463,4 +464,9 @@ background-image: -webkit-linear-gradient(bottom, #83D0FC 19%, #47BEED 94%);
 background-image: -ms-linear-gradient(bottom, #83D0FC 19%, #47BEED 94%);
 background-image: linear-gradient(to bottom, #83D0FC 19%, #47BEED 94%);*/
 
+}
+h3.somemarginH {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    margin-left: 15px;
 }
