@@ -66,19 +66,26 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         };
 
         var changeProductCategory = function () {
-            restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
-                dldata.stakeholderList = data;
-                dldata.adhocPayout.Tenure = 1;
-                console.log(dldata.stakeholderList);
-            }, function (data) {
-                $csnotify.error(data);
-            });
-            restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {
-                dldata.adhocPayoutAllList = data;
-                dldata.adhocPayoutList = data;
-            }, function (data) {
-                $csnotify.error(data);
-            });
+            //restApi.customGET("GetBillStatus", { product: dldata.selectedProduct }).then(function(status) {
+            //    if (status) {
+                    restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function(data) {
+                        dldata.stakeholderList = data;
+                        dldata.adhocPayout.Tenure = 1;
+                        console.log(dldata.stakeholderList);
+                    }, function(data) {
+                        $csnotify.error(data);
+                    });
+                    restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function(data) {
+                        dldata.adhocPayoutAllList = data;
+                        dldata.adhocPayoutList = data;
+                    }, function(data) {
+                        $csnotify.error(data);
+                    });
+                //} else {
+                //    $csnotify.success("Some message");
+                //}
+
+            //});
         };
 
         var saveData = function (adhocPayout) {

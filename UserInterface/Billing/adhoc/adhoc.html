@@ -20,20 +20,20 @@
                 <label class="control-label">Stakeholder Name</label>
                 <div class="controls">
                     <select class="input-large"
-                            data-ng-model="dldata.selectedStkholderId" ui-select2
+                            data-ng-model="dldata.selectedStkholderId" 
                             data-ng-change="factory.showData(selectedStkholderId)" required>
                         <option></option>
                         <optgroup label="Collector">
                             <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'true'}" value="{{c.Id}}">{{c.Name}}</option>
                         </optgroup>
                         <optgroup label="Agency">
-                            <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'false'}" value="{{c.Id}}">{{c.Name}}</option>
+                            <option data-ng-repeat="c in dldata.stakeholderList " value="{{c.Id}}">{{c.Name}}</option>
                         </optgroup>
                     </select>
                 </div>
             </div>
             <div class="row-fluid text-center span2" data-ng-show="dldata.selectedStkholderId">
-                <button class="btn btn-success " data-ng-click="OpenAdhocPayoutManager()">Add</button>
+                <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
             </div>
         </div>
         <!--Table showing details-->
