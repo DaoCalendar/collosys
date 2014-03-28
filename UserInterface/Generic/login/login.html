@@ -4,12 +4,52 @@
     }
 </style>
 <div style="margin: 100px">
-    <div style="background: white; border: 1px gainsboro groove">
+    <div class="main-box" style=" border: 1px gainsboro groove">
         <div class="row" style="padding: 50px;">
             <div class="span4">
-            <img style="width: 90%" src="/Content/images/stanc/SCBLoginImage.gif" />
-        </div>
-            <div class="span4" style="background: lightgoldenrodyellow">
+                <img style="width: 90%" src="/Content/images/stanc/SCBLoginImage.gif" />
+            </div>
+            <div class="span4">
+                <section class="loginform cf">
+                    <form>
+                        <div class="control-group somemargin">
+                            <div class="control-label">
+                                Username
+                            </div>
+                            <div class="controls">
+                                <input type="text" autofocus="autofocus" data-ng-model="login.username">
+                            </div>
+                        </div>
+                        <div class="control-group somemargin">
+                            <div class="control-label">
+                                Password
+                            </div>
+                            <div class="controls">
+                                <input type="password" data-ng-model="login.password">
+                            </div>
+                        </div>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
+                            </div>
+                        </div>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                               
+                            </div>
+                        </div>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
+                                    Log In
+                                </button>
+                                <a class="forgotPassword text-center">Forgot Password</a>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+            <!--<div class="span4" style="background: lightgoldenrodyellow">
                 <h3 class="somemargin">Please Log In</h3>
                 <form>
                     <div class="control-group somemargin">
@@ -46,7 +86,29 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>-->
         </div>
     </div>
+   
 </div>
+<!--<ul>
+    <li>
+        <label>Username</label>
+        <input type="text" autofocus="autofocus" data-ng-model="login.username">
+    </li>
+    <li>
+        <label>Password</label>
+        <input type="password" data-ng-model="login.password">
+    </li>
+    <li>
+        <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
+            Log In
+        </button>
+    </li>
+    <li>
+        <a class="forgotPassword">Forgot Password</a>
+    </li>
+    <li>
+        <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
+    </li>
+</ul>-->
