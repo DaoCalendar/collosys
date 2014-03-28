@@ -22,18 +22,23 @@
 //        $scope.OpenAdhocPayout = true;
 //    };
 
-    
+
 //}]);
 
 
-csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory','$modal',
-    function ($scope, datalayer, factory,$modal) {
+csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal',
+    function ($scope, datalayer, factory, $modal) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             datalayer.getProducts();
         })();
+
+        $scope.ShowIndividual = function (stkh) {
+            if (angular.isUndefined(stkh.Hierarchy)) return false;
+            return stkh.Hierarchy.IsIndividual === true;
+        };
 
         $scope.openmodal = function () {
             $scope.dldata.adhocPayout.Products = $scope.dldata.selectedProduct;
@@ -68,33 +73,36 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         var changeProductCategory = function () {
             //restApi.customGET("GetBillStatus", { product: dldata.selectedProduct }).then(function(status) {
             //    if (status) {
-                    restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function(data) {
-                        dldata.stakeholderList = data;
-                        dldata.adhocPayout.Tenure = 1;
-                    }, function(data) {
-                        $csnotify.error(data);
-                    });
-                    restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function(data) {
-                        dldata.adhocPayoutAllList = data;
-                        dldata.adhocPayoutList = data;
-                    }, function(data) {
-                        $csnotify.error(data);
-                    });
-                //} else {
-                //    $csnotify.success("Some message");
-                //}
+            debugger;
+            restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
+                dldata.stakeholderList = data;
+                dldata.adhocPayout.Tenure = 1;
+                console.log(dldata.stakeholderList);
+            }, function (data) {
+                $csnotify.error(data);
+            });
+            restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {
+                dldata.adhocPayoutAllList = data;
+                dldata.adhocPayoutList = data;
+            }, function (data) {
+                $csnotify.error(data);
+            });
+            //} else {
+            //    $csnotify.success("Some message");
+            //}
 
             //});
         };
 
         var saveData = function (adhocPayout) {
+            debugger;
             if (dldata.adhocPayout.IsRecurring === "false") {
                 dldata.adhocPayout.Tenure = 1;
             }
             var endDate = moment(dldata.adhocPayout.StartMonth).add('month', (dldata.adhocPayout.Tenure - 1));
-            $csnotify.success(endDate);
+            //$csnotify.success(endDate);
             dldata.adhocPayout.StartMonth = moment(dldata.adhocPayout.StartMonth).format('MMM-YYYY');
-            dldata.adhocPayout.EndMonth = moment(endDate).format('MMM-YYYY');
+            dldata.adhocPayout.EndMonth = Date.parse(endDate);
             dldata.adhocPayout.RemainingAmount = dldata.adhocPayout.TotalAmount;
 
             restApi.customPOST(adhocPayout, 'Post').then(function (data) {
@@ -141,8 +149,8 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         };
     }]);
 
-csapp.controller('adhocPaymentCtrl', ['$scope','adhocPayoutDataLayer','adhocPayoutFactory','$modalInstance',
-    function($scope,datalayer,factory,$modalInstance) {
+csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modalInstance',
+    function ($scope, datalayer, factory, $modalInstance) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -152,6 +160,13 @@ csapp.controller('adhocPaymentCtrl', ['$scope','adhocPayoutDataLayer','adhocPayo
         $scope.CloseAdhocPayoutManager = function () {
             $scope.dldata.adhocPayout = {};
             $modalInstance.dismiss();
+        };
+
+
+        $scope.saveData = function () {
+            datalayer.saveData(adhocPayout).then(function () {
+                $modalInstance.dismiss();
+            });
         };
 
     }]);

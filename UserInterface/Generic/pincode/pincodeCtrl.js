@@ -115,7 +115,7 @@
             return;
         }
         pincodeApi.customGETLIST("GetPincodes", { state: stateName }).then(function (data) {
-            $csnotify.success("Data loaded successfully");
+            $csnotify.success("Pincodes loaded successfully");
             dldata.GPincodes = data;
             dldata.stateClusters = _.uniq(_.pluck(dldata.GPincodes, 'Cluster'));
         }, showErrorMessage);
