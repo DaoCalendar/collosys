@@ -87,6 +87,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.datalayer.reset();
             $scope.modalData = {
                 AllocRelation: {},
                 StartDate: null,
@@ -232,9 +233,9 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var reset = function () {
-            $scope.allocPolicy = {};
-            $scope.allocPolicy.Category = "Liner";
-            $scope.subPolicyList = {};
+            dldata.allocPolicy = {};
+            dldata.allocPolicy.Category = "Liner";
+            dldata.subPolicyList = {};
         };
 
         return {

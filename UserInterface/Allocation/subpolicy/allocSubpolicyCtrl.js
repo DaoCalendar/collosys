@@ -37,6 +37,8 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.dldata.allocSubpolicy = {};
+            $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
             console.log($scope.dldata);
@@ -91,7 +93,6 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var selectAllocSubpolicy = function (sallocSubpolicy) {
-            debugger;
             dldata.IsPolicyApproved = false;
 
             var subpolicy = angular.copy(sallocSubpolicy);
@@ -404,7 +405,7 @@ csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', 
             $scope.dldata.curRelation.EndDate = modelData.endDate;
             datalayer.activateSubpolicy($scope.dldata.curRelation).then(function (data) {
                 $scope.dldata.curRelation = data;
-                $modalInstance.close();
+                $scope.closeModel();
             });
         };
 
