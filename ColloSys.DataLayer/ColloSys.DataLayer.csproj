@@ -154,7 +154,6 @@
     <Compile Include="Components\IPolicyStatusComponent.cs" />
     <Compile Include="Components\ITransactionComponent.cs" />
     <Compile Include="Generic\ProductConfigMap.cs" />
-    <Compile Include="JsonSerialization\NhEntityJsonConverter.cs" />
     <Compile Include="LogSupport\Users.cs" />
     <Compile Include="LogSupport\UsersMap.cs" />
     <Compile Include="JsonSerialization\DynamicProxyJsonConverter.cs" />

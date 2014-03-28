@@ -11,7 +11,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace ColloSys.DataLayer.JsonSerialization
 {
-    public class NHibernateContractResolver : DefaultContractResolver
+    public class NHibernateContractResolver2 : DefaultContractResolver
     {
         protected override JsonContract CreateContract(Type objectType)
         {
@@ -21,7 +21,7 @@ namespace ColloSys.DataLayer.JsonSerialization
         }
     }
 
-    public class NHibernateContractResolver2 : DefaultContractResolver
+    public class NHibernateContractResolver : DefaultContractResolver
     {
         
         private static readonly MemberInfo[] NHibernateProxyInterfaceMembers = typeof(INHibernateProxy).GetMembers();
