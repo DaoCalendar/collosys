@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants',
-function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location",
+function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location) {
 
     $scope.StepManager = {
         StepNames: {
@@ -121,10 +121,13 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
     };
 
     $scope.WizardData = {
+
+        Payment: {},
+
         BillingPolicy: {
             LinerPolicies: [],
             WriteOffPolicies: [],
-            
+
         },
         FinalPostModel: {
             Stakeholder: {
@@ -144,7 +147,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             PayWorkModel: {
                 Payment: {
                     Products: '',
-                    CollectionBillingPolicy:'' ,
+                    CollectionBillingPolicy: '',
                     RecoveryBillingPolicy: '',
                     BillingPolicyId: ''
                 },
@@ -327,7 +330,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             return $scope.WizardData.FinalPostModel.IsEditMode;
         },
         ResetPayWorkModel: function () {
-            //$scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
             $scope.WizardData.FinalPostModel.PayWorkModel.WorkList = [];
         },
         ResetPayWorkModelList: function () {
@@ -336,7 +339,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         ResetStakeholderData: function () {
             $scope.WizardData.FinalPostModel.Stakeholder = {};
             $scope.WizardData.FinalPostModel.EmailId = null;
-            $scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
+            //$scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
             $scope.WizardData.FinalPostModel.Registration = {};
             $scope.WizardData.FinalPostModel.Address = {};
             $scope.WizardData.FinalPostModel.Pincode = '';
@@ -402,15 +405,20 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
     $scope.enableAddToList = function (invalid) {
         if ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length > 0 && invalid == false) {
             return false;
-        } else {
+        }
+        else if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
+            return false;
+        }
+        else {
             return true;
         }
     };
 
     var goToViewPage = function () {
-        var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/StakeholerView/ViewStakeholder";
-        $log.info(downloadpath);
-        $window.location = downloadpath;
+        //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/StakeholerView/ViewStakeholder";
+        $location.path('/stakeholder/view');
+        //$log.info(downloadpath);
+
     };
 
     //#region init
@@ -420,20 +428,60 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         $scope.ShowPrevBtn = true;
         $scope.WizardData.prevStatus = false;
         $scope.showInEditmode = false;
+        $scope.showBasicInfo = true;
+        $scope.showWorking = false;
+
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
             Hierarchy: $scope.WizardData.GetHierarchy(),
             ShowHierarchyDesignation: true
         };
-        if (!$csfactory.isNullOrEmptyGuid($window.stakeholderId)) {
-            getStakeholderForEdit($window.stakeholderId);
+        if (!$csfactory.isNullOrEmptyGuid($routeParams.data)) {
+            getStakeholderForEdit($routeParams.data);
         } else {
             $scope.StepManager.SetDefaultStep();
         }
 
         $log.info("$stakeholder : intialization done.");
     };
+
+    //#region show/hide forms
+    $scope.showWorkingScreen = function () {
+        $scope.showBasicInfo = false;
+        $scope.showWorking = true;
+    };
+
+    $scope.showBasicInfoScreen = function () {
+
+        $scope.showBasicInfo = true;
+        $scope.showWorking = false;
+
+    };
+
+    $scope.enableSave = function (indexData) {
+
+        if ($scope.WizardData.IsEditMode()) {
+            if ($scope.WizardData.FinalPostModel.Hierarchy.HasPayment && $scope.WizardData.FinalPostModel.Hierarchy.HasWorking) {
+                return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
+            } else {
+                return ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length === 0);
+            }
+        }
+
+        if (indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment)
+            return ($scope.WizardData.FinalPostModel.PayWorkModel.WorkList.length == 0);
+
+        if (indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment)
+            return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
+
+        if (!indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment) {
+            return true;
+        }
+
+
+    };
+    //#endregion
 
     var setLocalHierarchy = function () {
         $scope.indexData.Hierarchy = $scope.WizardData.GetHierarchy();
@@ -457,6 +505,11 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             $scope.indexData.Hierarchy = $scope.WizardData.GetHierarchy();
             $scope.StepManager.SetDefaultStep();
             $scope.StepManager.PopulateSteps($scope.indexData.Hierarchy);
+            if ($scope.indexData.Hierarchy.IsUser) {
+                var index = $scope.WizardData.FinalPostModel.Stakeholder.EmailId.indexOf('@');
+                $scope.WizardData.FinalPostModel.EmailId = angular.copy($scope.WizardData.FinalPostModel.Stakeholder.EmailId.substring(0, index));
+            }
+
         }, function () {
             $csnotify.error('Error in loading stakeholder for edit');
             $log.error('Error in loading stakeholder for edit');
@@ -464,22 +517,25 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
     };
 
     $scope.SaveData = function () {
+
         if (($scope.indexData.Hierarchy.IsUser === true)) {
             if ($scope.WizardData.userExists === true) {
                 $csnotify.error("UserId Already Exist");
                 return;
             }
         }
-        
+
+
+
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
         var finalPostModel = $scope.WizardData.FinalPostModel;
-       
+
 
         //save stakeholder
-        //if (hierarchy.Hierarchy !== 'External') {
-        //    stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
-        //}
+        if (hierarchy.Hierarchy !== 'External') {
+            stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
+        }
 
         // assign approver name
         //stakeholder.ApprovedBy = getApproverName(stakeholder.ReportingManager);
@@ -504,11 +560,22 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             if (finalPostModel.PayWorkModelList.length === 0 || $scope.WizardData.IsEditMode()) {
                 if (finalPostModel.PayWorkModel.WorkList.length > 0) {
-                    
+
                     finalPostModel.PayWorkModelList.push(finalPostModel.PayWorkModel);
                 }
             }
         }
+
+        if (hierarchy.HasPayment && !hierarchy.HasWorking) {
+            
+            var dummyWorking = {
+                Country: 'INDIA',
+            };
+            $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummyWorking);
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = $scope.WizardData.Payment;
+            $scope.WizardData.FinalPostModel.PayWorkModelList.push($scope.WizardData.FinalPostModel.PayWorkModel);
+        }
+
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             var product; //= finalPostModel.PayWorkModelList[0].WorkList[0].Products;
             var policyCollection; //= finalPostModel.PayWorkModelList[0].Payment.CollectionBillingPolicy;
@@ -523,8 +590,9 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             });
             //finalPostModel.PayWorkModel.BillingPolicy = policy;
             //finalPostModel.PayWorkModel.Payment.Products = product;
-           
+
         }
+        stakeholder.CreatedBy = $csfactory.getCurrentUserName();
         finalPostModel.Stakeholder = stakeholder;
 
         $log.info($scope.Stakeholder);
@@ -576,7 +644,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
             $scope.WizardData.FinalPostModel.SelHierarchy = {};
             $scope.WizardData.FinalPostModel.Stakeholder = {};
             $scope.WizardData.FinalPostModel.EmailId = null;
-            $scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
+            //$scope.WizardData.FinalPostModel.Stakeholder.Gender = 0;
             $scope.WizardData.FinalPostModel.Registration = {};
             $scope.WizardData.FinalPostModel.Address = {};
             $scope.WizardData.FinalPostModel.Pincode = '';
@@ -598,7 +666,7 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
         if (angular.isUndefined(hierarchy)) {
             return;
         }
-        restApi.customPOST(hierarchy,'GetReportsToInHierarchy')
+        restApi.customPOST(hierarchy, 'GetReportsToInHierarchy')
                .then(function (data) {
                    $scope.WizardData.FinalPostModel.ReportsToList = data;
                    if (!$scope.$$phase) {
@@ -614,6 +682,8 @@ function ($scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csC
 
 }])
 );
+
+
 
 //$scope.Stakeholder = {
 //    StkhPayments: [],

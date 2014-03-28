@@ -8,18 +8,12 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate;
 using NHibernate.Criterion;
-using NHibernate.Linq;
-using NHibernate.SqlCommand;
-using NLog;
 using Newtonsoft.Json;
 
 #endregion
@@ -37,7 +31,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         [HttpPost]
-        [HttpTransaction]
+        
         public WorkingModel GetPincodeData(WorkingModel pindata)
         {
             switch (pindata.QueryFor)
@@ -74,7 +68,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public WorkingModel GetPincodeList(WorkingModel pindata)
         {
             if (pindata.QueryFor == LocationLevels.City)
@@ -85,7 +79,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetAllWorkingList()
         {
             var allLists = new
@@ -99,7 +93,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public BillingPolicyLists GetLinerWriteOff(ScbEnums.Products product)
         {
             var data = new BillingPolicyLists
@@ -117,7 +111,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public PaymentDetails GetPaymentDetails()
         {
             var payment = new PaymentDetails();
@@ -136,14 +130,14 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetStateList()
         {
             return GPincodeBuilder.StateList();
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<GPincode> GetCompleteClusterData()
         {
             return GPincodeBuilder.GetAll();
@@ -188,7 +182,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<GPincode> GetClusters(Guid Id)
         {
             var session = SessionManager.GetCurrentSession();
@@ -226,7 +220,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> WorkingReportsTo(StkhHierarchy hierarchyId)
         {
             Guid reportingHierarchy = hierarchyId.WorkingReportsTo;
@@ -236,7 +230,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             {
                 return reportsTolist;
             }
-            var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
+            var firstLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy)
                                                     .SingleOrDefault();
 
             if (firstLevelHierarchy == null)
@@ -256,7 +250,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 return reportsTolist;
             }
 
-            var secondLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == firstLevelHierarchy.ReportsTo)
+            var secondLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == firstLevelHierarchy.ReportsTo)
                                                      .SingleOrDefault();
             if (secondLevelHierarchy == null)
             {
@@ -275,20 +269,20 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<Stakeholders> StakeHolderList(string product, Guid selHierarchyId)
         {
             //Get Hierarchy by select hierarchy
-            var hierarchy = HierarchyQuery.GetOnExpression(x => x.Id == selHierarchyId).SingleOrDefault();
+            var hierarchy = HierarchyQuery.FilterBy(x => x.Id == selHierarchyId).SingleOrDefault();
 
             // Find reporting hierarchy ReportsToId
-            var reportingHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
+            var reportingHierarchy = HierarchyQuery.FilterBy(x => x.Id == hierarchy.ReportsTo).SingleOrDefault();
 
             // list of reporting hierarchyId
             var reportingIdlist = StakeQuery.OnHierarchyId(reportingHierarchy.Id).ToList();
 
 
-            var hlist = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
+            var hlist = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy.ReportsTo).SingleOrDefault();
             if (hlist == null)
                 return reportingIdlist;
 
@@ -303,7 +297,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public string GetRegionOfState(string state)
         {
             var data = GetRegionOnState(state);
@@ -311,7 +305,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<GPincode> GetPincodes(string pincode, string level)
         {
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);

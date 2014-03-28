@@ -4,11 +4,10 @@
             <div class="control-group span5">
                 <label class="control-label">Product</label>
                 <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.allocPolicy.Products" 
-                            data-ng-change="datalayer.changeProductCategory()" 
-                            data-ui-select2="" 
-                            required
-                        >
+                    <select class="input-large" data-ng-model="dldata.allocPolicy.Products"
+                            data-ng-change="datalayer.changeProductCategory()"
+                            data-ui-select2=""
+                            required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
@@ -22,9 +21,9 @@
         <tab heading="Approved Subpolicy ( {{(dldata.allocPolicy.AllocRelations | filter:filterRelation(true,'Approved')).length}} )" class="alert-success">
             <table class="table table-bordered form-horizontal" style="border-color: green">
                 <tr data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
-                    <td  style="border-color: green">
+                    <td style="border-color: green">
                         <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(allocRelation.AllocSubpolicy)" class=" row-fluid span12">
-                            <div class="row-fluid span10">
+                            <div class="row-fluid span9">
                                 <!--Name & Policy-->
                                 <div class="row-fluid">
                                     <!--Name-->
@@ -34,7 +33,7 @@
                                             <input type="text" data-ng-model="allocRelation.AllocSubpolicy.Name" readonly="readonly" />
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <!--Conditions & Policy Reason/ Stakeholder-->
                                 <div class="row-fluid">
@@ -56,29 +55,29 @@
                                     <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                         <label class="control-label">Stakeholder</label>
                                         <div class="controls">
-                                            <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
+                                            <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
                                         </div>
                                     </div>
                                 </div>
-                                 <!--Start & End Date-->
+                                <!--Start & End Date-->
                                 <div class="row-fluid">
                                     <!--Start date-->
                                     <div class="control-group span5">
-                                        <label class="control-label" >Start Date</label>
+                                        <label class="control-label">Start Date</label>
                                         <div class="controls">
                                             <input type="text" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                     <!--End Date-->
                                     <div class="control-group span6">
-                                        <label class="control-label" >End Date</label>
+                                        <label class="control-label">End Date</label>
                                         <div class="controls">
                                             <input type="text" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row-fluid">
-                                     <!--conditions-->
+                                    <!--conditions-->
                                     <div class="control-group span5">
                                         <label class="control-label">Condition</label>
                                         <div class="controls">
@@ -86,20 +85,23 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <!--Deactivate,Approv, Reject Buttons-->
                                 <div class="row-fluid">
                                     <div class="control-group span4">
                                         <div class="controls btn-group">
-                                            <button class="btn  btn-danger" 
-                                                data-ng-show="allocRelation.Status=='Approved'" data-ng-click="openModelDeactivateSubPolicy(dldata.allocRelation)">Deactivate</button>
+                                            <button class="btn  btn-danger"
+                                                    data-ng-show="allocRelation.Status=='Approved'" 
+                                                    data-ng-click="openModelDeactivateSubPolicy(allocRelation)">
+                                                Deactivate
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--upward downward arrows-->
                             <div class="row-fluid span2">
-                                <div class="row-fluid span12 text-right">
+                                <div class="row-fluid text-left">
                                     <div class="btn-group btn-group-vertical">
                                         <button class="btn btn-mini icon-arrow-up" data-ng-disabled="$first" data-ng-click="facotry.upside(disSubPolicy,$index)"></button>
                                         <button class="btn btn-mini icon-arrow-down" data-ng-disabled="$last" data-ng-click="factory.downside(dldata.subPolicy,$index)"></button>
@@ -108,39 +110,39 @@
                             </div>
                             <!--Status Div-->
                             <div class="row-fluid span2">
-                                <div class="row-fluid" >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid">
+                                    <div class="row-fluid text-left">
                                         <label ng-style="dldata.color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedBy-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">CreatedBy : {{factory.setStatus(allocRelation.CreatedBy)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedDate-->
-                                <div class="row-fluid " >
+                                <div class="row-fluid ">
                                     <div class="row-fluid text-left">
                                         <label style="color:blue">CreatedDate : {{factory.setStatus(allocRelation.CreatedOn) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
-                            
+
                                 <!--ApprovedBy-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">ApprovedBy : {{factory.setStatus(allocRelation.ApprovedBy)}}</label>
                                     </div>
                                 </div>
                                 <!--ApprovedDate-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">ApprovedDate : {{factory.setStatus(allocRelation.ApprovedOn) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
                                 <!--EffectiveFrom-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">EffectiveFrom : {{factory.setStatus(allocRelation.StartDate) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
@@ -154,17 +156,17 @@
         <tab heading="UnApproved Subpolicy ( {{(dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted')).length}} )" class="alert-success">
             <table class="table table-bordered form-horizontal" style="border-color: green">
                 <tr data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
-                    <td  style="border-color: green">
+                    <td style="border-color: green">
                         <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(allocRelation.AllocSubpolicy)" class=" row-fluid span12">
-                            <div class="row-fluid span10">
+                            <div class="row-fluid span9">
                                 <!--Name & Policy-->
                                 <div class="row-fluid">
                                     <!--Name-->
                                     <div class="control-group span5">
                                         <label class="control-label">Name</label>
                                         <div class="controls">
-                                            <input type="text" 
-                                                data-ng-model="allocRelation.AllocSubpolicy.Name" readonly="readonly" />
+                                            <input type="text"
+                                                   data-ng-model="allocRelation.AllocSubpolicy.Name" readonly="readonly" />
                                         </div>
                                     </div>
                                 </div>
@@ -189,86 +191,87 @@
                                          data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                         <label class="control-label">Stakeholder</label>
                                         <div class="controls">
-                                            <input type="text" readonly="readonly" 
-                                                data-ng-model="disSubPolicy.StakeholdersName"/>
+                                            <input type="text" readonly="readonly"
+                                                   data-ng-model="disSubPolicy.StakeholdersName" />
                                         </div>
                                     </div>
                                 </div>
-                                 <!--Start & End Date-->
+                                <!--Start & End Date-->
                                 <div class="row-fluid">
                                     <!--Start date-->
                                     <div class="control-group span5">
-                                        <label class="control-label" >Start Date</label>
+                                        <label class="control-label">Start Date</label>
                                         <div class="controls">
                                             <input type="text" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                     <!--End Date-->
                                     <div class="control-group span6">
-                                        <label class="control-label" >End Date</label>
+                                        <label class="control-label">End Date</label>
                                         <div class="controls">
                                             <input type="text" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row-fluid">
-                                     <!--conditions-->
+                                    <!--conditions-->
                                     <div class="control-group span5">
                                         <label class="control-label">Condition</label>
                                         <div class="controls">
-                                            <textarea class="resize" data-ng-model="disSubPolicy.Condition" 
-                                                style="width: 622px" readonly="readonly"></textarea>
+                                            <textarea class="resize" data-ng-model="disSubPolicy.Condition"
+                                                      style="width: 622px" readonly="readonly"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <!--Deactivate,Approv, Reject Buttons-->
                                 <div class="row-fluid">
                                     <div class="control-group span4">
                                         <div class="controls btn-group">
                                             <button class="btn btn-success"
                                                     data-ng-show="allocRelation.Status=='Submitted'"
-                                                 data-ng-click ="allocRelation.Status='Approved';datalayer.saveAllocPolicy(dldata.allocPolicy)">Approve</button>
-                                            <button class="btn btn-success" data-ng-show="allocRelation.Status=='Submitted'" data-ng-click ="allocRelation.Status='Rejected';datalayer.RejectSubPolicy(allocRelation)">Reject</button>
+                                                    data-ng-click="allocRelation.Status=='Approved';datalayer.approveRelation(allocRelation)">Approve</button>
+                                            <button class="btn btn-success" data-ng-show="allocRelation.Status=='Submitted'" 
+                                                    data-ng-click="allocRelation.Status='Rejected';datalayer.RejectSubPolicy(allocRelation)">Reject</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <!--Status Div-->
                             <div class="row-fluid span2">
-                                <div class="row-fluid" >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid">
+                                    <div class="row-fluid text-left">
                                         <label ng-style="dldata.color">Status : {{factory.setStatus(allocRelation.Status)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedBy-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">CreatedBy : {{factory.setStatus(allocRelation.CreatedBy)}}</label>
                                     </div>
                                 </div>
                                 <!--CreatedDate-->
-                                <div class="row-fluid " >
+                                <div class="row-fluid ">
                                     <div class="row-fluid text-left">
                                         <label style="color:blue">CreatedDate : {{factory.setStatus(allocRelation.CreatedOn) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
-                            
+
                                 <!--ApprovedBy-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">ApprovedBy : {{factory.setStatus(allocRelation.ApprovedBy)}}</label>
                                     </div>
                                 </div>
                                 <!--ApprovedDate-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">ApprovedDate : {{factory.setStatus(allocRelation.ApprovedOn) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
                                 <!--EffectiveFrom-->
-                                <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
                                         <label style="color:blue">EffectiveFrom : {{factory.setStatus(allocRelation.StartDate) | date : 'dd-MM-yyyy'}}</label>
                                     </div>
                                 </div>
@@ -315,22 +318,22 @@
                                 <div class="control-group span5" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                     <label class="control-label">Stakeholder</label>
                                     <div class="controls">
-                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
+                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
                                     </div>
                                 </div>
                             </div>
-                               <!--Start & End Date-->
+                            <!--Start & End Date-->
                             <div class="row-fluid">
                                 <!--Start date-->
                                 <div class="control-group span5">
-                                    <label class="control-label" >Start Date</label>
+                                    <label class="control-label">Start Date</label>
                                     <div class="controls">
                                         <input type="text" readonly value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
                                     </div>
                                 </div>
                                 <!--End date-->
                                 <div class="control-group span6">
-                                    <label class="control-label" >End Date</label>
+                                    <label class="control-label">End Date</label>
                                     <div class="controls">
                                         <input type="text" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
                                     </div>
@@ -342,62 +345,62 @@
                                     <label class="control-label">Condition</label>
                                     <div class="controls">
                                         <textarea class="resize" data-ng-model="disSubPolicy.Condition"
-                                             style="width: 622px" readonly="readonly"></textarea>
+                                                  style="width: 622px" readonly="readonly"></textarea>
                                     </div>
                                 </div>
                             </div>
-                           
-                           <!--ReActivate Button-->
+
+                            <!--ReActivate Button-->
                             <div class="row-fluid">
                                 <div class="control-group span4">
                                     <div class="controls btn-group">
                                         <button class="btn btn-primary" data-ng-click="openModelReactivateSubPolicy(billingRelation)">Reactivate</button>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
-                       
+
                         <!--Status Div-->
                         <div class=" row-fluid span2">
-                             <div class="row-fluid " >
-                                    <div class="row-fluid text-left" >
-                                        <label ng-style="dldata.color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
-                                    </div>
+                            <div class="row-fluid ">
+                                <div class="row-fluid text-left">
+                                    <label ng-style="dldata.color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
                                 </div>
+                            </div>
                             <!--CreatedBy-->
-                            <div class="row-fluid " >
+                            <div class="row-fluid ">
                                 <div class="row-fluid text-left">
                                     <label style="color:blue">CreatedBy : {{factory.setStatus(billingRelation.CreatedBy)}}</label>
                                 </div>
                             </div>
                             <!--CreatedDate-->
-                            <div class="row-fluid " >
+                            <div class="row-fluid ">
                                 <div class="row-fluid text-left">
                                     <label style="color:blue">CreatedDate : {{factory.setStatus(billingRelation.CreatedOn) | date : 'dd-MM-yyyy'}}</label>
                                 </div>
                             </div>
-                           
+
                             <!--ApprovedBy-->
-                            <div class="row-fluid " >
+                            <div class="row-fluid ">
                                 <div class="row-fluid text-left">
                                     <label style="color:blue">ApprovedBy : {{factory.setStatus(billingRelation.ApprovedBy)}}</label>
                                 </div>
                             </div>
                             <!--ApprovedDate-->
-                            <div class="row-fluid " >
+                            <div class="row-fluid ">
                                 <div class="row-fluid text-left">
                                     <label style="color:blue">ApprovedDate : {{factory.setStatus(billingRelation.ApprovedOn) | date : 'dd-MM-yyyy'}}</label>
                                 </div>
                             </div>
                             <!--EffectiveFrom-->
-                            <div class="row-fluid " >
+                            <div class="row-fluid ">
                                 <div class="row-fluid text-left">
                                     <label style="color:blue">EffectiveFrom : {{factory.setStatus(billingRelation.StartDate) | date : 'dd-MM-yyyy'}}</label>
                                 </div>
-                            </div>  
-                            
+                            </div>
+
                         </div>
-                                       
+
                     </td>
                 </tr>
             </table>
@@ -412,19 +415,19 @@
                                 <div class="control-group span6">
                                     <label class="control-label">Name</label>
                                     <div class="controls">
-                                        <input type="text" 
-                                            data-ng-model="subPolicy.Name" readonly="readonly" />
+                                        <input type="text"
+                                               data-ng-model="subPolicy.Name" readonly="readonly" />
                                     </div>
-                                </div> 
+                                </div>
                             </div>
-                           <!--Policy-->
+                            <!--Policy-->
                             <div class="row">
                                 <div class="control-group span5">
-                                <label class="control-label">Policy</label>
-                                <div class="controls">
-                                    <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
+                                    <label class="control-label">Policy</label>
+                                    <div class="controls">
+                                        <input type="text" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
+                                    </div>
                                 </div>
-                               </div>
                                 <div data-ng-show="disSubPolicy.Policy=='DoNotAllocate'" class="control-group span5">
                                     <label class="control-label">Reason</label>
                                     <div class="controls">
@@ -434,11 +437,11 @@
                                 <div data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'" class="control-group span5">
                                     <label class="control-label">Stakeholder</label>
                                     <div class="controls">
-                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName"/>
+                                        <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
                                     </div>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <!--Condition-->
                                 <div class="control-group span5">
                                     <label class="control-label">Condition</label>
@@ -446,8 +449,8 @@
                                         <textarea id="foo" data-ng-model="disSubPolicy.Condition" style="width: 635px" readonly="readonly"></textarea>
                                     </div>
                                 </div>
-                              </div>
-                          <!--Activate Button-->
+                            </div>
+                            <!--Activate Button-->
                             <div class="row">
                                 <div class="control-group span4">
                                     <div class="controls btn-group">
@@ -461,7 +464,4 @@
             </table>
         </tab>
     </tabset>
-
-   
-    
 </div>

@@ -32,7 +32,7 @@ namespace ColloSys.AllocationService.EmailAllocations
         public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
         {
             var stakeholerInitialData = StakeQueryBuilder
-                .GetOnExpression(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
+                .FilterBy(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
            
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
                                                select new StakeholdersStat()
@@ -60,7 +60,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return true;
         }
 
-        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Alloc> allocData, ScbEnums.Products products)
+        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Allocations> allocData, ScbEnums.Products products)
         {
             Log.Info("In SendMail");
             foreach (var allocated in listOfStakeholdersAndMangers)
@@ -115,6 +115,7 @@ namespace ColloSys.AllocationService.EmailAllocations
                 try
                 {
                     EmailService.EmailReport(fileInfo, allocated.Manager.EmailId, subjectForEmail);
+                    EmailService.EmailReport(fileInfo,allocated.AllocatedStakeholder.EmailId,subjectForEmail);
                 }
                 catch (Exception e)
                 {
@@ -193,12 +194,12 @@ namespace ColloSys.AllocationService.EmailAllocations
             return columnPositionInfo;
         }
 
-        private IEnumerable<Alloc> GetAllocationData(ScbEnums.Products products)
+        private IEnumerable<Allocations> GetAllocationData(ScbEnums.Products products)
         {
             var criteria = AllocBuilder.CriteriaForEmail();
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
             //fetch data
-            var data = criteria.List<Alloc>();
+            var data = criteria.List<Allocations>();
 
             Log.Info(string.Format("Allocation data loaded for {0} and count= {1}",
                 products.ToString(), data.Count));
@@ -213,19 +214,19 @@ namespace ColloSys.AllocationService.EmailAllocations
             {
                 return new Stakeholders();
             }
-            return StakeQueryBuilder.GetOnExpression(x => x.Id == reportingManager).Single();
+            return StakeQueryBuilder.FilterBy(x => x.Id == reportingManager).Single();
            
         }
 
         #region Set AllocationStat
 
-        private IList<AllocationStat> SetAllocationStat(IEnumerable<Alloc> allocationList)
+        private IList<AllocationStat> SetAllocationStat(IEnumerable<Allocations> allocationList)
         {
             var allocationStats = ConvertForAllocInfo(allocationList);
             return allocationStats;
         }
 
-        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Alloc> allocationList)
+        private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Allocations> allocationList)
         {
             return allocationList.Select(alloc => new AllocationStat()
                 {

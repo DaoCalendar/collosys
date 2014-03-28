@@ -1,0 +1,85 @@
+﻿<div class="form-horizontal">
+    <div class="modal-header well" style="text-align: center">
+        <h3>Change Allocation</h3>
+    </div>
+    <div class="modal-body" style="text-align: center">
+        <div class="row-fluid ">
+            <div class="control-group span5">
+                <div class="control-label">
+                    <label>Select Parameter </label>
+                </div>
+                <div class="controls">
+                    <select class="input-large" data-ui-select2="" data-ng-model="dldata.approveView.Param" data-ng-change="datalayer.getstakeholders(approveView.Param)">
+                        <option></option>
+                        <option value="AllocateToTelecalling">Handle by telecaller</option>
+                        <option value="Donotallocate">Do not allocate</option>
+                        <option value="AllocateToStakeholder">Allocate to stakeholder</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group span5"
+                data-ng-show="dldata.approveView.Param === 'AllocateToStakeholder' && dldata.selectedAllocations.length === gridOptions.$gridScope.selectedItems.length">
+                <div class="control-label">
+                    <label>Select Stakeholder</label>
+                </div>
+                <div class="controls">
+                    <select class="input-large"
+                        data-ng-model="dldata.approveView.Stkh"
+                        data-ng-change="factory.assignStakeholderToAll(dldata.approveView.Stkh)"
+                        data-ui-select2="">
+                        <option></option>
+                        <option data-ng-repeat="data in dldata.stakeholder" value="{{data}}">{{data.Name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        <input type="checkbox"
+                            data-ng-model="dldata.selAll"
+                            data-ng-click=""
+                            data-ng-checked="factory.selectAll(dldata.selAll);dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length">
+                    </td>
+                    <td>Customer Name</td>
+                    <td>Amount Due</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td data-ng-show="dldata.approveView.Param === 'AllocateToStakeholder' && !(dldata.selectedAllocations.length === gridOptions.$gridScope.selectedItems.length)">Select Stakeholder</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
+                    <td data-ng-style="factory.setRowColor(data)">
+                        <input type="checkbox" data-ng-model="dldata.sel"
+                            data-ng-click=""
+                            data-ng-checked="factory.selectAllocation(dldata.sel,data);factory.ticks(data)" />
+                    </td>
+                    <td data-ng-style="factory.setRowColor(data)">{{data.Info.CustomerName}}</td>
+                    <td data-ng-style="factory.setRowColor(data)">{{data.AmountDue}}</td>
+                    <td data-ng-style="factory.setRowColor(data)">{{data.StartDate|date:'dd-MM-yyyy'}}</td>
+                    <td data-ng-style="factory.setRowColor(data)">{{data.EndDate|date:'dd-MM-yyyy'}}</td>
+                    <td data-ng-style="factory.setRowColor(data)"
+                        data-ng-show="dldata.approveView.Param === 'AllocateToStakeholder' && !(dldata.selectedAllocations.length === gridOptions.$gridScope.selectedItems.length)">
+                        <select
+                            class="input-medium"
+                            data-ui-select2=""
+                            data-ng-model="dldata.selectedStakeholder"
+                            data-ng-change="data.Stakeholder = factory.setStakeholder(selectedStakeholder)"
+                            data-ng-disabled="factory.disableSelect(data)">
+                            <option></option>
+                            <option data-ng-repeat="stkh in dldata.stakeholder" value="{{stkh}}">{{stkh.Name}}</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer well">
+        <button class="btn btn-info" data-ng-click="datalayer.saveAllocationChanges(dldata.approveView.Param)"
+            data-ng-disabled="dldata.selectedAllocations.length === 0 || dldata.approveView.Param === Null">
+            Save</button>
+        <button class="btn btn-info" data-ng-click="closeModel()">Close</button>
+    </div>
+</div>

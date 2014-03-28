@@ -8,7 +8,6 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.UserInterface.Shared.Attributes;
 using NLog;
 
 #endregion
@@ -28,7 +27,7 @@ namespace AngularUI.FileUpload.filemapping
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<FileDetail> GetFileDetails()
         {
             try
@@ -44,7 +43,7 @@ namespace AngularUI.FileUpload.filemapping
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<FileMapping> GetFileMappings(Guid fileDetailId)
         {
             try
@@ -59,7 +58,7 @@ namespace AngularUI.FileUpload.filemapping
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<FileColumn> GetFileColumns(Guid fileDetailId)
         {
             try
@@ -78,7 +77,7 @@ namespace AngularUI.FileUpload.filemapping
         #region Post
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage SaveMapping(FileMapping fileMapping)
         {
             return fileMapping.Id == Guid.Empty ? Post(fileMapping) : Put(fileMapping.Id, fileMapping);

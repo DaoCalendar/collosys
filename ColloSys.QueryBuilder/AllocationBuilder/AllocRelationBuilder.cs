@@ -11,9 +11,9 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.AllocationBuilder
 {
-    public class AllocRelationBuilder : QueryBuilder<AllocRelation>
+    public class AllocRelationBuilder : Repository<AllocRelation>
     {
-        public override QueryOver<AllocRelation, AllocRelation> WithRelation()
+        public override QueryOver<AllocRelation, AllocRelation> ApplyRelations()
         {
             return QueryOver.Of<AllocRelation>();
         }

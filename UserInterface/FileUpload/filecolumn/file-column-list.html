@@ -37,18 +37,18 @@
                     <input type="number" class="input-mini" min="0" data-ng-model="column.Length" />
                 </td>
                 <td>
-                    <select class="input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType" data-placeholder="Select Column Type">
+                    <select class="input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType" >
                         <option value=""></option>
-                        <option data-ng-repeat="type in dataTypes">{{type}}</option>
+                        <option data-ng-repeat="type in dldata.dataTypes">{{type}}</option>
                     </select>
                 </td>
                 <td>
                     <input type="text" data-ng-model="column.TempColumnName" data-ng-pattern="/^\w*$/" />
                 </td>
                 <td>
-                    <select class="input-medium" name="DateFormat" data-ng-show="isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-placeholder="Select Date Format">
+                    <select class="input-medium" name="DateFormat" data-ng-show="factory.isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-placeholder="Select Date Format">
                         <option value=""></option>
-                        <option data-ng-repeat="format in dateFormats">{{format}}</option>
+                        <option data-ng-repeat="format in factory.dateFormats">{{format}}</option>
                     </select>
                 </td>
                 <td>

@@ -35,6 +35,7 @@ namespace ColloSys.FileUploadService
                         DbType = ConfiguredDbTypes.MsSql,
                         IsWeb = false
                     });
+                SessionManager.BindNewSession();
 
                 Logger.Info(string.Format("FileUpload: NhProf profiling is enabled"));
                 //HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
@@ -64,7 +65,7 @@ namespace ColloSys.FileUploadService
             }
 
             // get next file for uploading
-            IDBLayer dbLayer = new DBLayer();
+            IDBLayer dbLayer = new DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
             if (file == null)
             {
@@ -80,7 +81,7 @@ namespace ColloSys.FileUploadService
                 file.UploadStatus = ColloSysEnums.UploadStatus.UploadStarted;
                 file.StatusDescription = string.Empty;
                 dbLayer.ChangeStatus(file);
-                Logger.Info("FileUpload: uploading file : " + file.FileNameDisplay + ", for date" + file.FileDate.ToShortDateString());
+                Logger.Info("FileUpload: uploading file : " + file.FileName + ", for date" + file.FileDate.ToShortDateString());
 
                 AllFileUploader.UploadFile(file);
             }
@@ -103,7 +104,7 @@ namespace ColloSys.FileUploadService
 
         public static void ResetFiles()
         {
-            IDBLayer db = new DBLayer();
+            IDBLayer db = new DbLayer();
             db.ResetFileStatus();
         }
 

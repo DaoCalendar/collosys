@@ -2,21 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate;
 using NHibernate.Transform;
 using NLog;
@@ -31,7 +27,7 @@ namespace UserInterfaceAngular.app
 
         // GET api/<controller>
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFileColumns(string aliasName)
         {
             try
@@ -69,7 +65,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage Fetch()
         {
             try
@@ -103,7 +99,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage SaveAllColumns(FileDetail fileDetail)
         {
             try
@@ -132,7 +128,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpPut]
-        [HttpTransaction(Persist = true)]
+        
         public HttpResponseMessage PutFileColumn(IEnumerable<FileColumn> fileColumns)
         {
             var enumerable = fileColumns as FileColumn[] ?? fileColumns.ToArray();

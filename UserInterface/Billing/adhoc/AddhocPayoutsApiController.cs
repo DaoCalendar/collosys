@@ -1,4 +1,6 @@
-﻿#region references
+﻿using System.Collections.Generic;
+
+#region references
 
 using System.Linq;
 using System.Net;
@@ -10,8 +12,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 
 #endregion
 
@@ -25,7 +25,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         private static readonly BillAdhocBuilder BillAdhocBuilder = new BillAdhocBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -33,25 +33,25 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetAdhocdata(ScbEnums.Products products)
         {
-            var query = BillAdhocBuilder.WithRelation();
+            var query = BillAdhocBuilder.ApplyRelations();
 
             var data = BillAdhocBuilder
-                .ExecuteQuery(query)
+                .Execute(query)
                 .Where(x => x.Products == products)
                 .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        [HttpTransaction]
-        public HttpResponseMessage GetStakeHolders(ScbEnums.Products products)
+        
+        public IList<Stakeholders> GetStakeHolders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-
+            return data;
+            //return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }
 }

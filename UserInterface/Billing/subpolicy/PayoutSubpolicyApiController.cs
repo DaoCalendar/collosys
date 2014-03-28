@@ -13,7 +13,6 @@ using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
 
 #endregion
@@ -33,7 +32,7 @@ namespace AngularUI.Billing.subpolicy
         #region Get
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -41,7 +40,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
         {
             var data=BillingSubpolicyBuilder
@@ -52,7 +51,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetMatrixNames(ScbEnums.Products product, ScbEnums.Category category)
         {
             var data = BMatrixBuilder.OnProductCategory(product, category)
@@ -77,7 +76,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ScbEnums.Category category)
         {
             var data = BillingSubpolicyBuilder.OnProductCategory(product, category);
@@ -85,7 +84,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetBConditions(Guid parentId)
         {
             var data = BConditionBuilder.OnSubpolicyId(parentId);
@@ -93,7 +92,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetFormulas(ScbEnums.Products product, ScbEnums.Category category)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category);
@@ -101,7 +100,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetValuesofColumn(string columnName)
         {
             var column = columnName.Split('.');
@@ -132,7 +131,7 @@ namespace AngularUI.Billing.subpolicy
 
         }
         [HttpGet]
-        [HttpTransaction]
+        
         public uint GetMaxPriority()
         {
             var data = BillingRelationBuilder.GetAll().Select(x => x.Priority).ToList();
@@ -142,7 +141,7 @@ namespace AngularUI.Billing.subpolicy
 
         #region "Post Method"
         [HttpPost]
-        [HttpTransaction]
+        
         public BillingRelation GetRelations(BillingSubpolicy subpolicy)
         {
             var relation = BillingRelationBuilder.OnSubpolicyId(subpolicy.Id);
@@ -160,7 +159,7 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+        
         public BillingRelation ActivateSubpolicy(BillingRelation relation)//string startDate, string endDate, BillingSubpolicy subPolicy
         {
             SetApproverId(relation);
@@ -171,14 +170,20 @@ namespace AngularUI.Billing.subpolicy
             return relation;
         }
 
-        public void SetApproverId(BillingRelation relation)
+        private void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
-
-            if (currUser != null && currUser.ReportingManager != Guid.Empty)
+            try
             {
-                relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
+                var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
+                if (currUser != null && currUser.ReportingManager != Guid.Empty)
+                {
+                    relation.ApprovedBy = StakeQuery.OnIdWithAllReferences(currUser.ReportingManager).ExternalId;
+                }
+            }
+            // ReSharper disable once EmptyGeneralCatchClause
+            catch (Exception)
+            {
             }
         }
 

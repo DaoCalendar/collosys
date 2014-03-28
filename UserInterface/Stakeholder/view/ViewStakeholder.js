@@ -1,13 +1,13 @@
 ﻿(
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal) {
 
 
         var restApi = rest.all('ViewStakeApi');
 
         //#region pagination 
 
-        $scope.setPageNumber = function() {
+        $scope.setPageNumber = function () {
             $scope.startCount = 0;
             $scope.pagenum = 1;
         };
@@ -117,8 +117,8 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             restApi.customGET("AllData").then(function (data) {
                 $scope.completeData = data.completeData;
                 $scope.hierarchyDesignation = data.hierarchyDesignation;
-                $scope.CurrUserInfo = data.currUserData;
                 $scope.productList = data.products;
+                $scope.CurrUserInfo = data.currUserData;
                 showButton();
             });
         };
@@ -163,7 +163,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getPendindData = function () {
-            debugger;
             restApi.customGET('GetPendingStakeholder', { filterView: $scope.stakeholder.filter, start: $scope.startCount, size: $scope.size })
                 .then(function (data) {
                     $log.info("stakeholders list: ", data);
@@ -206,39 +205,42 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                     if ($scope.stakeholder.Hierarchy != "" && $scope.stakeholder.Designation != "") {
                         restApi.customGET('GetStakeholder', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter, start: $scope.startCount, size: $scope.size })
                             .then(function (data) {
-                                
+
                                 $log.info("stakeholders list: ", data);
                                 $scope.stakeholderData = data;
-                                
+                                console.log($scope.stakeholderData);
                                 deleteExpiredWorkings
                                 ($scope.stakeholderData);
-                               
+
                                 if ($scope.stakeholderData.length == 0) {
                                     $scope.showDiv = false;
                                     $csnotify.success("Stakeholder not available");
                                 } else {
                                     $scope.showDiv = true;
+                                    //gets the total count of records
+                                    restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter })
+                                        .then(function (data) {
+                                            $log.info("total number of records: ", data);
+                                            $scope.tolRec = data;
+                                        });
+
                                     //attatches Reporting Manager
-                                    restApi.customPOST($scope.stakeholderData, 'GetReportingManager').then(function (reportingMngr) {
-                                        $log.info("reporting manager name: ", reportingMngr);
-                                        if (reportingMngr.length > 0) {
+                                    restApi.customPOST($scope.stakeholderData, 'GetReportingManager')
+                                        .then(function (reportingMngr) {
                                             $log.info("reporting manager name: ", reportingMngr);
-                                            for (var i = 0; i < $scope.stakeholderData.length; i++) {
-                                                $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
+                                            if (reportingMngr.length > 0) {
+                                                $log.info("reporting manager name: ", reportingMngr);
+                                                for (var i = 0; i < $scope.stakeholderData.length; i++) {
+                                                    $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
                                 }
                             }, function () {
-                                alertify.error("Error in Loading Data");
+                                $csnotify.error("Error in Loading Data");
                                 $scope.showDiv = false;
                             });
-                        //gets the total count of records
-                        restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter })
-                            .then(function (data) {
-                                $log.info("total number of records: ", data);
-                                $scope.tolRec = data;
-                            });
+
                         return;
                     }
                     break;
@@ -279,7 +281,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 }
             }
         };
-        
+
         $scope.getReportsToStakeholders = function (stakeId) {
             debugger;
             if (!$csfactory.isNullOrEmptyString(stakeId)) {
@@ -306,7 +308,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                             });
                         }
                     }, function () {
-                        alertify.error("Error in Loading Data");
+                        $csnotify.error("Error in Loading Data");
                         $scope.showDiv = false;
                     });
                 //gets the total count of records
@@ -346,7 +348,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                             });
                         }
                     }, function () {
-                        alertify.error("Error in Loading Data");
+                        $csnotify.error("Error in Loading Data");
                         $scope.showDiv = false;
                     });
                 //gets the total count of records
@@ -491,8 +493,9 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.addStakeholder = function () {
-            var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
-            $window.location = downloadpath;
+            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
+            //$window.location = downloadpath;
+            $location.path('/stakeholder/add');
         };
 
         $scope.reject = function (stakeholder, description) {
@@ -570,7 +573,26 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.rejected = function () {
-            $scope.modelshow = true;
+            //$scope.modelshow = true;
+
+            $scope.modalData = {};
+            $scope.modalData.chosenStakeholders = $scope.chosenStakeholders;
+            $scope.modalData.stakeholder = $scope.stakeholder;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/Stakeholder/View/approve.html',
+                controller: 'rejectController',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $scope.getStakeData($scope.stakeholder);
+            });
+
         };
 
         //model popupoptions
@@ -598,9 +620,10 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         $scope.editStakeholder = function (data) {
             $log.info("Edit Model");
-            var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeHolder/EditStakeholder?id=" + data.Id;
-            $log.info(downloadpath);
-            $window.location = downloadpath;
+            $location.path('/stakeholder/edit/' + data.Id);
+            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeHolder/EditStakeholder?id=" + data.Id;
+            //$log.info(downloadpath);
+            //$window.location = downloadpath;
         };
 
         $scope.rejectedSelected = function (description) {
@@ -659,7 +682,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             //        $scope.StakeListLeave.push(angular.copy(item));
             //    }
             //});
-            debugger;
+
             restApi.customGET('GetStakeListForManageWorking', { stakeholders: $scope.StakeForLeave.Id, hierarcyId: $scope.StakeForLeave.Hierarchy.Id }).then(function (data) {
                 $scope.StakeListLeave = data;
             }, function (data) {
@@ -668,7 +691,28 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             if (angular.isDefined(reportsToStake)) {
                 $scope.ReportsToStake = reportsToStake;
             }
+
             $scope.showLeaveModal = true;
+            
+            $scope.modalData = {};
+            $scope.modalData.StakeForLeave = $scope.StakeForLeave;
+            $scope.modalData.StakeListLeave = $scope.StakeListLeave;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/Stakeholder/view/leavemodal.html',
+                controller: 'setLeaveController',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function () {
+                $scope.showDiv = false;
+            });
+
+
         };
 
         $scope.checkStakeholderForLeave = function (startDate) {
@@ -723,7 +767,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //stakeholder going on leave
         $scope.changeWorking = function (stakeholder) {
-            debugger;
             var manageWorkingModel = {
                 Source: stakeholder,
                 Workings: [],
@@ -766,7 +809,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             newPayment.Version = 0;
             return newPayment;
         };
-        $scope.replace = function (info,data) {
+        $scope.replace = function (info, data) {
             if (info === 'ALL') return "-";
             if (info.toString() === "0") return "-";
             if (info.toString() === "7") return "6+";
@@ -781,6 +824,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //Permissions
         var init = function () {
+
             $scope.startCount = 0;
             $scope.showDiv = false;
             $scope.showme = false;
@@ -846,6 +890,120 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 );
 
 
+csapp.controller('rejectController', ["$scope", "Restangular", "$csnotify", "$modalInstance", "modalData", function ($scope, rest, $csnotify, $modalInstance, modalData) {
+
+    var restApi = rest.all('ViewStakeApi');
+
+    (function () {
+        $scope.modalData = modalData;
+    })();
+
+    var setStatus = function (list, strStatus, description) {
+        list.forEach(function (listItem) {
+            listItem.Status = strStatus;
+            listItem.Description = description;
+        });
+
+        return list;
+    };
+
+    $scope.closeModel = function () {
+        $modalInstance.dismiss();
+    };
+
+    $scope.rejectedSelected = function (description) {
+
+        var listOfStakeholders = setStatus(modalData.chosenStakeholders, 'Rejected', description);
+
+        restApi.customPOST(listOfStakeholders, 'SaveListApprovedAndRejectUser').then(function () {
+            $csnotify.success('Stakeholder Rejected');
+            modalData.chosenStakeholders = [];
+            modalData.stakeholder.Hierarchy = '';
+            $modalInstance.close();
+        }, function (error) {
+            $csnotify.error(error.data.Message);
+        });
+    };
+
+
+}]);
+
+csapp.controller('setLeaveController', ["$scope", "Restangular", "$csnotify", "$modalInstance", "modalData", function ($scope, rest, $csnotify, $modalInstance, modalData) {
+
+    var restApi = rest.all('ViewStakeApi');
+
+    (function () {
+        $scope.modalData = modalData;
+        console.log('in set leave');
+        console.log($scope.modalData);
+        $scope.ChangedDates = {};
+        $scope.Changed = {};
+    })();
+
+
+    $scope.checkStakeholderForLeave = function (startDate) {
+
+        //restApi.customGET('GetStakeListForManageWorking', { stakeholders: $scope.StakeForLeave.Id, hierarcyId: $scope.StakeForLeave.Hierarchy.Id }).then(function (data) {
+        //    $scope.StakeListLeave = data;
+        //    //_.forEach(list, function (item) {
+        //    //    var date = moment(item.JoiningDate);
+        //    //    $scope.StakeListLeave.push(angular.copy(item));
+        //    //});
+        //}, function (data) {
+        //});
+        //$scope.StakeListLeave = [];
+
+        //_.forEach($scope.completeData, function (item) {
+        //    if (item.Hierarchy.Id === $scope.StakeForLeave.Hierarchy.Id
+        //        && item.Id !== $scope.StakeForLeave.Id) {
+        //        var date = moment(item.JoiningDate);
+        //        if ((date <= startDate)) {
+        //            $scope.StakeListLeave.push(angular.copy(item));
+        //        }
+        //    }
+        //});
+    };
+
+    $scope.closeSetLeave = function () {
+        $modalInstance.dismiss();
+    };
+
+    $scope.changeWorking = function (stakeholder) {
+        var manageWorkingModel = {
+            Source: stakeholder,
+            Workings: [],
+            StartDate: $scope.ChangedDates.LeaveFrom,
+            EndDate: $scope.ChangedDates.LeaveTo,
+            Reason: $scope.Changed.reason
+        };
+        _.forEach(stakeholder.StkhWorkings, function (item) {
+            if ($csfactory.isNullOrEmptyGuid(item.ReplaceBy)) {
+                return;
+            }
+            var stake = _.find(modalData.StakeListLeave, { 'Id': item.ReplaceBy });
+            manageWorkingModel.Workings.push({ 'Stakeholders': stake, 'Working': item });
+        });
+        restApi.customPOST(manageWorkingModel, 'SetLeaveForStakeholder').then(function (data) {
+            $csnotify.success('Leave period set for stakeholder');
+            $modalInstance.close();
+        }, function (data) {
+            $csnotify.error(data.data.Message);
+        });
+
+
+    };
+
+
+    $scope.manageLeave = function () {
+        if ($scope.reason == 'exit') {
+            $scope.showme = false;
+        } else {
+            $scope.showme = true;
+        }
+    };
+
+}]);
+
 //var getStakeholder = function (id) {
 //    var stake;
 //    restApi.customGET('GetReportsToStake', { stakeId: id }).then(function (data) {
@@ -906,7 +1064,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 //                   $scope.showDiv = true;
 //               }
 //           }, function () {
-//               alertify.error("Error in Loading Data");
+//               $csnotify.error("Error in Loading Data");
 //               $scope.showDiv = false;
 //           });
 //            return;
@@ -923,7 +1081,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 //               }
 
 //           }, function () {
-//               alertify.error("Error in Loading Data");
+//               $csnotify.error("Error in Loading Data");
 //               $scope.showDiv = false;
 
 //           });

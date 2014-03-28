@@ -24,11 +24,11 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.MobileNo);
             Property(x => x.EmailId);
             Property(x => x.ReportingManager);
-            Property(x => x.Gender);
+            //Property(x => x.Gender);
             //Property(x => x.Password);
             Property(x => x.JoiningDate);
             Property(x => x.LeavingDate);
-            Property(x => x.BirthDate);
+            //Property(x => x.BirthDate);
             //Property(x => x.IsAddressChange);
             //Property(x => x.IsPaymentChange);
             //Property(x => x.IsWorkingChange);

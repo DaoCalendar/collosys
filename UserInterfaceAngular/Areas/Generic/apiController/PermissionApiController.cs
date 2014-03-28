@@ -82,7 +82,7 @@ namespace UserInterfaceAngular.app
                 return;
             }
 
-            var hierarchy = hierarchyQuery.GetOnExpression(x => x.Id == permissions[0].Role.Id).FirstOrDefault();
+            var hierarchy = hierarchyQuery.FilterBy(x => x.Id == permissions[0].Role.Id).FirstOrDefault();
                                // uow.QueryOver<StkhHierarchy>()
                                //.Where(x => x.Id == permissions[0].Role.Id)
                                //.SingleOrDefault();

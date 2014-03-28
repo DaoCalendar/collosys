@@ -11,6 +11,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
             PayWorkModelList=new List<PayWorkModel>();
         }
 
+        
         public StkhHierarchy Hierarchy { get; set; }
         public Stakeholders Stakeholder { get; set; }
         public IList<PayWorkModel> PayWorkModelList { get; set; }

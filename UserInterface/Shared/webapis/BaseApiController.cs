@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Web.Http;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.UserInterface.Shared.Attributes;
+using ColloSys.QueryBuilder.BaseTypes;
 using NHibernate;
 using NLog;
 
@@ -21,7 +22,7 @@ namespace AngularUI.Shared.apis
         #region properties
 
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-
+        private IRepository<TEntity> _repository = new Repository<TEntity>();  
         protected ISession Session
         {
             get { return SessionManager.GetCurrentSession(); }
@@ -32,7 +33,6 @@ namespace AngularUI.Shared.apis
         #region restful api
 
         [HttpGet]
-        [HttpTransaction]
         public virtual HttpResponseMessage Get()
         {
             try
@@ -53,7 +53,6 @@ namespace AngularUI.Shared.apis
         }
 
         [HttpGet]
-        [HttpTransaction]
         public HttpResponseMessage Get(Guid id)
         {
             try
@@ -75,7 +74,6 @@ namespace AngularUI.Shared.apis
 
         // POST api/baseapi
         [HttpPost]
-        [HttpTransaction(Persist = true)]
         public HttpResponseMessage Post(TEntity entity)
         {
             try
@@ -106,7 +104,6 @@ namespace AngularUI.Shared.apis
         }
 
         [HttpPut, HttpPost]
-        [HttpTransaction(Persist = true)]
         public virtual HttpResponseMessage Put(Guid id, TEntity obj)
         {
             try
@@ -150,7 +147,6 @@ namespace AngularUI.Shared.apis
         }
 
         [HttpDelete]
-        [HttpTransaction(Persist = true)]
         public virtual HttpResponseMessage Delete(Guid id)
         {
             try
@@ -182,34 +178,46 @@ namespace AngularUI.Shared.apis
         #endregion
 
         #region api override
-
         protected virtual IEnumerable<TEntity> BaseGet()
         {
-            return Session.QueryOver<TEntity>().List();
+            return _repository.GetAll();
         }
 
         protected virtual TEntity BaseGet(Guid id)
         {
-            return Session.QueryOver<TEntity>().Select(x => x.Id == id).SingleOrDefault();
+            return _repository.Get(id);
         }
 
         protected virtual TEntity BasePut(Guid id, TEntity obj)
         {
-            return Session.Merge(obj);
+            return _repository.Save(obj);
         }
 
         protected virtual TEntity BasePost(TEntity obj)
         {
-            Session.SaveOrUpdate(obj);
-            return obj;
+            return _repository.Save(obj);
         }
 
         protected virtual void BaseDelete(TEntity obj)
         {
-            Session.Delete(obj);
+            _repository.Delete(obj);
         }
 
         #endregion
+
+        protected string GetUsername()
+        {
+            var username = string.Empty;
+            var jobject = Request.Headers.Authorization;
+            if (jobject != null && !string.IsNullOrWhiteSpace(jobject.Scheme)) 
+                username = jobject.Scheme;
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new AuthenticationException("User has not logged in");
+            }
+
+            return username;
+        }
     }
 }
 

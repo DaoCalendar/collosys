@@ -14,9 +14,9 @@ using NHibernate.Linq;
 
 namespace ColloSys.QueryBuilder.GenericBuilder
 {
-    public class GPincodeBuilder : QueryBuilder<GPincode>
+    public class GPincodeBuilder : Repository<GPincode>
     {
-        public override QueryOver<GPincode, GPincode> WithRelation()
+        public override QueryOver<GPincode, GPincode> ApplyRelations()
         {
             return QueryOver.Of<GPincode>();
         }
@@ -55,6 +55,14 @@ namespace ColloSys.QueryBuilder.GenericBuilder
                                  .ToList();
         }
 
+        [Transaction]
+        public IEnumerable<GPincode> OnStateGetList(string state)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .Query<GPincode>()
+                                 .Where(x => x.State == state)
+                                 .ToList();
+        }
         [Transaction]
         public IEnumerable<GPincode> OnPinOrArea(string value)
         {

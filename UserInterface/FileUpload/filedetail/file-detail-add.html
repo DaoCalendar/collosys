@@ -7,10 +7,10 @@
     <div class="modal-body">
         <!--Alias Name -->
         <div class="row control-group">
-            <label class="control-label">Alias Name </label>
+            <label class="control-label">Alias Name</label>
             <div class="controls">
-                <select id="AliasName" name="AliasName" data-ng-model="fileDetail.AliasName" class="input-medium"
-                    data-ng-readonly="isReadOnly" data-ng-required="true" data-placeholder="Select File Alias Name">
+                <select id="AliasName" name="AliasName" data-ng-model="fileDetail.AliasName" class="input-large"
+                    data-ng-disabled="isReadOnly" data-ng-required="true" data-placeholder="Select File Alias Name">
                     <option value=""></option>
                     <option data-ng-repeat="alias in datalayer.dldata.enums.fileAliasNames">{{alias}}</option>
                 </select>
@@ -21,25 +21,26 @@
             </div>
         </div>
 
+
         <!--AliasDescription -->
-        <div class="row control-group">
+        <!--<div class="row control-group">
             <label class="control-label">Alias Description </label>
             <div class="controls">
                 <input type="text" name="AliasDescription" data-ng-model="fileDetail.AliasDescription" data-ng-readonly="isReadOnly" data-ng-required="true"
-                    data-placeholder="Enter Alias Description" />
-                <!-- AliasDescription Validation-->
-                <div data-ng-show="formAddfileDetail.AliasDescription.$dirty && formAddfileDetail.AliasDescription.$invalid">
+                    data-placeholder="Enter Alias Description" />-->
+        <!-- AliasDescription Validation-->
+        <!--<div data-ng-show="formAddfileDetail.AliasDescription.$dirty && formAddfileDetail.AliasDescription.$invalid">
                     <span class="field-validation-error" data-ng-show="formAddfileDetail.AliasDescription.$error.required">{{val.Required()}}</span>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!--SCB Systems -->
         <div class="row control-group">
             <label class="control-label">SCB Systems </label>
             <div class="controls">
                 <select id="ScbSystems" name="ScbSystems" data-ng-model="fileDetail.ScbSystems"
-                    class="input-medium" data-ng-readonly="isReadOnly" required data-placeholder="Select System"
+                    class="input-medium" data-ng-disabled="isReadOnly" required data-placeholder="Select System"
                     data-ng-change="updateDependsOnAlias(fileDetail)">
                     <option value=""></option>
                     <option data-ng-repeat="system in datalayer.dldata.enums.fileSystems">{{system}}</option>
@@ -55,7 +56,7 @@
         <div class="row control-group">
             <label class="control-label">Frequency </label>
             <div class="controls">
-                <select id="Frequency" name="Frequency" data-ng-model="fileDetail.Frequency" data-ng-readonly="isReadOnly"
+                <select id="Frequency" name="Frequency" data-ng-model="fileDetail.Frequency" data-ng-disabled="isReadOnly"
                     class="input-medium" required placeholder="Select File Frequency" data-ng-change="updateDependsOnAlias(fileDetail)">
                     <option value=""></option>
                     <option data-ng-repeat="frequency in datalayer.dldata.enums.fileFrequencies">{{frequency}}</option>
@@ -72,7 +73,7 @@
             <label class="control-label">DependsOnAlias</label>
             <div class="controls">
                 <select id="DependsOnAlias" name="DependsOnAlias" data-ng-model="fileDetail.DependsOnAlias" class="input-medium"
-                    data-ng-readonly="isReadOnly" data-ng-required="false" data-placeholder="Select File DependsOnAlias">
+                    data-ng-disabled="isReadOnly" data-ng-required="false" data-placeholder="Select File DependsOnAlias">
                     <option value=""></option>
                     <option data-ng-repeat="dependalias in fileDetail.dependsOnAliasList">{{dependalias}}</option>
                 </select>
@@ -87,7 +88,7 @@
         <div class="row control-group">
             <label class="control-label">Category </label>
             <div class="controls">
-                <select id="Category" name="Category" data-ng-model="fileDetail.Category" data-ng-readonly="isReadOnly"
+                <select id="Category" name="Category" data-ng-model="fileDetail.Category" data-ng-disabled="isReadOnly"
                     class="input-medium" required data-placeholder="Select Category">
                     <option value=""></option>
                     <option data-ng-repeat="cat in datalayer.dldata.enums.fileCategories">{{cat}}</option>
@@ -104,7 +105,7 @@
             <label class="control-label">File Type</label>
             <div class="controls">
                 <select id="FileType" name="FileType" data-ng-model="fileDetail.FileType"
-                    class="input-medium" data-ng-readonly="isReadOnly" required data-placeholder="Select File Type">
+                    class="input-medium" data-ng-disabled="isReadOnly" required data-placeholder="Select File Type">
                     <option value=""></option>
                     <option data-ng-repeat="fileType in datalayer.dldata.enums.fileTypes">{{fileType}}</option>
                 </select>
@@ -147,12 +148,12 @@
         <div class="row control-group">
             <label class="control-label">Date Format </label>
             <div class="controls">
-                <select data-ng-model="fileDetail.DateFormat" required data-placeholder="Select Date Format"
-                    name="date" class="input-medium" data-ng-readonly="isReadOnly">
+                <select data-ng-model="fileDetail.DateFormat" data-ng-required="true" data-placeholder="Select Date Format"
+                    name="date" class="input-medium" data-ng-disabled="isReadOnly">
                     <option value=""></option>
                     <option data-ng-repeat="format in factory.dateFormats">{{format}}</option>
                 </select>
-                <!--  Frequency Validation-->
+                <!--  DateFormat Validation-->
                 <div data-ng-show="formAddfileDetail.date.$dirty && formAddfileDetail.date.$invalid">
                     <span class="field-validation-error" data-ng-show="formAddfileDetail.date.$error.required">{{val.Required()}}</span>
                 </div>
@@ -161,10 +162,10 @@
 
         <!--Sheet Name -->
         <div class="row control-group" data-ng-show="factory.isSheetTypeColumn(fileDetail.FileType)">
-            <label class="control-label">Sheet Name </label>
+            <label class="control-label">Sheet Name</label>
             <div class="controls">
                 <input type="text" data-ng-model="fileDetail.SheetName" name="SheetName" data-ng-disabled="isReadOnly"
-                    class="input-medium" data-ng-required="true" data-placeholder="Enter Sheet Name" />
+                    class="input-medium" data-ng-required="factory.isSheetTypeColumn(fileDetail.FileType)" data-placeholder="Enter Sheet Name" />
                 <!-- SheetName Validation-->
                 <div data-ng-show="formAddfileDetail.SheetName.$dirty && formAddfileDetail.SheetName.$invalid">
                     <span class="field-validation-error" data-ng-show="formAddfileDetail.SheetName.$error.required">{{val.Required()}}</span>
@@ -179,7 +180,7 @@
                 <input type="number" min="0" name="SkipLine" data-ng-model="fileDetail.SkipLine" data-ng-disabled="isReadOnly" data-ng-required="true"
                     data-ng-pattern="/^[0-9]+$/" class="input-medium" placeholder="Enter Skip Lines" />
                 <!--  Skip Line  Validation-->
-                <div data-ng-show="formAddfileDetail.email.$dirty && formAddfileDetail.email.$invalid">
+                <div data-ng-show="formAddfileDetail.SkipLine.$dirty && formAddfileDetail.SkipLine.$invalid">
                     <span class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.required">{{val.Required()}}</span>
                     <span class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.pattern">{{val.OnlyNumbers()}}</span>
                 </div>
@@ -190,14 +191,14 @@
         <div class="row control-group">
             <label class="control-label">UsedFor</label>
             <div class="controls">
-                <select data-ng-model="fileDetail.UsedFor" data-ng-disabled="isReadOnly" data-ng-required="true"
+                <select data-ng-model="fileDetail.UsedFor" name="UsedFor" data-ng-disabled="isReadOnly" data-ng-required="true"
                     class="input-medium" placeholder="Enter Used For">
                     <option value=""></option>
                     <option data-ng-repeat="usedfor in factory.usedFor">{{usedfor}}</option>
                 </select>
                 <!--  UsedFor Validation-->
-                <div data-ng-show="formAddfileDetail.SkipLine.$dirty && formAddfileDetail.SkipLine.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.required">{{val.Required()}}</span>
+                <div data-ng-show="formAddfileDetail.UsedFor.$dirty && formAddfileDetail.UsedFor.$invalid">
+                    <span class="field-validation-error" data-ng-show="formAddfileDetail.UsedFor.$error.required">{{val.Required()}}</span>
                 </div>
             </div>
         </div>

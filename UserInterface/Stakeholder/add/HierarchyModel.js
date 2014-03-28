@@ -4,7 +4,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
         //#region init
 
-        var apiCalls = rest.all('StakeApi');
+        var apiCalls = rest.all('HierarchyApi');
 
         var getHierarchies = function () {
             apiCalls.customGET('GetAllHierarchies').then(function (data) {
@@ -91,6 +91,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             $scope.$parent.WizardData.SetHierarchy(hierarchy);
             //$scope.$parent.WizardData.Hierarchy = hierarchy;
+            
             $scope.$parent.StepManager.PopulateSteps(hierarchy);
 
             var locationLevel = JSON.parse(hierarchy.LocationLevel);
@@ -101,7 +102,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             $scope.$parent.getReportsTo(hierarchy);
             $scope.$parent.WizardData.showBasicInfo = true;
             $scope.$parent.resetWizardData();
-            setBasicInfoModel(hierarchy);
+            //setBasicInfoModel(hierarchy);
         };
 
         var setBasicInfoModel = function (hierarchy) {

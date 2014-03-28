@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{96025A22-841E-446E-A7D8-EAB18257D6E2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ReflectionExtension.Tests</RootNamespace>
+    <AssemblyName>ReflectionExtension.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\..\Collosys2\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
+    <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
+    <Compile Include="FileUploader.Test\ColumnMappingTest.cs" />
+    <Compile Include="SetUpAssemblies.cs" />
+    <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
+    <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />
+    <Compile Include="ExcelReader.Test\ExcelReaderHelper.cs" />
+    <Compile Include="ExcelReader.Test\NpOiExcelReaderTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\ReflectionGetValueTest.cs" />
+    <Compile Include="Reflection\ReflectionTest.cs" />
+    <Compile Include="FileUploader.Test\GlobleSetUp.cs" />
+    <Compile Include="ValueSetters.Tests\AssignTypedTests.cs" />
+    <Compile Include="ValueSetters.Tests\BooleanAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\ByteAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\CharAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\DateTimeAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\DecimalAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\DoubleAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\FloatAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\Int16AssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\Int32AssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\Int64AssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\SbyteAssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\StringAssignTests.cs" />
+    <Compile Include="ValueSetters.Tests\UInt32AssignTest.cs" />
+    <Compile Include="ValueSetters.Tests\UInt64AssignTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
+      <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
+      <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
+      <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
+      <Name>ColloSys.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileUploader\FileUploader.csproj">
+      <Project>{12419049-4F49-4557-91CD-188D60E0C565}</Project>
+      <Name>FileUploader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserInterface\AngularUI.csproj">
+      <Project>{ddd31537-2bfc-40fe-8344-8d87bfeb998f}</Project>
+      <Name>AngularUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestingSetUp\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

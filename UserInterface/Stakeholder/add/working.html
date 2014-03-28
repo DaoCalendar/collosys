@@ -4,13 +4,15 @@
         <hr />
         <div class="row-fluid">
             <!--Products-->
-             <div class="control-group span4">
+            <div class="control-group span4">
                 <label class="control-label">
                     Products
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
-                    <select data-ui-select2="" data-ng-model="StakeWork.Products" data-ng-options="c for c in WorkingData.ProductList"
+                    <select data-ui-select2=""  data-ng-model="StakeWork.Products"
                         data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
+                        <option value=""></option>
+                        <option data-ng-repeat="c in WorkingData.ProductList">{{c}}</option>
                     </select>
                 </div>
             </div>
@@ -25,7 +27,7 @@
                         data-ng-model="StakeWork.ReportsTo"
                         style="min-width: 200px;"
                         data-ng-change="manageDisplay(WorkingData.LocationLevel)">
-                        <option></option>
+                        <option value=""></option>
                         <option data-ng-repeat="data in ReportsToList | unique:'Name'" value="{{data.Id}}">{{data.Name}}</option>
                     </select>
                 </div>
@@ -36,8 +38,8 @@
                 <label class="control-label">Location Level </label>
                 <div class="controls">
                     <select class="input-medium" data-ui-select2=""
-                            data-ng-model="WorkingData.LocationLevel"
-                            data-ng-change="manageDisplay(WorkingData.LocationLevel)">
+                        data-ng-model="WorkingData.LocationLevel"
+                        data-ng-change="manageDisplay(WorkingData.LocationLevel)">
                         <option value=""></option>
                         <option data-ng-repeat="data in WorkingData.LocationLevelArray" value="{{data}}">{{data}}</option>
                     </select>
@@ -54,13 +56,13 @@
                         multiple="multiple"
                         data-ng-model="workingModel.SelectedPincodeData.BucketStart"
                         data-ng-required="(WorkingData.Hierarchy.HasBuckets)">
-                        <option value=1>1(0-29)</option>
-                        <option value=2>2(30-59)</option>
-                        <option value=3>3(60-89)</option>
-                        <option value=4>4(90-119)</option>
-                        <option value=5>5(120-149)</option>
-                        <option value=6>6(150-179)</option>
-                        <option value=0>6+(180+)</option>
+                        <option value="1">1(0-29)</option>
+                        <option value="2">2(30-59)</option>
+                        <option value="3">3(60-89)</option>
+                        <option value="4">4(90-119)</option>
+                        <option value="5">5(120-149)</option>
+                        <option value="6">6(150-179)</option>
+                        <option value="0">6+(180+)</option>
                     </select>
                 </div>
             </div>
@@ -69,14 +71,14 @@
                 data-ng-show="(displayManager.showDistrict && (!displayManager.showArea && !WorkingData.Hierarchy.HasBuckets)) && (StakeWork.Products &&  StakeWork.ReportsTo)">
                 <label class="control-label">District</label>
                 <div class="controls">
-                    <select data-ui-select2="" style="min-width: 200px;"
+                    <select style="min-width: 200px;"
                         data-ng-disabled="clusterArray.length>0"
                         data-ng-model="workingModel.SelectedPincodeData.District"
                         data-ng-change="changed.Cluster=true;changed.District=true;changed.City=false;changed.Area=false;setQueryFor()">
                         <option value=""></option>
                         <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}</option>
                     </select>
-                    <button class="btn-info" data-ng-click="districtPopUp=!districtPopUp"><i class="icon-list"></i></button>
+                    <button class="btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="icon-list"></i></button>
                     <div data-ng-show="clusterArray.length>0">
                         <div class="dropdown">
                             <a class="dropdown-toggle">{{clusterArray.length}} Districts selected
@@ -86,35 +88,6 @@
                                     <a>{{data}}</a>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                    <div modal="districtPopUp" options="modelOption">
-                        <div class="modal-header">
-                            <strong>Select</strong>
-                        </div>
-                        <div class="modal-body">
-                            Search :
-                            <input type="text" data-ng-model="search"><br>
-                            <div>
-                                <input type="checkbox"
-                                    data-ng-model="selAll"
-                                    data-ng-checked="workingModel.ListOfDistricts.length===clusterArray.length"
-                                    data-ng-click="selectAll(selAll)">
-                                SELECT ALL
-                            </div>
-                            <br>
-                            <div data-ng-repeat="data in workingModel.ListOfDistricts|orderBy|filter:search">
-                                <input type="checkbox" data-ng-model="selected"
-                                    data-ng-checked="ticks(data)"
-                                    data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
-                                {{data}}
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="row-fluid form-horizontal text-right">
-                                <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
-                                <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -155,23 +128,22 @@
                     <tr>
                         <td data-ng-show="false">
                             <select>
-                                <option>India</option>
+                                <option value="India">India</option>
                             </select></td>
                         <td data-ng-show="false">
                             <select
-                                data-ng-model="workingModel.SelectedPincodeData.Region" 
+                                data-ng-model="workingModel.SelectedPincodeData.Region"
                                 data-ng-change="setQueryFor('Region')">
-                                <option>{{workingModel.SelectedPincodeData.Region || ''}}</option>
+                                <!--<option value="{{workingModel.SelectedPincodeData.Region || ''}}">{{workingModel.SelectedPincodeData.Region || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}
                                 </option>
                             </select></td>
                         <td data-ng-show="displayManager.showState">
                             <select
-                                data-ui-select2=""
                                 class="input-large"
                                 data-ng-model="workingModel.SelectedPincodeData.State"
                                 data-ng-change="setQueryFor('State')">
-                                <option>{{workingModel.SelectedPincodeData.State || ''}}</option>
+                                <!--<option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
                                 </option>
                             </select></td>
@@ -180,23 +152,22 @@
                                 data-ng-model="workingModel.SelectedPincodeData.Cluster"
                                 data-ng-change="changed.State=true;changed.Cluster=true;changed.District=false;
                             setQueryFor()">
-                                <option>{{workingModel.SelectedPincodeData.Cluster || ''}}</option>
+                               <!-- <option value="">{{workingModel.SelectedPincodeData.Cluster || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfClusters" value="{{data}}">{{data}}
                                 </option>
                             </select></td>
                         <td data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets)">
                             <select
-                                data-ui-select2=""
                                 data-ng-disabled="clusterArray.length>0"
                                 class="input-large"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('District')">
-                                <option>{{workingModel.SelectedPincodeData.District || ''}}</option>
+                               <!-- <option value="">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
                                 </option>
                             </select>
                             <button class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
-                                data-ng-click="districtPopUp=!districtPopUp">
+                                data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)">
                                 <i class="icon-list"></i>
                             </button>
                             <div data-ng-show="clusterArray.length>0">
@@ -213,16 +184,15 @@
                         </td>
                         <td data-ng-show="displayManager.showCity">
                             <select
-                                data-ui-select2=""
                                 class="input-large"
                                 data-ng-disabled="cityArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('City')">
-                                <option>{{workingModel.SelectedPincodeData.District || ''}}</option>
+                                <!--<option value="">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
                                 </option>
                             </select>
-                            <button class="btn btn-info" data-ng-click="cityPopUp=!cityPopUp"><i class="icon-list"></i></button>
+                            <button class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="icon-list"></i></button>
                             <br>
                             <div data-ng-show="cityArray.length>0">
                                 <div class="dropdown">
@@ -235,48 +205,19 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div modal="cityPopUp" options="modelOption">
-                                <div class="modal-header">
-                                    <strong>Select</strong>
-                                </div>
-                                <div class="modal-body">
-                                    Search :
-                            <input type="text" data-ng-model="search"><br>
-                                    <div>
-                                        <input type="checkbox"
-                                            data-ng-model="selAll"
-                                            data-ng-checked="workingModel.ListOfDistricts===cityArray.length"
-                                            data-ng-click="selectAll(selAll)">
-                                        SELECT ALL
-                                    </div>
-                                    <br>
-                                    <div data-ng-repeat="data in workingModel.ListOfDistricts|orderBy|filter:search">
-                                        <input type="checkbox" data-ng-model="selected"
-                                            data-ng-checked="ticks(data)"
-                                            data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
-                                        {{data}}
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="row-fluid form-horizontal text-right">
-                                        <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
-                                        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
-                                    </div>
-                                </div>
-                            </div>
+
                         </td>
                         <td data-ng-show="displayManager.showArea">
                             <select
-                                data-ui-select2=""
                                 class="input-large"
                                 data-ng-disabled="areaArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.Area"
                                 data-ng-change="setQueryFor('Area')">
-                                <option>{{workingModel.SelectedPincodeData.Area || ''}}</option>
+                               <!-- <option value="">{{workingModel.SelectedPincodeData.Area || ''}}</option>-->
                                 <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
                                 </option>
                             </select>
-                            <button class="btn btn-info" data-ng-click="areaPopUp=!areaPopUp"><i class="icon-list"></i></button>
+                            <button class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfAreas)"><i class="icon-list"></i></button>
                             <br>
                             <div data-ng-show="areaArray.length>0">
                                 <div class="dropdown">
@@ -289,48 +230,20 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div modal="areaPopUp" options="modelOption">
-                                <div class="modal-header">
-                                    <strong>Select</strong>
-                                </div>
-                                <div class="modal-body">
-                                    Search :
-                            <input type="text" data-ng-model="search"><br>
-                                    <div>
-                                        <input type="checkbox"
-                                            data-ng-model="selAll"
-                                            data-ng-checked="workingModel.ListOfAreas.length===areaArray.length"
-                                            data-ng-click="selectAll(selAll)">
-                                        SELECT ALL
-                                    </div>
-                                    <br>
-                                    <div data-ng-repeat="data in workingModel.ListOfAreas|orderBy|filter:search">
-                                        <input type="checkbox" data-ng-model="selected"
-                                            data-ng-checked="ticks(data)"
-                                            data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
-                                        {{data}}
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="row-fluid form-horizontal text-right">
-                                        <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
-                                        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
-                                    </div>
-                                </div>
-                            </div>
+
                         </td>
                         <td data-ng-show="WorkingData.Hierarchy.HasBuckets">
                             <select data-ui-select2="" class="select-working" multiple="multiple"
                                 data-ng-model="workingModel.SelectedPincodeData.BucketStart"
                                 data-ng-required="(WorkingData.Hierarchy.HasBuckets)"
                                 data-ng-disabled="!WorkingData.Hierarchy.HasBuckets || buckArray.length>0">
-                                <option value=1>1(0-29)</option>
-                                <option value=2>2(30-59)</option>
-                                <option value=3>3(60-89)</option>
-                                <option value=4>4(90-119)</option>
-                                <option value=5>5(120-149)</option>
-                                <option value=6>6(150-179)</option>
-                                <option value=0>6+(180+)</option>
+                                <option value="1">1(0-29)</option>
+                                <option value="2">2(30-59)</option>
+                                <option value="3">3(60-89)</option>
+                                <option value="4">4(90-119)</option>
+                                <option value="5">5(120-149)</option>
+                                <option value="6">6(150-179)</option>
+                                <option value="0">6+(180+)</option>
                             </select>
                         </td>
                     </tr>
@@ -382,7 +295,73 @@
                 </tbody>
             </table>
         </div>
-        <div modal="deleteModal">
+       
+    </div>
+</div>
+
+
+<!--<div modal="areaPopUp" options="modelOption">
+        <div class="modal-header">
+            <strong>Select</strong>
+        </div>
+        <div class="modal-body">
+            Search :
+            <input type="text" data-ng-model="search"><br>
+                                                      <div>
+                                                          <input type="checkbox"
+                                                                 data-ng-model="selAll"
+                                                                 data-ng-checked="workingModel.ListOfAreas.length===areaArray.length"
+                                                                 data-ng-click="selectAll(selAll)">
+                                                          SELECT ALL
+                                                      </div>
+                                                      <br>
+                                                      <div data-ng-repeat="data in workingModel.ListOfAreas|orderBy|filter:search">
+                                                          <input type="checkbox" data-ng-model="selected"
+                                                                 data-ng-checked="ticks(data)"
+                                                                 data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                                          {{data}}
+                                                      </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row-fluid form-horizontal text-right">
+                <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>-->
+
+<!--<div modal="cityPopUp" options="modelOption">
+                                <div class="modal-header">
+                                    <strong>Select</strong>
+                                </div>
+                                <div class="modal-body">
+                                    Search :
+                                    <input type="text" data-ng-model="search"><br>
+                                                                              <div>
+                                                                                  <input type="checkbox"
+                                                                                         data-ng-model="selAll"
+                                                                                         data-ng-checked="workingModel.ListOfDistricts===cityArray.length"
+                                                                                         data-ng-click="selectAll(selAll)">
+                                                                                  SELECT ALL
+                                                                              </div>
+                                                                              <br>
+                                                                              <div data-ng-repeat="data in workingModel.ListOfDistricts|orderBy|filter:search">
+                                                                                  <input type="checkbox" data-ng-model="selected"
+                                                                                         data-ng-checked="ticks(data)"
+                                                                                         data-ng-click="chooseMultiple(data,selected,WorkingData.LocationLevel)" />
+                                                                                  {{data}}
+                                                                              </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="row-fluid form-horizontal text-right">
+                                        <button class="btn btn-primary" data-ng-click="multipleModalOk(WorkingData.LocationLevel)">Ok</button>
+                                        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+                                    </div>
+                                </div>
+                            </div>-->
+
+
+<!-- <div modal="deleteModal">
             <div class="modal-header">
                 <strong>Are you sure you want to delete?</strong>
             </div>
@@ -408,6 +387,4 @@
                     <button class="btn btn-primary" data-ng-click="cancelEndDate(currentDeleteData)">Cancel</button>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </div>-->

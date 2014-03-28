@@ -1,5 +1,5 @@
-﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr',
-    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr) {
+﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal',
+    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
@@ -40,7 +40,7 @@
                 SelectedPincodeData: {
                 },
                 MultiSelectValues: [],
-                QueryFor: ''
+                //QueryFor: ''
             };
             $scope.pincodeManager = pincodeMngr;
             $scope.showAddedData = false;
@@ -90,6 +90,38 @@
             $scope.WorkingData.LocationLevelParams = ['COUNTRY', 'REGION', 'STATE', 'CLUSTER', 'CITY', 'AREA'];
             lists();
         };
+
+
+        $scope.openMultiSelectPopUp = function (array) {
+
+            $scope.modalData = {};
+
+            $scope.modalData.array = array;
+            $scope.modalData.areaArray = $scope.areaArray;
+            $scope.modalData.clusterArray = $scope.clusterArray;
+            $scope.modalData.cityArray = $scope.cityArray;
+            $scope.modalData.LocationLevel = $scope.WorkingData.LocationLevel;
+            $scope.modalData.StakeWork = $scope.StakeWork;
+            $scope.modalData.SelectedPincodeData = $scope.workingModel.SelectedPincodeData;
+            
+           var modalInstance= $modal.open({
+                templateUrl: '/Stakeholder/add/multiselectPopUp.html',
+                controller: 'multiSelectController',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(data) {
+                $scope.modalData = data;
+                
+            });
+
+        };
+
+
         //#region old
         var lists = function () {
             restApi.customGET('GetAllWorkingList').then(function (data) {
@@ -118,21 +150,6 @@
 
         };
 
-        $scope.cancelEndDate = function (currentDeleteData) {
-            currentDeleteData.EndDate = undefined;
-            $scope.deleteModal = false;
-        };
-
-        $scope.getPaymentDetails = function (product) {
-            debugger;
-            if ($scope.WorkingData.Hierarchy.HasWorking && $scope.WorkingData.Hierarchy.HasPayment) {
-                restApi.customGET('GetLinerWriteOff', { 'product': product }).then(function (data) {
-                    $scope.$parent.WizardData.BillingPolicy.LinerPolicies = data.LinerList;
-                    $scope.$parent.WizardData.BillingPolicy.WriteOffPolicies = data.WriteOffList;
-                });
-            } else return;
-        };
-
         $scope.multipleModalOk = function (locLevel) {
             if (locLevel === 'City')
                 $scope.workingModel.SelectedPincodeData['District'] = "";
@@ -146,6 +163,20 @@
             $scope.districtPopUp = false;
         };
 
+       
+
+        $scope.getPaymentDetails = function (product) {
+            debugger;
+            if ($scope.WorkingData.Hierarchy.HasWorking && $scope.WorkingData.Hierarchy.HasPayment) {
+                restApi.customGET('GetLinerWriteOff', { 'product': product }).then(function (data) {
+                    $scope.$parent.WizardData.BillingPolicy.LinerPolicies = data.LinerList;
+                    $scope.$parent.WizardData.BillingPolicy.WriteOffPolicies = data.WriteOffList;
+                });
+            } else return;
+        };
+
+
+
         $scope.endDateStatus = function (data) {
             if (!$csfactory.isNullOrEmptyString(data.EndDate)) return true;
             else return false;
@@ -158,13 +189,31 @@
 
         $scope.manageDelete = function (index, data) {
             if ($scope.WorkingData.isEditMode) {
-                $scope.deleteModal = !$scope.deleteModal;
-                $scope.endDate = data.EndDate;
-                $scope.currentDeleteData = data;
+
+                $scope.modalData = {};
+                $scope.modalData.endDate = data.EndDate;
+                $scope.modalData.currentDeleteData = data;
+
+                $modal.open({
+                    templateUrl: '/Stakeholder/add/DeleteWorkingPopUp.html',
+                    controller: 'deleteWorkingController',
+                    resolve: {
+                        modalData: function () {
+                            return $scope.modalData;
+                        }
+                    }
+                });
+
+                //$scope.deleteModal = !$scope.deleteModal;
+                //$scope.endDate = data.EndDate;
+                //$scope.currentDeleteData = data;
             } else {
                 $scope.deleteAdded(index, $scope.WorkingData.Hierarchy, data);
             }
         };
+
+
+
 
         $scope.setEndDate = function (data, endDate) {
             var date = angular.copy(endDate);
@@ -173,12 +222,19 @@
             $scope.deleteModal = false;
         };
 
+        $scope.cancelEndDate = function (currentDeleteData) {
+            currentDeleteData.EndDate = undefined;
+            $scope.deleteModal = false;
+        };
+        
         var deletedata = function (data, arrays) {
             var index = arrays.indexOf(data);
             arrays.splice(index, 1);
         };
 
         $scope.enableAddButton = function () {
+            if (angular.isUndefined($scope.workingModel))
+                return true;
             switch ($scope.WorkingData.LocationLevel) {
                 case 'Region':
                     if (angular.isDefined($scope.workingModel.SelectedPincodeData)) {
@@ -224,12 +280,10 @@
         };
 
         $scope.ticksBuck = function (data) {
-            debugger;
             return ($scope.buckArray.indexOf(data.value) !== -1);
         };
 
         $scope.selAllBuck = function () {
-
             if ($scope.buckArray.length === $scope.bucketArray.length)
                 $scope.buckArray = [];
             for (var buck = 0; buck < $scope.bucketArray.length; buck++) {
@@ -254,7 +308,6 @@
             //    if ($csfactory.isNullOrEmptyString(added))
             //        $scope.uniqueReg.push($scope.WorkingData.RegionList[i].Region);
             //}
-            debugger;
             restApi.customPOST($scope.WorkingData.Hierarchy, 'WorkingReportsTo').then(function (data) {
                 $scope.WorkingData.ReportsToList = data;
                 _.forEach($scope.WorkingData.ReportsToList, function (item) {
@@ -278,7 +331,6 @@
         };
 
         $scope.chooseMultiple = function (data, selected, locLevel) {
-            debugger;
             switch (locLevel) {
                 case "BUCKET":
                     if ($scope.buckArray.indexOf(data.value) === -1) {
@@ -289,7 +341,6 @@
                     break;
                 case "Cluster":
                 case 'District':
-                    debugger;
                     //if (selected == true) {
                     //    var repeatCluster = _.filter($scope.clusterArray, function (item) {
                     //        if (item === data)
@@ -348,7 +399,7 @@
                     }
                     break;
                 case "City":
-                    debugger;
+
                     //if (selected === true) {
                     //    var repeatCity = _.filter($scope.cityArray, function (item) {
                     //        if (item === data)
@@ -368,7 +419,7 @@
                     }
                     break;
                 case "Area":
-                    debugger;
+
                     //if (selected == true) {
                     //    var repeatArea = _.filter($scope.WorkingData.PayWorkModel.WorkList, function (item) {
                     //        if (item.Area == data)
@@ -471,7 +522,6 @@
         };
 
         $scope.addTable = function (stakeWork) {
-            debugger;
             if ($scope.buckArray.length > 0)
                 stakeWork.BucketStart = $scope.buckArray;
             stakeWork.LocationLevel = $scope.WorkingData.LocationLevel;
@@ -483,9 +533,9 @@
             $scope.workingModel.SelectedPincodeData.Products = stakeWork.Products;
             $scope.workingModel.SelectedPincodeData.ReportsTo = stakeWork.ReportsTo;
             $scope.workingModel.SelectedPincodeData.Country = "INDIA";
-            
+
             pincodeMngr.ReplaceWithAll($scope.WorkingData.LocationLevel, $scope.workingModel.SelectedPincodeData);
-            
+
             if (!$csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]))
                 $scope.workingModel.MultiSelectValues.push($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
             else {
@@ -493,7 +543,6 @@
             }
             $scope.workingModel.QueryFor = $scope.WorkingData.LocationLevel;
             restApi.customPOST($scope.workingModel, 'GetPincodeList').then(function (data) {
-                debugger;
                 $scope.pincodeData = data;
                 if (!$scope.WorkingData.Hierarchy.HasBuckets) {
                     $scope.workingModel.SelectedPincodeData.BucketStart = 0;
@@ -737,7 +786,7 @@
                         for (var l = 0; l < len0 ; l++) {
                             data[locLevel] = cityArray[l];
                             assignMissingPincodeValues($scope.pincodeData);
-                            var dup=pincodeMngr.CheckDuplicate($scope.workingModel.SelectedPincodeData, $scope.WorkingData.PayWorkModel.WorkList, $scope.WorkingData.LocationLevel, $scope.areaArray);
+                            var dup = pincodeMngr.CheckDuplicate($scope.workingModel.SelectedPincodeData, $scope.WorkingData.PayWorkModel.WorkList, $scope.WorkingData.LocationLevel, $scope.areaArray);
                         }
                         var len1 = $scope.cityArray.length;
                         if ($csfactory.isNullOrEmptyString(dup)) { //add only if there are no duplicates
@@ -768,7 +817,7 @@
                         for (var i = 0; i < len ; i++) {
                             data[locLevel] = areaArray[i];
                             assignMissingPincodeValues($scope.pincodeData);
-                            var dup1=pincodeMngr.CheckDuplicate($scope.workingModel.SelectedPincodeData, $scope.WorkingData.PayWorkModel.WorkList, $scope.WorkingData.LocationLevel, $scope.areaArray);
+                            var dup1 = pincodeMngr.CheckDuplicate($scope.workingModel.SelectedPincodeData, $scope.WorkingData.PayWorkModel.WorkList, $scope.WorkingData.LocationLevel, $scope.areaArray);
                         }
                         var len2 = $scope.areaArray.length;
                         if ($csfactory.isNullOrEmptyString(dup1)) {  //add only if there are no duplicates
@@ -959,7 +1008,7 @@
             //if (info.toString() === "7") return "6+";
             if (info === "ALL") return '-';
             return info;
-            
+
         };
 
         $scope.clearArray = function () {
@@ -1435,127 +1484,127 @@
         }
     };
 
-    var checkDuplicate = function(stakeWork, stakeinfo, loclevel, list) {
+    var checkDuplicate = function (stakeWork, stakeinfo, loclevel, list) {
         debugger;
         if (list.length > 0) {
             if (stakeinfo.length > 0) {
                 switch (loclevel) {
-                case "Country":
-                    var duplic = _.where(stakeinfo, {
-                        'Products': stakeWork.Products,
-                        'Region': stakeWork.Region,
-                        'State': stakeWork.State,
-                        'Cluster': stakeWork.Cluster,
-                        'City': stakeWork.City,
-                        'Area': stakeWork.Area,
-                        'BucketStart': stakeWork.BucketStart
-                    });
-                    if (duplic.length > 0) {
-                        $csnotify.error("Record already exists");
-                        return duplic;
-                    }
-                    break;
-                case "State":
-                    var len0 = list.length;
-                    var copyState = angular.copy(list);
-                    for (var h = 0; h < len0; h++) {
-                        var same0 = _.where(stakeinfo, {
+                    case "Country":
+                        var duplic = _.where(stakeinfo, {
                             'Products': stakeWork.Products,
                             'Region': stakeWork.Region,
-                            'State': copyState[h],
-                            'Cluster': stakeWork.Cluster,
-                            'City': stakeWork.City,
-                            'Area': stakeWork.Area,
-                            'BucketStart': stakeWork.BucketStart
-                        });
-                        if (same0.length > 0) {
-                            var index0 = list.indexOf(same0[0].Cluster);
-                            list.splice(index0, 1);
-                            $csnotify.error("Record already exists");
-                        }
-                    }
-                    break;
-                case "Region":
-                    var len4 = list.length;
-                    var copyRegion = angular.copy(list);
-                    for (var x = 0; x < len4; x++) {
-                        var same5 = _.where(stakeinfo, {
-                            'Products': stakeWork.Products,
-                            'Region': copyRegion[x],
                             'State': stakeWork.State,
                             'Cluster': stakeWork.Cluster,
                             'City': stakeWork.City,
                             'Area': stakeWork.Area,
                             'BucketStart': stakeWork.BucketStart
                         });
-                        if (same5.length > 0) {
-                            var index5 = list.indexOf(same5[0].Cluster);
-                            list.splice(index5, 1);
+                        if (duplic.length > 0) {
                             $csnotify.error("Record already exists");
+                            return duplic;
                         }
-                    }
-                    break;
-                case "Cluster":
-                case "District":
-                    var len = list.length;
-                    var copyOfList = angular.copy(list);
-                    for (var i = 0; i < len; i++) {
-                        var same = _.where(stakeinfo, {
-                            'Products': stakeWork.Products,
-                            'Region': stakeWork.Region,
-                            'State': stakeWork.State,
-                            'District': copyOfList[i],
-                            'City': stakeWork.City,
-                            'Area': stakeWork.Area,
-                            'BucketStart': stakeWork.BucketStart
-                        });
-                        if (same.length > 0) {
-                            var index = list.indexOf(same[0].District);
-                            list.splice(index, 1);
-                            $csnotify.error("Record already exists");
+                        break;
+                    case "State":
+                        var len0 = list.length;
+                        var copyState = angular.copy(list);
+                        for (var h = 0; h < len0; h++) {
+                            var same0 = _.where(stakeinfo, {
+                                'Products': stakeWork.Products,
+                                'Region': stakeWork.Region,
+                                'State': copyState[h],
+                                'Cluster': stakeWork.Cluster,
+                                'City': stakeWork.City,
+                                'Area': stakeWork.Area,
+                                'BucketStart': stakeWork.BucketStart
+                            });
+                            if (same0.length > 0) {
+                                var index0 = list.indexOf(same0[0].Cluster);
+                                list.splice(index0, 1);
+                                $csnotify.error("Record already exists");
+                            }
                         }
-                    }
-                    break;
-                case "City":
-                    var len1 = list.length;
-                    var copycity = angular.copy(list);
-                    for (var j = 0; j < len1; j++) {
-                        var same1 = _.where(stakeinfo, {
-                            'Products': stakeWork.Products,
-                            'Region': stakeWork.Region,
-                            'State': stakeWork.State,
-                            'Cluster': stakeWork.Cluster,
-                            'City': copycity[j],
-                            'Area': stakeWork.Area,
-                            'BucketStart': stakeWork.BucketStart
-                        });
-                        if (same1.length > 0) {
-                            var index1 = list.indexOf(same1[0].City);
-                            list.splice(index1, 1);
-                            $csnotify.error("Record already exists");
+                        break;
+                    case "Region":
+                        var len4 = list.length;
+                        var copyRegion = angular.copy(list);
+                        for (var x = 0; x < len4; x++) {
+                            var same5 = _.where(stakeinfo, {
+                                'Products': stakeWork.Products,
+                                'Region': copyRegion[x],
+                                'State': stakeWork.State,
+                                'Cluster': stakeWork.Cluster,
+                                'City': stakeWork.City,
+                                'Area': stakeWork.Area,
+                                'BucketStart': stakeWork.BucketStart
+                            });
+                            if (same5.length > 0) {
+                                var index5 = list.indexOf(same5[0].Cluster);
+                                list.splice(index5, 1);
+                                $csnotify.error("Record already exists");
+                            }
                         }
-                    }
-                    break;
-                case "Area":
-                    var len2 = list.length;
-                    var copyArea = angular.copy(list);
-                    for (var k = 0; k < len2; k++) {
-                        var same2 = _.where(stakeinfo, {
-                            'Products': stakeWork.Products,
-                            'Region': stakeWork.Region,
-                            'State': stakeWork.State,
-                            'Cluster': stakeWork.Cluster,
-                            'City': stakeWork.City,
-                            'Area': copyArea[k],
-                            'BucketStart': stakeWork.BucketStart
-                        });
-                        if (same2.length > 0) {
-                            var index2 = list.indexOf(same2[0].Area);
-                            list.splice(index2, 1);
-                            $csnotify.error("Record already exists");
+                        break;
+                    case "Cluster":
+                    case "District":
+                        var len = list.length;
+                        var copyOfList = angular.copy(list);
+                        for (var i = 0; i < len; i++) {
+                            var same = _.where(stakeinfo, {
+                                'Products': stakeWork.Products,
+                                'Region': stakeWork.Region,
+                                'State': stakeWork.State,
+                                'District': copyOfList[i],
+                                'City': stakeWork.City,
+                                'Area': stakeWork.Area,
+                                'BucketStart': stakeWork.BucketStart
+                            });
+                            if (same.length > 0) {
+                                var index = list.indexOf(same[0].District);
+                                list.splice(index, 1);
+                                $csnotify.error("Record already exists");
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    case "City":
+                        var len1 = list.length;
+                        var copycity = angular.copy(list);
+                        for (var j = 0; j < len1; j++) {
+                            var same1 = _.where(stakeinfo, {
+                                'Products': stakeWork.Products,
+                                'Region': stakeWork.Region,
+                                'State': stakeWork.State,
+                                'Cluster': stakeWork.Cluster,
+                                'City': copycity[j],
+                                'Area': stakeWork.Area,
+                                'BucketStart': stakeWork.BucketStart
+                            });
+                            if (same1.length > 0) {
+                                var index1 = list.indexOf(same1[0].City);
+                                list.splice(index1, 1);
+                                $csnotify.error("Record already exists");
+                            }
+                        }
+                        break;
+                    case "Area":
+                        var len2 = list.length;
+                        var copyArea = angular.copy(list);
+                        for (var k = 0; k < len2; k++) {
+                            var same2 = _.where(stakeinfo, {
+                                'Products': stakeWork.Products,
+                                'Region': stakeWork.Region,
+                                'State': stakeWork.State,
+                                'Cluster': stakeWork.Cluster,
+                                'City': stakeWork.City,
+                                'Area': copyArea[k],
+                                'BucketStart': stakeWork.BucketStart
+                            });
+                            if (same2.length > 0) {
+                                var index2 = list.indexOf(same2[0].Area);
+                                list.splice(index2, 1);
+                                $csnotify.error("Record already exists");
+                            }
+                        }
+                        break;
                 }
             }
         } else {
@@ -1588,6 +1637,132 @@
     };
 }])
 );
+
+
+csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", "$modalInstance", function ($scope, $csfactory, modalData, $modalInstance) {
+
+
+    (function () {
+        console.log(modalData);
+        $scope.modalData = modalData;
+    })();
+
+
+    $scope.closeModal = function () {
+        $modalInstance.close();
+    };
+
+    $scope.multipleModalOk = function (locLevel) {
+        if (locLevel === 'City')
+            modalData.SelectedPincodeData['District'] = "";
+        modalData.StakeWork[locLevel] = "";
+        modalData.SelectedPincodeData[locLevel] = "";
+
+        $modalInstance.close(modalData);
+    };
+
+
+    $scope.checkLength = function (locLevel) {
+        switch (locLevel) {
+            case 'District':
+            case 'Cluster':
+                return modalData.clusterArray.length;
+
+            case 'Area':
+                return modalData.areaArray.length;
+        }
+    };
+
+    $scope.chooseMultiple = function (data, selected, locLevel) {
+        console.log('in choose multiple...');
+        switch (locLevel) {
+            case "Cluster":
+            case 'District':
+
+                if (modalData.clusterArray.indexOf(data) === -1) {
+                    modalData.clusterArray.push(data);
+                } else {
+                    modalData.clusterArray.splice(modalData.clusterArray.indexOf(data), 1);
+                }
+                break;
+            case "Region":
+
+                if (modalData.regionArray.indexOf(data) === -1) {
+                    modalData.regionArray.push(data);
+                } else {
+                    modalData.regionArray.splice(modalData.regionArray.indexOf(data), 1);
+                }
+                break;
+            case "State":
+
+                if (modalData.stateArray.indexOf(data) === -1) {
+                    modalData.stateArray.push(data);
+                } else {
+                    modalData.stateArray.splice(modalData.stateArray.indexOf(data), 1);
+                }
+                break;
+            case "City":
+
+                if (modalData.cityArray.indexOf(data) === -1) {
+                    modalData.cityArray.push(data);
+                } else {
+                    modalData.cityArray.splice(modalData.cityArray.indexOf(data), 1);
+                }
+                break;
+            case "Area":
+
+                if (modalData.areaArray.indexOf(data) === -1) {
+                    modalData.areaArray.push(data);
+                } else {
+                    modalData.areaArray.splice(modalData.areaArray.indexOf(data), 1);
+                }
+        }
+        console.log(modalData.clusterArray);
+    };
+
+    $scope.ticks = function (data) {
+        switch (modalData.LocationLevel.toUpperCase()) {
+            case "REGION":
+                return (modalData.regionArray.indexOf(data) !== -1);
+            case "STATE":
+                return (modalData.stateArray.indexOf(data) !== -1);
+            case "CLUSTER":
+            case "DISTRICT":
+                return (modalData.clusterArray.indexOf(data) !== -1);
+            case "CITY":
+                return (modalData.cityArray.indexOf(data) !== -1);
+            case "AREA":
+                return (modalData.areaArray.indexOf(data) !== -1);
+        }
+    };
+
+}]);
+
+csapp.controller("deleteWorkingController", ["$scope", "$csfactory", "modalData", "$modalInstance",
+    function ($scope, $csfactory, modalData, $modalInstance) {
+        
+        (function() {
+            $scope.modalData = modalData;
+        })();
+        
+
+        $scope.setEndDate = function (data, endDate) {
+            var date = angular.copy(endDate);
+            data.EndDate = date;
+// ReSharper disable AssignedValueIsNeverUsed
+            endDate = '';
+// ReSharper restore AssignedValueIsNeverUsed
+            $modalInstance.close();
+        };
+
+        $scope.cancelEndDate = function (currentDeleteData) {
+            currentDeleteData.EndDate = undefined;
+            $modalInstance.close();
+        };
+
+
+    }]);
+
 
 
 //if EditMode

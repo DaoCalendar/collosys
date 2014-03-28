@@ -14,7 +14,6 @@ using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.Types4Product;
-using Iesi.Collections.Generic;
 using NHibernate;
 using ColloSys.AllocationService.Logging;
 using NLog;
@@ -44,7 +43,6 @@ namespace ColloSys.AllocationService.AllocationLayer
 
         #endregion
 
-
         #region allocation condition
 
         public static IEnumerable<Entity> StartAllocationProcessV2(ScbEnums.Products product, ScbEnums.Category category)
@@ -52,7 +50,7 @@ namespace ColloSys.AllocationService.AllocationLayer
             
             Log.Info(string.Format("allocation process strarted with product {0} and category {1}", product, category));
 
-            var allocationlist = new List<Alloc>();
+            var allocationlist = new List<Allocations>();
 
             //get class type for generate criteria
             Type getType = ClassType.GetTypeByProductCategoryForAlloc(product, category);
@@ -74,19 +72,18 @@ namespace ColloSys.AllocationService.AllocationLayer
                                       .ToList();
             foreach (var subpolicy in subpolicyList)
             {
-                subpolicy.AllocRelations = new HashedSet<AllocRelation>(policy.AllocRelations.Where(x => x.AllocSubpolicy.Id == subpolicy.Id).ToList());
+                subpolicy.AllocRelations = policy.AllocRelations
+                    .Where(x => x.AllocSubpolicy.Id == subpolicy.Id)
+                    .ToList();
             }
             Log.Info("Conditions count under Policy.SubPolicy: " + subpolicyList.Select(x => x.Conditions.Count));
 
             foreach (var subpolicy in subpolicyList)
             {
+                var session = SessionManager.GetCurrentSession();
                 //get data on created criteria
-                IList<Info> dataOnCondition;
                 //create criteria 
-                using (var session = SessionManager.GetNewSession())
-                {
-                    using (var trans = session.BeginTransaction())
-                    {
+               
                         ICriteria criteria = session.CreateCriteria(getType, getType.Name);
 
                         //get list of conditions
@@ -100,10 +97,8 @@ namespace ColloSys.AllocationService.AllocationLayer
                         criteria = CreateCriteriaOnCondition(conditionList, getType, criteria);
                         Log.Info("Criteria on Condition:" + criteria);
 
-                        dataOnCondition = criteria.List<Info>();
-                        trans.Rollback();
-                    }
-                }
+                        IList<CustomerInfo> dataOnCondition = criteria.List<CustomerInfo>();
+                       
                 Log.Info("Total no a/c for allocation: " + dataOnCondition.Count);
 
                 if (dataOnCondition.Count > 0)

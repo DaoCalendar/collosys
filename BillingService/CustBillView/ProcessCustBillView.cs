@@ -63,7 +63,7 @@ namespace BillingService.CustBillView
             return billingViewModel;
         }
 
-        public static CustBillViewModel CreateCustBillViewModel(Alloc allocation, Info info, IList<Payment> payments)
+        public static CustBillViewModel CreateCustBillViewModel(Allocations allocation, CustomerInfo info, IList<Payment> payments)
         {
             var custBilViewModel = new CustBillViewModel
                 {

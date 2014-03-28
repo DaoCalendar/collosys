@@ -33,10 +33,10 @@ namespace ColloSys.FileUploadService
 
         #region interface - properties
 
-        private IDBLayer _dataLayer = new DBLayer();
+        private IDBLayer _dataLayer = new DbLayer();
         public IDBLayer GetDataLayer
         {
-            get { return _dataLayer ?? (_dataLayer = new DBLayer()); }
+            get { return _dataLayer ?? (_dataLayer = new DbLayer()); }
         }
 
         private const int BatchSize = 1000;
@@ -230,7 +230,7 @@ namespace ColloSys.FileUploadService
             }
 
             // create excel from data
-            var filename = Regex.Replace(fileScheduler.FileNameDisplay, @"[^\w]", "_");
+            var filename = Regex.Replace(fileScheduler.FileName.Substring(16), @"[^\w]", "_");
             var outputfilename = string.Format("output_{0}_{1}.xlsx", filename, DateTime.Now.ToString("HHmmssfff"));
             var file = new FileInfo(Path.GetTempPath() + outputfilename);
             _logger.Info(string.Format("FileStatus: DownloadFile: generating file from {0} for {1}, date {2}"

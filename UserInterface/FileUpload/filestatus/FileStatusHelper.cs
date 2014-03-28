@@ -44,7 +44,7 @@ namespace AngularUI.FileUpload.filestatus
         public static FileScheduler ReScheduleFile(FileScheduler file)
         {
             if (file == null) return null;
-            var entity =FileSchedulerBuilder.GetWithId(file.Id);
+            var entity =FileSchedulerBuilder.Get(file.Id);
             entity.IsImmediate = true;
             entity.ImmediateReason = file.ImmediateReason;
             entity.StartDateTime = DateTime.Now;
@@ -54,7 +54,7 @@ namespace AngularUI.FileUpload.filestatus
 
         public static FileScheduler RetryUpload(Guid id)
         {
-            var scheduler = FileSchedulerBuilder.GetWithId(id);
+            var scheduler = FileSchedulerBuilder.Get(id);
             scheduler.UploadStatus = ColloSysEnums.UploadStatus.RetryUpload;
             scheduler.IsImmediate = true;
             scheduler.StartDateTime = DateTime.Now;
@@ -70,12 +70,6 @@ namespace AngularUI.FileUpload.filestatus
             // get file scheduler from db
             var session = SessionManager.GetCurrentSession();
             var uploads = FileSchedulerBuilder.OnFileSchedulers(fileScheduler).ToList();
-
-            if (uploads == null)
-            {
-                Logger.Fatal("FileStatus: DownloadFile: no file scheduler entry found.");
-                throw new InvalidDataException("No such file found.");
-            }
 
             // get data for that filescheduler from db 
             var uploadableentity = ClassType.GetClientDataClassObjectByTableName(uploads.First().FileDetail.ActualTable);
@@ -104,7 +98,7 @@ namespace AngularUI.FileUpload.filestatus
             }
 
             // create excel from data
-            var filename = Regex.Replace(uploads.First().FileNameDisplay, @"[^\w]", "_");
+            var filename = Regex.Replace(uploads.First().FileName.Substring(16), @"[^\w]", "_");
             var outputfilename = string.Format("output_{0}_{1}.xlsx", filename, DateTime.Now.ToString("HHmmssfff"));
             var file = new FileInfo(Path.GetTempPath() + outputfilename);
             Logger.Info(string.Format("FileStatus: DownloadFile: generating file from {0} for {1}, date {2}"
@@ -113,7 +107,7 @@ namespace AngularUI.FileUpload.filestatus
             {
                 var includeList = FileColumnService.GetColumnDetails(uploads.First().FileDetail.AliasName);
                 if (includeList.Count == 0)
-                    includeList = GetColumnsToWrite(uploadableentity, uploads.First().FileDetail.AliasName);
+                    includeList = GetColumnsToWrite(uploadableentity);
 
                 ClientDataWriter.ListToExcel(result, file, includeList);
             }
@@ -126,7 +120,7 @@ namespace AngularUI.FileUpload.filestatus
             return file;
         }
 
-        private static IList<ColumnPositionInfo> GetColumnsToWrite(Entity uploadableentity, ColloSysEnums.FileAliasName aliasName)
+        private static IList<ColumnPositionInfo> GetColumnsToWrite(Entity uploadableentity)
         {
             IList<string> exludeList = new List<string>();
             if (uploadableentity.GetType().GetInterfaces().Contains(typeof(IFileUploadable)))

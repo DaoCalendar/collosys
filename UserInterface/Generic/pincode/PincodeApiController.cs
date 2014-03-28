@@ -8,13 +8,10 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.SharedDomain;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.Linq;
 using ColloSys.DataLayer.Enumerations;
 
 #endregion
@@ -28,7 +25,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetStates()
         {
             var data = GPincodeBuilder.StateList();
@@ -36,15 +33,15 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodes(string state)
         {
-            var data = GPincodeBuilder.OnState(state);
+            var data = GPincodeBuilder.OnStateGetList(state);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodesArea(string area, string city)
         {
             var data = GPincodeBuilder.AreaOnCityAndArea(area, city);
@@ -52,7 +49,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetMissingPincodes(string pincode)
         {
             var missingPincodes = new List<string>();
@@ -61,7 +58,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetPincodeCity(string city, string district)
         {
             var data = GPincodeBuilder.CitiesOnCityDistrict(city, district);
@@ -70,14 +67,14 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public IEnumerable<string> GetCityCategory()
         {
            return Enum.GetNames(typeof (ColloSysEnums.CityCategory));
         }
 
         [HttpPost]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetWholedata(PincodeData pincodedata)
         {
             if (pincodedata == null)
@@ -85,7 +82,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
             if (string.IsNullOrWhiteSpace(pincodedata.Region))
             {
-                var regiondata = GPincodeBuilder.GetOnExpression(x => x.Country == pincodedata.Country)
+                var regiondata = GPincodeBuilder.FilterBy(x => x.Country == pincodedata.Country)
                                                 .Select(x => x.Region)
                                                 .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, regiondata);
@@ -94,7 +91,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.State))
             {
                 var statedata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x => x.Country == pincodedata.Country && x.Region == pincodedata.Region)
                                    .Select(x => x.State)
                                    .ToList();
@@ -103,7 +100,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
             if (string.IsNullOrWhiteSpace(pincodedata.Cluster))
             {
-                var clusterdata = GPincodeBuilder.GetOnExpression(x => x.Country == pincodedata.Country && x.Region == pincodedata.Region && x.State == pincodedata.State)
+                var clusterdata = GPincodeBuilder.FilterBy(x => x.Country == pincodedata.Country && x.Region == pincodedata.Region && x.State == pincodedata.State)
                               .Select(x => x.Cluster)
                               .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, clusterdata);
@@ -112,7 +109,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.District))
             {
                 var districtdata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x =>
                         x.Country == pincodedata.Country && x.Region == pincodedata.Region &&
                         x.State == pincodedata.State && x.Cluster == pincodedata.Cluster)
@@ -124,7 +121,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
             if (string.IsNullOrWhiteSpace(pincodedata.City))
             {
                 var citydata =
-                    GPincodeBuilder.GetOnExpression(
+                    GPincodeBuilder.FilterBy(
                         x =>
                         x.Country == pincodedata.Country && x.Region == pincodedata.Region &&
                         x.State == pincodedata.State && x.Cluster == pincodedata.Cluster &&
@@ -137,11 +134,12 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetWholePincode()
         {
-            var data = GPincodeBuilder.GetAll().Select(x => x.Pincode).ToList();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            var session = SessionManager.GetCurrentSession();
+            var result = session.QueryOver<GPincode>().Select(x => x.Pincode).List<uint>();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
     }

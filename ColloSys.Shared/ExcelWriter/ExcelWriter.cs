@@ -25,7 +25,7 @@ namespace ColloSys.Shared.ExcelWriter
         {
             if (listdata.Count == 0)
             {
-                ListToExcelGlobal(null, file, (Info)Activator.CreateInstance(typeof(Info)), excludedProps);
+                ListToExcelGlobal(null, file, (CustomerInfo)Activator.CreateInstance(typeof(CustomerInfo)), excludedProps);
             }
             else
             {
@@ -37,7 +37,7 @@ namespace ColloSys.Shared.ExcelWriter
         {
             if (listdata.Count == 0)
             {
-                ListToExcelGlobal(null, file, (Info)Activator.CreateInstance(typeof(Info)), excludedProps);
+                ListToExcelGlobal(null, file, (CustomerInfo)Activator.CreateInstance(typeof(CustomerInfo)), excludedProps);
             }
             else
             {

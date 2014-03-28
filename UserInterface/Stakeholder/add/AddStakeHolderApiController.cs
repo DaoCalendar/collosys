@@ -5,18 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
-using ColloSys.UserInterface.Shared.Attributes;
 using NLog;
 using Newtonsoft.Json.Linq;
 
@@ -34,15 +30,15 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
-        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         [HttpGet]
-        [HttpTransaction]
+
         public AddStakeholderModel GetAllHierarchies()
         {
             var stake = new AddStakeholderModel
                 {
-                    ListOfStakeHierarchy = HierarchyQuery.GetOnExpression(x => x.Hierarchy != "Developer")
+                    ListOfStakeHierarchy = HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer")
                 };
 
             var gKeyValue = GKeyValueBuilder.ForStakeholders();
@@ -54,7 +50,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction]
+
         public IEnumerable<Stakeholders> GetReportsToInHierarchy(StkhHierarchy reportsto)
         {
             var data = GetReportsToList(reportsto);
@@ -65,16 +61,16 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        [HttpTransaction(Persist = true)]
+
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;
-            var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUserId = finalPost.Stakeholder.CreatedBy;
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
-                var singleOrDefault = StakeQuery.GetOnExpression(x => x.Id == currUser.ReportingManager).SingleOrDefault();
+                var singleOrDefault = StakeQuery.FilterBy(x => x.Id == currUser.ReportingManager).SingleOrDefault();
                 if (singleOrDefault != null)
                 {
                     var reportsToUserId = singleOrDefault.ExternalId;
@@ -121,6 +117,34 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 }
                 stakeholders.StkhWorkings = worklist;
             }
+
+            if (!finalPost.Hierarchy.HasWorking && finalPost.Hierarchy.HasPayment)
+            {
+                foreach (var payworkModel in finalPost.PayWorkModelList)
+                {
+                    payworkModel.Payment.Stakeholder = stakeholders;
+                    foreach (var stkhWorking in payworkModel.WorkList)
+                    {
+                        stkhWorking.Stakeholder = stakeholders;
+                    }
+                }
+                foreach (var payworkModel in finalPost.PayWorkModelList)
+                {
+                    stakeholders.StkhPayments.Add(payworkModel.Payment);
+                    foreach (var stkhWorking in payworkModel.WorkList)
+                    {
+                        stkhWorking.Products = ScbEnums.Products.ALL;
+                        stkhWorking.Region = "All";
+                        stkhWorking.Cluster = "All";
+                        stkhWorking.State = "All";
+                        stkhWorking.City = "All";
+                        stkhWorking.Area = "All";
+                        stkhWorking.LocationLevel = stakeholders.Hierarchy.LocationLevel;
+                        stakeholders.StkhWorkings.Add(stkhWorking);
+                    }
+                }
+            }
+
 
             foreach (var working in stakeholders.StkhWorkings)
             {
@@ -173,8 +197,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             try
             {
                 //save stakeholder here
-                if (DateTime.MinValue == stakeholders.BirthDate)
-                    stakeholders.BirthDate = null;
+                //if (DateTime.MinValue == stakeholders.BirthDate)
+                //stakeholders.BirthDate = null;
                 SetApprovalStatusInsert(stakeholders);
                 Save(stakeholders);
                 _log.Info("Stakeholder is saved in StakeholderApi/Save");
@@ -193,8 +217,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         public void AssignBillingPolicies(PayWorkModel payWork)
         {
-            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.CollectionBillingPolicyId);
-            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.GetWithId(payWork.RecoveryBillingPolicyId);
+            payWork.Payment.CollectionBillingPolicy = BillingPolicyBuilder.Get(payWork.CollectionBillingPolicyId);
+            payWork.Payment.RecoveryBillingPolicy = BillingPolicyBuilder.Get(payWork.RecoveryBillingPolicyId);
         }
 
         private static void SetApprovalStatusInsert(Stakeholders stakeholders)
@@ -224,7 +248,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
         }
         [HttpGet]
-        [HttpTransaction]
+
         public FinalPostModel GetStakeholderEditMode(Guid stakeholderId)
         {
             var stakeholder = GetStakeholder(stakeholderId);
@@ -234,7 +258,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static FinalPostModel ConvertToFinalPostModel(Stakeholders stakeholders)
         {
-            var finalPostModel = new FinalPostModel {Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy};
+            var finalPostModel = new FinalPostModel { Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy };
 
             //set address of stakeholder
             if (stakeholders.GAddress.Any())
@@ -273,7 +297,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
             else if (stakeholders.StkhWorkings.Any() && stakeholders.StkhPayments.Count == 0)
             {
-                var payworkmodel = new PayWorkModel {WorkList = stakeholders.StkhWorkings};
+                var payworkmodel = new PayWorkModel { WorkList = stakeholders.StkhWorkings };
                 finalPostModel.PayWorkModelList.Add(payworkmodel);
                 finalPostModel.PayWorkModel = payworkmodel;
                 finalPostModel.PayWorkModel = finalPostModel.PayWorkModelList[0];
@@ -314,7 +338,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static IEnumerable<string> UsersIDList()
         {
-            var data = StakeQuery.GetOnExpression(x => x.ExternalId != string.Empty)
+            var data = StakeQuery.FilterBy(x => x.ExternalId != string.Empty)
                                  .Select(x => x.ExternalId).ToList();
 
             LogManager.GetCurrentClassLogger().Info("StakeholderServices: UsersIDList count: " + data.Count);
@@ -336,7 +360,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             {
                 return list;
             }
-            var firstLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == reportingHierarchy)
+            var firstLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == reportingHierarchy)
                                                     .SingleOrDefault();
 
             if (firstLevelHierarchy == null)
@@ -356,7 +380,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 return list;
             }
 
-            var secondLevelHierarchy = HierarchyQuery.GetOnExpression(x => x.Id == firstLevelHierarchy.ReportsTo)
+            var secondLevelHierarchy = HierarchyQuery.FilterBy(x => x.Id == firstLevelHierarchy.ReportsTo)
                                                      .SingleOrDefault();
 
             if (secondLevelHierarchy == null)

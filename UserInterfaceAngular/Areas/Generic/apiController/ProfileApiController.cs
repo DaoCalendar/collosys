@@ -36,7 +36,7 @@ namespace UserInterfaceAngular.app
                         throw new NullReferenceException("User Not Exist");
                     }
 
-                    var data = StakeQuery.GetOnExpression(x => x.ExternalId == user.UserName).FirstOrDefault();
+                    var data = StakeQuery.FilterBy(x => x.ExternalId == user.UserName).FirstOrDefault();
 
                     return Request.CreateResponse(HttpStatusCode.Created, data);
                 }

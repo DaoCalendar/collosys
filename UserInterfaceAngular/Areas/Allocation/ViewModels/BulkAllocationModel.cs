@@ -344,7 +344,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         private static Stakeholders GetStakeholder(Guid stakeholdersId)
         {
-            return StakeQuery.GetWithId(stakeholdersId);
+            return StakeQuery.Get(stakeholdersId);
         }
 
         #endregion

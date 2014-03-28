@@ -1,104 +1,151 @@
-﻿csapp.controller("adhocPayoutCtrl", ["$scope", "$csnotify", "Restangular", '$Validations', function ($scope,
-    $csnotify, rest, $validation) {
+﻿//csapp.controller("adhocPayoutCtrl1", ["$scope", "$csnotify", "Restangular", '$Validations', function ($scope,
+//    $csnotify, rest, $validation) {
+//    //#region "init"
+//    $scope.init = function () {
+//        $scope.val = $validation;
+//        $scope.productsList = [];
+//        $scope.stakeholderList = [];
+//        $scope.adhocPayout = {};
+//        $scope.adhocPayoutList = [];
+//        $scope.adhocPayoutAllList = [];
+//        $scope.adhocPayout.Tenure = 1;
+//        $scope.transcationtypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
+//        $scope.taxtype = ['PreTax', 'PostTax'];
+//        $scope.Reasonstype = [{ display: 'Performance', transcationtype: 'true' },
+//            { display: 'Customer Complaints', transcationtype: 'false' }];
+//    };
+//    $scope.init();
+//    //#endregion
 
-    var restApi = rest.all("AddhocPayoutsApi");
 
-    //#region "init"
-    $scope.init = function () {
-        $scope.val = $validation;
-        $scope.productsList = [];
-        $scope.stakeholderList = [];
-        $scope.adhocPayout = {};
-        $scope.adhocPayoutList = [];
-        $scope.adhocPayoutAllList = [];
-        $scope.adhocPayout.Tenure = 1;
-        $scope.transcationtypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
-        $scope.taxtype = ['PreTax', 'PostTax'];
-        $scope.Reasonstype = [{ display: 'Performance', transcationtype: 'true' },
+//    $scope.OpenAdhocPayoutManager = function () {
+//        $scope.OpenAdhocPayout = true;
+//    };
+
+    
+//}]);
+
+
+csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory','$modal',
+    function ($scope, datalayer, factory,$modal) {
+        (function () {
+            $scope.dldata = datalayer.dldata;
+            $scope.datalayer = datalayer;
+            $scope.factory = factory;
+            datalayer.getProducts();
+        })();
+
+        $scope.openmodal = function () {
+            $scope.dldata.adhocPayout.Products = $scope.dldata.selectedProduct;
+            if ($scope.dldata.selectedStkholderId) {
+                $scope.dldata.adhocPayout.Stakeholder = _.find($scope.dldata.stakeholderList, { Id: $scope.dldata.selectedStkholderId });
+            }
+            $modal.open({
+                templateUrl: '/Billing/adhoc/add-hoc-payment-details.html',
+                controller: 'adhocPaymentCtrl',
+            });
+        };
+    }]);
+
+csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
+    function (rest, $csnotify) {
+        var dldata = {};
+        var restApi = rest.all("AddhocPayoutsApi");
+
+        dldata.transcationtypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
+        dldata.taxtype = ['PreTax', 'PostTax'];
+        dldata.Reasonstype = [{ display: 'Performance', transcationtype: 'true' },
             { display: 'Customer Complaints', transcationtype: 'false' }];
-    };
-    $scope.init();
-    //#endregion
 
-    //#region "Get Products"
-    restApi.customGET("GetProducts").then(function (data) {
-        $scope.productsList = data;
-    }, function (data) {
-        $csnotify.error(data);
-    });
-    //#endregion
+        var getProducts = function () {
+            restApi.customGET("GetProducts").then(function (data) {
+                dldata.productsList = data;
+            }, function (data) {
+                $csnotify.error(data);
+            });
+        };
 
-    //#region "Get StakeholderName And the existing data for that product"
-    $scope.changeProductCategory = function () {
-        restApi.customGET("GetStakeHolders", { products: $scope.selectedProduct }).then(function (data) {
-            $scope.stakeholderList = data;
-            $scope.adhocPayout.Tenure = 1;
-        }, function (data) {
-            $csnotify.error(data);
-        });
-        restApi.customGET("GetAdhocdata", { products: $scope.selectedProduct }).then(function (data) {
-            $scope.adhocPayoutAllList = data;
-            $scope.adhocPayoutList = data;
-        }, function (data) {
-            $csnotify.error(data);
-        });
-    };
-    //#endregion
+        var changeProductCategory = function () {
+            restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
+                dldata.stakeholderList = data;
+                dldata.adhocPayout.Tenure = 1;
+                console.log(dldata.stakeholderList);
+            }, function (data) {
+                $csnotify.error(data);
+            });
+            restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {
+                dldata.adhocPayoutAllList = data;
+                dldata.adhocPayoutList = data;
+            }, function (data) {
+                $csnotify.error(data);
+            });
+        };
 
-    $scope.resetadhocPayout = function (products) {
-        $scope.adhocPayout = {};
-        $scope.adhocPayout.Products = products;
-    };
+        var saveData = function (adhocPayout) {
+            if (dldata.adhocPayout.IsRecurring === "false") {
+                dldata.adhocPayout.Tenure = 1;
+            }
+            var endDate = moment(dldata.adhocPayout.StartMonth).add('month', (dldata.adhocPayout.Tenure - 1));
+            $csnotify.success(endDate);
+            dldata.adhocPayout.StartMonth = moment(dldata.adhocPayout.StartMonth).format('MMM-YYYY');
+            dldata.adhocPayout.EndMonth = moment(endDate).format('MMM-YYYY');
+            dldata.adhocPayout.RemainingAmount = dldata.adhocPayout.TotalAmount;
 
-    //#region "SaveData"
-    $scope.SaveData = function (adhocPayout) {
-        if ($scope.adhocPayout.IsRecurring === "false") {
-            $scope.adhocPayout.Tenure = 1;
-        }
-        var endDate = moment($scope.adhocPayout.StartMonth).add('month', ($scope.adhocPayout.Tenure - 1));
-        $csnotify.success(endDate);
-        $scope.adhocPayout.StartMonth = moment($scope.adhocPayout.StartMonth).format('MMM-YYYY');
-        $scope.adhocPayout.EndMonth = moment(endDate).format('MMM-YYYY');
-        $scope.adhocPayout.RemainingAmount = $scope.adhocPayout.TotalAmount;
+            restApi.customPOST(adhocPayout, 'Post').then(function (data) {
+                dldata.adhocPayoutList.push(adhocPayout);
+                $csnotify.success('All File Columns Save Successfully');
+                $scope.CloseAdhocPayoutManager();//check here
+            }, function () {
+                $csnotify.error();
+            });
+        };
 
-        restApi.customPOST(adhocPayout, 'Post').then(function (data) {
-            $scope.adhocPayoutList.push(adhocPayout);
-            $csnotify.success('All File Columns Save Successfully');
-            $scope.CloseAdhocPayoutManager();
-        }, function () {
-            $csnotify.error();
-        });
-    };
-    //#endregion
+        return {
+            dldata: dldata,
+            getProducts: getProducts,
+            changeProductCategory: changeProductCategory,
+            saveData: saveData
+        };
+    }]);
 
-    $scope.SelectTransaction = function (st) {
-        $scope.selecttransdata = _.where($scope.Reasonstype, { 'transcationtype': st });
-    };
+csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
+    function ($csfactory, datalayer) {
+        var dldata = datalayer.dldata;
+        dldata.adhocPayout = {};
 
+        var resetadhocPayout = function (products) {
+            dldata.adhocPayout = {};
+            dldata.adhocPayout.Products = products;
+        };
 
-    $scope.OpenAdhocPayoutManager = function () {
-        $scope.adhocPayout.Products = $scope.selectedProduct;
+        var selectTransaction = function (st) {
+            dldata.selecttransdata = _.where(dldata.Reasonstype, { 'transcationtype': st });
+        };
 
-        if ($scope.selectedStkholderId) {
-            $scope.adhocPayout.Stakeholder = _.find($scope.stakeholderList, { Id: $scope.selectedStkholderId });
-        }
+        var showData = function (selectedStkholderId) {
+            dldata.adhocPayoutList = _.filter(dldata.adhocPayoutAllList, function (adhocPayout) {
+                return (adhocPayout.Stakeholder.Id == selectedStkholderId);
+            });
+        };
 
-        $scope.OpenAdhocPayout = true;
-    };
+        return {
+            resetadhocPayout: resetadhocPayout,
+            selectTransaction: selectTransaction,
+            showData: showData
+        };
+    }]);
 
+csapp.controller('adhocPaymentCtrl', ['$scope','adhocPayoutDataLayer','adhocPayoutFactory','$modalInstance',
+    function($scope,datalayer,factory,$modalInstance) {
+        (function () {
+            $scope.dldata = datalayer.dldata;
+            $scope.datalayer = datalayer;
+            $scope.factory = factory;
+        })();
 
-    $scope.CloseAdhocPayoutManager = function () {
-        $scope.OpenAdhocPayout = false;
-        $scope.adhocPayout = {};
-        //$scope.resetadhocPayout($scope.adhocPayout.Products);
-    };
+        $scope.CloseAdhocPayoutManager = function () {
+            $scope.dldata.adhocPayout = {};
+            $modalInstance.dismiss();
+        };
 
-    $scope.ShowData = function (selectedStkholderId) {
-        $scope.adhocPayoutList = _.filter($scope.adhocPayoutAllList, function (adhocPayout) {
-            return (adhocPayout.Stakeholder.Id == selectedStkholderId);
-        });
-    };
-
-
-}]);
-
+    }]);

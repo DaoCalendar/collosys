@@ -114,7 +114,7 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
     var getFileColumns = function (aliasName) {
         if (!aliasName) { return; }
         dldata.fileDetail = {};
-        
+
         apictrl.customGET("GetFileColumns", { aliasName: aliasName }).then(function (data) {
             if (!data) { return; }
             dldata.fileDetail = data;
@@ -166,6 +166,7 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
     };
 
     var saveFileColumn = function (fileColumn, fileDetail) {
+         
         if (!(fileColumn && fileDetail)) { return; }
 
         fileColumn.FileDetail = fileDetail;
@@ -236,6 +237,8 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
         (function () {
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.dldata = datalayer.dldata;
+           
         })();
 
         $scope.close = function () {
@@ -257,6 +260,7 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.datalayer.GetAliases();
+            $scope.dldata = datalayer.dldata;
         })();
 
         $scope.showDeleteModal = function (fileColumn, index) {
@@ -274,14 +278,14 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
 
         $scope.showAddMultiColumnModal = function () {
             $modal.open({
-                templateUrl: 'filecolumn/file-column-multi.html',
+                templateUrl: 'FileUpload/filecolumn/file-column-multi.html',
                 controller: 'fileColumnMultiAddModalController',
             });
         };
 
         $scope.showAddSingleColumnModal = function () {
             $modal.open({
-                templateUrl: 'filecolumn/file-column-add.html',
+                templateUrl: 'FileUpload/filecolumn/file-column-add.html',
                 controller: 'fileColumnAddEditController',
             });
         };

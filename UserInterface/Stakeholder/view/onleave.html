@@ -6,7 +6,7 @@
                 <div class="controls">
                     <input type="text"
                         class="input-medium"
-                        value="{{StakeForLeave.Name}}"
+                        data-ng-model="modalData.StakeForLeave.Name"
                         readonly="readonly" />
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="controls">
                     <input type="text"
                         class="input-medium"
-                        value="{{ReportsToStake.Name}}"
+                        data-ng-model="modalData.ReportsToStake.Name"
                         readonly="readonly" />
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="control-group span5">
                 <label class="control-label">Reason :</label>
                 <div class="controls">
-                    <select class="input-large" data-ui-select2="" data-ng-model="reason" data-ng-change="manageLeave()">
+                    <select class="input-large" data-ui-select2="" data-ng-model="Changed.reason" data-ng-change="manageLeave()">
                         <option value="leave">Leave</option>
                         <option value="exit">Exit</option>
                     </select>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <!--table-->
-        <div class="control-group span12" data-ng-show="StakeForLeave.StkhWorkings.length>0">
+        <div class="control-group span12" data-ng-show="modalData.StakeForLeave.StkhWorkings.length>0">
             <table class="table table-bordered table-hover ">
                 <thead>
                     <tr>
@@ -76,7 +76,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-ng-repeat="data in StakeForLeave.StkhWorkings">
+                    <tr data-ng-repeat="data in modalData.StakeForLeave.StkhWorkings">
                         <td>{{data.Products}}</td>
                         <td>India</td>
                         <td>{{replace(data.Region)}}</td>
@@ -94,7 +94,7 @@
                                 data-ng-model="data.ReplaceBy"
                                 data-ng-disabled="data.EndDate">
                                 <option></option>
-                                <option data-ng-repeat="stake in StakeListLeave"
+                                <option data-ng-repeat="stake in modalData.StakeListLeave"
                                     value="{{stake.Id}}">{{stake.Name}}/{{stake.Hierarchy.Designation}}</option>
                             </select>
                         </td>
@@ -107,7 +107,7 @@
             <div class="controls">
                 <button class="btn btn-success"
                     data-ng-disabled="formLeave.$invalid"
-                    data-ng-click="changeWorking(StakeForLeave)">
+                    data-ng-click="changeWorking(modalData.StakeForLeave)">
                     Change Working</button>
             </div>
         </div>

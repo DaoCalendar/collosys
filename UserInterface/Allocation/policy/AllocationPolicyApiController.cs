@@ -10,15 +10,10 @@ using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.UserInterface.Shared;
-using ColloSys.UserInterface.Shared.Attributes;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
 #endregion
 
@@ -41,7 +36,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         #region Get
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -49,7 +44,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         }
 
         [HttpGet]
-        [HttpTransaction]
+        
         public HttpResponseMessage GetAllocPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
 
@@ -92,7 +87,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             // murge BillingRelation into added BillingPolicy
             foreach (var billingRelation in obj.AllocRelations)
             {
-                billingRelation.AllocSubpolicy = AllocSubpolicyBuilder.GetWithId(billingRelation.AllocSubpolicy.Id);
+                billingRelation.AllocSubpolicy = AllocSubpolicyBuilder.Get(billingRelation.AllocSubpolicy.Id);
                 billingRelation.AllocPolicy = obj;
             }
 
@@ -138,7 +133,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 AllocRelationBuilder.Save(billingRelation);
             }
 
-            obj.AllocRelations.RemoveAll(deletedRelation);
+            obj.AllocRelations.Clear();
             AllocPolicyBuilder.Save(obj);
             return obj;
         }
@@ -147,7 +142,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         {
             var reportsToId = string.Empty;
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
@@ -160,7 +155,6 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
 
         #region Delete
         [HttpDelete]
-        [HttpTransaction(Persist = true)]
         public virtual HttpResponseMessage RejectSubpolicy(Guid id)
         {
             try
@@ -180,5 +174,22 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             }
         }
         #endregion
+
+        [HttpGet]
+        public HttpResponseMessage ApproveRelation(Guid relationId)
+        {
+            var relation = AllocRelationBuilder.Get(relationId);
+            relation.Status = ColloSysEnums.ApproveStatus.Approved;
+            if (relation.OrigEntityId != Guid.Empty)
+            {
+                var origRelation = AllocRelationBuilder.Get(relation.OrigEntityId);
+                AllocRelationBuilder.Delete(origRelation);
+            }
+            relation.OrigEntityId = Guid.Empty;
+            AllocRelationBuilder.Save(relation);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
+
+       
     }
 }

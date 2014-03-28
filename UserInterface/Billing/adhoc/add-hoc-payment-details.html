@@ -1,0 +1,110 @@
+﻿<!--ModalPopUp for payment Details -->
+<div>
+    <div class="form-horizontal well">
+        <div class="panel-heading">Payout Details</div>
+        <div class="row-fluid">
+            <div class="control-group span5">
+                <label class="control-label">Total Amount</label>
+                <div class="controls">
+                    <input type="text" data-ng-model="dldata.adhocPayout.TotalAmount" name="totalamount" 
+                           data-ng-pattern="/^[0-9]+$/" required />
+                    <!--Total Amount Validation-->
+                    <div data-ng-show="adhocPayoutform.totalamount.$dirty && adhocPayoutform.totalamount.$invalid">
+                        <div class="field-validation-error" data-ng-show="adhocPayoutform.totalamount.$error.required">{{val.Required()}}</div>
+                        <div class="field-validation-error" data-ng-show="adhocPayoutform.totalamount.$error.pattern">{{val.OnlyNumbers()}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="control-group span5">
+                <label class="control-label">Transcation Type</label>
+                <div class="controls">
+                    <select class="input-large" data-ng-model="dldata.adhocPayout.IsCredit" name="TranscationType" ui-select2
+                            data-ng-change="factory.selectTransaction(dldata.adhocPayout.IsCredit)" required>
+                        <option value=""></option>
+                        <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <!--Tax-->
+            <!--<div class="control-group span5">
+                    <label class="control-label">Tax</label>
+                    <div class="controls">
+                        <select class="input-large" data-ng-model="dldata.adhocPayout.IsPretax" 
+                                ui-select2 required>
+                            <option value=""></option>
+                            <option data-ng-repeat="t in dldata.taxtype">{{t}}</option>
+                        </select>
+                    </div>
+                </div>-->
+            <div class="control-group span5">
+                <label class="control-label">Reasons</label>
+                <div class="controls">
+                    <select class="input-large" 
+                            data-ng-model="dldata.adhocPayout.ReasonCode" ui-select2 required>
+                        <option value=""></option>
+                        <option data-ng-repeat="reason in dldata.selecttransdata">{{reason.display}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="control-group">
+                <label class="control-label">Description</label>
+                <div class="controls">
+                    <textarea class="resize" type="text" data-ng-model="dldata.adhocPayout.Description" style="width: 690px" required></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal well">
+        <div class="panel-heading">Policy</div>
+        <div class="row-fluid">
+            <div class="control-group span6">
+                <div class="controls">
+                    <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="false"><label>One Time</label>
+                    <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="true"><label>Recurring</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal" data-ng-show="dldata.adhocPayout.IsRecurring=='true'">
+            <div class="row-fluid">
+                <div class="control-group span5">
+                    <label class="control-label">Start Month</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input class="input-medium" type="text" name="StartMonth" data-ng-model="dldata.adhocPayout.StartMonth" required
+                                   data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="yyyy-MM-dd"
+                                   data-bs-datepicker="" />
+                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        </div>
+                        <!--StartDate validation-->
+                        <div data-ng-show="adhocPayoutform.StartMonth.$dirty">
+                            <div class="field-validation-error" data-ng-show="adhocPayoutform.StartMonth.$error.required">{{val.Required()}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group span5">
+                    <label class="control-label">Tenure</label>
+                    <div class="controls">
+                        <input type="number" min="1" max="12" data-ng-model="dldata.adhocPayout.Tenure" name="Tenure" data-ng-pattern="/^[0-9]+$/" required />
+                        <!--Total Amount Validation-->
+                        <div data-ng-show="adhocPayoutform.Tenure.$dirty && adhocPayoutform.Tenure.$invalid">
+                            <div class="field-validation-error" data-ng-show="adhocPayoutform.Tenure.$error.required">{{val.Required()}}</div>
+                            <div class="field-validation-error" data-ng-show="adhocPayoutform.Tenure.$error.pattern">{{val.OnlyNumbers()}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="control-group text-right">
+        <div class="controls">
+            <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid)" data-ng-click="datalayer.saveData(adhocPayout);">Approve</button>
+            <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
+            <button class="btn btn-info" data-ng-click="factory.resetadhocPayout(dldata.adhocPayout.Products)">Reset</button>
+        </div>
+    </div>
+</div>

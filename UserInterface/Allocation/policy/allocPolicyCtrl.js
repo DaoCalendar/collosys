@@ -24,11 +24,24 @@
     };
 }]);
 
-csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer',
-    function ($scope, modeldata, $modalInstance, datalayer) {
+csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory",
+    function ($scope, modeldata, $modalInstance, datalayer, factory) {
         $scope.modalData = modeldata;
+
+        $scope.modelDateValidation = function (startDate, endDate) {
+            if (angular.isUndefined(endDate) || endDate == null) {
+                $scope.isModalDateValid = true;
+                return;
+            }
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            $scope.isModalDateValid = (endDate > startDate);
+
+        };
+
+
         $scope.activateSubPoicy = function (modalData) {
-            var maxPriorityPolicy = _.max($scope.allocPolicy.AllocRelations, 'Priority');
+            var maxPriorityPolicy = _.max(datalayer.dldata.allocPolicy.AllocRelations, 'Priority');
             modalData.AllocRelations.Priority = maxPriorityPolicy.Priority + 1;
             modalData.AllocRelations.StartDate = modalData.startDate;
             modalData.AllocRelations.EndDate = modalData.endDate;
@@ -38,7 +51,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
                 datalayer.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
             datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy).then(function () {
-                $modalInstance.close();
+                $scope.closeModel();
+
             });
         };
 
@@ -47,9 +61,22 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
             modalData.AllocRelations.EndDate = modalData.endDate;
             datalayer.dldata.allocPolicy.AllocRelations.push(JSON.parse(JSON.stringify(modalData.AllocRelations)));
             datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy).then(function () {
-                $modalInstance.close();
+                $scope.closeModel();
             });
         };
+
+
+        $scope.closeModel = function () {
+            $modalInstance.close();
+            $scope.modalData = {
+                AllocRelations: {},
+                startDate: null,
+                endDate: null,
+                subPolicyIndex: -1,
+                forActivate: true
+            };
+        };
+
     }]);
 
 csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal',
@@ -60,6 +87,14 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.datalayer.reset();
+            $scope.modalData = {
+                AllocRelation: {},
+                StartDate: null,
+                endDate: null,
+                subPolicyIndex: -1,
+                forActivate: true
+            };
             $scope.datalayer.getProducts();
         })();
 
@@ -68,7 +103,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 templateUrl: '/Allocation/policy/policy-modal.html',
                 controller: 'datemodelctrl',
                 resolve: {
-                    modalData: function () {
+                    modelData: function () {
                         return modalData;
                     }
                 }
@@ -115,15 +150,6 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             openModal($scope.modalData);
         };
 
-        $scope.closeModel = function () {
-            $scope.modalData = {
-                AllocRelations: {},
-                startDate: null,
-                endDate: null,
-                subPolicyIndex: -1,
-                forActivate: true
-            };
-        };
 
     }]);
 
@@ -168,7 +194,14 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 $csnotify.error(data);
             });
         };
-
+        var approveRelation = function (relation) {
+            var origId = relation.OrigEntityId;
+            var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
+            api.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
+                dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
+                $csnotify.success('Subpolicy Approved');
+            });
+        };
         var saveAllocPolicy = function (allocPolicy) {
 
             var deletedData = '';
@@ -200,9 +233,9 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var reset = function () {
-            $scope.allocPolicy = {};
-            $scope.allocPolicy.Category = "Liner";
-            $scope.subPolicyList = {};
+            dldata.allocPolicy = {};
+            dldata.allocPolicy.Category = "Liner";
+            dldata.subPolicyList = {};
         };
 
         return {
@@ -211,7 +244,8 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             changeProductCategory: changeProductCategory,
             RejectSubPolicy: rejectSubPolicy,
             saveAllocPolicy: saveAllocPolicy,
-            reset: reset
+            reset: reset,
+            approveRelation: approveRelation
         };
     }]);
 
@@ -230,7 +264,7 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
             datalayer.dldata.color = { color: 'blue' };
         }
         return status;
-       };
+    };
 
     var getDisplaySubPolicy = function (subPolicy) {
         var displaySubPolicy = {};
@@ -282,15 +316,6 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         return ((today <= endDate) === todayActive);
     };
 
-    var modelDateValidation = function (startDate, endDate) {
-        if (angular.isUndefined(endDate) || endDate == null) {
-            return true;
-        }
-        startDate = moment(startDate);
-        endDate = moment(endDate);
-        return (endDate > startDate);
-    };
-
     var upside = function (subPolicy, index) {
         var test = _.filter($scope.allocPolicy.AllocRelations, function (relation) { return relationValidToday(relation, true); });
         var relations = _.sortBy(test, 'Priority');
@@ -318,7 +343,6 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         filterRelation: filterRelation,
         expiredPolicyStatus: expiredPolicyStatus,
         relationValidToday: relationValidToday,
-        modelDateValidation: modelDateValidation,
         upside: upside,
         downside: downside
     };

@@ -28,7 +28,7 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual ISet<CLiner> CLiners { get; set; }
         public virtual ISet<CWriteoff> CWriteoffs { get; set; }
-        public virtual ISet<Info> Infos { get; set; }
+        public virtual ISet<CustomerInfo> Infos { get; set; }
         public virtual ISet<RLiner> RLiners { get; set; }
         public virtual ISet<RWriteoff> RWriteoffs { get; set; }
         public virtual ISet<ELiner> ELiners { get; set; }

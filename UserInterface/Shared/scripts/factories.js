@@ -1,4 +1,4 @@
-﻿csapp.factory("$csfactory", ["$csConstants", "$rootScope", function (consts, $rootScope) {
+﻿csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", function (consts, auth) {
 
     var downloadFile = function (filename) {
         var ifr = document.createElement('iframe');
@@ -9,10 +9,6 @@
             document.body.removeChild(ifr);
             ifr = null;
         };
-    };
-
-    var hideSpinner = function () {
-        $rootScope.loadingElement.disableSpiner = true;
     };
 
     var isNullOrEmptyString = function (val) {
@@ -74,14 +70,18 @@
         return consts.GUID_EMPTY;
     };
 
+    var getCurrentUserName = function() {
+        return auth.getUsername();
+    };
+
     return {
         isNullOrEmptyArray: isNullOrEmptyArray,
         isNullOrEmptyString: isNullOrEmptyString,
         isNullOrEmptyGuid: isNullOrEmptyGuid,
         getDefaultGuid: getDefaultGuid,
         isEmptyObject: isEmptyObject,
-        hideSpinner: hideSpinner,
-        downloadFile: downloadFile
+        downloadFile: downloadFile,
+        getCurrentUserName: getCurrentUserName
     };
 }]);
 

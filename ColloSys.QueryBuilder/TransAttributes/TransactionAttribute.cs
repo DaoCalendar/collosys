@@ -31,10 +31,20 @@ namespace ColloSys.QueryBuilder.TransAttributes
                 if (Persist)
                 {
                     transaction.Commit();
+                    Session.Clear();
                 }
                 else
                 {
-                    transaction.Rollback();
+                    try
+                    {
+                        transaction.Rollback();
+                        Session.Clear();
+                    }
+                    catch (Exception e)
+                    {
+                        Session.Clear();
+                    }
+                    
                 }
             }
         }

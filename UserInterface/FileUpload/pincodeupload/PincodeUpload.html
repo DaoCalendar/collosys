@@ -1,0 +1,69 @@
+﻿
+<div data-ng-form="uploadpincodes" data-ng-controller="PincodeUpload" class="form-horizontal">
+    <form action="OtherUploads/PincodeUpload/UploadPincodes" data-ng-upload="DuringUpload()">
+
+        <!-- product dropdown & upload/download buttons -->
+        <div class="row-fluid" data-ng-show="ProductList">
+            <div class="control-group">
+                <div class="control-label">Product</div>
+                <div class="controls">
+                    <select data-ui-select2="" class="input-large" data-ng-model="selectedProduct" name="selectedProduct">
+                        <option value=""></option>
+                        <option data-ng-repeat="p in ProductList | orderBy:'toString()'" value="{{p}}">{{p}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- download button -->
+        <div class="row-fluid panel panel-info span8" data-ng-show="selectedProduct">
+            <div class="panel-heading">Download Missing Pincodes</div>  
+            <div class="text-center">
+                    <input type="button" class="btn btn-info" value="Download" data-ng-click="DownloadPincodes(selectedProduct)" />
+            </div>
+        </div>
+
+        <!-- upload button -->
+        <div class="row-fluid panel panel-info span8" data-ng-show="selectedProduct">
+            <div class="panel-heading">Update Customer Pincodes</div>
+            <div class="control-group">
+                <div class="controls">
+                    <!-- file upload control -->
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="input-append">
+                            <div class="uneditable-input span3">
+                                <i class="icon-file fileupload-exists"></i>
+                                <span class="fileupload-preview"></span>
+                            </div>
+                            <span class="btn btn-file">
+                                <span class="fileupload-new">Select file</span>
+                                <span class="fileupload-exists">Change</span>
+                                <input type="file" name="PincodeFile" />
+                            </span>
+                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                        </div>
+                    </div>
+                    <!-- file upload control : end -->
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-info upload-submit">Upload</button>
+            </div>
+        </div>
+
+        <!-- modal popup for progress bar -->
+        <div modal="showProgressBar" options="{keyboard: false, backdropClick: false}">
+            <div class="modal-header text-center">
+                <h3>{{showProgressBarMessage}}</h3>
+            </div>
+            <div class="modal-body">
+                <progress percent="100" class="progress-striped progress-success active"></progress>
+            </div>
+            <div class="modal-footer">
+                <span>Time Spent : {{stopwatch.data.stringValue}}</span>
+            </div>
+        </div>
+
+    </form>
+</div>
+

@@ -91,7 +91,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             // murge BillingRelation into added BillingPolicy
             foreach (var billingRelation in obj.AllocRelations)
             {
-                billingRelation.AllocSubpolicy = AllocSubpolicyBuilder.GetWithId(billingRelation.AllocSubpolicy.Id);
+                billingRelation.AllocSubpolicy = AllocSubpolicyBuilder.Get(billingRelation.AllocSubpolicy.Id);
                 billingRelation.AllocPolicy = obj;
             }
 
@@ -137,7 +137,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 AllocRelationBuilder.Save(billingRelation);
             }
 
-            obj.AllocRelations.RemoveAll(deletedRelation);
+            obj.AllocRelations.Clear();
             AllocPolicyBuilder.Save(obj);
             return obj;
         }
@@ -146,7 +146,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         {
             var reportsToId = string.Empty;
             var currUserId = HttpContext.Current.User.Identity.Name;
-            var currUser = StakeQuery.GetOnExpression(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
@@ -177,6 +177,21 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
             {
                 return Request.CreateResponse(HttpStatusCode.ExpectationFailed, e);
             }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage ApproveRelation(Guid relationId)
+        {
+            var relation = AllocRelationBuilder.Get(relationId);
+            relation.Status = ColloSysEnums.ApproveStatus.Approved;
+            if (relation.OrigEntityId != Guid.Empty)
+            {
+                var origRelation = AllocRelationBuilder.Get(relation.OrigEntityId);
+                AllocRelationBuilder.Delete(origRelation);
+            }
+            relation.OrigEntityId = Guid.Empty;
+            AllocRelationBuilder.Save(relation);
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
         #endregion
     }
