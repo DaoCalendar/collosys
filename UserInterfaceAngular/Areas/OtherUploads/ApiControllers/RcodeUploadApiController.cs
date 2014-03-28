@@ -48,7 +48,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
             IList result;
             try
             {
-                var memberhelper = new MemberHelper<Info>();
+                var memberhelper = new MemberHelper<CustomerInfo>();
                 var rcodename = memberhelper.GetName(x => x.CustStatus);
                 var accnoname = memberhelper.GetName(x => x.AccountNo);
                 var custname = memberhelper.GetName(x => x.CustomerName);
