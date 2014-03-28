@@ -1,8 +1,26 @@
-﻿<div style="margin: 0; padding: 0" class="control-group" data-ng-show="gridOptions.$gridScope.columns">
-    <div class="controls">
+﻿<style>
+    .buttonbackground {
+        margin: 0;
+        padding: 0;
+        background-color: #eaeaea;
+        border-bottom: 1px solid lightgray;
+    }
+
+    .nomarginpadding {
+        margin: 0;
+        padding: 0;
+    }
+
+    .nomargin {
+        margin: 0;
+    }
+</style>
+
+<div class="control-group buttonbackground" data-ng-show="gridOptions.$gridScope.columns">
+    <div class="controls nomarginpadding">
         <!-- view report -->
         <!--span data-ng-show="gridOptions.primaryKey" style="font-size: 11px">Primary Key : {{gridOptions.primaryKey}}</!--span-->
-        <select class="input-medium" data-ng-model="gridOptions.Reporting.SelectedReportIndex"
+        <select class="input-medium nomarginpadding" data-ng-model="gridOptions.Reporting.SelectedReportIndex"
                 data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'"
                 data-ng-change="$grid.RepotingHelper.GetReportData(gridOptions)">
             <option value="">Select Report</option>
@@ -10,16 +28,16 @@
         </select>
         <span data-ng-show="gridOptions.Reporting.isEditMode === true" style="font-size: 14px">Current Report : {{gridOptions.Reporting.Params.ReportName}}</span>
         <!-- download -->
-        <button class="btn" data-ng-disabled="gridOptions.TotalRowCount == 0"
+        <button class="btn nomargin" data-ng-disabled="gridOptions.TotalRowCount == 0"
                 data-ng-click="$grid.Download(gridOptions)">
             Download
         </button>
         <!-- email now -->
-        <button class="btn" data-ng-disabled="gridOptions.TotalRowCount == 0"
+        <button class="btn nomargin" data-ng-disabled="gridOptions.TotalRowCount == 0"
                 data-ng-click="$grid.EmailNow(gridOptions)">
             E-Mail
         </button>
         <!-- settings -->
-        <button class="btn" data-ng-click="$grid.Helper.showSettings(gridOptions)">Options</button>
+        <button class="btn nomargin" data-ng-click="$grid.Helper.showSettings(gridOptions)">Options</button>
     </div>
 </div>
