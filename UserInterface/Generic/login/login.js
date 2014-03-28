@@ -79,8 +79,8 @@ csapp.controller("logoutController", [
     }
 ]);
 
-csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory", "loginDataLayer",
-    function ($scope, $modalInstance, $csAuthFactory, datalayer) {
+csapp.controller("loginController", ["$scope", "$csAuthFactory", "loginDataLayer", //$modalInstance
+    function ($scope, $csAuthFactory, datalayer) {
         $scope.login = {
             error: false,
             showForgot: false
@@ -92,7 +92,7 @@ csapp.controller("loginController", ["$scope", "$modalInstance", "$csAuthFactory
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {
                     $csAuthFactory.loginUser($scope.login.username);
-                    $modalInstance.close($scope.login.username);
+                    //$modalInstance.close($scope.login.username);
                 } else {
                     $scope.login.error = true;
                     $scope.loginErrorMessage = "Invalid username or password.";

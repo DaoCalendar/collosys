@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using NHibernate.Collection;
+using NHibernate.Proxy;
+using NHibernate.Proxy.DynamicProxy;
 using Newtonsoft.Json;
 
 #endregion
@@ -13,12 +16,12 @@ namespace ColloSys.DataLayer.JsonSerialization
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            
+
             if (value is AbstractPersistentCollection &&
-                ((AbstractPersistentCollection) value).WasInitialized)
+                ((AbstractPersistentCollection)value).WasInitialized)
             {
                 writer.WriteStartArray();
-                foreach (var item in ((IEnumerable) value))
+                foreach (var item in ((IEnumerable)value))
                 {
                     serializer.Serialize(writer, item);
                 }
@@ -36,7 +39,12 @@ namespace ColloSys.DataLayer.JsonSerialization
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(AbstractPersistentCollection).IsAssignableFrom(objectType);
+            if (typeof(AbstractPersistentCollection).IsAssignableFrom(objectType))
+                return true;
+
+            return objectType.Name.EndsWith("Proxy") &&
+                   (objectType.GetInterfaces().Any(iface => iface == typeof(INHibernateProxy) || iface == typeof(IProxy)));
+
         }
     }
 }

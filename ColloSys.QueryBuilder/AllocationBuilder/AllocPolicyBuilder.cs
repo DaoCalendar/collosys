@@ -52,22 +52,12 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
         [Transaction]
         public AllocPolicy NonApproved(ScbEnums.Products products, ScbEnums.Category category)
         {
-            AllocPolicy policy = null;
-            AllocRelation relation = null;
-            AllocSubpolicy subpolicy = null;
-            AllocCondition condition = null;
-            Stakeholders stakeholder = null;
-
-            return SessionManager.GetCurrentSession().QueryOver(() => policy)
+            return SessionManager.GetCurrentSession().QueryOver<AllocPolicy>()
                                  .Fetch(x => x.AllocRelations).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-                                 .JoinAlias(() => policy.AllocRelations, () => relation, JoinType.LeftOuterJoin)
-                                 .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
-                                 .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
-                                 .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-                                 .Where(() => policy.Products == products && policy.Category == category)
+                                 .Where(x => x.Products == products && x.Category == category)
                                  .SingleOrDefault();
         }
     }
