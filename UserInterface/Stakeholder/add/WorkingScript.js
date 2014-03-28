@@ -166,7 +166,7 @@
        
 
         $scope.getPaymentDetails = function (product) {
-            debugger;
+            
             if ($scope.WorkingData.Hierarchy.HasWorking && $scope.WorkingData.Hierarchy.HasPayment) {
                 restApi.customGET('GetLinerWriteOff', { 'product': product }).then(function (data) {
                     $scope.$parent.WizardData.BillingPolicy.LinerPolicies = data.LinerList;
@@ -361,7 +361,7 @@
                     break;
                 case "Region":
                     //if (selected == true) {
-                    //    debugger;
+                    //    
                     //    var repeatRegion = _.filter($scope.regionArray, function (item) {
                     //        if (item === data)
                     //            return data;
@@ -453,7 +453,7 @@
                     }
                     break;
                 case 'City':
-                    debugger;
+                    
                     var pincodeCity = _.find(pincodeData.GPincodes, function (item) {
                         if (item.District === $scope.workingModel.SelectedPincodeData.City)
                             return item;
@@ -842,7 +842,7 @@
         };
 
         $scope.selectAll = function (selected) {
-            debugger;
+            
             switch ($scope.WorkingData.LocationLevel) {
                 case "Region":
                     if ($scope.regionArray.length === $scope.uniqueReg.length)
@@ -893,7 +893,7 @@
                     }
                     break;
                 case "City":
-                    debugger;
+                    
                     if ($scope.cityArray.length === $scope.workingModel.ListOfDistricts.length)
                         $scope.cityArray = [];
                     else {
@@ -912,7 +912,7 @@
                     if ($scope.areaArray.length === $scope.workingModel.ListOfAreas.length)
                         $scope.areaArray = [];
                     else {
-                        debugger;
+                        
                         for (var l = 0; l < $scope.workingModel.ListOfAreas.length; l++) {
                             var dupArea = _.find($scope.areaArray, function (item) {
                                 if (item.toUpperCase() === $scope.workingModel.ListOfAreas[l].toUpperCase())
@@ -940,7 +940,7 @@
             if (!angular.isDefined(reportdToId) || reportdToId == "") {
                 return [];
             }
-            debugger;
+            
             if ($scope.enableLocation() > 3) {
                 pincodeMngr.GetCluster(reportdToId).then(function (data) {
                     $scope.WorkingData.clusterList = data;
@@ -1210,7 +1210,7 @@
         };
 
         $scope.manageDisplay = function (locLevel) {
-            debugger;
+            
             resetDisplayManager();
             setDisplayManager(locLevel);
             $scope.workingModel.QueryFor = setQueryForInitial($scope.displayManager);
@@ -1249,7 +1249,7 @@
                     loadWorkingModel($scope.workingModel);
                     return loadWorkingModel($scope.workingModel);
                 case 'AREA':
-                    debugger;
+                    
                     $scope.workingModel.QueryFor = 'Area';
                     loadWorkingModel($scope.workingModel);
                     return loadWorkingModel($scope.workingModel);
@@ -1343,7 +1343,7 @@
                 //locLevel = 'District';
             }
             if ($scope.displayManager.showArea === true && !$scope.changed.Area) {
-                debugger;
+                
                 if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.District)) return;
                 $scope.workingModel = $scope.setWorkingModel('Area');
                 //locLevel = 'Area';
@@ -1354,7 +1354,7 @@
 
         var loadWorkingModel = function (workingModle) {
             restApi.customPOST(workingModle, 'GetPincodeData').then(function (data) {
-                debugger;
+                
                 $scope.workingModel = data;
             });
         };
@@ -1378,7 +1378,7 @@
     };
 
     var getRegionData = function (state, clusterList) {
-        debugger;
+        
         var region = _.find(clusterList, function (item) {
             if (item.State.toUpperCase() === state.toUpperCase())
                 return item;
@@ -1389,7 +1389,7 @@
     };
 
     var getCity = function (cluster, clusterList) {
-        debugger;
+        
         var array = [];
         var city = _.filter(clusterList, function (item) {
             if (item.Cluster.toUpperCase() === cluster) {
@@ -1485,7 +1485,7 @@
     };
 
     var checkDuplicate = function (stakeWork, stakeinfo, loclevel, list) {
-        debugger;
+        
         if (list.length > 0) {
             if (stakeinfo.length > 0) {
                 switch (loclevel) {
@@ -1767,7 +1767,7 @@ csapp.controller("deleteWorkingController", ["$scope", "$csfactory", "modalData"
 
 //if EditMode
 //if ($scope.$parent.isEditMode) {
-//    debugger;
+//    
 //    $scope.Stakeinfo = $scope.$parent.Stakeholder.StkhWorkings;
 //    //$scope.Hierarchy = $scope.$parent.Stakeholder.Hierarchy;
 //    var len = $scope.Stakeinfo.length;

@@ -29,7 +29,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             getDataForPagination();
         };
         $scope.stepForward = function () {
-            debugger;
+            
             $scope.pagenum += 1;
             $scope.startCount = parseInt($scope.size) * ($scope.pagenum - 1);
             if ($scope.startCount < parseInt($scope.tolRec)) {
@@ -194,7 +194,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeData = function (stakeholder) {
-            debugger;
+            
             $scope.chosenStakeholders = [];
             $scope.moreDetails = false;
             $log.info(stakeholder);
@@ -283,7 +283,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getReportsToStakeholders = function (stakeId) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyString(stakeId)) {
                 // $scope.stakeholder.filter = 'stake';
                 restApi.customGET('GetReportees', { 'Id': stakeId, start: $scope.startCount, size: $scope.size })
@@ -323,7 +323,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeForProduct = function (product, filter) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyString(product)) {
                 //$scope.stakeholder.filter = filter;
                 restApi.customGET('GetStakeByProduct', { 'product': product, start: $scope.startCount, size: $scope.size })
@@ -380,7 +380,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getHierarchyDisplayName2 = function (hierarchy) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
                 if (hierarchy.IsIndividual === false) {
                     return hierarchy.Designation;

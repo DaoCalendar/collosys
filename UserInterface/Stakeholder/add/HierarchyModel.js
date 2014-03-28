@@ -73,7 +73,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         };
 
         $scope.assignSelectedHier = function () {
-            //debugger;
+            //
             if (angular.isUndefined($scope.$parent.WizardData)) {
                 return;
             }
@@ -106,7 +106,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         };
 
         var setBasicInfoModel = function (hierarchy) {
-            debugger;
+            
             $scope.$parent.stakeholderModel.Email.suffix = "";
             if (hierarchy.Hierarchy != 'External') {
                 $scope.$parent.stakeholderModel.Email.suffix = "@sc.com";//set email model
