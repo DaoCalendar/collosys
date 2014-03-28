@@ -24,7 +24,7 @@ namespace AngularUI.appCode
 
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 
-            //NHibernate.Glimpse.Plugin.RegisterSessionFactory(SessionManager.GetSessionFactory());
+            NHibernate.Glimpse.Plugin.RegisterSessionFactory(SessionManager.GetSessionFactory());
         }
 
         public static void ApplyDatabaseChanges()
