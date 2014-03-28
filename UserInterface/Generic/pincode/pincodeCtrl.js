@@ -81,7 +81,6 @@
             return [];
         }
         return pincodeApi.customGET('GetPincodesArea', { area: pincode, city: level }).then(function (data) {
-            console.log(data);
             return data;
         });
     };

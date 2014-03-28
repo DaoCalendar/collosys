@@ -41,7 +41,6 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
-            console.log($scope.dldata);
         })();
 
         $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },

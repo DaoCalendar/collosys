@@ -113,7 +113,6 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
         $scope.updateDependsOnAlias = function (details) {
             if (angular.isUndefined(details)) details = {};
             details.dependsOnAliasList = factory.getDependsOnAlias(details, datalayer.dldata.fileDetailsList);
-            console.log(details.dependsOnAliasList);
         };
 
         (function () {

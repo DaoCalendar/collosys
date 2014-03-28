@@ -1643,7 +1643,6 @@ csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", 
 
 
     (function () {
-        console.log(modalData);
         $scope.modalData = modalData;
     })();
 
@@ -1674,7 +1673,6 @@ csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", 
     };
 
     $scope.chooseMultiple = function (data, selected, locLevel) {
-        console.log('in choose multiple...');
         switch (locLevel) {
             case "Cluster":
             case 'District':
@@ -1717,7 +1715,6 @@ csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", 
                     modalData.areaArray.splice(modalData.areaArray.indexOf(data), 1);
                 }
         }
-        console.log(modalData.clusterArray);
     };
 
     $scope.ticks = function (data) {
