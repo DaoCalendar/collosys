@@ -10,42 +10,76 @@
             <img style="width: 90%" src="/Content/images/stanc/SCBLoginImage.gif" />
         </div>
             <div class="span4" style="background: lightgoldenrodyellow">
-                <h3 class="somemargin">Please Log In</h3>
-                <form>
-                    <div class="control-group somemargin">
-                        <div class="control-label">
-                            Username
+                <div data-ng-show="hasForgotPassword != true">
+                    <h3 class="somemargin">Please Log In</h3>
+                    <form>
+                        <div class="control-group somemargin">
+                            <div class="control-label">
+                                Username
+                            </div>
+                            <div class="controls">
+                                <input type="text" autofocus="autofocus" data-ng-model="login.username">
+                            </div>
                         </div>
-                        <div class="controls">
-                            <input type="text" autofocus="autofocus" data-ng-model="login.username">
+                        <div class="control-group somemargin">
+                            <div class="control-label">
+                                Password
+                            </div>
+                            <div class="controls">
+                                <input type="password" data-ng-model="login.password">
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group somemargin">
-                        <div class="control-label">
-                            Password
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
+                            </div>
                         </div>
-                        <div class="controls">
-                            <input type="password" data-ng-model="login.password">
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <a style="color: blue" data-ng-click="toggleForgotPassword()">Forgot Password</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group somemargin">
-                        <div class="controls">
-                            <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
+                                    Log In
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group somemargin">
-                        <div class="controls">
-                            <a style="color: blue">Forgot Password</a>
+                    </form>
+                </div>
+                <div data-ng-show="hasForgotPassword == true">
+                    <h3 class="somemargin">Reset Password</h3>
+                    <data-ng-form name="forgotForm">
+                        <div class="control-group somemargin">
+                            <div class="control-label">
+                                Username
+                            </div>
+                            <div class="controls">
+                                <input name="username" type="text" autofocus="autofocus" data-ng-model="forgot.username"
+                                       ng-required="true" ng-maxlength="7" ng-minlength="7" data-ng-pattern="/^[0-9]{7}/"
+                                       ng-change="validateUser(forgot)">
+                            </div>
                         </div>
-                    </div>
-                    <div class="control-group somemargin">
-                        <div class="controls">
-                            <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
-                                Log In
-                            </button>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <span data-ng-show="forgot.username == null" class="alert alert-error">Username must be of 7 digits!!!</span>
+                                <span data-ng-show="forgot.username != null && forgot.isUserValid != true" class="alert alert-error">
+                                    Username does not exist!!!
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="control-group somemargin">
+                            <div class="controls">
+                                <button class="btn btn-success" data-ng-click="toggleForgotPassword()">Cancel</button>
+                                <button class="btn btn-warning" data-ng-disabled="{{forgot.isUserValid != true}}"
+                                        data-ng-click="resetPassword(forgot)">
+                                    Reset Password
+                                </button>
+                            </div>
+                        </div>
+                    </data-ng-form>
+                </div>
             </div>
         </div>
     </div>

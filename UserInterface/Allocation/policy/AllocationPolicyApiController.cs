@@ -133,8 +133,10 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
                 AllocRelationBuilder.Save(billingRelation);
             }
 
-            obj.AllocRelations.Clear();
             AllocPolicyBuilder.Save(obj);
+            //var query = AllocPolicyBuilder.ApplyRelations();
+            //query.Where(x => x.Id == obj.Id);
+            //var data = AllocPolicyBuilder.Execute(query).FirstOrDefault();
             return obj;
         }
 

@@ -41,7 +41,6 @@
             setHierarchy(data, dldata.HierarchyList);
             var index = _.indexOf(_.pluck(dldata.HierarchyList, 'Id'), data.Id);
             if (index !== -1) dldata.HierarchyList[index] = data;
-            console.log('saving data...');
             //return data;
         }, function () {
             $csnotify.error('error in saving hierarchy');

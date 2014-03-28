@@ -233,7 +233,6 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
         $scope.downloadOutput = function (filescheduler) {
             datalayer.GenerateExcel(filescheduler)
                 .then(function (data) {
-                    console.log(data);
                     $csfactory.downloadFile(data);
                 });
         };

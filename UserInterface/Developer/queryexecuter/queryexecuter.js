@@ -14,7 +14,8 @@ csapp.factory("queryExecuterDataLayer", [
     }
 ]);
 
-csapp.factory("queryExecuterFactory", ["queryExecuterDataLayer", "$csfactory", "lodash", function (datalayer, $csfactory, lodash) {
+csapp.factory("queryExecuterFactory", ["queryExecuterDataLayer", "$csfactory",
+    function (datalayer, $csfactory) {
 
     var addQueryToList = function (query, list) {
         if ($csfactory.isNullOrEmptyString(query))

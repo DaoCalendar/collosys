@@ -18,7 +18,6 @@ namespace AngularUI.Generic.login
         private readonly IRepository<Users> _usersRepo = new GUsersRepository();
 
         [HttpPost]
-        
         public HttpResponseMessage AutheticateUser(LoginModel loginInfo)
         {
             var users = _usersRepo.FilterBy(x => x.Username == loginInfo.username);
@@ -31,11 +30,41 @@ namespace AngularUI.Generic.login
 
             return Request.CreateResponse(HttpStatusCode.OK, autheticated);
         }
+
+        [HttpPost]
+        HttpResponseMessage CheckUser(ForgotPasswordModel forgotInfo)
+        {
+            var users = _usersRepo.FilterBy(x => x.Username == forgotInfo.username);
+            return Request.CreateResponse(HttpStatusCode.OK, users.Count == 0);
+        }
+
+        [HttpPost]
+        HttpResponseMessage ResetPassword(ForgotPasswordModel forgotInfo)
+        {
+            var currentUser = _usersRepo.FilterBy(x => x.Username == forgotInfo.username).FirstOrDefault();
+            if (currentUser == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.PreconditionFailed, forgotInfo);
+            }
+            forgotInfo.email = currentUser.Email;
+            forgotInfo.password = System.Web.Security.Membership.GeneratePassword(8, 0);
+            currentUser.Password = PasswordUtility.EncryptText(forgotInfo.password);
+            _usersRepo.Save(currentUser);
+            return Request.CreateResponse(HttpStatusCode.OK, forgotInfo);
+        }
     }
 
     public class LoginModel
     {
         public string username { get; set; }
         public string password { get; set; }
+    }
+
+    public class ForgotPasswordModel
+    {
+        public string username { get; set; }
+        public string email { get; set; }
+        public string password { get; set; }
+        public bool isUserValid { get; set; }
     }
 }

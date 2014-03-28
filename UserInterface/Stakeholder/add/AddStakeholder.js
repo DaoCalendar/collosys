@@ -65,7 +65,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return true;
         },
         ShowSaveButton: function () {
-            // debugger;
+            // 
             if ($csfactory.isNullOrEmptyArray($scope.HierarchySteps)) return false;
             var index = _.indexOf($scope.HierarchySteps, $scope.currentStep);
             if (index === -1) return false;
@@ -662,7 +662,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.getReportsTo = function (hierarchy) {
-        debugger;
+        
         if (angular.isUndefined(hierarchy)) {
             return;
         }
@@ -721,7 +721,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
 
 //set staekholder for edit mode
 //var setStakeholderForEdit = function (stakeholder) {
-//    // debugger;
+//    // 
 //    $scope.Stakeholder = stakeholder;
 //    $scope.addStakeholderpanel1 = false;
 //    $scope.WizardData.LocationLevel = stakeholder.LocationLevel;

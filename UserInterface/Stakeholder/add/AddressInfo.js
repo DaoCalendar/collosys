@@ -31,7 +31,6 @@ csapp.controller('addressCntrl', ['$scope', '$http', 'Restangular', '$csfactory'
                 return [];
             }
             return apistake.customGET('GetPincodes', { pincode: pincode, level: level }).then(function (data) {
-                console.log(data);
                 return $scope.PincodeList = data;
             });
         };

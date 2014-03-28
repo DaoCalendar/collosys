@@ -20,7 +20,9 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
     {
         public override QueryOver<AllocPolicy, AllocPolicy> ApplyRelations()
         {
-            return QueryOver.Of<AllocPolicy>();
+            return QueryOver.Of<AllocPolicy>()
+                            .Fetch(x => x.AllocRelations).Eager
+                            .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager;
         }
 
         [Transaction]
