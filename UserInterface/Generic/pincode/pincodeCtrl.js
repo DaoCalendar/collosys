@@ -81,7 +81,6 @@
             return [];
         }
         return pincodeApi.customGET('GetPincodesArea', { area: pincode, city: level }).then(function (data) {
-            console.log(data);
             return data;
         });
     };
@@ -116,7 +115,7 @@
             return;
         }
         pincodeApi.customGETLIST("GetPincodes", { state: stateName }).then(function (data) {
-            $csnotify.success("Data loaded successfully");
+            $csnotify.success("Pincodes loaded successfully");
             dldata.GPincodes = data;
             dldata.stateClusters = _.uniq(_.pluck(dldata.GPincodes, 'Cluster'));
         }, showErrorMessage);
