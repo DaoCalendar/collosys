@@ -157,7 +157,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
                 //stakeholderList
                 restApi.customGET('GetStakeholders', { products: allocSubpolicy.Products }).then(function (data) {
-
+                   
                     dldata.stakeholderList = data;
                 }, function (data) {
                     $csnotify.error(data);
