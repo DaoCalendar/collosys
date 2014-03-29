@@ -23,7 +23,6 @@ namespace AngularUI.FileUpload.filescheduler
     public class FileSchedulerApiController : BaseApiController<FileScheduler>
     {
         [HttpGet]
-        
         public HttpResponseMessage GetFileDetails()
         {
             var data = Session.QueryOver<FileDetail>().List();
@@ -31,7 +30,6 @@ namespace AngularUI.FileUpload.filescheduler
         }
 
         [HttpGet]
-        
         public HttpResponseMessage GetFileStatus(ScbEnums.ScbSystems isystem, ScbEnums.Category icategory, DateTime idate)
         {
             var viewModel = new FileUploadViewModel
@@ -58,14 +56,12 @@ namespace AngularUI.FileUpload.filescheduler
 
             var pageData = FileUploadHelper.GetFormData<ScheduledFiles>(result);
             pageData.UploadPath = fileInfo.FullName;
-            //pageData.FileName = DateTime.Now.ToString("yyyyMMdd_HHmmss_") + fileInfo.Name;
             pageData.FileSize = (ulong)fileInfo.Length;
 
             return Request.CreateResponse(HttpStatusCode.OK, pageData);
         }
 
         [HttpPost]
-        
         public HttpResponseMessage Upload(FileUploadViewModel scheduledFiles)
         {
             var filenameslist = new List<string>();

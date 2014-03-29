@@ -1,5 +1,4 @@
-﻿
-csapp.factory("loginDataLayer", [
+﻿csapp.factory("loginDataLayer", [
     "Restangular", function (rest) {
         var restApi = rest.all("AutheticationApi");
 
@@ -101,6 +100,7 @@ csapp.controller("loginController",
         $csAuthFactory.logoutUser();
 
         $scope.loginUser = function () {
+            $('input').checkAndTriggerAutoFillEvent();
             $scope.login.error = false;
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {

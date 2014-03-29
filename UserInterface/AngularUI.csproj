@@ -120,6 +120,8 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
+    <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
@@ -170,7 +172,6 @@
     <Compile Include="FileUpload\filemapping\FileMappingApiController.cs" />
     <Compile Include="FileUpload\filemapping\FileMappingViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\FileSchedulerApiController.cs" />
-    <Compile Include="FileUpload\filescheduler\FileSchedulerController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadHelper.cs" />
     <Compile Include="FileUpload\filestatus\FileStatusApiController.cs" />
     <Compile Include="FileUpload\filestatus\FileStatusHelper.cs" />
@@ -312,6 +313,7 @@
     <Content Include="Generic\profile\profile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />
     <Content Include="Developer\queryexecuter\queryexecuter.js" />
+    <Content Include="Scripts\angular.ui\autofill-event.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />
