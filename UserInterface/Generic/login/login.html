@@ -4,12 +4,12 @@
     }
 </style>
 <div style="margin: 100px">
-    <div  class="main-box ">
+    <div class="main-box ">
         <div class="row" style="padding: 50px;">
             <div class="span4">
                 <img style="width: 90%" src="/Content/images/stanc/SCBLoginImage.gif" />
             </div>
-            <div class="span4" >
+            <div class="span4">
                 <section class="loginform cf" data-ng-show="hasForgotPassword != true">
                     <h3 class="somemarginH">Please Login</h3>
                     <form>
@@ -50,7 +50,7 @@
                 </section>
                 <section class="loginform cf" data-ng-show="hasForgotPassword == true">
                     <h3 class="somemarginH">Reset Password</h3>
-                    <data-ng-form name="forgotForm">
+                    <div data-ng-form="" name="forgotForm">
                         <div class="control-group somemargin">
                             <div class="control-label">
                                 Username
@@ -67,58 +67,23 @@
                                 <span data-ng-show="forgot.username != null && forgot.isUserValid != true" class="alert alert-error">
                                     Username does not exist!!!
                                 </span>
+                                <span data-ng-show="forgot.passwordResetError" class="alert alert-error">
+                                    Sorry, could not reset password.
+                                </span>
                             </div>
                         </div>
                         <div class="control-group somemargin">
                             <div class="controls">
                                 <button class="btn btn-success" data-ng-click="toggleForgotPassword()">Cancel</button>
-                                <button class="btn btn-warning" data-ng-disabled="{{forgot.isUserValid != true}}"
+                                <button class="btn btn-warning" data-ng-disabled="!forgot.isUserValid"
                                         data-ng-click="resetPassword(forgot)">
                                     Reset Password
                                 </button>
                             </div>
                         </div>
-                    </data-ng-form>
+                    </div>
                 </section>
             </div>
         </div>
     </div>
 </div>
-<!--<section class="loginform cf">
-    <form>
-        <div class="control-group somemargin">
-            <div class="control-label">
-                Username
-            </div>
-            <div class="controls">
-                <input type="text" autofocus="autofocus" data-ng-model="login.username">
-            </div>
-        </div>
-        <div class="control-group somemargin">
-            <div class="control-label">
-                Password
-            </div>
-            <div class="controls">
-                <input type="password" data-ng-model="login.password">
-            </div>
-        </div>
-        <div class="control-group somemargin">
-            <div class="controls">
-                <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
-            </div>
-        </div>
-        <div class="control-group somemargin">
-            <div class="controls">
-
-            </div>
-        </div>
-        <div class="control-group somemargin">
-            <div class="controls">
-                <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
-                    Log In
-                </button>
-                <a class="forgotPassword text-center">Forgot Password</a>
-            </div>
-        </div>
-    </form>
-</section>-->

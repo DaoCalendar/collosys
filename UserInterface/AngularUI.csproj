@@ -122,6 +122,8 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
+    <Compile Include="Generic\login\ForgotPasswordModel.cs" />
+    <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -725,9 +727,7 @@
     </Content>
     <Content Include="Scripts\_references.js" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Authentication\Login\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>
@@ -755,6 +755,10 @@
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
       <Name>ColloSys.Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EMailServices\EMailServices.csproj">
+      <Project>{9A18FA10-5358-4202-AE4E-54515B23E363}</Project>
+      <Name>EMailServices</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

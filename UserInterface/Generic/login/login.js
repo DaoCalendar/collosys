@@ -89,8 +89,9 @@ csapp.controller("logoutController", [
     }
 ]);
 
-csapp.controller("loginController", ["$scope", "$csAuthFactory", "loginDataLayer", "$location", //$modalInstance
-    function ($scope, $csAuthFactory, datalayer, $location) {
+csapp.controller("loginController",
+    ["$scope", "$csAuthFactory", "loginDataLayer", "$location", "$csfactory", "$csnotify", //$modalInstance
+    function ($scope, $csAuthFactory, datalayer, $location, $csfactory, $csnotify) {
         $scope.login = {
             error: false
         };
@@ -116,11 +117,14 @@ csapp.controller("loginController", ["$scope", "$csAuthFactory", "loginDataLayer
             });
         };
 
-        $scope.toggleForgotPassword = function() {
+        $scope.toggleForgotPassword = function () {
             $scope.hasForgotPassword = !$scope.hasForgotPassword;
         };
 
         $scope.validateUser = function () {
+            if ($csfactory.isNullOrEmptyString($scope.forgot.username)) {
+                return;
+            }
             $scope.forgot.isUserValid = false;
             datalayer.doesUserExist($scope.forgot).then(function (data) {
                 if (data === "true") {
@@ -131,9 +135,14 @@ csapp.controller("loginController", ["$scope", "$csAuthFactory", "loginDataLayer
 
         $scope.resetPassword = function () {
             $scope.forgot.email = null;
+            $scope.forgot.passwordResetError = false;
             datalayer.resetPassword($scope.forgot).then(function (data) {
-                    $scope.forgot.email = data.email;
-                    $scope.forgot.password = data.password;
+                $scope.forgot.email = data.email;
+                $scope.forgot.password = data.password;
+                $csnotify.success("Emailed new password.");
+                $location.path("/logout");
+            }, function () {
+                $scope.forgot.passwordResetError = true;
             });
         };
     }]);

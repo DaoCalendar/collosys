@@ -1,7 +1,7 @@
 ﻿#region references
 
 using System;
-using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -243,6 +243,40 @@ namespace ColloSys.Shared.ConfigSectionReader
         #endregion
 
         #region Smtp Setting
+        private void InitSmtpFromConfig()
+        {
+            SmtpSection smtpSection;
+            var param = AppParams.SingleOrDefault(x => x.Name == "Smtp");
+            if (param == null || string.IsNullOrWhiteSpace(param.Value))
+            {
+                smtpSection = (SmtpSection)Configuration.GetSection("mailSettings/smtp_release");
+            }
+            else
+            {
+                smtpSection = (SmtpSection)Configuration
+                                                 .GetSection(string.Format("mailSettings/{0}", param.Value));
+            }
+
+            _smtpClient = new SmtpClient
+            {
+                Port = 25,
+                Host = smtpSection.Network.Host,
+                EnableSsl = false,
+                Timeout = 5 * 60 * 1000,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
+        }
+
+        [Conditional("DEBUG")]
+        private void InitGmailSmtp()
+        {
+            _smtpClient = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("algosys.server@gmail.com", "p@55w0rld"),
+                EnableSsl = true
+            };
+        }
 
         private SmtpClient _smtpClient;
         public SmtpClient SmtpClient
@@ -250,49 +284,21 @@ namespace ColloSys.Shared.ConfigSectionReader
             get
             {
                 if (_smtpClient != null)
+                {
+                    return _smtpClient;
+                }
+
+                //debug mode
+                InitGmailSmtp();
+                if (_smtpClient != null) 
                     return _smtpClient;
 
-                SmtpSection smtpSection;
-                var param = AppParams.SingleOrDefault(x => x.Name == "Smtp");
-                if (param == null || string.IsNullOrWhiteSpace(param.Value))
-                {
-                    smtpSection = (SmtpSection)Configuration.GetSection("mailSettings/smtp_release");
-                }
-                else
-                {
-                    smtpSection = (SmtpSection)Configuration
-                                                     .GetSection(string.Format("mailSettings/{0}", param.Value));
-                }
-
-                _smtpClient = new SmtpClient
-                {
-                    Port = 25,
-                    Host = smtpSection.Network.Host,
-                    EnableSsl = false,
-                    Timeout = 5 * 60 * 1000,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false
-                };
-
-
-                //_smtpClient = new SmtpClient
-                //    {
-                //        Port = smtpSection.Network.Port,
-                //        Host = smtpSection.Network.Host,
-                //        EnableSsl = smtpSection.Network.EnableSsl,
-                //        Timeout = 10 * 60 * 1000,
-                //        DeliveryMethod = smtpSection.DeliveryMethod,
-                //        UseDefaultCredentials = smtpSection.Network.DefaultCredentials,
-                //        Credentials = new NetworkCredential(smtpSection.Network.UserName, smtpSection.Network.Password)
-                //    };
-
+                //release mode
+                InitSmtpFromConfig();
                 return _smtpClient;
             }
         }
-
-
         #endregion
-
 
         #region SMTP Send Mail max person
 
