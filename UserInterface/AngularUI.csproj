@@ -122,6 +122,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
+    <Compile Include="FileUpload\uploadpincode\PincodeUploadApiController.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
@@ -294,6 +295,7 @@
     <Content Include="FileUpload\filestatus\filestatus.js" />
     <Content Include="FileUpload\paymentreversal\payment-add.html" />
     <Content Include="FileUpload\paymentreversal\paymentmanager.js" />
+    <Content Include="FileUpload\uploadpincode\uploadpincode.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
     <Content Include="Generic\home\home.js" />
@@ -402,6 +404,7 @@
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
     <EmbeddedResource Include="ExcelData\ExampleData.xls" />
     <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
+    <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

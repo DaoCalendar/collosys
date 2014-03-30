@@ -97,6 +97,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/paymentchanges', {
                 templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
+            }).when('/fileupload/uploadpincode', {
+                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                controller: 'uploadPincodeController'
+            }).when('/fileupload/uploadrcode', {
+                templateUrl: '/FileUpload/uploadpincode/upload-rcode.html',
+                controller: 'uploadRcodeController'
             })
 
             //stakeholder
@@ -195,14 +201,14 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
     this.$get = [function routeConfigurationFactory() { return new RouteConfiguration(); }];
 });
 
-csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
-function (restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
-    $httpProvider.interceptors.push('MyHttpInterceptor');
-
-    routeConfig.configureRoutes($routeProvider);
-    $logProvider.debugEnabled(true);
-    restangularProvider.setBaseUrl("/api/");
-}
+csapp.config([
+    "RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
+    function(restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
+        $httpProvider.interceptors.push('MyHttpInterceptor');
+        routeConfig.configureRoutes($routeProvider);
+        $logProvider.debugEnabled(true);
+        restangularProvider.setBaseUrl("/api/");
+    }
 ]);
 
 csapp.run(function ($rootScope, $location) {

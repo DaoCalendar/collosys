@@ -13,7 +13,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.ExcelWriter;
-using ColloSys.Shared.SharedUtils;
 using ColloSys.Shared.Types4Product;
 using ColloSys.UserInterface.Shared.Attributes;
 using NHibernate.Criterion;
@@ -23,7 +22,7 @@ using NLog;
 
 namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
 {
-    public class PincodeUploadApiController : ApiController
+    public class RcodeUploadApiController : ApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -39,55 +38,57 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
 
         [HttpGet]
         [HttpTransaction]
-        public HttpResponseMessage FetchCustomerMissingPincodes(ScbEnums.Products product)
+        public HttpResponseMessage FetchCustomerMissingRcodes(ScbEnums.Products product)
         {
             var session = SessionManager.GetCurrentSession();
             var infotype = ClassType.GetInfoType(product);
-            Logger.Info(string.Format("FileDownload : MissingPincode : get missing pincodes for : {0}, from table : {1}"
+            Logger.Info(string.Format("FileDownload : MissingRcode : get missing rcodes for : {0}, from table : {1}"
                                       , product, infotype.Name));
 
             IList result;
             try
             {
-                var memberhelper = new MemberHelper<Info>();
-                var pincodename = memberhelper.GetName(x => x.Pincode);
+                var memberhelper = new MemberHelper<CustomerInfo>();
+                var rcodename = memberhelper.GetName(x => x.CustStatus);
                 var accnoname = memberhelper.GetName(x => x.AccountNo);
                 var custname = memberhelper.GetName(x => x.CustomerName);
                 var productname = memberhelper.GetName(x => x.Product);
 
                 var criteria = session.CreateCriteria(infotype, infotype.Name);
-                criteria.Add(Restrictions.Or(Restrictions.IsNull(string.Format("{0}.{1}", infotype.Name, pincodename)),
-                                             Restrictions.Eq(string.Format("{0}.{1}", infotype.Name, pincodename), (uint)0)));
+                criteria.Add(Restrictions.Or(Restrictions.IsNull(string.Format("{0}.{1}", infotype.Name, rcodename)),
+                                             Restrictions.Eq(string.Format("{0}.{1}", infotype.Name, rcodename), string.Empty)));
                 criteria.Add(Restrictions.Eq(string.Format("{0}.{1}", infotype.Name, productname), product));
                 criteria.SetProjection(Projections.ProjectionList()
-                                                  .Add(Projections.Property(custname))
                                                   .Add(Projections.Property(accnoname))
-                                                  .Add(Projections.Property(pincodename))
+                                                  .Add(Projections.Property(custname))
+                                                  .Add(Projections.Property(rcodename))
                     );
                 result = criteria.List();
-                Logger.Info(string.Format("FileDownload : MissingPincode : count : {0}", result.Count));
+                Logger.Info(string.Format("FileDownload : MissingRcode : count : {0}", result.Count));
             }
             catch (Exception exception)
             {
-                Logger.ErrorException("FileDownload : MissingPincode : could not fetch data. ", exception);
+                Logger.ErrorException("FFileDownload : MissingRcode : could not fetch data. ", exception);
                 throw new ExternalException("Could not generate excel. " + exception.Message);
             }
 
-            var fileInfo = new FileInfo(string.Format(@"{2}\{0}_MissingPincodes_{1}.xlsx"
+            var fileInfo = new FileInfo(string.Format(@"{2}\{0}_MissingRcodes_{1}.xlsx"
                                                       , product
                                                       , DateTime.Now.ToString("yyyyMMdd_HHmmssfff")
                                                       , Path.GetTempPath()));
 
             try
             {
-                IList<PincodeInfo> infolist = result.OfType<object[]>()
-                                                    .Select(e => new PincodeInfo
-                                                        {
-                                                            AccountNo = e[1].ToString(),
-                                                            CustomerName = e[0].ToString(),
-                                                            Pincode = string.Empty
-                                                        })
-                                                    .ToList();
+                IList<RcodeInfo> infolist = (from object entity in result
+                                             select entity as object[]
+                                                 into e
+                                                 select new RcodeInfo
+                                                     {
+                                                         AccountNo = e[0].ToString(),
+                                                         CustomerName = e[1].ToString(),
+                                                         Rcode = string.Empty
+                                                     })
+                    .ToList();
                 ExcelWriter.ListToExcel(infolist, fileInfo);
             }
             catch (Exception exception)
@@ -100,12 +101,12 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
         }
     }
 
-    public class PincodeInfo
+    public class RcodeInfo
     {
         // ReSharper disable UnusedAutoPropertyAccessor.Global
         public string AccountNo { get; set; }
         public string CustomerName { get; set; }
-        public string Pincode { get; set; }
+        public string Rcode { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
     }
 }
