@@ -27,7 +27,7 @@ csapp.controller("payoutSubpolicyCtrl1", ["$scope", "$csnotify", "$csfactory", "
     $scope.isDuplicateName = false;
     $scope.policyapproved = false;
 
-   
+
 
 }]);
 
@@ -70,7 +70,16 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
 
                 dldata.payoutSubpolicy.BOutputs = _.filter(data, { ConditionType: 'Output' });
 
-                if (dldata.payoutSubpolicy.BOutputs.length > 0) {
+                _.forEach(dldata.payoutSubpolicy.BOutputs, function (outputval) {
+                    if (outputval.Operator == 'None') {
+                        outputval.Operator = "";
+                    }
+                    if (outputval.Lsqlfunction == 'None') {
+                        outputval.Lsqlfunction = "";
+                    }
+                    return;
+                });
+                if (dldata.payoutSubpolicy.BOutputs.length < 0) {
                     dldata.payoutSubpolicy.BOutputs[0].Lsqlfunction = '';
                     dldata.payoutSubpolicy.BOutputs[0].Operator = '';
                 }
@@ -87,6 +96,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var changeProductCategory = function () {
+
 
             if (angular.isUndefined(dldata.payoutSubpolicy))
                 return;
@@ -209,7 +219,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         var activateSubPoicy = function (modelData) {
             dldata.curRelation.StartDate = modelData.startDate;
             dldata.curRelation.EndDate = modelData.endDate;
-           return  restApi.customPOST(dldata.curRelation, "ActivateSubpolicy").then(function (data) {
+            return restApi.customPOST(dldata.curRelation, "ActivateSubpolicy").then(function (data) {
                 data.BillingPolicy = null;
                 data.BillingSubpolicy = null;
                 dldata.curRelation = data;
@@ -442,18 +452,18 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
 csapp.controller('subpolicydatemodel', [
     '$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', 'modalData', '$modalInstance',
-    function($scope, datalayer, factory, modaldata, $modalInstance) {
+    function ($scope, datalayer, factory, modaldata, $modalInstance) {
         $scope.datalayer = datalayer;
         $scope.dldata = datalayer.dldata;
         $scope.factory = factory;
 
         $scope.modalData = modaldata;
 
-        $scope.closeModel = function() {
+        $scope.closeModel = function () {
             $modalInstance.dismiss();
         };
 
-        $scope.activateSubPolicy = function(modalData) {
+        $scope.activateSubPolicy = function (modalData) {
             $scope.datalayer.activateSubPoicy(modalData).then(function () {
                 $modalInstance.close();
             });

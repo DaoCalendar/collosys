@@ -122,7 +122,7 @@
                 <tbody>
                     <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
                         <td></td>
-                        <td colspan="2">{{ output.Operator + output.Lsqlfunction + '( ' + output.RtypeName+ output.Rvalue + ' )'}}</td>
+                        <td colspan="2">{{ output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue + ' )'}}</td>
                         <td>
                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
                         </td>
