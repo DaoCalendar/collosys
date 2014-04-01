@@ -49,7 +49,7 @@
             <div class="controls">
                 <input
                     data-ng-model="addData.Pincode"
-                    typeahead="'c.Area for c in $parent.$parent.Pincodes($viewValue, 'Area')'"
+                    typeahead="'c.Area for c in Pincodes($viewValue, 'Area')'"
                     data-ng-change="setPincodeOnArea(addData.Pincode)" />
             </div>
         </div>

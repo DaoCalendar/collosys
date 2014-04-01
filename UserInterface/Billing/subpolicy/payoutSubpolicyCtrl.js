@@ -1,36 +1,4 @@
 ﻿
-csapp.controller("payoutSubpolicyCtrl1", ["$scope", "$csnotify", "$csfactory", "Restangular", "$Validations", function ($scope, $csnotify, $csfactory, rest, $validation) {
-    "use strict";
-    $scope.val = $validation;
-    $scope.payoutSubpolicyList = [];
-    $scope.productsList = [];
-    $scope.columnNames = [];
-    $scope.formulaNames = [];
-    $scope.matrixNames = [];
-    $scope.AllBConditions = [];
-    $scope.payoutSubpolicy = {};
-    $scope.payoutSubpolicy.BConditions = [];
-    $scope.payoutSubpolicy.BOutputs = [];
-    $scope.columnDefs = [];
-    $scope.condLcolumnNames = [];
-    $scope.condRcolumnNames = [];
-    $scope.outColumnNames = [];
-    $scope.deleteConditions = [];
-    $scope.newCondition = {};
-    $scope.newOutput = {};
-    $scope.payoutSubpolicy.Category = "Liner";
-    $scope.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
-    $scope.newCondition.Rtype = "Value";
-    $scope.outputWithFunction = false;
-    $scope.openDateModel = false;
-    $scope.modalData = {};
-    $scope.isDuplicateName = false;
-    $scope.policyapproved = false;
-
-
-
-}]);
-
 csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
     function (rest, $csnotify, $csfactory) {
         var restApi = rest.all("PayoutSubpolicyApi");
@@ -45,7 +13,6 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
         dldata.typeSwitch = [{ Name: 'Table', Value: 'Table' }, { Name: 'Formula', Value: 'Formula' }, { Name: 'Matrix', Value: 'Matrix' }, { Name: 'Value', Value: 'Value' }];
 
-
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
                 dldata.productsList = data;
@@ -55,7 +22,6 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var selectPayoutSubpolicy = function (spayoutSubpolicy) {
-            var subpolicy = angular.copy(spayoutSubpolicy);
             dldata.payoutSubpolicy = spayoutSubpolicy;
             if (!angular.isUndefined(spayoutSubpolicy.GroupBy)) {
                 if (!$csfactory.isNullOrEmptyString(spayoutSubpolicy.GroupBy))
@@ -65,9 +31,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
             restApi.customGET("GetBConditions", { parentId: spayoutSubpolicy.Id }).then(function (data) {
 
                 dldata.AllBConditions = data;
-
                 dldata.payoutSubpolicy.BConditions = _.filter(data, { ConditionType: 'Condition' });
-
                 dldata.payoutSubpolicy.BOutputs = _.filter(data, { ConditionType: 'Output' });
 
                 _.forEach(dldata.payoutSubpolicy.BOutputs, function (outputval) {
@@ -85,10 +49,13 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 }
 
                 changeProductCategory();
+                getRelation(angular.copy(spayoutSubpolicy));
             }, function (data) {
                 $csnotify.error(data);
             });
+        };
 
+        var getRelation = function (subpolicy) {
             restApi.customPOST(subpolicy, "GetRelations").then(function (relation) {
                 dldata.curRelation = relation;
                 setIsPolicyApproved(dldata.curRelation);
@@ -314,6 +281,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
 
         var deleteOutput = function (output, index) {
+            dldata.deleteConditions = [];
             if (dldata.payoutSubpolicy.BOutputs.length == 1) {
                 dldata.newOutput.Operator = '';
             }
@@ -323,7 +291,9 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
 
             dldata.payoutSubpolicy.BOutputs.splice(index, 1);
-            dldata.payoutSubpolicy.BOutputs[0].Operator = "";
+            if (angular.isDefined(dldata.payoutSubpolicy.BOutputs[0])) {
+                dldata.payoutSubpolicy.BOutputs[0].Operator = "";
+            }
 
             for (var i = index; i < dldata.payoutSubpolicy.BOutputs.length; i++) {
                 dldata.payoutSubpolicy.BOutputs[i].Priority = i;

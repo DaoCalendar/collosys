@@ -37,6 +37,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                 $scope.$parent.WizardData.FinalPostModel.SelHierarchy.Designation = null;
                 $scope.$parent.WizardData.showBasicInfo = false;
                 // $scope.$parent.resetStakeholder();
+                $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
                 $scope.$parent.resetWizardData();
             }
             $scope.Designation = [];
@@ -101,6 +102,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             //set reports to list for stakeholder
             $scope.$parent.getReportsTo(hierarchy);
             $scope.$parent.WizardData.showBasicInfo = true;
+            $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
             //setBasicInfoModel(hierarchy);
         };

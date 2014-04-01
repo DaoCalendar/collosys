@@ -9,7 +9,7 @@
                     Products
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
-                    <select data-ui-select2=""  data-ng-model="StakeWork.Products"
+                    <select data-ui-select2="" data-ng-model="StakeWork.Products"
                         data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
                         <option value=""></option>
                         <option data-ng-repeat="c in WorkingData.ProductList">{{c}}</option>
@@ -143,7 +143,7 @@
                                 class="input-large"
                                 data-ng-model="workingModel.SelectedPincodeData.State"
                                 data-ng-change="setQueryFor('State')">
-                                <!--<option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>-->
+                                <option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>
                                 <option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
                                 </option>
                             </select></td>
@@ -152,7 +152,7 @@
                                 data-ng-model="workingModel.SelectedPincodeData.Cluster"
                                 data-ng-change="changed.State=true;changed.Cluster=true;changed.District=false;
                             setQueryFor()">
-                               <!-- <option value="">{{workingModel.SelectedPincodeData.Cluster || ''}}</option>-->
+                                <option value="{{workingModel.SelectedPincodeData.Cluster || ''}}">{{workingModel.SelectedPincodeData.Cluster || ''}}</option>
                                 <option data-ng-repeat="data in workingModel.ListOfClusters" value="{{data}}">{{data}}
                                 </option>
                             </select></td>
@@ -162,7 +162,7 @@
                                 class="input-large"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('District')">
-                               <!-- <option value="">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
+                                <option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>
                                 <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
                                 </option>
                             </select>
@@ -188,7 +188,7 @@
                                 data-ng-disabled="cityArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('City')">
-                                <!--<option value="">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
+                                <option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>
                                 <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
                                 </option>
                             </select>
@@ -213,7 +213,7 @@
                                 data-ng-disabled="areaArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.Area"
                                 data-ng-change="setQueryFor('Area')">
-                               <!-- <option value="">{{workingModel.SelectedPincodeData.Area || ''}}</option>-->
+                                <option value="{{workingModel.SelectedPincodeData.Area || ''}}">{{workingModel.SelectedPincodeData.Area || ''}}</option>
                                 <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
                                 </option>
                             </select>
@@ -295,7 +295,7 @@
                 </tbody>
             </table>
         </div>
-       
+
     </div>
 </div>
 

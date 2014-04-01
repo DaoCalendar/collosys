@@ -330,7 +330,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return $scope.WizardData.FinalPostModel.IsEditMode;
         },
         ResetPayWorkModel: function () {
-            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
+            //$scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
             $scope.WizardData.FinalPostModel.PayWorkModel.WorkList = [];
         },
         ResetPayWorkModelList: function () {
@@ -352,7 +352,10 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     $scope.addAnotherWorking = function () {
 
         if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
-            var dummuWorking = { Country: "INDIA", Products: "ALL" };
+            var dummuWorking = {
+                Country: "INDIA", Products: "ALL", Region: "ALL", State: "ALL", Cluster: "ALL", District: "ALL", City: "ALL",
+                Area: "ALL", LocationLevel: "Country"
+            };
             $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummuWorking);
             $scope.WizardData.FinalPostModel.PayWorkModel.Payment.Products = 'ALL';
         }
@@ -360,6 +363,11 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.WizardData.AddPayWorkModel($scope.WizardData.FinalPostModel.PayWorkModel);
         $scope.WizardData.ResetPayWorkModel();
     };
+
+    $scope.setPayWorkIndex = function (index) {
+        $scope.showIndex = $scope.showIndex === index ? false : index;
+    };
+
     $scope.deletePaymentWorking = function (index, data) {
         if ($scope.WizardData.IsEditMode() === true) {
             if ($scope.WizardData.FinalPostModel.Stakeholder.Status !== 'Approved') {
@@ -437,7 +445,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
-
+        $scope.oneAtATime = true;
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
@@ -669,7 +677,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.getReportsTo = function (hierarchy) {
-        
+
         if (angular.isUndefined(hierarchy)) {
             return;
         }

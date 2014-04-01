@@ -1314,7 +1314,7 @@
             if ($csfactory.isNullOrEmptyString(changedParam)) return;
             setChangedParam(changedParam);
             //var locLevel = 'Country';
-
+            if ($csfactory.isEmptyObject($scope.workingModel)) return;
             if ($scope.displayManager.showRegion === true && !$scope.changed.Region) {
                 $scope.workingModel.QueryFor = 'Region';
                 $scope.workingModel = $scope.setWorkingModel('Region');
