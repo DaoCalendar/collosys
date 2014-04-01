@@ -141,13 +141,17 @@ namespace AngularUI.Billing.subpolicy
 
         #region "Post Method"
         [HttpPost]
-        
         public BillingRelation GetRelations(BillingSubpolicy subpolicy)
         {
             var relation = BillingRelationBuilder.OnSubpolicyId(subpolicy.Id);
             if (relation == null)
             {
                 var policy = BillingPolicyBuilder.OnProductCategory(subpolicy.Products, subpolicy.Category);
+                policy.BillDetails = null;
+                policy.BillingRelations = null;
+                policy.CollectionStkhPayments = null;
+                policy.RecoveryStkhPayments = null;
+                policy.StkhPayments = null;
                 relation = new BillingRelation
                 {
                     BillingPolicy = policy,
