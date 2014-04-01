@@ -35,10 +35,9 @@ namespace ColloSys.FileUploadService
                         DbType = ConfiguredDbTypes.MsSql,
                         IsWeb = false
                     });
-                SessionManager.BindNewSession();
 
                 Logger.Info(string.Format("FileUpload: NhProf profiling is enabled"));
-                //HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+                HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             }
             catch (Exception ex)
             {

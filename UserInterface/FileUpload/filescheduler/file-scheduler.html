@@ -102,15 +102,15 @@
                 <label class="control-label">Select Schedule</label>
                 <div class="controls">
                     <div style="float: left; margin-right: 10px" class="well">
-                        <input type="radio" id="Immdediate" value="true" data-ng-model="IsImmediate" name="IsImmediate">
+                        <input type="radio" id="Immdediate" value="true" data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" name="IsImmediate">
                         <label for="Immdediate">Immediate</label>
                         <br />
-                        <input type="radio" id="Nightly" value="false" data-ng-model="IsImmediate" name="IsImmediate" checked="checked">
+                        <input type="radio" id="Nightly" value="false" data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" name="datalayer.dldata.fileScheduleDetails.IsImmediate" checked="checked">
                         <label for="Nightly">Nightly</label>
                         <br />
                     </div>
-                    <div data-ng-show="IsImmediate == 'true'">
-                        <textarea data-ng-model="immedateReason" placeholder="Enter Reason (min 5 characters)"
+                    <div data-ng-show="datalayer.dldata.fileScheduleDetails.IsImmediate == 'true'">
+                        <textarea data-ng-model="datalayer.dldata.fileScheduleDetails.immedateReason" placeholder="Enter Reason (min 5 characters)"
                                   name="immedateReason"></textarea>
                     </div>
                 </div>

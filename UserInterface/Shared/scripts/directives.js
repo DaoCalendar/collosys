@@ -1,4 +1,146 @@
 ﻿
+
+csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
+    function (rest, logManager, $csfactory, $upload) {
+        //var $log = logManager.getInstance("csFileUploadDirective");
+        var getFileInputTemplate = function () {
+            return '<div ng-form="" name="myform">' +
+                        '<div data-ng-show="fileInfo.isUploading">' +
+                            '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
+                                'type="success"></progressbar>' +
+                            '<div class="text-error">Copying file to server!!!</div>' +
+                        '</div>' +
+                        '<div data-ng-hide="fileInfo.isUploading">' +
+                            '<input name="myfield" ng-model="ngModel" type="file" ' +
+                                'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
+                        '</div>' +
+                        '<div data-ng-show="valerror.$invalid">' +
+                            '<div class="text-error" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
+                            '<div class="text-error" data-ng-show="valerror.$error.extension">Please select {{validations.extension}} file.</div>' +
+                            '<div class="text-error" data-ng-show="valerror.$error.pattern">Pattern {{validations.pattern}} mismatch.</div>' +
+                            '<div class="text-error" data-ng-show="valerror.$error.required">Please select a file.</div>' +
+                        '</div>' +
+                    '</div>';
+        };
+
+        var setParams = function (cfile, file) {
+            file.name = cfile.name;
+            file.size = cfile.size;
+        };
+
+        var saveFileOnServer = function (scope, ngModel) {
+            scope.fileInfo.isUploading = true;
+            scope.fileInfo.copied = false;
+            ngModel.$setValidity("noncopying", false);
+
+            $upload.upload({
+                url: '/api/FileIoApi/SaveFile',
+                method: "Post",
+                file: scope.cfile
+            }).progress(function (evt) {
+                scope.fileInfo.uploadPercent = parseInt(100.0 * evt.loaded / evt.total);
+            }).success(function (data) {
+                scope.fileInfo.path = data.FullPath;
+                scope.fileInfo.isUploading = false;
+                scope.fileInfo.copied = true;
+                if (angular.isFunction(scope.onSave)) {
+                    scope.onSave({ 'fileInfo': scope.fileInfo });
+                }
+                ngModel.$setValidity("noncopying", true);
+            }).error(function () {
+                scope.fileInfo.isUploading = false;
+                scope.onSave({ 'fileInfo': scope.fileInfo });
+                ngModel.$setValidity("noncopying", true);
+            });
+        };
+
+        var linkFunction = function (scope, element, attr, ngModel) {
+            ngModel.$render = function (filename) {
+                ngModel.$setViewValue(filename);
+            };
+
+            if (angular.isUndefined(scope.fileInfo)) {
+                throw "please provide file info.";
+            }
+
+            scope.valerror = {
+                $invalid: false,
+                $error: {},
+                add: function (prop) {
+                    scope.valerror.$invalid = true;
+                    scope.valerror.$error[prop] = true;
+                },
+                reset: function () {
+                    scope.valerror.$invalid = false;
+                    scope.valerror.$error = {};
+                }
+            };
+            scope.isFileValid = function () {
+                scope.valerror.reset();
+                ngModel.$setValidity("pattern", true);
+                ngModel.$setValidity("extension", true);
+                ngModel.$setValidity("nonEmpty", true);
+                ngModel.$setValidity("required", true);
+                if (angular.isUndefined(scope.validations)) {
+                    return true;
+                }
+
+                if (scope.validations.required === true) {
+                    if ($csfactory.isNullOrEmptyString(scope.fileInfo.name)) {
+                        ngModel.$setValidity("required", false);
+                        scope.valerror.add("required");
+                        return false;
+                    }
+                }
+
+                if (!$csfactory.isNullOrEmptyString(scope.validations.pattern)) {
+                    if (!scope.fileInfo.name.match(scope.validations.pattern)) {
+                        ngModel.$setValidity("pattern", false);
+                        scope.valerror.add("pattern");
+                        return false;
+                    }
+                }
+
+                if (scope.fileInfo.size === 0) {
+                    ngModel.$setValidity("nonempty", false);
+                    scope.valerror.add("nonempty");
+                    return false;
+                }
+
+                if (!$csfactory.isNullOrEmptyString(scope.validations.extension)) {
+                    var extension = scope.fileInfo.name.substring(scope.fileInfo.name.lastIndexOf('.') + 1);
+                    if (extension !== scope.validations.extension) {
+                        ngModel.$setValidity("extension", false);
+                        scope.valerror.add("extension");
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+
+            scope.isFileValid();
+
+            scope.copyToServer = function ($files) {
+                scope.cfile = $files[0];
+                setParams(scope.cfile, scope.fileInfo);
+                ngModel.$render(scope.fileInfo.name);
+                if (scope.isFileValid()) {
+                    saveFileOnServer(scope, ngModel);
+                }
+            };
+        };
+
+        return {
+            scope: { onSave: '&', ngModel: '=', fileInfo: '=', validations: '=' },
+            restrict: 'E',
+            template: getFileInputTemplate,
+            link: linkFunction,
+            require: 'ngModel'
+        };
+    }
+]);
+
 //#region switch-buttons 3 directives
 
 csapp.directive('btnSwitch', function () {
@@ -9,14 +151,14 @@ csapp.directive('btnSwitch', function () {
         template: '<span class="btn boolean"><span class="on btn-primary">Yes</span>' +
             '<span class="off btn-default">No</span></span>',
         replace: true,
-        link: function(scope, element, attrs, ngModel) {
+        link: function (scope, element, attrs, ngModel) {
 
             // Specify how UI should be updated
-            ngModel.$render = function() {
+            ngModel.$render = function () {
                 render();
             };
 
-            var render = function() {
+            var render = function () {
                 var val = ngModel.$viewValue;
 
                 var open = angular.element(element.children()[0]);
@@ -29,7 +171,7 @@ csapp.directive('btnSwitch', function () {
             };
 
             // Listen for the button click event to enable binding
-            element.bind('click', function() {
+            element.bind('click', function () {
                 scope.$apply(toggle);
             });
 
@@ -51,7 +193,7 @@ csapp.directive('btnSwitch', function () {
     };
 });
 
-csapp.directive('switchyesno', function() {
+csapp.directive('switchyesno', function () {
     return {
         restrict: 'E',
         scope: {
@@ -72,15 +214,15 @@ csapp.directive('switchyesno', function() {
     };
 });
 
-csapp.directive("csswitch", function() {
+csapp.directive("csswitch", function () {
 
-    var linkfunction = function(scope) {
+    var linkfunction = function (scope) {
 
-        scope.clickbtn = function(namevalue) {
+        scope.clickbtn = function (namevalue) {
             scope.ngbind = namevalue.Value;
         };
 
-        scope.$watch('ngbind', function() {
+        scope.$watch('ngbind', function () {
             scope.onbtnclick();
         });
     };
@@ -106,23 +248,23 @@ csapp.directive("csswitch", function() {
 
 //#region spinner & bs-datepicker
 
-csapp.directive("spinner", function() {
+csapp.directive("spinner", function () {
     return {
         restrict: 'C',
-        link: function(scope, element) {
-            element.bind("mouseenter", function() {
+        link: function (scope, element) {
+            element.bind("mouseenter", function () {
                 element.addClass("icon-spin");
             });
-            element.bind("mouseleave", function() {
+            element.bind("mouseleave", function () {
                 element.removeClass("icon-spin");
             });
         }
     };
 });
 
-csapp.directive('bsDatepicker', function() {
+csapp.directive('bsDatepicker', function () {
     var isAppleTouch = /(iP(a|o)d|iPhone)/g.test(navigator.userAgent);
-    var regexpMap = function(language) {
+    var regexpMap = function (language) {
         language = language || 'en';
         return {
             '/': '[\\/]',
@@ -141,15 +283,15 @@ csapp.directive('bsDatepicker', function() {
             'yy': '(?:(?:[0-9]{1}[0-9]{1}))(?![[0-9]])'
         };
     };
-    var regexpForDateFormat = function(format, language) {
+    var regexpForDateFormat = function (format, language) {
         var re = format, map = regexpMap(language), i;
         i = 0;
-        angular.forEach(map, function(v, k) {
+        angular.forEach(map, function (v, k) {
             re = re.split(k).join('${' + i + '}');
             i++;
         });
         i = 0;
-        angular.forEach(map, function(v) {
+        angular.forEach(map, function (v) {
             re = re.split('${' + i + '}').join(v);
             i++;
         });
@@ -158,7 +300,7 @@ csapp.directive('bsDatepicker', function() {
     return {
         restrict: 'A',
         require: '?ngModel',
-        link: function(scope, element, attrs, controller) {
+        link: function (scope, element, attrs, controller) {
             var options = angular.extend({ autoclose: true, todayBtn: true, todayHighlight: true, clearBtn: false }), type = attrs.dateType || options.type || 'date';
             angular.forEach([
                     'format',
@@ -175,14 +317,14 @@ csapp.directive('bsDatepicker', function() {
                     'keyboardNavigation',
                     'language',
                     'forceParse'
-                ], function(key) {
-                    if (angular.isDefined(attrs[key]))
-                        options[key] = attrs[key];
-                });
+            ], function (key) {
+                if (angular.isDefined(attrs[key]))
+                    options[key] = attrs[key];
+            });
             var language = 'en', readFormat = attrs.dateFormat || options.format || 'dd-M-yyyy', format = readFormat, dateFormatRegexp = regexpForDateFormat(format, language);
             //attrs.dateFormat || options.format || $.fn.datepicker.dates[language] && $.fn.datepicker.dates[language].format ||
             if (controller) {
-                controller.$formatters.unshift(function(modelValue) {
+                controller.$formatters.unshift(function (modelValue) {
                     if (type !== 'date') return modelValue;
                     if (!angular.isString(modelValue)) return modelValue;
                     if (modelValue === '') return modelValue;
@@ -196,7 +338,7 @@ csapp.directive('bsDatepicker', function() {
                     }
                     return $.fn.datepicker.DPGlobal.parseDate(modelValue, $.fn.datepicker.DPGlobal.parseFormat(readFormat), language);
                 });
-                controller.$parsers.unshift(function(viewValue) {
+                controller.$parsers.unshift(function (viewValue) {
                     if (!viewValue) {
                         controller.$setValidity('date', true);
                         return null;
@@ -213,7 +355,7 @@ csapp.directive('bsDatepicker', function() {
                         return undefined;
                     }
                 });
-                controller.$render = function() {
+                controller.$render = function () {
                     if (isAppleTouch) {
                         var date = controller.$viewValue ? $.fn.datepicker.DPGlobal.formatDate(controller.$viewValue, $.fn.datepicker.DPGlobal.parseFormat(format), language) : '';
                         element.val(date);
@@ -228,8 +370,8 @@ csapp.directive('bsDatepicker', function() {
                 element.prop('type', 'date').css('-webkit-appearance', 'textfield');
             } else {
                 if (controller) {
-                    element.on('changeDate', function(ev) {
-                        scope.$apply(function() {
+                    element.on('changeDate', function (ev) {
+                        scope.$apply(function () {
                             controller.$setViewValue(type === 'string'
                                 ? element.val()
                                 : new Date(moment(ev.date.valueOf()).utc().subtract('m', moment().zone()).valueOf()));
@@ -240,7 +382,7 @@ csapp.directive('bsDatepicker', function() {
                     format: format,
                     language: language
                 }));
-                scope.$on('$destroy', function() {
+                scope.$on('$destroy', function () {
                     var datepicker = element.data('datepicker');
                     if (datepicker) {
                         datepicker.picker.remove();
@@ -250,7 +392,7 @@ csapp.directive('bsDatepicker', function() {
             }
             var component = element.siblings('[data-toggle="datepicker"]');
             if (component.length) {
-                component.on('click', function() {
+                component.on('click', function () {
                     element.trigger('focus');
                 });
             }
