@@ -179,7 +179,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 restApi.customPUT(payoutSubpolicy, "Put", { id: payoutSubpolicy.Id }).then(function (data) {
                     dldata.payoutSubpolicyList = _.reject(dldata.payoutSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.payoutSubpolicyList.push(data);
-                    dldata.selectPayoutSubpolicy(data);
+                    selectPayoutSubpolicy(data);
                     // $scope.resetPayoutSubpolicy();
                     $csnotify.success("Payout Subpolicy saved");
                 }, function (data) {
@@ -190,7 +190,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 restApi.customPOST(payoutSubpolicy, "Post").then(function (data) {
                     dldata.payoutSubpolicyList = _.reject(dldata.payoutSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.payoutSubpolicyList.push(data);
-                    datalayer.selectPayoutSubpolicy(data);
+                    selectPayoutSubpolicy(data);
                     $csnotify.success("Payout Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
