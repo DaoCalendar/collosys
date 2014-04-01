@@ -120,29 +120,26 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
             if (!finalPost.Hierarchy.HasWorking && finalPost.Hierarchy.HasPayment)
             {
-                foreach (var payworkModel in finalPost.PayWorkModelList)
+                IList<StkhPayment> paymentList = new List<StkhPayment>();
+
+                foreach (var payWorkModel in finalPost.PayWorkModelList)
                 {
-                    payworkModel.Payment.Stakeholder = stakeholders;
-                    foreach (var stkhWorking in payworkModel.WorkList)
+                    foreach (var stkhWorking in payWorkModel.WorkList)
                     {
-                        stkhWorking.Stakeholder = stakeholders;
+                        stkhWorking.StkhPayment = payWorkModel.Payment;
+                        workingList.Add(stkhWorking);
                     }
+                    AssignBillingPolicies(payWorkModel);
+                    payWorkModel.Payment.StkhWorkings = payWorkModel.WorkList;
+                    payWorkModel.Payment.Stakeholder = finalPost.Stakeholder;
+                    paymentList.Add(payWorkModel.Payment);
                 }
-                foreach (var payworkModel in finalPost.PayWorkModelList)
+                stakeholders.StkhWorkings = workingList;
+                foreach (var working in stakeholders.StkhWorkings)
                 {
-                    stakeholders.StkhPayments.Add(payworkModel.Payment);
-                    foreach (var stkhWorking in payworkModel.WorkList)
-                    {
-                        stkhWorking.Products = ScbEnums.Products.ALL;
-                        stkhWorking.Region = "All";
-                        stkhWorking.Cluster = "All";
-                        stkhWorking.State = "All";
-                        stkhWorking.City = "All";
-                        stkhWorking.Area = "All";
-                        stkhWorking.LocationLevel = stakeholders.Hierarchy.LocationLevel;
-                        stakeholders.StkhWorkings.Add(stkhWorking);
-                    }
+                    working.ApprovedBy = stakeholders.ApprovedBy;
                 }
+                stakeholders.StkhPayments = paymentList;
             }
 
 

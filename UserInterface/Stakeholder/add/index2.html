@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="row-fluid text-center">
                                     <button
-                                        data-ng-show="indexData.Hierarchy.HasPayment && indexData.Hierarchy.HasWorking"
+                                        data-ng-show="indexData.Hierarchy.HasPayment"
                                         class="btn btn-success"
                                         data-ng-disabled="enableAddToList(paymentForm.$invalid)"
                                         data-ng-click="addAnotherWorking()">
@@ -111,7 +111,6 @@
                     <div class="text-right">
                         <button class="btn btn-success" data-ng-click="showBasicInfoScreen()"><i class="icon-arrow-left"></i>Prev</button>
                         <button class="btn btn-success"
-                            data-ng-hide="indexData.Hierarchy.HasPayment && !indexData.Hierarchy.HasWorking"
                             data-ng-disabled="enableSave(indexData)"
                             data-ng-click="SaveData()">
                             Save</button>

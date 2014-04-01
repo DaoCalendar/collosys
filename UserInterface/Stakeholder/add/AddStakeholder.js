@@ -350,6 +350,13 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.addAnotherWorking = function () {
+
+        if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
+            var dummuWorking = { Country: "INDIA", Products: "ALL" };
+            $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummuWorking);
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment.Products = 'ALL';
+        }
+
         $scope.WizardData.AddPayWorkModel($scope.WizardData.FinalPostModel.PayWorkModel);
         $scope.WizardData.ResetPayWorkModel();
     };
@@ -373,7 +380,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.displayPaymentWorkingData = function (hierarchy, count) {
-        var result = hierarchy.HasWorking && hierarchy.HasPayment && count > 0;
+        var result = (hierarchy.HasWorking || hierarchy.HasPayment) && hierarchy.HasPayment && count > 0;
         return result;
     };
 
@@ -407,7 +414,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return false;
         }
         else if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
-            return false;
+            return invalid;
         }
         else {
             return true;
@@ -476,7 +483,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
 
         if (!indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment) {
-            return true;
+            return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
         }
 
 
@@ -566,15 +573,15 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             }
         }
 
-        if (hierarchy.HasPayment && !hierarchy.HasWorking) {
-            
-            var dummyWorking = {
-                Country: 'INDIA',
-            };
-            $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummyWorking);
-            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = $scope.WizardData.Payment;
-            $scope.WizardData.FinalPostModel.PayWorkModelList.push($scope.WizardData.FinalPostModel.PayWorkModel);
-        }
+        //if (hierarchy.HasPayment && !hierarchy.HasWorking) {
+
+        //    var dummyWorking = {
+        //        Country: 'INDIA',
+        //    };
+        //    $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummyWorking);
+        //    $scope.WizardData.FinalPostModel.PayWorkModel.Payment = $scope.WizardData.Payment;
+        //    $scope.WizardData.FinalPostModel.PayWorkModelList.push($scope.WizardData.FinalPostModel.PayWorkModel);
+        //}
 
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             var product; //= finalPostModel.PayWorkModelList[0].WorkList[0].Products;
