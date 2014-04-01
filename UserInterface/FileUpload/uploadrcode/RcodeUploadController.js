@@ -1,5 +1,5 @@
 ﻿(
-csapp.controller("RcodeUploadController", ["$scope", "Restangular", "$csnotify", "$csConstants", "csStopWatch",
+csapp.controller("RcodeUpload", ["$scope", "Restangular", "$csnotify", "$csConstants", "csStopWatch",
     function ($scope, $restangular, $csnotify, $csConstants, stopWatch) {
 
         var rcodeapi = $restangular.all("RcodeUploadApi");

@@ -68,7 +68,6 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
         var getPaymentDetails = function () {
             restApi.customGET('GetPaymentDetails').then(function (paymentDetails) {
                 $log.info(paymentDetails);
-                console.log(paymentDetails);
                 $csnotify.success("Get PaymentDetails");
                 $scope.LinerPolicyList = paymentDetails.LinerPolicy;
                 $scope.WriteoffPolicies = paymentDetails.WriteOfPolicy;

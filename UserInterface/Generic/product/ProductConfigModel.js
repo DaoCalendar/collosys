@@ -46,7 +46,6 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
 csapp.factory("ProductFactory", [function () {
 
     var reset = function (dldata) {
-        console.log('reset');
         dldata.isReadOnly = false;
         dldata.editIndex = -1;
         dldata.productconfig = {
@@ -62,7 +61,6 @@ csapp.factory("ProductFactory", [function () {
     };
 
     var addinLocal = function (productconfig, dldata) {
-        console.log('addinLocal');
         if (dldata.editIndex === -1) {
             dldata.productList.push(productconfig);
         } else {
@@ -71,7 +69,6 @@ csapp.factory("ProductFactory", [function () {
     };
 
     var noTelecalling = function (productconfig, dldata) {
-        console.log('noTelecalling');
         if (dldata.productconfig.HasTelecalling == false) {
             dldata.productconfig.FrCutOffDaysCycle = 0;
             dldata.productconfig.FrCutOffDaysMonth = 0;
@@ -139,7 +136,6 @@ csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance",
    
     $scope.saveProduct = function (productconfig) {
         datalayer.Save(productconfig).then(function (data) {
-            console.log("save complete...");
             factory.AddinLocal(data,$scope.dldata);
             factory.reset($scope.dldata);
             $modalInstance.close();

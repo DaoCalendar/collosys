@@ -19,7 +19,7 @@ using NLog;
 
 namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
 {
-    public static class RcodeUploadHelper
+    public static class PincodeUploadHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -48,12 +48,12 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
             return true;
         }
 
-        public static void ReadRcodeExcel(ScbEnums.Products product, HttpPostedFileBase fileBase)
+        public static void ReadPincodeExcel(ScbEnums.Products product, HttpPostedFileBase fileBase)
         {
             DataTable dataTable;
             try
             {
-                dataTable = EpPlusExcelsxReader.ReadExcelData(typeof(RcodeRow), fileBase.InputStream);
+                dataTable = EpPlusExcelsxReader.ReadExcelData(typeof(PincodeRow), fileBase.InputStream);
             }
             catch (Exception e)
             {
@@ -75,31 +75,31 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
                 throw new Exception("Could not fetch customer info from db.", e);
             }
 
-            UpdateRcodes(sharedInfoList, dataTable);
+            UpdatePincodes(sharedInfoList, dataTable);
         }
 
-        private static void UpdateRcodes(IList listdata, DataTable dataTable)
+        private static void UpdatePincodes(IList listdata, DataTable dataTable)
         {
             var enumerator = listdata.GetEnumerator();
             if (!enumerator.MoveNext()) { return; }
             dynamic firstItem = enumerator.Current;
             dynamic typedEnumerable = ExcelWriter.ConvertTyped(listdata, firstItem);
-            UploadRcodesTyped(typedEnumerable, dataTable);
+            UploadPincodesTyped(typedEnumerable, dataTable);
         }
 
-        private static void UploadRcodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
-            where TInfo : Info
+        private static void UploadPincodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
+            where TInfo : CustomerInfo
         {
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();
             foreach (DataRow row in dataTable.Rows)
             {
-                var rcoderow = new RcodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
-                if (!rcoderow.IsRecordvalid) continue;
-                var record = infoSet.FirstOrDefault(x => x.AccountNo == rcoderow.AccountNo);
+                var pincoderow = new PincodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
+                if (!pincoderow.IsRecordvalid) continue;
+                var record = infoSet.FirstOrDefault(x => x.AccountNo == pincoderow.AccountNo);
                 if (record == null) continue;
-                if (record.CustStatus == rcoderow.Rcode) continue;
-                record.CustStatus = rcoderow.Rcode;
+                if (record.Pincode == pincoderow.Pincode) continue;
+                record.Pincode = pincoderow.Pincode;
                 nhSession.SaveOrUpdate(record);
             }
         }

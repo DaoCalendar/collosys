@@ -1,6 +1,10 @@
-﻿
-<div data-ng-form="uploadpincodes" data-ng-controller="PincodeUpload" class="form-horizontal">
-    <form action="OtherUploads/PincodeUpload/UploadPincodes" data-ng-upload="DuringUpload()">
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Rcode Manager";
+}
+
+<div data-ng-form="uploadrcodes" data-ng-controller="RcodeUpload" class="form-horizontal">
+    <form action="OtherUploads/RcodeUpload/UploadRcodes" data-ng-upload="DuringUpload()">
 
         <!-- product dropdown & upload/download buttons -->
         <div class="row-fluid" data-ng-show="ProductList">
@@ -17,15 +21,15 @@
 
         <!-- download button -->
         <div class="row-fluid panel panel-info span8" data-ng-show="selectedProduct">
-            <div class="panel-heading">Download Missing Pincodes</div>  
+            <div class="panel-heading">Download Account with NO Rcodes</div>  
             <div class="text-center">
-                    <input type="button" class="btn btn-info" value="Download" data-ng-click="DownloadPincodes(selectedProduct)" />
+                    <input type="button" class="btn btn-info" value="Download" data-ng-click="DownloadRcodes(selectedProduct)" />
             </div>
         </div>
 
         <!-- upload button -->
         <div class="row-fluid panel panel-info span8" data-ng-show="selectedProduct">
-            <div class="panel-heading">Update Customer Pincodes</div>
+            <div class="panel-heading">Update Customer Rcodes</div>
             <div class="control-group">
                 <div class="controls">
                     <!-- file upload control -->
@@ -38,7 +42,7 @@
                             <span class="btn btn-file">
                                 <span class="fileupload-new">Select file</span>
                                 <span class="fileupload-exists">Change</span>
-                                <input type="file" name="PincodeFile" />
+                                <input type="file" name="RcodeFile" />
                             </span>
                             <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                         </div>
@@ -67,3 +71,12 @@
     </form>
 </div>
 
+@section styles
+{
+    <link href="~/Content/bootstrap-fileupload.min.css" rel="stylesheet" />
+}
+
+@section  scripts{
+    <script src="~/Scripts/bootstrap-fileupload.min.js"></script>
+    <script src="~/Areas/OtherUploads/jsControllers/RcodeUploadController.js"></script>
+}

@@ -29,11 +29,13 @@
 
 }]);
 
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations',
+    function ($scope, datalayer, factory, $modal, $validation) {
         "use strict";
         
         (function () {
+            $scope.val = $validation;
+
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -41,7 +43,6 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
-            console.log($scope.dldata);
         })();
 
         $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
@@ -63,6 +64,11 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                     }
                 }
             });
+        };
+        
+        $scope.showIndividual = function (stkh) {
+            if (angular.isUndefined(stkh.Hierarchy)) return false;
+            return (stkh.Hierarchy.IsIndividual === true);
         };
 
         $scope.$watch('allocSubpolicy.AllocateType', factory.watchAllocateType());
@@ -157,7 +163,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
                 //stakeholderList
                 restApi.customGET('GetStakeholders', { products: allocSubpolicy.Products }).then(function (data) {
-
+                   
                     dldata.stakeholderList = data;
                 }, function (data) {
                     $csnotify.error(data);

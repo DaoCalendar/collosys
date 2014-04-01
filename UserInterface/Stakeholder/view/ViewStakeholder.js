@@ -29,7 +29,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             getDataForPagination();
         };
         $scope.stepForward = function () {
-            debugger;
+            
             $scope.pagenum += 1;
             $scope.startCount = parseInt($scope.size) * ($scope.pagenum - 1);
             if ($scope.startCount < parseInt($scope.tolRec)) {
@@ -194,7 +194,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeData = function (stakeholder) {
-            debugger;
+            
             $scope.chosenStakeholders = [];
             $scope.moreDetails = false;
             $log.info(stakeholder);
@@ -208,7 +208,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
                                 $log.info("stakeholders list: ", data);
                                 $scope.stakeholderData = data;
-                                console.log($scope.stakeholderData);
                                 deleteExpiredWorkings
                                 ($scope.stakeholderData);
 
@@ -283,7 +282,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getReportsToStakeholders = function (stakeId) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyString(stakeId)) {
                 // $scope.stakeholder.filter = 'stake';
                 restApi.customGET('GetReportees', { 'Id': stakeId, start: $scope.startCount, size: $scope.size })
@@ -323,7 +322,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeForProduct = function (product, filter) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyString(product)) {
                 //$scope.stakeholder.filter = filter;
                 restApi.customGET('GetStakeByProduct', { 'product': product, start: $scope.startCount, size: $scope.size })
@@ -380,7 +379,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getHierarchyDisplayName2 = function (hierarchy) {
-            debugger;
+            
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
                 if (hierarchy.IsIndividual === false) {
                     return hierarchy.Designation;
@@ -425,7 +424,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 var x = findIndex(data, $scope.chosenStakeholders);
                 $scope.chosenStakeholders.splice(x, 1);
             }
-            console.log($scope.chosenStakeholders);
         };
 
         var findIndex = function (dta, array) {
@@ -934,8 +932,6 @@ csapp.controller('setLeaveController', ["$scope", "Restangular", "$csnotify", "$
 
     (function () {
         $scope.modalData = modalData;
-        console.log('in set leave');
-        console.log($scope.modalData);
         $scope.ChangedDates = {};
         $scope.Changed = {};
     })();

@@ -50,7 +50,6 @@
 csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
 
     var setFinalPermission = function (vertical, activity, dldata) {
-        console.log('setFinalPermission factory');
         var perm = _.where(dldata.Permissions, function (item) {
             if (!$csfactory.isEmptyObject(item.Role)) {
                 if (item.Role.Hierarchy === vertical && item.Activity === activity)
@@ -61,7 +60,6 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
     };
 
     var getPermission = function (id, activity, dldata) {
-        console.log('get permissions factory');
         dldata.eccalationDays = [];
         var perm = _.find(dldata.Permissions, function (par) {
             if (!$csfactory.isEmptyObject(par.Role)) {
@@ -86,7 +84,6 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
     };
 
     var clearOnVertical = function (hierarchy, activity, selectPermission, dldata) {
-        console.log('clearOnVertical factory');
         if ($csfactory.isNullOrEmptyGuid(hierarchy)) {
             return;
         }

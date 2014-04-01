@@ -317,7 +317,9 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
     };
 
     var upside = function (subPolicy, index) {
-        var test = _.filter($scope.allocPolicy.AllocRelations, function (relation) { return relationValidToday(relation, true); });
+        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+            return (subpolicy.Status == 'Approved');
+        });
         var relations = _.sortBy(test, 'Priority');
         var tempPriority = relations[index].Priority;
         relations[index].Priority = relations[index - 1].Priority;
@@ -326,7 +328,9 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
     };
 
     var downside = function (subPolicy, index) {
-        var test = _.filter($scope.allocPolicy.AllocRelations, function (relation) { return relationValidToday(relation, true); });
+        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+            return (subpolicy.Status == 'Approved');
+        });
         var relations = _.sortBy(test, 'Priority');
 
         var tempPriority = relations[index].Priority;

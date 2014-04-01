@@ -5,7 +5,7 @@
    
 
         $scope.generateDB = function () {
-            debugger;
+            
             restApi.customGET("CreateDatabase").then(function () {
                 $csnotify.success("DB Generated Successfully");
                 $location.path('/account/logoff');

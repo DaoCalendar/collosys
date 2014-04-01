@@ -6,55 +6,37 @@ var csapp = angular.module("ui.collosys",
     'ngCookies'
 ]);
 
-csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', function ($q, $rootScope, $csAuthFactory) {
+csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logger", function ($q, $rootScope, $csAuthFactory, logManager) {
+
+    var $log = logManager.getInstance("HttpInterceptor");
     var requestInterceptor = function (config) {
         if (config.url.indexOf("/api/") !== -1) {
             config.headers.Authorization = $csAuthFactory.getUsername();
-            console.log("HttpInterceptor : Request : " + moment().format("HH:mm:ss:SSS") + " : " + config.url);
-            //console.log(config);
+            $log.info("Request : " + config.url);
         }
-
-        // Return the config or wrap it in a promise if blank.
         return config || $q.when(config);
     };
 
     var requestErrorInterceptor = function (rejection) {
         if (rejection.config.url.indexOf("/api/") !== -1) {
-            console.log("HttpInterceptor : RequestError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
+            $log.info("RequestError : " + rejection.config.url);
             console.log(rejection);
         }
-
-        // Return the promise rejection.
         return $q.reject(rejection);
     };
 
     var responseInterceptor = function (response) {
         if (response.config.url.indexOf("/api/") !== -1) {
-            console.log("HttpInterceptor : Response : " + moment().format("HH:mm:ss:SSS") + " : " + response.config.url);
-            //console.log(response);
+            $log.info("Response : " + response.config.url);
         }
-
-        // Return the response or promise.
         return response || $q.when(response);
     };
 
     var responseErrorInterceptor = function (rejection) {
         if (rejection.config.url.indexOf("/api/") !== -1) {
-            console.log("HttpInterceptor : ResponseError : " + moment().format("HH:mm:ss:SSS") + " : " + rejection.config.url);
+            $log.info("ResponseError : " + rejection.config.url);
             console.log(rejection);
         }
-
-        if (rejection.status == 401) {
-            var deferred = $q.defer();
-            $rootScope.$broadcast('$csLoginRequired');
-            return deferred.promise;
-        }
-
-        if (rejection.status == 0 || rejection.status == 404) {
-            rejection.Message = "You are offline !";
-        }
-
-        // Return the promise rejection.
         return $q.reject(rejection);
     };
 
@@ -115,6 +97,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/paymentchanges', {
                 templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
+            }).when('/fileupload/uploadpincode', {
+                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                controller: 'uploadPincodeController'
+            }).when('/fileupload/uploadrcode', {
+                templateUrl: '/FileUpload/uploadpincode/upload-rcode.html',
+                controller: 'uploadRcodeController'
             })
 
             //stakeholder
@@ -213,14 +201,14 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
     this.$get = [function routeConfigurationFactory() { return new RouteConfiguration(); }];
 });
 
-csapp.config(["RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
-function (restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
-    $httpProvider.interceptors.push('MyHttpInterceptor');
-
-    routeConfig.configureRoutes($routeProvider);
-    $logProvider.debugEnabled(true);
-    restangularProvider.setBaseUrl("/api/");
-}
+csapp.config([
+    "RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
+    function(restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
+        $httpProvider.interceptors.push('MyHttpInterceptor');
+        routeConfig.configureRoutes($routeProvider);
+        $logProvider.debugEnabled(true);
+        restangularProvider.setBaseUrl("/api/");
+    }
 ]);
 
 csapp.run(function ($rootScope, $location) {

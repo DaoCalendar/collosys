@@ -42,7 +42,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
            userId = userId.toString();
             if (userId.length === 7) {
                 apistake.customGET('CheckUserId', { id: userId }).then(function (data) {
-                    debugger;
+                    
                     var exist = data;
                     if (exist === "true") {
                         $scope.$parent.WizardData.userExists = true;
@@ -56,7 +56,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
         };
 
         var getEmailForEditMode = function (mailId) {
-            debugger;
+            
             if ($scope.basicInfoData.Hierarchy.IsUser) {
                 var index = mailId.indexOf('@');
                 $scope.$parent.WizardData.SetEmailId(mailId.substring(0, index));

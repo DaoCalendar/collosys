@@ -315,7 +315,6 @@ csapp.controller('payoutPolicyCtrl', [
         };
 
         $scope.openModelDeactivateSubPolicy = function (relation) {
-            console.log(relation);
             $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
             $scope.modalData.payoutRelation.Status = "Submitted";
             $scope.modalData.subPolicyIndex = -1;
