@@ -5,7 +5,7 @@ using System.Globalization;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
+namespace AngularUI.FileUpload.uploadpincode
 {
     public class PincodeRow
     {

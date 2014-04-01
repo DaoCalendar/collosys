@@ -64,6 +64,9 @@
     <Reference Include="FileHelpers.ExcelStorage">
       <HintPath>..\SharedLib\FileHelpers.ExcelStorage.dll</HintPath>
     </Reference>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
+      <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\SharedLib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -88,6 +91,10 @@
     <Reference Include="NPOI">
       <HintPath>..\SharedLib\NPOI.dll</HintPath>
     </Reference>
+    <Reference Include="PostSharp, Version=3.1.33.9, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\PostSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -99,9 +106,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebActivator">
-      <HintPath>..\SharedLib\WebActivator.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Excel2DT\CsvHelperExcelReader.cs" />

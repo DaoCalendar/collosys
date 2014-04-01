@@ -34,8 +34,7 @@ namespace ColloSys.FileUploadService.Interfaces
 
         FileScheduler GetNextFileForSchedule();
 
-        void CommitData<TEntity>(IList<TEntity> data, FileScheduler file, IRowCounter counter) 
-            where TEntity : Entity, new();
+        void CommitData<TEntity>(IList<TEntity> data, FileScheduler file, IRowCounter counter) where TEntity : Entity;
 
         IEnumerable<FileValueMapping> GetFieldValueMappings(Guid id);
 
@@ -45,7 +44,7 @@ namespace ColloSys.FileUploadService.Interfaces
             where TEntity : Entity;
 
         bool MergeData<TEntity>(IEnumerable<TEntity> data)
-          where TEntity : Entity, IFileUploadable, new();
+          where TEntity : Entity, IFileUploadable;
 
         int GetDoneFile(ColloSysEnums.FileAliasName aliasName, DateTime date);
     }
