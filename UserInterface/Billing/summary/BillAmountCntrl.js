@@ -25,14 +25,14 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
 
         $scope.openViewModal = function() {
             $modal.open({
-                templateUrl: '/Billing/summary/view-billamount-modal.html',
+                templateUrl: 'Billing/summary/view-billamount-modal.html',
                 controller: 'billAmountViewModal',
             });
         };
 
         $scope.openAddModal = function () {
             $modal.open({
-                templateUrl: '/Billing/summary/add-billamount-modal.html',
+                templateUrl: 'Billing/summary/add-billamount-modal.html',
                 controller: 'billAmountAddModal',
             });
         };
@@ -51,7 +51,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
         };
 
         var addAdhocPayout = function (adhocPayout, billingData) {
-            var stakeholder = _.find(dldata.stakeholderList, { 'Id': dldata.BillAmount.Stakeholder });
+           var stakeholder = _.find(dldata.stakeholderList, { 'Id': dldata.BillAmount.Stakeholder });
             adhocPayout.Stakeholder = stakeholder;
             billingData.Stakeholder = stakeholder;
             dldata.finalData = {
@@ -65,7 +65,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
         };
 
         var getStakeholders = function (product) {
-            if (product != '') {
+           if (product != '') {
                 restApi.customGET('GetStakeholders', { 'product': product }).
                     then(function (data) {
                         dldata.stakeholderList = data;
@@ -191,5 +191,11 @@ csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAm
 
         $scope.closeModal = function () {
             $modalInstance.dismiss();
+        };
+
+        $scope.addAdhocPayout = function (adhocPayout, billingData) {
+            datalayer.addAdhocPayout(adhocPayout, billingData).then(function () {
+                $modalInstance.close();
+            });
         };
     }]);
