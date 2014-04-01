@@ -73,7 +73,6 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         var changeProductCategory = function () {
             //restApi.customGET("GetBillStatus", { product: dldata.selectedProduct }).then(function(status) {
             //    if (status) {
-            debugger;
             restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
                 dldata.stakeholderList = data;
                 dldata.adhocPayout.Tenure = 1;
@@ -95,20 +94,18 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         };
 
         var saveData = function (adhocPayout) {
-            debugger;
             if (dldata.adhocPayout.IsRecurring === "false") {
                 dldata.adhocPayout.Tenure = 1;
             }
             var endDate = moment(dldata.adhocPayout.StartMonth).add('month', (dldata.adhocPayout.Tenure - 1));
-            //$csnotify.success(endDate);
-            dldata.adhocPayout.StartMonth = moment(dldata.adhocPayout.StartMonth).format('MMM-YYYY');
-            dldata.adhocPayout.EndMonth = Date.parse(endDate);
+            dldata.adhocPayout.StartMonth = moment(dldata.adhocPayout.StartMonth).format('MMYYYY');
+            dldata.adhocPayout.EndMonth = moment(endDate).format('MMYYYY');
             dldata.adhocPayout.RemainingAmount = dldata.adhocPayout.TotalAmount;
 
             restApi.customPOST(adhocPayout, 'Post').then(function (data) {
-                dldata.adhocPayoutList.push(adhocPayout);
+                dldata.adhocPayoutList.push(data);
                 $csnotify.success('All File Columns Save Successfully');
-                $scope.CloseAdhocPayoutManager();//check here
+                //dldata.CloseAdhocPayoutManager();//check here
             }, function () {
                 $csnotify.error();
             });
@@ -163,7 +160,7 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
         };
 
 
-        $scope.saveData = function () {
+        $scope.saveData = function (adhocPayout) {
             datalayer.saveData(adhocPayout).then(function () {
                 $modalInstance.dismiss();
             });

@@ -69,14 +69,14 @@
                 </div>
             </div>
         </div>
-        <div class="form-horizontal" data-ng-show="dldata.adhocPayout.IsRecurring=='true'">
+        <div class="form-horizontal" data-ng-show="dldata.adhocPayout.IsRecurring == 'true'">
             <div class="row-fluid">
                 <div class="control-group span5">
                     <label class="control-label">Start Month</label>
                     <div class="controls">
                         <div class="input-append">
                             <input class="input-medium" type="text" name="StartMonth" data-ng-model="dldata.adhocPayout.StartMonth" required
-                                data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="yyyy-MM-dd"
+                                data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="M-yyyy"
                                 data-bs-datepicker="" />
                             <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                         </div>
@@ -103,7 +103,7 @@
     </div>
     <div class="control-group text-right">
         <div class="controls">
-            <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid)" data-ng-click="datalayer.saveData(dldata.adhocPayout);">Approve</button>
+            <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid)" data-ng-click="saveData(dldata.adhocPayout)">Approve</button>
             <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
             <button class="btn btn-info" data-ng-click="factory.resetadhocPayout(dldata.adhocPayout.Products)">Reset</button>
         </div>
