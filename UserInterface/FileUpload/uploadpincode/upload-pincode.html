@@ -3,7 +3,7 @@
         <div class="control-group">
             <div class="control-label">Product</div>
             <div class="controls">
-               <select data-ui-select2="" class="input-large" data-ng-model="selected.Product">
+                <select data-ui-select2="" class="input-large" data-ng-model="selected.Product">
                     <option value=""></option>
                     <option data-ng-repeat="p in dldata.ProductList | orderBy:'toString()'" value="{{p}}">{{p}}</option>
                 </select>
@@ -12,16 +12,18 @@
     </div>
 
     <!-- upload button -->
-    <div class="panel panel-info span8" data-ng-show="selected.Product">
-        <div class="panel-heading">Update Customer Pincodes</div>
-        <div class="control-group">
-            <div class="controls">
-                <cs-file-upload on-save="fileCopied(fileInfo)" ng-model="selected.filename"
-                    file-info="selected.fileInfo" validations="fileValidations"></cs-file-upload>
+    <div ng-form="" name="uploadpincodeform">
+        <div class="panel panel-info span8" data-ng-show="selected.Product">
+            <div class="panel-heading">Update Customer Pincodes</div>
+            <div class="control-group">
+                <div class="controls">
+                    <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo" 
+                        validations="fileValidations"></cs-file-upload>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-info" ng-disabled="uploadpincodeform.$invalid">Upload</button>
             </div>
         </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-info upload-submit">Upload</button>
         </div>
-    </div>
 </div>

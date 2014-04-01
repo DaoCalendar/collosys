@@ -122,6 +122,8 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
+    <Compile Include="FileUpload\uploadhelper\FileIOApiController.cs" />
+    <Compile Include="FileUpload\uploadhelper\FileSaver.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeUploadApiController.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
