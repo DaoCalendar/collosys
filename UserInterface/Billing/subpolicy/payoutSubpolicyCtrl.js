@@ -314,7 +314,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
 
         var deleteOutput = function (output, index) {
-            if (dldata.payoutSubpolicy.BOutputs.length == 1) {
+            if (dldata.payoutSubpolicy.BOutputs.length < 0) {
                 dldata.newOutput.Operator = '';
             }
             if (output.Id) {
@@ -323,7 +323,10 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
 
             dldata.payoutSubpolicy.BOutputs.splice(index, 1);
-            dldata.payoutSubpolicy.BOutputs[0].Operator = "";
+            if (angular.isDefined(dldata.payoutSubpolicy.BOutputs[0])) {
+                dldata.payoutSubpolicy.BOutputs[0].Operator = "";
+            }
+//dldata.payoutSubpolicy.BOutputs[0].Operator = "";
 
             for (var i = index; i < dldata.payoutSubpolicy.BOutputs.length; i++) {
                 dldata.payoutSubpolicy.BOutputs[i].Priority = i;
