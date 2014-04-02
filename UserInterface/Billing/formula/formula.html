@@ -5,7 +5,7 @@
                 <a>Formula List</a>
             </li>
             <li data-ng-repeat="sformula in dldata.formulaList | orderBy : 'Name'">
-                <a class="btn btn-link" data-ng-click="selectFormula(sformula)">{{sformula.Name}}</a>
+                <a class="btn btn-link" data-ng-click="datalayer.selectFormula(sformula)">{{sformula.Name}}</a>
             </li>
         </ul>
     </div>

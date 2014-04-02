@@ -13,6 +13,17 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             '*': 'Multiply',
             '/': 'Divide'
         };
+        var operatorsEnumReverse = {
+            'GreaterThan': '>',
+            'LessThan': '<',
+            'GreaterThanEqualTo': '>=',
+            'LessThanEqualTo': '<=',
+            'EqualTo': '=',
+            'Plus': '+',
+            'Minus': '-',
+            'Multiply': '*',
+            'Divide': '/'
+        };
         var restApi = rest.all("PayoutSubpolicyApi");
 
         var getProducts = function () {
@@ -40,7 +51,10 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
                     dldata.formula.BOutputs[0].Lsqlfunction = '';
                     dldata.formula.BOutputs[0].Operator = '';
                 }
-
+                _.forEach(dldata.formula.BOutputs, function (output) {
+                    checkString(output);
+                    output.Operator=convertOperatorToReverse(output.Operator);
+                });
                 changeProductCategory();
             }, function (data) {
                 $csnotify.error(data);
@@ -122,6 +136,24 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             resetCondition();
             resetOutput();
         };
+        var checkString = function (output) {
+            if (output.Operator === 'None') {
+                output.Operator = "";
+            }
+            if (output.Lsqlfunction === 'None') {
+                output.Lsqlfunction = "";
+            }
+
+        };
+
+        var convertOperatorToReverse = function (operator) {
+            if (operator === undefined || operator === '') {
+                return "";
+            }
+
+            return operatorsEnumReverse[operator];
+        };
+
         var saveFormula = function (formula) {
             // var operator = $scope.newOutput.Operator;
             formula.GroupBy = JSON.stringify(formula.GroupBy);
@@ -184,7 +216,9 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             resetOutput: resetOutput,
             saveFormula: saveFormula,
             resetFormula: resetFormula,
-            changeProductCategory: changeProductCategory
+            changeProductCategory: changeProductCategory,
+            convertOperatorToReverse: convertOperatorToReverse,
+            checkString: checkString
         };
     }]);
 
@@ -201,18 +235,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
         dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
     };
-    var operatorsEnumReverse = {
-        'GreaterThan': '>',
-        'LessThan': '<',
-        'GreaterThanEqualTo': '>=',
-        'LessThanEqualTo': '<=',
-        'EqualTo': '=',
-        'Plus': '+',
-        'Minus': '-',
-        'Multiply': '*',
-        'Divide': '/'
-    };
-
+    
     var changeLeftTypeName = function (condition) {
         condition.RtypeName = '';
         dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.LtypeName });
@@ -291,8 +314,8 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         }
     };
     var addNewOutput = function (output) {
-        checkString(output);
-        output.Operator = convertOperatorToReverse(output.Operator);
+        datalayer.checkString(output);
+        output.Operator = datalayer.convertOperatorToReverse(output.Operator);
         output.ConditionType = 'Output';
         output.ParentId = dldata.formula.Id;
         output.Priority = dldata.formula.BOutputs.length;
@@ -318,24 +341,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
             dldata.formula.BOutputs[i].Priority = i;
         }
     };
-    var checkString = function (output) {
-        if (output.Operator === 'None') {
-            output.Operator = "";
-        }
-        if (output.Lsqlfunction === 'None') {
-            output.Lsqlfunction = "";
-        }
-
-    };
-
-    var convertOperatorToReverse = function (operator) {
-        if (operator === undefined || operator === '') {
-            return "";
-        }
-
-        return operatorsEnumReverse[operator];
-    };
-
+    
     return {
         initEnums: initEnums,
         changeLeftTypeName: changeLeftTypeName,
@@ -343,9 +349,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         addNewCondition: addNewCondition,
         deleteCondition: deleteCondition,
         addNewOutput: addNewOutput,
-        deleteOutput: deleteOutput,
-        convertOperatorToReverse: convertOperatorToReverse,
-        checkString: checkString
+        deleteOutput: deleteOutput
     };
 }]);
 
