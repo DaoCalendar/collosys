@@ -20,7 +20,7 @@
                         <select class="input-large" 
                                 data-ng-disabled="dldata.formula.Id" 
                                 data-ng-model="dldata.formula.Products" 
-                            data-ng-change="datalayer.changeProductCategory()" ui-select2 required>
+                            data-ng-change="datalayer.changeProductCategory()" required>
                             <option value=""></option>
                             <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                         </select>
@@ -60,7 +60,7 @@
                 <div class="control-group span6">
                     <label class="control-label">Description</label>
                     <div class="controls">
-                        <textarea data-ng-modal="dldata.formula.Description"></textarea>
+                        <textarea data-ng-model="dldata.formula.Description"></textarea>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@
                             <select class="input-xlarge" 
                                     data-ng-model="dldata.newCondition.LtypeName" 
                                     data-ng-change="factory.changeLeftTypeName(dldata.newCondition)" 
-                                    ui-select2 required>
+                                     required>
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
                             </select>
@@ -98,7 +98,7 @@
                         <td>
                             <select class="input-medium" 
                                     data-ng-model="dldata.newCondition.Operator" 
-                                    ui-select2 required>
+                                     required>
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
                             </select>
@@ -113,7 +113,7 @@
                                 <div data-ng-switch-when="Table">
                                     <select class="input-xlarge" 
                                             data-ng-model="dldata.newCondition.RtypeName" 
-                                            ui-select2 required>
+                                             required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.RcolumnNames" 
                                                 value="{{c.field}}">{{c.displayName}}</option>
@@ -124,7 +124,7 @@
                                     <input class="input-medium" data-ng-switch-default="text" type="text" data-ng-model="dldata.newCondition.Rvalue" required />
 
                                     <div data-ng-switch-when="date">
-                                        <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum" ui-select2 required>
+                                        <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum"  required>
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.dateValueEnum">{{c}}</option>
                                         </select>
@@ -139,7 +139,7 @@
                                     <select data-ng-switch-when="dropdown" class="input-small" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for c in dldata.conditionValues" required>
                                     </select>
                                     <div data-ng-switch-when="text">
-                                        <select class="input-large" ui-select2 data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for c in dldata.conditionValues" required>
+                                        <select class="input-large" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for c in dldata.conditionValues" required>
                                         </select>
                                     </div>
                                 </div>
@@ -187,28 +187,28 @@
                         <td>
                             <div data-ng-switch on="dldata.newOutput.Rtype">
                                 <div data-ng-switch-when="Table">
-                                    <select class="input-small" ui-select2 
+                                    <select class="input-small"  
                                             data-ng-model="dldata.newOutput.Lsqlfunction">
                                         <option value="">-Fun-</option>
                                         <option value="Sum">Sum</option>
                                         <option value="Count">Count</option>
                                         <option value="Avg">Avg</option>
                                     </select>
-                                    <select class="input-xlarge" ui-select2 
+                                    <select class="input-xlarge"  
                                             data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Formula">
-                                    <select data-ng-switch-when="Formula" class="input-large" ui-select2 
+                                    <select data-ng-switch-when="Formula" class="input-large"  
                                             data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Matrix">
-                                    <select data-ng-switch-when="Matrix" class="input-large" ui-select2 
+                                    <select data-ng-switch-when="Matrix" class="input-large"  
                                             data-ng-model="dldata.newOutput.RtypeName" required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.matrixNames">{{c}}</option>
@@ -226,11 +226,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-ng-repeat="output in dldata.formula.BOutputs">
+                    <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
                         <td></td>
-                        <td colspan="2">{{ factory.convertOperatorToReverse(factory.checkString(output.Operator)) + factory.checkString(output.Lsqlfunction) + '( ' +output.RtypeName+ output.Rvalue+' )'}}</td>
+                        <td colspan="2">{{boutput.Operator + boutput.Lsqlfunction + '( ' + boutput.RtypeName + boutput.Rvalue+' )'}}</td>
                         <td>
-                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
+                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
                         </td>
                     </tr>
                 </tbody>
@@ -239,7 +239,7 @@
 
         <div data-ng-show="dldata.outputWithFunction" class="panel">
             <div class="panel-heading">Group by</div>
-            <select class="input-xxlarge" data-ui-select2="" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
+            <select class="input-xxlarge"  multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
                  <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
             </select>
         </div>
