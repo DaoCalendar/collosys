@@ -5,9 +5,9 @@
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-large" data-ng-model="dldata.allocPolicy.Products"
-                            data-ng-change="datalayer.changeProductCategory()"
-                            data-ui-select2=""
-                            required>
+                        data-ng-change="datalayer.changeProductCategory()"
+                        data-ui-select2=""
+                        required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
@@ -285,10 +285,11 @@
         <!--Expired Subpolicy-->
         <tab heading="Expired Subpolicy ( {{(dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')).length}} )" class="alert-error">
             <table class="table table-bordered form-horizontal" style="border-color: red">
-                <tr data-ng-repeat="billingRelation in allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
+                <tr data-ng-repeat="billingRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
                     <td style="border-color: red">
-                        <div data-ng-init="disSubPolicy = datalayer.getDisplaySubPolicy(billingRelation.AllocSubpolicy)" class="row-fluid span10">
-                            <!--Name & Policy-->
+                        <div data-ng-init="disSubPolicy = factory.getDisplaySubPolicy(billingRelation.AllocSubpolicy)" class="row-fluid span12">
+                           <div class="row-fluid span9">
+                             <!--Name & Policy-->
                             <div class="row-fluid">
                                 <!--Name-->
                                 <div class="control-group span5">
@@ -349,7 +350,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!--ReActivate Button-->
                             <div class="row-fluid">
                                 <div class="control-group span4">
@@ -358,49 +358,48 @@
                                     </div>
                                 </div>
                             </div>
+                               </div>
+                            <!--Status Div-->
+                            <div class=" row-fluid span2">
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label ng-style="dldata.color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
+                                    </div>
+                                </div>
+                                <!--CreatedBy-->
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label style="color:blue">CreatedBy : {{factory.setStatus(billingRelation.CreatedBy)}}</label>
+                                    </div>
+                                </div>
+                                <!--CreatedDate-->
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label style="color:blue">CreatedDate : {{factory.setStatus(billingRelation.CreatedOn) | date : 'dd-MM-yyyy'}}</label>
+                                    </div>
+                                </div>
+
+                                <!--ApprovedBy-->
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label style="color:blue">ApprovedBy : {{factory.setStatus(billingRelation.ApprovedBy)}}</label>
+                                    </div>
+                                </div>
+                                <!--ApprovedDate-->
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label style="color:blue">ApprovedDate : {{factory.setStatus(billingRelation.ApprovedOn) | date : 'dd-MM-yyyy'}}</label>
+                                    </div>
+                                </div>
+                                <!--EffectiveFrom-->
+                                <div class="row-fluid ">
+                                    <div class="row-fluid text-left">
+                                        <label style="color:blue">EffectiveFrom : {{factory.setStatus(billingRelation.StartDate) | date : 'dd-MM-yyyy'}}</label>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
-
-                        <!--Status Div-->
-                        <div class=" row-fluid span2">
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label ng-style="dldata.color">Status : {{factory.expiredPolicyStatus(billingRelation.Status)}}</label>
-                                </div>
-                            </div>
-                            <!--CreatedBy-->
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label style="color:blue">CreatedBy : {{factory.setStatus(billingRelation.CreatedBy)}}</label>
-                                </div>
-                            </div>
-                            <!--CreatedDate-->
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label style="color:blue">CreatedDate : {{factory.setStatus(billingRelation.CreatedOn) | date : 'dd-MM-yyyy'}}</label>
-                                </div>
-                            </div>
-
-                            <!--ApprovedBy-->
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label style="color:blue">ApprovedBy : {{factory.setStatus(billingRelation.ApprovedBy)}}</label>
-                                </div>
-                            </div>
-                            <!--ApprovedDate-->
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label style="color:blue">ApprovedDate : {{factory.setStatus(billingRelation.ApprovedOn) | date : 'dd-MM-yyyy'}}</label>
-                                </div>
-                            </div>
-                            <!--EffectiveFrom-->
-                            <div class="row-fluid ">
-                                <div class="row-fluid text-left">
-                                    <label style="color:blue">EffectiveFrom : {{factory.setStatus(billingRelation.StartDate) | date : 'dd-MM-yyyy'}}</label>
-                                </div>
-                            </div>
-
-                        </div>
-
                     </td>
                 </tr>
             </table>

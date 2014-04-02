@@ -28,20 +28,20 @@
 csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer',
     function ($scope, modaldata, $modalInstance, factory, datalayer) {
         $scope.modelData = modaldata;
-        var dldata = datalayer.dldata;
+        $scope.dldata = datalayer.dldata;
 
         $scope.activateSubPoicy = function (modalData) {
-            var maxPriorityPolicy = _.max(dldata.payoutPolicy.BillingRelations, 'Priority');
+            var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
             modalData.BillingRelations.Priority = maxPriorityPolicy.Priority + 1;
             modalData.BillingRelations.StartDate = modalData.startDate;
             modalData.BillingRelations.EndDate = modalData.endDate;
             modalData.BillingRelations.Status = "Submitted";
 
             if (modalData.subPolicyIndex > -1) {
-                dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
-                dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
+                $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
+                $scope.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
-            datalayer.savePayoutPolicy(dldata.payoutPolicy).then
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
             (function() {
                 $modalInstance.close();
             });
@@ -51,11 +51,23 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
         $scope.deactivateSubPoicy = function (modalData) {
             modalData.payoutRelation.StartDate = modalData.startDate;
             modalData.payoutRelation.EndDate = modalData.endDate;
-            dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
-            datalayer.savePayoutPolicy(dldata.payoutPolicy).then(function() {
+            $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
                 $modalInstance.close();
             });
         };
+
+        $scope.modelDateValidation = function (startDate, endDate) {
+            if (angular.isUndefined(endDate) || endDate == null) {
+                $scope.dldata.isModalDateValid = true;
+                return;
+            }
+
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            $scope.dldata.isModalDateValid = (endDate >= startDate);
+        };
+
 
         $scope.closeModal = function() {
             $modalInstance.dismiss();
@@ -165,17 +177,7 @@ csapp.factory('payoutPolicyFactory', [
             dldata.payoutPolicy.Category = "Liner";
         };
 
-        var modelDateValidation = function (startDate, endDate) {
-            if (angular.isUndefined(endDate) || endDate == null) {
-                dldata.isModalDateValid = true;
-                return;
-            }
-
-            startDate = moment(startDate);
-            endDate = moment(endDate);
-            dldata.isModalDateValid = (endDate >= startDate);
-        };
-
+        
         return {
             getDisplaySubPolicy: getDisplaySubPolicy,
             filterRelation: filterRelation,
@@ -184,7 +186,6 @@ csapp.factory('payoutPolicyFactory', [
             upside: upside,
             downside: downside,
             reset: reset,
-            modelDateValidation: modelDateValidation
         };
     }
 ]);
