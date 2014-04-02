@@ -14,7 +14,7 @@
 
 
 csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal',
-    function ($scope, datalayer, factory,$modal) {
+    function ($scope, datalayer, factory, $modal) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -23,7 +23,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             factory.initEnums();
         })();
 
-        $scope.openViewModal = function() {
+        $scope.openViewModal = function () {
             $modal.open({
                 templateUrl: 'Billing/summary/view-billamount-modal.html',
                 controller: 'billAmountViewModal',
@@ -51,21 +51,22 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
         };
 
         var addAdhocPayout = function (adhocPayout, billingData) {
-           var stakeholder = _.find(dldata.stakeholderList, { 'Id': dldata.BillAmount.Stakeholder });
+            var stakeholder = _.find(dldata.stakeholderList, { 'Id': dldata.BillAmount.Stakeholder });
             adhocPayout.Stakeholder = stakeholder;
             billingData.Stakeholder = stakeholder;
             dldata.finalData = {
                 billAdhoc: adhocPayout,
                 billAmount: billingData
             };
-            restApi.customPOST(dldata.finalData, 'SaveBillAdhoc').then(function (data) {
+           return restApi.customPOST(dldata.finalData, 'SaveBillAdhoc').then(function (data) {
                 dldata.billingData = data.billAmount;
                 $csnotify.success("BillAdhoc Saved");
-            });
+               return data;
+           });
         };
 
         var getStakeholders = function (product) {
-           if (product != '') {
+            if (product != '') {
                 restApi.customGET('GetStakeholders', { 'product': product }).
                     then(function (data) {
                         dldata.stakeholderList = data;
@@ -101,19 +102,20 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
             if (stakeholderId != '') {
                 var yearMonth = moment(month).format('YYYYMM');
                 restApi.customGET('GetBillingData', { 'products': product, 'stakeId': stakeholderId, 'month': yearMonth }).
-                    then(function (data) {
-                        dldata.billingData = data;
-                        convertToDate(dldata.billingData);
-                    });
+                      then(function (data) {
+                          dldata.billingData = data;
+                          convertToDate(dldata.billingData);
+
+                      });
 
                 restApi.customGET('GetBillingDetailData', { 'products': product, 'stakeId': stakeholderId, 'month': yearMonth }).
-                    then(function (data) {
-                        dldata.billDetails = data;
+                      then(function (data) {
+                          dldata.billDetails = data;
 
-                        if (dldata.billDetails.length === 0) {
-                            $csnotify.success("Matching Data is not Available ");
-                        }
-                    });
+                          if (dldata.billDetails.length === 0) {
+                              $csnotify.success("Matching Data is not Available");
+                          }
+                      });
             }
         };
 
@@ -168,15 +170,15 @@ csapp.factory('billAmountFactory', ['billAmountDataLayer', '$csfactory',
         };
     }]);
 
-csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory','$modalInstance',
-    function($scope, datalayer, factory,$modalInstance) {
-        (function() {
+csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modalInstance',
+    function ($scope, datalayer, factory, $modalInstance) {
+        (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
         })();
 
-        $scope.closeModal = function() {
+        $scope.closeModal = function () {
             $modalInstance.dismiss();
         };
     }]);
@@ -194,8 +196,8 @@ csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAm
         };
 
         $scope.addAdhocPayout = function (adhocPayout, billingData) {
-            datalayer.addAdhocPayout(adhocPayout, billingData).then(function () {
-                $modalInstance.close();
+            datalayer.addAdhocPayout(adhocPayout, billingData).then(function (data) {
+                $modalInstance.close(data);
             });
         };
     }]);
