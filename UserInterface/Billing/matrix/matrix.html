@@ -20,7 +20,7 @@
                             <select class="input-large" data-ng-model="dldata.matrix.Products" 
                                     data-ng-disabled="dldata.isMatrixCreated"
                                     data-ng-change="datalayer.changeProductCategory()" 
-                                    data-ui-select2="" data-ng-required="!dldata.isMatrixCreated">
+                                     data-ng-required="!dldata.isMatrixCreated">
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                             </select>
@@ -62,7 +62,7 @@
                         <div class="controls">
                             <select class="input-large" data-ng-model="dldata.matrix.Dimension"
                                     data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-change="factory.changeDimension(dldata.matrix)" ui-select2 required>
+                                    data-ng-change="factory.changeDimension(dldata.matrix)"  required>
                                 <option value=""></option>
                                 <option value="1">1D</option>
                                 <option value="2">2D</option>
@@ -94,14 +94,14 @@
                                 <div data-ng-switch-when="Table">
                                     <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
                                             data-ng-disabled="dldata.isMatrixCreated"
-                                            data-ui-select2="" data-ng-required="!dldata.isMatrixCreated">
+                                             data-ng-required="!dldata.isMatrixCreated">
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.columnNames | custBillSubString">{{c}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Formula">
                                     <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
-                                            data-ng-disabled="dldata.isMatrixCreated" data-ui-select2="" required>
+                                            data-ng-disabled="dldata.isMatrixCreated"  required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
                                     </select>
@@ -136,7 +136,7 @@
                                     <div data-ng-switch-when="Table">
                                         <select class="input-xlarge" data-ng-model="dldata.matrix.Row1DTypeName"
                                                 data-ng-disabled="dldata.isMatrixCreated"
-                                                data-ui-select2="" data-ng-required="!dldata.isMatrixCreated"
+                                                 data-ng-required="!dldata.isMatrixCreated"
                                                 data-ng-change="factory.setInputTypeForRow(dldata.matrix.Row1DTypeName)">
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.columnNames" value="{{c}}">{{c | custBillSubString2}}</option>
@@ -145,7 +145,6 @@
                                     <div data-ng-switch-when="Formula">
                                         <select class="input-xlarge" data-ng-model="dldata.matrix.Row1DTypeName"
                                                 data-ng-disabled="dldata.isMatrixCreated"
-                                                data-ui-select2=""
                                                 required>
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.formulaNames" value="{{c}}">{{c}}</option>
@@ -155,7 +154,7 @@
                             </td>
                             <td>
                                 <!--opertor select box-->
-                                <select ui-select2 class="input-small" data-ng-model="dldata.matrix.RowsOperator" 
+                                <select  class="input-small" data-ng-model="dldata.matrix.RowsOperator" 
                                         required="">
                                     <option value="EqualTo">EqualTo </option>
                                     <option value="GreaterThan">Greater Than </option>
@@ -180,7 +179,6 @@
                                         <select class="input-xlarge"
                                                 data-ng-model="dldata.matrix.Column2DTypeName"
                                                 data-ng-disabled="dldata.isMatrixCreated"
-                                                data-ui-select2=""
                                                 data-ng-required="!dldata.isMatrixCreated && dldata.matrix.Dimension!=='1'"
                                                 data-ng-change="factory.setInputTypeForColumn(dldata.matrix.Column2DTypeName)">
                                             <option value=""></option>
@@ -189,7 +187,7 @@
                                     </div>
                                     <div data-ng-switch-when="Formula">
                                         <select class="input-xlarge" data-ng-model="dldata.matrix.Column2DTypeName"
-                                                data-ng-disabled="dldata.isMatrixCreated" data-ui-select2="">
+                                                data-ng-disabled="dldata.isMatrixCreated" >
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.formulaNames" value="{{c}}">{{c}}</option>
                                         </select>
@@ -201,7 +199,7 @@
                             </td>
                             <td>
                                 <!--opertor select box-->
-                                <select ui-select2 class="input-small"
+                                <select  class="input-small"
                                         data-ng-model="dldata.matrix.ColumnsOperator"
                                         data-ng-required="dldata.matrix.Dimension!=='1'">
                                     <option value="EqualTo">EqualTo </option>
@@ -321,7 +319,7 @@
                 </div>
                 <div class="modal-footer" data-ng-show="dldata.matrix.BMatricesValues.length>0">
                     <button class="btn btn-success" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixForm.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)">Save</button>
-                    <button class="btn btn-warning" data-ng-click="dldata.isMatrixCreated=false; dldata.matrix = {}; dldata.matrix.Category='Liner'">Reset</button>
+                    <button class="btn btn-warning" data-ng-click="datalayer.reset()">Reset</button>
                 </div>
             </form>
         </div>

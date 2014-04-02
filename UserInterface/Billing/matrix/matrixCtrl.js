@@ -86,13 +86,19 @@
             dldata.matrixList.push(data);
             dldata.matrix = angular.copy(data);
         };
+        var reset = function () {
+            dldata.isMatrixCreated = false;
+            dldata.matrix = {};
+            dldata.matrix.Category = 'Liner';
+        };
 
         return {
             dldata: dldata,
             getProducts: getProducts,
             selectMatrix: selectMatrix,
             changeProductCategory: changeProductCategory,
-            saveMatrix: saveMatrix
+            saveMatrix: saveMatrix,
+            reset: reset
         };
     }]);
 
