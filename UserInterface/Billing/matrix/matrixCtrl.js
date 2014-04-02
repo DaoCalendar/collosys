@@ -1,30 +1,4 @@
-﻿
-//(csapp.controller("matrixCtrl1", ["$scope", "$csfactory", "$csnotify", "$Validations", "Restangular", function ($scope, $csfactory, $csnotify, $validation, rest) {
-//    "use strict";
-
-
-//    $scope.matrixList = [];
-//    $scope.productsList = [];
-//    $scope.columnNames = [];
-//    $scope.formulaNames = [];
-//    $scope.matrix = {};
-//    $scope.matrix.BMatricesValues = [];
-//    $scope.isMatrixCreated = false;
-//    $scope.matrix.Category = "Liner";
-//    $scope.matrix.Row1DType = "Table";
-//    $scope.matrix.Column2DType = "Table";
-//    $scope.matrix.Row3DType = "Table";
-//    $scope.matrix.Column4DType = "Table";
-
-//    $scope.val = $validation;
-//    var columnDef = [];
-//    $scope.isDuplicate = false;
-//    $scope.rowType;
-//    $scope.columnType;
-
-//}]));
-
-csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
+﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
     function (rest, $csnotify) {
         var restApi = rest.all("MatrixApi");
         var dldata = {};

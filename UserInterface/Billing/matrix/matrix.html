@@ -6,7 +6,7 @@
             </li>
             <li class="content" data-ng-repeat="smatrix in dldata.matrixList | orderBy : 'Name'">
                 <a data-ng-style="factory.highlightSelectedMatrix(smatrix)" class="btn-link" 
-                   data-ng-click="factory.selectMatrix(smatrix)">{{smatrix.Name}}</a>
+                   data-ng-click="datalayer.selectMatrix(smatrix)">{{smatrix.Name}}</a>
             </li>
         </ul>
     </div>
@@ -74,7 +74,7 @@
                     <div class="control-group span6">
                         <label class="control-label">Description</label>
                         <div class="controls">
-                            <textarea data-ng-modal="dldata.matrix.Description"></textarea>
+                            <textarea data-ng-model="dldata.matrix.Description"></textarea>
                         </div>
                     </div>
                 </div>
