@@ -1,49 +1,4 @@
-﻿//csapp.controller("formulaController1", [
-//    "$scope", "$csnotify", '$csfactory', "Restangular",
-//    function ($scope, $csnotify, $csfactory, rest) {
-//        "use strict";
-
-//        $scope.formulaList = [];
-//        $scope.productsList = [];
-//        $scope.columnNames = [];
-//        $scope.formulaNames = [];
-//        $scope.columnDefs = [];
-//        $scope.matrixNames = [];
-//        $scope.AllBConditions = [];
-//        $scope.formula = {};
-//        $scope.formula.BConditions = [];
-//        $scope.formula.BOutputs = [];
-//        $scope.deleteConditions = [];
-//        $scope.newCondition = {};
-//        $scope.newOutput = {};
-//        //$scope.formula.BMatricesValues = [];
-//        //$scope.isPayoutSubpolicyCreated = false;
-//        $scope.formula.Category = "Liner";
-//        $scope.formula.PayoutSubpolicyType = 'Formula';
-//        $scope.formula.OutputType = 'Boolean';
-//        $scope.newCondition.Rtype = 'Value';
-//        $scope.newOutput.Rtype = 'Value';
-//        $scope.outputWithFunction = false;
-//        //$scope.formula.Row1DType = "Table";
-//        //$scope.formula.Column2DType = "Table";
-//        //$scope.formula.Row3DType = "Table";
-//        //$scope.formula.Column4DType = "Table";
-
-//     $scope.$watch("formula.BOutputs.length", function () {
-//            var outResult = _.find($scope.formula.BOutputs, function (output) {
-//                return (output.Lsqlfunction && output.Lsqlfunction != "");
-//            });
-
-//            $scope.outputWithFunction = (outResult) ? true : false;
-//        });
-
-//      $scope.chnageDataFormat = function (date) {
-//        };
-       
-
-//    }
-//]);
-
+﻿
 csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
     function(rest, $csnotify,$csfactory) {
         var dldata = {};
@@ -335,6 +290,8 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
         }
     };
     var addNewOutput = function (output) {
+        checkString(output);
+        convertOperatorToReverse(output.Operator);
         output.ConditionType = 'Output';
         output.ParentId = dldata.formula.Id;
         output.Priority = dldata.formula.BOutputs.length;
@@ -360,17 +317,22 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
             dldata.formula.BOutputs[i].Priority = i;
         }
     };
-    var checkString = function (inputString) {
-        if (inputString === 'None') {
-            return '';
+    var checkString = function (output) {
+        if (output.Operator === 'None') {
+            output.Operator = "";
         }
-        return inputString;
+        if (output.Lsqlfunction === 'None') {
+            output.Lsqlfunction="";
+        }
+        
     };
 
     var convertOperatorToReverse = function (operator) {
-        if (operator === undefined || operator === '')
-            return operator;
-        return operatorsEnumReverse[operator];
+        if (operator === undefined || operator === '') {
+            return "";
+        }
+            
+        return dldata.operatorsEnumReverse[operator];
     };
     
     return {

@@ -228,7 +228,7 @@
                 <tbody>
                     <tr data-ng-repeat="output in dldata.formula.BOutputs">
                         <td></td>
-                        <td colspan="2">{{ factory.convertOperatorToReverse(factory.checkString(output.Operator)) + factory.checkString(output.Lsqlfunction) + '( ' +output.RtypeName+ output.Rvalue+' )'}}</td>
+                        <td colspan="2">{{output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue+' )'}}</td>
                         <td>
                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
                         </td>
