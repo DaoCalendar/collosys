@@ -226,11 +226,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-ng-repeat="output in dldata.formula.BOutputs">
+                    <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
                         <td></td>
-                        <td colspan="2">{{output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue+' )'}}</td>
+                        <td colspan="2">{{boutput.Operator + boutput.Lsqlfunction + '( ' + boutput.RtypeName + boutput.Rvalue+' )'}}</td>
                         <td>
-                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
+                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
                         </td>
                     </tr>
                 </tbody>

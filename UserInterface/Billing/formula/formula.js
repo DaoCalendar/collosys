@@ -1,7 +1,18 @@
 ﻿
-csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
-    function(rest, $csnotify,$csfactory) {
+csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
+    function (rest, $csnotify, $csfactory) {
         var dldata = {};
+        var operatorsEnum = {
+            '>': 'GreaterThan',
+            '<': 'LessThan',
+            '>=': 'GreaterThanEqualTo',
+            '<=': 'LessThanEqualTo',
+            '=': 'EqualTo',
+            '+': 'Plus',
+            '-': 'Minus',
+            '*': 'Multiply',
+            '/': 'Divide'
+        };
         var restApi = rest.all("PayoutSubpolicyApi");
 
         var getProducts = function () {
@@ -112,10 +123,10 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
             resetOutput();
         };
         var saveFormula = function (formula) {
-           // var operator = $scope.newOutput.Operator;
+            // var operator = $scope.newOutput.Operator;
             formula.GroupBy = JSON.stringify(formula.GroupBy);
 
-           // var saveBConditions = [];
+            // var saveBConditions = [];
             //_.forEach(formula.BConditions, function (con) {
             //    saveBConditions.push(con);
             //});
@@ -129,7 +140,9 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
             //});
 
             _.forEach(formula.BOutputs, function (out) {
-                out.Operator = operatorsEnum[out.Operator];
+                if (out.Operator !== "") {
+                    out.Operator = operatorsEnum[out.Operator];
+                }
                 formula.BConditions.push(out);
             });
 
@@ -175,33 +188,10 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify','$csfactory',
         };
     }]);
 
-csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
+csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     var dldata = datalayer.dldata;
-    
-    var initEnums = function () {
-        dldata.operatorsEnum = {
-            '>': 'GreaterThan',
-            '<': 'LessThan',
-            '>=': 'GreaterThanEqualTo',
-            '<=': 'LessThanEqualTo',
-            '=': 'EqualTo',
-            '+': 'Plus',
-            '-': 'Minus',
-            '*': 'Multiply',
-            '/': 'Divide'
-        };
-        dldata.operatorsEnumReverse = {
-            'GreaterThan': '>',
-            'LessThan': '<',
-            'GreaterThanEqualTo': '>=',
-            'LessThanEqualTo': '<=',
-            'EqualTo': '=',
-            'Plus': '+',
-            'Minus': '-',
-            'Multiply': '*',
-            'Divide': '/'
-        };
 
+    var initEnums = function () {
         dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
         dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
         dldata.OperatorSwitch = [{ Name: '+', Value: 'Plus' }, { Name: '-', Value: 'Minus' }, { Name: '*', Value: 'Multiply' }, { Name: '/', Value: 'Divide' }, { Name: '%', Value: 'ModuloDivide' }];
@@ -211,7 +201,18 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
         dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
     };
-    
+    var operatorsEnumReverse = {
+        'GreaterThan': '>',
+        'LessThan': '<',
+        'GreaterThanEqualTo': '>=',
+        'LessThanEqualTo': '<=',
+        'EqualTo': '=',
+        'Plus': '+',
+        'Minus': '-',
+        'Multiply': '*',
+        'Divide': '/'
+    };
+
     var changeLeftTypeName = function (condition) {
         condition.RtypeName = '';
         dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.LtypeName });
@@ -256,7 +257,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
             datalayer.resetCondition();
             datalayer.resetOutput();
         }
-       
+
     };
     var addNewCondition = function (condition) {
         condition.Ltype = "Column";
@@ -291,7 +292,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
     };
     var addNewOutput = function (output) {
         checkString(output);
-        convertOperatorToReverse(output.Operator);
+        output.Operator = convertOperatorToReverse(output.Operator);
         output.ConditionType = 'Output';
         output.ParentId = dldata.formula.Id;
         output.Priority = dldata.formula.BOutputs.length;
@@ -322,19 +323,19 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
             output.Operator = "";
         }
         if (output.Lsqlfunction === 'None') {
-            output.Lsqlfunction="";
+            output.Lsqlfunction = "";
         }
-        
+
     };
 
     var convertOperatorToReverse = function (operator) {
         if (operator === undefined || operator === '') {
             return "";
         }
-            
-        return dldata.operatorsEnumReverse[operator];
+
+        return operatorsEnumReverse[operator];
     };
-    
+
     return {
         initEnums: initEnums,
         changeLeftTypeName: changeLeftTypeName,
@@ -348,13 +349,14 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function(datalayer) {
     };
 }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory','$csfactory',
-    function ($scope, datalayer, factory,$csfactory) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory',
+    function ($scope, datalayer, factory, $csfactory) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.factory.initEnums();
+
             $scope.datalayer.getProducts();
             $scope.$watch("dldata.formula.BOutputs.length", function () {
                 if (angular.isUndefined($scope.dldata.formula)) {
