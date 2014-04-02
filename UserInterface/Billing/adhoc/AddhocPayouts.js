@@ -70,6 +70,19 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             });
         };
 
+        var getdetails = function (product, month) {
+            month = moment(month).format('YYYYMM');
+           return restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
+                dldata.isBilled = data;
+                if (data === "true") {
+                    $csnotify.success("Billing Already Done");
+                }
+                return data;
+            }, function () {
+                $csnotify.error();
+            });
+        };
+
         var changeProductCategory = function () {
             //restApi.customGET("GetBillStatus", { product: dldata.selectedProduct }).then(function(status) {
             //    if (status) {
@@ -83,12 +96,10 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {
                 //convert date
                 _.forEach(data, function (item) {
-                    //convertToDate(item.StartDate);
-                    //convertToDate(item.EndDate);
                     item.StartMonth = moment(item.StartMonth, 'YYYYMM');
-                    item.StartMonth = moment(item.StartMonth).format('MMMYYYY');
+                    item.StartMonth = moment(item.StartMonth).format('MMM-YYYY');
                     item.EndMonth = moment(item.EndMonth, 'YYYYMM');
-                    item.EndMonth = moment(item.EndMonth).format('MMMYYYY');
+                    item.EndMonth = moment(item.EndMonth).format('MMM-YYYY');
                 });
                 dldata.adhocPayoutAllList = data;
                 dldata.adhocPayoutList = data;
@@ -103,12 +114,6 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             //});
         };
 
-        //var convertToDate = function (date) {
-        //        date = moment(date, 'YYYYMM');
-        //        date = moment(date).format('YYYYMMM');
-        //    });
-        //};
-
         var saveData = function (adhocPayout) {
             if (dldata.adhocPayout.IsRecurring === "false") {
                 dldata.adhocPayout.Tenure = 1;
@@ -120,9 +125,9 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
 
             return restApi.customPOST(adhocPayout, 'Post').then(function (data) {
                 data.StartMonth = moment(data.StartMonth, 'YYYYMM');
-                data.StartMonth = moment(data.StartMonth).format('MMMYYYY');
+                data.StartMonth = moment(data.StartMonth).format('MMM-YYYY');
                 data.EndMonth = moment(data.EndMonth, 'YYYYMM');
-                data.EndMonth = moment(data.EndMonth).format('MMMYYYY');
+                data.EndMonth = moment(data.EndMonth).format('MMM-YYYY');
                 dldata.adhocPayoutList.push(data);
                 $csnotify.success('All File Columns Save Successfully');
                 return data;
@@ -135,7 +140,8 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             dldata: dldata,
             getProducts: getProducts,
             changeProductCategory: changeProductCategory,
-            saveData: saveData
+            saveData: saveData,
+            getdetails: getdetails
         };
     }]);
 
@@ -179,13 +185,17 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
             $modalInstance.dismiss(); //failure
         };
 
+        $scope.getdetails = function (product, month) {
+            datalayer.getdetails(product, month);
+        };
+
         $scope.saveData = function (adhocPayout) {
             datalayer.saveData(adhocPayout).then(function (data) {
                 $scope.dldata.adhocPayout.TotalAmount = '';
                 $scope.dldata.adhocPayout.IsCredit = '';
                 $scope.dldata.adhocPayout.ReasonCode = '';
                 $scope.dldata.adhocPayout.Description = '';
-                //$scope.dldata.adhocPayout.IsRecurring = '';
+                $scope.dldata.adhocPayout.StartMonth = '';
                 $modalInstance.close(data); //success
             });
         };
