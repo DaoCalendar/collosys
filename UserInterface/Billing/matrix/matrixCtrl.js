@@ -108,11 +108,11 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var initEnumsConst = function () {
             dldata.operatorsEnum = {
-                GreaterThan: '>',
-                LessThan: '<',
-                GreaterThanEqualTo: '>=',
-                LessThanEqualTo: '<=',
-                EqualTo: '='
+                'GreaterThan': '>',
+                'LessThan': '<',
+                'GreaterThanEqualTo': '>=',
+                'LessThanEqualTo': '<=',
+                'EqualTo': '='
             };
 
             dldata.operatorsEnumReverse = {
@@ -188,7 +188,7 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var highlightSelectedMatrix = function (smatrix) {
             if (angular.isUndefined(dldata.matrix.Name)) {
-                return {backgroundColor:'white'};
+                return { backgroundColor: 'white' };
             }
             if (smatrix.Name.toUpperCase() === dldata.matrix.Name.toUpperCase())
                 return { backgroundColor: 'rgba(195, 201, 204, 0.24)' };
@@ -231,6 +231,9 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
         };
 
         var getOppositeOperator = function (selOperator) {
+            if (angular.isUndefined(selOperator) || selOperator === "None") {
+                return "";
+            }
             if (selOperator === 'GreaterThan') {
                 return 'LessThanEqualTo';
             }
