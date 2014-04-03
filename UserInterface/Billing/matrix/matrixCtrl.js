@@ -187,6 +187,9 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
         };
 
         var highlightSelectedMatrix = function (smatrix) {
+            if (angular.isUndefined(dldata.matrix.Name)) {
+                return {backgroundColor:'white'};
+            }
             if (smatrix.Name.toUpperCase() === dldata.matrix.Name.toUpperCase())
                 return { backgroundColor: 'rgba(195, 201, 204, 0.24)' };
         };
