@@ -13,7 +13,7 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     };
 
     var fetchMissingPincodes = function (product) {
-        return pincodeapi.customGETLIST("FetchMissingPincodes", { 'product': product })
+        return pincodeapi.customGET("FetchMissingPincodes", { 'product': product })
             .then(function (data) {
                 return data;
             }, function (error) {
@@ -22,7 +22,7 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     };
 
     var uploadPincodes = function (uploadInfo) {
-        return pincodeapi.customPOST({ 'UploadInfo': uploadInfo }, "UploadPincode")
+        return pincodeapi.customPOST(uploadInfo, "UploadPincode")
             .then(function(data) {
                 return data;
             }, function(error) {
