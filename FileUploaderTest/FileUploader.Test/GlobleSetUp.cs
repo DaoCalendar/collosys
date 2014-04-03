@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace ReflectionExtension.Tests.FileUploader.Test
 {
     [SetUpFixture]
-    public class GlobalSetup
+    public class GlobalSetupAsm
     {
         private static ConnectionStringSettings _connectionString;
         private static int _initCount;
@@ -21,16 +21,7 @@ namespace ReflectionExtension.Tests.FileUploader.Test
             InitNhibernate();
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            if (--_initCount == 0)
-            {
-                SessionManager.UnbindSession();
-            }
-        }
-
-        private void InitNhibernate()
+      private void InitNhibernate()
         {
             if (_initCount++ != 0) return;
             _dbType = ConfiguredDbTypes.MsSql;

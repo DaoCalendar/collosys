@@ -50,9 +50,9 @@ namespace ColloSys.FileUploadService.ExcelReader
 
             if (Reader.UploadedFile.FileDetail.AliasName == ColloSysEnums.FileAliasName.R_PAYMENT_LINER)
             {
-                IList<int> paymentcodes = new List<int> {179, 201, 203, 891};
+                IList<int> paymentcodes = new List<int> { 179, 201, 203, 891 };
                 record.IsDebit = paymentcodes.Contains(record.TransCode);
-                var amountdiff = record.DebitAmount - record.CreditAmount;
+                var amountdiff = record.DebitAmount - (record.CreditAmount.HasValue ? record.CreditAmount.Value : 0);
                 record.TransAmount = amountdiff * (amountdiff < 0 ? -1 : 1);
             }
             else

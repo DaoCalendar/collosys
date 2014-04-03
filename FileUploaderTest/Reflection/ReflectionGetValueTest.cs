@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using FileUploader.Reflection;
+﻿using ColloSys.FileUploader.Reflection;
+using NUnit.Framework;
 
 
 namespace FileUploader.Tests.Reflection

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Reflection;
 
 namespace FileUploader.ValueSetters
 {
@@ -17,30 +16,31 @@ namespace FileUploader.ValueSetters
                 {
                     return DateTime.ParseExact(value, format, indtInfo);
                 }
+
                 return DateTime.Parse(value, indtInfo, styles);
-              
+
             }
-           
-                catch (Exception e)
+
+            catch (Exception e)
+            {
+                try
                 {
-                    try
+                    if (value != null)
                     {
-                        if (value != null)
-                        {
-                            double oaDateTime = Convert.ToDouble(value);
-                            return DateTime.FromOADate(oaDateTime);
-                        }
-                        return DateTime.Parse(null, indtInfo, styles);
+                        double oaDateTime = Convert.ToDouble(value);
+                        return DateTime.FromOADate(oaDateTime);
                     }
+                    return DateTime.Parse(value, indtInfo, styles);
+                }
 
 
-                    catch (Exception)
-                    {
-                        throw new Exception(string.Format("Value {0} is not a valid date.", value), e);
-                    }
+                catch (Exception)
+                {
+                    throw new Exception(string.Format("Value {0} is not a valid date.", value), e);
                 }
             }
         }
-
     }
+
+}
 
