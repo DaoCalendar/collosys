@@ -88,11 +88,16 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
         }
     };
 
+    //var resetdata = function () {
+    //    dldata.fileDetail = {};
+    //};
+
     return {
         Save: saveFileDetails,
         Delete: deleteFileDetails,
         GetAll: getAllFileDetails,
-        dldata: dldata
+        dldata: dldata,
+        //reset: resetdata
     };
 }]);
 
@@ -104,6 +109,10 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
             $modalInstance.dismiss(closer);
         };
 
+        $scope.reset = function (fileDetail) {
+            $scope.fileDetail = {};
+        };
+
         $scope.add = function (fileDetail) {
             datalayer.Save(fileDetail).then(function () {
                 $modalInstance.close();
@@ -113,11 +122,12 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
         $scope.updateDependsOnAlias = function (details) {
             if (angular.isUndefined(details)) details = {};
             details.dependsOnAliasList = factory.getDependsOnAlias(details, datalayer.dldata.fileDetailsList);
-            console.log(details.dependsOnAliasList);
         };
 
         (function () {
             $scope.fileDetail = fileDetails.fileDetail;
+            if (angular.isUndefined($scope.fileDetail))
+                $scope.fileDetail = {};
             $scope.val = $val;
             $scope.datalayer = datalayer;
             $scope.factory = factory;

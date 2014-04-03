@@ -19,10 +19,10 @@ namespace ColloSys.QueryBuilder.BillingBuilder
             return QueryOver.Of<BillingRelation>();
         }
 
-        [Transaction]
         public BillingRelation OnSubpolicyId(Guid subpolicyId)
         {
-            return SessionManager.GetCurrentSession().QueryOver<BillingRelation>().Where(x => x.BillingSubpolicy.Id == subpolicyId).SingleOrDefault();
+            var list = FilterBy(x => x.BillingSubpolicy.Id == subpolicyId);
+            return list.Count > 0 ? list[0] : null;
         }
     }
 }

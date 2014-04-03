@@ -24,12 +24,24 @@
     };
 }]);
 
-csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer',
-    function ($scope, modeldata, $modalInstance, datalayer) {
+csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory",
+    function ($scope, modeldata, $modalInstance, datalayer, factory) {
         $scope.modalData = modeldata;
 
+        $scope.modelDateValidation = function (startDate, endDate) {
+            if (angular.isUndefined(endDate) || endDate == null) {
+                $scope.isModalDateValid = true;
+                return;
+            }
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            $scope.isModalDateValid = (endDate > startDate);
+
+        };
+
+
         $scope.activateSubPoicy = function (modalData) {
-            var maxPriorityPolicy = _.max($scope.allocPolicy.AllocRelations, 'Priority');
+            var maxPriorityPolicy = _.max(datalayer.dldata.allocPolicy.AllocRelations, 'Priority');
             modalData.AllocRelations.Priority = maxPriorityPolicy.Priority + 1;
             modalData.AllocRelations.StartDate = modalData.startDate;
             modalData.AllocRelations.EndDate = modalData.endDate;
@@ -39,7 +51,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
                 datalayer.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
             datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy).then(function () {
-                $modalInstance.close();
+                $scope.closeModel();
+
             });
         };
 
@@ -48,9 +61,22 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
             modalData.AllocRelations.EndDate = modalData.endDate;
             datalayer.dldata.allocPolicy.AllocRelations.push(JSON.parse(JSON.stringify(modalData.AllocRelations)));
             datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy).then(function () {
-                $modalInstance.close();
+                $scope.closeModel();
             });
         };
+
+
+        $scope.closeModel = function () {
+            $modalInstance.close();
+            $scope.modalData = {
+                AllocRelations: {},
+                startDate: null,
+                endDate: null,
+                subPolicyIndex: -1,
+                forActivate: true
+            };
+        };
+
     }]);
 
 csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal',
@@ -61,6 +87,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.datalayer.reset();
             $scope.modalData = {
                 AllocRelation: {},
                 StartDate: null,
@@ -123,15 +150,6 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             openModal($scope.modalData);
         };
 
-        $scope.closeModel = function () {
-            $scope.modalData = {
-                AllocRelations: {},
-                startDate: null,
-                endDate: null,
-                subPolicyIndex: -1,
-                forActivate: true
-            };
-        };
 
     }]);
 
@@ -176,7 +194,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 $csnotify.error(data);
             });
         };
-        var approveRelation = function(relation) {
+        var approveRelation = function (relation) {
             var origId = relation.OrigEntityId;
             var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
             api.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
@@ -215,9 +233,9 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var reset = function () {
-            $scope.allocPolicy = {};
-            $scope.allocPolicy.Category = "Liner";
-            $scope.subPolicyList = {};
+            dldata.allocPolicy = {};
+            dldata.allocPolicy.Category = "Liner";
+            dldata.subPolicyList = {};
         };
 
         return {
@@ -246,7 +264,7 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
             datalayer.dldata.color = { color: 'blue' };
         }
         return status;
-       };
+    };
 
     var getDisplaySubPolicy = function (subPolicy) {
         var displaySubPolicy = {};
@@ -298,17 +316,10 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         return ((today <= endDate) === todayActive);
     };
 
-    var modelDateValidation = function (startDate, endDate) {
-        if (angular.isUndefined(endDate) || endDate == null) {
-            return true;
-        }
-        startDate = moment(startDate);
-        endDate = moment(endDate);
-        return (endDate > startDate);
-    };
-
     var upside = function (subPolicy, index) {
-        var test = _.filter($scope.allocPolicy.AllocRelations, function (relation) { return relationValidToday(relation, true); });
+        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+            return (subpolicy.Status == 'Approved');
+        });
         var relations = _.sortBy(test, 'Priority');
         var tempPriority = relations[index].Priority;
         relations[index].Priority = relations[index - 1].Priority;
@@ -317,7 +328,9 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
     };
 
     var downside = function (subPolicy, index) {
-        var test = _.filter($scope.allocPolicy.AllocRelations, function (relation) { return relationValidToday(relation, true); });
+        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+            return (subpolicy.Status == 'Approved');
+        });
         var relations = _.sortBy(test, 'Priority');
 
         var tempPriority = relations[index].Priority;
@@ -334,7 +347,6 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         filterRelation: filterRelation,
         expiredPolicyStatus: expiredPolicyStatus,
         relationValidToday: relationValidToday,
-        modelDateValidation: modelDateValidation,
         upside: upside,
         downside: downside
     };

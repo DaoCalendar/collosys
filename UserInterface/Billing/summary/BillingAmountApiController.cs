@@ -84,9 +84,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             var amount = finalBill.billAdhoc.IsCredit ? newBillDetail.Amount : (-1) * newBillDetail.Amount;
 
             finalBill.billAmount.Deductions = finalBill.billAmount.Deductions + amount;
-            
-            BillDetailBuilder.Save(newBillDetail);
             BillAdhocBuilder.Save(finalBill.billAdhoc);
+            BillDetailBuilder.Save(newBillDetail);
             BillAmountBuilder.Save(finalBill.billAmount);
             return finalBill;
         }

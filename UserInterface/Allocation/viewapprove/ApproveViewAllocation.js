@@ -19,8 +19,8 @@ csapp.controller("approveViewCntrl1", ["$scope", "$csfactory", "$csnotify", "Res
 
     }]);
 
-csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal','$csfactory',
+    function ($scope, datalayer, factory, $modal,$csfactory) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
@@ -48,7 +48,10 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             });
         };
 
-        $scope.getPagedData = function() {
+        $scope.getPagedData = function () {
+            if (($csfactory.isNullOrEmptyString($scope.dldata.selectedProduct)) || ($csfactory.isNullOrEmptyString($scope.dldata.selectedAllocation))) {
+                return;
+            }
             datalayer.fetchData();
             $scope.gridOptions = $scope.dldata.gridOptions;
         };

@@ -19,9 +19,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         public BulkAllocationModel()
         {
-            SaveRAllocs=new List<Alloc>();
-            SaveEAllocs=new List<Alloc>();
-            SaveCAllocs=new List<Alloc>();
+            SaveRAllocs=new List<Allocations>();
+            SaveEAllocs=new List<Allocations>();
+            SaveCAllocs=new List<Allocations>();
         }
 
         public ScbEnums.Products Product { get; set; }
@@ -32,13 +32,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
         public ColloSysEnums.AllocationType AllocationType { get; set; }
 
 
-        public IList<Alloc> RAllocs { get; set; }
-        public IList<Alloc> CAllocs { get; set; }
-        public IList<Alloc> EAllocs { get; set; }
+        public IList<Allocations> RAllocs { get; set; }
+        public IList<Allocations> CAllocs { get; set; }
+        public IList<Allocations> EAllocs { get; set; }
 
-        public IList<Alloc> SaveRAllocs { get; set; }
-        public IList<Alloc> SaveCAllocs { get; set; }
-        public IList<Alloc> SaveEAllocs { get; set; }
+        public IList<Allocations> SaveRAllocs { get; set; }
+        public IList<Allocations> SaveCAllocs { get; set; }
+        public IList<Allocations> SaveEAllocs { get; set; }
 
         public BulkAllocationModel GetAllocations(BulkAllocationModel model)
         {
@@ -72,7 +72,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.ViewModels
 
         #region get allocations 
 
-        private static IList<Alloc> GetAllocationsForAlloc(BulkAllocationModel model)
+        private static IList<Allocations> GetAllocationsForAlloc(BulkAllocationModel model)
         {
             return AllocBuilder.AllocationsForStakeholder(model.Stakeholder, model.Product).ToList();
         }

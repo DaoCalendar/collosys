@@ -88,7 +88,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
         }
 
         private static void UploadPincodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
-            where TInfo : Info
+            where TInfo : CustomerInfo
         {
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();

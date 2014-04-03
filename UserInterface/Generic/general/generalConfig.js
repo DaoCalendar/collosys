@@ -36,7 +36,7 @@ csapp.factory('configFactory', ['$http', '$csnotify', '$q', function ($http, $cs
     };
 
     var sectionNames = function () {
-        debugger;
+        
         var deferred = $q.defer();
 
         $http({
@@ -52,7 +52,7 @@ csapp.factory('configFactory', ['$http', '$csnotify', '$q', function ($http, $cs
     };
 
     var encryptSection = function (sectionName) {
-        debugger;
+        
         var deferred = $q.defer();
         $http({
             url: '/api/connectionapi/EncryptSection/',
@@ -68,7 +68,7 @@ csapp.factory('configFactory', ['$http', '$csnotify', '$q', function ($http, $cs
     };
 
     var decryptSection = function (sectionName) {
-        debugger;
+        
         var deferred = $q.defer();
         $http({
             url: '/api/connectionapi/DecryptSection/',

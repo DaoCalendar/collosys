@@ -6,58 +6,28 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Web;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Excel2DT;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.Types4Product;
-using NLog;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
+namespace AngularUI.FileUpload.uploadpincode
 {
     public static class PincodeUploadHelper
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public static bool IsFileValid(HttpPostedFileBase fileBase, out string message)
-        {
-            if (fileBase == null || fileBase.ContentLength <= 0)
-            {
-                message = "Empty file!!!";
-                return false;
-            }
-
-            if (string.IsNullOrWhiteSpace(fileBase.FileName))
-            {
-                message = "File name empty!!!";
-                return false;
-            }
-
-            var fileInfo = new FileInfo(fileBase.FileName);
-            if (fileInfo.Extension != ".xlsx")
-            {
-                message = "Not Excel(.xlsx) file!!!";
-                return false;
-            }
-
-            message = string.Empty;
-            return true;
-        }
-
-        public static void ReadPincodeExcel(ScbEnums.Products product, HttpPostedFileBase fileBase)
+        public static void ReadPincodeExcel(ScbEnums.Products product, FileInfo fileBase)
         {
             DataTable dataTable;
             try
             {
-                dataTable = EpPlusExcelsxReader.ReadExcelData(typeof(PincodeRow), fileBase.InputStream);
+                dataTable = EpPlusExcelsxReader.ReadExcelData(typeof(PincodeRow), fileBase);
             }
             catch (Exception e)
             {
-                Logger.ErrorException("Error: could not read excel.", e);
                 throw new Exception("Could not read excel.", e);
             }
 
@@ -71,7 +41,6 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
             }
             catch (Exception e)
             {
-                Logger.ErrorException("Error: could not get RECInfo from db.", e);
                 throw new Exception("Could not fetch customer info from db.", e);
             }
 
@@ -88,7 +57,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.Helper
         }
 
         private static void UploadPincodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
-            where TInfo : Info
+            where TInfo : CustomerInfo
         {
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();

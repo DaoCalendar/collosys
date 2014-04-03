@@ -30,10 +30,10 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
-        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         [HttpGet]
-        
+
         public AddStakeholderModel GetAllHierarchies()
         {
             var stake = new AddStakeholderModel
@@ -50,7 +50,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        
+
         public IEnumerable<Stakeholders> GetReportsToInHierarchy(StkhHierarchy reportsto)
         {
             var data = GetReportsToList(reportsto);
@@ -61,7 +61,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         }
 
         [HttpPost]
-        
+
         public HttpResponseMessage SaveStakeholder(FinalPostModel finalPost)
         {
             var stakeholders = finalPost.Stakeholder;
@@ -118,6 +118,31 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 stakeholders.StkhWorkings = worklist;
             }
 
+            if (!finalPost.Hierarchy.HasWorking && finalPost.Hierarchy.HasPayment)
+            {
+                IList<StkhPayment> paymentList = new List<StkhPayment>();
+
+                foreach (var payWorkModel in finalPost.PayWorkModelList)
+                {
+                    foreach (var stkhWorking in payWorkModel.WorkList)
+                    {
+                        stkhWorking.StkhPayment = payWorkModel.Payment;
+                        workingList.Add(stkhWorking);
+                    }
+                    AssignBillingPolicies(payWorkModel);
+                    payWorkModel.Payment.StkhWorkings = payWorkModel.WorkList;
+                    payWorkModel.Payment.Stakeholder = finalPost.Stakeholder;
+                    paymentList.Add(payWorkModel.Payment);
+                }
+                stakeholders.StkhWorkings = workingList;
+                foreach (var working in stakeholders.StkhWorkings)
+                {
+                    working.ApprovedBy = stakeholders.ApprovedBy;
+                }
+                stakeholders.StkhPayments = paymentList;
+            }
+
+
             foreach (var working in stakeholders.StkhWorkings)
             {
                 working.StartDate = finalPost.Stakeholder.JoiningDate;
@@ -170,7 +195,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             {
                 //save stakeholder here
                 //if (DateTime.MinValue == stakeholders.BirthDate)
-                    //stakeholders.BirthDate = null;
+                //stakeholders.BirthDate = null;
                 SetApprovalStatusInsert(stakeholders);
                 Save(stakeholders);
                 _log.Info("Stakeholder is saved in StakeholderApi/Save");
@@ -220,7 +245,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
         }
         [HttpGet]
-        
+
         public FinalPostModel GetStakeholderEditMode(Guid stakeholderId)
         {
             var stakeholder = GetStakeholder(stakeholderId);
@@ -230,7 +255,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
 
         private static FinalPostModel ConvertToFinalPostModel(Stakeholders stakeholders)
         {
-            var finalPostModel = new FinalPostModel {Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy};
+            var finalPostModel = new FinalPostModel { Stakeholder = stakeholders, Hierarchy = stakeholders.Hierarchy };
 
             //set address of stakeholder
             if (stakeholders.GAddress.Any())
@@ -269,7 +294,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             }
             else if (stakeholders.StkhWorkings.Any() && stakeholders.StkhPayments.Count == 0)
             {
-                var payworkmodel = new PayWorkModel {WorkList = stakeholders.StkhWorkings};
+                var payworkmodel = new PayWorkModel { WorkList = stakeholders.StkhWorkings };
                 finalPostModel.PayWorkModelList.Add(payworkmodel);
                 finalPostModel.PayWorkModel = payworkmodel;
                 finalPostModel.PayWorkModel = finalPostModel.PayWorkModelList[0];

@@ -114,7 +114,7 @@ namespace ColloSys.FileUploadService.ExcelReader
             }
         }
 
-       
+
 
         #endregion
 
@@ -353,18 +353,23 @@ namespace ColloSys.FileUploadService.ExcelReader
                 return false;
             }
 
+            SessionManager.BindNewSession();
             foreach (DataRow errorRow in dataTable.Rows)
             {
-                SaveEditedErrorRecord.SaveErrorRow(Reader.UploadedFile.FileDetail.AliasName, errorRow, out errorMessage);
+                SaveEditedErrorRecord.SaveErrorRow(Reader.UploadedFile.FileDetail.AliasName, errorRow,
+                    out errorMessage);
 
                 errorRow[UploaderConstants.ErrorDescription] = errorMessage;
-                errorRow[UploaderConstants.ErrorStatus] = string.IsNullOrWhiteSpace(errorMessage) ?
-                                                                ColloSysEnums.ErrorStatus.RetrySuccess.ToString() : ColloSysEnums.ErrorStatus.DataError.ToString();
+                errorRow[UploaderConstants.ErrorStatus] = string.IsNullOrWhiteSpace(errorMessage)
+                    ? ColloSysEnums.ErrorStatus.RetrySuccess.ToString()
+                    : ColloSysEnums.ErrorStatus.DataError.ToString();
 
-                var errorDictionary = errorRow.Table.Columns.Cast<DataColumn>().ToDictionary(col => col.ColumnName, col => errorRow.Field<object>(col.ColumnName));
+                var errorDictionary = errorRow.Table.Columns.Cast<DataColumn>()
+                    .ToDictionary(col => col.ColumnName, col => errorRow.Field<object>(col.ColumnName));
 
                 dbLayer.UpdateErrorData(errorDictionary, out errorMessage);
             }
+            SessionManager.UnbindSession();
 
             return true;
         }

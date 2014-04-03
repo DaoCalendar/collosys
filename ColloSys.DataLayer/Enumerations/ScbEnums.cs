@@ -17,7 +17,8 @@ namespace ColloSys.DataLayer.Enumerations
             PL,
             CC,
             AUTO_OD,
-            SMC
+            SMC,
+            ALL
         }
 
         [Serializable]

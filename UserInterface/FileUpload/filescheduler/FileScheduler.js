@@ -43,9 +43,20 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
     }
 ]);
 
+csapp.factory("fileSchedulerFactory", function() {
 
-csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload",
-    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload) {
+    var validateFile = function(file) {
+        return true;
+    };
+
+    return {
+        isFileValid: validateFile
+    };
+});
+
+
+csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory",
+    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory) {
         "use strict";
 
         //#region helpers
@@ -103,6 +114,9 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         $scope.upload = [];
         $scope.onFileSelect = function (file, $files, $index) {
             var cfile = $files[0];
+            if (!factory.isFileValid(cfile)) {
+                return;
+            }
             file.IsUploading = true;
             $scope.uploadCount++;
             file.UploadPercent = 10;

@@ -66,7 +66,7 @@ csapp.controller('readyForBillingController', ["$scope", "$csnotify", "$csfactor
         var getbillingData = function(product, billingMonth) {
             return restapi.customGET("FetchPageData", { 'Products': product, 'month': billingMonth }).then(
                 function (data) {
-                    $scope.pageData = data;
+                    dldata.pageData = data;
                     //if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
                     //$scope.gridOptions = $grid.InitGrid(data.QueryParams, $scope.gridOptions); // query params
                     //$grid.SetData($scope.gridOptions, data.QueryResult); // query result

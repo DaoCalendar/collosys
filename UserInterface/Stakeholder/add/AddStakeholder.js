@@ -65,7 +65,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return true;
         },
         ShowSaveButton: function () {
-            // debugger;
+            // 
             if ($csfactory.isNullOrEmptyArray($scope.HierarchySteps)) return false;
             var index = _.indexOf($scope.HierarchySteps, $scope.currentStep);
             if (index === -1) return false;
@@ -121,6 +121,9 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.WizardData = {
+
+        Payment: {},
+
         BillingPolicy: {
             LinerPolicies: [],
             WriteOffPolicies: [],
@@ -327,7 +330,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return $scope.WizardData.FinalPostModel.IsEditMode;
         },
         ResetPayWorkModel: function () {
-            $scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
+            //$scope.WizardData.FinalPostModel.PayWorkModel.Payment = {};
             $scope.WizardData.FinalPostModel.PayWorkModel.WorkList = [];
         },
         ResetPayWorkModelList: function () {
@@ -347,9 +350,24 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.addAnotherWorking = function () {
+
+        if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
+            var dummuWorking = {
+                Country: "INDIA", Products: "ALL", Region: "ALL", State: "ALL", Cluster: "ALL", District: "ALL", City: "ALL",
+                Area: "ALL", LocationLevel: "Country"
+            };
+            $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummuWorking);
+            $scope.WizardData.FinalPostModel.PayWorkModel.Payment.Products = 'ALL';
+        }
+
         $scope.WizardData.AddPayWorkModel($scope.WizardData.FinalPostModel.PayWorkModel);
         $scope.WizardData.ResetPayWorkModel();
     };
+
+    $scope.setPayWorkIndex = function (index) {
+        $scope.showIndex = $scope.showIndex === index ? false : index;
+    };
+
     $scope.deletePaymentWorking = function (index, data) {
         if ($scope.WizardData.IsEditMode() === true) {
             if ($scope.WizardData.FinalPostModel.Stakeholder.Status !== 'Approved') {
@@ -370,7 +388,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.displayPaymentWorkingData = function (hierarchy, count) {
-        var result = hierarchy.HasWorking && hierarchy.HasPayment && count > 0;
+        var result = (hierarchy.HasWorking || hierarchy.HasPayment) && hierarchy.HasPayment && count > 0;
         return result;
     };
 
@@ -404,7 +422,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             return false;
         }
         else if ($scope.indexData.Hierarchy.HasPayment && !$scope.indexData.Hierarchy.HasWorking) {
-            return false;
+            return invalid;
         }
         else {
             return true;
@@ -427,7 +445,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
-
+        $scope.oneAtATime = true;
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
@@ -472,6 +490,10 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         if (indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment)
             return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
 
+        if (!indexData.Hierarchy.HasWorking && indexData.Hierarchy.HasPayment) {
+            return ($scope.WizardData.FinalPostModel.PayWorkModelList.length == 0);
+        }
+
 
     };
     //#endregion
@@ -510,12 +532,15 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.SaveData = function () {
+
         if (($scope.indexData.Hierarchy.IsUser === true)) {
             if ($scope.WizardData.userExists === true) {
                 $csnotify.error("UserId Already Exist");
                 return;
             }
         }
+
+
 
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
@@ -555,6 +580,17 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
                 }
             }
         }
+
+        //if (hierarchy.HasPayment && !hierarchy.HasWorking) {
+
+        //    var dummyWorking = {
+        //        Country: 'INDIA',
+        //    };
+        //    $scope.WizardData.FinalPostModel.PayWorkModel.WorkList.push(dummyWorking);
+        //    $scope.WizardData.FinalPostModel.PayWorkModel.Payment = $scope.WizardData.Payment;
+        //    $scope.WizardData.FinalPostModel.PayWorkModelList.push($scope.WizardData.FinalPostModel.PayWorkModel);
+        //}
+
         if (hierarchy.HasWorking && hierarchy.HasPayment) {
             var product; //= finalPostModel.PayWorkModelList[0].WorkList[0].Products;
             var policyCollection; //= finalPostModel.PayWorkModelList[0].Payment.CollectionBillingPolicy;
@@ -641,7 +677,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
     };
 
     $scope.getReportsTo = function (hierarchy) {
-        debugger;
+
         if (angular.isUndefined(hierarchy)) {
             return;
         }
@@ -700,7 +736,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
 
 //set staekholder for edit mode
 //var setStakeholderForEdit = function (stakeholder) {
-//    // debugger;
+//    // 
 //    $scope.Stakeholder = stakeholder;
 //    $scope.addStakeholderpanel1 = false;
 //    $scope.WizardData.LocationLevel = stakeholder.LocationLevel;

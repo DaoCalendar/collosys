@@ -15,7 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />
-    <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
+        <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
+    
     <link href="Content/fontawesome/font-awesome.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
@@ -43,7 +44,7 @@
             <div data-ng-view=""></div>
         </div>
     </div>
-    
+
     <!--[if lt IE 9]>
     <script src="Scripts/es5-shim/es5-shim.min.js"></script>
     <script src="Scripts/json3/json3.min.js"></script>
@@ -55,10 +56,11 @@
     <script src="Scripts/moment/moment.js"></script>
     <script src="Scripts/notifyjs/notify.js"></script>
     <script src="Scripts/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="Scripts/angular.ui/autofill-event.js"></script>
 
-    <script src="Scripts/file-upload/FileAPI.min.js"></script>
+    <!--<script src="Scripts/file-upload/FileAPI.min.js"></script>-->
+    <script> FileAPI = { jsPath: 'Scripts/file-upload/', staticPath: 'Scripts/file-upload/' } </script>
     <script src="Scripts/file-upload/angular-file-upload-shim.js"></script>
-    <script src="Scripts/file-upload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angularjs/angular.js"></script>
     <script src="Scripts/angularjs/angular-route.js"></script>
     <script src="Scripts/angularjs/angular-animate.js"></script>
@@ -86,8 +88,7 @@
     <script src="FileUpload/clientdatadownload/client-data-download.js"></script>
     <script src="FileUpload/customerinfo/customer-info.js"></script>
     <script src="FileUpload/paymentreversal/paymentmanager.js"></script>
-    <script src="FileUpload/pincodeupload/PincodeUploadController.js"></script>
-    <script src="FileUpload/rcodeupload/RcodeUploadController.js"></script>
+    <script src="FileUpload/uploadpincode/uploadpincode.js"></script>
 
     <script src="Stakeholder/add/HierarchyModel.js"></script>
     <script src="Stakeholder/add/BasicInfoScript.js"></script>
@@ -98,11 +99,11 @@
     <script src="Stakeholder/add/AddStakeholder.js"></script>
     <script src="Stakeholder/hierarchy/hierarchy.js"></script>
     <script src="Stakeholder/view/ViewStakeholder.js"></script>
-    
+
     <script src="Allocation/policy/allocPolicyCtrl.js"></script>
     <script src="Allocation/subpolicy/allocSubpolicyCtrl.js"></script>
     <script src="Allocation/viewapprove/ApproveViewAllocation.js"></script>
-    
+
     <script src="Billing/factories.js"></script>
     <script src="Billing/adhoc/AddhocPayouts.js"></script>
     <script src="Billing/formula/formula.js"></script>
@@ -112,7 +113,7 @@
     <script src="Billing/status/BillingStatus.js"></script>
     <script src="Billing/subpolicy/payoutSubpolicyCtrl.js"></script>
     <script src="Billing/summary/BillAmountCntrl.js"></script>
-    
+
     <script src="Generic/permissions/permission.js"></script>
     <script src="Generic/product/ProductConfigModel.js"></script>
     <script src="Generic/keyvalue/keyValueCtrl.js"></script>

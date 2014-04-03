@@ -16,6 +16,7 @@ using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.SharedUtils;
 using ColloSys.Shared.Types4Product;
 using ColloSys.UserInterface.Shared.Attributes;
+using DocumentFormat.OpenXml.EMMA;
 using NHibernate.Criterion;
 using NLog;
 
@@ -49,7 +50,7 @@ namespace ColloSys.UserInterface.Areas.OtherUploads.ApiControllers
             IList result;
             try
             {
-                var memberhelper = new MemberHelper<Info>();
+                var memberhelper = new MemberHelper<CustomerInfo>();
                 var pincodename = memberhelper.GetName(x => x.Pincode);
                 var accnoname = memberhelper.GetName(x => x.AccountNo);
                 var custname = memberhelper.GetName(x => x.CustomerName);

@@ -6,7 +6,7 @@ using PostSharp.Aspects;
 namespace ColloSys.QueryBuilder.TransAttributes
 {
     [Serializable]
-    public class TransactionAttribute:OnMethodBoundaryAspect
+    public class TransactionAttribute : OnMethodBoundaryAspect
     {
         public bool Persist { get; set; }
         private ITransaction transaction;
@@ -15,7 +15,7 @@ namespace ColloSys.QueryBuilder.TransAttributes
         public TransactionAttribute()
         {
             Persist = false;
-            
+
         }
 
         public override void OnEntry(MethodExecutionArgs args)
@@ -26,18 +26,18 @@ namespace ColloSys.QueryBuilder.TransAttributes
 
         public override void OnExit(MethodExecutionArgs args)
         {
-            if (transaction != null && transaction.IsActive)
+            if (transaction == null || !transaction.IsActive) return;
+            if (Persist)
             {
-                if (Persist)
-                {
-                    transaction.Commit();
-                    Session.Clear();
-                }
-                else
-                {
-                    transaction.Rollback();
-                    Session.Clear();
-                }
+                transaction.Commit();
+            }
+            else
+            {
+                transaction.Rollback();
+            }
+            if (Session.IsOpen)
+            {
+                Session.Clear();
             }
         }
     }

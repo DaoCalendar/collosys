@@ -37,6 +37,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                 $scope.$parent.WizardData.FinalPostModel.SelHierarchy.Designation = null;
                 $scope.$parent.WizardData.showBasicInfo = false;
                 // $scope.$parent.resetStakeholder();
+                $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
                 $scope.$parent.resetWizardData();
             }
             $scope.Designation = [];
@@ -73,7 +74,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         };
 
         $scope.assignSelectedHier = function () {
-            //debugger;
+            //
             if (angular.isUndefined($scope.$parent.WizardData)) {
                 return;
             }
@@ -101,12 +102,13 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             //set reports to list for stakeholder
             $scope.$parent.getReportsTo(hierarchy);
             $scope.$parent.WizardData.showBasicInfo = true;
+            $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
             //setBasicInfoModel(hierarchy);
         };
 
         var setBasicInfoModel = function (hierarchy) {
-            debugger;
+            
             $scope.$parent.stakeholderModel.Email.suffix = "";
             if (hierarchy.Hierarchy != 'External') {
                 $scope.$parent.stakeholderModel.Email.suffix = "@sc.com";//set email model

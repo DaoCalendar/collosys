@@ -46,13 +46,13 @@ namespace ColloSys.DataLayer.NhSetup
             // foreign key convention (many2one side)
             mapper.BeforeMapManyToMany += (insp, prop, map) =>
                                           map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
-            mapper.BeforeMapManyToMany += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
+            //mapper.BeforeMapManyToMany += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
 
             // foreign key convention (many2one side)
             mapper.BeforeMapManyToOne += (insp, prop, map) =>
                                          map.Column(prop.LocalMember.GetPropertyOrFieldType().Name + "Id");
             mapper.BeforeMapManyToOne += (insp, prop, map) => map.Cascade(Cascade.None);
-            mapper.BeforeMapManyToOne += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
+            //mapper.BeforeMapManyToOne += (insp, prop, map) => map.Lazy(LazyRelation.NoLazy);
 
             // bag conventions (one2many side)
             mapper.BeforeMapBag += (insp, prop, map) =>
@@ -60,7 +60,7 @@ namespace ColloSys.DataLayer.NhSetup
             mapper.BeforeMapBag += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapBag += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapBag += (insp, prop, map) => map.Inverse(true);
-            mapper.BeforeMapBag += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
+            //mapper.BeforeMapBag += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
 
             // set conventions (one2many side)
             mapper.BeforeMapSet +=
@@ -68,7 +68,7 @@ namespace ColloSys.DataLayer.NhSetup
             mapper.BeforeMapSet += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapSet += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapSet += (insp, prop, map) => map.Inverse(true);
-            mapper.BeforeMapSet += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
+            //mapper.BeforeMapSet += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
 
             // list conventions (one2many side)
             mapper.BeforeMapList +=
@@ -76,7 +76,7 @@ namespace ColloSys.DataLayer.NhSetup
             mapper.BeforeMapList += (insp, prop, map) => map.Cascade(Cascade.DeleteOrphans | Cascade.All);
             mapper.BeforeMapList += (insp, prop, map) => map.BatchSize(100);
             mapper.BeforeMapList += (insp, prop, map) => map.Inverse(true);
-            mapper.BeforeMapList += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
+            //mapper.BeforeMapList += (insp, prop, map) => map.Lazy(CollectionLazy.NoLazy);
         }
 
         private static void FieldMappingConvention(ModelMapper mapper)

@@ -11,12 +11,9 @@
     $scope.allocSubpolicy.Conditions = [];
     $scope.allocSubpolicy.DoAllocate = 1;
     $scope.allocSubpolicy.NoAllocMonth = 1;
-
-
     $scope.allocSubpolicy.Category = "Liner";
     $scope.newCondition.Rtype = "Value";
     $scope.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-
     $scope.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
     $scope.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
     //$scope.allocSubpolicy.NoAllocMonth = false;
@@ -25,31 +22,27 @@
     $scope.isDuplicateName = false;
     $scope.policyapproved = false;
 
-
-
-    
-
-   
-
     $scope.showStartEndModalPopup = function () {
-       
+
         $scope.openDateModel = true;
     };
 
 }]);
 
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory','$modal',
-    function ($scope, datalayer, factory,$modal) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations',
+    function ($scope, datalayer, factory, $modal, $validation) {
         "use strict";
-
-
+        
         (function () {
+            $scope.val = $validation;
+
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.dldata.allocSubpolicy = {};
+            $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
-            console.log($scope.dldata);
         })();
 
         $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
@@ -71,6 +64,11 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                     }
                 }
             });
+        };
+        
+        $scope.showIndividual = function (stkh) {
+            if (angular.isUndefined(stkh.Hierarchy)) return false;
+            return (stkh.Hierarchy.IsIndividual === true);
         };
 
         $scope.$watch('allocSubpolicy.AllocateType', factory.watchAllocateType());
@@ -165,7 +163,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
                 //stakeholderList
                 restApi.customGET('GetStakeholders', { products: allocSubpolicy.Products }).then(function (data) {
-
+                   
                     dldata.stakeholderList = data;
                 }, function (data) {
                     $csnotify.error(data);
@@ -216,8 +214,8 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 restApi.customPUT(allocSubpolicy, "Put", { id: allocSubpolicy.Id }).then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
-                    dldata.resetAllocSubpolicy(data.Products, data.Category);
-                    dldata.selectAllocSubpolicy(data);
+                    resetAllocSubpolicy(data.Products, data.Category);
+                    selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -227,8 +225,8 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 restApi.customPOST(allocSubpolicy, "Post").then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
-                    datalayer.resetAllocSubpolicy(data.Products, data.Category);
-                    datalayer.selectAllocSubpolicy(data);
+                    resetAllocSubpolicy(data.Products, data.Category);
+                    selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -239,11 +237,25 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         var activateSubpolicy = function (currelation) {
             return restApi.customPOST(currelation, "ActivateSubpolicy")
                 .then(function (data) {
-                data.AllocPolicy = null;
-                data.AllocSubpolicy = null;
-                $csnotify.success("Policy Activated");
-               return data;
-           });
+                    data.AllocPolicy = null;
+                    data.AllocSubpolicy = null;
+                    $csnotify.success("Policy Activated");
+                    return data;
+                });
+        };
+
+        var resetAllocSubpolicy = function (products, category) {
+            dldata.policyapproved = false;
+            dldata.allocSubpolicy = {};
+            dldata.allocSubpolicy.Conditions = [];
+            dldata.isDuplicateName = false;
+            dldata.deleteConditions = [];
+            dldata.newCondition = {};
+            dldata.allocSubpolicy.Products = products;
+            dldata.allocSubpolicy.Category = category;
+            //dldata.allocSubpolicy.DoAllocate = 1;
+            dldata.allocSubpolicy.NoAllocMonth = 1;
+            resetCondition();
         };
 
         return {
@@ -254,7 +266,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             getColumnValues: getColumnValues,
             saveAllocSubpolicy: saveAllocSubpolicy,
             changeProductCategory: changeProductCategory,
-            activateSubpolicy: activateSubpolicy
+            activateSubpolicy: activateSubpolicy,
+            resetAllocSubpolicy: resetAllocSubpolicy,
+            resetCondition: resetCondition
         };
 
     }]);
@@ -353,7 +367,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             var con = angular.copy(condition);
             dldata.allocSubpolicy.Conditions.push(con);
             dldata.conditionValueType = 'text';
-            resetCondition();
+            datalayer.resetCondition();
         };
 
         var deleteCondition = function (condition, index) {
@@ -363,26 +377,6 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.allocSubpolicy.Conditions[i].Priority = i;
             }
         };
-
-        var resetAllocSubpolicy = function (products, category) {
-            dldata.policyapproved = false;
-            dldata.allocSubpolicy = {};
-            dldata.allocSubpolicy.Conditions = [];
-            dldata.isDuplicateName = false;
-            dldata.deleteConditions = [];
-            dldata.newCondition = {};
-            dldata.allocSubpolicy.Products = products;
-            dldata.allocSubpolicy.Category = category;
-            dldata.allocSubpolicy.DoAllocate = 1;
-            dldata.allocSubpolicy.NoAllocMonth = 1;
-            resetCondition();
-        };
-
-        var resetCondition = function () {
-            dldata.newCondition = {};
-        };
-        
-       
         
         return {
             disableIfRelationExists: disableIfRelationExists,
@@ -390,18 +384,18 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             watchAllocateType: watchAllocateType,
             changeLeftColName: changeLeftColName,
             addNewCondition: addNewCondition,
-            deleteCondition: deleteCondition,
-            resetAllocSubpolicy: resetAllocSubpolicy
+            deleteCondition: deleteCondition
+           
         };
 
     }]);
 
-csapp.controller('datemodelCtrl', ['$scope','modalData','subpolicyDataLayer','$modalInstance',
+csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance',
     function ($scope, modalData, datalayer, $modalInstance) {
         $scope.dldata = datalayer.dldata;
-        
+
         $scope.modalData = modalData;
-        
+
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.isModalDateValid = true;
@@ -411,13 +405,13 @@ csapp.controller('datemodelCtrl', ['$scope','modalData','subpolicyDataLayer','$m
             endDate = moment(endDate);
             $scope.isModalDateValid = (endDate > startDate);
         };
-        
+
         $scope.activateSubPoicy = function (modelData) {
             $scope.dldata.curRelation.StartDate = modelData.startDate;
             $scope.dldata.curRelation.EndDate = modelData.endDate;
             datalayer.activateSubpolicy($scope.dldata.curRelation).then(function (data) {
                 $scope.dldata.curRelation = data;
-                $modalInstance.close();
+                $scope.closeModel();
             });
         };
 

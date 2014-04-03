@@ -42,11 +42,11 @@
                 <div data-ng-show="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode()">
                     <div class="text-right">
                         <button class="btn btn-success"
-                            data-ng-show="!indexData.Hierarchy.HasWorking"
+                            data-ng-show="!indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment"
                             data-ng-disabled="basicInfoForm.$invalid "
                             data-ng-click="SaveData()">
                             Save</button>
-                        <button class="btn btn-success" data-ng-show="indexData.Hierarchy.HasWorking"
+                        <button class="btn btn-success" data-ng-show="indexData.Hierarchy.HasWorking || indexData.Hierarchy.HasPayment"
                             data-ng-disabled="basicInfoForm.$invalid"
                             data-ng-click="showWorkingScreen()">
                             <i class="icon-arrow-right"></i>Next</button>
@@ -103,14 +103,17 @@
                             <div class="panel-heading">
                                 Added Payment Working Groups 
                             </div>
-                            <div class="row-fluid">
+                            <!--<div class="row-fluid">-->
                                 <div data-ng-include="'/Stakeholder/add/show-working-payment.html'"></div>
-                            </div>
+                            <!--</div>-->
                         </div>
                     </div>
                     <div class="text-right">
                         <button class="btn btn-success" data-ng-click="showBasicInfoScreen()"><i class="icon-arrow-left"></i>Prev</button>
-                        <button class="btn btn-success" data-ng-disabled="enableSave(indexData)" data-ng-click="SaveData()">Save</button>
+                        <button class="btn btn-success"
+                            data-ng-disabled="enableSave(indexData)"
+                            data-ng-click="SaveData()">
+                            Save</button>
                     </div>
                 </div>
             </div>

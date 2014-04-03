@@ -8,9 +8,9 @@
             <div class="control-group span4">
                 <label class="control-label">Product</label>
                 <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.selectedProduct" 
-                            data-ng-change="datlayer.changeProductCategory()" 
-                            ui-select2 required>
+                    <select class="input-large" data-ng-model="dldata.selectedProduct"
+                        data-ng-change="datalayer.changeProductCategory()"
+                         required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
@@ -20,20 +20,22 @@
                 <label class="control-label">Stakeholder Name</label>
                 <div class="controls">
                     <select class="input-large"
-                            data-ng-model="dldata.selectedStkholderId" ui-select2
-                            data-ng-change="factory.showData(selectedStkholderId)" required>
+                        data-ng-model="dldata.selectedStkholderId"
+                        data-ng-change="factory.showData(dldata.selectedStkholderId)"
+                       
+                        required>
                         <option></option>
                         <optgroup label="Collector">
-                            <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'true'}" value="{{c.Id}}">{{c.Name}}</option>
+                            <option data-ng-repeat="c in dldata.stakeholderList | filter:ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
                         </optgroup>
                         <optgroup label="Agency">
-                            <option data-ng-repeat="c in dldata.stakeholderList | filter : {'Hierarchy.IsIndividual':'false'}" value="{{c.Id}}">{{c.Name}}</option>
+                            <option data-ng-repeat="c in dldata.stakeholderList | filter:!ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
                         </optgroup>
                     </select>
                 </div>
             </div>
             <div class="row-fluid text-center span2" data-ng-show="dldata.selectedStkholderId">
-                <button class="btn btn-success " data-ng-click="OpenAdhocPayoutManager()">Add</button>
+                <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
             </div>
         </div>
         <!--Table showing details-->
@@ -44,7 +46,7 @@
                         <th>Stakeholder Name</th>
                         <th>Total Amount</th>
                         <th>IsRecurring</th>
-                        <th>IsPretax</th>
+                        <!--<th>IsPretax</th>-->
                         <th>Transaction Type</th>
                         <th>Reasons</th>
                         <th>Description</th>
@@ -62,7 +64,7 @@
                             <i data-ng-show="{{adhocpayouts.IsRecurring}}" class="btn btn-primary">Yes</i>
                             <i data-ng-hide="{{adhocpayouts.IsRecurring}}" class="btn ">No</i>
                         </td>
-                        <td>{{adhocpayouts.IsPretax}}</td>
+                        <!--<td>{{adhocpayouts.IsPretax}}</td>-->
                         <!--IsCredit-->
                         <td style="text-align: center">
                             <i data-ng-show="{{adhocpayouts.IsCredit}}" class="btn btn-primary">Credit</i>

@@ -3,7 +3,7 @@
         <div class="control-group span4">
             <label class="control-label">Product</label>
             <div class="controls">
-                <select data-ng-model="dldata.selectedProduct" class="input-large" data-ng-change="getPagedData()" data-ui-select2="">
+                <select data-ng-model="dldata.selectedProduct" class="input-large" data-ui-select2="">
                     <option value=""></option>
                     <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
                 </select>
@@ -12,7 +12,7 @@
         <div class="control-group span8">
             <label class="control-label">Allocation Status</label>
             <div class="controls">
-                <select data-ng-model="dldata.selectedAllocation" class="input-xlarge" data-ng-change="getPagedData()" data-ui-select2="">
+                <select data-ng-model="dldata.selectedAllocation" class="input-xlarge"  data-ui-select2="">
                     <option value="None">All</option>
                     <option value="DoNotAllocate">Do not allocate</option>
                     <option value="AllocateToTelecalling">Handle by telecaller</option>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="span2">
-                    <button class="btn btn-success" data-ng-disabled="!formDateFilter.$valid" data-ng-click="fetchData()">OK</button>
+                    <button class="btn btn-success" data-ng-disabled="!formDateFilter.$valid" data-ng-click="getPagedData()">OK</button>
                 </div>
             </div>
         </form>

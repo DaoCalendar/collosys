@@ -48,7 +48,6 @@ csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnot
     };
 
     var afterSave = function (data) {
-        console.log('after save');
         dldata.Keys = _.unique(_.pluck(dldata.GKeyValues, 'Key'));
         dldata.Values = _.filter(dldata.GKeyValues, function (kv) { return kv.Key == data.Key; });
         dldata.gKeyValue = { Area: data.Area, Key: data.Key, ValueType: data.ValueType };

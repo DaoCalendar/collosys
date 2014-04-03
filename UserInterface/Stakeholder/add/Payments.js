@@ -9,8 +9,11 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
             $scope.paymentData = {
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy(),
                 Payment: {},
-                isEditMode: $scope.$parent.WizardData.IsEditMode()
+                isEditMode: $scope.$parent.WizardData.IsEditMode(),
             };
+
+            $scope.indexData = $scope.$parent.WizardData.GetHierarchy();
+
             if (angular.isDefined($scope.$parent.WizardData.FinalPostModel.PayWorkModel)) {
                 $scope.paymentData.Payment = $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment;
             }
@@ -55,11 +58,16 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
             getPaymentDetails();
         };
 
+         $scope.addOnlyPayment = function() {
+             $scope.$parent.WizardData.Payment = $scope.paymentData.Payment;
+             $scope.$parent.SaveData();
+         };
+
+
         //Get methods 
         var getPaymentDetails = function () {
             restApi.customGET('GetPaymentDetails').then(function (paymentDetails) {
                 $log.info(paymentDetails);
-                console.log(paymentDetails);
                 $csnotify.success("Get PaymentDetails");
                 $scope.LinerPolicyList = paymentDetails.LinerPolicy;
                 $scope.WriteoffPolicies = paymentDetails.WriteOfPolicy;
