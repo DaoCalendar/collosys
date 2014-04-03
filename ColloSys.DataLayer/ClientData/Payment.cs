@@ -29,7 +29,7 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string ExcludeReason { get; set; }
 
         public virtual decimal DebitAmount { get; set; }
-        public virtual decimal CreditAmount { get; set; }
+        public virtual decimal? CreditAmount { get; set; }
 
         public virtual ColloSysEnums.ApproveStatus Status { get; set; }
         public virtual string Description { get; set; }

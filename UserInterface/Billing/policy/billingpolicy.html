@@ -5,7 +5,7 @@
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-large" data-ng-model="dldata.payoutPolicy.Products"
-                            data-ng-change="datalayer.changeProductCategory()" ui-select2 required>
+                        data-ng-change="datalayer.changeProductCategory()" ui-select2 required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
@@ -15,25 +15,25 @@
                 <label class="control-label">Category</label>
                 <div class="controls">
                     <csswitch ngbind="dldata.payoutPolicy.Category"
-                              onbtnclick="datalayer.changeProductCategory()"
-                              namevalues="dldata.categorySwitch"></csswitch>
+                        onbtnclick="datalayer.changeProductCategory()"
+                        namevalues="dldata.categorySwitch"></csswitch>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="control-group span6">
                 <label class="control-label">Description</label>
                 <div class="controls">
                     <textarea data-ng-modal="dldata.payoutPolicy.Description"></textarea>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="row" data-ng-show="false">
             <div class="control-group span5">
                 <label class="control-label">Name</label>
                 <div class="controls">
                     <input type="text" data-ng-model="dldata.payoutPolicy.Name"
-                           data-ng-pattern="/^\w*$/" readonly="readonly" required />
+                        data-ng-pattern="/^\w*$/" readonly="readonly" required />
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                                                 data-ng-click="factory.upside(dldata.subPolicy,$index)"></button>
                                         <button class="btn btn-mini icon-arrow-down"
                                                 data-ng-disabled="$last"
-                                                data-ng-click="factorydownside(dldata.subPolicy,$index)"></button>
+                                                data-ng-click="factory.downside(dldata.subPolicy,$index)"></button>
                                     </div>
                                 </div>
                             </div>
@@ -219,19 +219,7 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="span2">
-                            <div class="row-fluid span2">
-                                <div class="row-fluid text-right" style="float: left;">
-                                    <div class="btn-group btn-group-vertical">
-                                        <button class="btn btn-mini icon-arrow-up" data-ng-disabled="$first"
-                                                data-ng-click="factory.upside(dldata.subPolicy,$index)"></button>
-                                        <button class="btn btn-mini icon-arrow-down" data-ng-disabled="$last"
-                                                data-ng-click="factory.downside(dldata.subPolicy,$index)"></button>
-                                    </div>
-
-                                </div>
-                            </div>
                             <!--Status Div-->
                             <div class="row-fluid span2">
                                 <div class="row-fluid">

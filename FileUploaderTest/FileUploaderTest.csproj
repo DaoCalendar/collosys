@@ -54,7 +54,10 @@
   <ItemGroup>
     <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
     <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
+    <Compile Include="ExcelReader.Test\ExcelRecordSetTest.cs" />
+    <Compile Include="ExcelReader.Test\FileReaderAndSetToListTest.cs" />
     <Compile Include="FileUploader.Test\ColumnMappingTest.cs" />
+    <Compile Include="GlobleSetUp.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using ColloSys.DataLayer.Enumerations;
+using ColloSys.FileUploader.ValueSetters;
 using FileUploader.ValueSetters;
 
-namespace FileUploader.Reflection
+namespace ColloSys.FileUploader.Reflection
 {
-    public static class ReflectionHelper
+    public  class ReflectionHelper
     {
         public static string GetMemberName<TS>(Expression<Func<TS, object>> expression)
         {
@@ -77,8 +79,15 @@ namespace FileUploader.Reflection
                 var int32Hepler = new Int16Setter();
                 int32Hepler.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(DateTime?))
+            {
+                if (value == null) return;
+                var dateTimeHelper = new DateTimeSetter();
+                dateTimeHelper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(DateTime))
             {
+                if (value == null) return;
                 var dateTimeHelper = new DateTimeSetter();
                 dateTimeHelper.SetValue(propertyInfo, obj, value);
             }
@@ -109,6 +118,7 @@ namespace FileUploader.Reflection
             }
             else if (propertyInfo.PropertyType == typeof(decimal))
             {
+                if (value == null) return;
                 var decimalHelper = new DecimalSetter();
                 decimalHelper.SetValue(propertyInfo, obj, value);
             }
@@ -126,6 +136,14 @@ namespace FileUploader.Reflection
             {
                 var charHelper = new CharSetter();
                 charHelper.SetValue(propertyInfo, obj, value);
+            }else if (propertyInfo.PropertyType.IsEnum)
+            {
+                if (value != null)
+                {
+                    var enumType = new EnumSetter();
+                    enumType.SetValue(propertyInfo, obj, value);
+                }
+            
             }
         }
     }

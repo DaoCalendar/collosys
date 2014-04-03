@@ -1,7 +1,4 @@
 ﻿using System.Configuration;
-using System.IO;
-using ColloSys.DataLayer.NhSetup;
-using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.Shared.ConfigSectionReader;
@@ -10,20 +7,29 @@ using NUnit.Framework;
 namespace ReflectionExtension.Tests
 {
     [SetUpFixture]
-    class SetUpAssemblies
+    public class GlobalSetup
     {
-
-        protected readonly FileStream FileStream;
-        protected readonly FileInfo FileInfo;
         private static ConnectionStringSettings _connectionString;
         private static int _initCount;
         private static ConfiguredDbTypes _dbType;
-        public SetUpAssemblies()
+
+        #region Setup
+
+        [SetUp]
+        public void SetUp()
         {
-            FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("DrillDown_Txn_1.xls");
-            FileInfo=new FileInfo(FileStream.Name);
             InitNhibernate();
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (--_initCount == 0)
+            {
+                SessionManager.UnbindSession();
+            }
+        }
+
         private void InitNhibernate()
         {
             if (_initCount++ != 0) return;
@@ -34,13 +40,7 @@ namespace ReflectionExtension.Tests
             SessionManager.InitNhibernate(obj);
             SessionManager.BindNewSession();
         }
-        [TearDown]
-        public void TearDown()
-        {
-            if (--_initCount == 0)
-            {
-                SessionManager.UnbindSession();
-            }
-        }
+
+        #endregion
     }
 }

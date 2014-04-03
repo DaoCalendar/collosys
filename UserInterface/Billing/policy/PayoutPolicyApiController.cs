@@ -27,15 +27,15 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
-        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
-        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
-        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
-        private static readonly BillingRelationBuilder BillingRelationBuilder=new BillingRelationBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
+        private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
 
         #region Get
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -43,7 +43,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetPayoutPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
             var payoutPolicy = BillingPolicyBuilder.OnProductCategory(products, category);
@@ -64,8 +64,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                 }
             }
 
-            var payoutSubpolicies = BillingSubpolicyBuilder.SubPoliciesInDb(products,category,savedPayoutSubpolicyIds).ToList();
-          
+            var payoutSubpolicies = BillingSubpolicyBuilder.SubPoliciesInDb(products, category, savedPayoutSubpolicyIds).ToList();
+
             var payoutPolicyVm = new PayoutPolicyVm() { PayoutPolicy = payoutPolicy, UnUsedSubpolicies = payoutSubpolicies };
 
             return Request.CreateResponse(HttpStatusCode.OK, payoutPolicyVm);
@@ -91,19 +91,26 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         {
             //set empty StkhPayments 
             //obj.StkhPayments = null;
+            //obj.BillDetails = null;
+            //obj.CollectionStkhPayments = null;
+            //obj.RecoveryStkhPayments = null;
             // murge BillingRelation into added BillingPolicy
+
             foreach (var billingRelation in obj.BillingRelations)
             {
                 billingRelation.BillingPolicy = obj;
-                billingRelation.BillingSubpolicy =BillingSubpolicyBuilder.Get(billingRelation.BillingSubpolicy.Id);
-
+                billingRelation.BillingSubpolicy = BillingSubpolicyBuilder.Get(billingRelation.BillingSubpolicy.Id);
+                billingRelation.BillingSubpolicy.BConditions = null;
+                billingRelation.BillingSubpolicy.BillDetails = null;
+                billingRelation.BillingSubpolicy.BillingRelations = null;
+               
                 //if (billingRelation.Id == Guid.Empty)
                 //{
                 //    Session.SaveOrUpdate(billingRelation);
                 //}
             }
             BillingRelationBuilder.Save(obj.BillingRelations);
-            BillingPolicyBuilder.Save(obj);
+            //BillingPolicyBuilder.Save(obj);
             return obj;
         }
 
@@ -116,7 +123,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         {
             var relation = BillingRelationBuilder.Get(relationId);
             BillingRelationBuilder.Delete(relation);
-            return  Request.CreateResponse(HttpStatusCode.OK, "");
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
         [HttpGet]

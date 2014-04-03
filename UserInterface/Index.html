@@ -44,7 +44,7 @@
             <div data-ng-view=""></div>
         </div>
     </div>
-    
+
     <!--[if lt IE 9]>
     <script src="Scripts/es5-shim/es5-shim.min.js"></script>
     <script src="Scripts/json3/json3.min.js"></script>
@@ -58,9 +58,9 @@
     <script src="Scripts/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="Scripts/angular.ui/autofill-event.js"></script>
 
-    <script src="Scripts/file-upload/FileAPI.min.js"></script>
+    <!--<script src="Scripts/file-upload/FileAPI.min.js"></script>-->
+    <script> FileAPI = { jsPath: 'Scripts/file-upload/', staticPath: 'Scripts/file-upload/' } </script>
     <script src="Scripts/file-upload/angular-file-upload-shim.js"></script>
-    <script src="Scripts/file-upload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angularjs/angular.js"></script>
     <script src="Scripts/angularjs/angular-route.js"></script>
     <script src="Scripts/angularjs/angular-animate.js"></script>
@@ -99,11 +99,11 @@
     <script src="Stakeholder/add/AddStakeholder.js"></script>
     <script src="Stakeholder/hierarchy/hierarchy.js"></script>
     <script src="Stakeholder/view/ViewStakeholder.js"></script>
-    
+
     <script src="Allocation/policy/allocPolicyCtrl.js"></script>
     <script src="Allocation/subpolicy/allocSubpolicyCtrl.js"></script>
     <script src="Allocation/viewapprove/ApproveViewAllocation.js"></script>
-    
+
     <script src="Billing/factories.js"></script>
     <script src="Billing/adhoc/AddhocPayouts.js"></script>
     <script src="Billing/formula/formula.js"></script>
@@ -113,7 +113,7 @@
     <script src="Billing/status/BillingStatus.js"></script>
     <script src="Billing/subpolicy/payoutSubpolicyCtrl.js"></script>
     <script src="Billing/summary/BillAmountCntrl.js"></script>
-    
+
     <script src="Generic/permissions/permission.js"></script>
     <script src="Generic/product/ProductConfigModel.js"></script>
     <script src="Generic/keyvalue/keyValueCtrl.js"></script>

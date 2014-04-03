@@ -149,7 +149,7 @@ namespace ColloSys.FileUploadService
             _logger.Info(string.Format("BatchProcessing : PostProcessing() Done"));
 
             _logger.Info("ReadFile: Retry error record.");
-            ReaderNeeds.RetryErrorRows();
+            //ReaderNeeds.RetryErrorRows();
 
             _logger.Info("ReadFile: saving the error table.");
             SaveDoneStatus();

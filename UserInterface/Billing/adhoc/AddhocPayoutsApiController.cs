@@ -47,28 +47,16 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
-        //[HttpGet]
+        [HttpGet]
 
-        //public HttpResponseMessage GetBillStatus(ScbEnums.Products product)
-        //{
-        //    var data = BillStatusBuilder.FilterBy(x => x.Products == product && x.Status == ColloSysEnums.BillingStatus.Done).ToList();
+        public HttpResponseMessage GetStatus(ScbEnums.Products product, uint startmonth)
+        {
+            var data = BillStatusBuilder.FilterBy(x => x.Products == product && x.BillMonth == startmonth 
+                && x.Status == ColloSysEnums.BillingStatus.Done).ToList();
 
-        //    data = data.OrderByDescending(x => x.BillMonth).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, data.Count > 0);
 
-        //    var year = DateTime.Now.Year.ToString();
-        //    var month = DateTime.Now.Month.ToString();
-            
-        //    string date;
-
-        //    if (int.Parse(month) < 10)
-        //        date = year + "0" + month;
-        //    else
-        //    {
-        //        date = year + month;
-        //    }
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, (data[0].BillMonth < int.Parse(date)));
-        //}
+        }
 
         [HttpGet]
 
@@ -80,3 +68,27 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
     }
 }
+
+//public HttpResponseMessage GetStatus(ScbEnums.Products product)
+//        {
+//            var data = BillStatusBuilder.FilterBy(x => x.Products == product && x.Status == ColloSysEnums.BillingStatus.Done).ToList();
+
+//            data = data.OrderByDescending(x => x.BillMonth).ToList();
+
+//            var year = DateTime.Now.Year.ToString();
+//            var month = DateTime.Now.Month.ToString();
+
+//            string date;
+
+//            if (int.Parse(month) < 10)
+//                date = year + "0" + month;
+//            else
+//            {
+//                date = year + month;
+//            }
+
+//            return Request.CreateResponse(HttpStatusCode.OK, (data[0].BillMonth < int.Parse(date)));
+// {           var data = BillStatusBuilder.FilterBy(x => x.Products == product && x.Status == ColloSysEnums.BillingStatus.Done).ToList();
+
+
+//        }

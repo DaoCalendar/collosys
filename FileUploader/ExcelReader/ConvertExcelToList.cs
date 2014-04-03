@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using FileUploader.Reflection;
+using ColloSys.FileUploader.Reflection;
 
 #endregion
 
@@ -49,7 +49,6 @@ namespace ReflectionExtension.ExcelReader
             for (var i = 0; i < _iExcelReader.TotalRows; i++)
             {
                 var obj = (TU)Activator.CreateInstance(typeof(TU));
-                //_iExcelReader.NextRow();
                 foreach (var mapping in mappingList)
                 {
                     var value = _iExcelReader.GetValue((uint)mapping.Position);

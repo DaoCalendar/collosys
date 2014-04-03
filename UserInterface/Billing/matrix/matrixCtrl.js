@@ -1,30 +1,4 @@
-﻿
-//(csapp.controller("matrixCtrl1", ["$scope", "$csfactory", "$csnotify", "$Validations", "Restangular", function ($scope, $csfactory, $csnotify, $validation, rest) {
-//    "use strict";
-
-
-//    $scope.matrixList = [];
-//    $scope.productsList = [];
-//    $scope.columnNames = [];
-//    $scope.formulaNames = [];
-//    $scope.matrix = {};
-//    $scope.matrix.BMatricesValues = [];
-//    $scope.isMatrixCreated = false;
-//    $scope.matrix.Category = "Liner";
-//    $scope.matrix.Row1DType = "Table";
-//    $scope.matrix.Column2DType = "Table";
-//    $scope.matrix.Row3DType = "Table";
-//    $scope.matrix.Column4DType = "Table";
-
-//    $scope.val = $validation;
-//    var columnDef = [];
-//    $scope.isDuplicate = false;
-//    $scope.rowType;
-//    $scope.columnType;
-
-//}]));
-
-csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
+﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
     function (rest, $csnotify) {
         var restApi = rest.all("MatrixApi");
         var dldata = {};
@@ -112,13 +86,19 @@ csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
             dldata.matrixList.push(data);
             dldata.matrix = angular.copy(data);
         };
+        var reset = function () {
+            dldata.isMatrixCreated = false;
+            dldata.matrix = {};
+            dldata.matrix.Category = 'Liner';
+        };
 
         return {
             dldata: dldata,
             getProducts: getProducts,
             selectMatrix: selectMatrix,
             changeProductCategory: changeProductCategory,
-            saveMatrix: saveMatrix
+            saveMatrix: saveMatrix,
+            reset: reset
         };
     }]);
 
@@ -128,11 +108,11 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var initEnumsConst = function () {
             dldata.operatorsEnum = {
-                GreaterThan: '>',
-                LessThan: '<',
-                GreaterThanEqualTo: '>=',
-                LessThanEqualTo: '<=',
-                EqualTo: '='
+                'GreaterThan': '>',
+                'LessThan': '<',
+                'GreaterThanEqualTo': '>=',
+                'LessThanEqualTo': '<=',
+                'EqualTo': '='
             };
 
             dldata.operatorsEnumReverse = {
@@ -207,6 +187,9 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
         };
 
         var highlightSelectedMatrix = function (smatrix) {
+            if (angular.isUndefined(dldata.matrix.Name)) {
+                return { backgroundColor: 'white' };
+            }
             if (smatrix.Name.toUpperCase() === dldata.matrix.Name.toUpperCase())
                 return { backgroundColor: 'rgba(195, 201, 204, 0.24)' };
         };
@@ -248,6 +231,9 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
         };
 
         var getOppositeOperator = function (selOperator) {
+            if (angular.isUndefined(selOperator) || selOperator === "None") {
+                return "";
+            }
             if (selOperator === 'GreaterThan') {
                 return 'LessThanEqualTo';
             }

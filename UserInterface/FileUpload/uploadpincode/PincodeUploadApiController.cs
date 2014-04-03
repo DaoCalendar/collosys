@@ -36,7 +36,7 @@ namespace AngularUI.FileUpload.uploadpincode
         }
 
         [HttpGet]
-        public HttpResponseMessage FetchCustomerMissingPincodes(ScbEnums.Products product)
+        public HttpResponseMessage FetchMissingPincodes(ScbEnums.Products product)
         {
             var session = SessionManager.GetCurrentSession();
             var infotype = ClassType.GetInfoType(product);
@@ -95,14 +95,14 @@ namespace AngularUI.FileUpload.uploadpincode
 
             return Request.CreateResponse(HttpStatusCode.OK, fileInfo.FullName);
         }
-    }
 
-    public class PincodeInfo
-    {
-        // ReSharper disable UnusedAutoPropertyAccessor.Global
-        public string AccountNo { get; set; }
-        public string CustomerName { get; set; }
-        public string Pincode { get; set; }
-        // ReSharper restore UnusedAutoPropertyAccessor.Global
+        [HttpPost]
+        public HttpResponseMessage UploadPincode(UploadInfo upload)
+        {
+            var fileInfo = new FileInfo(upload.FileName);
+            if(!fileInfo.Exists) throw new FileNotFoundException("Not Found", upload.FileName);
+            PincodeUploadHelper.ReadPincodeExcel(upload.Product, fileInfo);
+            return Request.CreateResponse(HttpStatusCode.OK, true);
+        }
     }
 }

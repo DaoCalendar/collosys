@@ -13,7 +13,7 @@
                                data-date-start-date="+1d" 
                                data-ng-readonly="true" 
                                data-bs-datepicker="" 
-                               data-ng-change="modelData.endDate=null; factory.modelDateValidation(modelData.startDate,modelData.endDate)">
+                               data-ng-change="modelData.endDate=null;modelDateValidation(modelData.startDate,modelData.endDate)">
                         <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="input-append">
                         <input class="input-medium" type="text" name="ScheduleDate" 
                                data-ng-model="modelData.endDate" 
-                               data-ng-change="factory.modelDateValidation(modelData.startDate,modelData.endDate)"
+                               data-ng-change="modelDateValidation(modelData.startDate,modelData.endDate)"
                                data-date-start-date="+1d" 
                                data-ng-readonly="true"
                                data-bs-datepicker="">
