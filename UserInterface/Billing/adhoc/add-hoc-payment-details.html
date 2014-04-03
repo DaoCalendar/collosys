@@ -19,7 +19,7 @@
                 <div class="control-group span5">
                     <label class="control-label">Transcation Type</label>
                     <div class="controls">
-                        <select class="input-large" data-ng-model="dldata.adhocPayout.IsCredit" name="TranscationType" ui-select2
+                        <select class="input-large" data-ng-model="dldata.adhocPayout.IsCredit" name="TranscationType"
                             data-ng-change="factory.selectTransaction(dldata.adhocPayout.IsCredit)" required>
                             <option value=""></option>
                             <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
@@ -43,7 +43,7 @@
                     <label class="control-label">Reasons</label>
                     <div class="controls">
                         <select class="input-large"
-                            data-ng-model="dldata.adhocPayout.ReasonCode" ui-select2 required>
+                            data-ng-model="dldata.adhocPayout.ReasonCode" required>
                             <option value=""></option>
                             <option data-ng-repeat="reason in dldata.selecttransdata">{{reason.display}}</option>
                         </select>
@@ -64,8 +64,8 @@
             <div class="row-fluid">
                 <div class="control-group span6">
                     <div class="controls">
-                        <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="false"><label>One Time</label>
-                        <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="true"><label>Recurring</label>
+                        <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="false" required><label>One Time</label>
+                        <input type="radio" data-ng-model="dldata.adhocPayout.IsRecurring" value="true" required><label>Recurring</label>
                     </div>
                 </div>
             </div>
@@ -75,9 +75,9 @@
                         <label class="control-label">Start Month</label>
                         <div class="controls">
                             <div class="input-append">
-                                <input class="input-medium" type="text" name="StartMonth" data-ng-model="dldata.adhocPayout.StartMonth" required
-                                       data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="M-yyyy"
-                                       data-ng-change="getdetails(dldata.selectedProduct,dldata.adhocPayout.StartMonth)"
+                                <input class="input-medium" type="text" name="StartMonth" data-ng-model="dldata.adhocPayout.StartMonth" data-ng-required="dldata.adhocPayout.IsRecurring == 'true'"
+                                    data-date-days-of-week-disabled="'0'" data-date-min-view-mode="1" data-date-format="M-yyyy"
+                                    data-ng-change="getdetails(dldata.selectedProduct,dldata.adhocPayout.StartMonth)"
                                     data-bs-datepicker="" />
                                 <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
                             </div>
@@ -91,7 +91,7 @@
                     <div class="control-group span5">
                         <label class="control-label">Tenure</label>
                         <div class="controls">
-                            <input type="number" min="1" max="12" data-ng-model="dldata.adhocPayout.Tenure" name="Tenure" data-ng-pattern="/^[0-9]+$/" required />
+                            <input type="number" min="1" max="12" data-ng-model="dldata.adhocPayout.Tenure" name="Tenure" data-ng-pattern="/^[0-9]+$/" data-ng-required="dldata.adhocPayout.IsRecurring == 'true'" />
                             <!--Total Amount Validation-->
                             <div data-ng-show="adhocPayoutform.Tenure.$dirty && adhocPayoutform.Tenure.$invalid">
                                 <div class="field-validation-error" data-ng-show="adhocPayoutform.Tenure.$error.required">{{val.Required()}}</div>
@@ -106,7 +106,7 @@
             <div class="controls">
                 <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(dldata.adhocPayout)">Approve</button>
                 <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
-                <button class="btn btn-info" data-ng-click="factory.resetadhocPayout(dldata.adhocPayout.Products)">Reset</button>
+                <button class="btn btn-info" data-ng-click="factory.resetadhocPayout()">Reset</button>
             </div>
         </div>
     </div>

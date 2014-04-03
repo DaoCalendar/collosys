@@ -74,7 +74,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             month = moment(month).format('YYYYMM');
            return restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
                 dldata.isBilled = data;
-                if (data === "true") {
+                if (data == "true") {
                     $csnotify.success("Billing Already Done");
                 }
                 return data;
@@ -150,9 +150,9 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         var dldata = datalayer.dldata;
         dldata.adhocPayout = {};
 
-        var resetadhocPayout = function (products) {
+        var resetadhocPayout = function () {
             dldata.adhocPayout = {};
-            dldata.adhocPayout.Products = products;
+            //dldata.selectedProduct = products;
         };
 
         var selectTransaction = function (st) {
@@ -192,9 +192,10 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
         $scope.saveData = function (adhocPayout) {
             datalayer.saveData(adhocPayout).then(function (data) {
                 $scope.dldata.adhocPayout.TotalAmount = '';
-                $scope.dldata.adhocPayout.IsCredit = '';
-                $scope.dldata.adhocPayout.ReasonCode = '';
+                $scope.dldata.adhocPayout.IsCredit = [];
+                $scope.dldata.adhocPayout.ReasonCode = [];
                 $scope.dldata.adhocPayout.Description = '';
+                $scope.dldata.adhocPayout.IsRecurring = '';
                 $scope.dldata.adhocPayout.StartMonth = '';
                 $modalInstance.close(data); //success
             });
