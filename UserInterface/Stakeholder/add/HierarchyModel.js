@@ -41,29 +41,29 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                 $scope.$parent.resetWizardData();
             }
             $scope.Designation = [];
-            var hierarchies = _.filter($scope.HierarchyList,function(item) {
+            var hierarchies = _.filter($scope.HierarchyList, function (item) {
                 if (item.Hierarchy === $scope.$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy)
                     return item;
             });
-            
+
             getHierarchyDisplayName(hierarchies);
         };
 
         var getHierarchyDisplayName = function (hierarchy) {
 
-            hierarchy =_.sortBy(hierarchy,'PositionLevel');
+            hierarchy = _.sortBy(hierarchy, 'PositionLevel');
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
                 if ((hierarchy[0].Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
                     _.forEach(hierarchy, function (item) {
                         $scope.Designation.push(item);
                     });
-                    
+
                 } else {
-                    _.forEach(hierarchy, function(item) {
+                    _.forEach(hierarchy, function (item) {
                         var reportTo = _.find($scope.HierarchyList, { 'Id': item.ReportsTo });
                         var desig = {
                             Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
-                            Id:  item.Id
+                            Id: item.Id
                         };
                         $scope.Designation.push(desig);
                     });
@@ -92,7 +92,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             $scope.$parent.WizardData.SetHierarchy(hierarchy);
             //$scope.$parent.WizardData.Hierarchy = hierarchy;
-            
+
             $scope.$parent.StepManager.PopulateSteps(hierarchy);
 
             var locationLevel = JSON.parse(hierarchy.LocationLevel);
@@ -104,22 +104,33 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             $scope.$parent.WizardData.showBasicInfo = true;
             $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
-            //setBasicInfoModel(hierarchy);
+            setBasicInfoModel(hierarchy);
         };
 
         var setBasicInfoModel = function (hierarchy) {
-            
-            $scope.$parent.stakeholderModel.Email.suffix = "";
-            if (hierarchy.Hierarchy != 'External') {
-                $scope.$parent.stakeholderModel.Email.suffix = "@sc.com";//set email model
-                $scope.$parent.stakeholderModel.UserId.required = true;//set userId model
+
+            if (hierarchy.isUser) {
+                $scope.$parent.mobile.required = true;
+                $scope.$parent.Email.required = true;
+                $scope.$parent.userId.required = true;
+                
             }
 
+
             if (hierarchy.IsEmployee)
-                $scope.$parent.stakeholderModel.Date.label = "Date of Joining";
-            else $scope.$parent.stakeholderModel.Date.label = "Date of Starting";
+                $scope.$parent.Date.label = "Date of Joining";
+            else $scope.$parent.Date.label = "Date of Starting";
 
-
+            if (hierarchy.Hierarchy != 'External') {
+                $scope.$parent.manager.label = "Line Manager";
+                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
+            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
+                $scope.$parent.manager.label = "Agency Name";
+                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
+            } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
+                $scope.$parent.manager.label = "Agency Supervisor";
+                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
+            }
         };
 
 

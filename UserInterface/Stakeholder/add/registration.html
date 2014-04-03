@@ -1,34 +1,54 @@
 ﻿<div class="form-horizontal" data-ng-controller="Registration">
     <div class="row-fluid">
-        <div class="control-group span5">
-            <label class="control-label">TAN</label>
-            <div class="controls">
-                <input type="text"
-                    data-ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo" />
-            </div>
-        </div>
-        <div class="control-group span5">
-            <label class="control-label">PAN</label>
-            <div class="controls">
-                <input
-                    data-ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo" />
-            </div>
-        </div>
+        <cs-template class="span5" options="TAN">
+            <input type="text" name="myfield"
+                   data-ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo" />
+        </cs-template>
+        <cs-template class="span5" options="PAN">
+            <input type="text" name="myfield" data-ng-pattern="/^[A-Za-z]{5}\d{4}[A-Za-z]{1}$/" data-ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo" />
+        </cs-template>
     </div>
+
     <div class="row-fluid">
-        <div class="control-group span5">
-            <label class="control-label">Registration No</label>
-            <div class="controls">
-                <input
-                    data-ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo" />
-            </div>
+        <cs-template class="span5" options="Registration">
+        <input type="text" name="myfield" data-ng-pattern="/^[a-zA-Z0-1]*$/" data-ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo" />
+    </cs-template>
+        <cs-template class="span5" options="ServiceTaxNo">
+        <input type="text" name="myfield" data-ng-pattern="/^[a-zA-Z0-1]*$/" data-ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno" />
+    </cs-template>
+    </div>
+</div>
+
+<!--<div class="control-group span5">
+        <label class="control-label">TAN</label>
+        <div class="controls">
+            <input type="text"
+                   data-ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo" />
         </div>
-        <div class="control-group span5">
+    </div>-->
+
+
+<!--<div class="control-group span5">
+        <label class="control-label">PAN</label>
+        <div class="controls">
+            <input
+                data-ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo" />
+        </div>
+    </div>-->
+
+<!--<div class="control-group span5">
+        <label class="control-label">Registration No</label>
+        <div class="controls">
+            <input
+                data-ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo" />
+        </div>
+    </div>-->
+
+
+<!--<div class="control-group span5">
             <label class="control-label">Service Tax</label>
             <div class="controls">
                 <input
                     data-ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno" />
             </div>
-        </div>
-    </div>
-</div>
+        </div>-->

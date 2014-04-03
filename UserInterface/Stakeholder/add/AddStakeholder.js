@@ -445,7 +445,23 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
-        $scope.oneAtATime = true;
+        
+        $scope.Name = { label: "Name", pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' };
+        $scope.userId = { label: "UserId", required: "true", patternMessage: 'Invalid ID' };
+        $scope.mobile = { label: "Mobile No", patternMessage: 'Invalid Mobile' };
+        $scope.Email = { label: "Email",  patternMessage: 'Invalid Email' };
+        $scope.Date = {  };
+        $scope.manager = {};
+
+        $scope.PAN = { label: 'PAN',patternMessage:'accepts only xxxxxxxx' };
+        $scope.TAN = { label: 'TAN',patternMessage:'accepts only xxxxxxxx' };
+        $scope.Registration = { label: 'Registration', patternMessage: 'special characters not allowed' };
+        $scope.ServiceTaxNo = { label: 'ServiceTaxNo', patternMessage: 'special characters not allowed' };
+
+        $scope.line1 = { label: "Line1", required: true };
+        $scope.line2 = { label: "Line2", required: true };
+        $scope.line3 = { label: "Line3" };
+        $scope.landline = { label: "Landline",patternMessage:"Invalid Number" };
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
