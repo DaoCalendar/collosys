@@ -41,8 +41,8 @@
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location) {
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget) {
 
         $scope.$on("$locationChangeStart", routeManagerFactory.$locationChangeStart);
         $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
@@ -51,6 +51,7 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
 
         (function () {
             $scope.$csAuthFactory = $csAuthFactory;
+            $scope.loadingWidgetParams = loadingWidget.params;
             $csAuthFactory.loadAuthCookie();
         })();
 
