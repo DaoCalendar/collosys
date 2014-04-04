@@ -21,11 +21,29 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
             });
     };
 
+    var fetchMissingRcodes = function (product) {
+        return pincodeapi.customGET("FetchMissingRcodes", { 'product': product })
+            .then(function (data) {
+                return data;
+            }, function (error) {
+                $csnotify.error(error.Message);
+            });
+    };
+
     var uploadPincodes = function (uploadInfo) {
         return pincodeapi.customPOST(uploadInfo, "UploadPincode")
-            .then(function(data) {
+            .then(function (data) {
                 return data;
-            }, function(error) {
+            }, function (error) {
+                $csnotify.error(error.Message);
+            });
+    };
+
+    var uploadRcodes = function (uploadInfo) {
+        return pincodeapi.customPOST(uploadInfo, "UploadRcode")
+            .then(function (data) {
+                return data;
+            }, function (error) {
                 $csnotify.error(error.Message);
             });
     };
@@ -34,13 +52,14 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
         dldata: dldata,
         fetchProducts: fetchProducts,
         fetchMissingPincodes: fetchMissingPincodes,
-        upload: uploadPincodes
+        fetchMissingRcodes: fetchMissingRcodes,
+        uploadRcodes: uploadRcodes,
+        uploadPincodes: uploadPincodes
     };
 }]);
 
-csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory",
-    function ($scope, datalayer, $csfactory) {
-
+csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory", "dataService",
+    function ($scope, datalayer, $csfactory, mode) {
         (function () {
             datalayer.fetchProducts();
             $scope.dldata = datalayer.dldata;
@@ -51,20 +70,31 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
             $scope.selected = {
                 fileInfo: {}
             };
+            $scope.mode = mode;
         })();
 
         $scope.upload = function () {
             var uploadInfo = {
                 Product: $scope.selected.Product,
-                FileName: $scope.selected.fileInfo.name
+                FileName: $scope.selected.fileInfo.path
             };
-            datalayer.upload(uploadInfo);
+            if (mode === "pincode") {
+                datalayer.uploadPincodes(uploadInfo);
+            } else {
+                datalayer.uploadRcodes(uploadInfo);
+            }
         };
 
         $scope.download = function (product) {
-            datalayer.fetchMissingPincodes(product).then(function (filename) {
-                $csfactory.downloadFile(filename);
-            });
+            if (mode === "pincode") {
+                datalayer.fetchMissingPincodes(product).then(function (filename) {
+                    $csfactory.downloadFile(filename);
+                });
+            } else {
+                datalayer.fetchMissingRcodes(product).then(function (filename) {
+                    $csfactory.downloadFile(filename);
+                });
+            }
         };
     }
 ]);
