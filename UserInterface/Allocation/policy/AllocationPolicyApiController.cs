@@ -17,7 +17,7 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 
 #endregion
 
-namespace UserInterfaceAngular.Areas.Allocation.apiController
+namespace AngularUI.Allocation.policy
 {
     public class AlloPolicyVm
     {
@@ -143,7 +143,7 @@ namespace UserInterfaceAngular.Areas.Allocation.apiController
         public string GetReportsToId()
         {
             var reportsToId = string.Empty;
-            var currUserId = HttpContext.Current.User.Identity.Name;
+            var currUserId = GetUsername();
             var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
