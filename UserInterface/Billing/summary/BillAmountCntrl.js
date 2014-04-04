@@ -6,7 +6,6 @@
             $scope.billingData = {};
             $scope.billDetails = [];
             $scope.moreDetails = [];
-
         };
         $scope.init();
     }
@@ -21,6 +20,8 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             $scope.factory = factory;
             datalayer.getProducts();
             factory.initEnums();
+            $scope.dldata.BillAmount = {};
+            $scope.dldata.billingData = {};
         })();
 
         $scope.openViewModal = function () {

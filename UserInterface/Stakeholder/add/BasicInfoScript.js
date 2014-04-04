@@ -74,6 +74,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
         var init = function () {
             $log.info("Initializing BasicInfo.");
             $scope.duplicateUserId = false;
+            
             $scope.val = $val;
             $scope.UserIdList = [];
             $scope.basicInfoData = {

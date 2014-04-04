@@ -35,7 +35,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Branch { get; set; }
         public virtual decimal CurrentDue { get; set; }
         public virtual bool IsSetteled { get; set; }
-        public virtual string CustStatus { get; set; }
+        public virtual string CustStatus { get  ; set; }
         public virtual DateTime? AllocStartDate { get; set; }
         public virtual DateTime? AllocEndDate { get; set; }
         public virtual string Comments { get; set; }

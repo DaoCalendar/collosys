@@ -413,7 +413,12 @@
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
     <EmbeddedResource Include="ExcelData\ExampleData.xls" />
     <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
+
+    <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
+    <EmbeddedResource Include="ExcelData\Copy of DrillDown_Txn_1.xls" />
+
     <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
+
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

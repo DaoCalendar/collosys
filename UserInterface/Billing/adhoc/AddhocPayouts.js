@@ -33,6 +33,8 @@ csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPay
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             datalayer.getProducts();
+            $scope.dldata.selectedProduct = '';
+            $scope.dldata.adhocPayoutList = [];
         })();
 
         $scope.ShowIndividual = function (stkh) {
@@ -89,8 +91,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
                 dldata.stakeholderList = data;
                 dldata.adhocPayout.Tenure = 1;
-                console.log(dldata.stakeholderList);
-            }, function (data) {
+               }, function (data) {
                 $csnotify.error(data);
             });
             restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {

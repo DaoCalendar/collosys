@@ -11,8 +11,8 @@
                 <div class="controls">
                     <select class="input-medium"
                         data-ng-model="dldata.BillAmount.Product"
-                        data-ng-change="datalayer.getStakeholders(dldata.BillAmount.Product)"
-                        data-ui-select2="">
+                        data-ng-change="datalayer.getStakeholders(dldata.BillAmount.Product)">
+                        <!--data-ui-select2=""-->
                         <option></option>
                         <option data-ng-repeat="data in dldata.products">{{data}}</option>
                     </select>
@@ -24,8 +24,8 @@
                 </div>
                 <div class="controls">
                     <select class="input-large"
-                            data-ng-model="dldata.BillAmount.Stakeholder"
-                            data-ui-select2="">
+                            data-ng-model="dldata.BillAmount.Stakeholder">
+                            <!--data-ui-select2=""-->
                            <!-- data-ng-change="datalayer.getBillingData(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">-->
                         <option></option>
                         <option value="{{data.Id}}" data-ng-repeat="data in dldata.stakeholderList">{{data.Name}}</option>

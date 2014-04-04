@@ -51,8 +51,7 @@ namespace ReflectionExtension.ExcelReader
         public string GetValue(uint pos)
         {
             var cell = _currentWorkSheet.GetRow((int)CurrentRow).GetCell((int)pos - 1);
-            return cell.GetValue(cell.CellType);
-
+            return cell != null ? cell.GetValue(cell.CellType) : string.Empty;
         }
         public string GetValue(uint rowPos, uint pos)
         {
@@ -62,7 +61,7 @@ namespace ReflectionExtension.ExcelReader
 
         public void Skip(uint count)
         {
-            for (int i = 0; i <= count; i++)
+            for (int i = 0; i < count; i++)
             {
                 NextRow();
             }
