@@ -102,6 +102,7 @@ csapp.controller("loginController",
         $scope.loginUser = function () {
             $('input').checkAndTriggerAutoFillEvent();
             $scope.login.error = false;
+            $csfactory.enableSpinner();
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {
                     $csAuthFactory.loginUser($scope.login.username);

@@ -25,6 +25,7 @@
                        type="text" class="input-large"
                        data-ng-model="addpayment.AccountNo"
                        typeahead="c.AccountNo for c in datalayer.GetAccounts($viewValue,addpayment.Products)"
+                    typeahead-on-select="getCustomerName()"
                        data-ng-change="getCustomerName()"
                        data-ng-disabled="!addpayment.Products"
                        data-ng-required="true" />

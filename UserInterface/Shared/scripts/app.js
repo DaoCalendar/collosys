@@ -6,48 +6,6 @@ var csapp = angular.module("ui.collosys",
     'ngCookies'
 ]);
 
-csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logger", function ($q, $rootScope, $csAuthFactory, logManager) {
-
-    var $log = logManager.getInstance("HttpInterceptor");
-    var requestInterceptor = function (config) {
-        if (config.url.indexOf("/api/") !== -1) {
-            config.headers.Authorization = $csAuthFactory.getUsername();
-            $log.info("Request : " + config.url);
-        }
-        return config || $q.when(config);
-    };
-
-    var requestErrorInterceptor = function (rejection) {
-        if (rejection.config.url.indexOf("/api/") !== -1) {
-            $log.info("RequestError : " + rejection.config.url);
-            console.log(rejection);
-        }
-        return $q.reject(rejection);
-    };
-
-    var responseInterceptor = function (response) {
-        if (response.config.url.indexOf("/api/") !== -1) {
-            $log.info("Response : " + response.config.url);
-        }
-        return response || $q.when(response);
-    };
-
-    var responseErrorInterceptor = function (rejection) {
-        if (rejection.config.url.indexOf("/api/") !== -1) {
-            $log.info("ResponseError : " + rejection.config.url);
-            console.log(rejection);
-        }
-        return $q.reject(rejection);
-    };
-
-    return {
-        request: requestInterceptor,
-        requestError: requestErrorInterceptor,
-        response: responseInterceptor,
-        responseError: responseErrorInterceptor
-    };
-}]);
-
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
     this.configureRoutes = function (routeProvider) {
@@ -97,12 +55,18 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/paymentchanges', {
                 templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
-            }).when('/fileupload/uploadpincode', {
+            }).when('/fileupload/uploadpincode/', {
                 templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
-                controller: 'uploadPincodeController'
-            }).when('/fileupload/uploadrcode', {
-                templateUrl: '/FileUpload/uploadpincode/upload-rcode.html',
-                controller: 'uploadRcodeController'
+                controller: 'uploadPincodeController',
+                resolve: {
+                    dataService: function () { return "pincode"; }
+                }
+            }).when('/fileupload/uploadrcode/', {
+                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                controller: 'uploadPincodeController',
+                resolve: {
+                    dataService: function () { return "rcode"; }
+                }
             })
 
             //stakeholder
@@ -164,8 +128,8 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
             //generic
             .when('/generic/permission', {
-                templateUrl: '/Generic/permissions/permission.html',
-                controller: 'PermissionscreenCtrl'
+                templateUrl: '/Generic/permissions/NewPermission.html',
+                controller: 'newPermissionsController'
             }).when('/generic/product', {
                 templateUrl: '/Generic/product/product.html',
                 controller: 'ProductConfigController'
@@ -203,7 +167,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
 csapp.config([
     "RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
-    function(restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
+    function (restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
         $httpProvider.interceptors.push('MyHttpInterceptor');
         routeConfig.configureRoutes($routeProvider);
         $logProvider.debugEnabled(true);

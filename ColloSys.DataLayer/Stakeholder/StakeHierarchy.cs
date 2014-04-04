@@ -66,6 +66,8 @@ namespace ColloSys.DataLayer.Domain
         public virtual Guid WorkingReportsTo { get; set; }
 
         public virtual ColloSysEnums.ReportingLevel WorkingReportsLevel { get; set; }
+
+        public virtual string Permissions { get; set; }
         #endregion
 
         #region Relationship

@@ -1,4 +1,8 @@
-﻿csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", function (consts, auth) {
+﻿csapp.factory("$csfactory", ["$csConstants", "$csAuthFactory", "loadingWidget", function (consts, auth, loadingWidget) {
+
+    var enableSpinner = function () {
+        loadingWidget.params.enableSpinner = true;
+    };
 
     var downloadFile = function (filename) {
         var ifr = document.createElement('iframe');
@@ -70,7 +74,7 @@
         return consts.GUID_EMPTY;
     };
 
-    var getCurrentUserName = function() {
+    var getCurrentUserName = function () {
         return auth.getUsername();
     };
 
@@ -81,7 +85,8 @@
         getDefaultGuid: getDefaultGuid,
         isEmptyObject: isEmptyObject,
         downloadFile: downloadFile,
-        getCurrentUserName: getCurrentUserName
+        getCurrentUserName: getCurrentUserName,
+        enableSpinner: enableSpinner
     };
 }]);
 
@@ -439,4 +444,191 @@ csapp.service('modalService', ['$modal', function ($modal) {
     };
 
 }]);
+
+csapp.factory('$permissionFactory', [function () {
+
+    var permissions = [
+        {
+            area: "Stakeholder",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "Allocation",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "Billing",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "File Upload",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        }
+    ];
+
+    return {
+        permission: permissions
+    };
+}]);
+
+csapp.factory("loadingWidget", ["Logger", function (logManager) {
+
+    var requestCount = 0;
+    // ReSharper disable once UnusedLocals
+    var $log = logManager.getInstance("loadingWidget");
+    var params = {
+        enableSpinner: false,
+        showSpinner: false
+    };
+
+    var requestStarted = function () {
+        requestCount++;
+        params.showSpinner = params.enableSpinner === true && requestCount > 0;
+        //params.showSpinner = true;
+        //$log.debug("showing spinner : " + params.showSpinner);
+    };
+
+    var requestEnded = function () {
+        requestCount--;
+        params.showSpinner = params.showSpinner === true && requestCount > 0;
+        params.enableSpinner = false;
+        //params.showSpinner = true;
+        //$log.debug("hding spinner : " + params.showSpinner);
+    };
+
+    return {
+        requestStarted: requestStarted,
+        requestEnded: requestEnded,
+        params: params,
+    };
+}]);
+
+csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logger", "loadingWidget",
+    function ($q, $rootScope, $csAuthFactory, logManager, loadingWidget) {
+
+        var $log = logManager.getInstance("HttpInterceptor");
+        var requestInterceptor = function (config) {
+            if (config.url.indexOf("/api/") !== -1) {
+                loadingWidget.requestStarted();
+                config.headers.Authorization = $csAuthFactory.getUsername();
+                $log.info("Request : " + config.url);
+            }
+            return config || $q.when(config);
+        };
+
+        var requestErrorInterceptor = function (rejection) {
+            if (rejection.config.url.indexOf("/api/") !== -1) {
+                loadingWidget.requestEnded();
+                $log.info("RequestError : " + rejection.config.url);
+                console.log(rejection);
+            }
+            return $q.reject(rejection);
+        };
+
+        var responseInterceptor = function (response) {
+            if (response.config.url.indexOf("/api/") !== -1) {
+                loadingWidget.requestEnded();
+                $log.info("Response : " + response.config.url);
+            }
+            return response || $q.when(response);
+        };
+
+        var responseErrorInterceptor = function (rejection) {
+            if (rejection.config.url.indexOf("/api/") !== -1) {
+                loadingWidget.requestEnded();
+                $log.info("ResponseError : " + rejection.config.url);
+                console.log(rejection);
+            }
+            return $q.reject(rejection);
+        };
+
+        return {
+            request: requestInterceptor,
+            requestError: requestErrorInterceptor,
+            response: responseInterceptor,
+            responseError: responseErrorInterceptor
+        };
+    }
+]);
+
 

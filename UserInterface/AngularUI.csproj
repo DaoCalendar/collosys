@@ -128,7 +128,10 @@
     <Compile Include="FileUpload\uploadpincode\PincodeRow.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeUploadApiController.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeUploadHelper.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeInfo.cs" />
     <Compile Include="FileUpload\uploadpincode\UploadInfo.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeRow.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeUploadHelper.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
@@ -263,6 +266,7 @@
     <Content Include="Content\images\stanc\LoginPage.png" />
     <Content Include="Content\images\stanc\scbcollosys.png" />
     <Content Include="Content\images\stanc\SCBLoginImage.gif" />
+    <Content Include="Content\images\validation\loader.gif" />
     <Content Include="Content\images\validation\invalid.png" />
     <Content Include="Content\images\validation\red_asterisk.png" />
     <Content Include="Content\images\stanc\Stan2.jpg" />
@@ -307,6 +311,7 @@
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
+    <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
@@ -410,12 +415,9 @@
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
     <EmbeddedResource Include="ExcelData\ExampleData.xls" />
     <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
-
     <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
     <EmbeddedResource Include="ExcelData\Copy of DrillDown_Txn_1.xls" />
-
     <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
-
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -743,7 +745,9 @@
     </Content>
     <Content Include="Scripts\_references.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FileUpload\uploadrcode\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>

@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <!--Basic Information-->
-                <div class="row-fluid" data-ng-hide="!(WizardData.IsEditMode() === true || WizardData.FinalPostModel.SelHierarchy.Designation)">
+                <div data-ng-if="WizardData.FinalPostModel.SelHierarchy.Designation" class="row-fluid" data-ng-hide="!(WizardData.IsEditMode() === true || WizardData.FinalPostModel.SelHierarchy.Designation)">
                     <div class="panel-heading">
                         Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
                     </div>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <!--Add Address-->
-                <div class="row-fluid" data-ng-show="((WizardData.IsEditMode() === true && indexData.Hierarchy.HasAddress)||(WizardData.showBasicInfo!=false) && indexData.Hierarchy.HasAddress)">
+                <div class="row-fluid" data-ng-if="indexData.Hierarchy.HasAddress" data-ng-show="((WizardData.IsEditMode() === true && indexData.Hierarchy.HasAddress)||(WizardData.showBasicInfo!=false) && indexData.Hierarchy.HasAddress)">
                     <div class="panel-heading">
                         Address Details  :
                     </div>
