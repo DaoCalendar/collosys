@@ -61,15 +61,20 @@ namespace AngularUI.FileUpload.uploadpincode
         {
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();
-            foreach (DataRow row in dataTable.Rows)
+            using (var tx = nhSession.BeginTransaction())
             {
-                var pincoderow = new PincodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
-                if (!pincoderow.IsRecordvalid) continue;
-                var record = infoSet.FirstOrDefault(x => x.AccountNo == pincoderow.AccountNo);
-                if (record == null) continue;
-                if (record.Pincode == pincoderow.Pincode) continue;
-                record.Pincode = pincoderow.Pincode;
-                nhSession.SaveOrUpdate(record);
+                nhSession.Clear();
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    var pincoderow = new PincodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
+                    if (!pincoderow.IsRecordvalid) continue;
+                    var record = infoSet.FirstOrDefault(x => x.AccountNo == pincoderow.AccountNo);
+                    if (record == null) continue;
+                    if (record.Pincode == pincoderow.Pincode) continue;
+                    record.Pincode = pincoderow.Pincode;
+                    nhSession.SaveOrUpdate(record);
+                }
+                tx.Commit();
             }
         }
     }

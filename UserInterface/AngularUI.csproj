@@ -128,7 +128,10 @@
     <Compile Include="FileUpload\uploadpincode\PincodeRow.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeUploadApiController.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeUploadHelper.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeInfo.cs" />
     <Compile Include="FileUpload\uploadpincode\UploadInfo.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeRow.cs" />
+    <Compile Include="FileUpload\uploadpincode\RcodeUploadHelper.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
@@ -738,7 +741,9 @@
     </Content>
     <Content Include="Scripts\_references.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FileUpload\uploadrcode\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>

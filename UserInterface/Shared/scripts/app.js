@@ -97,12 +97,18 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/paymentchanges', {
                 templateUrl: '/FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
-            }).when('/fileupload/uploadpincode', {
+            }).when('/fileupload/uploadpincode/', {
                 templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
-                controller: 'uploadPincodeController'
-            }).when('/fileupload/uploadrcode', {
-                templateUrl: '/FileUpload/uploadpincode/upload-rcode.html',
-                controller: 'uploadRcodeController'
+                controller: 'uploadPincodeController',
+                resolve: {
+                    dataService: function () { return "pincode"; }
+                }
+            }).when('/fileupload/uploadrcode/', {
+                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                controller: 'uploadPincodeController',
+                resolve: {
+                    dataService: function () { return "rcode"; }
+                }
             })
 
             //stakeholder
@@ -203,7 +209,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
 csapp.config([
     "RestangularProvider", "$logProvider", "$provide", "$httpProvider", "routeConfigurationProvider", "$routeProvider",
-    function(restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
+    function (restangularProvider, $logProvider, $provide, $httpProvider, routeConfig, $routeProvider) {
         $httpProvider.interceptors.push('MyHttpInterceptor');
         routeConfig.configureRoutes($routeProvider);
         $logProvider.debugEnabled(true);

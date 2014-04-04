@@ -13,7 +13,7 @@
 
     <!-- download -->
     <div class="panel panel-info span8" data-ng-show="selected.Product">
-        <div class="panel-heading">Download Missing Pincodes</div>
+        <div class="panel-heading">Download Missing {{mode.toUpperCase()}}</div>
         <div class="text-center">
             <input type="button" class="btn btn-info" value="Download" data-ng-click="download(selected.Product)" />
         </div>
@@ -22,7 +22,7 @@
     <!-- upload button -->
     <div ng-form="" name="uploadpincodeform">
         <div class="panel panel-info span8" data-ng-show="selected.Product">
-            <div class="panel-heading">Update Customer Pincodes</div>
+            <div class="panel-heading">Update Customer {{mode.toUpperCase()}}</div>
             <div class="control-group">
                 <div class="controls">
                     <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo"
