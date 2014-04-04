@@ -70,7 +70,7 @@
         return consts.GUID_EMPTY;
     };
 
-    var getCurrentUserName = function() {
+    var getCurrentUserName = function () {
         return auth.getUsername();
     };
 
@@ -440,3 +440,108 @@ csapp.service('modalService', ['$modal', function ($modal) {
 
 }]);
 
+csapp.factory('$permissionFactory', [function () {
+
+    var permissions = [
+        {
+            area: "Stakeholder",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "Allocation",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "Billing",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        },
+        {
+            area: "File Upload",
+            permissions: [
+                {
+                    category: "view",
+                    permission: { access: false, display: "view", desc: "view stakeholder" },
+                    extrapermission: [
+                        { access: false, display: "view-all", desc: "view any stakeholder" },
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                    ]
+                },
+                {
+                    category: "modify",
+                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+                    extrapermission: []
+                },
+                {
+                    category: "approve",
+                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+                    extrapermission: []
+                }
+            ]
+        }
+    ];
+
+    return {
+        permission: permissions
+    };
+}]);

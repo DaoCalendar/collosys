@@ -69,6 +69,8 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x=>x.WorkingReportsTo);
 
+            Property(x=>x.Permissions,map=>map.Length(5000));
+
             #endregion
 
             #region Relationship

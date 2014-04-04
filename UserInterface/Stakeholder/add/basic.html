@@ -3,7 +3,7 @@
     <div class="row-fluid">
         <!--Name-->
         <cs-template options="Name" class="span5">
-            <input data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" 
+            <input type="text" data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" 
                    data-ng-pattern="/^[a-zA-Z ]{1,100}$/" 
                    data-ng-readonly="basicInfoData.isEditMode"
                    name="myfield" 
@@ -12,6 +12,7 @@
 
         <!--UserId-->
         <cs-template data-ng-if="basicInfoData.Hierarchy.IsUser" class="span5" options="userId">
+            <div>
             <div class="input-prepend">
                 <span class="add-on"><i class="icon-user"></i></span>
                 <input type="text"
@@ -22,6 +23,8 @@
                        name="myfield"
                        data-ng-required="basicInfoData.Hierarchy.IsUser"
                        data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
+                </div>
+             <div class="field-validation-error" data-ng-show="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId.length==7 && $parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>
             </div>
         </cs-template>
     </div>

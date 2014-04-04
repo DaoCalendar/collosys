@@ -164,8 +164,8 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
             //generic
             .when('/generic/permission', {
-                templateUrl: '/Generic/permissions/permission.html',
-                controller: 'PermissionscreenCtrl'
+                templateUrl: '/Generic/permissions/NewPermission.html',
+                controller: 'newPermissionsController'
             }).when('/generic/product', {
                 templateUrl: '/Generic/product/product.html',
                 controller: 'ProductConfigController'
