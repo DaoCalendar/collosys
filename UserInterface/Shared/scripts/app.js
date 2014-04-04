@@ -6,48 +6,6 @@ var csapp = angular.module("ui.collosys",
     'ngCookies'
 ]);
 
-csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logger", function ($q, $rootScope, $csAuthFactory, logManager) {
-
-    var $log = logManager.getInstance("HttpInterceptor");
-    var requestInterceptor = function (config) {
-        if (config.url.indexOf("/api/") !== -1) {
-            config.headers.Authorization = $csAuthFactory.getUsername();
-            $log.info("Request : " + config.url);
-        }
-        return config || $q.when(config);
-    };
-
-    var requestErrorInterceptor = function (rejection) {
-        if (rejection.config.url.indexOf("/api/") !== -1) {
-            $log.info("RequestError : " + rejection.config.url);
-            console.log(rejection);
-        }
-        return $q.reject(rejection);
-    };
-
-    var responseInterceptor = function (response) {
-        if (response.config.url.indexOf("/api/") !== -1) {
-            $log.info("Response : " + response.config.url);
-        }
-        return response || $q.when(response);
-    };
-
-    var responseErrorInterceptor = function (rejection) {
-        if (rejection.config.url.indexOf("/api/") !== -1) {
-            $log.info("ResponseError : " + rejection.config.url);
-            console.log(rejection);
-        }
-        return $q.reject(rejection);
-    };
-
-    return {
-        request: requestInterceptor,
-        requestError: requestErrorInterceptor,
-        response: responseInterceptor,
-        responseError: responseErrorInterceptor
-    };
-}]);
-
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
     this.configureRoutes = function (routeProvider) {
