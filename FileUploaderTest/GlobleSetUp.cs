@@ -21,14 +21,6 @@ namespace ReflectionExtension.Tests
             InitNhibernate();
         }
 
-        [TearDown]
-        public void TearDown()
-        {
-            if (--_initCount == 0)
-            {
-                SessionManager.UnbindSession();
-            }
-        }
 
         private void InitNhibernate()
         {

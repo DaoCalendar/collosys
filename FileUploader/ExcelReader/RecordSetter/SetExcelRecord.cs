@@ -8,82 +8,90 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.ExcelReader.RecordSetter
 {
-    public class SetExcelRecord<T> : IExcelRecord<T> where T : class , new()
+    public class SetExcelRecord<TEntity> : IExcelRecord<TEntity> where TEntity : class , new()
     {
-        private readonly ICounter _counter;
-
-        public SetExcelRecord()
+        public bool UniqExcelMapper(TEntity obj, IExcelReader reader, IList<FileMapping> mapings,ICounter counter)
         {
-            _counter = new ExcelRecordCounter();
-        }
-
-        public bool UniqExcelMapper(T obj, IExcelReader reader, IList<FileMapping> mapings)
-        {
-                var uniqColumnMapping = from d in mapings where (d.ActualColumn == "AccountNo") select d;
-                string data = reader.GetValue(uniqColumnMapping.FirstOrDefault().Position);
-                if (data != "" && IsDigit(data))
-                {
-                    ReflectionHelper.SetValue(mapings.FirstOrDefault().ActualColumn, data, obj);
-                    return true;
-                }
-                _counter.IncrementIgnoreRecord();
-                return false;
+            var uniqColumnMapping = from d in mapings where (d.ActualColumn == "AccountNo") select d;
+            string data = reader.GetValue(uniqColumnMapping.FirstOrDefault().Position);
+            if (data != "" && IsDigit(data))
+            {
+                return true;
+            }
+            counter.IncrementIgnoreRecord();
+            return false;
         }
 
         private bool IsDigit(string str)
         {
-            return str.All(s => char.IsDigit(s));
+            return str.All(char.IsDigit);
         }
 
-        public bool ExcelMapper(T obj, IExcelReader reader, IList<FileMapping> mappings)
+        public bool ExcelMapper(TEntity obj, IExcelReader reader, IList<FileMapping> mappings,ICounter counter)
         {
-           
-            if (UniqExcelMapper(obj, reader, mappings))
+            if (!UniqExcelMapper(obj, reader, mappings, counter)) 
+                return false;
+
+            foreach (var info in mappings)
             {
-                foreach (var info in mappings)
+                try
                 {
                     var data = reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
                 }
-                return true;
+                catch (Exception)
+                {
+                    counter.IncrementErrorRecords();
+                    throw new Exception(string.Format("Column {0} is Not Getting Proper Value .", info.ActualColumn), e);
+                }
+
             }
-            return false;
+            return true;
         }
 
-        public bool DefaultMapper(T obj, IList<FileMapping> mapings)
+        public bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings,ICounter counter)
         {
             foreach (var mapping in mapings)
             {
-                ReflectionHelper.SetValue(mapping.ActualColumn, mapping.DefaultValue, obj);
+                try
+                {
+                    ReflectionHelper.SetValue(mapping.ActualColumn, mapping.DefaultValue, obj);
+                }
+                catch (Exception exception)
+                {
+                    counter.IncrementErrorRecords();
+                    throw new Exception(string.Format("Column {0} is Not Getting Proper Value .", mapping.ActualColumn), exception);
+                }
+
             }
             return true;
         }
 
 
 
-        public bool ComputedSetter(T obj, IExcelReader reader)
+        public bool ComputedSetter(TEntity obj, IExcelReader reader)
         {
             var value = reader.GetValue(4) + reader.GetValue(5);
             ReflectionHelper.SetValue("TransAmount", value, obj);
             return true;
         }
 
-        public bool ComputedSetter(T obj, object yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
+        public bool ComputedSetter(TEntity obj, object yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
         {
             var data = reader.GetValue(1) + 5;
             ReflectionHelper.SetValue("Default", data, obj);
             return true;
         }
 
-        public bool CreateRecord(T obj, IExcelReader reader, IList<FileMapping> mappingss)
+        public bool CreateRecord(TEntity obj, IExcelReader reader, IList<FileMapping> mappingss,ICounter counter)
         {
-            bool excelstatus = false, defaultStatus=false, coumputedStatus=false;
+            bool excelstatus = false, defaultStatus = false, coumputedStatus = false;
             var excelType = (from m in mappingss
                              where (m.ValueType == ColloSysEnums.FileMappingValueType.ExcelValue)
                              select m).ToList();
             if (excelType.Any())
             {
-                excelstatus = ExcelMapper(obj, reader, excelType);
+                excelstatus = ExcelMapper(obj, reader, excelType,counter);
             }
             if (excelstatus)
             {
@@ -93,7 +101,7 @@ namespace ColloSys.FileUploader.ExcelReader.RecordSetter
                 var typeDefault = defaultType as FileMapping[] ?? defaultType.ToArray();
                 if (typeDefault.Any())
                 {
-                    defaultStatus = DefaultMapper(obj, typeDefault);
+                    defaultStatus = DefaultMapper(obj, typeDefault,counter);
                 }
 
                 var computedType = from m in mappingss
@@ -106,17 +114,12 @@ namespace ColloSys.FileUploader.ExcelReader.RecordSetter
                 }
 
                 if (!excelstatus && !coumputedStatus && !defaultStatus) return false;
-                _counter.IncrementInsertRecords();
-                _counter.IncrementValidRecords();
+                counter.IncrementInsertRecords();
+                counter.IncrementValidRecords();
 
                 return true;
             }
             return false;
-
         }
-
-        public ulong TotalCount { get { return _counter.TotalRecords; } }//remove this
-
-
     }
 }

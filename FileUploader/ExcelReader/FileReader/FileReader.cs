@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.ExcelReader.RecordSetter;
 using ReflectionExtension.ExcelReader;
@@ -7,26 +8,28 @@ namespace ColloSys.FileUploader.ExcelReader.FileReader
 {
     public class FileReader<T> : IFileReader<T> where T : class,new()
     {
-        private readonly List<T> _objList = new List<T>();
-
-        //public FileReader()
-        //{
-        //    _objList = new List<T>();
-        //}
-
-        readonly SetExcelRecord<T> _objRecord = new SetExcelRecord<T>();
+        #region:: Members ::
+        public static List<T> _objList = new List<T>();
+        public  SetExcelRecord<T> ObjRecord = new SetExcelRecord<T>();
+        public ICounter Counter;
         public uint BatchSize { get; private set; }
-        public void ReadAndSaveBatch(T obj, IExcelReader excelReader, IList<FileMapping> mappings)
+
+        public FileReader()
         {
+            Counter = new ExcelRecordCounter();
+        }
+
+        #endregion
+        public void ReadAndSaveBatch(T obj, IExcelReader excelReader, IList<FileMapping> mappings,ICounter counter)
+        {
+            if (obj == null) throw new ArgumentNullException(" ");
             for (var i = excelReader.CurrentRow; i < excelReader.TotalRows; i++)
             {
                 obj = new T();
-                _objRecord.CreateRecord(obj, excelReader, mappings);
+                ObjRecord.CreateRecord(obj, excelReader, mappings, counter);
                 _objList.Add(obj);
                 excelReader.NextRow();
             }
-
         }
-
     }
 }
