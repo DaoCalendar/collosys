@@ -11,26 +11,31 @@ namespace AngularUI.Developer.queryexecuter
 {
     public class ExecuteQueryApiController : ApiController
     {
-        [HttpGet]
-        public HttpResponseMessage CheckandExecute(string query)
+        [HttpPost]
+        public HttpResponseMessage CheckandExecute(QueryParams query)
         {
-            var checkQuery = query.Trim().Substring(0, 3);
+            var checkQuery = query.Query.Trim().Substring(0, 3);
             var result = new QueryResult();
-            result.AddQuery(query);
+            result.AddQuery(query.Query);
             switch (checkQuery.ToUpper())
             {
                 case "SEL":
-                    var dataSelect = QueryExecuter.ExecuteSelect(query);
+                    var dataSelect = QueryExecuter.ExecuteSelect(query.Query);
                     return Request.CreateResponse(HttpStatusCode.OK, dataSelect);
 
                 case "UPD":
                 case "DEL":
                 case "INS":
-                    var dataUpdate = QueryExecuter.ExecuteDataChange(query);
+                    var dataUpdate = QueryExecuter.ExecuteDataChange(query.Query);
                     return Request.CreateResponse(HttpStatusCode.OK, dataUpdate);
                 default:
                     return Request.CreateResponse(HttpStatusCode.OK, "QUERY INVALID");
             }
+        }
+
+        public class QueryParams
+        {
+            public string Query;
         }
     }
 }

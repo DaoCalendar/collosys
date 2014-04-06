@@ -4,8 +4,8 @@ csapp.factory("queryExecuterDataLayer", [
 
         var restApi = rest.all("ExecuteQueryApi");
 
-        var executeQuery = function (query2) {
-            return restApi.customGET("CheckandExecute", { query: query2 });
+        var executeQuery = function (query) {
+            return restApi.customPOST({ 'Query' : query }, "CheckandExecute");
         };
 
         return {

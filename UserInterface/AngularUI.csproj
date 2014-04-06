@@ -214,6 +214,7 @@
     <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Allocation\policy\allocation-policy-specs.js" />
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
@@ -277,6 +278,7 @@
     <Content Include="Content\angularui\select2.png" />
     <Content Include="Content\angularui\select2x2.png" />
     <Content Include="Content\angularui\spinner.gif" />
+    <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Developer\connection\connection.html" />
     <Content Include="Developer\connection\connectionConfig.js" />
     <Content Include="Developer\dbtable\dbtables.js" />
@@ -337,6 +339,8 @@
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
     <Content Include="Scripts\file-upload\FileAPI.flash.swf" />
     <Content Include="Scripts\file-upload\FileAPI.min.js" />
+    <Content Include="Scripts\jasmine\jasmine-html.js" />
+    <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />
