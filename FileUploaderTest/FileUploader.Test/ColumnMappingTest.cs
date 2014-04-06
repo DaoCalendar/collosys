@@ -41,7 +41,7 @@ namespace ReflectionExtension.Tests.FileUploader.Test
         [Test]
         public void Test_Cloumn_ValueType_DefaultValue_With_DefaultValue()
         {
-           var defaultValue = from d in _data where (d.ValueType==ColloSysEnums.FileMappingValueType.DefaultValue) select (d.DefaultValue);
+            var defaultValue = from d in _data where (d.ValueType==ColloSysEnums.FileMappingValueType.DefaultValue) select (d.DefaultValue);
             foreach (var info in defaultValue)
             {
                 Assert.IsNotNull(info);

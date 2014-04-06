@@ -77,10 +77,11 @@ csapp.factory("paymentDataLayer", ["Restangular", "$csnotify", "$csGrid",
 ]);
 
 
-csapp.controller("paymentAddController", [ "$scope", "paymentDataLayer", "$modalInstance",
-    function ($scope, datalayer, $modalInstance) {
+csapp.controller("paymentAddController", [ "$scope", "paymentDataLayer", "$modalInstance","$Validations",
+    function ($scope, datalayer, $modalInstance, $Validation) {
 
-        (function() {
+        (function () {
+            $scope.val = $Validation;
             $scope.addpayment = {};
             $scope.accNoAndCustList = [];
             $scope.datalayer = datalayer;
@@ -91,11 +92,14 @@ csapp.controller("paymentAddController", [ "$scope", "paymentDataLayer", "$modal
             if (angular.isUndefined($scope.addpayment.AccountNo)) {
                 return;
             }
-            _.find(dldata.accNoAndCustList, function (item) {
-                if (item.AccountNo == $scope.addpayment.AccountNo) {
-                    $scope.addpayment.customerName = item.CustomerName;
-                }
-            });
+            if ($scope.addpayment.AccountNo.length >= 8) {
+                _.find($scope.dldata.accNoAndCustList, function(item) {
+                    if (item.AccountNo == $scope.addpayment.AccountNo) {
+                        $scope.addpayment.customerName = item.CustomerName;
+                    }
+                });
+            }            
+
         };
 
         $scope.save = function(item) {

@@ -7,7 +7,7 @@ using FileUploader.ValueSetters;
 
 namespace ColloSys.FileUploader.Reflection
 {
-    public  class ReflectionHelper
+    public class ReflectionHelper
     {
         public static string GetMemberName<TS>(Expression<Func<TS, object>> expression)
         {
@@ -18,7 +18,7 @@ namespace ColloSys.FileUploader.Reflection
 
         public static object GetValue<T>(T helper, Expression<Func<T, object>> expression)
         {
-           return GetValue(helper, expression.Body);
+            return GetValue(helper, expression.Body);
         }
 
         private static object GetValue<T>(T helper, Expression expression)
@@ -74,8 +74,20 @@ namespace ColloSys.FileUploader.Reflection
                 var int32Hepler = new Int32Setter();
                 int32Hepler.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(int?))
+            {
+                if (value==null)return;
+                var int32Hepler = new Int32Setter();
+                int32Hepler.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(Int16))
             {
+                var int32Hepler = new Int16Setter();
+                int32Hepler.SetValue(propertyInfo, obj, value);
+            }
+            else if (propertyInfo.PropertyType == typeof(Int16?))
+            {
+                if (value == null) return;
                 var int32Hepler = new Int16Setter();
                 int32Hepler.SetValue(propertyInfo, obj, value);
             }
@@ -96,8 +108,20 @@ namespace ColloSys.FileUploader.Reflection
                 var doubleHelper = new DoubleSetter();
                 doubleHelper.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(double?))
+            {
+                if (value == null) return;
+                var doubleHelper = new DoubleSetter();
+                doubleHelper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(float))
             {
+                var floatHelper = new FloatSetter();
+                floatHelper.SetValue(propertyInfo, obj, value);
+            }
+            else if (propertyInfo.PropertyType == typeof(float?))
+            {
+                if (value == null) return;
                 var floatHelper = new FloatSetter();
                 floatHelper.SetValue(propertyInfo, obj, value);
             }
@@ -106,13 +130,31 @@ namespace ColloSys.FileUploader.Reflection
                 var int64Helper = new Int64Setters();
                 int64Helper.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(Int64?))
+            {
+                if (value == null) return;
+                var int64Helper = new Int64Setters();
+                int64Helper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(UInt64))
             {
                 var uInt64Helper = new UInt64Setter();
                 uInt64Helper.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(UInt64?))
+            {
+                if (value == null) return;
+                var uInt64Helper = new UInt64Setter();
+                uInt64Helper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(UInt32))
             {
+                var uInt32Helper = new UInt32Setter();
+                uInt32Helper.SetValue(propertyInfo, obj, value);
+            }
+            else if (propertyInfo.PropertyType == typeof(UInt32?))
+            {
+                if (value == null) return;
                 var uInt32Helper = new UInt32Setter();
                 uInt32Helper.SetValue(propertyInfo, obj, value);
             }
@@ -122,8 +164,20 @@ namespace ColloSys.FileUploader.Reflection
                 var decimalHelper = new DecimalSetter();
                 decimalHelper.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(decimal?))
+            {
+                if (string.IsNullOrEmpty(value)) return;
+                var decimalHelper = new DecimalSetter();
+                decimalHelper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(byte))
             {
+                var byteHelper = new ByteSetter();
+                byteHelper.SetValue(propertyInfo, obj, value);
+            }
+            else if (propertyInfo.PropertyType == typeof(byte?))
+            {
+                if (value == null) return;
                 var byteHelper = new ByteSetter();
                 byteHelper.SetValue(propertyInfo, obj, value);
             }
@@ -132,18 +186,25 @@ namespace ColloSys.FileUploader.Reflection
                 var sbyteHelper = new SbyteSetter();
                 sbyteHelper.SetValue(propertyInfo, obj, value);
             }
+            else if (propertyInfo.PropertyType == typeof(sbyte?))
+            {
+                if (value == null) return;
+                var sbyteHelper = new SbyteSetter();
+                sbyteHelper.SetValue(propertyInfo, obj, value);
+            }
             else if (propertyInfo.PropertyType == typeof(char))
             {
                 var charHelper = new CharSetter();
                 charHelper.SetValue(propertyInfo, obj, value);
-            }else if (propertyInfo.PropertyType.IsEnum)
+            }
+            else if (propertyInfo.PropertyType.IsEnum)
             {
                 if (value != null)
                 {
                     var enumType = new EnumSetter();
                     enumType.SetValue(propertyInfo, obj, value);
                 }
-            
+
             }
         }
     }

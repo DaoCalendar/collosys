@@ -4,9 +4,9 @@
     {
         ulong TotalRecords { get; }
         uint ErrorRecords { get; }
-        ulong ValidRecords { get; }
+        uint ValidRecords { get; }
         uint Duplicate { get; }
-        ulong InsertRecord { get; }
+        uint InsertRecord { get; }
         uint IgnoreRecord { get; }
         void IncrementErrorRecords();
 

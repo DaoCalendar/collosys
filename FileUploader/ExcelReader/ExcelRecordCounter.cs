@@ -1,15 +1,17 @@
-﻿namespace ReflectionExtension.ExcelReader
+﻿using NHibernate;
+
+namespace ReflectionExtension.ExcelReader
 {
   public  class ExcelRecordCounter:ICounter
     {
         public  ulong TotalRecords { get; private set; }
-        public uint ErrorRecords { get; private set; }
-        public ulong ValidRecords { get; private set; }
+        public  uint ErrorRecords { get; private set; }
+        public uint ValidRecords { get; private set; }
         public uint Duplicate { get; private set; }
-        public ulong InsertRecord { get; private set; }
+        public uint InsertRecord { get; private set; }
         public uint IgnoreRecord { get; private set; }
 
-      public void IncrementErrorRecords()
+      public  void IncrementErrorRecords()
         {
             ErrorRecords++;
         }

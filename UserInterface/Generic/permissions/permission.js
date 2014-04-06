@@ -1,4 +1,4 @@
-﻿csapp.factory("PermissionsDatalayer", ["$csnotify","$csfactory", "Restangular", function ($csnotify,$csfactory, rest) {
+﻿csapp.factory("PermissionsDatalayer", ["$csnotify", "$csfactory", "Restangular", function ($csnotify, $csfactory, rest) {
     var dldata = {};
 
     var restApi = rest.all('PermissionScreenApi');
@@ -10,7 +10,7 @@
             dldata.Permissions = data.PermissionData;
         });
     };
-    
+
     var savePermission = function () {
         if (dldata.finalPermissionList.length === 0) {
             return;
@@ -197,8 +197,8 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
             else return false;
         }
     };
-    
-   
+
+
 
     return {
         setFinalPermission: setFinalPermission,
@@ -208,7 +208,7 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
         enableEscalation: enableEscalation,
         assignEscalationDay: assignEscalationDay,
         enableSelect: enableSelect,
-        
+
     };
 }]);
 
@@ -272,6 +272,23 @@ csapp.controller("PermissionscreenCtrl",
             };
 
         }]);
+
+
+csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer',
+    function ($scope, permissionsFactory, rest, datalayer) {
+
+        (function () {
+            $scope.hierarchy = { label: 'Hierarchy' };
+            $scope.designation = { label: 'Designation' };
+            $scope.permission = permissionsFactory.permission;
+            $scope.dldata = datalayer.dldata;
+            datalayer.GetWholeData();
+        })();
+
+
+    }]);
+
+
 
 //#region "Factory"
 
