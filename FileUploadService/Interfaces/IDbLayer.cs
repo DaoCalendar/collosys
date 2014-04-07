@@ -36,8 +36,6 @@ namespace ColloSys.FileUploadService.Interfaces
 
         void CommitData<TEntity>(IList<TEntity> data, FileScheduler file, IRowCounter counter) where TEntity : Entity;
 
-        IEnumerable<FileValueMapping> GetFieldValueMappings(Guid id);
-
         IList<string> GetValuesFromKey(ColloSysEnums.Activities area, string key);
 
         bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)

@@ -30,19 +30,13 @@ namespace ColloSys.FileUploadService.Implementers
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    FileScheduler fs = null;
-                    FileDetail fd = null;
                     var enddatetime = DateTime.Now.AddDays(-40);
-                    var obj = session.QueryOver(() => fs)
-                                     .JoinAlias(() => fs.FileDetail, () => fd)
+                    var obj = session.QueryOver<FileScheduler>()
                                      .Where(c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
                                                   || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload))
                                      .And(c => c.IsImmediate || c.StartDateTime <= DateTime.Now)
                                      .And(c => c.CreatedOn > enddatetime)
                                      .Fetch(x => x.FileDetail).Eager
-                                     .Fetch(x => x.FileStatuss).Eager
-                                     .Fetch(x => x.FileDetail.FileColumns).Eager
-                                     .Fetch(x => x.FileDetail.FileMappings).Eager
                                      .TransformUsing(Transformers.DistinctRootEntity)
                                      .OrderBy(x => x.FileDate).Asc
                                      .ThenBy(x => x.CreatedOn).Asc
@@ -84,6 +78,20 @@ namespace ColloSys.FileUploadService.Implementers
                         if (fileScheduler.StatusDescription == waitingDescription) continue;
                         fileScheduler.StatusDescription = waitingDescription;
                         filesWaiting.Add(fileScheduler);
+                    }
+
+                    //eager load other stuff
+                    if (file2Upload != null)
+                    {
+                        // ReSharper disable ReturnValueOfPureMethodIsNotUsed
+                        file2Upload.FileStatuss.Count();
+                        file2Upload.FileDetail.FileColumns.Count();
+                        file2Upload.FileDetail.FileMappings.Count();
+                        foreach (var mapping in file2Upload.FileDetail.FileMappings)
+                        {
+                            mapping.FileValueMappings.Count();
+                        }
+                        // ReSharper restore ReturnValueOfPureMethodIsNotUsed
                     }
 
                     // if there is any waiting files then set status description to waiting.
@@ -170,21 +178,6 @@ namespace ColloSys.FileUploadService.Implementers
                 }
             }
 
-        }
-
-        public IEnumerable<FileValueMapping> GetFieldValueMappings(Guid id)
-        {
-            using (var session = SessionManager.GetNewSession())
-            {
-                using (var tx = session.BeginTransaction())
-                {
-                    var list = session.QueryOver<FileValueMapping>()
-                                      .Where(x => x.FileMapping.Id == id)
-                                      .List();
-                    tx.Rollback();
-                    return list;
-                }
-            }
         }
 
         public void SetDoneStatus(FileScheduler fileScheduler, IRowCounter counter)
