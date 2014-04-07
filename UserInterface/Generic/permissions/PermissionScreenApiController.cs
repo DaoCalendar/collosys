@@ -22,7 +22,6 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         private readonly static GPermissionBuilder GPermissionBuilder = new GPermissionBuilder();
 
         [HttpGet]
-        
         public PermisionData GetWholeData()
         {
             PermisionData permision = new PermisionData();
@@ -41,6 +40,9 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 
         }
 
+        
+
+
         private IEnumerable<GPermission> RetrievePermissions(Guid hierarchyId)
         {
             return GPermissionBuilder.OnHierarchyId(hierarchyId);
@@ -49,7 +51,6 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         #region Post
 
         [HttpPost]
-        
         public IEnumerable<GPermission> SavePermissions(IList<GPermission> permissions)
         {
             foreach (var gPermission in permissions)
