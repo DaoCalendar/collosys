@@ -6,8 +6,7 @@ namespace ColloSys.FileUploader.ExcelReader.FileReader
 {
     public interface IFileReader<T>
     {
-        uint BatchSize { get; }
-     void ReadAndSaveBatch(T obj, IExcelReader excelReader, IList<FileMapping> mappings,ICounter counter);
+     void ReadAndSaveBatch(T obj, IExcelReader excelReader, IList<FileMapping> mappings,ICounter counter,uint batchSize);
 
     }
 
