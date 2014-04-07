@@ -45,16 +45,13 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Glimpse.AspNet">
       <HintPath>..\SharedLib\Glimpse.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Core, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Glimpse.Core">
       <HintPath>..\SharedLib\Glimpse.Core.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
@@ -70,8 +67,7 @@
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Glimpse, Version=3.3.3.4001, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NHibernate.Glimpse">
       <HintPath>..\SharedLib\NHibernate.Glimpse.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
@@ -342,8 +338,10 @@
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
     <Content Include="Scripts\file-upload\FileAPI.flash.swf" />
     <Content Include="Scripts\file-upload\FileAPI.min.js" />
+    <Content Include="Scripts\html5shiv\html5shiv.js" />
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
+    <Content Include="Scripts\html5shiv\modernizr-2.7.2.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />
@@ -820,10 +818,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="cleanOutput" AfterTargets="Clean">
+    <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
+    <Exec Command="Del bin /s /q /f" IgnoreExitCode="true" />
+    <Message Text="obj and bin folder cleaned up." Importance="normal" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
 </Project>

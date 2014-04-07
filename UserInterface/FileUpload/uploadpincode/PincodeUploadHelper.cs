@@ -19,7 +19,7 @@ namespace AngularUI.FileUpload.uploadpincode
 {
     public static class PincodeUploadHelper
     {
-        public static void ReadPincodeExcel(ScbEnums.Products product, FileInfo fileBase)
+        public static int ReadPincodeExcel(ScbEnums.Products product, FileInfo fileBase)
         {
             DataTable dataTable;
             try
@@ -35,8 +35,7 @@ namespace AngularUI.FileUpload.uploadpincode
             try
             {
                 var session = SessionManager.GetCurrentSession();
-                var sharedInfoType = ClassType.GetInfoType(product);
-                var criteria = session.CreateCriteria(sharedInfoType);
+                var criteria = session.CreateCriteria(typeof(CustomerInfo));
                 sharedInfoList = criteria.List();
             }
             catch (Exception e)
@@ -44,21 +43,22 @@ namespace AngularUI.FileUpload.uploadpincode
                 throw new Exception("Could not fetch customer info from db.", e);
             }
 
-            UpdatePincodes(sharedInfoList, dataTable);
+            return UpdatePincodes(sharedInfoList, dataTable);
         }
 
-        private static void UpdatePincodes(IList listdata, DataTable dataTable)
+        private static int UpdatePincodes(IList listdata, DataTable dataTable)
         {
             var enumerator = listdata.GetEnumerator();
-            if (!enumerator.MoveNext()) { return; }
+            if (!enumerator.MoveNext()) { return 0; }
             dynamic firstItem = enumerator.Current;
             dynamic typedEnumerable = ExcelWriter.ConvertTyped(listdata, firstItem);
-            UploadPincodesTyped(typedEnumerable, dataTable);
+            return UploadPincodesTyped(typedEnumerable, dataTable);
         }
 
-        private static void UploadPincodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
+        private static int UploadPincodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
             where TInfo : CustomerInfo
         {
+            var count = 0;
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();
             using (var tx = nhSession.BeginTransaction())
@@ -68,6 +68,11 @@ namespace AngularUI.FileUpload.uploadpincode
                 {
                     var pincoderow = new PincodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
                     if (!pincoderow.IsRecordvalid) continue;
+                    else
+                    {
+                        count++;
+                    }
+                    //increase the counter
                     var record = infoSet.FirstOrDefault(x => x.AccountNo == pincoderow.AccountNo);
                     if (record == null) continue;
                     if (record.Pincode == pincoderow.Pincode) continue;
@@ -75,6 +80,7 @@ namespace AngularUI.FileUpload.uploadpincode
                     nhSession.SaveOrUpdate(record);
                 }
                 tx.Commit();
+                return count;
             }
         }
     }

@@ -15,6 +15,9 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     var fetchMissingPincodes = function (product) {
         return pincodeapi.customGET("FetchMissingPincodes", { 'product': product })
             .then(function (data) {
+                if (data.Count === 0) {
+                    $csnotify.success("There are No missing Pincodes ");
+                }
                 return data;
             }, function (error) {
                 $csnotify.error(error.Message);
@@ -24,6 +27,9 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     var fetchMissingRcodes = function (product) {
         return pincodeapi.customGET("FetchMissingRcodes", { 'product': product })
             .then(function (data) {
+                if (data.Count === 0) {
+                    $csnotify.success("There are No missing Rcodes ");
+                }
                 return data;
             }, function (error) {
                 $csnotify.error(error.Message);
@@ -33,6 +39,7 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     var uploadPincodes = function (uploadInfo) {
         return pincodeapi.customPOST(uploadInfo, "UploadPincode")
             .then(function (data) {
+                $csnotify.success(data + " Pincode Updated Successfully");
                 return data;
             }, function (error) {
                 $csnotify.error(error.Message);
@@ -42,6 +49,7 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     var uploadRcodes = function (uploadInfo) {
         return pincodeapi.customPOST(uploadInfo, "UploadRcode")
             .then(function (data) {
+                $csnotify.success(data + " Rcode Updated Successfully");
                 return data;
             }, function (error) {
                 $csnotify.error(error.Message);
@@ -63,6 +71,7 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
         (function () {
             datalayer.fetchProducts();
             $scope.dldata = datalayer.dldata;
+            $scope.pincodeEmpty = false;
             $scope.fileValidations = {
                 extension: "xlsx",
                 required: true
@@ -86,13 +95,20 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
         };
 
         $scope.download = function (product) {
+            if (angular.isUndefined(product)) {
+                return;
+            }
             if (mode === "pincode") {
-                datalayer.fetchMissingPincodes(product).then(function (filename) {
-                    $csfactory.downloadFile(filename);
+                datalayer.fetchMissingPincodes(product).then(function (data) {
+                    if (data.Count !== 0) {
+                        $csfactory.downloadFile(data.FileName);
+                    }
                 });
             } else {
-                datalayer.fetchMissingRcodes(product).then(function (filename) {
-                    $csfactory.downloadFile(filename);
+                datalayer.fetchMissingRcodes(product).then(function (data) {
+                    if (data.Count !== 0) {
+                        $csfactory.downloadFile(data.FileName);
+                    }
                 });
             }
         };
