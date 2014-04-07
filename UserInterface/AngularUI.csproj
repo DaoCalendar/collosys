@@ -420,6 +420,9 @@
     <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
     <EmbeddedResource Include="ExcelData\Copy of DrillDown_Txn_1.xls" />
     <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
+    <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
+      <DependentUpon>angular-file-upload.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
