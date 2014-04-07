@@ -1,4 +1,16 @@
-﻿<div data-ng-hide="true"
+﻿<div>
+    <form class="form-horizontal">
+        <cs-field field="number" data-ng-change="changeFunc(Field.number)" data-ng-model="Field.number"></cs-field>
+        <cs-field field="text" data-ng-change="changeFunc(Field.text)" data-ng-model="Field.text"></cs-field>
+        <cs-field field="phone" data-ng-change="changeFunc(Field.phone)" data-ng-model="Field.phone"></cs-field>
+
+        <pre>{{Field}}</pre>
+        <pre>changed:{{changed}}</pre>
+
+    </form>
+</div>
+
+<div data-ng-hide="true"
     data-ng-show="showPendingOptions()"
     data-ng-cloack="">
 

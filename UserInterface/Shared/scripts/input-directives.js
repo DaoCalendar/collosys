@@ -45,7 +45,7 @@ csapp.factory("csValidationInputTemplate", function () {
             '<div data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
             '<div data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
             '<div data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
+            '<div data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxLength + '</div>' +
             '<div data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
             '<div data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
             '</div>';
@@ -68,13 +68,13 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         //#region template
         var input = function (field, attrs) {
             var html = '<input class="form-control" name="myfield"';
-            html += 'ng-model="' + attrs.ngModel + '" type="' + (field.type || 'text') + '"';
+            html += 'ng-model="' + attrs.ngModel + '" type="number"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
-            html += (field.minLength ? ' ng-minlength="' + field.minLength + '"' : '');
-            html += (field.maxLength ? ' ng-maxlength="' + field.maxLength + '"' : '');
-            html += (field.min ? ' min="' + field.min + '"' : '');
-            html += (field.max ? ' max="' + field.max + '"' : '');
+            html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
+            html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
             html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
             html += '/>';
             return html;
@@ -159,15 +159,176 @@ csapp.directive("csNumberField", ["$compile", "csNumberFieldFactory", function (
 }]);
 
 
-app.directive('csField', ["csNumberFieldFactory", function ($compile, $parse, number) {
+csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var $log = logManager.getInstance("csTextFieldFactory");
+
+        var getPrefixData = function (template) {
+            switch (template) {
+                case 'user':
+                    return '<span class="add-on"><i class="icon-user"></i></span>';
+                case 'phone':
+                    return '<span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                default:
+                    return '';
+            }
+        };
+
+        var getSuffixData = function (template) {
+            switch (template) {
+                case 'user':
+                    return '<span class="add-on"><i class="icon-user"></i></span>';
+
+                default:
+                    return '';
+            }
+        };
+
+        var prefix = function (fields) {
+            var html = '<div class="input-prepend">';
+            html += getPrefixData(fields.template);
+            return html;
+        };
+
+        var suffix = function (fields) {
+            var html = '</div>';
+            return html;
+        };
+
+        //#region template
+        var input = function (field, attrs) {
+            var html = '<input class="form-control" name="myfield"';
+            html += 'ng-model="' + attrs.ngModel + '" type="text"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += ' ng-required="' + attrs.field + '.required"';
+            html += (field.minlength ? ' ng-minlength="' + field.minlength + '"' : '');
+            html += (field.maxLength ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (field.min ? ' min="' + field.min + '"' : '');
+            html += (field.max ? ' max="' + field.max + '"' : '');
+            html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
+            html += '/>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs.field),
+                valtemplate.before(),
+                prefix(field),
+                input(field, attrs),
+                suffix(field),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+        //#endregion
+
+        //#region validations
+
+        var applyTemplates = function (options) {
+            if (angular.isUndefined(options.template) || options.template === null) {
+                return;
+            }
+
+            var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+            angular.forEach(tmpl, function (template) {
+                if (template.length < 1) return;
+
+                switch (template) {
+                    case "alphanum":
+                        options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                        options.patternMessage = "Value contains non-numeric character/s.";
+                        break;
+                    case "alphabates":
+                        options.pattern = "/^[a-zA-Z ]*$/";
+                        options.patternMessage = "Value contains non-alphabtical character/s.";
+                        break;
+                    case "numeric":
+                        options.pattern = "/^[0-9]*$/";
+                        options.patternMessage = "Value contains non-numeric character/s.";
+                        break;
+                    case "phone":
+                        options.length = 10;
+                        options.pattern = "/^[0-9]{10}$/";
+                        options.patternMessage = "Phone number must contain 10 digits.";
+                        break;
+                    case "pan":
+                        options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                        options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                    case "user":
+                        options.pattern = "/^[0-9]{7}$/";
+                        options.patternMessage = "UserId must be a 7 digit number";
+                        break;
+                    default:
+                        $log.error(template + " is not defined");
+                }
+            });
+        };
+
+        var validateOptions = function (options) {
+            applyTemplates(options);
+            options.minlength = options.length || options.minlength || 0;
+            options.maxlength = options.length || options.maxlength || 18;
+            options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
+            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
+            if (parseInt(options.minlength) > parseInt(options.maxlength)) {
+                var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+                throw error;
+            }
+            options.label = options.label || "Text";
+            options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
+        };
+        //#endregion
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+    }]);
+
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", function ($compile, $parse, numberFactory, textFactory) {
+
+
+
+
+    var getFactory = function (type) {
+        switch (type) {
+            //case "textarea":
+            //    return textarea;
+            case "uint":
+            case "int":
+            case "ulong":
+            case "long":
+            case "decimal":
+                return numberFactory;
+            case "text":
+                return textFactory;
+                //case "email":
+                //    return email;
+                //case "checkbox":
+                //    return checkbox;
+                //case "radio":
+                //    return radio;
+            default:
+                throw "Invalid type specification in csField directive : " + type;
+        }
+    };
+
+
+
 
     var linkFunction = function (scope, element, attrs) {
         var fieldGetter = $parse(attrs.field);
         var field = fieldGetter(scope);
 
-        var typedFactory = number;
+        var typedFactory = getFactory(field.type);
         typedFactory.checkOptions(field);
+        console.log(field);
         var html = typedFactory.htmlTemplate(field, attrs);
+        console.log(html);
 
         var newElem = angular.element(html);
         element.replaceWith(newElem);
