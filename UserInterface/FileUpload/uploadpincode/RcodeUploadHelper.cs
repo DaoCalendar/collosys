@@ -20,7 +20,7 @@ namespace AngularUI.FileUpload.uploadpincode
 {
     public static class RcodeUploadHelper
     {
-        public static void ReadRcodeExcel(ScbEnums.Products product, FileInfo fileBase)
+        public static int ReadRcodeExcel(ScbEnums.Products product, FileInfo fileBase)
         {
             DataTable dataTable;
             try
@@ -45,21 +45,22 @@ namespace AngularUI.FileUpload.uploadpincode
                 throw new Exception("Could not fetch customer info from db.", e);
             }
 
-            UpdateRcodes(sharedInfoList, dataTable);
+            return UpdateRcodes(sharedInfoList, dataTable);
         }
 
-        private static void UpdateRcodes(IList listdata, DataTable dataTable)
+        private static int UpdateRcodes(IList listdata, DataTable dataTable)
         {
             var enumerator = listdata.GetEnumerator();
-            if (!enumerator.MoveNext()) { return; }
+            if (!enumerator.MoveNext()) { return 0; }
             dynamic firstItem = enumerator.Current;
             dynamic typedEnumerable = ExcelWriter.ConvertTyped(listdata, firstItem);
-            UploadRcodesTyped(typedEnumerable, dataTable);
+           return UploadRcodesTyped(typedEnumerable, dataTable);
         }
 
-        private static void UploadRcodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
+        private static int UploadRcodesTyped<TInfo>(IEnumerable<TInfo> infoList, DataTable dataTable)
             where TInfo : CustomerInfo
         {
+            var count = 0;
             ISet<TInfo> infoSet = new HashSet<TInfo>(infoList);
             var nhSession = SessionManager.GetCurrentSession();
             using (var tx = nhSession.BeginTransaction())
@@ -69,6 +70,10 @@ namespace AngularUI.FileUpload.uploadpincode
                 {
                     var rcoderow = new RcodeRow(row[0].ToString(), row[1].ToString(), row[2].ToString());
                     if (!rcoderow.IsRecordvalid) continue;
+                    else
+                    {
+                        count++;
+                    }
                     var record = infoSet.FirstOrDefault(x => x.AccountNo == rcoderow.AccountNo);
                     if (record == null) continue;
                     if (record.CustStatus == rcoderow.Rcode) continue;
@@ -76,6 +81,7 @@ namespace AngularUI.FileUpload.uploadpincode
                     nhSession.SaveOrUpdate(record);
                 }
                 tx.Commit();
+                return count;
             }
         }
     }
