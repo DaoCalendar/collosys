@@ -21,8 +21,15 @@ using NLog;
 
 namespace AngularUI.FileUpload.uploadpincode
 {
+    public class FileData
+    {
+        public string FileName { get; set; }
+        public int Count { get; set; }
+    }
+
     public class PincodeUploadApiController : ApiController
     {
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         [HttpGet]
@@ -38,6 +45,7 @@ namespace AngularUI.FileUpload.uploadpincode
         [HttpGet]
         public HttpResponseMessage FetchMissingPincodes(ScbEnums.Products product)
         {
+
             var session = SessionManager.GetCurrentSession();
             var infotype = ClassType.GetInfoType(product);
             Logger.Info(string.Format("FileDownload : MissingPincode : get missing pincodes for : {0}, from table : {1}"
@@ -74,7 +82,7 @@ namespace AngularUI.FileUpload.uploadpincode
                                                       , product
                                                       , DateTime.Now.ToString("yyyyMMdd_HHmmssfff")
                                                       , Path.GetTempPath()));
-          
+
             try
             {
                 IList<PincodeInfo> infolist = result.OfType<object[]>()
@@ -93,7 +101,8 @@ namespace AngularUI.FileUpload.uploadpincode
                 throw new ExternalException("Could not generate excel. " + exception.Message);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, fileInfo.FullName);
+            var data = new FileData() { FileName = fileInfo.FullName, Count = result.Count };
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
@@ -163,9 +172,9 @@ namespace AngularUI.FileUpload.uploadpincode
         public HttpResponseMessage UploadPincode(UploadInfo upload)
         {
             var fileInfo = new FileInfo(upload.FileName);
-            if(!fileInfo.Exists) throw new FileNotFoundException("Not Found", upload.FileName);
-            PincodeUploadHelper.ReadPincodeExcel(upload.Product, fileInfo);
-            return Request.CreateResponse(HttpStatusCode.OK, true);
+            if (!fileInfo.Exists) throw new FileNotFoundException("Not Found", upload.FileName);
+            var count = PincodeUploadHelper.ReadPincodeExcel(upload.Product, fileInfo);
+            return Request.CreateResponse(HttpStatusCode.OK, count);
         }
 
         [HttpPost]
@@ -173,8 +182,8 @@ namespace AngularUI.FileUpload.uploadpincode
         {
             var fileInfo = new FileInfo(upload.FileName);
             if (!fileInfo.Exists) throw new FileNotFoundException("Not Found", upload.FileName);
-            RcodeUploadHelper.ReadRcodeExcel(upload.Product, fileInfo);
-            return Request.CreateResponse(HttpStatusCode.OK, true);
+            var count = RcodeUploadHelper.ReadRcodeExcel(upload.Product, fileInfo);
+            return Request.CreateResponse(HttpStatusCode.OK, count);
         }
     }
 }

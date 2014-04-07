@@ -23,16 +23,14 @@
     <div ng-form="" name="uploadpincodeform">
         <div class="panel panel-info span8" data-ng-show="selected.Product">
             <div class="panel-heading">Update Customer {{mode.toUpperCase()}}</div>
-            <div class="control-group">
-                <div class="controls">
-                    <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo"
-                                    validations="fileValidations"></cs-file-upload>
-                </div>
+            <div>
+                <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo"
+                    validations="fileValidations"></cs-file-upload>
             </div>
             <div class="text-center">
                 <button class="btn btn-info" data-ng-disabled="uploadpincodeform.$invalid" data-ng-click="upload()">Upload</button>
             </div>
         </div>
     </div>
-    
+
 </div>

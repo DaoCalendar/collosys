@@ -10,13 +10,17 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8, chrome=1" />
     <title>ColloSys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--[if lt IE 9]>
+      <script src="Scripts/html5shiv/modernizr-2.7.2.js"></script>
+    <![endif]-->
+
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />
-        <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
-    
+    <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
+
     <link href="Content/fontawesome/font-awesome.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
@@ -30,22 +34,22 @@
     <link href="Content/animation/animate.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
-<body data-ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
+<body id="ng-app" ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
       <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    
+
     <!-- loading element -->
     <div class="row-fluid" style="padding: 0 .7em;" data-ng-show="loadingWidgetParams.showSpinner">
         <p class="loading-new-element">
-            <img alt="Loading  Content" src="Content/images/validation/loader.gif"/> 
+            <img alt="Loading  Content" src="Content/images/validation/loader.gif" />
         </p>
     </div>
 
     <!-- Add your site or application content here -->
     <div class="container">
         <div>
-            <div data-ng-include="'Shared/templates/menu.html'"></div>
+            <div data-ng-include="'/Shared/templates/menu.html'"></div>
         </div>
         <div>
             <div data-ng-view=""></div>
@@ -53,8 +57,8 @@
     </div>
 
     <!--[if lt IE 9]>
-    <script src="Scripts/es5-shim/es5-shim.min.js"></script>
-    <script src="Scripts/json3/json3.min.js"></script>
+        <script src="Scripts/es5-shim/es5-shim.min.js"></script>
+        <script src="Scripts/json3/json3.min.js"></script>
     <![endif]-->
 
     <script src="Scripts/jquery/jquery-1.9.1.js"></script>
@@ -121,7 +125,8 @@
     <script src="Billing/subpolicy/payoutSubpolicyCtrl.js"></script>
     <script src="Billing/summary/BillAmountCntrl.js"></script>
 
-    <script src="Generic/permissions/permission.js"></script>
+    <script src="Generic/permissions/PermissionScript.js"></script>
+    <!--<script src="Generic/permissions/permission.js"></script>-->
     <script src="Generic/product/ProductConfigModel.js"></script>
     <script src="Generic/keyvalue/keyValueCtrl.js"></script>
     <script src="Generic/profile/profile.js"></script>
