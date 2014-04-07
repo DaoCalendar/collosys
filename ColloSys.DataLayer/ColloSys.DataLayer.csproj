@@ -36,7 +36,6 @@
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">

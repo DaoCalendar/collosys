@@ -45,16 +45,13 @@
     <Reference Include="Excel">
       <HintPath>..\SharedLib\Excel.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.AspNet, Version=1.8.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Glimpse.AspNet">
       <HintPath>..\SharedLib\Glimpse.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="Glimpse.Core, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Glimpse.Core">
       <HintPath>..\SharedLib\Glimpse.Core.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="HibernatingRhinos.Profiler.Appender">
       <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections">
@@ -70,8 +67,7 @@
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Glimpse, Version=3.3.3.4001, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="NHibernate.Glimpse">
       <HintPath>..\SharedLib\NHibernate.Glimpse.dll</HintPath>
     </Reference>
     <Reference Include="NLog">
@@ -137,6 +133,7 @@
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
+    <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
     <Compile Include="Billing\SharedViewModel.cs" />
@@ -316,6 +313,7 @@
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
+    <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
     <Content Include="Generic\pincode\pincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />
@@ -424,6 +422,9 @@
     <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
     <EmbeddedResource Include="ExcelData\Copy of DrillDown_Txn_1.xls" />
     <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
+    <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
+      <DependentUpon>angular-file-upload.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -821,10 +822,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="cleanOutput" AfterTargets="Clean">
+    <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
+    <Exec Command="Del bin /s /q /f" IgnoreExitCode="true" />
+    <Message Text="obj and bin folder cleaned up." Importance="normal" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
 </Project>

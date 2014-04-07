@@ -117,7 +117,8 @@ angularFileUpload.service('$upload', ['$http', '$rootScope', '$timeout', functio
 angularFileUpload.directive('ngFileSelect', [ '$parse', '$http', '$timeout', function($parse, $http, $timeout) {
 	return function(scope, elem, attr) {
 		var fn = $parse(attr['ngFileSelect']);
-		elem.bind('change', function(evt) {
+		elem.bind('change', function (evt) {
+		    console.log('change called');
 			var files = [], fileList, i;
 			fileList = evt.target.files;
 			if (fileList != null) {
@@ -132,9 +133,9 @@ angularFileUpload.directive('ngFileSelect', [ '$parse', '$http', '$timeout', fun
 				});
 			});
 		});
-		elem.bind('click', function(){
-			this.value = null;
-		});
+		//elem.bind('click', function(){
+		//	this.value = null;
+		//});
 	};
 } ]);
 

@@ -3,6 +3,7 @@
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
+        
         var getFileInputTemplate = function () {
             return '<div ng-form="" name="myform">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
@@ -11,8 +12,11 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<div class="text-error">Copying file to server!!!</div>' +
                         '</div>' +
                         '<div data-ng-hide="fileInfo.isUploading">' +
+                            '<label class="fileContainer btn btn-default"> Select ' +
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
+                             '</label>' +
+                             '<input type="text" class="input-xxlarge" readonly="readonly" ng-model="fileInfo.name">' +
                         '</div>' +
                         '<div data-ng-show="valerror.$invalid">' +
                             '<div class="text-error" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
@@ -75,6 +79,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                     scope.valerror.$error = {};
                 }
             };
+            
             scope.isFileValid = function () {
                 scope.valerror.reset();
                 ngModel.$setValidity("pattern", true);
@@ -118,7 +123,6 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
 
                 return true;
             };
-
             scope.isFileValid();
 
             scope.copyToServer = function ($files) {
@@ -128,7 +132,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 if (scope.isFileValid()) {
                     saveFileOnServer(scope, ngModel);
                 }
-            };
+            }; 
         };
 
         return {

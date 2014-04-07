@@ -1,13 +1,23 @@
 ﻿csapp.factory("PermissionsDatalayer", ["$csnotify", "$csfactory", "Restangular", function ($csnotify, $csfactory, rest) {
     var dldata = {};
 
-    var restApi = rest.all('PermissionScreenApi');
+    var restApi = rest.all('PermissionApi');
+    //var newApi = rest.all('PermissionApi');
 
-    var getWholeData = function () {
-        restApi.customGET('GetWholeData').then(function (data) {
-            dldata.Activities = data.ActivityData;
-            dldata.stakeHierarchy = data.HierarchyData;
-            dldata.Permissions = data.PermissionData;
+    //var getWholeData = function () {
+    //    restApi.customGET('GetWholeData').then(function (data) {
+    //        dldata.Activities = data.ActivityData;
+    //        dldata.stakeHierarchy = data.HierarchyData;
+    //        dldata.Permissions = data.PermissionData;
+    //    });
+    //};
+
+    var getPermission = function (id) {
+        if ($csfactory.isNullOrEmptyString(id)) return;
+        restApi.customGET('Get', { 'id': id }).then(function (data) {
+            dldata.permission = JSON.parse(data.Permissions);
+            dldata.Hierarchy = data;
+            //$csnotify.success('Permissions Loaded');
         });
     };
 
@@ -39,11 +49,35 @@
             });
     };
 
+    var saveNew = function (data) {
+        dldata.Hierarchy.Permissions = JSON.stringify(data);
+        restApi.customPOST(dldata.Hierarchy, 'Post').then(function () {
+            $csnotify.success('Permission Saved');
+        });
+    };
+
+    var setPermissions = function (permission) {
+        var perm = JSON.stringify(permission);
+        restApi.customPOST({ 'json' : perm }, 'SetPermission').then(function () {
+            $csnotify.success('Permission Screen Initialized');
+        });
+    };
+
+    var getAll = function() {
+        restApi.customGET('Get').then(function (data) {
+            dldata.stakeHierarchy = data;
+        });
+
+    };
 
     return {
         dldata: dldata,
         GetWholeData: getWholeData,
-        Save: savePermission
+        Save: savePermission,
+        saveNew: saveNew,
+        SetPermissions: setPermissions,
+        GetPermission: getPermission,
+        GetAll: getAll
     };
 }]);
 
@@ -274,19 +308,7 @@ csapp.controller("PermissionscreenCtrl",
         }]);
 
 
-csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer',
-    function ($scope, permissionsFactory, rest, datalayer) {
 
-        (function () {
-            $scope.hierarchy = { label: 'Hierarchy' };
-            $scope.designation = { label: 'Designation' };
-            $scope.permission = permissionsFactory.permission;
-            $scope.dldata = datalayer.dldata;
-            datalayer.GetWholeData();
-        })();
-
-
-    }]);
 
 
 
