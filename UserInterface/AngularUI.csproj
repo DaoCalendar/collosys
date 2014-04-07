@@ -340,8 +340,10 @@
     <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
     <Content Include="Scripts\file-upload\FileAPI.flash.swf" />
     <Content Include="Scripts\file-upload\FileAPI.min.js" />
+    <Content Include="Scripts\html5shiv\html5shiv.js" />
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
+    <Content Include="Scripts\html5shiv\modernizr-2.7.2.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
     <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />

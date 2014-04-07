@@ -39,7 +39,7 @@ namespace ColloSys.FileUploader.ExcelReader.RecordSetter
                     var data = reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     counter.IncrementErrorRecords();
                     throw new Exception(string.Format("Column {0} is Not Getting Proper Value .", info.ActualColumn), e);

@@ -24,7 +24,7 @@
         }, 20);
     });
 
-    window.document.addEventListener('DOMContentLoaded', function () {
+    var idontknow = function () {
         // mark all values that are present when the DOM is ready.
         // We don't need to trigger a change event here,
         // as js libs start with those values already being set!
@@ -35,7 +35,14 @@
         window.setTimeout(function () {
             $rootElement.find('input').checkAndTriggerAutoFillEvent();
         }, 200);
-    }, false);
+    };
+
+    if (!window.document.addEventListener) {
+        window.document.attachEvent('DOMContentLoaded', idontknow);
+    }
+    else {
+        window.document.addEventListener('DOMContentLoaded', idontknow, false);
+    }
 
     return;
 
@@ -92,7 +99,12 @@
         // Use a capturing event listener so that
         // we also get the event when it's stopped!
         // Also, the blur event does not bubble.
-        rootElement.addEventListener(eventName, onEvent, true);
+        if (!rootElement.addEventListener) {
+            rootElement.attachEvent(eventName, onEvent);
+        }
+        else {
+            rootElement.addEventListener(eventName, onEvent, false);
+        }
 
         function onEvent(event) {
             var target = event.target;
@@ -118,15 +130,19 @@
         for (i = 0; i < arr.length; i++) {
             listener(arr[i]);
         }
-    }
-
+    };
+    
     function triggerChangeEvent(element) {
-        var doc = window.document;
-        var event = doc.createEvent("HTMLEvents");
-        event.initEvent("change", true, true);
-        element.dispatchEvent(event);
+        if (window.document.createEvent) {
+            var doc = window.document;
+            var event = doc.createEvent("HTMLEvents");
+            event.initEvent("change", true, true);
+            element.dispatchEvent(event);
+        } else if (document.createEventObject) {// IE < 9
+            event = document.createEventObject();
+            event.eventType = "change";
+            element.fireEvent("onchange", event);
+        }
     }
-
-
 
 })(window);
