@@ -704,6 +704,7 @@
     <Content Include="Generic\csgrid\grid-buttons.html" />
     <Content Include="Generic\csgrid\grid-settings.html" />
     <Content Include="Generic\csgrid\grid-stakeholder.html" />
+    <Content Include="Shared\scripts\input-directives.js" />
     <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
