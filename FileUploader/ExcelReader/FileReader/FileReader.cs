@@ -9,26 +9,38 @@ namespace ColloSys.FileUploader.ExcelReader.FileReader
     public class FileReader<T> : IFileReader<T> where T : class,new()
     {
         #region:: Members ::
-        public static List<T> _objList = new List<T>();
-        public  SetExcelRecord<T> ObjRecord = new SetExcelRecord<T>();
-        public ICounter Counter;
-        public uint BatchSize { get; private set; }
 
+        private readonly CreateRecords<T> _objRecord;
+        public  List<T> RecordList; 
         public FileReader()
         {
-            Counter = new ExcelRecordCounter();
+            _objRecord = new CreateRecords<T>();
         }
-
         #endregion
-        public void ReadAndSaveBatch(T obj, IExcelReader excelReader, IList<FileMapping> mappings,ICounter counter)
+
+        public void ReadAndSaveBatch(T obj, IExcelReader excelReader,IList<FileMapping> mappings,ICounter counter,uint batchSize)
         {
-            if (obj == null) throw new ArgumentNullException(" ");
-            for (var i = excelReader.CurrentRow; i < excelReader.TotalRows; i++)
+            if (obj == null) throw new ArgumentNullException("obj");
+            for (var i = excelReader.CurrentRow; i < excelReader.TotalRows && (!excelReader.EndOfFile()); i = i + batchSize)
             {
-                obj = new T();
-                ObjRecord.CreateRecord(obj, excelReader, mappings, counter);
-                _objList.Add(obj);
-                excelReader.NextRow();
+              RecordList = new List<T>();
+                for (var j = 0; j < batchSize && (!excelReader.EndOfFile()); j++)
+                {
+                    obj = new T();
+                    _objRecord.CreateRecord(obj, excelReader, mappings, counter);
+                    RecordList.Add(obj);
+                    excelReader.NextRow();
+                }
+                //var session = SessionManager.GetCurrentSession();
+                //using (var transaction=session.BeginTransaction())
+                //{
+                //    foreach (var record in RecordList)
+                //    {
+                //        session.Save(record);
+                //    }
+                   
+                //    transaction.Commit();
+                //}
             }
         }
     }

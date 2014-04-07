@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploader.ExcelReader.FileReader;
-using ColloSys.FileUploader.ExcelReader.RecordSetter;
 using FileUploader.ExcelReader;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
@@ -17,10 +13,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         private ICounter _counter;
         private FileReader<Payment> _record;
         private IExcelReader _excelReader;
-        private IFileReader<Payment> _fileReader;
         private ExcelReaderHelper _excelReaderHelper;
-        private MappingInfo _mapping;
-        private IList<FileMapping> _mappingList;
         private Payment _obj;
 
         [SetUp]
@@ -30,52 +23,61 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
             _obj = new Payment();
             _excelReaderHelper = new ExcelReaderHelper();
             _excelReader = _excelReaderHelper.GetInstance(FileInfo);
-            _mapping = new MappingInfo();
             _counter = new ExcelRecordCounter();
-            _fileReader = new FileReader<Payment>();
-            _mappingList = SessionManager.GetCurrentSession().QueryOver<FileMapping>().List<FileMapping>();
         }
 
         [Test]
-        public void Test_ReadAndSaveBatch()
+        public void Test_ReadAndSaveBatch_ObjList_IsNot_Empty()
         {
-            var data = SessionManager.GetCurrentSession().QueryOver<FileMapping>().Where(d => d.FileDetail.Id == Guid.Parse("A42EF611-808D-4CC2-9F6F-D15069664D4C")).List<FileMapping>();
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D4C");
             _excelReader.Skip(2);
-            _fileReader.ReadAndSaveBatch(_obj, _excelReader, data,_counter);
-        }
-        [Test]
-        public void Test_CreateRecord_ErrorRecordCount()
-        {
-            var data = SessionManager.GetCurrentSession().QueryOver<FileMapping>().Where(d => d.FileDetail.Id == Guid.Parse("A42EF611-808D-4CC2-9F6F-D15069664D4C")).List<FileMapping>();
-            _excelReader.Skip(2);
-            _fileReader.ReadAndSaveBatch(_obj, _excelReader, data,_counter);
-            Assert.AreEqual(_counter.ErrorRecords, 1);
-        }
-        [Test]
-        public void Test_CreateRecord_ValidRecordCount()
-        {
-            var data = SessionManager.GetCurrentSession().QueryOver<FileMapping>().Where(d => d.FileDetail.Id == Guid.Parse("A42EF611-808D-4CC2-9F6F-D15069664D4C")).List<FileMapping>();
-            _excelReader.Skip(2);
-            _fileReader.ReadAndSaveBatch(_obj, _excelReader, data,_counter);
-            Assert.AreEqual(_counter.ValidRecords, 1);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 18);
+            Assert.AreNotEqual(_record.RecordList.Count, 0);
         }
 
         [Test]
-        public void Test_CreateRecord_IgnoreRecordCount()
+        public void Test_ReadAndSaveBatch_Assiging_BatchSize_10()
         {
-            var data = SessionManager.GetCurrentSession().QueryOver<FileMapping>().Where(d => d.FileDetail.Id == Guid.Parse("A42EF611-808D-4CC2-9F6F-D15069664D4C")).List<FileMapping>();
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D4C");
             _excelReader.Skip(2);
-            _fileReader.ReadAndSaveBatch(_obj, _excelReader, data,_counter);
-            Assert.AreEqual(_counter.IgnoreRecord, 1);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 10);
+            Assert.AreEqual(_record.RecordList.Count, 8);
         }
 
         [Test]
-        public void Test_CreateRecord_InsertRecordCount()
+        public void Test_ReadAndSaveBatch_Assiging_BatchSize_GreaterThan_TotalRows()
         {
-            var data = SessionManager.GetCurrentSession().QueryOver<FileMapping>().Where(d => d.FileDetail.Id == Guid.Parse("A42EF611-808D-4CC2-9F6F-D15069664D4C")).List<FileMapping>();
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D4C");
             _excelReader.Skip(2);
-            _fileReader.ReadAndSaveBatch(_obj, _excelReader, data,_counter);
-            Assert.AreEqual(_counter.InsertRecord, 14);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 50);
+            Assert.AreEqual(_record.RecordList.Count, _excelReader.TotalRows-2);
+        }
+
+        [Test]
+        public void Test_ReadAndSaveBatch_Assiging_Empty_FileMapping()
+        {
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D48");
+            _excelReader.Skip(2);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 50);
+            Assert.AreEqual(_counter.TotalRecords,0);
+        }
+
+        [Test]
+        public void Test_ListCount_Assigning_Different_Skip()
+        {
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D4C");
+            _excelReader.Skip(3);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 10);
+            Assert.AreEqual(_record.RecordList.Count, 7);
+        }
+
+        [Test]
+        public void Test_ReadAndSaveBatch_LastRow_Value()
+        {
+            var data = ExcelRecordSetTest.GetFileMappings("A42EF611-808D-4CC2-9F6F-D15069664D4C");
+            _excelReader.Skip(2);
+            _record.ReadAndSaveBatch(_obj, _excelReader, data, _counter, 10);
+            Assert.AreEqual(_record.RecordList.ElementAt(6).DebitAmount, 65.18);
         }
     }
 }

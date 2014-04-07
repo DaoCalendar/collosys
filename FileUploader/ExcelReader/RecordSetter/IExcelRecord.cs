@@ -10,7 +10,7 @@ namespace ColloSys.FileUploader.ExcelReader.RecordSetter
 
         bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings, ICounter counter);
 
-        bool ComputedSetter(TEntity obj, IExcelReader reader);
+        bool ComputedSetter(TEntity obj, IExcelReader reader, ICounter counter);
 
         bool ComputedSetter(TEntity obj, object yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings);
 

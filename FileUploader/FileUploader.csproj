@@ -68,7 +68,8 @@
     <Compile Include="ExcelReader\NpOiExcelReader.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
     <Compile Include="ExcelReader\NPOIExtensions.cs" />
-    <Compile Include="ExcelReader\RecordSetter\SetExcelRecord.cs" />
+    <Compile Include="ExcelReader\RecordSetter\CreateRecords.cs" />
+    <Compile Include="ExcelReader\SharedUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="ValueSetters\BooleanSetter.cs" />
