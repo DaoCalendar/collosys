@@ -137,6 +137,7 @@
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
+    <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
     <Compile Include="Billing\SharedViewModel.cs" />
@@ -316,6 +317,7 @@
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
+    <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
     <Content Include="Generic\pincode\pincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />
