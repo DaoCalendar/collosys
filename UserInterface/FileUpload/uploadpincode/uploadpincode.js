@@ -72,16 +72,27 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
             datalayer.fetchProducts();
             $scope.dldata = datalayer.dldata;
             $scope.pincodeEmpty = false;
+            $scope.mode = mode;
             $scope.fileValidations = {
                 extension: "xlsx",
-                required: true
+                required: true,
             };
             $scope.selected = {
                 fileInfo: {}
             };
-            $scope.mode = mode;
         })();
 
+        $scope.setPattern = function (product) {
+            if (product == "" || angular.isUndefined(product)) {
+                return;
+            }
+            if (mode === "pincode") {
+                $scope.fileValidations.pattern = product + "_MissingPincodes";
+            } else {
+                $scope.fileValidations.pattern = product + "_MissingRcodes";;
+
+            }
+        };
         $scope.upload = function () {
             var uploadInfo = {
                 Product: $scope.selected.Product,

@@ -5,7 +5,8 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
         //var $log = logManager.getInstance("csFileUploadDirective");
         
         var getFileInputTemplate = function () {
-            return '<div ng-form="" name="myform">' +
+            return '<div ng-form="" name="myform" style="margin: 20px">' +
+                    '<div class="control-group"><div class="controls">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
                             '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
                                 'type="success"></progressbar>' +
@@ -16,7 +17,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
                              '</label>' +
-                             '<input type="text" class="input-xxlarge" readonly="readonly" ng-model="fileInfo.name">' +
+                             '<input type="text" class="input-xlarge" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
                         '</div>' +
                         '<div data-ng-show="valerror.$invalid">' +
                             '<div class="text-error" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
@@ -24,6 +25,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<div class="text-error" data-ng-show="valerror.$error.pattern">Pattern {{validations.pattern}} mismatch.</div>' +
                             '<div class="text-error" data-ng-show="valerror.$error.required">Please select a file.</div>' +
                         '</div>' +
+                    '</div></div>' +
                     '</div>';
         };
 
