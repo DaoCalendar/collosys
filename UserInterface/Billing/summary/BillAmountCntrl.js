@@ -26,14 +26,14 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
 
         $scope.openViewModal = function () {
             $modal.open({
-                templateUrl: 'Billing/summary/view-billamount-modal.html',
+                templateUrl: '/Billing/summary/view-billamount-modal.html',
                 controller: 'billAmountViewModal',
             });
         };
 
         $scope.openAddModal = function () {
             $modal.open({
-                templateUrl: 'Billing/summary/add-billamount-modal.html',
+                templateUrl: '/Billing/summary/add-billamount-modal.html',
                 controller: 'billAmountAddModal',
             });
         };

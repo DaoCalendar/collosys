@@ -179,7 +179,7 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
             $modal.open({
-                templateUrl: 'FileUpload/filedetail/file-detail-add.html',
+                templateUrl: '/FileUpload/filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController',
                 resolve: {
                     fileDetails: function () {
