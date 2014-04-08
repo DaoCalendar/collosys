@@ -119,12 +119,12 @@ csapp.controller("ClientDataDownloadController",
                 SelectedCategory: "Liner",
                 SelectedDate: "2014-04-02",
                 SelectedProduct: "",
-                SelectedSystem: "RLS",
+                SelectedSystem: "EBBS",
                 ShowDataBy: "System"
             };
             $scope.getPagedDataAsync($scope.params);
         };
-        //$scope.fetchdatawithdetauls();
+        $scope.fetchdatawithdetauls();
 
         //#endregion
     }

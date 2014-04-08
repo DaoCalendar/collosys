@@ -74,11 +74,11 @@ namespace ColloSys.DataLayer.Services.Shared
                
         }
 
-        public static string GetCurrentUserEmail()
+        public static string GetUserEmail(string username)
         {
             var session = SessionManager.GetCurrentSession();
             var emailId = session.QueryOver<Users>()
-                .Where(x => x.Username == AuthService.CurrentUser)
+                .Where(x => x.Username == username)
                 .Select(x => x.Email).SingleOrDefault<string>();
             return emailId ?? string.Empty;
         }
