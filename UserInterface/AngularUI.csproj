@@ -208,6 +208,7 @@
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\add\StakeholderApiController.cs" />
     <Compile Include="Stakeholder\add\WorkingModel.cs" />
+    <Compile Include="Stakeholder\view\StakeholderApproveEmail.cs" />
     <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>
