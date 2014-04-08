@@ -115,7 +115,7 @@ csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$m
 
     $scope.openEditModalPopup = function (mode, filemapping) {
         $modal.open({
-            templateUrl: 'FileUpload/filemapping/file-mapping-edit.html',
+            templateUrl: '/FileUpload/filemapping/file-mapping-edit.html',
             controller: 'fileMappingViewEditController',
             resolve: {
                 FileMapping: function () {

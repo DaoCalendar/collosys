@@ -231,6 +231,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
         };
 
         $scope.downloadOutput = function (filescheduler) {
+            $csfactory.enableSpinner();
             datalayer.GenerateExcel(filescheduler)
                 .then(function (data) {
                     $csfactory.downloadFile(data);

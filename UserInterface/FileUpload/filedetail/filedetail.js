@@ -109,7 +109,7 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
             $modalInstance.dismiss(closer);
         };
 
-        $scope.reset = function (fileDetail) {
+        $scope.reset = function () {
             $scope.fileDetail = {};
         };
 
@@ -155,8 +155,8 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
     }
 ]);
 
-csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer", "$csfactory",
-    function ($scope, modalService, $modal, datalayer, $csfactory) {
+csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer",
+    function ($scope, modalService, $modal, datalayer) {
         "use strict";
 
         (function () {
