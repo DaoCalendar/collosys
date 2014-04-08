@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration.Provider;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,10 +13,13 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using ColloSys.Shared.Encryption;
 using ColloSys.UserInterface.Areas.Stakeholder2.Models;
+using EMailServices;
 using NLog;
 
 #endregion
@@ -30,8 +34,8 @@ namespace AngularUI.Stakeholder.view
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
-        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
-        private static readonly GPermissionBuilder GPermissionBuilder=new GPermissionBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
+        private static readonly GPermissionBuilder GPermissionBuilder = new GPermissionBuilder();
 
         [HttpGet]
         public IEnumerable<StkhHierarchy> GetStakeHierarchy()
@@ -170,7 +174,6 @@ namespace AngularUI.Stakeholder.view
 
 
         [HttpGet]
-        
         public int GetTotalCountforPending(string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -191,7 +194,6 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
         public int GetTotalCountForProduct(ScbEnums.Products product)
         {
             var query = StakeQuery.ApplyRelations();
@@ -206,7 +208,6 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
         public int GetTotalCountForStake(Guid Id)
         {
             var query = StakeQuery.ApplyRelations();
@@ -217,7 +218,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetStakeholder(Guid hierarchyId, int start, int size, string filterView)
         {
             if (hierarchyId == Guid.Empty)
@@ -256,7 +257,7 @@ namespace AngularUI.Stakeholder.view
 
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetReportees(Guid Id, int start, int size)
         {
             var query = StakeQuery.ApplyRelations();
@@ -267,7 +268,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetStakeByProduct(ScbEnums.Products product, int start, int size)
         {
             Stakeholders stake = null;
@@ -283,7 +284,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetPendingStakeholder(int start, int size, string filterView)
         {
             var query = StakeQuery.ApplyRelations();
@@ -303,7 +304,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetStakeholderData(Guid hierarchyId, int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetStakeholder(hierarchyId, start, size, filterView);
@@ -317,7 +318,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetPendingStkhData(int start, int size, string filterView)
         {
             var stkhData = (List<Stakeholders>)GetPendingStakeholder(start, size, filterView);
@@ -331,7 +332,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetStkhDataForProduct(ScbEnums.Products product, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetStakeByProduct(product, start, size);
@@ -345,7 +346,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        
+
         public IEnumerable<Stakeholders> GetReportingManager(List<Stakeholders> data)
         {
             if (data != null)
@@ -370,7 +371,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetStkhDataByStakeHolder(Guid Id, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetReportees(Id, start, size);
@@ -384,7 +385,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetReportsToStake(Guid stakeId)
         {
             Stakeholders stake = null;
@@ -426,7 +427,7 @@ namespace AngularUI.Stakeholder.view
             return stakeholderses;
         }
         [HttpGet]
-        
+
         public IEnumerable<GPermission> GetPermissions()
         {
             var query = GPermissionBuilder.ApplyRelations();
@@ -434,7 +435,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        
+
         public IEnumerable<Stakeholders> GetStakeListForManageWorking(Guid stakeholders, Guid hierarcyId)
         {
             if (hierarcyId == Guid.Empty)
@@ -459,9 +460,36 @@ namespace AngularUI.Stakeholder.view
             return list;
         }
 
-        //TODO:Amol
+        public void CreateUser(string username, string email, DateTime joiningDate, StkhHierarchy role)
+        {
+            const string passwordQuestion = "Date of Joining (format: yyyyMMdd e.g. 20131231)?";
+            var passwordAnswer = joiningDate.ToString("yyyyMMdd");
+
+            var user = new Users
+            {
+                Username = username,
+                Password = PasswordUtility.EncryptText("collosys"),
+                Email = email,
+                PasswordQuestion = passwordQuestion,
+                PasswordAnswer = PasswordUtility.EncryptText(passwordAnswer),
+                IsApproved = true,
+                Comment = "",
+                CreatedOn = DateTime.Now,
+                LastPasswordChangedDate = DateTime.Now,
+                LastActivityDate = DateTime.Now,
+                ApplicationName = "collosys",
+                IsLockedOut = false,
+                LastLockedOutDate = DateTime.Now,
+                FailedPasswordAttemptCount = 0,
+                FailedPasswordAttemptWindowStart = DateTime.Now,
+                FailedPasswordAnswerAttemptCount = 0,
+                FailedPasswordAnswerAttemptWindowStart = DateTime.Now,
+                Role = role
+            };
+            Session.Save(user);
+        }
+
         [HttpPost]
-        
         public void SaveApprovedAndRejectUser(Stakeholders stakeholders)
         {
             var hierarchy = GetHierarchy(stakeholders.Hierarchy.Designation, stakeholders.Hierarchy.Hierarchy).ToList().FirstOrDefault();
@@ -489,14 +517,15 @@ namespace AngularUI.Stakeholder.view
 
                 if (hierarchy != null && (hierarchy.IsUser))
                 {
-                    //var provider = new FnhMembershipProvider();
-                    MembershipCreateStatus status;
-                    var role = hierarchy;
-                   // provider.CreateUser(stakeholders.ExternalId, stakeholders.EmailId, stakeholders.JoiningDate, role, out status);
-                    //var body = EmailNotification.TemplateForApproveuser(stakeholders.Name, stakeholders.ExternalId);
+                    CreateUser(stakeholders.ExternalId, stakeholders.EmailId, stakeholders.JoiningDate, hierarchy);
+
+                    //var body = EMailServices.StakeholderApproveEmail.TemplateForApproveuser(stakeholders.Name, stakeholders.ExternalId);
                     _log.Info("Sending mail to User");
 
+                    //TODO: send email on approve
                     //MailReport.SendMail(body, stakeholders.EmailId);
+                    //EMailServices.StakeholderApproveEmail.SendMail(body, stakeholders.EmailId);
+                    StakeholderApproveEmail.Send(stakeholders.EmailId, stakeholders.Name, stakeholders.ExternalId);
 
                     _log.Info("Mail sended to user");
                     _log.Info("User created");
@@ -507,7 +536,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        
+
         public void SaveApprovedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -532,7 +561,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpPost]
-        
+
         public void SaveRejectedWorkings(Stakeholders stakeholders)
         {
             foreach (var stkhWorking in stakeholders.StkhWorkings)
@@ -574,12 +603,11 @@ namespace AngularUI.Stakeholder.view
         private static void SetApproveRejectStatus(IApproverComponent approved, ColloSysEnums.ApproveStatus status)
         {
             approved.Status = status;
-           // approved.ApprovedBy = AuthService.CurrentUser;
+            // approved.ApprovedBy = AuthService.CurrentUser;
             approved.ApprovedOn = DateTime.Now;
         }
 
         [HttpPost]
-        
         public void SaveListApprovedAndRejectUser(IEnumerable<Stakeholders> stakeholderses)
         {
             foreach (var stake in stakeholderses)
@@ -588,7 +616,7 @@ namespace AngularUI.Stakeholder.view
             }
         }
         [HttpPost]
-        
+
         public void SavePushToHigher(Stakeholders data)
         {
             if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)

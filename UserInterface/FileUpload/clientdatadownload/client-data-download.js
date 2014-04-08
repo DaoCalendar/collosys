@@ -42,17 +42,18 @@ csapp.factory("ClientDataDownloadDataLayer", [
     }
 ]);
 
-csapp.controller("ClientDataDownloadController", ["$scope", "$csfactory", "$csGrid", "ClientDataDownloadDataLayer",
-    function ($scope, $csfactory, $grid, datalayer) {
+csapp.controller("ClientDataDownloadController",
+    ["$scope", "$csfactory", "$csGrid", "ClientDataDownloadDataLayer", "Logger",
+    function ($scope, $csfactory, $grid, datalayer, logManager) {
 
         //#region init
+        var $log = logManager.getInstance("ClientDataDownloadController");
         (function () {
             $scope.params = {};
             $scope.$csfactory = $csfactory;
             $scope.datalayer = datalayer;
             datalayer.Get();
         })();
-
         //#endregion
 
         //#region helpers
@@ -104,27 +105,27 @@ csapp.controller("ClientDataDownloadController", ["$scope", "$csfactory", "$csGr
         $scope.getPagedDataAsync = function (downloadparams) {
             $scope.gridOptions = {};
             $scope.$grid = $grid;
-
+            if ($scope.gettingPageData === true) return;
+            $scope.gettingPageData = true;
             datalayer.GetData(downloadparams).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
+            }).finally(function() {
+                $scope.gettingPageData = false;
             });
         };
+
+        $scope.fetchdatawithdetauls = function () {
+            $scope.params = {
+                SelectedCategory: "Liner",
+                SelectedDate: "2014-04-02",
+                SelectedProduct: "",
+                SelectedSystem: "EBBS",
+                ShowDataBy: "System"
+            };
+            $scope.getPagedDataAsync($scope.params);
+        };
+        $scope.fetchdatawithdetauls();
+
         //#endregion
     }
 ]);
-
-
-////#region harish - testing - button
-//$scope.fetchdatawithdetauls = function () {
-//    $scope.params = {
-//        SelectedCategory: "Payment",
-//        SelectedDate: "2014-03-15",
-//        SelectedProduct: "",
-//        SelectedSystem: "RLS",
-//        ShowDataBy: "System"
-//    };
-//    $scope.getPagedDataAsync($scope.params);
-//};
-//$scope.fetchdatawithdetauls();
-////#endregion
-

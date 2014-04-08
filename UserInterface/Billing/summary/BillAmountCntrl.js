@@ -1,17 +1,4 @@
-﻿csapp.controller("BillAmountCntrl1", [
-    "$scope", "$csfactory", "$csnotify", "Restangular", '$Validations', function ($scope, $csfactory,
-        $csnotify, rest, $validation) {
-
-        $scope.init = function () {
-            $scope.billingData = {};
-            $scope.billDetails = [];
-            $scope.moreDetails = [];
-        };
-        $scope.init();
-    }
-]);
-
-
+﻿
 csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal',
     function ($scope, datalayer, factory, $modal) {
         (function () {
@@ -26,14 +13,14 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
 
         $scope.openViewModal = function () {
             $modal.open({
-                templateUrl: 'Billing/summary/view-billamount-modal.html',
+                templateUrl: '/Billing/summary/view-billamount-modal.html',
                 controller: 'billAmountViewModal',
             });
         };
 
         $scope.openAddModal = function () {
             $modal.open({
-                templateUrl: 'Billing/summary/add-billamount-modal.html',
+                templateUrl: '/Billing/summary/add-billamount-modal.html',
                 controller: 'billAmountAddModal',
             });
         };
@@ -59,11 +46,11 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
                 billAdhoc: adhocPayout,
                 billAmount: billingData
             };
-           return restApi.customPOST(dldata.finalData, 'SaveBillAdhoc').then(function (data) {
+            return restApi.customPOST(dldata.finalData, 'SaveBillAdhoc').then(function (data) {
                 dldata.billingData = data.billAmount;
                 $csnotify.success("BillAdhoc Saved");
-               return data;
-           });
+                return data;
+            });
         };
 
         var getStakeholders = function (product) {
@@ -136,40 +123,39 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
 
     }]);
 
-csapp.factory('billAmountFactory', ['billAmountDataLayer', '$csfactory',
-    function (datalayer, $csfactory) {
-        var dldata = datalayer.dldata;
+csapp.factory('billAmountFactory', ['billAmountDataLayer', function (datalayer) {
+    var dldata = datalayer.dldata;
 
-        var initEnums = function () {
-            dldata.transcationTypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
-            dldata.taxtype = ['PreTax', 'PostTax'];
-            dldata.Reasonstype = [
-            { display: 'Performance', IsCredit: 'true' },
-            { display: 'Customer Complaints', IsCredit: 'false' }];
-        };
+    var initEnums = function () {
+        dldata.transcationTypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
+        dldata.taxtype = ['PreTax', 'PostTax'];
+        dldata.Reasonstype = [
+        { display: 'Performance', IsCredit: 'true' },
+        { display: 'Customer Complaints', IsCredit: 'false' }];
+    };
 
-        var enableLink = function () {
-            return false;
-            //return ($csfactory.isEmptyObject(dldata.billingData) || dldata.billingData == 'null');
-        };
+    var enableLink = function () {
+        return false;
+        //return ($csfactory.isEmptyObject(dldata.billingData) || dldata.billingData == 'null');
+    };
 
-        var selectTransaction = function (transType) {
-            dldata.reasonCode = _.where(dldata.Reasonstype, { 'IsCredit': transType });
-        };
+    var selectTransaction = function (transType) {
+        dldata.reasonCode = _.where(dldata.Reasonstype, { 'IsCredit': transType });
+    };
 
-        var getDetailData = function (paymentSource) {
-            dldata.moreDetails = _.filter(dldata.billDetails, function (billDetail) {
-                return billDetail.PaymentSource == paymentSource;
-            });
-        };
+    var getDetailData = function (paymentSource) {
+        dldata.moreDetails = _.filter(dldata.billDetails, function (billDetail) {
+            return billDetail.PaymentSource == paymentSource;
+        });
+    };
 
-        return {
-            initEnums: initEnums,
-            enableLink: enableLink,
-            selectTransaction: selectTransaction,
-            getDetailData: getDetailData
-        };
-    }]);
+    return {
+        initEnums: initEnums,
+        enableLink: enableLink,
+        selectTransaction: selectTransaction,
+        getDetailData: getDetailData
+    };
+}]);
 
 csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modalInstance',
     function ($scope, datalayer, factory, $modalInstance) {

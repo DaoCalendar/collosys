@@ -317,10 +317,9 @@ namespace ColloSys.FileUploadService.ExcelReader
                             prop.SetValueWithType(record, dr[(int)fileMapping.Position].ToString(), dateFormat);
                             break;
                         case ColloSysEnums.FileMappingValueType.MappedValue:
-                            var mappings = Reader.GetDataLayer.GetFieldValueMappings(fileMapping.Id);
                             var inputValue = dr[(int)fileMapping.Position].ToString();
                             if (string.IsNullOrWhiteSpace(inputValue)) inputValue = "*";
-                            var value = mappings.FirstOrDefault(x => x.SourceValue == inputValue);
+                            var value = fileMapping.FileValueMappings.FirstOrDefault(x => x.SourceValue == inputValue);
                             var output = (value == null) ? null : value.DestinationValue;
                             prop.SetValueWithType(record, output);
                             break;
