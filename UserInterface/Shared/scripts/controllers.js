@@ -58,8 +58,8 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
         if (!$csAuthFactory.hasLoggedIn()) {
             $location.path('/login');
         } else {
-            $location.path("/home");
-            //$location.path(routeManagerFactory.getLastLocation());
+            //$location.path("/home");
+            $location.path(routeManagerFactory.getLastLocation());
         }
 
     }
