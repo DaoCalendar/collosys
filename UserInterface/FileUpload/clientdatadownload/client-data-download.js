@@ -113,22 +113,19 @@ csapp.controller("ClientDataDownloadController",
                 $scope.gettingPageData = false;
             });
         };
+
+        $scope.fetchdatawithdetauls = function () {
+            $scope.params = {
+                SelectedCategory: "Liner",
+                SelectedDate: "2014-04-02",
+                SelectedProduct: "",
+                SelectedSystem: "RLS",
+                ShowDataBy: "System"
+            };
+            $scope.getPagedDataAsync($scope.params);
+        };
+        //$scope.fetchdatawithdetauls();
+
         //#endregion
     }
 ]);
-
-
-////#region harish - testing - button
-//$scope.fetchdatawithdetauls = function () {
-//    $scope.params = {
-//        SelectedCategory: "Payment",
-//        SelectedDate: "2014-03-15",
-//        SelectedProduct: "",
-//        SelectedSystem: "RLS",
-//        ShowDataBy: "System"
-//    };
-//    $scope.getPagedDataAsync($scope.params);
-//};
-//$scope.fetchdatawithdetauls();
-////#endregion
-
