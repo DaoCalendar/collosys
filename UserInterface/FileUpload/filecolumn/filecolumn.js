@@ -278,14 +278,14 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
 
         $scope.showAddMultiColumnModal = function () {
             $modal.open({
-                templateUrl: 'FileUpload/filecolumn/file-column-multi.html',
+                templateUrl: '/FileUpload/filecolumn/file-column-multi.html',
                 controller: 'fileColumnMultiAddModalController',
             });
         };
 
         $scope.showAddSingleColumnModal = function () {
             $modal.open({
-                templateUrl: 'FileUpload/filecolumn/file-column-add.html',
+                templateUrl: '/FileUpload/filecolumn/file-column-add.html',
                 controller: 'fileColumnAddEditController',
             });
         };

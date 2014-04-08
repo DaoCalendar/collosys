@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
@@ -20,7 +21,7 @@ using ColloSys.Shared.NgGrid;
 
 namespace ColloSys.UserInterface.Areas.Reporting.apiController
 {
-    public class GridApiController : ApiController
+    public class GridApiController : BaseApiController<GReports>
     {
         [HttpPost]
         
@@ -52,7 +53,7 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
             try
             {
                 var fileinfo = ClientDataDownloadHelper.DownloadGridData(gridWrapper);
-                EmailService.EmailReport(fileinfo, EmailService.GetCurrentUserEmail(), "Report");
+                EmailService.EmailReport(fileinfo, EmailService.GetUserEmail(GetUsername()), "Report");
                 return Request.CreateResponse(HttpStatusCode.OK, string.Empty);
             }
             catch (Exception exception)
@@ -61,17 +62,20 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
             }
         }
 
-        [HttpPost]
-        
+        [HttpPost]        
         public HttpResponseMessage SaveReport(ReportsVM report)
         {
             var session = SessionManager.GetCurrentSession();
             report.Params.GridConfig.pagingOptions.currentPage = 1;
-            report.Report.User = AuthService.CurrentUser;
-            report.Report.EmailId = EmailService.GetCurrentUserEmail();
+            report.Report.User = GetUsername();
+            report.Report.EmailId = EmailService.GetUserEmail(report.Report.User);
             report.Report.NextSendingDateTime = CompuateNextDate(report.Report.Frequency, report.Report.FrequencyParam);
             ReportingService.SerializeQueryParams(report);
-            session.SaveOrUpdate(report.Report);
+            using (var tx = session.BeginTransaction())
+            {
+                session.SaveOrUpdate(report.Report);
+                tx.Commit();                
+            }
             return Request.CreateResponse(HttpStatusCode.Created, report.Report);
         }
 
@@ -99,10 +103,9 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         public HttpResponseMessage GetReportsList(GetReportListParams param)
         {
             var session = SessionManager.GetCurrentSession();
-            var user = HttpContext.Current.User.Identity.Name;
             var reports = session.QueryOver<GReports>()
                                  .Where(x => x.ScreenName == param.ScreenName)
-                                 .And(x => x.User == user)
+                                 .And(x => x.User == GetUsername())
                                  .List();
             return Request.CreateResponse(HttpStatusCode.OK, reports);
         }

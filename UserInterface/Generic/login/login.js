@@ -89,7 +89,7 @@ csapp.controller("logoutController", [
 ]);
 
 csapp.controller("loginController",
-    ["$scope", "$csAuthFactory", "loginDataLayer", "$location", "$csfactory", "$csnotify", //$modalInstance
+    ["$scope", "$csAuthFactory", "loginDataLayer", "$location", "$csfactory", "$csnotify",
     function ($scope, $csAuthFactory, datalayer, $location, $csfactory, $csnotify) {
         $scope.login = {
             error: false
@@ -106,7 +106,6 @@ csapp.controller("loginController",
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {
                     $csAuthFactory.loginUser($scope.login.username);
-                    //$modalInstance.close($scope.login.username);
                     $location.path("/home");
                 } else {
                     $scope.login.error = true;
@@ -148,19 +147,19 @@ csapp.controller("loginController",
         };
     }]);
 
-csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", "Logger", "routeManagerFactory",
-    function ($scope, $modal, $location, logManager, routeManagerFactory) {
-        var $log = logManager.getInstance("LoginCtrl");
-        var modalInst = $modal.open({
-            controller: "loginController",
-            templateUrl: "/Generic/login/login.html",
-            backdrop: false,
-            keyboard: false
-        });
+//csapp.controller('LoginCtrl', ["$scope", "$modal", "$location", "Logger", "routeManagerFactory",
+//    function ($scope, $modal, $location, logManager, routeManagerFactory) {
+//        var $log = logManager.getInstance("LoginCtrl");
+//        var modalInst = $modal.open({
+//            controller: "loginController",
+//            templateUrl: "/Generic/login/login.html",
+//            backdrop: false,
+//            keyboard: false
+//        });
 
-        modalInst.result.then(function () {
-            $log.info("redirecting user to home page");
-            $location.path("/home");
-            routeManagerFactory.getLastLocation();
-        });
-    }]);
+//        modalInst.result.then(function () {
+//            $log.info("redirecting user to home page");
+//            $location.path("/home");
+//            routeManagerFactory.getLastLocation();
+//        });
+//    }]);

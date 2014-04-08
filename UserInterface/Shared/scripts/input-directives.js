@@ -41,13 +41,13 @@ csapp.factory("csValidationInputTemplate", function () {
 
     var after = function (fieldname, field) {
         getmessages(fieldname, field);
-        var html = '<div data-ng-show="myform.myfield.$invalid"> ' +
-            '<div data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxLength + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
-            '<div data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+        var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxLength + '</div>' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
+            '<div class="field-validation-error" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
             '</div>';
         html += '</div>'; //ng-form; 
         return html;
@@ -56,6 +56,36 @@ csapp.factory("csValidationInputTemplate", function () {
     return {
         before: before,
         after: after
+    };
+});
+
+csapp.directive("csInputSuffix", function () {
+    return {
+        require: 'ngModel',
+
+        restrict: 'A',
+        link: function (scope, element, attrs, ctr) {
+            ctr.$parsers.unshift(function (value) {
+
+                var isValid = value !== "";
+
+                ctr.$setValidity("required", isValid);
+                if (!isValid) {
+                    return undefined;
+                }
+
+                if (value.indexOf(attrs.suffix) < 0) {
+                    value = value + attrs.suffix;
+                }
+
+                return value;
+            });
+
+            ctr.$formatters.unshift(function (value) {
+                value = value || "";
+                return value.replace(attrs.suffix, "");
+            });
+        }
     };
 });
 
@@ -108,14 +138,6 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                     break;
                 case "decimal":
                     options.maxlength = 19;
-                case "phone":
-                    options.minlength = 10;
-                    options.maxlength = 10;
-                    break;
-                case "userId":
-                    options.minlength = 7;
-                    options.maxlength = 7;
-                    break;
                 default:
                     $log.error(options.type + " is not defined");
             }
@@ -164,35 +186,29 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
 
         var $log = logManager.getInstance("csTextFieldFactory");
 
-        var getPrefixData = function (template) {
-            switch (template) {
-                case 'user':
-                    return '<span class="add-on"><i class="icon-user"></i></span>';
-                case 'phone':
-                    return '<span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
-                default:
-                    return '';
-            }
-        };
-
-        var getSuffixData = function (template) {
-            switch (template) {
-                case 'user':
-                    return '<span class="add-on"><i class="icon-user"></i></span>';
-
-                default:
-                    return '';
-            }
-        };
-
         var prefix = function (fields) {
-            var html = '<div class="input-prepend">';
-            html += getPrefixData(fields.template);
+            var html = ' ';
+            switch (fields.template) {
+                case 'user':
+                    html += '<div class="input-prepend"><span class="add-on"><i class="icon-user"></i></span>';
+                    break;
+                case 'phone':
+                    html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                    break;
+            }
             return html;
         };
 
         var suffix = function (fields) {
-            var html = '</div>';
+            var html = ' ';
+            switch (fields.template) {
+                case 'user':
+                    html += '</div>';
+                    break;
+                case 'phone':
+                    html += '</div>';
+                    break;
+            }
             return html;
         };
 
@@ -202,10 +218,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             html += 'ng-model="' + attrs.ngModel + '" type="text"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
-            html += (field.minlength ? ' ng-minlength="' + field.minlength + '"' : '');
-            html += (field.maxLength ? ' ng-maxlength="' + field.maxLength + '"' : '');
-            html += (field.min ? ' min="' + field.min + '"' : '');
-            html += (field.max ? ' max="' + field.max + '"' : '');
+            html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
+            html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
             html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
             html += '/>';
             return html;
@@ -289,60 +305,286 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         };
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", function ($compile, $parse, numberFactory, textFactory) {
+csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var $log = logManager.getInstance("csTextareaFactory");
+
+        //#region template
+        var input = function (field, attrs) {
+            var html = '<textarea  name="myfield"';
+            html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
+            html += 'ng-model="' + attrs.ngModel + '"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += ' ng-required="' + attrs.field + '.required"';
+            html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
+            html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
+            html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
+            html += '></textarea>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs.field),
+                valtemplate.before(),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+        //#endregion
+
+        //#region validations
+        var validateOptions = function (options) {
+            options.minlength = options.length || options.minlength || 0;
+            options.maxlength = options.length || options.maxlength || 18;
+            options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
+            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
+            if (parseInt(options.minlength) > parseInt(options.maxlength)) {
+                var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+                throw error;
+            }
+            options.label = options.label || "Textarea";
+            options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
+        };
+        //#endregion
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+    }]);
+
+csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var $log = logManager.getInstance("csCheckboxFactory");
+
+        //#region template
+        var input = function (field, attrs) {
+            var html = '<input  name="myfield"';
+            html += 'ng-model="' + attrs.ngModel + '" type="checkbox"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += ' ng-required="' + attrs.field + '.required"';
+            html += '/>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs.field),
+                valtemplate.before(),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+        //#endregion
+
+        //#region validations
+        var validateOptions = function (options) {
+            options.label = options.label || "CheckBox";
+        };
+        //#endregion
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+    }]);
+
+csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var $log = logManager.getInstance("csEmailFactory");
+
+        var prefix = function (field) {
+
+            var hasSuffix = angular.isDefined(field.suffix) && field.suffix !== null && field.suffix.length > 0;
+
+            var html = '<div class="input-prepend';
+            html += hasSuffix ? ' input-append">' : '">';
+            html += '<span class="add-on"><i class="icon-envelope"></i></span>';
+            return html;
+
+        };
+
+        var addEmailSuffix = function (fields) {
+            var string = ' ';
+            var hasSuffix = angular.isDefined(fields.suffix) && fields.suffix !== null && fields.suffix.length > 0;
+
+            if (hasSuffix) {
+                string += 'class="input-medium" cs-input-suffix suffix="' + fields.suffix + '" />';
+            } else {
+                string += 'class="input-large" />';
+            }
+
+            if (hasSuffix) {
+                string += '<span class="add-on">' + fields.suffix + '</span>';
+            }
+            return string;
+        };
+
+        var suffix = function () {
+            return '</div>';
+        };
+
+        //#region template
+        var input = function (field, attrs) {
+            var html = '<input  name="myfield"';
+            html += 'ng-model="' + attrs.ngModel + '" type="email"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += ' ng-required="' + attrs.field + '.required"';
+            html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
+            html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
+            html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
+            html += addEmailSuffix(field);
+            html += '/>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs.field),
+                valtemplate.before(),
+                prefix(field),
+                input(field, attrs),
+                suffix(field),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+        //#endregion
+
+        //#region validations
+        var validateOptions = function (options) {
+            options.minlength = options.length || options.minlength || 0;
+            options.maxlength = options.length || options.maxlength || 18;
+            options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
+            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
+            if (parseInt(options.minlength) > parseInt(options.maxlength)) {
+                var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+                throw error;
+            }
+            options.label = options.label || "Email";
+            options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
+        };
+        //#endregion
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+    }]);
+
+csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var input = function (field, attrs) {
+
+            var html = '<div class="row-fluid">';
+            html += '<div class="span1 radio" ng-repeat="(key, record) in ' + field.options + '">';
+            html += '<label><input  name="myfield"';
+            html += 'ng-model="' + attrs.ngModel + '" type="radio"';
+            html += 'ng-value="{{' + field.valueField + '}}"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += ' ng-required="' + attrs.field + '.required"';
+            html += '/>{{' + field.textField + '}} </label>';
+            html += '</div></div>';
+            return html;
+
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs.field),
+                valtemplate.before(),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
 
 
 
+        var validateOptions = function (field) {
+            field.label = field.label || "Description";
+            //field.textField = "record." + (field.textField || "text");
+            field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
+            field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
+            //field.valueField = "record." + (field.valueField || );
+        };
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
 
-    var getFactory = function (type) {
-        switch (type) {
-            //case "textarea":
-            //    return textarea;
-            case "uint":
-            case "int":
-            case "ulong":
-            case "long":
-            case "decimal":
-                return numberFactory;
-            case "text":
-                return textFactory;
-                //case "email":
-                //    return email;
-                //case "checkbox":
-                //    return checkbox;
-                //case "radio":
-                //    return radio;
-            default:
-                throw "Invalid type specification in csField directive : " + type;
-        }
-    };
+    }]);
+
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory) {
+
+        var getFactory = function (type) {
+            switch (type) {
+                case "textarea":
+                    return textareaFactory;
+                case "uint":
+                case "int":
+                case "ulong":
+                case "long":
+                case "decimal":
+                    return numberFactory;
+                case "text":
+                    return textFactory;
+                case "email":
+                    return emailFactory;
+                case "checkbox":
+                    return checkboxFactory;
+                case "radio":
+                    return radioFactory;
+                default:
+                    throw "Invalid type specification in csField directive : " + type;
+            }
+        };
 
 
+        var linkFunction = function (scope, element, attrs) {
+            var fieldGetter = $parse(attrs.field);
+            var field = fieldGetter(scope);
 
+            var typedFactory = getFactory(field.type);
+            typedFactory.checkOptions(field);
 
-    var linkFunction = function (scope, element, attrs) {
-        var fieldGetter = $parse(attrs.field);
-        var field = fieldGetter(scope);
+            var html = typedFactory.htmlTemplate(field, attrs);
 
-        var typedFactory = getFactory(field.type);
-        typedFactory.checkOptions(field);
-        console.log(field);
-        var html = typedFactory.htmlTemplate(field, attrs);
-        console.log(html);
+            var newElem = angular.element(html);
+            element.replaceWith(newElem);
+            $compile(newElem)(scope);
+        };
 
-        var newElem = angular.element(html);
-        element.replaceWith(newElem);
-        $compile(newElem)(scope);
-    };
-
-    return {
-        restrict: 'E',
-        link: linkFunction,
-        scope: true,
-        require: ['ngModel', '^form'],
-        terminal: true
-    };
-}]);
+        return {
+            restrict: 'E',
+            link: linkFunction,
+            scope: true,
+            require: ['ngModel', '^form'],
+            terminal: true
+        };
+    }]);
 
 //csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $compile) {
 

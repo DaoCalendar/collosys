@@ -27,6 +27,11 @@ legend {
 
 textarea {
     min-height: 75px;
+   
+}
+
+.noResize {
+    resize: none;
 }
 
 .editor-label {

@@ -593,7 +593,7 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
             },
             showModal: function (gridOptions) {
                 $modal.open({
-                    templateUrl: '/Shared/templates/grid/grid-settings.html',
+                    templateUrl: '/Generic/csgrid/grid-settings.html',
                     controller: 'gridSettingsController',
                     resolve: {
                         gridOptions: function () {

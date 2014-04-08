@@ -1,9 +1,12 @@
-﻿<div>
+﻿<div data-ng-hide="true">
     <form class="form-horizontal">
-        <cs-field field="number" data-ng-change="changeFunc(Field.number)" data-ng-model="Field.number"></cs-field>
+        <cs-field  field="number" data-ng-change="changeFunc(Field.number)" data-ng-model="Field.number"></cs-field>
         <cs-field field="text" data-ng-change="changeFunc(Field.text)" data-ng-model="Field.text"></cs-field>
         <cs-field field="phone" data-ng-change="changeFunc(Field.phone)" data-ng-model="Field.phone"></cs-field>
-
+        <cs-field field="textarea" data-ng-change="changeFunc(Field.txtarea)" data-ng-model="Field.txtarea"></cs-field>
+        <cs-field field="email" data-ng-change="changeFunc(Field.email)" data-ng-model="Field.email"></cs-field>
+        <cs-field field="checkbox" data-ng-change="changeFunc(Field.checkbox)" data-ng-model="Field.checkbox"></cs-field>
+        <cs-field field="radio" data-ng-change="changeFunc(Field.radio)" data-ng-model="Field.radio"></cs-field>
         <pre>{{Field}}</pre>
         <pre>changed:{{changed}}</pre>
 
