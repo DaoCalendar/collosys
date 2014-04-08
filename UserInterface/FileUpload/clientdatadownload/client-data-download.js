@@ -124,7 +124,7 @@ csapp.controller("ClientDataDownloadController",
             };
             $scope.getPagedDataAsync($scope.params);
         };
-        $scope.fetchdatawithdetauls();
+        //$scope.fetchdatawithdetauls();
 
         //#endregion
     }
