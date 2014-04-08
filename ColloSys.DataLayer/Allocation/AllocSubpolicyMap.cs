@@ -23,9 +23,9 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.IsInUse);
 
             ManyToOne(x => x.Stakeholder, map => map.NotNullable(false));
-            Bag(x => x.AllocRelations, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
-            Bag(x => x.Allocs, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
-            Bag(x => x.Conditions, colmap => colmap.Lazy(CollectionLazy.NoLazy), map => map.OneToMany(x => { }));
+            Bag(x => x.AllocRelations, colmap => {}, map => map.OneToMany(x => { }));
+            Bag(x => x.Allocs, colmap => {}, map => map.OneToMany(x => { }));
+            Bag(x => x.Conditions, colmap => {}, map => map.OneToMany(x => { }));
         }
     }
 }
