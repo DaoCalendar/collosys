@@ -99,6 +99,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
             var html = '<input class="form-control" name="myfield"';
             html += 'ng-model="' + attrs.ngModel + '" type="number"';
+            html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
@@ -216,6 +217,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var input = function (field, attrs) {
             var html = '<input class="form-control" name="myfield"';
             html += 'ng-model="' + attrs.ngModel + '" type="text"';
+            html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
@@ -313,6 +315,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         //#region template
         var input = function (field, attrs) {
             var html = '<textarea  name="myfield"';
+            html += 'ng-readonly="setReadonly()"';
             html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
             html += 'ng-model="' + attrs.ngModel + '"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -369,6 +372,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         var input = function (field, attrs) {
             var html = '<input  name="myfield"';
             html += 'ng-model="' + attrs.ngModel + '" type="checkbox"';
+            html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
@@ -441,6 +445,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         var input = function (field, attrs) {
             var html = '<input  name="myfield"';
             html += 'ng-model="' + attrs.ngModel + '" type="email"';
+            html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
@@ -496,6 +501,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
             var html = '<div class="row-fluid">';
             html += '<div class="span1 radio" ng-repeat="(key, record) in ' + field.options + '">';
+            html += 'ng-readonly="setReadonly()"';
             html += '<label><input  name="myfield"';
             html += 'ng-model="' + attrs.ngModel + '" type="radio"';
             html += 'ng-value="{{' + field.valueField + '}}"';
@@ -536,6 +542,18 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
     }]);
 
+
+csapp.directive('fieldGroup', ["$parse", function ($parse) {
+    return {
+        template: '<div><div ng-transclude=""/></div>',
+        scope: { mode: '=', model: '@' },
+        restrict: 'E',
+        transclude: true,
+        require: '^form',
+        controller: function ($scope) { this.mode = $scope.mode; }
+    };
+}]);
+
 csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory",
     function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory) {
 
@@ -563,6 +581,23 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
 
+        var controllerFn = function ($scope, $element, $attrs) {
+            var fieldGetter = $parse($attrs.field);
+            var field = fieldGetter($scope);
+            $scope.setReadonly = function () {
+                switch ($scope.mode) {
+                    case 'add':
+                        return false;
+                    case 'view':
+                        return true;
+                    case 'edit':
+                        return field.editable === false;
+                    default:
+                        return false;
+                }
+            };
+        };
+
         var linkFunction = function (scope, element, attrs) {
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
@@ -581,8 +616,9 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form'],
-            terminal: true
+            require: ['ngModel', '^form', '?fieldGroup'],
+            terminal: true,
+            controller: controllerFn
         };
     }]);
 
