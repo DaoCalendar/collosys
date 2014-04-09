@@ -76,6 +76,9 @@
     <Reference Include="NLog.Extended">
       <HintPath>..\SharedLib\NLog.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -119,6 +122,7 @@
     <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
+    <Compile Include="FileUpload\Testcase\FetchEnumsTest.cs" />
     <Compile Include="FileUpload\uploadhelper\FileIOApiController.cs" />
     <Compile Include="FileUpload\uploadhelper\FileSaver.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeInfo.cs" />
@@ -196,6 +200,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Model\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
@@ -432,6 +437,7 @@
     <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
       <DependentUpon>angular-file-upload.js</DependentUpon>
     </Content>
+    <Content Include="packages.config" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -463,6 +469,7 @@
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\controllers.js" />
+    <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
     <Content Include="Generic\csgrid\grid-buttons.html" />

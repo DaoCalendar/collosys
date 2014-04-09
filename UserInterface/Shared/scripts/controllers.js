@@ -18,12 +18,12 @@
         var $routeChangeSuccess = function () {
         };
 
-        var saveLastLocation = function() {
+        var saveLastLocation = function () {
             $cookieStore.remove("routelastroute");
             $cookieStore.put("routelastroute", $location.path());
         };
 
-        var getLastLocation = function() {
+        var getLastLocation = function () {
             var location = $cookieStore.get("routelastroute");
             if (angular.isUndefined(location) || location === null || location === "")
                 location = "/home";
@@ -41,8 +41,30 @@
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget) {
+csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared","Logger", function (rest, $csnotify, $csShared, logManager) {
+    var rootapi = rest.all("SharedEnumsApi");
+    var dldata = {};
+    var $log = logManager.getInstance("rootDatalayer");
+
+    var fetchWholeEnums = function () {
+        rootapi.customGET("FetchAllEnum").then(function (data) {
+            $csShared.enums = data;
+            $log.info("enums loaded.");
+            $csShared.getEnum("Products");
+            console.log(dldata.dd);
+        }, function (data) {
+            $csnotify.error(data);
+        });
+    };
+
+    return {
+        dldata: dldata,
+        fetchWholeEnums: fetchWholeEnums,
+    };
+
+}]);
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer) {
 
         $scope.$on("$locationChangeStart", routeManagerFactory.$locationChangeStart);
         $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
@@ -53,6 +75,7 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
             $scope.$csAuthFactory = $csAuthFactory;
             $scope.loadingWidgetParams = loadingWidget.params;
             $csAuthFactory.loadAuthCookie();
+            datalayer.fetchWholeEnums();
         })();
 
         if (!$csAuthFactory.hasLoggedIn()) {

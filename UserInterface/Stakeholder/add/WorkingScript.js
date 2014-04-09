@@ -103,8 +103,8 @@
             $scope.modalData.LocationLevel = $scope.WorkingData.LocationLevel;
             $scope.modalData.StakeWork = $scope.StakeWork;
             $scope.modalData.SelectedPincodeData = $scope.workingModel.SelectedPincodeData;
-            
-           var modalInstance= $modal.open({
+
+            var modalInstance = $modal.open({
                 templateUrl: '/Stakeholder/add/multiselectPopUp.html',
                 controller: 'multiSelectController',
                 resolve: {
@@ -114,9 +114,9 @@
                 }
             });
 
-            modalInstance.result.then(function(data) {
+            modalInstance.result.then(function (data) {
                 $scope.modalData = data;
-                
+
             });
 
         };
@@ -163,10 +163,10 @@
             $scope.districtPopUp = false;
         };
 
-       
+
 
         $scope.getPaymentDetails = function (product) {
-            
+
             if ($scope.WorkingData.Hierarchy.HasWorking && $scope.WorkingData.Hierarchy.HasPayment) {
                 restApi.customGET('GetLinerWriteOff', { 'product': product }).then(function (data) {
                     $scope.$parent.WizardData.BillingPolicy.LinerPolicies = data.LinerList;
@@ -226,7 +226,7 @@
             currentDeleteData.EndDate = undefined;
             $scope.deleteModal = false;
         };
-        
+
         var deletedata = function (data, arrays) {
             var index = arrays.indexOf(data);
             arrays.splice(index, 1);
@@ -310,11 +310,14 @@
             //}
             restApi.customPOST($scope.WorkingData.Hierarchy, 'WorkingReportsTo').then(function (data) {
                 $scope.WorkingData.ReportsToList = data;
+                var x;
+                $scope.ReportsToList = [];
                 _.forEach($scope.WorkingData.ReportsToList, function (item) {
                     if (item.StkhWorkings.length > 0) {
-                        var x = _.find(item.StkhWorkings, function (workings) {
-                            if (workings.Products === product)
+                        x = _.find(item.StkhWorkings, function (workings) {
+                            if (workings.Products === product && product != 'ALL')
                                 return workings;
+                            else if(product==='ALL') return workings;
                         });
                     } else {
                         x = item;
@@ -453,7 +456,7 @@
                     }
                     break;
                 case 'City':
-                    
+
                     var pincodeCity = _.find(pincodeData.GPincodes, function (item) {
                         if (item.District === $scope.workingModel.SelectedPincodeData.City)
                             return item;
@@ -842,7 +845,7 @@
         };
 
         $scope.selectAll = function (selected) {
-            
+
             switch ($scope.WorkingData.LocationLevel) {
                 case "Region":
                     if ($scope.regionArray.length === $scope.uniqueReg.length)
@@ -893,7 +896,7 @@
                     }
                     break;
                 case "City":
-                    
+
                     if ($scope.cityArray.length === $scope.workingModel.ListOfDistricts.length)
                         $scope.cityArray = [];
                     else {
@@ -912,7 +915,7 @@
                     if ($scope.areaArray.length === $scope.workingModel.ListOfAreas.length)
                         $scope.areaArray = [];
                     else {
-                        
+
                         for (var l = 0; l < $scope.workingModel.ListOfAreas.length; l++) {
                             var dupArea = _.find($scope.areaArray, function (item) {
                                 if (item.toUpperCase() === $scope.workingModel.ListOfAreas[l].toUpperCase())
@@ -940,7 +943,7 @@
             if (!angular.isDefined(reportdToId) || reportdToId == "") {
                 return [];
             }
-            
+
             if ($scope.enableLocation() > 3) {
                 pincodeMngr.GetCluster(reportdToId).then(function (data) {
                     $scope.WorkingData.clusterList = data;
@@ -1210,7 +1213,7 @@
         };
 
         $scope.manageDisplay = function (locLevel) {
-            
+
             resetDisplayManager();
             setDisplayManager(locLevel);
             $scope.workingModel.QueryFor = setQueryForInitial($scope.displayManager);
@@ -1249,7 +1252,7 @@
                     loadWorkingModel($scope.workingModel);
                     return loadWorkingModel($scope.workingModel);
                 case 'AREA':
-                    
+
                     $scope.workingModel.QueryFor = 'Area';
                     loadWorkingModel($scope.workingModel);
                     return loadWorkingModel($scope.workingModel);
@@ -1343,7 +1346,7 @@
                 //locLevel = 'District';
             }
             if ($scope.displayManager.showArea === true && !$scope.changed.Area) {
-                
+
                 if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.District)) return;
                 $scope.workingModel = $scope.setWorkingModel('Area');
                 //locLevel = 'Area';
@@ -1354,7 +1357,7 @@
 
         var loadWorkingModel = function (workingModle) {
             restApi.customPOST(workingModle, 'GetPincodeData').then(function (data) {
-                
+
                 $scope.workingModel = data;
             });
         };
@@ -1378,7 +1381,7 @@
     };
 
     var getRegionData = function (state, clusterList) {
-        
+
         var region = _.find(clusterList, function (item) {
             if (item.State.toUpperCase() === state.toUpperCase())
                 return item;
@@ -1389,7 +1392,7 @@
     };
 
     var getCity = function (cluster, clusterList) {
-        
+
         var array = [];
         var city = _.filter(clusterList, function (item) {
             if (item.Cluster.toUpperCase() === cluster) {
@@ -1485,7 +1488,7 @@
     };
 
     var checkDuplicate = function (stakeWork, stakeinfo, loclevel, list) {
-        
+
         if (list.length > 0) {
             if (stakeinfo.length > 0) {
                 switch (loclevel) {
@@ -1737,18 +1740,18 @@ csapp.controller("multiSelectController", ["$scope", "$csfactory", "modalData", 
 
 csapp.controller("deleteWorkingController", ["$scope", "$csfactory", "modalData", "$modalInstance",
     function ($scope, $csfactory, modalData, $modalInstance) {
-        
-        (function() {
+
+        (function () {
             $scope.modalData = modalData;
         })();
-        
+
 
         $scope.setEndDate = function (data, endDate) {
             var date = angular.copy(endDate);
             data.EndDate = date;
-// ReSharper disable AssignedValueIsNeverUsed
+            // ReSharper disable AssignedValueIsNeverUsed
             endDate = '';
-// ReSharper restore AssignedValueIsNeverUsed
+            // ReSharper restore AssignedValueIsNeverUsed
             $modalInstance.close();
         };
 
