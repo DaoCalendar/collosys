@@ -4,33 +4,48 @@
         var restApi = rest.all("HomeApi");
 
         $scope.changeFunc = function (data) {
-
-            $scope.changed = data;
+            console.log(data);
+            $scope.pqr = data;
         };
 
+
+
         (function () {
-            $scope.array = [{ text: 1, bind: 1 }, { text: 2, bind: 2 }, { text: 3, bind: 3 }, { text: 4, bind: 4 }, { text: 5, bind: 5 }];
-            $scope.Field = {};
-            $scope.number = { label: 'Age', required: true, type: 'uint' };
-            $scope.text = { label: 'User', required: true, template: 'user', type: 'text', minlength: 5 };
-            $scope.phone = { label: 'phone', template: 'phone', required: true, type: 'text', minlength: 5 };
-            $scope.textarea = { label: 'Textarea', required: true, resize: false, type: 'textarea', minlength: 5, maxlength: 10 };
-            $scope.email = { label: 'Email', type: "email", suffix: '@soham.com', required: true };
-            $scope.checkbox = { label: 'Checkbox', type: "checkbox", required: false };
-            $scope.radio = { label: 'Radio', type: "radio", required: false, options: 'array', textField: 'text' };
+            $scope.abc = {};
+            $scope.array = [1, 2, 3];
 
+            $scope.fields = [
+                 { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
+                 { name: 'Age', label: 'Age', editable: false, required: true, type: 'int', min: 10, max: 100 },
+                 { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
+                 { name: 'enum', label: 'enum', editable: false, csRepeat: 'array', required: true, type: 'enum', min: 10, max: 100 },
+                 { name: 'select', label: 'select', csRepeat: 'array', editable: false, required: true, type: 'select', min: 10, max: 100 },
+                 { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
+            ];
 
+            $scope.stakeholder = {};
+            $scope.input = {
+                changeCount: 0
+            };
+
+            $scope.mode = "add";
             restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.datalist = data;
+                console.log($scope.datalist);
             }, function (data) {
                 $csnotify.error(data.data.Message);
             });
 
         })();
 
-
+        $scope.changed = function (name) {
+            $scope.input.change = name;
+            $scope.input.changeCount++;
+            $scope.mode = "view";
+        };
         $scope.showPendingOptions = function () {
-            if (angular.isUndefined($scope.datalist) || $scope.datalist.stakeholder != 0 || $scope.datalist.payment != 0 || $scope.datalist.working != 0 || $scope.datalist.allocation != 0 || $scope.datalist.allocationpolicy != 0)
+            if (angular.isUndefined($scope.datalist)) return false;
+            if ($scope.datalist.stakeholder != 0 || $scope.datalist.payment != 0 || $scope.datalist.working != 0) //|| $scope.datalist.allocation != 0 || $scope.datalist.allocationpolicy != 0)
                 return true;
             else return false;
         };
