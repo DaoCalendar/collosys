@@ -107,6 +107,7 @@ csapp.controller("ClientDataDownloadController",
             $scope.$grid = $grid;
             if ($scope.gettingPageData === true) return;
             $scope.gettingPageData = true;
+            $csfactory.enableSpinner();
             datalayer.GetData(downloadparams).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
             }).finally(function() {
