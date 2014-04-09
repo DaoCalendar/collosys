@@ -1,25 +1,25 @@
-﻿<div data-ng-hide="false">
+﻿<div data-ng-hide="true">
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
             <field-group mode="mode">
-                <div data-ng-repeat="data in fields">
-                    <div class="span5">
-                        <cs-field data-ng-model="abc"  field="data"></cs-field>
-                     </div>
-                </div>
+                <cs-field data-ng-model="abc" data-ng-change ="changeFunc(abc)" field="fields[3]"></cs-field>
+                <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[4]"></cs-field>
+                <pre>{{abc}}</pre>
+                <pre>{{pqr}}</pre>
             </field-group>
+           
         </ng-form>
     </form>
 </div>
 
-<div data-ng-hide="true"
+<div 
     data-ng-show="showPendingOptions()"
     data-ng-cloack="">
 
     <div class="panel form-horizontal">
         <div class="panel-heading">Pending Approvals</div>
         <ul>
-            <li data-ng-show="datalist.stakeholder">
+            <li data-ng-show="datalist.stakeholder>0">
                 <a class="navbar-link" href="#/stakeholder/add"><b>Stakeholder Approval:</b>  {{datalist.stakeholder}} approval pending</a>
             </li>
             <li data-ng-show="datalist.working>0">

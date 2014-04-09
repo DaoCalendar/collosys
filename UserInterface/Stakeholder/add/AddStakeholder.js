@@ -446,7 +446,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
         
-        $scope.Name = { label: "Name", pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' };
+        $scope.Name = { label: "Name",type:'text', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' };
         $scope.userId = { label: "UserId", required: "true", patternMessage: 'Invalid ID' };
         $scope.mobile = { label: "Mobile No", patternMessage: 'Invalid Mobile' };
         $scope.Email = { label: "Email",  patternMessage: 'Invalid Email' };
