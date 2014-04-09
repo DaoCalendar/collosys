@@ -270,6 +270,8 @@
     <Content Include="Content\images\validation\red_asterisk.png" />
     <Content Include="Content\images\stanc\Stan2.jpg" />
     <Content Include="Content\images\validation\valid.png" />
+    <Content Include="Content\login-ie8.css" />
+    <Content Include="Content\login.css" />
     <Content Include="Content\ng-grid\ng-grid.css" />
     <Content Include="Content\ng-grid\ng-grid.min.css" />
     <Content Include="Content\angularui\select2.css" />
