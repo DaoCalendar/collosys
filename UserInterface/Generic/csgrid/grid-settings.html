@@ -2,133 +2,135 @@
     .tabheight {
         height: 400px;
         overflow: auto;
-        text-align: right;
     }
 </style>
 
 <tabset style="height: 530px;">
     <tab data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'">
         <tab-heading>Save Report</tab-heading>
-        <div class="form-horizontal container" style="height: 400px">
-                <div class="control-group">
-                    <div class="control-label">Report Name</div>
-                    <div class="controls">
-                        <input type="text" name="ReportName" data-ng-model="gridOptions.Reporting.Params.ReportName"
-                               data-ng-disabled="gridOptions.Reporting.isEditMode"
-                               data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="100" data-ng-pattern="/[A-Za-z0-9 ]+/" />
-                    </div>
-                    <div data-ng-show="gridSaveAsReportForm.ReportName.$invalid">
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.minlength">ReportName must have min 6 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.maxlength">ReportName can have max 100 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.pattern">ReportName must not have special characters</span>
-                    </div>
-                </div>
-                <div class="control-group row-fluid">
-                    <div class="control-label">Description</div>
-                    <div class="controls">
-                        <textarea rows="2" cols="50" name="Description" data-ng-model="gridOptions.Reporting.Params.Description"
-                                  data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="250"></textarea>
-                    </div>
-                    <div data-ng-show="gridSaveAsReportForm.Description.$invalid">
-                        <span data-ng-show="gridSaveAsReportForm.Description.$error.minlength">ReportName must have min 6 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.Description.$error.maxlength">ReportName can have max 250 characters</span>
-                    </div>
-                </div>
-                <div class="row-fluid control-group">
-                    <div class="control-label">Email Report</div>
-                    <div class="controls">
-                        <input type="checkbox" name="DoEmailReport" data-ng-model="gridOptions.Reporting.Params.DoEmailReport" />
-                    </div>
-                </div>
-                <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
-                    <div class="control-label">Email Frequency</div>
-                    <div class="controls">
-                        <select class="input-large" data-ui-select2="" name="Frequency"
-                                data-ng-model="gridOptions.Reporting.Params.Frequency"
-                                data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true">
-                            <option value=""></option>
-                            <option data-ng-repeat="fr in $grid.consts.EmailFrequency.list" value="{{fr}}">{{fr}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
-                         class="row-fluid control-group">
-                        <div class="control-label">Which Hour of Day</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
-                                <option value=""></option>
-                                <option value="9">At 8 AM</option>
-                                <option value="12">At 12 AM</option>
-                                <option value="16">At 6 PM</option>
-                                <option value="24">At EOD</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
-                         class="row-fluid control-group">
-                        <div class="control-label">Which Day of Week</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
-                                <option value=""></option>
-                                <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
-                         class="row-fluid control-group">
-                        <div class="control-label">Which Day of Month</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="31">last day</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                    <div class="control-label">Use both field & display name as excel headers</div>
-                    <div class="controls">
-                        <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
-                               data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                    </div>
-                </div>
-                <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                    <div class="control-label">Send Only If Data</div>
-                    <div class="controls">
-                        <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
-                               data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                    </div>
-                </div>
-                <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                <div class="control-label">Send Mail to Multiple</div>
-                <div class="controls">
-                    <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
-                           data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
-                    <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
-                </div>
-            </div>
-                <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
-                    <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
-                </div>
-            <div class="text-center row-fluid">
+        <div class="form-horizontal">
+            <div class="tabheight">
+                      <div class="control-group">
+                          <div class="control-label">Report Name</div>
+                          <div class="controls">
+                              <input type="text" name="ReportName" data-ng-model="gridOptions.Reporting.Params.ReportName"
+                                     data-ng-disabled="gridOptions.Reporting.isEditMode"
+                                     data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="100" data-ng-pattern="/[A-Za-z0-9 ]+/" />
+                          </div>
+                          <div data-ng-show="gridSaveAsReportForm.ReportName.$invalid">
+                              <span data-ng-show="gridSaveAsReportForm.ReportName.$error.minlength">ReportName must have min 6 characters</span>
+                              <span data-ng-show="gridSaveAsReportForm.ReportName.$error.maxlength">ReportName can have max 100 characters</span>
+                              <span data-ng-show="gridSaveAsReportForm.ReportName.$error.pattern">ReportName must not have special characters</span>
+                          </div>
+                      </div>
+                      <div class="control-group row-fluid">
+                          <div class="control-label">Description</div>
+                          <div class="controls">
+                              <textarea rows="2" cols="50" name="Description" data-ng-model="gridOptions.Reporting.Params.Description"
+                                        data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="250"></textarea>
+                          </div>
+                          <div data-ng-show="gridSaveAsReportForm.Description.$invalid">
+                              <span data-ng-show="gridSaveAsReportForm.Description.$error.minlength">ReportName must have min 6 characters</span>
+                              <span data-ng-show="gridSaveAsReportForm.Description.$error.maxlength">ReportName can have max 250 characters</span>
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group">
+                          <div class="control-label">Email Report</div>
+                          <div class="controls">
+                              <input type="checkbox" name="DoEmailReport" data-ng-model="gridOptions.Reporting.Params.DoEmailReport" />
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
+                          <div class="control-label">Email Frequency</div>
+                          <div class="controls">
+                              <select class="input-large" data-ui-select2="" name="Frequency"
+                                      data-ng-model="gridOptions.Reporting.Params.Frequency"
+                                      data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true">
+                                  <option value=""></option>
+                                  <option data-ng-repeat="fr in $grid.consts.EmailFrequency.list" value="{{fr}}">{{fr}}</option>
+                              </select>
+                          </div>
+                      </div>
+                      <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
+                          <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
+                               class="row-fluid control-group">
+                              <div class="control-label">Which Hour of Day</div>
+                              <div class="controls">
+                                  <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                          data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
+                                      <option value=""></option>
+                                      <option value="9">At 8 AM</option>
+                                      <option value="12">At 12 AM</option>
+                                      <option value="16">At 6 PM</option>
+                                      <option value="24">At EOD</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
+                               class="row-fluid control-group">
+                              <div class="control-label">Which Day of Week</div>
+                              <div class="controls">
+                                  <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                          data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
+                                      <option value=""></option>
+                                      <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
+                                  </select>
+                              </div>
+                          </div>
+                          <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
+                               class="row-fluid control-group">
+                              <div class="control-label">Which Day of Month</div>
+                              <div class="controls">
+                                  <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                          data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
+                                      <option value=""></option>
+                                      <option value="1">1</option>
+                                      <option value="5">5</option>
+                                      <option value="10">10</option>
+                                      <option value="15">15</option>
+                                      <option value="20">20</option>
+                                      <option value="25">25</option>
+                                      <option value="31">last day</option>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                          <div class="control-label">Use both field & display name as excel headers</div>
+                          <div class="controls">
+                              <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                                     data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                          <div class="control-label">Send Only If Data</div>
+                          <div class="controls">
+                              <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
+                                     data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                          <div class="control-label">Send Mail to Multiple</div>
+                          <div class="controls">
+                              <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
+                                     data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
+                              <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
+                          </div>
+                      </div>
+                      <div class="row-fluid control-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
+                          <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
+                      </div>
+                  </div>                             
+            <div class="text-center">
+                <hr/>
                 <div data-ng-hide="gridOptions.Reporting.isEditMode">
-                    <input type="button" class="btn btn-success" value="Create Report"
+                    <input type="button" class="btn" value="Create Report"
                            data-ng-disabled="gridSaveAsReportForm.$invalid"
                            data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
-                    <input type="button" class="btn btn-warning" value="Close"
+                    <input type="button" class="btn" value="Close"
                            data-ng-click="close()" />
                 </div>
                 <div data-ng-show="gridOptions.Reporting.isEditMode">
@@ -142,12 +144,14 @@
                     <input type="button" class="btn" value="Close"
                            data-ng-click="close()" />
                 </div>
+                <hr/>
             </div>
         </div>
     </tab>
     <tab>
         <tab-heading>Reset Settings</tab-heading>
         <div class="form-horizontal">
+            <div class="tabheight">
                 <div class=" control-group">
                     <div class="control-label">Filters</div>
                     <div class="controls">
@@ -184,7 +188,8 @@
                         <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetVisibility" />
                     </div>
                 </div>
-        <div class="text-center">
+            </div>
+            <div class="text-center">
                 <hr />
                 <input type="button" class="btn" value="Reset Selected" data-ng-click="$grid.ResetHelper.ResetSelected(gridOptions)" />
                 <input type="button" class="btn" value="Reset All" data-ng-click="$grid.ResetHelper.ResetAll(gridOptions)" />
@@ -196,7 +201,7 @@
     <tab>
         <tab-heading>Freeze Columns</tab-heading>
         <div class="form-horizontal">
-            <div class="tabheight">
+            <div class="tabheight text-right">
                 <table>
                     <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                         <td>{{col.displayName}}</td>
@@ -215,7 +220,7 @@
     <tab>
         <tab-heading>Show/Hide Columns</tab-heading>
         <div class="form-horizontal">
-            <div class="tabheight">
+            <div class="tabheight text-right">
                 <table>
                     <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                         <td>{{col.displayName}}</td>
@@ -234,7 +239,7 @@
     <tab>
         <tab-heading>Change Sorting</tab-heading>
         <div class="form-horizontal">
-            <div class="tabheight">
+            <div class="tabheight text-right">
                 <table>
                     <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                         <td>{{col.displayName}}</td>
@@ -255,7 +260,7 @@
     <tab>
         <tab-heading>Rename Columns</tab-heading>
         <div class="form-horizontal">
-            <div class="tabheight">
+            <div class="tabheight text-right">
                 <table>
                     <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                         <td>{{col.field}}</td>
@@ -275,7 +280,7 @@
     <tab>
         <tab-heading>Display Order</tab-heading>
         <div class="form-horizontal">
-            <div class="tabheight">
+            <div class="tabheight text-right">
                 <table>
                     <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                         <td>{{$index}}.{{col.displayName}}</td>
@@ -305,7 +310,7 @@
     </tab>
     <tab>
         <tab-heading>Filter Settings</tab-heading>
-        <div class="form-horizontal">
+        <div class="form-horizontal text-right">
             <!--display filter-->
             <table class="table table-bordered table-hover" data-ng-show="gridOptions.filtersArray.length > 0">
                 <thead>
