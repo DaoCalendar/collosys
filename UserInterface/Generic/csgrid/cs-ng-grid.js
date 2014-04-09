@@ -729,11 +729,11 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
             var dataParams = serverData.GetDataParams(gridOptions);
             $log.debug("$csgrid: downloading data from server " + dataParams);
 
+            $csfactory.enableSpinner();
             restapi.customPOST(dataParams, "DownloadGridData")
                 .then(
                     function (filename) {
-                        var downloadpath = $csConstants.MVC_BASE_URL + "FileUploader/ClientDataDownload/Download?fullfilename='" + filename + "'";
-                        $window.location = downloadpath;
+                        $csfactory.downloadFile(filename);
                     },
                     function () {
                         $csnotify.error("Download failed.");

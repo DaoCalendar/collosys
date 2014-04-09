@@ -76,6 +76,9 @@
     <Reference Include="NLog.Extended">
       <HintPath>..\SharedLib\NLog.Extended.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -118,6 +121,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
+    <Compile Include="FileUpload\Testcase\FetchEnumsTest.cs" />
     <Compile Include="FileUpload\uploadhelper\FileIOApiController.cs" />
     <Compile Include="FileUpload\uploadhelper\FileSaver.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeInfo.cs" />
@@ -198,6 +202,7 @@
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
+    <Compile Include="Shared\webapis\SharedEnumsApiController.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
     <Compile Include="Stakeholder\add\AddStakeHolderApiController.cs" />
     <Compile Include="Stakeholder\add\AddStakeholderModel.cs" />
@@ -270,6 +275,8 @@
     <Content Include="Content\images\validation\red_asterisk.png" />
     <Content Include="Content\images\stanc\Stan2.jpg" />
     <Content Include="Content\images\validation\valid.png" />
+    <Content Include="Content\login-ie8.css" />
+    <Content Include="Content\login.css" />
     <Content Include="Content\ng-grid\ng-grid.css" />
     <Content Include="Content\ng-grid\ng-grid.min.css" />
     <Content Include="Content\angularui\select2.css" />
@@ -426,6 +433,7 @@
     <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
       <DependentUpon>angular-file-upload.js</DependentUpon>
     </Content>
+    <Content Include="packages.config" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -509,6 +517,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\nggrid\ng-grid-2.0.7.min.js.map">
+      <DependentUpon>ng-grid-2.0.7.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FileUpload\uploadrcode\" />

@@ -24,7 +24,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
     public class GridApiController : BaseApiController<GReports>
     {
         [HttpPost]
-        
         public HttpResponseMessage FetchGridData(GridQueryParams gridWrapper)
         {
             var data = ClientDataDownloadHelper.GetGridData(gridWrapper);
@@ -32,7 +31,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        
         public HttpResponseMessage DownloadGridData(GridQueryParams gridWrapper)
         {
             try
@@ -47,7 +45,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        
         public HttpResponseMessage EmailGridData(GridQueryParams gridWrapper)
         {
             try
@@ -80,7 +77,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        
         public HttpResponseMessage GetReportsContents(GetReportContentParams param)
         {
             var report = ReportingService.FetchReport(param.ReportId);
@@ -89,7 +85,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        
         public HttpResponseMessage DeleteReport(GetReportContentParams param)
         {
             var session = SessionManager.GetCurrentSession();
@@ -99,7 +94,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpPost]
-        
         public HttpResponseMessage GetReportsList(GetReportListParams param)
         {
             var session = SessionManager.GetCurrentSession();
@@ -128,7 +122,6 @@ namespace ColloSys.UserInterface.Areas.Reporting.apiController
         }
 
         [HttpGet]
-        
         public HttpResponseMessage GetStakeholderList()
         {
             var session = SessionManager.GetCurrentSession();

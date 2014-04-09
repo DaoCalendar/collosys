@@ -5,6 +5,7 @@
     };
 
     var downloadFile = function (filename) {
+        enableSpinner();
         var ifr = document.createElement('iframe');
         ifr.style.display = 'none';
         document.body.appendChild(ifr);

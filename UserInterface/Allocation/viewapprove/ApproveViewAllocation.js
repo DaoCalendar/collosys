@@ -26,6 +26,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $csfactory.enableSpinner();
             $scope.datalayer.getSystems();
         })();
 
