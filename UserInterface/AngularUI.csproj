@@ -198,6 +198,7 @@
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
+    <Compile Include="Shared\webapis\SharedEnumsApiController.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
     <Compile Include="Stakeholder\add\AddStakeHolderApiController.cs" />
     <Compile Include="Stakeholder\add\AddStakeholderModel.cs" />
