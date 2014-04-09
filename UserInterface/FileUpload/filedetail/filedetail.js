@@ -27,7 +27,7 @@ csapp.factory("fileDetailFactory", [function () {
     };
 }]);
 
-csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
+csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory",  function (rest, $csnotify, $csfactory) {
 
     var apictrl = rest.all('FileDetailsApi');
     var dldata = {};

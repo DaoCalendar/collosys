@@ -199,6 +199,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Model\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
@@ -465,6 +466,7 @@
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\controllers.js" />
+    <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
     <Content Include="Generic\csgrid\grid-buttons.html" />

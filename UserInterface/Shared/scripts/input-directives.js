@@ -89,7 +89,6 @@ csapp.directive("csInputSuffix", function () {
     };
 });
 
-
 csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -163,26 +162,8 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             checkOptions: validateOptions
         };
     }]);
-csapp.directive("csNumberField", ["$compile", "csNumberFieldFactory", function ($compile, factory) {
 
-    var linkFunction = function (scope, element) {
-        factory.checkOptions(scope);
-        var template = factory.htmlTemplate(scope);
-        element.html(template);
-        $compile(element.contents())(scope);
-    };
-
-    return {
-        scope: { options: '=', ngModel: '@', ngChange: '&' },
-        restrict: 'E',
-        link: linkFunction,
-        require: 'ngModel'
-    };
-}]);
-
-
-csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
-    function (logManager, bstemplate, valtemplate) {
+csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
 
         var $log = logManager.getInstance("csTextFieldFactory");
 
@@ -585,6 +566,25 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             terminal: true
         };
     }]);
+
+
+
+//csapp.directive("csNumberField", ["$compile", "csNumberFieldFactory", function ($compile, factory) {
+
+//    var linkFunction = function (scope, element) {
+//        factory.checkOptions(scope);
+//        var template = factory.htmlTemplate(scope);
+//        element.html(template);
+//        $compile(element.contents())(scope);
+//    };
+
+//    return {
+//        scope: { options: '=', ngModel: '@', ngChange: '&' },
+//        restrict: 'E',
+//        link: linkFunction,
+//        require: 'ngModel'
+//    };
+//}]);
 
 //csapp.directive("csButton", ["$csfactory", "$compile", function ($csfactory, $compile) {
 

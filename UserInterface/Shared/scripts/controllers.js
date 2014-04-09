@@ -41,21 +41,25 @@
     }
 ]);
 
-csapp.factory("rootDatalayer", ["Restangular", "$csnotify", function (rest, $csnotify) {
+csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared","Logger", function (rest, $csnotify, $csShared, logManager) {
     var rootapi = rest.all("SharedEnumsApi");
     var dldata = {};
+    var $log = logManager.getInstance("rootDatalayer");
+
     var fetchWholeEnums = function () {
         rootapi.customGET("FetchAllEnum").then(function (data) {
-            dldata.enumList = data.enums;
-            console.log(dldata);
-            $csnotify.success("All Enums Fetched successfully");
+            $csShared.enums = data;
+            $log.info("enums loaded.");
+            $csShared.getEnum("Products");
+            console.log(dldata.dd);
         }, function (data) {
             $csnotify.error(data);
         });
     };
+
     return {
         dldata: dldata,
-        fetchWholeEnums: fetchWholeEnums
+        fetchWholeEnums: fetchWholeEnums,
     };
 
 }]);
