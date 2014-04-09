@@ -1,4 +1,4 @@
-﻿//csapp.controller("adhocPayoutCtrl1", ["$scope", "$csnotify", "Restangular", '$Validations', function ($scope,
+﻿selecttransdata//csapp.controller("adhocPayoutCtrl1", ["$scope", "$csnotify", "Restangular", '$Validations', function ($scope,
 //    $csnotify, rest, $validation) {
 //    //#region "init"
 //    $scope.init = function () {
