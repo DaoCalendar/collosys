@@ -1,0 +1,81 @@
+﻿<div class="row-fluid">
+    <form data-ng-submit="onSubmit(payment)">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Stakeholder</th>
+                    <th>Total Amount</th>
+                    <th>Transaction Type</th>
+                    <th>Reasons</th>
+                    <th>Description</th>
+                    <th>IsRecurring</th>
+                    <th>Start Month</th>
+                    <th>Tenure</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="pay in PaymentList">
+                    <td>
+                        <select class="input-large" data-ng-model="pay.Product"
+                                required>
+                            <option value=""></option>
+                            <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+                        </select>
+                    </td>
+                    <td>Stakeholder</td>
+                    <td>
+                        <input type="text" data-ng-model="pay.TotalAmount" name="totalamount"
+                               data-ng-pattern="/^[0-9]+$/" required />
+                    </td>
+                    <td>
+                        <select class="input-large" data-ng-model="pay.IsCredit" name="TranscationType"
+                            data-ng-change="selecttransdata=factory.selectTransaction(pay.IsCredit)"    required>
+                            <option value=""></option>
+                            <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="input-large"
+                                data-ng-model="pay.ReasonCode" required>
+                            <option value=""></option>
+                            <option data-ng-repeat="reason in selecttransdata">{{reason.display}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="resize" type="text" data-ng-model="pay.Description"  required></input>
+                    </td>
+                    <td>
+                        <input type="radio" data-ng-model="pay.IsRecurring" value="false" ><label>One Time</label>
+                        <input type="radio" data-ng-model="pay.IsRecurring" value="true" ><label>Recurring</label>
+                    </td>
+                    <td>Start Montd</td>
+                    <td>Tenure</td>
+                    <td>
+                        <input type="submit" class="btn btn-default" value="Add Another" /></td>
+                </tr>
+
+               <!-- <tr data-ng-repeat="pay in PaymentList">
+                    <td>
+                        <select class="input-large" data-ng-model="pay.Product"
+                            required>
+                            <option value=""></option>
+                            <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+                        </select>
+                    </td>
+                    <td>Stakeholder</td>
+                    <td>Total Amount</td>
+                    <td>Transaction Type</td>
+                    <td>Reasons</td>
+                    <td>Description</td>
+                    <td>IsRecurring</td>
+                    <td>Start Montd</td>
+                    <td>Tenure</td>
+                    <td>
+                        <input type="submit" class="btn btn-default" value="Add Another" /></td>
+                </tr>-->
+            </tbody>
+        </table>
+    </form>
+</div>

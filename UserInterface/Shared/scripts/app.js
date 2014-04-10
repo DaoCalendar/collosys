@@ -115,6 +115,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/adhoc', {
                 templateUrl: '/Billing/adhoc/adhoc.html',
                 controller: 'adhocPayoutCtrl'
+            }).when('/billing/adhocbulk', {
+                templateUrl: '/Billing/adhocbulk/adhocbulk.html',
+                controller:'adhocbulkCtrl'
             }).when('/billing/readybilling', {
                 templateUrl: '/Billing/readybilling/index.html',
                 controller: 'readyForBillingController'

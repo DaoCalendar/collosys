@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
     <Compile Include="FileUpload\Testcase\FetchEnumsTest.cs" />
@@ -229,6 +230,8 @@
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\view-approve.html" />
+    <Content Include="Billing\adhocbulk\adhocbulk.html" />
+    <Content Include="Billing\adhocbulk\adhocbulk.js" />
     <Content Include="Billing\adhoc\add-hoc-payment-details.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\adhoc.html" />
