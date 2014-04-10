@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.ExcelReaders.RecordSetter
+namespace ColloSys.FileUploader.AliasReader
 {
     public interface IAliasRecordCreator<in TEntity> where TEntity : class, new()
     {

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.ExcelReader;
-using ColloSys.FileUploader.ExcelReaders.RecordSetter;
+using ColloSys.FileUploader.Utilities;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -45,7 +44,7 @@ namespace ColloSys.FileUploader.AliasReader
 
         public bool ComputedSetter(Payment obj, object yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool CheckBasicField(IExcelReader reader, IEnumerable<FileMapping> mapings, ICounter counter)

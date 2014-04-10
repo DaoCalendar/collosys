@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿#region references
+
+using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.ExcelReaders.RecordSetter;
+using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.Reflection;
 using ReflectionExtension.ExcelReader;
+
+#endregion
 
 namespace ColloSys.FileUploader.RecordCreator
 {
@@ -12,26 +16,30 @@ namespace ColloSys.FileUploader.RecordCreator
     {
         #region ctor
         private readonly IAliasRecordCreator<TEntity> _recordCreator;
-        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator)
+        private readonly IExcelReader _reader;
+        private readonly ICounter _counter;
+        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator, IExcelReader reader, ICounter counter)
         {
             _recordCreator = recordCreator;
+            _reader = reader;
+            _counter = counter;
         }
         #endregion
 
         #region IRecord
-        public bool ExcelMapper(TEntity obj, IExcelReader reader, IEnumerable<FileMapping> mappings, ICounter counter)
+        public bool ExcelMapper(TEntity obj, IEnumerable<FileMapping> mappings)
         {
             foreach (var info in mappings)
             {
                 try
                 {
-                    var data = reader.GetValue(info.Position);
+                    var data = _reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
                 }
                 catch
                 {
-                    counter.IncrementErrorRecords();
-                    counter.IncrementTotalRecords();
+                    _counter.IncrementErrorRecords();
+                    _counter.IncrementTotalRecords();
                     //throw new Exception(string.Format("Column {0} is Not Getting Proper Value .", info.ActualColumn), e);
                     return false;
                 }
@@ -39,7 +47,7 @@ namespace ColloSys.FileUploader.RecordCreator
             return true;
         }
 
-        public bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings, ICounter counter)
+        public bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings)
         {
             foreach (var mapping in mapings)
             {
@@ -49,8 +57,8 @@ namespace ColloSys.FileUploader.RecordCreator
                 }
                 catch
                 {
-                    counter.IncrementErrorRecords();
-                    counter.IncrementTotalRecords();
+                    _counter.IncrementErrorRecords();
+                    _counter.IncrementTotalRecords();
                     return false;
                 }
 
@@ -58,37 +66,37 @@ namespace ColloSys.FileUploader.RecordCreator
             return true;
         }
 
-        public bool CreateRecord(TEntity obj, IExcelReader reader, IList<FileMapping> mappingss, ICounter counter)
+        public bool CreateRecord(TEntity obj, IList<FileMapping> mappingss)
         {
             bool excelstatus = false, defaultMap = false, computedMap = false;
 
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())
             {
-                if (!_recordCreator.CheckBasicField(reader, excelType, counter))
+                if (!_recordCreator.CheckBasicField(_reader, excelType, _counter))
                     return false;
 
-                excelstatus = ExcelMapper(obj, reader, excelType, counter);
+                excelstatus = ExcelMapper(obj, excelType);
             }
             if (!excelstatus) return false;
             var defaultType = GetMappings(ColloSysEnums.FileMappingValueType.DefaultValue, mappingss);
             var typeDefault = defaultType as FileMapping[] ?? defaultType.ToArray();
             if (typeDefault.Any())
             {
-                defaultMap = DefaultMapper(obj, typeDefault, counter);
+                defaultMap = DefaultMapper(obj, typeDefault);
             }
 
             var computedType = GetMappings(ColloSysEnums.FileMappingValueType.ComputedValue, mappingss);
             var typeComputed = computedType as FileMapping[] ?? computedType.ToArray();
             if (typeComputed.Any())
             {
-                computedMap = _recordCreator.ComputedSetter(obj, reader, counter);
+                computedMap = _recordCreator.ComputedSetter(obj, _reader, _counter);
             }
             if (!defaultMap && !computedMap) return false;
 
-            counter.IncrementInsertRecords();
-            counter.IncrementValidRecords();
-            counter.IncrementTotalRecords();
+            _counter.IncrementInsertRecords();
+            _counter.IncrementValidRecords();
+            _counter.IncrementTotalRecords();
             return true;
         }
 
