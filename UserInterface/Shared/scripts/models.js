@@ -47,11 +47,11 @@ csapp.factory("$csStakeholderModels", ["$csShared", function () {
 
     var stakeholder = function () {
         return {
-            Name: { label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' },
+            Name: { label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/',required:true, patternMessage: 'Invalid Name' },
             userId : { label: "UserId",editable:false,template:'user' ,required: "true",type:"text",pattern:'/^[0-9]{7}$/' ,patternMessage: 'Invalid ID' },
             mobile : { label: "Mobile No",type:'text',pattern:'/^[0-9]{10}$/',template:'phone', patternMessage: 'Invalid Mobile Number' },
             Email : { label: "Email",  patternMessage: 'Invalid Email' },
-            Date : {  },
+            Date : { type:'date' },
             manager : {},
 
             //PAN : { label: 'PAN',patternMessage:'accepts only xxxxxxxx' },

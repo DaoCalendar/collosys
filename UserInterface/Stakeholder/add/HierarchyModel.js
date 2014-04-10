@@ -110,10 +110,9 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         var setBasicInfoModel = function (hierarchy) {
 
             if (hierarchy.isUser) {
-                $scope.$parent.mobile.required = true;
-                $scope.$parent.Email.required = true;
-                $scope.$parent.userId.required = true;
-                
+                $scope.$parent.stakeholderModels.mobile.required = true;
+                $scope.$parent.stakeholderModels.Email.required = true;
+                $scope.$parent.stakeholderModels.userId.required = true;
             }
 
 

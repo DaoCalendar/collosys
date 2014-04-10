@@ -526,7 +526,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
     }]);
 
-//{ name: 'select', label: 'select', csRepeat: 'arrayNameToBeRepeated',textField:'propertyToBeDisplayed',valueField:'propertyToBeBound', editable: false, required: true, type: 'select'},
+//{ name: 'select', label: 'select', csRepeat: 'objectArrayNameToBeRepeated',textField:'propertyToBeDisplayed',valueField:'propertyToBeBound', editable: false, required: true, type: 'select'},
 csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
@@ -538,7 +538,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += 'ng-readonly="setReadonly()">';
             html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="' + field.csRepeat + '"value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
+                       ' <option data-ng-repeat="row in field.valueList" value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
                    '</select> ';
 
             return html;
@@ -579,9 +579,9 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
-            html += 'ng-readonly="setReadonly()">';
+            html += 'ng-readonly="setReadonly()"';
             html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="' + field.csRepeat + '"value="{{row}}">{{row}}</option>' +
+                       ' <option data-ng-repeat="row in field.valueList" value="{{row}}">{{row}}</option>' +
                    '</select> ';
 
             return html;
@@ -803,6 +803,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         var linkFunction = function (scope, element, attrs) {
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
+            scope.field = field;
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field);
