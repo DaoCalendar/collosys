@@ -9,6 +9,14 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         var getHierarchies = function () {
             apiCalls.customGET('GetAllHierarchies').then(function (data) {
                 $scope.HierarchyList = data;
+                var hierarchy = _.pluck($scope.HierarchyList, "Hierarchy");
+                var hierarchyArray = [];
+                _.forEach(hierarchy, function (item) {
+                    if (hierarchyArray.indexOf(item) === -1) {
+                        hierarchyArray.push(item);
+                    }
+                });
+                $scope.$parent.stakeholderModels.hierarchy.valueList = hierarchyArray;
             }, function () {
                 $csnotify.error('Error loading hierarchies');
             });
@@ -50,13 +58,14 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         };
 
         var getHierarchyDisplayName = function (hierarchy) {
-
+            $scope.Designation = [];
             hierarchy = _.sortBy(hierarchy, 'PositionLevel');
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
                 if ((hierarchy[0].Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
                     _.forEach(hierarchy, function (item) {
                         $scope.Designation.push(item);
                     });
+                    $scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
 
                 } else {
                     _.forEach(hierarchy, function (item) {
@@ -67,14 +76,14 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                         };
                         $scope.Designation.push(desig);
                     });
-
+                    $scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
                 }
             }
             return '';
         };
 
         $scope.assignSelectedHier = function () {
-            //
+            $scope.$parent.WizardData.showBasicInfo = false;
             if (angular.isUndefined($scope.$parent.WizardData)) {
                 return;
             }
@@ -101,34 +110,49 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             //set reports to list for stakeholder
             $scope.$parent.getReportsTo(hierarchy);
-            $scope.$parent.WizardData.showBasicInfo = true;
+
             $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
             setBasicInfoModel(hierarchy);
+            $scope.$parent.WizardData.showBasicInfo = true;
         };
 
         var setBasicInfoModel = function (hierarchy) {
 
-            if (hierarchy.isUser) {
+            if (hierarchy.IsUser) {
                 $scope.$parent.stakeholderModels.mobile.required = true;
-                $scope.$parent.stakeholderModels.Email.required = true;
                 $scope.$parent.stakeholderModels.userId.required = true;
+
+                $scope.$parent.stakeholderModels.email.required = true;
+                $scope.$parent.stakeholderModels.email.suffix = '@scb.com';
+            } else {
+                $scope.$parent.stakeholderModels.mobile.required = false;
+                $scope.$parent.stakeholderModels.userId.required = false;
+
+                $scope.$parent.stakeholderModels.email.required = false;
+                $scope.$parent.stakeholderModels.email.suffix = undefined;
             }
 
 
             if (hierarchy.IsEmployee)
-                $scope.$parent.Date.label = "Date of Joining";
-            else $scope.$parent.Date.label = "Date of Starting";
+                $scope.$parent.stakeholderModels.date.label = "Date of Joining";
+            else $scope.$parent.stakeholderModels.date.label = "Date of Starting";
 
-            if (hierarchy.Hierarchy != 'External') {
-                $scope.$parent.manager.label = "Line Manager";
-                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
-            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
-                $scope.$parent.manager.label = "Agency Name";
-                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
-            } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
-                $scope.$parent.manager.label = "Agency Supervisor";
-                $scope.$parent.manager.required = hierarchy.ManageReportsTo;
+
+            if (hierarchy.ManageReportsTo) {
+                if (hierarchy.Hierarchy != 'External') {
+                    $scope.$parent.stakeholderModels.manager.label = "Line Manager";
+                   
+                } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
+                    $scope.$parent.stakeholderModels.manager.label = "Agency Name";
+                    
+                } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
+                    $scope.$parent.stakeholderModels.manager.label = "Agency Supervisor";
+                   
+                }
+                $scope.$parent.stakeholderModels.manager.required = true;
+                $scope.$parent.stakeholderModels.manager.valueList = $scope.$parent.WizardData.FinalPostModel.ReportsToList;
+                
             }
         };
 

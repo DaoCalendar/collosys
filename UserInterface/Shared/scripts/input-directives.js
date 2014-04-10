@@ -97,6 +97,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         //#region template
         var input = function (field, attrs) {
             var html = '<input class="form-control" name="myfield"';
+            html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'ng-model="' + attrs.ngModel + '" type="number"';
             html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -198,7 +199,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     //#region template
     var input = function (field, attrs) {
         var html = '<input class="form-control" name="myfield"';
-        html += 'ng-model="' + attrs.ngModel + '" type="text"';
+        html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
+        html += 'ng-model="' + (attrs.ngModel ? attrs.ngModel : field.name) + '" type="text"';
         html += 'ng-readonly="setReadonly()"';
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
         html += ' ng-required="' + attrs.field + '.required"';
@@ -258,6 +260,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 case "pan":
                     options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                    break;
                 case "user":
                     options.pattern = "/^[0-9]{7}$/";
                     options.patternMessage = "UserId must be a 7 digit number";
@@ -298,6 +301,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         //#region template
         var input = function (field, attrs) {
             var html = '<textarea  name="myfield"';
+            html += 'placeholder="' + field.placeholder + '"';
             html += 'ng-readonly="setReadonly()"';
             html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
             html += 'ng-model="' + attrs.ngModel + '"';
@@ -428,6 +432,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         //#region template
         var input = function (field, attrs) {
             var html = '<input  name="myfield"';
+            html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'ng-model="' + attrs.ngModel + '" type="email"';
             html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -533,10 +538,11 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select ';
+            //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += 'ng-readonly="setReadonly()">';
+            html += 'ng-disabled="setReadonly()">';
             html += ' <option value=""></option> ' +
                        ' <option data-ng-repeat="row in field.valueList" value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
                    '</select> ';
@@ -546,7 +552,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var validateOptions = function (field) {
             field.label = field.label || "SelectBox";
-            field.csRepeat = "row in " + field.csRepeat;//.substring(1, scope.csRepeat.length - 1);
+            //field.csRepeat = "row in " + field.csRepeat;//.substring(1, scope.csRepeat.length - 1);
             field.textField = field.textField ? "row." + field.textField : "row";
             field.valueField = field.valueField ? "row." + field.valueField : "row";
 
@@ -576,10 +582,11 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select ';
+            //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
-            html += 'ng-readonly="setReadonly()"';
+            html += 'ng-disabled="setReadonly()">';
             html += ' <option value=""></option> ' +
                        ' <option data-ng-repeat="row in field.valueList" value="{{row}}">{{row}}</option>' +
                    '</select> ';
@@ -616,6 +623,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     var input = function (field, attr) {
         var html = '<div class="input-append">';
         html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
+        html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
         html += 'ng-readonly="setReadonly()"';
         html += ' data-ng-model="' + attr.ngModel + '"';
         html += (angular.isDefined(attr.ngChange) ? 'data-ng-change="' + attr.ngChange + '"' : '');
@@ -737,9 +745,6 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     };
 }]);
 
-
-
-
 csapp.directive('fieldGroup', ["$parse", function ($parse) {
     return {
         template: '<div><div ng-transclude=""/></div>',
@@ -804,6 +809,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
             scope.field = field;
+            //scope.field.valueList = scope.field.valueList ? JSON.parse(scope.field.valueList) : '';
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field);

@@ -1,9 +1,10 @@
-﻿<div data-ng-hide="false">
+﻿<div data-ng-hide="true">
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
-            <field-group mode="mode">
+            <field-group mode="'view'">
                 <cs-field data-ng-model="abc" data-ng-change ="changeFunc(abc)" field="fields[5]"></cs-field>
                 <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[4]"></cs-field>
+                <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>
                 <pre>{{abc}}</pre>
                 <pre>{{pqr}}</pre>
             </field-group>

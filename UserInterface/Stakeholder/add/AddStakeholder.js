@@ -446,7 +446,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
         $scope.stakeholderModels = stakeModels.init.Stakeholder;
-        
+
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {
