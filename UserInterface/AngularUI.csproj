@@ -120,6 +120,7 @@
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
+    <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
@@ -200,6 +201,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shared\Model\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
@@ -231,6 +233,8 @@
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\view-approve.html" />
+    <Content Include="Billing\adhocbulk\adhocbulk.html" />
+    <Content Include="Billing\adhocbulk\adhocbulk.js" />
     <Content Include="Billing\adhoc\add-hoc-payment-details.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\adhoc.html" />
@@ -471,6 +475,7 @@
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\controllers.js" />
+    <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />
     <Content Include="Generic\csgrid\grid-buttons.html" />

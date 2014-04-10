@@ -5,31 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Enumerations;
+using AngularUI.Shared.Model;
 
 namespace AngularUI.Shared.webapis
 {
     public class SharedEnumsApiController : ApiController
     {
-        
-        public class EnumList
-        {
-            public Dictionary<string, List<string>> enums { get; private set; }
-
-            public EnumList()
-            {
-                enums = new Dictionary<string, List<string>>();
-            }
-
-            public void AddToList(Type enumtype)
-            {
-                if (enumtype.IsEnum)
-                {
-                    enums.Add(enumtype.Name, Enum.GetNames(enumtype).ToList());
-                }
-            }
-
-        }
-
         [HttpGet]
         public HttpResponseMessage FetchAllEnum()
         {
@@ -77,7 +58,16 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.OutputType));
             list.AddToList(typeof(ColloSysEnums.CityCategory));
 
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            var enumDataList = new List<EnumData>();
+            foreach (var @enum in list.enums)
+            {
+                var enumdata = new EnumData();
+                enumdata.Name = @enum.Key;
+                enumdata.Value = @enum.Value;
+                enumDataList.Add(enumdata);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, enumDataList);
 
         }
 
