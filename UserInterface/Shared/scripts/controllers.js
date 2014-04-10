@@ -41,7 +41,8 @@
     }
 ]);
 
-csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared","Logger", function (rest, $csnotify, $csShared, logManager) {
+csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared", "Logger", "$csModels",
+    function (rest, $csnotify, $csShared, logManager, $csModels) {
     var rootapi = rest.all("SharedEnumsApi");
     var dldata = {};
     var $log = logManager.getInstance("rootDatalayer");
@@ -50,8 +51,9 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared","Logger"
         rootapi.customGET("FetchAllEnum").then(function (data) {
             $csShared.enums = data;
             $log.info("enums loaded.");
-            $csShared.getEnum("Products");
-            console.log(dldata.dd);
+            $csModels.init();
+            $log.info("models initialized.");
+            return data;
         }, function (data) {
             $csnotify.error(data);
         });
@@ -62,10 +64,13 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared","Logger"
         fetchWholeEnums: fetchWholeEnums,
     };
 
-}]);
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer) {
+    }
+]);
 
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer","Logger",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager) {
+
+        var $log = logManager.getInstance("RootCtrl");
         $scope.$on("$locationChangeStart", routeManagerFactory.$locationChangeStart);
         $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
         $scope.$on("$routeChangeStart", routeManagerFactory.$routeChangeStart);

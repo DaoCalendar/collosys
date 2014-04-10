@@ -11,12 +11,13 @@ namespace AngularUI.Shared.webapis
     {
         public void AddQueryEnums(EnumList list)
         {
-            var session = SessionManager.GetCurrentSession();
-            var aliasList = session.QueryOver<FileDetail>().Select(x => x.AliasName).List<string>();
-            list.AddToList("AliasNames", aliasList);
+            //TODO -SQL error occred
+            //var session = SessionManager.GetCurrentSession();
+            //var aliasList = session.QueryOver<FileDetail>().Select(x => x.AliasName).List<string>();
+            //list.AddToList("AliasNames", aliasList);
 
-            var productList = session.QueryOver<ProductConfig>().Select(x => x.Product).List<string>();
-            list.AddToList("Product", productList);
+            //var productList = session.QueryOver<ProductConfig>().Select(x => x.Product).List<string>();
+            //list.AddToList("Product", productList);
         }
 
         public void AddCustomEnums(EnumList list)

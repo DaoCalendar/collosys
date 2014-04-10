@@ -101,9 +101,15 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
     };
 }]);
 
-csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$modalInstance", "fileDetails", "fileDetailDataLayer", "fileDetailFactory",
-    function ($scope, $val, $modalInstance, fileDetails, datalayer, factory) {
+csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$modalInstance", "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "$csFileUploadModels", "Logger",
+    function ($scope, $val, $modalInstance, fileDetails, datalayer, factory, $csFileUploadModels, logManager) {
         "use strict";
+
+        var $log = logManager.getInstance("fileDetailsAddEditController");
+
+        $scope.fileDetailModel = $csFileUploadModels.models.FileDetail;
+        $log.debug($scope.fileDetailModel);
+
 
         $scope.close = function (closer) {
             $modalInstance.dismiss(closer);
@@ -138,19 +144,17 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
             switch (mode) {
                 case "add":
                     $scope.modelTitle = "Add New File Details";
-                    $scope.isReadOnly = false;
                     break;
                 case "edit":
                     $scope.modelTitle = "Add New File Details";
-                    $scope.isReadOnly = false;
                     break;
                 case "view":
                     $scope.modelTitle = "";
-                    $scope.isReadOnly = true;
                     break;
                 default:
                     throw ("Invalid display mode : " + JSON.stringify(fileDetails));
             }
+            $scope.mode = mode;
         })(fileDetails.displayMode);
     }
 ]);
