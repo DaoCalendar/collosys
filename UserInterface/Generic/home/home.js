@@ -12,14 +12,14 @@
 
         (function () {
             $scope.abc = {};
-            $scope.array = [1, 2, 3];
+            $scope.array = [{display: 1,value:1 }];
 
             $scope.fields = [
                  { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'int', min: 10, max: 100 },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
                  { name: 'enum', label: 'enum', editable: false, csRepeat: 'array', required: true, type: 'enum', min: 10, max: 100 },
-                 { name: 'select', label: 'select', csRepeat: 'array', editable: false, required: true, type: 'select', min: 10, max: 100 },
+                 { name: 'select',textField:'display',valueField:'value', label: 'select', csRepeat: 'array', editable: false, required: true, type: 'select', min: 10, max: 100 },
                  { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
             ];
 

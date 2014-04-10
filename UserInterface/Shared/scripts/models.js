@@ -1,5 +1,5 @@
 ﻿
-csapp.factory("$csShared",  ["$csnotify", function ($csnotify) {
+csapp.factory("$csShared", ["$csnotify", function ($csnotify) {
     var enums = {};
     var getEnum = function (name) {
         _.forEach(enums, function (obj) {
@@ -21,7 +21,7 @@ csapp.factory("$csFileUploadModels", ["$csShared", function ($csShared) {
     var fileDetail = function () {
         return {
             Frequency: {},
-            FileCount : {}
+            FileCount: {}
         };
     };
 
@@ -44,6 +44,38 @@ csapp.factory("$csFileUploadModels", ["$csShared", function ($csShared) {
 }]);
 
 csapp.factory("$csStakeholderModels", ["$csShared", function () {
+
+    var stakeholder = function () {
+        return {
+            Name: { label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' },
+            userId : { label: "UserId",editable:false,template:'user' ,required: "true",type:"text",pattern:'/^[0-9]{7}$/' ,patternMessage: 'Invalid ID' },
+            mobile : { label: "Mobile No",type:'text',pattern:'/^[0-9]{10}$/',template:'phone', patternMessage: 'Invalid Mobile Number' },
+            Email : { label: "Email",  patternMessage: 'Invalid Email' },
+            Date : {  },
+            manager : {},
+
+            //PAN : { label: 'PAN',patternMessage:'accepts only xxxxxxxx' },
+            //TAN : { label: 'TAN',patternMessage:'accepts only xxxxxxxx' },
+            //Registration : { label: 'Registration', patternMessage: 'special characters not allowed' },
+            //ServiceTaxNo : { label: 'ServiceTaxNo', patternMessage: 'special characters not allowed' },
+
+            //line1 : { label: "Line1", required: true },
+            //line2 : { label: "Line2", required: true },
+            //line3 : { label: "Line3" },
+            //landline : { label: "Landline",patternMessage:"Invalid Number" }
+        };     
+    };
+
+    var init = function () {
+        return {
+            Stakeholder: stakeholder()
+        };
+    };
+
+    return {
+      init:init()  
+    };
+
 }]);
 
 csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels",
