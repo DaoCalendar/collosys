@@ -164,130 +164,132 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         };
     }]);
 
+//{ label: 'Name', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
 csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
 
-        var $log = logManager.getInstance("csTextFieldFactory");
+    var $log = logManager.getInstance("csTextFieldFactory");
 
-        var prefix = function (fields) {
-            var html = ' ';
-            switch (fields.template) {
-                case 'user':
-                    html += '<div class="input-prepend"><span class="add-on"><i class="icon-user"></i></span>';
+    var prefix = function (fields) {
+        var html = ' ';
+        switch (fields.template) {
+            case 'user':
+                html += '<div class="input-prepend"><span class="add-on"><i class="icon-user"></i></span>';
+                break;
+            case 'phone':
+                html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                break;
+        }
+        return html;
+    };
+
+    var suffix = function (fields) {
+        var html = ' ';
+        switch (fields.template) {
+            case 'user':
+                html += '</div>';
+                break;
+            case 'phone':
+                html += '</div>';
+                break;
+        }
+        return html;
+    };
+
+    //#region template
+    var input = function (field, attrs) {
+        var html = '<input class="form-control" name="myfield"';
+        html += 'ng-model="' + attrs.ngModel + '" type="text"';
+        html += 'ng-readonly="setReadonly()"';
+        html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+        html += ' ng-required="' + attrs.field + '.required"';
+        html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+        html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+        html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
+        html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
+        html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
+        html += '/>';
+        return html;
+    };
+
+    var htmlTemplate = function (field, attrs) {
+        var noBootstrap = angular.isDefined(attrs.noLabel);
+        var template = [
+            bstemplate.before(field, noBootstrap, attrs.field),
+            valtemplate.before(),
+            prefix(field),
+            input(field, attrs),
+            suffix(field),
+            valtemplate.after(attrs.field, field),
+            bstemplate.after(noBootstrap)
+        ].join(' ');
+        return template;
+    };
+    //#endregion
+
+    //#region validations
+
+    var applyTemplates = function (options) {
+        if (angular.isUndefined(options.template) || options.template === null) {
+            return;
+        }
+
+        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+        angular.forEach(tmpl, function (template) {
+            if (template.length < 1) return;
+
+            switch (template) {
+                case "alphanum":
+                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
                     break;
-                case 'phone':
-                    html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                case "alphabates":
+                    options.pattern = "/^[a-zA-Z ]*$/";
+                    options.patternMessage = "Value contains non-alphabtical character/s.";
                     break;
-            }
-            return html;
-        };
-
-        var suffix = function (fields) {
-            var html = ' ';
-            switch (fields.template) {
-                case 'user':
-                    html += '</div>';
+                case "numeric":
+                    options.pattern = "/^[0-9]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
                     break;
-                case 'phone':
-                    html += '</div>';
+                case "phone":
+                    options.length = 10;
+                    options.pattern = "/^[0-9]{10}$/";
+                    options.patternMessage = "Phone number must contain 10 digits.";
                     break;
+                case "pan":
+                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                case "user":
+                    options.pattern = "/^[0-9]{7}$/";
+                    options.patternMessage = "UserId must be a 7 digit number";
+                    break;
+                default:
+                    $log.error(template + " is not defined");
             }
-            return html;
-        };
+        });
+    };
 
-        //#region template
-        var input = function (field, attrs) {
-            var html = '<input class="form-control" name="myfield"';
-            html += 'ng-model="' + attrs.ngModel + '" type="text"';
-            html += 'ng-readonly="setReadonly()"';
-            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += ' ng-required="' + attrs.field + '.required"';
-            html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
-            html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
-            html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
-            html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
-            html += '/>';
-            return html;
-        };
+    var validateOptions = function (options) {
+        applyTemplates(options);
+        options.minlength = options.length || options.minlength || 0;
+        options.maxlength = options.length || options.maxlength || 18;
+        options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
+        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
+        if (parseInt(options.minlength) > parseInt(options.maxlength)) {
+            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+            throw error;
+        }
+        options.label = options.label || "Text";
+        options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
+    };
+    //#endregion
 
-        var htmlTemplate = function (field, attrs) {
-            var noBootstrap = angular.isDefined(attrs.noLabel);
-            var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
-                valtemplate.before(),
-                prefix(field),
-                input(field, attrs),
-                suffix(field),
-                valtemplate.after(attrs.field, field),
-                bstemplate.after(noBootstrap)
-            ].join(' ');
-            return template;
-        };
-        //#endregion
+    return {
+        htmlTemplate: htmlTemplate,
+        checkOptions: validateOptions
+    };
+}]);
 
-        //#region validations
-
-        var applyTemplates = function (options) {
-            if (angular.isUndefined(options.template) || options.template === null) {
-                return;
-            }
-
-            var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
-            angular.forEach(tmpl, function (template) {
-                if (template.length < 1) return;
-
-                switch (template) {
-                    case "alphanum":
-                        options.pattern = "/^[a-zA-Z0-9 ]*$/";
-                        options.patternMessage = "Value contains non-numeric character/s.";
-                        break;
-                    case "alphabates":
-                        options.pattern = "/^[a-zA-Z ]*$/";
-                        options.patternMessage = "Value contains non-alphabtical character/s.";
-                        break;
-                    case "numeric":
-                        options.pattern = "/^[0-9]*$/";
-                        options.patternMessage = "Value contains non-numeric character/s.";
-                        break;
-                    case "phone":
-                        options.length = 10;
-                        options.pattern = "/^[0-9]{10}$/";
-                        options.patternMessage = "Phone number must contain 10 digits.";
-                        break;
-                    case "pan":
-                        options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                        options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                    case "user":
-                        options.pattern = "/^[0-9]{7}$/";
-                        options.patternMessage = "UserId must be a 7 digit number";
-                        break;
-                    default:
-                        $log.error(template + " is not defined");
-                }
-            });
-        };
-
-        var validateOptions = function (options) {
-            applyTemplates(options);
-            options.minlength = options.length || options.minlength || 0;
-            options.maxlength = options.length || options.maxlength || 18;
-            options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
-            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
-            if (parseInt(options.minlength) > parseInt(options.maxlength)) {
-                var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
-                throw error;
-            }
-            options.label = options.label || "Text";
-            options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
-        };
-        //#endregion
-
-        return {
-            htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
-        };
-    }]);
-
+//{ label: "label", type: 'textarea', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' }
 csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -386,6 +388,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+//{ label: "Email", type:'email'  patternMessage: 'Invalid Email' };
 csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -523,6 +526,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
     }]);
 
+//{ name: 'select', label: 'select', csRepeat: 'objectArrayNameToBeRepeated',textField:'propertyToBeDisplayed',valueField:'propertyToBeBound', editable: false, required: true, type: 'select'},
 csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
@@ -534,7 +538,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += 'ng-readonly="setReadonly()">';
             html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="' + field.csRepeat + '"value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
+                       ' <option data-ng-repeat="row in field.valueList" value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
                    '</select> ';
 
             return html;
@@ -566,6 +570,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+//{ name: 'enum', label: 'enum', editable: false, csRepeat: 'arrayNameToBeRepeated', required: true, type: 'enum'},
 csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
@@ -574,9 +579,9 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
-            html += 'ng-readonly="setReadonly()">';
+            html += 'ng-readonly="setReadonly()"';
             html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="' + field.csRepeat + '"value="{{row}}">{{row}}</option>' +
+                       ' <option data-ng-repeat="row in field.valueList" value="{{row}}">{{row}}</option>' +
                    '</select> ';
 
             return html;
@@ -605,6 +610,136 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate", function ($csfactory, bstemplate, valtemplate) {
+
+    //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
+    var input = function (field, attr) {
+        var html = '<div class="input-append">';
+        html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
+        html += 'ng-readonly="setReadonly()"';
+        html += ' data-ng-model="' + attr.ngModel + '"';
+        html += (angular.isDefined(attr.ngChange) ? 'data-ng-change="' + attr.ngChange + '"' : '');
+        html += ' ng-required="' + attr.field + '.required"';
+        html += ' data-date-min-view-mode="' + (angular.isDefined(field.minViewMode) ? field.minViewMode : '') + '" ' +
+      ' data-date-days-of-week-disabled="' + (angular.isDefined(field.daysOfWeekDisabled) ? field.daysOfWeekDisabled : '') + '" data-date-format="' + field.format + '" ' +
+      ' data-date-start-date="' + (angular.isDefined(field.startDate) ? field.startDate : '') + '"' +
+      ' data-date-end-date="' + (angular.isDefined(field.endDate) ? field.endDate : '') + '" bs-datepicker="" >' +
+  '<button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
+'</div>';
+
+        return html;
+    };
+
+
+    var htmlTemplate = function (field, attrs) {
+        var noBootstrap = angular.isDefined(attrs.noLabel);
+        var template = [
+            bstemplate.before(field, noBootstrap, attrs.field),
+            valtemplate.before(),
+            input(field, attrs),
+            valtemplate.after(attrs.field, field),
+            bstemplate.after(noBootstrap)
+        ].join(' ');
+        return template;
+    };
+
+    var applyTemplate = function (field) {
+        if (angular.isUndefined(field.template) || field.template === null) {
+            return;
+        }
+
+        var tmpl = field.template.split(",").filter(function (str) { return str !== ''; });
+        angular.forEach(tmpl, function (template) {
+            if (template.length < 1) return;
+            switch (template) {
+                case "MonthPicker":
+                    field.minViewMode = "months";
+                    break;
+                case "YearPicker":
+                    field.minViewMode = "years";
+                    break;
+                case "future":
+                    field.startDate = "+0";
+                    break;
+                case "past":
+                    field.endDate = "+0";
+                    break;
+                default:
+                    $log.error(template + " is not defined.");
+            }
+            return;
+        });
+    };
+
+    var manageViewMode = function (field) {
+        //month/year modes
+        if ($csfactory.isNullOrEmptyString(field.minViewMode)) {
+            field.minViewMode = 0;
+        } else if (field.minViewMode === "1" || field.minViewMode === "months") {
+            field.minViewMode = 1;
+        } else if (field.minViewMode === "2" || field.minViewMode === "years") {
+            field.minViewMode = 2;
+        } else {
+            field.minViewMode = 0;
+        }
+
+        //format
+        if (field.minViewMode === 0) {
+            field.format = "dd-M-yyyy";
+        } else if (field.minViewMode === 1) {
+            field.format = "M-yyyy";
+        } else {
+            field.format = ".yyyy";
+        }
+
+        //min date        
+        if ($csfactory.isNullOrEmptyString(field.startDate)) {
+            if (field.minViewMode === 0) {
+                field.startDate = '01-Jan-1800';
+            } else if (field.minViewMode === 1) {
+                field.startDate = 'Jan-1800';
+            } else {
+                field.startDate = '.1800';
+            }
+        }
+
+        //max date
+        if ($csfactory.isNullOrEmptyString(field.endDate)) {
+            if (field.minViewMode === 0) {
+                field.endDate = '31-Dec-2400';
+            } else if (field.minViewMode === 1) {
+                field.endDate = 'Dec-2400';
+            } else {
+                field.endDate = '.2400';
+            }
+
+        }
+    };
+
+    var validateOptions = function (field) {
+        applyTemplate(field);
+        manageViewMode(field);
+
+        if ($csfactory.isNullOrEmptyString(field.label)) {
+            field.label = "Date";
+        }
+
+        if ($csfactory.isNullOrEmptyString(field.daysOfWeekDisabled)) {
+            field.daysOfWeekDisabled = '[]';
+        }
+    };
+
+
+
+    return {
+        htmlTemplate: htmlTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+
+
+
+
 csapp.directive('fieldGroup', ["$parse", function ($parse) {
     return {
         template: '<div><div ng-transclude=""/></div>',
@@ -616,8 +751,8 @@ csapp.directive('fieldGroup', ["$parse", function ($parse) {
     };
 }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField","csEnumFactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -641,6 +776,8 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     return selectFactory;
                 case "enum":
                     return enumFactory;
+                case 'date':
+                    return dateFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;
             }
@@ -666,6 +803,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         var linkFunction = function (scope, element, attrs) {
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
+            scope.field = field;
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field);

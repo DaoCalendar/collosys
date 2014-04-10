@@ -2,37 +2,41 @@
     <!--Name and UserID-->
     <div class="row-fluid">
         <!--Name-->
-        <cs-template options="Name" class="span5">
-            <input type="text" data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" 
-                   data-ng-pattern="/^[a-zA-Z ]{1,100}$/" 
-                   data-ng-readonly="basicInfoData.isEditMode"
-                   name="myfield" 
-                   data-ng-required="true">
-        </cs-template>
-       <!-- <cs-field  data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name"  field="Name"></cs-field>-->
-
+        <!--<cs-template options="Name" class="span5">
+                <input type="text" data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" 
+                       data-ng-pattern="/^[a-zA-Z ]{1,100}$/" 
+                       data-ng-readonly="basicInfoData.isEditMode"
+                       name="myfield" 
+                       data-ng-required="true">
+            </cs-template>-->
+        <div class="span5">
+            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" field="stakeholderModels.Name"></cs-field>
+        </div>
         <!--UserId-->
-        <cs-template data-ng-if="basicInfoData.Hierarchy.IsUser" class="span5" options="userId">
-            <div>
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-user"></i></span>
-                <input type="text"
-                       id="UserIdBox"
-                       maxlength="7"
-                       data-ng-pattern="/^[0-9]{7}$/"
-                       data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId "
-                       name="myfield"
-                       data-ng-required="basicInfoData.Hierarchy.IsUser"
-                       data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
+        <!--<cs-template data-ng-if="basicInfoData.Hierarchy.IsUser" class="span5" options="userId">
+                <div>
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        <input type="text"
+                               id="UserIdBox"
+                               maxlength="7"
+                               data-ng-pattern="/^[0-9]{7}$/"
+                               data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId "
+                               name="myfield"
+                               data-ng-required="basicInfoData.Hierarchy.IsUser"
+                               data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
+                    </div>
+                    <div class="field-validation-error" data-ng-show="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId.length==7 && $parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>
                 </div>
-             <div class="field-validation-error" data-ng-show="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId.length==7 && $parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>
-            </div>
-        </cs-template>
+            </cs-template>-->
+        <div class="span5" data-ng-if="basicInfoData.Hierarchy.IsUser">
+            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId" field="stakeholderModels.userId"></cs-field>
+        </div>
     </div>
 
     <!--MobileNo and EmailId-->
     <div class="row-fluid">
-        <cs-template class="span5" options="mobile">
+        <!--<cs-template class="span5" options="mobile">
             <div class="input-prepend ">
                 <span class=" add-on"><i class="icon-phone"></i></span>
                 <span class="add-on">+91</span>
@@ -44,8 +48,10 @@
                        data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"
                        data-ng-required="basicInfoData.Hierarchy.IsUser" />
             </div>
-        </cs-template>
-
+        </cs-template>-->
+        <div class="span5">
+            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo" field="stakeholderModels.mobile"></cs-field>
+        </div>
         <!--EmailId code-->
         <cs-template class="span5" options="Email">
             <div class="input-prepend input-append">

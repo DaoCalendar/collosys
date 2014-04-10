@@ -9,24 +9,34 @@ namespace AngularUI.Shared.Model
     {
         public string Name;
         public IList<string> Value;
+
+        public EnumData(string name, IList<string> values)
+        {
+            Name = name;
+            Value = values;
+        }
     }
 
     public class EnumList
     {
-        public Dictionary<string, List<string>> enums { get; private set; }
+        public IList<EnumData> Enums { get; private set; }
 
         public EnumList()
         {
-            enums = new Dictionary<string, List<string>>();
+            Enums = new List<EnumData>();
         }
 
         public void AddToList(Type enumtype)
         {
             if (enumtype.IsEnum)
             {
-                enums.Add(enumtype.Name, Enum.GetNames(enumtype).ToList());
+                Enums.Add(new EnumData(enumtype.Name, Enum.GetNames(enumtype).ToList()));
             }
         }
 
+        public void AddToList(string name, IList<string> values)
+        {
+            Enums.Add(new EnumData(name, values));
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location",
-function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location","$csStakeholderModels",
+function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location,stakeModels) {
 
     $scope.StepManager = {
         StepNames: {
@@ -445,23 +445,8 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
+        $scope.stakeholderModels = stakeModels.init.Stakeholder;
         
-        $scope.Name = { label: "Name",type:'text', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' };
-        $scope.userId = { label: "UserId", required: "true", patternMessage: 'Invalid ID' };
-        $scope.mobile = { label: "Mobile No", patternMessage: 'Invalid Mobile' };
-        $scope.Email = { label: "Email",  patternMessage: 'Invalid Email' };
-        $scope.Date = {  };
-        $scope.manager = {};
-
-        $scope.PAN = { label: 'PAN',patternMessage:'accepts only xxxxxxxx' };
-        $scope.TAN = { label: 'TAN',patternMessage:'accepts only xxxxxxxx' };
-        $scope.Registration = { label: 'Registration', patternMessage: 'special characters not allowed' };
-        $scope.ServiceTaxNo = { label: 'ServiceTaxNo', patternMessage: 'special characters not allowed' };
-
-        $scope.line1 = { label: "Line1", required: true };
-        $scope.line2 = { label: "Line2", required: true };
-        $scope.line3 = { label: "Line3" };
-        $scope.landline = { label: "Landline",patternMessage:"Invalid Number" };
         // $scope.showHierarchyDesignation = false;
         $scope.val = $validations;
         $scope.indexData = {

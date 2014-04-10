@@ -1,0 +1,24 @@
+﻿<div modal="showModel" close="closeModel()" options="modelOption">
+    <div class="modal-header well">
+        <h3>Error Modification</h3>
+    </div>
+    <div ng-form="errorform" class="form-horizontal">
+        <div class="modal-body">
+            <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
+                <div class="control-group row-fluid">
+                    <label class="control-label">{{c.displayName}}</label>
+                    <div class="controls">
+                        <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer well">
+            <label class="error">{{errorMessage}}</label>
+            <button class="btn btn-success" ng-click="saveErrorData(selectedRow,selectedRowIndex,true)" ng-disabled="!errorform.$valid"><i class="icon-save" style="color: blue"></i>Validate & Save</button>
+            <button class="btn btn-success" ng-click="saveErrorData(selectedRow,selectedRowIndex,false)" ng-disabled="!errorform.$valid"><i class="icon-save" style="color: blue"></i>Save Invalid</button>
+            <button class="btn btn-warning" ng-click="closeModel()"><i class="icon-rotate-left" style="color: red"></i>Cancel</button>
+        </div>
+    </div>
+</div>

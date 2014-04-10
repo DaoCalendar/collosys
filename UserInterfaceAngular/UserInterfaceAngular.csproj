@@ -252,65 +252,6 @@
     <Compile Include="Areas\Billing\Controllers\PayoutSubpolicyController.cs" />
     <Compile Include="Areas\Billing\Controllers\ReadyForBillingController.cs" />
     <Compile Include="Areas\Billing\ViewModels\FinalBillData.cs" />
-    <Compile Include="Areas\Developer\apiController\DatabaseTablesApiController.cs" />
-    <Compile Include="Areas\Developer\apiController\DbGenerationApiController.cs" />
-    <Compile Include="Areas\Developer\apiController\LogDownloadApiController.cs" />
-    <Compile Include="Areas\Developer\Controllers\DatabaseTablesController.cs" />
-    <Compile Include="Areas\Developer\Controllers\LogDownloadController.cs" />
-    <Compile Include="Areas\Developer\DeveloperAreaRegistration.cs" />
-    <Compile Include="Areas\Developer\Models\CreateErrorTable.cs" />
-    <Compile Include="Areas\Developer\Models\LogFileModel.cs" />
-    <Compile Include="Areas\Developer\ViewModels\LogFileViewModel.cs" />
-    <Compile Include="Areas\ErrorCorrection\ErrorCorrectionAreaRegistration.cs" />
-    <Compile Include="Areas\Generic\apiController\ExecuteQueryApiController.cs" />
-    <Compile Include="Areas\Generic\apiController\KeyValueApiController.cs" />
-    <Compile Include="Areas\Generic\apiController\PermisionData.cs" />
-    <Compile Include="Areas\Generic\apiController\PermissionScreenApiController.cs" />
-    <Compile Include="Areas\Generic\apiController\PincodeApiController.cs" />
-    <Compile Include="Areas\Generic\apiController\ProductConfigApiController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Areas\Generic\Controllers\EmailNotificationController.cs" />
-    <Compile Include="Areas\Developer\Controllers\GenerateDbController.cs" />
-    <Compile Include="Areas\Developer\Models\CreateDb.cs" />
-    <Compile Include="Areas\Generic\Controllers\KeyValueController.cs" />
-    <Compile Include="Areas\Generic\Controllers\PinCodeController.cs" />
-    <Compile Include="Areas\Generic\Controllers\QueryExecuterAngularController.cs" />
-    <Compile Include="Areas\Generic\Models\EmailNotification.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\BulkCopy.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\Excel2Db.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\ExcelReader.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\InitialData.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\InitStakeholder.cs" />
-    <Compile Include="Areas\Developer\Models\Excel2Db\ResourceReader.cs" />
-    <Compile Include="Areas\Generic\Models\Executer.cs" />
-    <Compile Include="Areas\Generic\Models\GPermissionViewModel.cs" />
-    <Compile Include="Areas\Generic\Models\QueryResult.cs" />
-    <Compile Include="Areas\Generic\ViewModels\pincodeData.cs" />
-    <Compile Include="Areas\ErrorCorrection\apiController\ApproveEditedErrorDataApiController.cs" />
-    <Compile Include="Areas\ErrorCorrection\Models\NgGridOptions.cs" />
-    <Compile Include="Areas\ErrorCorrection\Controllers\ApproveEditedErrorDataController.cs" />
-    <Compile Include="Areas\ErrorCorrection\Controllers\ErrorDataController.cs" />
-    <Compile Include="Areas\ErrorCorrection\ViewModels\ErrorViewModel.cs" />
-    <Compile Include="Areas\Generic\apiController\ConnectionApiController.cs" />
-    <Compile Include="Areas\Generic\apiController\ProfileApiController.cs" />
-    <Compile Include="Areas\Generic\Controllers\ConnectionConfigController.cs" />
-    <Compile Include="Areas\Generic\Controllers\GeneralConfigController.cs" />
-    <Compile Include="Areas\Generic\Controllers\ProductController.cs" />
-    <Compile Include="Areas\Generic\Controllers\ProfileController.cs" />
-    <Compile Include="Areas\Generic\Models\ConnectionStringMgr.cs" />
-    <Compile Include="Areas\Generic\Models\Cryptography.cs" />
-    <Compile Include="Areas\Reporting\apiController\ReportApiController.cs" />
-    <Compile Include="Areas\Reporting\apiController\GridApiController.cs" />
-    <Compile Include="Areas\Reporting\Controllers\ClientDataController.cs" />
-    <Compile Include="Areas\Reporting\Controllers\ExportController.cs" />
-    <Compile Include="Areas\Reporting\Controllers\ReportController.cs" />
-    <Compile Include="Areas\Reporting\Controllers\ReportViewController.cs" />
-    <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
-    <Compile Include="Areas\Reporting\ViewModels\commonUtility.cs" />
-    <Compile Include="Areas\Reporting\ViewModels\ExportUtility.cs" />
-    <Compile Include="Areas\Reporting\ViewModels\getTypes.cs" />
-    <Compile Include="Areas\Reporting\ViewModels\ViewClass.cs" />
     <Compile Include="Areas\Stakeholder2\ApiController\BasicInfoApiController.cs" />
     <Compile Include="Areas\Stakeholder2\api\AddStakeHolderApiController.cs">
       <SubType>Code</SubType>
@@ -404,7 +345,6 @@
     <Compile Include="AuthNAuth\Models\ForgotPasswordModel.cs" />
     <Compile Include="AuthNAuth\Models\LocalPasswordModel.cs" />
     <Compile Include="AuthNAuth\Models\LoginModel.cs" />
-    <Compile Include="Areas\ErrorCorrection\apiController\ErrorDataApiController.cs" />
     <Compile Include="AuthNAuth\Models\NotificationModel.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Global.asax.cs">
@@ -417,7 +357,6 @@
     <Compile Include="Shared\MailReport.cs" />
     <Compile Include="Shared\Attributes\MvcSessionAttribute.cs" />
     <Compile Include="Shared\PendingApprovalData.cs" />
-    <Compile Include="Shared\SharedViewModel.cs" />
     <Compile Include="Shared\Attributes\MvcTransactionAttribute.cs" />
     <Compile Include="Shared\Utilities.cs" />
     <Compile Include="Shared\BaseApiController.cs" />
@@ -426,9 +365,6 @@
     <Compile Include="App_Start\NHibernateConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Generic\apiController\PermissionApiController.cs" />
-    <Compile Include="Areas\Generic\Controllers\PermissionController.cs" />
-    <Compile Include="Areas\Generic\GenericAreaRegistration.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -450,23 +386,6 @@
     <Content Include="Areas\Billing\ViewModels\payoutPolicyCtrl.js" />
     <Content Include="Areas\Billing\ViewModels\payoutSubpolicyCtrl.js" />
     <Content Include="Areas\Billing\ViewModels\ReadyForBilling.js" />
-    <Content Include="Areas\Developer\ViewModels\DatabaseTablesCtrl.js" />
-    <Content Include="Areas\Developer\ViewModels\LogDownload.js" />
-    <Content Include="Areas\Developer\ViewModels\GenerateDB.js" />
-    <Content Include="Areas\ErrorCorrection\ViewModels\approveEditedErrorDataCtrl.js" />
-    <Content Include="Areas\ErrorCorrection\ViewModels\errorDataCtrl.js" />
-    <Content Include="Areas\Generic\ViewModels\connectionConfig.js" />
-    <Content Include="Areas\Generic\ViewModels\eodEmailNotification.js" />
-    <Content Include="Areas\Generic\ViewModels\generalConfig.js" />
-    <Content Include="Areas\Generic\ViewModels\keyValueCtrl.js" />
-    <Content Include="Areas\Generic\ViewModels\PermissionScreenJS.js" />
-    <Content Include="Areas\Generic\ViewModels\pincodeCtrl.js" />
-    <Content Include="Areas\Generic\ViewModels\ProductConfigModel.js" />
-    <Content Include="Areas\Generic\ViewModels\QueryExecuter.js" />
-    <Content Include="Areas\Generic\ViewModels\TestModal.js" />
-    <Content Include="Areas\Reporting\ViewModels\clientDataReporting.js" />
-    <Content Include="Areas\Reporting\ViewModels\ViewReporting.js" />
-    <Content Include="Areas\Reporting\ViewModels\Reporting.js" />
     <Content Include="Areas\Stakeholder2\Models\AddStakeholder.js" />
     <Content Include="Areas\Stakeholder2\ViewModels\AddressDetails.js" />
     <Content Include="Areas\Stakeholder2\ViewModels\AddressInfo.js" />
@@ -500,8 +419,6 @@
     <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewPartials\ViewWorkings.cshtml" />
     <Content Include="Areas\Stakeholder2\Views\StakeholerView\ViewStakeholder.cshtml" />
     <Content Include="Areas\Stakeholder2\Views\Web.config" />
-    <Content Include="Areas\Generic\ViewModels\UserProfile.js" />
-    <Content Include="Areas\Generic\ViewModels\stakePermission.js" />
     <Content Include="Content\alertify\alertify.bootstrap.css" />
     <Content Include="Content\alertify\alertify.core.css" />
     <Content Include="Content\alertify\alertify.default.css" />
@@ -552,43 +469,28 @@
     <Content Include="Scripts\ng-upload.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
-    <Content Include="Areas\Generic\Views\Web.config" />
-    <Content Include="Areas\Generic\Views\Permission\Index.cshtml" />
     <Content Include="Scripts\restangular.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\select2Spec.js" />
     <Content Include="AuthNAuth\ViewModels\ActivityNotifications.js" />
-    <Content Include="Areas\Generic\Views\Profile\ModalTest.cshtml" />
-    <Content Include="Areas\Generic\Views\Profile\UserProfile.cshtml" />
-    <Content Include="Areas\Generic\Views\Product\Index.cshtml" />
     <Content Include="Scripts\underscore.string.js" />
     <Content Include="Shared\cs-ng-grid.js" />
     <Content Include="Shared\Home.js" />
     <Content Include="Views\Error\AccessDenied.cshtml" />
     <Content Include="Views\Home\JSDiabledError.cshtml" />
-    <Content Include="Areas\ErrorCorrection\Views\ErrorData\Index.cshtml" />
-    <Content Include="Areas\ErrorCorrection\Views\ApproveEditedErrorData\Index.cshtml" />
-    <Content Include="Areas\Generic\Views\GeneralConfig\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\Web.config" />
-    <Content Include="Areas\Generic\Views\ConnectionConfig\Index.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\BootstrapVerticalMenu.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\Mvc.sitemap">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Reporting\Views\Report\Index.cshtml" />
-    <Content Include="Areas\Reporting\Views\Web.config" />
-    <Content Include="Areas\Reporting\Views\Report\ClientDataReport.cshtml" />
     <Content Include="Areas\Allocation\Views\AllocationSubPolicy\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\AllocationPolicy\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\ViewAllocations\Index.cshtml" />
-    <Content Include="Areas\Developer\Views\GenerateDb\GenerateDB.cshtml" />
     <EmbeddedResource Include="ExcelData\FileUploader.xls" />
     <Content Include="ExcelData\TestFileScheduler.xls" />
-    <Content Include="Areas\Generic\Views\Email\Index.cshtml" />
-    <Content Include="Areas\Developer\Views\Web.config" />
     <Content Include="Areas\Billing\Views\Formula\Index.cshtml" />
     <Content Include="Areas\Billing\Views\Web.config" />
     <Content Include="Areas\Billing\Views\Matrix\Index.cshtml">
@@ -596,23 +498,15 @@
     </Content>
     <Content Include="Areas\Billing\Views\PayoutSubpolicy\Index.cshtml" />
     <Content Include="Areas\Billing\Views\PayoutPolicy\Index.cshtml" />
-    <Content Include="Areas\Reporting\Views\ReportView\Index.cshtml" />
-    <Content Include="Areas\Reporting\Views\ClientData\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\ViewAllocations\ViewAllocations.cshtml" />
     <Content Include="Areas\Allocation\Views\ChangeAllocation\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\AllocationApprove\Index.cshtml" />
-    <Content Include="Areas\Generic\Views\PinCode\Index.cshtml" />
     <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\ChangeAllocationBulk.cshtml" />
     <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\RAllocShow.cshtml" />
     <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\CAllocShow.cshtml" />
     <Content Include="Areas\Allocation\Views\ChangeAllocationBulk\EAllocShow.cshtml" />
-    <Content Include="Areas\Generic\Views\KeyValue\Index.cshtml" />
     <Content Include="App_Code\GridShared.cshtml" />
     <Content Include="Areas\Allocation\Views\ApproveViewAllocation\ApproveViewAllocation.cshtml" />
-    <Content Include="Areas\Developer\Views\DatabaseTables\Index.cshtml" />
-    <Content Include="Areas\Generic\Views\QueryExecuterAngular\Index.cshtml" />
-    <Content Include="Areas\Developer\Views\DatabaseTables\DownLoadDatabaseTables.cshtml" />
-    <Content Include="Areas\Developer\Views\LogDownload\Index.cshtml" />
     <Content Include="Areas\Stakeholder2\ViewModels\BasicInfoScript.js.rej" />
     <Content Include="Areas\Stakeholder2\Views\AddStakeHolder\DummyOfIndex.cshtml" />
     <Content Include="Areas\Stakeholder2\Views\StakeholderEdit\EditViews\EditAddressDetails.cshtml" />
@@ -634,7 +528,6 @@
     <Content Include="Areas\Stakeholder2\Views\Stakeholder\ViewStakeholder.cshtml" />
     <Content Include="Areas\Stakeholder2\Views\Stakeholder\Working.cshtml" />
     <Content Include="Areas\Stakeholder2\Views\StakeholerView\WorkingManage.cshtml" />
-    <Content Include="Areas\Generic\Views\Permission\PermissionScreen.cshtml" />
     <Content Include="Areas\Billing\Views\AddhocPayouts\Index.cshtml" />
     <Content Include="Areas\Billing\Views\BillAmount\Index.cshtml" />
     <Content Include="Areas\Billing\Views\ReadyForBilling\Index.cshtml" />
@@ -651,7 +544,6 @@
     <None Include="Properties\PublishProfiles\CollosysSCB.pubxml" />
     <None Include="Properties\PublishProfiles\ColloSysWebDeploy.pubxml" />
     <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Areas\ErrorCorrection\Views\Web.config" />
     <Content Include="Scripts\ng-grid-2.0.7.js" />
     <Content Include="Content\checkbox.css" />
     <Content Include="Content\bootstrap-responsive.css" />
@@ -712,8 +604,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Billing\Views\Shared\" />
-    <Folder Include="Areas\Developer\Views\Shared\" />
-    <Folder Include="Areas\Reporting\Views\Shared\" />
     <Folder Include="Areas\Stakeholder2\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

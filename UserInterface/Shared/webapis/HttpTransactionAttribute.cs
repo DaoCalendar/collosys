@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using ColloSys.DataLayer.Infra.SessionMgr;
-using NHibernate;
 
-namespace ColloSys.UserInterface.Shared.Attributes
+namespace AngularUI.Shared.webapis
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class HttpTransactionAttribute : HttpSessionAttribute
+    public class HttpTransaction2Attribute : HttpSession2Attribute
     {
-        public HttpTransactionAttribute()
+        public HttpTransaction2Attribute()
         {
             Persist = false;
         }
@@ -32,10 +30,7 @@ namespace ColloSys.UserInterface.Shared.Attributes
                     tx.Commit();
                     return;
                 }
-                else
-                {
-                 tx.Rollback();
-                }
+                tx.Rollback();
             }
 
             base.OnActionExecuted(filterContext);
