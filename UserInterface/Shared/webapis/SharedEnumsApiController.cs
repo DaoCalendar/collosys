@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.Model;
+using System.Linq;
 
 namespace AngularUI.Shared.webapis
 {
@@ -18,7 +19,7 @@ namespace AngularUI.Shared.webapis
             _fetchEnums.AddCustomEnums(list);
             _fetchEnums.AddQueryEnums(list);
 
-            return Request.CreateResponse(HttpStatusCode.OK, list.Enums);
+            return Request.CreateResponse(HttpStatusCode.OK, list.Enums.ToDictionary(x => x.Name, x => x.Value));
         }
 
     }

@@ -6,130 +6,27 @@
 
     <div class="modal-body">
         <!--Alias Name -->
-        <div class="row control-group">
-            <label class="control-label">Alias Name</label>
-            <div class="controls">
-                <select id="AliasName" name="AliasName" data-ng-model="fileDetail.AliasName" class="input-large"
-                    data-ng-disabled="isReadOnly" data-ng-required="true" data-placeholder="Select File Alias Name">
-                    <option value=""></option>
-                    <option data-ng-repeat="alias in datalayer.dldata.enums.fileAliasNames">{{alias}}</option>
-                </select>
-                <!--AliasName Validation-->
-                <div data-ng-show="formAddfileDetail.AliasName.$dirty && formAddfileDetail.AliasName.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.AliasName.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-
-        <!--AliasDescription -->
-        <!--<div class="row control-group">
-            <label class="control-label">Alias Description </label>
-            <div class="controls">
-                <input type="text" name="AliasDescription" data-ng-model="fileDetail.AliasDescription" data-ng-readonly="isReadOnly" data-ng-required="true"
-                    data-placeholder="Enter Alias Description" />-->
-        <!-- AliasDescription Validation-->
-        <!--<div data-ng-show="formAddfileDetail.AliasDescription.$dirty && formAddfileDetail.AliasDescription.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.AliasDescription.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>-->
-
-        <!--SCB Systems -->
-        <div class="row control-group">
-            <label class="control-label">SCB Systems </label>
-            <div class="controls">
-                <select id="ScbSystems" name="ScbSystems" data-ng-model="fileDetail.ScbSystems"
-                    class="input-medium" data-ng-disabled="isReadOnly" required data-placeholder="Select System"
-                    data-ng-change="updateDependsOnAlias(fileDetail)">
-                    <option value=""></option>
-                    <option data-ng-repeat="system in datalayer.dldata.enums.fileSystems">{{system}}</option>
-                </select>
-                <!--  SCB Validation-->
-                <div data-ng-show="formAddfileDetail.ScbSystems.$dirty && formAddfileDetail.ScbSystems.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.ScbSystems.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--File Frequency -->
-        <div class="row control-group">
-            <label class="control-label">Frequency </label>
-            <div class="controls">
-                <select id="Frequency" name="Frequency" data-ng-model="fileDetail.Frequency" data-ng-disabled="isReadOnly"
-                    class="input-medium" required placeholder="Select File Frequency" data-ng-change="updateDependsOnAlias(fileDetail)">
-                    <option value=""></option>
-                    <option data-ng-repeat="frequency in datalayer.dldata.enums.fileFrequencies">{{frequency}}</option>
-                </select>
-                <!-- Frequency Validation-->
-                <div data-ng-show="formAddfileDetail.Frequency.$dirty && formAddfileDetail.Frequency.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.Frequency.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--DependsOnAlias -->
-        <div class="row control-group">
-            <label class="control-label">DependsOnAlias</label>
-            <div class="controls">
-                <select id="DependsOnAlias" name="DependsOnAlias" data-ng-model="fileDetail.DependsOnAlias" class="input-medium"
-                    data-ng-disabled="isReadOnly" data-ng-required="false" data-placeholder="Select File DependsOnAlias">
-                    <option value=""></option>
-                    <option data-ng-repeat="dependalias in fileDetail.dependsOnAliasList">{{dependalias}}</option>
-                </select>
-                <!--Dependsonalias Validation-->
-                <div data-ng-show="formAddfileDetail.DependsOnAlias.$dirty && formAddfileDetail.DependsOnAlias.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.DependsOnAlias.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Category -->
-        <div class="row control-group">
-            <label class="control-label">Category </label>
-            <div class="controls">
-                <select id="Category" name="Category" data-ng-model="fileDetail.Category" data-ng-disabled="isReadOnly"
-                    class="input-medium" required data-placeholder="Select Category">
-                    <option value=""></option>
-                    <option data-ng-repeat="cat in datalayer.dldata.enums.fileCategories">{{cat}}</option>
-                </select>
-                <!--Category Validation-->
-                <div data-ng-show="formAddfileDetail.Category.$dirty && formAddfileDetail.Category.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.Category.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
+        <field-group mode="mode">
+            <cs-field data-ng-model="fileDetail.AliasName" field="fileDetailModel.AliasName"></cs-field>
+            {{fileDetail.AliasName}}
+          <!--  <cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
+            <cs-field data-ng-model="fileDetail.ScbSystems"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.ScbSystems"></cs-field>
+            <cs-field data-ng-model="fileDetail.Frequency"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.Frequency"></cs-field>
+            <!--DependsOnAlias -->
+             <cs-field data-ng-model="fileDetail.DependsOnAlias" field="fileDetailModel.DependsOnAlias"></cs-field>
+        <!--Category -->       
+            <cs-field data-ng-model="fileDetail.Category" field="fileDetailModel.Category"></cs-field>
         <!--File Type -->
-        <div class="row control-group">
-            <label class="control-label">File Type</label>
-            <div class="controls">
-                <select id="FileType" name="FileType" data-ng-model="fileDetail.FileType"
-                    class="input-medium" data-ng-disabled="isReadOnly" required data-placeholder="Select File Type">
-                    <option value=""></option>
-                    <option data-ng-repeat="fileType in datalayer.dldata.enums.fileTypes">{{fileType}}</option>
-                </select>
-                <!--FileType Validation-->
-                <div data-ng-show="formAddfileDetail.FileType.$dirty && formAddfileDetail.FileType.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.FileType.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
+            <cs-field data-ng-model="fileDetail.FileType" field="fileDetailModel.FileType"></cs-field>
         <!-- File Name -->
-        <div class="row control-group">
-            <label class="control-label">File Name </label>
-            <div class="controls">
-                <input type="text" data-ng-model="fileDetail.FileName" name="FileName" data-ng-disabled="isReadOnly"
-                    required class="input-medium" placeholder="Enter File Name" />
-                <!--FileName Validation-->
-                <div data-ng-show="formAddfileDetail.FileName.$dirty && formAddfileDetail.FileName.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.FileName.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
+            <cs-field data-ng-model="fileDetail.FileName" field="fileDetailModel.FileName"></cs-field>
         <!--File Count -->
+            <cs-field data-ng-model="fileDetail.FileCount" field="fileDetailModel.FileCount"></cs-field>
+
+
+        </field-group>
+               
+       
         <div class="row control-group">
             <label class="control-label">File Count</label>
             <div class="controls">
