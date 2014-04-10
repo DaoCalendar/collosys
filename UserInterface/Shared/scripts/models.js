@@ -97,7 +97,12 @@ csapp.factory("$csStakeholderModels", ["$csShared", function () {
             Email: { label: "Email", patternMessage: 'Invalid Email' },
             Date: {},
             manager: {},
-
+            Name: { label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/',required:true, patternMessage: 'Invalid Name' },
+            userId : { label: "UserId",editable:false,template:'user' ,required: "true",type:"text",pattern:'/^[0-9]{7}$/' ,patternMessage: 'Invalid ID' },
+            mobile : { label: "Mobile No",type:'text',pattern:'/^[0-9]{10}$/',template:'phone', patternMessage: 'Invalid Mobile Number' },
+            Email : { label: "Email",  patternMessage: 'Invalid Email' },
+            Date : { type:'date' },
+            manager : {},
             //PAN : { label: 'PAN',patternMessage:'accepts only xxxxxxxx' },
             //TAN : { label: 'TAN',patternMessage:'accepts only xxxxxxxx' },
             //Registration : { label: 'Registration', patternMessage: 'special characters not allowed' },
