@@ -1,0 +1,31 @@
+﻿<div ng-form="error1" class="form-horizontal">
+    <div class="success well-small row-fluid">
+        <div class="control-group span5">
+            <label class="control-label">File Type</label>
+            <div class="controls">
+                <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)" ng-options="c.AliasDescription for c in fileDetails | orderBy:'AliasName'">
+                    <option value="">-- Select Type --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-group span5">
+            <label class="control-label">File Date</label>
+            <div class="controls">
+                <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)">
+                    <option value="">-- Select File --</option>
+                    <option data-ng-repeat="c in dateFileSchedulers" value="{{c}}">{{c.FileDate | date:'yyyy-MM-dd'}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div ui-if="gridReady">
+        <div class="row-fluid">
+            <div class="span10">
+                <button class="btn btn-success" data-ng-disabled="serverNgGridOptions.data.length<1" data-ng-click="retryErrorData(fileScheduler)">Retry</button>
+            </div>
+            <label class="span2">Total Error : {{serverNgGridOptions.data.length}}</label>
+        </div>
+        <div style="height: 400px" ng-grid="gridOptions"></div>
+    </div>
+</div>

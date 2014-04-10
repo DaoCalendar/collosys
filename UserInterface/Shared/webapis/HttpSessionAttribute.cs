@@ -3,12 +3,11 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using NHibernate;
-using NHibernate.Context;
 
-namespace ColloSys.UserInterface.Shared.Attributes
+namespace AngularUI.Shared.webapis
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class HttpSessionAttribute : ActionFilterAttribute
+    public class HttpSession2Attribute : ActionFilterAttribute
     {
         protected ISession Session { get; private set; }
 
