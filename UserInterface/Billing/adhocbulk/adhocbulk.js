@@ -25,13 +25,13 @@ csapp.factory('adhocbulkDataLayer', ['Restangular', '$csnotify',
         };
 
         var checkBillStatus = function (product, month) {
-            restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
+            return restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
                 return data;
             });
         };
 
         var save = function (paymentList) {
-          return  restApi.customPOST(paymentList, 'SaveList').then(function(data) {
+            return restApi.customPOST(paymentList, 'SaveList').then(function (data) {
                 $csnotify.success('data saved');
             });
         };
@@ -77,18 +77,20 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
 
         var calculateMonthList = function () {
             var i = 0;
-            var isBillDoneForCurrentMonth = datalayer.checkBillStatus($scope.Product, moment().format('YYYYMM'));
-            if (isBillDoneForCurrentMonth) {
-                i = 1;
-            }
-            $scope.monthList = [];
-            for (var j = i; j < 6; j++) {
-                var data = {
-                    Key: moment().add('month', j).format('YYYYMM'),
-                    Value: moment().add('month', j).format("MMM-YYYY")
-                };
-                $scope.monthList.push(data);
-            }
+            datalayer.checkBillStatus($scope.Product, moment().format('YYYYMM')).then(function (data2) {
+               var isBillDoneForCurrentMonth = data2;
+                if (isBillDoneForCurrentMonth === 'true') {
+                    i = 1;
+                }
+                $scope.monthList = [];
+                for (var j = i; j < 6; j++) {
+                    var data = {
+                        Key: moment().add('month', j).format('YYYYMM'),
+                        Value: moment().add('month', j).format("MMM-YYYY")
+                    };
+                    $scope.monthList.push(data);
+                }
+            });
         };
 
         (function () {
@@ -124,7 +126,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             return datalayer.stakeholdersList(name, product);
         };
 
-        $scope.save = function(paymentList) {
+        $scope.save = function (paymentList) {
             datalayer.save(paymentList).then(function () {
                 $scope.Product = '';
                 $scope.PaymentList = [];
