@@ -616,6 +616,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     var input = function (field, attr) {
         var html = '<div class="input-append">';
         html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
+        html += 'ng-readonly="setReadonly()"';
         html += ' data-ng-model="' + attr.ngModel + '"';
         html += (angular.isDefined(attr.ngChange) ? 'data-ng-change="' + attr.ngChange + '"' : '');
         html += ' ng-required="' + attr.field + '.required"';
@@ -675,7 +676,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         if ($csfactory.isNullOrEmptyString(field.minViewMode)) {
             field.minViewMode = 0;
         } else if (field.minViewMode === "1" || field.minViewMode === "months") {
-            options.minViewMode = 1;
+            field.minViewMode = 1;
         } else if (field.minViewMode === "2" || field.minViewMode === "years") {
             field.minViewMode = 2;
         } else {
@@ -685,7 +686,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         //format
         if (field.minViewMode === 0) {
             field.format = "dd-M-yyyy";
-        } else if (options.minViewMode === 1) {
+        } else if (field.minViewMode === 1) {
             field.format = "M-yyyy";
         } else {
             field.format = ".yyyy";
@@ -695,7 +696,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         if ($csfactory.isNullOrEmptyString(field.startDate)) {
             if (field.minViewMode === 0) {
                 field.startDate = '01-Jan-1800';
-            } else if (options.minViewMode === 1) {
+            } else if (field.minViewMode === 1) {
                 field.startDate = 'Jan-1800';
             } else {
                 field.startDate = '.1800';
@@ -706,7 +707,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         if ($csfactory.isNullOrEmptyString(field.endDate)) {
             if (field.minViewMode === 0) {
                 field.endDate = '31-Dec-2400';
-            } else if (options.minViewMode === 1) {
+            } else if (field.minViewMode === 1) {
                 field.endDate = 'Dec-2400';
             } else {
                 field.endDate = '.2400';
