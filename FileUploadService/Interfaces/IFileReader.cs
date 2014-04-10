@@ -1,11 +1,5 @@
-﻿#region references
-
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using ColloSys.DataLayer.Domain;
-
-#endregion
 
 namespace ColloSys.FileUploadService.Interfaces
 {

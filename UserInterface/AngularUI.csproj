@@ -119,10 +119,11 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
     <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
+    <Compile Include="FileUpload\errorcorrection\ErrorViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\FileUploadViewModel.cs" />
     <Compile Include="FileUpload\filescheduler\ScheduledFilesViewModel.cs" />
-    <Compile Include="FileUpload\Testcase\FetchEnumsTest.cs" />
     <Compile Include="FileUpload\uploadhelper\FileIOApiController.cs" />
     <Compile Include="FileUpload\uploadhelper\FileSaver.cs" />
     <Compile Include="FileUpload\uploadpincode\PincodeInfo.cs" />
@@ -203,6 +204,8 @@
     <Compile Include="Shared\Model\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
+    <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
+    <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
     <Compile Include="Shared\webapis\SharedEnumsApiController.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
@@ -299,6 +302,8 @@
     <Content Include="Developer\dbtable\viewtables.html" />
     <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
     <Content Include="FileUpload\customerinfo\customer-info.js" />
+    <Content Include="FileUpload\errorcorrection\error-record.html" />
+    <Content Include="FileUpload\errorcorrection\errorDataCtrl.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -438,6 +443,7 @@
       <DependentUpon>angular-file-upload.js</DependentUpon>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="FileUpload\errorcorrection\error-correction.html" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -527,6 +533,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FileUpload\errorapproval\" />
     <Folder Include="FileUpload\uploadrcode\" />
   </ItemGroup>
   <ItemGroup>
