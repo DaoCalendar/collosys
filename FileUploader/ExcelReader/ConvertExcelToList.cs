@@ -55,17 +55,9 @@ namespace ReflectionExtension.ExcelReader
                     ReflectionHelper.SetValue(mapping.Propname, value, obj);
                 }
                 objlList.Add(obj);
-               
+
             }
             return objlList;
-        }
-
-        public object SetValue(string propName, int row, int col)
-        {
-            var obj = Activator.CreateInstance(typeof(TU));
-            string value = _iExcelReader.GetValue((uint)col, (uint)row);
-            ReflectionHelper.SetValue(propName, value, obj);
-            return obj;
         }
         #endregion
     }

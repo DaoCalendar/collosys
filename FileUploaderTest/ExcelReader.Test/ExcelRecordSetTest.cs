@@ -7,7 +7,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploader.ExcelReader.FileReader;
-using ColloSys.FileUploader.ExcelReader.RecordSetter;
+using ColloSys.FileUploader.ExcelReaders.ExcelReader;
+using ColloSys.FileUploader.ExcelReaders.RecordSetter;
 using FileUploader.ExcelReader;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
@@ -17,21 +18,21 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
     [TestFixture]
     class ExcelRecordSetTest : SetUpAssemblies
     {
-        private CreateRecords<Payment> _record;
+        private RlsPaymentLinerRecordCreator _record;
         private ICounter _counter;
         private IExcelReader _excelReader;
-        private IFileReader<Payment> _fileReader;
+        private ColloSys.FileUploader.ExcelReader.FileReader.IFileReader<Payment> _fileReader;
         private ExcelReaderHelper _excelReaderHelper;
         private Payment _obj;
-    
+        private IList<string> EPaymentExcludeCode;
         [SetUp]
         public void Init()
         {
             _obj = new Payment();
-            _record = new CreateRecords<Payment>();
+            _record = new RlsPaymentLinerRecordCreator(EPaymentExcludeCode);
             _excelReaderHelper = new ExcelReaderHelper();
             _excelReader = _excelReaderHelper.GetInstance(FileInfo);
-            _fileReader = new FileReader<Payment>();
+            _fileReader = new  ColloSys.FileUploader.ExcelReaders.FileReader.RlsPaymentFileReader();
             _counter = new ExcelRecordCounter();
        
         }
