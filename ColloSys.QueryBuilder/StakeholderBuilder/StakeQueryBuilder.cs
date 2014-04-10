@@ -55,6 +55,13 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public IList<Stakeholders> ListForAdhoc(string name, ScbEnums.Products products)
+        {
+            var list = OnProduct(products);
+            var data=list.Where(x => x.Name.ToString().StartsWith(name)).Take(10).ToList();
+            return data;
+        }
+        [Transaction]
         public IList<Stakeholders> ExitedOnProduct(ScbEnums.Products products)
         {
             Stakeholders stakeholders = null;
