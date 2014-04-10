@@ -7,7 +7,6 @@ using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Interfaces;
 using NLog;
 
@@ -21,22 +20,19 @@ namespace ColloSys.FileUploadService.ExcelReader
 
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
-        private readonly IList<string> EPaymentExcludeCodes;
-        private readonly List<string> EWriteoffAccounts;
+        private readonly IList<string> _ePaymentExcludeCodes;
+        private readonly List<string> _eWriteoffAccounts;
 
         private static FileReaderProperties GetFileReaderProperties()
         {
-            return new FileReaderProperties
-            {
-                //HasFileDateInsideFile = true
-            };
+            return new FileReaderProperties();
         }
 
         public EPaymentReader(FileScheduler file)
             : base(file, GetFileReaderProperties())
         {
-            EPaymentExcludeCodes = Reader.GetDataLayer.GetValuesFromKey(ColloSysEnums.Activities.FileUploader, "EPaymentExcludeCode");
-            EWriteoffAccounts = Reader.GetDataLayer.GetAccountNosForDate<EWriteoff>(Reader.UploadedFile.FileDate.Date);
+            _ePaymentExcludeCodes = Reader.GetDataLayer.GetValuesFromKey(ColloSysEnums.Activities.FileUploader, "EPaymentExcludeCode");
+            _eWriteoffAccounts = Reader.GetDataLayer.GetAccountNosForDate<EWriteoff>(Reader.UploadedFile.FileDate.Date);
         }
 
         #endregion
@@ -54,7 +50,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 record.IsDebit = (record.DebitAmount > 0);
             }
 
-            var shouldBeExclude = EPaymentExcludeCodes.Contains(string.Format("{0}@{1}", record.TransCode, record.TransDesc.Trim()));
+            var shouldBeExclude = _ePaymentExcludeCodes.Contains(string.Format("{0}@{1}", record.TransCode, record.TransDesc.Trim()));
             record.IsExcluded = shouldBeExclude;
             record.ExcludeReason = string.Format("TransCode : {0}, and TransDesc : {1}", record.TransCode, record.TransDesc);
 
@@ -83,7 +79,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                 var narr = dr[10].ToString().Trim() + dr[11].ToString().Trim() +
                            dr[12].ToString().Trim();
                 var shouldBeExclude =
-                    EPaymentExcludeCodes.Contains(string.Format("{0}@{1}", dr[2].ToString().Trim(), narr));
+                    _ePaymentExcludeCodes.Contains(string.Format("{0}@{1}", dr[2].ToString().Trim(), narr));
                 if (shouldBeExclude)
                 {
                     _log.Debug(string.Format("Payment of Account No {0} is Excluded Because TransCode : {1}, and TransDesc : {2}",
@@ -91,7 +87,7 @@ namespace ColloSys.FileUploadService.ExcelReader
                     return false;
                 }
 
-                if (EWriteoffAccounts.Contains(dr[1]))
+                if (_eWriteoffAccounts.Contains(dr[1]))
                 {
                     _log.Debug(string.Format("Payment of Account No {0} is Excluded Because It is Writeoff Account",
                                              dr[1]));
