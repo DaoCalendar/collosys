@@ -1,4 +1,12 @@
-﻿
+﻿csapp.directive('focusMe', function ($timeout) {
+    return {
+        link: function (scope, element, attrs, model) {
+            $timeout(function () {
+                element[0].focus();
+            });
+        }
+    };
+});
 
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {

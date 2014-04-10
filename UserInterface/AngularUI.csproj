@@ -204,6 +204,7 @@
     <Compile Include="Shared\Model\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
+    <Compile Include="Shared\webapis\FetchEnums.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
