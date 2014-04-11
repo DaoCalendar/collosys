@@ -66,18 +66,18 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
         var getDefaultPayment = function () {
             var payment = {
                 Products: '',
-                TotalAmount: '',
-                IsCredit: '',
-                ReasonCode: '',
-                Description: '',
-                IsRecurring: '',
             };
             return payment;
+            //TotalAmount: '',
+            //IsCredit: '',
+            //ReasonCode: '',
+            //Description: '',
+            //IsRecurring: '',
         };
 
-        var calculateMonthList = function () {
+        var calculateMonthList = function (product) {
             var i = 0;
-            datalayer.checkBillStatus($scope.Product, moment().format('YYYYMM')).then(function (data2) {
+            datalayer.checkBillStatus(product, moment().format('YYYYMM')).then(function (data2) {
                var isBillDoneForCurrentMonth = data2;
                 if (isBillDoneForCurrentMonth === 'true') {
                     i = 1;
@@ -91,8 +91,6 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
                     $scope.monthList.push(data);
                 }
                 $scope.BillAdhoc.StartMonth.valueList = $scope.monthList;
-                $scope.BillAdhoc.StartMonth.textField = 'Key';
-                $scope.BillAdhoc.StartMonth.valueField = 'Value';
             });
         };
 
@@ -116,6 +114,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             $scope.PaymentList = [];
             $scope.selecttransdata = [];
             assignList();
+            $scope.abc = {};
         })();
 
         $scope.initialiseRow = function (product) {
@@ -124,7 +123,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             var defaultPayment = getDefaultPayment();
             defaultPayment.Products = product;
             addDefaultPayment(defaultPayment);
-            calculateMonthList();
+            calculateMonthList(product);
         };
         $scope.onSubmit = function () {
             var defaultPayment = getDefaultPayment();

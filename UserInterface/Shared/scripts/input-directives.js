@@ -608,7 +608,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<select class="input-large" ng-options="row for row in field.valueList"';
             //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
-            html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
+            html += 'data-ng-model="$parent.' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-change="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
