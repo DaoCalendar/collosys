@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using FileUploader.ExcelReader;
+﻿using FileUploader.ExcelReader;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
@@ -118,13 +112,13 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
 
 
 
-        [Test]
-        public void Test_GetList_For_ExcelDataReaders()
-        {
-            var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
-            var excelmaping = ExcelReaderHelper.GetMappingInfo();
-            obj.GetList(excelmaping);
-        }
+        //[Test]
+        //public void Test_GetList_For_ExcelDataReaders()
+        //{
+        //    var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
+        //    var excelmaping = ExcelReaderHelper.GetMappingInfo();
+        //    obj.GetList(excelmaping);
+        //}
 
         [Test]
         public void Test_Constructor_With_FileInfo()

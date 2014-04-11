@@ -2,7 +2,7 @@
 using ColloSys.DataLayer.Domain;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.ExcelReader.FileReader
+namespace ColloSys.FileUploader.FileReader
 {
     public interface IFileReader<T>
     {
