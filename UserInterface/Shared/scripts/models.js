@@ -110,6 +110,7 @@ csapp.factory("$csStakeholderModels", ["$csShared", function () {
             line1: { label: "Line1", type: 'text', required: true },
             line2: { label: "Line2", type: 'text', required: true },
             line3: { label: "Line3", type: 'text' },
+            pincode:{label:"Pincode", type:"text"},
             landline: { label: "Landline", type: 'text', template: 'phone', patternMessage: "Invalid Number" }
 
 
