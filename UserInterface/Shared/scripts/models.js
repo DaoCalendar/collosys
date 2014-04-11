@@ -24,12 +24,12 @@ csapp.factory("$csFileUploadModels", ["$csShared", function ($csShared) {
             AliasName: { label: "Alias Name", type: "enum", required: true, valueList: $csShared.enums.FileAliasName, placeholder: "Select File Alias Name" },
             AliasDescription: { label: "Alias Description", type: "text", placeholder: "Enter Alias Description", required: true },
             FileName: { label: "File Name", type: "text", placeholder: "Enter File Name", required: true },
-            FileCount: { label: "File Count", type: "int", pattern: "/^[0-9]+$/", min: 0, max: 100, required: true, placeholder: "Enter no of files" },
-            DependsOnAlias: { label: "SCB Systems", type: "enum", valueList: $csShared.enums.FileAliasName, required: true, placeholder: "Select System" },
+            FileCount: { label: "File Count", type: "uint", min: 1, max: 100, required: true, placeholder: "Enter no of files" },
+            DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName, required: true, placeholder: "Select System" },
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
-            DateFormat: { label: "Date Format", type: "select", valueList: $csShared.enums.DateFormats, placeholder: "Select Date Format" },
+            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, placeholder: "Select Date Format", required: true },
             FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, placeholder: "Select File Type" },
-            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name" },
+            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name", required: true },
             Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, placeholder: "Select File Frequency" },
             SkipLine: { label: "Skip Line", type: "int", pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
             FileDirectory: { label: "FileDirectory", type: "text", placeholder: "Enter File Directory Name" },
@@ -53,12 +53,11 @@ csapp.factory("$csFileUploadModels", ["$csShared", function ($csShared) {
             Length: { label: "Length", type: "int", min: 0, required: true, placeholder: "Enter the Column Length" },
             ColumnDataType: { label: "Column Data Type", type: "enum", valueList: $csShared.enums.FileDataType, required: true, placeholder: "Select Column Type" },
             TempColumnName: { label: "DB Column Name", type: "text", required: true, pattern: "/^\w*$/", patternMessage: "Invalid Column Name", placeholder: "Enter Temporary Column Name" },
-            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.dateFormats, placeholder: "Select Date Format" },
+            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, placeholder: "Select Date Format" },
             StartDate: { label: "Start Date", type: "date", required: true },
             EndDate: { label: "End Date", type: "date" }//data-date-start-date have function.
         };
     };
-
     var fileMapping = function () {
         return {
             ActualTable: { label: "Actual Table", type: "text" },

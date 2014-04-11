@@ -51,6 +51,8 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared", "Logger
         rootapi.customGET("FetchAllEnum").then(function (data) {
             $csShared.enums = data;
             $log.info("enums loaded.");
+            console.log($csShared.enums.FileAliasName);
+            console.log($csShared.enums.DateFormat);
             $csModels.init();
             $log.info("models initialized.");
             return data;
