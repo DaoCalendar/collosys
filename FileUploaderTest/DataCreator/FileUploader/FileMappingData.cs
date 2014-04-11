@@ -14,7 +14,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         private FileMapping GetDefaultMapping()
         {
-            return new FileMapping()
+            return new FileMapping
             {
                 CreatedOn = DateTime.Now,
                 CreatedBy = "testproject",
@@ -59,7 +59,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             return mappings;
         }
 
-        public IEnumerable<FileMapping> ExcelMapper_Scenario2()
+        public IEnumerable<FileMapping> ExcelMapper_PassingTransCodeAndDesc()
         {
             IList<FileMapping> mappings = new List<FileMapping>();
 
@@ -72,6 +72,18 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             mapping2.ActualColumn = "TransDesc";
             mapping2.Position = 2;
             mappings.Add(mapping2);
+
+            return mappings;
+        }
+
+        public IEnumerable<FileMapping> ExcelMapper_PassingInvlidPosition()
+        {
+            IList<FileMapping> mappings = new List<FileMapping>();
+
+            var mapping1 = GetDefaultMapping();
+            mapping1.ActualColumn = "DebitAmount";
+            mapping1.Position = 2;
+            mappings.Add(mapping1);
 
             return mappings;
         }
