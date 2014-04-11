@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location","$csStakeholderModels",
-function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location,stakeModels) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csStakeholderModels",
+function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location, stakeModels) {
 
     $scope.StepManager = {
         StepNames: {
@@ -541,17 +541,15 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             }
         }
 
-
-
         var hierarchy = $scope.WizardData.GetHierarchy();
         var stakeholder = $scope.WizardData.GetStakeholder();
         var finalPostModel = $scope.WizardData.FinalPostModel;
 
 
         //save stakeholder
-        if (hierarchy.Hierarchy !== 'External') {
-            stakeholder.EmailId = finalPostModel.EmailId + '@sc.com';
-        }
+        //if (hierarchy.Hierarchy !== 'External') {
+        //stakeholder.EmailId = finalPostModel.EmailId;//+ '@sc.com';
+        //}
 
         // assign approver name
         //stakeholder.ApprovedBy = getApproverName(stakeholder.ReportingManager);

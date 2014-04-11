@@ -5,174 +5,39 @@
     </div>
 
     <div class="modal-body">
-        <!--Alias Name -->
+
         <field-group mode="mode">
             <cs-field data-ng-model="fileDetail.AliasName" field="fileDetailModel.AliasName"></cs-field>
-            {{fileDetail.AliasName}}
-          <!--  <cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
+            <!--<cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
             <cs-field data-ng-model="fileDetail.ScbSystems"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.ScbSystems"></cs-field>
             <cs-field data-ng-model="fileDetail.Frequency"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.Frequency"></cs-field>
-            <!--DependsOnAlias -->
-             <cs-field data-ng-model="fileDetail.DependsOnAlias" field="fileDetailModel.DependsOnAlias"></cs-field>
-        <!--Category -->       
+            <cs-field data-ng-model="fileDetail.DependsOnAlias" field="fileDetailModel.DependsOnAlias"></cs-field>
             <cs-field data-ng-model="fileDetail.Category" field="fileDetailModel.Category"></cs-field>
-        <!--File Type -->
-            <cs-field data-ng-model="fileDetail.FileType" field="fileDetailModel.FileType"></cs-field>
-        <!-- File Name -->
+            <cs-field data-ng-model="fileDetail.FileType" field="fileDetailModel.FileType" ng-change=""></cs-field>
             <cs-field data-ng-model="fileDetail.FileName" field="fileDetailModel.FileName"></cs-field>
-        <!--File Count -->
             <cs-field data-ng-model="fileDetail.FileCount" field="fileDetailModel.FileCount"></cs-field>
-
-
+            <cs-field data-ng-model="fileDetail.DateFormat" field="fileDetailModel.DateFormat"></cs-field>
+            <div ng-if="factory.isSheetTypeColumn(fileDetail.FileType)">
+                <cs-field data-ng-model="fileDetail.SheetName" field="fileDetailModel.SheetName"></cs-field>
+            </div>
+            <cs-field data-ng-model="fileDetail.SkipLine" field="fileDetailModel.SkipLine"></cs-field>
+            <cs-field data-ng-model="fileDetail.UsedFor" field="fileDetailModel.UsedFor"></cs-field>
+            <cs-field data-ng-model="fileDetail.FileDirectory" field="fileDetailModel.FileDirectory"></cs-field>
+            <cs-field data-ng-model="fileDetail.EmailId" field="fileDetailModel.EmailId"></cs-field>
+            <cs-field data-ng-model="fileDetail.StartDate" field="fileDetailModel.StartDate"></cs-field>
+            <cs-field data-ng-model="fileDetail.EndDate" field="fileDetailModel.EndDate"></cs-field>
+            <cs-field data-ng-model="fileDetail.Description" field="fileDetailModel.Description"></cs-field>
         </field-group>
-               
-       
-        <div class="row control-group">
-            <label class="control-label">File Count</label>
+        
+        <div class="modal-footer control-group">
             <div class="controls">
-                <input type="number" min="1" max="100" name="FileCount" data-ng-model="fileDetail.FileCount"
-                    data-ng-pattern="/^[0-9]+$/" data-ng-disabled="isReadOnly" data-ng-required="true"
-                    class="input-medium" placeholder="Enter no of files" />
-                <!--FileCount Validation-->
-                <div data-ng-show="formAddfileDetail.FileCount.$dirty && formAddfileDetail.FileCount.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.FileCount.$error.required">{{val.Required()}}</span>
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.FileCount.$error.pattern">{{val.OnlyNumbers()}}</span>
-                </div>
+                <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
+                <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
+                <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
+                <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
             </div>
         </div>
 
-        <!--Date Format -->
-        <div class="row control-group">
-            <label class="control-label">Date Format </label>
-            <div class="controls">
-                <select data-ng-model="fileDetail.DateFormat" data-ng-required="true" data-placeholder="Select Date Format"
-                    name="date" class="input-medium" data-ng-disabled="isReadOnly">
-                    <option value=""></option>
-                    <option data-ng-repeat="format in factory.dateFormats">{{format}}</option>
-                </select>
-                <!--  DateFormat Validation-->
-                <div data-ng-show="formAddfileDetail.date.$dirty && formAddfileDetail.date.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.date.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Sheet Name -->
-        <div class="row control-group" data-ng-show="factory.isSheetTypeColumn(fileDetail.FileType)">
-            <label class="control-label">Sheet Name</label>
-            <div class="controls">
-                <input type="text" data-ng-model="fileDetail.SheetName" name="SheetName" data-ng-disabled="isReadOnly"
-                    class="input-medium" data-ng-required="factory.isSheetTypeColumn(fileDetail.FileType)" data-placeholder="Enter Sheet Name" />
-                <!-- SheetName Validation-->
-                <div data-ng-show="formAddfileDetail.SheetName.$dirty && formAddfileDetail.SheetName.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.SheetName.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Skip Line -->
-        <div class="row control-group">
-            <label class="control-label">Skip Line</label>
-            <div class="controls">
-                <input type="number" min="0" name="SkipLine" data-ng-model="fileDetail.SkipLine" data-ng-disabled="isReadOnly" data-ng-required="true"
-                    data-ng-pattern="/^[0-9]+$/" class="input-medium" placeholder="Enter Skip Lines" />
-                <!--  Skip Line  Validation-->
-                <div data-ng-show="formAddfileDetail.SkipLine.$dirty && formAddfileDetail.SkipLine.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.required">{{val.Required()}}</span>
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.SkipLine.$error.pattern">{{val.OnlyNumbers()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Used for -->
-        <div class="row control-group">
-            <label class="control-label">UsedFor</label>
-            <div class="controls">
-                <select data-ng-model="fileDetail.UsedFor" name="UsedFor" data-ng-disabled="isReadOnly" data-ng-required="true"
-                    class="input-medium" placeholder="Enter Used For">
-                    <option value=""></option>
-                    <option data-ng-repeat="usedfor in factory.usedFor">{{usedfor}}</option>
-                </select>
-                <!--  UsedFor Validation-->
-                <div data-ng-show="formAddfileDetail.UsedFor.$dirty && formAddfileDetail.UsedFor.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.UsedFor.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--File Directory -->
-        <div class="row control-group">
-            <label class="control-label">FileDirectory </label>
-            <div class="controls">
-                <input type="text" name="FileDirectory" data-ng-model="fileDetail.FileDirectory" data-ng-disabled="isReadOnly"
-                    class="input-medium" placeholder="Enter File Directory Name" />
-            </div>
-        </div>
-
-        <!--Email ID -->
-        <div class="row control-group">
-            <label class="control-label">Email Id </label>
-            <div class="controls">
-                <input type="email" data-ng-model="fileDetail.EmailId" data-ng-disabled="isReadOnly" required
-                    name="email" placeholder="Enter Email Id" />
-                <!--  Email-Id Validation-->
-                <div data-ng-show="formAddfileDetail.email.$dirty && formAddfileDetail.email.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.email.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Start Date -->
-        <div class="row control-group">
-            <label class="control-label">Start Date </label>
-            <div class="controls">
-                <div class="input-append">
-                    <input type="text" name="StartDate" class="input-medium" data-ng-disabled="isReadOnly" required data-ng-model="fileDetail.StartDate" bs-datepicker />
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                </div>
-                <!--StartDate validation-->
-                <div data-ng-show="formAddfileDetail.StartDate.$dirty">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.StartDate.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--End Date -->
-        <div class="row control-group">
-            <label class="control-label">End Date </label>
-            <div class="controls">
-                <div class="input-append">
-                    <input type="text" name="EndDate" class="input-medium" data-ng-disabled="isReadOnly" required data-ng-model="fileDetail.EndDate" bs-datepicker />
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                </div>
-                <!--EndDate validation-->
-                <div data-ng-show="formAddfileDetail.EndDate.$dirty">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.EndDate.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-
-        <!--Description -->
-        <div class="row control-group">
-            <label class="control-label">Description </label>
-            <div class="controls">
-                <input type="text" data-ng-model="fileDetail.Description" data-ng-disabled="isReadOnly" required
-                    name="Desc" placeholder="Enter Description" />
-                <!-- Description Validation-->
-                <div data-ng-show="formAddfileDetail.Desc.$dirty && formAddfileDetail.Desc.$invalid">
-                    <span class="field-validation-error" data-ng-show="formAddfileDetail.Desc.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div class="modal-footer control-group">
-        <div class="controls">
-            <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
-            <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
-            <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
-            <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
-        </div>
     </div>
-
-</div>

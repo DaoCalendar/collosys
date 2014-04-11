@@ -26,7 +26,7 @@ namespace AngularUI.Shared.webapis
         public void AddCustomEnums(EnumList list)
         {
             string[] dateList = { "dd-mm-yyyy", "yyyy-mm-dd", "mm-dd-yyyy" };
-            list.AddToList("DateFormats", new List<string>(dateList));
+            list.AddToList("DateFormat", new List<string>(dateList));
         }
 
         public void InitSystemEnums(EnumList list)
