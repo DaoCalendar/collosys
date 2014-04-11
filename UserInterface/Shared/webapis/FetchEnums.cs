@@ -4,20 +4,23 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.QueryBuilder.GenericBuilder;
+using System.Linq;
 
 namespace AngularUI.Shared.webapis
 {
     public class FetchEnums
     {
+        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder(); 
         public void AddQueryEnums(EnumList list)
         {
             //TODO -SQL error occred
-            //var session = SessionManager.GetCurrentSession();
+            var session = SessionManager.GetCurrentSession();
             //var aliasList = session.QueryOver<FileDetail>().Select(x => x.AliasName).List<string>();
             //list.AddToList("AliasNames", aliasList);
 
-            //var productList = session.QueryOver<ProductConfig>().Select(x => x.Product).List<string>();
-            //list.AddToList("Product", productList);
+            var productList = ProductConfigBuilder.GetProductsString().ToList();
+            list.AddToList("ProductEnum", productList);
         }
 
         public void AddCustomEnums(EnumList list)
