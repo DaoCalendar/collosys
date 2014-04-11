@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace ColloSys.FileUploader.ExcelReader
+namespace ColloSys.FileUploader.Utilities
 {
     public static class SharedUtility
     {

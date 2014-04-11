@@ -36,6 +36,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NSubstitute, Version=1.7.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\nunit.framework.dll</HintPath>
@@ -52,12 +56,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExcelReader.Test\DummyTest.cs" />
     <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
     <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
-    <Compile Include="ExcelReader.Test\ExcelRecordSetTest.cs" />
-    <Compile Include="ExcelReader.Test\FileReaderAndSetToListTest.cs" />
+    <Compile Include="ExcelReader.Test\FileShedulerForTest.cs" />
+    <Compile Include="ExcelReader.Test\QueryCreatorForTest.cs" />
+    <Compile Include="ExcelReader.Test\test.cs" />
     <Compile Include="FileUploader.Test\ColumnMappingTest.cs" />
     <Compile Include="GlobleSetUp.cs" />
+    <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
+    <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />
@@ -95,6 +103,10 @@
     <ProjectReference Include="..\FileUploader\FileUploader.csproj">
       <Project>{12419049-4F49-4557-91CD-188D60E0C565}</Project>
       <Name>FileUploader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileUploadService\FileUploadService.csproj">
+      <Project>{0BC673FC-EB6C-4D50-8001-56273F9530A2}</Project>
+      <Name>FileUploadService</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserInterface\AngularUI.csproj">
       <Project>{ddd31537-2bfc-40fe-8344-8d87bfeb998f}</Project>
