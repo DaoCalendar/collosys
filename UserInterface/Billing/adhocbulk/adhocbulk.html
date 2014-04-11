@@ -4,6 +4,7 @@
             <div class="span5">
                 <cs-field data-ng-model="Product"
                     data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
+                {{Product}}
             </div>
 
         </div>
@@ -30,7 +31,6 @@
                         <div class="btn-group">
                             <i class="btn icon-trash" data-ng-click="Delete($index)"></i>
                         </div>
-                        
                     </td>
                     <td>
                         <input data-ng-bind="pay.Products"
@@ -41,48 +41,49 @@
                             focus-me />
                     </td>
                     <td>
-                        <cs-field  data-ng-model="pay.Stakeholder"
-                               field="BillAdhoc.Stakeholder"
-                               typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
-                               typeahead-min-length="3"
-                               typeahead-wait-ms="400" />
-                        <!--<input type="text" data-ng-model="pay.Stakeholder"
+                        <!--<cs-field  data-ng-model="pay.Stakeholder"
+                                   field="BillAdhoc.Stakeholder"
+                                   typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
+                                   typeahead-min-length="3"
+                                   typeahead-wait-ms="400" />-->
+
+                        <input type="text" data-ng-model="pay.Stakeholder"
                             required
                             typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
                             typeahead-min-length="3"
-                            typeahead-wait-ms="400" />-->
+                            typeahead-wait-ms="400" />
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.TotalAmount" 
+                        <cs-field data-ng-model="pay.TotalAmount"
                             field="BillAdhoc.TotalAmount"></cs-field>
-                        
+
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.IsCredit"
                             data-ng-change="changeCredit(pay.IsCredit)"
                             field="BillAdhoc.IsCredit"></cs-field>
-                        
+
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.ReasonCode"
                             field="BillAdhoc.ReasonCode"></cs-field>
-                        
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.Description" field="BillAdhoc.Description"></cs-field>
-                        
+
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.IsRecurring" field="BillAdhoc.IsRecurring"></cs-field>
-                       
+
                     </td>
                     <td>
-                        <div class="row-fluid" data-ng-show="pay.IsRecurring === true">
-                            <select class="input-medium"
-                                data-ng-model="pay.StartMonth"
-                                data-ng-required="pay.IsRecurring === true">
+                        <div class="row-fluid" data-ng-if="pay.IsRecurring === true">
+                            <cs-field data-ng-model="pay.StartMonth" field="BillAdhoc.StartMonth"></cs-field>
+                            <!--<select class="input-medium"
+                                    data-ng-model="pay.StartMonth"
+                                    data-ng-required="pay.IsRecurring === true">
                                 <option data-ng-repeat="reason in monthList" value="{{reason.Key}}">{{reason.Value}}</option>
-                            </select>
+                            </select>-->
                         </div>
                     </td>
                     <td>
@@ -119,7 +120,7 @@
         value="Delete"
                             
         data-ng-click="Delete($index)" />-->
-                        <!--data-ng-hide="$last"-->
+<!--data-ng-hide="$last"-->
 <!--<div class="control-group span5">
         <label class="control-label">Product</label>
         <div class="controls">
@@ -149,6 +150,6 @@
         <option data-ng-repeat="reason in selecttransdata">{{reason.display}}</option>
     </select>-->
 <!--<input class="resize" type="text" data-ng-model="pay.Description" required></input>-->
- <!--<input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />-->
-                        <!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
+<!--<input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />-->
+<!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
                              <input type="radio" data-ng-model="pay.IsRecurring" value="true"><label>Recurring</label>-->
