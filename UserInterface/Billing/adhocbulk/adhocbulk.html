@@ -1,17 +1,11 @@
 ﻿<div class="row-fluid">
     <form data-ng-submit="onSubmit()" name="adhocForm">
         <div class="row-fluid form-horizontal">
-            <div class="control-group span5">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-large" data-ng-model="Product"
-                        data-ng-change="initialiseRow(Product)"
-                        required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                    </select>
-                </div>
+            <div class="span5">
+                <cs-field data-ng-model="Product"
+                    data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
             </div>
+
         </div>
         <table class="table table-bordered table-hover"
             data-ng-show="PaymentList.length>0">
@@ -36,13 +30,7 @@
                         <div class="btn-group">
                             <i class="btn icon-trash" data-ng-click="Delete($index)"></i>
                         </div>
-                        <!--<input
-                            type="button"
-                            class="btn btn-default"
-                            value="Delete"
-                            
-                            data-ng-click="Delete($index)" />-->
-                        <!--data-ng-hide="$last"-->
+                        
                     </td>
                     <td>
                         <input data-ng-bind="pay.Products"
@@ -53,37 +41,40 @@
                             focus-me />
                     </td>
                     <td>
-                        <input type="text" data-ng-model="pay.Stakeholder"
+                        <cs-field  data-ng-model="pay.Stakeholder"
+                               field="BillAdhoc.Stakeholder"
+                               typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
+                               typeahead-min-length="3"
+                               typeahead-wait-ms="400" />
+                        <!--<input type="text" data-ng-model="pay.Stakeholder"
                             required
                             typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
                             typeahead-min-length="3"
-                            typeahead-wait-ms="400" />
+                            typeahead-wait-ms="400" />-->
                     </td>
                     <td>
-                        <input type="text" data-ng-model="pay.TotalAmount" name="totalamount"
-                            data-ng-pattern="/^[0-9]+$/" required />
+                        <cs-field data-ng-model="pay.TotalAmount" 
+                            field="BillAdhoc.TotalAmount"></cs-field>
+                        
                     </td>
                     <td>
-                        <select class="input-large" data-ng-model="pay.IsCredit" name="TranscationType"
-                            data-ng-change="selecttransdata=factory.selectTransaction(pay.IsCredit)" required>
-                            <option value=""></option>
-                            <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
-                        </select>
+                        <cs-field data-ng-model="pay.IsCredit"
+                            data-ng-change="changeCredit(pay.IsCredit)"
+                            field="BillAdhoc.IsCredit"></cs-field>
+                        
                     </td>
                     <td>
-                        <select class="input-large"
-                            data-ng-model="pay.ReasonCode" required>
-                            <option value=""></option>
-                            <option data-ng-repeat="reason in selecttransdata">{{reason.display}}</option>
-                        </select>
+                        <cs-field data-ng-model="pay.ReasonCode"
+                            field="BillAdhoc.ReasonCode"></cs-field>
+                        
                     </td>
                     <td>
-                        <input class="resize" type="text" data-ng-model="pay.Description" required></input>
+                        <cs-field data-ng-model="pay.Description" field="BillAdhoc.Description"></cs-field>
+                        
                     </td>
                     <td>
-                        <input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />
-                        <!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
-                             <input type="radio" data-ng-model="pay.IsRecurring" value="true"><label>Recurring</label>-->
+                        <cs-field data-ng-model="pay.IsRecurring" field="BillAdhoc.IsRecurring"></cs-field>
+                       
                     </td>
                     <td>
                         <div class="row-fluid" data-ng-show="pay.IsRecurring === true">
@@ -122,22 +113,42 @@
 </div>
 
 
-<!-- <tr data-ng-repeat="pay in PaymentList">
-                         <td>
-                             <select class="input-large" data-ng-model="pay.Product"
-                                     required>
-                                 <option value=""></option>
-                                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                             </select>
-                         </td>
-                         <td>Stakeholder</td>
-                         <td>Total Amount</td>
-                         <td>Transaction Type</td>
-                         <td>Reasons</td>
-                         <td>Description</td>
-                         <td>IsRecurring</td>
-                         <td>Start Montd</td>
-                         <td>Tenure</td>
-                         <td>
-                             <input type="submit" class="btn btn-default" value="Add Another" /></td>
-                     </tr>-->
+<!--<input
+        type="button"
+        class="btn btn-default"
+        value="Delete"
+                            
+        data-ng-click="Delete($index)" />-->
+                        <!--data-ng-hide="$last"-->
+<!--<div class="control-group span5">
+        <label class="control-label">Product</label>
+        <div class="controls">
+            <select class="input-large" data-ng-model="Product"
+                    data-ng-change="initialiseRow(Product)"
+                    required>
+                <option value=""></option>
+                <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+            </select>
+        </div>
+    </div>-->
+
+<!--<input type="text" data-ng-model="pay.TotalAmount" name="totalamount"
+           data-ng-pattern="/^[0-9]+$/" required />-->
+
+
+
+<!--<select class="input-large" data-ng-model="pay.IsCredit" name="TranscationType"
+            data-ng-change="selecttransdata=factory.selectTransaction(pay.IsCredit)" required>
+        <option value=""></option>
+        <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
+    </select>-->
+
+<!--<select class="input-large"
+            data-ng-model="pay.ReasonCode" required>
+        <option value=""></option>
+        <option data-ng-repeat="reason in selecttransdata">{{reason.display}}</option>
+    </select>-->
+<!--<input class="resize" type="text" data-ng-model="pay.Description" required></input>-->
+ <!--<input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />-->
+                        <!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
+                             <input type="radio" data-ng-model="pay.IsRecurring" value="true"><label>Recurring</label>-->

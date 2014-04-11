@@ -29,13 +29,17 @@
 
 }]);
 
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations',
-    function ($scope, datalayer, factory, $modal, $validation) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels','Logger' ,
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels,logManager) {
         "use strict";
         
         (function () {
             $scope.val = $validation;
 
+            var $log = logManager.getInstance("allocSubpolicyCtrl");
+            $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
+            $log.debug($scope.allocSubpolicy);
+            console.log($scope.allocSubpolicy);
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;

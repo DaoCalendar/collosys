@@ -2,7 +2,8 @@
 csapp.factory("fileDetailFactory", [function () {
 
     var isSheetTypeColumn = function (type) {
-        return (type === 'xls' || type === 'xlsx');
+        var abc = (type === 'xls' || type === 'xlsx');
+        return abc;
     };
 
     var dateFormats = ['dd-mm-yyyy', 'yyyy-mm-dd', 'dddd-MMMM-yyyy'];

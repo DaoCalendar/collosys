@@ -56,8 +56,8 @@ csapp.factory('adhocbulkFactory', ['$csfactory', 'adhocbulkDataLayer',
         };
     }]);
 
-csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFactory',
-    function ($scope, datalayer, factory) {
+csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFactory','$csModels',
+    function ($scope, datalayer, factory, $csModels) {
 
         var addDefaultPayment = function (payment) {
             $scope.PaymentList.push(payment);
@@ -93,13 +93,28 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             });
         };
 
+        var assignList = function() {
+            $scope.BillAdhoc.IsCredit.valueList = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
+            $scope.BillAdhoc.IsCredit.textField = 'display';
+            $scope.BillAdhoc.IsCredit.valueField = 'value';
+
+            
+        };
+
+        $scope.changeCredit = function (isCredit) {
+            $scope.selecttransdata = factory.selectTransaction(isCredit);
+            $scope.BillAdhoc.ReasonCode.valueList = $scope.selecttransdata;
+        };
+
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.BillAdhoc = $csModels.models.Billing.BillAdhoc;
             datalayer.getProducts();
             $scope.PaymentList = [];
-
+            $scope.selecttransdata = [];
+            assignList();
         })();
 
         $scope.initialiseRow = function (product) {

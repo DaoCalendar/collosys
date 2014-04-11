@@ -43,31 +43,33 @@
 
 csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared", "Logger", "$csModels",
     function (rest, $csnotify, $csShared, logManager, $csModels) {
-    var rootapi = rest.all("SharedEnumsApi");
-    var dldata = {};
-    var $log = logManager.getInstance("rootDatalayer");
+        var rootapi = rest.all("SharedEnumsApi");
+        var dldata = {};
+        var $log = logManager.getInstance("rootDatalayer");
 
-    var fetchWholeEnums = function () {
-        rootapi.customGET("FetchAllEnum").then(function (data) {
-            $csShared.enums = data;
-            $log.info("enums loaded.");
-            $csModels.init();
-            $log.info("models initialized.");
-            return data;
-        }, function (data) {
-            $csnotify.error(data);
-        });
-    };
+        var fetchWholeEnums = function () {
+            return rootapi.customGET("FetchAllEnum").then(function (data) {
+                $csShared.enums = data;
+                $log.info("enums loaded.");
+            console.log($csShared.enums.FileAliasName);
+            console.log($csShared.enums.DateFormat);
+                $csModels.init();
+                $log.info("models initialized.");
+                return data;
+            }, function (data) {
+                $csnotify.error(data);
+            });
+        };
 
-    return {
-        dldata: dldata,
-        fetchWholeEnums: fetchWholeEnums,
-    };
+        return {
+            dldata: dldata,
+            fetchWholeEnums: fetchWholeEnums,
+        };
 
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer","Logger",
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger",
     function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager) {
 
         var $log = logManager.getInstance("RootCtrl");
@@ -76,19 +78,22 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
         $scope.$on("$routeChangeStart", routeManagerFactory.$routeChangeStart);
         $scope.$on("$routeChangeSuccess", routeManagerFactory.$routeChangeSuccess);
 
+        var redirect = function () {
+            if (!$csAuthFactory.hasLoggedIn()) {
+                $location.path('/login');
+            } else {
+                //$location.path("/home");
+                $location.path(routeManagerFactory.getLastLocation());
+            }
+        };
+        
         (function () {
             $scope.$csAuthFactory = $csAuthFactory;
             $scope.loadingWidgetParams = loadingWidget.params;
             $csAuthFactory.loadAuthCookie();
-            datalayer.fetchWholeEnums();
+            datalayer.fetchWholeEnums().then(redirect);
         })();
 
-        if (!$csAuthFactory.hasLoggedIn()) {
-            $location.path('/login');
-        } else {
-            //$location.path("/home");
-            $location.path(routeManagerFactory.getLastLocation());
-        }
-
+        
     }
 ]);

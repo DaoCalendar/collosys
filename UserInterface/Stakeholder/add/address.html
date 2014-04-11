@@ -22,12 +22,25 @@
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Address.LandlineNo"
                 field="stakeholderModels.landline"></cs-field>
         </div>
-
     </div>
 
     <!--Pincode-->
     <div class="row-fluid">
-        <div class="control-group span5">
+        <div class="span5">
+            <cs-field data-ng-model="addData.Pincode"
+                field="stakeholderModels.pincode"
+                typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
+                typeahead-min-length="3"
+                typeahead-wait-ms="400"></cs-field>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--<div class="control-group span5">
             <label class="control-label">Pincode</label>
             <div class="controls">
                 <input
@@ -36,9 +49,12 @@
                     typeahead="'c.Area for c in Pincodes($viewValue, 'Area')'"
                     data-ng-change="setPincodeOnArea(addData.Pincode)" />
             </div>
-        </div>
-    </div>
-</div>
+        </div>-->
+
+
+
+
+
 
 <!-- <div class="control-group span5">
          <label class="control-label">Line 1</label>

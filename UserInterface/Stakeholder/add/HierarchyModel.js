@@ -8,15 +8,19 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
         var getHierarchies = function () {
             apiCalls.customGET('GetAllHierarchies').then(function (data) {
+                $scope.hierarchy = false;
                 $scope.HierarchyList = data;
-                var hierarchy = _.pluck($scope.HierarchyList, "Hierarchy");
                 var hierarchyArray = [];
+                var hierarchy = _.pluck($scope.HierarchyList, "Hierarchy");
                 _.forEach(hierarchy, function (item) {
+
                     if (hierarchyArray.indexOf(item) === -1) {
                         hierarchyArray.push(item);
                     }
                 });
                 $scope.$parent.stakeholderModels.hierarchy.valueList = hierarchyArray;
+                console.log($scope.$parent.stakeholderModels.hierarchy);
+                $scope.hierarchy = true;
             }, function () {
                 $csnotify.error('Error loading hierarchies');
             });
@@ -25,6 +29,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         var init = function () {
             $scope.HierarchyList = [];
             $scope.Designation = [];
+
             $scope.$parent.WizardData.showBasicInfo = false;
             getHierarchies();
         };
@@ -142,17 +147,17 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             if (hierarchy.ManageReportsTo) {
                 if (hierarchy.Hierarchy != 'External') {
                     $scope.$parent.stakeholderModels.manager.label = "Line Manager";
-                   
+
                 } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
                     $scope.$parent.stakeholderModels.manager.label = "Agency Name";
-                    
+
                 } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
                     $scope.$parent.stakeholderModels.manager.label = "Agency Supervisor";
-                   
+
                 }
                 $scope.$parent.stakeholderModels.manager.required = true;
                 $scope.$parent.stakeholderModels.manager.valueList = $scope.$parent.WizardData.FinalPostModel.ReportsToList;
-                
+
             }
         };
 
