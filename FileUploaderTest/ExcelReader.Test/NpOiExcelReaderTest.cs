@@ -1,9 +1,5 @@
-﻿using System.IO;
-using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
-using NUnit.Framework;
-using FileUploader.ExcelReader;
+﻿using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
-using ReflectionExtension.Tests;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
@@ -18,24 +14,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
             Excel = new NpOiExcelReader(FileStream);
         }
 
-
-        //[TestCase(1, 1, "Skydiving", "Property1")]
-        //public void Test(int rowPos, int colPos, string value, string propertyName)
-        //{
-        //   _data.SetValue(propertyName, 1, 1);
-
-        //    Assert.AreEqual(value, Excel.GetValue((uint)colPos, (uint)rowPos));
-
-        //}
         #region:: ColumnWise Test Case ::
-
-        [Test]
-        public void Test_GetList_For_NpOiExcelReader()
-        {
-            var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
-            var excelmaping = ExcelReaderHelper.GetMappingInfo();
-            obj.GetList(excelmaping);
-        }
 
         [Test]
         public void Read_String_StartAt_Initial_Column_Values()

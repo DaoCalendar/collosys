@@ -40,8 +40,7 @@ namespace ColloSys.FileUploader.RecordCreator
                 {
                     _counter.IncrementErrorRecords();
                     _counter.IncrementTotalRecords();
-                    //throw new Exception(string.Format("Column {0} is Not Getting Proper Value .", info.ActualColumn), e);
-                    return false;
+                   return false;
                 }
             }
             return true;
@@ -68,7 +67,7 @@ namespace ColloSys.FileUploader.RecordCreator
 
         public bool CreateRecord(TEntity obj, IList<FileMapping> mappingss)
         {
-            bool excelstatus = false, defaultMap = false, computedMap = false;
+            bool excelstatus = false, defaultMap = false, computedMap = true;
 
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())
@@ -92,7 +91,7 @@ namespace ColloSys.FileUploader.RecordCreator
             {
                 computedMap = _recordCreator.ComputedSetter(obj, _reader, _counter);
             }
-            if (!defaultMap && !computedMap) return false;
+            if (!defaultMap || !computedMap) return false;
 
             _counter.IncrementInsertRecords();
             _counter.IncrementValidRecords();

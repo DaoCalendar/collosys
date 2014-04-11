@@ -90,6 +90,9 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
                     };
                     $scope.monthList.push(data);
                 }
+                $scope.BillAdhoc.StartMonth.valueList = $scope.monthList;
+                $scope.BillAdhoc.StartMonth.textField = 'Key';
+                $scope.BillAdhoc.StartMonth.valueField = 'Value';
             });
         };
 
@@ -97,8 +100,6 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             $scope.BillAdhoc.IsCredit.valueList = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
             $scope.BillAdhoc.IsCredit.textField = 'display';
             $scope.BillAdhoc.IsCredit.valueField = 'value';
-
-            
         };
 
         $scope.changeCredit = function (isCredit) {

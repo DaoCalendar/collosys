@@ -6,13 +6,13 @@ csapp.factory("csBootstrapInputTemplate", function () {
             '<div class="control-label">{{' + fieldname + '.label}}' +
             '<span class="text-error"> {{' + fieldname + '.required ? " *":""}}</span></div>' +
             '<div class="controls">';
-        return (noBootstrap ? "" : html);
+        return (noBootstrap ? "<div>" : html);
     };
 
     var bsTemplateAfter = function (noBootstrap) {
         var html = '</div>' + //controls
             '</div>'; // control-group
-        return (noBootstrap ? "" : html);
+        return (noBootstrap ? "</div>" : html);
     };
 
     return {
@@ -206,7 +206,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
 
     //#region template
     var input = function (field, attrs) {
-        var html = '<input class="form-control" name="myfield"';
+        var html = '<input class="input-large" name="myfield"';
         html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
         html += 'ng-model="' + attrs.ngModel + '" type="text"';
         //html += (field.mask ? 'ui-mask="' + field.mask + '"' : '');
@@ -218,10 +218,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
         html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
         html += ' ng-required="' + attrs.field + '.required"';
-        html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-        html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
-        html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
-        html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
+        html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
+        html += (angular.isDefined(field.maxLength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+        html += (angular.isDefined(field.min) && angular.isUndefined(attrs.typeahead) ? ' min="' + field.min + '"' : '');
+        html += (angular.isDefined(field.max) && angular.isUndefined(attrs.typeahead) ? ' max="' + field.max + '"' : '');
         html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
         html += '/>';
         return html;
@@ -560,7 +560,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
 
         var input = function (field, attr) {
-            var html = '<select ';
+            var html = '<select data-ui-select2="" class="input-large" ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -606,7 +606,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select ';
+            var html = '<select data-ui-select2="" class="input-large"';
             //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -614,7 +614,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
             html += 'ng-disabled="setReadonly()">';
-            html += ' <option value="{{' + attr.ngModel + '|| ""}}">{{' + attr.ngModel + '|| ""}}</option> ' +
+            html += ' <option value=""></option> ' +
                        ' <option data-ng-repeat="row in field.valueList" value="{{row}}">{{row}}</option>' +
                    '</select> ';
 
