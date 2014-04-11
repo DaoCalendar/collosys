@@ -134,6 +134,8 @@
     <Compile Include="FileUpload\uploadpincode\UploadInfo.cs" />
     <Compile Include="FileUpload\uploadpincode\RcodeRow.cs" />
     <Compile Include="FileUpload\uploadpincode\RcodeUploadHelper.cs" />
+    <Compile Include="Generic\changepassword\ChangePasswordApiController.cs" />
+    <Compile Include="Generic\changepassword\ChangePasswordModel.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
@@ -323,6 +325,8 @@
     <Content Include="FileUpload\paymentreversal\payment-add.html" />
     <Content Include="FileUpload\paymentreversal\paymentmanager.js" />
     <Content Include="FileUpload\uploadpincode\uploadpincode.js" />
+    <Content Include="Generic\changepassword\changepassword.html" />
+    <Content Include="Generic\changepassword\changepassword.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
     <Content Include="Generic\home\home.js" />
