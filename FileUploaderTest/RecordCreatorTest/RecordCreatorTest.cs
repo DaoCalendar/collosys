@@ -54,7 +54,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         }
 
         [Test]
-        public void Test_ExcelMapper_Assigning_InValid_Position()
+        public void Test_ExcelMapper_Check_TransCode()
         {
             //Arrange
             var mappings = _mappingData.ExcelMapper_Scenario2();
@@ -65,6 +65,20 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Assert
             Assert.AreEqual(_payment.TransCode, 204);
+        }
+
+        [Test]
+        public void Test_ExcelMapper_Check_TransDesc()
+        {
+            //Arrange
+            var mappings = _mappingData.ExcelMapper_Scenario2();
+
+            //Act
+            _reader.Skip(3);
+            _record.ExcelMapper(_payment, mappings);
+
+            //Assert
+            Assert.AreEqual(_payment.TransDesc, "PARTIAL REPAYMENT - REVERSAL");
         }
 
         [Test]
@@ -123,7 +137,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
             _record.DefaultMapper(_payment, mapping);
 
             //Assert
-            Assert.AreEqual(_payment.BillStatus, ColloSysEnums.BillStatus.Billed);
+            Assert.AreEqual(_payment.BillStatus, ColloSysEnums.BillStatus.Unbilled);
         }
 
         [Test]
@@ -137,7 +151,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
             _record.DefaultMapper(_payment, mapping);
 
             //Assert
-            Assert.AreEqual(_payment.IsExcluded, false);
+            Assert.AreEqual(_payment.IsExcluded, true);
         }
 
         #endregion
@@ -158,7 +172,6 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
             Assert.AreEqual(_payment.AccountNo, "42297532");
 
         }
-
 
         [Test]
         public void Test_CreateRecord_Assigning_Valid_Mapping()
@@ -189,7 +202,23 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
         }
 
+        [Test]
+        public void Test_CreateRecord_Assigning_InValid_Mapping_ErrorCount()
+        {
+            //Arrange
+            var mapping = _mappingData.CreateRecord();
+
+            //Act
+            _reader.Skip(9);
+            _record.CreateRecord(_payment, mapping);
+
+            //Assert
+            Assert.AreEqual(_counter.ErrorRecords, 1);
+
+        }
         #endregion
+
+        #region :: GetMapping ::
 
         [Test]
         public void Test_GetMappings_Assigning_Mapping()
@@ -229,6 +258,9 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
             //Assert
             Assert.AreEqual(mappings.Count, 1);
         }
+
+        #endregion
+
 
     }
 }
