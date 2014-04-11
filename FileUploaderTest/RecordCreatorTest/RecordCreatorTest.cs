@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#region references
+
+using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -9,11 +11,16 @@ using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
+#endregion
+
+
 namespace ReflectionExtension.Tests.RecordCreatorTest
 {
     [TestFixture]
     class RecordCreatorTest : SetUpAssemblies
     {
+        #region octor
+
         private FileMappingData _mappingData;
         private IRecord<Payment> _record;
         private IExcelReader _reader;
@@ -38,8 +45,10 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
         }
 
+        #endregion
+
         #region ::ExcelMapper() Test Cases::
-        [Test]
+        [TestCase()]
         public void Test_ExcelMapper_Assigning_Valid_Dummy_Mappings()
         {
             //Arrange
@@ -57,7 +66,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Test_ExcelMapper_Check_TransCode()
         {
             //Arrange
-            var mappings = _mappingData.ExcelMapper_Scenario2();
+            var mappings = _mappingData.ExcelMapper_PassingTransCodeAndDesc();
 
             //Act
             _reader.Skip(3);
@@ -71,7 +80,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Test_ExcelMapper_Check_TransDesc()
         {
             //Arrange
-            var mappings = _mappingData.ExcelMapper_Scenario2();
+            var mappings = _mappingData.ExcelMapper_PassingTransCodeAndDesc();
 
             //Act
             _reader.Skip(3);
@@ -121,6 +130,20 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Assert
             Assert.AreEqual(_payment.DebitAmount, 6725);
+        }
+
+        [Test]
+        public void Test_ExcelMapper_Assigning_InValid_Position()
+        {
+            //Arrange
+            var mappings = _mappingData.ExcelMapper_PassingInvlidPosition();
+
+            //Act
+            _reader.Skip(3);
+            _record.ExcelMapper(_payment, mappings);
+
+            //Assert
+            Assert.AreEqual(_counter.ErrorRecords, 1);
         }
         #endregion
 
@@ -260,7 +283,6 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         }
 
         #endregion
-
 
     }
 }
