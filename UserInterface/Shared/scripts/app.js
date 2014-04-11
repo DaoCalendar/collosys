@@ -142,6 +142,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/pincode', {
                 templateUrl: '/Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
+            }).when('/generic/changepassword', {
+                templateUrl: '/Generic/changepassword/changepassword.html',
+                controller: 'changepasswordCtrl'
             })
 
             //developer

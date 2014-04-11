@@ -218,10 +218,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
         html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
         html += ' ng-required="' + attrs.field + '.required"';
-        html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-        html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
-        html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
-        html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
+        html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
+        html += (angular.isDefined(field.maxLength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+        html += (angular.isDefined(field.min) && angular.isUndefined(attrs.typeahead) ? ' min="' + field.min + '"' : '');
+        html += (angular.isDefined(field.max) && angular.isUndefined(attrs.typeahead) ? ' max="' + field.max + '"' : '');
         html += (field.pattern ? ' ng-pattern="' + field.pattern + '"' : '');
         html += '/>';
         return html;
