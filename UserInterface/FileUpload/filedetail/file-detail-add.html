@@ -28,16 +28,14 @@
             <cs-field data-ng-model="fileDetail.EndDate" field="fileDetailModel.EndDate"></cs-field>
             <cs-field data-ng-model="fileDetail.Description" field="fileDetailModel.Description"></cs-field>
         </field-group>
-        
-        <div class="modal-footer control-group">
-            <div class="controls">
-                <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
-                <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
-                <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
-                <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
-            </div>
+    </div>
+
+    <div class="modal-footer control-group">
+        <div class="controls">
+            <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
+            <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
+            <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
+            <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
         </div>
-
     </div>
-
-    </div>
+</div>
