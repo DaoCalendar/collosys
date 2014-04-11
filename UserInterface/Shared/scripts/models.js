@@ -136,7 +136,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels",
 
         var init = function () {
             models.FileUpload = $csFileUploadModels.init();
-            models.Stakeholder = $csStakeholderModels.init();
+            models.Stakeholder = $csStakeholderModels.init;
             return;
         };
 
