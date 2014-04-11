@@ -97,7 +97,7 @@
                 data-ng-show="displayManager.showRegion && (StakeWork.Products &&  StakeWork.ReportsTo)">
                 <label class="control-label">Region</label>
                 <div class="controls">
-                    <select data-ui-select2="" style="min-width: 200px;"
+                    <select style="min-width: 200px;"
                         data-ng-model="workingModel.SelectedPincodeData.Region"
                         data-ng-change="setQueryFor('Region')">
                         <option value=""></option>
@@ -133,39 +133,44 @@
                         <td data-ng-show="false">
                             <select
                                 data-ng-model="workingModel.SelectedPincodeData.Region"
-                                data-ng-change="setQueryFor('Region')">
-                                <!--<option value="{{workingModel.SelectedPincodeData.Region || ''}}">{{workingModel.SelectedPincodeData.Region || ''}}</option>-->
-                                <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}
-                                </option>
+                                data-ng-change="setQueryFor('Region')"
+                                data-ng-options="data for data in workingModel.ListOfRegions">
                             </select></td>
+                        <!--<option value="{{workingModel.SelectedPincodeData.Region || ''}}">{{workingModel.SelectedPincodeData.Region || ''}}</option>-->
+                        <!-- <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}
+                                </option>-->
                         <td data-ng-show="displayManager.showState">
                             <select
                                 class="input-large"
+                                data-ng-options="data for data in workingModel.ListOfStates"
                                 data-ng-model="workingModel.SelectedPincodeData.State"
                                 data-ng-change="setQueryFor('State')">
-                                <option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>
-                                <option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
-                                </option>
                             </select></td>
+                        <!--<option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>-->
+                        <!--<option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
+                                </option>-->
                         <td data-ng-show="displayManager.showCluster">
                             <select
+                                data-ng-options="data for data in workingModel.ListOfClusters"
                                 data-ng-model="workingModel.SelectedPincodeData.Cluster"
                                 data-ng-change="changed.State=true;changed.Cluster=true;changed.District=false;
                             setQueryFor()">
-                                <option value="{{workingModel.SelectedPincodeData.Cluster || ''}}">{{workingModel.SelectedPincodeData.Cluster || ''}}</option>
-                                <option data-ng-repeat="data in workingModel.ListOfClusters" value="{{data}}">{{data}}
-                                </option>
-                            </select></td>
+                            </select>
+                            <!--<option value="{{workingModel.SelectedPincodeData.Cluster || ''}}">{{workingModel.SelectedPincodeData.Cluster || ''}}</option>-->
+                            <!--<option data-ng-repeat="data in workingModel.ListOfClusters" value="{{data}}">{{data}}
+                                </option>-->
+                        </td>
                         <td data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets)">
                             <select
+                                data-ng-options="data for data in workingModel.ListOfDistricts"
                                 data-ng-disabled="clusterArray.length>0"
                                 class="input-large"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('District')">
-                                <option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>
-                                <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
-                                </option>
                             </select>
+                            <!--<option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
+                            <!--<option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}-->
+                            <!--</option>-->
                             <button class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
                                 data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)">
                                 <i class="icon-list"></i>
@@ -184,14 +189,15 @@
                         </td>
                         <td data-ng-show="displayManager.showCity">
                             <select
+                                data-ng-options="data for data in workingModel.ListOfDistricts"
                                 class="input-large"
                                 data-ng-disabled="cityArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.District"
                                 data-ng-change="setQueryFor('City')">
-                                <option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>
-                                <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
-                                </option>
                             </select>
+                            <!--<option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
+                            <!--<option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
+                                </option>-->
                             <button class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="icon-list"></i></button>
                             <br>
                             <div data-ng-show="cityArray.length>0">
@@ -209,14 +215,15 @@
                         </td>
                         <td data-ng-show="displayManager.showArea">
                             <select
+                                data-ng-options="data for data in workingModel.ListOfAreas"
                                 class="input-large"
                                 data-ng-disabled="areaArray.length>0"
                                 data-ng-model="workingModel.SelectedPincodeData.Area"
                                 data-ng-change="setQueryFor('Area')">
-                                <option value="{{workingModel.SelectedPincodeData.Area || ''}}">{{workingModel.SelectedPincodeData.Area || ''}}</option>
-                                <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
-                                </option>
                             </select>
+                            <!--<option value="{{workingModel.SelectedPincodeData.Area || ''}}">{{workingModel.SelectedPincodeData.Area || ''}}</option>-->
+                            <!--  <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
+                                </option>-->
                             <button class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfAreas)"><i class="icon-list"></i></button>
                             <br>
                             <div data-ng-show="areaArray.length>0">
