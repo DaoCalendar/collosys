@@ -41,11 +41,16 @@
                             focus-me />
                     </td>
                     <td>
-                        <input type="text" data-ng-model="pay.Stakeholder"
+                        <cs-field  data-ng-model="pay.Stakeholder"
+                               field="BillAdhoc.Stakeholder"
+                               typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
+                               typeahead-min-length="3"
+                               typeahead-wait-ms="400" />
+                        <!--<input type="text" data-ng-model="pay.Stakeholder"
                             required
                             typeahead="c as c.Name for c in stakeholdersOnProduct($viewValue,pay.Products)"
                             typeahead-min-length="3"
-                            typeahead-wait-ms="400" />
+                            typeahead-wait-ms="400" />-->
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.TotalAmount" 
@@ -68,9 +73,8 @@
                         
                     </td>
                     <td>
-                        <input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />
-                        <!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
-                             <input type="radio" data-ng-model="pay.IsRecurring" value="true"><label>Recurring</label>-->
+                        <cs-field data-ng-model="pay.IsRecurring" field="BillAdhoc.IsRecurring"></cs-field>
+                       
                     </td>
                     <td>
                         <div class="row-fluid" data-ng-show="pay.IsRecurring === true">
@@ -145,3 +149,6 @@
         <option data-ng-repeat="reason in selecttransdata">{{reason.display}}</option>
     </select>-->
 <!--<input class="resize" type="text" data-ng-model="pay.Description" required></input>-->
+ <!--<input type="checkbox" checked="checked" data-ng-model="pay.IsRecurring" />-->
+                        <!-- <input type="radio" data-ng-model="pay.IsRecurring" value="false"><label>One Time</label>
+                             <input type="radio" data-ng-model="pay.IsRecurring" value="true"><label>Recurring</label>-->

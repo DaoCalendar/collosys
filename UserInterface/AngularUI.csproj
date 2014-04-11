@@ -239,6 +239,7 @@
     <Content Include="Billing\adhoc\add-hoc-payment-details.html" />
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\adhoc.html" />
+    <Content Include="Billing\billingModels.js" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
