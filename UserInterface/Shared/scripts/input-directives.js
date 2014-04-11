@@ -130,22 +130,22 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var applyTemplates = function (options) {
             switch (options.type) {
                 case "uint":
-                    if (angular.isUnndefined(options.min))
+                    if (angular.isUndefined(options.min))
                         options.min = 0;
                     break;
                 case "int":
-                    if (angular.isUnndefined(options.maxlength))
+                    if (angular.isUndefined(options.maxlength))
                         options.maxlength = 6;
                     break;
                 case "ulong":
-                    if (angular.isUnndefined(options.min))
+                    if (angular.isUndefined(options.min))
                         options.min = 0;
                 case "long":
-                    if (angular.isUnndefined(options.maxlength))
+                    if (angular.isUndefined(options.maxlength))
                         options.maxlength = 12;
                     break;
                 case "decimal":
-                    if (angular.isUnndefined(options.maxlength))
+                    if (angular.isUndefined(options.maxlength))
                         options.maxlength = 19;
                 default:
                     $log.error(options.type + " is not defined");
@@ -614,7 +614,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
             html += 'ng-disabled="setReadonly()">';
-            html += ' <option value=""></option> ' +
+            html += ' <option value="{{' + attr.ngModel + '|| ""}}">{{' + attr.ngModel + '|| ""}}</option> ' +
                        ' <option data-ng-repeat="row in field.valueList" value="{{row}}">{{row}}</option>' +
                    '</select> ';
 
