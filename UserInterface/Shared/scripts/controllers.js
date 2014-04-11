@@ -51,8 +51,6 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared", "Logger
             return rootapi.customGET("FetchAllEnum").then(function (data) {
                 $csShared.enums = data;
                 $log.info("enums loaded.");
-            console.log($csShared.enums.FileAliasName);
-            console.log($csShared.enums.DateFormat);
                 $csModels.init();
                 $log.info("models initialized.");
                 return data;
@@ -82,8 +80,8 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
             if (!$csAuthFactory.hasLoggedIn()) {
                 $location.path('/login');
             } else {
-                //$location.path("/home");
-                $location.path(routeManagerFactory.getLastLocation());
+                $location.path("/home");
+                //$location.path(routeManagerFactory.getLastLocation());
             }
         };
         
@@ -91,7 +89,8 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
             $scope.$csAuthFactory = $csAuthFactory;
             $scope.loadingWidgetParams = loadingWidget.params;
             $csAuthFactory.loadAuthCookie();
-            datalayer.fetchWholeEnums().then(redirect);
+            datalayer.fetchWholeEnums();
+            redirect();
         })();
 
         

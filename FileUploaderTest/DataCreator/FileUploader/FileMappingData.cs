@@ -14,7 +14,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         private FileMapping GetDefaultMapping()
         {
-            return new FileMapping()
+            return new FileMapping
             {
                 CreatedOn = DateTime.Now,
                 CreatedBy = "testproject",
@@ -59,7 +59,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             return mappings;
         }
 
-        public IEnumerable<FileMapping> ExcelMapper_Scenario2()
+        public IEnumerable<FileMapping> ExcelMapper_PassingTransCodeAndDesc()
         {
             IList<FileMapping> mappings = new List<FileMapping>();
 
@@ -76,6 +76,18 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             return mappings;
         }
 
+        public IEnumerable<FileMapping> ExcelMapper_PassingInvlidPosition()
+        {
+            IList<FileMapping> mappings = new List<FileMapping>();
+
+            var mapping1 = GetDefaultMapping();
+            mapping1.ActualColumn = "DebitAmount";
+            mapping1.Position = 2;
+            mappings.Add(mapping1);
+
+            return mappings;
+        }
+
 
         public IEnumerable<FileMapping> DefaultMapper()
         {
@@ -86,6 +98,11 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             mapping1.DefaultValue = "Unbilled";
             mappings.Add(mapping1);
 
+            var mapping2 = GetDefaultMapping();
+            mapping2.ActualColumn = "IsExcluded";
+            mapping2.DefaultValue = "True";
+            mappings.Add(mapping2);
+
             return mappings;
         }
 
@@ -95,27 +112,30 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             var mapping1 = GetDefaultMapping();
             mapping1.ActualColumn = "AccountNo";
             mapping1.Position = 3;
+            mapping1.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mappings.Add(mapping1);
 
             var mapping2 = GetDefaultMapping();
             mapping2.ActualColumn = "BillStatus";
             mapping2.ValueType = ColloSysEnums.FileMappingValueType.DefaultValue;
-            mapping2.DefaultValue = "Billed";
+            mapping2.DefaultValue = "Unbilled";
             mappings.Add(mapping2);
 
             var mapping3 = GetDefaultMapping();
             mapping3.ActualColumn = "DebitAmount";
+            mapping3.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mapping3.Position = 4;
             mappings.Add(mapping3);
 
             var mapping4 = GetDefaultMapping();
             mapping4.ActualColumn = "CreditAmount";
+            mapping4.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mapping4.Position = 5;
             mappings.Add(mapping4);
 
             var mapping5 = GetDefaultMapping();
             mapping5.ActualColumn = "IsExcluded";
-            mapping2.ValueType = ColloSysEnums.FileMappingValueType.ComputedValue;
+            mapping5.ValueType = ColloSysEnums.FileMappingValueType.ComputedValue;
             mappings.Add(mapping5);
 
             return mappings;
@@ -126,6 +146,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             IList<FileMapping> mappings = new List<FileMapping>();
             var mapping1 = GetDefaultMapping();
             mapping1.ActualColumn = "AccountNo";
+            mapping1.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mapping1.Position = 3;
             mappings.Add(mapping1);
 
@@ -137,17 +158,19 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
             var mapping3 = GetDefaultMapping();
             mapping3.ActualColumn = "DebitAmount";
+            mapping3.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mapping3.Position = 4;
             mappings.Add(mapping3);
 
             var mapping4 = GetDefaultMapping();
             mapping4.ActualColumn = "CreditAmount";
+            mapping4.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
             mapping4.Position = 5;
             mappings.Add(mapping4);
 
             var mapping5 = GetDefaultMapping();
             mapping5.ActualColumn = "IsExcluded";
-            mapping2.ValueType = ColloSysEnums.FileMappingValueType.ComputedValue;
+            mapping5.ValueType = ColloSysEnums.FileMappingValueType.ComputedValue;
             mappings.Add(mapping5);
 
             return mappings;

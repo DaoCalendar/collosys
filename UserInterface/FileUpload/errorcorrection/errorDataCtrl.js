@@ -39,7 +39,7 @@ csapp.factory("errorDataLayer", ["Restangular",
 ]);
 
 
-csapp.controller("errorDataController"["$scope", function() {
+csapp.controller("errorDataController",["$scope", function() {
 
 }]);
 
