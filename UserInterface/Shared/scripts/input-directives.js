@@ -206,7 +206,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
 
     //#region template
     var input = function (field, attrs) {
-        var html = '<input class="input-medium" name="myfield"';
+        var html = '<input class="input-large" name="myfield"';
         html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
         html += 'ng-model="' + attrs.ngModel + '" type="text"';
         //html += (field.mask ? 'ui-mask="' + field.mask + '"' : '');
