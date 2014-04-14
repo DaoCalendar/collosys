@@ -67,6 +67,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 resolve: {
                     dataService: function () { return "rcode"; }
                 }
+            }).when('/fileupload/errordata', {
+                templateUrl: '/FileUpload/errorcorrection/error-correction.html',
+                controller: 'errorDataController'
             })
 
             //stakeholder

@@ -490,12 +490,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             });
         };
 
-        $scope.addStakeholder = function () {
-            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
-            //$window.location = downloadpath;
-            $location.path('/stakeholder/add');
-        };
-
         $scope.reject = function (stakeholder, description) {
             $log.info(stakeholder);
             stakeholder.Description = description;

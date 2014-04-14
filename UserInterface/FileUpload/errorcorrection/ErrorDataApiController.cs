@@ -6,7 +6,6 @@ using System.Web.Http;
 using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels;
 using Newtonsoft.Json.Linq;
@@ -16,89 +15,16 @@ namespace AngularUI.FileUpload.errorcorrection
 {
     public class ErrorDataApiController : ApiController
     {
-        #region Get
-
-        [HttpGet]
-        [HttpTransaction2]
-        public IEnumerable<FileDetail> GetFileDetails()
-        {
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
-                var getEbbsRlsFileDetails = (session.QueryOver<FileDetail>()
-                    .Where(c => c.ScbSystems == ScbEnums.ScbSystems.EBBS
-                        || c.ScbSystems == ScbEnums.ScbSystems.RLS).List());
-
-                return getEbbsRlsFileDetails;
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message, exception);
-            }
-        }
-
-        [HttpGet]
-        [HttpTransaction2]
-        public IEnumerable<FileScheduler> GetFileSchedulers(Guid fileDetailId)
-        {
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
-                FileScheduler scheduler = null;
-                FileDetail detail = null;
-                // ReSharper disable ImplicitlyCapturedClosure
-                var getFileScheduler = session.QueryOver(() => scheduler)
-                                              .JoinAlias(() => scheduler.FileDetail, () => detail)
-                                              .Where(() => scheduler.FileDetail.Id == fileDetailId)
-                                              .And(() =>
-                                                  scheduler.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                              .And(() =>
-                                                   (detail.Frequency != ColloSysEnums.FileFrequency.Daily &&
-                                                    scheduler.FileDate > DateTime.Today.AddDays(-100))
-                                                   ||
-                                                   (detail.Frequency == ColloSysEnums.FileFrequency.Daily &&
-                                                    scheduler.FileDate > DateTime.Today.AddDays(-31)))
-                                              .List();
-                // ReSharper restore ImplicitlyCapturedClosure
-
-                return getFileScheduler;
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message, exception);
-            }
-        }
-
         [HttpGet]
         [HttpTransaction2]
         public IEnumerable<FileScheduler> GetFileSchedulers()
         {
-            try
-            {
-                var session = SessionManager.GetCurrentSession();
-                FileScheduler scheduler = null;
-                FileDetail detail = null;
-                // ReSharper disable ImplicitlyCapturedClosure
-                var getFileScheduler = session.QueryOver(() => scheduler)
-                                              .JoinAlias(() => scheduler.FileDetail, () => detail)
-                                              .Fetch(x=>x.FileDetail).Eager
-                                              .And(() =>
-                                                  scheduler.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                              .And(() =>
-                                                   (detail.Frequency != ColloSysEnums.FileFrequency.Daily &&
-                                                    scheduler.FileDate > DateTime.Today.AddDays(-100))
-                                                   ||
-                                                   (detail.Frequency == ColloSysEnums.FileFrequency.Daily &&
-                                                    scheduler.FileDate > DateTime.Today.AddDays(-31)))
-                                              .List();
-                // ReSharper restore ImplicitlyCapturedClosure
-
-                return getFileScheduler;
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message, exception);
-            }
+            var session = SessionManager.GetCurrentSession();
+            var getFileScheduler = session.QueryOver<FileScheduler>()
+                                          .Fetch(x => x.FileDetail).Eager
+                                          .And(x => x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                                          .List();
+            return getFileScheduler;
         }
 
         [HttpGet]
@@ -114,10 +40,6 @@ namespace AngularUI.FileUpload.errorcorrection
                 throw new Exception(exception.Message, exception);
             }
         }
-
-        #endregion
-
-        #region Post
 
         [HttpPost]
         [HttpTransaction2(Persist = true)]
@@ -170,6 +92,56 @@ namespace AngularUI.FileUpload.errorcorrection
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-        #endregion
     }
 }
+
+
+//.And(x =>
+//     (x.FileDetail.Frequency != ColloSysEnums.FileFrequency.Daily &&
+//      x.FileDate > DateTime.Today.AddDays(-100))
+//     ||
+//     (x.FileDetail.Frequency == ColloSysEnums.FileFrequency.Daily &&
+//      x.FileDate > DateTime.Today.AddDays(-31)))
+
+//[HttpGet]
+//public IEnumerable<FileScheduler> GetFileSchedulers(Guid fileDetailId)
+//{
+//    try
+//    {
+//        var session = SessionManager.GetCurrentSession();
+//        FileScheduler scheduler = null;
+//        FileDetail detail = null;
+//        // ReSharper disable ImplicitlyCapturedClosure
+//        var getFileScheduler = session.QueryOver(() => scheduler)
+//                                      .JoinAlias(() => scheduler.FileDetail, () => detail)
+//                                      .Where(() => scheduler.FileDetail.Id == fileDetailId)
+//                                      .And(() =>
+//                                          scheduler.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+//                                      .And(() =>
+//                                           (detail.Frequency != ColloSysEnums.FileFrequency.Daily &&
+//                                            scheduler.FileDate > DateTime.Today.AddDays(-100))
+//                                           ||
+//                                           (detail.Frequency == ColloSysEnums.FileFrequency.Daily &&
+//                                            scheduler.FileDate > DateTime.Today.AddDays(-31)))
+//                                      .List();
+//        // ReSharper restore ImplicitlyCapturedClosure
+
+//        return getFileScheduler;
+//    }
+//    catch (Exception exception)
+//    {
+//        throw new Exception(exception.Message, exception);
+//    }
+//}
+
+
+//[HttpGet]
+//        public IEnumerable<FileDetail> GetFileDetails()
+//        {
+//            var session = SessionManager.GetCurrentSession();
+//            var getEbbsRlsFileDetails = (session.QueryOver<FileDetail>()
+//                .Where(c => c.ScbSystems == ScbEnums.ScbSystems.EBBS
+//                    || c.ScbSystems == ScbEnums.ScbSystems.RLS).List());
+
+//            return getEbbsRlsFileDetails;
+//        }

@@ -617,6 +617,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             $scope.resetPaymentInPaywork();
             $csnotify.success('Stakeholder Saved');
         }, function () {
+            $csnotify.error('Stakeholder not Saved');
         });
         $scope.init();
     };
@@ -636,6 +637,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         }
         return false;
     };
+    
     var assignPayments = function (paymentList) {
         $log.debug('Stakeholder : payment list count = ' + paymentList.length);
         var list = [];
@@ -675,6 +677,47 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         }
     };
 
+    var setBasicInfoModel = function (hierarchy) {
+
+        if (hierarchy.IsUser) {
+            $scope.stakeholderModels.mobile.required = true;
+            $scope.stakeholderModels.userId.required = true;
+
+            $scope.stakeholderModels.email.required = true;
+            $scope.stakeholderModels.email.suffix = '@scb.com';
+        } else {
+            $scope.stakeholderModels.mobile.required = false;
+            $scope.stakeholderModels.userId.required = false;
+
+            $scope.stakeholderModels.email.required = false;
+            $scope.stakeholderModels.email.suffix = undefined;
+        }
+
+
+        if (hierarchy.IsEmployee)
+            $scope.stakeholderModels.date.label = "Date of Joining";
+        else $scope.stakeholderModels.date.label = "Date of Starting";
+
+
+        if (hierarchy.ManageReportsTo) {
+            if (hierarchy.Hierarchy != 'External') {
+                $scope.stakeholderModels.manager.label = "Line Manager";
+
+            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
+                $scope.stakeholderModels.manager.label = "Agency Name";
+
+            } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
+                $scope.stakeholderModels.manager.label = "Agency Supervisor";
+
+            }
+            $scope.stakeholderModels.manager.required = true;
+            $scope.stakeholderModels.manager.valueList = $scope.WizardData.FinalPostModel.ReportsToList;
+
+        }
+
+        $scope.WizardData.showBasicInfo = true;
+    };
+
     $scope.getReportsTo = function (hierarchy) {
 
         if (angular.isUndefined(hierarchy)) {
@@ -683,10 +726,12 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         restApi.customPOST(hierarchy, 'GetReportsToInHierarchy')
                .then(function (data) {
                    $scope.WizardData.FinalPostModel.ReportsToList = data;
-                   if (!$scope.$$phase) {
-                       $scope.$apply();
-                       //  $log.info("$apply called");
-                   }
+                   setBasicInfoModel(hierarchy);
+
+                   //if (!$scope.$$phase) {
+                   //    $scope.$apply();
+                   //  $log.info("$apply called");
+                   //}
                    // $log.info("$apply called 2nd");
                    //$log.info($scope.WizardData.FinalPostModel.ReportsToList);
 
