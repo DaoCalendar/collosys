@@ -9,6 +9,18 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum BillPaymentStatus
+        {
+            None,
+            BillingDone,
+            Dispatched,
+            Received,
+            Accepted,
+            PaymentDone,
+            Closed
+        }
+
+        [Serializable]
         public enum GridScreenName
         {
             NotSpecified,

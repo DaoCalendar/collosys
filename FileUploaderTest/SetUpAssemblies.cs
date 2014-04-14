@@ -18,12 +18,14 @@ namespace ReflectionExtension.Tests
         private static ConnectionStringSettings _connectionString;
         private static int _initCount;
         private static ConfiguredDbTypes _dbType;
+
         public SetUpAssemblies()
         {
             FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("DrillDown_Txn_1.xls");
             FileInfo=new FileInfo(FileStream.Name);
             InitNhibernate();
         }
+
         private void InitNhibernate()
         {
             if (_initCount++ != 0) return;
@@ -34,6 +36,7 @@ namespace ReflectionExtension.Tests
             SessionManager.InitNhibernate(obj);
             SessionManager.BindNewSession();
         }
+
         [TearDown]
         public void TearDown()
         {

@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -27,6 +28,16 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                  .And(x => x.Products == products)
                                  .And(x => x.Month == month)
                                  .SingleOrDefault();
+        }
+
+        [Transaction]
+        public IEnumerable<BillAmount> OnProductMonth(ScbEnums.Products products, uint month)
+        {
+            return SessionManager.GetCurrentSession().QueryOver<BillAmount>()
+                                 .Fetch(x => x.Stakeholder).Eager
+                                 .Where(x => x.Products == products)
+                                 .And(x => x.Month == month)
+                                 .List();
         }
     }
 }

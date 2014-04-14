@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasReaderTest\RlsEPaymentLinerRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsPaymentLinerRecordCreatorTest.cs" />
     <Compile Include="DataCreator\FileUploader\FileMappingData.cs" />
     <Compile Include="DataCreator\Generic\G_KeyValue.cs" />

@@ -202,7 +202,7 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
 
     var generateTemplate = function (templateParams, attrs) {
        
-        var html = '<input  name="myfield"';
+        var html = '<input';
         html += ' class=" btn ' + templateParams.className + '"';
         html += ' type="' + templateParams.type + '"';
         html += ' value="' + templateParams.text + '"';
@@ -238,8 +238,7 @@ csapp.directive('csButton', ['$parse', '$compile', 'buttonFactory',
         return {
             restrict: 'E',
             link: linkFunction,
-            require: '^form',
-            scope: true
+            require: '^form'
         };
     }]);
 
