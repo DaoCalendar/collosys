@@ -4,7 +4,7 @@
     var billAdhoc = function () {
         return {
             Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
-            Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true, },
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox', },
             IsCredit: { label: 'Transaction Type', type: 'select', required: true },
