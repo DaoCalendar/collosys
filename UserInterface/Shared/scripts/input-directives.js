@@ -558,29 +558,36 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
-
         var input = function (field, attr) {
-            var html = '<select data-ui-select2="" class="input-large" ';
+            var html = '<select  class="input-large" ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += ' ng-required="' + attr.field + '.required"';
+            html += 'ng-options="' + field.ngOptions + '"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-change="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
             html += 'ng-disabled="setReadonly()">';
-            html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="row in field.valueList" value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
-                   '</select> ';
-
+          
             return html;
         };
 
         var validateOptions = function (field) {
-            field.label = field.label || "SelectBox";
-            if (field.textField != 'row' && field.valueField != 'row') {
-                field.textField = field.textField ? "row." + field.textField : "row";
-                field.valueField = field.valueField ? "row." + field.valueField : "row";
-            }
 
+            field.label = field.label || "SelectBox";
+
+            if (angular.isUndefined(field.valueField))
+                field.valueField = "row";
+            if (angular.isUndefined(field.textField))
+                field.textField = field.valueField;
+
+            setNgOptions(field);
+        };
+
+        var setNgOptions = function (field) {
+            if (field.textField === 'row' && field.valueField === 'row')
+                field.ngOptions = 'row for row in field.valueList';
+            else
+                field.ngOptions = 'row.' + field.valueField + ' as row.' + field.textField + ' for row in field.valueList';
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -616,7 +623,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += 'ng-disabled="setReadonly()">';
             //html += ' <option value="" selectable="false">Select</option> ' ;
             //html += ' <option data-ng-repeat="row in field.valueList" value="row">{{row}}</option;';
-            html +=    '</select> ';
+            html += '</select> ';
 
             return html;
         };
