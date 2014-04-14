@@ -781,7 +781,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     };
 }]);
 
-csapp.directive('fieldGroup', ["$parse", function ($parse) {
+csapp.directive('csFieldGroup', ["$parse", function ($parse) {
     return {
         template: '<div><div ng-transclude=""/></div>',
         scope: { mode: '=', model: '@' },
@@ -841,10 +841,11 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var linkFunction = function (scope, element, attrs) {
+        var linkFunction = function (scope, element, attrs,ctrl) {
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
             scope.field = field;
+            scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '' ;
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field);
@@ -860,7 +861,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?fieldGroup'],
+            require: ['ngModel', '^form', '?^csFieldGroup'],
             terminal: true,
             controller: controllerFn
         };

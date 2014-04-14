@@ -29,7 +29,7 @@
                 changeCount: 0
             };
 
-            $scope.mode = "view";
+            $scope.xyz = "view";
             restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.datalist = data;
                 console.log($scope.datalist);

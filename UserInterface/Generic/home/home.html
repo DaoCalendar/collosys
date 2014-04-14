@@ -1,15 +1,14 @@
 ﻿<div data-ng-if="false">
-    <input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>
+    <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
-            <field-group mode="'view'">
+            <cs-field-group mode="'view'">
                 <cs-field data-ng-model="abc" data-ng-change ="changeFunc(abc)" field="fields[5]"></cs-field>
                 <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[4]"></cs-field>
                 <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>
                 <pre>{{abc}}</pre>
                 <pre>{{pqr}}</pre>
-            </field-group>
-           
+            </cs-field-group>
         </ng-form>
     </form>
 </div>

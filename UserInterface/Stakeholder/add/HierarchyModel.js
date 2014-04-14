@@ -118,48 +118,11 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
-            setBasicInfoModel(hierarchy);
-            $scope.$parent.WizardData.showBasicInfo = true;
+            
+            //$scope.$parent.WizardData.showBasicInfo = true;
         };
 
-        var setBasicInfoModel = function (hierarchy) {
-
-            if (hierarchy.IsUser) {
-                $scope.$parent.stakeholderModels.mobile.required = true;
-                $scope.$parent.stakeholderModels.userId.required = true;
-
-                $scope.$parent.stakeholderModels.email.required = true;
-                $scope.$parent.stakeholderModels.email.suffix = '@scb.com';
-            } else {
-                $scope.$parent.stakeholderModels.mobile.required = false;
-                $scope.$parent.stakeholderModels.userId.required = false;
-
-                $scope.$parent.stakeholderModels.email.required = false;
-                $scope.$parent.stakeholderModels.email.suffix = undefined;
-            }
-
-
-            if (hierarchy.IsEmployee)
-                $scope.$parent.stakeholderModels.date.label = "Date of Joining";
-            else $scope.$parent.stakeholderModels.date.label = "Date of Starting";
-
-
-            if (hierarchy.ManageReportsTo) {
-                if (hierarchy.Hierarchy != 'External') {
-                    $scope.$parent.stakeholderModels.manager.label = "Line Manager";
-
-                } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
-                    $scope.$parent.stakeholderModels.manager.label = "Agency Name";
-
-                } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
-                    $scope.$parent.stakeholderModels.manager.label = "Agency Supervisor";
-
-                }
-                $scope.$parent.stakeholderModels.manager.required = true;
-                $scope.$parent.stakeholderModels.manager.valueList = $scope.$parent.WizardData.FinalPostModel.ReportsToList;
-
-            }
-        };
+        
 
 
         //#endregion
