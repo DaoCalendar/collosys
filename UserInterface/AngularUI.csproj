@@ -311,7 +311,7 @@
     <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
     <Content Include="FileUpload\customerinfo\customer-info.js" />
     <Content Include="FileUpload\errorcorrection\error-record.html" />
-    <Content Include="FileUpload\errorcorrection\errorDataCtrl.js" />
+    <Content Include="FileUpload\errorcorrection\errorDataController.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
