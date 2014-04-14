@@ -101,8 +101,8 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += 'ng-model="' + attrs.ngModel + '" type="number"';
             html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-            html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
@@ -215,8 +215,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += angular.isDefined(attrs.typeaheadWaitMs) ? 'typeahead-wait-ms="' + attrs.typeaheadWaitMs + '"' : ' ';
         html += 'ng-readonly="setReadonly()"';
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-        html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+        html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+        html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
         html += ' ng-required="' + attrs.field + '.required"';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxLength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxLength + '"' : '');
@@ -321,8 +321,8 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
             html += 'ng-model="' + attrs.ngModel + '"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-            html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
@@ -379,8 +379,8 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
-            html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-            html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += '/>';
             return html;
@@ -455,8 +455,8 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             html += 'ng-model="' + attrs.ngModel + '" type="email"';
             html += 'ng-readonly="setReadonly()"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-            html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
@@ -517,8 +517,8 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += 'ng-value="{{' + field.valueField + '}}"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
-            html += (attrs.ngShow ? ' ng-change="' + attrs.ngShow + '"' : '');
-            html += (attrs.ngHide ? ' ng-change="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-required="' + attrs.field + '.required"';
             html += '/>{{' + field.textField + '}} </label>';
             html += '</div></div>';
@@ -558,29 +558,36 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
-
         var input = function (field, attr) {
-            var html = '<select data-ui-select2="" class="input-large" ';
+            var html = '<select  class="input-large" ';
             html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
             html += ' ng-required="' + attr.field + '.required"';
+            html += 'ng-options="' + field.ngOptions + '"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += (attr.ngShow ? ' ng-change="' + attr.ngShow + '"' : '');
-            html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
+            html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+            html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += 'ng-disabled="setReadonly()">';
-            html += ' <option value=""></option> ' +
-                       ' <option data-ng-repeat="row in field.valueList" value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>' +
-                   '</select> ';
-
+          
             return html;
         };
 
         var validateOptions = function (field) {
-            field.label = field.label || "SelectBox";
-            if (field.textField != 'row' && field.valueField != 'row') {
-                field.textField = field.textField ? "row." + field.textField : "row";
-                field.valueField = field.valueField ? "row." + field.valueField : "row";
-            }
 
+            field.label = field.label || "SelectBox";
+
+            if (angular.isUndefined(field.valueField))
+                field.valueField = "row";
+            if (angular.isUndefined(field.textField))
+                field.textField = field.valueField;
+
+            setNgOptions(field);
+        };
+
+        var setNgOptions = function (field) {
+            if (field.textField === 'row' && field.valueField === 'row')
+                field.ngOptions = 'row for row in field.valueList';
+            else
+                field.ngOptions = 'row.' + field.valueField + ' as row.' + field.textField + ' for row in field.valueList';
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -608,15 +615,15 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<select class="input-large" ng-options="row for row in field.valueList"';
             //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
-            html += 'data-ng-model="' + attr.ngModel + '"name="myfield"';
+            html += 'data-ng-model="$parent.' + attr.ngModel + '"name="myfield"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += (attr.ngShow ? ' ng-change="' + attr.ngShow + '"' : '');
-            html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
+            html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+            html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
             html += 'ng-disabled="setReadonly()">';
             //html += ' <option value="" selectable="false">Select</option> ' ;
             //html += ' <option data-ng-repeat="row in field.valueList" value="row">{{row}}</option;';
-            html +=    '</select> ';
+            html += '</select> ';
 
             return html;
         };
