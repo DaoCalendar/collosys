@@ -11,7 +11,7 @@
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
-        
+
         var getFileInputTemplate = function () {
             return '<div ng-form="" name="myform" style="margin: 20px">' +
                     '<div class="control-group"><div class="controls">' +
@@ -89,7 +89,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                     scope.valerror.$error = {};
                 }
             };
-            
+
             scope.isFileValid = function () {
                 scope.valerror.reset();
                 ngModel.$setValidity("pattern", true);
@@ -142,7 +142,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 if (scope.isFileValid()) {
                     saveFileOnServer(scope, ngModel);
                 }
-            }; 
+            };
         };
 
         return {
@@ -154,6 +154,96 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
         };
     }
 ]);
+
+//button directive
+
+csapp.factory('buttonFactory', ['Logger', function (logManager) {
+
+    var $log = logManager.getInstance('buttonFactory');
+    var getTemplateParams = function (type, text) {
+        var templateParams = {
+            type: 'button',
+            className: 'btn btn-default'
+        };
+
+        switch (type) {
+            case 'Submit':
+                templateParams = {
+                    type: 'submit',
+                    className: 'btn-default',
+                    text: text || 'Submit'
+                };
+                break;
+            case 'Delete':
+                templateParams.className = 'btn-danger';
+                templateParams.text = text || 'Delete';
+                break;
+            case 'Save':
+                templateParams.className = 'btn-success';
+                templateParams.text = text || 'Save';
+                break;
+            case 'Add':
+                templateParams.className = 'btn-default';
+                templateParams.text = text || 'Add';
+                break;
+            case 'Edit':
+                templateParams.className = 'btn-default';
+                templateParams.text = text || 'Edit';
+                break;
+            case 'View':
+                templateParams.className = 'btn-default';
+                templateParams.text = text || 'View';
+                break;
+            default:
+                $log.error('invalid button type: ' + type);
+        }
+        return templateParams;
+    };
+
+    var generateTemplate = function (templateParams, attrs) {
+       
+        var html = '<input  name="myfield"';
+        html += ' class=" btn ' + templateParams.className + '"';
+        html += ' type="' + templateParams.type + '"';
+        html += ' value="' + templateParams.text + '"';
+        html += (attrs.ngShow ? ' data-ng-show="' + attrs.ngShow + '"' : '');
+        html += (attrs.ngHide ? ' data-ng-hide="' + attrs.ngHide + '"' : '');
+        html += (attrs.ngClick ? ' data-ng-click="' + attrs.ngClick + '"' : '');
+        html += (attrs.ngDisabled ? ' data-ng-disabled="' + attrs.ngDisabled + '"' : '');
+        html += '/>';
+
+        return html;
+    };
+
+    return {
+        getTemplateParams: getTemplateParams,
+        generateTemplate: generateTemplate
+    };
+}]);
+csapp.directive('csButton', ['$parse', '$compile', 'buttonFactory',
+    function ($parse, $compile, buttonFactory) {
+
+
+        var linkFunction = function (scope, element, attrs) {
+            var buttonType = attrs.type;
+            var templateParams = buttonFactory.getTemplateParams(buttonType, attrs.text);
+            var template = buttonFactory.generateTemplate(templateParams, attrs);
+
+            //var newElem = angular.element(template);
+            //element.replaceWith(newElem);
+            //$compile(newElem)(scope);
+            element.html(template);
+            $compile(element.contents())(scope);
+        };
+        return {
+            restrict: 'E',
+            link: linkFunction,
+            require: '^form',
+            scope: true
+        };
+    }]);
+
+
 
 //#region switch-buttons 3 directives
 
@@ -441,7 +531,7 @@ csapp.directive("csTemplate", ["$compile", function ($compile) {
             '</div>'; //ng-form;
 
         return html;
-       
+
     };
 
     return {

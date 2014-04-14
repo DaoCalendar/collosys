@@ -29,15 +29,37 @@
 
 }]);
 
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels','Logger' ,
-    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels,logManager) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels', 'Logger', '$csnotify',
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, logManager, $csnotify) {
         "use strict";
-        
+        var initialiseRow = function () {
+            var defaultCondition = getDefaultCondition();
+            addDefaultCondition(defaultCondition);
+        };
+        var getDefaultCondition = function () {
+            var condition = {
+                ColumnName: '',
+                Operator: '',
+                Value: '',
+            };
+            return condition;
+        };
+
+        $scope.onSubmit = function () {
+            var defaultCondition = getDefaultCondition();
+            addDefaultCondition(defaultCondition);
+        };
+        var addDefaultCondition = function (condition) {
+            $scope.ConditionList.push(condition);
+
+        };
+
+
         (function () {
             $scope.val = $validation;
 
             var $log = logManager.getInstance("allocSubpolicyCtrl");
-            $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
+            $scope.allocSubpolicyModel = $csAllocationModels.models.AllocSubpolicy;
             $log.debug($scope.allocSubpolicy);
             console.log($scope.allocSubpolicy);
             $scope.factory = factory;
@@ -45,14 +67,36 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.dldata = datalayer.dldata;
             $scope.dldata.allocSubpolicy = {};
             $scope.dldata.allocSubpolicyList = [];
+            $scope.ConditionList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
+            $scope.dldata.allocSubpolicy.Conditions = $scope.ConditionList;
+            initialiseRow();
         })();
 
         $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
         { display: "Do Not Allocate", value: "DoNotAllocate" },
         { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
         { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
+
+        $scope.checkDuplicate = function (condition, $index) {
+            if ($scope.ConditionList.length == 1) {
+                return;
+            }
+            var duplicateCond = false;
+            for (var i = 0; i < $index; i++) {
+                if ($scope.ConditionList[i].ColumnName === condition.ColumnName && $scope.ConditionList[i].Operator === condition.Operator && $scope.ConditionList[i].Value === condition.Value) {
+                    duplicateCond = true;
+                }
+            }
+
+            if (duplicateCond === true) {
+                $csnotify.error("condition is duplicate");
+                $scope.ConditionList.splice($index, 1);
+                initialiseRow();
+                return;
+            }
+        };
 
         $scope.openmodal = function () {
             $scope.modalData = $scope.dldata.allocSubpolicy;
@@ -69,7 +113,39 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                 }
             });
         };
-        
+
+        $scope.addNewCondition = function (condition) {
+
+            var duplicateCond = _.find($scope.dldata.allocSubpolicy.Conditions, function (cond) {
+                return (cond.ColumnName == condition.ColumnName && cond.Operator == condition.Operator && cond.Value == condition.Value);
+            });
+
+            if (duplicateCond) {
+                $csnotify.error("condition is duplicate");
+                return;
+            }
+
+            condition.Priority = dldata.allocSubpolicy.Conditions.length;
+
+            if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
+                condition.Value = condition.dateValueEnum;
+            }
+
+            var con = angular.copy(condition);
+            dldata.allocSubpolicy.Conditions.push(con);
+            dldata.conditionValueType = 'text';
+            //datalayer.resetCondition();
+        };
+
+        $scope.deleteCondition = function (condition, index) {
+            // dldata.allocSubpolicy.Conditions[0].RelationType = "";
+            $scope.dldata.allocSubpolicy.Conditions.splice(index, 1);
+            $scope.ConditionList.splice(index, 1);
+            for (var i = index; i < $scope.dldata.allocSubpolicy.Conditions.length; i++) {
+                $scope.dldata.allocSubpolicy.Conditions[i].Priority = i;
+            }
+        };
+
         $scope.showIndividual = function (stkh) {
             if (angular.isUndefined(stkh.Hierarchy)) return false;
             return (stkh.Hierarchy.IsIndividual === true);
@@ -167,7 +243,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
                 //stakeholderList
                 restApi.customGET('GetStakeholders', { products: allocSubpolicy.Products }).then(function (data) {
-                   
+
                     dldata.stakeholderList = data;
                 }, function (data) {
                     $csnotify.error(data);
@@ -204,6 +280,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var saveAllocSubpolicy = function (allocSubpolicy) {
+           
             if (allocSubpolicy.Stakeholder && allocSubpolicy.Stakeholder.Id) {
                 allocSubpolicy.Stakeholder = _.find($scope.stakeholderList, { Id: allocSubpolicy.Stakeholder.Id });
             }
@@ -324,7 +401,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith"];
                 condition.Operator = '';
                 condition.Rtype = 'Value';
-                condition.Rvalue = '';
+                //condition.Rvalue = '';
                 datalayer.getColumnValues(condition.ColumnName);
                 return;
             }
@@ -351,45 +428,14 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             condition.Rvalue = '';
         };
 
-        var addNewCondition = function (condition) {
 
-            var duplicateCond = _.find(dldata.allocSubpolicy.Conditions, function (cond) {
-                return (cond.ColumnName == condition.ColumnName && cond.Operator == condition.Operator && cond.Value == condition.Value);
-            });
 
-            if (duplicateCond) {
-                $csnotify.error("condition is duplicate");
-                return;
-            }
 
-            condition.Priority = dldata.allocSubpolicy.Conditions.length;
-
-            if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
-                condition.Value = condition.dateValueEnum;
-            }
-
-            var con = angular.copy(condition);
-            dldata.allocSubpolicy.Conditions.push(con);
-            dldata.conditionValueType = 'text';
-            datalayer.resetCondition();
-        };
-
-        var deleteCondition = function (condition, index) {
-            dldata.allocSubpolicy.Conditions[0].RelationType = "";
-            dldata.allocSubpolicy.Conditions.splice(index, 1);
-            for (var i = index; i < dldata.allocSubpolicy.Conditions.length; i++) {
-                dldata.allocSubpolicy.Conditions[i].Priority = i;
-            }
-        };
-        
         return {
             disableIfRelationExists: disableIfRelationExists,
             checkDuplicateName: checkDuplicateName,
             watchAllocateType: watchAllocateType,
             changeLeftColName: changeLeftColName,
-            addNewCondition: addNewCondition,
-            deleteCondition: deleteCondition
-           
         };
 
     }]);

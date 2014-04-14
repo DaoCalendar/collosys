@@ -2,8 +2,8 @@
     <form data-ng-submit="onSubmit()" name="adhocForm">
         <div class="row-fluid form-horizontal">
             <div class="span5">
-                <cs-field data-ng-model="abc.Product1"
-                          data-ng-change="initialiseRow(abc.Product1)" field="BillAdhoc.Products"></cs-field>
+                <cs-field data-ng-model="Product"
+                          data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
             </div>
         </div>
         <table class="table table-bordered table-hover"
@@ -26,9 +26,10 @@
             <tbody>
                 <tr data-ng-repeat="pay in PaymentList">
                     <td>
-                        <div class="btn-group">
+                        <cs-button type="Delete" ng-click="Delete($index)"></cs-button>
+                       <!-- <div class="btn-group">
                             <i class="btn icon-trash" data-ng-click="Delete($index)"></i>
-                        </div>
+                        </div>-->
                     </td>
                     <td>
                         <input data-ng-bind="pay.Products"
@@ -94,19 +95,23 @@
                             data-ng-show="pay.IsRecurring === true" />
                     </td>
                     <td>
-
-                        <input
+                        <cs-button type="Submit" text="Add" ng-show="$last"></cs-button>
+                       <!-- <input
                             type="submit"
                             class="btn btn-default"
                             value="Add Another"
-                            data-ng-show="$last" />
+                            data-ng-show="$last" />-->
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="row-fluid" data-ng-show="PaymentList.length>0">
-            <input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
-                value="Save" data-ng-click="save(PaymentList)" />
+            <cs-button type="Save" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></cs-button>
+            <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
+                   value="Save" data-ng-click="save(PaymentList)" />
+            <cs-button type="Delete"  ng-disabled="true"></cs-button>
+            <cs-button type="Add" class="btn-block" ></cs-button>-->
+
         </div>
     </form>
 </div>
