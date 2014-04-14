@@ -34,9 +34,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         "use strict";
         var initialiseRow = function () {
             var defaultCondition = getDefaultCondition();
-            // defaultPayment.Products = product;
             addDefaultCondition(defaultCondition);
-            // calculateMonthList();
         };
         var getDefaultCondition = function () {
             var condition = {
@@ -52,17 +50,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             addDefaultCondition(defaultCondition);
         };
         var addDefaultCondition = function (condition) {
-            //condition.Priority = dldata.allocSubpolicy.Conditions.length;
-            //if (angular.isDefined(condition.dateValueEnum)) {
-            //    if (condition.dateValueEnum != 'Absolute_Date') {
-            //        condition.Value = condition.dateValueEnum;
-            //    }
-            //}
-
-            //var con = angular.copy(condition);
-            // $scope.dldata.allocSubpolicy.Conditions.push(condition);
             $scope.ConditionList.push(condition);
-
 
         };
 
@@ -91,20 +79,24 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
         { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
 
-        //$scope.checkDuplicate = function(condition) {
-        //    var duplicateCond = false;
-        //    _.forEach($scope.dldata.allocSubpolicy.con, function (cond) {
-        //       if (cond.ColumnName == condition.ColumnName && cond.Operator == condition.Operator && cond.Value == condition.Value) {
-        //           duplicateCond = true;
-        //       }
-        //    });
+        $scope.checkDuplicate = function (condition, $index) {
+            if ($scope.ConditionList.length == 1) {
+                return;
+            }
+            var duplicateCond = false;
+            for (var i = 0; i < $index; i++) {
+                if ($scope.ConditionList[i].ColumnName === condition.ColumnName && $scope.ConditionList[i].Operator === condition.Operator && $scope.ConditionList[i].Value === condition.Value) {
+                    duplicateCond = true;
+                }
+            }
 
-        //    if (duplicateCond === true) {
-        //        $csnotify.error("condition is duplicate");
-        //        return;
-        //    }
-
-        //};
+            if (duplicateCond === true) {
+                $csnotify.error("condition is duplicate");
+                $scope.ConditionList.splice($index, 1);
+                initialiseRow();
+                return;
+            }
+        };
 
         $scope.openmodal = function () {
             $scope.modalData = $scope.dldata.allocSubpolicy;
@@ -288,6 +280,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var saveAllocSubpolicy = function (allocSubpolicy) {
+           
             if (allocSubpolicy.Stakeholder && allocSubpolicy.Stakeholder.Id) {
                 allocSubpolicy.Stakeholder = _.find($scope.stakeholderList, { Id: allocSubpolicy.Stakeholder.Id });
             }
