@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.FileUploader;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -182,9 +183,14 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         #endregion
 
+        public FileDetail GetFileDetail()
+        {
+            return  new FileDetail(){ AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER};
+        }
+
         public Payment GetPayment()
         {
-            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL"};
+            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL" ,CreditAmount = 400,DebitAmount = 500};
 
             return objPayment;
         }

@@ -59,8 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbLayer\DbLayer.cs" />
     <Compile Include="AliasReader\RlsPaymentLinerRecordCreator.cs" />
+    <Compile Include="DbLayer\DbLayer.cs" />
+    <Compile Include="AliasReader\RlsEPaymentLinerRecordCreator.cs" />
     <Compile Include="DbLayer\IDbLayer.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
     <Compile Include="ExcelReader\EpPlusExcelReader.cs" />
