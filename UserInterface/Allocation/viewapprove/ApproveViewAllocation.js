@@ -19,8 +19,8 @@ csapp.controller("approveViewCntrl1", ["$scope", "$csfactory", "$csnotify", "Res
 
     }]);
 
-csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal','$csfactory',
-    function ($scope, datalayer, factory, $modal,$csfactory) {
+csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory',
+    function ($scope, datalayer, factory, $modal, $csfactory) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
@@ -102,7 +102,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 ToDate: dldata.toDate
             };
             dldata.gridOptions = {};
-            
+
             restApi.customPOST(dldata.viewAllocationModel, "FetchPageData")
                 .then(function (data) {
                     if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) {
@@ -206,10 +206,9 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 fromDate: dldata.fromDate,
                 toDate: dldata.toDate
             };
-            //$scope.openModal = false;//check here
-            restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
+
+          return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
                 $csnotify.success("Allocations Changed");
-                //$scope.closeModal(); //check here
                 fetchData();
                 dldata.isInProcessing = false;
             });
@@ -338,6 +337,12 @@ function ($scope, $modalInstance, datalayer, factory) {
 
     $scope.closeModel = function () {
         $modalInstance.close();
+    };
+
+    $scope.saveAllocationChanges = function (param) {
+        datalayer.saveAllocationChanges(param).then(function () {
+            $modalInstance.close();
+        });
     };
 
 }]);

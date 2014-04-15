@@ -62,7 +62,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First(); //InfoBuilder.Load(cAlloc.Info.Id);
                 var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == cAlloc.Id);
                 info.AllocStatus = cAlloc.AllocStatus;
                 if (forApproveAlloc != null)
@@ -92,7 +94,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             foreach (var cAlloc in allocs)
             {
                 cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First();
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.OrigEntityId);
                 oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
                                       ? ColloSysEnums.ApproveStatus.NotApplicable
@@ -129,7 +133,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First(); //InfoBuilder.Load<CustomerInfo>(cAlloc.Info.Id)
                 info.NoAllocResons = noAllocReason;
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.Id);
                 oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;

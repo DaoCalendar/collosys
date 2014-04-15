@@ -28,6 +28,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/profile', {
                 templateUrl: '/Generic/profile/profile.html',
                 controller: 'profileController'
+            }).when('/generic/taxlist', {
+                templateUrl: '/Generic/taxlist/taxlist.html',
+                controller: 'taxlistCtrl'
+            }).when('/generic/taxmaster', {
+                templateUrl: '/Generic/taxmaster/taxmaster.html',
+                controller: 'taxmasterCtrl'
             })
 
             //file upload
@@ -120,7 +126,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 controller: 'adhocPayoutCtrl'
             }).when('/billing/adhocbulk', {
                 templateUrl: '/Billing/adhocbulk/adhocbulk.html',
-                controller:'adhocbulkCtrl'
+                controller: 'adhocbulkCtrl'
             }).when('/billing/readybilling', {
                 templateUrl: '/Billing/readybilling/index.html',
                 controller: 'readyForBillingController'
@@ -189,14 +195,14 @@ csapp.config([
 
 csapp.run(["$rootScope", "$location", "$templateCache",
     function ($rootScope, $location, $templateCache) {
-    $rootScope.$on("$csLoginRequired", function () {
-        $location.path("/login");
-    });
+        $rootScope.$on("$csLoginRequired", function () {
+            $location.path("/login");
+        });
 
-    //$rootScope.$on('$viewContentLoaded', function () {
-    //    $templateCache.removeAll();
-    //});
-}]);
+        //$rootScope.$on('$viewContentLoaded', function () {
+        //    $templateCache.removeAll();
+        //});
+    }]);
 
 csapp.constant("$csConstants", {
     GUID_EMPTY: '00000000-0000-0000-0000-000000000000',
