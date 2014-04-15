@@ -1,5 +1,4 @@
 ﻿using System;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RowCounter;
@@ -96,7 +95,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_CheckBasicField_Assigning_Empty_String_to_LoanNumber()
         {
             //Arrange
-            var mapping = _mappingData.GetMappings();
+            //var mapping = _mappingData.GetMappings();
 
             //Act
             _reader.Skip(2);
@@ -110,7 +109,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_CheckBasicField_Assigning_Valid_LoanNumber()
         {
             //Arrange
-            var mapping = _mappingData.GetMappings();
+            //var mapping = _mappingData.GetMappings();
 
             //Act
             _reader.Skip(3);
@@ -124,7 +123,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_CheckBasicField_Assigning_InValid_LoanNumber()
         {
             //Arrange
-            var mapping = _mappingData.GetMappings();
+           // var mapping = _mappingData.GetMappings();
 
             //Act
             _reader.Skip(7);
