@@ -21,7 +21,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
     {
         public override QueryOver<CustomerInfo, CustomerInfo> ApplyRelations()
         {
-            return QueryOver.Of<CustomerInfo>();
+            return QueryOver.Of<CustomerInfo>().Fetch(x=>x.Allocs).Eager;
         }
 
         [Transaction]

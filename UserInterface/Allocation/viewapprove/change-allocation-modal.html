@@ -2,7 +2,7 @@
     <div class="modal-header well" style="text-align: center">
         <h3>Change Allocation</h3>
     </div>
-    <div class="modal-body" style="text-align: center">
+    <div class="modal-body" style="text-align: left">
         <div class="row-fluid ">
             <div class="control-group span5">
                 <div class="control-label">
@@ -77,7 +77,7 @@
         </table>
     </div>
     <div class="modal-footer well">
-        <button class="btn btn-info" data-ng-click="datalayer.saveAllocationChanges(dldata.approveView.Param)"
+        <button class="btn btn-info" data-ng-click="saveAllocationChanges(dldata.approveView.Param)"
             data-ng-disabled="dldata.selectedAllocations.length === 0 || dldata.approveView.Param === Null">
             Save</button>
         <button class="btn btn-info" data-ng-click="closeModel()">Close</button>
