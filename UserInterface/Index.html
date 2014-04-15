@@ -20,7 +20,7 @@
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
-    
+
     <link href="Content/fontawesome/font-awesome.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
@@ -33,9 +33,9 @@
     <!--<link href="Content/pnotify/jquery.pnotify.icons.css" rel="stylesheet" />-->
     <link href="Content/animation/animate.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
-    <link href="Content/login.css" rel="stylesheet" /> 
-    <!--[if IE 8]>  <link href="Content/login-ie8.css" rel="stylesheet" /> <![endif]-->     
-   
+    <link href="Content/login.css" rel="stylesheet" />
+    <!--[if IE 8]>  <link href="Content/login-ie8.css" rel="stylesheet" /> <![endif]-->
+
 </head>
 <body id="ng-app" ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
@@ -52,7 +52,7 @@
     <!-- Add your site or application content here -->
     <div class="container">
         <div>
-            <div data-ng-include="'/Shared/templates/menu.html'"></div>
+            <div data-ng-include="'/Generic/Menu/menu.html'"></div>
         </div>
         <div>
             <div data-ng-view=""></div>
@@ -95,7 +95,7 @@
     <script src="Shared/scripts/directives.js"></script>
     <script src="Shared/scripts/factories.js"></script>
     <script src="Shared/scripts/input-directives.js"></script>
-    
+
     <script src="Allocation/allocationModels.js"></script>
     <script src="Billing/billingModels.js"></script>
     <script src="FileUpload/fileUploadModels.js"></script>
@@ -139,6 +139,7 @@
     <script src="Billing/summary/BillAmountCntrl.js"></script>
     <script src="Billing/billstatus/billstatus.js"></script>
 
+    <script src="Generic/Menu/menu.js"></script>
     <script src="Generic/permissions/PermissionScript.js"></script>
     <!--<script src="Generic/permissions/permission.js"></script>-->
     <script src="Generic/product/ProductConfigModel.js"></script>

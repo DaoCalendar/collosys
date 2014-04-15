@@ -3,7 +3,6 @@
 
     var restApi = rest.all('PermissionApi');
 
-
     var getPermission = function (id) {
         if ($csfactory.isNullOrEmptyString(id)) return;
         restApi.customGET('Get', { 'id': id }).then(function (data) {
@@ -48,27 +47,29 @@
         restApi.customGET('Get').then(function (data) {
             dldata.stakeHierarchy = data;
             setUpdatesinPrem(dldata.stakeHierarchy);
-            saveUpdates(dldata.stakeHierarchy);
+            if (dldata.permissionsChanged)//save updates only if there is any change in the permissions
+                saveUpdates(dldata.stakeHierarchy);
         });
 
     };
 
     var setUpdatesinPrem = function (hierarchies) {
+        dldata.permissionsChanged = false;
         _.forEach(hierarchies, function (item) {
             var perm = JSON.parse(item.Permissions);
             updatePermission(perm, permFactory.permission);
-            console.log(perm);
             item.Permissions = JSON.stringify(perm);
         });
-        console.log(hierarchies);
+
     };
 
     var updatePermission = function (oldPermission, newPermission) {
 
+
         _.forEach(oldPermission, function (perm) {
             //gets the currently  referrenced area from the newPermission
             var newPermArea = _.find(newPermission, function (item) {
-                if (item.Area === perm.Area)
+                if (item.area === perm.area)
                     return item;
             });
             if (angular.isUndefined(newPermArea)) return;
@@ -87,8 +88,11 @@
                         if (newExtraPerm.display === extraPerm.display)
                             return newExtraPerm;
                     });
-                    if (angular.isUndefined(checkForNew))//add the extrapermission if it dosen't exist
+                    if (angular.isUndefined(checkForNew)) {
+                        //add the extrapermission if it dosen't exist
                         category.extrapermission.push(extraPerm);
+                        dldata.permissionsChanged = true;
+                    }
 
                 });
                 _.forEach(angular.copy(category.extrapermission), function (oldExtraPerm) {
@@ -102,11 +106,14 @@
                         var oldPermArray = _.pluck(category.extrapermission, 'display');
                         var index = oldPermArray.indexOf(oldExtraPerm.display);
                         category.extrapermission.splice(index, 1);
+                        dldata.permissionsChanged = true;
                     }
                 });
             });
 
         });
+
+        console.log(oldPermission);
     };
 
     return {

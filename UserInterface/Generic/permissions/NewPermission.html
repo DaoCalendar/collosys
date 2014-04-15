@@ -28,8 +28,9 @@
     <div data-ng-show="perm.designation">
         <div data-ng-repeat="data in dldata.permission">
             <div class="panel row-fluid">
-                <div class="panel-heading">{{data.area}}</div>
-                <div data-ng-repeat="perm in data.permissions">
+                <div class="panel-heading">
+                    <input type="checkbox" data-ng-model="data.access" />{{data.area}}</div>
+                <div data-ng-repeat="perm in data.permissions" class="panel-body" data-ng-if="data.access">
                     <div class="span5">
                         <input data-ng-model="perm.permission.access" data-ng-click="uncheckExtraPerm(perm.permission.access,perm.extrapermission)" type="checkbox">
                         {{perm.permission.display}}

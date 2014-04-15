@@ -451,6 +451,7 @@ csapp.factory('$permissionFactory', [function () {
     var permissions = [
         {
             area: "Stakeholder",
+            access: false,
             permissions: [
                 {
                     category: "view",
@@ -477,6 +478,7 @@ csapp.factory('$permissionFactory', [function () {
         },
         {
             area: "Allocation",
+            access: false,
             permissions: [
                 {
                     category: "view",
@@ -501,6 +503,7 @@ csapp.factory('$permissionFactory', [function () {
         },
         {
             area: "Billing",
+            access: false,
             permissions: [
                 {
                     category: "view",
@@ -509,6 +512,7 @@ csapp.factory('$permissionFactory', [function () {
                         { access: false, display: "view-all", desc: "view any stakeholder" },
                         { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
                         { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+
                     ]
                 },
                 {
@@ -525,6 +529,7 @@ csapp.factory('$permissionFactory', [function () {
         },
         {
             area: "File Upload",
+            access: false,
             permissions: [
                 {
                     category: "view",

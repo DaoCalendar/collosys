@@ -8,7 +8,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
     {
         public override QueryOver<Users, Users> ApplyRelations()
         {
-            return QueryOver.Of<Users>();
+            return QueryOver.Of<Users>().Fetch(x => x.Role).Eager;
         }
     }
 }
