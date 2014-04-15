@@ -74,7 +74,7 @@
         </thead>
         <tbody>
             <tr data-ng-repeat="fileScheduler in datalayer.dldata.fileSchedulers | filter:search"
-                data-ng-class="{'progress-bar-danger': fileScheduler.UploadStatus == 'Error', 'progress-bar-info': fileScheduler.UploadStatus == 'UploadStarted', 'progress-bar-success': fileScheduler.UploadStatus == 'Done' || fileScheduler.UploadStatus == 'DoneWithError','progress-bar-info': fileScheduler.UploadStatus == 'PostProcessing'}">
+                data-ng-class="{'alert-danger': fileScheduler.UploadStatus == 'Error', 'alert-info': fileScheduler.UploadStatus == 'UploadStarted', 'alert-success': fileScheduler.UploadStatus == 'Done' || fileScheduler.UploadStatus == 'DoneWithError','alert-info': fileScheduler.UploadStatus == 'PostProcessing'}">
                 <td colspan="2">
                     <div class="btn-group">
                         <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="showDeleteModal(fileScheduler)" type="button">Delete</button>
@@ -87,7 +87,7 @@
                 <td>{{fileScheduler.ScbSystems}}</td>
                 <td>{{fileScheduler.Category}}</td>
                 <td>
-                    <button class="btn btn-link" data-ng-click="downloadInput(fileScheduler)" type="button">{{fileScheduler.FileName.substring(16)}}</button>
+                    <button class="btn btn-link " data-ng-click="downloadInput(fileScheduler)" type="button">{{fileScheduler.FileName.substring(16)}}</button>
                 </td>
                 <td>{{fileScheduler.TotalRows}}</td>
                 <td>{{fileScheduler.ValidRows}}</td>
