@@ -200,6 +200,8 @@
     <Compile Include="Developer\queryexecuter\ExecuteQueryApiController.cs" />
     <Compile Include="Developer\queryexecuter\Executer.cs" />
     <Compile Include="Developer\queryexecuter\QueryResult.cs" />
+    <Compile Include="Generic\taxlist\TaxListApiController.cs" />
+    <Compile Include="Generic\taxmaster\TaxMasterApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -354,6 +356,10 @@
     <Content Include="Generic\profile\profile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />
     <Content Include="Developer\queryexecuter\queryexecuter.js" />
+    <Content Include="Generic\taxlist\taxlist.html" />
+    <Content Include="Generic\taxlist\taxlist.js" />
+    <Content Include="Generic\taxmaster\taxmaster.html" />
+    <Content Include="Generic\taxmaster\taxmaster.js" />
     <Content Include="Scripts\angular.ui\autofill-event.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
