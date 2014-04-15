@@ -321,7 +321,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
 
             var inputType = dldata.selectedLeftColumn.InputType;
             if (inputType === "text") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith"];
+                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith","WithList"];
                 condition.Operator = '';
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
