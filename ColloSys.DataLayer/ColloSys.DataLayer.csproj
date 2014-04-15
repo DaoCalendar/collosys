@@ -122,6 +122,10 @@
     <Compile Include="BaseEntity\EntityMap.cs" />
     <Compile Include="Components\IUniqueKey.cs" />
     <Compile Include="Enumerations\ScbEnums.cs" />
+    <Compile Include="Generic\GTaxDetail.cs" />
+    <Compile Include="Generic\GTaxDetailMap.cs" />
+    <Compile Include="Generic\GTaxesList.cs" />
+    <Compile Include="Generic\GTaxesListMap.cs" />
     <Compile Include="FileUploader\FileColumnMap.cs" />
     <Compile Include="FileUploader\FileDetailMap.cs" />
     <Compile Include="FileUploader\FileMappingMap.cs" />
