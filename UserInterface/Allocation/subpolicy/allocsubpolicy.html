@@ -184,8 +184,8 @@
                                                     data-ng-options="c for c in dldata.dateValueEnum" required>
                                                 </select>
 
-                                                <input class="input-medium" type="text" data-ng-disabled="(!$last)" data-ng-show="$last" name="ScheduleDate" data-ng-model="condition.Value"
-                                                    data-ng-show="condition.dateValueEnum && condition.dateValueEnum==='Absolute_Date'"
+                                                <input class="input-medium" type="text" data-ng-disabled="(!$last)" name="ScheduleDate" data-ng-model="condition.Value"
+                                                    data-ng-show="(condition.dateValueEnum && condition.dateValueEnum==='Absolute_Date') && $last "
                                                     data-date-format="dd-mm-yyyy" bs-datepicker>
                                             </div>
 
