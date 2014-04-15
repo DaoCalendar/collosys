@@ -144,8 +144,9 @@
                     </thead>
                     <tbody>
                         <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
+                            <td><input type="text" class="input-mini" value="{{output.Operator}}" data-ng-show="output.Operator" readonly="readonly"/></td>
                             <td></td>
-                            <td colspan="2">{{ output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue + ' )'}}</td>
+                            <td><input type="text" class="input-large" value="{{output.RtypeName + output.Rvalue}}" readonly="readonly"/></td>
                             <td>
                                 <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
                             </td>
@@ -284,12 +285,16 @@
                             </td>
                         </tr>
                         <tr data-ng-repeat="condition in dldata.payoutSubpolicy.BConditions | orderBy: 'Priority'">
+                           <td>
+                               <input type="text" class="input-mini " readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType"/></td>
+                            <td>
+                                <input type="text" readonly="readonly" value="{{condition.LtypeName}}" /></td>
+                            <td>
+                                <input type="text" class="input-mini" readonly="readonly" data-ng-model="condition.Operator" /></td>
                             <td></td>
-                            <td colspan="4">{{condition.RelationType + ' ( '+ condition.LtypeName +' '+ condition.Operator +' '+
-                                condition.RtypeName +
-                                ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )
-                                + ' ) '}}
-                            </td>
+                            <td>
+                                <input type="text" class="input-mini" readonly="readonly" value="{{condition.RtypeName +((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
+                           
                             <td>
                                 <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                             </td>
