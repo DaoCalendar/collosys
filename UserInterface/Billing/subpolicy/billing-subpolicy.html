@@ -234,9 +234,6 @@
                                     <div data-ng-switch-when="Value">
                                         <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
 
-                                            <!-- <input class="input-medium" data-ng-switch-default="text" type="text"
-                                                        data-ng-model="dldata.newCondition.Rvalue" required />
-                                                -->
                                             <input class="input-small"
                                                 data-ng-switch-when="number"
                                                 type="number"
@@ -263,8 +260,19 @@
                                                 <select class="input-small" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required></select>
                                             </div>
                                             <div data-ng-switch-when="text">
-                                                <select class="input-xlarge" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required></select>
+                                                <div data-ng-show="dldata.newCondition.Operator !== 'WithList'">
+                                                    <select class="input-large" data-ng-model="dldata.newCondition.Rvalue"
+                                                        data-ng-options="c for  c in dldata.conditionValues" required>
+                                                    </select>
+                                                </div>
+                                                <div data-ng-show="dldata.newCondition.Operator === 'WithList'">
+                                                    <select data-ui-select2="" class="input-large" data-ng-model="dldata.newCondition.Rvalue"
+                                                        required multiple="multiple">
+                                                        <option data-ng-repeat="row in dldata.conditionValues" value="{{row}}">{{row}}</option>
+                                                    </select>
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
