@@ -69,7 +69,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_ComputtedSetter_Assigning_DebiAmount()
         {
             //Arrange
-            var payment = _mappingData.GetDebitAmount();
+            var payment = _mappingData.GetPayment();
 
             //Act
             _rlsPaymentLiner.ComputedSetter(payment, _reader, _counter);
@@ -90,7 +90,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
             //Act
             _reader.Skip(2);
-            var checkbasicField = _rlsPaymentLiner.CheckBasicField(_reader, mapping, _counter);
+            var checkbasicField = _rlsPaymentLiner.CheckBasicField(_reader, _counter);
 
             //Assert
             Assert.AreEqual(checkbasicField, false);
@@ -104,7 +104,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
             //Act
             _reader.Skip(7);
-            _rlsPaymentLiner.CheckBasicField(_reader, mapping, _counter);
+            _rlsPaymentLiner.CheckBasicField(_reader, _counter);
 
             //Assert
             Assert.AreEqual(_counter.IgnoreRecord, 1);
