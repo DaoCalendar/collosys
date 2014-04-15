@@ -32,6 +32,15 @@ namespace AngularUI.Generic.permissions
             }
 
         }
+
+        [HttpPost]
+        public HttpResponseMessage SaveHierarchies(IEnumerable<StkhHierarchy> hierarchy)
+        {
+            var listOfObjects = hierarchy as StkhHierarchy[] ?? hierarchy.ToArray();
+            HierarchyQuery.Save(listOfObjects);
+            return Request.CreateResponse(HttpStatusCode.OK, listOfObjects);
+        }
+
         
     }
 }
