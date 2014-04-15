@@ -38,7 +38,7 @@ namespace ColloSys.DataLayer.Mapping
 
             ManyToOne(x => x.GTaxesList, map => map.NotNullable(true));
 
-            ManyToOne(x => x.BMatrix);
+            //ManyToOne(x => x.BMatrix);
 
             #endregion
         }

@@ -456,10 +456,11 @@ csapp.factory('$permissionFactory', [function () {
                     category: "view",
                     permission: { access: false, display: "view", desc: "view stakeholder" },
                     extrapermission: [
-                        { access: false, display: "view-all", desc: "view any stakeholder" },
-                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
-                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" },
-                        { access: false, display: "view-pending-allNew", desc: "view any stakeholder whose approval is pending" }
+                        //{ access: false, display: "view-all", desc: "view any stakeholder" }
+                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" }
+                        //{ access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+                        //{ access: false, display: "view-pending-allNew", desc: "view any stakeholder whose approval is pending" },
+                        //{ access: false, display: "view-nothing", desc: "view any stakeholder whose approval is pending" }
                     ]
                 },
                 {

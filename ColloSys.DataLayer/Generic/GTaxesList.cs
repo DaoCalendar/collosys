@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ColloSys.DataLayer.BaseEntity;
 
 #endregion
 
@@ -23,23 +24,20 @@ namespace ColloSys.DataLayer.Domain
 
         #region Properties
 
-        [Required]
         public virtual string TaxName { get; set; }
 
-        [Required]
         public virtual string TaxType { get; set; }
 
-        [Required]
         public virtual string ApplicableTo { get; set; }
 
         public virtual string IndustryZone { get; set; }
 
-        [Required]
         public virtual string ApplyOn { get; set; }
 
         public virtual string TotSource { get; set; }
 
         public virtual string Description { get; set; }
+
         #endregion
     }
 }
