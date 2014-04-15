@@ -1,36 +1,6 @@
-﻿csapp.controller("allocSubpolicyCtrl1", ["$scope", "$csnotify", "$csfactory", "Restangular", '$Validations', function ($scope, $csnotify, $csfactory, rest, $validation) {
-    "use strict";
-
-    var restApi = rest.all("AllocationSubPolicyApi");
-
-    $scope.val = $validation;
-    $scope.allocSubpolicyList = [];
-    $scope.stakeholderList = [];
-    $scope.allocSubpolicy = {};
-    $scope.newCondition = {};
-    $scope.allocSubpolicy.Conditions = [];
-    $scope.allocSubpolicy.DoAllocate = 1;
-    $scope.allocSubpolicy.NoAllocMonth = 1;
-    $scope.allocSubpolicy.Category = "Liner";
-    $scope.newCondition.Rtype = "Value";
-    $scope.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-    $scope.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
-    $scope.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
-    //$scope.allocSubpolicy.NoAllocMonth = false;
-    $scope.openDateModel = false;
-    $scope.modalData = {};
-    $scope.isDuplicateName = false;
-    $scope.policyapproved = false;
-
-    $scope.showStartEndModalPopup = function () {
-
-        $scope.openDateModel = true;
-    };
-
-}]);
-
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations',
-    function ($scope, datalayer, factory, $modal, $validation) {
+﻿
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels',
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels) {
         "use strict";
 
         (function () {
@@ -40,6 +10,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.dldata.allocSubpolicy = {};
+            $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.datalayer.getReasons();
