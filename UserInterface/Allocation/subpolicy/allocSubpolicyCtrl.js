@@ -1,41 +1,13 @@
-﻿csapp.controller("allocSubpolicyCtrl1", ["$scope", "$csnotify", "$csfactory", "Restangular", '$Validations', function ($scope, $csnotify, $csfactory, rest, $validation) {
-    "use strict";
-
-    var restApi = rest.all("AllocationSubPolicyApi");
-
-    $scope.val = $validation;
-    $scope.allocSubpolicyList = [];
-    $scope.stakeholderList = [];
-    $scope.allocSubpolicy = {};
-    $scope.newCondition = {};
-    $scope.allocSubpolicy.Conditions = [];
-    $scope.allocSubpolicy.DoAllocate = 1;
-    $scope.allocSubpolicy.NoAllocMonth = 1;
-    $scope.allocSubpolicy.Category = "Liner";
-    $scope.newCondition.Rtype = "Value";
-    $scope.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-    $scope.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
-    $scope.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
-    //$scope.allocSubpolicy.NoAllocMonth = false;
-    $scope.openDateModel = false;
-    $scope.modalData = {};
-    $scope.isDuplicateName = false;
-    $scope.policyapproved = false;
-
-    $scope.showStartEndModalPopup = function () {
-
-        $scope.openDateModel = true;
-    };
-
-}]);
-
+﻿
 csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels', 'Logger', '$csnotify',
     function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, logManager, $csnotify) {
         "use strict";
+
         var initialiseRow = function () {
             var defaultCondition = getDefaultCondition();
             addDefaultCondition(defaultCondition);
         };
+
         var getDefaultCondition = function () {
             var condition = {
                 ColumnName: '',
@@ -50,6 +22,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             addDefaultCondition(defaultCondition);
         };
         var addDefaultCondition = function (condition) {
+            condition.Priority = $scope.ConditionList.length;
             $scope.ConditionList.push(condition);
 
         };
@@ -58,10 +31,10 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         (function () {
             $scope.val = $validation;
 
-            var $log = logManager.getInstance("allocSubpolicyCtrl");
+            //var $log = logManager.getInstance("allocSubpolicyCtrl");
             $scope.allocSubpolicyModel = $csAllocationModels.models.AllocSubpolicy;
-            $log.debug($scope.allocSubpolicy);
-            console.log($scope.allocSubpolicy);
+            //$log.debug($scope.allocSubpolicy);
+            //console.log($scope.allocSubpolicy);
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -85,17 +58,20 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             }
             var duplicateCond = false;
             for (var i = 0; i < $index; i++) {
-                if ($scope.ConditionList[i].ColumnName === condition.ColumnName && $scope.ConditionList[i].Operator === condition.Operator && $scope.ConditionList[i].Value === condition.Value) {
+                if (($scope.ConditionList[i].ColumnName === condition.ColumnName)
+                    && ($scope.ConditionList[i].Operator === condition.Operator)
+                    && ($scope.ConditionList[i].Value === condition.Value)) {
                     duplicateCond = true;
+                    break;
                 }
             }
 
             if (duplicateCond === true) {
-                $csnotify.error("condition is duplicate");
+                $csnotify.error("condition is duplicate. resetting condition");
                 $scope.ConditionList.splice($index, 1);
                 initialiseRow();
-                return;
             }
+            $scope.dldata.allocSubpolicy.Conditions = $scope.ConditionList;
         };
 
         $scope.openmodal = function () {
@@ -280,7 +256,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var saveAllocSubpolicy = function (allocSubpolicy) {
-           
+            allocSubpolicy.Conditions = dldata.allocSubpolicy.Conditions;
             if (allocSubpolicy.Stakeholder && allocSubpolicy.Stakeholder.Id) {
                 allocSubpolicy.Stakeholder = _.find($scope.stakeholderList, { Id: allocSubpolicy.Stakeholder.Id });
             }
