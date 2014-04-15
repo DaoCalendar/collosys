@@ -30,11 +30,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
         (function () {
             $scope.val = $validation;
-
-            //var $log = logManager.getInstance("allocSubpolicyCtrl");
             $scope.allocSubpolicyModel = $csAllocationModels.models.AllocSubpolicy;
-            //$log.debug($scope.allocSubpolicy);
-            //console.log($scope.allocSubpolicy);
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
