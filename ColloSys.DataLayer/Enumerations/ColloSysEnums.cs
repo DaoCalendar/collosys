@@ -9,6 +9,20 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum TaxType
+        {
+            Flat,
+            Slab
+        }
+        [Serializable]
+        public enum TaxApplicableTo
+        {
+            Individual,
+            Agency,
+            Both
+        }
+
+        [Serializable]
         public enum BillPaymentStatus
         {
             None,

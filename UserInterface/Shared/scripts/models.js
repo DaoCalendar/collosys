@@ -16,8 +16,8 @@ csapp.factory("$csShared", ["$csnotify", function ($csnotify) {
     };
 }]);
 
-csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels',
-    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels) {
+csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels','$csGenericModels',
+    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels,$csGenericModels) {
 
         var models = {};
 
@@ -26,6 +26,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
             models.Stakeholder = $csStakeholderModels.init;
             models.AllocSubpolicy = $csAllocationModels.init();
             models.Billing = $csBillingModels.init();
+            models.Generic = $csGenericModels.init();
             return;
         };
 
