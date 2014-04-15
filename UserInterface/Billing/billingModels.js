@@ -19,7 +19,7 @@
         return {
             Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
             PayStatus: { label: 'Payment Status', type: 'enum', valueList: $csShared.enums.BillPaymentStatus },
-            PayStatusDate: { label: 'Payment Status Date', type: 'date', required: true },
+            PayStatusDate: { label: 'Payment Status Date', type: 'date' },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, }
         };

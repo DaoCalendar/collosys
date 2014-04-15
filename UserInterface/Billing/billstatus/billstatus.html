@@ -8,7 +8,7 @@
         </div>
         <div class="span2">
             <cs-button type="Add" text="Fetch data"
-                ng-show="billstatusform.$valid"
+                ng-disabled="billstatusform.$invalid"
                 ng-click="fetchData(Sele)"></cs-button>
             <!--ng-disabled="billstatusform.$invalid"-->
         </div>
@@ -18,8 +18,8 @@
                 <tr>
                     <th>Stakeholder Name</th>
                     <th>Payment Status</th>
-                    <th>Payment Date</th>
                     <th>Change State</th>
+                    <th>Payment Date</th>
                     <!-- <th>Date</th>-->
                 </tr>
             </thead>
@@ -29,27 +29,26 @@
                     <td>{{amount.PayStatus}}</td>
                     <td>{{amount.PayStatusDate | date}}</td>
                     <td>
-                        <input type="button" class="btn btn-default" value="Next Status"
-                               data-ng-click="amount.showDate='true'"
-                            data-ng-disabled="amount.PayStatus=='Closed'"/>
-                        <cs-button type="Save" text="Next State"
-                                   ng-click="amount.showDate='true'"
-                                   ng-disabled="amount.PayStatus=='Closed'"></cs-button>
-                        
+                        <cs-field field="BillAmount.PayStatusDate"
+                            ng-model="amount.ChangeStatus"
+                            no-label=""
+                            ng-disabled="amount.PayStatus=='Closed'"></cs-field>
                     </td>
                     <td>
-                        <div data-ng-if="amount.showDate">
-                            <cs-field field="BillAmount.PayStatusDate"
-                                ng-model="amount.ChangeStatus"
-                                no-label=""
-                                ng-change="changeStatus(amount)"></cs-field>
-                        </div>
+                        <input class="btn btn-default" type="button" value=" Next {{getNextStatus(amount.PayStatus)}}"
+                            data-ng-click="changeStatus(amount)"
+                            data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" />
+                        <!--<cs-button type="Add" text="{{nextStatusText}}"
+                                   ng-click="changeStatus(amount)"
+                                   ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'"></cs-button>-->
+
                     </td>
+
                     <!--<td> <cs-field data-ng-model="amount.Changed" field="BillAmount.PayStatus" no-label=""></cs-field></td>
-                    <td>
-                        <cs-field field="BillAmount.PayStatusDate" ng-model="amount.ChangeStatus" no-label=""></cs-field>
-                    </td>
-                    -->
+                        <td>
+                            <cs-field field="BillAmount.PayStatusDate" ng-model="amount.ChangeStatus" no-label=""></cs-field>
+                        </td>
+                        -->
                 </tr>
             </tbody>
         </table>
