@@ -36,10 +36,19 @@
         });
     };
 
+    var saveUpdates = function (hierarchies) {
+        restApi.customPOST(hierarchies, 'SaveHierarchies').then(function (data) {
+            dldata.stakeHierarchy = data;
+            console.log(data);
+            $csnotify.success('Permissions Updated');
+        });
+    };
+
     var getAll = function () {
         restApi.customGET('Get').then(function (data) {
             dldata.stakeHierarchy = data;
             setUpdatesinPrem(dldata.stakeHierarchy);
+            saveUpdates(dldata.stakeHierarchy);
         });
 
     };
@@ -47,74 +56,58 @@
     var setUpdatesinPrem = function (hierarchies) {
         _.forEach(hierarchies, function (item) {
             var perm = JSON.parse(item.Permissions);
-            console.log(angular.copy(perm));
             updatePermission(perm, permFactory.permission);
             console.log(perm);
-            return;
+            item.Permissions = JSON.stringify(perm);
         });
+        console.log(hierarchies);
     };
-    
+
     var updatePermission = function (oldPermission, newPermission) {
 
-        var oldStakePerm = _.find(oldPermission, function (item) {
-            if (item.area === 'Stakeholder') return item;
-        });
-        var newStakePerm = _.find(newPermission, function (item) {
-            if (item.area === 'Stakeholder') return item;
-        });
-        updateArea(oldStakePerm, newStakePerm);//updates stakeholder
-
-        var newAllocPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'Allocation') return item;
-        });
-        var oldAllocPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'Allocation') return item;
-        });
-        updateArea(newAllocPerm, oldAllocPerm);//updates allocation
-
-        var oldBillingPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'Billing') return item;
-        });
-        var newBillingPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'Billing') return item;
-        });
-        updateArea(oldBillingPerm, newBillingPerm);//updates billing
-
-        var oldFileUploadPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'File Upload') return item;
-        });
-        var newFileUploadPerm = _.find(oldPermission, function (item) {
-            if (item.area === 'File Upload') return item;
-        });
-        updateArea(oldFileUploadPerm, newFileUploadPerm);//updates file upload
-
-    };
-
-    var updateArea = function (oldPerm, newPerm) {
-        var oldView = _.find(oldPerm.permissions, function (item) {
-            if (item.category === 'view') return item;
-        });
-        var newView = _.find(newPerm.permissions, function (item) {
-            if (item.category === 'view') return item;
-        });
-        updateExtraPerm(oldView, newView);
-
-    };
-
-    var updateExtraPerm = function (oldCategory, newCategory) {
-        _.forEach(newCategory.extrapermission, function (newExtraPerm) {
-            var perm = _.find(oldCategory.extrapermission, function(item) {
-                if (item.display === newExtraPerm.display)
+        _.forEach(oldPermission, function (perm) {
+            //gets the currently  referrenced area from the newPermission
+            var newPermArea = _.find(newPermission, function (item) {
+                if (item.Area === perm.Area)
                     return item;
             });
-            
-            if (angular.isUndefined(perm))
-                oldCategory.extrapermission.push(newExtraPerm);
+            if (angular.isUndefined(newPermArea)) return;
+
+            _.forEach(perm.permissions, function (category) {
+                //gets the currently  referrenced category from the newPermission
+                var newPermCategory = _.find(newPermArea.permissions, function (item) {
+                    if (item.category === category.category)
+                        return item;
+                });
+                if (angular.isUndefined(newPermCategory)) return;
+
+                _.forEach(angular.copy(newPermCategory.extrapermission), function (extraPerm) {
+                    //checks for new permission if any
+                    var checkForNew = _.find(category.extrapermission, function (newExtraPerm) {
+                        if (newExtraPerm.display === extraPerm.display)
+                            return newExtraPerm;
+                    });
+                    if (angular.isUndefined(checkForNew))//add the extrapermission if it dosen't exist
+                        category.extrapermission.push(extraPerm);
+
+                });
+                _.forEach(angular.copy(category.extrapermission), function (oldExtraPerm) {
+                    //checks for removed permission if any
+                    var checkForRemoved = _.find(newPermCategory.extrapermission, function (newExtraPerm) {
+                        if (oldExtraPerm.display === newExtraPerm.display)
+                            return newExtraPerm;
+                    });
+                    //delete the extrapermission from oldPermission which dosen't exist in newPermission 
+                    if (angular.isUndefined(checkForRemoved)) {
+                        var oldPermArray = _.pluck(category.extrapermission, 'display');
+                        var index = oldPermArray.indexOf(oldExtraPerm.display);
+                        category.extrapermission.splice(index, 1);
+                    }
+                });
+            });
+
         });
     };
-
-    
-
 
     return {
         dldata: dldata,
@@ -150,3 +143,61 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
         };
 
     }]);
+
+
+
+//var oldStakePerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'Stakeholder') return item;
+//});
+//var newStakePerm = _.find(newPermission, function (item) {
+//    if (item.area === 'Stakeholder') return item;
+//});
+//updateArea(oldStakePerm, newStakePerm);//updates stakeholder
+
+//var newAllocPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'Allocation') return item;
+//});
+//var oldAllocPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'Allocation') return item;
+//});
+//updateArea(newAllocPerm, oldAllocPerm);//updates allocation
+
+//var oldBillingPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'Billing') return item;
+//});
+//var newBillingPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'Billing') return item;
+//});
+//updateArea(oldBillingPerm, newBillingPerm);//updates billing
+
+//var oldFileUploadPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'File Upload') return item;
+//});
+//var newFileUploadPerm = _.find(oldPermission, function (item) {
+//    if (item.area === 'File Upload') return item;
+//});
+//updateArea(oldFileUploadPerm, newFileUploadPerm);//updates file upload
+
+//var updateArea = function (oldPerm, newPerm) {
+//    var oldView = _.find(oldPerm.permissions, function (item) {
+//        if (item.category === 'view') return item;
+//    });
+//    var newView = _.find(newPerm.permissions, function (item) {
+//        if (item.category === 'view') return item;
+//    });
+//    updateExtraPerm(oldView, newView);
+
+//};
+
+//var updateExtraPerm = function (oldCategory, newCategory) {
+//    _.forEach(newCategory.extrapermission, function (newExtraPerm) {
+//        var perm = _.find(oldCategory.extrapermission, function (item) {
+//            if (item.display === newExtraPerm.display)
+//                return item;
+//        });
+
+//        if (angular.isUndefined(perm))
+//            oldCategory.extrapermission.push(newExtraPerm);
+//    });
+//};
+
