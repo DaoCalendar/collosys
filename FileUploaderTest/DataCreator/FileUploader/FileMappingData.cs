@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
-using ReflectionExtension.ExcelReader;
+using ColloSys.DataLayer.FileUploader;
 
 #endregion
 
@@ -182,11 +182,18 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         #endregion
 
+
         public Payment GetPayment()
         {
-            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL"};
+            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL" ,CreditAmount = 400,DebitAmount = 500};
 
             return objPayment;
+        }
+
+        public FileScheduler GetUploadedFile()
+        {
+            return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER } };
+
         }
 
         public List<string> GetTransactionList()
@@ -195,12 +202,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
             return strList;
         }
-        public Payment GetDebitAmount()
-        {
-            var objPayment = new Payment { DebitAmount = 12};
-
-            return objPayment;
-        }
+       
 
         public IEnumerable<FileMapping> GetMappingForCheckbasicField()
         {

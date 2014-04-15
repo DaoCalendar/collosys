@@ -202,7 +202,7 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
 
     var generateTemplate = function (templateParams, attrs) {
        
-        var html = '<input  name="myfield"';
+        var html = '<input';
         html += ' class=" btn ' + templateParams.className + '"';
         html += ' type="' + templateParams.type + '"';
         html += ' value="' + templateParams.text + '"';
@@ -229,17 +229,16 @@ csapp.directive('csButton', ['$parse', '$compile', 'buttonFactory',
             var templateParams = buttonFactory.getTemplateParams(buttonType, attrs.text);
             var template = buttonFactory.generateTemplate(templateParams, attrs);
 
-            //var newElem = angular.element(template);
-            //element.replaceWith(newElem);
-            //$compile(newElem)(scope);
-            element.html(template);
-            $compile(element.contents())(scope);
+            var newElem = angular.element(template);
+            element.replaceWith(newElem);
+            $compile(newElem)(scope);
+            //element.html(template);
+            //$compile(element.contents())(scope);
         };
         return {
             restrict: 'E',
             link: linkFunction,
-            require: '^form',
-            scope: true
+            require: '^form'
         };
     }]);
 

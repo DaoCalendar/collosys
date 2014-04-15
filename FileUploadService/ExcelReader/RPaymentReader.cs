@@ -61,7 +61,6 @@ namespace ColloSys.FileUploadService.ExcelReader
                 //record.TransAmount = record.IsDebit ? record.DebitAmount : record.CreditAmount;
                 record.IsDebit = (record.TransAmount > 0);
             }
-
             return true;
         }
 

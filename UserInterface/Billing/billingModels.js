@@ -15,8 +15,32 @@
         };
     };
 
+    var billAmount = function () {
+        return {
+            Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
+            PayStatus: { label: 'Payment Status', type: 'enum', valueList: $csShared.enums.BillPaymentStatus },
+            PayStatusDate: { label: 'Payment Status Date', type: 'date' },
+            Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true },
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, }
+        };
+    };
+
+    var billingSubpolicy = function () {
+        return {
+            Name: { label: "Name", type: "text", required: true },
+            Products: { label: "Product", required: true, type: "enum", valueList: $csShared.enums.Products },
+            Category: { label: "Category", required: true, type: "enum", valueList: $csShared.enums.Category },
+            PayoutSubpolicyType: { label: "PayoutSubPolicy", required: true, type: "enum", valueList: $csShared.enums.PayoutSubpolicyType },
+            OutputType: { label: "Output", required: true, type: "enum", valueList: $csShared.enums.OutputType },
+            GroupBy: { label: "Group By", type: "select", required: true },//TOBE Disscuss
+            Description: { label: "Description", type: "textarea" }
+        };
+    };
+
     var init = function () {
         models.BillAdhoc = billAdhoc();
+        models.BillAmount = billAmount();
+        models.BillingSubpolicy = billingSubpolicy();
         return models;
     };
 

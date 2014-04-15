@@ -72,7 +72,7 @@ namespace ColloSys.FileUploader.RecordCreator
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())
             {
-                if (!_recordCreator.CheckBasicField(_reader, excelType, _counter))
+                if (!_recordCreator.CheckBasicField(_reader, _counter))
                     return false;
 
                 excelstatus = ExcelMapper(obj, excelType);

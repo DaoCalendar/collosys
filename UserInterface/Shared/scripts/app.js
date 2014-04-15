@@ -130,6 +130,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/summary', {
                 templateUrl: '/Billing/summary/summary.html',
                 controller: 'BillAmountCntrl'
+            }).when('/billing/billstatus', {
+                templateUrl: '/Billing/billstatus/billstatus.html',
+                controller: 'billStatusController'
             })
 
             //generic
