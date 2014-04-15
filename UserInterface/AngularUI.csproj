@@ -337,6 +337,7 @@
     <Content Include="Generic\changepassword\changepassword.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
+    <Content Include="Generic\genericmodels.js" />
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
