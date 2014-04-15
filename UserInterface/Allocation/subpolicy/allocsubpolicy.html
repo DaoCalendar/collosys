@@ -146,13 +146,13 @@
                                 </tr>
                                 <tr data-ng-form="newConditionForm" data-ng-repeat="condition in ConditionList">
                                     <!--Delete Button-->
-                                    <td>
+                                    <td style="padding: 0;margin: 0">
                                         <div class="btn-group">
                                             <i class="btn icon-remove" data-ng-disabled="PolicyApproved() " data-ng-hide="dldata.policyapproved || (ConditionList.length <= 1 && $last)" data-ng-click="deleteCondition(condition,$index)"></i>
                                         </div>
                                     </td>
                                     <!--Where-->
-                                    <td>
+                                    <td style="padding: 0;margin: 0">
                                         <select class="input-large"
                                             data-ng-disabled="!($last)"
                                             data-ng-model="condition.ColumnName"
@@ -162,14 +162,14 @@
                                         </select>
                                     </td>
                                     <!--Operator-->
-                                    <td>
+                                    <td style="padding: 0;margin: 0">
                                         <select class="input-medium" data-ng-disabled="!($last)" data-ng-model="condition.Operator" required>
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
                                         </select>
                                     </td>
                                     <!--Value-->
-                                    <td class="input-large">
+                                    <td class="input-large" style="padding: 0;margin: 0">
                                         <input type="text" class="input-medium" readonly="readonly" data-ng-hide="$last" value="{{condition.Value}}" />
                                         <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
 
@@ -210,7 +210,7 @@
                                         </div>
                                     </td>
                                     <!--button-->
-                                    <td>
+                                    <td style="padding: 0;margin: 0">
                                         <!-- <button class="btn icon-plus" data-ng-show="$last" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
                                                      data-ng-click="addNewCondition(condition);">
                                              </button>-->
