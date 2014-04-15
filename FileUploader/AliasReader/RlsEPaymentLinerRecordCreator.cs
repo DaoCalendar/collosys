@@ -1,7 +1,6 @@
 ﻿#region references
 
 using System.Collections.Generic;
-using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.Utilities;
@@ -42,41 +41,43 @@ namespace ColloSys.FileUploader.AliasReader
             return true;
         }
 
-        public bool ComputedSetter(Payment obj, object yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
+        public bool ComputedSetter(Payment obj, Payment yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
         {
             return true;
         }
 
-        public bool CheckBasicField(IExcelReader reader, IEnumerable<FileMapping> mapings, ICounter counter)
-        {
-            var uniqColumnMapping = from d in mapings where (d.ActualColumn == "AccountNo") select d;
-            var mapping = uniqColumnMapping.FirstOrDefault();
-            if (mapping != null)
-            {
-                string data = reader.GetValue(mapping.Position);
-                if (data != "" && SharedUtility.IsDigit(data))
-                {
-                    return true;
-                }
-            }
-            counter.IncrementIgnoreRecord();
-            counter.IncrementTotalRecords();
+    
 
-            var narr = reader.GetValue(1).Trim() + reader.GetValue(2).Trim();
-            var shouldBeExclude =
-                    _ePaymentExcludeCodes.Contains(string.Format("{0}@{1}", reader.GetValue(2).Trim(), narr));
-            if (shouldBeExclude)
-            {
-                _log.Debug(string.Format("Payment of Account No {0} is Excluded Because TransCode : {1}, and TransDesc : {2}",
-                                                reader.GetValue(1), reader.GetValue(2), narr));
-                return false;
-            }
-            if (_eWriteoffAccounts.Contains(reader.GetValue(2)))
-            {
-                _log.Debug(string.Format("Payment of Account No {0} is Excluded Because It is Writeoff Account",
-                                         reader.GetValue(1)));
-                return false;
-            }
+        public bool CheckBasicField(IExcelReader reader, ICounter counter)
+        {
+            //var uniqColumnMapping = from d in mapings where (d.ActualColumn == "AccountNo") select d;
+            //var mapping = uniqColumnMapping.FirstOrDefault();
+            //if (mapping != null)
+            //{
+            //    var data = reader.GetValue(mapping.Position);
+            //    if (data != "" && SharedUtility.IsDigit(data))
+            //    {
+            //        return true;
+            //    }
+            //}
+            //counter.IncrementIgnoreRecord();
+            //counter.IncrementTotalRecords();
+
+            //var narr = reader.GetValue(1).Trim() + reader.GetValue(2).Trim();
+            //var shouldBeExclude =
+            //        _ePaymentExcludeCodes.Contains(string.Format("{0}@{1}", reader.GetValue(2).Trim(), narr));
+            //if (shouldBeExclude)
+            //{
+            //    _log.Debug(string.Format("Payment of Account No {0} is Excluded Because TransCode : {1}, and TransDesc : {2}",
+            //                                    reader.GetValue(1), reader.GetValue(2), narr));
+            //    return false;
+            //}
+            //if (_eWriteoffAccounts.Contains(reader.GetValue(2)))
+            //{
+            //    _log.Debug(string.Format("Payment of Account No {0} is Excluded Because It is Writeoff Account",
+            //                             reader.GetValue(1)));
+            //    return false;
+            //}
 
             return false;
         }

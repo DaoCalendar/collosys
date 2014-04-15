@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RowCounter;
@@ -8,17 +9,14 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
-    class RlsPaymentLinerRecordCreatorTest :SetUpAssemblies
+    class RlsPaymentLinerRecordCreatorTest : SetUpAssemblies
     {
         #region ::ctor::
 
         private RlsPaymentLinerRecordCreator _rlsPaymentLiner;
         private IExcelReader _reader;
         private ICounter _counter;
-        private IList<string> _ePaymentExcludeCode;
-        private readonly List<string> _eWriteoff = new List<string>();
         private FileScheduler _uploadedFile;
-
         private FileMappingData _mappingData;
 
         [SetUp]
@@ -28,10 +26,26 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             _mappingData = new FileMappingData();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
-            _ePaymentExcludeCode = new List<string>();
-
-            _uploadedFile.FileDetail = _mappingData.GetFileDetail();
+            _uploadedFile = _mappingData.GetUploadedFile();
             _rlsPaymentLiner = new RlsPaymentLinerRecordCreator(_uploadedFile);
+        }
+        #endregion
+
+
+
+        #region ComputtedSetter TestCases
+
+        [Test]
+        public void Test__ComputtedSeeter_Assigning_FileDate_To_FileShedular()
+        {
+            //Arrange
+            var payment = _mappingData.GetPayment();
+
+            //Act
+            _rlsPaymentLiner.ComputedSetter(payment, _reader, _counter);
+
+            //Assert
+            Assert.AreEqual(payment.FileDate, Convert.ToDateTime("4/15/2014"));
         }
 
         [Test]
@@ -41,7 +55,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             var payment = _mappingData.GetPayment();
 
             //Act
-            _rlsPaymentLiner.ComputedSetter(payment);
+            _rlsPaymentLiner.ComputedSetter(payment, _reader, _counter);
 
             //Assert
             Assert.AreEqual(payment.IsDebit, true);
@@ -54,7 +68,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             var payment = _mappingData.GetPayment();
 
             //Act
-            _rlsPaymentLiner.ComputedSetter(payment);
+            _rlsPaymentLiner.ComputedSetter(payment, _reader, _counter);
 
             //Assert
             Assert.AreEqual(payment.TransAmount, 0);
@@ -67,18 +81,62 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             var payment = _mappingData.GetPayment();
 
             //Act
-            _rlsPaymentLiner.ComputedSetter(payment);
+            _rlsPaymentLiner.ComputedSetter(payment, _reader, _counter);
 
             //Assert
-            Assert.AreEqual(payment.TransAmount,100);
-        }
-
-        [Test]
-        public void Test_CheckBasicField()
-        {
-            
+            Assert.AreEqual(payment.TransAmount, 100);
         }
 
         #endregion
+
+
+        #region CheckBasicField
+
+        [Test]
+        public void Test_CheckBasicField_Assigning_Empty_String_to_LoanNumber()
+        {
+            //Arrange
+            var mapping = _mappingData.GetMappings();
+
+            //Act
+            _reader.Skip(2);
+            _rlsPaymentLiner.CheckBasicField(_reader, _counter);
+
+            //Asserts
+            Assert.AreEqual(_counter.IgnoreRecord, 1);
+        }
+
+        [Test]
+        public void Test_CheckBasicField_Assigning_Valid_LoanNumber()
+        {
+            //Arrange
+            var mapping = _mappingData.GetMappings();
+
+            //Act
+            _reader.Skip(3);
+            var chkBasicField = _rlsPaymentLiner.CheckBasicField(_reader, _counter);
+
+            //Assert
+            Assert.AreEqual(chkBasicField, true);
+        }
+
+        [Test]
+        public void Test_CheckBasicField_Assigning_InValid_LoanNumber()
+        {
+            //Arrange
+            var mapping = _mappingData.GetMappings();
+
+            //Act
+            _reader.Skip(7);
+            _rlsPaymentLiner.CheckBasicField(_reader, _counter);
+
+            //Assert
+            Assert.AreEqual(_counter.IgnoreRecord, 1);
+        }
+
+        #endregion
+
+
+       
     }
 }
