@@ -1,156 +1,172 @@
 ﻿<div class="row-fluid">
-    <div class="row-fluid span3">
-        <ul role="menu" class="nav nav-tabs nav-stacked">
-            <li class="alert-info">
-                <a>Payout Subpolicy</a>
-            </li>
-            <li class="content" data-ng-repeat="spayoutSubpolicy in dldata.payoutSubpolicyList | orderBy : 'Name'">
-                <a class="btn-link" data-ng-click="datalayer.selectPayoutSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
-            </li>
-        </ul>
+    <div class="span3">
+        <div class="row-fluid text-left">
+            <label>Select Product</label>
+            <select class="input-medium"
+                data-ng-model="dldata.payoutSubpolicy.Products"
+                data-ng-change="datalayer.changeProductCategory()" required>
+                <option value=""></option>
+                <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+            </select>
+        </div>
+
+        <!--SubPolicy List-->
+        <div class="row-fluid" style="border: 1px solid; border-color: silver; height: 625px; overflow: auto">
+            <legend style="background-color: #F5F5F5">Payout Subpolicy</legend>
+            <ul role="menu" class="nav nav-tabs nav-stacked">
+                <li class="content" data-ng-repeat="spayoutSubpolicy in dldata.payoutSubpolicyList | orderBy : 'Name'">
+                    <a class="btn-link" data-ng-click="datalayer.selectPayoutSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <div class="row-fluid span9">
-        <div class="panel form-horizontal" data-ng-form="payoutSubpolicyForm">
-            <div class="panel-heading">Supolicy</div>
-            <div class="row">
-                <div class="control-group span5">
-                    <label class="control-label">Product</label>
-                    <div class="controls">
-                        <select class="input-large"
-                            data-ng-disabled="dldata.payoutSubpolicy.Id"
-                            data-ng-model="dldata.payoutSubpolicy.Products"
-                            data-ng-change="datalayer.changeProductCategory()" required>
-                            <option value=""></option>
-                            <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                        </select>
+
+        <!--Subpolicy-->
+        <div class="row-fluid " data-ng-form="payoutSubpolicyForm" style="height: 200px; border: 1px solid; border-color: silver">
+            <legend style="background-color: #F5F5F5">Supolicy</legend>
+            <div class="row-fluid form-horizontal">
+                <div class="row-fluid">
+                    <div class="control-group span5">
+                        <label class="control-label">Product</label>
+                        <div class="controls">
+                            <input type="text" class="input-large" readonly="readonly" data-ng-model="dldata.payoutSubpolicy.Products" />
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Category</label>
+                        <div class="controls">
+                            <csswitch ngdisabled="dldata.payoutSubpolicy.Id"
+                                ngbind="dldata.payoutSubpolicy.Category"
+                                onbtnclick="datalayer.changeProductCategory()"
+                                namevalues="dldata.categorySwitch"></csswitch>
+                        </div>
                     </div>
                 </div>
-                <div class="control-group span6">
-                    <label class="control-label">Category</label>
-                    <div class="controls">
-                        <csswitch ngdisabled="dldata.payoutSubpolicy.Id"
-                            ngbind="dldata.payoutSubpolicy.Category"
-                            onbtnclick="datalayer.changeProductCategory()"
-                            namevalues="dldata.categorySwitch"></csswitch>
+
+                <!--Name and Description-->
+                <div class="row-fluid">
+                    <div class="control-group span5">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <input type="text" data-ng-disabled="dldata.payoutSubpolicy.Id"
+                                data-ng-model="dldata.payoutSubpolicy.Name"
+                                data-ng-pattern="/^\w*$/"
+                                data-ng-change="factory.checkDuplicateName()" required />
+                            <label class="text-error"
+                                data-ng-show="dldata.isDuplicateName">
+                                Subpolicy name already exist</label>
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Description</label>
+                        <div class="controls">
+                            <textarea class="noResize" data-ng-model="dldata.payoutSubpolicy.Description"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="control-group span5">
-                    <label class="control-label">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-disabled="dldata.payoutSubpolicy.Id"
-                            data-ng-model="dldata.payoutSubpolicy.Name"
-                            data-ng-pattern="/^\w*$/"
-                            data-ng-change="factory.checkDuplicateName()" required />
-                        <label class="text-error"
-                            data-ng-show="dldata.isDuplicateName">
-                            Subpolicy name already exist</label>
-                    </div>
-                </div>
-                <div class="control-group span6">
-                    <label class="control-label">Description</label>
-                    <div class="controls">
-                        <textarea class="noResize" data-ng-model="dldata.payoutSubpolicy.Description"></textarea>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
 
-        <div class="panel">
-            <div class="panel-heading">Output</div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <td>Operator</td>
-                        <td>Value Type</td>
-                        <td>Value</td>
-                        <td></td>
-                    </tr>
-                    <tr data-ng-form="newOutputForm">
-                        <td class="input-medium">
-                            <csswitch ngbind="dldata.newOutput.Operator" namevalues="dldata.OperatorSwitch"
-                                ngdisabled="dldata.payoutSubpolicy.BOutputs<1"></csswitch>
-                        </td>
-                        <td>
-                            <select class="input-small" data-ng-model="dldata.newOutput.Rtype"
-                                data-ng-change="dldata.newOutput.Lsqlfunction=''; dldata.newOutput.Rvalue=''; dldata.newOutput.ColumnName=''" required>
-                                <option value="">-Type-</option>
-                                <option value="Value">Value</option>
-                                <option value="Table">Table</option>
-                                <option value="Formula">Formula</option>
-                                <option value="Matrix">Matrix</option>
-                            </select>
-                        </td>
-                        <td>
-                            <div data-ng-hide="dldata.newOutput.Rtype">
-                                <input class="input-medium" type="number" step="any"
-                                    data-ng-model="dldata.newOutput.Rvalue"  />
-                            </div>
-                            <div data-ng-switch on="dldata.newOutput.Rtype">
-                                <div data-ng-switch-when="Value">
+        <!--Output -->
+        <div class="row-fluid" style="border: 1px solid; border-color: silver;">
+            <legend style="background-color: #F5F5F5">Output</legend>
+            <div class="row-fluid" style="height: 200px; overflow: auto">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Operator</td>
+                            <td>Value Type</td>
+                            <td>Value</td>
+                            <td></td>
+                        </tr>
+                        <tr data-ng-form="newOutputForm">
+                            <td class="input-medium">
+                                <csswitch ngbind="dldata.newOutput.Operator" namevalues="dldata.OperatorSwitch"
+                                    ngdisabled="dldata.payoutSubpolicy.BOutputs<1"></csswitch>
+                            </td>
+                            <td>
+                                <select class="input-small" data-ng-model="dldata.newOutput.Rtype"
+                                    data-ng-change="dldata.newOutput.Lsqlfunction=''; dldata.newOutput.Rvalue=''; dldata.newOutput.ColumnName=''" required>
+                                    <option value="">-Type-</option>
+                                    <option value="Value">Value</option>
+                                    <option value="Table">Table</option>
+                                    <option value="Formula">Formula</option>
+                                    <option value="Matrix">Matrix</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div data-ng-hide="dldata.newOutput.Rtype">
                                     <input class="input-medium" type="number" step="any"
-                                        data-ng-model="dldata.newOutput.Rvalue" required />
+                                        data-ng-model="dldata.newOutput.Rvalue" />
+                                </div>
+                                <div data-ng-switch on="dldata.newOutput.Rtype">
+                                    <div data-ng-switch-when="Value">
+                                        <input class="input-medium" type="number" step="any"
+                                            data-ng-model="dldata.newOutput.Rvalue" required />
 
+                                    </div>
+                                    <div data-ng-switch-when="Table">
+                                        <select class="input-small" data-ng-model="dldata.newOutput.Lsqlfunction">
+                                            <option value="">-Fun-</option>
+                                            <option value="Sum">Sum</option>
+                                            <option value="Count">Count</option>
+                                            <option value="Avg">Avg</option>
+                                        </select>
+                                        <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-switch-when="Formula">
+                                        <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-switch-when="Matrix">
+                                        <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.matrixNames">{{c}}</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div data-ng-switch-when="Table">
-                                    <select class="input-small" data-ng-model="dldata.newOutput.Lsqlfunction">
-                                        <option value="">-Fun-</option>
-                                        <option value="Sum">Sum</option>
-                                        <option value="Count">Count</option>
-                                        <option value="Avg">Avg</option>
-                                    </select>
-                                    <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
-                                        <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
-                                    </select>
-                                </div>
-                                <div data-ng-switch-when="Formula">
-                                    <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
-                                        <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
-                                    </select>
-                                </div>
-                                <div data-ng-switch-when="Matrix">
-                                    <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
-                                        <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.matrixNames">{{c}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
-                                data-ng-click="factory.addNewOutput(dldata.newOutput)">
-                            </button>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
-                        <td></td>
-                        <td colspan="2">{{ output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue + ' )'}}</td>
-                        <td>
-                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                            <td>
+                                <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
+                                    data-ng-click="factory.addNewOutput(dldata.newOutput)">
+                                </button>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
+                            <td></td>
+                            <td colspan="2">{{ output.Operator + output.Lsqlfunction + '( ' + output.RtypeName + output.Rvalue + ' )'}}</td>
+                            <td>
+                                <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div data-ng-show="dldata.outputWithFunction" class="panel">
-            <div class="panel-heading">Group by</div>
+        <!--GroupBy-->
+        <div data-ng-show="dldata.outputWithFunction" class="row-fluid" style="border: 1px solid; border-color: silver">
+            <legend style="background-color: #F5F5F5">Group By</legend>
             <select class="input-xxlarge" multiple="multiple"
                 data-ng-model="dldata.payoutSubpolicy.GroupBy" required>
                 <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c.field}}">{{c.displayName}}</option>
             </select>
         </div>
 
-        <div class="panel">
-            <div class="panel-heading">Condition</div>
-            <div class="row-fluid" style="overflow: auto">
+        <!--Conditions-->
+        <div class="row-fluid" style="border: 1px solid; border-color: silver">
+            <div class="row-fluid" style="height: 200px; overflow: auto">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -193,8 +209,8 @@
                             </td>
                             <td class="input-large">
                                 <div data-ng-hide="dldata.newCondition.Rtype">
-                                    <input class="input-medium"  type="text" data-ng-model="dldata.newCondition.RtypeName" />
-                                    
+                                    <input class="input-medium" type="text" data-ng-model="dldata.newCondition.RtypeName" />
+
                                 </div>
                                 <div data-ng-switch on="dldata.newCondition.Rtype">
                                     <div data-ng-switch-when="Table">
@@ -222,20 +238,20 @@
                                                         data-ng-model="dldata.newCondition.Rvalue" required />
                                                 -->
                                             <input class="input-small"
-                                                   data-ng-switch-when="number"
-                                                   type="number"
-                                                   data-ng-model="dldata.newCondition.Rvalue" required />
+                                                data-ng-switch-when="number"
+                                                type="number"
+                                                data-ng-model="dldata.newCondition.Rvalue" required />
 
                                             <div data-ng-switch-when="date">
                                                 <select class="input-medium"
-                                                        data-ng-model="dldata.newCondition.dateValueEnum" required>
+                                                    data-ng-model="dldata.newCondition.dateValueEnum" required>
                                                     <option value=""></option>
                                                     <option data-ng-repeat="c in dldata.dateValueEnum">{{c}}</option>
                                                 </select>
 
                                                 <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="dldata.newCondition.Rvalue"
-                                                       data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
-                                                       data-date-format="dd-mm-yyyy" bs-datepicker>
+                                                    data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
+                                                    data-date-format="dd-mm-yyyy" bs-datepicker>
                                             </div>
                                             <div data-ng-switch-when="checkbox">
                                                 <select class="input-small" data-ng-model="dldata.newCondition.Rvalue" required>
@@ -275,7 +291,8 @@
             </div>
         </div>
 
-        <div class="modal-footer">
+        <!--Button-->
+        <div class="row-fluid text-right">
             <button class="btn btn-success" data-ng-disabled="!(payoutSubpolicyForm.$valid && (dldata.payoutSubpolicy.BConditions.length>0 && dldata.payoutSubpolicy.BOutputs.length>0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.savePayoutSubpolicy(dldata.payoutSubpolicy)">Save</button>
             <button class="btn btn-primary"
                 data-ng-show="dldata.payoutSubpolicy.Id"
