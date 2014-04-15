@@ -385,8 +385,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -396,7 +396,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
             $scope.dldata.newCondition = {};
             $scope.dldata.newCondition.Rtype = "Value";
-
+            $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
             $scope.datalayer.getProducts();
         })();
 

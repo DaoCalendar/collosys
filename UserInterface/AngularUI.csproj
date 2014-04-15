@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
     <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorViewModel.cs" />
@@ -243,6 +244,8 @@
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\adhoc.html" />
     <Content Include="Billing\billingModels.js" />
+    <Content Include="Billing\billstatus\billstatus.js" />
+    <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />

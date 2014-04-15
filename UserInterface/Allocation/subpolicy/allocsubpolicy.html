@@ -1,28 +1,27 @@
 ﻿<div class="row-fluid">
-    
-        <form data-ng-submit="onSubmit()" name="allocSubpolicyForm1">
+
+    <form data-ng-submit="onSubmit()" name="allocSubpolicyForm1">
+        <div class="row-fluid">
+
+
             <!--Subpolicy List Div-->
-            <div class="span3" style="border: 1px solid; border-color: silver; height: 500px; overflow: auto">
-                <!--<field-group>
-                        <cs-field data-ng-model="allocSubpolicy.Products" field="allocSubpolicyModel.Products"></cs-field>
-            
-                    </field-group>-->
-                <div class=" row-fluid control-group">
-                    <label class="control-label">Product</label>
-                    <div class="controls">
-                        <select class="input-medium"
-                            data-ng-disabled="dldata.allocSubpolicy.Id"
-                            data-ng-model="dldata.allocSubpolicy.Products"
-                            data-ng-change="datalayer.changeProductCategory()"
-                            required>
-                            <option value=""></option>
-                            <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                        </select>
-                    </div>
+            <div class="span3">
+                <div class="row-fluid text-left">
+
+                    <label>Select Product</label>
+
+                    <select class="input-medium"
+                        data-ng-model="dldata.allocSubpolicy.Products"
+                        data-ng-change="datalayer.changeProductCategory()"
+                        required>
+                        <option value=""></option>
+                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+                    </select>
+
                 </div>
 
-                <div class="row-fluid">
-                    <legend>SubPolicy List</legend>
+                <div class="row-fluid" style="border: 1px solid; border-color: silver; height: 460px; overflow: auto">
+                    <legend style="background-color: #F5F5F5">SubPolicy List</legend>
                     <ul role="menu" class="nav nav-tabs nav-stacked">
                         <!--  <li class="alert-info">
                                   <a>Subpolicy List</a>
@@ -34,13 +33,13 @@
                 </div>
             </div>
             <!--Subpolicy Details Div-->
-            <div class="span9" style="border: 1px solid; border-color: silver; height: 500px; overflow: auto" data-ng-form="allocSubpolicyForm">
+            <div class="span9" data-ng-form="allocSubpolicyForm">
                 <!--Subpolicy Basic-Info-->
-                <div class=" row-fluid form-horizontal">
-                    <legend>Subpolicy Basic-Info</legend>
+                <div class=" row-fluid form-horizontal" style="border: 1px solid; border-color: silver; height: 200px; overflow: auto">
+                    <legend style="background-color: #F5F5F5">Subpolicy Basic-Info</legend>
 
                     <div class="row-fluid">
-                         <!--Name-->
+                        <!--Name-->
                         <div class="control-group span6">
                             <label class="control-label">Subpolicy Name</label>
                             <div class="controls">
@@ -55,7 +54,7 @@
                                 <label class="text-error" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
                             </div>
                         </div>
-                       
+
                         <!--Category-->
                         <div class="control-group span5" data-ng-hide="true">
                             <label class="control-label">Category</label>
@@ -63,14 +62,14 @@
                                 <csswitch ngdisabled="dldata.allocSubpolicy.Id" ngbind="dldata.allocSubpolicy.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch"></csswitch>
                             </div>
                         </div>
-                         <!--Product-->
+                        <!--Product-->
                         <div class="control-group span6">
                             <label class="control-label">Product</label>
                             <div class="controls">
                                 <input type="text" class="input-large" data-ng-model="dldata.allocSubpolicy.Products" data-ng-disabled="true" />
                             </div>
                         </div>
-                       
+
                     </div>
 
                     <div class="row-fluid">
@@ -133,109 +132,110 @@
                     </div>
                 </div>
                 <!--Subpolicy Condition-->
-                <div class="row-fluid">
-                    <legend>Subpolicy Condition</legend>
-
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <td></td>
-                                <td>Where</td>
-                                <td>Operator</td>
-                                <td>Value</td>
-                                <td></td>
-                            </tr>
-                            <tr data-ng-form="newConditionForm" data-ng-repeat="condition in ConditionList">
-                                <!--Delete Button-->
-                                <td>
-                                    <div class="btn-group">
-                                        <i class="btn icon-remove" data-ng-disabled="PolicyApproved() " data-ng-hide="dldata.policyapproved || (ConditionList.length <= 1 && $last)" data-ng-click="deleteCondition(condition,$index)"></i>
-                                    </div>
-                                </td>
-                                <!--Where-->
-                                <td>
-                                    <select class="input-large"
+                <div class="row-fluid" style="border: 1px solid; border-color: silver;">
+                    <legend style="background-color:#F5F5F5">Subpolicy Condition</legend>
+                    <div style="height: 240px; overflow: auto">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td>Where</td>
+                                    <td>Operator</td>
+                                    <td>Value</td>
+                                    <td></td>
+                                </tr>
+                                <tr data-ng-form="newConditionForm" data-ng-repeat="condition in ConditionList">
+                                    <!--Delete Button-->
+                                    <td style="padding: 0;margin: 0">
+                                        <div class="btn-group">
+                                            <i class="btn icon-remove" data-ng-disabled="PolicyApproved() " data-ng-hide="dldata.policyapproved || (ConditionList.length <= 1 && $last)" data-ng-click="deleteCondition(condition,$index)"></i>
+                                        </div>
+                                    </td>
+                                    <!--Where-->
+                                    <td style="padding: 0;margin: 0">
+                                        <select class="input-large"
                                             data-ng-disabled="!($last)"
                                             data-ng-model="condition.ColumnName"
                                             data-ng-change="factory.changeLeftColName(condition)" required>
-                                        <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
-                                    </select>
-                                </td>
-                                <!--Operator-->
-                                <td>
-                                    <select class="input-medium" data-ng-disabled="!($last)" data-ng-model="condition.Operator" required>
-                                        <option value=""></option>
-                                        <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
-                                    </select>
-                                </td>
-                                <!--Value-->
-                                <td class="input-large">
-                                    <input type="text" class="input-medium" readonly="readonly" data-ng-hide="$last" value="{{condition.Value}}"/>
-                                    <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
-                                        
-                                        <div data-ng-switch-when="number">
-                                        <input class="input-small" data-ng-disabled="!($last)" data-ng-show="$last"  type="number"  data-ng-model="condition.Value" required />
-                                           
-                                        </div>
-                                      <!-- <input class="input-medium" data-ng-disabled="(!$last)" data-ng-switch-default="text" type="text" data-ng-model="condition.Value" required />-->
-
-                                        <div data-ng-switch-when="date">
-                                            <select class="input-medium" data-ng-show="$last" data-ng-disabled="(!$last)" data-ng-model="condition.dateValueEnum"
-                                                    data-ng-options="c for c in dldata.dateValueEnum" required>
-                                            </select>
-
-                                            <input class="input-medium" type="text" data-ng-disabled="(!$last)" data-ng-show="$last" name="ScheduleDate" data-ng-model="condition.Value"
-                                                   data-ng-show="condition.dateValueEnum && condition.dateValueEnum==='Absolute_Date'"
-                                                   data-date-format="dd-mm-yyyy" bs-datepicker>
-                                        </div>
-
-                                        <select data-ng-switch-when="checkbox" data-ng-disabled="(!$last)" data-ng-show="$last" class="input-small" data-ng-model="condition.Value" required>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
                                         </select>
+                                    </td>
+                                    <!--Operator-->
+                                    <td style="padding: 0;margin: 0">
+                                        <select class="input-medium" data-ng-disabled="!($last)" data-ng-model="condition.Operator" required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
+                                        </select>
+                                    </td>
+                                    <!--Value-->
+                                    <td class="input-large" style="padding: 0;margin: 0">
+                                        <input type="text" class="input-medium" readonly="readonly" data-ng-hide="$last" value="{{condition.Value}}" />
+                                        <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
 
-                                        <div data-ng-switch-when="dropdown">
-                                            <select class="input-medium" data-ng-show="$last" data-ng-disabled="(!$last)" data-ng-model="condition.Value"
-                                                    data-ng-options="c for  c in dldata.conditionValues" required>
+                                            <div data-ng-switch-when="number">
+                                                <input class="input-small" data-ng-disabled="!($last)" data-ng-show="$last" type="number" data-ng-model="condition.Value" required />
+
+                                            </div>
+                                            <!-- <input class="input-medium" data-ng-disabled="(!$last)" data-ng-switch-default="text" type="text" data-ng-model="condition.Value" required />-->
+
+                                            <div data-ng-switch-when="date">
+                                                <select class="input-medium" data-ng-show="$last" data-ng-disabled="(!$last)" data-ng-model="condition.dateValueEnum"
+                                                    data-ng-options="c for c in dldata.dateValueEnum" required>
+                                                </select>
+
+                                                <input class="input-medium" type="text" data-ng-disabled="(!$last)" name="ScheduleDate" data-ng-model="condition.Value"
+                                                    data-ng-show="(condition.dateValueEnum && condition.dateValueEnum==='Absolute_Date') && $last "
+                                                    data-date-format="dd-mm-yyyy" bs-datepicker>
+                                            </div>
+
+                                            <select data-ng-switch-when="checkbox" data-ng-disabled="(!$last)" data-ng-show="$last" class="input-small" data-ng-model="condition.Value" required>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
                                             </select>
-                                        </div>
-                                        <div data-ng-switch-when="text">
-                                            <select class="input-xlarge"
+
+                                            <div data-ng-switch-when="dropdown">
+                                                <select class="input-medium" data-ng-show="$last" data-ng-disabled="(!$last)" data-ng-model="condition.Value"
+                                                    data-ng-options="c for  c in dldata.conditionValues" required>
+                                                </select>
+                                            </div>
+                                            <div data-ng-switch-when="text">
+                                                <select class="input-xlarge"
                                                     data-ng-disabled="(!$last)"
                                                     data-ng-show="$last"
                                                     data-ng-model="condition.Value"
                                                     data-ng-options="c for  c in dldata.conditionValues" required>
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <!--button-->
-                                <td>
-                                   <!-- <button class="btn icon-plus" data-ng-show="$last" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
-                                            data-ng-click="addNewCondition(condition);">
-                                    </button>-->
-                                    <input
-                                        type="submit"
-                                        class="btn btn-default"
-                                        value="Add Another"
-                                        data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
-                                        data-ng-click="checkDuplicate(condition,$index)"
-                                        data-ng-show="$last" />
-                                </td>
-                            </tr>
-                            <!--  <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
-                                      <td colspan="3">{{condition.RelationType + ' ( '+condition.ColumnName+' '+condition.Operator+' '+ 
-                                          condition.RtypeName + 
-                                          ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value ) 
-                                          + ' ) '}}
-                                      </td>
-                                      <td>
-                                          <i class="btn icon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>
-                                      </td>
-                                  </tr>-->
-                        </thead>
-                    </table>
+                                    </td>
+                                    <!--button-->
+                                    <td style="padding: 0;margin: 0">
+                                        <!-- <button class="btn icon-plus" data-ng-show="$last" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
+                                                     data-ng-click="addNewCondition(condition);">
+                                             </button>-->
+                                        <input
+                                            type="submit"
+                                            class="btn btn-default"
+                                            value="Add Another"
+                                            data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
+                                            data-ng-click="checkDuplicate(condition,$index)"
+                                            data-ng-show="$last" />
+                                    </td>
+                                </tr>
+                                <!--  <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
+                                          <td colspan="3">{{condition.RelationType + ' ( '+condition.ColumnName+' '+condition.Operator+' '+ 
+                                              condition.RtypeName + 
+                                              ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value ) 
+                                              + ' ) '}}
+                                          </td>
+                                          <td>
+                                              <i class="btn icon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                          </td>
+                                      </tr>-->
+                            </thead>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="text-right">
@@ -244,8 +244,9 @@
                     <button class="btn btn-warning" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,dldata.allocSubpolicy.Category)">Reset</button>
                 </div>
             </div>
-        </form>
-  
+        </div>
+    </form>
+
 </div>
 
 
