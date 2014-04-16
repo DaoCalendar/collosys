@@ -76,6 +76,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 // get subpolicy
                 restApi.customGET("GetPayoutSubpolicy", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
                     dldata.payoutSubpolicyList = _.filter(data, { PayoutSubpolicyType: 'Subpolicy' });
+                    if (dldata.payoutSubpolicyList.length==0) {
+                        $csnotify.success("SubPolicy Not Available");
+                    }
                 }, function (data) {
                     $csnotify.error(data);
                 });
@@ -356,6 +359,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
             $scope.dldata.newCondition = {};
             $scope.dldata.newCondition.Rtype = "Value";
+            $scope.showDiv = false;
             $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
             $scope.datalayer.getProducts();
         })();
@@ -375,6 +379,31 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                 }
             });
         };
+        $scope.changeProductCategory = function() {
+            $scope.datalayer.changeProductCategory();
+            $scope.addsubpolicy();
+            $scope.showDiv = false;
+
+        };
+
+        $scope.selectPayoutSubpolicy = function (spayoutSubpolicy) {
+            $scope.datalayer.selectPayoutSubpolicy(spayoutSubpolicy);
+            $scope.showDiv = true;
+        };
+
+        $scope.addsubpolicy = function() {
+            $scope.showDiv = true;
+            $scope.dldata.payoutSubpolicy.Name = '';
+            $scope.dldata.payoutSubpolicy.Description = '';
+            $scope.dldata.payoutSubpolicy.BConditions = [];
+            $scope.dldata.payoutSubpolicy.BOutputs = [];
+            $scope.dldata.deleteConditions = [];
+            $scope.dldata.newCondition = {};
+            $scope.dldata.newOutput = {};
+            $scope.dldata.payoutSubpolicy.Category = "Liner";
+            $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
+        };
+
         $scope.changeLeftTypeName = function (condition) {
             condition.RtypeName = '';
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });

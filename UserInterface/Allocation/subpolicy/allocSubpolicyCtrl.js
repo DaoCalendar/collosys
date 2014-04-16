@@ -13,6 +13,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
+            $scope.showDiv = false;
             $scope.datalayer.getReasons();
         })();
 
@@ -35,6 +36,29 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                     }
                 }
             });
+        };
+
+        $scope.selectAllocSubpolicy = function (sallocSubpolicy) {
+            $scope.datalayer.selectAllocSubpolicy(sallocSubpolicy);
+            $scope.showDiv = true;
+        };
+
+        $scope.changeProductCategory = function() {
+            $scope.datalayer.changeProductCategory();
+            $scope.addsubpolicy();
+            $scope.showDiv = false;
+
+        };
+        $scope.addsubpolicy = function () {
+            $scope.showDiv = true;
+            $scope.dldata.newCondition = [];
+            $scope.dldata.policyapproved = false;
+            $scope.dldata.allocSubpolicy.AllocateType = '';
+            $scope.dldata.allocSubpolicy.Name = '';
+            $scope.dldata.allocSubpolicy.Conditions = [];
+            $scope.dldata.isDuplicateName = false;
+            $scope.dldata.deleteConditions = [];
+            $scope.dldata.allocSubpolicy.NoAllocMonth = 1;
         };
 
         $scope.changeLeftColName = function (condition) {
@@ -149,6 +173,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 // get sub policy list
                 restApi.customGET("GetSubPolicy", { products: allocSubpolicy.Products, category: allocSubpolicy.Category }).then(function (data) {
                     dldata.allocSubpolicyList = data;
+                    if (dldata.allocSubpolicyList.length == 0) {
+                        $csnotify.success("SubPolicy not Available");
+                    }
                 }, function (data) {
                     $csnotify.error(data.data.Message);
                 });
