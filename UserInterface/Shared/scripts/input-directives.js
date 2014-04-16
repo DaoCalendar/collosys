@@ -568,7 +568,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += 'ng-disabled="setReadonly()">';
-          
+
             return html;
         };
 
@@ -831,22 +831,22 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             $scope.setReadonly = function () {
                 switch ($scope.mode) {
                     case 'add':
-                        return field.editable === false;
+                        return false;
                     case 'view':
                         return true;
                     case 'edit':
                         return field.editable === false;
                     default:
-                        return field.editable === false;
+                        return false;
                 }
             };
         };
 
-        var linkFunction = function (scope, element, attrs,ctrl) {
+        var linkFunction = function (scope, element, attrs, ctrl) {
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
             scope.field = field;
-            scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '' ;
+            scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field);
