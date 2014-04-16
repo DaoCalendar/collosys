@@ -139,7 +139,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
-    <Compile Include="Generic\Menu\MenuApi.cs" />
+    <Compile Include="Generic\menu\MenuApi.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
@@ -205,7 +205,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\Model\EnumList.cs" />
+    <Compile Include="Shared\webapis\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\FetchEnums.cs" />
@@ -342,8 +342,8 @@
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
-    <Content Include="Generic\Menu\menu.html" />
-    <Content Include="Generic\Menu\menu.js" />
+    <Content Include="Generic\menu\menu.html" />
+    <Content Include="Generic\menu\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
