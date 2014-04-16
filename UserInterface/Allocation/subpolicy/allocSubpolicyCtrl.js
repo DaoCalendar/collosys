@@ -288,7 +288,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.ColumnName });
             var inputType = dldata.selectedLeftColumn.InputType;
             if (inputType === "text") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith"];
+                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith", "IsInList"];
                 condition.Operator = '';
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
@@ -334,6 +334,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
                 condition.Value = condition.dateValueEnum;
             }
+            condition.Value = JSON.stringify(condition.Value);
 
             var con = angular.copy(condition);
             dldata.allocSubpolicy.Conditions.push(con);
