@@ -76,6 +76,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.BillPaymentStatus));
             list.AddToList(typeof(ColloSysEnums.TaxApplicableTo));
             list.AddToList(typeof(ColloSysEnums.TaxType));
+            list.AddToList(typeof(ColloSysEnums.TaxApplyOn));
         }
     }
 }

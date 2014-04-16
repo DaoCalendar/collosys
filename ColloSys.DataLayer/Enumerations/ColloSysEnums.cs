@@ -23,6 +23,13 @@ namespace ColloSys.DataLayer.Enumerations
         }
 
         [Serializable]
+        public enum TaxApplyOn
+        {
+            GrossAmount,
+            Tax
+        }
+
+        [Serializable]
         public enum BillPaymentStatus
         {
             None,
