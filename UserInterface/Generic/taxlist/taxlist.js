@@ -12,14 +12,14 @@
 ]);
 
 csapp.factory('taxListFactory', ['$csShared', function ($csShared) {
-    var initEnumsList = function(taxList) {
-        taxList.TaxType.valueList = $csShared.enums.TaxType;
-        taxList.ApplicableTo.valueList = $csShared.enums.TaxApplicableTo;
-        taxList.ApplyOn.valueList = $csShared.enums.TaxApplyOn;
-    };
-    return {
-        initEnumsList: initEnumsList
-    };
+    //var initEnumsList = function(taxList) {
+    //    taxList.TaxType.valueList = $csShared.enums.TaxType;
+    //    taxList.ApplicableTo.valueList = $csShared.enums.TaxApplicableTo;
+    //    taxList.ApplyOn.valueList = $csShared.enums.TaxApplyOn;
+    //};
+    //return {
+    //    initEnumsList: initEnumsList
+    //};
 }]);
 
 csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', 'taxListFactory', '$csModels',
@@ -41,7 +41,6 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', 'taxListFactory',
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
             initLocal();
-            factory.initEnumsList($scope.TaxList);
         })();
 
         $scope.add = function(tax) {
