@@ -42,18 +42,18 @@
     };
     var fileMapping = function () {
         return {
-            ActualTable: { label: "Actual Table", type: "text" },
-            FileDetail: { label: "File Name" },// tobe disscuss Enum query 
-            ActualColumn: { label: "Actual Column", type: "text" },
-            Position: { label: "Position", type: "text", required: true },
-            OutputPosition: { label: "Output Position", type: "text", required: true },
-            OutputColumnName: { label: "Output ColumnName", type: "text", required: true },
-            ValueType: { label: "Value Type", type: "enum", value: $csShared.enums.FileMappingValueType, required: true },
+            ActualTable: { label: "Actual Table", type: "text", editable: false},
+            FileDetail: { label: "File Name", type:"enum"},// tobe disscuss Enum query 
+            ActualColumn: { label: "Actual Column", type: "text"},
+            Position: { label: "Position", type: "text",required:true},
+            OutputPosition: { label: "Output Position", type: "text",required:true},
+            OutputColumnName: { label: "Output ColumnName", type: "text",required:true},
+            ValueType: { label: "Value Type", type: "enum", valueList: $csShared.enums.FileMappingValueType, required: true },
             TempTable: { label: "Temp Table", type: "text" },
-            TempColumn: { label: "Temp Column" },//similar to FileDeatils
-            DefaultValue: { label: "Default Value", type: "text", required: true },
-            StartDate: { label: "Start Date", type: "date", required: true },
-            EndDate: { label: "End Date", type: "date", required: true },
+            TempColumn: { label: "Temp Column",type:"text",required:true },//similar to FileDetails
+            DefaultValue: { label: "Default Value", type: "text",required:true},
+            StartDate: { label: "Start Date", type: "date",required:true},
+            EndDate: { label: "End Date", type: "date",required:true},
         };
     };
 

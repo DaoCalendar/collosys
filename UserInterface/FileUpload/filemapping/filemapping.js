@@ -64,8 +64,8 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
     };
 }]);
 
-csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer",
-    function ($scope, fileMapping, $modalInstance, datalayer) {
+csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer", "$csFileUploadModels",
+    function ($scope, fileMapping, $modalInstance, datalayer, $csFileUploadModels) {
 
         (function () {
             //2 file mappings - 1 on scope - mapping edited and another is just params
@@ -74,6 +74,9 @@ csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$mo
             $scope.datalayer = datalayer;
             datalayer.GetFileColumns(fileMapping.fileDetail.Id);
         })();
+
+        $scope.fileMappingModel = $csFileUploadModels.models.FileMapping;
+
 
         $scope.close = function () {
             $modalInstance.dismiss();
