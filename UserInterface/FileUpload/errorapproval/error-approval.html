@@ -13,10 +13,10 @@
         <div data-ng-if="gridReady">
             <div class="btn-toolbar table-bordered">
                 <button class="btn btn-success" data-ng-disabled="!gridOptions.selectedItems.length"
-                    data-ng-click="ApproveRejectSelectedRows(gridOptions.selectedItems,true)">
+                    data-ng-click="approveRejectAll(gridOptions.selectedItems,true)">
                     Approve</button>
                 <button class="btn btn-danger" data-ng-disabled="!gridOptions.selectedItems.length"
-                    data-ng-click="ApproveRejectSelectedRows(gridOptions.selectedItems,false)">
+                    data-ng-click="approveRejectAll(gridOptions.selectedItems,false)">
                     Reject</button>
             </div>
 
