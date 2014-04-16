@@ -38,7 +38,6 @@
     var saveUpdates = function (hierarchies) {
         restApi.customPOST(hierarchies, 'SaveHierarchies').then(function (data) {
             dldata.stakeHierarchy = data;
-            console.log(data);
             $csnotify.success('Permissions Updated');
         });
     };
@@ -112,8 +111,6 @@
             });
 
         });
-
-        console.log(oldPermission);
     };
 
     return {
@@ -134,7 +131,8 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             $scope.datalayer = datalayer;
             datalayer.SetPermissions(permissionsFactory.permission);
             datalayer.GetAll();
-
+            $scope.prmsn = permissionsFactory.permission;
+            console.log($scope.perm);
         })();
 
         $scope.save = function (data) {

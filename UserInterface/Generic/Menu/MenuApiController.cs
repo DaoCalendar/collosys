@@ -11,7 +11,7 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 
 namespace AngularUI.Generic.Menu
 {
-    public class MenuApi : BaseApiController<StkhHierarchy>
+    public class MenuApiController : BaseApiController<StkhHierarchy>
     {
         private static readonly GUsersRepository GUserQueryBuilder = new GUsersRepository();
 

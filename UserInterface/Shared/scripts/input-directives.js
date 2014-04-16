@@ -147,6 +147,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                 case "decimal":
                     if (angular.isUndefined(options.maxlength))
                         options.maxlength = 19;
+                    break;
                 default:
                     $log.error(options.type + " is not defined");
             }
@@ -830,13 +831,13 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             $scope.setReadonly = function () {
                 switch ($scope.mode) {
                     case 'add':
-                        return false;
+                        return field.editable === false;
                     case 'view':
                         return true;
                     case 'edit':
                         return field.editable === false;
                     default:
-                        return false;
+                        return field.editable === false;
                 }
             };
         };
