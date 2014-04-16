@@ -448,114 +448,139 @@ csapp.service('modalService', ['$modal', function ($modal) {
 
 csapp.factory('$permissionFactory', [function () {
 
-    var permissions = [
-        {
-            area: "Stakeholder",
+    var createFileActivity = function () {
+        return {
+            name: "CreateFile",
             access: false,
-            permissions: [
-                {
-                    category: "view",
-                    permission: { access: false, display: "view", desc: "view stakeholder" },
-                    extrapermission: [
-                        //{ access: false, display: "view-all", desc: "view any stakeholder" }
-                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" }
-                        //{ access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
-                        //{ access: false, display: "view-pending-allNew", desc: "view any stakeholder whose approval is pending" },
-                        //{ access: false, display: "view-nothing", desc: "view any stakeholder whose approval is pending" }
-                    ]
+            description: "asfasdf",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view",
+                    childrens: {}
                 },
-                {
-                    category: "modify",
-                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
-                    extrapermission: []
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify",
+                    childrens: {}
                 },
-                {
-                    category: "approve",
-                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
-                    extrapermission: []
-                }
-            ]
-        },
-        {
-            area: "Allocation",
+                Approve: {
+                    name: "approve",
+                    access: false,
+                    description: "approve",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var scheduleFileActivity = function () {
+        return {
+            name: "ScheduleFile",
             access: false,
-            permissions: [
-                {
-                    category: "view",
-                    permission: { access: false, display: "view", desc: "view stakeholder" },
-                    extrapermission: [
-                        { access: false, display: "view-all", desc: "view any stakeholder" },
-                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
-                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
-                    ]
+            description: "asfasdf",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view",
+                    childrens: {}
                 },
-                {
-                    category: "modify",
-                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
-                    extrapermission: []
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify",
+                    childrens: {}
                 },
-                {
-                    category: "approve",
-                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
-                    extrapermission: []
-                }
-            ]
-        },
-        {
-            area: "Billing",
+                Approve: {
+                    name: "approve",
+                    access: false,
+                    description: "approve",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var fixErrorActivity = function () {
+        return {
+            name: "FixError",
             access: false,
-            permissions: [
-                {
-                    category: "view",
-                    permission: { access: false, display: "view", desc: "view stakeholder" },
-                    extrapermission: [
-                        { access: false, display: "view-all", desc: "view any stakeholder" },
-                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
-                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+            description: "asfasdf",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view",
+                    childrens: {}
+                },
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "approve",
+                    access: false,
+                    description: "approve",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var uploadPincodeActivity = function () {
+        return {
+            name: "UploadPincode",
+            access: false,
+            description: "asfasdf",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view",
+                    childrens: {}
+                },
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "approve",
+                    access: false,
+                    description: "approve",
+                    childrens: {}
+                },
+            }
+        };
+    };
 
-                    ]
-                },
-                {
-                    category: "modify",
-                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
-                    extrapermission: []
-                },
-                {
-                    category: "approve",
-                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
-                    extrapermission: []
-                }
-            ]
-        },
-        {
-            area: "File Upload",
+    var permission = {
+        FileUpload: {
+            name: "FileUpload",
             access: false,
-            permissions: [
-                {
-                    category: "view",
-                    permission: { access: false, display: "view", desc: "view stakeholder" },
-                    extrapermission: [
-                        { access: false, display: "view-all", desc: "view any stakeholder" },
-                        { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
-                        { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
-                    ]
-                },
-                {
-                    category: "modify",
-                    permission: { access: false, display: "modify", desc: "edit stakeholder info" },
-                    extrapermission: []
-                },
-                {
-                    category: "approve",
-                    permission: { access: false, display: "approve", desc: "approve stakeholder info" },
-                    extrapermission: []
-                }
-            ]
+            description: "asfasdf",
+            childrens: {
+                CreateFile: createFileActivity(),
+                ScheduleFile: scheduleFileActivity(),
+                FixError: fixErrorActivity(),
+                UploadPincode: uploadPincodeActivity()
+            }
+        },
+
+        Stakeholder: {
+            name: "Stakeholder",
+            access: false,
+            description: "stakeholders",
+            children: {}
         }
-    ];
+    };
+
 
     return {
-        permission: permissions
+        permission: permission
     };
 }]);
 
@@ -640,3 +665,106 @@ csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logge
 ]);
 
 
+
+//var permissions = [
+//    {
+//        area: "Stakeholder",
+//        access: false,
+//        permissions: [
+//            {
+//                category: "view",
+//                permission: { access: false, display: "view", desc: "view stakeholder" },
+//                extrapermission: [
+//                    //{ access: false, display: "view-all", desc: "view any stakeholder" }
+//                    { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" }
+//                    //{ access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+//                    //{ access: false, display: "view-pending-allNew", desc: "view any stakeholder whose approval is pending" },
+//                    //{ access: false, display: "view-nothing", desc: "view any stakeholder whose approval is pending" }
+//                ]
+//            },
+//            {
+//                category: "modify",
+//                permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+//                extrapermission: []
+//            },
+//            {
+//                category: "approve",
+//                permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+//                extrapermission: []
+//            }
+//        ]
+//    },
+//    {
+//        area: "Allocation",
+//        access: false,
+//        permissions: [
+//            {
+//                category: "view",
+//                permission: { access: false, display: "view", desc: "view stakeholder" },
+//                extrapermission: [
+//                    { access: false, display: "view-all", desc: "view any stakeholder" },
+//                    { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+//                    { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+//                ]
+//            },
+//            {
+//                category: "modify",
+//                permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+//                extrapermission: []
+//            },
+//            {
+//                category: "approve",
+//                permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+//                extrapermission: []
+//            }
+//        ]
+//    },
+//    {
+//        area: "Billing",
+//        access: false,
+//        permissions: [
+//            {
+//                category: "view",
+//                permission: { access: false, display: "view", desc: "view stakeholder" },
+//                extrapermission: [
+//                    { access: false, display: "view-all", desc: "view any stakeholder" },
+//                    { access: false, display: "view-inactive", desc: "view stakeholder who has left the organization" },
+//                    { access: false, display: "view-pending-all", desc: "view any stakeholder whose approval is pending" }
+
+//                ]
+//            },
+//            {
+//                category: "modify",
+//                permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+//                extrapermission: []
+//            },
+//            {
+//                category: "approve",
+//                permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+//                extrapermission: []
+//            }
+//        ]
+//    },
+//    {
+//        area: "File Upload",
+//        access: false,
+//        permissions: [
+//            {
+//                category: "FileDetail",
+//                permission: { access: false, display: "view", desc: "view stakeholder" },
+//                extrapermission: [
+//                ]
+//            },
+//            {
+//                category: "modify",
+//                permission: { access: false, display: "modify", desc: "edit stakeholder info" },
+//                extrapermission: []
+//            },
+//            {
+//                category: "approve",
+//                permission: { access: false, display: "approve", desc: "approve stakeholder info" },
+//                extrapermission: []
+//            }
+//        ]
+//    }
+//];

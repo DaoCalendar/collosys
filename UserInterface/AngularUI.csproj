@@ -139,7 +139,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
-    <Compile Include="Generic\Menu\MenuApi.cs" />
+    <Compile Include="Generic\Menu\MenuApiController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
@@ -506,7 +506,6 @@
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
-    <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Stakeholder\add\address.html" />
     <Content Include="Stakeholder\add\AddressInfo.js" />

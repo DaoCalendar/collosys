@@ -1,5 +1,5 @@
 ﻿csapp.factory("loginDataLayer", [
-    "Restangular", function (rest) {
+    "Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
         var restApi = rest.all("AutheticationApi");
 
         var authenticate = function (loginInfo) {
@@ -14,10 +14,12 @@
             return restApi.customPOST(forgotInfo, "ResetPassword");
         };
 
+       
+
         return {
             authenticate: authenticate,
             doesUserExist: validate,
-            resetPassword: resetPassword
+            resetPassword: resetPassword,
         };
     }
 ]);
@@ -77,7 +79,8 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
             loginUser: loginUser,
             logoutUser: logoutUser,
             getUsername: getUsername,
-            loadAuthCookie: loadCookie
+            loadAuthCookie: loadCookie,
+            authInfo:authInfo
         };
     }]);
 
