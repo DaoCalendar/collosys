@@ -37,7 +37,7 @@
             OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
             TypeSwitch: { type: "enum", valueList: $csShared.enums.TypeSwitch, required: true },
-            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum },
+            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
             CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
             DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },

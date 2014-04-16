@@ -136,33 +136,51 @@
                             <td>
                                 <select class="input-large"
                                     data-ng-model="dldata.newCondition.ColumnName"
-                                    data-ng-change="factory.changeLeftColName(dldata.newCondition)" required>
+                                    data-ng-change="changeLeftColName(dldata.newCondition)" required>
                                     <option value=""></option>
                                     <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
                                 </select>
                             </td>
                             <!--Operator-->
                             <td>
-                                <select class="input-medium" data-ng-model="dldata.newCondition.Operator" required>
-                                    <option value=""></option>
-                                    <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
-                                </select>
+                                <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
+                                    <div data-ng-hide="(dldata.selectedLeftColumn.InputType==='text')||
+                                        (dldata.selectedLeftColumn.InputType==='checkbox')||
+                                        (dldata.selectedLeftColumn.InputType==='dropdown')">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="text">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.TextConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="checkbox">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.CheckboxConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="dropdown">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.DropdownConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                </div>
                             </td>
                             <!--Value-->
                             <td class="input-large">
                                 <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
                                     <div data-ng-switch-when="number">
-                                    <input class="input-small"  type="number" data-ng-model="dldata.newCondition.Value" required />
-                                      
+                                        <input class="input-small" type="number" data-ng-model="dldata.newCondition.Value" required />
+
                                     </div>
                                     <div data-ng-switch-default="text">
-                                    <input class="input-medium"  type="text" data-ng-model="dldata.newCondition.Value" required />
+                                        <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value" required />
                                     </div>
 
                                     <div data-ng-switch-when="date">
-                                        <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum"
-                                            data-ng-options="c for c in dldata.dateValueEnum" required>
-                                        </select>
+                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" no-label=""></cs-field>
+
+                                        <!-- <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum"
+                                                     data-ng-options="c for c in dldata.dateValueEnum" required>
+                                             </select>-->
 
                                         <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="dldata.newCondition.Value"
                                             data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
@@ -176,7 +194,7 @@
 
                                     <div data-ng-switch-when="dropdown">
                                         <select class="input-medium" data-ng-model="dldata.newCondition.Value"
-                                                data-ng-options="c for  c in dldata.conditionValues" required>
+                                            data-ng-options="c for  c in dldata.conditionValues" required>
                                         </select>
                                     </div>
 

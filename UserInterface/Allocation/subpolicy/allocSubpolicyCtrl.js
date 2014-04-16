@@ -37,6 +37,36 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             });
         };
 
+        $scope.changeLeftColName = function (condition) {
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType === "text") {
+                condition.Operator = '';
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                $scope.datalayer.getColumnValues(condition.ColumnName);
+                return;
+            }
+
+            if (inputType === "checkbox") {
+                condition.Operator = "EqualTo";
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            if (inputType === "dropdown") {
+                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            condition.Operator = '';
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+        };
+
         $scope.showIndividual = function (stkh) {
             if (angular.isUndefined(stkh.Hierarchy)) return false;
             return (stkh.Hierarchy.IsIndividual === true);
@@ -50,7 +80,6 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
     function (rest, $csnotify) {
 
         var dldata = {};
-        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
         var restApi = rest.all("AllocationSubPolicyApi");
 
         var getProducts = function () {
@@ -284,40 +313,6 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.allocSubpolicy.Stakeholder = {};
         };
 
-        var changeLeftColName = function (condition) {
-            dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.ColumnName });
-            var inputType = dldata.selectedLeftColumn.InputType;
-            if (inputType === "text") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith", "IsInList"];
-                condition.Operator = '';
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                datalayer.getColumnValues(condition.ColumnName);
-                return;
-            }
-
-            if (inputType === "checkbox") {
-                dldata.conditionOperators = ["EqualTo"];
-                condition.Operator = "EqualTo";
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            if (inputType === "dropdown") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo"];
-                dldata.conditionValues = dldata.selectedLeftColumn.dropDownValues;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-            condition.Operator = '';
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-        };
-
         var addNewCondition = function (condition) {
 
             var duplicateCond = _.find(dldata.allocSubpolicy.Conditions, function (cond) {
@@ -354,7 +349,6 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             disableIfRelationExists: disableIfRelationExists,
             checkDuplicateName: checkDuplicateName,
             watchAllocateType: watchAllocateType,
-            changeLeftColName: changeLeftColName,
             addNewCondition: addNewCondition,
             deleteCondition: deleteCondition
 
