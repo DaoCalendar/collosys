@@ -5,13 +5,13 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         var dldata = {};
 
         dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
-        dldata.OperatorSwitch = [{ Name: '+', Value: 'Plus' }, { Name: '-', Value: 'Minus' }, { Name: '*', Value: 'Multiply' }, { Name: '/', Value: 'Divide' }, { Name: '%', Value: 'ModuloDivide' }];
-        dldata.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
+        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];//done
+       // dldata.OperatorSwitch = [{ Name: '+', Value: 'Plus' }, { Name: '-', Value: 'Minus' }, { Name: '*', Value: 'Multiply' }, { Name: '/', Value: 'Divide' }, { Name: '%', Value: 'ModuloDivide' }]; //done
+        dldata.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }]; //done
         dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
         dldata.PayoutSubpolicyTypeSwitch = [{ Name: 'Formula', Value: 'Formula' }, { Name: 'Subpolicy', Value: 'Subpolicy' }];
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
-        dldata.typeSwitch = [{ Name: 'Table', Value: 'Table' }, { Name: 'Formula', Value: 'Formula' }, { Name: 'Matrix', Value: 'Matrix' }, { Name: 'Value', Value: 'Value' }];
+        dldata.typeSwitch = [{ Name: 'Table', Value: 'Table' }, { Name: 'Formula', Value: 'Formula' }, { Name: 'Matrix', Value: 'Matrix' }, { Name: 'Value', Value: 'Value' }]; //done
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
@@ -242,6 +242,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
                 condition.Rvalue = condition.dateValueEnum;
             }
+
             condition.Rvalue = JSON.stringify(condition.Rvalue);
 
             var con = angular.copy(condition);

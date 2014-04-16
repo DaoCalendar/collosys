@@ -316,7 +316,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         //#region template
         var input = function (field, attrs) {
             var html = '<textarea  name="myfield"';
-            html += 'placeholder="' + field.placeholder + '"';
+            html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'ng-readonly="setReadonly()"';
             html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
             html += 'ng-model="' + attrs.ngModel + '"';

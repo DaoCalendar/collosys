@@ -362,3 +362,24 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     text-align: right;
     top: 0;
 }
+
+/* styles for taxlist */
+.tax-list-heading {
+    line-height: 15px;
+    font-size: 15px;
+}
+.tax-list-box {
+    height: 250px;
+    min-height: 250px;
+    border: solid 1px #008080;
+    overflow-y: scroll;
+    margin-bottom: 5px;
+}
+
+.tax-list-box .tax-list-box-no-data {
+    min-height: 250px;
+}
+
+.tax-list-box .tax-list-box-no-data label {
+    line-height: 250px;
+}

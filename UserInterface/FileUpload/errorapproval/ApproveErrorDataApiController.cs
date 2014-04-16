@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.webapis;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -28,6 +29,18 @@ namespace AngularUI.FileUpload.errorapproval
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         #region Get
+        [HttpGet]
+        [HttpTransaction2]
+        public IEnumerable<FileScheduler> GetFileSchedulers()
+        {
+            var session = SessionManager.GetCurrentSession();
+            var getFileScheduler = session.QueryOver<FileScheduler>()
+                                          .Fetch(x => x.FileDetail).Eager
+                                          .And(x => x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                                          .List();
+            return getFileScheduler;
+        }
+
         [HttpGet]
         [HttpTransaction2]
         public IEnumerable<FileDetail> GetFileDetails()
@@ -55,11 +68,11 @@ namespace AngularUI.FileUpload.errorapproval
 
         [HttpGet]
         [HttpTransaction2]
-        public NgGridOptions GetNgGridOptions(Guid file_detail_id)
+        public NgGridOptions GetNgGridOptions(Guid fileDetailId)
         {
             try
             {
-                return ErrorViewModel.GetApproverErrorNgGrid(file_detail_id);
+                return ErrorViewModel.GetApproverErrorNgGrid(fileDetailId);
             }
 
             catch (NullReferenceException e)
