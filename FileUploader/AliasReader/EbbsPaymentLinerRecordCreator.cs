@@ -17,11 +17,13 @@ namespace ColloSys.FileUploader.AliasReader
         private readonly List<string> _ePaymentExcludeCodes;
         private const uint AccountPosition = 1;
         private const uint AccountLength = 11;
+       private readonly FileScheduler _scheduler;
 
-        public EbbsPaymentLinerRecordCreator(FileScheduler fileShedular, List<string> ePaymentExcludeCodes)
-            : base(fileShedular, AccountPosition, AccountLength)
+        public EbbsPaymentLinerRecordCreator(FileScheduler fileScheduler, List<string> ePaymentExcludeCodes)
+            : base(fileScheduler, AccountPosition, AccountLength)
         {
             _ePaymentExcludeCodes = ePaymentExcludeCodes;
+            _scheduler = fileScheduler;
         }
 
         #endregion
@@ -44,5 +46,15 @@ namespace ColloSys.FileUploader.AliasReader
                 throw new Exception("EbbsPaymentLinerRecordCreator Computted setter in not set", exception);
             }
         }
+
+       public override bool IsRecordValid(Payment record,ICounter counter)
+       {
+           if (record.TransDate.Month != _scheduler.FileDate.Month)
+           {
+               counter.IncrementIgnoreRecord();
+               return false;
+           }
+           return record.TransDate.Month == _scheduler.FileDate.Month;
+       }
     }
 }

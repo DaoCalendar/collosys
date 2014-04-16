@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasReader
@@ -58,7 +59,7 @@ namespace ColloSys.FileUploader.AliasReader
             return true;
         }
 
-        public virtual bool IsRecordValid(Payment record)
+        public virtual bool IsRecordValid(Payment record,ICounter counter)
         {
             return true;
         }

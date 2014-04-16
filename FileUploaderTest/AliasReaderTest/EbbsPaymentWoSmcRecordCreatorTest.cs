@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
+using ColloSys.FileUploader.RowCounter;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
@@ -14,12 +15,14 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         private FileScheduler _fileScheduler;
         private FileMappingData _mappingData;
         private IExcelReader _reader;
+        private ICounter _counter;
         private List<string> _ePaymentExcludeCodes;
 
         [SetUp]
         public void Init()
         {
             _mappingData = new FileMappingData();
+            _counter=new ExcelRecordCounter();
             _fileScheduler = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _ePaymentExcludeCodes = _mappingData.GetTransactionList();
@@ -50,6 +53,19 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
             //Arrange
             Assert.AreEqual(payment.ExcludeReason, "Trans Code : 204, Desc : PARTIAL REPAYMENT - REVERSAL");
+        }
+
+        [Test]
+        public void Test_IsValidRecord_Assigning_Schedular_check_IgnoreRecord()
+        {
+            //Arrange
+            var payment = _mappingData.GetPayment();
+
+            //Act
+            _recordCreator.IsRecordValid(payment, _counter);
+
+            //Arrange
+            Assert.AreEqual(_counter.IgnoreRecord, 1);
         }
     }
 }

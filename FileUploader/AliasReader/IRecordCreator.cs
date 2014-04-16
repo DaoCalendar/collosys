@@ -13,6 +13,6 @@ namespace ColloSys.FileUploader.AliasReader
 
         bool CheckBasicField(IExcelReader reader, ICounter counter);
 
-        bool IsRecordValid(TEntity record);
+        bool IsRecordValid(TEntity record,ICounter counter);
     }
 }
