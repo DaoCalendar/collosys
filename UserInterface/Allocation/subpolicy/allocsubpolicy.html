@@ -25,7 +25,7 @@
     <div class="span9">
         <!--Name Panel-->
         <div class="row-fluid form-horizontal" data-ng-form="allocSubpolicyForm" style="border: 1px solid; border-color: silver; height: 200px">
-            <legend style="background-color:#f5f5f5 ">Subpolicy Basic-Info</legend>
+            <legend style="background-color: #f5f5f5">Subpolicy Basic-Info</legend>
             <div class="row-fluid">
 
                 <div class="row-fluid">
@@ -63,8 +63,8 @@
                         <label class="control-label">Policy Allocate Type</label>
                         <div class="controls">
                             <select class="input-large"
-                                    data-ng-model="dldata.allocSubpolicy.AllocateType"
-                                    required>
+                                data-ng-model="dldata.allocSubpolicy.AllocateType"
+                                required>
                                 <option></option>
                                 <option data-ng-repeat="stkpolicy in dldata.SubpolicyStakeholderList" value="{{stkpolicy.value}}">{{stkpolicy.display}}</option>
                             </select>
@@ -76,13 +76,13 @@
                         <label class="control-label">Allocate Months</label>
                         <div class="controls">
                             <input type="text"
-                                   name="allocmonth"
-                                   class="input-small"
-                                   data-ng-model="dldata.allocSubpolicy.NoAllocMonth"
-                                   data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/"
-                                   min="0"
-                                   required
-                                   data-ng-readonly="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue" />
+                                name="allocmonth"
+                                class="input-small"
+                                data-ng-model="dldata.allocSubpolicy.NoAllocMonth"
+                                data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/"
+                                min="0"
+                                required
+                                data-ng-readonly="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue" />
                             <div class="field-validation-error" data-ng-show=" allocSubpolicyForm.allocmonth.$error.pattern">{{val.OnlyNumbers()}}</div>
                         </div>
                     </div>
@@ -120,8 +120,8 @@
         </div>
         <!--Condition Panel-->
         <div class="row-fluid" style="border: 1px solid; border-color: silver;">
-           <legend style="background-color: #f5f5f5">Subpolicy Condition</legend>
-            <div class="row-fluid" style="height: 260px;overflow: auto">
+            <legend style="background-color: #f5f5f5">Subpolicy Condition</legend>
+            <div class="row-fluid" style="height: 260px; overflow: auto">
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -136,28 +136,51 @@
                             <td>
                                 <select class="input-large"
                                     data-ng-model="dldata.newCondition.ColumnName"
-                                    data-ng-change="factory.changeLeftColName(dldata.newCondition)" required>
+                                    data-ng-change="changeLeftColName(dldata.newCondition)" required>
                                     <option value=""></option>
                                     <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
                                 </select>
                             </td>
                             <!--Operator-->
                             <td>
-                                <select class="input-medium" data-ng-model="dldata.newCondition.Operator" required>
-                                    <option value=""></option>
-                                    <option data-ng-repeat="c in dldata.conditionOperators">{{c}}</option>
-                                </select>
+                                <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
+                                    <div data-ng-hide="(dldata.selectedLeftColumn.InputType==='text')||
+                                        (dldata.selectedLeftColumn.InputType==='checkbox')||
+                                        (dldata.selectedLeftColumn.InputType==='dropdown')">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="text">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.TextConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="checkbox">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.CheckboxConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                    <div data-ng-switch-when="dropdown">
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.DropdownConditionOperators" no-label=""></cs-field>
+
+                                    </div>
+                                </div>
                             </td>
                             <!--Value-->
                             <td class="input-large">
                                 <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
-                                    <input class="input-small" data-ng-switch-when="number" type="number" data-ng-model="dldata.newCondition.Value" required />
-                                    <input class="input-medium" data-ng-switch-default="text" type="text" data-ng-model="dldata.newCondition.Value" required />
+                                    <div data-ng-switch-when="number">
+                                        <input class="input-small" type="number" data-ng-model="dldata.newCondition.Value" required />
+
+                                    </div>
+                                    <div data-ng-switch-default="text">
+                                        <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value" required />
+                                    </div>
 
                                     <div data-ng-switch-when="date">
-                                        <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum"
-                                            data-ng-options="c for c in dldata.dateValueEnum" required>
-                                        </select>
+                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" no-label=""></cs-field>
+
+                                        <!-- <select class="input-medium" data-ng-model="dldata.newCondition.dateValueEnum"
+                                                     data-ng-options="c for c in dldata.dateValueEnum" required>
+                                             </select>-->
 
                                         <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="dldata.newCondition.Value"
                                             data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
@@ -174,11 +197,23 @@
                                             data-ng-options="c for  c in dldata.conditionValues" required>
                                         </select>
                                     </div>
+
                                     <div data-ng-switch-when="text">
-                                        <select class="input-xlarge"
-                                            data-ng-model="dldata.newCondition.Value"
-                                            data-ng-options="c for  c in dldata.conditionValues" required>
-                                        </select>
+                                        <div data-ng-show="dldata.newCondition.Operator !== 'IsInList'">
+                                            <select class="input-xlarge"
+                                                data-ng-model="dldata.newCondition.Value"
+                                                data-ng-options="c for  c in dldata.conditionValues" required>
+                                            </select>
+                                        </div>
+                                        <div data-ng-show="dldata.newCondition.Operator === 'IsInList'">
+                                            <select class="input-large"
+                                                data-ui-select2=""
+                                                multiple="multiple"
+                                                data-ng-model="dldata.newCondition.Value"
+                                                data-ng-options="c for  c in dldata.conditionValues" required>
+                                                <option data-ng-repeat="row in dldata.conditionValues" value="{{row}}">{{row}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -190,9 +225,12 @@
                             </td>
                         </tr>
                         <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
-                            <td><input type="text" class="input-medium" readonly="readonly" value="{{condition.ColumnName}}"/></td>
-                            <td> <input type="text" class="input-medium" value="{{condition.Operator}}" readonly="readonly"/></td>
-                            <td><input type="text" class="input-medium" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}"/>
+                            <td>
+                                <input type="text" class="input-medium" readonly="readonly" value="{{condition.ColumnName}}" /></td>
+                            <td>
+                                <input type="text" class="input-medium" value="{{condition.Operator}}" readonly="readonly" /></td>
+                            <td>
+                                <input type="text" class="input-medium" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
                             </td>
                             <td>
                                 <i class="btn icon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>

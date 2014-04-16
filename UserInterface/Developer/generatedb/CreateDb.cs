@@ -51,7 +51,7 @@ namespace AngularUI.Developer.generatedb
 
         private static void UploadExcelData()
         {
-            var uploader = new ColloSys.UserInterface.Areas.Developer.Models.Excel2Db.Excel2Db(ColloSysParam.WebParams.ConnectionString.ConnectionString);
+            var uploader = new Excel2Db(ColloSysParam.WebParams.ConnectionString.ConnectionString);
             uploader.UploadExcel2Db("FileUploader.xls");
         }
 
