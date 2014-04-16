@@ -4,13 +4,35 @@
         var dldata = {};
 
         var stateList = function () {
-            return api.customGET('StateList').then(function (data) {
+            return api.customGET('States').then(function (data) {
+                return data;
+            });
+        };
+
+        var taxList = function () {
+            return api.customGET('GTaxList').then(function (data) {
+                return data;
+            });
+        };
+
+        var save = function (tax) {
+            return api.post(tax).then(function (data) {
+                $csnotify.success('data saved');
+                return;
+            });
+        };
+
+        var taxMasterList = function () {
+            return api.customGET('TaxMasterList').then(function (data) {
                 return data;
             });
         };
         return {
             dldata: dldata,
-            stateList: stateList
+            stateList: stateList,
+            taxList: taxList,
+            save: save,
+            taxMasterList: taxMasterList
         };
     }
 ]);
@@ -47,19 +69,29 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
             datalayer.stateList().then(function (data) {
                 $scope.TaxMaster.State.valueList = data;
             });
+
+            datalayer.taxList().then(function (data) {
+                $scope.TaxMaster.GTaxesList.valueList = data;
+            });
         };
+
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
+            datalayer.taxMasterList().then(function (data) {
+                $scope.taxMasterList = data;
+            });
             initLocal();
             initListFromDb();
         })();
 
         $scope.add = function (tax) {
             //save tax then
-            $scope.taxMasterList.push(tax);
-            resetTax();
+            datalayer.save(tax).then(function() {
+                $scope.taxMasterList.push(tax);
+                resetTax();
+            });
         };
 
         $scope.edit = function (t, index) {
@@ -70,9 +102,12 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
 
         $scope.applyedit = function (t) {
             //save t first and then
-            $scope.taxMasterList[$scope.indexOfSelected] = t;
-            resetTax();
-            $scope.isAddMode = true;
+            datalayer.save(t).then(function () {
+                $scope.taxMasterList[$scope.indexOfSelected] = t;
+                resetTax();
+                $scope.isAddMode = true;
+            });
+           
         };
     }
 ]);
