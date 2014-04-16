@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region references
+
+using System;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RowCounter;
@@ -7,14 +10,19 @@ using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
+#endregion
+
+
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
     class AliasPaymentRecordCreatorTest : SetUpAssemblies
     {
+        #region ctor
+
         private FileMappingData _mappingData;
         private FileScheduler _fileScheduler;
-        private AliasPaymentRecordCreator _objCreator;
+        private IAliasRecordCreator<Payment> _objCreator;
         private IExcelReader _reader;
         private ICounter _counter;
 
@@ -26,8 +34,10 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             _fileScheduler = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
-            _objCreator = Substitute.For<AliasPaymentRecordCreator>(_fileScheduler, (uint)3, (uint)8);
+            _objCreator = Substitute.For<AliasPaymentRecordCreator>(_fileScheduler, (uint) 3, (uint) 8);
         }
+
+        #endregion
 
         #region Computted
 
@@ -43,6 +53,21 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
             //Assert
             Assert.AreEqual(payment.FileDate, new DateTime(2014, 4, 15));
+        }
+
+        [Test]
+        public void Test_ComputtedSetter_Changing_AccountNo_Position_CheckAccNoTostring()
+        {
+            //Arrange
+            _objCreator = Substitute.For<AliasPaymentRecordCreator>(_fileScheduler, (uint)1, (uint)11);
+            var payment = _mappingData.GetPayment();
+
+            //Act
+            _reader.Skip(3);
+            _objCreator.ComputedSetter(payment, _reader, _counter);
+
+            //Assert
+            Assert.AreEqual(payment.AccountNo, "00000000204");
         }
 
         [Test]

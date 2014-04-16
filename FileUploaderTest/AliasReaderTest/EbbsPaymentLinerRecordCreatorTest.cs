@@ -13,7 +13,7 @@ using Remotion.Linq.Parsing;
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
-    class EbbsPaymentLinerRecordCreatorTest:SetUpAssemblies
+    class EbbsPaymentLinerRecordCreatorTest:SetUpAssembliesForEbbs
     {
         private AliasPaymentRecordCreator _recordCreator;
         private FileScheduler _fileScheduler;

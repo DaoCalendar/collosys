@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.Test\ReflectionGetValueTest.cs" />
     <Compile Include="Reflection.Test\ReflectionTest.cs" />
+    <Compile Include="SetUpAssembliesForEbbs.cs" />
     <Compile Include="UtilitiesTest\SharedUtilitiesTest.cs" />
     <Compile Include="ValueSetters.Tests\AssignTypedTests.cs" />
     <Compile Include="ValueSetters.Tests\BooleanAssignTest.cs" />
@@ -123,10 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
+    <EmbeddedResource Include="ExcelData\product code_501N.xls" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />
-    <Folder Include="ExcelData\" />
     <Folder Include="FileReaderTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
