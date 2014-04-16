@@ -394,6 +394,8 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         $scope.addsubpolicy = function() {
             $scope.showDiv = true;
             $scope.dldata.payoutSubpolicy.Name = '';
+            $scope.dldata.payoutSubpolicy.Id = '';
+            $scope.dldata.policyapproved = false;
             $scope.dldata.payoutSubpolicy.Description = '';
             $scope.dldata.payoutSubpolicy.BConditions = [];
             $scope.dldata.payoutSubpolicy.BOutputs = [];

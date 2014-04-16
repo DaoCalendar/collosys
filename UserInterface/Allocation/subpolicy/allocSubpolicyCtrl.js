@@ -55,6 +55,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.dldata.policyapproved = false;
             $scope.dldata.allocSubpolicy.AllocateType = '';
             $scope.dldata.allocSubpolicy.Name = '';
+            $scope.dldata.allocSubpolicy.Id = '';
             $scope.dldata.allocSubpolicy.Conditions = [];
             $scope.dldata.isDuplicateName = false;
             $scope.dldata.deleteConditions = [];
@@ -201,6 +202,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var check = function (val) {
+            if (angular.isUndefined(val)) {
+                return;
+            }
             var arr = [];
             arr = val.split(" ");
             _.find(arr, function (string) {
