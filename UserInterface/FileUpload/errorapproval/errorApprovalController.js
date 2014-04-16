@@ -13,13 +13,19 @@ csapp.factory("errorApprovalDataLayer", [
                 });
         };
 
-        var fetchGrid = function() {
-
+        var fetchGrid = function (fileDetail) {
+            return apireport.customGET('GetNgGridOptions', { file_detail_id: fileDetail.Id })
+            .then(function (data) {
+                return data;
+            }, function (error) {
+                $csnotify.error(error);
+            });
         };
 
         return {
             dldata: dldata,
-            getFileDetails: getFileDetails
+            getFileDetails: getFileDetails,
+            fetchGrid: fetchGrid
         };
     }
 ]);
@@ -30,29 +36,15 @@ csapp.controller("approveErrorDataCtrl", ["$scope", "errorApprovalDataLayer",
 
         (function () {
             datalayer.getFileDetails();
+            $scope.dldata = datalayer.dldata;
         })();
-
-        $scope.gridReady = false;
-        $scope.selectedRowIndex = 0;
-        $scope.selectedRow = '';
-        $scope.showModel = false;
-        $scope.fileDetail = '';
-
-        $scope.fileDetails = [];
-        $scope.columns = [];
-
-        //rest api
 
         $scope.showGridData = function (fileDetail) {
             $scope.gridReady = false;
-
-            apireport.customGET('GetNgGridOptions', { file_detail_id: fileDetail.Id })
-                .then(function (data) {
-                    $scope.setNgGridOptions(data);
-                    $scope.gridReady = true;
-                }, function (data) {
-                    $csnotify.error(data);
-                });
+            datalayer.fetchGrid(fileDetail).then(function (data) {
+                $scope.setNgGridOptions(data);
+                $scope.gridReady = true;
+            });
         };
 
         $scope.setNgGridOptions = function (data) {
@@ -62,9 +54,7 @@ csapp.controller("approveErrorDataCtrl", ["$scope", "errorApprovalDataLayer",
 
             $scope.columns.push({
                 displayName: 'Action',
-                cellTemplate: //'<div class="btn-toolbar" style="width: 70px">' +
-                    '<i class="btn icon-file-alt" data-ng-click="openModel(row.rowIndex)"></i>',// +
-                //'</div>',
+                cellTemplate: '<i class="btn icon-file-alt" data-ng-click="openModel(row.rowIndex)"></i>',// +
                 width: 70
             });
 
@@ -87,66 +77,68 @@ csapp.controller("approveErrorDataCtrl", ["$scope", "errorApprovalDataLayer",
         };
 
 
-        $scope.ApproveRejectSelectedRows = function (approveRows, approved) {
-
-            var saveData = {
-                approved: approved,
-                fileAliasName: $scope.fileDetail.AliasName,
-                tableName: $scope.fileDetail.ErrorTable,
-                data: approveRows
-            };
-
-            apireport.costomPOST(saveData, 'PostRows').then(function () {
-                $scope.showGridData($scope.fileDetail);
-            }, function (data) {
-                $csnotify.error(data);
-            });
-        };
-
-
-        $scope.approveRejectErrorData = function (row, approved, index, next) {
-
-            var saveData = {
-                approved: approved,
-                fileAliasName: $scope.fileDetail.AliasName,
-                tableName: $scope.fileDetail.ErrorTable,
-                data: row
-            };
-
-            var saveSuccess = function () {
-                $scope.serverNgGridOptions.data.splice(index, 1);
-                $scope.closeModel();
-
-                if (next) {
-                    $scope.openModel(index);
-                }
-            };
-
-            apireport.costomPOST(saveData, 'PostRow').then(saveSuccess, function (data) {
-                $csnotify.error(data);
-            });
-        };
-
-
-        //#region
-
-        $scope.changeSelectedRow = function (index) {
-            $scope.selectedRowIndex = index;
-            $scope.selectedRow = $scope.serverNgGridOptions.data[index];
-        };
-
-        $scope.openModel = function (index) {
-            $scope.changeSelectedRow(index);
-            $scope.showModel = true;
-        };
-
-        $scope.closeModel = function () {
-            $scope.errorMessage = '';
-            $scope.showModel = false;
-        };
-
-        //#endregion
-
     }
 ]);
+
+
+
+//$scope.ApproveRejectSelectedRows = function (approveRows, approved) {
+
+//    var saveData = {
+//        approved: approved,
+//        fileAliasName: $scope.fileDetail.AliasName,
+//        tableName: $scope.fileDetail.ErrorTable,
+//        data: approveRows
+//    };
+
+//    apireport.costomPOST(saveData, 'PostRows').then(function () {
+//        $scope.showGridData($scope.fileDetail);
+//    }, function (data) {
+//        $csnotify.error(data);
+//    });
+//};
+
+
+//$scope.approveRejectErrorData = function (row, approved, index, next) {
+
+//    var saveData = {
+//        approved: approved,
+//        fileAliasName: $scope.fileDetail.AliasName,
+//        tableName: $scope.fileDetail.ErrorTable,
+//        data: row
+//    };
+
+//    var saveSuccess = function () {
+//        $scope.serverNgGridOptions.data.splice(index, 1);
+//        $scope.closeModel();
+
+//        if (next) {
+//            $scope.openModel(index);
+//        }
+//    };
+
+//    apireport.costomPOST(saveData, 'PostRow').then(saveSuccess, function (data) {
+//        $csnotify.error(data);
+//    });
+//};
+
+
+////#region
+
+//$scope.changeSelectedRow = function (index) {
+//    $scope.selectedRowIndex = index;
+//    $scope.selectedRow = $scope.serverNgGridOptions.data[index];
+//};
+
+//$scope.openModel = function (index) {
+//    $scope.changeSelectedRow(index);
+//    $scope.showModel = true;
+//};
+
+//$scope.closeModel = function () {
+//    $scope.errorMessage = '';
+//    $scope.showModel = false;
+//};
+
+////#endregion
 
