@@ -147,6 +147,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                 case "decimal":
                     if (angular.isUndefined(options.maxlength))
                         options.maxlength = 19;
+                    break;
                 default:
                     $log.error(options.type + " is not defined");
             }
@@ -316,7 +317,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         //#region template
         var input = function (field, attrs) {
             var html = '<textarea  name="myfield"';
-            html += 'placeholder="' + field.placeholder + '"';
+            html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
             html += 'ng-readonly="setReadonly()"';
             html += angular.isDefined(field.resize) ? (field.resize ? 'class="form-control"' : 'class="form-control noResize"') : 'class="form-control"';
             html += 'ng-model="' + attrs.ngModel + '"';
@@ -830,13 +831,13 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             $scope.setReadonly = function () {
                 switch ($scope.mode) {
                     case 'add':
-                        return false;
+                        return field.editable === false;
                     case 'view':
                         return true;
                     case 'edit':
                         return field.editable === false;
                     default:
-                        return false;
+                        return field.editable === false;
                 }
             };
         };

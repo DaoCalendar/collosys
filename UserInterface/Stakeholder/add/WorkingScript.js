@@ -1319,72 +1319,72 @@
                 state: angular.copy($scope.workingModel.SelectedPincodeData.State),
                 cluster: angular.copy($scope.workingModel.SelectedPincodeData.Cluster),
                 city: angular.copy($scope.workingModel.SelectedPincodeData.City),
-                area: angular.copy( $scope.workingModel.SelectedPincodeData.Area),
+                area: angular.copy($scope.workingModel.SelectedPincodeData.Area),
                 district: angular.copy($scope.workingModel.SelectedPincodeData.District),
-            region: angular.copy($scope.workingModel.SelectedPincodeData.Region),
+                region: angular.copy($scope.workingModel.SelectedPincodeData.Region),
             };
 
-        if ($csfactory.isNullOrEmptyString(changedParam)) return;
-        setChangedParam(changedParam);
-        //var locLevel = 'Country';
-        if ($csfactory.isEmptyObject($scope.workingModel)) return;
-        if ($scope.displayManager.showRegion === true && !$scope.changed.Region) {
-            $scope.workingModel.QueryFor = 'Region';
-            $scope.workingModel = $scope.setWorkingModel('Region');
-            //locLevel = 'Region';
-        }
-        if ($scope.displayManager.showState === true && !$scope.changed.State) {
-            if ($scope.workingModel.ListOfStates.length > 0 && $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State))
-                return;
-            $scope.workingModel = $scope.setWorkingModel('State');
-            //locLevel = 'State';
+            if ($csfactory.isNullOrEmptyString(changedParam)) return;
+            setChangedParam(changedParam);
+            //var locLevel = 'Country';
+            if ($csfactory.isEmptyObject($scope.workingModel)) return;
+            if ($scope.displayManager.showRegion === true && !$scope.changed.Region) {
+                $scope.workingModel.QueryFor = 'Region';
+                $scope.workingModel = $scope.setWorkingModel('Region');
+                //locLevel = 'Region';
+            }
+            if ($scope.displayManager.showState === true && !$scope.changed.State) {
+                if ($scope.workingModel.ListOfStates.length > 0 && $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State))
+                    return;
+                $scope.workingModel = $scope.setWorkingModel('State');
+                //locLevel = 'State';
 
-        }
-        if ($scope.displayManager.showCluster === true && !$scope.changed.Cluster) {
-            $scope.workingModel = $scope.setWorkingModel('Cluster');
-            $scope.workingModel.QueryFor = 'Cluster';
-            //locLevel = 'Cluster';
-        }
-        if ($scope.displayManager.showDistrict === true && !$scope.changed.District) {
-            $scope.workingModel = $scope.setWorkingModel('District');
-            $scope.workingModel.QueryFor = 'District';
-            //locLevel = 'District';
-        }
-        if ($scope.displayManager.showCity === true && !$scope.changed.City) {
-            if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State)) return;
-            $scope.workingModel = $scope.setWorkingModel('District');
-            //locLevel = 'District';
-        }
-        if ($scope.displayManager.showArea === true && !$scope.changed.Area) {
+            }
+            if ($scope.displayManager.showCluster === true && !$scope.changed.Cluster) {
+                $scope.workingModel = $scope.setWorkingModel('Cluster');
+                $scope.workingModel.QueryFor = 'Cluster';
+                //locLevel = 'Cluster';
+            }
+            if ($scope.displayManager.showDistrict === true && !$scope.changed.District) {
+                $scope.workingModel = $scope.setWorkingModel('District');
+                $scope.workingModel.QueryFor = 'District';
+                //locLevel = 'District';
+            }
+            if ($scope.displayManager.showCity === true && !$scope.changed.City) {
+                if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State)) return;
+                $scope.workingModel = $scope.setWorkingModel('District');
+                //locLevel = 'District';
+            }
+            if ($scope.displayManager.showArea === true && !$scope.changed.Area) {
 
-            if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.District)) return;
-            $scope.workingModel = $scope.setWorkingModel('Area');
-            //locLevel = 'Area';
-        }
-        //$scope.setWorkingModel(locLevel);
+                if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.District)) return;
+                $scope.workingModel = $scope.setWorkingModel('Area');
+                //locLevel = 'Area';
+            }
+            //$scope.setWorkingModel(locLevel);
 
-    };
+        };
 
-var loadWorkingModel = function (workingModle) {
-    restApi.customPOST(workingModle, 'GetPincodeData').then(function (data) {
+        var loadWorkingModel = function (workingModle) {
+            restApi.customPOST(workingModle, 'GetPincodeData').then(function (data) {
 
-        $scope.workingModel = data;
-        if (!$scope.$$phase) {
-            $scope.$apply();
-        }
-        
-        //$scope.workingModel.SelectedPincodeData.State = $scope.currentSelected.state;
-        //$scope.workingModel.SelectedPincodeData.City = $scope.currentSelected.city;
-        //$scope.workingModel.SelectedPincodeData.Cluster = $scope.currentSelected.cluster;
-        //$scope.workingModel.SelectedPincodeData.Area = $scope.currentSelected.area;
-        //$scope.workingModel.SelectedPincodeData.District = $scope.currentSelected.district;
-        //$scope.workingModel.SelectedPincodeData.Region = $scope.currentSelected.region;
-    });
-};
-//#endregion
+                $scope.workingModel = data;
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                }
 
-init();
-}]);
+                //$scope.workingModel.SelectedPincodeData.State = $scope.currentSelected.state;
+                //$scope.workingModel.SelectedPincodeData.City = $scope.currentSelected.city;
+                //$scope.workingModel.SelectedPincodeData.Cluster = $scope.currentSelected.cluster;
+                //$scope.workingModel.SelectedPincodeData.Area = $scope.currentSelected.area;
+                //$scope.workingModel.SelectedPincodeData.District = $scope.currentSelected.district;
+                //$scope.workingModel.SelectedPincodeData.Region = $scope.currentSelected.region;
+            });
+        };
+        //#endregion
+
+        init();
+    }]);
 
 (csapp.factory('pincodeMngr', ['Restangular', '$csfactory', '$csnotify', function (rest, $csfactory, $csnotify) {
     var restApi = rest.all('PaymentDetailsApi');
@@ -1638,6 +1638,7 @@ init();
                 'Cluster': stakeWork.Cluster,
                 'City': stakeWork.City,
                 'Area': stakeWork.Area,
+                'District': stakeWork.District,
                 'BucketStart': stakeWork.BucketStart
             });
             if (dup.length > 0) {

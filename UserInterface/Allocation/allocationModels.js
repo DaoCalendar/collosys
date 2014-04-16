@@ -10,7 +10,12 @@
             NoAllocMonth: { label: "Allocate Months", type: "int", min: 0, required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
             Product: { label: "Product", type: "text", required: true, editable: false },
-            Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category }
+            Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category },
+            CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
+            DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },
+            ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
+            TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators, required: true },
+            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
         };
     };
 

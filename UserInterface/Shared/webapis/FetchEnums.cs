@@ -27,6 +27,36 @@ namespace AngularUI.Shared.webapis
         {
             string[] dateList = { "dd-mm-yyyy", "yyyy-mm-dd", "mm-dd-yyyy" };
             list.AddToList("DateFormat", new List<string>(dateList));
+
+            string[] operatorList = { "Plus", "Minus", "Multiply", "Divide", "ModuloDivide" };
+            list.AddToList("OperatorType", new List<string>(operatorList));
+
+            string[] relationType = { "And", "Or" };
+            list.AddToList("RelationType", new List<string>(relationType));
+
+            string[] typeSwitch = { "Table", "Formula", "Matrix", "Value" };
+            list.AddToList("TypeSwitch", new List<string>(typeSwitch));
+
+            string[] dateValueEnum = { "First_Quarter", "Second_Quarter", "Third_Quarter", 
+                                         "Fourth_Quarter", "Start_of_Year", "Start_of_Month", 
+                                         "Start_of_Week", "Today", "End_of_Week", "End_of_Month", 
+                                         "End_of_Year", "Absolute_Date" };
+            list.AddToList("DateValueEnum", new List<string>(dateValueEnum));
+
+            string[] lsqlfunctionType = { "Sum", "Count", "Avg" };
+            list.AddToList("LsqlFunctionType", new List<string>(lsqlfunctionType));
+
+            string[] textConditionOperators = { "EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith", "IsInList" };
+            list.AddToList("TextConditionOperators", new List<string>(textConditionOperators));
+
+            string[] checkboxConditionOperators = { "EqualTo" };
+            list.AddToList("CheckboxConditionOperators", new List<string>(checkboxConditionOperators));
+
+            string[] dropdownConditionOperators = { "EqualTo", "NotEqualTo" };
+            list.AddToList("DropdownConditionOperators", new List<string>(dropdownConditionOperators));
+
+            string[] conditionOperators = { "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo" };
+            list.AddToList("ConditionOperators", new List<string>(conditionOperators));
         }
 
         public void InitSystemEnums(EnumList list)
@@ -76,6 +106,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.BillPaymentStatus));
             list.AddToList(typeof(ColloSysEnums.TaxApplicableTo));
             list.AddToList(typeof(ColloSysEnums.TaxType));
+            list.AddToList(typeof(ColloSysEnums.TaxApplyOn));
         }
     }
 }

@@ -64,8 +64,9 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
     };
 }]);
 
-csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer",
-    function ($scope, fileMapping, $modalInstance, datalayer) {
+csapp.controller("fileMappingViewEditController", [
+    "$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer", "$csFileUploadModels",
+    function ($scope, fileMapping, $modalInstance, datalayer, $csFileUploadModels) {
 
         (function () {
             //2 file mappings - 1 on scope - mapping edited and another is just params
@@ -74,6 +75,10 @@ csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$mo
             $scope.datalayer = datalayer;
             datalayer.GetFileColumns(fileMapping.fileDetail.Id);
         })();
+
+
+        $scope.fileMappingModel = $csFileUploadModels.models.FileMapping;
+
 
         $scope.close = function () {
             $modalInstance.dismiss();
@@ -102,6 +107,25 @@ csapp.controller("fileMappingViewEditController", ["$scope", "FileMapping", "$mo
                     $modalInstance.close(data);
                 });
         };
+
+        (function (mode) {
+            switch (mode) {
+                //case "add":
+                //    $scope.modelTitle = "Add New Mappings";
+                //    break;
+                case "edit":
+                    $scope.modelTitle = "Add New Mappings";
+                    break;
+                case "view":
+                    $scope.modelTitle = "";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(fileMapping));
+            }
+            $scope.mode = mode;
+        })(fileMapping.mode);
+
+
     }]);
 
 csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", function ($scope, datalayer, $modal) {
@@ -111,6 +135,7 @@ csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$m
         $scope.datalayer = datalayer;
         datalayer.fetchValueTypeEnum();
         datalayer.GetAllFileDetails();
+        datalayer.dldata.actualTable = '';
     })();
 
     $scope.openEditModalPopup = function (mode, filemapping) {
