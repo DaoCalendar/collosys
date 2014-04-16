@@ -10,7 +10,7 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasReader
 {
-    class EbbsPaymentLinerRecordCreator : AliasPaymentRecordCreator
+   public class EbbsPaymentLinerRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
 
@@ -26,7 +26,7 @@ namespace ColloSys.FileUploader.AliasReader
 
         #endregion
 
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        public override bool GetComputations(Payment record, IExcelReader reader)
         {
             try
             {

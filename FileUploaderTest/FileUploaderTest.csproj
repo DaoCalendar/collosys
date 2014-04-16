@@ -56,7 +56,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasReaderTest\AliasPaymentRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentLinerRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentWoAutoRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentWoSmcRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsPaymentLinerRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentManualReversalRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentWoAebRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentWoPlpcRecordCreatorTest.cs" />
     <Compile Include="DataCreator\FileUploader\FileMappingData.cs" />
     <Compile Include="DataCreator\Generic\G_KeyValue.cs" />
     <Compile Include="DummyTest\DummyTest.cs" />
