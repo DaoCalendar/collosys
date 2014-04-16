@@ -34,15 +34,15 @@
             OutputType: { label: "Output", required: true, type: "enum", valueList: $csShared.enums.OutputType },
             GroupBy: { label: "Group By", type: "select", required: true },//TOBE Disscuss
             Description: { label: "Description", type: "textarea" },
-            OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType},
-            RelationType: { type: "enum", valueList: $csShared.enums.RelationType,},
+            OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType },
+            RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
             TypeSwitch: { type: "enum", valueList: $csShared.enums.TypeSwitch, required: true },
-            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum },
+            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
-            CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators},
-            DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators },
-            ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators },
-            TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators },
+            CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
+            DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },
+            ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
+            TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators, required: true },
 
         };
     };

@@ -139,7 +139,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
-    <Compile Include="Generic\menu\MenuApi.cs" />
+    <Compile Include="Generic\Menu\MenuApiController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
@@ -465,6 +465,7 @@
     </Content>
     <Content Include="FileUpload\errorcorrection\error-correction.html" />
     <Content Include="FileUpload\errorapproval\error-approval.html" />
+    <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -507,7 +508,6 @@
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
-    <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Stakeholder\add\address.html" />
     <Content Include="Stakeholder\add\AddressInfo.js" />

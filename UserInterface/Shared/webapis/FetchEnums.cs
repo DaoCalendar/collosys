@@ -50,13 +50,13 @@ namespace AngularUI.Shared.webapis
             list.AddToList("TextConditionOperators", new List<string>(textConditionOperators));
 
             string[] checkboxConditionOperators = { "EqualTo" };
-            list.AddToList("CheckboxConditionOperators", new List<string>(textConditionOperators));
+            list.AddToList("CheckboxConditionOperators", new List<string>(checkboxConditionOperators));
 
             string[] dropdownConditionOperators = { "EqualTo", "NotEqualTo" };
-            list.AddToList("DropdownConditionOperators", new List<string>(textConditionOperators));
+            list.AddToList("DropdownConditionOperators", new List<string>(dropdownConditionOperators));
 
             string[] conditionOperators = { "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo" };
-            list.AddToList("ConditionOperators", new List<string>(textConditionOperators));
+            list.AddToList("ConditionOperators", new List<string>(conditionOperators));
         }
 
         public void InitSystemEnums(EnumList list)

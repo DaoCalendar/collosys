@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
 {
-    public class ResourceReader
+    public static class ResourceReader
     {
         public static Stream GetEmbeddedResourceAsStream(string name)
         {
@@ -18,6 +18,25 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             var asm = Assembly.GetExecutingAssembly();
             var file = String.Format("AngularUI.ExcelData.{0}", name);
            
+            using (var stream = asm.GetManifestResourceStream(file))
+            {
+                var tempPath = Path.GetTempPath();
+                string path = Path.Combine(tempPath, name);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                var fileStream = SaveStreamToFile(path, stream); // Save New Created File
+                return fileStream;
+            }
+
+        }
+
+        public static FileStream GetEmbeddedResourceForTesting(string name)
+        {
+            var asm = Assembly.GetExecutingAssembly();
+            var file = String.Format("FileUploaderTest.ExcelData.{0}", name);
+
             using (var stream = asm.GetManifestResourceStream(file))
             {
                 var tempPath = Path.GetTempPath();

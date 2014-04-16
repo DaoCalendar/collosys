@@ -13,6 +13,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
+            $scope.showDiv = false;
             $scope.datalayer.getReasons();
         })();
 
@@ -37,6 +38,60 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             });
         };
 
+        $scope.selectAllocSubpolicy = function (sallocSubpolicy) {
+            $scope.datalayer.selectAllocSubpolicy(sallocSubpolicy);
+            $scope.showDiv = true;
+        };
+
+        $scope.changeProductCategory = function() {
+            $scope.datalayer.changeProductCategory();
+            $scope.addsubpolicy();
+            $scope.showDiv = false;
+
+        };
+        $scope.addsubpolicy = function () {
+            $scope.showDiv = true;
+            $scope.dldata.newCondition = [];
+            $scope.dldata.policyapproved = false;
+            $scope.dldata.allocSubpolicy.AllocateType = '';
+            $scope.dldata.allocSubpolicy.Name = '';
+            $scope.dldata.allocSubpolicy.Id = '';
+            $scope.dldata.allocSubpolicy.Conditions = [];
+            $scope.dldata.isDuplicateName = false;
+            $scope.dldata.deleteConditions = [];
+            $scope.dldata.allocSubpolicy.NoAllocMonth = 1;
+        };
+
+        $scope.changeLeftColName = function (condition) {
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType === "text") {
+                condition.Operator = '';
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                $scope.datalayer.getColumnValues(condition.ColumnName);
+                return;
+            }
+
+            if (inputType === "checkbox") {
+                condition.Operator = "EqualTo";
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            if (inputType === "dropdown") {
+                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            condition.Operator = '';
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+        };
+
         $scope.showIndividual = function (stkh) {
             if (angular.isUndefined(stkh.Hierarchy)) return false;
             return (stkh.Hierarchy.IsIndividual === true);
@@ -50,7 +105,6 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
     function (rest, $csnotify) {
 
         var dldata = {};
-        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
         var restApi = rest.all("AllocationSubPolicyApi");
 
         var getProducts = function () {
@@ -120,6 +174,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 // get sub policy list
                 restApi.customGET("GetSubPolicy", { products: allocSubpolicy.Products, category: allocSubpolicy.Category }).then(function (data) {
                     dldata.allocSubpolicyList = data;
+                    if (dldata.allocSubpolicyList.length == 0) {
+                        $csnotify.success("SubPolicy not Available");
+                    }
                 }, function (data) {
                     $csnotify.error(data.data.Message);
                 });
@@ -145,6 +202,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var check = function (val) {
+            if (angular.isUndefined(val)) {
+                return;
+            }
             var arr = [];
             arr = val.split(" ");
             _.find(arr, function (string) {
@@ -284,40 +344,6 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.allocSubpolicy.Stakeholder = {};
         };
 
-        var changeLeftColName = function (condition) {
-            dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.ColumnName });
-            var inputType = dldata.selectedLeftColumn.InputType;
-            if (inputType === "text") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith", "IsInList"];
-                condition.Operator = '';
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                datalayer.getColumnValues(condition.ColumnName);
-                return;
-            }
-
-            if (inputType === "checkbox") {
-                dldata.conditionOperators = ["EqualTo"];
-                condition.Operator = "EqualTo";
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            if (inputType === "dropdown") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo"];
-                dldata.conditionValues = dldata.selectedLeftColumn.dropDownValues;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-            condition.Operator = '';
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-        };
-
         var addNewCondition = function (condition) {
 
             var duplicateCond = _.find(dldata.allocSubpolicy.Conditions, function (cond) {
@@ -354,7 +380,6 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             disableIfRelationExists: disableIfRelationExists,
             checkDuplicateName: checkDuplicateName,
             watchAllocateType: watchAllocateType,
-            changeLeftColName: changeLeftColName,
             addNewCondition: addNewCondition,
             deleteCondition: deleteCondition
 

@@ -11,8 +11,7 @@
             <cs-field data-ng-model="fileColumn.Length" field="fileColumnModel.Length"></cs-field>
             <cs-field data-ng-model="fileColumn.ColumnDataType" field="fileColumnModel.ColumnDataType"></cs-field>
             <cs-field data-ng-model="fileColumn.TempColumnName" field="fileColumnModel.TempColumnName"></cs-field>
-             <cs-field data-ng-model="fileColumn.ColumnDataType" field="fileColumnModel.ColumnDataType"></cs-field>
-            <div data-ng-show="isDateTypeColumn(fileColumn.ColumnDataType)">
+            <div ng-if="factory.isDateTypeColumn(fileColumn.ColumnDataType)">
                 <cs-field data-ng-model="fileColumn.DateFormat" field="fileColumnModel.DateFormat"></cs-field>
             </div>
             <cs-field data-ng-model="fileColumn.StartDate" field="fileColumnModel.StartDate"></cs-field>

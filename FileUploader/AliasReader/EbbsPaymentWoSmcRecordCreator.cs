@@ -12,15 +12,16 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasReader
 {
-    class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
+   public class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
 
-
+        private const uint AccountPosition = 1;
+        private const uint AccountLength = 11;
         private readonly List<string> _ePaymentExcludeCodes;
 
         public EbbsPaymentWoSmcRecordCreator(FileScheduler fileShedular, List<string> ePaymentExcludeCodes)
-            : base(fileShedular, 1, 11)
+            : base(fileShedular, AccountPosition, AccountLength)
         {
             _ePaymentExcludeCodes = ePaymentExcludeCodes;
         }
@@ -28,7 +29,7 @@ namespace ColloSys.FileUploader.AliasReader
         #endregion
 
 
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        public override bool GetComputations(Payment record, IExcelReader reader)
         {
             try
             {
