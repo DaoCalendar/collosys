@@ -261,12 +261,12 @@
                                                 <select class="input-small" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required></select>
                                             </div>
                                             <div data-ng-switch-when="text">
-                                                <div data-ng-show="dldata.newCondition.Operator !== 'WithList'">
+                                                <div data-ng-show="dldata.newCondition.Operator !== 'IsInList'">
                                                     <select class="input-large" data-ng-model="dldata.newCondition.Rvalue"
                                                         data-ng-options="c for  c in dldata.conditionValues" required>
                                                     </select>
                                                 </div>
-                                                <div data-ng-show="dldata.newCondition.Operator === 'WithList'">
+                                                <div data-ng-show="dldata.newCondition.Operator === 'IsInList'">
                                                     <select data-ui-select2="" class="input-large" data-ng-model="dldata.newCondition.Rvalue"
                                                         required multiple="multiple">
                                                         <option data-ng-repeat="row in dldata.conditionValues" value="{{row}}">{{row}}</option>
@@ -293,7 +293,7 @@
                                 <input type="text" class="input-mini" readonly="readonly" data-ng-model="condition.Operator" /></td>
                             <td></td>
                             <td>
-                                <input type="text" class="input-mini" readonly="readonly" value="{{condition.RtypeName +((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
+                                <input type="text" class="input-large" readonly="readonly" value="{{condition.RtypeName +((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
                            
                             <td>
                                 <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>

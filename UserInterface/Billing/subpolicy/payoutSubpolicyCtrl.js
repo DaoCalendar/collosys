@@ -242,6 +242,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
                 condition.Rvalue = condition.dateValueEnum;
             }
+            condition.Rvalue = JSON.stringify(condition.Rvalue);
 
             var con = angular.copy(condition);
             dldata.payoutSubpolicy.BConditions.push(con);
