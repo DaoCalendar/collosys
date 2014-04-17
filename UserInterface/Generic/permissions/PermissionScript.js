@@ -56,11 +56,42 @@
         dldata.permissionsChanged = false;
         _.forEach(hierarchies, function (item) {
             var perm = JSON.parse(item.Permissions);
-            updatePermission(perm, permFactory.permission);
+            //updatePermission(perm, permFactory.permission);
+            updatePermission2(perm, permFactory.permission);
+            //updatePermission2(permFactory.permission, perm);
             item.Permissions = JSON.stringify(perm);
         });
+        console.log("permissionOBJ: ", hierarchies);
+    };
+
+    var updatePermission2 = function (oldPermission, newPermission) {
+
+        angular.forEach(angular.copy(oldPermission), function (value, module) {
+            if (newPermission.hasOwnProperty(module)) {
+                var newModule = newPermission[module];
+                angular.forEach(module.childrens, function (activityValues, activity) {
+                    if (newPermission.module.hasOwnProperty(activity)) {
+                        var newActivity = newPermission[module][activity];
+                        angular.forEach(activity.childrens, function (extravalues, extra) {
+                            if (newPermission.module.activity.hasOwnProperty(extra))
+                                var newExtra = newPermission[module][activity][extraFields];
+                            else
+                                delete oldPermission[module][activity][extraFields];
+                        });
+                    } else
+                        delete oldPermission[module][child];
+                });
+            } else
+                delete oldPermission[module];
+        });
+
+
+
 
     };
+
+
+
 
     var updatePermission = function (oldPermission, newPermission) {
 
@@ -122,7 +153,6 @@
     };
 }]);
 
-
 csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer',
     function ($scope, permissionsFactory, rest, datalayer) {
 
@@ -132,7 +162,6 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.SetPermissions(permissionsFactory.permission);
             datalayer.GetAll();
             $scope.prmsn = permissionsFactory.permission;
-            console.log($scope.perm);
         })();
 
         $scope.save = function (data) {
@@ -148,6 +177,15 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
         };
 
     }]);
+
+
+
+
+
+
+
+
+
 
 
 

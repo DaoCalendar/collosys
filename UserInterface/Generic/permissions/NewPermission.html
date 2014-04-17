@@ -25,38 +25,8 @@
 
         </div>
     </div>
-
-    <!--<div data-ng-show="perm.designation">
-            <div data-ng-repeat="data in dldata.permission">
-                <div class="panel row-fluid">
-                    <div class="panel-heading">
-                        <input type="checkbox" data-ng-model="data.access" />{{data.area}}</div>
-                    <div data-ng-repeat="perm in data.permissions" class="panel-body" data-ng-if="data.access">
-                        <div class="span5">
-                            <input data-ng-model="perm.permission.access" data-ng-click="uncheckExtraPerm(perm.permission.access,perm.extrapermission)" type="checkbox">
-                            {{perm.permission.display}}
-                            <div>
-                                <p><sub>{{perm.permission.desc}}</sub></p>
-                            </div>
-                        </div>
-                        <div data-ng-show="perm.permission.access" data-ng-repeat="dt in perm.extrapermission">
-                            <div class="span5">
-                                <input data-ng-model="dt.access" type="checkbox">
-                                {{dt.display}}
-                                <div>
-                                    <p><sub>{{dt.desc}}</sub></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-right">
-                <button data-ng-click="datalayer.saveNew(dldata.permission)" class="btn btn-success ">Save</button>
-            </div>
-        </div>-->
-    <div>
-        <div data-ng-repeat="(key, module) in prmsn track by key">
+    <div data-ng-show="perm.designation">
+        <div data-ng-repeat="(key, module) in dldata.permission track by key">
             <div class="panel row-fluid">
                 <div class="panel-heading">
                     <input type="checkbox" data-ng-model="module.access">{{module.name}}
@@ -88,10 +58,39 @@
             </div>
         </div>
         <div class="text-right">
-            <button class="btn btn-success">Save</button>
+            <button data-ng-click="datalayer.saveNew(dldata.permission)" class="btn btn-success ">Save</button>
         </div>
     </div>
 </div>
 
 
 
+<!--<div data-ng-show="perm.designation">
+            <div data-ng-repeat="data in dldata.permission">
+                <div class="panel row-fluid">
+                    <div class="panel-heading">
+                        <input type="checkbox" data-ng-model="data.access" />{{data.area}}</div>
+                    <div data-ng-repeat="perm in data.permissions" class="panel-body" data-ng-if="data.access">
+                        <div class="span5">
+                            <input data-ng-model="perm.permission.access" data-ng-click="uncheckExtraPerm(perm.permission.access,perm.extrapermission)" type="checkbox">
+                            {{perm.permission.display}}
+                            <div>
+                                <p><sub>{{perm.permission.desc}}</sub></p>
+                            </div>
+                        </div>
+                        <div data-ng-show="perm.permission.access" data-ng-repeat="dt in perm.extrapermission">
+                            <div class="span5">
+                                <input data-ng-model="dt.access" type="checkbox">
+                                {{dt.display}}
+                                <div>
+                                    <p><sub>{{dt.desc}}</sub></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button data-ng-click="datalayer.saveNew(dldata.permission)" class="btn btn-success ">Save</button>
+            </div>
+        </div>-->
