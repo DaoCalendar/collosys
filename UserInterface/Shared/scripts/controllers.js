@@ -85,8 +85,8 @@ csapp.factory("routeManagerFactory", [
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger", "menuFactory",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager, menuFactory) {
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger", "menuFactory", "$csfactory",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager, menuFactory, $csfactory) {
 
         var $log = logManager.getInstance("RootCtrl");
 
@@ -98,9 +98,10 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
 
         $scope.$watch(function () {
             return $csAuthFactory.getUsername();
-        }, function (newval, oldval) {
+        }, function (newval) {
             console.log(newval);
-            if (angular.isDefined(newval)) {
+
+            if (!$csfactory.isNullOrEmptyString(newval)) {
                 datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
                     $log.info('creating menu by permission');
                     menuFactory.initMenu(datalayer.dldata.permissions);

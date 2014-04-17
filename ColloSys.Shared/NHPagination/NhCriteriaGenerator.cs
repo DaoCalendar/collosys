@@ -10,6 +10,7 @@ using ColloSys.Shared.NgGrid;
 using Itenso.TimePeriod;
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.SqlCommand;
 
 #endregion
 
@@ -44,7 +45,34 @@ namespace ColloSys.Shared.NHPagination
             var session = SessionManager.GetCurrentSession();
             var criteria = detachedCriteria.GetExecutableCriteria(session);
             var crit = CriteriaTransformer.TransformToRowCount(criteria);
+            var query = GenerateSql(crit);
             return (ulong)crit.FutureValue<Int32>().Value;
+        }
+
+        public static string GenerateSql(ICriteria criteria)
+        {
+            var criteriaImpl = (NHibernate.Impl.CriteriaImpl)criteria;
+            var session = criteriaImpl.Session;
+            var factory = session.Factory;
+
+            var translator =
+                new NHibernate.Loader.Criteria.CriteriaQueryTranslator(
+                    factory,
+                    criteriaImpl,
+                    criteriaImpl.EntityOrClassName,
+                    NHibernate.Loader.Criteria.CriteriaQueryTranslator.RootSqlAlias);
+
+            var implementors = factory.GetImplementors(criteriaImpl.EntityOrClassName);
+
+            var walker = new NHibernate.Loader.Criteria.CriteriaJoinWalker(
+                (NHibernate.Persister.Entity.IOuterJoinLoadable)factory.GetEntityPersister(implementors[0]),
+                                    translator,
+                                    factory,
+                                    criteriaImpl,
+                                    criteriaImpl.EntityOrClassName,
+                                    session.EnabledFilters);
+
+            return walker.SqlString.ToString();
         }
 
         public static uint GetTotalPageCount(ulong totalRows, uint pageSize)
@@ -82,15 +110,16 @@ namespace ColloSys.Shared.NHPagination
                 var info = childType.GetProperty(part);
                 if (info == null) return property;
                 property = info;
-                childType = info.GetType();
+                childType = info.PropertyType;
             }
 
             return property;
         }
 
         public static DetachedCriteria AddRelativeFiltering(DetachedCriteria detachedCriteria, Type objType,
-                                                            IEnumerable<FilterParams> filterConfig)
+                                                            GridQueryParams param)
         {
+            IEnumerable<FilterParams> filterConfig = param.FiltersList;
             var filters2Add = filterConfig.Where(x => x.FilterGroup == FilterGroup.Runtime && !String.IsNullOrWhiteSpace(x.FieldName)).ToList();
             if (filters2Add.Count <= 0) return detachedCriteria;
 
@@ -173,15 +202,35 @@ namespace ColloSys.Shared.NHPagination
                         detachedCriteria = detachedCriteria.Add(Restrictions.Eq(Projections.Property(name), nyear.End));
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("filterConfig");
+                        throw new ArgumentOutOfRangeException("param");
                 }
             }
             return detachedCriteria;
         }
 
-        public static DetachedCriteria AddValueFiltering(DetachedCriteria detachedCriteria, Type objType,
-                                                    IEnumerable<FilterParams> filterConfig)
+
+        private static void AddRelationships(DetachedCriteria detachedCriteria, Type classType, GridQueryParams param, string fieldName)
         {
+            if (fieldName.Split('.').Length <= 1) return;
+            var childType = classType;
+            var fieldparts = fieldName.Split('.').ToList();
+
+            for (int i = fieldparts.Count, j = 0; i > 1; i--, j++)
+            {
+                var info = childType.GetProperty(fieldparts[j]);
+                if (info == null) return;
+                if (param.CriteriaSubTypes.Contains(info.PropertyType.FullName)) continue;
+                param.CriteriaSubTypes.Add(info.PropertyType.FullName);
+                if (detachedCriteria.GetCriteriaByAlias(fieldparts[j]) == null)
+                    detachedCriteria.CreateAlias(fieldparts[j], fieldparts[j] + "ajdjd", JoinType.InnerJoin);
+                childType = info.PropertyType;
+            }
+        }
+
+        public static DetachedCriteria AddValueFiltering(DetachedCriteria detachedCriteria, Type objType,
+                                                    GridQueryParams param)
+        {
+            IEnumerable<FilterParams> filterConfig = param.FiltersList;
             var filters2Add = filterConfig.Where(x => x.FilterGroup == FilterGroup.Value && !String.IsNullOrWhiteSpace(x.FieldName)).ToList();
             if (filters2Add.Count <= 0) return detachedCriteria;
 
@@ -192,6 +241,7 @@ namespace ColloSys.Shared.NHPagination
                 if (property == null) continue;
                 var value = StringToType(filter.FilterValue, property.PropertyType);
                 var name = objType.Name + "." + filter.FieldName;
+                AddRelationships(detachedCriteria, objType, param, filter.FieldName);
 
                 switch (filter.Operator)
                 {
@@ -255,15 +305,16 @@ namespace ColloSys.Shared.NHPagination
                                 Restrictions.In(Projections.Property(name), values.ToArray())));
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("filterConfig");
+                        throw new ArgumentOutOfRangeException("param");
                 }
             }
             return detachedCriteria;
         }
 
         public static DetachedCriteria AddFieldFiltering(DetachedCriteria detachedCriteria, Type objType,
-                                                         IEnumerable<FilterParams> filterConfig)
+                                                         GridQueryParams param)
         {
+            IEnumerable<FilterParams> filterConfig = param.FiltersList;
             var filters2Add = filterConfig.Where(x => x.FilterGroup == FilterGroup.Field
                                                       && !String.IsNullOrWhiteSpace(x.FilterValue)
                                                       && !String.IsNullOrWhiteSpace(x.FieldName))
@@ -313,7 +364,7 @@ namespace ColloSys.Shared.NHPagination
                                                     Projections.Property(rhsName)));
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException("filterConfig");
+                        throw new ArgumentOutOfRangeException("param");
                 }
 
             }

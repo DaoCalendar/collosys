@@ -81,8 +81,8 @@
         <div data-ng-include="'/Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
     </div>
-    <div class="row-fluid">
-        <button class="btn btn-info" data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openChangeModal()">Change Allocation</button>
+    <div class="row-fluid" data-ng-show="gridOptions.showGrid == true">
+        <button class="btn btn-info" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()">Change Allocation</button>
         <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
         <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
         <!-- data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()"-->
