@@ -787,7 +787,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     };
 }]);
 
-csapp.directive('csFieldGroup', ["", function () {
+csapp.directive('csFieldGroup', [function () {
     return {
         template: '<div><div ng-transclude=""/></div>',
         scope: { mode: '=', model: '@' },
