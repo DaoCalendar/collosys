@@ -383,3 +383,47 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 .tax-list-box .tax-list-box-no-data label {
     line-height: 250px;
 }
+
+/*policy pages style*/
+.box {
+    min-height: 250px;
+    overflow-y: auto;
+    border: solid 1px #bce8f1;
+    background: white;
+}
+.box div.policy-name-box {
+     margin-top: 2px;
+     height: 30px;
+     padding-left: 4px;
+    padding-top: 2px;
+}
+.box div.expired {
+    border: solid 1px #1148AD;
+    background: #718FC7;
+    color: black;
+}
+.box div.draft {
+    border: solid 1px #AD8C09;
+    background: #DBBA35;
+}
+
+.box div.approved {
+    border: solid 1px #52BA0D;
+    background: #9BF062;
+}
+.box div.unapproved {
+    border: solid 1px #000000;
+    background: #808080;
+    
+}
+
+.box .clickableName {
+    font-size: 15px;
+    font-style:normal;
+    cursor: pointer;
+    font-family: Georgia;
+}
+
+.margin-box {
+    margin-top: 5px;
+}
