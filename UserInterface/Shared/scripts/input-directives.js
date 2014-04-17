@@ -576,19 +576,27 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
             field.label = field.label || "SelectBox";
 
-            if (angular.isUndefined(field.valueField))
+            if (angular.isDefined(field.valueField)) {
+                if (field.valueField.substring(0, 3) !== "row") {
+                    field.valueField = "row." + field.valueField;
+                }
+            } else {
                 field.valueField = "row";
-            if (angular.isUndefined(field.textField))
-                field.textField = field.valueField;
+            }
+
+            if (angular.isDefined(field.textField)) {
+                if (field.textField.substring(0, 3) !== "row") {
+                    field.textField = "row." + field.textField;
+                }
+            } else {
+                field.textField = "row";
+            }
 
             setNgOptions(field);
         };
 
         var setNgOptions = function (field) {
-            if (field.textField === 'row' && field.valueField === 'row')
-                field.ngOptions = 'row for row in field.valueList';
-            else
-                field.ngOptions = 'row.' + field.valueField + ' as row.' + field.textField + ' for row in field.valueList';
+            field.ngOptions = field.valueField + ' as ' + field.textField + ' for row in field.valueList';
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -622,7 +630,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += ' ng-required="' + attr.field + '.required"';
             html += 'ng-disabled="setReadonly()">';
-            //html += ' <option value="" selectable="false">Select</option> ' ;
+            html += ' <option value="" selectable="false"></option> ';
             //html += ' <option data-ng-repeat="row in field.valueList" value="row">{{row}}</option;';
             html += '</select> ';
 

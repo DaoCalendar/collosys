@@ -1,29 +1,40 @@
-﻿csapp.factory('taxlistDataLayer', ['$csnotify', 'Restangular',
-    function ($csnotify, rest) {
-        var apictrl = rest.all('ProfileApi');
+﻿csapp.factory('taxlistDataLayer', ['$csnotify', 'Restangular','$csfactory',
+    function ($csnotify, rest,$csfactory) {
+        var api = rest.all('TaxListApi');
         var dldata = {};
+        
         var initTaxList = function () {
         };
 
+        var create = function (tax) {
+            return api.post(tax).then(function (data) {
+                $csnotify.success('data saved');
+                return;
+            });
+        };
+
+        var save = function(tax) {
+            return tax.put().then(function (data) {
+                $csnotify.success('data saved');
+                return;
+            });
+        };
+        var getList = function() {
+            return api.getList().then(function (data) {
+                return data;
+            });
+        };
         return {
             dldata: dldata,
+            save: save,
+            create:create,
+            getList: getList
         };
     }
 ]);
 
-csapp.factory('taxListFactory', ['$csShared', function ($csShared) {
-    //var initEnumsList = function(taxList) {
-    //    taxList.TaxType.valueList = $csShared.enums.TaxType;
-    //    taxList.ApplicableTo.valueList = $csShared.enums.TaxApplicableTo;
-    //    taxList.ApplyOn.valueList = $csShared.enums.TaxApplyOn;
-    //};
-    //return {
-    //    initEnumsList: initEnumsList
-    //};
-}]);
-
-csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', 'taxListFactory', '$csModels',
-    function ($scope, datalayer, factory, $csModels) {
+csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
+    function ($scope, datalayer, $csModels) {
         'use strict';
         var resetTax = function() {
             $scope.tax = {};
@@ -39,14 +50,18 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', 'taxListFactory',
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.factory = factory;
             initLocal();
+            datalayer.getList().then(function (data) {
+                $scope.taxList = data;
+            });
         })();
 
         $scope.add = function(tax) {
             //save tax then
-            $scope.taxList.push(tax);
-            resetTax();
+            datalayer.create(tax).then(function() {
+                $scope.taxList.push(tax);
+                resetTax();
+            });
         };
 
         $scope.edit = function(t, index) {
@@ -56,10 +71,11 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', 'taxListFactory',
         };
 
         $scope.applyedit = function (t) {
-            //save t first and then
-            $scope.taxList[$scope.indexOfSelected] = t;
-            resetTax();
-            $scope.isAddMode = true;
+            datalayer.create(t).then(function () {
+                $scope.taxList[$scope.indexOfSelected] = t;
+                resetTax();
+                $scope.isAddMode = true;
+            });
         };
     }
 ]);

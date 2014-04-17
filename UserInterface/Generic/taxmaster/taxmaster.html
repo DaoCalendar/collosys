@@ -19,7 +19,7 @@
                 <tbody>
                     <tr data-ng-repeat="t in taxMasterList">
                         <td><i class="btn icon-edit-sign" data-ng-click="edit(t, $index)"></i></td>
-                        <td>{{t.GTaxesList.Name}}</td>
+                        <td>{{t.GTaxesList.TaxName}}</td>
                         <td>{{t.ApplicableTo}}</td>
                         <!--<td>{{t.IndustryZone}}</td>-->
                         <td>{{t.Country}}</td>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="row-fluid">
                         <div class="span5">
-                           GTaxesList.Name
+                            <cs-field data-ng-model="tax.GTaxesList" field="TaxMaster.GTaxesList"></cs-field>
                             <!--<cs-field data-ng-model="tax.IndustryZone" field="TaxMaster.IndustryZone"></cs-field>-->
                         </div>
                         <div class="span5">

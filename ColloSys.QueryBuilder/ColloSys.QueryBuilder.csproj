@@ -92,6 +92,8 @@
     <Compile Include="GenericBuilder\GPermissionBuilder.cs" />
     <Compile Include="GenericBuilder\GPincodeBuilder.cs" />
     <Compile Include="GenericBuilder\GReportBuilder.cs" />
+    <Compile Include="GenericBuilder\GTaxDetailsBuilder.cs" />
+    <Compile Include="GenericBuilder\GTaxesListBuilder.cs" />
     <Compile Include="GenericBuilder\GUsersRepository.cs" />
     <Compile Include="GenericBuilder\ProductConfigBuilder.cs" />
     <Compile Include="StakeholderBuilder\AddressQueryBuilder.cs" />

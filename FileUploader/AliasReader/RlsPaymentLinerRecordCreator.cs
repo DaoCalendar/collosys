@@ -1,11 +1,8 @@
 ﻿#region references
 
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using NLog;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -16,9 +13,13 @@ namespace ColloSys.FileUploader.AliasReader
     public class RlsPaymentLinerRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
+
+        private const uint AccountPosition=3;
+        private const uint AccountLength = 8;
+
         private readonly IList<int> _paymentcodes;
 
-        public RlsPaymentLinerRecordCreator(FileScheduler fileScheduler):base(fileScheduler,3,8)
+        public RlsPaymentLinerRecordCreator(FileScheduler fileScheduler):base(fileScheduler,AccountPosition,AccountLength)
         {
            _paymentcodes = new List<int> { 179, 201, 203, 891 };
         }
@@ -91,7 +92,7 @@ namespace ColloSys.FileUploader.AliasReader
         //    }
         //}
 
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        public override bool GetComputations(Payment record, IExcelReader reader)
         {
             record.IsDebit = _paymentcodes.Contains(record.TransCode);
 

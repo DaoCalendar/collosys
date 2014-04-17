@@ -39,14 +39,12 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage FetchPageData(ViewAllocationFilter viewAllocationFilter)
         {
             return Request.CreateResponse(HttpStatusCode.OK, GetAllocData(viewAllocationFilter));
         }
 
         [HttpGet]
-
         public IEnumerable<Allocations> GetData()
         {
             var query = AllocBuilder.ApplyRelations();
@@ -54,7 +52,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage ApproveAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -86,7 +83,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage RejectChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -111,7 +107,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpGet]
-
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
@@ -119,7 +114,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage ChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             if (changeAllocationModel == null)
@@ -189,7 +183,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
 
             var allcType = ClassType.GetAllocDataClassTypeByTableNameForAlloc(viewAllocationFilter.Products);
-            var firstChar = allcType.Name.Substring(0, 1);
             var aliseName = allcType.Name;
             var infoName = "Info";// typeof(CustomerInfo).Name;
             var memberAlloc = new MemberHelper<Allocations>();
@@ -223,33 +216,34 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             detachedCriteria.Add(Restrictions.Or(startDateRes, endDateRes));
 
 
-            var gridData = new GridInitData(detachedCriteria, allcType);
+            var gridData = new GridInitData(detachedCriteria, allcType)
+            {
+                ScreenName = ColloSysEnums.GridScreenName.Allocation
+            };
 
-            gridData.ScreenName = ColloSysEnums.GridScreenName.Allocation;
             gridData.QueryParams.GridConfig.columnDefs.Clear();
 
             // add Allocation Subpolicy Name
             var memberSubpolicy = new MemberHelper<AllocSubpolicy>();
             var subpolicyType = typeof(AllocSubpolicy);
             var properySubpolicyName = subpolicyType.GetProperty(memberSubpolicy.GetName(x => x.Name));
-            gridData.AddNewColumn(properySubpolicyName, "AllocSubpolicy", "SubpolicyName");
+            gridData.AddNewColumn(properySubpolicyName, subpolicyType.Name, "Subpolicy Name");
 
             // Add Stakholder name Column
             var memberStakeholder = new MemberHelper<Stakeholders>();
             var stakeholderType = typeof(Stakeholders);
             var properyStakeholder = stakeholderType.GetProperty(memberStakeholder.GetName(x => x.Name));
-            gridData.AddNewColumn(properyStakeholder, "Stakeholder", "StakeholderName");
+            gridData.AddNewColumn(properyStakeholder, stakeholderType.Name, "Stakeholder Name");
 
             // add Info Columns
-            var infoType = typeof(CustomerInfo).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
-            if (infoType == null)
-                return gridData;
+            //var memberInfo = new MemberHelper<CustomerInfo>();
+            var infoType = typeof(CustomerInfo);
 
             var infoColumns = GetSharedInfoPropertiesName();
             for (int i = 0; i < infoColumns.Count; i++)
             {
                 var property = infoType.GetProperty(infoColumns[i]);
-                gridData.AddNewColumn(property, infoType.Name);
+                gridData.AddNewColumn(property, infoName);
             }
 
             // add Alloc Columns
@@ -259,6 +253,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 var property = allcType.GetProperty(allocColumns[i]);
                 gridData.AddNewColumn(property);
             }
+
             return gridData;
         }
 
