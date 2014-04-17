@@ -452,7 +452,7 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "CreateFile",
             access: false,
-            description: "asfasdf",
+            description: "create file",
             childrens: {
                 View: {
                     name: "View",
@@ -460,8 +460,8 @@ csapp.factory('$permissionFactory', [function () {
                     description: "view",
                     childrens: {}
                 },
-                Modify: {
-                    name: "Modify",
+                CreateModify: {
+                    name: "Create/Modify",
                     access: false,
                     description: "modify",
                     childrens: {}
@@ -479,7 +479,7 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "ScheduleFile",
             access: false,
-            description: "asfasdf",
+            description: "schedule file",
             childrens: {
                 View: {
                     name: "View",
@@ -487,18 +487,12 @@ csapp.factory('$permissionFactory', [function () {
                     description: "view",
                     childrens: {}
                 },
-                Modify: {
-                    name: "Modify",
+                Create: {
+                    name: "Create",
                     access: false,
                     description: "modify",
                     childrens: {}
-                },
-                Approve: {
-                    name: "approve",
-                    access: false,
-                    description: "approve",
-                    childrens: {}
-                },
+                }
             }
         };
     };
@@ -506,7 +500,7 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "FixError",
             access: false,
-            description: "asfasdf",
+            description: "fix error",
             childrens: {
                 View: {
                     name: "View",
@@ -533,14 +527,24 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "UploadPincode",
             access: false,
-            description: "asfasdf",
+            description: "upload pincode",
             childrens: {
-                View: {
-                    name: "View",
+                Upload: {
+                    name: "Upload",
                     access: false,
                     description: "view",
                     childrens: {}
-                },
+                }
+            }
+        };
+    };
+    var paymentChangesActivity = function () {
+        return {
+            name: "PaymentChanges",
+            access: false,
+            description: "payment changes",
+            childrens: {
+
                 Modify: {
                     name: "Modify",
                     access: false,
@@ -548,7 +552,7 @@ csapp.factory('$permissionFactory', [function () {
                     childrens: {}
                 },
                 Approve: {
-                    name: "approve",
+                    name: "Approve",
                     access: false,
                     description: "approve",
                     childrens: {}
@@ -558,24 +562,34 @@ csapp.factory('$permissionFactory', [function () {
     };
 
     var permission = {
-        FileUpload: {
-            name: "FileUpload",
-            access: false,
-            description: "asfasdf",
-            childrens: {
-                CreateFile: createFileActivity(),
-                ScheduleFile: scheduleFileActivity(),
-                FixError: fixErrorActivity(),
-                UploadPincode: uploadPincodeActivity()
-            }
-        },
+        //FileUpload: {
+        //    name: "FileUpload",
+        //    access: false,
+        //    description: "file upload",
+        //    childrens: {
+        //        CreateFile: createFileActivity(),
+        //        ScheduleFile: scheduleFileActivity(),
+        //        FixError: fixErrorActivity(),
+        //        UploadPincode: uploadPincodeActivity(),
+        //        PaymentChanges: paymentChangesActivity()
+        //    }
+        //},
 
-        Stakeholder: {
-            name: "Stakeholder",
+        //Stakeholder: {
+        //    name: "Stakeholder",
+        //    access: false,
+        //    description: "stakeholders",
+        //    children: {}
+        //},
+
+        Billing: {
+            name: "Billing",
             access: false,
-            description: "stakeholders",
+            description: "billing",
             children: {}
         }
+
+
     };
 
 

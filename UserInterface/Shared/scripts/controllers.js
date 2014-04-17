@@ -17,6 +17,7 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
                     dldata.userHierarchy = data;
                     dldata.permissions = JSON.parse(data.Permissions);
                     console.log('permissions fetched: ', dldata.permissions);
+                    return;
                 });
         };
 
@@ -102,7 +103,7 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
             console.log(newval);
             if (angular.isDefined(newval)) {
                 datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
-                    $log.info('creating menu by permission');
+                    console.log('creating menu by permission');
                     menuFactory.initMenu(datalayer.dldata.permissions);
                 });
             }
