@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="control-group span6">
-                <button class="btn btn-primary" data-ng-click="openAddModel()">Add New Pincode</button>
+                <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
             </div>
         </div>
         <div class="row-fluid form-horizontal" data-ng-show="(dldata.GPincodes.length>0)">
@@ -70,7 +70,7 @@
                     <tr data-ng-repeat="GPincode in dldata.GPincodes | filter:search | orderBy: 'Pincode'">
                         <td>
                             <div class="btn-group">
-                                <i class="btn icon-edit" data-ng-click="openEditModal(GPincode)"></i>
+                                <i class="btn icon-edit" data-ng-click="openAddEditModal('edit',GPincode)"></i>
                             </div>
                         </td>
                         <td>{{GPincode.Pincode}}</td>
