@@ -98,6 +98,8 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
                 Product: $scope.selected.Product,
                 FileName: $scope.selected.fileInfo.path
             };
+
+            $csfactory.enableSpinner();
             if (mode === "pincode") {
                 datalayer.uploadPincodes(uploadInfo);
             } else {

@@ -190,6 +190,13 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             return objPayment;
         }
 
+        public Payment GetPaymentForTransAmount()
+        {
+            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500, TransAmount = 205 };
+
+            return objPayment;
+        }
+
         public FileScheduler GetUploadedFile()
         {
             return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER } };

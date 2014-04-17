@@ -12,15 +12,17 @@ namespace ColloSys.FileUploader.AliasReader
     public class RlsPaymentWoAebRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
+        private const uint AccountPosition = 1;
+        private const uint AccountLength = 8;
 
-        public RlsPaymentWoAebRecordCreator(FileScheduler fileShedular):base(fileShedular,1,8)
+        public RlsPaymentWoAebRecordCreator(FileScheduler fileShedular):base(fileShedular,AccountPosition,AccountLength)
         {
            
         }
 
         #endregion
 
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        public override bool GetComputations(Payment record, IExcelReader reader)
         {
             try
             {

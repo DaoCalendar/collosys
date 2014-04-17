@@ -2,33 +2,34 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using NLog;
 using ReflectionExtension.ExcelReader;
 
 #endregion
 
 namespace ColloSys.FileUploader.AliasReader
 {
-    class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
+   public class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
 
-
+        private const uint AccountPosition = 1;
+        private const uint AccountLength = 11;
         private readonly List<string> _ePaymentExcludeCodes;
+       private readonly FileScheduler _scheduler;
 
         public EbbsPaymentWoSmcRecordCreator(FileScheduler fileShedular, List<string> ePaymentExcludeCodes)
-            : base(fileShedular, 1, 11)
+            : base(fileShedular, AccountPosition, AccountLength)
         {
             _ePaymentExcludeCodes = ePaymentExcludeCodes;
+            _scheduler = fileShedular;
         }
 
         #endregion
 
 
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        public override bool GetComputations(Payment record, IExcelReader reader)
         {
             try
             {
@@ -42,6 +43,16 @@ namespace ColloSys.FileUploader.AliasReader
             {
                 throw new Exception("EbbsPaymentWoSmc ComputtedSetter failed!!", exception);
             }
+        }
+
+        public override bool IsRecordValid(Payment record,ICounter counter)
+        {
+            if (record.TransDate.Month != _scheduler.FileDate.Month)
+            {
+                counter.IncrementIgnoreRecord();
+                return false;
+            }
+            return true;
         }
 
     }

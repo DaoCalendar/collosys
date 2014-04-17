@@ -15,7 +15,7 @@
 
     var taxMaster = function () {
         return {
-            GTaxesList: { label: 'Tax List', type: 'text' },
+            GTaxesList: { label: 'Tax List', type: 'select', textField: 'TaxName' },
             ApplicableTo: { label: 'Role', type: 'enum', valueList: $csShared.enums.TaxApplicableTo, required: true },
             IndustryZone: { label: 'Industry Zone', type: 'text' },
             Country: { label: 'Country', type: 'text' },

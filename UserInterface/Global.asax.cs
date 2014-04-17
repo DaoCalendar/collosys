@@ -37,6 +37,11 @@ namespace AngularUI
                                        new { id = RouteParameter.Optional, id2 = RouteParameter.Optional }
                 );
 
+            config.Routes.MapHttpRoute("DefaultApi1",
+                                      "api/{controller}/{id}",
+                                      new { id = RouteParameter.Optional }
+               );
+
             //GlobalConfiguration.Configuration.Filters.Add(new AuthorizeAttribute());
 
             // remove default xml formatter

@@ -43,15 +43,16 @@ csapp.factory("ClientDataDownloadDataLayer", [
 ]);
 
 csapp.controller("ClientDataDownloadController",
-    ["$scope", "$csfactory", "$csGrid", "ClientDataDownloadDataLayer", "Logger",
-    function ($scope, $csfactory, $grid, datalayer, logManager) {
+    ["$scope", "$csfactory", "$csGrid", "Logger", "ClientDataDownloadDataLayer",
+    function ($scope, $csfactory, $grid, logManager, datalayer) {
 
         //#region init
-        var $log = logManager.getInstance("ClientDataDownloadController");
+        //var $log = logManager.getInstance("ClientDataDownloadController");
         (function () {
             $scope.params = {};
             $scope.$csfactory = $csfactory;
             $scope.datalayer = datalayer;
+            $scope.$grid = $grid;
             datalayer.Get();
         })();
         //#endregion
@@ -103,11 +104,10 @@ csapp.controller("ClientDataDownloadController",
         };
 
         $scope.getPagedDataAsync = function (downloadparams) {
-            $scope.gridOptions = {};
-            $scope.$grid = $grid;
             if ($scope.gettingPageData === true) return;
             $scope.gettingPageData = true;
             $csfactory.enableSpinner();
+
             datalayer.GetData(downloadparams).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
             }).finally(function() {
