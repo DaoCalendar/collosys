@@ -1,26 +1,6 @@
 ﻿
-csapp.controller("approveViewCntrl1", ["$scope", "$csfactory", "$csnotify", "Restangular", "$csGrid",
-    function ($scope, $csfactory, $csnotify, rest, $grid) {
-        "use strict";
-
-        $scope.init = function () {
-            $scope.selectedAllocations = [];
-            $scope.selAll = false;
-        };
-        $scope.init();
-
-        $scope.closeModal = function () {
-            $scope.openModal = false;
-            $scope.selectedAllocations = [];
-            $scope.approveView = {};
-        };
-
-        $scope.selectedProduct = '';
-
-    }]);
-
-csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory',
-    function ($scope, datalayer, factory, $modal, $csfactory) {
+csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory', "$csGrid",
+    function ($scope, datalayer, factory, $modal, $csfactory, $grid) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
@@ -28,6 +8,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.factory = factory;
             $csfactory.enableSpinner();
             $scope.datalayer.getSystems();
+            $scope.$grid = $grid;
         })();
 
         $scope.openChangeModal = function () {
@@ -50,11 +31,20 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
         };
 
         $scope.getPagedData = function () {
-            if (($csfactory.isNullOrEmptyString($scope.dldata.selectedProduct)) || ($csfactory.isNullOrEmptyString($scope.dldata.selectedAllocation))) {
+            if (($csfactory.isNullOrEmptyString($scope.dldata.selectedProduct))
+                || ($csfactory.isNullOrEmptyString($scope.dldata.selectedAllocation))) {
                 return;
             }
-            datalayer.fetchData();
-            $scope.gridOptions = $scope.dldata.gridOptions;
+
+            if ($scope.gettingPageData === true) return;
+            $scope.gettingPageData = true;
+            $csfactory.enableSpinner();
+
+            datalayer.fetchData().then(function () {
+                $scope.gridOptions = datalayer.dldata.gridOptions;
+            }).finally(function () {
+                $scope.gettingPageData = false;
+            });;
         };
 
     }]);
@@ -80,9 +70,8 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             }, showErrorMessage);
         };
 
+
         var fetchData = function () {
-            dldata.$grid = $grid;
-            dldata.gridOptions = {};
             var allocStatus = "None";
             var aprovedStatus = "Approved";
             if (!$csfactory.isNullOrEmptyString(dldata.selectedAllocation)) {
@@ -101,17 +90,17 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 FromDate: dldata.fromDate,
                 ToDate: dldata.toDate
             };
-            dldata.gridOptions = {};
 
-            restApi.customPOST(dldata.viewAllocationModel, "FetchPageData")
+            dldata.gridOptions = {};
+            return restApi.customPOST(dldata.viewAllocationModel, "FetchPageData")
                 .then(function (data) {
-                    if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) {
-                        return;
-                    }
+                    if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
                     dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
                     $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
                     $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
-                }, showErrorMessage);
+                }, function (response) {
+                    $csnotify.error("Failed to fetch the data." + response.data.Message);
+                });
         };
 
         var getstakeholders = function (param) {
@@ -207,7 +196,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 toDate: dldata.toDate
             };
 
-          return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
+            return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
                 $csnotify.success("Allocations Changed");
                 fetchData();
                 dldata.isInProcessing = false;

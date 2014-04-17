@@ -315,9 +315,11 @@
                 _.forEach($scope.WorkingData.ReportsToList, function (item) {
                     if (item.StkhWorkings.length > 0) {
                         x = _.find(item.StkhWorkings, function (workings) {
+                            if (workings.Products === 'ALL')
+                                return workings;
                             if (workings.Products === product && product != 'ALL')
                                 return workings;
-                            else if (product === 'ALL') return workings;
+                            if (product === 'ALL') return workings;
                         });
                     } else {
                         x = item;
