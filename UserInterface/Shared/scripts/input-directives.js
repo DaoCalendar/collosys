@@ -1,5 +1,4 @@
-﻿
-csapp.factory("csBootstrapInputTemplate", function () {
+﻿csapp.factory("csBootstrapInputTemplate", function () {
 
     var bsTemplateBefore = function (field, noBootstrap, fieldname) {
         var html = '<div class="control-group">' +
@@ -563,15 +562,17 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield" ';
+            var html = '<select class="input-large" name="myfield" ui-select2="" ';
             html += ' ng-model="' + attr.ngModel + '"';
-            html += ' ng-required="' + attr.field + '.required"';
             html += ' ng-options="' + field.ngOptions + '"';
+            html += ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
+            //html += ' <option value="" selectable="false"></option> ';
+            html += '</select> ';
             return html;
         };
 
@@ -622,14 +623,14 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" ng-options="row for row in field.valueList"';
-            //html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
-            html += 'data-ng-model="$parent.' + attr.ngModel + '"name="myfield"';
+            var html = '<select class="input-large" name="myfield" ui-select2="" ';
+            html += ' ng-model="' + attr.ngModel + '"';
+            html += ' ng-options="row for row in field.valueList"';
+            html += ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
-            html += ' ng-required="' + attr.field + '.required"';
-            html += ' ng-disabled="setReadonly()">';
+            html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += ' <option value="" selectable="false"></option> ';
             html += '</select> ';
 
@@ -638,7 +639,6 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var validateOptions = function (field) {
             field.label = field.label || "SelectBox";
-            field.csRepeat = "row in " + field.csRepeat;//.substring(1, scope.csRepeat.length - 1);
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -665,23 +665,23 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     var input = function (field, attr) {
         var html = '<div class="input-append">';
         html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
-        html += field.placeholder ? 'placeholder="' + field.placeholder + '"' : ' ';
-        html += ' ng-readonly="setReadonly()"';
-        html += ' data-ng-model="' + attr.ngModel + '"';
-        html += (angular.isDefined(attr.ngChange) ? 'data-ng-change="' + attr.ngChange + '"' : '');
-        html += (attr.ngShow ? ' ng-change="' + attr.ngShow + '"' : '');
-        html += (attr.ngHide ? ' ng-change="' + attr.ngHide + '"' : '');
+        html += ' ng-model="' + attr.ngModel + '"';
         html += ' ng-required="' + attr.field + '.required"';
-        html += ' data-date-min-view-mode="' + (angular.isDefined(field.minViewMode) ? field.minViewMode : '') + '" ' +
-        ' data-date-days-of-week-disabled="' + (angular.isDefined(field.daysOfWeekDisabled) ? field.daysOfWeekDisabled : '') + '" data-date-format="' + field.format + '" ' +
-        ' data-date-start-date="' + (angular.isDefined(field.startDate) ? field.startDate : '') + '"' +
-        ' data-date-end-date="' + (angular.isDefined(field.endDate) ? field.endDate : '') + '" bs-datepicker="" >' +
-        ' <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ' +
-        ' </div>';
-
+        html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
+        html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+        html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
+        html += (attr.ngReadonly ? ' ng-readonly="' + attr.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
+        html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
+        html += (angular.isDefined(field.minViewMode) ? ' data-date-min-view-mode="' + field.minViewMode + '"' : '');
+        html += (angular.isDefined(field.daysOfWeekDisabled) ? ' data-date-days-of-week-disabled="' + field.daysOfWeekDisabled + '"' : '');
+        html += (angular.isDefined(field.format) ? ' data-date-format="' + field.format + '"' : '');
+        html += (angular.isDefined(field.startDate) ? ' data-date-start-date="' + field.startDate + '"' : '');
+        html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
+        html += ' bs-datepicker="" >';
+        html += ' <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ';
+        html += ' </div>';
         return html;
     };
-
 
     var htmlTemplate = function (field, attrs) {
         var noBootstrap = angular.isDefined(attrs.noLabel);
@@ -781,8 +781,6 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         }
     };
 
-
-
     return {
         htmlTemplate: htmlTemplate,
         checkOptions: validateOptions
@@ -874,4 +872,3 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             controller: controllerFn
         };
     }]);
-
