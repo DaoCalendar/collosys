@@ -10,10 +10,8 @@
             </select>
         </div>
         <div class="row-fluid" style="border: 1px solid; border-color: silver; height: 560px; overflow: auto">
+            <legend style="background-color: #F5F5F5">Formula List</legend>
             <ul role="menu" class="nav nav-tabs nav-stacked">
-                <li class="alert alert-info">
-                    <a>Formula List</a>
-                </li>
                 <li data-ng-repeat="sformula in dldata.formulaList | orderBy : 'Name'">
                     <a class="btn btn-link" data-ng-click="datalayer.selectFormula(sformula)">{{sformula.Name}}</a>
                 </li>
@@ -32,12 +30,13 @@
             <div class="row-fluid form-horizontal" data-ng-form="formulaForm" style="border: 1px solid; border-color: silver; height: 250px">
                 <legend style="background-color: #F5F5F5">Formula</legend>
                 <div class="row-fluid">
-                    <div class="control-group span5">
-                        <label class="control-label">Product</label>
-                        <div class="controls">
-                            <input type="text" readonly="readonly" class="input-medium" data-ng-model="dldata.formula.Products" />
-                        </div>
-                        <!-- <label class="control-label">Product</label>
+                    <div class="row-fluid">
+                        <div class="control-group span5">
+                            <label class="control-label">Product</label>
+                            <div class="controls">
+                                <input type="text" readonly="readonly" class="input-medium" data-ng-model="dldata.formula.Products" />
+                            </div>
+                            <!-- <label class="control-label">Product</label>
                         <div class="controls">
                             <select class="input-large"
                                     data-ng-disabled="dldata.formula.Id"
@@ -47,14 +46,15 @@
                                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                             </select>
                         </div>-->
-                    </div>
-                    <div class="control-group span6">
-                        <label class="control-label">Category</label>
-                        <div class="controls">
-                            <csswitch ngbind="dldata.formula.Category"
-                                ngdisabled="dldata.formula.Id"
-                                onbtnclick="datalayer.changeProductCategory()"
-                                namevalues="dldata.categorySwitch"></csswitch>
+                        </div>
+                        <div class="control-group span6">
+                            <label class="control-label">Category</label>
+                            <div class="controls">
+                                <csswitch ngbind="dldata.formula.Category"
+                                    ngdisabled="dldata.formula.Id"
+                                    onbtnclick="datalayer.changeProductCategory()"
+                                    namevalues="dldata.categorySwitch"></csswitch>
+                            </div>
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -86,9 +86,9 @@
                     </div>
                 </div>
             </div>
-            <!--output-->
+            <!--Condition-->
             <div class="row-fluid form-horizontal" data-ng-hide="dldata.formula.OutputType==='Number'" style="border: 1px solid; border-color: silver">
-                <legend style="background-color: #F5F5F5">OutPut</legend>
+                <legend style="background-color: #F5F5F5">Condition</legend>
                 <div class="row-fluid " style="height: 250px; overflow: auto">
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -109,7 +109,7 @@
                                     </csswitch>
                                 </td>
                                 <td>
-                                    <select class="input-xlarge"
+                                    <select class="input-large"
                                         data-ng-model="dldata.newCondition.LtypeName"
                                         data-ng-change="factory.changeLeftTypeName(dldata.newCondition)"
                                         required>
@@ -174,9 +174,17 @@
                                 </td>
                             </tr>
                             <tr data-ng-repeat="condition in dldata.formula.BConditions">
-                                <td></td>
-                                <td colspan="4">{{condition.RelationType + ' ( '+condition.LtypeName+' '+condition.Operator+' '+ condition.RtypeName + 
-                                    ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )   + ' ) '}}</td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" /></td>
+                                <td>
+                                    <input type="text" class="input-large" readonly="readonly" value="{{condition.LtypeName}}" /></td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{condition.Operator}}" /></td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{condition.Rtype}}" /></td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{condition.RtypeName + 
+                                    ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
                                 <td>
                                     <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                                 </td>
@@ -185,9 +193,9 @@
                     </table>
                 </div>
             </div>
-            <!--condition-->
+            <!--Output-->
             <div class="row-fluid" data-ng-hide="dldata.formula.OutputType==='Boolean'" style="border: 1px solid; border-color: silver">
-                <legend style="background-color: #F5F5F5">Condition</legend>
+                <legend style="background-color: #F5F5F5">OutPut</legend>
                 <div class="row-fluid" style="height: 250px; overflow: auto">
                     <table class="table table-bordered table-hover">
                         <thead>
@@ -251,8 +259,12 @@
                         </thead>
                         <tbody>
                             <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
-                                <td></td>
-                                <td colspan="2">{{boutput.Operator + boutput.Lsqlfunction + '( ' + boutput.RtypeName + boutput.Rvalue+' )'}}</td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Operator}}" data-ng-show="boutput.Operator" /></td>
+                                <td>
+                                    <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" /></td>
+                                <td>
+                                    <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" /></td>
                                 <td>
                                     <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
                                 </td>
@@ -262,7 +274,7 @@
                 </div>
             </div>
             <!--GroupBy-->
-            <div data-ng-show="dldata.outputWithFunction" class="row-fluid" style="border: 1px solid;border-color: silver">
+            <div data-ng-show="dldata.outputWithFunction" class="row-fluid" style="border: 1px solid; border-color: silver">
                 <legend style="background-color: #F5F5F5">Group By</legend>
                 <select class="input-xxlarge" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
                     <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
