@@ -51,7 +51,10 @@
             GroupBy: { label: "Group By", type: "select", required: true },
             ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
             OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType },
+            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
+            LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
+
         };
     };
 
