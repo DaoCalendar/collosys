@@ -39,6 +39,8 @@
             TypeSwitch: { type: "enum", valueList: $csShared.enums.TypeSwitch, required: true },
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
+           // Operators: { type: "enum", valueList: [], required: true },
+
             CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
             DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },
             ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },

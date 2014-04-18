@@ -362,8 +362,8 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             }
             condition.Value = JSON.stringify(condition.Value);
 
-            var con = angular.copy(condition);
-            dldata.allocSubpolicy.Conditions.push(con);
+            //var con = angular.copy(condition);
+            dldata.allocSubpolicy.Conditions.push(condition);
             dldata.conditionValueType = 'text';
             datalayer.resetCondition();
         };
