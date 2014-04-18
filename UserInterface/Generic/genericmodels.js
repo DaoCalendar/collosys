@@ -19,11 +19,11 @@
             ApplicableTo: { label: 'Role', type: 'enum', valueList: $csShared.enums.TaxApplicableTo, required: true },
             IndustryZone: { label: 'Industry Zone', type: 'text' },
             Country: { label: 'Country', type: 'text' },
-            State: { label: 'State', type: 'select' },
+            State: { label: 'State', type: 'enum', valueList: [] },
             District: { label: 'District', type: 'text' },
             Priority: {},
             // public virtual UInt64 TaxId { get; set; }
-            Percentage: { label: 'Percentage', type: 'decimal', max:99.99, min:1 }, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
+            Percentage: { label: 'Percentage', type: 'percentage'}, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
         };
