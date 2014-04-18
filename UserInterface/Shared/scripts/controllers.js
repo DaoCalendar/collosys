@@ -86,8 +86,8 @@ csapp.factory("routeManagerFactory", [
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger", "menuFactory", "$csfactory",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager, menuFactory, $csfactory) {
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger",  "$csfactory",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager,  $csfactory) {
 
         var $log = logManager.getInstance("RootCtrl");
 
@@ -97,19 +97,7 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
         $scope.$on("$routeChangeSuccess", routeManagerFactory.$routeChangeSuccess);
 
 
-        $scope.$watch(function () {
-            return $csAuthFactory.getUsername();
-        }, function (newval) {
-            console.log(newval);
-
-            if (!$csfactory.isNullOrEmptyString(newval)) {
-                datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
-                    console.log('creating menu by permission');
-                    menuFactory.initMenu(datalayer.dldata.permissions);
-                });
-            }
-
-        });
+      
 
 
         var redirect = function () {
@@ -132,3 +120,18 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
 
     }
 ]);
+
+
+//$scope.$watch(function () {
+//    return $csAuthFactory.getUsername();
+//}, function (newval) {
+//    console.log(newval);
+
+//    if (!$csfactory.isNullOrEmptyString(newval)) {
+//        datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
+//            console.log('creating menu by permission');
+//            //menuFactory.initMenu(datalayer.dldata.permissions);
+//        });
+//    }
+
+//});

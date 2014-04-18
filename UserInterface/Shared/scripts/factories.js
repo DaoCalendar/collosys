@@ -451,24 +451,24 @@ csapp.factory('$permissionFactory', [function () {
     var createFileActivity = function () {
         return {
             name: "CreateFile",
-            access: false,
+            access: true,
             description: "create file",
             childrens: {
                 View: {
                     name: "View",
-                    access: false,
+                    access: true,
                     description: "view",
                     childrens: {}
                 },
                 CreateModify: {
                     name: "Create/Modify",
-                    access: false,
+                    access: true,
                     description: "modify",
                     childrens: {}
                 },
                 Approve: {
                     name: "approve",
-                    access: false,
+                    access: true,
                     description: "approve",
                     childrens: {}
                 },
@@ -478,7 +478,7 @@ csapp.factory('$permissionFactory', [function () {
     var scheduleFileActivity = function () {
         return {
             name: "ScheduleFile",
-            access: false,
+            access: true,
             description: "schedule file",
             childrens: {
                 View: {
@@ -499,7 +499,7 @@ csapp.factory('$permissionFactory', [function () {
     var fixErrorActivity = function () {
         return {
             name: "FixError",
-            access: false,
+            access: true,
             description: "fix error",
             childrens: {
                 View: {
@@ -526,7 +526,7 @@ csapp.factory('$permissionFactory', [function () {
     var uploadPincodeActivity = function () {
         return {
             name: "UploadPincode",
-            access: false,
+            access: true,
             description: "upload pincode",
             childrens: {
                 Upload: {
@@ -541,7 +541,7 @@ csapp.factory('$permissionFactory', [function () {
     var paymentChangesActivity = function () {
         return {
             name: "PaymentChanges",
-            access: false,
+            access: true,
             description: "payment changes",
             childrens: {
 
@@ -561,26 +561,74 @@ csapp.factory('$permissionFactory', [function () {
         };
     };
 
-    var permission = {
-        //FileUpload: {
-        //    name: "FileUpload",
-        //    access: false,
-        //    description: "file upload",
-        //    childrens: {
-        //        CreateFile: createFileActivity(),
-        //        ScheduleFile: scheduleFileActivity(),
-        //        FixError: fixErrorActivity(),
-        //        UploadPincode: uploadPincodeActivity(),
-        //        PaymentChanges: paymentChangesActivity()
-        //    }
-        //},
 
-        //Stakeholder: {
-        //    name: "Stakeholder",
-        //    access: false,
-        //    description: "stakeholders",
-        //    children: {}
-        //},
+    var addStakeholderActivity = function () {
+        return {
+            name: "Add Stakeholder",
+            access: false,
+            description: "payment changes",
+            childrens: {
+
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify stakeholder",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve stakeholder",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var viewStakeholderActivity = function () {
+        return {
+            name: "View Stakeholder",
+            access: false,
+            description: "view stakeholder",
+            childrens: {
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify stakeholder",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve stakeholder",
+                    childrens: {}
+                },
+            }
+        };
+    };
+
+    var permission = {
+        FileUpload: {
+            name: "FileUpload",
+            access: true,
+            description: "file upload",
+            childrens: {
+                CreateFile: createFileActivity(),
+                ScheduleFile: scheduleFileActivity(),
+                FixError: fixErrorActivity(),
+                UploadPincode: uploadPincodeActivity(),
+                PaymentChanges: paymentChangesActivity()
+            }
+        },
+
+        Stakeholder: {
+            name: "Stakeholder",
+            access: false,
+            description: "stakeholders",
+            children: {
+                AddStakeholder: addStakeholderActivity(),
+                ViewStakeholder: viewStakeholderActivity(),
+            }
+        },
 
         Billing: {
             name: "Billing",
