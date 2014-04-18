@@ -70,28 +70,28 @@
                             <div class="controls">
                                 <button class="btn  btn-danger"
                                         data-ng-show="buttonStatus==='Approved'"
-                                        data-ng-click="openModelDeactivateSubPolicy(allocRelation);buttonStatus=null">
+                                        data-ng-click="openModelDeactivateSubPolicy(allocRelation);">
                                     Deactivate
                                 </button>
                                 <!--for draft-->
                                 <button class="btn btn-primary"
                                         data-ng-show="buttonStatus=='Draft'"
-                                        data-ng-click="openModelNewSubPolicy(allocRelation,$index);buttonStatus=null">
+                                        data-ng-click="openModelNewSubPolicy(allocRelation,$index);">
                                     Activate</button>
 
                                 <!--for Expired-->
                                 <button class="btn btn-primary"
                                         data-ng-show="buttonStatus=='Expired'"
-                                        data-ng-click="openModelReactivateSubPolicy(allocRelation);buttonStatus=null">
+                                        data-ng-click="openModelReactivateSubPolicy(allocRelation);">
                                     Reactivate</button>
 
                                 <button class="btn btn-success"
                                         data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="allocRelation.Status='Approved';datalayer.approveRelation(allocRelation);buttonStatus=null">
+                                        data-ng-click="approve(allocRelation)">
                                     Approve</button>
                                 <button class="btn btn-success"
                                         data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="allocRelation.Status='Rejected';datalayer.RejectSubPolicy(allocRelation);buttonStatus=null">
+                                        data-ng-click="reject(allocRelation)">
                                     Reject</button>
                             </div>
                         </div>

@@ -4,7 +4,7 @@
     $scope.productsList = [];
     $scope.payoutPolicy = {};
     $scope.payoutPolicy.Category = "Liner";
-   
+
     $scope.openDateModel = false;
     $scope.isModalDateValid = false;
 
@@ -42,10 +42,10 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
                 $scope.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
             datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
-            (function() {
+            (function () {
                 $modalInstance.close();
             });
-            
+
         };
 
         $scope.deactivateSubPoicy = function (modalData) {
@@ -68,8 +68,7 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
             $scope.dldata.isModalDateValid = (endDate >= startDate);
         };
 
-
-        $scope.closeModal = function() {
+        $scope.closeModal = function () {
             $modalInstance.dismiss();
         };
     }]);
@@ -177,7 +176,7 @@ csapp.factory('payoutPolicyFactory', [
             dldata.payoutPolicy.Category = "Liner";
         };
 
-        
+
         return {
             getDisplaySubPolicy: getDisplaySubPolicy,
             filterRelation: filterRelation,
@@ -204,6 +203,11 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         });
     };
 
+    var reset = function () {
+        dldata.payoutPolicy = {};
+        dldata.subPolicyList = [];
+    };
+
     var changeProductCategory = function () {
         if (angular.isUndefined(dldata.payoutPolicy))
             return;
@@ -219,11 +223,12 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var rejectSubPolicy = function (rejectedRelation) {
-        restApi.customGET( "RejectRelation",{ relationId: rejectedRelation.Id }).then(function () {
+       return restApi.customGET("RejectRelation", { relationId: rejectedRelation.Id }).then(function () {
             dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             dldata.subPolicyList.push(rejectedRelation.BillingSubpolicy);
             $csnotify.success("Subpolicy Rejected");
-        }, function (data) {
+           return;
+       }, function (data) {
             $csnotify.error(data);
         });
     };
@@ -231,10 +236,11 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     var approveRelation = function (relation) {
         var orgId = relation.OrigEntityId;
         var rejectedRelation = _.find(dldata.payoutPolicy.BillingRelations, { Id: orgId });
-        restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
-            dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
-            $csnotify.success('Subpolicy Approved');
-        });
+       return restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
+            //dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
+           $csnotify.success('Subpolicy Approved');
+           return;
+       });
     };
 
     var savePayoutPolicy = function (payoutPolicy) {
@@ -245,7 +251,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 detelatedData = angular.copy(rejectedRelation);
                 payoutPolicy.BillingRelations.splice(payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             }
-          return restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
+            return restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
                 //dldata.payoutPolicy = data;
                 if (detelatedData != '') {
                     dldata.subPolicyList.push(detelatedData.BillingSubpolicy);
@@ -256,7 +262,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 $csnotify.error(data);
             });
         } else {
-           return restApi.customPOST(payoutPolicy, "POST").then(function (data) {
+            return restApi.customPOST(payoutPolicy, "POST").then(function (data) {
                 dldata.payoutPolicy = data;
                 $csnotify.success("Policy Saved");
             }, function (data) {
@@ -271,28 +277,53 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         changeProductCategory: changeProductCategory,
         RejectSubPolicy: rejectSubPolicy,
         savePayoutPolicy: savePayoutPolicy,
-        approveRelation: approveRelation
+        approveRelation: approveRelation,
+        reset: reset
     };
 }]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory','$modal',
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal',
     function ($scope, datalayer, factory, $modal) {
+
+        var findIndex = function (list, value) {
+            var index = -1;
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].Id == value) {
+                    index = i;
+                }
+            }
+            return index;
+        };
+
+        $scope.setButtonStatus = function (status) {
+            $scope.buttonStatus = status;
+        };
+
+        $scope.setDisplaySubpolicy = function (subpolicy, relation) {
+            if (angular.isUndefined(relation)) {
+                $scope.billingRelation = subpolicy;
+            } else {
+                $scope.billingRelation = relation;
+            }
+
+            $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
+        };
 
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            datalayer.reset();
             datalayer.getProducts();
+            $scope.modalData = {
+                BillingRelation: {},
+                StartDate: null,
+                endDate: null,
+                subPolicyIndex: -1,
+                forActivate: true
+            };
         })();
-
-        $scope.modalData = {
-            BillingRelation: {},
-            StartDate: null,
-            endDate: null,
-            subPolicyIndex: -1,
-            forActivate: true
-        };
 
         var openmodal = function (modaldata) {
             $modal.open({
@@ -307,8 +338,10 @@ csapp.controller('payoutPolicyCtrl', [
         };
 
         $scope.openModelNewSubPolicy = function (subPolicy, index) {
+            $scope.buttonStatus = null;
             $scope.modalData.BillingRelations = { BillingSubpolicy: subPolicy };
-            $scope.modalData.subPolicyIndex = index;
+            var indexl = findIndex($scope.dldata.subPolicyList, subPolicy.Id);
+            $scope.modalData.subPolicyIndex = indexl;
             $scope.modalData.startDate = null;
             $scope.modalData.endDate = null;
             $scope.modalData.forActivate = true;
@@ -316,12 +349,24 @@ csapp.controller('payoutPolicyCtrl', [
         };
 
         $scope.openModelDeactivateSubPolicy = function (relation) {
+            $scope.buttonStatus = null;
             $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
             $scope.modalData.payoutRelation.Status = "Submitted";
             $scope.modalData.subPolicyIndex = -1;
             $scope.modalData.startDate = relation.StartDate;
             $scope.modalData.endDate = null;
             $scope.modalData.forActivate = false;
+            openmodal($scope.modalData);
+        };
+        
+        $scope.openModelReactivateSubPolicy = function (relation) {
+            $scope.buttonStatus = null;
+            $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
+            $scope.modalData.payoutRelation.Status = "Submitted";
+            $scope.modalData.subPolicyIndex = -1;
+            $scope.modalData.startDate = null;
+            $scope.modalData.endDate = null;
+            $scope.modalData.forActivate = true;
             openmodal($scope.modalData);
         };
 
@@ -331,6 +376,20 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.modalData.endDate = billingRelations.EndDate;
             $scope.modalData.forActivate = forActivate;
             openmodal($scope.modalData);
+        };
+
+        $scope.approve = function(relation) {
+            datalayer.approveRelation(relation).then(function () {
+                relation.Status = 'Approved';
+                $scope.buttonStatus = null;
+            });
+        };
+
+        $scope.reject = function(relation) {
+            datalayer.RejectSubPolicy(relation).then(function () {
+                $scope.buttonStatus = null;
+                relation.Status = 'Rejected';
+            }); 
         };
 
     }]);
