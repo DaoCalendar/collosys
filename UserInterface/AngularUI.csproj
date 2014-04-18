@@ -266,6 +266,8 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\loading-bar\loading-bar.css" />
+    <Content Include="Scripts\loading-bar\loading-bar.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />
