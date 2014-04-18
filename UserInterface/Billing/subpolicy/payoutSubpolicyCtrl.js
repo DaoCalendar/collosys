@@ -348,8 +348,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels','$csShared',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -414,7 +414,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
             if (inputType === "text") {
+
                 condition.Operator = '';
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 $scope.datalayer.getColumnValues(condition.LtypeName);
@@ -422,7 +424,8 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             }
 
             if (inputType === "checkbox") {
-              condition.Operator = "EqualTo";
+                condition.Operator = "EqualTo";
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
@@ -430,12 +433,14 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
             if (inputType === "dropdown") {
                 $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
             }
 
             condition.Operator = '';
+            $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
         };

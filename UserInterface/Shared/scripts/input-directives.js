@@ -102,6 +102,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
+            html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
             html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
@@ -230,7 +231,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var configureTypeahead = function (field, attrs) {
-        if (attrs.isUndefined(attrs.typeahead)) return;
+        if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
         field.typeaheadWaitMs = field.typeaheadWaitMs || 400;
     };
@@ -623,7 +624,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield" ui-select2="" ';
+            var html = '<select class="input-large" name="myfield" '; //ui-select2="" 
             html += ' ng-model="' + attr.ngModel + '"';
             html += ' ng-options="row for row in field.valueList"';
             html += ' ng-required="' + attr.field + '.required"';

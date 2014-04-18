@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels',
-    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels','$csShared',
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, $csShared) {
         "use strict";
 
         (function () {
@@ -67,6 +67,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
             if (inputType === "text") {
                 condition.Operator = '';
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 $scope.datalayer.getColumnValues(condition.ColumnName);
@@ -75,6 +76,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
             if (inputType === "checkbox") {
                 condition.Operator = "EqualTo";
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
@@ -82,12 +84,14 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
             if (inputType === "dropdown") {
                 $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
             }
 
             condition.Operator = '';
+            $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
         };
@@ -362,8 +366,8 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             }
             condition.Value = JSON.stringify(condition.Value);
 
-            var con = angular.copy(condition);
-            dldata.allocSubpolicy.Conditions.push(con);
+            //var con = angular.copy(condition);
+            dldata.allocSubpolicy.Conditions.push(condition);
             dldata.conditionValueType = 'text';
             datalayer.resetCondition();
         };
