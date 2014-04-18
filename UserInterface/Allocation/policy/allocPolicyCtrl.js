@@ -110,6 +110,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.openModelReactivateSubPolicy = function (relation) {
+            $scope.buttonStatus = null;
             $scope.modalData.AllocRelations = { AllocSubpolicy: relation.AllocSubpolicy };
             $scope.modalData.subPolicyIndex = -1;
             $scope.modalData.startDate = null;
@@ -119,6 +120,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.openModelDeactivateSubPolicy = function (relation) {
+            $scope.buttonStatus = null;
             $scope.modalData.AllocRelations = { AllocSubpolicy: relation.AllocSubpolicy, OrigEntityId: relation.Id };
             $scope.modalData.AllocRelations.Status = "Submitted";
             $scope.modalData.subPolicyIndex = -1;
@@ -129,6 +131,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.openModelNewSubPolicy = function (subPolicy, index) {
+            $scope.buttonStatus = null;
             $scope.modalData.AllocRelations = { AllocSubpolicy: subPolicy };
             var indexl = findIndex($scope.dldata.subPolicyList, subPolicy.Id);
             $scope.modalData.subPolicyIndex = indexl;
@@ -156,8 +159,23 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             } else {
                 $scope.allocRelation = relation;
             }
-            
+
             $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
+        };
+
+        $scope.approve = function (allocRelation) {
+            datalayer.approveRelation(allocRelation).then(function() {
+                $scope.buttonStatus = null;
+                allocRelation.Status = 'Approved';
+            });
+        };
+
+        $scope.reject = function (allocRelation) {
+            
+            datalayer.RejectSubPolicy(allocRelation).then(function() {
+                $scope.buttonStatus = null;
+                allocRelation.Status = 'Rejected';
+            });
         };
 
         (function () {
@@ -209,10 +227,11 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var rejectSubPolicy = function (rejectedRelation) {
-            api.customDELETE("RejectSubpolicy", { id: rejectedRelation.Id }).then(function () {
+            return api.customDELETE("RejectSubpolicy", { id: rejectedRelation.Id }).then(function () {
                 dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(rejectedRelation), 1);
                 dldata.subPolicyList.push(rejectedRelation.AllocSubpolicy);
                 $csnotify.success("Subpolicy Rejected");
+                return;
             }, function (data) {
                 $csnotify.error(data);
             });
@@ -220,9 +239,10 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         var approveRelation = function (relation) {
             var origId = relation.OrigEntityId;
             var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
-            api.customGET('ApproveRelation', { relationId: relation.Id }).then(function (data) {
+            return api.customGET('ApproveRelation', { relationId: relation.Id }).then(function (data) {
                 dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
                 $csnotify.success('Subpolicy Approved');
+                return;
             });
         };
         var saveAllocPolicy = function (allocPolicy) {
