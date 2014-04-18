@@ -230,7 +230,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var configureTypeahead = function (field, attrs) {
-        if (attrs.isUndefined(attrs.typeahead)) return;
+        if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
         field.typeaheadWaitMs = field.typeaheadWaitMs || 400;
     };
