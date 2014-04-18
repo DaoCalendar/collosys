@@ -230,7 +230,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var configureTypeahead = function (field, attrs) {
-        if (attrs.isUndefined(attrs.typeahead)) return;
+        if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
         field.typeaheadWaitMs = field.typeaheadWaitMs || 400;
     };
@@ -623,7 +623,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield" ui-select2="" ';
+            var html = '<select class="input-large" name="myfield"'; // ui-select2="" ';
             html += ' ng-model="' + attr.ngModel + '"';
             html += ' ng-options="row for row in field.valueList"';
             html += ' ng-required="' + attr.field + '.required"';
@@ -632,6 +632,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += ' <option value="" selectable="false"></option> ';
+            //html += ' <option ng-repeat= "row in field.valueList" value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;

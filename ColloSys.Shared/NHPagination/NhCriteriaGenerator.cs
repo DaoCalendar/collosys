@@ -39,7 +39,6 @@ namespace ColloSys.Shared.NHPagination
         #endregion
 
         #region pagination
-
         public static ulong GetTotalRowCount(DetachedCriteria detachedCriteria)
         {
             var session = SessionManager.GetCurrentSession();
@@ -89,33 +88,9 @@ namespace ColloSys.Shared.NHPagination
             var firstresult = (pageNo - 1) * pageSize;
             return criteria.SetFirstResult((int)firstresult).SetMaxResults((int)pageSize);
         }
-
         #endregion
 
         #region filtering
-        private static object StringToType(string value, Type propertyType)
-        {
-            if (string.IsNullOrWhiteSpace(value)) return null;
-            var realType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
-            if (realType.IsEnum) return Enum.Parse(realType, value);
-            return Convert.ChangeType(value, realType, CultureInfo.InvariantCulture);
-        }
-
-        private static PropertyInfo GetPropertyType(Type classType, string fieldName)
-        {
-            PropertyInfo property = null;
-            var childType = classType;
-            foreach (var part in fieldName.Split('.'))
-            {
-                var info = childType.GetProperty(part);
-                if (info == null) return property;
-                property = info;
-                childType = info.PropertyType;
-            }
-
-            return property;
-        }
-
         public static DetachedCriteria AddRelativeFiltering(DetachedCriteria detachedCriteria, Type objType,
                                                             GridQueryParams param)
         {
@@ -128,7 +103,7 @@ namespace ColloSys.Shared.NHPagination
             {
                 var property = GetPropertyType(objType, filter.FieldName);
                 if (property == null) continue;
-                var name = objType.Name + "." + filter.FieldName;
+                var name = filter.FieldName; //objType.Name + "." + 
 
                 switch (filter.Operator)
                 {
@@ -208,25 +183,6 @@ namespace ColloSys.Shared.NHPagination
             return detachedCriteria;
         }
 
-
-        private static void AddRelationships(DetachedCriteria detachedCriteria, Type classType, GridQueryParams param, string fieldName)
-        {
-            if (fieldName.Split('.').Length <= 1) return;
-            var childType = classType;
-            var fieldparts = fieldName.Split('.').ToList();
-
-            for (int i = fieldparts.Count, j = 0; i > 1; i--, j++)
-            {
-                var info = childType.GetProperty(fieldparts[j]);
-                if (info == null) return;
-                if (param.CriteriaSubTypes.Contains(info.PropertyType.FullName)) continue;
-                param.CriteriaSubTypes.Add(info.PropertyType.FullName);
-                if (detachedCriteria.GetCriteriaByAlias(fieldparts[j]) == null)
-                    detachedCriteria.CreateAlias(fieldparts[j], fieldparts[j] + "ajdjd", JoinType.InnerJoin);
-                childType = info.PropertyType;
-            }
-        }
-
         public static DetachedCriteria AddValueFiltering(DetachedCriteria detachedCriteria, Type objType,
                                                     GridQueryParams param)
         {
@@ -240,7 +196,7 @@ namespace ColloSys.Shared.NHPagination
                 var property = GetPropertyType(objType, filter.FieldName);
                 if (property == null) continue;
                 var value = StringToType(filter.FilterValue, property.PropertyType);
-                var name = objType.Name + "." + filter.FieldName;
+                var name = filter.FieldName;
                 AddRelationships(detachedCriteria, objType, param, filter.FieldName);
 
                 switch (filter.Operator)
@@ -327,8 +283,8 @@ namespace ColloSys.Shared.NHPagination
                 var rightprop = objType.GetProperty(filter.FieldName);
                 if (leftprop == null || rightprop == null) continue;
 
-                var lhsName = objType.Name + "." + filter.FieldName;
-                var rhsName = objType.Name + "." + filter.FilterValue;
+                var lhsName = filter.FieldName; //objType.Name + "." + 
+                var rhsName = filter.FilterValue;
 
                 switch (filter.Operator)
                 {
@@ -371,67 +327,53 @@ namespace ColloSys.Shared.NHPagination
             return detachedCriteria;
         }
         #endregion
+
+        #region filter helpers
+        private static object StringToType(string value, Type propertyType)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return null;
+            var realType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+            if (realType.IsEnum) return Enum.Parse(realType, value);
+            return Convert.ChangeType(value, realType, CultureInfo.InvariantCulture);
+        }
+
+        private static PropertyInfo GetPropertyType(Type classType, string fieldName)
+        {
+            PropertyInfo property = null;
+            var childType = classType;
+            foreach (var part in fieldName.Split('.'))
+            {
+                var info = childType.GetProperty(part);
+                if (info == null) return property;
+                property = info;
+                childType = info.PropertyType;
+            }
+
+            return property;
+        }
+
+        private static void AddRelationships(DetachedCriteria detachedCriteria, Type classType, GridQueryParams param, string fieldName)
+        {
+            if (fieldName.Split('.').Length <= 1) return;
+            var childType = classType;
+            var fieldparts = fieldName.Split('.').ToList();
+
+            for (int i = fieldparts.Count, j = 0; i > 1; i--, j++)
+            {
+                var info = childType.GetProperty(fieldparts[j]);
+                if (info == null) return;
+                if (param.CriteriaSubTypes.Contains(info.PropertyType.FullName)) continue;
+                param.CriteriaSubTypes.Add(info.PropertyType.FullName);
+                if (detachedCriteria.GetCriteriaByAlias(fieldparts[j]) == null)
+                {
+                    var associationPath = classType.Name + "." + fieldparts[j];
+                    var alias = fieldparts[j];
+                    detachedCriteria.CreateAlias(associationPath, alias, JoinType.InnerJoin);
+                }
+                childType = info.PropertyType;
+            }
+        }
+        #endregion
     }
 }
-
-
-//public static DetachedCriteria AddOrdering(DetachedCriteria criteria, string property, bool directionAsc)
-//{
-//    if (criteria == null) return null;
-//    if (String.IsNullOrWhiteSpace(property)) return criteria;
-//    return criteria.AddOrder(new Order(property, directionAsc));
-//}
-
-
-
-//public static void AddFiltering(DetachedCriteria detachedCriteria, FilterConfig filterConfig)
-//{
-//    // there must be atleast one filter
-//    var filters = filterConfig.filterText.Split(';');
-//    if (filters.Length <= 0) return;
-
-//    //get props with only 2 params (fieldName & filterValue)
-//    var props = filters.Select(filter => filter.Split(':'))
-//                       .Where(keyvalue => keyvalue.Length == 2)
-//                       .ToDictionary(keyvalue => keyvalue[0].Trim(), keyvalue => keyvalue[1].Trim());
-//    if (props.Count <= 0) return;
-
-//    foreach (var prop in props)
-//    {
-//        detachedCriteria.Add(Restrictions.InsensitiveLike(
-//            Projections.Cast(NHibernateUtil.String, Projections.Property(prop.Key)),
-//            prop.Value,
-//            MatchMode.Anywhere));
-//    }
-//}
-
-
-// convert to json
-//var json = JObject.FromObject(props);
-//var type = gridQueryParams.GetCriteriaType();
-//var filterobj = json.ToObject(type);
-//var example = Example.Create(filterobj).ExcludeNone().ExcludeNulls().ExcludeZeroes();
-//var excludeprops = type.GetProperties().Where(x => !props.Keys.Contains(x.Name))
-//                       .Select(x => x.Name)
-//                       .ToList();
-//foreach (var excludeprop in excludeprops)
-//{
-//    example.ExcludeProperty(excludeprop);
-//}
-//detachedCriteria.Add(example);
-
-//private static object GetPropertyValue(Object classObj, string fieldName)
-//{
-//    foreach (var part in fieldName.Split('.'))
-//    {
-//        if (classObj == null) { return null; }
-
-//        var info = classObj.GetType().GetProperty(part);
-//        if (info == null) { return null; }
-
-//        classObj = info.GetValue(classObj, null);
-//    }
-//    return classObj;
-//}
-
 
