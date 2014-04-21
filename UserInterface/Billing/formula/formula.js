@@ -286,23 +286,14 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             });
         })();
 
-        $scope.addformula = function () {
+        $scope.addformula = function (product) {
             $scope.showDiv = true;
-            $scope.dldata.formula.Name = "";
-            $scope.dldata.formula.Description = "";
-           // $scope.dldata.formula.Id = "";
-            $scope.dldata.formula.BConditions = [];
-            $scope.dldata.formula.BOutputs = [];
-            $scope.dldata.deleteConditions = [];
-            $scope.dldata.newCondition = {};
-            $scope.dldata.newOutput = {};
-            $scope.dldata.formula.Category = "Liner";
-            $scope.dldata.formula.OutputType = 'Number';
+            $scope.datalayer.resetFormula(product);
         };
 
-        $scope.changeProductCategory = function () {
+        $scope.changeProductCategory = function (product) {
             $scope.datalayer.changeProductCategory();
-            $scope.addformula();
+            $scope.addformula(product);
             $scope.showDiv = false;
         };
 
