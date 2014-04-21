@@ -300,13 +300,14 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
         };
 
-        var resetPayoutSubpolicy = function () {
+        var resetPayoutSubpolicy = function (product) {
             dldata.payoutSubpolicy = {};
             dldata.payoutSubpolicy.BConditions = [];
             dldata.payoutSubpolicy.BOutputs = [];
             dldata.deleteConditions = [];
             dldata.newCondition = {};
             dldata.newOutput = {};
+            dldata.payoutSubpolicy.Products = product;
             dldata.payoutSubpolicy.Category = "Liner";
             dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
             datalayer.resetCondition();
@@ -379,9 +380,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                 }
             });
         };
-        $scope.changeProductCategory = function() {
+        $scope.changeProductCategory = function(product) {
             $scope.datalayer.changeProductCategory();
-            $scope.addsubpolicy();
+            $scope.addsubpolicy(product);
             $scope.showDiv = false;
 
         };
@@ -391,19 +392,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.showDiv = true;
         };
 
-        $scope.addsubpolicy = function() {
+        $scope.addsubpolicy = function(product) {
             $scope.showDiv = true;
-            $scope.dldata.payoutSubpolicy.Name = '';
-            $scope.dldata.payoutSubpolicy.Id = '';
-            $scope.dldata.policyapproved = false;
-            $scope.dldata.payoutSubpolicy.Description = '';
-            $scope.dldata.payoutSubpolicy.BConditions = [];
-            $scope.dldata.payoutSubpolicy.BOutputs = [];
-            $scope.dldata.deleteConditions = [];
-            $scope.dldata.newCondition = {};
-            $scope.dldata.newOutput = {};
-            $scope.dldata.payoutSubpolicy.Category = "Liner";
-            $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
+            $scope.factory.resetPayoutSubpolicy(product);
         };
 
         $scope.changeLeftTypeName = function (condition) {

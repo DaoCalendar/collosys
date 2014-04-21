@@ -4,7 +4,7 @@
             <label>Product</label>
             <select class="input-medium"
                 data-ng-model="dldata.payoutSubpolicy.Products"
-                data-ng-change="changeProductCategory()" required>
+                data-ng-change="changeProductCategory(dldata.payoutSubpolicy.Products)" required>
                 <option value=""></option>
                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
             </select>
@@ -24,7 +24,7 @@
     <div class="row-fluid span9">
         <div class="row-fluid" style="height: 40px" data-ng-show="dldata.payoutSubpolicy.Products">
             <div class="controls">
-                <button class="btn btn-primary" data-ng-click="addsubpolicy()">Add Subpolicy</button>
+                <button class="btn btn-primary" data-ng-click="addsubpolicy(dldata.payoutSubpolicy.Products)">Add Subpolicy</button>
             </div>
         </div>
         <div class="row-fluid" data-ng-show="showDiv">
@@ -301,7 +301,7 @@
                     Activate
                 </button>
                 <button class="btn btn-warning"
-                    data-ng-click="factory.resetPayoutSubpolicy()">
+                    data-ng-click="factory.resetPayoutSubpolicy(dldata.payoutSubpolicy.Products)">
                     Reset
                 </button>
             </div>
