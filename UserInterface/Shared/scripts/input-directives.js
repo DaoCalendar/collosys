@@ -150,10 +150,6 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                         if (angular.isUndefined(options.maxlength))
                             options.maxlength = 19;
                         break;
-                    case "percentage":
-                        options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
-                        options.patternMessage = "allows percentage with precision of 2";
-                        break;
                     default:
                         $log.error(options.type + " is not defined");
                 }
@@ -198,6 +194,9 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             case 'phone':
                 html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
                 break;
+            case 'percentage':
+                html += '<div class="input-append">';
+                break;
             default:
                 break;
         }
@@ -213,6 +212,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             case 'phone':
                 html += '</div>';
                 break;
+            case 'percentage':
+                html += '<span class="add-on"><label>%</label></span></div>';
             default:
                 break;
         }
@@ -220,7 +221,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var input = function (field, attrs) {
-        var html = '<input class="input-large" name="myfield" type="text"';
+        var html = '<input  name="myfield" type="text"';
+        html += (field.template === 'percentage') ? 'class = "input-small"' : 'class = "input-large"';
         html += ' ng-model="' + attrs.ngModel + '"';
         html += ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
@@ -297,6 +299,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 case "user":
                     options.pattern = "/^[0-9]{7}$/";
                     options.patternMessage = "UserId must be a 7 digit number";
+                    break;
+                case "percentage":
+                    options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
+                    options.patternMessage = "allows percentage with precision of 2";
                     break;
                 default:
                     $log.error(template + " is not defined");

@@ -16,7 +16,7 @@
 
             $scope.fields = [
                  { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
-                 { name: 'Age', label: 'Age', editable: false, required: true, type: 'number', template: 'percentage' },
+                 { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
                  { name: 'DOB', label: 'DOB', template: "MonthPicker", required: true, type: 'date' },
                  { name: 'select', label: 'select', textField: 'display', valueField: 'value', editable: false, valueList: $scope.array, required: true, type: 'select', min: 10, max: 100 },
