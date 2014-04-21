@@ -12,7 +12,31 @@
         });
     };
 
+
+    var setAccess = function (data) {
+        angular.forEach(data, function (value, module) {
+            var hasPerm = false;
+            var currModule = data[module];
+            console.log('current module: ', currModule);
+            angular.forEach(currModule.childrens, function (activityVal, activity) {
+                if (activity === 'access' && activityVal === true)
+                    hasPerm = true;
+                if (angular.isObject(activityVal)) {
+                    angular.forEach(activityVal, function (extraPermVal, extraPermKey) {
+                        if (extraPermKey === 'access' && extraPermVal === true)
+                            hasPerm = true;
+                    });
+                }
+            });
+            currModule['access'] = hasPerm;
+        });
+    };
+
+
     var saveNew = function (data) {
+
+        setAccess(data);
+
         dldata.Hierarchy.Permissions = JSON.stringify(data);
         restApi.customPOST(dldata.Hierarchy, 'Post').then(function (hierarchy) {
             dldata.Hierarchy = hierarchy;//update the hierarchy
@@ -54,14 +78,19 @@
 
     var setUpdatesinPrem = function (hierarchies) {
         dldata.permissionsChanged = false;
-        _.forEach(hierarchies, function (item) {
-            var perm = JSON.parse(item.Permissions);
-            //updatePermission(perm, permFactory.permission);
-            updatePermission2(perm, permFactory.permission);
-            //updatePermission2(permFactory.permission, perm);
-            item.Permissions = JSON.stringify(perm);
-        });
-        console.log("permissionOBJ: ", hierarchies);
+        //_.forEach(hierarchies, function (item) {
+        //    var perm = JSON.parse(item.Permissions);
+        //    //updatePermission(perm, permFactory.permission);
+        //    updatePermission2(perm, permFactory.permission);
+        //    //updatePermission2(permFactory.permission, perm);
+        //    item.Permissions = JSON.stringify(perm);
+        //});
+        //restApi.customGET('setUpdates', { 'newPerm': permFactory.permission })
+        //    .then(function (data) {
+        //        //console.log("permissionOBJ: ", hierarchies);
+        //    });
+
+
     };
 
     var updatePermission2 = function (oldPermission, newPermission) {
@@ -84,14 +113,7 @@
             } else
                 delete oldPermission[module];
         });
-
-
-
-
     };
-
-
-
 
     var updatePermission = function (oldPermission, newPermission) {
 
@@ -168,12 +190,14 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.saveNew(data);
         };
 
-        $scope.uncheckExtraPerm = function (checked, extraPermission) {
-            if (checked === false) {
-                _.forEach(extraPermission, function (item) {
-                    item.access = false;
+
+        $scope.uncheckChildren = function (obj) {
+            obj.access = !obj.access;
+            if (obj.access === false) {
+                angular.forEach(obj.childrens, function (value, key) {
+                    value.access = false;
                 });
-            } else return;
+            }
         };
 
     }]);
@@ -185,7 +209,13 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
 
 
-
+//$scope.uncheckExtraPerm = function (checked, extraPermission) {
+//    if (checked === false) {
+//        _.forEach(extraPermission, function (item) {
+//            item.access = false;
+//        });
+//    } else return;
+//};
 
 
 

@@ -86,7 +86,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Allocation",
                 url: "#",
-                display: '',
+                display: true,
                 childMenu: [
                     {
                         Title: "Policy",
@@ -108,7 +108,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Billing",
                 url: "#",
-                display: '',
+                display: true,
                 childMenu: [
                     {
                         Title: "Policy",
@@ -165,7 +165,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Config",
                 url: "#",
-                display: '',
+                display: true,
                 childMenu: [
                     {
                         Title: "Add Hierarchy",
@@ -180,7 +180,7 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Permissions",
                         url: "#/generic/permission",
-                        display: '',
+                        display: true,
                     },
                     {
                         Title: "Products",
@@ -202,7 +202,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Dev Tools",
                 url: "#",
-                display: '',
+                display: true,
                 childMenu: [
                     {
                         Title: "System Explorer",
@@ -212,7 +212,7 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Generate DB",
                         url: "#/developer/generatedb",
-                        display: '',
+                        display:true,
                     },
                     {
                         Title: "DB Tables",
@@ -227,13 +227,11 @@ csapp.factory("menuFactory", [function () {
                 ]
             }
         ];
-        createAuthorisedMenu(menu);
+        return createAuthorisedMenu(menu);
     };
 
-
     var createAuthorisedMenu = function (menus) {
-        var authorisedMenu = [];
-
+        menu = [];
         _.forEach(menus, function (module) {
             var menuObj = {};
             if (module.display === true) {
@@ -245,11 +243,11 @@ csapp.factory("menuFactory", [function () {
                         menuObj.childMenu.push(angular.copy(subMenu));
                 });
 
-                authorisedMenu.push(menuObj);
+                menu.push(menuObj);
             }
         });
-
-        console.log("authorised menu: ", authorisedMenu);
+        console.log("authorised menu: ", menu);
+        return menu;
     };
 
     return {
@@ -259,8 +257,21 @@ csapp.factory("menuFactory", [function () {
 
 }]);
 
-csapp.controller("menuController", ["$scope", "menuFactory", function ($scope, menuFactory) {
-    $scope.menu = menuFactory.menu;
+csapp.controller("menuController", ["$scope", "menuFactory", "rootDatalayer", "$csAuthFactory", "$csfactory", function ($scope, menuFactory, datalayer, $csAuthFactory, $csfactory) {
+
+    (function () {
+        $scope.$watch(function () {
+            return $csAuthFactory.getUsername();
+        }, function (newval) {
+            if (!$csfactory.isNullOrEmptyString(newval)) {
+                datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
+                    console.log('creating menu by permission');
+                    $scope.menus = menuFactory.initMenu(datalayer.dldata.permissions);
+                });
+            }
+        });
+    })();
+
 }]);
 
 //var menuByPerm = [];

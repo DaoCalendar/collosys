@@ -1,29 +1,8 @@
 ﻿
 csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
     function (rest, $csnotify, $csfactory) {
+
         var dldata = {};
-        var operatorsEnum = {
-            '>': 'GreaterThan',
-            '<': 'LessThan',
-            '>=': 'GreaterThanEqualTo',
-            '<=': 'LessThanEqualTo',
-            '=': 'EqualTo',
-            '+': 'Plus',
-            '-': 'Minus',
-            '*': 'Multiply',
-            '/': 'Divide'
-        };
-        var operatorsEnumReverse = {
-            'GreaterThan': '>',
-            'LessThan': '<',
-            'GreaterThanEqualTo': '>=',
-            'LessThanEqualTo': '<=',
-            'EqualTo': '=',
-            'Plus': '+',
-            'Minus': '-',
-            'Multiply': '*',
-            'Divide': '/'
-        };
         var restApi = rest.all("PayoutSubpolicyApi");
 
         var getProducts = function () {
@@ -53,7 +32,6 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 }
                 _.forEach(dldata.formula.BOutputs, function (output) {
                     checkString(output);
-                    output.Operator=convertOperatorToReverse(output.Operator);
                 });
                 changeProductCategory();
             }, function (data) {
@@ -70,6 +48,7 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             }
             resetCondition();
             resetOutput();
+
             var formula = dldata.formula;
             if (!angular.isUndefined(formula.Products) && !angular.isUndefined(formula.Category)) {
 
@@ -146,42 +125,13 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
 
         };
 
-        var convertOperatorToReverse = function (operator) {
-            if (operator === undefined || operator === '') {
-                return "";
-            }
-
-            return operatorsEnumReverse[operator];
-        };
-
         var saveFormula = function (formula) {
-            // var operator = $scope.newOutput.Operator;
+
             formula.GroupBy = JSON.stringify(formula.GroupBy);
 
-            // var saveBConditions = [];
-            //_.forEach(formula.BConditions, function (con) {
-            //    saveBConditions.push(con);
-            //});
-
-            //_.forEach(formula.BOutputs, function (out) {
-            //    saveBConditions.push(out);
-            //});
-
-            //_.forEach($scope.deleteConditions, function (dcond) {
-            //    saveBConditions.push(dcond);
-            //});
-
             _.forEach(formula.BOutputs, function (out) {
-                if (out.Operator !== "") {
-                    out.Operator = operatorsEnum[out.Operator];
-                }
                 formula.BConditions.push(out);
             });
-
-            //var savedata = {
-            //    payoutSubpolicy: formula,
-            //    conditions: saveBConditions
-            //};
 
             if (formula.Id) {
 
@@ -217,7 +167,6 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             saveFormula: saveFormula,
             resetFormula: resetFormula,
             changeProductCategory: changeProductCategory,
-            convertOperatorToReverse: convertOperatorToReverse,
             checkString: checkString
         };
     }]);
@@ -226,53 +175,13 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     var dldata = datalayer.dldata;
 
     var initEnums = function () {
-        dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
-        dldata.OperatorSwitch = [{ Name: '+', Value: 'Plus' }, { Name: '-', Value: 'Minus' }, { Name: '*', Value: 'Multiply' }, { Name: '/', Value: 'Divide' }, { Name: '%', Value: 'ModuloDivide' }];
-        dldata.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
         dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
         dldata.PayoutSubpolicyTypeSwitch = [{ Name: 'Formula', Value: 'Formula' }, { Name: 'Subpolicy', Value: 'Subpolicy' }];
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
         dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
     };
-    
-    var changeLeftTypeName = function (condition) {
-        condition.RtypeName = '';
-        dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.LtypeName });
 
-        dldata.RcolumnNames = _.filter(dldata.columnDefs, { InputType: dldata.selectedLeftColumn.InputType });
 
-        var inputType = dldata.selectedLeftColumn.InputType;
-        if (inputType === "text") {
-            dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith"];
-            condition.Operator = '';
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-            datalayer.getColumnValues(condition.LtypeName);
-            return;
-        }
-
-        if (inputType === "checkbox") {
-            dldata.conditionOperators = ["EqualTo"];
-            condition.Operator = "Equal";
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-            return;
-        }
-
-        if (inputType === "dropdown") {
-            dldata.conditionOperators = ["EqualTo", "NotEqualTo"];
-            dldata.conditionValues = dldata.selectedLeftColumn.dropDownValues;
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-            return;
-        }
-
-        dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];;
-        condition.Operator = '';
-        condition.Rtype = 'Value';
-        condition.Rvalue = '';
-    };
     var changeOutputType = function () {
         if (angular.isDefined(dldata.formula)) {
             dldata.formula.BConditions = [];
@@ -291,6 +200,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
             condition.Rvalue = condition.dateValueEnum;
         }
+        condition.Rvalue = JSON.stringify(condition.Rvalue);
         var con = angular.copy(condition);
         dldata.formula.BConditions.push(con);
         dldata.conditionValueType = 'text';
@@ -315,7 +225,6 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     };
     var addNewOutput = function (output) {
         datalayer.checkString(output);
-        output.Operator = datalayer.convertOperatorToReverse(output.Operator);
         output.ConditionType = 'Output';
         output.ParentId = dldata.formula.Id;
         output.Priority = dldata.formula.BOutputs.length;
@@ -341,10 +250,9 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
             dldata.formula.BOutputs[i].Priority = i;
         }
     };
-    
+
     return {
         initEnums: initEnums,
-        changeLeftTypeName: changeLeftTypeName,
         changeOutputType: changeOutputType,
         addNewCondition: addNewCondition,
         deleteCondition: deleteCondition,
@@ -353,13 +261,17 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     };
 }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory',
-    function ($scope, datalayer, factory, $csfactory) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared',
+    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.factory.initEnums();
+            $scope.formula = $csBillingModels.models.Formula;
+            $scope.dldata.formula = {};
+            $scope.dldata.formula.Category = 'Liner';
+            $scope.showDiv = false;
 
             $scope.datalayer.getProducts();
             $scope.$watch("dldata.formula.BOutputs.length", function () {
@@ -373,4 +285,90 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
                 $scope.dldata.outputWithFunction = (outResult) ? true : false;
             });
         })();
+
+        $scope.addformula = function () {
+            $scope.showDiv = true;
+            $scope.dldata.formula.Name = "";
+            $scope.dldata.formula.Description = "";
+           // $scope.dldata.formula.Id = "";
+            $scope.dldata.formula.BConditions = [];
+            $scope.dldata.formula.BOutputs = [];
+            $scope.dldata.deleteConditions = [];
+            $scope.dldata.newCondition = {};
+            $scope.dldata.newOutput = {};
+            $scope.dldata.formula.Category = "Liner";
+            $scope.dldata.formula.OutputType = 'Number';
+        };
+
+        $scope.changeProductCategory = function () {
+            $scope.datalayer.changeProductCategory();
+            $scope.addformula();
+            $scope.showDiv = false;
+        };
+
+        $scope.selectFormula = function (formula) {
+            $scope.datalayer.selectFormula(formula);
+            $scope.showDiv = true;
+        };
+
+        $scope.changeLeftTypeName = function (condition) {
+            condition.RtypeName = '';
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+
+            $scope.dldata.RcolumnNames = _.filter($scope.dldata.columnDefs, { InputType: $scope.dldata.selectedLeftColumn.InputType });
+
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType === "text") {
+                $scope.formula.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
+                condition.Operator = '';
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                $scope.datalayer.getColumnValues(condition.LtypeName);
+                return;
+            }
+
+            if (inputType === "checkbox") {
+                $scope.formula.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
+                condition.Operator = "Equal";
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            if (inputType === "dropdown") {
+                $scope.formula.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
+                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            $scope.formula.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
+            condition.Operator = '';
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+        };
     }]);
+
+//#region "Row data"
+//if (out.Operator !== "") {
+//    out.Operator = operatorsEnum[out.Operator];
+//}
+//var savedata = {
+//    payoutSubpolicy: formula,
+//    conditions: saveBConditions
+//};
+// var saveBConditions = [];
+//_.forEach(formula.BConditions, function (con) {
+//    saveBConditions.push(con);
+//});
+
+//_.forEach(formula.BOutputs, function (out) {
+//    saveBConditions.push(out);
+//});
+
+//_.forEach($scope.deleteConditions, function (dcond) {
+//    saveBConditions.push(dcond);
+//});
+
+//#endregion

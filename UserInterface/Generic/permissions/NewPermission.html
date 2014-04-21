@@ -29,25 +29,25 @@
         <div data-ng-repeat="(key, module) in dldata.permission track by key">
             <div class="panel row-fluid">
                 <div class="panel-heading">
-                    <input type="checkbox" data-ng-model="module.access">{{module.name}}
+                    {{module.name}}
                 </div>
-                <div data-ng-if="module.access" data-ng-repeat="(key,activity) in module.childrens track by key">
+                <div data-ng-repeat="(key,activity) in module.childrens track by key">
 
                     <div class="span5">
-                        <input type="checkbox" data-ng-model="activity.access" />{{activity.name}}
+                        <input type="checkbox" data-ng-model="activity.access" data-ng-click="uncheckChildren(activity)" />{{activity.name}}
                         <div><sub>{{activity.description}}</sub></div>
                     </div>
 
                     <div data-ng-if="activity.access" data-ng-repeat="(key,permissions) in activity.childrens track by key">
 
                         <div class="span5">
-                            <input type="checkbox" data-ng-model="permissions.access" />{{permissions.name}}
+                            <input type="checkbox" data-ng-model="permissions.access" data-ng-click="uncheckChildren(permissions)" />{{permissions.name}}
                             <div><sub>{{permissions.description}}</sub></div>
                         </div>
 
                         <div data-ng-repeat="(key,extraPermissions) in permissions.childrens track by key">
                             <div class="span5">
-                                <input type="checkbox" data-ng-model="extraPermissions.access" />{{extraPermissions.name}}
+                                <input type="checkbox" data-ng-model="extraPermissions.access" data-ng-click="uncheckChildren(extraPermissions)" />{{extraPermissions.name}}
                                 <div><sub>{{extraPermissions.description}}</sub></div>
                             </div>
                         </div>

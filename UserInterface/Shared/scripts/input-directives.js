@@ -102,6 +102,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
+            html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
             html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
@@ -314,51 +315,6 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         checkOptions: validateOptions
     };
 }]);
-
-//{ label: 'Name', template: 'phone', editable: false, required: true, type: 'text'},
-csapp.factory("csPercentageFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
-
-    var $log = logManager.getInstance("csTextFieldFactory");
-
-    //#region template
-    var input = function (field, attrs) {
-        var html = '<div class="input-append"> <input  name="myfield" type="text" data-ng-minlength="0" data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"';
-        html += ' ng-model="' + attrs.ngModel + '"';
-        html += ' ng-required="' + attrs.field + '.required"';
-        html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
-        html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
-        html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
-        html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
-        html += '/><span class="add-on">%</span>';
-        return html;
-    };
-
-    var htmlTemplate = function (field, attrs) {
-        var noBootstrap = angular.isDefined(attrs.noLabel);
-        var template = [
-            bstemplate.before(field, noBootstrap, attrs.field),
-            valtemplate.before(),
-            input(field, attrs),
-            valtemplate.after(attrs.field, field),
-            bstemplate.after(noBootstrap)
-        ].join(' ');
-        return template;
-    };
-    //#endregion
-
-    //#region validations
-    var validateOptions = function (options) {
-        options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
-    };
-    //#endregion
-
-    return {
-        htmlTemplate: htmlTemplate,
-        checkOptions: validateOptions
-    };
-}]);
-
 
 //{ label: "label", type: 'textarea', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' }
 csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
@@ -668,7 +624,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield"'; // ui-select2="" ';
+            var html = '<select class="input-large" name="myfield" '; //ui-select2="" 
             html += ' ng-model="' + attr.ngModel + '"';
             html += ' ng-options="row for row in field.valueList"';
             html += ' ng-required="' + attr.field + '.required"';
@@ -677,7 +633,6 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += ' <option value="" selectable="false"></option> ';
-            //html += ' <option ng-repeat= "row in field.valueList" value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
@@ -844,8 +799,8 @@ csapp.directive('csFieldGroup', [function () {
     };
 }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory","csPercentageFactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, percentageFactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -871,8 +826,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     return enumFactory;
                 case 'date':
                     return dateFactory;
-                case 'percentage':
-                    return percentageFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;
             }
