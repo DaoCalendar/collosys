@@ -30,7 +30,7 @@ csapp.factory("csValidationInputTemplate", function () {
     var getmessages = function (fieldname, field) {
         field.messages = {
             required: '{{' + fieldname + '.label}} is required.',
-            pattern: '{{' + fieldname + '.label}} is not matching with pattern {{' + fieldname + '.pattern}}.',
+            pattern: (field.patternMessage) ? field.patternMessage : '{{' + fieldname + '.label}} is not matching with pattern {{' + fieldname + '.pattern}}.',
             minlength: '{{' + fieldname + '.label}} should have atleast {{' + fieldname + '.minlength}} character/s.',
             maxlength: '{{' + fieldname + '.label}} can have maximum {{' + fieldname + '.maxlength}} character/s.',
             min: '{{' + fieldname + '.label}} cannot be less than {{' + fieldname + '.min}}.',
@@ -128,29 +128,36 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         //#region validations
         var applyTemplates = function (options) {
-            switch (options.type) {
-                case "uint":
-                    if (angular.isUndefined(options.min))
-                        options.min = 0;
-                    break;
-                case "int":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 6;
-                    break;
-                case "ulong":
-                    if (angular.isUndefined(options.min))
-                        options.min = 0;
-                case "long":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 12;
-                    break;
-                case "decimal":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 19;
-                    break;
-                default:
-                    $log.error(options.type + " is not defined");
-            }
+            var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+            angular.forEach(tmpl, function (template) {
+                if (template.length < 1) return;
+                switch (template) {
+                    case "uint":
+                        if (angular.isUndefined(options.min))
+                            options.min = 0;
+                    case "int":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 6;
+                        break;
+                    case "ulong":
+                        if (angular.isUndefined(options.min))
+                            options.min = 0;
+                    case "long":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 12;
+                        break;
+                    case "decimal":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 19;
+                        break;
+                    case "percentage":
+                        options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
+                        options.patternMessage = "allows percentage with precision of 2";
+                        break;
+                    default:
+                        $log.error(options.type + " is not defined");
+                }
+            });
         };
 
         var validateOptions = function (options) {
@@ -164,7 +171,9 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                 throw error;
             }
             options.label = options.label || "Number";
-            if (angular.isDefined(options.patternMessage)) options.messages.pattern = options.patternMessage;
+            if (angular.isDefined(options.patternMessage)) {
+                //options.messages.pattern = options.patternMessage;
+            }
         };
         //#endregion
 
@@ -811,6 +820,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case "ulong":
                 case "long":
                 case "decimal":
+                case "number":
                     return numberFactory;
                 case "text":
                     return textFactory;

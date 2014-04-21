@@ -12,15 +12,15 @@
 
         (function () {
             $scope.abc = {};
-            $scope.array = [{ display: 1, value: 1 },{ display: 1, value: 2 },{ display: 1, value: 3 }];
+            $scope.array = [{ display: 1, value: 1 }, { display: 1, value: 2 }, { display: 1, value: 3 }];
 
             $scope.fields = [
                  { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
-                 { name: 'Age', label: 'Age', editable: false, required: true, type: 'int', min: 10, max: 100 },
+                 { name: 'Age', label: 'Age', editable: false, required: true, type: 'number', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
                  { name: 'DOB', label: 'DOB', template: "MonthPicker", required: true, type: 'date' },
                  { name: 'select', label: 'select', textField: 'display', valueField: 'value', editable: false, valueList: $scope.array, required: true, type: 'select', min: 10, max: 100 },
-                 { name: 'select',  label: 'enum', valueList: $scope.array, editable: false, required: true, type: 'enum', min: 10, max: 100 },
+                 { name: 'select', label: 'enum', valueList: $scope.array, editable: false, required: true, type: 'enum', min: 10, max: 100 },
                  { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 }
             ];
 
