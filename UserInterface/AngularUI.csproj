@@ -232,6 +232,7 @@
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
+    <Content Include="Allocation\policy\temp.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
@@ -255,6 +256,7 @@
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
     <Content Include="Billing\policy\payoutPolicyCtrl.js" />
+    <Content Include="Billing\policy\test.html" />
     <Content Include="Billing\readybilling\index.html" />
     <Content Include="Billing\readybilling\ReadyForBilling.js" />
     <Content Include="Billing\status\BillingStatus.js" />
