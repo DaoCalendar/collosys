@@ -5,7 +5,7 @@
             <label> Product</label>
             <select class="input-medium"
                 data-ng-model="dldata.allocSubpolicy.Products"
-                data-ng-change="changeProductCategory()"
+                data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
                 required>
                 <option value=""></option>
                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
@@ -25,7 +25,7 @@
     <div class="span9">
         <div class="row-fluid" style="height:40px" data-ng-show="dldata.allocSubpolicy.Products">
             <div class="controls">
-            <button class="btn btn-primary" data-ng-click="addsubpolicy()">Add Subpolicy</button>
+            <button class="btn btn-primary" data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">Add Subpolicy</button>
                 
             </div>
         </div>
@@ -253,7 +253,7 @@
             <div class="row-fluid text-right">
                 <button class="btn btn-success" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                 <button class="btn btn-primary" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                <button class="btn btn-warning" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,dldata.allocSubpolicy.Category)">Reset</button>
+                <button class="btn btn-warning" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products)">Reset</button>
             </div>
         </div>
     </div>
