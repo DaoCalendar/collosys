@@ -252,6 +252,7 @@
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
+    <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
