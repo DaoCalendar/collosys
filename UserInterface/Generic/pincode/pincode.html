@@ -6,7 +6,7 @@
             <div class="control-group span5">
                 <label class="control-label">State</label>
                 <div class="controls">
-                    <select data-ng-model="selectedState" class="input-large" data-ng-change="datalayer.changeState(selectedState)" data-ui-select2="">
+                    <select data-ng-model="selectedState" class="input-large" data-ng-change="changeState(selectedState)" data-ui-select2="">
                         <option value=""></option>
                         <option data-ng-repeat="s in dldata.States | orderBy: 'toString()'">{{s}}</option>
                     </select>

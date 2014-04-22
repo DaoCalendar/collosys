@@ -1,34 +1,73 @@
-﻿<!--Edit Modal PopUp-->
+﻿<!--AddEdit Modal PopUp-->
 <div data-ng-form="formEditPincode" class="form-horizontal">
     <div class="modal-header">
-        {{modelTitle}}{{mode}}
+        {{modelTitle}}{{GPincodedata.Region}}
     </div>
 
     <div class="modal-body">
 
         <cs-field-group mode="mode">
-            <cs-field data-ng-model="eGPincode.Country" field="eGPincodeModel.Country"></cs-field>
-
-            <cs-field data-ng-model="eGPincode.Region" 
-                      data-ng-change="datalayer.getData(eGPincode.Region);factory.regionChange()"
+            <cs-field data-ng-model="GPincodedata.Country" field="eGPincodeModel.Country"></cs-field>
+            
+           
+            <cs-field data-ng-model="GPincodedata.Region" 
+                      data-ng-change="getState(GPincodedata.Region);regionChange()"
                       field="eGPincodeModel.Region">
             </cs-field>
             
 
-            <cs-field data-ng-model="eGPincode.State" field="eGPincodeModel.State" 
-                data-ng-change="datalayer.getData(eGPincode.State);factory.stateChange()"></cs-field>
-            <cs-field data-ng-model="eGPincode.Cluster" field="eGPincodeModel.Cluster"></cs-field>
-            <cs-field data-ng-model="eGPincode.District" field="eGPincodeModel.District"></cs-field>
-            <cs-field data-ng-model="eGPincode.City" field="eGPincodeModel.City" typeahead="c for c in datalayer.pincodeCity($viewValue,eGPincode.District)"></cs-field>
-            <cs-field data-ng-model="eGPincode.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
-            <cs-field data-ng-model="eGPincode.Area" field="eGPincodeModel.Area" typeahead="c for c in datalayer.pincodeArea($viewValue, eGPincode.City)" data-ng-change="eGPincode.Area"></cs-field>
-            <cs-field data-ng-model="eGPincode.Pincode" field="eGPincodeModel.Pincode"></cs-field>
-        </cs-field-group>
+            <cs-field data-ng-model="GPincodedata.State" field="eGPincodeModel.State" 
+                      data-ng-change="getCluster(GPincodedata.Region,GPincodedata.State);stateChange()"></cs-field>
+            
+            <cs-field data-ng-model="GPincodedata.Cluster" field="eGPincodeModel.Cluster"
+                      data-ng-change="getDistrict(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster);clusterChange()"></cs-field>
+            
+            <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
+                      data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
+            
+
+            <div>
+                <div class="row-fluid">
+                    <div  class="span3" >
+                        <span data-ng-hide="dldata.showTextBox">
+                          <cs-field data-ng-model="GPincodedata.City" field="eGPincodeModel.City" 
+                                    typeahead="c for c in datalayer.pincodeCity($viewValue,GPincodedata.District)">
+                          </cs-field>
+                        </span>
+                    </div>
+                        <div class="control-group span2">
+                            <div class="controls">
+                                <span data-ng-show="dldata.showTextBox">
+                                <input type="text" class="input-large" data-ng-model="GPincodedata.City"  />
+                                </span>
+                            </div>
+                        </div>
+                    
+                        <div class="control-group">
+                            <div class="controls">
+                                <button class="btn btn-success" data-ng-click="addCity()" data-ng-hide="dldata.showTextBox">Add New City</button>
+                                <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="dldata.showTextBox">Not Now</button>
+                            </div>
+                         </div>
+                    </div>
+              </div>
+
+
+            <cs-field data-ng-model="GPincodedata.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
+
+    <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
+                typeahead="c for c in datalayer.pincodeArea($viewValue, GPincodedata.City)"
+                data-ng-change="areaChange()"></cs-field>
+
+    <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
+              data-ng-change="pincodedata(GPincodedata.Pincode)"
+              typeahead="c for c in datalayer.missingPincode($viewValue)"></cs-field>
+    </cs-field-group>
     </div>
 
     <div class="modal-footer well">
-        <button class="btn btn-success" data-ng-click="save()" data-ng-disabled="!formEditPincode.$valid">Save</button>
-        <button class="btn btn-primary" data-ng-hide="dldata.isInEditMode" data-ng-click="reset()">Reset</button>
+        <button class="btn btn-success" data-ng-click="save(GPincodedata)" data-ng-disabled="!formEditPincode.$valid">Save</button>
+        <button class="btn btn-primary" data-ng-click="reset()">Reset</button>
         <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
     </div>
 </div>
