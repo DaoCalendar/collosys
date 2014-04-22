@@ -80,6 +80,7 @@
                 <div class="panel-footer text-right">
                     <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>
                     <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
+                    <cs-button type="Add" text="Reset"  ng-click="resetTax()" ></cs-button>
                 </div>
             </div>
         </form>

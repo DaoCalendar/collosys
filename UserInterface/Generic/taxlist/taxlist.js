@@ -36,7 +36,7 @@
 csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
     function ($scope, datalayer, $csModels) {
         'use strict';
-        var resetTax = function() {
+        $scope.resetTax = function() {
             $scope.tax = {};
             $scope.taxForm.$setPristine();
         };
@@ -60,7 +60,7 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
             //save tax then
             datalayer.create(tax).then(function() {
                 $scope.taxList.push(tax);
-                resetTax();
+                $scope.resetTax();
             });
         };
 
@@ -73,7 +73,7 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
         $scope.applyedit = function (t) {
             datalayer.create(t).then(function () {
                 $scope.taxList[$scope.indexOfSelected] = t;
-                resetTax();
+                $scope.resetTax();
                 $scope.isAddMode = true;
             });
         };

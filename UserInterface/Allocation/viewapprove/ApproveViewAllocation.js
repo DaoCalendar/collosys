@@ -7,7 +7,8 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $csfactory.enableSpinner();
-            $scope.datalayer.getSystems();
+            $scope.datalayer.getProducts();
+           
             $scope.$grid = $grid;
         })();
 
@@ -30,9 +31,9 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             });
         };
 
-        $scope.getPagedData = function () {
-            if (($csfactory.isNullOrEmptyString($scope.dldata.selectedProduct))
-                || ($csfactory.isNullOrEmptyString($scope.dldata.selectedAllocation))) {
+        $scope.getPagedData = function (allocData) {
+            if (($csfactory.isNullOrEmptyString(allocData.selectedProduct))
+                || ($csfactory.isNullOrEmptyString(allocData.selectedAllocation))) {
                 return;
             }
 
@@ -40,7 +41,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.gettingPageData = true;
             $csfactory.enableSpinner();
 
-            datalayer.fetchData().then(function () {
+            datalayer.fetchData(allocData).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
             }).finally(function () {
                 $scope.gettingPageData = false;
@@ -64,31 +65,31 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             $csnotify.error(response.data);
         };
 
-        var getSystems = function () {
+        var getProducts = function () {
             restApi.customGETLIST("GetScbSystems").then(function (data) {
-                dldata.scbSystems = data;
+                dldata.ProductList = data;
             }, showErrorMessage);
         };
 
 
-        var fetchData = function () {
+        var fetchData = function (allocData) {
             var allocStatus = "None";
             var aprovedStatus = "Approved";
-            if (!$csfactory.isNullOrEmptyString(dldata.selectedAllocation)) {
-                if (dldata.selectedAllocation === "Submitted") {
-                    aprovedStatus = dldata.selectedAllocation;
+            if (!$csfactory.isNullOrEmptyString(allocData.selectedAllocation)) {
+                if (allocData.selectedAllocation === "Submitted") {
+                    aprovedStatus = allocData.selectedAllocation;
                     allocStatus = "None";
                 } else {
-                    allocStatus = dldata.selectedAllocation;
+                    allocStatus = allocData.selectedAllocation;
                 }
             }
 
             dldata.viewAllocationModel = {
-                Products: dldata.selectedProduct,
+                Products: allocData.selectedProduct,
                 AllocationStatus: allocStatus,
                 AproveStatus: aprovedStatus,
-                FromDate: dldata.fromDate,
-                ToDate: dldata.toDate
+                FromDate: allocData.fromDate,
+                ToDate: allocData.toDate
             };
 
             dldata.gridOptions = {};
@@ -105,7 +106,8 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         var getstakeholders = function (param) {
             if (param != 'DoNotAllocate' && param != 'AllocateToTelecalling') {
-                var products = dldata.selectedProduct;
+                //var products = dldata.selectedProduct;
+                var products = dldata.viewAllocationModel.Products;
                 restApi.customGET("GetStakeholders", { 'products': products }).then(function (data) {
                     dldata.stakeholder = data;
                 });
@@ -206,7 +208,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         return {
             dldata: dldata,
-            getSystems: getSystems,
+            getProducts: getProducts,
             fetchData: fetchData,
             getstakeholders: getstakeholders,
             approveAllocations: approveAllocations,
@@ -258,6 +260,8 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             return (dldata.selectedAllocations.indexOf(data) !== -1);
         };
 
+        //dldata.viewAllocationModel
+
         var selectAllocation = function (selected, allocation) {
             if (selected === true) {
                 dldata.selectedAllocations.push(allocation);
@@ -295,7 +299,7 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
         };
 
         var setStakeholder = function (stkh) {
-            if (stkh == "") {
+            if (stkh === "" || angular.isUndefined(stkh)) {
                 return null;
             }
             return JSON.parse(stkh);

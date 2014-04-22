@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels',
-    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels','$csShared',
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, $csShared) {
         "use strict";
 
         (function () {
@@ -43,23 +43,15 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showDiv = true;
         };
 
-        $scope.changeProductCategory = function() {
+        $scope.changeProductCategory = function (product) {
             $scope.datalayer.changeProductCategory();
-            $scope.addsubpolicy();
+            $scope.addsubpolicy(product);
             $scope.showDiv = false;
 
         };
-        $scope.addsubpolicy = function () {
+        $scope.addsubpolicy = function (product) {
             $scope.showDiv = true;
-            $scope.dldata.newCondition = [];
-            $scope.dldata.policyapproved = false;
-            $scope.dldata.allocSubpolicy.AllocateType = '';
-            $scope.dldata.allocSubpolicy.Name = '';
-            $scope.dldata.allocSubpolicy.Id = '';
-            $scope.dldata.allocSubpolicy.Conditions = [];
-            $scope.dldata.isDuplicateName = false;
-            $scope.dldata.deleteConditions = [];
-            $scope.dldata.allocSubpolicy.NoAllocMonth = 1;
+            $scope.datalayer.resetAllocSubpolicy(product);
         };
 
         $scope.changeLeftColName = function (condition) {
@@ -67,6 +59,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
             if (inputType === "text") {
                 condition.Operator = '';
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 $scope.datalayer.getColumnValues(condition.ColumnName);
@@ -75,6 +68,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
             if (inputType === "checkbox") {
                 condition.Operator = "EqualTo";
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
@@ -82,12 +76,14 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
             if (inputType === "dropdown") {
                 $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
             }
 
             condition.Operator = '';
+            $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
         };
@@ -156,10 +152,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
             if (angular.isUndefined(dldata.allocSubpolicy.Id)) {
                 dldata.allocSubpolicy.Conditions = [];
-                dldata.allocSubpolicy.Name = '';
-                dldata.isDuplicateName = false;
-                dldata.allocSubpolicy.AllocateType = '';
-                dldata.allocSubpolicy.NoAllocMonth = 1;
+               
             } else {
                 check(dldata.allocSubpolicy.ReasonNotAllocate);
             }
@@ -275,7 +268,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
         };
 
-        var resetAllocSubpolicy = function (products, category) {
+        var resetAllocSubpolicy = function (products) {
             dldata.policyapproved = false;
             dldata.allocSubpolicy = {};
             dldata.allocSubpolicy.Conditions = [];
@@ -283,7 +276,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             dldata.deleteConditions = [];
             dldata.newCondition = {};
             dldata.allocSubpolicy.Products = products;
-            dldata.allocSubpolicy.Category = category;
+            dldata.allocSubpolicy.Category = 'Liner';
             //dldata.allocSubpolicy.DoAllocate = 1;
             dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
@@ -362,8 +355,8 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             }
             condition.Value = JSON.stringify(condition.Value);
 
-            var con = angular.copy(condition);
-            dldata.allocSubpolicy.Conditions.push(con);
+            //var con = angular.copy(condition);
+            dldata.allocSubpolicy.Conditions.push(condition);
             dldata.conditionValueType = 'text';
             datalayer.resetCondition();
         };

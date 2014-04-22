@@ -30,7 +30,7 @@ csapp.factory("csValidationInputTemplate", function () {
     var getmessages = function (fieldname, field) {
         field.messages = {
             required: '{{' + fieldname + '.label}} is required.',
-            pattern: '{{' + fieldname + '.label}} is not matching with pattern {{' + fieldname + '.pattern}}.',
+            pattern: (field.patternMessage) ? field.patternMessage : '{{' + fieldname + '.label}} is not matching with pattern {{' + fieldname + '.pattern}}.',
             minlength: '{{' + fieldname + '.label}} should have atleast {{' + fieldname + '.minlength}} character/s.',
             maxlength: '{{' + fieldname + '.label}} can have maximum {{' + fieldname + '.maxlength}} character/s.',
             min: '{{' + fieldname + '.label}} cannot be less than {{' + fieldname + '.min}}.',
@@ -102,6 +102,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
+            html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
             html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
@@ -127,29 +128,32 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         //#region validations
         var applyTemplates = function (options) {
-            switch (options.type) {
-                case "uint":
-                    if (angular.isUndefined(options.min))
-                        options.min = 0;
-                    break;
-                case "int":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 6;
-                    break;
-                case "ulong":
-                    if (angular.isUndefined(options.min))
-                        options.min = 0;
-                case "long":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 12;
-                    break;
-                case "decimal":
-                    if (angular.isUndefined(options.maxlength))
-                        options.maxlength = 19;
-                    break;
-                default:
-                    $log.error(options.type + " is not defined");
-            }
+            var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+            angular.forEach(tmpl, function (template) {
+                if (template.length < 1) return;
+                switch (template) {
+                    case "uint":
+                        if (angular.isUndefined(options.min))
+                            options.min = 0;
+                    case "int":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 6;
+                        break;
+                    case "ulong":
+                        if (angular.isUndefined(options.min))
+                            options.min = 0;
+                    case "long":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 12;
+                        break;
+                    case "decimal":
+                        if (angular.isUndefined(options.maxlength))
+                            options.maxlength = 19;
+                        break;
+                    default:
+                        $log.error(options.type + " is not defined");
+                }
+            });
         };
 
         var validateOptions = function (options) {
@@ -163,7 +167,9 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                 throw error;
             }
             options.label = options.label || "Number";
-            if (angular.isDefined(options.patternMessage)) options.messages.pattern = options.patternMessage;
+            if (angular.isDefined(options.patternMessage)) {
+                //options.messages.pattern = options.patternMessage;
+            }
         };
         //#endregion
 
@@ -188,6 +194,9 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             case 'phone':
                 html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
                 break;
+            case 'percentage':
+                html += '<div class="input-append">';
+                break;
             default:
                 break;
         }
@@ -203,6 +212,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             case 'phone':
                 html += '</div>';
                 break;
+            case 'percentage':
+                html += '<span class="add-on"><label>%</label></span></div>';
             default:
                 break;
         }
@@ -210,7 +221,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var input = function (field, attrs) {
-        var html = '<input class="input-large" name="myfield" type="text"';
+        var html = '<input  name="myfield" type="text"';
+        html += (field.template === 'percentage') ? 'class = "input-small"' : 'class = "input-large"';
         html += ' ng-model="' + attrs.ngModel + '"';
         html += ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
@@ -230,7 +242,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 
     var configureTypeahead = function (field, attrs) {
-        if (attrs.isUndefined(attrs.typeahead)) return;
+        if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
         field.typeaheadWaitMs = field.typeaheadWaitMs || 400;
     };
@@ -287,6 +299,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 case "user":
                     options.pattern = "/^[0-9]{7}$/";
                     options.patternMessage = "UserId must be a 7 digit number";
+                    break;
+                case "percentage":
+                    options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
+                    options.patternMessage = "allows percentage with precision of 2";
                     break;
                 default:
                     $log.error(template + " is not defined");
@@ -623,7 +639,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield" ui-select2="" ';
+            var html = '<select class="input-large" name="myfield" '; //ui-select2="" 
             html += ' ng-model="' + attr.ngModel + '"';
             html += ' ng-options="row for row in field.valueList"';
             html += ' ng-required="' + attr.field + '.required"';
@@ -810,6 +826,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case "ulong":
                 case "long":
                 case "decimal":
+                case "number":
                     return numberFactory;
                 case "text":
                     return textFactory;

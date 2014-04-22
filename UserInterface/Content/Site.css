@@ -27,7 +27,6 @@ legend {
 
 textarea {
     min-height: 75px;
-   
 }
 
 .noResize {
@@ -275,7 +274,7 @@ input[type="text"], input[type="number"], input[type="email"], select, textarea 
 }
 
 .loading-element {
-    /**/background-color: black;
+    /**/ background-color: black;
     filter: alpha(opacity=70);
     -ms-opacity: 0.7;
     opacity: 0.7;
@@ -304,14 +303,14 @@ input[type="text"], input[type="number"], input[type="email"], select, textarea 
 /* ReSharper restore UnknownHtmlAttribute */
 
 .centered {
-    left:50%; 
-    top:50%;
-    -webkit-transform:translate(-50%,-50%);
-    -moz-transform:translate(-50%,-50%);
-    -ms-transform:translate(-50%,-50%);
-    -o-transform:translate(-50%,-50%);
-    transform:translate(-50%,-50%); 
-    position:absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    position: absolute;
 }
 
 /* ANIMATIONS  */
@@ -349,25 +348,26 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     float: left;
 }
 
-.fileContainer [type=file] {
-    cursor: pointer;
-    display: block;
-    font-size: 999px;
-    filter: alpha(opacity=0);
-    min-height: 100%;
-    min-width: 100%;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    text-align: right;
-    top: 0;
-}
+    .fileContainer [type=file] {
+        cursor: pointer;
+        display: block;
+        font-size: 999px;
+        filter: alpha(opacity=0);
+        min-height: 100%;
+        min-width: 100%;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        text-align: right;
+        top: 0;
+    }
 
 /* styles for taxlist */
 .tax-list-heading {
     line-height: 15px;
     font-size: 15px;
 }
+
 .tax-list-box {
     height: 250px;
     min-height: 250px;
@@ -376,10 +376,116 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     margin-bottom: 5px;
 }
 
-.tax-list-box .tax-list-box-no-data {
+    .tax-list-box .tax-list-box-no-data {
+        min-height: 250px;
+    }
+
+        .tax-list-box .tax-list-box-no-data label {
+            line-height: 250px;
+        }
+
+/*policy pages style*/
+.box {
     min-height: 250px;
+    overflow-y: auto;
+    border: solid 1px #bce8f1;
+    background: white;
 }
 
-.tax-list-box .tax-list-box-no-data label {
-    line-height: 250px;
+    .box div.policy-name-box {
+        margin-top: 2px;
+        height: 30px;
+        padding-left: 4px;
+        padding-top: 2px;
+    }
+
+    .box div.expired {
+        border: solid 1px #1148AD;
+        background: #718FC7;
+        color: black;
+    }
+
+    .box div.draft {
+        border: solid 1px #AD8C09;
+        background: #DBBA35;
+    }
+
+    .box div.approved {
+        border: solid 1px #52BA0D;
+        background: #9BF062;
+    }
+
+    .box div.unapproved {
+        border: solid 1px #000000;
+        background: #808080;
+    }
+
+    .box .clickableName {
+        font-size: 15px;
+        font-style: normal;
+        cursor: pointer;
+        font-family: Georgia;
+    }
+
+.margin-box {
+    margin-top: 5px;
 }
+
+/* subpolicy screens styles*/
+.box-sub {
+    width: 100%;
+    border: solid 1px #bce8f1;
+    background: white;
+    height: 450px;
+}
+
+    .box-sub div.box-heading {
+        font-weight: bold;
+        font-size: 14px;
+        font-family: verdana;
+        line-height: 40px;
+        color: #31708f;
+        background-color: #d9edf7;
+        padding-left: 7px;
+        height: 40px;
+    }
+
+    .box-sub div.box-body {
+        height: 410px;
+        overflow-y: scroll;
+    }
+
+        .box-sub div.box-body div.sub-name {
+            margin-top: 5px;
+            width: 100%;
+            background: white;
+        }
+
+            .box-sub div.box-body div.sub-name a {
+                line-height: 35px;
+                padding: 8px;
+                color: black;
+                text-decoration: none;
+                background: white;
+                width: 100%;
+            }
+
+            .box-sub div.box-body div.sub-name:hover,
+            .box-sub div.box-body div.sub-name:hover a,
+            .box-sub div.box-body div.sub-name:hover a:hover {
+                text-decoration: underline;
+                color: #a94442;
+                background-color: #f2dede;
+            }
+
+#subpolicy-conditions,
+#subpolicy-display,
+#subpolicy-groupby,
+#subpolicy-output,
+#subpolicy-buttons {
+    margin-bottom: 10px;
+}
+
+/*.box-sub div.box-body div.sub-name a:hover div.sub-name{
+        background: red !important;
+    }*/
