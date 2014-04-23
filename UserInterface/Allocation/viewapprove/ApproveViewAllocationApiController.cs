@@ -41,7 +41,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         [HttpPost]
         public HttpResponseMessage FetchPageData(ViewAllocationFilter viewAllocationFilter)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, GetAllocData(viewAllocationFilter));
+            var data = GetAllocData(viewAllocationFilter);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
@@ -150,6 +151,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             alloc.OrigEntityId = alloc.Id;
             alloc.ResetUniqueProperties();
             alloc.StartDate = DateTime.Today.AddDays(1);
+            alloc.EndDate = alloc.StartDate.AddMonths(1).AddDays(-1);
             alloc.Status = ColloSysEnums.ApproveStatus.Submitted;
             alloc.AllocStatus = changeAllocStatus;
             alloc.AllocSubpolicy = null;

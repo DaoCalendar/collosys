@@ -61,7 +61,29 @@
         models.FileDetail = fileDetail();
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
+        models.CustomerInfo = customerInfo();
         return models;
+    };
+
+    var customerInfo = function () {
+
+        return {
+            Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
+            AccountNo: { type: "text" },
+            GlobalCustId: { type: "text" },
+            CustomerName: { type: "text" },
+            Pincode: { type: "uint" },
+            Product: { type: "enum", valueList: $csShared.enums.Products },
+            CustStatus: { type: "text" },
+            AllocStartDate: { type: "date" },
+            AllocEndDate: { type: "date" },
+            ChargeofDate: { type: "date" },
+            AllocStatus: { type: "enums", valueList: $csShared.enums.AllocStatus },
+            TotalDue: { type: "decimal" },
+            NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
+            Cycle: { type: "uint" },
+            Bucket: {type:"uint"}
+        };
     };
 
     return {

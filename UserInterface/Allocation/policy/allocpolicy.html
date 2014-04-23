@@ -20,18 +20,19 @@
         <div class="span1">
         </div>
         <div class="span4">
+            <label class="heading-for-box">Expired/Draft</label>
             <div class="box">
                 <div class="policy-name-box"
-                    data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
+                     data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation);setButtonStatus('Expired')">
+                         data-ng-click="setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation);setButtonStatus('Expired')">
                         {{allocRelation.AllocSubpolicy.Name}}
                     </div>
                 </div>
                 <!--Draft-->
                 <div class="policy-name-box" data-ng-repeat="allocRelation in dldata.subPolicyList">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(allocRelation);setButtonStatus('Draft')">
+                         data-ng-click="setDisplaySubpolicy(allocRelation);setButtonStatus('Draft')">
                         {{allocRelation.Name}}
                     </div>
                 </div>
@@ -39,8 +40,11 @@
         </div>
         <div class="span1"></div>
         <div class="span4">
+            <label class="heading-for-box">Approved/UnApproved</label>
             <div class="box">
+                
                 <div class="policy-name-box" data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
+                    
                     <div class="clickableName"
                          data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation)">
                         {{allocRelation.AllocSubpolicy.Name}}
@@ -48,6 +52,7 @@
                 </div>
 
                 <div class="policy-name-box alert-error" data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
+
                     <div class="clickableName"
                          data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation)">
                         {{allocRelation.AllocSubpolicy.Name}}
