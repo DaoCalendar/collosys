@@ -260,10 +260,10 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
             if (rowIndex === 0 && columnIndex > 0) {
                 return "/^[a-zA-Z0-9]{1,100}$/";
             }
-            if (rowIndex > 0 && columnIndex === 0) {
-                return dldata.rowType;
-            }
-            return '/^[0-9]{1,7}(\.[0-9]+)?$/';
+            //if (rowIndex > 0 && columnIndex === 0) {
+            //    return dldata.rowType;
+            //}
+            return "/^[0-9]{1,7}(\.[0-9]+)?$/";
         };
 
         var isDisabled = function (rowIndex, columnIndex, totalRows, totalColumns, matrixValue) {

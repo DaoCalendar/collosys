@@ -304,7 +304,7 @@
 
                                             <input data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
                                                    type="text"
-                                                   data-ng-pattern="{{factory.getInputPattern(n,m)}}"
+                                                   data-ng-pattern="factory.getInputPattern(n,m)"
                                                    data-ng-hide="m===0 && n===0"
                                                    data-ng-disabled="factory.isDisabled(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue)"
                                                    data-ng-change="factory.setNextValue(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue.Value)"

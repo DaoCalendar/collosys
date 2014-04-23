@@ -23,7 +23,7 @@
             District: { label: 'District', type: 'text' },
             Priority: {},
             // public virtual UInt64 TaxId { get; set; }
-            Percentage: { label: 'Percentage', type: 'text',template:'percentage' }, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
+            Percentage: { label: 'Percentage', type: 'number',template:'percentage' }, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
         };
