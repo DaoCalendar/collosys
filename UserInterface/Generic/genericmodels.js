@@ -39,7 +39,7 @@
             City: { label: 'City', type: 'select', required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
-            Pincode: { label: 'Pincode', type: 'int', editable: false, pattern: '/^[0-9]{6}$/', required:true }
+            Pincode: { label: 'Pincode', type: 'text', editable: false, pattern: '/^[0-9]{6}$/', required:true }
         };
     };
 
