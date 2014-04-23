@@ -874,18 +874,22 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
+            
             var fieldGetter = $parse(attrs.field);
-            var valueListGetter = $parse(attrs.valueList);
+            //var valueListGetter = $parse(attrs.valueList);
             var field = fieldGetter(scope);
-            var valueList = valueListGetter(scope);
-            
+
+            //var valueList = valueListGetter(scope);
+            //if (angular.isDefined(valueList))
+            //    field.valueList = valueList;
+
+
             scope.field = field;
-            scope.field.valueList = valueList;
-            
+
             scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
 
             var typedFactory = getFactory(field.type);
-            typedFactory.checkOptions(field, attrs);
+            typedFactory.checkOptions(field);
 
             var html = typedFactory.htmlTemplate(field, attrs);
 
@@ -897,7 +901,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         return {
             restrict: 'E',
             link: linkFunction,
-            scope: true,
+            scope:true, // { valuelist: '=' },
             require: ['ngModel', '^form', '?^csFieldGroup'],
             terminal: true,
             controller: controllerFn
