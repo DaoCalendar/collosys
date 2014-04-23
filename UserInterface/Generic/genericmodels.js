@@ -31,15 +31,15 @@
 
     var editpincode = function () {
         return {
-            Country: { label: 'Country', type: 'text', editable: false, },
-            Region: { label: 'Region', type: 'select',valueList:[] },
-            State: { label: 'State', type: 'select', editable: true, valueList: [] },
-            Cluster: { label: 'Cluster', type: 'select', editable: true, valueList: [] },
-            District: { label: 'District', type: 'select', editable: true, valueList: [] },
+            Country: { label: 'Country', type: 'text', editable: false },
+            Region: { label: 'Region', type: 'select',editable: false,valueList:[] },
+            State: { label: 'State', type: 'select', editable: false, valueList: [] },
+            Cluster: { label: 'Cluster', type: 'select', editable: false, valueList: [] },
+            District: { label: 'District', type: 'select', editable: false, valueList: [] },
             City: { label: 'City', type: 'select', required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
-            Pincode: { label: 'Pincode', type: 'int', editable: false, pattern: '/^[0-9]{6}$/' }
+            Pincode: { label: 'Pincode', type: 'int', editable: false, pattern: '/^[0-9]{6}$/', required:true }
         };
     };
 

@@ -3,8 +3,16 @@
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.dldata.Regions = [];
             $scope.dldata.States = [];
+            $scope.dldata.Clusters = [];
+            $scope.dldata.Districts = [];
+            $scope.dldata.City = [];
+            datalayer.getRegion();
             datalayer.getState();
+            datalayer.getCluster();
+            datalayer.getDistrict();
+            datalayer.getCity();
             datalayer.getWholePincode();
             $scope.eGPincodeModel = $csGenericModels.models.Pincode;
             $scope.dldata.PincodeUintList = [];
@@ -51,6 +59,29 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
         var getState = function () {
             return pincodeApi.customGETLIST("GetStates").then(function (data) {
                 dldata.States = data;
+            }, showErrorMessage);
+        };
+
+        var getRegion = function () {
+            return pincodeApi.customGETLIST("GetRegions").then(function (data) {
+                dldata.Regions = data;
+            }, showErrorMessage);
+        };
+
+        var getCluster = function () {
+            return pincodeApi.customGETLIST("GetClusters").then(function (data) {
+                dldata.Clusters = data;
+            }, showErrorMessage);
+        };
+
+        var getDistrict = function () {
+            return pincodeApi.customGETLIST("GetDistricts").then(function (data) {
+                dldata.Districts = data;
+            }, showErrorMessage);
+        };
+        var getCity = function () {
+            return pincodeApi.customGETLIST("GetCity").then(function (data) {
+                dldata.City = data;
             }, showErrorMessage);
         };
 
@@ -147,10 +178,37 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             });
         };
 
+        var editPincode = function (gpincode,mode) {
+            if (mode === "edit") {
+                return pincodeApi.customPUT(gpincode, "Put", { id: gpincode.Id }).then(function (data) {
+                    dldata.GPincodes = _.reject(dldata.GPincodes, function (pincode) { return pincode.Id == gpincode.Id; });
+                    dldata.GPincodes.push(data);
+                    dldata.PincodeUintList.push(data);
+                    dldata.showTextBox = false;
+                    dldata.isInEditMode = false;
+                    $csnotify.success("Data saved");
+                    return;
+                }, showErrorMessage);
+            } else {
+                return pincodeApi.customPOST(gpincode, 'Post').then(function (data) {
+                    $csnotify.success("Pincode saved..!!");
+                    dldata.GPincodes.push(data);
+                    dldata.PincodeUintList.push(data);
+                    return data;
+                }, function (data) {
+                    $csnotify.error("Error occured, can't saved", data);
+                });
+            }
+        };
+
         return {
             dldata: dldata,
+            getRegion: getRegion,
             getState: getState,
+            getCluster: getCluster,
+            getDistrict: getDistrict,
             changeState: changeState,
+            getCity: getCity,
             getData: getData,
             getStateData: getStateData,
             getClusterData: getClusterData,
@@ -158,7 +216,8 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             getCityData: getCityData,
             getWholePincode: getWholePincode,
             missingPincode: missingPincode,
-            pincodeArea: pincodeArea
+            pincodeArea: pincodeArea,
+            editPincode: editPincode,
         };
 
     }]);
@@ -221,17 +280,6 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
             }
         };
 
-        var addNewCity = function () {
-            dldata.showTextBox = true;
-            dldata.GPincodedata.City = '';
-
-        };
-
-        var cancelAddCity = function () {
-            dldata.showTextBox = false;
-            dldata.GPincodedata.City = '';
-        };
-
         var pincodedata = function (pincode) {
             var isExist = _.find(dldata.PincodeUintList, function (item) {
                 return item == pincode;
@@ -244,12 +292,12 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
         };
 
         var reset = function () {
-            dldata.GPincodedata.RegionList = [];
-            dldata.GPincodedata.StateList = [];
-            dldata.GPincodedata.ClusterList = [];
-            dldata.GPincodedata.DistrictList = [];
-            dldata.GPincodedata.CityList = [];
-            dldata.GPincodedata.CityCategoryList = [];
+            dldata.GPincodedata.RegionList = '';
+            dldata.GPincodedata.StateList = '';
+            dldata.GPincodedata.ClusterList = '';
+            dldata.GPincodedata.DistrictList = '';
+            dldata.GPincodedata.CityList = '';
+            dldata.GPincodedata.CityCategoryList = '';
             dldata.GPincodedata.Area = '';
             dldata.GPincodedata.Pincode = '';
         };
@@ -261,8 +309,6 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
             pincodedata: pincodedata,
             districtChange: districtChange,
             areaChange: areaChange,
-            addNewCity: addNewCity,
-            cancelAddCity: cancelAddCity,
             reset: reset
         };
     }]);
@@ -276,7 +322,20 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $scope.eGPincodeModel = $csGenericModels.models.Pincode;
             if (gPincodes.displaymode === 'edit') {
                 $scope.GPincodedata = gPincodes.gpincode;
-            }
+                $scope.GPincodedata.Region = $scope.GPincodedata.Region.toUpperCase();
+                $scope.eGPincodeModel.Region.valueList = datalayer.dldata.Regions;
+                $scope.GPincodedata.State = $scope.GPincodedata.State.toUpperCase();
+                $scope.eGPincodeModel.State.valueList = datalayer.dldata.States;
+                $scope.GPincodedata.Cluster = $scope.GPincodedata.Cluster.toUpperCase();
+                $scope.eGPincodeModel.Cluster.valueList = datalayer.dldata.Clusters;
+                $scope.GPincodedata.District = $scope.GPincodedata.District.toUpperCase();
+                $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
+                $scope.GPincodedata.City = $scope.GPincodedata.City.toUpperCase();
+                $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
+            } else {
+                $scope.GPincodedata = datalayer.dldata.GPincodedata;
+            };
+
         })();
 
         $scope.getState = function (region) {
@@ -307,7 +366,29 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             factory.pincodedata(pincode);
         };
 
+        $scope.save = function (pincode,mode) {
+            datalayer.editPincode(pincode,mode).then(function (data) {
+                $scope.GPincodedata.Region = '';
+                $scope.GPincodedata.State = '';
+                $scope.GPincodedata.Cluster = '';
+                $scope.GPincodedata.District = '';
+                $scope.GPincodedata.City = '';
+                $scope.GPincodedata.CityCategory = '';
+                $scope.GPincodedata.Area = '';
+                $scope.GPincodedata.Pincode = '';
+                $scope.closeEditModel(data);
+            });
+        };
+
         $scope.closeEditModel = function () {
+            $scope.GPincodedata.Region = '';
+            $scope.GPincodedata.State = '';
+            $scope.GPincodedata.Cluster = '';
+            $scope.GPincodedata.District = '';
+            $scope.GPincodedata.City = '';
+            $scope.GPincodedata.CityCategory = '';
+            $scope.GPincodedata.Area = '';
+            $scope.GPincodedata.Pincode = '';
             $modalInstance.dismiss();
         };
 
@@ -336,11 +417,11 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.addCity = function () {
-            factory.addNewCity();
+            $scope.showTextBox = true;
         };
 
         $scope.cancelCity = function () {
-            factory.cancelAddCity();
+            $scope.showTextBox = false;
         };
 
 
