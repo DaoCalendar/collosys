@@ -35,20 +35,21 @@
         <div class="span1">
         </div>
         <div class="span4">
+            <label class="heading-for-box">Expired/Draft</label>
             <div class="box">
                 <!--Expired-->
                 <div class="policy-name-box"
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
+                         data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--Draft-->
                 <div class="policy-name-box"
-                    data-ng-repeat="subPolicy in dldata.subPolicyList">
+                     data-ng-repeat="subPolicy in dldata.subPolicyList">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
+                         data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
                         {{subPolicy.Name}}
                     </div>
                 </div>
@@ -56,20 +57,21 @@
         </div>
         <div class="span1"></div>
         <div class="span4">
+            <label class="heading-for-box">Approved/UnApproved</label>
             <div class="box">
                 <!--Approved-->
                 <div class="policy-name-box" 
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
                     <div class="clickableName"
-                        data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                         data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--UnApproved-->
                 <div class="policy-name-box alert-error" 
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
                     <div class="clickableName"
-                        data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                         data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
