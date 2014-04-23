@@ -142,6 +142,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/billstatus', {
                 templateUrl: '/Billing/billstatus/billstatus.html',
                 controller: 'billStatusController'
+            }).when('/billing/holdingpolicy', {
+                templateUrl: 'Billing/holdingpolicy/holding-policy.html',
+                controller: 'holdingpolicyCtrl'
+            }).when('/billing/holdingactive', {
+                templateUrl: 'Billing/holdingactivate/holding-policy-active.html',
+                controller: 'holdingactiveCtrl'
             })
 
             //generic
