@@ -3,9 +3,9 @@
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
             <cs-field-group mode="'add'">
-                <cs-field data-ng-model="abc" data-ng-change ="changeFunc(abc)" field="fields[1]"></cs-field>
-               <!-- <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[4]"></cs-field>
-                <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>-->
+                <cs-field data-ng-model="abc" value-list="array" data-ng-change ="changeFunc(abc)" field="fields[4]"></cs-field>
+                <cs-field data-ng-model="abcd"  data-ng-change ="changeFunc(abcd)" field="fields[5]"></cs-field>
+               <!-- <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>-->
                 <pre>{{abc}}</pre>
                 <pre>{{pqr}}</pre>
             </cs-field-group>

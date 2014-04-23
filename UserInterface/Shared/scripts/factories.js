@@ -451,24 +451,24 @@ csapp.factory('$permissionFactory', [function () {
     var createFileActivity = function () {
         return {
             name: "CreateFile",
-            access: true,
+            access: false,
             description: "create file",
             childrens: {
                 View: {
                     name: "View",
-                    access: true,
+                    access: false,
                     description: "view",
                     childrens: {}
                 },
                 CreateModify: {
                     name: "Create/Modify",
-                    access: true,
+                    access: false,
                     description: "modify",
                     childrens: {}
                 },
                 Approve: {
                     name: "approve",
-                    access: true,
+                    access: false,
                     description: "approve",
                     childrens: {}
                 },
@@ -478,7 +478,7 @@ csapp.factory('$permissionFactory', [function () {
     var scheduleFileActivity = function () {
         return {
             name: "ScheduleFile",
-            access: true,
+            access: false,
             description: "schedule file",
             childrens: {
                 View: {
@@ -499,7 +499,7 @@ csapp.factory('$permissionFactory', [function () {
     var fixErrorActivity = function () {
         return {
             name: "FixError",
-            access: true,
+            access: false,
             description: "fix error",
             childrens: {
                 View: {
@@ -526,7 +526,7 @@ csapp.factory('$permissionFactory', [function () {
     var uploadPincodeActivity = function () {
         return {
             name: "UploadPincode",
-            access: true,
+            access: false,
             description: "upload pincode",
             childrens: {
                 Upload: {
@@ -541,7 +541,7 @@ csapp.factory('$permissionFactory', [function () {
     var paymentChangesActivity = function () {
         return {
             name: "PaymentChanges",
-            access: true,
+            access: false,
             description: "payment changes",
             childrens: {
 
@@ -560,7 +560,6 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
-
 
     var addStakeholderActivity = function () {
         return {
@@ -590,16 +589,16 @@ csapp.factory('$permissionFactory', [function () {
             access: false,
             description: "view stakeholder",
             childrens: {
-                Modify: {
-                    name: "Modify",
+                ViewAll: {
+                    name: "ViewAll",
                     access: false,
-                    description: "modify stakeholder",
+                    description: "view all stakeholder",
                     childrens: {}
                 },
-                Approve: {
-                    name: "Approve",
+                ViewPending: {
+                    name: "ViewPending",
                     access: false,
-                    description: "approve stakeholder",
+                    description: "view pending stakeholder",
                     childrens: {}
                 },
             }
@@ -607,9 +606,10 @@ csapp.factory('$permissionFactory', [function () {
     };
 
     var permission = {
+
         FileUpload: {
             name: "FileUpload",
-            access: true,
+            access: false,
             description: "file upload",
             childrens: {
                 CreateFile: createFileActivity(),
@@ -624,7 +624,7 @@ csapp.factory('$permissionFactory', [function () {
             name: "Stakeholder",
             access: false,
             description: "stakeholders",
-            children: {
+            childrens: {
                 AddStakeholder: addStakeholderActivity(),
                 ViewStakeholder: viewStakeholderActivity(),
             }
@@ -634,10 +634,10 @@ csapp.factory('$permissionFactory', [function () {
             name: "Billing",
             access: false,
             description: "billing",
-            children: {}
+            childrens: {
+                AddStakeholders: addStakeholderActivity()
+            }
         }
-
-
     };
 
 

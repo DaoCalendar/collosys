@@ -8,7 +8,9 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.factory = factory;
             $csfactory.enableSpinner();
             $scope.datalayer.getProducts();
-           
+            $scope.allocData = {};
+            $scope.allocData.fromDate = moment().startOf('month').add('minute', 330).format('YYYY-MM-DD');
+            $scope.allocData.toDate = moment().endOf('month').format('YYYY-MM-DD');
             $scope.$grid = $grid;
         })();
 
@@ -57,9 +59,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         var dldata = {};
         dldata.selectedAllocations = [];
-
-        dldata.fromDate = moment().startOf('month').add('minute', 330).format('YYYY-MM-DD');
-        dldata.toDate = moment().endOf('month').format('YYYY-MM-DD');
+        dldata.selectAllcationForChange = [];
 
         var showErrorMessage = function (response) {
             $csnotify.error(response.data);
@@ -179,12 +179,12 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
             var allocStatus = "None";
             var aprovedStatus = "Approved";
-            if (!$csfactory.isNullOrEmptyString(dldata.selectedAllocation)) {
-                if (dldata.selectedAllocation === "Submitted") {
-                    aprovedStatus = dldata.selectedAllocation;
+            if (!$csfactory.isNullOrEmptyString(dldata.viewAllocationModel.AllocationStatus)) {
+                if (dldata.viewAllocationModel.AllocationStatus === "Submitted") {
+                    aprovedStatus = dldata.viewAllocationModel.AllocationStatus;
                     allocStatus = "None";
                 } else {
-                    allocStatus = dldata.selectedAllocation;
+                    allocStatus = dldata.viewAllocationModel.AllocationStatus;
                 }
             }
 
@@ -192,10 +192,10 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 AllocList: dldata.selectedAllocations,
                 ChangeAllocStatus: param,
                 AllocationStatus: allocStatus,
-                Products: dldata.selectedProduct,
+                Products: dldata.viewAllocationModel.Products,
                 AproveStatus: aprovedStatus,
-                fromDate: dldata.fromDate,
-                toDate: dldata.toDate
+                fromDate: dldata.viewAllocationModel.FromDate,
+                toDate: dldata.viewAllocationModel.ToDate
             };
 
             return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
@@ -256,37 +256,40 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             return {};
         };
 
-        var ticks = function (data) {
-            return (dldata.selectedAllocations.indexOf(data) !== -1);
-        };
+        //var ticks = function (data) {
+        //    return (dldata.selectedAllocations.indexOf(data) !== -1);
+        //};
 
         //dldata.viewAllocationModel
 
-        var selectAllocation = function (selected, allocation) {
-            if (selected === true) {
-                dldata.selectedAllocations.push(allocation);
-                if (dldata.selectedAllocations.length === dldata.gridOptions.$gridScope.selectedItems.length)
-                    dldata.selAll = true;
-            }
-            if (selected === false) {
-                dldata.selectedAllocations.splice(dldata.selectedAllocations.indexOf(allocation), 1);
-                dldata.selAll = false;
-            }
-        };
+        //var selectAllocation = function (selected, allocation) {
+        //    selected = !selected;
+        //    if (selected === true) {
+        //        dldata.selectedAllocations.push(allocation);
+        //        if (dldata.selectedAllocations.length === dldata.gridOptions.$gridScope.selectedItems.length)
+        //            dldata.selAll = true;
+        //    }
+        //    if (selected === false) {
+        //        dldata.selectedAllocations.splice(dldata.selectedAllocations.indexOf(allocation), 1);
+        //        dldata.selAll = false;
+        //    }
+        //};
 
-        var selectAll = function (selected) {
-            if (selected === true) {
-                _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
-                    dldata.selectedAllocations.push(item);
-                });
-                //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
-                dldata.sel = true;
-            }
-            if (selected === false) {
-                dldata.selectedAllocations = [];
-                dldata.sel = false;
-            }
-        };
+        //var selectAll = function (selected) {
+        //    selected = !selected;
+
+        //    if (selected === true) {
+        //        _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
+        //            dldata.selectedAllocations.push(item);
+        //        });
+        //        //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
+        //        dldata.sel = true;
+        //    }
+        //    if (selected === false) {
+        //        dldata.selectedAllocations = [];
+        //        dldata.sel = false;
+        //    }
+        //};
 
         var assignStakeholderToAll = function (stkh) {
             if (stkh == "") {
@@ -309,9 +312,9 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             disableSelect: disableSelect,
             showChurnButton: showChurnButton,
             setRowColor: setRowColor,
-            ticks: ticks,
-            selectAllocation: selectAllocation,
-            selectAll: selectAll,
+            //ticks: ticks,
+            //selectAllocation: selectAllocation,
+            //selectAll: selectAll,
             assignStakeholderToAll: assignStakeholderToAll,
             setStakeholder: setStakeholder
         };
@@ -326,10 +329,45 @@ function ($scope, $modalInstance, datalayer, factory) {
         $scope.gridOptions = $scope.dldata.gridOptions;
         $scope.datalayer = datalayer;
         $scope.factory = factory;
+
     })();
 
     $scope.closeModel = function () {
         $modalInstance.close();
+    };
+    $scope.selectAllocation = function (allocation, selected) {
+        selected = !selected;
+        if (selected === true) {
+            $scope.dldata.selectedAllocations.push(allocation);
+            // $scope.dldata.selectAllcationForChange.push(allocation);
+            if ($scope.dldata.selectedAllocations.length === $scope.dldata.gridOptions.$gridScope.selectedItems.length)
+                $scope.selected = true;
+        }
+        if (selected === false) {
+            $scope.dldata.selectedAllocations.splice($scope.dldata.selectedAllocations.indexOf(allocation), 1);
+            $scope.selected = false;
+        }
+    };
+    //$scope.ticks = function (data) {
+    //    return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
+    //};
+
+    $scope.selectAll = function (selected) {
+        selected = !selected;
+
+        if (selected === true) {
+            _.forEach($scope.dldata.gridOptions.$gridScope.selectedItems, function (item) {
+                $scope.dldata.selectedAllocations.push(item);
+            });
+            //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
+            $scope.selected = true;
+            $scope.selectedAll = true;
+        }
+        if (selected === false) {
+            $scope.selectedAll = false;
+            $scope.dldata.selectedAllocations = [];
+            $scope.selected = false;
+        }
     };
 
     $scope.saveAllocationChanges = function (param) {
