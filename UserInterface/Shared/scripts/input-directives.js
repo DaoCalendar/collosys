@@ -128,6 +128,11 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         //#region validations
         var applyTemplates = function (options) {
+
+            if (angular.isUndefined(options.template) || options.template === null) {
+                return;
+            }
+
             var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
             angular.forEach(tmpl, function (template) {
                 if (template.length < 1) return;
@@ -149,6 +154,10 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                     case "decimal":
                         if (angular.isUndefined(options.maxlength))
                             options.maxlength = 19;
+                        break;
+                    case "percentage":
+                        options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
+                        options.patternMessage = "allows percentage with precision of 2";
                         break;
                     default:
                         $log.error(options.type + " is not defined");
