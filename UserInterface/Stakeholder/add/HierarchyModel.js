@@ -118,11 +118,11 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
-            
+
             //$scope.$parent.WizardData.showBasicInfo = true;
         };
 
-        
+
 
 
         //#endregion
