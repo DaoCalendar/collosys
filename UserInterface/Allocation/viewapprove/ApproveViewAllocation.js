@@ -200,6 +200,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function (data) {
                 console.log(data);
                 $csnotify.success("Allocations Changed");
+                dldata.selectedAllocations = [];
                 if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
                 dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
                 $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
@@ -298,6 +299,7 @@ function ($scope, $modalInstance, datalayer, factory) {
     })();
 
     $scope.closeModel = function () {
+        $scope.reset();
         $modalInstance.close();
     };
     $scope.selectAllocation = function (allocation, selected) {
@@ -333,9 +335,17 @@ function ($scope, $modalInstance, datalayer, factory) {
         }
     };
 
+    $scope.reset = function() {
+        $scope.selectAll = false;
+        $scope.selected = false;
+        $scope.dldata.selectedAllocations = [];
+        $scope.dldata.approveView.Param = "";
+    };
+
     $scope.saveAllocationChanges = function (param) {
         $scope.datalayer.saveAllocationChanges(param).then(function () {
-            $modalInstance.close();
+            $scope.reset();
+           $modalInstance.close();
         });
     };
 
