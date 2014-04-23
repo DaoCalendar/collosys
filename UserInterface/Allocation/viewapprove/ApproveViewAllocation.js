@@ -59,7 +59,6 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         var dldata = {};
         dldata.selectedAllocations = [];
-        dldata.selectAllcationForChange = [];
 
         var showErrorMessage = function (response) {
             $csnotify.error(response.data);
@@ -198,9 +197,13 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 toDate: dldata.viewAllocationModel.ToDate
             };
 
-            return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
+            return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function (data) {
+                console.log(data);
                 $csnotify.success("Allocations Changed");
-                fetchData();
+                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
+                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
+                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
+                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
                 dldata.isInProcessing = false;
             });
 
@@ -256,41 +259,6 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             return {};
         };
 
-        //var ticks = function (data) {
-        //    return (dldata.selectedAllocations.indexOf(data) !== -1);
-        //};
-
-        //dldata.viewAllocationModel
-
-        //var selectAllocation = function (selected, allocation) {
-        //    selected = !selected;
-        //    if (selected === true) {
-        //        dldata.selectedAllocations.push(allocation);
-        //        if (dldata.selectedAllocations.length === dldata.gridOptions.$gridScope.selectedItems.length)
-        //            dldata.selAll = true;
-        //    }
-        //    if (selected === false) {
-        //        dldata.selectedAllocations.splice(dldata.selectedAllocations.indexOf(allocation), 1);
-        //        dldata.selAll = false;
-        //    }
-        //};
-
-        //var selectAll = function (selected) {
-        //    selected = !selected;
-
-        //    if (selected === true) {
-        //        _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
-        //            dldata.selectedAllocations.push(item);
-        //        });
-        //        //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
-        //        dldata.sel = true;
-        //    }
-        //    if (selected === false) {
-        //        dldata.selectedAllocations = [];
-        //        dldata.sel = false;
-        //    }
-        //};
-
         var assignStakeholderToAll = function (stkh) {
             if (stkh == "") {
                 return null;
@@ -312,9 +280,6 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             disableSelect: disableSelect,
             showChurnButton: showChurnButton,
             setRowColor: setRowColor,
-            //ticks: ticks,
-            //selectAllocation: selectAllocation,
-            //selectAll: selectAll,
             assignStakeholderToAll: assignStakeholderToAll,
             setStakeholder: setStakeholder
         };
@@ -339,18 +304,17 @@ function ($scope, $modalInstance, datalayer, factory) {
         selected = !selected;
         if (selected === true) {
             $scope.dldata.selectedAllocations.push(allocation);
-            // $scope.dldata.selectAllcationForChange.push(allocation);
             if ($scope.dldata.selectedAllocations.length === $scope.dldata.gridOptions.$gridScope.selectedItems.length)
-                $scope.selected = true;
+                $scope.selectedAll = true;
         }
         if (selected === false) {
             $scope.dldata.selectedAllocations.splice($scope.dldata.selectedAllocations.indexOf(allocation), 1);
-            $scope.selected = false;
+            $scope.selectedAll = false;
         }
     };
-    //$scope.ticks = function (data) {
-    //    return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
-    //};
+    $scope.ticks = function (data) {
+        return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
+    };
 
     $scope.selectAll = function (selected) {
         selected = !selected;
@@ -359,7 +323,6 @@ function ($scope, $modalInstance, datalayer, factory) {
             _.forEach($scope.dldata.gridOptions.$gridScope.selectedItems, function (item) {
                 $scope.dldata.selectedAllocations.push(item);
             });
-            //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
             $scope.selected = true;
             $scope.selectedAll = true;
         }
@@ -371,7 +334,7 @@ function ($scope, $modalInstance, datalayer, factory) {
     };
 
     $scope.saveAllocationChanges = function (param) {
-        datalayer.saveAllocationChanges(param).then(function () {
+        $scope.datalayer.saveAllocationChanges(param).then(function () {
             $modalInstance.close();
         });
     };
@@ -386,7 +349,6 @@ csapp.controller('churnAllocCtrl', ['$scope', '$modalInstance', 'approveViewData
             $scope.datalayer = datalayer;
             $scope.factory = factory;
         })();
-
 
         $scope.closeModel = function () {
             $modalInstance.close();
