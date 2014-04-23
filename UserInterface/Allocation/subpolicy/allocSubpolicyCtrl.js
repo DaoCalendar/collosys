@@ -43,23 +43,15 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showDiv = true;
         };
 
-        $scope.changeProductCategory = function() {
+        $scope.changeProductCategory = function (product) {
             $scope.datalayer.changeProductCategory();
-            $scope.addsubpolicy();
+            $scope.addsubpolicy(product);
             $scope.showDiv = false;
 
         };
-        $scope.addsubpolicy = function () {
+        $scope.addsubpolicy = function (product) {
             $scope.showDiv = true;
-            $scope.dldata.newCondition = [];
-            $scope.dldata.policyapproved = false;
-            $scope.dldata.allocSubpolicy.AllocateType = '';
-            $scope.dldata.allocSubpolicy.Name = '';
-            $scope.dldata.allocSubpolicy.Id = '';
-            $scope.dldata.allocSubpolicy.Conditions = [];
-            $scope.dldata.isDuplicateName = false;
-            $scope.dldata.deleteConditions = [];
-            $scope.dldata.allocSubpolicy.NoAllocMonth = 1;
+            $scope.datalayer.resetAllocSubpolicy(product);
         };
 
         $scope.changeLeftColName = function (condition) {
@@ -160,10 +152,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
             if (angular.isUndefined(dldata.allocSubpolicy.Id)) {
                 dldata.allocSubpolicy.Conditions = [];
-                dldata.allocSubpolicy.Name = '';
-                dldata.isDuplicateName = false;
-                dldata.allocSubpolicy.AllocateType = '';
-                dldata.allocSubpolicy.NoAllocMonth = 1;
+               
             } else {
                 check(dldata.allocSubpolicy.ReasonNotAllocate);
             }
@@ -279,7 +268,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
         };
 
-        var resetAllocSubpolicy = function (products, category) {
+        var resetAllocSubpolicy = function (products) {
             dldata.policyapproved = false;
             dldata.allocSubpolicy = {};
             dldata.allocSubpolicy.Conditions = [];
@@ -287,7 +276,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             dldata.deleteConditions = [];
             dldata.newCondition = {};
             dldata.allocSubpolicy.Products = products;
-            dldata.allocSubpolicy.Category = category;
+            dldata.allocSubpolicy.Category = 'Liner';
             //dldata.allocSubpolicy.DoAllocate = 1;
             dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();

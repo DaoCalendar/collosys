@@ -23,15 +23,30 @@
             District: { label: 'District', type: 'text' },
             Priority: {},
             // public virtual UInt64 TaxId { get; set; }
-            Percentage: { label: 'Percentage', type: 'decimal', max:99.99, min:1 }, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
+            Percentage: { label: 'Percentage', type: 'text',template:'percentage' }, //pattern: '/^$|^\d{0,2}(\.\d{1,2})? *%?$/'
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
+        };
+    };
+
+    var editpincode = function () {
+        return {
+            Country: { label: 'Country', type: 'text', editable: false, },
+            Region: { label: 'Region', type: 'select',valueList:[] },
+            State: { label: 'State', type: 'select', editable: true, valueList: [] },
+            Cluster: { label: 'Cluster', type: 'select', editable: true, valueList: [] },
+            District: { label: 'District', type: 'select', editable: true, valueList: [] },
+            City: { label: 'City', type: 'select', required: true, valueList: [] },
+            CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
+            Area: { label: 'Area', type: 'text', required: true },
+            Pincode: { label: 'Pincode', type: 'int', editable: false, pattern: '/^[0-9]{6}$/' }
         };
     };
 
     var init = function () {
         models.TaxList = taxList();
         models.TaxMaster = taxMaster();
+        models.Pincode = editpincode();
         return models;
     };
 

@@ -236,6 +236,7 @@
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
+    <Content Include="Allocation\subpolicy\temp.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
@@ -251,6 +252,7 @@
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
+    <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
@@ -264,6 +266,7 @@
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
     <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
+    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
