@@ -875,12 +875,17 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
         var linkFunction = function (scope, element, attrs, ctrl) {
             var fieldGetter = $parse(attrs.field);
+            var valueListGetter = $parse(attrs.valueList);
             var field = fieldGetter(scope);
+            var valueList = valueListGetter(scope);
+            
             scope.field = field;
+            scope.field.valueList = valueList;
+            
             scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
 
             var typedFactory = getFactory(field.type);
-            typedFactory.checkOptions(field);
+            typedFactory.checkOptions(field, attrs);
 
             var html = typedFactory.htmlTemplate(field, attrs);
 
