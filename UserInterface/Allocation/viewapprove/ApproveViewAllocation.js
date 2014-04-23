@@ -109,6 +109,9 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 var products = dldata.viewAllocationModel.Products;
                 restApi.customGET("GetStakeholders", { 'products': products }).then(function (data) {
                     dldata.stakeholder = data;
+                    if (dldata.stakeholder.length === 0) {
+                        $csnotify.success("Stakeholder Not available");
+                    }
                 });
             }
         };

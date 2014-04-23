@@ -12,7 +12,7 @@
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
 
-                    <button class="btn alert-info"
+                    <button class="btn alert-info" data-ng-show="dldata.allocSubpolicy.Products"
                         data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
                         Add Subpolicy</button>
                 </div>
