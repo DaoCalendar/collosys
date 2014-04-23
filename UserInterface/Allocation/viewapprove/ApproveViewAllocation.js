@@ -21,19 +21,17 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             });
         };
 
-        //#region " $scope.openChurnModal commented in HTML"
-        //$scope.openChurnModal = function () {
-        //    $modal.open({
-        //        templateUrl: '/Allocation/viewapprove/churn-allocation-modal.html',
-        //        controller: 'churnAllocCtrl',
-        //        resolve: {
-        //            modalData: function () {
-        //                return $scope.modalData;
-        //            }
-        //        }
-        //    });
-        //};
-        //#endregion
+        $scope.openChurnModal = function () {
+            $modal.open({
+                templateUrl: '/Allocation/viewapprove/churn-allocation-modal.html',
+                controller: 'churnAllocCtrl',
+                resolve: {
+                    modalData: function () {
+                        return $scope.modalData;
+                    }
+                }
+            });
+        };
 
         $scope.getPagedData = function (allocData) {
             if (($csfactory.isNullOrEmptyString(allocData.selectedProduct))
@@ -248,25 +246,23 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             return true;
         };
 
-        //#region "showChurnButton  commented in HTML"
-        //var showChurnButton = function () {
-        //    var cnt = 0;
-        //    if (angular.isDefined(dldata.gridOptions)) {
-        //        if (angular.isDefined(dldata.gridOptions.$gridScope)) {
-        //            if (dldata.gridOptions.$gridScope.selectedItems.length > 0) {
-        //                _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
-        //                    if (item.AllocStatus !== "PolicyAllocated") {
-        //                        return;
-        //                    }
-        //                    cnt++;
-        //                });
-        //                return (cnt === dldata.gridOptions.$gridScope.selectedItems.length);
-        //            } else return false;
-        //        } else return false;
-        //    }
-        //    return false;
-        //};
-        //#endregion
+        var showChurnButton = function () {
+            var cnt = 0;
+            if (angular.isDefined(dldata.gridOptions)) {
+                if (angular.isDefined(dldata.gridOptions.$gridScope)) {
+                    if (dldata.gridOptions.$gridScope.selectedItems.length > 0) {
+                        _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
+                            if (item.AllocStatus !== "PolicyAllocated") {
+                                return;
+                            }
+                            cnt++;
+                        });
+                        return (cnt === dldata.gridOptions.$gridScope.selectedItems.length);
+                    } else return false;
+                } else return false;
+            }
+            return false;
+        };
 
         var setRowColor = function (data) {
             if (dldata.selectedAllocations.indexOf(data) !== -1) {
@@ -370,8 +366,6 @@ function ($scope, $modalInstance, datalayer, factory) {
 }]);
 //#endregion
 
-
-//churn related code commented in HTML
 csapp.controller('churnAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory',
     function ($scope, $modalInstance, datalayer, factory) {
 
