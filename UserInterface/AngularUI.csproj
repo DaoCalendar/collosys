@@ -253,6 +253,10 @@
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\formula\temp.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-active.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-active.js" />
+    <Content Include="Billing\holdingpolicy\holding-policy.html" />
+    <Content Include="Billing\holdingpolicy\holding-policy.js" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
