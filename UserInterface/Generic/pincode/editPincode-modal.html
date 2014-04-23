@@ -1,7 +1,7 @@
 ﻿<!--AddEdit Modal PopUp-->
 <div data-ng-form="formEditPincode" class="form-horizontal">
     <div class="modal-header">
-        {{modelTitle}}{{GPincodedata.Region}}
+        {{modelTitle}}
     </div>
 
     <div class="modal-body">
@@ -25,34 +25,27 @@
             <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
                       data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
             
-
-            <div>
-                <div class="row-fluid">
-                    <div  class="span3" >
-                        <span data-ng-hide="dldata.showTextBox">
-                          <cs-field data-ng-model="GPincodedata.City" field="eGPincodeModel.City" 
-                                    typeahead="c for c in datalayer.pincodeCity($viewValue,GPincodedata.District)">
-                          </cs-field>
-                        </span>
+            <div class="row-fluid">
+                    <div class="span3" id="showComboBox" data-ng-hide="showTextBox">
+                        <cs-field data-ng-model="GPincodedata.City" field="eGPincodeModel.City" 
+                                  typeahead="c for c in datalayer.pincodeCity($viewValue,GPincodedata.District)">
+                        </cs-field>
                     </div>
-                        <div class="control-group span2">
-                            <div class="controls">
-                                <span data-ng-show="dldata.showTextBox">
-                                <input type="text" class="input-large" data-ng-model="GPincodedata.City"  />
-                                </span>
-                            </div>
+                <div class="control-group span3" data-ng-show="showTextBox">
+                    <label class="control-label"> City </label>
+                    <div class="controls">
+                        <input type="text" class="input-large" data-ng-model="GPincodedata.City"/>
+                    </div>
+                </div>
+                    <div class="span4">
+                    <div class="control-group">
+                        <div class="controls">
+                            <button class="btn btn-success" data-ng-click="addCity()" data-ng-hide="showTextBox">Add New City</button>
+                            <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="showTextBox">Not Now</button>
                         </div>
-                    
-                        <div class="control-group">
-                            <div class="controls">
-                                <button class="btn btn-success" data-ng-click="addCity()" data-ng-hide="dldata.showTextBox">Add New City</button>
-                                <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="dldata.showTextBox">Not Now</button>
-                            </div>
-                         </div>
+                    </div>    
                     </div>
               </div>
-
-
             <cs-field data-ng-model="GPincodedata.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
 
     <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
@@ -66,7 +59,7 @@
     </div>
 
     <div class="modal-footer well">
-        <button class="btn btn-success" data-ng-click="save(GPincodedata)" data-ng-disabled="!formEditPincode.$valid">Save</button>
+        <button class="btn btn-success" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid">Save</button>
         <button class="btn btn-primary" data-ng-click="reset()">Reset</button>
         <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
     </div>
