@@ -11,175 +11,175 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
     this.configureRoutes = function (routeProvider) {
         routeProvider
             .when('/', {
-                templateUrl: '/Generic/home/home.html',
+                templateUrl: baseUrl + 'Generic/home/home.html',
                 controller: 'HomeCtrl'
             }).when('/home', {
-                templateUrl: '/Generic/home/home.html',
+                templateUrl: baseUrl + 'Generic/home/home.html',
                 controller: 'HomeCtrl'
             }).when('/login', {
-                templateUrl: '/Generic/login/login.html',
+                templateUrl: baseUrl + 'Generic/login/login.html',
                 controller: 'loginController'
             }).when('/login2', {
-                templateUrl: '/Generic/login/login-holder.html',
+                templateUrl: baseUrl + 'Generic/login/login-holder.html',
                 controller: 'LoginCtrl'
             }).when('/logout', {
-                templateUrl: 'Generic/login/login-holder.html',
+                templateUrl: baseUrl + 'Generic/login/login-holder.html',
                 controller: 'logoutController'
             }).when('/generic/profile', {
-                templateUrl: '/Generic/profile/profile.html',
+                templateUrl: baseUrl + 'Generic/profile/profile.html',
                 controller: 'profileController'
             }).when('/generic/taxlist', {
-                templateUrl: '/Generic/taxlist/taxlist.html',
+                templateUrl: baseUrl + 'Generic/taxlist/taxlist.html',
                 controller: 'taxlistCtrl'
             }).when('/generic/taxmaster', {
-                templateUrl: '/Generic/taxmaster/taxmaster.html',
+                templateUrl: baseUrl + 'Generic/taxmaster/taxmaster.html',
                 controller: 'taxmasterCtrl'
             })
 
             //file upload
             .when('/fileupload/filedetail', {
-                templateUrl: '/FileUpload/filedetail/file-detail-list.html',
+                templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-list.html',
                 controller: 'fileDetailsController'
             }).when('/fileupload/filecolumn', {
-                templateUrl: '/FileUpload/filecolumn/file-column.html',
+                templateUrl: baseUrl + 'FileUpload/filecolumn/file-column.html',
                 controller: 'fileColumnController'
             }).when('/fileupload/filemapping', {
-                templateUrl: '/FileUpload/filemapping/file-mapping.html',
+                templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping.html',
                 controller: 'fileMappingController'
             }).when('/fileupload/filescheduler', {
-                templateUrl: '/FileUpload/filescheduler/file-scheduler.html',
+                templateUrl: baseUrl + 'FileUpload/filescheduler/file-scheduler.html',
                 controller: 'fileSchedulerController'
             }).when('/fileupload/filestatus', {
-                templateUrl: '/FileUpload/filestatus/file-status.html',
+                templateUrl: baseUrl + 'FileUpload/filestatus/file-status.html',
                 controller: 'fileStatusController'
             }).when('/fileupload/clientdatadownload', {
-                templateUrl: '/FileUpload/clientdatadownload/client-data-download.html',
+                templateUrl: baseUrl + 'FileUpload/clientdatadownload/client-data-download.html',
                 controller: 'ClientDataDownloadController'
             }).when('/fileupload/customerinfo', {
-                templateUrl: '/FileUpload/customerinfo/customer-info.html',
+                templateUrl: baseUrl + 'FileUpload/customerinfo/customer-info.html',
                 controller: 'customerInfoController'
             }).when('/fileupload/paymentchanges', {
-                templateUrl: '/FileUpload/paymentreversal/view-payments.html',
+                templateUrl: baseUrl + 'FileUpload/paymentreversal/view-payments.html',
                 controller: 'paymentManagerController'
             }).when('/fileupload/uploadpincode/', {
-                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                templateUrl: baseUrl + 'FileUpload/uploadpincode/upload-pincode.html',
                 controller: 'uploadPincodeController',
                 resolve: {
                     dataService: function () { return "pincode"; }
                 }
             }).when('/fileupload/uploadrcode/', {
-                templateUrl: '/FileUpload/uploadpincode/upload-pincode.html',
+                templateUrl: baseUrl + 'FileUpload/uploadpincode/upload-pincode.html',
                 controller: 'uploadPincodeController',
                 resolve: {
                     dataService: function () { return "rcode"; }
                 }
             }).when('/fileupload/errorcorrection', {
-                templateUrl: '/FileUpload/errorcorrection/error-correction.html',
+                templateUrl: baseUrl + 'FileUpload/errorcorrection/error-correction.html',
                 controller: 'errorDataController'
             }).when('/fileupload/errorapproval', {
-                templateUrl: '/FileUpload/errorapproval/error-approval.html',
+                templateUrl: baseUrl + 'FileUpload/errorapproval/error-approval.html',
                 controller: 'errorApprovalController'
             })
 
             //stakeholder
             .when('/stakeholder/add', {
-                templateUrl: '/Stakeholder/add/index2.html',
+                templateUrl: baseUrl + 'Stakeholder/add/index2.html',
                 controller: 'AddStakeHolderCtrl'
             }).when('/stakeholder/edit/:data', {
-                templateUrl: '/Stakeholder/add/index2.html',
+                templateUrl: baseUrl + 'Stakeholder/add/index2.html',
                 controller: 'AddStakeHolderCtrl'
             }).when('/stakeholder/view', {
-                templateUrl: '/Stakeholder/view/index.html',
+                templateUrl: baseUrl + 'Stakeholder/view/index.html',
                 controller: 'viewStake'
             }).when('/generic/hierarchy', {
-                templateUrl: '/Stakeholder/hierarchy/hierarchy-grid.html',
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-grid.html',
                 controller: 'hierarchyController'
             }).when('/generic/hierarchy/add', {
-                templateUrl: '/Stakeholder/hierarchy/hierarchy-add.html',
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-add.html',
                 controller: 'hierarchyAddController'
             })
 
             //allocation
             .when('/allocation/policy', {
-                templateUrl: '/Allocation/policy/allocpolicy.html',
+                templateUrl: baseUrl + 'Allocation/policy/allocpolicy.html',
                 controller: 'allocPolicyCtrl'
             }).when('/allocation/subpolicy', {
-                templateUrl: '/Allocation/subpolicy/allocsubpolicy.html',
+                templateUrl: baseUrl + 'Allocation/subpolicy/allocsubpolicy.html',
                 controller: 'allocSubpolicyCtrl'
             }).when('/allocation/viewapprove', {
-                templateUrl: '/Allocation/viewapprove/view-approve.html',
+                templateUrl: baseUrl + 'Allocation/viewapprove/view-approve.html',
                 controller: 'approveViewCntrl'
             })
 
             //billing
             .when('/billing/policy', {
-                templateUrl: '/Billing/policy/billingpolicy.html',
+                templateUrl: baseUrl + 'Billing/policy/billingpolicy.html',
                 controller: 'payoutPolicyCtrl'
             }).when('/billing/subpolicy', {
-                templateUrl: '/Billing/subpolicy/billing-subpolicy.html',
+                templateUrl: baseUrl + 'Billing/subpolicy/billing-subpolicy.html',
                 controller: 'payoutSubpolicyCtrl'
             }).when('/billing/formula', {
-                templateUrl: '/Billing/formula/formula.html',
+                templateUrl: baseUrl + 'Billing/formula/formula.html',
                 controller: 'formulaController'
             }).when('/billing/matrix', {
-                templateUrl: '/Billing/matrix/matrix.html',
+                templateUrl: baseUrl + 'Billing/matrix/matrix.html',
                 controller: 'matrixCtrl'
             }).when('/billing/adhoc', {
-                templateUrl: '/Billing/adhoc/adhoc.html',
+                templateUrl: baseUrl + 'Billing/adhoc/adhoc.html',
                 controller: 'adhocPayoutCtrl'
             }).when('/billing/adhocbulk', {
-                templateUrl: '/Billing/adhocbulk/adhocbulk.html',
+                templateUrl: baseUrl + 'Billing/adhocbulk/adhocbulk.html',
                 controller: 'adhocbulkCtrl'
             }).when('/billing/readybilling', {
-                templateUrl: '/Billing/readybilling/index.html',
+                templateUrl: baseUrl + 'Billing/readybilling/index.html',
                 controller: 'readyForBillingController'
             }).when('/billing/status', {
-                templateUrl: '/Billing/status/index.html',
+                templateUrl: baseUrl + 'Billing/status/index.html',
                 controller: 'BillingStatusController'
             }).when('/billing/summary', {
-                templateUrl: '/Billing/summary/summary.html',
+                templateUrl: baseUrl + 'Billing/summary/summary.html',
                 controller: 'BillAmountCntrl'
             }).when('/billing/billstatus', {
-                templateUrl: '/Billing/billstatus/billstatus.html',
+                templateUrl: baseUrl + 'Billing/billstatus/billstatus.html',
                 controller: 'billStatusController'
             }).when('/billing/holdingpolicy', {
-                templateUrl: 'Billing/holdingpolicy/holding-policy.html',
+                templateUrl: baseUrl + 'Billing/holdingpolicy/holding-policy.html',
                 controller: 'holdingpolicyCtrl'
             }).when('/billing/holdingactive', {
-                templateUrl: 'Billing/holdingactivate/holding-policy-active.html',
+                templateUrl: baseUrl + 'Billing/holdingactivate/holding-policy-active.html',
                 controller: 'holdingactiveCtrl'
             })
 
             //generic
             .when('/generic/permission', {
-                templateUrl: '/Generic/permissions/NewPermission.html',
+                templateUrl: baseUrl + 'Generic/permissions/NewPermission.html',
                 controller: 'newPermissionsController'
             }).when('/generic/product', {
-                templateUrl: '/Generic/product/product.html',
+                templateUrl: baseUrl + 'Generic/product/product.html',
                 controller: 'ProductConfigController'
             }).when('/generic/keyvalue', {
-                templateUrl: '/Generic/keyvalue/keyvalue.html',
+                templateUrl: baseUrl + 'Generic/keyvalue/keyvalue.html',
                 controller: 'keyValueCtrl'
             }).when('/generic/pincode', {
-                templateUrl: '/Generic/pincode/pincode.html',
+                templateUrl: baseUrl + 'Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
             }).when('/generic/changepassword', {
-                templateUrl: '/Generic/changepassword/changepassword.html',
+                templateUrl: baseUrl + 'Generic/changepassword/changepassword.html',
                 controller: 'changepasswordCtrl'
             })
 
             //developer
             .when('/developer/logdownload', {
-                templateUrl: '/Developer/logdownload/logdownload.html',
+                templateUrl: baseUrl + 'Developer/logdownload/logdownload.html',
                 controller: 'driveExplorerController'
             }).when('/developer/generatedb', {
-                templateUrl: '/Developer/generatedb/generatedb.html',
+                templateUrl: baseUrl + 'Developer/generatedb/generatedb.html',
                 controller: 'DbGenerationController'
             }).when('/developer/viewdbtables', {
-                templateUrl: '/Developer/dbtable/viewtables.html',
+                templateUrl: baseUrl + 'Developer/dbtable/viewtables.html',
                 controller: 'databaseTablesCtrl'
             }).when('/developer/queryexecuter', {
-                templateUrl: '/Developer/queryexecuter/query-executer.html',
+                templateUrl: baseUrl + 'Developer/queryexecuter/query-executer.html',
                 controller: 'queryExecuterController'
             })
 
@@ -198,7 +198,7 @@ csapp.config([
         $httpProvider.interceptors.push('MyHttpInterceptor');
         routeConfig.configureRoutes($routeProvider);
         $logProvider.debugEnabled(true);
-        restangularProvider.setBaseUrl("/api/");
+        restangularProvider.setBaseUrl(baseUrl + "api/");
     }
 ]);
 
