@@ -55,7 +55,6 @@
                       data-ng-change="areaChange()"></cs-field>
 
             <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
-                      name="Pincode"
                       data-ng-change="pincodedata(GPincodedata.Pincode)"
                       typeahead="c for c in missingPincode($viewValue)"
                       ui-validate="{'data' : 'pincodeCheck($value)'}">
