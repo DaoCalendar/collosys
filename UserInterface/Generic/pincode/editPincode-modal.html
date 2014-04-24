@@ -64,7 +64,7 @@
 
     <div class="modal-footer well">
         <button class="btn btn-success" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist">Save</button>
-        <button class="btn btn-primary" data-ng-click="reset(GPincodedata)">Reset</button>
+        <button class="btn btn-primary" data-ng-click="reset(GPincodedata)" data-ng-hide="mode == 'edit'">Reset</button>
         <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
     </div>
 </div>
