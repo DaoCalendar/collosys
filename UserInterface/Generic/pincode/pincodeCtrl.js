@@ -271,24 +271,11 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
                 dldata.GPincodedata.Area = '';
                 dldata.GPincodedata.Pincode = '';
             }
-            //dldata.showTextBox = false;
-            //dldata.citydata = true;
         };
 
         var areaChange = function () {
             if (angular.isDefined(dldata.GPincodedata.Pincode)) {
                 dldata.GPincodedata.Pincode = '';
-            }
-        };
-
-        var pincodedata = function (pincode) {
-            var isExist = _.find(dldata.PincodeUintList, function (item) {
-                return item == pincode;
-            });
-            if (angular.isDefined(isExist)) {
-                dldata.alreadyExit = true;
-                dldata.dummyPincode = dldata.GPincodedata.Pincode;
-                return;
             }
         };
 
@@ -307,7 +294,6 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
             regionChange: regionChange,
             stateChange: stateChange,
             clusterChange: clusterChange,
-            pincodedata: pincodedata,
             districtChange: districtChange,
             areaChange: areaChange,
             reset: reset
@@ -336,13 +322,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             } else {
                 $scope.GPincodedata = datalayer.dldata.GPincodedata;
             };
-            $scope.dldata = datalayer.dldata;
-            $scope.dldata.RegionList = [];
-            $scope.dldata.StateList = [];
-            $scope.dldata.ClusterList = [];
-            $scope.dldata.DistrictList = [];
-            $scope.dldata.CityList = [];
         })();
+
+        var dldata = datalayer.dldata;
 
         $scope.getState = function (region) {
             datalayer.getStateData(region).then(function (data) {
@@ -449,6 +431,25 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $scope.showTextBox = false;
         };
 
+        $scope.pincodedata = function (pincode) {
+            var pincodeexist = parseInt(pincode);
+            var isExist = _.find(dldata.PincodeUintList, function (item) {
+                return item == pincodeexist;
+            });
+            if (angular.isDefined(isExist)) {
+                $scope.alreadyExist = true;
+            } else {
+                $scope.alreadyExist = false;
+            }
+            return;
+        };
+
+        $scope.pincodeCheck = function (value) {
+            var data = dldata.PincodeUintList;
+            return data.indexOf(parseInt(value)) === -1;
+        };
+
+       
 
         (function (mode) {
             switch (mode) {
