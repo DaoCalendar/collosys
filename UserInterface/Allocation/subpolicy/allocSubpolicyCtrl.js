@@ -28,7 +28,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.modalData.startDate = null;
             $scope.modalData.endDate = null;
             $modal.open({
-                templateUrl: '/Allocation/subpolicy/date-model.html',
+                templateUrl: baseUrl + 'Allocation/subpolicy/date-model.html',
                 controller: 'datemodelCtrl',
                 resolve: {
                     modalData: function () {
