@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Mapping;
 using ColloSys.DataLayer.SharedDomain;
 using NHibernate;
 
@@ -34,15 +36,16 @@ namespace ColloSys.DataLayer.Domain
 
        //// public virtual StakeAddress GCommAddress { get; set; } //comment this mahendra
 
-        public virtual Iesi.Collections.Generic.ISet<BillAdhoc> BillAdhocs { get; set; }
-        public virtual Iesi.Collections.Generic.ISet<BillAmount> BillAmounts { get; set; }
-        public virtual Iesi.Collections.Generic.ISet<BillDetail> BillDetails { get; set; }
-        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
+        public virtual IList<BillAdhoc> BillAdhocs { get; set; }
+        public virtual IList<BillAmount> BillAmounts { get; set; }
+        public virtual IList<BillDetail> BillDetails { get; set; }
+        public virtual IList<Allocations> Allocs { get; set; }
+        public virtual IList<ActivateHoldingPolicy> ActivateHoldingPolicies { get; set; }
         public virtual IList<StkhPayment> StkhPayments { get; set; }
         public virtual IList<StkhRegistration> StkhRegistrations { get; set; }
         public virtual IList<StkhWorking> StkhWorkings { get; set; }
         public virtual IList<StakeAddress> GAddress { get; set; }
-        public virtual Iesi.Collections.Generic.ISet<AllocSubpolicy> AllocSubpolicies { get; set; }
+        public virtual IList<AllocSubpolicy> AllocSubpolicies { get; set; }
 
         #endregion
 

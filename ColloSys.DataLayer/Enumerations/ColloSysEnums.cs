@@ -9,6 +9,21 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum RuleForHolding
+        {
+            Value,
+            Percentage
+        }
+        [Serializable]
+        public enum ApplyOn
+        {
+            Fixed,
+            Variable,
+            TotalPreAdhoc,
+            Total
+        }
+
+        [Serializable]
         public enum TaxType
         {
             Flat,
