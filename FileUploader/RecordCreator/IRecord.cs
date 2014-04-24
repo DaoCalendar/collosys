@@ -12,6 +12,6 @@ namespace ColloSys.FileUploader.RecordCreator
 
         bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings);
 
-        bool CreateRecord(TEntity obj, IList<FileMapping> mapings);
+        bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mapings);
     }
 }

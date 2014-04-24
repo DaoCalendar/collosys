@@ -32,7 +32,7 @@ namespace ReflectionExtension.ExcelReader
             }
             _currentWorkSheet = workBook.GetSheetAt(0);
             TotalRows = (uint)_currentWorkSheet.LastRowNum + 1;
-            TotalColumns = (uint)_currentWorkSheet.GetRow(0).LastCellNum;
+            TotalColumns = (uint)_currentWorkSheet.GetRow(2).LastCellNum;
         }
 
         public void NextRow()

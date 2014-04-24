@@ -199,8 +199,11 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public FileScheduler GetUploadedFile()
         {
-            return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER } };
-
+            return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), 
+                FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER },
+                                         FileName = "AEB Auto Charge Off Base - 28.01.2014.xls",
+                                         FileDirectory = "C://Users/Mayur/AppData/Local/Temp/DrillDown_Txn_1.xls"
+            };
         }
 
         public List<string> GetTransactionList()

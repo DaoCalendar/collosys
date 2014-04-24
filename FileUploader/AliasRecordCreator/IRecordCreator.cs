@@ -6,6 +6,8 @@ namespace ColloSys.FileUploader.AliasReader
 {
     public interface IAliasRecordCreator<in TEntity> where TEntity : class, new()
     {
+        FileScheduler FileScheduler { get; }
+
         bool ComputedSetter(TEntity obj, IExcelReader reader, ICounter counter);
 
         bool ComputedSetter(TEntity obj, TEntity yobj, IExcelReader reader,

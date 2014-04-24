@@ -1,11 +1,14 @@
 ﻿#region references
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.Reflection;
+using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploader.Utilities;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -16,13 +19,13 @@ namespace ColloSys.FileUploader.RecordCreator
     {
         #region ctor
         private readonly IAliasRecordCreator<TEntity> _recordCreator;
-        private readonly IExcelReader _reader;
+        public readonly IExcelReader Reader;
         private readonly ICounter _counter;
-        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator, IExcelReader reader, ICounter counter)
+        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator,IExcelReader reader)
         {
             _recordCreator = recordCreator;
-            _reader = reader;
-            _counter = counter;
+            Reader = reader;
+            _counter =new ExcelRecordCounter();
         }
         #endregion
 
@@ -33,7 +36,7 @@ namespace ColloSys.FileUploader.RecordCreator
             {
                 try
                 {
-                    var data = _reader.GetValue(info.Position);
+                    var data = Reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
                 }
                 catch
@@ -65,14 +68,14 @@ namespace ColloSys.FileUploader.RecordCreator
             return true;
         }
 
-        public bool CreateRecord(TEntity obj, IList<FileMapping> mappingss)
+        public bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mappingss)
         {
             bool excelstatus = false, defaultMap = false, computedMap = true;
 
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())
             {
-                if (!_recordCreator.CheckBasicField(_reader, _counter))
+                if (!_recordCreator.CheckBasicField(Reader, _counter))
                     return false;
 
                 excelstatus = ExcelMapper(obj, excelType);
@@ -89,7 +92,7 @@ namespace ColloSys.FileUploader.RecordCreator
             var typeComputed = computedType as FileMapping[] ?? computedType.ToArray();
             if (typeComputed.Any())
             {
-                computedMap = _recordCreator.ComputedSetter(obj, _reader, _counter);
+                computedMap = _recordCreator.ComputedSetter(obj, Reader, _counter);
             }
             if (!defaultMap || !computedMap) return false;
 

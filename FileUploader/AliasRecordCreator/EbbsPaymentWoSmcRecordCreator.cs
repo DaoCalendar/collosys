@@ -10,14 +10,14 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasReader
 {
-   public class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
+    public class EbbsPaymentWoSmcRecordCreator : AliasPaymentRecordCreator
     {
         #region ctor
 
         private const uint AccountPosition = 1;
         private const uint AccountLength = 11;
         private readonly List<string> _ePaymentExcludeCodes;
-       private readonly FileScheduler _scheduler;
+        private readonly FileScheduler _scheduler;
 
         public EbbsPaymentWoSmcRecordCreator(FileScheduler fileShedular, List<string> ePaymentExcludeCodes)
             : base(fileShedular, AccountPosition, AccountLength)
@@ -45,7 +45,7 @@ namespace ColloSys.FileUploader.AliasReader
             }
         }
 
-        public override bool IsRecordValid(Payment record,ICounter counter)
+        public override bool IsRecordValid(Payment record, ICounter counter)
         {
             if (record.TransDate.Month != _scheduler.FileDate.Month)
             {
