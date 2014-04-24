@@ -46,6 +46,7 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
             $scope.tax = {};
             $scope.indexOfSelected = -1;
             $scope.isAddMode = true;
+            $scope.search = {};
         };
         (function () {
             $scope.datalayer = datalayer;

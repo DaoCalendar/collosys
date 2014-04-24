@@ -129,6 +129,10 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         //#region validations
         var applyTemplates = function (options) {
 
+            if (options.type != 'number') {
+                options.template = options.template + ',' + options.type;
+            }
+
             if (angular.isUndefined(options.template) || options.template === null) {
                 return;
             }
@@ -156,6 +160,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                             options.maxlength = 19;
                         break;
                     case "percentage":
+                        options.max = 100;
                         options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
                         options.patternMessage = "allows percentage with precision of 2";
                         break;
@@ -590,14 +595,14 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<select class="input-large" name="myfield" ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += ' ng-options="' + field.ngOptions + '"';
+            html += (angular.isUndefined(attr.useRepeat) || attr.useRepeat === "false") ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
-            //html += ' <option value="" selectable="false"></option> ';
+            html += attr.useRepeat === "true" ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -622,10 +627,18 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            field.ngOptions = field.valueField + ' as ' + field.textField;
-            field.ngOptions += ' for row in ';
-            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
-            field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
+            if (angular.isUndefined(attr.useRepeat) || attr.useRepeat === "false") {
+                field.ngOptions = field.valueField + ' as ' + field.textField;
+                field.ngOptions += ' for row in ';
+                field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+                field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
+            }
+            if (attr.useRepeat === "true") {
+                var valueList = attr.valueList ? attr.valueList : 'field.valueList';
+                field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
+
+                console.log('ng-repeat: ', field.ngRepeat);
+            }
         };
 
         var htmlTemplate = function (field, attrs) {
