@@ -39,7 +39,7 @@
                     <td>
                         <input type="checkbox"
                             data-ng-model="selectedAll"
-                            data-ng-click="selectAll(selectedAll);dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length" />
+                            data-ng-click="selectAll(selectedAll)" data-ng-checked="dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length" />
                     </td>
                     <td>Customer Name</td>
                     <td>Amount Due</td>
@@ -52,7 +52,7 @@
                 <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
                     <td data-ng-style="factory.setRowColor(data)">
                         <input type="checkbox" data-ng-model="selected"
-                            data-ng-click="selectAllocation(data,selected)"  />
+                            data-ng-click="selectAllocation(data,selected)" data-ng-checked="ticks(data);"  />
                     </td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.Info.CustomerName}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.AmountDue}}</td>

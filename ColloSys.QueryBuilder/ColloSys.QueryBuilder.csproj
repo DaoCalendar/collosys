@@ -62,6 +62,7 @@
     <Compile Include="AllocationBuilder\AllocSubpolicyBuilder.cs" />
     <Compile Include="BaseTypes\IRepository.cs" />
     <Compile Include="BaseTypes\Repository.cs" />
+    <Compile Include="BillingBuilder\ActivateHoldingPolicyBuilder.cs" />
     <Compile Include="BillingBuilder\BConditionBuilder.cs" />
     <Compile Include="BillingBuilder\BillAdhocBuilder.cs" />
     <Compile Include="BillingBuilder\BillAmountBuilder.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="BillingBuilder\BillStatusBuilder.cs" />
     <Compile Include="BillingBuilder\BMatrixBuilder.cs" />
     <Compile Include="BillingBuilder\BMatrixValueBuilder.cs" />
+    <Compile Include="BillingBuilder\HoldingPolicyBuilder.cs" />
     <Compile Include="ClientDataBuilder\CacsActivityBuilder.cs" />
     <Compile Include="ClientDataBuilder\CLinerBuilder.cs" />
     <Compile Include="ClientDataBuilder\CUnbilledBuilder.cs" />

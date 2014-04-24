@@ -52,6 +52,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
 
     }]);
 
+//#region "changes successfully Done"
 csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$csfactory',
     function (rest, $csnotify, $grid, $csfactory) {
 
@@ -59,7 +60,6 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         var dldata = {};
         dldata.selectedAllocations = [];
-        dldata.selectAllcationForChange = [];
 
         var showErrorMessage = function (response) {
             $csnotify.error(response.data);
@@ -110,6 +110,9 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 var products = dldata.viewAllocationModel.Products;
                 restApi.customGET("GetStakeholders", { 'products': products }).then(function (data) {
                     dldata.stakeholder = data;
+                    if (dldata.stakeholder.length === 0) {
+                        $csnotify.success("Stakeholder Not available");
+                    }
                 });
             }
         };
@@ -118,28 +121,32 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
             var allocStatus = "None";
             var aprovedStatus = "Approved";
-            if (!$csfactory.isNullOrEmptyString(dldata.selectedAllocation)) {
-                if (dldata.selectedAllocation === "Submitted") {
-                    aprovedStatus = dldata.selectedAllocation;
+            if (!$csfactory.isNullOrEmptyString(dldata.viewAllocationModel.AllocationStatus)) {
+                if (dldata.viewAllocationModel.AllocationStatus === "Submitted") {
+                    aprovedStatus = dldata.viewAllocationModel.AllocationStatus;
                     allocStatus = "None";
                 } else {
-                    allocStatus = dldata.selectedAllocation;
+                    allocStatus = dldata.viewAllocationModel.AllocationStatus;
                 }
             }
 
             dldata.ChangeAllocationModel = {
                 AllocList: dldata.gridOptions.$gridScope.selectedItems,
                 AllocationStatus: allocStatus,
-                Products: dldata.selectedProduct,
+                Products: dldata.viewAllocationModel.Products,
                 AproveStatus: aprovedStatus,
-                fromDate: dldata.fromDate,
-                toDate: dldata.toDate
+                fromDate: dldata.viewAllocationModel.FromDate,
+                toDate: dldata.viewAllocationModel.ToDate
             };
 
             dldata.isInProcessing = true;
             restApi.customPOST(dldata.ChangeAllocationModel, "ApproveAllocations").then(function () {
                 $csnotify.success("Allocations Approved");
-                fetchData();
+                //fetchData();
+                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
+                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
+                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
+                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
                 dldata.isInProcessing = false;
             });
         };
@@ -148,28 +155,32 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
             var allocStatus = "None";
             var aprovedStatus = "Approved";
-            if (!$csfactory.isNullOrEmptyString(dldata.selectedAllocation)) {
-                if (dldata.selectedAllocation === "Submitted") {
-                    aprovedStatus = dldata.selectedAllocation;
+            if (!$csfactory.isNullOrEmptyString(dldata.viewAllocationModel.AllocationStatus)) {
+                if (dldata.viewAllocationModel.AllocationStatus === "Submitted") {
+                    aprovedStatus = dldata.viewAllocationModel.AllocationStatus;
                     allocStatus = "None";
                 } else {
-                    allocStatus = dldata.selectedAllocation;
+                    allocStatus = dldata.viewAllocationModel.AllocationStatus;
                 }
             }
 
             dldata.ChangeAllocationModel = {
                 AllocList: dldata.gridOptions.$gridScope.selectedItems,
                 AllocationStatus: allocStatus,
-                Products: dldata.selectedProduct,
+                Products: dldata.viewAllocationModel.Products,
                 AproveStatus: aprovedStatus,
-                fromDate: dldata.fromDate,
-                toDate: dldata.toDate
+                fromDate: dldata.viewAllocationModel.FromDate,
+                toDate: dldata.viewAllocationModel.ToDate
             };
 
             dldata.isInProcessing = true;
             restApi.customPOST(dldata.ChangeAllocationModel, "RejectChangeAllocations").then(function () {
                 $csnotify.success("Allocations Rejected");
-                fetchData();
+                // fetchData();
+                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
+                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
+                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
+                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
                 dldata.isInProcessing = false;
             });
         };
@@ -198,9 +209,14 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 toDate: dldata.viewAllocationModel.ToDate
             };
 
-            return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function () {
+            return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function (data) {
+                console.log(data);
                 $csnotify.success("Allocations Changed");
-                fetchData();
+                dldata.selectedAllocations = [];
+                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
+                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
+                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
+                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
                 dldata.isInProcessing = false;
             });
 
@@ -216,6 +232,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             saveAllocationChanges: saveAllocationChanges
         };
     }]);
+//#endregion
 
 csapp.factory('approveViewFactory', ['approveViewDataLayer',
     function (datalayer) {
@@ -256,41 +273,6 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             return {};
         };
 
-        //var ticks = function (data) {
-        //    return (dldata.selectedAllocations.indexOf(data) !== -1);
-        //};
-
-        //dldata.viewAllocationModel
-
-        //var selectAllocation = function (selected, allocation) {
-        //    selected = !selected;
-        //    if (selected === true) {
-        //        dldata.selectedAllocations.push(allocation);
-        //        if (dldata.selectedAllocations.length === dldata.gridOptions.$gridScope.selectedItems.length)
-        //            dldata.selAll = true;
-        //    }
-        //    if (selected === false) {
-        //        dldata.selectedAllocations.splice(dldata.selectedAllocations.indexOf(allocation), 1);
-        //        dldata.selAll = false;
-        //    }
-        //};
-
-        //var selectAll = function (selected) {
-        //    selected = !selected;
-
-        //    if (selected === true) {
-        //        _.forEach(dldata.gridOptions.$gridScope.selectedItems, function (item) {
-        //            dldata.selectedAllocations.push(item);
-        //        });
-        //        //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
-        //        dldata.sel = true;
-        //    }
-        //    if (selected === false) {
-        //        dldata.selectedAllocations = [];
-        //        dldata.sel = false;
-        //    }
-        //};
-
         var assignStakeholderToAll = function (stkh) {
             if (stkh == "") {
                 return null;
@@ -312,15 +294,13 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
             disableSelect: disableSelect,
             showChurnButton: showChurnButton,
             setRowColor: setRowColor,
-            //ticks: ticks,
-            //selectAllocation: selectAllocation,
-            //selectAll: selectAll,
             assignStakeholderToAll: assignStakeholderToAll,
             setStakeholder: setStakeholder
         };
 
     }]);
 
+//#region "changes successfully Done"
 csapp.controller('changAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory',
 function ($scope, $modalInstance, datalayer, factory) {
 
@@ -333,24 +313,24 @@ function ($scope, $modalInstance, datalayer, factory) {
     })();
 
     $scope.closeModel = function () {
+        $scope.reset();
         $modalInstance.close();
     };
     $scope.selectAllocation = function (allocation, selected) {
         selected = !selected;
         if (selected === true) {
             $scope.dldata.selectedAllocations.push(allocation);
-            // $scope.dldata.selectAllcationForChange.push(allocation);
             if ($scope.dldata.selectedAllocations.length === $scope.dldata.gridOptions.$gridScope.selectedItems.length)
-                $scope.selected = true;
+                $scope.selectedAll = true;
         }
         if (selected === false) {
             $scope.dldata.selectedAllocations.splice($scope.dldata.selectedAllocations.indexOf(allocation), 1);
-            $scope.selected = false;
+            $scope.selectedAll = false;
         }
     };
-    //$scope.ticks = function (data) {
-    //    return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
-    //};
+    $scope.ticks = function (data) {
+        return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
+    };
 
     $scope.selectAll = function (selected) {
         selected = !selected;
@@ -359,7 +339,6 @@ function ($scope, $modalInstance, datalayer, factory) {
             _.forEach($scope.dldata.gridOptions.$gridScope.selectedItems, function (item) {
                 $scope.dldata.selectedAllocations.push(item);
             });
-            //$scope.selectedAllocations = $scope.gridOptions.$gridScope.selectedItems;
             $scope.selected = true;
             $scope.selectedAll = true;
         }
@@ -370,13 +349,22 @@ function ($scope, $modalInstance, datalayer, factory) {
         }
     };
 
+    $scope.reset = function() {
+        $scope.selectAll = false;
+        $scope.selected = false;
+        $scope.dldata.selectedAllocations = [];
+        $scope.dldata.approveView.Param = "";
+    };
+
     $scope.saveAllocationChanges = function (param) {
-        datalayer.saveAllocationChanges(param).then(function () {
-            $modalInstance.close();
+        $scope.datalayer.saveAllocationChanges(param).then(function () {
+            $scope.reset();
+           $modalInstance.close();
         });
     };
 
 }]);
+//#endregion
 
 csapp.controller('churnAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory',
     function ($scope, $modalInstance, datalayer, factory) {
@@ -386,7 +374,6 @@ csapp.controller('churnAllocCtrl', ['$scope', '$modalInstance', 'approveViewData
             $scope.datalayer = datalayer;
             $scope.factory = factory;
         })();
-
 
         $scope.closeModel = function () {
             $modalInstance.close();

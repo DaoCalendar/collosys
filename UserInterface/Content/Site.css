@@ -431,6 +431,11 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     margin-top: 5px;
 }
 
+.heading-for-box {
+    font-size: 1em;
+    font-family: Georgia;
+    color: #C63B3B;
+}
 /* subpolicy screens styles*/
 .box-sub {
     width: 100%;
