@@ -1,94 +1,169 @@
-﻿ <!--Edit Modal PopUp-->
-        <div>
-            <div class="modal-header well">
-                <h3>Edit Pincode</h3>
-            </div>
-            <div data-ng-form="formEditPincode" class="form-horizontal">
-                <div class="modal-body">
-                    <!--Country-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">Country </label>
-                        <div class="controls">
-                            <input type="text" value="India" readonly="readonly" />
-                        </div>
+﻿<!--AddEdit Modal PopUp-->
+<div data-ng-form="formEditPincode" class="form-horizontal">
+    <div class="modal-header">
+        {{modelTitle}}
+    </div>
+
+    <div class="modal-body">
+
+        <cs-field-group mode="mode">
+            <cs-field data-ng-model="GPincodedata.Country" field="eGPincodeModel.Country" ng-readonly="true"></cs-field>
+            
+           
+            <cs-field data-ng-model="GPincodedata.Region" 
+                      data-ng-change="getState(GPincodedata.Region);regionChange()"
+                      field="eGPincodeModel.Region">
+            </cs-field>
+            
+
+            <cs-field data-ng-model="GPincodedata.State" field="eGPincodeModel.State" 
+                      data-ng-change="getCluster(GPincodedata.Region,GPincodedata.State);stateChange()"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.Cluster" field="eGPincodeModel.Cluster"
+                      data-ng-change="getDistrict(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster);clusterChange()"></cs-field>
+            
+            <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
+                      data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
+            
+            <div class="row-fluid">
+                <div class="span3" >
+                    <div data-ng-show="!showTextBox" >
+                        <cs-field data-ng-model="GPincodedata.City" 
+                                    
+                                  field="eGPincodeModel.City" 
+                                  typeahead="c for c in pincodeCity($viewValue,GPincodedata.District)">
+                        </cs-field>
                     </div>
-                    <!--Region-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">Region</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.Region" readonly="readonly" />
-                        </div>
-                    </div>
-                    <!--State-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">State</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.State" readonly="readonly" />
-                        </div>
-                    </div>
-                    <!--Cluster-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">Cluster</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.Cluster" readonly="readonly" />
-                        </div>
-                    </div>
-                    <!--District-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">District</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.District" readonly="readonly" />
-                        </div>
-                    </div>
-                    <!--City-->
-                    <div class="control-group row-fluid">
+                    <div class="control-group span3" data-ng-show="showTextBox">
                         <label class="control-label">City</label>
                         <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.City"
-                                name="city"
-                                typeahead="c for c in datalayer.pincodeCity($viewValue,eGPincode.District)" />
-                            <div data-ng-show="formEditPincode.city.$dirty">
-                                <span class="field-validation-error" data-ng-show="formEditPincode.city.$error.required">{{val.Required()}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--City Category-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">City Category</label>
-                        <div class="controls">
-                            <select class="input-large" ui-select2 data-ng-model="eGPincode.CityCategory" data-ng-required="dldata.isInEditMode">
-                                <option></option>
-                                <option data-ng-repeat="category in dldata.CityCategoryList">{{category}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <!--Area-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">Area</label>
-                        <div class="controls">
-                            <input type="text" name="area"
-                                data-ng-model="eGPincode.Area"
-                                required
-                                typeahead="c  for c in datalayer.pincodeArea($viewValue, eGPincode.City)"
-                                data-ng-change="eGPincode.Area"
-                                data-placeholder="Area" />
-                            <div data-ng-show="formEditPincode.area.$dirty">
-                                <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{dldata.val.Required()}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Pincode-->
-                    <div class="control-group row-fluid">
-                        <label class="control-label">Pincode</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="eGPincode.Pincode" readonly="readonly" />
+                            <input type="text" class="input-large" data-ng-model="GPincodedata.City" required/>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer well">
-                    <button class="btn btn-success" data-ng-click="save()" data-ng-disabled="!formEditPincode.$valid">Save</button>
-                    <button class="btn btn-primary" data-ng-hide="dldata.isInEditMode" data-ng-click="reset()">Reset</button>
-                    <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
+                <div class="control-group span4">
+                    <div class="controls">
+                        <button class="btn btn-success" data-ng-click="addCity()" data-ng-hide="showTextBox">Add New City</button>
+                        <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="showTextBox">Not Now</button>
+                    </div>
+                </div>
+            </div>
+            <cs-field data-ng-model="GPincodedata.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
+                      typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
+                      data-ng-change="areaChange()"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
+                      name="Pincode"
+                      data-ng-change="pincodedata(GPincodedata.Pincode)"
+                      typeahead="c for c in missingPincode($viewValue)"
+                      ui-validate="{'data' : 'pincodeCheck($value)'}">
+            </cs-field>
+        </cs-field-group>
+    </div>
+
+    <div class="modal-footer well">
+        <button class="btn btn-success" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist">Save</button>
+        <button class="btn btn-primary" data-ng-click="reset(GPincodedata)">Reset</button>
+        <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <div class="modal-body">
+                    
+        <div class="control-group row-fluid">
+            <label class="control-label">Country </label>
+            <div class="controls">
+                <input type="text" value="India" readonly="readonly" />
+            </div>
+        </div>
+                    
+        <div class="control-group row-fluid">
+            <label class="control-label">Region</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.Region" readonly="readonly" />
+            </div>
+        </div>
+                  
+        <div class="control-group row-fluid">
+            <label class="control-label">State</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.State" readonly="readonly" />
+            </div>
+        </div>
+                    
+        <div class="control-group row-fluid">
+            <label class="control-label">Cluster</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.Cluster" readonly="readonly" />
+            </div>
+        </div>
+                   
+        <div class="control-group row-fluid">
+            <label class="control-label">District</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.District" readonly="readonly" />
+            </div>
+        </div>
+                   
+        <div class="control-group row-fluid">
+            <label class="control-label">City</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.City"
+                       name="city"
+                       typeahead="c for c in datalayer.pincodeCity($viewValue,eGPincode.District)" />
+                <div data-ng-show="formEditPincode.city.$dirty">
+                    <span class="field-validation-error" data-ng-show="formEditPincode.city.$error.required">{{val.Required()}}</span>
                 </div>
             </div>
         </div>
+                   
+        <div class="control-group row-fluid">
+            <label class="control-label">City Category</label>
+            <div class="controls">
+                <select class="input-large" ui-select2 data-ng-model="eGPincode.CityCategory" data-ng-required="dldata.isInEditMode">
+                    <option></option>
+                    <option data-ng-repeat="category in dldata.CityCategoryList">{{category}}</option>
+                </select>
+            </div>
+        </div>
+                   
+        <div class="control-group row-fluid">
+            <label class="control-label">Area</label>
+            <div class="controls">
+                <input type="text" name="area"
+                       data-ng-model="eGPincode.Area"
+                       required
+                       typeahead="c  for c in datalayer.pincodeArea($viewValue, eGPincode.City)"
+                       data-ng-change="eGPincode.Area"
+                       data-placeholder="Area" />
+                <div data-ng-show="formEditPincode.area.$dirty">
+                    <span class="field-validation-error" data-ng-show="formEditPincode.area.$error.required">{{dldata.val.Required()}}</span>
+                </div>
+            </div>
+        </div>
+                   
+        <div class="control-group row-fluid">
+            <label class="control-label">Pincode</label>
+            <div class="controls">
+                <input type="text" data-ng-model="eGPincode.Pincode" readonly="readonly" />
+            </div>
+        </div>
+    </div>      -->
+

@@ -2,18 +2,18 @@
     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
-            <cs-field-group mode="'view'">
-                <cs-field data-ng-model="abc" data-ng-change ="changeFunc(abc)" field="fields[5]"></cs-field>
-                <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[4]"></cs-field>
-                <cs-field data-ng-model="abcd" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>
-                <pre>{{abc}}</pre>
+            <cs-field-group mode="'add'">
+                <cs-field data-ng-model="abc" value-list="array track by Id" data-ng-change ="changeFunc(abc)" field="fields[4]"></cs-field>{{array}}
+                <cs-field data-ng-model="abcd" value-ist="array"  data-ng-change ="changeFunc(abcd)" field="fields[5]"></cs-field>
+                <cs-field data-ng-model="abce.data" data-ng-change ="changeFunc(abcde)" field="fields[7]"></cs-field>
+                <pre>{{abce.data}}</pre>
                 <pre>{{pqr}}</pre>
             </cs-field-group>
         </ng-form>
     </form>
 </div>
 
-<div 
+<div
     data-ng-show="showPendingOptions()"
     data-ng-cloack="">
 
@@ -32,8 +32,8 @@
             <li data-ng-show="datalist.allocation>0">
                 <a class="navbar-link" href="#"><b>Allocation Approval :</b>  {{datalist.allocation}}  approval pending</a>
             </li>
-            <li data-ng-show="datalist.allocationpolicy>0">
-                <a class="navbar-link" href="#"><b>Allocation Policy Approval:</b>  {{datalist.allocationpolicy}} approval pending</a>
+            <li data-ng-show="datalist.billing>0">
+                <a class="navbar-link" href="#"><b>Allocation Policy Approval:</b>  {{datalist.billing}} approval pending</a>
             </li>
         </ul>
     </div>

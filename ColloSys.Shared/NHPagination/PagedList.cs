@@ -56,11 +56,11 @@ namespace ColloSys.Shared.NHPagination
             if (param.FiltersList.Count > 0)
             {
                 detachedCriteria = NhCriteriaGenerator.AddValueFiltering(detachedCriteria, param.GetCriteriaType(),
-                                                                         param.FiltersList);
+                                                                         param);
                 detachedCriteria = NhCriteriaGenerator.AddFieldFiltering(detachedCriteria, param.GetCriteriaType(),
-                                                                         param.FiltersList);
+                                                                         param);
                 detachedCriteria = NhCriteriaGenerator.AddRelativeFiltering(detachedCriteria, param.GetCriteriaType(),
-                                                                            param.FiltersList);
+                                                                            param);
             }
             // apply sorting
             for (var i = 0; i < param.GridConfig.sortInfo.fields.Count; i++)
@@ -78,7 +78,7 @@ namespace ColloSys.Shared.NHPagination
         public void FetchAllData(DetachedCriteria detachedCriteria, GridQueryParams param)
         {
             // apply filtering
-            detachedCriteria = NhCriteriaGenerator.AddValueFiltering(detachedCriteria, param.GetCriteriaType(), param.FiltersList);
+            detachedCriteria = NhCriteriaGenerator.AddValueFiltering(detachedCriteria, param.GetCriteriaType(), param);
 
             // apply sorting
             for (var i = 0; i < param.GridConfig.sortInfo.fields.Count; i++)

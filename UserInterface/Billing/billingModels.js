@@ -39,11 +39,44 @@
             TypeSwitch: { type: "enum", valueList: $csShared.enums.TypeSwitch, required: true },
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
-            CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
-            DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },
             ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
-            TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators, required: true },
+        };
+    };
 
+    var formula = function() {
+        return {
+            Name: {label:"Name",type:"text",required:true},
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            Description: { label: "Description", type: "textarea" },
+            GroupBy: { label: "Group By", type: "select", required: true },
+            ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
+            OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType },
+            DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
+            RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
+            LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
+
+        };
+    };
+
+    var matrix = function() {
+        return {
+            Name: { label: "Name", type: "text", required: true },
+            Dimension: { label: "Dimension", type: "select", },// to be disscuss
+            Row1DCount: { label: "Rows 1D", type: "uint", min: 1, max: 10 },
+            Row1DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+            Row1DTypeName: { type: "text" },
+            Column2DCount: { label: "Columns 2D", type: "uint", min: 1, max: 10 },
+            Column2DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+            Column2DTypeName: { type: "text" },
+            Row3DCount: { label: "Rows 3D", type: "uint", min: 1, max: 10 },
+            Row3DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+            Row3DTypeName: { type: "text" },
+            Column4DCount: { label: "Columns 4D", type: "uint", min: 1, max: 10 },
+            Column4DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+            Column4DTypeName: { type: "text" },
+            RowsOperator: { type: "enum", valueList: $csShared.enums.Operators},
+            ColumnsOperator: { type: "enum", valueList: $csShared.enums.Operators },
+            MatrixPerType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
         };
     };
 
@@ -51,6 +84,8 @@
         models.BillAdhoc = billAdhoc();
         models.BillAmount = billAmount();
         models.BillingSubpolicy = billingSubpolicy();
+        models.Formula = formula();
+        models.Matrix = matrix();
         return models;
     };
 

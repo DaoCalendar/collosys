@@ -3,65 +3,65 @@ csapp.factory("menuFactory", [function () {
 
     var menu = [];
 
-    var initMenu = function(permissions) {
-
-
+    var initMenu = function (permissions) {
+        console.log(permissions);
         menu = [
             {
                 Title: "File Upload",
                 url: "#",
-                display: false,
-                permission: ["File Upload"],
+                display: permissions.FileUpload.access,
                 childMenu: [
                     {
                         Title: "FileDetail",
                         url: "#/fileupload/filedetail",
-                        display: false,
-                        permission: ["CreateFile", "view"]
+                        display: permissions.FileUpload.childrens.CreateFile.access,
                     },
                     {
                         Title: "File Column",
                         url: "#/fileupload/filecolumn",
-                        display: false,
-                        permission: ["CreateFile", "view"]
+                        display: permissions.FileUpload.childrens.CreateFile.access,
                     },
                     {
                         Title: "File Mapping",
                         url: "#/fileupload/filemapping",
-                        display: false,
-                        permission: ["CreateFile", "view"]
+                        display: permissions.FileUpload.childrens.CreateFile.access,
+
                     },
                     {
                         Title: "Schedule Files",
                         url: "#/fileupload/filescheduler",
-                        display: false,
-                        permission: ["CreateFile", "view"]
+                        display: permissions.FileUpload.childrens.ScheduleFile.childrens.Create.access
                     },
                     {
                         Title: "Check Status",
                         url: "#/fileupload/filestatus",
-                        display: false,
-                        permission: ["CreateFile", "view"]
+                        display: permissions.FileUpload.childrens.ScheduleFile.childrens.View.access,
+
                     },
                     {
                         Title: "Data Download",
-                        url: "#/fileupload/clientdatadownload"
+                        url: "#/fileupload/clientdatadownload",
+                        display: permissions.FileUpload.childrens.CustomerData.access,
                     },
                     {
                         Title: "Customer Info",
-                        url: "#/fileupload/customerinfo"
+                        url: "#/fileupload/customerinfo",
+                        display: permissions.FileUpload.childrens.CustomerData.access,
                     },
                     {
                         Title: "Manual Payment",
-                        url: "#/fileupload/paymentchanges"
+                        url: "#/fileupload/paymentchanges",
+                        display: permissions.FileUpload.childrens.ManualPayment.access
                     },
                     {
                         Title: "Upload Pincode",
-                        url: "#/fileupload/uploadpincode"
+                        url: "#/fileupload/uploadpincode",
+                        display: permissions.FileUpload.childrens.UploadPincode
                     },
                     {
                         Title: "Upload Rcode",
-                        url: "#/fileupload/uploadrcode"
+                        url: "#/fileupload/uploadrcode",
+                        display: permissions.FileUpload.childrens.UploadRcode
                     },
                     {
                         Title: "View Upload Errors",
@@ -72,136 +72,186 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Stakeholder",
                 url: "#",
+                display: true,
                 childMenu: [
                     {
                         Title: "Add",
-                        url: "#/stakeholder/add"
+                        url: "#/stakeholder/add",
+                        display: true
                     },
                     {
                         Title: "View",
-                        url: "#/stakeholder/view"
+                        url: "#/stakeholder/view",
+                        display: true
                     }
                 ]
             },
             {
                 Title: "Allocation",
                 url: "#",
+                display: permissions.Allocation.access,
                 childMenu: [
                     {
                         Title: "Policy",
-                        url: "#/allocation/policy"
+                        url: "#/allocation/policy",
+                        display: permissions.Allocation.childrens.DefinePolicy.access
                     },
                     {
                         Title: "Subpolicy",
-                        url: "#/allocation/subpolicy"
+                        url: "#/allocation/subpolicy",
+                        display: permissions.Allocation.childrens.DefineSubpolicy.access,
                     },
                     {
                         Title: "View/Approve",
-                        url: "#/allocation/viewapprove"
+                        url: "#/allocation/viewapprove",
+                        display: permissions.Allocation.childrens.CheckAllocation.access,
                     }
                 ]
             },
             {
                 Title: "Billing",
                 url: "#",
+                display: true,
                 childMenu: [
                     {
                         Title: "Policy",
-                        url: "#/billing/policy"
+                        url: "#/billing/policy",
+                        display: permissions.Billing.childrens.CreateFile.access
                     },
                     {
                         Title: "Subpolicy",
-                        url: "#/billing/subpolicy"
+                        url: "#/billing/subpolicy",
+                        display: '',
                     },
                     {
                         Title: "Formula",
-                        url: "#/billing/formula"
+                        url: "#/billing/formula",
+                        display: '',
                     },
                     {
                         Title: "Matrix",
-                        url: "#/billing/matrix"
+                        url: "#/billing/matrix",
+                        display: '',
                     },
                     {
                         Title: "AdHoc",
-                        url: "#/billing/adhoc"
+                        url: "#/billing/adhoc",
+                        display: '',
                     },
                     {
                         Title: "AdHoc Bulk",
-                        url: "#/billing/adhocbulk"
+                        url: "#/billing/adhocbulk",
+                        display: '',
                     },
                     {
                         Title: "Ready Billing",
-                        url: "#/billing/readybilling"
+                        url: "#/billing/readybilling",
+                        display: '',
                     },
                     {
                         Title: "Status",
-                        url: "#/billing/status"
+                        url: "#/billing/status",
+                        display: '',
                     },
                     {
                         Title: "Summary",
-                        url: "#/billing/summary"
+                        url: "#/billing/summary",
+                        display: '',
                     },
                     {
                         Title: "Payment Status",
-                        url: "#/billing/billstatus"
+                        url: "#/billing/billstatus",
+                        display: '',
                     }
                 ]
             },
             {
                 Title: "Config",
                 url: "#",
+                display: true,
                 childMenu: [
                     {
                         Title: "Add Hierarchy",
-                        url: "#/generic/hierarchy/add"
+                        url: "#/generic/hierarchy/add",
+                        display: '',
                     },
                     {
                         Title: "View/Edit Hierarchy",
-                        url: "#/generic/hierarchy"
+                        url: "#/generic/hierarchy",
+                        display: '',
                     },
                     {
                         Title: "Permissions",
-                        url: "#/generic/permission"
+                        url: "#/generic/permission",
+                        display: true,
                     },
                     {
                         Title: "Products",
-                        url: "#/generic/product"
+                        url: "#/generic/product",
+                        display: '',
                     },
                     {
                         Title: "KeyValue",
-                        url: "#/generic/keyvalue"
+                        url: "#/generic/keyvalue",
+                        display: '',
                     },
                     {
                         Title: "Pincode",
-                        url: "#/generic/pincode"
+                        url: "#/generic/pincode",
+                        display: '',
                     }
                 ]
             },
             {
                 Title: "Dev Tools",
                 url: "#",
+                display: true,
                 childMenu: [
                     {
                         Title: "System Explorer",
-                        url: "#/developer/logdownload"
+                        url: "#/developer/logdownload",
+                        display: '',
                     },
                     {
                         Title: "Generate DB",
-                        url: "#/developer/generatedb"
+                        url: "#/developer/generatedb",
+                        display: true,
                     },
                     {
                         Title: "DB Tables",
-                        url: "#/developer/viewdbtables"
+                        url: "#/developer/viewdbtables",
+                        display: '',
                     },
                     {
                         Title: "Execute Query",
-                        url: "#/developer/queryexecuter"
+                        url: "#/developer/queryexecuter",
+                        display: '',
                     }
                 ]
             }
         ];
+        return createAuthorisedMenu(menu);
     };
 
+    var createAuthorisedMenu = function (menus) {
+        menu = [];
+        _.forEach(menus, function (module) {
+            var menuObj = {};
+            if (module.display === true) {
+                menuObj.Title = module.Title;
+                menuObj.url = module.url;
+                menuObj.childMenu = [];
+                _.forEach(module.childMenu, function (subMenu) {//push only authorised childMenus
+                    if (subMenu.display === true)
+                        menuObj.childMenu.push(angular.copy(subMenu));
+                });
+
+                menu.push(menuObj);
+            }
+        });
+        console.log("authorised menu: ", menu);
+        return menu;
+    };
 
     return {
         menu: menu,
@@ -210,8 +260,21 @@ csapp.factory("menuFactory", [function () {
 
 }]);
 
-csapp.controller("menuController", ["$scope", "menuFactory", function ($scope, menuFactory) {
-    $scope.menu = menuFactory.menu;
+csapp.controller("menuController", ["$scope", "menuFactory", "rootDatalayer", "$csAuthFactory", "$csfactory", function ($scope, menuFactory, datalayer, $csAuthFactory, $csfactory) {
+
+    (function () {
+        $scope.$watch(function () {
+            return $csAuthFactory.getUsername();
+        }, function (newval) {
+            if (!$csfactory.isNullOrEmptyString(newval)) {
+                datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
+                    console.log('creating menu by permission');
+                    $scope.menus = menuFactory.initMenu(datalayer.dldata.permissions);
+                });
+            }
+        });
+    })();
+
 }]);
 
 //var menuByPerm = [];

@@ -107,7 +107,7 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
             $scope.dldata.editIndex = index;
 
             $modal.open({
-                templateUrl: '/Generic/product/updateViewConfiguration.html',
+                templateUrl: baseUrl + 'Generic/product/updateViewConfiguration.html',
                 controller: 'updateView',
             });
         };       

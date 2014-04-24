@@ -30,7 +30,7 @@ namespace AngularUI.Generic.permissions
                 hierarchy.Permissions = permission;
                 HierarchyQuery.Save(hierarchy);
             }
-
+            
         }
 
         [HttpPost]

@@ -172,7 +172,7 @@ csapp.controller("errorDataController", ["$scope", "errorDataLayer", "modalServi
         //#region grid edit
         $scope.showEditRowModalPopup = function (index) {
             $modal.open({
-                templateUrl: '/FileUpload/errorcorrection/error-record.html',
+                templateUrl: baseUrl + 'FileUpload/errorcorrection/error-record.html',
                 controller: 'errorDataEditController',
                 resolve: {
                     grid: function () {

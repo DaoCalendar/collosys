@@ -315,9 +315,11 @@
                 _.forEach($scope.WorkingData.ReportsToList, function (item) {
                     if (item.StkhWorkings.length > 0) {
                         x = _.find(item.StkhWorkings, function (workings) {
+                            if (workings.Products === 'ALL')
+                                return workings;
                             if (workings.Products === product && product != 'ALL')
                                 return workings;
-                            else if (product === 'ALL') return workings;
+                            if (product === 'ALL') return workings;
                         });
                     } else {
                         x = item;
@@ -550,10 +552,16 @@
                 if (!$scope.WorkingData.Hierarchy.HasBuckets) {
                     $scope.workingModel.SelectedPincodeData.BucketStart = 0;
                 }
-                var bucketValue = angular.copy($scope.workingModel.SelectedPincodeData.BucketStart);
+
+                var bucketValue = [];
                 if (!$scope.WorkingData.Hierarchy.HasBuckets) {
                     bucketValue = [];
+                } else {
+                    _.forEach($scope.workingModel.SelectedPincodeData.BucketStart, function (item) {
+                        bucketValue.push(item);
+                    });
                 }
+
                 //has no Buckets
                 if (bucketValue.length === 0) {
                     // if duplicate, no need to add

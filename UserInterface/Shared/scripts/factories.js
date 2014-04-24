@@ -402,7 +402,7 @@ csapp.service('modalService', ['$modal', function ($modal) {
         backdrop: true,
         keyboard: true,
         modalFade: true,
-        templateUrl: '/Shared/templates/confirm-modal.html'
+        templateUrl: baseUrl + 'Shared/templates/confirm-modal.html'
     };
 
     var modalOptions = {
@@ -447,12 +447,12 @@ csapp.service('modalService', ['$modal', function ($modal) {
 }]);
 
 csapp.factory('$permissionFactory', [function () {
-
+    //file upload activities
     var createFileActivity = function () {
         return {
             name: "CreateFile",
             access: false,
-            description: "asfasdf",
+            description: "create file",
             childrens: {
                 View: {
                     name: "View",
@@ -460,8 +460,8 @@ csapp.factory('$permissionFactory', [function () {
                     description: "view",
                     childrens: {}
                 },
-                Modify: {
-                    name: "Modify",
+                CreateModify: {
+                    name: "Create/Modify",
                     access: false,
                     description: "modify",
                     childrens: {}
@@ -479,7 +479,7 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "ScheduleFile",
             access: false,
-            description: "asfasdf",
+            description: "schedule file",
             childrens: {
                 View: {
                     name: "View",
@@ -487,18 +487,12 @@ csapp.factory('$permissionFactory', [function () {
                     description: "view",
                     childrens: {}
                 },
-                Modify: {
-                    name: "Modify",
+                Create: {
+                    name: "Create",
                     access: false,
                     description: "modify",
                     childrens: {}
-                },
-                Approve: {
-                    name: "approve",
-                    access: false,
-                    description: "approve",
-                    childrens: {}
-                },
+                }
             }
         };
     };
@@ -506,7 +500,7 @@ csapp.factory('$permissionFactory', [function () {
         return {
             name: "FixError",
             access: false,
-            description: "asfasdf",
+            description: "fix error",
             childrens: {
                 View: {
                     name: "View",
@@ -527,13 +521,314 @@ csapp.factory('$permissionFactory', [function () {
                     childrens: {}
                 },
             }
+        };
+    };
+    var paymentChangesActivity = function () {
+        return {
+            name: "PaymentChanges",
+            access: false,
+            description: "payment changes",
+            childrens: {
+
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var customerDataActivity = function () {
+        return {
+            name: "CreateFile",
+            access: false,
+            description: "create file",
+            childrens: {}
         };
     };
     var uploadPincodeActivity = function () {
         return {
             name: "UploadPincode",
             access: false,
-            description: "asfasdf",
+            description: "upload pincode",
+            childrens: {
+                Upload: {
+                    name: "Upload",
+                    access: false,
+                    description: "view",
+                    childrens: {}
+                }
+            }
+        };
+    };
+    var uploadRCodeActivity = function () {
+        return {
+            name: "UploadRCode",
+            access: false,
+            description: "upload RCode",
+            childrens: {}
+        };
+    };
+    var errorCorrectionActivity = function () {
+        return {
+            name: "Error Correction",
+            access: false,
+            description: "error correction",
+            childrens: {
+                Create: {
+                    name: "create",
+                    access: false,
+                    description: "create",
+                    childrens: {}
+                }
+            }
+        };
+    };
+    var manualPaymentActivity = function () {
+        return {
+            name: "Manual Payment",
+            access: false,
+            description: "manual payment",
+            childrens: {}
+        };
+    };
+    //stakeholder activities
+    var addStakeholderActivity = function () {
+        return {
+            name: "Add Stakeholder",
+            access: false,
+            description: "add stakeholder",
+            childrens: {
+
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "modify stakeholder",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve stakeholder",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var viewStakeholderActivity = function () {
+        return {
+            name: "View Stakeholder",
+            access: false,
+            description: "view stakeholder",
+            childrens: {
+                ViewAll: {
+                    name: "ViewAll",
+                    access: false,
+                    description: "view all stakeholder",
+                    childrens: {}
+                },
+                ViewPending: {
+                    name: "ViewPending",
+                    access: false,
+                    description: "view pending stakeholder",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    //allocation activities
+    var definePolicyActivity = function () {
+        return {
+            name: "Define Policy",
+            access: false,
+            description: "define policy",
+            childrens: {
+
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view policy",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve policy",
+                    childrens: {}
+                },
+            }
+        };
+
+    };
+    var defineSubPolicyActivity = function () {
+        return {
+            name: "Define Subpolicy",
+            access: false,
+            description: "define subpolicy",
+            childrens: {
+
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view policy",
+                    childrens: {}
+                },
+                Create: {
+                    name: "Create",
+                    access: false,
+                    description: "create policy",
+                    childrens: {}
+                },
+                Activate: {
+                    name: "Activate",
+                    access: false,
+                    description: "approve policy",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var checkAllocationActivity = function () {
+        return {
+            name: "Check Allocation",
+            access: false,
+            description: "check allocation",
+            childrens: {
+
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view policy",
+                    childrens: {}
+                },
+                Modify: {
+                    name: "Modify",
+                    access: false,
+                    description: "create policy",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve policy",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    //billing activities
+    var defineBillingPolicyActivity = function () {
+        return {
+            name: "Define Policy",
+            access: false,
+            description: "define billing policy",
+            childrens: {
+
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view billing policy",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve billing policy",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var defineBillingSubpolicyActivity = function () {
+        return {
+            name: "Define Billing Subpolicy",
+            access: false,
+            description: "define billing subpolicy",
+            childrens: {
+
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view billing policy",
+                    childrens: {}
+                },
+                Create: {
+                    name: "Create",
+                    access: false,
+                    description: "create billing policy",
+                    childrens: {}
+                },
+                Activate: {
+                    name: "Activate",
+                    access: false,
+                    description: "activate billing policy",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var defineFormulaActivity = function () {
+        return {
+            name: "Define Formula",
+            access: false,
+            description: "define formula",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view formula",
+                    childrens: {}
+                },
+                Create: {
+                    name: "Create",
+                    access: false,
+                    description: "create formula",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var defineMatrixActivity = function () {
+        return {
+            name: "Define Matrix",
+            access: false,
+            description: "define matrix",
+            childrens: {
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view matrix",
+                    childrens: {}
+                },
+                Create: {
+                    name: "Create",
+                    access: false,
+                    description: "create matrix",
+                    childrens: {}
+                },
+            }
+        };
+    };
+    var adhocPayoutActivity = function () {
+        return {
+            name: "Adhoc Payout",
+            access: false,
+            description: "adhoc payout",
+            childrens: {}
+        };
+    };
+    var payoutConfirmationActivity = function () {
+        return {
+            name: "Payout Confirmation",
+            access: false,
+            description: "payout confirmation",
             childrens: {
                 View: {
                     name: "View",
@@ -541,14 +836,8 @@ csapp.factory('$permissionFactory', [function () {
                     description: "view",
                     childrens: {}
                 },
-                Modify: {
-                    name: "Modify",
-                    access: false,
-                    description: "modify",
-                    childrens: {}
-                },
                 Approve: {
-                    name: "approve",
+                    name: "Approve",
                     access: false,
                     description: "approve",
                     childrens: {}
@@ -556,17 +845,31 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
+    var payoutStatusActivity = function () {
+        return {
+            name: "Payout Status",
+            access: false,
+            description: "payout status",
+            childrens: {}
+        };
+    };
 
     var permission = {
+
         FileUpload: {
             name: "FileUpload",
             access: false,
-            description: "asfasdf",
+            description: "file upload",
             childrens: {
                 CreateFile: createFileActivity(),
                 ScheduleFile: scheduleFileActivity(),
                 FixError: fixErrorActivity(),
-                UploadPincode: uploadPincodeActivity()
+                UploadPincode: uploadPincodeActivity(),
+                PaymentChanges: paymentChangesActivity(),
+                CustomerData: customerDataActivity(),
+                UploadRcode: uploadRCodeActivity(),
+                ErrorCorrection: errorCorrectionActivity(),
+                ManualPayment: manualPaymentActivity()
             }
         },
 
@@ -574,7 +877,38 @@ csapp.factory('$permissionFactory', [function () {
             name: "Stakeholder",
             access: false,
             description: "stakeholders",
-            children: {}
+            childrens: {
+                AddStakeholder: addStakeholderActivity(),
+                ViewStakeholder: viewStakeholderActivity(),
+            }
+        },
+
+        Billing: {
+            name: "Billing",
+            access: false,
+            description: "billing",
+            childrens: {
+                DefinePolicy: defineBillingPolicyActivity(),
+                DefineSubPolicy: defineBillingSubpolicyActivity(),
+                DefineFormula: defineFormulaActivity(),
+                DefineMatrix: defineMatrixActivity(),
+                AdhocPayout: adhocPayoutActivity(),
+                PayoutConfirmation: payoutConfirmationActivity(),
+                PayoutStatus: payoutStatusActivity()
+
+
+            }
+        },
+
+        Allocation: {
+            name: 'Allocation',
+            access: false,
+            description: 'allocation',
+            childrens: {
+                DefinePolicy: definePolicyActivity(),
+                DefineSubpolicy: defineSubPolicyActivity(),
+                CheckAllocation: checkAllocationActivity()
+            }
         }
     };
 

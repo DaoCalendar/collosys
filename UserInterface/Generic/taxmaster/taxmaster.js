@@ -45,7 +45,7 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
     function ($scope, datalayer, factory, $csModels) {
         'use strict';
 
-        var resetTax = function () {
+        $scope.resetTax = function () {
             $scope.tax = {
                 Country: 'India',
                 District: 'ALL',
@@ -53,6 +53,8 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
             };
             $scope.taxForm.$setPristine();
         };
+        
+        
         var initLocal = function () {
             $scope.TaxMaster = $csModels.models.Generic.TaxMaster;
             $scope.taxMasterList = [];
@@ -90,7 +92,7 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
             //save tax then
             datalayer.save(tax).then(function() {
                 $scope.taxMasterList.push(tax);
-                resetTax();
+                $scope.resetTax();
             });
         };
 
@@ -104,7 +106,7 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
             //save t first and then
             datalayer.save(t).then(function () {
                 $scope.taxMasterList[$scope.indexOfSelected] = t;
-                resetTax();
+                $scope.resetTax();
                 $scope.isAddMode = true;
             });
            

@@ -35,7 +35,7 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual UInt64 TaxId { get; set; }
 
-        public virtual string Percentage { get; set; }
+        public virtual decimal Percentage { get; set; }
         #endregion
 
         #region DateRange Component

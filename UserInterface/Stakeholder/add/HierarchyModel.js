@@ -70,7 +70,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                     _.forEach(hierarchy, function (item) {
                         $scope.Designation.push(item);
                     });
-                    $scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
+                    //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
 
                 } else {
                     _.forEach(hierarchy, function (item) {
@@ -81,7 +81,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                         };
                         $scope.Designation.push(desig);
                     });
-                    $scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
+                    //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
                 }
             }
             return '';
@@ -118,11 +118,11 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
 
             $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
             $scope.$parent.resetWizardData();
-            
+
             //$scope.$parent.WizardData.showBasicInfo = true;
         };
 
-        
+
 
 
         //#endregion

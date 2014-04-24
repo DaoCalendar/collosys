@@ -9,7 +9,7 @@
                     <label>Select Parameter </label>
                 </div>
                 <div class="controls">
-                    <select class="input-large" data-ui-select2="" data-ng-model="dldata.approveView.Param" data-ng-change="datalayer.getstakeholders(approveView.Param)">
+                    <select class="input-large" data-ui-select2="" data-ng-model="dldata.approveView.Param" data-ng-change="datalayer.getstakeholders(dldata.approveView.Param)">
                         <option></option>
                         <option value="AllocateToTelecalling">Handle by telecaller</option>
                         <option value="Donotallocate">Do not allocate</option>
@@ -38,9 +38,8 @@
                 <tr>
                     <td>
                         <input type="checkbox"
-                            data-ng-model="dldata.selAll"
-                            data-ng-click=""
-                            data-ng-checked="factory.selectAll(dldata.selAll);dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length">
+                            data-ng-model="selectedAll"
+                            data-ng-click="selectAll(selectedAll)" data-ng-checked="dldata.selectedAllocations.length===gridOptions.$gridScope.selectedItems.length" />
                     </td>
                     <td>Customer Name</td>
                     <td>Amount Due</td>
@@ -52,9 +51,8 @@
             <tbody>
                 <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
                     <td data-ng-style="factory.setRowColor(data)">
-                        <input type="checkbox" data-ng-model="dldata.sel"
-                            data-ng-click=""
-                            data-ng-checked="factory.selectAllocation(dldata.sel,data);factory.ticks(data)" />
+                        <input type="checkbox" data-ng-model="selected"
+                            data-ng-click="selectAllocation(data,selected)" data-ng-checked="ticks(data);"  />
                     </td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.Info.CustomerName}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.AmountDue}}</td>
