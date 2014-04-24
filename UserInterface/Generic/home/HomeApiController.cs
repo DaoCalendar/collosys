@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.Allocation;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using System.Net;
@@ -28,6 +29,12 @@ namespace AngularUI.Generic.home
                 payment = session.QueryOver<StkhPayment>()
                     .Where(x => x.ApprovedBy == id && x.Status == ColloSysEnums.ApproveStatus.Submitted)
                     .Select(Projections.RowCount()).FutureValue<int>().Value,
+                allocation = session.QueryOver<AllocRelation>()
+                    .Where(x => x.ApprovedBy == currentUser && x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                    .Select(Projections.RowCount()).FutureValue<int>().Value,
+                billing = session.QueryOver<BillingRelation>()
+                     .Where(x => x.ApprovedBy == currentUser && x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                     .Select(Projections.RowCount()).FutureValue<int>().Value,
             };
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }

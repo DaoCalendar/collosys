@@ -1,8 +1,10 @@
-﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify',
-    function (rest, $csnotify) {
+﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify', '$csFileUploadModels',
+    function (rest, $csnotify, $csFileUploadModels) {
         var restApi = rest.all("MatrixApi");
         var dldata = {};
         dldata.columnDef = [];
+
+        dldata.custInfoData = $csFileUploadModels.CustomerInfo; //customerInfo from model.js
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
@@ -102,7 +104,7 @@
         };
     }]);
 
-csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
+csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory', 
     function (datalayer, $csfactory) {
         var dldata = datalayer.dldata;
 

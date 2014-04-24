@@ -6,12 +6,14 @@
         $scope.changeFunc = function (data) {
             console.log(data);
             $scope.pqr = data;
+            $scope.array = [{ display: 1, value: 2 }];
         };
 
 
 
         (function () {
             $scope.abc = {};
+            $scope.abce = {};
             $scope.array = [{ display: 1, value: 1 }, { display: 1, value: 2 }, { display: 1, value: 3 }];
             $scope.array1 = [1, 2, 3, 4, 5];
 
@@ -20,9 +22,10 @@
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
                  { name: 'DOB', label: 'DOB', template: "MonthPicker", required: true, type: 'date' },
-                 { name: 'select', label: 'select', textField: 'display', valueList: $scope.array, valueField: 'value', editable: false, required: true, type: 'select', min: 10, max: 100 },
-                 { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', min: 10, max: 100 },
-                 { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 }
+                 { name: 'select', label: 'select', textField: 'display', editable: false, required: true, type: 'select', min: 10, max: 100 },
+                 { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
+                 { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
+                 { name: 'Mobile', label: 'Mobile', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: $scope.array }
             ];
 
             $scope.stakeholder = {};
@@ -30,7 +33,6 @@
                 changeCount: 0
             };
 
-            $scope.xyz = "view";
             restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.datalist = data;
                 console.log($scope.datalist);
@@ -47,7 +49,7 @@
         };
         $scope.showPendingOptions = function () {
             if (angular.isUndefined($scope.datalist)) return false;
-            if ($scope.datalist.stakeholder != 0 || $scope.datalist.payment != 0 || $scope.datalist.working != 0) //|| $scope.datalist.allocation != 0 || $scope.datalist.allocationpolicy != 0)
+            if ($scope.datalist.stakeholder != 0 || $scope.datalist.payment != 0 || $scope.datalist.working != 0 || $scope.datalist.allocation != 0 || $scope.datalist.billing != 0)
                 return true;
             else return false;
         };

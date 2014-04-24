@@ -41,24 +41,27 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Data Download",
                         url: "#/fileupload/clientdatadownload",
-                        display: permissions.FileUpload.childrens.ScheduleFile.childrens.View.access,
+                        display: permissions.FileUpload.childrens.CustomerData.access,
                     },
                     {
                         Title: "Customer Info",
                         url: "#/fileupload/customerinfo",
-                        display: permissions.FileUpload.childrens.ScheduleFile.childrens.View.access,
+                        display: permissions.FileUpload.childrens.CustomerData.access,
                     },
                     {
                         Title: "Manual Payment",
-                        url: "#/fileupload/paymentchanges"
+                        url: "#/fileupload/paymentchanges",
+                        display: permissions.FileUpload.childrens.ManualPayment.access
                     },
                     {
                         Title: "Upload Pincode",
-                        url: "#/fileupload/uploadpincode"
+                        url: "#/fileupload/uploadpincode",
+                        display: permissions.FileUpload.childrens.UploadPincode
                     },
                     {
                         Title: "Upload Rcode",
-                        url: "#/fileupload/uploadrcode"
+                        url: "#/fileupload/uploadrcode",
+                        display: permissions.FileUpload.childrens.UploadRcode
                     },
                     {
                         Title: "View Upload Errors",
@@ -86,22 +89,22 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Allocation",
                 url: "#",
-                display: true,
+                display: permissions.Allocation.access,
                 childMenu: [
                     {
                         Title: "Policy",
                         url: "#/allocation/policy",
-                        display: '',
+                        display: permissions.Allocation.childrens.DefinePolicy.access
                     },
                     {
                         Title: "Subpolicy",
                         url: "#/allocation/subpolicy",
-                        display: '',
+                        display: permissions.Allocation.childrens.DefineSubpolicy.access,
                     },
                     {
                         Title: "View/Approve",
                         url: "#/allocation/viewapprove",
-                        display: '',
+                        display: permissions.Allocation.childrens.CheckAllocation.access,
                     }
                 ]
             },
@@ -113,7 +116,7 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Policy",
                         url: "#/billing/policy",
-                        display: '',
+                        display: permissions.Billing.childrens.CreateFile.access
                     },
                     {
                         Title: "Subpolicy",
@@ -212,7 +215,7 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Generate DB",
                         url: "#/developer/generatedb",
-                        display:true,
+                        display: true,
                     },
                     {
                         Title: "DB Tables",

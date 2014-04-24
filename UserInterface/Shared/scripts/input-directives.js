@@ -532,6 +532,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             checkOptions: validateOptions
         };
     }]);
+//{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
 
 csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
@@ -539,11 +540,11 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row-fluid">';
-            html += '<div class="span1 radio" ng-repeat="(key, record) in ' + field.options + '">';
+            html += '<div class="span1 radio" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="' + attrs.ngModel + '"';
             html += ' ng-required="' + attrs.field + '.required"';
-            html += ' ng-value="{{' + field.valueField + '}}"';
+            html += ' ng-value="' + field.valueField + '"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
@@ -587,7 +588,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select class="input-large" name="myfield" ui-select2="" ';
+            var html = '<select class="input-large" name="myfield" ';
             html += ' ng-model="' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
             html += ' ng-required="' + attr.field + '.required"';
@@ -601,7 +602,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             return html;
         };
 
-        var validateOptions = function (field) {
+        var validateOptions = function (field, attr) {
 
             field.label = field.label || "SelectBox";
 
@@ -622,7 +623,9 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             }
 
             field.ngOptions = field.valueField + ' as ' + field.textField;
-            field.ngOptions += ' for row in field.valueList';
+            field.ngOptions += ' for row in ';
+            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            //field.ngOptions += ' track by ' ;
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -650,7 +653,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<select class="input-large" name="myfield" '; //ui-select2="" 
             html += ' ng-model="' + attr.ngModel + '"';
-            html += ' ng-options="row for row in field.valueList"';
+            html += ' ng-options="' + field.ngOptions + '"';
             html += ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
@@ -662,8 +665,10 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             return html;
         };
 
-        var validateOptions = function (field) {
+        var validateOptions = function (field, attr) {
             field.label = field.label || "SelectBox";
+            field.ngOptions = 'row for row in';
+            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -874,22 +879,25 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
-            
+
+
+
+
             var fieldGetter = $parse(attrs.field);
-            //var valueListGetter = $parse(attrs.valueList);
             var field = fieldGetter(scope);
+            field.attr = {};
 
-            //var valueList = valueListGetter(scope);
-            //if (angular.isDefined(valueList))
-            //    field.valueList = valueList;
-
+            //var valueList = attrs.valuelist;
+            //if (angular.isDefined(valueList)) {
+            //    field.attr.valueList = valueList;
+            //}
 
             scope.field = field;
 
             scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
 
             var typedFactory = getFactory(field.type);
-            typedFactory.checkOptions(field);
+            typedFactory.checkOptions(field, attrs);
 
             var html = typedFactory.htmlTemplate(field, attrs);
 
@@ -901,7 +909,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         return {
             restrict: 'E',
             link: linkFunction,
-            scope:true, // { valuelist: '=' },
+            scope: true,
             require: ['ngModel', '^form', '?^csFieldGroup'],
             terminal: true,
             controller: controllerFn

@@ -85,16 +85,44 @@
         });
     };
 
+    var checkChange = function (oldName, newName) {
+        oldName = oldName.toString();
+        newName = newName.toString();
+
+        if (oldName !== newName) {
+            oldName = newName;
+            dldata.permissionsChanged = true;
+            console.log('changed from: ', oldName, 'to: ', newName);
+        }
+
+        return oldName;
+    };
+
     var deleteOld = function (oldPermission, newPermission) {
         angular.forEach(angular.copy(oldPermission), function (value, module) {
             if (newPermission.hasOwnProperty(module)) {
+
                 var newModule = newPermission[module];
+                oldPermission[module].name = checkChange(oldPermission[module].name, newModule.name);//check change in name
+                oldPermission[module].description = checkChange(oldPermission[module].description, newModule.description);//check change in description
+
                 angular.forEach(oldPermission[module]['childrens'], function (activityValues, activity) {
                     if (newPermission[module]['childrens'].hasOwnProperty(activity)) {
+
                         var newActivity = newPermission[module]['childrens'][activity];
+                        var oldActivity = oldPermission[module]['childrens'][activity];
+                        oldPermission[module]['childrens'][activity].name = checkChange(oldActivity.name, newActivity.name);
+                        oldPermission[module]['childrens'][activity].description = checkChange(oldActivity.description, newActivity.description);
+
+
                         angular.forEach(oldPermission[module]['childrens'][activity]['childrens'], function (extravalues, extra) {
                             if (newPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
+
                                 var newExtra = newPermission[module]['childrens'][activity]['childrens'][extra];
+                                var oldExtra = oldPermission[module]['childrens'][activity]['childrens'][extra];
+                                oldPermission[module]['childrens'][activity]['childrens'][extra].name = checkChange(oldExtra.name, newExtra.name);
+                                oldPermission[module]['childrens'][activity]['childrens'][extra].description = checkChange(oldExtra.description, newExtra.description);
+
                             }
                             else {
 
@@ -104,20 +132,29 @@
                                     console.log('extraPerm deleted: ', oldPermission[module]['childrens'][activity]['childrens'][extra]);
                                     dldata.permissionsChanged = true;
                                     delete oldPermission[module]['childrens'][activity]['childrens'][extra];
+
                                 }
 
                             }
                         });
                     } else {
+
+                        if (angular.isUndefined(oldPermission[module]['childrens'][activity]))
+                            return;
                         console.log('activity deleted: ', oldPermission[module]['childrens'][activity]);
                         dldata.permissionsChanged = true;
                         delete oldPermission[module]['childrens'][activity];
+
                     }
                 });
             } else {
+
+                if (angular.isUndefined(oldPermission[module]))
+                    return;
                 console.log('module deleted: ', oldPermission[module]);
                 dldata.permissionsChanged = true;
                 delete oldPermission[module];
+
             }
         });
     };
