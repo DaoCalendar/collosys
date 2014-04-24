@@ -1,0 +1,47 @@
+﻿<div class="row-fluid">
+    <label class="tax-list-heading">Tax Master List</label>
+    <div class="row-fluid tax-list-box">
+        <table class="table table-bordered table-hover" data-ng-show="taxMasterList.length>0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Type</th>
+                    <th>Applicable To</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>Percentage</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+                
+                <tr>
+                    <th></th>
+                    <th><input type="text" class="input-medium" data-ng-model="search.GTaxesList.TaxName" /></th>
+                    <th><input type="text" class="input-medium" data-ng-model="search.ApplicableTo" /></th>
+                    <th></th>
+                    <th><input type="text" class="input-medium" data-ng-model="search.State" /></th>
+                    <th><input type="text" class="input-medium" data-ng-model="search.Percentage" /></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="t in taxMasterList | filter: search">
+                    <td><i class="btn icon-edit-sign" data-ng-click="edit(t, $index)"></i></td>
+                    <td>{{t.GTaxesList.TaxName}}</td>
+                    <td>{{t.ApplicableTo}}</td>
+                    <td>{{t.Country}}</td>
+                    <td>{{t.State}}</td>
+                    <td>{{t.Percentage}}</td>
+                    <td>{{t.StartDate | date}}</td>
+                    <td>{{t.EndDate | date}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row-fluid text-center tax-list-box-no-data" data-ng-hide="taxMasterList.length>0">
+            <label>No Master </label>
+        </div>
+    </div>
+
+</div>

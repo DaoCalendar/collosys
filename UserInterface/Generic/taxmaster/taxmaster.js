@@ -65,6 +65,7 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
             };
             $scope.indexOfSelected = -1;
             $scope.isAddMode = true;
+            $scope.search = {};
         };
 
         var initListFromDb = function () {
