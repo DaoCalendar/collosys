@@ -36,13 +36,12 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Init()
         {
             _uploadedFile = new FileScheduler();
-           // _aliasRecordCreator = new RlsEPaymentLinerRecordCreator(_strlist, _uploadedFile, _eWriteoff);
+           //_aliasRecordCreator = new RlsEPaymentLinerRecordCreator(_strlist, _uploadedFile, _eWriteoff);
             _payment = new Payment();
             _mappingData = new FileMappingData();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
-            _record = new RecordCreator<Payment>(_aliasRecordCreator, _reader, _counter);
-
+            _record = new RecordCreator<Payment>(_aliasRecordCreator,_reader);
         }
 
         #endregion
