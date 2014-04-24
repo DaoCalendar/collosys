@@ -625,7 +625,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             field.ngOptions = field.valueField + ' as ' + field.textField;
             field.ngOptions += ' for row in ';
             field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
-            //field.ngOptions += ' track by ' ;
+            field.ngOptions += attr.trackBy? ' track by row.' + attr.trackBy:' ';
         };
 
         var htmlTemplate = function (field, attrs) {

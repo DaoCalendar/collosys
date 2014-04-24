@@ -86,8 +86,8 @@
         <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
         <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
         <!-- data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()"-->
-        <button class="btn btn-info" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="datalayer.approveAllocations()">Approve Allocation</button>
-        <button class="btn btn-danger" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="datalayer.rejectAllocations()">Reject Allocation</button>
+        <button class="btn btn-info" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationApprove(allocData)">Approve Allocation</button>
+        <button class="btn btn-danger" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationReject(allocData)">Reject Allocation</button>
         <div style="vertical-align: bottom; height: 60px;">
         </div>
     </div>

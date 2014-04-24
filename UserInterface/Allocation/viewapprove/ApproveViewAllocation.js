@@ -39,15 +39,31 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
                 return;
             }
 
-            if ($scope.gettingPageData === true) return;
-            $scope.gettingPageData = true;
+            if ($scope.gettingPageData === true) return; //never used in html
+            $scope.gettingPageData = true;//never used in html
             $csfactory.enableSpinner();
 
             datalayer.fetchData(allocData).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
             }).finally(function () {
-                $scope.gettingPageData = false;
+                $scope.gettingPageData = false;//never used in html
             });;
+        };
+
+        $scope.allocationApprove = function (allocdata) {
+            datalayer.approveAllocations().then(function () {
+                datalayer.fetchData(allocdata).then(function () {
+                    $scope.gridOptions = datalayer.dldata.gridOptions;
+                });
+            });
+        };
+
+        $scope.allocationReject = function (allocdata) {
+            datalayer.rejectAllocations().then(function () {
+                datalayer.fetchData(allocdata).then(function () {
+                    $scope.gridOptions = datalayer.dldata.gridOptions;
+                });
+            });
         };
 
     }]);
@@ -140,14 +156,9 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             };
 
             dldata.isInProcessing = true;
-            restApi.customPOST(dldata.ChangeAllocationModel, "ApproveAllocations").then(function () {
+            return restApi.customPOST(dldata.ChangeAllocationModel, "ApproveAllocations").then(function () {
                 $csnotify.success("Allocations Approved");
-                //fetchData();
-                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
-                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
-                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
-                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
-                dldata.isInProcessing = false;
+                dldata.gridOptions.$gridScope.selectedItems = [];
             });
         };
 
@@ -176,12 +187,6 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             dldata.isInProcessing = true;
             restApi.customPOST(dldata.ChangeAllocationModel, "RejectChangeAllocations").then(function () {
                 $csnotify.success("Allocations Rejected");
-                // fetchData();
-                if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
-                dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
-                $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
-                $grid.RepotingHelper.GetReportList(dldata.gridOptions, data.ScreenName);
-                dldata.isInProcessing = false;
             });
         };
 
@@ -213,6 +218,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
                 console.log(data);
                 $csnotify.success("Allocations Changed");
                 dldata.selectedAllocations = [];
+                dldata.gridOptions.$gridScope.selectedItems = [];
                 if (angular.isUndefined(data.QueryParams) || angular.isUndefined(data.QueryResult)) { return; }
                 dldata.gridOptions = $grid.InitGrid(data.QueryParams, dldata.gridOptions); // query params
                 $grid.SetData(dldata.gridOptions, data.QueryResult); // query result
@@ -349,7 +355,7 @@ function ($scope, $modalInstance, datalayer, factory) {
         }
     };
 
-    $scope.reset = function() {
+    $scope.reset = function () {
         $scope.selectAll = false;
         $scope.selected = false;
         $scope.dldata.selectedAllocations = [];
@@ -359,7 +365,7 @@ function ($scope, $modalInstance, datalayer, factory) {
     $scope.saveAllocationChanges = function (param) {
         $scope.datalayer.saveAllocationChanges(param).then(function () {
             $scope.reset();
-           $modalInstance.close();
+            $modalInstance.close();
         });
     };
 

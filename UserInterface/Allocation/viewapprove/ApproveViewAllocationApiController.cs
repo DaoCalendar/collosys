@@ -190,8 +190,8 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var memberAlloc = new MemberHelper<Allocations>();
 
             var detachedCriteria = DetachedCriteria.For(allcType, aliseName);
-            detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.InnerJoin);
-            detachedCriteria.CreateAlias(aliseName + ".AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+            detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.LeftOuterJoin);
+            detachedCriteria.CreateAlias(aliseName + ".AllocSubpolicy", "AllocSubpolicy", JoinType.LeftOuterJoin);
             detachedCriteria.CreateAlias(string.Format(aliseName + "." + infoName), infoName, JoinType.InnerJoin);
             detachedCriteria.Add(Restrictions.Eq(infoName + ".Product", viewAllocationFilter.Products));
             if (viewAllocationFilter.AllocationStatus != ColloSysEnums.AllocStatus.None)
