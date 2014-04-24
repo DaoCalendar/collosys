@@ -327,7 +327,7 @@ csapp.controller('payoutPolicyCtrl', [
 
         var openmodal = function (modaldata) {
             $modal.open({
-                templateUrl: '/Billing/policy/date-modal.html',
+                templateUrl: baseUrl + 'Billing/policy/date-modal.html',
                 controller: 'policymodal',
                 resolve: {
                     modaldata: function () {

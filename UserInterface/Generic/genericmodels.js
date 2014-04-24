@@ -29,14 +29,14 @@
         };
     };
 
-    var editpincode = function () {
+    var pincode = function () {
         return {
             Country: { label: 'Country', type: 'text', editable: false },
-            Region: { label: 'Region', type: 'select',editable: false,valueList:[] },
-            State: { label: 'State', type: 'select', editable: false, valueList: [] },
-            Cluster: { label: 'Cluster', type: 'select', editable: false, valueList: [] },
-            District: { label: 'District', type: 'select', editable: false, valueList: [] },
-            City: { label: 'City', type: 'select', required: true, valueList: [] },
+            Region: { label: 'Region', type: 'enum',editable: false,valueList:[] },
+            State: { label: 'State', type: 'enum', editable: false, valueList: [] },
+            Cluster: { label: 'Cluster', type: 'enum', editable: false, valueList: [] },
+            District: { label: 'District', type: 'enum', editable: false, valueList: [] },
+            City: { label: 'City', type: 'enum', required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
             Pincode: { label: 'Pincode', type: 'text', editable: false, pattern: '/^[0-9]{6}$/', required:true }
@@ -46,7 +46,7 @@
     var init = function () {
         models.TaxList = taxList();
         models.TaxMaster = taxMaster();
-        models.Pincode = editpincode();
+        models.Pincode = pincode();
         return models;
     };
 

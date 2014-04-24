@@ -402,7 +402,7 @@ csapp.service('modalService', ['$modal', function ($modal) {
         backdrop: true,
         keyboard: true,
         modalFade: true,
-        templateUrl: '/Shared/templates/confirm-modal.html'
+        templateUrl: baseUrl + 'Shared/templates/confirm-modal.html'
     };
 
     var modalOptions = {

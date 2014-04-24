@@ -371,7 +371,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.modalData.startDate = null;
             $scope.modalData.endDate = null;
             $modal.open({
-                templateUrl: '/Billing/subpolicy/subpolicy-date-model.html',
+                templateUrl: baseUrl + 'Billing/subpolicy/subpolicy-date-model.html',
                 controller: 'subpolicydatemodel',
                 resolve: {
                     modalData: function () {
