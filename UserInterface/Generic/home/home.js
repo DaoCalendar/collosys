@@ -25,7 +25,7 @@
                  { name: 'select', label: 'select', textField: 'display', editable: false, required: true, type: 'select', min: 10, max: 100 },
                  { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
                  { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
-                 { name: 'Mobile', label: 'Mobile', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: $scope.array }
+                 { name: 'Radio', label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: $scope.array }
             ];
 
             $scope.stakeholder = {};
