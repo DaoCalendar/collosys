@@ -15,6 +15,7 @@
                     <th>Stakeholder</th>
                     <th>Total Amount</th>
                     <th>Transaction Type</th>
+                    <th>Tax</th>
                     <th>Reasons</th>
                     <th>Description</th>
                     <th>IsRecurring</th>
@@ -59,8 +60,13 @@
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.IsCredit" no-label=""
-                            data-ng-change="changeCredit(pay.IsCredit)"
-                            field="BillAdhoc.IsCredit"></cs-field>
+                                  data-ng-change="changeCredit(pay.IsCredit)"
+                                  field="BillAdhoc.IsCredit"></cs-field>
+
+                    </td>
+                    <td>
+                        <cs-field data-ng-model="pay.IsPretax" no-label=""
+                            field="BillAdhoc.IsPretax"></cs-field>
 
                     </td>
                     <td>

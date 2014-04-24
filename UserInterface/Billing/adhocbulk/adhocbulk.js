@@ -102,7 +102,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
 
         $scope.changeCredit = function (isCredit) {
             $scope.selecttransdata = factory.selectTransaction(isCredit);
-            $scope.BillAdhoc.ReasonCode.valueList = $scope.selecttransdata;
+          $scope.BillAdhoc.ReasonCode.valueList = $scope.selecttransdata;
         };
 
         (function () {
@@ -115,6 +115,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             $scope.selecttransdata = [];
             assignList();
             $scope.abc = {};
+            $scope.BillAdhoc.IsPretax.valueList = datalayer.dldata.taxtype;
         })();
 
         $scope.initialiseRow = function (product) {
