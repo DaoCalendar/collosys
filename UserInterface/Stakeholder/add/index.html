@@ -19,7 +19,7 @@
                             Select Hierarchy/Designation
                         </div>
                         <div class="row-fluid" data-ng-form="addHierarchyForm" data-ng-init="currentForm=addHierarchyForm">
-                            <div data-ng-include="'/Stakeholder/add/hierarchy.html'"> </div>
+                            <div data-ng-include=" baseUrl +'Stakeholder/add/hierarchy.html'"> </div>
                         </div>
                     </div>
                     <!--Basic Information-->
@@ -28,7 +28,7 @@
                             Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
                         </div>
                         <div class="row-fluid" data-ng-form="basicInfoForm">
-                            <div data-ng-include="'/Stakeholder/add/basic.html'"> </div>
+                            <div data-ng-include="baseUrl +'Stakeholder/add/basic.html'"> </div>
                         </div>
                     </div>
                     <!--Registration-->
@@ -37,7 +37,7 @@
                             Registration :
                         </div>
                         <div class="row-fluid" data-ng-form="registrationForm" data-ng-if="indexData.Hierarchy.HasRegistration">
-                            <div data-ng-include="'/Stakeholder/add/registration.html'"> </div>
+                            <div data-ng-include="baseUrl +'Stakeholder/add/registration.html'"> </div>
                         </div>
                     </div>
                     <!--Add Address-->
@@ -47,7 +47,7 @@
                         </div>
                         <div class="row-fluid" data-ng-form="addressDetailsForm" data-ng-if="indexData.Hierarchy.HasAddress">
                             <div class="row-fluid">
-                                <div data-ng-include="'/Stakeholder/add/address.html'"> </div>
+                                <div data-ng-include="baseUrl +'Stakeholder/add/address.html'"> </div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="row-fluid" data-ng-form="paymentWorkinForm" data-ng-init="currentForm=paymentDetailsForm">
                                 <div class="row-fluid">
-                                    <div data-ng-include="'/Stakeholder/add/working.html'"> </div>
+                                    <div data-ng-include="baseUrl +'Stakeholder/add/working.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                             </div>
                             <div class="row-fluid" data-ng-show="indexData.Hierarchy.HasPayment" data-ng-form="paymentDetailsForm" data-ng-init="currentForm=paymentDetailsForm">
                                 <div class="row-fluid">
-                                    <div data-ng-include="'/Stakeholder/add/payment.html'"> </div>
+                                    <div data-ng-include="baseUrl +'Stakeholder/add/payment.html'"> </div>
                                 </div>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
                             Added Payment Working Groups 
                         </div>
                         <div class="row-fluid">
-                            <div data-ng-include="'/Stakeholder/add/show-working-payment.html'"> </div>
+                            <div data-ng-include="baseUrl +'Stakeholder/add/show-working-payment.html'"> </div>
                         </div>
                     </div>
                 </div>

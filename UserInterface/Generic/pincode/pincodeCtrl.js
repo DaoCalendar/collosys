@@ -30,7 +30,7 @@
         $scope.openAddEditModal = function (mode, gPincodes) {
             $scope.getRegion();
             $modal.open({
-                templateUrl: '/Generic/pincode/editPincode-modal.html',
+                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
                 controller: 'editPincodeModalController',
                 resolve: {
                     gPincodes: function () {

@@ -203,7 +203,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
         $scope.showImmediateModal = function (file) {
             factory.refresh.pause();
             var inst1 = $modal.open({
-                templateUrl: '/FileUpload/filestatus/file-status-immediate.html',
+                templateUrl: baseUrl + 'FileUpload/filestatus/file-status-immediate.html',
                 controller: 'fileImmediateController',
                 resolve: { fileScheduled: function () { return file; } }
             });
@@ -215,7 +215,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
         $scope.showStatusModal = function (file) {
             factory.refresh.pause();
             var inst2 = $modal.open({
-                templateUrl: '/FileUpload/filestatus/file-status-detail.html',
+                templateUrl: baseUrl + 'FileUpload/filestatus/file-status-detail.html',
                 controller: 'fileStatusDetailsController',
                 resolve: { fileScheduled: function () { return file; } }
             });

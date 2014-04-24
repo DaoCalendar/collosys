@@ -48,7 +48,7 @@ csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPay
                 $scope.dldata.adhocPayout.Stakeholder = _.find($scope.dldata.stakeholderList, { Id: $scope.dldata.selectedStkholderId });
             }
             $modal.open({
-                templateUrl: '/Billing/adhoc/add-hoc-payment-details.html',
+                templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
                 controller: 'adhocPaymentCtrl',
             });
         };

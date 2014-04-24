@@ -16,14 +16,14 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
 
         $scope.openChangeModal = function () {
             $modal.open({
-                templateUrl: '/Allocation/viewapprove/change-allocation-modal.html',
+                templateUrl: baseUrl + 'Allocation/viewapprove/change-allocation-modal.html',
                 controller: 'changAllocCtrl',
             });
         };
 
         $scope.openChurnModal = function () {
             $modal.open({
-                templateUrl: '/Allocation/viewapprove/churn-allocation-modal.html',
+                templateUrl: baseUrl + 'Allocation/viewapprove/churn-allocation-modal.html',
                 controller: 'churnAllocCtrl',
                 resolve: {
                     modalData: function () {
