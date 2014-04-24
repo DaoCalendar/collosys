@@ -9,7 +9,7 @@
                     Products
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
-                    <select data-ui-select2="" data-ng-model="StakeWork.Products"
+                    <select data-ng-model="StakeWork.Products"
                         data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
                         <option value=""></option>
                         <option data-ng-repeat="c in WorkingData.ProductList">{{c}}</option>
@@ -22,7 +22,7 @@
                     Product Manager:
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
-                    <select data-ui-select2=""
+                    <select
                         data-ng-required="!WorkingData.isEditMode"
                         data-ng-model="StakeWork.ReportsTo"
                         style="min-width: 200px;"
@@ -37,7 +37,7 @@
                 data-ng-show="WorkingData.LocationLevelArray.length>1 && (StakeWork.Products &&  StakeWork.ReportsTo)">
                 <label class="control-label">Location Level </label>
                 <div class="controls">
-                    <select class="input-medium" data-ui-select2=""
+                    <select class="input-medium"
                         data-ng-model="WorkingData.LocationLevel"
                         data-ng-change="manageDisplay(WorkingData.LocationLevel)">
                         <option value=""></option>

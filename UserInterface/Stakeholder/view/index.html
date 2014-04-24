@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid">
     <div class="row-fluid">
-       <!-- <div class="row-fluid">
+        <!-- <div class="row-fluid">
             <button class="btn btn-success" data-ng-show="CurrUserInfo.Permission=='Approve'||CurrUserInfo.Permission=='Modify'" data-ng-click="addStakeholder()">Add New</button>
         </div>-->
         <div class="panel form-horizontal">
@@ -8,11 +8,10 @@
                 View Stakeholders
             </div>
             <div class="row-fluid">
-                <div class="control-group span3" >
+                <div class="control-group span3">
                     <label class="control-label">View</label>
                     <div class="controls">
                         <select class="input-medium" data-ng-model="stakeholder.filter"
-                            data-ui-select2=""
                             data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)"
                             data-ng-click="">
                             <option></option>
@@ -25,7 +24,7 @@
                         <label class="control-label">Hierarchy</label>
                         <div class="controls">
                             <div data-ng-show="stakeholder.filter!='ReportingTo'">
-                                <select data-ui-select2="" class="input-medium"
+                                <select class="input-medium"
                                     data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()">
                                     <option></option>
                                     <option data-ng-repeat="data in hierarchyDesignation|unique:'Hierarchy'">{{data.Hierarchy}}</option>
@@ -70,7 +69,6 @@
                         <label class="control-label">Stakeholder/Agency</label>
                         <div class="controls">
                             <select data-ng-model="reportsToStakeholder"
-                                data-ui-select2=""
                                 class="input-medium"
                                 data-ng-change="setPageNumber();getReportsToStakeholders(reportsToStakeholder)">
                                 <option></option>
@@ -86,7 +84,6 @@
                     <label class="control-label">Working for Product</label>
                     <div class="controls">
                         <select data-ng-model="product"
-                            data-ui-select2=""
                             class="input-medium"
                             data-ng-change="setPageNumber();getStakeForProduct(product,'product')">
                             <option></option>
@@ -103,7 +100,7 @@
             <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
             <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
             <button class="btn  btn-success" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()">Leave/Exit</button>
-           
+
             <div data-ng-show="true">
                 <cspagination
                     gotofirstpage="gotoFirstPage()"
@@ -146,9 +143,11 @@
                     </tbody>
                 </table>
             </div>
-            
+
+            <div class="row" data-ng-include="'/Stakeholder/view/workings.html'"></div>
+
             <div class="row" data-ng-include="baseUrl +'Stakeholder/view/workings.html'"></div>
-     
+
 
             <div data-ng-show="moreDetails==$index+'PaymentDetails' && data.StkhPayments.length>0">
                 <table class="table table-hover table-bordered">

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RowCounter;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
-using Remotion.Linq.Parsing;
 
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
@@ -56,7 +51,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             //Act
             _recordCreator.IsRecordValid(payment, _counter);
 
-            //Arrange
+            //Assert
             Assert.AreEqual(_counter.IgnoreRecord, 1);
         }
 

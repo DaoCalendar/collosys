@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.Shared.ConfigSectionReader;
@@ -25,7 +20,7 @@ namespace ReflectionExtension.Tests
 
         public SetUpAssembliesForEbbs()
         {
-            FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("product code_501N.xls");
+            FileStream = ResourceReader.GetEmbeddedResourceAsFileStream("AEB Auto Charge Off Base - 28.01.2014.xls");
             FileInfo=new FileInfo(FileStream.Name);
             InitNhibernate();
         }

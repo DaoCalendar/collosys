@@ -552,10 +552,16 @@
                 if (!$scope.WorkingData.Hierarchy.HasBuckets) {
                     $scope.workingModel.SelectedPincodeData.BucketStart = 0;
                 }
-                var bucketValue = angular.copy($scope.workingModel.SelectedPincodeData.BucketStart);
+
+                var bucketValue = [];
                 if (!$scope.WorkingData.Hierarchy.HasBuckets) {
                     bucketValue = [];
+                } else {
+                    _.forEach($scope.workingModel.SelectedPincodeData.BucketStart, function (item) {
+                        bucketValue.push(item);
+                    });
                 }
+
                 //has no Buckets
                 if (bucketValue.length === 0) {
                     // if duplicate, no need to add
