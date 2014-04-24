@@ -99,7 +99,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
 
         var openModal = function (modalData) {
             $modal.open({
-                templateUrl: '/Allocation/policy/policy-modal.html',
+                templateUrl: baseUrl + 'Allocation/policy/policy-modal.html',
                 controller: 'datemodelctrl',
                 resolve: {
                     modelData: function () {
