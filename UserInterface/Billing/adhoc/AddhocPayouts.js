@@ -125,7 +125,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
 
         var saveData = function (adhocPayout) {
            
-            if (adhocPayout.IsRecurring == false) {
+            if (adhocPayout.IsRecurring !== true) {
                 adhocPayout.Tenure = 1;
             }
             var endDate = moment(adhocPayout.StartMonth).add('month', (adhocPayout.Tenure - 1));
