@@ -35,6 +35,10 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual string PayStatusHistory { get; set; }
 
+        public virtual decimal HoldAmount { get; set; }
+
+        public virtual decimal HoldRepayment { get; set; }
+
         #region DateRange
         [Required]
         [DataType(DataType.Date)]

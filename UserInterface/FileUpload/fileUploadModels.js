@@ -78,7 +78,7 @@
             AllocStartDate: { type: "date" },
             AllocEndDate: { type: "date" },
             ChargeofDate: { type: "date" },
-            AllocStatus: { type: "enums", valueList: $csShared.enums.AllocStatus },
+            AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
             TotalDue: { type: "decimal" },
             NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
             Cycle: { type: "uint" },

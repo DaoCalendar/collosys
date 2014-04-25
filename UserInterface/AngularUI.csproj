@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
@@ -254,6 +255,7 @@
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\formula\temp.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.js" />
     <Content Include="Billing\holdingpolicy\holding-policy-list.html" />
