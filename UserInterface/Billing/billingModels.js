@@ -18,8 +18,6 @@
 
     var adhocpayout = function () {
         return {
-            //selectedStkholderId: { label: 'Stakeholder', type: 'enum', required: true },
-            //Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
             IsPretax: { label: ' IsPretax', type: 'select' },
@@ -33,7 +31,6 @@
 
     var summary = function() {
         return {
-            Product:{label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true},
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },

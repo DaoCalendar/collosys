@@ -309,15 +309,10 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $scope.eGPincodeModel = $csGenericModels.models.Pincode;
             if (gPincodes.displaymode === 'edit') {
                 $scope.GPincodedata = gPincodes.gpincode;
-                $scope.GPincodedata.Region = $scope.GPincodedata.Region.toUpperCase();
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.Regions;
-                $scope.GPincodedata.State = $scope.GPincodedata.State.toUpperCase();
                 $scope.eGPincodeModel.State.valueList = datalayer.dldata.States;
-                $scope.GPincodedata.Cluster = $scope.GPincodedata.Cluster.toUpperCase();
                 $scope.eGPincodeModel.Cluster.valueList = datalayer.dldata.Clusters;
-                $scope.GPincodedata.District = $scope.GPincodedata.District.toUpperCase();
                 $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
-                $scope.GPincodedata.City = $scope.GPincodedata.City.toUpperCase();
                 $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
             } else {
                 $scope.GPincodedata = datalayer.dldata.GPincodedata;
