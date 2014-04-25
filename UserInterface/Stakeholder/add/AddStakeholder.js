@@ -637,7 +637,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         }
         return false;
     };
-    
+
     var assignPayments = function (paymentList) {
         $log.debug('Stakeholder : payment list count = ' + paymentList.length);
         var list = [];

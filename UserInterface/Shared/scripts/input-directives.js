@@ -104,7 +104,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.min) ? ' min="' + field.min + '"' : '');
             html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
@@ -130,13 +130,13 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var applyTemplates = function (options) {
 
             if (options.type != 'number') {
-                options.template = options.template + ',' + options.type;
+                options.template = angular.isDefined(options.template) ? options.template : options.type;
             }
 
             if (angular.isUndefined(options.template) || options.template === null) {
                 return;
             }
-
+            console.log(options.template);
             var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
             angular.forEach(tmpl, function (template) {
                 if (template.length < 1) return;
@@ -244,7 +244,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
         html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
-        html += (angular.isDefined(field.maxLength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+        html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
         html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
         html += (angular.isDefined(attrs.typeahead) ? 'typeahead="' + attrs.typeahead + '"' : ' ');
@@ -361,7 +361,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.resize) ? 'class="form-control"' : 'class="form-control noResize"');
@@ -494,7 +494,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
-            html += (angular.isDefined(field.maxLength) ? ' ng-maxlength="' + field.maxLength + '"' : '');
+            html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += addEmailSuffix(field);
