@@ -174,9 +174,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var getColumnValues = function (columnName) {
-            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
-                dldata.conditionValues = data;
-            }, function (data) {
+          return  restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
+              return data;
+          }, function (data) {
                 $csnotify.error(data);
             });
         };
@@ -349,8 +349,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels','$csShared',
-    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -362,7 +362,12 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.newCondition.Rtype = "Value";
             $scope.showDiv = false;
             $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
+            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
+            $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.datalayer.getProducts();
+            $scope.fieldname = '';
+            $scope.showField = true;
+            $scope.showField2 = false;
         })();
 
         $scope.openmodal = function () {
@@ -398,6 +403,12 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         };
 
         $scope.changeLeftTypeName = function (condition) {
+
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            var fieldVal = condition.LtypeName.split(".");
+
+            $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
             condition.RtypeName = '';
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
 
@@ -410,7 +421,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                 $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
-                $scope.datalayer.getColumnValues(condition.LtypeName);
+                datalayer.getColumnValues(condition.LtypeName).then(function(data) {
+                    $scope.fieldname.valueList = data;
+                });
                 return;
             }
 
@@ -423,7 +436,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             }
 
             if (inputType === "dropdown") {
-                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+               // $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
                 $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
@@ -434,6 +447,27 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
+        };
+
+        $scope.manageField = function (condition) {
+            condition.Rvalue = '';
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType !== 'text') {
+                return;
+            }
+            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+                $scope.fieldname.type = "text";
+                $scope.fieldname.required = true;
+                return;
+            }
+            if (condition.Operator === "IsInList") {
+                $scope.fieldname.multiple = "multiple";
+            }
+            $scope.fieldname.type = "enum";
         };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);

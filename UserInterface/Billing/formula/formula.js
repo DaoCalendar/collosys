@@ -94,8 +94,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             }
         };
         var getColumnValues = function (columnName) {
-            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
-                dldata.conditionValues = data;
+            return restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
+                return data;
             }, function (data) {
                 $csnotify.error(data);
             });
@@ -261,19 +261,24 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     };
 }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared',
-    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.factory.initEnums();
             $scope.formula = $csBillingModels.models.Formula;
+            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
+            $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.dldata.formula = {};
             $scope.dldata.formula.Category = 'Liner';
             $scope.showDiv = false;
-
+            $scope.fieldname = '';
+            $scope.showField = true;
+            $scope.showField2 = false;
             $scope.datalayer.getProducts();
+
             $scope.$watch("dldata.formula.BOutputs.length", function () {
                 if (angular.isUndefined($scope.dldata.formula)) {
                     return;
@@ -303,6 +308,12 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         $scope.changeLeftTypeName = function (condition) {
+
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            var fieldVal = condition.LtypeName.split(".");
+
+            $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
             condition.RtypeName = '';
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
 
@@ -314,7 +325,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
                 condition.Operator = '';
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
-                $scope.datalayer.getColumnValues(condition.LtypeName);
+                datalayer.getColumnValues(condition.LtypeName).then(function (data) {
+                    $scope.fieldname.valueList = data;
+                });
                 return;
             }
 
@@ -328,7 +341,6 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
 
             if (inputType === "dropdown") {
                 $scope.formula.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
-                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
                 return;
@@ -339,6 +351,28 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             condition.Rtype = 'Value';
             condition.Rvalue = '';
         };
+
+        $scope.manageField = function (condition) {
+            condition.Rvalue = '';
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType !== 'text') {
+                return;
+            }
+            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+                $scope.fieldname.type = "text";
+                $scope.fieldname.required = true;
+                return;
+            }
+            if (condition.Operator === "IsInList") {
+                $scope.fieldname.multiple = "multiple";
+            }
+            $scope.fieldname.type = "enum";
+        };
+
     }]);
 
 //#region "Row data"
