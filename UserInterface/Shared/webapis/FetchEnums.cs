@@ -46,7 +46,7 @@ namespace AngularUI.Shared.webapis
             string[] lsqlfunctionType = { "Sum", "Count", "Avg" };
             list.AddToList("LsqlFunctionType", new List<string>(lsqlfunctionType));
 
-            string[] textConditionOperators = { "EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith", "IsInList" };
+            string[] textConditionOperators = { "EqualTo", "NotEqualTo", "Contains", "DoNotContains", "StartsWith", "EndsWith", "IsInList" };
             list.AddToList("TextConditionOperators", new List<string>(textConditionOperators));
 
             string[] checkboxConditionOperators = { "EqualTo" };
