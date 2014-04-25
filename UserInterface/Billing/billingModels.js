@@ -102,7 +102,7 @@
 
     var activateHolding = function () {
         return {
-            HoldingPolicy: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
+            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField:'Name', required: true },
             Stakeholder: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
         };
