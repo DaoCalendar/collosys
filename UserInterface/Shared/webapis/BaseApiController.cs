@@ -103,7 +103,7 @@ namespace AngularUI.Shared.apis
             }
         }
 
-        [HttpPut, HttpPost]
+        [HttpPut]
         public virtual HttpResponseMessage Put(Guid id, TEntity obj)
         {
             try

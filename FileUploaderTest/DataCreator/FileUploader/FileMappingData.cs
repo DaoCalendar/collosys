@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.FileUploader;
 
 #endregion
 
@@ -58,6 +60,8 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
             return mappings;
         }
+
+        #region Dummy Mapping For RecordCreator
 
         public IEnumerable<FileMapping> ExcelMapper_PassingTransCodeAndDesc()
         {
@@ -174,6 +178,60 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             mappings.Add(mapping5);
 
             return mappings;
+        }
+
+        #endregion
+
+
+        public Payment GetPayment()
+        {
+            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL" ,CreditAmount = 400,DebitAmount = 500};
+
+            return objPayment;
+        }
+
+        public Payment GetPaymentForTransAmount()
+        {
+            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500, TransAmount = 205 };
+
+            return objPayment;
+        }
+
+        public FileScheduler GetUploadedFile()
+        {
+            return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), 
+                FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER },
+                                         FileName = "AEB Auto Charge Off Base - 28.01.2014.xls",
+                                         FileDirectory = "C://Users/Mayur/AppData/Local/Temp/DrillDown_Txn_1.xls"
+            };
+        }
+
+        public List<string> GetTransactionList()
+        {
+            var strList=new List<string> {"204@PARTIAL REPAYMENT - REVERSAL"};
+
+            return strList;
+        }
+       
+
+        public IEnumerable<FileMapping> GetMappingForCheckbasicField()
+        {
+            IList<FileMapping> mappings = new List<FileMapping>();
+            var mapping1 = GetDefaultMapping();
+            mapping1.ActualColumn = "AccountNo";
+            mapping1.ValueType = ColloSysEnums.FileMappingValueType.ExcelValue;
+            mapping1.Position = 3;
+            mappings.Add(mapping1);
+
+
+            return mappings;
+        }
+
+        public Payment GetPaymentForIsRecordValid()
+        {
+            var objPayment = new Payment { TransDate = Convert.ToDateTime("10/10/2001") };
+
+            return objPayment;
         }
     }
 }

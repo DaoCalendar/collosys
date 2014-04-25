@@ -25,9 +25,42 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> StateList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.State.ToUpper())
+                                 .Select(x => x.State)
                                  .Distinct().ToList();
         }
+
+        [Transaction]
+        public IEnumerable<string> RegionList()
+        {
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Select(x => x.Region)
+                                 .Distinct().ToList();
+        }
+
+        [Transaction]
+        public IEnumerable<string> ClusterList()
+        {
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Select(x => x.Cluster)
+                                 .Distinct().ToList();
+        }
+
+        [Transaction]
+        public IEnumerable<string> DistrictList()
+        {
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Select(x => x.District)
+                                 .Distinct().ToList();
+        }
+
+        [Transaction]
+        public IEnumerable<string> CityList()
+        {
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Select(x => x.City)
+                                 .Distinct().ToList();
+        }
+
 
         [Transaction]
         public GPincode OnState(string state)

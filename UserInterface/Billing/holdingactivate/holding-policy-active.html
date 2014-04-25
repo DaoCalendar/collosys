@@ -1,0 +1,51 @@
+﻿<div class="row-fluid">
+    <form name="activateform">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Holding Policy</th>
+                    <th>Stakeholder</th>
+                    <th>Start Month</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <cs-field data-ng-model="active.Products"
+                                  field="ActPolicy.Products"
+                                  no-label=""
+                                  data-ng-change="pageData(active.Products)"></cs-field>
+                    </td>
+                    <td>
+                        <cs-field data-ng-model="active.HoldingPolicy"
+                                  field="ActPolicy.HoldingPolicy"
+                                  no-label=""
+                                  ></cs-field>
+                    </td>
+                    <td>
+                        <cs-field data-ng-model="active.Stakeholder"
+                                  field="ActPolicy.Stakeholder"
+                                  no-label=""
+                            ></cs-field>
+                    </td>
+                    <td>
+                        <cs-field data-ng-model="active.StartMonth"
+                                  use-repeat="true"
+                                  field="ActPolicy.StartMonth"
+                                  no-label=""></cs-field>
+                    </td>
+                    <td>
+                        <cs-button type="Add" text="Save"
+                                   ng-click="save(active)"
+                                   ng-disabled="activateform.$invalid">
+                        </cs-button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+    <div data-ng-include="'/Billing/holdingactivate/holding-policy-activate-list.html'"></div>
+</div>

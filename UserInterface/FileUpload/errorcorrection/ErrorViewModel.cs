@@ -10,6 +10,7 @@ using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
 using ColloSys.Shared.ErrorTables;
+using NHibernate.Transform;
 using NLog;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;
@@ -39,13 +40,13 @@ namespace ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels
 
         public static NgGridOptions GetApproverErrorNgGrid(Guid id)
         {
-            var fileScheduler = GetFileScheduler(id);
+            var fileScheduler = GetAllFileScheduler(id);
 
             var gridOptions = new NgGridOptions
                 {
                     data = ErrorDataForApprove(fileScheduler)
                 };
-            gridOptions.columnDefs.AddRange(ErrorNgGridColumns(fileScheduler.FileDetail));
+            gridOptions.columnDefs.AddRange(ErrorNgGridColumns(fileScheduler.First().FileDetail));
             gridOptions.multiSelect = true;
             gridOptions.showSelectionCheckbox = true;
 
@@ -100,11 +101,15 @@ namespace ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels
             return DataTableToJObject(dataTable);
         }
 
-        private static IEnumerable<JObject> ErrorDataForApprove(FileScheduler fileScheduler)
+        private static IEnumerable<JObject> ErrorDataForApprove(IList<FileScheduler> fileScheduler)
         {
             string errorMessage;
-            var dbLayer = new ErrorDbLayer(fileScheduler.FileDetail.ErrorTable);
-            var dataTable = dbLayer.GetDataForApprove(fileScheduler.Id, out errorMessage);
+            var dbLayer = new ErrorDbLayer(fileScheduler.First().FileDetail.ErrorTable);
+            var dataTable = dbLayer.GetDataForApprove(fileScheduler.First().Id, out errorMessage);
+            for (int i = 1; i < fileScheduler.Count; i++)
+            {
+                dataTable.Merge(dbLayer.GetDataForApprove(fileScheduler.ElementAt(i).Id, out errorMessage));
+            }
 
             if (!string.IsNullOrWhiteSpace(errorMessage))
             {
@@ -293,10 +298,29 @@ namespace ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels
 
         #region FileDetailServices
 
-        private static FileScheduler GetFileScheduler(Guid id)
+        private static IList<FileScheduler> GetAllFileScheduler(Guid fileDetailId)
         {
             var session = SessionManager.GetCurrentSession();
-            return (session.QueryOver<FileScheduler>().Fetch(x => x.FileDetail).Eager.Fetch(x => x.FileDetail.FileMappings).Eager.Where(c => c.Id == id).SingleOrDefault());
+            var result = session.QueryOver<FileScheduler>()
+                 .Fetch(x => x.FileDetail).Eager
+                 .Fetch(x => x.FileDetail.FileMappings).Eager
+                 .Where(c => c.FileDetail.Id == fileDetailId)
+                 .And( x=> x.UploadStatus== ColloSysEnums.UploadStatus.DoneWithError)
+                 .TransformUsing(Transformers.DistinctRootEntity)
+                 .List<FileScheduler>();
+            return result;
+        }
+
+        private static FileScheduler GetFileScheduler(Guid fileSchedulerId)
+        {
+            var session = SessionManager.GetCurrentSession();
+            var result = session.QueryOver<FileScheduler>()
+                 .Fetch(x => x.FileDetail).Eager
+                 .Fetch(x => x.FileDetail.FileMappings).Eager
+                 .Where(c => c.Id == fileSchedulerId)
+                 .TransformUsing(Transformers.DistinctRootEntity)
+                 .SingleOrDefault();
+            return result;
         }
         #endregion
     }

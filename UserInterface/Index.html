@@ -13,6 +13,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=8, chrome=1" />
     <title>ColloSys</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        var baseUrl = document.location.pathname;
+        document.write('<base href="' + document.location.pathname + '" />');
+    </script>
     <!--[if lt IE 9]>
       <script src="Scripts/html5shiv/modernizr-2.7.2.js"></script>
     <![endif]-->
@@ -20,7 +24,7 @@
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />
     <link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />
-    
+
     <link href="Content/fontawesome/font-awesome.css" rel="stylesheet" />
     <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
@@ -32,10 +36,11 @@
     <!--<link href="Content/pnotify/jquery.pnotify.css" rel="stylesheet" />-->
     <!--<link href="Content/pnotify/jquery.pnotify.icons.css" rel="stylesheet" />-->
     <link href="Content/animation/animate.css" rel="stylesheet" />
+    <link href="Content/loading-bar/loading-bar.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
-    <link href="Content/login.css" rel="stylesheet" /> 
-    <!--[if IE 8]>  <link href="Content/login-ie8.css" rel="stylesheet" /> <![endif]-->     
-   
+    <link href="Content/login.css" rel="stylesheet" />
+    <!--[if IE 8]>  <link href="Content/login-ie8.css" rel="stylesheet" /> <![endif]-->
+
 </head>
 <body id="ng-app" ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
@@ -52,7 +57,7 @@
     <!-- Add your site or application content here -->
     <div class="container">
         <div>
-            <div data-ng-include="'/Shared/templates/menu.html'"></div>
+            <div data-ng-include="baseUrl +'Generic/Menu/menu.html'" data-ng-controller="menuController"></div>
         </div>
         <div>
             <div data-ng-view=""></div>
@@ -89,17 +94,19 @@
     <script src="Scripts/nggrid/ng-grid-2.0.7.js"></script>
     <script src="Scripts/file-upload/angular-file-upload.js"></script>
     <script src="Scripts/restangular/restangular.js"></script>
+    <script src="Scripts/loading-bar/loading-bar.js"></script>
 
     <script src="Shared/scripts/app.js"></script>
     <script src="Shared/scripts/controllers.js"></script>
     <script src="Shared/scripts/directives.js"></script>
     <script src="Shared/scripts/factories.js"></script>
     <script src="Shared/scripts/input-directives.js"></script>
-    
+
     <script src="Allocation/allocationModels.js"></script>
     <script src="Billing/billingModels.js"></script>
     <script src="FileUpload/fileUploadModels.js"></script>
     <script src="Stakeholder/stakeholdersModels.js"></script>
+    <script src="Generic/genericmodels.js"></script>
     <script src="Shared/scripts/models.js"></script>
 
     <script src="FileUpload/filedetail/filedetail.js"></script>
@@ -111,7 +118,8 @@
     <script src="FileUpload/customerinfo/customer-info.js"></script>
     <script src="FileUpload/paymentreversal/paymentmanager.js"></script>
     <script src="FileUpload/uploadpincode/uploadpincode.js"></script>
-
+    <script src="FileUpload/errorcorrection/errorDataController.js"></script>
+    <script src="FileUpload/errorapproval/errorApprovalController.js"></script>
     <script src="Stakeholder/add/HierarchyModel.js"></script>
     <script src="Stakeholder/add/BasicInfoScript.js"></script>
     <script src="Stakeholder/add/AddressInfo.js"></script>
@@ -136,7 +144,11 @@
     <script src="Billing/status/BillingStatus.js"></script>
     <script src="Billing/subpolicy/payoutSubpolicyCtrl.js"></script>
     <script src="Billing/summary/BillAmountCntrl.js"></script>
+    <script src="Billing/billstatus/billstatus.js"></script>
+    <script src="Billing/holdingpolicy/holding-policy.js"></script>
+    <script src="Billing/holdingactivate/holding-policy-active.js"></script>
 
+    <script src="Generic/Menu/menu.js"></script>
     <script src="Generic/permissions/PermissionScript.js"></script>
     <!--<script src="Generic/permissions/permission.js"></script>-->
     <script src="Generic/product/ProductConfigModel.js"></script>
@@ -147,6 +159,8 @@
     <script src="Generic/home/home.js"></script>
     <script src="Generic/pincode/pincodeCtrl.js"></script>
     <script src="Generic/changepassword/changepassword.js"></script>
+    <script src="Generic/taxlist/taxlist.js"></script>
+    <script src="Generic/taxmaster/taxmaster.js"></script>
 
     <script src="Developer/dbtable/dbtables.js"></script>
     <script src="Developer/generatedb/generatedb.js"></script>

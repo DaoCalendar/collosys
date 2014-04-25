@@ -7,7 +7,9 @@
         </div>
         <!--UserId-->
         <div class="span5" data-ng-if="basicInfoData.Hierarchy.IsUser">
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId" field="stakeholderModels.userId"></cs-field>
+            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
+                data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)"
+                field="stakeholderModels.userId"></cs-field>
         </div>
     </div>
     <!--MobileNo and EmailId-->

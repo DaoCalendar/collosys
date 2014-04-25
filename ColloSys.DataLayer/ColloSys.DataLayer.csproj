@@ -76,6 +76,8 @@
     <Compile Include="Allocation\AllocSubpolicy.cs" />
     <Compile Include="Allocation\AllocSubpolicyMap.cs" />
     <Compile Include="Allocation\AllocationsMap.cs" />
+    <Compile Include="Billing\ActivateHoldingPolicy.cs" />
+    <Compile Include="Billing\ActivateHoldingPolicyMap.cs" />
     <Compile Include="Billing\BCondition.cs" />
     <Compile Include="Billing\BConditionMap.cs" />
     <Compile Include="Billing\BillAdhoc.cs" />
@@ -96,8 +98,14 @@
     <Compile Include="Billing\BMatrixMap.cs" />
     <Compile Include="Billing\BMatrixValue.cs" />
     <Compile Include="Billing\BMatrixValueMap.cs" />
+    <Compile Include="Billing\CustBillViewModelMap.cs" />
+    <Compile Include="Billing\HoldingPolicy.cs" />
+    <Compile Include="Billing\HoldingPolicyMap.cs" />
+    <Compile Include="Billing\ICustBillViewModel.cs" />
     <Compile Include="ClientData\CacsActivity.cs" />
     <Compile Include="ClientData\CacsActivityMap.cs" />
+    <Compile Include="ClientData\CustInfo.cs" />
+    <Compile Include="ClientData\CustInfoMap.cs" />
     <Compile Include="ClientData\CustomerInfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />
@@ -122,6 +130,10 @@
     <Compile Include="BaseEntity\EntityMap.cs" />
     <Compile Include="Components\IUniqueKey.cs" />
     <Compile Include="Enumerations\ScbEnums.cs" />
+    <Compile Include="Generic\GTaxDetail.cs" />
+    <Compile Include="Generic\GTaxDetailMap.cs" />
+    <Compile Include="Generic\GTaxesList.cs" />
+    <Compile Include="Generic\GTaxesListMap.cs" />
     <Compile Include="FileUploader\FileColumnMap.cs" />
     <Compile Include="FileUploader\FileDetailMap.cs" />
     <Compile Include="FileUploader\FileMappingMap.cs" />

@@ -230,8 +230,8 @@ csapp.controller("fileColumnMultiAddModalController", ["$scope", "$modalInstance
     }
 ]);
 
-csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer", "fileColumnFactory", "$modalInstance",
-    function ($scope, datalayer, factory, $modalInstance) {
+csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer", "fileColumnFactory", "$modalInstance","$csFileUploadModels",
+    function ($scope, datalayer, factory, $modalInstance, $csFileUploadModels) {
         $scope.modelHeader = "Add New File Column";
 
         (function () {
@@ -240,6 +240,8 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
             $scope.dldata = datalayer.dldata;
            
         })();
+
+        $scope.fileColumnModel = $csFileUploadModels.models.FileColumn;
 
         $scope.close = function () {
             $modalInstance.dismiss();
@@ -278,14 +280,14 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
 
         $scope.showAddMultiColumnModal = function () {
             $modal.open({
-                templateUrl: '/FileUpload/filecolumn/file-column-multi.html',
+                templateUrl: baseUrl + 'FileUpload/filecolumn/file-column-multi.html',
                 controller: 'fileColumnMultiAddModalController',
             });
         };
 
         $scope.showAddSingleColumnModal = function () {
             $modal.open({
-                templateUrl: '/FileUpload/filecolumn/file-column-add.html',
+                templateUrl: baseUrl + 'FileUpload/filecolumn/file-column-add.html',
                 controller: 'fileColumnAddEditController',
             });
         };

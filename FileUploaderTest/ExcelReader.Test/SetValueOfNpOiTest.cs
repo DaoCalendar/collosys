@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
-using NUnit.Framework;
 using FileUploader.ExcelReader;
+using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
-namespace FileUploader.Tests.ExcelReader.Test
+namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
     class SetValueOfNpOiTest

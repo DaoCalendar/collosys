@@ -1,0 +1,26 @@
+﻿<div>
+    <div ng-form="approveErrorform" class="form-horizontal">
+        <div class="well-small">
+            <div class="control-group">
+                <label class="control-label">File Name</label>
+                <div class="controls">
+                    <select data-ng-model="fileDetail" data-ng-change="showGridData(fileDetail)"
+                        data-ng-options="row as row.AliasName for row in dldata.fileDetails | orderBy:'AliasName'">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div data-ng-if="gridReady">
+            <div class="btn-toolbar table-bordered">
+                <button class="btn btn-success" data-ng-disabled="!gridOptions.selectedItems.length"
+                    data-ng-click="approveRejectAll(gridOptions.selectedItems,true)">
+                    Approve</button>
+                <button class="btn btn-danger" data-ng-disabled="!gridOptions.selectedItems.length"
+                    data-ng-click="approveRejectAll(gridOptions.selectedItems,false)">
+                    Reject</button>
+            </div>
+
+            <div style="height: 450px" data-ng-grid="gridOptions"></div>
+        </div>
+    </div>
+</div>

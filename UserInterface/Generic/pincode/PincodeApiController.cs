@@ -25,10 +25,37 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
 
         [HttpGet]
-        
         public HttpResponseMessage GetStates()
         {
             var data = GPincodeBuilder.StateList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetRegions()
+        {
+            var data = GPincodeBuilder.RegionList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetClusters()
+        {
+            var data = GPincodeBuilder.ClusterList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetDistricts()
+        {
+            var data = GPincodeBuilder.DistrictList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetCity()
+        {
+            var data = GPincodeBuilder.CityList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 

@@ -3,15 +3,10 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
     function (rest, $csnotify, $csfactory) {
         var restApi = rest.all("PayoutSubpolicyApi");
         var dldata = {};
-
-        dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];
-        dldata.OperatorSwitch = [{ Name: '+', Value: 'Plus' }, { Name: '-', Value: 'Minus' }, { Name: '*', Value: 'Multiply' }, { Name: '/', Value: 'Divide' }, { Name: '%', Value: 'ModuloDivide' }];
-        dldata.relationTypeSwitch = [{ Name: 'And', Value: 'And' }, { Name: 'Or', Value: 'Or' }];
+        dldata.dateValueEnum = ["First_Quarter", "Second_Quarter", "Third_Quarter", "Fourth_Quarter", "Start_of_Year", "Start_of_Month", "Start_of_Week", "Today", "End_of_Week", "End_of_Month", "End_of_Year", "Absolute_Date"];//done
         dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
         dldata.PayoutSubpolicyTypeSwitch = [{ Name: 'Formula', Value: 'Formula' }, { Name: 'Subpolicy', Value: 'Subpolicy' }];
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
-        dldata.typeSwitch = [{ Name: 'Table', Value: 'Table' }, { Name: 'Formula', Value: 'Formula' }, { Name: 'Matrix', Value: 'Matrix' }, { Name: 'Value', Value: 'Value' }];
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
@@ -81,6 +76,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 // get subpolicy
                 restApi.customGET("GetPayoutSubpolicy", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
                     dldata.payoutSubpolicyList = _.filter(data, { PayoutSubpolicyType: 'Subpolicy' });
+                    if (dldata.payoutSubpolicyList.length==0) {
+                        $csnotify.success("SubPolicy Not Available");
+                    }
                 }, function (data) {
                     $csnotify.error(data);
                 });
@@ -176,9 +174,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var getColumnValues = function (columnName) {
-            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
-                dldata.conditionValues = data;
-            }, function (data) {
+          return  restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
+              return data;
+          }, function (data) {
                 $csnotify.error(data);
             });
         };
@@ -243,6 +241,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
                 condition.Rvalue = condition.dateValueEnum;
             }
 
+            condition.Rvalue = JSON.stringify(condition.Rvalue);
+
             var con = angular.copy(condition);
             dldata.payoutSubpolicy.BConditions.push(con);
             dldata.conditionValueType = 'text';
@@ -300,56 +300,21 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
         };
 
-        var resetPayoutSubpolicy = function () {
+        var resetPayoutSubpolicy = function (product) {
             dldata.payoutSubpolicy = {};
             dldata.payoutSubpolicy.BConditions = [];
             dldata.payoutSubpolicy.BOutputs = [];
             dldata.deleteConditions = [];
             dldata.newCondition = {};
             dldata.newOutput = {};
+            dldata.payoutSubpolicy.Products = product;
             dldata.payoutSubpolicy.Category = "Liner";
             dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
             datalayer.resetCondition();
             datalayer.resetOutput();
         };
 
-        var changeLeftTypeName = function (condition) {
-            condition.RtypeName = '';
-            dldata.selectedLeftColumn = _.find(dldata.columnDefs, { field: condition.LtypeName });
 
-            dldata.condRcolumnNames = _.filter(dldata.columnDefs, { InputType: dldata.selectedLeftColumn.InputType });
-
-            var inputType = dldata.selectedLeftColumn.InputType;
-            if (inputType === "text") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo", "Contains", "StartsWith", "EndsWith"];
-                condition.Operator = '';
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                datalayer.getColumnValues(condition.LtypeName);
-                return;
-            }
-
-            if (inputType === "checkbox") {
-                dldata.conditionOperators = ["EqualTo"];
-                condition.Operator = "EqualTo";
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            if (inputType === "dropdown") {
-                dldata.conditionOperators = ["EqualTo", "NotEqualTo"];
-                dldata.conditionValues = dldata.selectedLeftColumn.dropDownValues;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                return;
-            }
-
-            dldata.conditionOperators = ["EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo"];
-            condition.Operator = '';
-            condition.Rtype = 'Value';
-            condition.Rvalue = '';
-        };
 
         var watchPayoutSubpolicy = function () {
             if (angular.isUndefined(dldata.payoutSubpolicy))
@@ -379,14 +344,13 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             addNewOutput: addNewOutput,
             deleteOutput: deleteOutput,
             resetPayoutSubpolicy: resetPayoutSubpolicy,
-            changeLeftTypeName: changeLeftTypeName,
             watchPayoutSubpolicy: watchPayoutSubpolicy,
             modelDateValidation: modelDateValidation
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -396,8 +360,14 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.payoutSubpolicy.PayoutSubpolicyType = 'Subpolicy';
             $scope.dldata.newCondition = {};
             $scope.dldata.newCondition.Rtype = "Value";
-
+            $scope.showDiv = false;
+            $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
+            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
+            $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.datalayer.getProducts();
+            $scope.fieldname = '';
+            $scope.showField = true;
+            $scope.showField2 = false;
         })();
 
         $scope.openmodal = function () {
@@ -406,7 +376,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.modalData.startDate = null;
             $scope.modalData.endDate = null;
             $modal.open({
-                templateUrl: '/Billing/subpolicy/subpolicy-date-model.html',
+                templateUrl: baseUrl + 'Billing/subpolicy/subpolicy-date-model.html',
                 controller: 'subpolicydatemodel',
                 resolve: {
                     modalData: function () {
@@ -414,6 +384,90 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                     }
                 }
             });
+        };
+        $scope.changeProductCategory = function(product) {
+            $scope.datalayer.changeProductCategory();
+            $scope.addsubpolicy(product);
+            $scope.showDiv = false;
+
+        };
+
+        $scope.selectPayoutSubpolicy = function (spayoutSubpolicy) {
+            $scope.datalayer.selectPayoutSubpolicy(spayoutSubpolicy);
+            $scope.showDiv = true;
+        };
+
+        $scope.addsubpolicy = function(product) {
+            $scope.showDiv = true;
+            $scope.factory.resetPayoutSubpolicy(product);
+        };
+
+        $scope.changeLeftTypeName = function (condition) {
+
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            var fieldVal = condition.LtypeName.split(".");
+
+            $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
+            condition.RtypeName = '';
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+
+            $scope.dldata.condRcolumnNames = _.filter($scope.dldata.columnDefs, { InputType: $scope.dldata.selectedLeftColumn.InputType });
+
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType === "text") {
+
+                condition.Operator = '';
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                datalayer.getColumnValues(condition.LtypeName).then(function(data) {
+                    $scope.fieldname.valueList = data;
+                });
+                return;
+            }
+
+            if (inputType === "checkbox") {
+                condition.Operator = "EqualTo";
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            if (inputType === "dropdown") {
+               // $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
+                return;
+            }
+
+            condition.Operator = '';
+            $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+        };
+
+        $scope.manageField = function (condition) {
+            condition.Rvalue = '';
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType !== 'text') {
+                return;
+            }
+            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+                $scope.fieldname.type = "text";
+                $scope.fieldname.required = true;
+                return;
+            }
+            if (condition.Operator === "IsInList") {
+                $scope.fieldname.multiple = "multiple";
+            }
+            $scope.fieldname.type = "enum";
         };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);

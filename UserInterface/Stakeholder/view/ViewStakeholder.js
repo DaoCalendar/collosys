@@ -29,7 +29,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             getDataForPagination();
         };
         $scope.stepForward = function () {
-            
+
             $scope.pagenum += 1;
             $scope.startCount = parseInt($scope.size) * ($scope.pagenum - 1);
             if ($scope.startCount < parseInt($scope.tolRec)) {
@@ -194,7 +194,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeData = function (stakeholder) {
-            
+
             $scope.chosenStakeholders = [];
             $scope.moreDetails = false;
             $log.info(stakeholder);
@@ -282,7 +282,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getReportsToStakeholders = function (stakeId) {
-            
+
             if (!$csfactory.isNullOrEmptyString(stakeId)) {
                 // $scope.stakeholder.filter = 'stake';
                 restApi.customGET('GetReportees', { 'Id': stakeId, start: $scope.startCount, size: $scope.size })
@@ -322,7 +322,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeForProduct = function (product, filter) {
-            
+
             if (!$csfactory.isNullOrEmptyString(product)) {
                 //$scope.stakeholder.filter = filter;
                 restApi.customGET('GetStakeByProduct', { 'product': product, start: $scope.startCount, size: $scope.size })
@@ -379,7 +379,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getHierarchyDisplayName2 = function (hierarchy) {
-            
+
             if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
                 if (hierarchy.IsIndividual === false) {
                     return hierarchy.Designation;
@@ -396,6 +396,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //#region Function for selected Stakeholder    
         $scope.selectedStakeholder = function (data, selected) {
+            selected = !selected; //when we click on checkbox ,on client side it is showing true but in js it is showing false
             if (selected === true) {
                 if (data.Status != 'Approved') {
                     $scope.Approved = false;
@@ -488,12 +489,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }, function (error) {
                 $csnotify.error(error.data.Message);
             });
-        };
-
-        $scope.addStakeholder = function () {
-            //var downloadpath = $csConstants.MVC_BASE_URL + "Stakeholder2/AddStakeholder/Index";
-            //$window.location = downloadpath;
-            $location.path('/stakeholder/add');
         };
 
         $scope.reject = function (stakeholder, description) {
@@ -691,7 +686,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
 
             $scope.showLeaveModal = true;
-            
+
             $scope.modalData = {};
             $scope.modalData.StakeForLeave = $scope.StakeForLeave;
             $scope.modalData.StakeListLeave = $scope.StakeListLeave;
@@ -842,6 +837,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.CurrUserInfo = {};
             $scope.Approved = true;
             $scope.Rejected = true;
+            //$scope.selected = false;
 
             $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo"];
 
@@ -865,6 +861,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         init();
+
         // harish - fix access level
         var showButton = function () {
             if ($csfactory.isEmptyObject($scope.CurrUserInfo)) {

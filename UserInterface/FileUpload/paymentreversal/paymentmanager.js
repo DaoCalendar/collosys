@@ -145,7 +145,7 @@ csapp.controller("paymentManagerController", [
 
         $scope.OpenAddPaymentModal = function() {
             $modal.open({
-                templateUrl: '/FileUpload/paymentreversal/payment-add.html',
+                templateUrl: baseUrl + 'FileUpload/paymentreversal/payment-add.html',
                 controller: 'paymentAddController'
             });
         };

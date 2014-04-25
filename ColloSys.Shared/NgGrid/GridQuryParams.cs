@@ -19,6 +19,7 @@ namespace ColloSys.Shared.NgGrid
         // ReSharper disable UnusedAutoPropertyAccessor.Global
         public byte[] Criteria { get; set; }
         public string CriteriaOnType { get; set; }
+        public IList<string> CriteriaSubTypes { get; set; }
         public NgGridConfig GridConfig { get; set; }
         public IList<FilterParams> FiltersList { get; set; }
         // ReSharper restore UnusedAutoPropertyAccessor.Global
@@ -32,6 +33,7 @@ namespace ColloSys.Shared.NgGrid
         {
             GridConfig = new NgGridConfig();
             FiltersList = new List<FilterParams>();
+            CriteriaSubTypes = new List<string>();
         }
 
         #endregion

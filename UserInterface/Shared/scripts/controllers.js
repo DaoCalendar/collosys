@@ -1,4 +1,48 @@
-﻿csapp.factory("routeManagerFactory", [
+﻿
+csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csShared", "Logger", "$csModels",
+    function (rest, $csnotify, $csfactory, $csShared, logManager, $csModels) {
+
+        var rootapi = rest.all("SharedEnumsApi");
+        var menuApi = rest.all("MenuApi");
+        var dldata = {};
+        var $log = logManager.getInstance("rootDatalayer");
+
+        var getPermission = function (user) {
+            return menuApi.customGET("GetPermission", { 'user': user })
+                .then(function (data) {
+                    if ($csfactory.isNullOrEmptyArray(data)) {
+                        $csnotify.error('Hierarchy not found');
+                        return;
+                    }
+                    dldata.userHierarchy = data;
+                    dldata.permissions = JSON.parse(data.Permissions);
+                    console.log('permissions fetched: ', dldata.permissions);
+                    return;
+                });
+        };
+
+        var fetchWholeEnums = function () {
+            return rootapi.customGET("FetchAllEnum").then(function (data) {
+                $csShared.enums = data;
+                $log.info("enums loaded.");
+                $csModels.init();
+                $log.info("models initialized.");
+                return data;
+            }, function (data) {
+                $csnotify.error(data);
+            });
+        };
+
+        return {
+            dldata: dldata,
+            fetchWholeEnums: fetchWholeEnums,
+            getPermission: getPermission
+        };
+
+    }
+]);
+
+csapp.factory("routeManagerFactory", [
     "Logger", "$location", "$csAuthFactory", "$route", "$cookieStore",
     function (logManager, $location, $csAuthFactory, $route, $cookieStore) {
 
@@ -31,6 +75,7 @@
             return location;
         };
 
+
         return {
             getLastLocation: getLastLocation,
             $locationChangeStart: $locationChangeStart,
@@ -41,40 +86,19 @@
     }
 ]);
 
-csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csShared", "Logger", "$csModels",
-    function (rest, $csnotify, $csShared, logManager, $csModels) {
-        var rootapi = rest.all("SharedEnumsApi");
-        var dldata = {};
-        var $log = logManager.getInstance("rootDatalayer");
-
-        var fetchWholeEnums = function () {
-            return rootapi.customGET("FetchAllEnum").then(function (data) {
-                $csShared.enums = data;
-                $log.info("enums loaded.");
-                $csModels.init();
-                $log.info("models initialized.");
-                return data;
-            }, function (data) {
-                $csnotify.error(data);
-            });
-        };
-
-        return {
-            dldata: dldata,
-            fetchWholeEnums: fetchWholeEnums,
-        };
-
-    }
-]);
-
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager) {
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger",  "$csfactory",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager,  $csfactory) {
 
         var $log = logManager.getInstance("RootCtrl");
+
         $scope.$on("$locationChangeStart", routeManagerFactory.$locationChangeStart);
         $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
         $scope.$on("$routeChangeStart", routeManagerFactory.$routeChangeStart);
         $scope.$on("$routeChangeSuccess", routeManagerFactory.$routeChangeSuccess);
+
+
+      
+
 
         var redirect = function () {
             if (!$csAuthFactory.hasLoggedIn()) {
@@ -84,7 +108,7 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
                 //$location.path(routeManagerFactory.getLastLocation());
             }
         };
-        
+
         (function () {
             $scope.$csAuthFactory = $csAuthFactory;
             $scope.loadingWidgetParams = loadingWidget.params;
@@ -93,6 +117,21 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
             redirect();
         })();
 
-        
+
     }
 ]);
+
+
+//$scope.$watch(function () {
+//    return $csAuthFactory.getUsername();
+//}, function (newval) {
+//    console.log(newval);
+
+//    if (!$csfactory.isNullOrEmptyString(newval)) {
+//        datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
+//            console.log('creating menu by permission');
+//            //menuFactory.initMenu(datalayer.dldata.permissions);
+//        });
+//    }
+
+//});

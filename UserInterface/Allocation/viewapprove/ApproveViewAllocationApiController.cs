@@ -39,14 +39,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage FetchPageData(ViewAllocationFilter viewAllocationFilter)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, GetAllocData(viewAllocationFilter));
+            var data = GetAllocData(viewAllocationFilter);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-
         public IEnumerable<Allocations> GetData()
         {
             var query = AllocBuilder.ApplyRelations();
@@ -54,7 +53,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage ApproveAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -62,7 +60,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First(); //InfoBuilder.Load(cAlloc.Info.Id);
                 var forApproveAlloc = info.Allocs.SingleOrDefault(x => x.Id == cAlloc.Id);
                 info.AllocStatus = cAlloc.AllocStatus;
                 if (forApproveAlloc != null)
@@ -84,7 +84,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage RejectChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             var allocs = changeAllocationModel.AllocList;
@@ -92,7 +91,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             foreach (var cAlloc in allocs)
             {
                 cAlloc.Status = ColloSysEnums.ApproveStatus.Approved;
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First();
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.OrigEntityId);
                 oldAlloc.Status = (oldAlloc.AllocStatus == ColloSysEnums.AllocStatus.AllocationError)
                                       ? ColloSysEnums.ApproveStatus.NotApplicable
@@ -107,7 +108,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpGet]
-
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
@@ -115,7 +115,6 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
         }
 
         [HttpPost]
-
         public HttpResponseMessage ChangeAllocations(ChangeAllocationData changeAllocationModel)
         {
             if (changeAllocationModel == null)
@@ -129,7 +128,9 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var cInfoList = new List<CustomerInfo>();
             foreach (var cAlloc in allocs)
             {
-                var info = InfoBuilder.Load(cAlloc.Info.Id);
+                var query = InfoBuilder.ApplyRelations();
+                query.Where(x => x.Id == cAlloc.Info.Id);
+                var info = InfoBuilder.Execute(query).First(); //InfoBuilder.Load<CustomerInfo>(cAlloc.Info.Id)
                 info.NoAllocResons = noAllocReason;
                 var oldAlloc = info.Allocs.Single(x => x.Id == cAlloc.Id);
                 oldAlloc.Status = ColloSysEnums.ApproveStatus.Changed;
@@ -150,6 +151,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             alloc.OrigEntityId = alloc.Id;
             alloc.ResetUniqueProperties();
             alloc.StartDate = DateTime.Today.AddDays(1);
+            alloc.EndDate = alloc.StartDate.AddMonths(1).AddDays(-1);
             alloc.Status = ColloSysEnums.ApproveStatus.Submitted;
             alloc.AllocStatus = changeAllocStatus;
             alloc.AllocSubpolicy = null;
@@ -183,14 +185,13 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
 
 
             var allcType = ClassType.GetAllocDataClassTypeByTableNameForAlloc(viewAllocationFilter.Products);
-            var firstChar = allcType.Name.Substring(0, 1);
             var aliseName = allcType.Name;
             var infoName = "Info";// typeof(CustomerInfo).Name;
             var memberAlloc = new MemberHelper<Allocations>();
 
             var detachedCriteria = DetachedCriteria.For(allcType, aliseName);
-            detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.InnerJoin);
-            detachedCriteria.CreateAlias(aliseName + ".AllocSubpolicy", "AllocSubpolicy", JoinType.InnerJoin);
+            detachedCriteria.CreateAlias(aliseName + ".Stakeholder", "Stakeholder", JoinType.LeftOuterJoin);
+            detachedCriteria.CreateAlias(aliseName + ".AllocSubpolicy", "AllocSubpolicy", JoinType.LeftOuterJoin);
             detachedCriteria.CreateAlias(string.Format(aliseName + "." + infoName), infoName, JoinType.InnerJoin);
             detachedCriteria.Add(Restrictions.Eq(infoName + ".Product", viewAllocationFilter.Products));
             if (viewAllocationFilter.AllocationStatus != ColloSysEnums.AllocStatus.None)
@@ -217,33 +218,34 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             detachedCriteria.Add(Restrictions.Or(startDateRes, endDateRes));
 
 
-            var gridData = new GridInitData(detachedCriteria, allcType);
+            var gridData = new GridInitData(detachedCriteria, allcType)
+            {
+                ScreenName = ColloSysEnums.GridScreenName.Allocation
+            };
 
-            gridData.ScreenName = ColloSysEnums.GridScreenName.Allocation;
             gridData.QueryParams.GridConfig.columnDefs.Clear();
 
             // add Allocation Subpolicy Name
             var memberSubpolicy = new MemberHelper<AllocSubpolicy>();
             var subpolicyType = typeof(AllocSubpolicy);
             var properySubpolicyName = subpolicyType.GetProperty(memberSubpolicy.GetName(x => x.Name));
-            gridData.AddNewColumn(properySubpolicyName, "AllocSubpolicy", "SubpolicyName");
+            gridData.AddNewColumn(properySubpolicyName, subpolicyType.Name, "Subpolicy Name");
 
             // Add Stakholder name Column
             var memberStakeholder = new MemberHelper<Stakeholders>();
             var stakeholderType = typeof(Stakeholders);
             var properyStakeholder = stakeholderType.GetProperty(memberStakeholder.GetName(x => x.Name));
-            gridData.AddNewColumn(properyStakeholder, "Stakeholder", "StakeholderName");
+            gridData.AddNewColumn(properyStakeholder, stakeholderType.Name, "Stakeholder Name");
 
             // add Info Columns
-            var infoType = typeof(CustomerInfo).Assembly.GetTypes().SingleOrDefault(x => x.Name == infoName);
-            if (infoType == null)
-                return gridData;
+            //var memberInfo = new MemberHelper<CustomerInfo>();
+            var infoType = typeof(CustomerInfo);
 
             var infoColumns = GetSharedInfoPropertiesName();
             for (int i = 0; i < infoColumns.Count; i++)
             {
                 var property = infoType.GetProperty(infoColumns[i]);
-                gridData.AddNewColumn(property, infoType.Name);
+                gridData.AddNewColumn(property, infoName);
             }
 
             // add Alloc Columns
@@ -253,6 +255,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
                 var property = allcType.GetProperty(allocColumns[i]);
                 gridData.AddNewColumn(property);
             }
+
             return gridData;
         }
 

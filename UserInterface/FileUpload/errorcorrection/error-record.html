@@ -1,5 +1,5 @@
-﻿<div modal="showModel" close="closeModel()" options="modelOption">
-    <div class="modal-header well">
+﻿<div>
+    <div class="modal-header">
         <h3>Error Modification</h3>
     </div>
     <div ng-form="errorform" class="form-horizontal">
@@ -14,11 +14,15 @@
             </div>
         </div>
 
-        <div class="modal-footer well">
-            <label class="error">{{errorMessage}}</label>
-            <button class="btn btn-success" ng-click="saveErrorData(selectedRow,selectedRowIndex,true)" ng-disabled="!errorform.$valid"><i class="icon-save" style="color: blue"></i>Validate & Save</button>
-            <button class="btn btn-success" ng-click="saveErrorData(selectedRow,selectedRowIndex,false)" ng-disabled="!errorform.$valid"><i class="icon-save" style="color: blue"></i>Save Invalid</button>
-            <button class="btn btn-warning" ng-click="closeModel()"><i class="icon-rotate-left" style="color: red"></i>Cancel</button>
+        <div class="modal-footer">
+            <label class="text-error">{{errorMessage}}</label>
+            <button class="btn btn-success" ng-click="save(true)"
+                ng-disabled="!errorform.$valid">
+                Validate & Save</button>
+            <button class="btn btn-success" ng-click="save(false)"
+                ng-disabled="!errorform.$valid">
+                Save Invalid</button>
+            <button class="btn btn-warning" ng-click="closeModel()">Cancel</button>
         </div>
     </div>
 </div>

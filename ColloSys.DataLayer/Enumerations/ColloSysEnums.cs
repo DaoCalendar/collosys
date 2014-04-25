@@ -9,6 +9,54 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum RuleForHolding
+        {
+            Value,
+            Percentage
+        }
+        [Serializable]
+        public enum ApplyOn
+        {
+            Fixed,
+            Variable,
+            TotalPreAdhoc,
+            Total
+        }
+
+        [Serializable]
+        public enum TaxType
+        {
+            Flat,
+            Slab
+        }
+        [Serializable]
+        public enum TaxApplicableTo
+        {
+            Individual,
+            Agency,
+            Both
+        }
+
+        [Serializable]
+        public enum TaxApplyOn
+        {
+            GrossAmount,
+            Tax
+        }
+
+        [Serializable]
+        public enum BillPaymentStatus
+        {
+            None,
+            BillingDone,
+            Dispatched,
+            Received,
+            Accepted,
+            PaymentDone,
+            Closed
+        }
+
+        [Serializable]
         public enum GridScreenName
         {
             NotSpecified,
@@ -94,7 +142,8 @@ namespace ColloSys.DataLayer.Enumerations
             Minus,
             Multiply,
             Divide,
-            ModuloDivide
+            ModuloDivide,
+            IsIn
         }
 
         [Serializable]

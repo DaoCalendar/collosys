@@ -10,7 +10,7 @@
             mobile: { label: "Mobile No", type: 'text', pattern: '/^[0-9]{10}$/', template: 'phone', patternMessage: 'Invalid Mobile Number' },
             email: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
             date: { type: 'date', required: true },
-            manager: { type: 'select', valueField: 'Name', textField: 'Id' },
+            manager: { type: 'select', valueField: 'Id', textField: 'Name' },
 
             PAN: { label: 'PAN', type: 'text', template: 'pan' },
             TAN: { label: 'TAN', type: 'text', patternMessage: 'accepts only xxxxxxxx' },

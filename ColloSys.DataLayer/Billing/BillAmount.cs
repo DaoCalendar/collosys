@@ -29,7 +29,17 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual decimal TaxAmount { get; set; }
 
-        public virtual string PayStatus { get; set; }
+        public virtual ColloSysEnums.BillPaymentStatus PayStatus { get; set; }
+
+        public virtual DateTime PayStatusDate { get; set; }
+
+        public virtual string PayStatusHistory { get; set; }
+
+        public virtual decimal HoldAmount { get; set; }
+
+        public virtual decimal HoldRepayment { get; set; }
+
+        public virtual decimal TotalAmount { get; set; }
 
         #region DateRange
         [Required]

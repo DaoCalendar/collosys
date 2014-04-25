@@ -59,8 +59,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasFileReader\EbbsPaymentLinerFileReader.cs" />
+    <Compile Include="AliasFileReader\EbbsPaymentWoAutoFileReader.cs" />
+    <Compile Include="AliasFileReader\EbbsPaymentWoSmcFileReader.cs" />
+    <Compile Include="AliasFileReader\RlsPaymentManualReversalFileReader.cs" />
+    <Compile Include="AliasFileReader\RlsPaymentWoAebFileReader.cs" />
+    <Compile Include="AliasFileReader\RlsPaymentWoPlpcFileReader.cs" />
+    <Compile Include="AliasRecordCreator\AliasPaymentRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\AliasWriteOffRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\EbbsPaymentLinerRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\EbbsPaymentWoAutoRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\EbbsPaymentWoSmcRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsPaymentLinerRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsPaymentManualReversalRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsPaymentWoAebRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsPaymentWoPlpcRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffAutoAebRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffAutoGbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffAutoRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffAutoScbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffOlScbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffPlAebRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffPlGbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffPlLordsRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffSmeRecordCreator.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
-    <Compile Include="AliasReader\RlsPaymentLinerRecordCreator.cs" />
     <Compile Include="DbLayer\IDbLayer.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
     <Compile Include="ExcelReader\EpPlusExcelReader.cs" />
@@ -69,9 +92,12 @@
     <Compile Include="ExcelReader\MappingInfo.cs" />
     <Compile Include="ExcelReader\NpOiExcelReader.cs" />
     <Compile Include="ExcelReader\NPOIExtensions.cs" />
+    <Compile Include="FileReader\FileReader.cs" />
+    <Compile Include="FileReader\IfileReader.cs" />
+    <Compile Include="AliasFileReader\RlsPaymentLinerFileReader.cs" />
     <Compile Include="RecordCreator\IRecord.cs" />
     <Compile Include="RecordCreator\RecordCreator.cs" />
-    <Compile Include="AliasReader\IRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\IRecordCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="RowCounter\ExcelRecordCounter.cs" />

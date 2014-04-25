@@ -57,15 +57,16 @@ namespace ColloSys.DataLayer.Mapping
             #endregion
 
             #region Bags
-            Set(x => x.BillAdhocs, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.BillAmounts, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillAdhocs, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillAmounts, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhPayments, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhRegistrations, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhWorkings, colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.AllocSubpolicies, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.AllocSubpolicies, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.GAddress, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.ActivateHoldingPolicies, colmap => { }, map => map.OneToMany(x => { }));
             #endregion
 
         }

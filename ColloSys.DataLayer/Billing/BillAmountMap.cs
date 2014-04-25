@@ -22,7 +22,11 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Deductions);
             Property(x => x.TaxAmount);
             Property(x => x.PayStatus);
-
+            Property(x=>x.PayStatusDate);
+            Property(x=>x.PayStatusHistory);
+            Property(x=>x.HoldAmount);
+            Property(x=>x.HoldRepayment);
+            Property(x=>x.TotalAmount);
             #endregion
 
             #region IDateRange

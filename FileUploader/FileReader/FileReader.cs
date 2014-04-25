@@ -1,35 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.FileReader;
+using ColloSys.FileUploader.AliasReader;
+using ColloSys.FileUploader.RecordCreator;
+using ColloSys.FileUploader.Utilities;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.ExcelReader.FileReader
+namespace ColloSys.FileUploader.FileReader
 {
-    public class FileReader<T> : IFileReader<T> where T : class,new()
+    public abstract class FileReader<T> : IFileReader<T> where T : class,new()
     {
         #region:: Members ::
 
-        private readonly CreateRecords<T> _objRecord;
-        public  List<T> RecordList; 
-        public FileReader()
+        private readonly IRecord<T> _objRecord;
+        public IList<T> List { get; private set; }
+        private readonly IExcelReader _excelReader;
+
+        protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
-            _objRecord = new CreateRecords<T>();
+            var fs = recordCreator.FileScheduler;
+            _excelReader = SharedUtility.GetInstance(new FileInfo(fs.FileDirectory));
+            _objRecord = new RecordCreator<T>(recordCreator, _excelReader);
         }
         #endregion
 
-        public void ReadAndSaveBatch(T obj, IExcelReader excelReader,IList<FileMapping> mappings,ICounter counter,uint batchSize)
+        public void ReadAndSaveBatch(T obj, IEnumerable<FileMapping> mappings, uint batchSize)
         {
             if (obj == null) throw new ArgumentNullException("obj");
-            for (var i = excelReader.CurrentRow; i < excelReader.TotalRows && (!excelReader.EndOfFile()); i = i + batchSize)
+            for (var i = _excelReader.CurrentRow; i < _excelReader.TotalRows && (!_excelReader.EndOfFile()); i = i + batchSize)
             {
-              RecordList = new List<T>();
-                for (var j = 0; j < batchSize && (!excelReader.EndOfFile()); j++)
+                List = new List<T>();
+                for (var j = 0; j < batchSize && (!_excelReader.EndOfFile()); j++)
                 {
                     obj = new T();
-                    _objRecord.CreateRecord(obj, excelReader, mappings, counter);
-                    RecordList.Add(obj);
-                    excelReader.NextRow();
+                    var isRecordCreate = _objRecord.CreateRecord(obj, mappings);
+                    if (isRecordCreate)
+                    {
+                        List.Add(obj);
+                    }
+                    _excelReader.NextRow();
                 }
                 //var session = SessionManager.GetCurrentSession();
                 //using (var transaction=session.BeginTransaction())
@@ -38,7 +48,7 @@ namespace ColloSys.FileUploader.ExcelReader.FileReader
                 //    {
                 //        session.Save(record);
                 //    }
-                   
+
                 //    transaction.Commit();
                 //}
             }

@@ -1,0 +1,44 @@
+﻿<div class="row-fluid">
+    <label class="tax-list-heading">Holding Policies List</label>
+    <div class="row-fluid tax-list-box">
+        <table class="table table-bordered table-hover" data-ng-show="policyList.length>0">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Product</th>
+                    <th>Apply On</th>
+                    <th>Rule</th>
+                    <th>Value</th>
+                    <th>Transaction Type</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        <input type="text" class="input-mini" data-ng-model="search.Name"/>
+                    </th>
+                    <th><input type="text" class="input-mini" data-ng-model="search.Products" /></th>
+                    <th><input type="text" class="input-mini" data-ng-model="search.ApplyOn" /></th>
+                    <th><input type="text" class="input-mini" data-ng-model="search.Rule" /></th>
+                    <th><input type="text" class="input-mini" data-ng-model="search.Value" /></th>
+                    <th><input type="text" class="input-mini" data-ng-model="search.TransactionType" /></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="t in policyList| filter:search">
+                    <td><i class="btn icon-edit-sign" data-ng-click="edit(t, $index)"></i></td>
+                    <td>{{t.Name}}</td>
+                    <td>{{t.Products}}</td>
+                    <td>{{t.ApplyOn}}</td>
+                    <td>{{t.Rule}}</td>
+                    <td>{{t.Value}}</td>
+                    <td>{{t.TransactionType}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row-fluid text-center tax-list-box-no-data" data-ng-hide="policyList.length>0">
+            <label>No holding policies defined</label>
+        </div>
+    </div>
+
+</div>

@@ -76,9 +76,6 @@
     <Reference Include="NLog.Extended">
       <HintPath>..\SharedLib\NLog.Extended.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -119,6 +116,10 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
+    <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
+    <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
+    <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
     <Compile Include="Billing\adhocbulk\AdhocBulkApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorViewModel.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
+    <Compile Include="Generic\Menu\MenuApiController.cs" />
     <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
@@ -199,11 +201,13 @@
     <Compile Include="Developer\queryexecuter\ExecuteQueryApiController.cs" />
     <Compile Include="Developer\queryexecuter\Executer.cs" />
     <Compile Include="Developer\queryexecuter\QueryResult.cs" />
+    <Compile Include="Generic\taxlist\TaxListApiController.cs" />
+    <Compile Include="Generic\taxmaster\TaxMasterApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Shared\Model\EnumList.cs" />
+    <Compile Include="Shared\webapis\EnumList.cs" />
     <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\FetchEnums.cs" />
@@ -230,9 +234,11 @@
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
+    <Content Include="Allocation\policy\temp.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
+    <Content Include="Allocation\subpolicy\temp.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
@@ -243,14 +249,24 @@
     <Content Include="Billing\adhoc\AddhocPayouts.js" />
     <Content Include="Billing\adhoc\adhoc.html" />
     <Content Include="Billing\billingModels.js" />
+    <Content Include="Billing\billstatus\billstatus.js" />
+    <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
+    <Content Include="Billing\formula\temp.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-active.html" />
+    <Content Include="Billing\holdingactivate\holding-policy-active.js" />
+    <Content Include="Billing\holdingpolicy\holding-policy-list.html" />
+    <Content Include="Billing\holdingpolicy\holding-policy.html" />
+    <Content Include="Billing\holdingpolicy\holding-policy.js" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
     <Content Include="Billing\policy\payoutPolicyCtrl.js" />
+    <Content Include="Billing\policy\test.html" />
     <Content Include="Billing\readybilling\index.html" />
     <Content Include="Billing\readybilling\ReadyForBilling.js" />
     <Content Include="Billing\status\BillingStatus.js" />
@@ -258,10 +274,15 @@
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
     <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
+    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\loading-bar\loading-bar.css" />
+    <Content Include="Generic\taxlist\taxlist-list.html" />
+    <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Scripts\loading-bar\loading-bar.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />
@@ -307,8 +328,10 @@
     <Content Include="Developer\dbtable\viewtables.html" />
     <Content Include="FileUpload\clientdatadownload\client-data-download.js" />
     <Content Include="FileUpload\customerinfo\customer-info.js" />
+    <Content Include="FileUpload\errorapproval\error-approval-row.html" />
+    <Content Include="FileUpload\errorapproval\errorApprovalController.js" />
     <Content Include="FileUpload\errorcorrection\error-record.html" />
-    <Content Include="FileUpload\errorcorrection\errorDataCtrl.js" />
+    <Content Include="FileUpload\errorcorrection\errorDataController.js" />
     <Content Include="FileUpload\filecolumn\file-column-add.html" />
     <Content Include="FileUpload\filecolumn\file-column-list.html" />
     <Content Include="FileUpload\filecolumn\file-column-multi.html" />
@@ -332,9 +355,12 @@
     <Content Include="Generic\changepassword\changepassword.js" />
     <Content Include="Generic\general\generalConfig.js" />
     <Content Include="Generic\general\index.html" />
+    <Content Include="Generic\genericmodels.js" />
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
+    <Content Include="Generic\menu\menu.html" />
+    <Content Include="Generic\menu\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\permission.html" />
     <Content Include="Generic\permissions\permission.js" />
@@ -351,6 +377,10 @@
     <Content Include="Generic\profile\profile.js" />
     <Content Include="Developer\queryexecuter\query-executer.html" />
     <Content Include="Developer\queryexecuter\queryexecuter.js" />
+    <Content Include="Generic\taxlist\taxlist.html" />
+    <Content Include="Generic\taxlist\taxlist.js" />
+    <Content Include="Generic\taxmaster\taxmaster.html" />
+    <Content Include="Generic\taxmaster\taxmaster.js" />
     <Content Include="Scripts\angular.ui\autofill-event.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
@@ -450,8 +480,10 @@
     <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
       <DependentUpon>angular-file-upload.js</DependentUpon>
     </Content>
-    <Content Include="packages.config" />
     <Content Include="FileUpload\errorcorrection\error-correction.html" />
+    <Content Include="FileUpload\errorapproval\error-approval.html" />
+    <EmbeddedResource Include="ExcelData\product code_501N.xls" />
+    <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -494,7 +526,6 @@
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
-    <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Stakeholder\add\address.html" />
     <Content Include="Stakeholder\add\AddressInfo.js" />
@@ -542,7 +573,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FileUpload\errorapproval\" />
     <Folder Include="FileUpload\uploadrcode\" />
   </ItemGroup>
   <ItemGroup>

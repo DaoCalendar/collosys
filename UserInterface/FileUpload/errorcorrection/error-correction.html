@@ -1,30 +1,31 @@
 ﻿<div ng-form="error1" class="form-horizontal">
-    <div class="success well-small row-fluid">
+    <div class="row-fluid">
+        <alert type="success" data-ng-hide="dldata.fileSchedulers.length > 0">No Error recrods found!!!</alert>
+    </div>
+    <div class="success well-small row-fluid" data-ng-show="dldata.fileSchedulers.length > 0">
         <div class="control-group span5">
             <label class="control-label">File Type</label>
             <div class="controls">
-                <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)" ng-options="c.AliasDescription for c in fileDetails | orderBy:'AliasName'">
-                    <option value="">-- Select Type --</option>
+                <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)"
+                    ng-options="row as row.AliasDescription for row in dldata.fileDetails | orderBy:'AliasName'">
                 </select>
             </div>
         </div>
-
-        <div class="control-group span5">
+        <div class="control-group span5" data-ng-show="fileDetail">
             <label class="control-label">File Date</label>
             <div class="controls">
-                <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)">
-                    <option value="">-- Select File --</option>
-                    <option data-ng-repeat="c in dateFileSchedulers" value="{{c}}">{{c.FileDate | date:'yyyy-MM-dd'}}</option>
+                <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)"
+                    ng-options="row as row.FileDate | date for row in dateFileSchedulers">
                 </select>
             </div>
         </div>
     </div>
     <div ui-if="gridReady">
         <div class="row-fluid">
-            <div class="span10">
-                <button class="btn btn-success" data-ng-disabled="serverNgGridOptions.data.length<1" data-ng-click="retryErrorData(fileScheduler)">Retry</button>
-            </div>
-            <label class="span2">Total Error : {{serverNgGridOptions.data.length}}</label>
+            <button class="btn btn-success" data-ng-disabled="serverNgGridOptions.data.length<1"
+                data-ng-click="retry(fileScheduler)">
+                Retry All Rows</button>
+            <label>Total Error : {{serverNgGridOptions.data.length}}</label>
         </div>
         <div style="height: 400px" ng-grid="gridOptions"></div>
     </div>

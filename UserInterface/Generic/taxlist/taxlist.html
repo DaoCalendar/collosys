@@ -1,0 +1,102 @@
+﻿<div class="row-fluid">
+    <div class="row-fluid" data-ng-include="'/Generic/taxlist/taxlist-list.html'"></div>
+    <div class="row-fluid">
+        <form name="taxForm">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tax Component Details
+                </div>
+                <div class="panel-body form-horizontal">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+                        </div>
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.TaxType" 
+                                      field="TaxList.TaxType" 
+                                ></cs-field>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.ApplicableTo" 
+                                      field="TaxList.ApplicableTo"
+                                ></cs-field>
+                        </div>
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
+                        </div>
+                        <div class="span5" >
+                            <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>
+                    <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
+                    <cs-button type="Add" text="Reset"  ng-click="resetTax()" ></cs-button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+   <!--<div class="panel panel-default">
+                <div class="panel-heading">
+                    Tax Component Details
+                </div>
+                <div class="panel-body form-horizontal">
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+                        </div>
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.TaxType" 
+                                      field="TaxList.TaxType" 
+                                ></cs-field>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.ApplicableTo" 
+                                      field="TaxList.ApplicableTo"
+                                ></cs-field>
+                        </div>
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
+                        </div>
+                        <div class="span5" >
+                            <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
+                        </div>
+                    </div>
+                    
+                    <div class="row-fluid">
+                        <div class="span5">
+                            <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-right">
+                    {{tax}}
+                    <cs-button type="Add" ng-click="add(tax)" ng-disabled="taxForm.$invalid"></cs-button>
+                </div>
+            </div>-->
