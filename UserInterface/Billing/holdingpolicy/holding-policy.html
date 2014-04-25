@@ -1,3 +1,97 @@
 ﻿<div class="row-fluid">
-    <label> holding policy create page</label>
+    <div class="row-fluid" data-ng-include="'/billing/holdingpolicy/holding-policy-list.html'"></div>
+    <form name="holdingpolicyform">
+        <div class="row-fluid form-horizontal span10">
+            <div class="panel panel-info">
+                <div class="panel-heading">Holding Policy Details</div>
+                <div class="panel-body">
+                    <label>Policy Details</label>
+                    <hr />
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.Products"
+                                field="HoldingPolicy.Products"></cs-field>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.Name"
+                                field="HoldingPolicy.Name"></cs-field>
+                        </div>
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.StartDate"
+                                field="HoldingPolicy.StartDate"></cs-field>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.Description"
+                                field="HoldingPolicy.Description"></cs-field>
+                        </div>
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.EndDate"
+                                field="HoldingPolicy.EndDate"></cs-field>
+                        </div>
+                    </div>
+
+                    <label>Payout Details</label>
+                    <hr />
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.ApplyOn"
+                                field="HoldingPolicy.ApplyOn"></cs-field>
+                        </div>
+                        <div class="span6">
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.Rule"
+                                field="HoldingPolicy.Rule"></cs-field>
+                        </div>
+                        <div class="span6" data-ng-if="policy.Rule=='Value'">
+                            <cs-field data-ng-model="policy.Value" field="HoldingPolicy.Value"></cs-field>
+                        </div>
+
+                        <div class="span6" data-ng-if="policy.Rule=='Percentage'">
+                            <cs-field data-ng-model="policy.Value" field="HoldingPolicy.ValuePercent"></cs-field>
+                        </div>
+
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.TransactionType"
+                                field="HoldingPolicy.TransactionType"></cs-field>
+                        </div>
+                        <div class="span6">
+                            <!--<select data-ng-model="policy.StartMonth" 
+                                  >
+                                <option data-ng-repeat="d in monthList" value="{{d.valuefield}}">{{d.display}}</option>
+                            </select>-->
+                            <cs-field data-ng-model="policy.StartMonth" use-repeat="true"
+                                field="HoldingPolicy.StartMonth"></cs-field>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <cs-field data-ng-model="policy.Tenure"
+                                field="HoldingPolicy.Tenure"></cs-field>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer text-right">
+                    <cs-button type="Add" ng-click="add(policy)" data-ng-show="isAddMode" ng-disabled="holdingpolicyform.$invalid"></cs-button>
+                    <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
+                    <cs-button type="Add" text="Reset" ng-click="reset()"></cs-button>
+                </div>
+            </div>
+        </div>
+
+    </form>
 </div>

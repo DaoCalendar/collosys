@@ -144,7 +144,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             var pincodeData = { Country: 'India', Region: region, State: state, Cluster: cluster, District: district };
             return pincodeApi.customPOST(pincodeData, "GetWholedata").then(function (data2) {
                 dldata.CityList = _.uniq(data2);
-                dldata.citydata = true;
+                //dldata.citydata = true;
                 return dldata.CityList;
             });
         };

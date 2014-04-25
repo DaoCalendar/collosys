@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
+    <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
@@ -255,6 +256,7 @@
     <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.js" />
+    <Content Include="Billing\holdingpolicy\holding-policy-list.html" />
     <Content Include="Billing\holdingpolicy\holding-policy.html" />
     <Content Include="Billing\holdingpolicy\holding-policy.js" />
     <Content Include="Billing\matrix\matrix.html" />
@@ -276,6 +278,8 @@
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
     <Content Include="Content\loading-bar\loading-bar.css" />
+    <Content Include="Generic\taxlist\taxlist-list.html" />
+    <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\loading-bar\loading-bar.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />

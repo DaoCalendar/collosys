@@ -7,6 +7,7 @@
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox', },
+            IsPretax: { label: ' IsPretax', type: 'select' },
             IsCredit: { label: 'Transaction Type', type: 'select', required: true },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
             StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'Key', textField: 'Value' },
@@ -43,9 +44,9 @@
         };
     };
 
-    var formula = function() {
+    var formula = function () {
         return {
-            Name: {label:"Name",type:"text",required:true},
+            Name: { label: "Name", type: "text", required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
             Description: { label: "Description", type: "textarea" },
             GroupBy: { label: "Group By", type: "select", required: true },
@@ -58,7 +59,7 @@
         };
     };
 
-    var matrix = function() {
+    var matrix = function () {
         return {
             Name: { label: "Name", type: "text", required: true },
             Dimension: { label: "Dimension", type: "select", },// to be disscuss
@@ -74,9 +75,34 @@
             Column4DCount: { label: "Columns 4D", type: "uint", min: 1, max: 10 },
             Column4DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Column4DTypeName: { type: "text" },
-            RowsOperator: { type: "enum", valueList: $csShared.enums.Operators},
+            RowsOperator: { type: "enum", valueList: $csShared.enums.Operators },
             ColumnsOperator: { type: "enum", valueList: $csShared.enums.Operators },
             MatrixPerType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+        };
+    };
+
+    var holdingPolicy = function () {
+        return {
+            Name: { label: 'Name', type: 'text', required: true },
+            Description: { label: 'Description', type: 'text', required: true },
+            StartDate: { label: 'Start Date', type: 'date', required: true },
+            EndDate: { label: 'End Date', type: 'date' },
+            ApplyOn: { label: 'Apply On', type: 'enum', valueList: $csShared.enums.ApplyOn, required: true },
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
+            Rule: { label: "Rule", type: "enum", valueList: $csShared.enums.RuleForHolding, required: true, },
+            Value: { label: 'Value', type: 'number', required: true },
+            ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
+            TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
+            StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'valuefield', textField: 'display' },
+            Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
+        };
+    };
+
+    var activateHolding = function () {
+        return {
+            HoldingPolicy: { label: 'Stakeholder', type: 'text', required: true },
+            Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
         };
     };
 
@@ -86,6 +112,8 @@
         models.BillingSubpolicy = billingSubpolicy();
         models.Formula = formula();
         models.Matrix = matrix();
+        models.HoldingPolicy = holdingPolicy();
+        models.ActivateHoldingPolicy = activateHolding();
         return models;
     };
 
