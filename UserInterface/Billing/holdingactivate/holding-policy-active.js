@@ -49,6 +49,19 @@ csapp.controller('holdingactiveCtrl', [
     '$scope', 'holdingactiveDatalayer', 'holdingactiveFactory', '$csModels',
     function ($scope, datalayer, factory, $csModels) {
 
+        var calculateMonthList = function () {
+            var i = 1;
+            $scope.monthList = [];
+            for (var j = i; j < 6; j++) {
+                var data = {
+                    valuefield: moment().add('month', j).format('YYYYMM'),
+                    display: moment().add('month', j).format("MMM-YYYY")
+                };
+                $scope.monthList.push(data);
+            }
+            $scope.ActPolicy.StartMonth.valueList = $scope.monthList;
+        };
+        
         $scope.reset = function () {
             $scope.active = {};
             $scope.activateform.$setPristine();
@@ -85,6 +98,7 @@ csapp.controller('holdingactiveCtrl', [
 
         (function () {
             $scope.ActPolicy = $csModels.models.Billing.ActivateHoldingPolicy;
+            calculateMonthList();
             initlocals();
             datalayer.getList().then(function (data) {
                 $scope.policyList = data;

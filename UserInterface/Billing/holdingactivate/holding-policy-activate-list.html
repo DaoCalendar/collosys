@@ -8,12 +8,14 @@
                     <th>Product</th>
                     <th>Holding Policy</th>
                     <th>Stakeholder</th>
+                    <th>Start Month</th>
                 </tr>
                 <tr>
                     <th></th>
                     <th><input type="text" class="input-medium" data-ng-model="search.Products" /></th>
                     <th><input type="text" class="input-medium" data-ng-model="search.HoldingPolicy.Name" /></th>
                     <th><input type="text" class="input-medium" data-ng-model="search.Stakeholder.Name" /></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +24,7 @@
                     <td>{{t.Products}}</td>
                     <td>{{t.HoldingPolicy.Name}}</td>
                     <td>{{t.Stakeholder.Name}}</td>
+                    <td>{{t.StartMonth}}</td>
                 </tr>
             </tbody>
         </table>
