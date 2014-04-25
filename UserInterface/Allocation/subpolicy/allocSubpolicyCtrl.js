@@ -66,7 +66,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            
+
             if (inputType === "text") {
                 condition.Operator = '';
                 condition.Rtype = 'Value';
@@ -94,9 +94,6 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             condition.Rtype = 'Value';
             condition.Rvalue = '';
             $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
-
-
-
         };
 
         $scope.manageField = function (condition) {
@@ -104,7 +101,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showField2 = !$scope.showField2;
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType!=='text') {
+            if (inputType !== 'text') {
                 return;
             }
             if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
@@ -115,44 +112,9 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             }
             if (condition.Operator === "IsInList") {
                 $scope.fieldname.multiple = "multiple";
-            } 
+            }
             $scope.fieldname.type = "enum";
         };
-
-        //$scope.changeLeftColName = function (condition) {
-        //    $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
-        //    var inputType = $scope.dldata.selectedLeftColumn.InputType;
-        //    if (inputType === "text") {
-        //        condition.Operator = '';
-        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
-        //        condition.Rtype = 'Value';
-        //        condition.Rvalue = '';
-
-        //        $scope.datalayer.getColumnValues(condition.ColumnName);
-        //        return;
-        //    }
-
-        //    if (inputType === "checkbox") {
-        //        condition.Operator = "EqualTo";
-        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
-        //        condition.Rtype = 'Value';
-        //        condition.Rvalue = '';
-        //        return;
-        //    }
-
-        //    if (inputType === "dropdown") {
-        //        $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
-        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
-        //        condition.Rtype = 'Value';
-        //        condition.Rvalue = '';
-        //        return;
-        //    }
-
-        //    condition.Operator = '';
-        //    $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
-        //    condition.Rtype = 'Value';
-        //    condition.Rvalue = '';
-        //};
 
         $scope.showIndividual = function (stkh) {
             if (angular.isUndefined(stkh.Hierarchy)) return false;

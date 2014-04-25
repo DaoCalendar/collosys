@@ -35,7 +35,7 @@
         <div class="span9">
             <div class="row-fluid" data-ng-show="showDiv">
                 <!--Subpolicy-->
-                <div class="row-fluid" id="subpolicy-display" 
+                <div class="row-fluid" id="subpolicy-display"
                     data-ng-form="payoutSubpolicyForm">
                     <div class="panel panel-info">
                         <div class="panel-heading">
@@ -170,7 +170,7 @@
                 </div>
 
                 <!--GroupBy-->
-                <div data-ng-show="dldata.outputWithFunction" class="row-fluid" 
+                <div data-ng-show="dldata.outputWithFunction" class="row-fluid"
                     id="subpolicy-groupby">
                     <div class="panel panel-info">
                         <div class="panel-heading">Group By</div>
@@ -212,7 +212,7 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <cs-field data-ng-model="dldata.newCondition.Operator" field="payoutSubpolicy.ConditionOperators" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.Operator" field="payoutSubpolicy.ConditionOperators" data-ng-change="manageField(dldata.newCondition)" no-label=""></cs-field>
                                             </td>
                                             <td>
                                                 <cs-field data-ng-model="dldata.newCondition.Rtype" data-ng-disabled="dldata.newCondition.Rvalue=='text'" field="payoutSubpolicy.TypeSwitch" no-label=""></cs-field>
@@ -243,45 +243,19 @@
                                                         </select>
                                                     </div>
                                                     <div data-ng-switch-when="Value">
-                                                        <div data-ng-switch on="dldata.selectedLeftColumn.InputType">
-
-                                                            <div data-ng-switch-when="number">
-                                                                <input class="input-small"
-                                                                    type="number"
-                                                                    data-ng-model="dldata.newCondition.Rvalue" required />
+                                                        <div data-ng-if="showField">
+                                                            <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
                                                             </div>
-
-                                                            <div data-ng-switch-when="date">
-                                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" no-label=""></cs-field>
-
-                                                                <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="dldata.newCondition.Rvalue"
-                                                                    data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
-                                                                    data-date-format="dd-mm-yyyy" bs-datepicker>
-                                                            </div>
-                                                            <div data-ng-switch-when="checkbox">
-                                                                <select class="input-small" data-ng-model="dldata.newCondition.Rvalue" required>
-                                                                    <option value="Yes">Yes</option>
-                                                                    <option value="No">No</option>
-                                                                </select>
-                                                            </div>
-                                                            <div data-ng-switch-when="dropdown">
-                                                                <select class="input-medium" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required></select>
-                                                            </div>
-                                                            <div data-ng-switch-when="text">
-                                                                <div data-ng-show="dldata.newCondition.Operator !== 'IsInList'">
-                                                                    <select class="input-large" data-ng-model="dldata.newCondition.Rvalue"
-                                                                        data-ng-options="c for  c in dldata.conditionValues" required>
-                                                                    </select>
-                                                                </div>
-                                                                <div data-ng-show="dldata.newCondition.Operator === 'IsInList'">
-                                                                    <select data-ui-select2="" class="input-large" data-ng-model="dldata.newCondition.Rvalue"
-                                                                        required multiple="multiple">
-                                                                        <option data-ng-repeat="row in dldata.conditionValues" value="{{row}}">{{row}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-
                                                         </div>
+                                                        <div data-ng-if="showField2">
+                                                            <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </td>
@@ -334,3 +308,42 @@
     </div>
 </div>
 
+<!--<div data-ng-switch on="dldata.selectedLeftColumn.InputType">
+
+                                                                <div data-ng-switch-when="number">
+                                                                    <input class="input-small"
+                                                                           type="number"
+                                                                           data-ng-model="dldata.newCondition.Rvalue" required />
+                                                                </div>
+
+                                                                <div data-ng-switch-when="date">
+                                                                    <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" no-label=""></cs-field>
+
+                                                                    <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="dldata.newCondition.Rvalue"
+                                                                           data-ng-show="dldata.newCondition.dateValueEnum && dldata.newCondition.dateValueEnum==='Absolute_Date'"
+                                                                           data-date-format="dd-mm-yyyy" bs-datepicker>
+                                                                </div>
+                                                                <div data-ng-switch-when="checkbox">
+                                                                    <select class="input-small" data-ng-model="dldata.newCondition.Rvalue" required>
+                                                                        <option value="Yes">Yes</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div data-ng-switch-when="dropdown">
+                                                                    <select class="input-medium" data-ng-model="dldata.newCondition.Rvalue" data-ng-options="c for  c in dldata.conditionValues" required></select>
+                                                                </div>
+                                                                <div data-ng-switch-when="text">
+                                                                    <div data-ng-show="dldata.newCondition.Operator !== 'IsInList'">
+                                                                        <select class="input-large" data-ng-model="dldata.newCondition.Rvalue"
+                                                                                data-ng-options="c for  c in dldata.conditionValues" required>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div data-ng-show="dldata.newCondition.Operator === 'IsInList'">
+                                                                        <select data-ui-select2="" class="input-large" data-ng-model="dldata.newCondition.Rvalue"
+                                                                                required multiple="multiple">
+                                                                            <option data-ng-repeat="row in dldata.conditionValues" value="{{row}}">{{row}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>-->

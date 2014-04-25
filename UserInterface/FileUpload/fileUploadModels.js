@@ -69,7 +69,7 @@
 
         return {
             Flag: { type: "enum", valueList: $csShared.enums.DelqFlag},
-            AccountNo: { type: "enum",multiple:"", valueList: []},
+            AccountNo: { type: "enum", valueList: []},
             GlobalCustId: { type: "enum", valueList:[] },
             CustomerName: { type: "enum", valueList: [] },
             Pincode: { type: "uint"},
