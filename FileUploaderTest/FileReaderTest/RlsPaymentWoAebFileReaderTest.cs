@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.ClientData;
+﻿using System.Linq;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.FileReader;
@@ -47,6 +48,21 @@ namespace ReflectionExtension.Tests.FileReaderTest
 
             //Assert
             Assert.AreEqual(_fileReader.List.Count, 16);
+
+        }
+
+        [Test]
+        public void Test_ReadAndSaveBatch_Assigning_BatchSize_Is_7()
+        {
+            //Arrange
+            var payment = _data.GetPayment();
+            var mappings = _data.GetMappings();
+
+            //Act
+            _fileReader.ReadAndSaveBatch(payment, mappings, 7);
+
+            //Assert
+            Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");
 
         }
     }
