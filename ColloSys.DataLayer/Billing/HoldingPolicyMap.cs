@@ -15,7 +15,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x=>x.Rule);
             Property(x=>x.Value);
             Property(x=>x.TransactionType);
-            Property(x=>x.StartMonth);
+            
             Property(x=>x.Tenure);
 
             Bag(x => x.ActivateHoldingPolicies,

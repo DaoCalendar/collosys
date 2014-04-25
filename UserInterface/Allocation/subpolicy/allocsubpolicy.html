@@ -168,16 +168,22 @@
                                         </td>
                                         <!--Operator-->
                                         <td>
-                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
+                                            <cs-field data-ng-model="dldata.newCondition.Operator" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
 
                                         </td>
                                         <!--Value-->
                                         <td class="input-large">
                                           <div data-ng-if="showField">
-                                                <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname"  no-label=""></cs-field>
+                                              <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true"  no-label=""></cs-field>
+                                              <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                   <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                              </div>
                                             </div>
                                             <div data-ng-if="showField2">
-                                                <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname"  no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                   <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                              </div>
                                             </div>
                             
                                             <!--<div data-ng-switch on="dldata.selectedLeftColumn.InputType">

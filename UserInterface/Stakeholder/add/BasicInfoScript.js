@@ -29,7 +29,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
         };
 
-        $scope.setEmailModel = function(hierarchy) {
+        $scope.setEmailModel = function (hierarchy) {
             if (hierarchy !== 'External')
                 $scope.$parent.stakeholderModel.Email.suffix = "'@sc.com'";
         };
@@ -39,24 +39,23 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
             if (angular.isUndefined(userId)) {
                 return false;
             }
-           userId = userId.toString();
+            $scope.$parent.WizardData.userExists = false;
+            userId = userId.toString();
             if (userId.length === 7) {
                 apistake.customGET('CheckUserId', { id: userId }).then(function (data) {
-                    
                     var exist = data;
                     if (exist === "true") {
                         $scope.$parent.WizardData.userExists = true;
                     } else {
                         $scope.$parent.WizardData.userExists = false;
                     }
-                    
                 });
             }
 
         };
 
         var getEmailForEditMode = function (mailId) {
-            
+
             if ($scope.basicInfoData.Hierarchy.IsUser) {
                 var index = mailId.indexOf('@');
                 $scope.$parent.WizardData.SetEmailId(mailId.substring(0, index));
@@ -74,7 +73,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
         var init = function () {
             $log.info("Initializing BasicInfo.");
             $scope.duplicateUserId = false;
-            
+
             $scope.val = $val;
             $scope.UserIdList = [];
             $scope.basicInfoData = {
@@ -88,7 +87,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
             $log.info($scope.basicInfoData);
         };
-     
+
     }])
 );
 

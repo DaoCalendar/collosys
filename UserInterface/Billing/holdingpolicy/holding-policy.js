@@ -43,18 +43,7 @@ csapp.controller('holdingpolicyCtrl', [
     '$scope', 'holdingpolicyDatalayer', 'holdingpolicyFactory','$csModels',
     function ($scope, datalayer, factory, $csModels) {
 
-        var calculateMonthList = function () {
-            var i = 1;
-                $scope.monthList = [];
-                for (var j = i; j < 6; j++) {
-                    var data = {
-                        valuefield: moment().add('month', j).format('YYYYMM'),
-                        display: moment().add('month', j).format("MMM-YYYY")
-                    };
-                    $scope.monthList.push(data);
-                }
-                $scope.HoldingPolicy.StartMonth.valueList = $scope.monthList;
-        };
+       
         
         $scope.reset = function () {
             $scope.policy = {};
@@ -98,7 +87,7 @@ csapp.controller('holdingpolicyCtrl', [
             $scope.dldata = datalayer.dldata;
             $scope.HoldingPolicy = $csModels.models.Billing.HoldingPolicy;
             initLocal();
-            calculateMonthList();
+            
             datalayer.getList().then(function (data) {
                 $scope.policyList = data;
             });

@@ -119,7 +119,7 @@
             Value: { label: 'Value', type: 'number', required: true },
             ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
-            StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'valuefield', textField: 'display' },
+            
             Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
         };
     };
@@ -129,6 +129,7 @@
             HoldingPolicy: { label: 'Holding Policy', type: 'select', textField:'Name', required: true },
             Stakeholder: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
+            StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'valuefield', textField: 'display' }
         };
     };
 

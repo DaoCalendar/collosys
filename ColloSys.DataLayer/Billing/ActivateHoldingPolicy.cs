@@ -9,5 +9,6 @@ namespace ColloSys.DataLayer.Mapping
         public virtual HoldingPolicy HoldingPolicy { get; set; }
         public virtual Stakeholders Stakeholder { get; set; }
         public virtual ScbEnums.Products Products { get; set; }
+        public virtual int StartMonth { get; set; }
     }
 }

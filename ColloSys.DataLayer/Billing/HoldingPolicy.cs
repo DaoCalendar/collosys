@@ -16,7 +16,7 @@ namespace ColloSys.DataLayer.Mapping
         public virtual ColloSysEnums.RuleForHolding Rule { get; set; }
         public virtual decimal Value { get; set; }
         public virtual string TransactionType { get; set; }
-        public virtual int StartMonth { get; set; }
+        
         public virtual int Tenure { get; set; }
 
         public virtual IList<ActivateHoldingPolicy> ActivateHoldingPolicies { get; set; } 
