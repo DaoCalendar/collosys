@@ -68,21 +68,24 @@
     var customerInfo = function () {
 
         return {
-            Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
-            AccountNo: { type: "text" },
-            GlobalCustId: { type: "text" },
-            CustomerName: { type: "text" },
-            Pincode: { type: "uint" },
-            Product: { type: "enum", valueList: $csShared.enums.Products },
+            Flag: { type: "enum", valueList: $csShared.enums.DelqFlag},
+            AccountNo: { type: "enum",multiple:"", valueList: []},
+            GlobalCustId: { type: "enum", valueList:[] },
+            CustomerName: { type: "enum", valueList: [] },
+            Pincode: { type: "uint"},
+            Product: { type: "enum", valueList: $csShared.enums.Products},
             CustStatus: { type: "text" },
             AllocStartDate: { type: "date" },
-            AllocEndDate: { type: "date" },
-            ChargeofDate: { type: "date" },
-            AllocStatus: { type: "enums", valueList: $csShared.enums.AllocStatus },
+            IsInRecovery: {type:"enum",valueList:['Yes','No']},//to be disscuss for checkbox
+            IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
+            IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No']},
+            AllocEndDate: { type: "date"},
+            ChargeofDate: { type: "date"},
+            AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
             TotalDue: { type: "decimal" },
             NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
-            Cycle: { type: "uint" },
-            Bucket: {type:"uint"}
+            Cycle: { type: "number"},
+            Bucket: { type: "uint"}
         };
     };
 

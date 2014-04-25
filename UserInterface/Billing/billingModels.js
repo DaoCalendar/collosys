@@ -16,6 +16,21 @@
         };
     };
 
+    var adhocpayout = function () {
+        return {
+            //selectedStkholderId: { label: 'Stakeholder', type: 'enum', required: true },
+            //Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
+            IsPretax: { label: ' IsPretax', type: 'select' },
+            IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
+            ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
+            StartMonth: { label: 'Start Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
+            Tenure: { label: 'Tenure', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
+            Description: { label: 'Description', type: 'textarea', required: true },
+        };
+    };
+
     var billAmount = function () {
         return {
             Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
@@ -100,14 +115,15 @@
 
     var activateHolding = function () {
         return {
-            HoldingPolicy: { label: 'Stakeholder', type: 'text', required: true },
-            Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
+            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField:'Name', required: true },
+            Stakeholder: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
         };
     };
 
     var init = function () {
         models.BillAdhoc = billAdhoc();
+        models.AdhocPayout = adhocpayout();
         models.BillAmount = billAmount();
         models.BillingSubpolicy = billingSubpolicy();
         models.Formula = formula();

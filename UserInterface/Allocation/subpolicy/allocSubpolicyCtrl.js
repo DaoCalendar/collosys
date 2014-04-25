@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels','$csShared',
-    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, $csShared) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, $csShared, $csFileUploadModels, $csGenericModels) {
         "use strict";
 
         (function () {
@@ -11,10 +11,15 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.dldata = datalayer.dldata;
             $scope.dldata.allocSubpolicy = {};
             $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
+            $scope.CustomerInfo = $csFileUploadModels.models.CustomerInfo;
+            $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.dldata.allocSubpolicyList = [];
             $scope.datalayer.getProducts();
             $scope.showDiv = false;
             $scope.datalayer.getReasons();
+            $scope.fieldname = '';
+            $scope.showField = true;
+            $scope.showField2 = false;
         })();
 
         $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
@@ -55,38 +60,99 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         };
 
         $scope.changeLeftColName = function (condition) {
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            var fieldVal = condition.ColumnName.split(".");
+            $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            
             if (inputType === "text") {
                 condition.Operator = '';
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
                 $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                $scope.datalayer.getColumnValues(condition.ColumnName);
+                datalayer.getColumnValues(condition.ColumnName).then(function (data) {
+                    $scope.fieldname.valueList = data;
+                });
                 return;
             }
-
             if (inputType === "checkbox") {
-                condition.Operator = "EqualTo";
+                condition.Operator = 'EqualTo';
+                condition.Rtype = 'Value';
+                condition.Rvalue = '';
                 $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
                 return;
             }
-
             if (inputType === "dropdown") {
-                $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
-                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
+                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 return;
             }
-
             condition.Operator = '';
-            $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
+            $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
+
+
+
         };
+
+        $scope.manageField = function (condition) {
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType!=='text') {
+                return;
+            }
+            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+                $scope.fieldname.type = "text";
+                $scope.fieldname.required = true;
+                return;
+            }
+            if (condition.Operator === "IsInList") {
+                $scope.fieldname.multiple = "multiple";
+            } 
+            $scope.fieldname.type = "enum";
+        };
+
+        //$scope.changeLeftColName = function (condition) {
+        //    $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
+        //    var inputType = $scope.dldata.selectedLeftColumn.InputType;
+        //    if (inputType === "text") {
+        //        condition.Operator = '';
+        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
+        //        condition.Rtype = 'Value';
+        //        condition.Rvalue = '';
+
+        //        $scope.datalayer.getColumnValues(condition.ColumnName);
+        //        return;
+        //    }
+
+        //    if (inputType === "checkbox") {
+        //        condition.Operator = "EqualTo";
+        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.CheckboxConditionOperators;
+        //        condition.Rtype = 'Value';
+        //        condition.Rvalue = '';
+        //        return;
+        //    }
+
+        //    if (inputType === "dropdown") {
+        //        $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+        //        $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
+        //        condition.Rtype = 'Value';
+        //        condition.Rvalue = '';
+        //        return;
+        //    }
+
+        //    condition.Operator = '';
+        //    $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
+        //    condition.Rtype = 'Value';
+        //    condition.Rvalue = '';
+        //};
 
         $scope.showIndividual = function (stkh) {
             if (angular.isUndefined(stkh.Hierarchy)) return false;
@@ -152,7 +218,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
             if (angular.isUndefined(dldata.allocSubpolicy.Id)) {
                 dldata.allocSubpolicy.Conditions = [];
-               
+
             } else {
                 check(dldata.allocSubpolicy.ReasonNotAllocate);
             }
@@ -216,8 +282,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         };
 
         var getColumnValues = function (columnName) {
-            restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
-                dldata.conditionValues = data;
+            return restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
+                //  dldata.conditionValues = data;
+                return data;
             }, function (data) {
                 $csnotify.error(data);
             });
