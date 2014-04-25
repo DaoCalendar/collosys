@@ -11,8 +11,10 @@
             IsCredit: { label: 'Transaction Type', type: 'select', required: true },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
             StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'Key', textField: 'Value' },
+            StartMonthValue: { label: 'Start Month', type: 'date', required: true, valueField: 'Key', textField: 'Value' },
             Tenure: { label: 'Tenure', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
-            Description: { label: 'Description', type: 'text', required: true }
+            Description: { label: 'Description', type: 'text', required: true },
+            Describe: { label: 'Description', type: 'textarea', required: true }
         };
     };
 
