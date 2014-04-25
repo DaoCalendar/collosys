@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
+using ColloSys.FileUploader.AliasRecordCreator;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -17,13 +18,14 @@ namespace ColloSys.FileUploader.AliasReader
         private readonly List<string> _ePaymentExcludeCodes;
         private const uint AccountPosition = 1;
         private const uint AccountLength = 11;
-       private readonly FileScheduler _scheduler;
+       public readonly FileScheduler _scheduler;
 
         public EbbsPaymentLinerRecordCreator(FileScheduler fileScheduler, List<string> ePaymentExcludeCodes)
             : base(fileScheduler, AccountPosition, AccountLength)
         {
             _ePaymentExcludeCodes = ePaymentExcludeCodes;
             _scheduler = fileScheduler;
+            base.FileScheduler = fileScheduler;
         }
 
         #endregion

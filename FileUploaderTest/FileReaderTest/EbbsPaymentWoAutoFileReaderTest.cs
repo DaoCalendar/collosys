@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
@@ -13,18 +9,21 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.FileReaderTest
 {
     [TestFixture]
-    class RlsPaymentManualReversalFileReaderTest
+    class EbbsPaymentWoAutoFileReaderTest
     {
         private IFileReader<Payment> _fileReader;
         private FileScheduler _uploadedFile;
         private FileMappingData _data;
+        private List<string> _excludeCodes;
+
         [SetUp]
         public void Init()
         {
             _data = new FileMappingData();
             _uploadedFile = _data.GetUploadedFile();
-            _fileReader = new RlsPaymentManualReversalFileReader(_uploadedFile);
-       }
+            _excludeCodes = _data.GetTransactionList();
+            _fileReader = new EbbsPaymentWoAutoFileReader(_uploadedFile, _excludeCodes);
+        }
 
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
@@ -34,7 +33,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch(payment, mappings, 20);
 
             //Assert
             Assert.AreEqual(payment.AccountNo, "");
@@ -48,7 +47,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch(payment, mappings, 20);
 
             //Assert
             Assert.AreEqual(_fileReader.List.Count, 14);

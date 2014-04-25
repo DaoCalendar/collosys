@@ -10,7 +10,7 @@ namespace ColloSys.FileUploader.AliasFileReader
     public class RlsPaymentLinerFileReader : FileReader<Payment>
     {
         public RlsPaymentLinerFileReader(FileScheduler file)
-            : base(new RlsPaymentLinerRecordCreator(file),SharedUtility.GetInstance(new FileInfo(file.FileDirectory)))
+            : base(new RlsPaymentLinerRecordCreator(file))
         {
             
         }

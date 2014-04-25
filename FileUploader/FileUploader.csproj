@@ -59,8 +59,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasFileReader\EbbsPaymentLinerFileReader.cs" />
+    <Compile Include="AliasFileReader\EbbsPaymentWoAutoFileReader.cs" />
+    <Compile Include="AliasFileReader\EbbsPaymentWoSmcFileReader.cs" />
     <Compile Include="AliasFileReader\RlsPaymentManualReversalFileReader.cs" />
     <Compile Include="AliasFileReader\RlsPaymentWoAebFileReader.cs" />
+    <Compile Include="AliasFileReader\RlsPaymentWoPlpcFileReader.cs" />
     <Compile Include="AliasRecordCreator\AliasPaymentRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\AliasWriteOffRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\EbbsPaymentLinerRecordCreator.cs" />
@@ -70,7 +74,7 @@
     <Compile Include="AliasRecordCreator\RlsPaymentManualReversalRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsPaymentWoAebRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsPaymentWoPlpcRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffAutoAebrecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RlsWriteOffAutoAebRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsWriteOffAutoGbRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsWriteOffAutoRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsWriteOffAutoScbRecordCreator.cs" />

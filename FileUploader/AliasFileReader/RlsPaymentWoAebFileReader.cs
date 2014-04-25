@@ -15,7 +15,7 @@ namespace ColloSys.FileUploader.AliasFileReader
    public class RlsPaymentWoAebFileReader : FileReader<Payment>
     {
         public RlsPaymentWoAebFileReader(FileScheduler file)
-            : base(new RlsPaymentWoAebRecordCreator(file), SharedUtility.GetInstance(new FileInfo(file.FileDirectory)))
+            : base(new RlsPaymentWoAebRecordCreator(file))
         {
             
         }

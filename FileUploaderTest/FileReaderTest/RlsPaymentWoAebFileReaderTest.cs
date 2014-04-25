@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.ClientData;
+﻿using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.FileReader;
@@ -12,6 +7,7 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests.FileReaderTest
 {
+    [TestFixture]
     class RlsPaymentWoAebFileReaderTest
     {
         private IFileReader<Payment> _fileReader;
@@ -50,7 +46,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
+            Assert.AreEqual(_fileReader.List.Count, 16);
 
         }
     }

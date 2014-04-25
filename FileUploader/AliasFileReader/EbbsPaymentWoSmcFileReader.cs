@@ -12,12 +12,12 @@ using ColloSys.FileUploader.Utilities;
 
 namespace ColloSys.FileUploader.AliasFileReader
 {
-   public class RlsPaymentManualReversalFileReader : FileReader<Payment>
+   public class EbbsPaymentWoSmcFileReader : FileReader<Payment>
     {
-        public RlsPaymentManualReversalFileReader(FileScheduler file)
-            : base(new RlsPaymentManualReversalRecordCreator(file))
+        public EbbsPaymentWoSmcFileReader(FileScheduler file, List<string> excludeCodes)
+            : base(new EbbsPaymentWoSmcRecordCreator(file, excludeCodes))
         {
-            
+
         }
     }
 }

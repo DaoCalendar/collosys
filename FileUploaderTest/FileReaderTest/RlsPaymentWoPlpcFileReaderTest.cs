@@ -13,18 +13,19 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.FileReaderTest
 {
     [TestFixture]
-    class RlsPaymentManualReversalFileReaderTest
+    internal class RlsPaymentWoPlpcFileReaderTest
     {
         private IFileReader<Payment> _fileReader;
         private FileScheduler _uploadedFile;
         private FileMappingData _data;
+
         [SetUp]
         public void Init()
         {
             _data = new FileMappingData();
             _uploadedFile = _data.GetUploadedFile();
-            _fileReader = new RlsPaymentManualReversalFileReader(_uploadedFile);
-       }
+            _fileReader = new RlsPaymentWoPlpcFileReader(_uploadedFile);
+        }
 
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
@@ -34,7 +35,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch(payment, mappings, (uint) 20);
 
             //Assert
             Assert.AreEqual(payment.AccountNo, "");
@@ -48,10 +49,10 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch(payment, mappings, (uint) 20);
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
+            Assert.AreEqual(_fileReader.List.Count, 16);
 
         }
     }

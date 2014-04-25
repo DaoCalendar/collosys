@@ -4,6 +4,7 @@ using System;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
+using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using NSubstitute;
 using NUnit.Framework;

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RecordCreator;
+using ColloSys.FileUploader.Utilities;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.FileReader
@@ -15,10 +17,10 @@ namespace ColloSys.FileUploader.FileReader
         public IList<T> List { get; private set; }
         private readonly IExcelReader _excelReader;
 
-        protected FileReader(IAliasRecordCreator<T> recordCreator, IExcelReader reader)
+        protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
-
-            _excelReader = reader;
+            var fs = recordCreator.FileScheduler;
+            _excelReader = SharedUtility.GetInstance(new FileInfo(fs.FileDirectory));
             _objRecord = new RecordCreator<T>(recordCreator, _excelReader);
         }
         #endregion
