@@ -353,6 +353,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         $scope.manageField = function (condition) {
+            condition.Rvalue = '';
             $scope.showField = $scope.showField === true ? false : true;
             $scope.showField2 = !$scope.showField2;
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
