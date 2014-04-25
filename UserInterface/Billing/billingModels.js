@@ -31,6 +31,17 @@
         };
     };
 
+    var summary = function() {
+        return {
+            Product:{label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true},
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
+            IsPretax: { label: ' IsPretax', type: 'select' },
+            ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
+            Description: { label: 'Description', type: 'textarea', required: true },
+        };
+    };
+
     var billAmount = function () {
         return {
             Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
@@ -124,6 +135,7 @@
     var init = function () {
         models.BillAdhoc = billAdhoc();
         models.AdhocPayout = adhocpayout();
+        models.Summary = summary();
         models.BillAmount = billAmount();
         models.BillingSubpolicy = billingSubpolicy();
         models.Formula = formula();

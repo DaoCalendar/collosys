@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -9,7 +9,13 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             factory.initEnums();
             $scope.dldata.BillAmount = {};
             $scope.dldata.billingData = {};
+            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
         })();
+
+        $scope.changeCredit = function () {
+            $scope.adhocPayoutbill.IsCredit.valueList = datalayer.dldata.transcationtypes;
+            $scope.adhocPayoutbill.IsPretax.valueList = datalayer.dldata.taxtype;
+        };
 
         $scope.openViewModal = function () {
             $modal.open({
@@ -19,6 +25,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
         };
 
         $scope.openAddModal = function () {
+            $scope.changeCredit();
             $modal.open({
                 templateUrl: baseUrl + 'Billing/summary/add-billamount-modal.html',
                 controller: 'billAmountAddModal',
@@ -37,6 +44,11 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
                 dldata.products = data;
             });
         };
+
+        dldata.transcationtypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
+        dldata.taxtype = ['PreTax', 'PostTax'];
+        dldata.Reasonstype = [{ display: 'Performance', transcationtype: 'true' },
+            { display: 'Customer Complaints', transcationtype: 'false' }];
 
         var addAdhocPayout = function (adhocPayout, billingData) {
             var stakeholder = _.find(dldata.stakeholderList, { 'Id': dldata.BillAmount.Stakeholder });
@@ -126,21 +138,16 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
 csapp.factory('billAmountFactory', ['billAmountDataLayer', function (datalayer) {
     var dldata = datalayer.dldata;
 
-    var initEnums = function () {
-        dldata.transcationTypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
-        dldata.taxtype = ['PreTax', 'PostTax'];
-        dldata.Reasonstype = [
-        { display: 'Performance', IsCredit: 'true' },
-        { display: 'Customer Complaints', IsCredit: 'false' }];
-    };
+    var initEnums = function () {};
 
     var enableLink = function () {
         return false;
         //return ($csfactory.isEmptyObject(dldata.billingData) || dldata.billingData == 'null');
     };
 
-    var selectTransaction = function (transType) {
-        dldata.reasonCode = _.where(dldata.Reasonstype, { 'IsCredit': transType });
+    var selectTransaction = function (st) {
+        var selecttransdata = _.where(dldata.Reasonstype, { 'transcationtype': st });
+        return selecttransdata;
     };
 
     var getDetailData = function (paymentSource) {
@@ -170,13 +177,20 @@ csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billA
         };
     }]);
 
-csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modalInstance',
-    function ($scope, datalayer, factory, $modalInstance) {
+csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory',
+    '$modalInstance','$csBillingModels',
+    function ($scope, datalayer, factory, $modalInstance, $csBillingModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
         })();
+
+        $scope.changeCredit = function (credit) {
+            $scope.selecttransdata = factory.selectTransaction(credit);
+            $scope.adhocPayoutbill.ReasonCode.valueList = $scope.selecttransdata;
+        };
 
         $scope.closeModal = function () {
             $modalInstance.dismiss();
