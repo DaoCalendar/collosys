@@ -1,90 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ColloSys.DataLayer.Allocation;
+using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.Billing
 {
-    public class CustBillViewModel
+    public class CustBillViewModel : Entity, ICustBillViewModel
     {
-        public string AccountNo { get; set; }
+        public virtual string AccountNo { get; set; }
 
-        public string GlobalCustId { get; set; }
+        public virtual string GlobalCustId { get; set; }
 
-        public ColloSysEnums.DelqFlag Flag { get; set; }
+        public virtual ColloSysEnums.DelqFlag Flag { get; set; }
 
-        public ScbEnums.Products Product { get; set; }
+        public virtual ScbEnums.Products Product { get; set; }
 
-        public bool IsInRecovery { get; set; }
+        public virtual bool IsInRecovery { get; set; }
 
-        public DateTime? ChargeofDate { get; set; }
+        public virtual DateTime? ChargeofDate { get; set; }
 
-        public uint Cycle { get; set; }
+        public virtual uint Cycle { get; set; }
 
-        public uint Bucket { get; set; }
+        public virtual uint Bucket { get; set; }
 
-        public uint MobWriteoff { get; set; }
+        public virtual uint MobWriteoff { get; set; }
 
-        public uint Vintage { get; set; }
+        public virtual uint Vintage { get; set; }
 
-        public ColloSysEnums.CityCategory CityCategory { get; set; }
+        public virtual ColloSysEnums.CityCategory CityCategory { get; set; }
 
-        public bool IsXHoldAccount { get; set; }
+        public virtual string City { get; set; }
 
-        public DateTime AllocationStartDate { get; set; }
+        public virtual bool IsXHoldAccount { get; set; }
 
-        public DateTime? AllocationEndDate { get; set; }
+        public virtual DateTime AllocationStartDate { get; set; }
 
-        public decimal TotalDueOnAllocation { get; set; }
+        public virtual DateTime? AllocationEndDate { get; set; }
 
-        public decimal TotalAmountRecovered { get; set; }
+        public virtual decimal TotalDueOnAllocation { get; set; }
 
-        public decimal ResolutionPercentage { get; set; }
+        public virtual decimal TotalAmountRecovered { get; set; }
 
-        public GPincode GPincode { get; set; }
+        public virtual decimal ResolutionPercentage { get; set; }
 
-        public Stakeholders Stakeholders { get; set; }
+        public virtual GPincode GPincode { get; set; }
 
-        //public StkhPerformance StkhPerformance { get; set; }
-    }
+        public virtual Stakeholders Stakeholders { get; set; }
 
-    public class StkhBillViewModel
-    {
-        public Stakeholders Stakeholders { get; set; }
+        public virtual string ConditionSatisfy { get; set; }
 
-        public decimal TotalAmountRecovered { get; set; }
-
-        public decimal TotalAmountAllocated { get; set; }
-
-        public decimal TotalResolutionPer
-        {
-            get { return (TotalAmountRecovered * (100)) / TotalAmountAllocated; }
-        }
-
-
-        public decimal Bucket1ResolutionPer { get; set; }
-
-        public decimal Bucket2ResolutionPer { get; set; }
-
-        public decimal Bucket3ResolutionPer { get; set; }
-
-        public decimal Bucket4ResolutionPer { get; set; }
-
-        public decimal Bucket5ResolutionPer { get; set; }
-
-        public decimal Bucket6ResolutionPer { get; set; }
-    }
-
-    public class CustStkhBillViewModel
-    {
-        public CustBillViewModel CustBillViewModel { get; set; }
-
-        public GPincode GPincode { get; set; }
-
-        public StkhBillViewModel StkhBillViewModel { get; set; }
+        public virtual BillDetail BillDetail { get; set; }
     }
 }

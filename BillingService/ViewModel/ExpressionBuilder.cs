@@ -1,16 +1,15 @@
-﻿#region references
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using NLog;
-
-#endregion
-
 
 namespace BillingService.ViewModel
 {
@@ -20,7 +19,7 @@ namespace BillingService.ViewModel
 
         #region where Condition Expression
 
-        public static Expression<Func<T, bool>> GetConditionExpression<T>(ScbEnums.Products products, List<BCondition> bConditions, List<T> data)
+        public static Expression<Func<T, bool>> GetConditionExpression<T>(BillDetail billDetail, List<BCondition> bConditions, List<T> data, TraceLogs traceLogs)
         {
             var parameter = Expression.Parameter(typeof(T), "x");
             Expression expression = null;
@@ -29,17 +28,17 @@ namespace BillingService.ViewModel
             {
                 var bCondition = bConditions[i];
                 expression = (expression == null)
-                                 ? GetConditionExpression(parameter, products, bCondition, data)
-                                 : Expression.AndAlso(expression, GetConditionExpression(parameter, products, bCondition, data));
+                                 ? GetConditionExpression(parameter, billDetail, bCondition, data, traceLogs)
+                                 : Expression.AndAlso(expression, GetConditionExpression(parameter, billDetail, bCondition, data, traceLogs));
             }
 
             return Expression.Lambda<Func<T, bool>>(expression, parameter);
         }
 
-        private static Expression GetConditionExpression<T>(ParameterExpression parameter, ScbEnums.Products products, BCondition bCondition, List<T> data)
+        private static Expression GetConditionExpression<T>(ParameterExpression parameter, BillDetail billDetail, BCondition bCondition, List<T> data, TraceLogs traceLogs)
         {
-            Expression left = GetLeftExpression(parameter, products, bCondition, data);
-            Expression right = GetRightExpression(parameter, bCondition, left.Type);
+            Expression left = GetLeftExpression(parameter, billDetail, bCondition, data, traceLogs);
+            Expression right = GetRightExpression(parameter, bCondition, left.Type, traceLogs);
 
             switch (bCondition.Operator)
             {
@@ -60,6 +59,9 @@ namespace BillingService.ViewModel
 
                 case ColloSysEnums.Operators.EqualTo:
                     return Expression.Equal(left, right);
+                 //TODO:Done please check case
+                case ColloSysEnums.Operators.IsIn:
+                    return Expression.Call(parameter, typeof(string[]).GetMethod("Contains"), right, left);
 
                 //case ColloSysEnums.Operators.StartsWith:
                 //case ColloSysEnums.Operators.EndsWith:
@@ -70,7 +72,7 @@ namespace BillingService.ViewModel
             }
         }
 
-        private static Expression GetLeftExpression<T>(ParameterExpression parameter, ScbEnums.Products products, BCondition bCondition, List<T> data)
+        private static Expression GetLeftExpression<T>(ParameterExpression parameter,BillDetail billDetail, BCondition bCondition, List<T> data, TraceLogs traceLogs)
         {
             switch (bCondition.Ltype)
             {
@@ -85,9 +87,12 @@ namespace BillingService.ViewModel
 
                     return PropertyOfProperty(parameter, bCondition.LtypeName);
                 case ColloSysEnums.PayoutLRType.Formula:
-                    var value = FormulaBuilder.SolveFormula<T>(products, bCondition.LtypeName, data);
-
-                    Logger.Info(string.Format("Product : {0},Formula : {1} give value : {2}", products, bCondition.LtypeName, value));
+                    var value = FormulaBuilder.SolveFormula<T>(billDetail, bCondition.LtypeName, data, traceLogs);
+                    traceLogs.AddFormula(bCondition.LtypeName, value);
+                    var log = string.Format("Product : {0},Formula : {1} give value : {2}", billDetail.Products,
+                                            bCondition.LtypeName, value);
+                    traceLogs.SetLog(log);
+                    Logger.Info(log);
 
                     return (value.GetType() == typeof(Expression)) ? value : Expression.Constant(value);
                 case ColloSysEnums.PayoutLRType.Matrix:
@@ -97,7 +102,7 @@ namespace BillingService.ViewModel
             }
         }
 
-        private static Expression GetRightExpression(ParameterExpression parameter, BCondition bCondition, Type rightType)
+        private static Expression GetRightExpression(ParameterExpression parameter, BCondition bCondition, Type rightType, TraceLogs traceLogs)
         {
             switch (bCondition.Rtype)
             {
@@ -122,7 +127,7 @@ namespace BillingService.ViewModel
 
         #region select output expression
 
-        public static decimal GetOutputExpression<T>(ScbEnums.Products products, List<BCondition> bConditions, List<T> data)
+        public static decimal GetOutputExpression<T>(BillDetail billDetail, List<BCondition> bConditions, List<T> data, TraceLogs traceLogs)
         {
             var parameter = Expression.Parameter(typeof(T), "x");
 
@@ -131,7 +136,7 @@ namespace BillingService.ViewModel
             {
                 var bCondition = bConditions[i];
                 ouput = MathOperation(bCondition.Operator, ouput,
-                                      GetOutputExpression(parameter, products, bCondition, data));
+                                      GetOutputExpression(parameter, billDetail, bCondition, data, traceLogs));
             }
 
             return ouput;
@@ -157,9 +162,9 @@ namespace BillingService.ViewModel
             }
         }
 
-        private static decimal GetOutputExpression<T>(ParameterExpression parameter, ScbEnums.Products products, BCondition bCondition, List<T> data)
+        private static decimal GetOutputExpression<T>(ParameterExpression parameter, BillDetail billDetail, BCondition bCondition, List<T> data, TraceLogs traceLogs)
         {
-            dynamic right = GetRightOutputExpression<T>(parameter, products, bCondition, typeof(decimal), data);
+            dynamic right = GetRightOutputExpression<T>(parameter, billDetail, bCondition, typeof(decimal), traceLogs, data);
 
             if (right.GetType() == typeof(decimal))
             {
@@ -188,7 +193,7 @@ namespace BillingService.ViewModel
             }
         }
 
-        private static dynamic GetRightOutputExpression<T>(ParameterExpression parameter, ScbEnums.Products products, BCondition bCondition, Type rightType, List<T> data = null)
+        private static dynamic GetRightOutputExpression<T>(ParameterExpression parameter, BillDetail billDetail, BCondition bCondition, Type rightType, TraceLogs traceLogs, List<T> data = null)
         {
             switch (bCondition.Rtype)
             {
@@ -204,13 +209,21 @@ namespace BillingService.ViewModel
 
                     return PropertyOfProperty(parameter, bCondition.RtypeName);
                 case ColloSysEnums.PayoutLRType.Formula:
-                    var formulaValue = FormulaBuilder.SolveFormula<T>(products, bCondition.RtypeName, data);
-                    Logger.Info(string.Format("Product : {0}, Formula : {1} give value : {2}", products, bCondition.RtypeName, formulaValue));
+                    var formulaValue = FormulaBuilder.SolveFormula<T>(billDetail, bCondition.RtypeName, data, traceLogs);
+                    traceLogs.AddFormula(bCondition.RtypeName, formulaValue);
+                    var log = string.Format("Product : {0}, Formula : {1} give value : {2}", billDetail.Products,
+                                            bCondition.RtypeName, formulaValue);
+                    traceLogs.SetLog(log);
+                    Logger.Info(log);
                     return formulaValue;
                 case ColloSysEnums.PayoutLRType.Matrix:
-                    var matrixValue = MatrixCalculator.CalculateMatrix<T>(products, bCondition.RtypeName, data);
+                    var matrixValue = MatrixCalulater.CalculateMatrix<T>(billDetail, bCondition.RtypeName, data, traceLogs);
 
-                    Logger.Info(string.Format("Product : {0}, Matrix : {1} give value : {2}", products, bCondition.RtypeName, matrixValue));
+                    traceLogs.AddMatrixValue(bCondition.RtypeName,matrixValue);
+                    var log2 = string.Format("Product : {0}, Matrix : {1} give value : {2}", billDetail.Products,
+                                            bCondition.RtypeName, matrixValue);
+                    traceLogs.SetLog(log2);
+                    Logger.Info(log2);
                     return matrixValue;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -219,9 +232,23 @@ namespace BillingService.ViewModel
 
         #endregion
 
+        #region Group by Object
+
+        public static List<object> GetGroupByObjects<T>(string gropByColumn, List<T> data)
+        {
+            var parameter = Expression.Parameter(typeof(T), "x");
+
+            var expression = PropertyOfProperty(parameter, gropByColumn);
+
+            return data.Select(Expression.Lambda<Func<T, object>>(expression, parameter).Compile()).Distinct().ToList();
+        }
+
+        #endregion
+
         #region Helper
 
-        private static dynamic ConvertToType(string value, Type type)
+        private static
+        dynamic ConvertToType(string value, Type type)
         {
             if (type.IsEnum)
             {
