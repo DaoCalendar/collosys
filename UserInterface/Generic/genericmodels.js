@@ -39,6 +39,7 @@
             City: { label: 'City', type: 'enum', required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
+            IsInUse: {type:"enum",valueList:['Yes','No'],required:true},
             Pincode: { label: 'Pincode', type: 'uint', editable: false, pattern: '/^[0-9]{6}$/', required: true }
         };
     };

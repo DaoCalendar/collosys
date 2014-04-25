@@ -66,13 +66,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.fieldname = $scope[fieldVal[0]][fieldVal[1]];
             $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType === "number") {
-                condition.Operator = '';
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
-                return;
-            }
+            
             if (inputType === "text") {
                 condition.Operator = '';
                 condition.Rtype = 'Value';
@@ -96,7 +90,33 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
                 $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 return;
             }
+            condition.Operator = '';
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+            $scope.allocSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
 
+
+
+        };
+
+        $scope.manageField = function (condition) {
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.ColumnName });
+            var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            if (inputType!=='text') {
+                return;
+            }
+            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+                $scope.fieldname.type = "text";
+                $scope.fieldname.required = true;
+                return;
+            }
+            if (condition.Operator === "IsInList") {
+                $scope.fieldname.multiple = "multiple";
+            } 
+            $scope.fieldname.type = "enum";
         };
 
         //$scope.changeLeftColName = function (condition) {
