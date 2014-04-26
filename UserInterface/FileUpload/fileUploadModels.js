@@ -85,7 +85,7 @@
         return {
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
             Operator: {type:"enum",valueList:$csShared.enums.ConditionOperators},
-            Value: {type:"text"}
+          
         };
     };
 
