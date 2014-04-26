@@ -97,7 +97,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
             var html = '<input name="myfield" type="number"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += ' ng-required="' + attrs.field + '.required"';
+            html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
