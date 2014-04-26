@@ -79,6 +79,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/errorapproval', {
                 templateUrl: baseUrl + 'FileUpload/errorapproval/error-approval.html',
                 controller: 'errorApprovalController'
+            }).when('/fileupload/filterCondition', {
+                templateUrl: baseUrl + 'FileUpload/filterCondition/filterCondition.html',
+                controller: 'filterConditionController'
             })
 
             //stakeholder
