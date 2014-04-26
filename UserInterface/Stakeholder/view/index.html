@@ -12,8 +12,7 @@
                     <label class="control-label">View</label>
                     <div class="controls">
                         <select class="input-medium" data-ng-model="stakeholder.filter"
-                            data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)"
-                            data-ng-click="">
+                            data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)">
                             <option></option>
                             <option data-ng-repeat="data in filters">{{data}}</option>
                         </select>
@@ -23,15 +22,15 @@
                     <div class="control-group span3">
                         <label class="control-label">Hierarchy</label>
                         <div class="controls">
-                            <div data-ng-show="stakeholder.filter!='ReportingTo'">
+                            <div data-ng-show="stakeholder.filter!=='ReportingTo'">
                                 <select class="input-medium"
                                     data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()">
                                     <option></option>
                                     <option data-ng-repeat="data in hierarchyDesignation|unique:'Hierarchy'">{{data.Hierarchy}}</option>
                                 </select>
                             </div>
-                            <div data-ng-show="stakeholder.filter==='ReportingTo'">
-                                <select data-ui-select2=""
+                            <div data-ng-show="stakeholder.filter=='ReportingTo'">
+                                <select
                                     data-ng-show="stakeholder.filter==='ReportingTo'"
                                     class="input-medium" data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()">
                                     <option></option>
@@ -44,7 +43,7 @@
                         <div class="control-group span3">
                             <label class="control-label">Designation</label>
                             <div class="controls">
-                                <select data-ui-select2="" class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()">
+                                <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()">
                                     <option></option>
                                     <option data-ng-repeat="data in hierarchyDesignation|filter:{'Hierarchy':stakeholder.Hierarchy}|orderBy:'PositionLevel'"
                                         value="{{data.Id}}">{{getHierarchyDisplayName(data)}}</option>
@@ -56,7 +55,7 @@
                         <div class="control-group span3">
                             <label class="control-label">Designation</label>
                             <div class="controls">
-                                <select data-ui-select2="" class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data);reportsToStakeholder=''; updateScreen()">
+                                <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data);reportsToStakeholder=''; updateScreen()">
                                     <option></option>
                                     <option data-ng-repeat="data in hierarchyDesignation|filter:{'Hierarchy':stakeholder.Hierarchy}|filter:{'IsIndividual':'false'}|orderBy:'PositionLevel'"
                                         value="{{data.Id}}">{{data.Designation}}</option>
@@ -113,7 +112,8 @@
                </cspagination>
             </div>
         </div>
-        <div class="form-horizontal well " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+        <div class="form-horizontal well row-fluid " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+
             <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
 
             <div data-ng-show="moreDetails==$index+'RegistrationDetails' && data.StkhRegistrations.length>0">
@@ -121,6 +121,7 @@
                     <div class="row" data-ng-include="baseUrl +'Stakeholder/view/registration.html'"></div>
                 </div>
             </div>
+
             <div data-ng-show="moreDetails==$index+'ReporteeDetails' && ReporteeList.length>0">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -144,10 +145,7 @@
                 </table>
             </div>
 
-            <div class="row" data-ng-include="'/Stakeholder/view/workings.html'"></div>
-
-            <div class="row" data-ng-include="baseUrl +'Stakeholder/view/workings.html'"></div>
-
+            <div data-ng-include="baseUrl +'Stakeholder/view/workings.html'"></div>
 
             <div data-ng-show="moreDetails==$index+'PaymentDetails' && data.StkhPayments.length>0">
                 <table class="table table-hover table-bordered">

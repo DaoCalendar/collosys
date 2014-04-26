@@ -27,5 +27,11 @@ namespace ColloSys.QueryBuilder.Test.StakeBuilder.Test
             var totalData = stakeQuery.GetAll();
             Assert.AreEqual(data.Count(),totalData.Count());
         }
+
+        [Test]
+        public void Check_asdk()
+        {
+            
+        }
     }
 }
