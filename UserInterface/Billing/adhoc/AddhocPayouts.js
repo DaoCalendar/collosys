@@ -94,8 +94,6 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         };
 
         var changeProductCategory = function () {
-            //restApi.customGET("GetBillStatus", { product: dldata.selectedProduct }).then(function(status) {
-            //    if (status) {
             restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
                 dldata.stakeholderList = data;
                 dldata.adhocPayout.Tenure = 1;
@@ -116,16 +114,11 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             }, function (data) {
                 $csnotify.error(data);
             });
-            //} else {
-            //    $csnotify.success("Some message");
-            //}
-
-            //});
         };
 
         var saveData = function (adhocPayout) {
            
-            if (adhocPayout.IsRecurring == false) {
+            if (adhocPayout.IsRecurring !== true) {
                 adhocPayout.Tenure = 1;
             }
             var endDate = moment(adhocPayout.StartMonth).add('month', (adhocPayout.Tenure - 1));
@@ -160,11 +153,6 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         var dldata = datalayer.dldata;
         dldata.adhocPayout = {};
 
-        var resetadhocPayout = function () {
-            dldata.adhocPayout = {};
-            //dldata.selectedProduct = products;
-        };
-
         var selectTransaction = function (st) {
             var selecttransdata = _.where(dldata.Reasonstype, { 'transcationtype': st });
             return selecttransdata;
@@ -177,7 +165,6 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         };
 
         return {
-            resetadhocPayout: resetadhocPayout,
             selectTransaction: selectTransaction,
             showData: showData
         };
@@ -205,6 +192,10 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
         $scope.changeCredit = function(credit) {
             $scope.selecttransdata = factory.selectTransaction(credit);
             $scope.adhocPayoutbill.ReasonCode.valueList = $scope.selecttransdata;
+        };
+
+        $scope.resetadhocPayout = function () {
+            $scope.adhocPayout = {};
         };
 
         $scope.saveData = function (adhocPayout) {

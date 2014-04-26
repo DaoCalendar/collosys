@@ -118,6 +118,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
+    <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
@@ -252,6 +253,11 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\formula-condition.html" />
+    <Content Include="Billing\formula\formula-details.html" />
+    <Content Include="Billing\formula\formula-group-by.html" />
+    <Content Include="Billing\formula\formula-output2.html" />
+    <Content Include="Billing\formula\formula-output.html" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\formula\temp.html" />
@@ -288,6 +294,8 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\loading-bar\loading-bar.css" />
     <Content Include="Content\select2\select2-bootstrap.css" />
+    <Content Include="FileUpload\filterCondition\filterCondition.html" />
+    <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\ng-modules\ui-module.js" />
@@ -439,6 +447,7 @@
     <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.min.css" />
+    <Content Include="Content\favicon.ico" />
     <Content Include="Content\bootstrap3.0\images\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap3.0\images\glyphicons-halflings.png" />
     <Content Include="Content\pnotify\jquery.pnotify.css" />
@@ -506,6 +515,7 @@
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />

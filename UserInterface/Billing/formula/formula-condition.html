@@ -1,0 +1,100 @@
+﻿<div class="row-fluid" id="subpolicy-output" data-ng-hide="dldata.formula.OutputType==='Number'">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Condition </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Where</td>
+                        <td>Operater</td>
+                        <td>Value Type</td>
+                        <td>Value</td>
+                        <td></td>
+                    </tr>
+                    <tr data-ng-form="newConditionForm">
+                        <td>
+                            <cs-field data-ng-model="dldata.newCondition.RelationType" field="formula.RelationType" data-ng-hide="dldata.formula.BConditions.length<1" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <select class="input-large"
+                                    data-ng-model="dldata.newCondition.LtypeName"
+                                    data-ng-change="changeLeftTypeName(dldata.newCondition)"
+                                    required>
+                                <option value=""></option>
+                                <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.newCondition.Operator" field="formula.ConditionOperators" data-ng-change="manageField(dldata.newCondition)" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <csswitch ngbind="dldata.newCondition.Rtype"
+                                      onbtnclick="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''"
+                                      namevalues="dldata.typeSwitch"></csswitch>
+                        </td>
+                        <td class="input-large">
+                            <div></div>
+                            <div data-ng-switch on="dldata.newCondition.Rtype">
+                                <div data-ng-switch-when="Table">
+                                    <select class="input-xlarge"
+                                            data-ng-model="dldata.newCondition.RtypeName"
+                                            required>
+                                        <option value=""></option>
+                                        <option data-ng-repeat="c in dldata.RcolumnNames"
+                                                value="{{c.field}}">
+                                            {{c.displayName}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div data-ng-switch-when="Value">
+
+                                    <div data-ng-if="showField">
+                                        <cs-field data-ng-model="dldata.newCondition.Rvalue"
+                                                  field="fieldname" ng-required="true" no-label=""></cs-field>
+                                        <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                            <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="formula.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                        </div>
+                                    </div>
+                                    <div data-ng-if="showField2">
+                                        <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                        <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                            <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="formula.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
+                                    data-ng-click="factory.addNewCondition(dldata.newCondition);"></button>
+                        </td>
+                    </tr>
+                    <tr data-ng-repeat="condition in dldata.formula.BConditions">
+                        <td>
+                            <input type="text" class="input-mini" readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-large" readonly="readonly" value="{{condition.LtypeName}}" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-medium" readonly="readonly" value="{{condition.Operator}}" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-mini" readonly="readonly" value="{{condition.Rtype}}" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-large" readonly="readonly" value="{{condition.RtypeName +
+                                    ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" />
+                        </td>
+                        <td>
+                            <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

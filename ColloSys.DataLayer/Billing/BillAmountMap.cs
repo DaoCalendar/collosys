@@ -26,6 +26,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x=>x.PayStatusHistory);
             Property(x=>x.HoldAmount);
             Property(x=>x.HoldRepayment);
+            Property(x=>x.TotalAmount);
             #endregion
 
             #region IDateRange

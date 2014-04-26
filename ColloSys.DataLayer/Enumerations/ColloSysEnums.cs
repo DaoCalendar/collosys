@@ -142,7 +142,8 @@ namespace ColloSys.DataLayer.Enumerations
             Minus,
             Multiply,
             Divide,
-            ModuloDivide
+            ModuloDivide,
+            IsIn
         }
 
         [Serializable]
@@ -418,7 +419,9 @@ namespace ColloSys.DataLayer.Enumerations
         public enum ConditionType
         {
             Condition,
-            Output
+            Output,
+            OutputIf,
+            OutputElse
         }
 
         [Serializable]
@@ -454,7 +457,8 @@ namespace ColloSys.DataLayer.Enumerations
         public enum OutputType
         {
             Number,
-            Boolean
+            Boolean,
+            IfElse
         }
 
         [Serializable]
