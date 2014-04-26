@@ -79,6 +79,11 @@
         return auth.getUsername();
     };
 
+    var findIndex = function(array, field, value) {
+        var index = _.indexOf(_.pluck(array, field), value);
+        return index;
+    };
+
     return {
         isNullOrEmptyArray: isNullOrEmptyArray,
         isNullOrEmptyString: isNullOrEmptyString,
@@ -87,7 +92,8 @@
         isEmptyObject: isEmptyObject,
         downloadFile: downloadFile,
         getCurrentUserName: getCurrentUserName,
-        enableSpinner: enableSpinner
+        enableSpinner: enableSpinner,
+        findIndex: findIndex
     };
 }]);
 
