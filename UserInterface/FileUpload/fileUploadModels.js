@@ -42,18 +42,50 @@
     };
     var fileMapping = function () {
         return {
-            ActualTable: { label: "Actual Table", type: "text", editable: false},
-            FileDetail: { label: "File Name", type:"enum"},// tobe disscuss Enum query 
-            ActualColumn: { label: "Actual Column", type: "text"},
-            Position: { label: "Position", type: "text",required:true},
-            OutputPosition: { label: "Output Position", type: "text",required:true},
-            OutputColumnName: { label: "Output ColumnName", type: "text",required:true},
+            ActualTable: { label: "Actual Table", type: "text", editable: false },
+            FileDetail: { label: "File Name", type: "enum" },// tobe disscuss Enum query 
+            ActualColumn: { label: "Actual Column", type: "text" },
+            Position: { label: "Position", type: "text", required: true },
+            OutputPosition: { label: "Output Position", type: "text", required: true },
+            OutputColumnName: { label: "Output ColumnName", type: "text", required: true },
             ValueType: { label: "Value Type", type: "enum", valueList: $csShared.enums.FileMappingValueType, required: true },
             TempTable: { label: "Temp Table", type: "text" },
-            TempColumn: { label: "Temp Column",type:"text",required:true },//similar to FileDetails
-            DefaultValue: { label: "Default Value", type: "text",required:true},
-            StartDate: { label: "Start Date", type: "date",required:true},
-            EndDate: { label: "End Date", type: "date",required:true},
+            TempColumn: { label: "Temp Column", type: "text", required: true },//similar to FileDetails
+            DefaultValue: { label: "Default Value", type: "text", required: true },
+            StartDate: { label: "Start Date", type: "date", required: true },
+            EndDate: { label: "End Date", type: "date", required: true },
+        };
+    };
+
+    var customerInfo = function () {
+
+        return {
+            Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
+            AccountNo: { type: "enum", valueList: [] },
+            GlobalCustId: { type: "enum", valueList: [] },
+            CustomerName: { type: "enum", valueList: [] },
+            Pincode: { type: "uint" },
+            Product: { type: "enum", valueList: $csShared.enums.Products },
+            CustStatus: { type: "text" },
+            AllocStartDate: { type: "date" },
+            IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
+            IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
+            IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No'] },
+            AllocEndDate: { type: "date" },
+            ChargeofDate: { type: "date" },
+            AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
+            TotalDue: { type: "decimal" },
+            NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
+            Cycle: { type: "number" },
+            Bucket: { type: "uint" }
+        };
+    };
+
+    var filterCondition = function () {
+        return {
+            RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
+            Operator: {type:"enum",valueList:$csShared.enums.ConditionOperators},
+          
         };
     };
 
@@ -62,32 +94,11 @@
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
         models.CustomerInfo = customerInfo();
+        models.FilterCondition = filterCondition();
         return models;
     };
 
-    var customerInfo = function () {
 
-        return {
-            Flag: { type: "enum", valueList: $csShared.enums.DelqFlag},
-            AccountNo: { type: "enum", valueList: []},
-            GlobalCustId: { type: "enum", valueList:[] },
-            CustomerName: { type: "enum", valueList: [] },
-            Pincode: { type: "uint"},
-            Product: { type: "enum", valueList: $csShared.enums.Products},
-            CustStatus: { type: "text" },
-            AllocStartDate: { type: "date" },
-            IsInRecovery: {type:"enum",valueList:['Yes','No']},//to be disscuss for checkbox
-            IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
-            IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No']},
-            AllocEndDate: { type: "date"},
-            ChargeofDate: { type: "date"},
-            AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
-            TotalDue: { type: "decimal" },
-            NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
-            Cycle: { type: "number"},
-            Bucket: { type: "uint"}
-        };
-    };
 
     return {
         init: init,

@@ -48,7 +48,7 @@ namespace ColloSys.FileUploadServiceInstaller
                         ManagedInstallerClass.InstallHelper(new[] { Assembly.GetExecutingAssembly().Location });
                         break;
                     case "--uninstall":
-                        ManagedInstallerClass.InstallHelper(new[] { "/u", Assembly.GetExecutingAssembly().Location });
+                        ManagedInstallerClass.InstallHelper(new[] { "/u", Assembly.GetExecutingAssembly().Location });  
                         break;
                     default:
                         throw new InvalidOperationException(string.Format("The parameter:'{0}' is not supported", parameter));

@@ -427,9 +427,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.pincodedata = function (pincode) {
-            var pincodeexist = parseInt(pincode);
+            //var pincodeexist = parseInt(pincode);
             var isExist = _.find(dldata.PincodeUintList, function (item) {
-                return item == pincodeexist;
+                return item == pincode;
             });
             if (angular.isDefined(isExist)) {
                 $scope.alreadyExist = true;
@@ -441,7 +441,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
 
         $scope.pincodeCheck = function (value) {
             var data = dldata.PincodeUintList;
-            return data.indexOf(parseInt(value)) === -1;
+            return data.indexOf(value) === -1;
         };
 
        

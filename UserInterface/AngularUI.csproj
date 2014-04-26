@@ -122,6 +122,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
+    <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
@@ -256,6 +257,11 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\formula-condition.html" />
+    <Content Include="Billing\formula\formula-details.html" />
+    <Content Include="Billing\formula\formula-group-by.html" />
+    <Content Include="Billing\formula\formula-output2.html" />
+    <Content Include="Billing\formula\formula-output.html" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\formula\temp.html" />
@@ -283,9 +289,28 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\select2\css\select2.css" />
+    <Content Include="Content\select2\css\select2.png" />
+    <Content Include="Content\select2\css\select2x2.png" />
+    <Content Include="Content\select2\css\spinner.gif" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\images\glyphicons-halflings-white.png" />
+    <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\loading-bar\loading-bar.css" />
+    <Content Include="Content\select2\select2-bootstrap.css" />
+    <Content Include="FileUpload\filterCondition\filterCondition.html" />
+    <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Scripts\ng-modules\ui-module.js" />
+    <Content Include="Scripts\ui-utils\ui-utils-ieshiv.js" />
+    <Content Include="Scripts\ui-utils\ui-utils-ieshiv.min.js" />
+    <Content Include="Scripts\ui-utils\ui-utils.js" />
+    <Content Include="Scripts\ui-utils\ui-utils.min.js" />
+    <Content Include="Content\select2\select2-bootstrap-build.scss" />
+    <Content Include="Content\select2\select2-bootstrap-build.less" />
+    <Content Include="Content\select2\select2-bootstrap.scss" />
+    <Content Include="Content\select2\select2-bootstrap.less" />
     <Content Include="Scripts\loading-bar\loading-bar.js" />
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
@@ -401,11 +426,14 @@
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\html5shiv\modernizr-2.7.2.js" />
+    <Content Include="Scripts\ng-modules\calender.js" />
+    <Content Include="Scripts\ng-modules\map.js" />
+    <Content Include="Scripts\ng-modules\ui-select2.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
-    <Content Include="Scripts\angular.ui\angular-ui-ieshiv.js" />
-    <Content Include="Scripts\angular.ui\angular-ui-ieshiv.min.js" />
-    <Content Include="Scripts\angular.ui\angular-ui.js" />
-    <Content Include="Scripts\angular.ui\angular-ui.min.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui-ieshiv.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui-ieshiv.min.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.min.js" />
     <Content Include="Scripts\angular.ui\ui-router.js" />
     <Content Include="Scripts\angular.ui\ui-router.min.js" />
     <Content Include="Scripts\nggrid\ng-grid-2.0.7.js" />
@@ -414,8 +442,10 @@
     <Content Include="Scripts\ngupload\ng-upload.min.js" />
     <Content Include="Scripts\restangular\restangular.js" />
     <Content Include="Scripts\restangular\restangular.min.js" />
-    <Content Include="Scripts\angular.ui\select2.js" />
-    <Content Include="Scripts\angular.ui\select2.min.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\select2.js" />
+    <Content Include="Scripts\ng-modules\oldAngularUi\select2.min.js" />
+    <Content Include="Scripts\ng-modules\select2.js" />
+    <Content Include="Scripts\ng-modules\select2.min.js" />
     <Content Include="Shared\scripts\app.js" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.css" />
     <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
@@ -488,6 +518,8 @@
     <Content Include="FileUpload\errorapproval\error-approval.html" />
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
@@ -571,9 +603,11 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\nggrid\ng-grid-2.0.7.min.js.map">
       <DependentUpon>ng-grid-2.0.7.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\ui-utils\ui-utils.min.js.map">
+      <DependentUpon>ui-utils.js</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
