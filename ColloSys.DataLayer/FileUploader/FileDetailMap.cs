@@ -34,6 +34,8 @@ namespace ColloSys.DataLayer.Mapping
             Bag(x => x.FileColumns, colmap => { }, map => map.OneToMany());
             Bag(x => x.FileMappings, colmap => { }, map => map.OneToMany());
             Bag(x => x.FileSchedulers, colmap => { }, map => map.OneToMany());
+            Bag(x => x.FilterConditions, colmap => { }, map => map.OneToMany());
+         
         }
     }
 }
