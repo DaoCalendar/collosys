@@ -86,9 +86,6 @@
     };
 
     var checkChange = function (oldName, newName) {
-        oldName = oldName.toString();
-        newName = newName.toString();
-
         if (oldName !== newName) {
             oldName = newName;
             dldata.permissionsChanged = true;

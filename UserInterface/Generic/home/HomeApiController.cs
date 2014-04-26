@@ -1,8 +1,11 @@
-﻿using ColloSys.DataLayer.Allocation;
+﻿using System;
+using System.Collections.Generic;
+using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using System.Net;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using NHibernate.Criterion;
@@ -12,23 +15,43 @@ namespace AngularUI.Generic.home
 {
     public class HomeApiController : ApiController
     {
+
+
         [HttpGet]
 
         public HttpResponseMessage GetData(string currentUser)
         {
-            var id = currentUser;
+            List<Guid> list = new List<Guid>();
+
             var session = SessionManager.GetCurrentSession();
+
+            var stakeholders = session.QueryOver<Stakeholders>()
+                                      .Where(
+                                          x =>
+                                          x.ApprovedBy == currentUser &&
+                                          x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                                          .Select(x => x.Id)
+                                          .List<Guid>();
+            list.AddRange(stakeholders);
+            var working = session.QueryOver<StkhWorking>()
+                                 .Where(
+                                     x =>
+                                     x.ApprovedBy == currentUser &&
+                                     x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                                .Select(x => x.Stakeholder.Id)
+                                .List<Guid>();
+            list.AddRange(working);
+            var payment = session.QueryOver<StkhPayment>()
+                                 .Where(
+                                     x =>
+                                     x.ApprovedBy == currentUser && x.Status == ColloSysEnums.ApproveStatus.Submitted)
+                                 .Select(x => x.Stakeholder.Id)
+                                .List<Guid>();
+            list.AddRange(payment);
+          
             var data = new
             {
-                stakeholder = session.QueryOver<Stakeholders>()
-                    .Where(x => x.ApprovedBy == id && x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                    .Select(Projections.RowCount()).FutureValue<int>().Value,
-                working = session.QueryOver<StkhWorking>()
-                    .Where(x => x.ApprovedBy == id && x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                    .Select(Projections.RowCount()).FutureValue<int>().Value,
-                payment = session.QueryOver<StkhPayment>()
-                    .Where(x => x.ApprovedBy == id && x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                    .Select(Projections.RowCount()).FutureValue<int>().Value,
+                stakeholders = list.Distinct().Count(),
                 allocation = session.QueryOver<AllocRelation>()
                     .Where(x => x.ApprovedBy == currentUser && x.Status == ColloSysEnums.ApproveStatus.Submitted)
                     .Select(Projections.RowCount()).FutureValue<int>().Value,

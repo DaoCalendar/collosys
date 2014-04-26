@@ -1,6 +1,6 @@
-﻿(
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal) {
+﻿
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams) {
 
 
         var restApi = rest.all('ViewStakeApi');
@@ -114,25 +114,35 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //index in list
         var getAllData = function () {
-            restApi.customGET("AllData").then(function (data) {
+            restApi.customGET("AllData", { currUser: $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.completeData = data.completeData;
                 $scope.hierarchyDesignation = data.hierarchyDesignation;
                 $scope.productList = data.products;
                 $scope.CurrUserInfo = data.currUserData;
                 showButton();
+                setFilters();
             });
         };
 
-        //harish - get reporting manager from server side
-        //$scope.getReportingManager = function (data) {
-        //    //if ($csfactory.isNullOrEmptyGuid(data.ReportingManager)) {
-        //    //    return '';
-        //    //}
-        //    //var manager = _.find($scope.completeData, function (item) {
-        //    //    return (item.Id === data.ReportingManager);
-        //    //});
+        // harish - fix access level
+        var showButton = function () {
+            if ($csfactory.isEmptyObject($scope.CurrUserInfo)) {
+                return;
+            }
+            if ($scope.CurrUserInfo.Permission === "Approve") {
+                $scope.canModify = true;
+                $scope.canApprove = true;
+            }
+            if ($scope.CurrUserInfo.Permission === "View") {
+                $scope.canModify = false;
+                $scope.canApprove = false;
+            }
+            if ($scope.CurrUserInfo.Permission === "Modify") {
+                $scope.canModify = true;
+                $scope.canApprove = false;
+            }
 
-        //};
+        };
 
         $scope.updateScreen = function () {
             $scope.stakeholderData = [];
@@ -155,7 +165,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.showDiv = false;
             $scope.stakeholder.Designation = "";
             $scope.product = "";
-            //$scope.stakeholder.filter = 'All';
         };
 
         $scope.setHierarchy = function (data) {
@@ -163,7 +172,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getPendindData = function () {
-            restApi.customGET('GetPendingStakeholder', { filterView: $scope.stakeholder.filter, start: $scope.startCount, size: $scope.size })
+            restApi.customGET('GetPendingStakeholder', { filterView: $scope.stakeholder.filter, start: $scope.startCount, size: $scope.size, currUser: $scope.currUser })
                 .then(function (data) {
                     $log.info("stakeholders list: ", data);
                     $scope.stakeholderData = data;
@@ -173,7 +182,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                         $csnotify.success("Stakeholder not available");
                     } else {
                         $scope.showDiv = true;
-                        restApi.customGET('GetTotalCountforPending', { filterView: $scope.stakeholder.filter })
+                        restApi.customGET('GetTotalCountforPending', { filterView: $scope.stakeholder.filter, currUser: $scope.currUser })
                        .then(function (count) {
                            $log.info("total number of records: ", count);
                            $scope.tolRec = count;
@@ -194,6 +203,8 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeData = function (stakeholder) {
+
+            if ($csfactory.isNullOrEmptyString(stakeholder.filter)) return;
 
             $scope.chosenStakeholders = [];
             $scope.moreDetails = false;
@@ -217,10 +228,10 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                 } else {
                                     $scope.showDiv = true;
                                     //gets the total count of records
-                                    restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter })
-                                        .then(function (data) {
-                                            $log.info("total number of records: ", data);
-                                            $scope.tolRec = data;
+                                    restApi.customGET('GetTotalCount', { hierarchyId: $scope.stakeholder.Designation, filterView: $scope.stakeholder.filter, currUser: $scope.currUser })
+                                        .then(function (count) {
+                                            $log.info("total number of records: ", count);
+                                            $scope.tolRec = count;
                                         });
 
                                     //attatches Reporting Manager
@@ -818,6 +829,9 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         //Permissions
         var init = function () {
 
+            $scope.currUser = $csfactory.getCurrentUserName();
+
+
             $scope.startCount = 0;
             $scope.showDiv = false;
             $scope.showme = false;
@@ -837,16 +851,18 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.CurrUserInfo = {};
             $scope.Approved = true;
             $scope.Rejected = true;
+
             //$scope.selected = false;
 
             $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo"];
 
-            $scope.stakeholder = {
-                filter: ''
-            };
+            //$scope.getStakeData($scope.stakeholder);
 
             $scope.completeData = {
                 Name: ""
+            };
+            $scope.stakeholder = {
+                filter: ''
             };
             //load all stakeholders
             getAllData();
@@ -860,28 +876,18 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.ReportsToStake = {};
         };
 
+        var setFilters = function () {
+            if (!$csfactory.isNullOrEmptyString($routeParams.data)) {
+                $scope.stakeholder.filter = $routeParams.data;
+                $scope.size = 5;
+                $scope.getStakeData($scope.stakeholder);
+            }
+        };
+
         init();
 
-        // harish - fix access level
-        var showButton = function () {
-            if ($csfactory.isEmptyObject($scope.CurrUserInfo)) {
-                return;
-            }
-            if ($scope.CurrUserInfo.Permission === "Approve") {
-                $scope.canModify = true;
-                $scope.canApprove = true;
-            }
-            if ($scope.CurrUserInfo.Permission === "View") {
-                $scope.canModify = false;
-                $scope.canApprove = false;
-            }
-            if ($scope.CurrUserInfo.Permission === "Modify") {
-                $scope.canModify = true;
-                $scope.canApprove = false;
-            }
 
-        };
-    }])
+    }]
 );
 
 

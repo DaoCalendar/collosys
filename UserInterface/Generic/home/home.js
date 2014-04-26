@@ -35,7 +35,6 @@
 
             restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.datalist = data;
-                console.log($scope.datalist);
             }, function (data) {
                 $csnotify.error(data.data.Message);
             });
@@ -49,7 +48,7 @@
         };
         $scope.showPendingOptions = function () {
             if (angular.isUndefined($scope.datalist)) return false;
-            if ($scope.datalist.stakeholder != 0 || $scope.datalist.payment != 0 || $scope.datalist.working != 0 || $scope.datalist.allocation != 0 || $scope.datalist.billing != 0)
+            if ($scope.datalist.stakeholders != 0 || $scope.datalist.allocation != 0 || $scope.datalist.billing != 0)
                 return true;
             else return false;
         };
