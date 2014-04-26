@@ -17,6 +17,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.BillMonth);
             Property(x => x.BillCycle);
             Property(x => x.Amount);
+            Property(x => x.TraceLog);
 
             //Property(x => x.ElementType);
             //Property(x => x.ElementId);
@@ -37,6 +38,8 @@ namespace ColloSys.DataLayer.Mapping
             ManyToOne(x => x.BillingSubpolicy, map => map.NotNullable(false));
             ManyToOne(x => x.BillAdhoc, map => map.NotNullable(false));
            #endregion
+
+            Bag(x => x.CustBillViewModels, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
 }

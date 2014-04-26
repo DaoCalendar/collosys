@@ -33,5 +33,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.ConditionType ConditionType { get; set; }
 
         public virtual BillingSubpolicy BillingSubpolicy { get; set; }
+
+        public virtual Guid Formula { get; set; }
     }
 }

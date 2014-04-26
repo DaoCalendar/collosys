@@ -36,6 +36,7 @@ namespace AngularUI.Stakeholder.view
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
         private static readonly GPermissionBuilder GPermissionBuilder = new GPermissionBuilder();
+        private static readonly StakeWorkingQueryBuilder WorkingQueryBuilder = new StakeWorkingQueryBuilder();
 
         [HttpGet]
         public IEnumerable<StkhHierarchy> GetStakeHierarchy()
@@ -93,13 +94,13 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        public HttpResponseMessage AllData()
+        public HttpResponseMessage AllData(string currUser)
         {
             var allLists = new
             {
                 completeData = GetAllStakeHolders(),
                 hierarchyDesignation = GetStakeHierarchy(),
-                currUserData = AuthService.GetPremissionsForCurrentUser(GetUsername())
+                currUserData = AuthService.GetPremissionsForCurrentUser(currUser)
                 .SingleOrDefault(x => x.Activity == ColloSysEnums.Activities.Stakeholder),
                 products = Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != ScbEnums.Products.UNKNOWN.ToString()).ToList()
             };
@@ -129,7 +130,7 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        public int GetTotalCount(Guid hierarchyId, string filterView)
+        public int GetTotalCount(Guid hierarchyId, string filterView, string currUser)
         {
             var query = StakeQuery.ApplyRelations();
             if (filterView == "All")
@@ -157,7 +158,7 @@ namespace AngularUI.Stakeholder.view
             if (filterView == "ViewPending")
             {
                 query.Where(x => x.Hierarchy.Id == hierarchyId && x.Status == ColloSysEnums.ApproveStatus.Submitted)
-                     .And(x => x.ApprovedBy == HttpContext.Current.User.Identity.Name);
+                     .And(x => x.ApprovedBy == currUser);//HttpContext.Current.User.Identity.Name
                 var count = StakeQuery.Execute(query).Count();
                 return count;
             }
@@ -174,7 +175,7 @@ namespace AngularUI.Stakeholder.view
 
 
         [HttpGet]
-        public int GetTotalCountforPending(string filterView)
+        public int GetTotalCountforPending(string filterView, string currUser)
         {
             var query = StakeQuery.ApplyRelations();
             if (filterView == "PendingForAll")
@@ -185,10 +186,30 @@ namespace AngularUI.Stakeholder.view
             }
             if (filterView == "PendingForMe")
             {
-                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                 && x.ApprovedBy == HttpContext.Current.User.Identity.Name);
-                var count = StakeQuery.Execute(query).Count();
-                return count;
+                var queryCount = StakeQuery.ApplyRelations();
+                var workingCount = WorkingQueryBuilder.ApplyRelations();
+
+                List<Stakeholders> stakeList = new List<Stakeholders>();
+
+                queryCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
+                                  && x.ApprovedBy == currUser);
+                var stakeholder = StakeQuery.Execute(queryCount).ToList();
+                stakeList.AddRange(stakeholder);
+
+                workingCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
+                                  && x.ApprovedBy == currUser);
+                var working = WorkingQueryBuilder.Execute(workingCount).ToList();
+
+                List<Guid> guid = working.Select(x => x.Stakeholder.Id).Distinct().ToList();
+                var result = StakeQuery.ApplyRelations().WhereRestrictionOn(x => x.Id).IsIn(guid).GetExecutableQueryOver(Session);
+
+                foreach (var res in result.List())
+                {
+                    var exists = stakeList.Find(x => x.Id == res.Id);
+                    if (exists == null)
+                        stakeList.Add(res);
+                }
+                return stakeList.Count();
             }
             return 0;
         }
@@ -285,22 +306,45 @@ namespace AngularUI.Stakeholder.view
 
         [HttpGet]
 
-        public IEnumerable<Stakeholders> GetPendingStakeholder(int start, int size, string filterView)
+        public IEnumerable<Stakeholders> GetPendingStakeholder(int start, int size, string filterView, string currUser)
         {
             var query = StakeQuery.ApplyRelations();
+            var workingQuery = WorkingQueryBuilder.ApplyRelations();
+            StkhWorking workings = null;
+            Stakeholders stake = null;
 
             if (filterView == "PendingForAll")
             {
                 query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
+                var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
+                return RemoveUnusedPaymentsWorkings(stakeholder);
             }
 
             if (filterView == "PendingForMe")
             {
+                List<Stakeholders> stakeList = new List<Stakeholders>();
                 query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && x.ApprovedBy == HttpContext.Current.User.Identity.Name);
+                                  && x.ApprovedBy == currUser);
+                var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
+                stakeList.AddRange(stakeholder);
+
+                workingQuery.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
+                                  && x.ApprovedBy == currUser);
+                var working = WorkingQueryBuilder.Execute(workingQuery).Skip(start).Take(size).ToList();
+
+                List<Guid> guid = working.Select(x => x.Stakeholder.Id).Distinct().ToList();
+                var result = StakeQuery.ApplyRelations().WhereRestrictionOn(x => x.Id).IsIn(guid).GetExecutableQueryOver(Session);
+
+                foreach (var res in result.List())
+                {
+                    var exists = stakeList.Find(x => x.Id == res.Id);
+                    if (exists == null)
+                        stakeList.Add(res);
+                }
+
+                return RemoveUnusedPaymentsWorkings(stakeList);
             }
-            var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
-            return RemoveUnusedPaymentsWorkings(stakeholder);
+            return null;
         }
 
         [HttpGet]
@@ -319,9 +363,9 @@ namespace AngularUI.Stakeholder.view
 
         [HttpGet]
 
-        public HttpResponseMessage GetPendingStkhData(int start, int size, string filterView)
+        public HttpResponseMessage GetPendingStkhData(int start, int size, string filterView, string currUser)
         {
-            var stkhData = (List<Stakeholders>)GetPendingStakeholder(start, size, filterView);
+            var stkhData = (List<Stakeholders>)GetPendingStakeholder(start, size, filterView, currUser);
 
             var data = new
                 {

@@ -1,13 +1,13 @@
 ﻿
 var csapp = angular.module("ui.collosys",
 [
-    'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
+    'ui.bootstrap', 'ui.modules', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', 'ngAnimate',
-    'ngCookies', 'chieffancypants.loadingBar'
+    'ngCookies', 'chieffancypants.loadingBar', 'ui.utils'
 ]);
 
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
-
+    baseUrl = baseUrl || '/';
     this.configureRoutes = function (routeProvider) {
         routeProvider
             .when('/', {
@@ -79,6 +79,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/errorapproval', {
                 templateUrl: baseUrl + 'FileUpload/errorapproval/error-approval.html',
                 controller: 'errorApprovalController'
+            }).when('/fileupload/filterCondition', {
+                templateUrl: baseUrl + 'FileUpload/filterCondition/filterCondition.html',
+                controller: 'filterConditionController'
             })
 
             //stakeholder
@@ -89,6 +92,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Stakeholder/add/index2.html',
                 controller: 'AddStakeHolderCtrl'
             }).when('/stakeholder/view', {
+                templateUrl: baseUrl + 'Stakeholder/view/index.html',
+                controller: 'viewStake'
+            }).when('/stakeholder/view/:data', {
                 templateUrl: baseUrl + 'Stakeholder/view/index.html',
                 controller: 'viewStake'
             }).when('/generic/hierarchy', {
@@ -199,11 +205,19 @@ csapp.config([
         routeConfig.configureRoutes($routeProvider);
         $logProvider.debugEnabled(true);
         restangularProvider.setBaseUrl(baseUrl + "api/");
+
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Origin: *');
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Headers: Accept, X-Requested-With');
     }
 ]);
 
-csapp.run(["$rootScope", "$location", "$templateCache",
-    function ($rootScope, $location, $templateCache) {
+csapp.run(["$rootScope", "$location", "$templateCache", "Logger",
+    function ($rootScope, $location, $templateCache, logManager) {
+
+        var $log = logManager.getInstance("csapp.run");
+        $log.info("base url is : " + baseUrl);
+
         $rootScope.$on("$csLoginRequired", function () {
             $location.path("/login");
         });

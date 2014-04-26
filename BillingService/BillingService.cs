@@ -1,10 +1,10 @@
-﻿using System;
+﻿#region refernces
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using BillingService.CustBillView;
 using BillingService.DBLayer;
 using BillingService.MoveProductToPayment;
@@ -14,18 +14,17 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
-using ColloSys.DataLayer.SharedDomain;
-using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
+
+#endregion
+
 
 namespace ColloSys.BillingService
 {
     public class BillingServices
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static readonly BillDetailBuilder BillDetailBuilder=new BillDetailBuilder();
-        private static readonly BillAmountBuilder BillAmountBuilder=new BillAmountBuilder();
 
         #region nh init
 
@@ -94,12 +93,13 @@ namespace ColloSys.BillingService
             Logger.Info(string.Format("biling start for month : {0}, and product : {1}", billStatus.BillMonth,
                                       billStatus.Products));
 
-            var custStkBillViewModels = GetCustStkhBillViewModel(billStatus.Products, billStatus.BillMonth);
+            var custBillViewModels = ProcessCustBillView.GetBillingServiceData(billStatus.Products,
+                                                                                  billStatus.BillMonth);
 
-            Logger.Info(string.Format("Total {0} custstkBillViewModel available for product : {1}", custStkBillViewModels.Count(),
+            Logger.Info(string.Format("Total {0} custstkBillViewModel available for product : {1}", custBillViewModels.Count(),
                                       billStatus.Products));
 
-            var stakeholders = custStkBillViewModels.Select(x => x.CustBillViewModel.Stakeholders).Distinct().ToList();
+            var stakeholders = custBillViewModels.Select(x => x.Stakeholders).Distinct().ToList();
             // StakeholderDbLayer.GetStakeholdersForBilling(billStatus.Products, billStatus.BillMonth);
 
             Logger.Info(string.Format("Total {0} stakeholder available for product : {1}", stakeholders.Count(),
@@ -108,16 +108,16 @@ namespace ColloSys.BillingService
             var billDetails = new List<BillDetail>();
             foreach (var stakeholder in stakeholders)
             {
-                var custStkBillViewModelsForStkholder = custStkBillViewModels
-                    .Where(x => x.CustBillViewModel.Stakeholders.Id == stakeholder.Id).ToList();
+                var custBillViewModelsForStkholder = custBillViewModels
+                    .Where(x => x.Stakeholders.Id == stakeholder.Id).ToList();
 
-                billDetails.AddRange(BillingForStakeholder(stakeholder, billStatus, custStkBillViewModelsForStkholder));
+                billDetails.AddRange(BillingForStakeholder(stakeholder, billStatus, custBillViewModelsForStkholder));
             }
 
             BillStatusDbLayer.SaveDoneBillStatus(billStatus);
         }
 
-        public IList<BillDetail> BillingForStakeholder(Stakeholders stakeholder, BillStatus billStatus, List<CustStkhBillViewModel> custStkhBillViewModels)
+        public IList<BillDetail> BillingForStakeholder(Stakeholders stakeholder, BillStatus billStatus, List<CustBillViewModel> custBillViewModels)
         {
             Logger.Info(string.Format("biling start for stakeholder : {0}, and product : {1}, and month {2}", stakeholder.Name,
                                       billStatus.Products, billStatus.BillMonth));
@@ -142,18 +142,18 @@ namespace ColloSys.BillingService
             if (stakeholder.Hierarchy.HasVarible)
             {
                 // for collection
-                var custStkhBillViewModelsForCollection = custStkhBillViewModels
-                                                                .Where(x => !x.CustBillViewModel.IsInRecovery)
+                var custBillViewModelsForCollection = custBillViewModels
+                                                                .Where(x => !x.IsInRecovery)
                                                                 .ToList();
                 billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
-                                                               stkhPayment.CollectionBillingPolicy, custStkhBillViewModelsForCollection));
+                                                               stkhPayment.CollectionBillingPolicy, custBillViewModelsForCollection));
 
                 // for recovery
-                var custStkhBillViewModelsForRecovery = custStkhBillViewModels
-                                                                .Where(x => x.CustBillViewModel.IsInRecovery)
+                var custBillViewModelsForRecovery = custBillViewModels
+                                                                .Where(x => x.IsInRecovery)
                                                                 .ToList();
                 billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
-                                                               stkhPayment.RecoveryBillingPolicy, custStkhBillViewModelsForRecovery));
+                                                               stkhPayment.RecoveryBillingPolicy, custBillViewModelsForRecovery));
             }
 
             // for adhoc payment 
@@ -161,8 +161,9 @@ namespace ColloSys.BillingService
 
             var billAmount = GetBillAmountForStkholder(stakeholder, billStatus, billDetails);
 
-            BillDetailBuilder.Save(billDetails);
-            BillAmountBuilder.Save(billAmount);
+            //ToDO:Done Please Check 2 lines
+            var custBillViewModelsWithBillDetail = custBillViewModels.Where(x => x.BillDetail != null).ToList();
+            BillDetailDbLayer.SaveBillDetailsBillAmount(billDetails, billAmount, custBillViewModelsWithBillDetail);
 
             return billDetails;
         }
@@ -195,24 +196,27 @@ namespace ColloSys.BillingService
                                                            && x.BillAdhoc != null)
                                                .Sum(x => x.Amount), 2);
 
+            //ToDO:Done Please check 1 line
+            billAmount.TotalAmount = billAmount.FixedAmount + billAmount.VariableAmount + billAmount.Deductions;
+
             return billAmount;
         }
 
         #region Helper
 
-        private static List<CustStkhBillViewModel> GetCustStkhBillViewModel(ScbEnums.Products products, uint billMonth)
-        {
-            var custBillViewModels = ProcessCustBillView.GetBillingServiceData(products, billMonth);
+        //private static List<CustStkhBillViewModel> GetCustStkhBillViewModel(ScbEnums.Products products, uint billMonth)
+        //{
+        //    var custBillViewModels = ProcessCustBillView.GetBillingServiceData(products, billMonth);
 
-            var CustStkhBillViewModels = from c in custBillViewModels
-                                         select new CustStkhBillViewModel()
-                                         {
-                                             CustBillViewModel = c,
-                                             GPincode = c.GPincode
-                                         };
+        //    var CustStkhBillViewModels = from c in custBillViewModels
+        //                                 select new CustStkhBillViewModel()
+        //                                 {
+        //                                     CustBillViewModel = c,
+        //                                     GPincode = c.GPincode
+        //                                 };
 
-            return CustStkhBillViewModels.ToList();
-        }
+        //    return CustStkhBillViewModels.ToList();
+        //}
 
         #endregion
     }

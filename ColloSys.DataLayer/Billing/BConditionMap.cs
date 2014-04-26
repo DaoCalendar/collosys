@@ -28,6 +28,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.RelationType, map => map.NotNullable(false));
             Property(x => x.Priority);
             Property(x => x.ConditionType);
+
+            Property(x=>x.Formula,map=>map.NotNullable(false));
             #endregion
 
             #region ManyToOne

@@ -5,24 +5,16 @@
         </div>
         <!--Product and Stakeholder-->
         <div class="row-fluid" style="padding-top: 20px">
-            <div class="control-group span4">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.selectedProduct"
-                        data-ng-change="datalayer.changeProductCategory()"
-                         required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                    </select>
-                </div>
-            </div>
+            <span class="span4">
+                <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
+                    data-ng-change="datalayer.changeProductCategory()"></cs-field>
+            </span>
             <div class="control-group span4">
                 <label class="control-label">Stakeholder Name</label>
                 <div class="controls">
                     <select class="input-large"
                         data-ng-model="dldata.selectedStkholderId"
                         data-ng-change="factory.showData(dldata.selectedStkholderId)"
-                       
                         required>
                         <option></option>
                         <optgroup label="Collector">
@@ -46,7 +38,7 @@
                         <th>Stakeholder Name</th>
                         <th>Total Amount</th>
                         <th>IsRecurring</th>
-                        <!--<th>IsPretax</th>-->
+                        <th>IsPretax</th>
                         <th>Transaction Type</th>
                         <th>Reasons</th>
                         <th>Description</th>
@@ -64,7 +56,7 @@
                             <i data-ng-show="{{adhocpayouts.IsRecurring}}" class="btn btn-primary">Yes</i>
                             <i data-ng-hide="{{adhocpayouts.IsRecurring}}" class="btn ">No</i>
                         </td>
-                        <!--<td>{{adhocpayouts.IsPretax}}</td>-->
+                        <td>{{adhocpayouts.IsPretax}}</td>
                         <!--IsCredit-->
                         <td style="text-align: center">
                             <i data-ng-show="{{adhocpayouts.IsCredit}}" class="btn btn-primary">Credit</i>
@@ -82,4 +74,13 @@
     </div>
 </div>
 
-
+<!--<div class="control-group span4">
+                <label class="control-label">Product</label>
+                <div class="controls">
+                    <select class="input-large" data-ng-model="dldata.selectedProduct"
+                            data-ng-change="datalayer.changeProductCategory()"
+                            required>
+                        <option value=""></option>
+                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+                    </select>
+                </div>-->

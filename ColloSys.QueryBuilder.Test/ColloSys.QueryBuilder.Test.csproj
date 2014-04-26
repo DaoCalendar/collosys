@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StakeBuilder.Test\StakeBuilderTest.cs" />
@@ -72,6 +73,10 @@
     <ProjectReference Include="..\AllocationService\AllocationService.csproj">
       <Project>{65ca14cb-44d0-42c2-9945-cad72fa1519a}</Project>
       <Name>AllocationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
+      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
+      <Name>Collosys.BillingService</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
       <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
