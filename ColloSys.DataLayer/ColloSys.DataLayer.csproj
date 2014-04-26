@@ -107,6 +107,8 @@
     <Compile Include="ClientData\CustomerInfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />
+    <Compile Include="ClientData\FilterCondition.cs" />
+    <Compile Include="ClientData\FilterConditionMap.cs" />
     <Compile Include="ClientData\IDeliquent.cs" />
     <Compile Include="ClientData\IHardDelq.cs" />
     <Compile Include="ClientData\PaymentMap.cs" />
