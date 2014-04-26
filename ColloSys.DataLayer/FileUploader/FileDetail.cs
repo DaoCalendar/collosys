@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
@@ -11,6 +12,7 @@ namespace ColloSys.DataLayer.FileUploader
         public virtual IList<FileColumn> FileColumns { get; set; }
         public virtual IList<FileMapping> FileMappings { get; set; }
         public virtual IList<FileScheduler> FileSchedulers { get; set; }
+        public virtual IList<FilterCondition> FilterConditions { get; set; }
 
         public virtual ColloSysEnums.FileAliasName AliasName { get; set; }
         public virtual string AliasDescription { get; set; }

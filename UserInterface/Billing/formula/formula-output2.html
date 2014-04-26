@@ -18,7 +18,7 @@
                         </td>
                         <td>
                             <csswitch ngbind="dldata.newOutput2.Rtype"
-                                      onbtnclick="dldata.newOutput2.Lsqlfunction='';dldata.newOutput2.Rvalue='';dldata.newOutput2.RtypeName=''"
+                                      onbtnclick="dldata.newOutput2.Lsqlfunction = ''; dldata.newOutput2.Rvalue = ''; dldata.newOutput2.RtypeName = ''; setFormulaList(dldata.newOutput.Rtype)"
                                       namevalues="dldata.typeSwitch"></csswitch>
                         </td>
                         <td>
@@ -39,10 +39,11 @@
 
                                 </div>
                                 <div data-ng-switch-when="Formula">
-                                    <select class="input-medium" 
-                                            data-ng-model="dldata.newCondition2.RtypeName"
+                                    <select class="input-medium"
+                                            data-ng-model="dldata.newOutput2.Formula"
                                             required>
-                                        <option>Formula Names</option>
+                                        <option></option>
+                                        <option data-ng-repeat="d in listofFormula" value="{{d.Id}}">{{d.Name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,7 +64,9 @@
                             <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
                         </td>
                         <td>
-                            <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" />
+                            <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" data-ng-hide="dldata.newOutput.Rtype==='Formula'" />
+
+                            <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="dldata.newOutput.Rtype==='Formula'" />
                         </td>
                         <td>
                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
