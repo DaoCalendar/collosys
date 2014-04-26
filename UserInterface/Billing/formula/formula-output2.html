@@ -1,12 +1,7 @@
-﻿<div data-ng-hide="dldata.formula.OutputType==='Boolean'" class="row-fluid"
+﻿<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row-fluid"
      id="subpolicy-groupby">
     <div class="panel panel-info">
-        <div class="panel-heading" data-ng-show="dldata.formula.OutputType==='IfElse'">
-            If Output
-        </div>
-        <div class="panel-heading" data-ng-hide="dldata.formula.OutputType==='IfElse'">
-            OutPut
-        </div>
+        <div class="panel-heading">Else OutPut</div>
         <div class="panel-body">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -16,32 +11,36 @@
                         <td>Value</td>
                         <td></td>
                     </tr>
-                    <tr data-ng-form="newOutputForm">
+                    <tr data-ng-form="newOutputForm2">
                         <td class="input-medium">
-                            <cs-field data-ng-model="dldata.newOutput.Operator" field="formula.OperatorType" data-ng-hide="dldata.formula.BOutputs<1" no-label=""></cs-field>
+                            <cs-field data-ng-model="dldata.newOutput2.Operator" field="formula.OperatorType" 
+                                      data-ng-hide="dldata.formula.BOutputs2<1" no-label=""></cs-field>
                         </td>
                         <td>
-                            <csswitch ngbind="dldata.newOutput.Rtype"
-                                      onbtnclick="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue='';dldata.newOutput.RtypeName=''"
+                            <csswitch ngbind="dldata.newOutput2.Rtype"
+                                      onbtnclick="dldata.newOutput2.Lsqlfunction='';dldata.newOutput2.Rvalue='';dldata.newOutput2.RtypeName=''"
                                       namevalues="dldata.typeSwitch"></csswitch>
                         </td>
                         <td>
-                            <div data-ng-switch on="dldata.newOutput.Rtype">
+                            <div data-ng-switch on="dldata.newOutput2.Rtype">
                                 <div data-ng-switch-when="Table">
-                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction" field="formula.LsqlFunctionType" no-label=""></cs-field>
+                                    <cs-field data-ng-model="dldata.newOutput2.Lsqlfunction" 
+                                              field="formula.LsqlFunctionType" no-label=""></cs-field>
 
                                     <select class="input-xlarge"
-                                            data-ng-model="dldata.newOutput.RtypeName" required>
+                                            data-ng-model="dldata.newOutput2.RtypeName" required>
                                         <option value=""></option>
                                         <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
                                     </select>
                                 </div>
                                 <div data-ng-switch-when="Value">
-                                    <input class="input-medium" type="number" data-ng-model="dldata.newOutput.Rvalue" required />
+                                    <input class="input-medium" type="number" 
+                                           data-ng-model="dldata.newOutput2.Rvalue" required />
 
                                 </div>
                                 <div data-ng-switch-when="Formula">
-                                    <select class="input-medium" data-ng-model="dldata.newCondition.RtypeName"
+                                    <select class="input-medium" 
+                                            data-ng-model="dldata.newCondition2.RtypeName"
                                             required>
                                         <option>Formula Names</option>
                                     </select>
@@ -49,15 +48,16 @@
                             </div>
                         </td>
                         <td>
-                            <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
-                                    data-ng-click="factory.addNewOutput(dldata.newOutput)"></button>
+                            <button class="btn icon-plus" data-ng-disabled="!(newOutputForm2.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput2.Operator !==''))"
+                                    data-ng-click="factory.addNewOutput2(dldata.newOutput2)"></button>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
+                    <tr data-ng-repeat="boutput in dldata.formula.BOutputs2">
                         <td>
-                            <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Operator}}" data-ng-show="boutput.Operator" />
+                            <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Operator}}" 
+                                   data-ng-show="boutput.Operator" />
                         </td>
                         <td>
                             <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
@@ -66,7 +66,7 @@
                             <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" />
                         </td>
                         <td>
-                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
+                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
                         </td>
                     </tr>
                 </tbody>

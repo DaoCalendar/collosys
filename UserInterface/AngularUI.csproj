@@ -255,6 +255,7 @@
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
     <Content Include="Billing\formula\formula-group-by.html" />
+    <Content Include="Billing\formula\formula-output2.html" />
     <Content Include="Billing\formula\formula-output.html" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />

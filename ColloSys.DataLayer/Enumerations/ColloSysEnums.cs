@@ -419,7 +419,9 @@ namespace ColloSys.DataLayer.Enumerations
         public enum ConditionType
         {
             Condition,
-            Output
+            Output,
+            OutputIf,
+            OutputElse
         }
 
         [Serializable]
@@ -455,7 +457,8 @@ namespace ColloSys.DataLayer.Enumerations
         public enum OutputType
         {
             Number,
-            Boolean
+            Boolean,
+            IfElse
         }
 
         [Serializable]
