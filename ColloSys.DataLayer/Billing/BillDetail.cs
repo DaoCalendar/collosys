@@ -1,7 +1,9 @@
 ﻿#region References
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 
 #endregion
@@ -10,6 +12,7 @@ namespace ColloSys.DataLayer.Domain
 {
     public class BillDetail : Entity
     {
+        public virtual IList<CustBillViewModel> CustBillViewModels { get; set; }
         public virtual Stakeholders Stakeholder { get; set; }
         public virtual BillingPolicy BillingPolicy { get; set; }
         public virtual BillingSubpolicy BillingSubpolicy { get; set; }
@@ -24,5 +27,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual ScbEnums.Products Products { get; set; }
 
         public virtual ColloSysEnums.PaymentSource PaymentSource { get; set; }
+
+        public virtual string TraceLog { get; set; }
     }
 }

@@ -98,8 +98,10 @@
     <Compile Include="Billing\BMatrixMap.cs" />
     <Compile Include="Billing\BMatrixValue.cs" />
     <Compile Include="Billing\BMatrixValueMap.cs" />
+    <Compile Include="Billing\CustBillViewModelMap.cs" />
     <Compile Include="Billing\HoldingPolicy.cs" />
     <Compile Include="Billing\HoldingPolicyMap.cs" />
+    <Compile Include="Billing\ICustBillViewModel.cs" />
     <Compile Include="ClientData\CacsActivity.cs" />
     <Compile Include="ClientData\CacsActivityMap.cs" />
     <Compile Include="ClientData\CustInfo.cs" />

@@ -39,6 +39,8 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual decimal HoldRepayment { get; set; }
 
+        public virtual decimal TotalAmount { get; set; }
+
         #region DateRange
         [Required]
         [DataType(DataType.Date)]

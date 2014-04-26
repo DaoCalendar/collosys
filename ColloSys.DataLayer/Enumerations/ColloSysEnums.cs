@@ -142,7 +142,8 @@ namespace ColloSys.DataLayer.Enumerations
             Minus,
             Multiply,
             Divide,
-            ModuloDivide
+            ModuloDivide,
+            IsIn
         }
 
         [Serializable]

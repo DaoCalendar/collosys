@@ -199,6 +199,10 @@ csapp.config([
         routeConfig.configureRoutes($routeProvider);
         $logProvider.debugEnabled(true);
         restangularProvider.setBaseUrl(baseUrl + "api/");
+
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Origin: *');
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        restangularProvider.setDefaultHeaders('Access-Control-Allow-Headers: Accept, X-Requested-With');
     }
 ]);
 
