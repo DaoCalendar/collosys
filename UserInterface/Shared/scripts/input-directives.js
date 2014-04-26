@@ -675,6 +675,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
             html += (attr.class) ? 'class ="' + attr.class + '"' : 'class="input-large"';
+            html += (attr.multiple) ? 'multiple = "multiple"' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
