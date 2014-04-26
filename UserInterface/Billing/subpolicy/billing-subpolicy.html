@@ -215,9 +215,9 @@
                                                 <cs-field data-ng-model="dldata.newCondition.Operator" field="payoutSubpolicy.ConditionOperators" data-ng-change="manageField(dldata.newCondition)" no-label=""></cs-field>
                                             </td>
                                             <td>
-                                                <cs-field data-ng-model="dldata.newCondition.Rtype" 
-                                                          data-ng-disabled="dldata.newCondition.Rvalue=='text'" 
-                                                          field="payoutSubpolicy.TypeSwitch" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.Rtype"
+                                                    data-ng-disabled="dldata.newCondition.Rvalue=='text'"
+                                                    field="payoutSubpolicy.TypeSwitch" no-label=""></cs-field>
 
                                             </td>
                                             <td class="input-large">
@@ -245,19 +245,20 @@
                                                         </select>
                                                     </div>
                                                     <div data-ng-switch-when="Value">
-                                                        <div data-ng-if="showField">
-                                                            <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
-                                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                        <div data-ng-if="fieldname">
+                                                            <div data-ng-if="showField">
+                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                                <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                                    <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                                </div>
+                                                            </div>
+                                                            <div data-ng-if="showField2">
+                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                                <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                                    <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div data-ng-if="showField2">
-                                                            <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
-                                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
-                                                            </div>
-                                                        </div>
-
                                                     </div>
                                                 </div>
                                             </td>
