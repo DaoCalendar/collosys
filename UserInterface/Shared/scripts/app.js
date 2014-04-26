@@ -209,8 +209,12 @@ csapp.config([
     }
 ]);
 
-csapp.run(["$rootScope", "$location", "$templateCache",
-    function ($rootScope, $location, $templateCache) {
+csapp.run(["$rootScope", "$location", "$templateCache", "Logger",
+    function ($rootScope, $location, $templateCache, logManager) {
+
+        var $log = logManager.getInstance("csapp.run");
+        $log.info("base url is : " + baseUrl);
+
         $rootScope.$on("$csLoginRequired", function () {
             $location.path("/login");
         });
