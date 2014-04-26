@@ -9,7 +9,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             factory.initEnums();
             $scope.dldata.BillAmount = {};
             $scope.dldata.billingData = {};
-            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
+            $scope.adhocPayoutbill = $csBillingModels.models.Summary;
         })();
 
         $scope.changeCredit = function () {
@@ -184,7 +184,7 @@ csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAm
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
+            $scope.adhocPayoutbill = $csBillingModels.models.Summary;
         })();
 
         $scope.changeCredit = function (credit) {
