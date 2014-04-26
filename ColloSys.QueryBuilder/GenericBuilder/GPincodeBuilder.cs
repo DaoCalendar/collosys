@@ -25,7 +25,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> StateList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.State.ToUpper())
+                                 .Select(x => x.State)
                                  .Distinct().ToList();
         }
 
@@ -33,7 +33,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> RegionList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.Region.ToUpper())
+                                 .Select(x => x.Region)
                                  .Distinct().ToList();
         }
 
@@ -41,7 +41,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> ClusterList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.Cluster.ToUpper())
+                                 .Select(x => x.Cluster)
                                  .Distinct().ToList();
         }
 
@@ -49,7 +49,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> DistrictList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.District.ToUpper())
+                                 .Select(x => x.District)
                                  .Distinct().ToList();
         }
 
@@ -57,7 +57,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> CityList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Select(x => x.City.ToUpper())
+                                 .Select(x => x.City)
                                  .Distinct().ToList();
         }
 

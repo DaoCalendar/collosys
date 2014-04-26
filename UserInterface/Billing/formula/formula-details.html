@@ -1,0 +1,56 @@
+﻿<div class="row-fluid" id="subpolicy-display"
+     data-ng-form="formulaForm">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Formula
+        </div>
+        <div class="panel-body">
+            <div class="row-fluid form-horizontal">
+                <div class="row-fluid">
+                    <div class="control-group span5">
+                        <label class="control-label">Product</label>
+                        <div class="controls">
+                            <input type="text" readonly="readonly" class="input-medium" data-ng-model="dldata.formula.Products" />
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Category</label>
+                        <div class="controls">
+                            <csswitch ngbind="dldata.formula.Category"
+                                      ngdisabled="dldata.formula.Id"
+                                      onbtnclick="datalayer.changeProductCategory()"
+                                      namevalues="dldata.categorySwitch"></csswitch>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="control-group span5">
+                        <label class="control-label">Name</label>
+                        <div class="controls">
+                            <input type="text" data-ng-disabled="dldata.formula.Id"
+                                   data-ng-model="dldata.formula.Name"
+                                   data-ng-pattern="/^\w*$/" required />
+                        </div>
+                    </div>
+                    <div class="control-group span6">
+                        <label class="control-label">Output Type</label>
+                        <div class="controls">
+                            <csswitch ngbind="dldata.formula.OutputType"
+                                      ngdisabled="dldata.formula.Id"
+                                      onbtnclick="factory.changeOutputType()"
+                                      namevalues="dldata.outputTypeSwitch"></csswitch>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="control-group span6">
+                        <label class="control-label">Description</label>
+                        <div class="controls">
+                            <textarea class="noResize" data-ng-model="dldata.formula.Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

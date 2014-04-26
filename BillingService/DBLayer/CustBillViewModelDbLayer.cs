@@ -1,15 +1,14 @@
-﻿#region references
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BillingService.ViewModel;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using NLog;
-
-#endregion
-
 
 namespace BillingService.DBLayer
 {
@@ -18,24 +17,40 @@ namespace BillingService.DBLayer
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         // get amount based on subpolicy
-        public static decimal GetBillingSubpolicyAmount<T>(ScbEnums.Products products, List<BCondition> bConditions, List<T> custBillViewModels)
+        public static decimal GetBillingSubpolicyAmount<T>(BillDetail billDetail, List<BCondition> bConditions, List<T> custBillViewModels, TraceLogs traceLogs)
         {
             var conditions = bConditions.Where(x => x.ConditionType == ColloSysEnums.ConditionType.Condition)
                                         .OrderBy(x => x.Priority);
             var output = bConditions.Where(x => x.ConditionType == ColloSysEnums.ConditionType.Output)
                                     .OrderBy(x => x.Priority);
 
-            var expCondition = ExpressionBuilder.GetConditionExpression<T>(products, conditions.ToList(), custBillViewModels);
+            var expCondition = ExpressionBuilder.GetConditionExpression<T>(billDetail, conditions.ToList(), custBillViewModels, traceLogs);
 
             var filterData = custBillViewModels.Where(expCondition.Compile()).ToList();
 
             if (filterData.Count <= 0)
                 return 0;
 
-            var result = ExpressionBuilder.GetOutputExpression(products, output.ToList(), filterData);
+            var result = ExpressionBuilder.GetOutputExpression(billDetail, output.ToList(), filterData, traceLogs);
 
-            Logger.Info(string.Format("Product : {0},Condition : {1} give value : {2}", products, expCondition.Body.ToString(), result));
+            foreach (var data in filterData)
+            {
+                traceLogs.AddCondition(expCondition.ToString());
 
+                var conditionSatify = data.GetType().GetProperty("ConditionSatisfy");
+                var oldValue = conditionSatify.GetValue(data);
+                conditionSatify.SetValue(data, traceLogs.GetConditionMatrixFormulaLog());
+
+
+                var billDetailPro = data.GetType().GetProperty("BillDetail");
+                billDetailPro.SetValue(data, billDetail);
+            }
+
+            var log = string.Format("Product : {0},Condition : {1} give value : {2}", billDetail.Products,
+                                    expCondition.Body, result);
+            traceLogs.SetLog(log);
+
+            Logger.Info(log);
 
             return Math.Round(result, 4);
         }

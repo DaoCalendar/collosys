@@ -1,21 +1,20 @@
-﻿#region references
-
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BillingService.DBLayer;
+using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.QueryBuilder.BillingBuilder;
-
-#endregion
-
 
 namespace BillingService.ViewModel
 {
     public class FormulaBuilder
     {
-        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder(); 
-        internal static dynamic SolveFormula<T>(ScbEnums.Products products, string formulaName, List<T> data)
+        internal static dynamic SolveFormula<T>(BillDetail billDetail, string formulaName, List<T> data,TraceLogs traceLogs)
         {
-            var formula =BillingSubpolicyBuilder.FormulaOnProductAndName(products, formulaName);
+            var formula = BillingPolicyDbLayer.GetFormula(billDetail.Products, formulaName);
 
             if (formula == null)
                 return 0;
@@ -24,10 +23,10 @@ namespace BillingService.ViewModel
 
             if (formula.OutputType == ColloSysEnums.OutputType.Boolean)
             {
-                return ExpressionBuilder.GetConditionExpression<T>(products, conditions, data);
+                return ExpressionBuilder.GetConditionExpression<T>(billDetail, conditions, data, traceLogs);
             }
 
-            return ExpressionBuilder.GetOutputExpression<T>(products, conditions, data);
+            return ExpressionBuilder.GetOutputExpression<T>(billDetail, conditions, data, traceLogs);
         }
     }
 }
