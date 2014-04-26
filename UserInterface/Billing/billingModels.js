@@ -18,6 +18,7 @@
 
     var adhocpayout = function () {
         return {
+            selectedProduct: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
             IsPretax: { label: ' IsPretax', type: 'select' },
@@ -26,6 +27,14 @@
             StartMonth: { label: 'Start Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
             Tenure: { label: 'Tenure', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
             Description: { label: 'Description', type: 'textarea', required: true },
+        };
+    };
+
+    var billingPolicy = function() {
+        return {
+            Name: { label: 'Name', type: 'text' },
+            Products: { label: 'Products', type: 'enum', valueList: $csShared.enums.ProductEnum },
+            Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category }
         };
     };
 
@@ -116,7 +125,6 @@
             Value: { label: 'Value', type: 'number', required: true },
             ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
-            
             Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
         };
     };
@@ -135,6 +143,7 @@
         models.AdhocPayout = adhocpayout();
         models.Summary = summary();
         models.BillAmount = billAmount();
+        models.BillingPolicy = billingPolicy();
         models.BillingSubpolicy = billingSubpolicy();
         models.Formula = formula();
         models.Matrix = matrix();
