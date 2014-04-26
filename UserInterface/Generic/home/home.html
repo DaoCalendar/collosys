@@ -20,15 +20,15 @@
     <div class="panel form-horizontal">
         <div class="panel-heading">Pending Approvals</div>
         <ul>
-            <li data-ng-show="datalist.stakeholder>0">
-                <a class="navbar-link" href="#/stakeholder/add"><b>Stakeholder Approval:</b>  {{datalist.stakeholder}} approval pending</a>
+            <li data-ng-show="datalist.stakeholders>0">
+                <a class="navbar-link" href="#/stakeholder/view/PendingForMe"><b>Stakeholder Approval:</b>  {{datalist.stakeholders}} approval pending</a>
             </li>
-            <li data-ng-show="datalist.working>0">
-                <a class="navbar-link" href="#/stakeholder/add"><b>Stakeholder Working Approval:</b>  {{datalist.working}} approval pending</a>
+            <!-- <li data-ng-show="datalist.working>0">
+                <a class="navbar-link" href="#/stakeholder/view"><b>Stakeholder Working Approval:</b>  {{datalist.working}} approval pending</a>
             </li>
             <li data-ng-show="datalist.payment>0">
-                <a class="navbar-link" href="#/stakeholder/add"><b>Stakeholder Payment Approval:</b>  {{datalist.payment}} approval pending</a>
-            </li>
+                <a class="navbar-link" href="#/stakeholder/view"><b>Stakeholder Payment Approval:</b>  {{datalist.payment}} approval pending</a>
+            </li>-->
             <li data-ng-show="datalist.allocation>0">
                 <a class="navbar-link" href="#"><b>Allocation Approval :</b>  {{datalist.allocation}}  approval pending</a>
             </li>

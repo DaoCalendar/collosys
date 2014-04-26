@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
@@ -169,6 +170,15 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                      x.StkhPayments.First(y => y.StartDate < DateTime.Now && y.EndDate > DateTime.Now))
                                  .ToList();
         }
+        
+        //[Transaction]
+        //public IEnumerable<Stakeholders> GetPendingApprovals(string currUser, ColloSysEnums.ApproveStatus status)
+        //{
+        //    var session = SessionManager.GetCurrentSession();
+
+        //    var pendingStake = session.QueryOver<Stakeholders>();
+
+        //} 
 
         public override QueryOver<Stakeholders, Stakeholders> ApplyRelations()
         {
