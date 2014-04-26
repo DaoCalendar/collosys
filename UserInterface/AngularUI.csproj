@@ -118,6 +118,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
+    <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
@@ -252,6 +253,10 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\formula-condition.html" />
+    <Content Include="Billing\formula\formula-details.html" />
+    <Content Include="Billing\formula\formula-group-by.html" />
+    <Content Include="Billing\formula\formula-output.html" />
     <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\formula.html" />
     <Content Include="Billing\formula\temp.html" />
@@ -280,6 +285,8 @@
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
     <Content Include="Content\loading-bar\loading-bar.css" />
+    <Content Include="FileUpload\filterCondition\filterCondition.html" />
+    <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\loading-bar\loading-bar.js" />

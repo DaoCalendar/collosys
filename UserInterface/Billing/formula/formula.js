@@ -178,7 +178,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
         dldata.PayoutSubpolicyTypeSwitch = [{ Name: 'Formula', Value: 'Formula' }, { Name: 'Subpolicy', Value: 'Subpolicy' }];
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
-        dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }];
+        dldata.typeSwitch = [{ Name: 'Value', Value: 'Value' }, { Name: 'Table', Value: 'Table' }, { Name: 'Formula', Value: 'Formula' }];
     };
 
 
@@ -264,6 +264,9 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
 csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
     function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
         (function () {
+            $scope.formula = {};
+            $scope.formula.Category = 'Liner';
+
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
@@ -274,7 +277,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.dldata.formula = {};
             $scope.dldata.formula.Category = 'Liner';
             $scope.showDiv = false;
-            $scope.fieldname = '';
+            $scope.fieldname = {};
             $scope.showField = true;
             $scope.showField2 = false;
             $scope.datalayer.getProducts();
@@ -375,25 +378,22 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
 
     }]);
 
-//#region "Row data"
-//if (out.Operator !== "") {
-//    out.Operator = operatorsEnum[out.Operator];
-//}
-//var savedata = {
-//    payoutSubpolicy: formula,
-//    conditions: saveBConditions
-//};
-// var saveBConditions = [];
-//_.forEach(formula.BConditions, function (con) {
-//    saveBConditions.push(con);
-//});
+csapp.controller('formulaDetailsCtrl', ['$scope', 'formulaController', 'formulaDataLayer',
+    function ($scope, formulaCtrl, datalayer) {
 
-//_.forEach(formula.BOutputs, function (out) {
-//    saveBConditions.push(out);
-//});
+    }]);
 
-//_.forEach($scope.deleteConditions, function (dcond) {
-//    saveBConditions.push(dcond);
-//});
+csapp.controller('formulaConditionCtrl', ['$scope', 'formulaController', 'formulaDataLayer',
+    function ($scope, formulaCtrl, datalayer) {
 
-//#endregion
+    }]);
+
+csapp.controller('formulaOutputCtrl', ['$scope', 'formulaController', 'formulaDataLayer',
+    function ($scope, formulaCtrl, datalayer) {
+
+    }]);
+
+csapp.controller('formulaDetailsCtrl', ['$scope', 'formulaController', 'formulaDataLayer',
+    function ($scope, formulaCtrl, datalayer) {
+
+    }]);
