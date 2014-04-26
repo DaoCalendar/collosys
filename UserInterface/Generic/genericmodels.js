@@ -6,9 +6,9 @@
             TaxName: { label: 'Name', type: 'text', required: true },
             TaxType: { label: 'Type', type: 'enum', valueList: $csShared.enums.TaxType, required: true },
             ApplicableTo: { label: 'Applicable To', type: 'enum', valueList: $csShared.enums.TaxApplicableTo, required: true },
-            IndustryZone: { label: 'Industry Zone', type: 'text', required: true },
+            IndustryZone: { label: 'Industry Zone', type: 'text' },
             ApplyOn: { label: 'Apply On', type: 'enum', valueList: $csShared.enums.TaxApplyOn, required: true },
-            TotSource: { label: 'TOT Source', type: 'text', required: true },
+            TotSource: { label: 'TOT Source', type: 'text' },
             Description: { label: 'Description', type: 'textarea', required: true }
         };
     };
