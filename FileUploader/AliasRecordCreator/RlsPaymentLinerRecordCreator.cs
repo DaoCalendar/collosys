@@ -20,7 +20,6 @@ namespace ColloSys.FileUploader.AliasReader
 
         private readonly IList<int> _paymentcodes;
 
-
         public RlsPaymentLinerRecordCreator(FileScheduler fileScheduler):base(fileScheduler,AccountPosition,AccountLength)
         {
            _paymentcodes = new List<int> { 179, 201, 203, 891 };

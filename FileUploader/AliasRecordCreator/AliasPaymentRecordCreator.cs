@@ -4,19 +4,20 @@ using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
+using ColloSys.FileUploader.DbLayer;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasRecordCreator
 {
     public abstract class AliasPaymentRecordCreator : IAliasRecordCreator<Payment>
     {
-      
+        public IDbLayer reader;
         private readonly uint _accountPosition;
         private readonly uint _accountLength;
         public FileScheduler FileScheduler { get; protected set; }
         public AliasPaymentRecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
         {
-
+            reader=new DbLayer.DbLayer();
             FileScheduler = scheduler;
             _accountLength = accountLength;
             _accountPosition = accountPosition;

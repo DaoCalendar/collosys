@@ -30,7 +30,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment,mappings,(uint)20);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(payment.AccountNo,"" );
@@ -44,10 +44,25 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(_fileReader.List.Count, 14);
+
+        }
+
+        [Test]
+        public void Test_ReadAndSaveBatch_Check_ListCount_Assignig_Batch_8()
+        {
+            //Arrange
+            var payment = _data.GetPayment();
+            var mappings = _data.GetMappings();
+
+            //Act
+            _fileReader.ReadAndSaveBatch();
+
+            //Assert
+            Assert.AreEqual(_fileReader.List.Count, 3);
 
         }
 
@@ -59,7 +74,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, 7);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");
