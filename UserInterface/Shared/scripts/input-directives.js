@@ -606,6 +606,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+            html += (attr.multiple) ? 'multiple = "multiple"' : '';
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
