@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
@@ -34,7 +30,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(payment.AccountNo, "");
@@ -48,7 +44,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, (uint)20);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(_fileReader.List.Count, 14);
@@ -63,7 +59,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch(payment, mappings, 7);
+            _fileReader.ReadAndSaveBatch();
 
             //Assert
             Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");

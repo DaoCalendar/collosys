@@ -1,37 +1,28 @@
-﻿#region references
-
-using System;
+﻿using System;
 using System.Configuration.Install;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.ServiceModel;
-using System.ServiceProcess;
 using System.Timers;
+using System.ServiceProcess;
 using ColloSys.FileUploadService.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 
-#endregion
-
-namespace ColloSys.FileUploadServiceInstaller
+namespace FileUploaderService
 {
-    public class FileUploaderServiceBase : ServiceBase
+    public partial class FileUploaderWinService : ServiceBase
     {
-        #region ctor
-
+        readonly Timer _timer = new Timer();
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        public ServiceHost ServiceHost;
-
-        public FileUploaderServiceBase()
+       
+        private ServiceHost _serviceHost;
+        public FileUploaderWinService()
         {
             ServiceName = ProjectInstaller.ColloSysServiceName;
             NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
         }
-
-        #endregion
-
-        #region main
 
         public static void Main(string[] args)
         {
@@ -48,7 +39,7 @@ namespace ColloSys.FileUploadServiceInstaller
                         ManagedInstallerClass.InstallHelper(new[] { Assembly.GetExecutingAssembly().Location });
                         break;
                     case "--uninstall":
-                        ManagedInstallerClass.InstallHelper(new[] { "/u", Assembly.GetExecutingAssembly().Location });  
+                        ManagedInstallerClass.InstallHelper(new[] { "/u", Assembly.GetExecutingAssembly().Location });
                         break;
                     default:
                         throw new InvalidOperationException(string.Format("The parameter:'{0}' is not supported", parameter));
@@ -56,7 +47,7 @@ namespace ColloSys.FileUploadServiceInstaller
             }
             else
             {
-                Run(new FileUploaderServiceBase());
+                Run(new FileUploaderWinService());
             }
         }
 
@@ -66,27 +57,39 @@ namespace ColloSys.FileUploadServiceInstaller
             //File.AppendAllText(logfile, ((Exception)e.ExceptionObject).Message + ((Exception)e.ExceptionObject).InnerException.Message);
             var log = LogManager.GetCurrentClassLogger();
             log.Error("Service: Unhandled Exception : " + e.ExceptionObject);
+            
         }
 
-        #endregion
-
-        #region start
-
-        private static Timer _aTimer;
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
-            _aTimer = new Timer(10000);
-            _aTimer.Elapsed += OnTimedEvent;
-            _aTimer.Interval = 60 * 1000;
-            _aTimer.Enabled = true;
+            TraceService("Service Start ");
 
-            _log.Info("Service: File upload service started.");
+            _timer.Elapsed += OnEventTime;
+
+            _timer.Interval = 60000;
+
+            _timer.Enabled = true;
+
+            _log.Info("Service: File uploader service started.");
+        }
+
+        protected override void OnStop()
+        {
+            _timer.Enabled = false;
+
+            TraceService("Service stoped");
+
+            _log.Info("Service: File uploader service stoped.");
+            if (_serviceHost == null) return;
+            _serviceHost.Close();
+            _serviceHost = null;
         }
 
         private static bool HasRunBefore { get; set; }
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void OnEventTime(object source, ElapsedEventArgs e)
         {
+            TraceService("Another entry at " + DateTime.Now);
             _log.Debug("Service: in timer event");
 
             IFileUploadService fileUpload = new FileUploadService();
@@ -98,24 +101,22 @@ namespace ColloSys.FileUploadServiceInstaller
             fileUpload.UploadFiles();
         }
 
-        #endregion
-
-        #region stop
-
-        protected override void OnStop()
+        private void TraceService(string content)
         {
-            _log.Info("Service: File Upload service is stopping.");
-            if (ServiceHost == null) return;
-            ServiceHost.Close();
-            ServiceHost = null;
-        }
+            var fs = new FileStream(@"c:\FileUploaderService.txt", FileMode.OpenOrCreate, FileAccess.Write);
 
-        protected override void OnShutdown()
-        {
-            _log.Info("Service: File Upload service is shutting down.");
-            base.OnShutdown();
-        }
+            var sw = new StreamWriter(fs);
 
-        #endregion
+            //find the end of the underlying filestream
+            sw.BaseStream.Seek(0, SeekOrigin.End);
+
+            //add the text
+            sw.WriteLine(content);
+            //add the text to the underlying filestream
+
+            sw.Flush();
+            //close the writer
+            sw.Close();
+        }
     }
 }

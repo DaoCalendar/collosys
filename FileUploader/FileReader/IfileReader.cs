@@ -7,7 +7,7 @@ namespace ColloSys.FileUploader.FileReader
     public interface IFileReader<T>
     {
         IList<T> List { get; }
-        void ReadAndSaveBatch(T obj,  IEnumerable<FileMapping> mappings,uint batchSize);
+        void ReadAndSaveBatch();
 
     }
 
