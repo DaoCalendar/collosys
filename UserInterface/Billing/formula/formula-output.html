@@ -1,7 +1,12 @@
 ﻿<div data-ng-hide="dldata.formula.OutputType==='Boolean'" class="row-fluid"
      id="subpolicy-groupby">
     <div class="panel panel-info">
-        <div class="panel-heading">OutPut</div>
+        <div class="panel-heading" data-ng-show="dldata.formula.OutputType==='IfElse'">
+            If Output
+        </div>
+        <div class="panel-heading" data-ng-hide="dldata.formula.OutputType==='IfElse'">
+            OutPut
+        </div>
         <div class="panel-body">
             <table class="table table-bordered table-hover">
                 <thead>
@@ -17,7 +22,7 @@
                         </td>
                         <td>
                             <csswitch ngbind="dldata.newOutput.Rtype"
-                                      onbtnclick="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue='';dldata.newOutput.RtypeName=''"
+                                      onbtnclick="dldata.newOutput.Lsqlfunction = ''; dldata.newOutput.Rvalue = ''; dldata.newOutput.RtypeName = ''; setFormulaList(dldata.newOutput.Rtype)"
                                       namevalues="dldata.typeSwitch"></csswitch>
                         </td>
                         <td>
@@ -36,9 +41,10 @@
 
                                 </div>
                                 <div data-ng-switch-when="Formula">
-                                    <select class="input-medium" data-ng-model="dldata.newCondition.RtypeName"
+                                    <select class="input-medium" data-ng-model="dldata.newOutput.Formula"
                                             required>
-                                        <option>Formula Names</option>
+                                        <option></option>
+                                        <option data-ng-repeat="d in listofFormula" value="{{d.Id}}">{{d.Name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -58,7 +64,9 @@
                             <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
                         </td>
                         <td>
-                            <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" />
+                            <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" data-ng-hide="boutput.Rtype==='Formula'" />
+
+                            <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="boutput.Rtype==='Formula'" />
                         </td>
                         <td>
                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>

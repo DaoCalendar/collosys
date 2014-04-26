@@ -40,6 +40,10 @@
 
     var summary = function() {
         return {
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+            Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
+            FixedAmount: { label: 'FixedAmount', type: 'text', editable: false },
+            StartDate : {label:'StartDate',type:'text'},
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },
