@@ -54,7 +54,6 @@ csapp.controller("ClientDataDownloadController",
             $scope.datalayer = datalayer;
             $scope.$grid = $grid;
             datalayer.Get();
-            $scope.gridOptions = {};
         })();
         //#endregion
 
