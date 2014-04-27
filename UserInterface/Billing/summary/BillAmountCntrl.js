@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels) {
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels','$csfactory',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csfactory) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;

@@ -17,7 +17,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.BillMonth);
             Property(x => x.BillCycle);
             Property(x => x.Amount);
-            Property(x => x.TraceLog);
+            Property(x => x.TraceLog, map => map.Length(4001));
 
             //Property(x => x.ElementType);
             //Property(x => x.ElementId);

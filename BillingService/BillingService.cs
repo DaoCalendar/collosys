@@ -145,15 +145,22 @@ namespace ColloSys.BillingService
                 var custBillViewModelsForCollection = custBillViewModels
                                                                 .Where(x => !x.IsInRecovery)
                                                                 .ToList();
-                billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
-                                                               stkhPayment.CollectionBillingPolicy, custBillViewModelsForCollection));
+                var collectionbillingPolicy = BillingPolicyDbLayer.GetPolicies(billStatus.Products, ScbEnums.Category.Liner);
+
+                if (collectionbillingPolicy != null)
+                    billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
+                                                                   collectionbillingPolicy, custBillViewModelsForCollection));
+
 
                 // for recovery
                 var custBillViewModelsForRecovery = custBillViewModels
                                                                 .Where(x => x.IsInRecovery)
                                                                 .ToList();
-                billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
-                                                               stkhPayment.RecoveryBillingPolicy, custBillViewModelsForRecovery));
+                var recoverybillingPolicy = BillingPolicyDbLayer.GetPolicies(billStatus.Products, ScbEnums.Category.WriteOff);
+
+                if (recoverybillingPolicy != null)
+                    billDetails.AddRange(Payouts.GetVariablePayout(stakeholder, billStatus,
+                                                                   recoverybillingPolicy, custBillViewModelsForRecovery));
             }
 
             // for adhoc payment 
@@ -197,7 +204,16 @@ namespace ColloSys.BillingService
                                                .Sum(x => x.Amount), 2);
 
             //ToDO:Done Please check 1 line
-            billAmount.TotalAmount = billAmount.FixedAmount + billAmount.VariableAmount + billAmount.Deductions;
+            var subTotal = billAmount.FixedAmount + billAmount.VariableAmount + billAmount.Deductions;
+
+            // TODO: ICICI demo
+            billAmount.HoldAmount = Math.Round(subTotal * Convert.ToDecimal(0.10));
+            billAmount.HoldRepayment = 1000;
+            billAmount.TotalAmount = (subTotal - billAmount.HoldAmount) + billAmount.HoldRepayment;
+
+            billAmount.PayStatus = ColloSysEnums.BillPaymentStatus.BillingDone;
+            billAmount.PayStatusDate = DateTime.Now;
+            billAmount.PayStatusHistory = string.Format("{{ PayStatus: {0}, Date: {1} }}", billAmount.PayStatus, billAmount.PayStatusDate);
 
             return billAmount;
         }
