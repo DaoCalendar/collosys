@@ -17,8 +17,12 @@
                         <td></td>
                     </tr>
                     <tr data-ng-form="newOutputForm">
-                        <td class="input-medium">
-                            <cs-field data-ng-model="dldata.newOutput.Operator" field="formula.OperatorType" data-ng-hide="dldata.formula.BOutputs<1" no-label=""></cs-field>
+                        <td>
+                            <cs-field data-ng-model="dldata.newOutput.Operator" 
+                                      field="formula.OperatorType" 
+                                      data-ng-hide="dldata.formula.BOutputs<1" 
+                                      no-label=""
+                                      class="input-medium"></cs-field>
                         </td>
                         <td>
                             <csswitch ngbind="dldata.newOutput.Rtype"

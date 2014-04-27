@@ -8,8 +8,8 @@
                         <option value=""></option>
                         <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
                     </select>
-                    <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Payment</button>
-                    <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Payment</button>
+                    <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Case</button>
+                    <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Case</button>
                 </div>
             </div>
         </div>

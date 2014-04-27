@@ -289,6 +289,8 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\images\Dhfl\DHFLlogo4.jpg" />
+    <Content Include="Content\images\Dhfl\DHFLlogo5.jpg" />
     <Content Include="Content\select2\css\select2.css" />
     <Content Include="Content\select2\css\select2.png" />
     <Content Include="Content\select2\css\select2x2.png" />
