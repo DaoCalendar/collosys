@@ -616,11 +616,12 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"';
+            var html = '<select  name="myfield" ';
+            html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             //html += field.useRepeat === "true" ? ' data-ui-select2="" ' : ' ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class ="' + attr.class + '"' : 'class="input-large"';
-            html += (field.useRepeat !== "true") ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            html += (attr.class) ? 'class =" chosen-select' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
@@ -628,7 +629,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
-            html += field.useRepeat === "true" ? field.ngRepeat : ' ';
+            html += field.useRepeat === true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -688,11 +689,12 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"'; //ui-select2="" 
+            var html = '<select  name="myfield" '; //ui-select2=""
+            html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class ="' + attr.class + '"' : 'class="input-large"';
-            html += (attr.multiple) ? 'multiple = "multiple" data-ui-select2=""' : '';
+            html += (attr.class) ? 'class =" chosen-select' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
