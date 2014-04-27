@@ -450,24 +450,24 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         };
 
         $scope.manageField = function (condition) {
-            condition.Rvalue = '';
-            $scope.showField = $scope.showField === true ? false : true;
-            $scope.showField2 = !$scope.showField2;
-            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
-            var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType !== 'text') {
-                return;
-            }
-            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
-                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
-                $scope.fieldname.type = "text";
-                $scope.fieldname.required = true;
-                return;
-            }
-            if (condition.Operator === "IsInList") {
-                $scope.fieldname.multiple = "multiple";
-            }
-            $scope.fieldname.type = "enum";
+            //condition.Rvalue = '';
+            //$scope.showField = $scope.showField === true ? false : true;
+            //$scope.showField2 = !$scope.showField2;
+            //$scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            //var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            //if (inputType !== 'text') {
+            //    return;
+            //}
+            //if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+            //    condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+            //    $scope.fieldname.type = "text";
+            //    $scope.fieldname.required = true;
+            //    return;
+            //}
+            //if (condition.Operator === "IsInList") {
+            //    $scope.fieldname.multiple = "multiple";
+            //}
+            //$scope.fieldname.type = "enum";
         };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);

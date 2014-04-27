@@ -420,9 +420,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
                 condition.Operator = '';
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';
-                datalayer.getColumnValues(condition.LtypeName).then(function (data) {
-                    $scope.fieldname.valueList = data;
-                });
+                //datalayer.getColumnValues(condition.LtypeName).then(function (data) {
+                //    $scope.fieldname.valueList = data;
+                //});
                 return;
             }
 
@@ -448,24 +448,24 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         $scope.manageField = function (condition) {
-            condition.Rvalue = '';
-            $scope.showField = $scope.showField === true ? false : true;
-            $scope.showField2 = !$scope.showField2;
-            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
-            var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType !== 'text') {
-                return;
-            }
-            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
-                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
-                $scope.fieldname.type = "text";
-                $scope.fieldname.required = true;
-                return;
-            }
-            if (condition.Operator === "IsInList") {
-                $scope.fieldname.multiple = "multiple";
-            }
-            $scope.fieldname.type = "enum";
+            //condition.Rvalue = '';
+            //$scope.showField = $scope.showField === true ? false : true;
+            //$scope.showField2 = !$scope.showField2;
+            //$scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            //var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            //if (inputType !== 'text') {
+            //    return;
+            //}
+            //if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+            //    condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+            //    $scope.fieldname.type = "text";
+            //    $scope.fieldname.required = true;
+            //    return;
+            //}
+            //if (condition.Operator === "IsInList") {
+            //    $scope.fieldname.multiple = "multiple";
+            //}
+            //$scope.fieldname.type = "enum";
         };
 
         $scope.setFormulaList = function (rtype) {

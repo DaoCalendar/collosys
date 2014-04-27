@@ -101,7 +101,7 @@
             Tenure: { label: 'Tenure', type: 'ulong' },
             RepaymentMode: { label: 'RepaymentMode', type: 'text' },
             AssetCode: { label: 'AssetCode', type: 'ulong' },
-            AssetType: { label: 'AssetType', type: 'enum', valueList: $csShared.enums.DelqFlag },
+            AssetType: { label: 'AssetType', type: 'text' },
             Scheme: { label: 'Scheme', type: 'text' },
             DisbMemoNo: { label: 'DisbMemoNo', type: 'text' },
             DisbMemoDate: { label: 'DisbMemoDate', type: 'date' },
