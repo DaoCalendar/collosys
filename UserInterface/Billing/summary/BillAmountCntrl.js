@@ -32,6 +32,16 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             });
         };
 
+        // TODO: ICICI demo
+        $scope.downloadBillSummaryExcel = function (product, stakeholderId, month) {
+            if (stakeholderId != '') {
+                var yearMonth = moment(month).format('YYYYMM');
+                datalayer.downloadBillSummaryExcel(product,stakeholderId,yearMonth).then(function (fileName) {
+                    $csfactory.downloadFile(fileName);
+                });
+            }
+        };
+
     }]);
 
 csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
@@ -124,13 +134,19 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
             billingData.StartDate = moment(billingData.StartDate).format('L');
         };
 
+        // TODO : ICICI Demo
+        var downloadBillSummaryExcel = function (product, stakeholderId, yearMonth) {
+            return restApi.customGET('ExcelForBillSammary', { 'products': product, 'stakeId': stakeholderId, 'month': yearMonth });
+        };
+
         return {
             dldata: dldata,
             getProducts: getProducts,
             addAdhocPayout: addAdhocPayout,
             getStakeholders: getStakeholders,
             approvePayBillingAmount: approvePayBillingAmount,
-            getBillingData: getBillingData
+            getBillingData: getBillingData,
+            downloadBillSummaryExcel: downloadBillSummaryExcel // TODO : ICICI Demo
         };
 
     }]);
@@ -138,7 +154,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
 csapp.factory('billAmountFactory', ['billAmountDataLayer', function (datalayer) {
     var dldata = datalayer.dldata;
 
-    var initEnums = function () {};
+    var initEnums = function () { };
 
     var enableLink = function () {
         return false;
@@ -178,7 +194,7 @@ csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billA
     }]);
 
 csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory',
-    '$modalInstance','$csBillingModels',
+    '$modalInstance', '$csBillingModels',
     function ($scope, datalayer, factory, $modalInstance, $csBillingModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
