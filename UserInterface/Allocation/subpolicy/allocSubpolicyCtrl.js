@@ -268,8 +268,8 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 restApi.customPUT(allocSubpolicy, "Put", { id: allocSubpolicy.Id }).then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
-                    resetAllocSubpolicy(data.Products, data.Category);
-                    selectAllocSubpolicy(data);
+                    resetAllocSubpolicy(data.Products);
+                    //selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -279,8 +279,8 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 restApi.customPOST(allocSubpolicy, "Post").then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
-                    resetAllocSubpolicy(data.Products, data.Category);
-                    selectAllocSubpolicy(data);
+                    resetAllocSubpolicy(data.Products);
+                    //selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
