@@ -3,8 +3,8 @@
     var stakeholder = function () {
         return {
 
-            hierarchy: { label: 'Hierarchy', type: 'select' },
-            designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select' },
+            hierarchy: { label: 'Hierarchy', type: 'select', useRepeat: "true" },
+            designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select', useRepeat: "true" },
             Name: { placeholder: 'enter name', label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', required: true, patternMessage: 'Invalid Name' },
             userId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{7}$/', patternMessage: 'Invalid ID' },
             mobile: { label: "Mobile No", type: 'text', pattern: '/^[0-9]{10}$/', template: 'phone', patternMessage: 'Invalid Mobile Number' },
