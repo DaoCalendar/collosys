@@ -14,8 +14,6 @@
             return restApi.customPOST(forgotInfo, "ResetPassword");
         };
 
-       
-
         return {
             authenticate: authenticate,
             doesUserExist: validate,
@@ -26,6 +24,7 @@
 
 csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
     function ($cookieStore, logManager) {
+
         var $log = logManager.getInstance("$csAuthFactory");
 
         var authInfo = {
@@ -80,7 +79,7 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
             logoutUser: logoutUser,
             getUsername: getUsername,
             loadAuthCookie: loadCookie,
-            authInfo:authInfo
+            authInfo: authInfo
         };
     }]);
 
@@ -104,8 +103,10 @@ csapp.controller("loginController",
 
         $scope.loginUser = function () {
             $('input').checkAndTriggerAutoFillEvent();
+
             $scope.login.error = false;
-            $csfactory.enableSpinner();
+            //$csfactory.enableSpinner();
+
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {
                     $csAuthFactory.loginUser($scope.login.username);

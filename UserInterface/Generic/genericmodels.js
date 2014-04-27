@@ -63,7 +63,6 @@
             ResolutionPercentage: { label: 'ResolutionPercentage', type: 'number', template: 'decimal' },
             GPincode: { label: 'GPincode', type: 'enum' },
             Stakeholders: { label: 'Stakeholders', type: 'enum' },
-
         };
     };
 

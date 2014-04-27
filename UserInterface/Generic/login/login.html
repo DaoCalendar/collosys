@@ -7,20 +7,22 @@
     <div class="centered">
         <div class="span4">
             <section class="loginform cf" data-ng-show="hasForgotPassword != true">
-                <h3 class="somemarginH">Login</h3>
+                <div class="text-center">
+                    <h4 class="somemargin">Login</h4>
+                </div>
                 <form>
                     <div class="control-group somemargin">
                         <!--<div class="control-label">
-                            Username
-                        </div>-->
+                                Username
+                            </div>-->
                         <div class="controls">
                             <input type="text" placeholder="User Name" autofocus="autofocus" data-ng-model="login.username">
                         </div>
                     </div>
                     <div class="control-group somemargin">
                         <!--<div class="control-label">
-                            Password
-                        </div>-->
+                                Password
+                            </div>-->
                         <div class="controls">
                             <input type="password" placeholder="Password" data-ng-model="login.password">
                         </div>
@@ -31,10 +33,10 @@
                         </div>
                     </div>
                     <!--<div class="control-group somemargin">
-                        <div class="controls">
-                            <a style="color: blue" data-ng-click="toggleForgotPassword()">Forgot Password</a>
-                        </div>
-                    </div>-->
+                            <div class="controls">
+                                <a style="color: blue" data-ng-click="toggleForgotPassword()">Forgot Password</a>
+                            </div>
+                        </div>-->
                     <div class="control-group somemargin">
                         <div class="controls">
                             <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
@@ -54,18 +56,16 @@
                         </div>
                         <div class="controls">
                             <input name="username" type="text" autofocus="autofocus" data-ng-model="forgot.username"
-                                   ng-required="true" ng-maxlength="7" ng-minlength="7" data-ng-pattern="/^[0-9]{7}/"
-                                   ng-change="validateUser(forgot)">
+                                ng-required="true" ng-maxlength="7" ng-minlength="7" data-ng-pattern="/^[0-9]{7}/"
+                                ng-change="validateUser(forgot)">
                         </div>
                     </div>
                     <div class="control-group somemargin">
                         <div class="controls">
                             <span data-ng-show="forgot.username == null" class="alert alert-error">Username must be of 7 digits!!!</span>
-                            <span data-ng-show="forgot.username != null && forgot.isUserValid != true" class="alert alert-error">
-                                Username does not exist!!!
+                            <span data-ng-show="forgot.username != null && forgot.isUserValid != true" class="alert alert-error">Username does not exist!!!
                             </span>
-                            <span data-ng-show="forgot.passwordResetError" class="alert alert-error">
-                                Sorry, could not reset password.
+                            <span data-ng-show="forgot.passwordResetError" class="alert alert-error">Sorry, could not reset password.
                             </span>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="controls">
                             <button class="btn btn-success" data-ng-click="toggleForgotPassword()">Cancel</button>
                             <button class="btn btn-warning" data-ng-disabled="!forgot.isUserValid"
-                                    data-ng-click="resetPassword(forgot)">
+                                data-ng-click="resetPassword(forgot)">
                                 Reset Password
                             </button>
                         </div>

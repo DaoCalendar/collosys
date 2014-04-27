@@ -54,6 +54,7 @@ csapp.controller("ClientDataDownloadController",
             $scope.datalayer = datalayer;
             $scope.$grid = $grid;
             datalayer.Get();
+            $scope.gridOptions = {};
         })();
         //#endregion
 
@@ -80,6 +81,7 @@ csapp.controller("ClientDataDownloadController",
                     break;
             }
         };
+        $scope.ResetControls("ShowDataBy", $scope.params);
 
         $scope.AreParamsInvalid = function (param) {
             if ($csfactory.isNullOrEmptyString(param.ShowDataBy)) {
@@ -110,7 +112,7 @@ csapp.controller("ClientDataDownloadController",
 
             datalayer.GetData(downloadparams).then(function () {
                 $scope.gridOptions = datalayer.dldata.gridOptions;
-            }).finally(function() {
+            }).finally(function () {
                 $scope.gettingPageData = false;
             });
         };
@@ -129,4 +131,4 @@ csapp.controller("ClientDataDownloadController",
 
         //#endregion
     }
-]);
+    ]);
