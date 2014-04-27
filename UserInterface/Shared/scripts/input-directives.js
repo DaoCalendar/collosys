@@ -617,10 +617,10 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select  name="myfield" ';
-            html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
+            //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             //html += field.useRepeat === "true" ? ' data-ui-select2="" ' : ' ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" chosen-select' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
             html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -689,10 +689,10 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select  name="myfield" '; //ui-select2=""
-            html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
+            //html += attr.valueList ? ' chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" chosen-select' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
