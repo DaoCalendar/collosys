@@ -5,16 +5,17 @@
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-medium"
-                        data-ng-model="dldata.payoutSubpolicy.Products"
-                        data-ng-change="changeProductCategory(dldata.payoutSubpolicy.Products)" required>
+                            data-ng-model="dldata.payoutSubpolicy.Products"
+                            data-ng-change="changeProductCategory(dldata.payoutSubpolicy.Products)" required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
 
                     <button class="btn alert-info"
-                        data-ng-show="dldata.payoutSubpolicy.Products"
-                        data-ng-click="addsubpolicy(dldata.payoutSubpolicy.Products)">
-                        Add Subpolicy</button>
+                            data-ng-show="dldata.payoutSubpolicy.Products"
+                            data-ng-click="addsubpolicy(dldata.payoutSubpolicy.Products)">
+                        Add Subpolicy
+                    </button>
                 </div>
             </div>
         </div>
@@ -36,7 +37,7 @@
             <div class="row-fluid" data-ng-show="showDiv">
                 <!--Subpolicy-->
                 <div class="row-fluid" id="subpolicy-display"
-                    data-ng-form="payoutSubpolicyForm">
+                     data-ng-form="payoutSubpolicyForm">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             Supolicy
@@ -54,9 +55,9 @@
                                         <label class="control-label">Category</label>
                                         <div class="controls">
                                             <csswitch ngdisabled="dldata.payoutSubpolicy.Id"
-                                                ngbind="dldata.payoutSubpolicy.Category"
-                                                onbtnclick="datalayer.changeProductCategory()"
-                                                namevalues="dldata.categorySwitch"></csswitch>
+                                                      ngbind="dldata.payoutSubpolicy.Category"
+                                                      onbtnclick="datalayer.changeProductCategory()"
+                                                      namevalues="dldata.categorySwitch"></csswitch>
                                         </div>
                                     </div>
                                 </div>
@@ -67,12 +68,13 @@
                                         <label class="control-label">Name</label>
                                         <div class="controls">
                                             <input type="text" data-ng-disabled="dldata.payoutSubpolicy.Id"
-                                                data-ng-model="dldata.payoutSubpolicy.Name"
-                                                data-ng-pattern="/^\w*$/"
-                                                data-ng-change="factory.checkDuplicateName()" required />
+                                                   data-ng-model="dldata.payoutSubpolicy.Name"
+                                                   data-ng-pattern="/^\w*$/"
+                                                   data-ng-change="factory.checkDuplicateName()" required />
                                             <label class="text-error"
-                                                data-ng-show="dldata.isDuplicateName">
-                                                Subpolicy name already exist</label>
+                                                   data-ng-show="dldata.isDuplicateName">
+                                                Subpolicy name already exist
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="control-group span6">
@@ -101,42 +103,48 @@
                                         <td></td>
                                     </tr>
                                     <tr data-ng-form="newOutputForm">
-                                        <td class="input-medium">
+                                        <td>
                                             <div data-ng-hide="dldata.payoutSubpolicy.BOutputs < 1">
-                                                <cs-field data-ng-model="dldata.newOutput.Operator" field="payoutSubpolicy.OperatorType" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newOutput.Operator"
+                                                          field="payoutSubpolicy.OperatorType"
+                                                          no-label=""></cs-field>
                                             </div>
                                         </td>
                                         <td>
-                                            <cs-field data-ng-model="dldata.newOutput.Rtype" field="payoutSubpolicy.TypeSwitch"
-                                                data-ng-change="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue=''; dldata.newOutput.ColumnName=''"
-                                                no-label=""></cs-field>
+                                            <cs-field data-ng-model="dldata.newOutput.Rtype"
+                                                      field="payoutSubpolicy.TypeSwitch"
+                                                      data-ng-change="dldata.newOutput.Lsqlfunction='';dldata.newOutput.Rvalue=''; dldata.newOutput.ColumnName=''"
+                                                      no-label=""></cs-field>
                                         </td>
                                         <td>
                                             <div data-ng-hide="dldata.newOutput.Rtype">
                                                 <input class="input-medium" type="number" step="any"
-                                                    data-ng-model="dldata.newOutput.Rvalue" />
+                                                       data-ng-model="dldata.newOutput.Rvalue" />
                                             </div>
                                             <div data-ng-switch on="dldata.newOutput.Rtype">
                                                 <div data-ng-switch-when="Value">
                                                     <input class="input-medium" type="number" step="any"
-                                                        data-ng-model="dldata.newOutput.Rvalue" required />
+                                                           data-ng-model="dldata.newOutput.Rvalue" required />
 
                                                 </div>
-                                                <div data-ng-switch-when="Table">
-                                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction" field="payoutSubpolicy.LsqlFunctionType" no-label=""></cs-field>
+                                                <div data-ng-switch-when="Table" class="left">
+                                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction"
+                                                              field="payoutSubpolicy.LsqlFunctionType"
+                                                              no-label=""
+                                                              class="input-medium"></cs-field>
                                                     <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
                                                         <option value=""></option>
                                                         <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
                                                     </select>
                                                 </div>
                                                 <div data-ng-switch-when="Formula">
-                                                    <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
+                                                    <select class="input-large" data-ng-model="dldata.newOutput.RtypeName" required>
                                                         <option value=""></option>
                                                         <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
                                                     </select>
                                                 </div>
                                                 <div data-ng-switch-when="Matrix">
-                                                    <select class="input-xlarge" data-ng-model="dldata.newOutput.RtypeName" required>
+                                                    <select class="input-large" data-ng-model="dldata.newOutput.RtypeName" required>
                                                         <option value=""></option>
                                                         <option data-ng-repeat="c in dldata.matrixNames">{{c}}</option>
                                                     </select>
@@ -145,20 +153,21 @@
                                         </td>
                                         <td>
                                             <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
-                                                data-ng-click="factory.addNewOutput(dldata.newOutput)">
-                                            </button>
+                                                    data-ng-click="factory.addNewOutput(dldata.newOutput)"></button>
                                         </td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
                                         <td>
-                                            <input type="text" class="input-mini" value="{{output.Operator}}" data-ng-show="output.Operator" readonly="readonly" /></td>
+                                            <input type="text" class="input-mini" value="{{output.Operator}}" data-ng-show="output.Operator" readonly="readonly" />
+                                        </td>
                                         <td>
                                             <input type="text" readonly="readonly" class="input-mini" value="{{output.Rtype}}" />
                                         </td>
                                         <td>
-                                            <input type="text" class="input-large" value="{{output.RtypeName + output.Rvalue}}" readonly="readonly" /></td>
+                                            <input type="text" class="input-large" value="{{output.RtypeName + output.Rvalue}}" readonly="readonly" />
+                                        </td>
                                         <td>
                                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
                                         </td>
@@ -171,12 +180,12 @@
 
                 <!--GroupBy-->
                 <div data-ng-show="dldata.outputWithFunction" class="row-fluid"
-                    id="subpolicy-groupby">
+                     id="subpolicy-groupby">
                     <div class="panel panel-info">
                         <div class="panel-heading">Group By</div>
                         <div class="panel-body">
                             <select class="input-xxlarge" multiple="multiple"
-                                data-ng-model="dldata.payoutSubpolicy.GroupBy" required>
+                                    data-ng-model="dldata.payoutSubpolicy.GroupBy" required>
                                 <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c.field}}">{{c.displayName}}</option>
                             </select>
                         </div>
@@ -201,23 +210,29 @@
                                         </tr>
                                         <tr data-ng-form="newConditionForm">
                                             <td>
-                                                <cs-field data-ng-model="dldata.newCondition.RelationType" data-ng-hide="dldata.payoutSubpolicy.BConditions.length<1" field="payoutSubpolicy.RelationType" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.RelationType"
+                                                          data-ng-hide="dldata.payoutSubpolicy.BConditions.length<1"
+                                                          field="payoutSubpolicy.RelationType" no-label=""></cs-field>
                                             </td>
                                             <td>
                                                 <select class="input-xlarge"
-                                                    data-ng-model="dldata.newCondition.LtypeName"
-                                                    data-ng-change="changeLeftTypeName(dldata.newCondition)" required>
+                                                        data-ng-model="dldata.newCondition.LtypeName"
+                                                        data-ng-change="changeLeftTypeName(dldata.newCondition)" required>
                                                     <option value=""></option>
                                                     <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c.field}}">{{c.displayName}}</option>
                                                 </select>
                                             </td>
                                             <td>
-                                                <cs-field data-ng-model="dldata.newCondition.Operator" field="payoutSubpolicy.ConditionOperators" data-ng-change="manageField(dldata.newCondition)" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.Operator"
+                                                          field="payoutSubpolicy.ConditionOperators"
+                                                          data-ng-change="manageField(dldata.newCondition)"
+                                                          no-label=""></cs-field>
                                             </td>
                                             <td>
                                                 <cs-field data-ng-model="dldata.newCondition.Rtype"
-                                                    data-ng-disabled="dldata.newCondition.Rvalue=='text'"
-                                                    field="payoutSubpolicy.TypeSwitch" no-label=""></cs-field>
+                                                          data-ng-disabled="dldata.newCondition.Rvalue=='text'"
+                                                          field="payoutSubpolicy.TypeSwitch"
+                                                          no-label=""></cs-field>
 
                                             </td>
                                             <td class="input-large">
@@ -247,13 +262,19 @@
                                                     <div data-ng-switch-when="Value">
                                                         <div data-ng-if="fieldname">
                                                             <div data-ng-if="showField">
-                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue"
+                                                                          field="fieldname" ng-required="true" no-label=""></cs-field>
+
                                                                 <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
                                                                     <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
                                                                 </div>
                                                             </div>
                                                             <div data-ng-if="showField2">
-                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                                <cs-field data-ng-model="dldata.newCondition.Rvalue"
+                                                                          field="fieldname"
+                                                                          ng-required="true"
+                                                                          no-label="">
+                                                                </cs-field>
                                                                 <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
                                                                     <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="payoutSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
                                                                 </div>
@@ -264,21 +285,25 @@
                                             </td>
                                             <td>
                                                 <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
-                                                    data-ng-click="factory.addNewCondition(dldata.newCondition);">
-                                                </button>
+                                                        data-ng-click="factory.addNewCondition(dldata.newCondition);"></button>
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="condition in dldata.payoutSubpolicy.BConditions | orderBy: 'Priority'">
                                             <td>
-                                                <input type="text" class="input-mini " readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" /></td>
+                                                <input type="text" class="input-mini " readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" />
+                                            </td>
                                             <td>
-                                                <input type="text" readonly="readonly" value="{{condition.LtypeName}}" /></td>
+                                                <input type="text" readonly="readonly" value="{{condition.LtypeName}}" />
+                                            </td>
                                             <td>
-                                                <input type="text" class="input-mini" readonly="readonly" data-ng-model="condition.Operator" /></td>
+                                                <input type="text" class="input-mini" readonly="readonly" data-ng-model="condition.Operator" />
+                                            </td>
                                             <td>
-                                                <input type="text" class="input-mini" readonly="readonly" value="{{condition.Rtype}}" /></td>
+                                                <input type="text" class="input-mini" readonly="readonly" value="{{condition.Rtype}}" />
+                                            </td>
                                             <td>
-                                                <input type="text" class="input-large" readonly="readonly" value="{{condition.RtypeName +((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
+                                                <input type="text" class="input-large" readonly="readonly" value="{{condition.RtypeName +((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" />
+                                            </td>
 
                                             <td>
                                                 <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
@@ -296,13 +321,13 @@
                 <div class="row-fluid text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled="!(payoutSubpolicyForm.$valid && (dldata.payoutSubpolicy.BConditions.length>0 && dldata.payoutSubpolicy.BOutputs.length>0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.savePayoutSubpolicy(dldata.payoutSubpolicy)">Save</button>
                     <button class="btn btn-default"
-                        data-ng-show="dldata.payoutSubpolicy.Id"
-                        data-ng-disabled=" !(payoutSubpolicyForm.$valid && (dldata.payoutSubpolicy.BConditions.length>0 && dldata.payoutSubpolicy.BOutputs.length>0))|| factory.disableIfRelationExists()"
-                        data-ng-click="openmodal()">
+                            data-ng-show="dldata.payoutSubpolicy.Id"
+                            data-ng-disabled=" !(payoutSubpolicyForm.$valid && (dldata.payoutSubpolicy.BConditions.length>0 && dldata.payoutSubpolicy.BOutputs.length>0))|| factory.disableIfRelationExists()"
+                            data-ng-click="openmodal()">
                         Activate
                     </button>
                     <button class="btn btn-default"
-                        data-ng-click="factory.resetPayoutSubpolicy(dldata.payoutSubpolicy.Products)">
+                            data-ng-click="factory.resetPayoutSubpolicy(dldata.payoutSubpolicy.Products)">
                         Reset
                     </button>
                 </div>

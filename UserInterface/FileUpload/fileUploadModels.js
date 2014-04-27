@@ -67,17 +67,25 @@
             Pincode: { type: "uint" },
             Product: { type: "enum", valueList: $csShared.enums.Products },
             CustStatus: { type: "text" },
-            AllocStartDate: { type: "date" },
+            AllocationStartDate: { type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
             IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
             IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No'] },
-            AllocEndDate: { type: "date" },
+            AllocationEndDate: { type: "date" },
             ChargeofDate: { type: "date" },
             AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
             TotalDue: { type: "decimal" },
             NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
             Cycle: { type: "number" },
-            Bucket: { type: "uint" }
+            Bucket: { type: "uint" },
+            ConditionSatisfy:{ type:'text'},
+            ResolutionPercentage:{type:'number',template:'percentage'},
+            MobWriteoff:{type:'uint'},
+            Vintage:{type:'uint'},
+            TotalDueOnAllocation:{type:'uint'},
+            TotalAmountRecovered:{type:'uint'},
+            City:{ type:'text'},
+            CityCategory:{type:'enum',valueList: $csShared.enums.CityCategory}
         };
     };
 

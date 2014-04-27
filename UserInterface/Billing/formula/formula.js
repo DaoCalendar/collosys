@@ -232,7 +232,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         }
 
     };
-    var addNewCondition = function (condition) {
+    var addNewCondition = function (condition, newConditionForm) {
         condition.Ltype = "Column";
         condition.Lsqlfunction = "";
         condition.ConditionType = 'Condition';
@@ -247,6 +247,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.conditionValueType = 'text';
 
         datalayer.resetCondition();
+        newConditionForm.$setPristine();
     };
     var deleteCondition = function (condition, index) {
         if ((dldata.formula.BConditions.length == 1)) {
@@ -265,7 +266,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         }
     };
 
-    var addNewOutput = function (output) {
+    var addNewOutput = function (output, newOutputForm) {
         datalayer.checkString(output);
         output.ConditionType = 'Output';
         output.ParentId = dldata.formula.Id;
@@ -278,9 +279,10 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.formula.BOutputs.push(out);
 
         datalayer.resetOutput();
+        newOutputForm.$setPristine();
     };
 
-    var addNewOutput2 = function (output) {
+    var addNewOutput2 = function (output, newOutputForm2) {
         datalayer.checkString(output);
         output.ConditionType = 'OutputElse';
         output.ParentId = dldata.formula.Id;
@@ -289,6 +291,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.formula.BOutputs2.push(out);
 
         datalayer.resetOutput2();
+        newOutputForm.$setPristine();
     };
 
     var deleteOutput = function (output, index) {
