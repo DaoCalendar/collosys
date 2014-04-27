@@ -104,8 +104,6 @@
     <Compile Include="Billing\ICustBillViewModel.cs" />
     <Compile Include="ClientData\CacsActivity.cs" />
     <Compile Include="ClientData\CacsActivityMap.cs" />
-    <Compile Include="ClientData\CustInfo.cs" />
-    <Compile Include="ClientData\CustInfoMap.cs" />
     <Compile Include="ClientData\CustomerInfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />

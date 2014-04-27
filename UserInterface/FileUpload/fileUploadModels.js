@@ -78,22 +78,53 @@
             NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
             Cycle: { type: "number" },
             Bucket: { type: "uint" },
-            ConditionSatisfy:{ type:'text'},
-            ResolutionPercentage:{type:'number',template:'percentage'},
-            MobWriteoff:{type:'uint'},
-            Vintage:{type:'uint'},
-            TotalDueOnAllocation:{type:'uint'},
-            TotalAmountRecovered:{type:'uint'},
-            City:{ type:'text'},
-            CityCategory:{type:'enum',valueList: $csShared.enums.CityCategory}
+            ConditionSatisfy: { type: 'text' },
+            ResolutionPercentage: { type: 'number', template: 'percentage' },
+            MobWriteoff: { type: 'uint' },
+            Vintage: { type: 'uint' },
+            TotalDueOnAllocation: { type: 'uint' },
+            TotalAmountRecovered: { type: 'uint' },
+            City: { type: 'text' },
+            CityCategory: { type: 'enum', valueList: $csShared.enums.CityCategory },
+            //TODO: remove ICICI
+            LanNo: { label: 'LanNo', type: 'text' },
+            Zone: { label: 'Zone', type: 'text' },
+            Region: { label: 'Region', type: 'text' },
+            Location: { label: 'Location', type: 'text' },
+            CustName: { label: 'CustName', type: 'text' },
+            SanctionAmt: { label: 'SanctionAmt', type: 'ulong' },
+            StartDate: { label: 'StartDate', type: 'date' },
+            SanctionDate: { label: 'SanctionDate', type: 'date' },
+            AgreementDate: { label: 'AgreementDate', type: 'date' },
+            CustCat: { label: 'CustCat', type: 'text' },
+            IRR: { label: 'IRR', type: 'number', template: 'decimal' },
+            Tenure: { label: 'Tenure', type: 'ulong' },
+            RepaymentMode: { label: 'RepaymentMode', type: 'text' },
+            AssetCode: { label: 'AssetCode', type: 'ulong' },
+            AssetType: { label: 'AssetType', type: 'enum', valueList: $csShared.enums.DelqFlag },
+            Scheme: { label: 'Scheme', type: 'text' },
+            DisbMemoNo: { label: 'DisbMemoNo', type: 'text' },
+            DisbMemoDate: { label: 'DisbMemoDate', type: 'date' },
+            ProcessingFees: { label: 'ProcessingFees', type: 'ulong' },
+            NetDisb: { label: 'NetDisb', type: 'ulong' },
+            DisbAmt: { label: 'DisbAmt', type: 'ulong' },
+            DisbMode: { label: 'DisbMode', type: 'text' },
+            DisbStatus: { label: 'DisbStatus', type: 'text' },
+            EmpIdCredit: { label: 'EmpIdCredit', type: 'ulong' },
+            EmpIdOps: { label: 'EmpIdOps', type: 'text' },
+            LoanSource: { label: 'LoanSource', type: 'text' },
+            DMACode: { label: 'DMACode', type: 'long' },
+            CityCat: { label: 'CityCat', type: 'enum', valueList: $csShared.enums.CityCategory },
+            LoanType: { label: 'LoanType', type: 'text' },
+            MemoApprovalDate: { label: 'MemoApprovalDate', type: 'date' },
         };
     };
 
     var filterCondition = function () {
         return {
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
-            Operator: {type:"enum",valueList:$csShared.enums.ConditionOperators},
-          
+            Operator: { type: "enum", valueList: $csShared.enums.ConditionOperators },
+
         };
     };
 
