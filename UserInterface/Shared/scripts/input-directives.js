@@ -654,13 +654,12 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (angular.isUndefined(attr.useRepeat) || attr.useRepeat === "false") {
+            if (field.useRepeat !== true) {
                 field.ngOptions = field.valueField + ' as ' + field.textField;
                 field.ngOptions += ' for row in ';
                 field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
                 field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
-            }
-            if (field.useRepeat === "true") {
+            } else {
                 var valueList = attr.valueList ? attr.valueList : 'field.valueList';
                 field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             }
