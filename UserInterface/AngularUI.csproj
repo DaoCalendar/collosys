@@ -271,8 +271,13 @@
     <Content Include="Billing\holdingpolicy\holding-policy-list.html" />
     <Content Include="Billing\holdingpolicy\holding-policy.html" />
     <Content Include="Billing\holdingpolicy\holding-policy.js" />
+    <Content Include="Billing\matrix\matrix-create.html" />
+    <Content Include="Billing\matrix\matrix-details.html" />
+    <Content Include="Billing\matrix\matrix-info.html" />
+    <Content Include="Billing\matrix\matrix-show.html" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
+    <Content Include="Billing\matrix\temp.html" />
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
     <Content Include="Billing\policy\payoutPolicyCtrl.js" />

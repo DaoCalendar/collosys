@@ -1,0 +1,45 @@
+﻿<div data-ng-if="dldata.isMatrixCreated" class="panel panel-info">
+    <div class="panel-heading">Fill Values</div>
+    <div style="overflow: auto">
+        <table class="table table-bordered">
+            <tbody>
+                <tr data-ng-repeat="n in [dldata.matrix.Row1DCount+1] | csmakeRange" data-ng-style="factory.highlightColumn(n)">
+                    <td data-ng-repeat="m in [dldata.matrix.Column2DCount+1] | csmakeRange" data-ng-style="factory.highlightColumn(m)">
+                        <div data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                             data-ng-show="m===0 && n===0">
+                            <p class="text-right">{{dldata.matrix.Column2DTypeName}}</p>
+                            <hr style="border-top: 1px solid #111010;">
+                            <p>{{dldata.matrix.Row1DTypeName}}</p>
+                        </div>
+                        <div class="text-center">
+                            <!--opertor box-->
+                            <input type="text"
+                                   class="input-mini"
+                                   data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                                   value="{{matrixValue.ColumnOperator=factory.opertorValue($index,dldata.matrix.Column2DCount,dldata.matrix.ColumnsOperator)}}"
+                                   data-ng-disabled="true"
+                                   data-ng-show="matrixValue && n===0 && m!==0"
+                                   data-ng-model="matrixValue.ColumnOperator" />
+                            <input type="text"
+                                   class="input-mini"
+                                   data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                                   value="{{matrixValue.RowOperator=factory.opertorValue($parent.$index,dldata.matrix.Row1DCount,dldata.matrix.RowsOperator)}}"
+                                   data-ng-disabled="true"
+                                   data-ng-show="matrixValue && m===0 && n!==0"
+                                   data-ng-model="matrixValue.RowOperator" />
+
+                            <input data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                                   type="text"
+                                   data-ng-pattern="{{factory.getInputPattern(n,m)}}"
+                                   data-ng-hide="m===0 && n===0"
+                                   data-ng-disabled="factory.isDisabled(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue)"
+                                   data-ng-change="factory.setNextValue(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue.Value)"
+                                   class="input-small text-center" data-ng-model="matrixValue.Value" />
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
