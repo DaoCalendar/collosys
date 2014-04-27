@@ -236,6 +236,9 @@ namespace BillingService.ViewModel
 
         public static List<object> GetGroupByObjects<T>(string gropByColumn, List<T> data)
         {
+            if(string.IsNullOrWhiteSpace(gropByColumn))
+                return new List<object>();
+
             var parameter = Expression.Parameter(typeof(T), "x");
 
             var expression = PropertyOfProperty(parameter, gropByColumn);

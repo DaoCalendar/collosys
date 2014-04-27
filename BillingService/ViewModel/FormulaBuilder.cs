@@ -12,7 +12,7 @@ namespace BillingService.ViewModel
 {
     public class FormulaBuilder
     {
-        internal static dynamic SolveFormula<T>(BillDetail billDetail, string formulaName, List<T> data,TraceLogs traceLogs)
+        internal static dynamic SolveFormula<T>(BillDetail billDetail, string formulaName, List<T> data, TraceLogs traceLogs)
         {
             var formula = BillingPolicyDbLayer.GetFormula(billDetail.Products, formulaName);
 
@@ -26,7 +26,7 @@ namespace BillingService.ViewModel
                 return ExpressionBuilder.GetConditionExpression<T>(billDetail, conditions, data, traceLogs);
             }
 
-            return ExpressionBuilder.GetOutputExpression<T>(billDetail, conditions, data, traceLogs);
+            return Math.Round(ExpressionBuilder.GetOutputExpression<T>(billDetail, conditions, data, traceLogs), 4);
         }
     }
 }

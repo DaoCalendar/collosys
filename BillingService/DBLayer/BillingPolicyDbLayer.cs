@@ -15,6 +15,28 @@ namespace BillingService.DBLayer
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        // get list of billing policy based on product
+        public static BillingPolicy GetPolicies(ScbEnums.Products products, ScbEnums.Category category)
+        {
+            try
+            {
+                var session = SessionManager.GetCurrentSession();
+
+                var billingPolicy = session.QueryOver<BillingPolicy>()
+                                              .Where(x => x.Products == products)
+                                              .And(x => x.Category == category)
+                                              .SingleOrDefault();
+                return billingPolicy;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+
+                return null;
+            }
+        }
+
+
         // get list of billing subpolicy based on billing policy and category
         public static IList<BillingSubpolicy> GetSubpolicies(BillingPolicy billingPolicy, uint billMonth)
         {
