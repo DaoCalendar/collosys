@@ -80,6 +80,7 @@
     <Compile Include="ClientDataBuilder\CWriteoffBuilder.cs" />
     <Compile Include="ClientDataBuilder\ELinerBuilder.cs" />
     <Compile Include="ClientDataBuilder\EWriteoffBuilder.cs" />
+    <Compile Include="ClientDataBuilder\FilterConditionBuilder.cs" />
     <Compile Include="ClientDataBuilder\InfoBuilder.cs" />
     <Compile Include="ClientDataBuilder\PaymentBuilder.cs" />
     <Compile Include="ClientDataBuilder\RLinerBuilder.cs" />
