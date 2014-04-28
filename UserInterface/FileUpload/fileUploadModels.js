@@ -6,14 +6,14 @@
             AliasName: { label: "Alias Name", type: "enum", required: true, valueList: $csShared.enums.FileAliasName, placeholder: "Select File Alias Name" },
             AliasDescription: { label: "Alias Description", type: "text", placeholder: "Enter Alias Description", required: true },
             FileName: { label: "File Name", type: "text", placeholder: "Enter File Name", required: true },
-            FileCount: { label: "File Count", type: "uint", min: 1, max: 100, required: true, placeholder: "Enter no of files" },
+            FileCount: { label: "File Count", type: "number",template:"uint", min: 1, max: 100, required: true, placeholder: "Enter no of files" },
             DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName, required: true, placeholder: "Select System" },
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
             DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, placeholder: "Select Date Format", required: true },
             FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, placeholder: "Select File Type" },
             SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name", required: true },
             Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, placeholder: "Select File Frequency" },
-            SkipLine: { label: "Skip Line", type: "int", pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
+            SkipLine: { label: "Skip Line", type: "number",template:"int", pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
             FileDirectory: { label: "FileDirectory", type: "text", placeholder: "Enter File Directory Name" },
             ActualTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             EmailId: { label: "Email Id", type: "email", required: true, placeholder: "Enter Email Id" },
@@ -29,10 +29,10 @@
     var fileColumn = function () {
 
         return {
-            Position: { label: "Position", type: "int", required: true, placeholder: "Enter the Column Position", min: 0 },
+            Position: { label: "Position", type: "number",template:"int", required: true, placeholder: "Enter the Column Position", min: 0 },
             FileColumnName: { label: "Excel Column Name", required: true, type: "text", editable: false, placeholder: "Enter File Column Name" },
             Description: { label: "Description", type: "text", placeholder: "Enter Description" },
-            Length: { label: "Length", type: "int", min: 0, required: true, placeholder: "Enter the Column Length" },
+            Length: { label: "Length", type: "number",template:"int", min: 0, required: true, placeholder: "Enter the Column Length" },
             ColumnDataType: { label: "Column Data Type", type: "enum", valueList: $csShared.enums.FileDataType, required: true, placeholder: "Select Column Type" },
             TempColumnName: { label: "DB Column Name", type: "text", required: true, pattern: "/^\w*$/", patternMessage: "Invalid Column Name", placeholder: "Enter Temporary Column Name" },
             DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, placeholder: "Select Date Format" },
@@ -64,7 +64,7 @@
             AccountNo: { type: "enum", valueList: [] },
             GlobalCustId: { type: "enum", valueList: [] },
             CustomerName: { type: "enum", valueList: [] },
-            Pincode: { type: "uint" },
+            Pincode: { type: "number",template:"uint" },
             Product: { type: "enum", valueList: $csShared.enums.Products },
             CustStatus: { type: "text" },
             AllocStartDate: { type: "date" },
@@ -74,10 +74,10 @@
             AllocEndDate: { type: "date" },
             ChargeofDate: { type: "date" },
             AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
-            TotalDue: { type: "decimal" },
+            TotalDue: { type: "number",template:"decimal" },
             NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
-            Cycle: { type: "number" },
-            Bucket: { type: "uint" }
+            Cycle: { type: "number" ,template:"uint"},
+            Bucket: { type: "number",template:"uint" }
         };
     };
 
