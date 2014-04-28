@@ -59,8 +59,8 @@
 
     var stkhWorking = function () {
         return {
-            BucketStart: { label: 'BucketStart', type: 'uint' },
-            BucketEnd: { label: 'BucketEnd', type: 'uint' },
+            BucketStart: { label: 'BucketStart', type: 'number', template: 'uint' },
+            BucketEnd: { label: 'BucketEnd', type: 'number', template: 'uint' },
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum' },
             Cluster: { label: 'Cluster', type: 'enum' },
@@ -109,7 +109,7 @@
             Line2: { label: 'Line2', type: 'text' },
             Line3: { label: 'Line3', type: 'text' },
             LandlineNo: { label: 'LandlineNo', type: 'text' },
-            Pincode: { label: 'Pincode', type: 'int' },
+            Pincode: { label: 'Pincode', type: 'number', template: 'int' },
             Country: { label: 'Country', type: 'text' },
             StateCity: { label: 'StateCity', type: 'text' },
         };
