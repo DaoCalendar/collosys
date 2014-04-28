@@ -188,11 +188,11 @@
                     Paid
                 </button>
                 
-                
+                <span data-ng-show="dldata.BillAmount.Month">
                 <button class="btn btn-success"
                     data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
                     Download Excel</button>
-                <div></div>
+               </span>
             </div>
         </div>
     </div>
