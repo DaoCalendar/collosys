@@ -252,7 +252,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 payoutPolicy.BillingRelations.splice(payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             }
             return restApi.customPUT(payoutPolicy, "Put", { id: payoutPolicy.Id }).then(function (data) {
-                //dldata.payoutPolicy = data;
+                dldata.payoutPolicy = data;
                 if (detelatedData != '') {
                     dldata.subPolicyList.push(detelatedData.BillingSubpolicy);
                     detelatedData = '';

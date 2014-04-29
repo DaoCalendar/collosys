@@ -360,6 +360,8 @@ function ($scope, $modalInstance, datalayer, factory) {
         $scope.selected = false;
         $scope.dldata.selectedAllocations = [];
         $scope.dldata.approveView.Param = "";
+        $scope.dldata.approveView.Stkh = "";
+        $scope.dldata.selectedStakeholder = "";
     };
 
     $scope.saveAllocationChanges = function (param) {
