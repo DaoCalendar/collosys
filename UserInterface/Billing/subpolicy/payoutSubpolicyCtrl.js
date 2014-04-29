@@ -230,7 +230,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             });
         };
 
-        var addNewCondition = function (condition) {
+        var addNewCondition = function (condition,form) {
             condition.Ltype = "Column";
             condition.Lsqlfunction = "";
             condition.ConditionType = 'Condition';
@@ -248,6 +248,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             dldata.conditionValueType = 'text';
 
             datalayer.resetCondition();
+            form.$setPristine();
         };
 
         var deleteCondition = function (condition, index) {
@@ -270,14 +271,15 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
         };
 
-        var addNewOutput = function (output) {
+        var addNewOutput = function (output,form) {
             output.ConditionType = 'Output';
             output.ParentId = dldata.payoutSubpolicy.Id;
             output.Priority = dldata.payoutSubpolicy.BOutputs.length;
             var out = angular.copy(output);
             dldata.payoutSubpolicy.BOutputs.push(out);
-
+           
             datalayer.resetOutput();
+            form.$setPristine();
         };
 
         var deleteOutput = function (output, index) {
