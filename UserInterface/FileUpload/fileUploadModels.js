@@ -83,7 +83,7 @@
 
     var fcondition = function() {
         return{
-            RelationType: { label: "RelationType", type: "text" },
+            RelationType: { type: "enum",valueList:$csShared.enums.RelationType },
             ColumnName: { label: "ColumnName", type: "text" },
             Operator: { label: "Operator", type: "enum", valueList: $csShared.enums.ConditionOperators },
             Value: { label: "Value", type: "text" },

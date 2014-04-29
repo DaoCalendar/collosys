@@ -27,9 +27,10 @@ csapp.factory("filterConditionDatalayer", ["Restangular", "$csnotify", function 
 
     var getfilterConditionDetails = function (filedetail) {
         dldata.list = [];
-         restApi.customGET("GetFilterConditionDeatils", { fileGuid: filedetail.Id }).then(function (data) {
-            dldata.list.push(data);
-            });
+        return restApi.customGET("GetFilterConditionDeatils", { fileGuid: filedetail.Id }).then(function (data) {
+            return data;
+            //dldata.list.push(data);
+        });
 
     };
 
@@ -48,12 +49,14 @@ csapp.factory("filterConditionDatalayer", ["Restangular", "$csnotify", function 
         });
     };
 
+   
     return {
         dldata: dldata,
         getFileDetails: getFileDetails,
         saveAliseCondition: saveAliseCondition,
         getColumnValues: getColumnValues,
-        getfilterConditionDetails: getfilterConditionDetails
+        getfilterConditionDetails: getfilterConditionDetails,
+      
     };
 
 }]);
@@ -70,7 +73,7 @@ csapp.factory("filterconditionFactory", ["filterConditionDatalayer", "$csnotify"
 //Controller
 csapp.controller("filterConditionController", ["$scope", "filterConditionDatalayer", "filterconditionFactory", "$csFileUploadModels", "$csnotify", "$csShared",
     function ($scope, datalayer, factory, $csFileUploadModels, $csnotify, $csShared) {
-
+        //page load
         $scope.fetchFileDetails = function () {
             datalayer.getFileDetails().then(function (data) {
                 $scope.fileDetailsList = data;
@@ -82,6 +85,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
             $scope.FilterCondition = $csFileUploadModels.models.FilterCondition;
+            $scope.Fcondition = $csFileUploadModels.models.Fcondition;
             $scope.showDiv = false;
             $scope.fileDetailsList = [];
             $scope.filterCondition = { ConditionList: [] };
@@ -90,8 +94,13 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         })();
 
-        $scope.addAliseCondition = function () {
+        $scope.addAliseCondition = function (fileDetail) {
+            var data = JSON.parse(fileDetail);
+           // $scope.filterCondition = {};
+            $scope.filterCondition.ConditionList = [];
             $scope.showDiv = true;
+            $scope.reset();
+            //$scope.filterCondition.FileDetail = data;
         };
 
         $scope.addCondition = function (condition) {
@@ -117,7 +126,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
         };
         $scope.save = function (filterCondition) {
             $scope.datalayer.saveAliseCondition(filterCondition);
-            $scope.AliseConditionList = $scope.dldata.list;
+           $scope.AliseConditionList = $scope.dldata.list;
             $scope.reset();
             $scope.showDiv = false;
             $scope.filterCondition.ConditionList = [];
@@ -128,9 +137,14 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             var filedetail = JSON.parse(fileData);
 
             //getdata
-            $scope.datalayer.getfilterConditionDetails(filedetail);
-                $scope.AliseConditionList=$scope.dldata.list;
-         
+            if (angular.isDefined(filedetail)) {
+                datalayer.getfilterConditionDetails(filedetail).then(function (data) {
+                    $scope.AliseConditionList = data;
+                });
+            }
+
+            //  $scope.AliseConditionList=$scope.dldata.list;
+
             //getcolumval
             datalayer.getColumnValues(filedetail).then(function (data) {
                 $scope.ColumnNameList = data;
@@ -144,13 +158,20 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             if ($scope.InputType === "String") {
                 condition.Operator = "";
                 condition.Value = "";
-                $scope.FilterCondition.Operator.valueList = $csShared.enums.TextConditionOperators;
+                $scope.Fcondition.Operator.valueList = $csShared.enums.TextConditionOperators;
                 return;
             }
             condition.Operator = "";
             condition.Value = "";
-            $scope.FilterCondition.Operator.valueList = $csShared.enums.ConditionOperators;
+            $scope.Fcondition.Operator.valueList = $csShared.enums.ConditionOperators;
 
+        };
+
+        $scope.selectFilterCondition = function (data) {
+            var condition = angular.copy(data);
+            $scope.filterCondition.AliasConditionName = condition.AliasConditionName;
+            $scope.filterCondition.ConditionList = condition.Fconditions;
+            $scope.showDiv = true;
         };
 
         $scope.reset = function () {

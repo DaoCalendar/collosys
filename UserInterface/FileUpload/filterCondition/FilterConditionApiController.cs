@@ -38,7 +38,7 @@ namespace AngularUI.FileUpload.clientData
         public HttpResponseMessage GetFilterConditionDeatils(Guid fileGuid)
         {
             var data = FilterConditionBuilder.OnAliasNameChange(fileGuid);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK,data);
         }
 
 

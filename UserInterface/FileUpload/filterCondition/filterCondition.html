@@ -15,7 +15,7 @@
             </div>
             <div class="span8" data-ng-show="filterCondition.FileDetail">
                 <button class="btn alert-info"
-                    data-ng-click="addAliseCondition()">
+                    data-ng-click="addAliseCondition(filterCondition.FileDetail)">
                     Add FilterCondition</button>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <div class="box-heading">FilterCondition list</div>
                 <div class="box-body">
                     <div class="sub-name" data-ng-repeat="data in AliseConditionList">
-                        <a class="btn-link" data-ng-click="">{{data.AliasConditionName}}</a>
+                        <a class="btn-link" data-ng-click="selectFilterCondition(data)">{{data.AliasConditionName}}</a>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                                     <tr>
                                         <td>
                                             <div data-ng-show="filterCondition.ConditionList.length>0">
-                                                <cs-field data-ng-model="dldata.newCondition.RelationType" field="FilterCondition.RelationType" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.RelationType" field="Fcondition.RelationType" no-label=""></cs-field>
                                             </div>
                                         </td>
                                         <td>
@@ -67,7 +67,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="FilterCondition.Operator" no-label=""></cs-field>
+                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="Fcondition.Operator" no-label=""></cs-field>
                                         </td>
                                         <td>
                                             <div data-ng-switch on="InputType">
