@@ -7,8 +7,10 @@ using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.FileUploader;
+using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.FileUploadBuilder;
 using Glimpse.AspNet.Tab;
+using Newtonsoft.Json.Linq;
 
 namespace AngularUI.FileUpload.clientData
 {
@@ -16,6 +18,7 @@ namespace AngularUI.FileUpload.clientData
     {
         private static readonly FileDetailBuilder FileDetailBuilder = new FileDetailBuilder();
         private static readonly FileColumnBuilder FileColumnBuilder = new FileColumnBuilder();
+        private static readonly FilterConditionBuilder FilterConditionBuilder=new FilterConditionBuilder();
 
         [HttpGet]
         public IEnumerable<FileDetail> GetFiledetails()
@@ -29,6 +32,25 @@ namespace AngularUI.FileUpload.clientData
         {
             var data = FileColumnBuilder.OnFileDetailId(fileDetailId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetFilterConditionDeatils(Guid fileGuid)
+        {
+            var data = FilterConditionBuilder.OnAliasNameChange(fileGuid);
+            return Request.CreateResponse(HttpStatusCode.OK,data);
+        }
+
+
+        [HttpPost]
+        protected override FilterCondition BasePost(FilterCondition obj)
+        {
+            foreach (var fcondition in obj.Fconditions)
+            {
+                fcondition.FilterCondition = obj;
+            }
+            FilterConditionBuilder.Save(obj);
+            return obj;
         }
 
     }

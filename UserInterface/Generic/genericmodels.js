@@ -21,7 +21,7 @@
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum', valueList: [] },
             District: { label: 'District', type: 'text' },
-            Priority: { label: 'Priority', type: 'number' },
+            Priority: { label: 'Priority', type: 'number',template:'int' },
             Percentage: { label: 'Percentage', type: 'number', template: 'percentage' },
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
@@ -39,7 +39,7 @@
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "enum", valueList: ['Yes', 'No'], required: true },
-            Pincode: { label: 'Pincode', type: 'uint', editable: false, pattern: '/^[0-9]{6}$/', required: true }
+            Pincode: { label: 'Pincode', type: 'number', template: 'uint', editable: false, pattern: '/^[0-9]{6}$/', required: true }
         };
     };
 

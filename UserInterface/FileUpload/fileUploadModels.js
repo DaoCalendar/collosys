@@ -81,11 +81,20 @@
         };
     };
 
+    var fcondition = function() {
+        return{
+            RelationType: { type: "enum",valueList:$csShared.enums.RelationType },
+            ColumnName: { label: "ColumnName", type: "text" },
+            Operator: { label: "Operator", type: "enum", valueList: $csShared.enums.ConditionOperators },
+            Value: { label: "Value", type: "text" },
+            FilterCondition: { label: "FilterCondition", type: "text" }
+        };
+    };
+
     var filterCondition = function () {
         return {
-            RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
-            Operator: {type:"enum",valueList:$csShared.enums.ConditionOperators},
-          
+            FileDetail: { label: "FileDetail", type: "text" },
+            AliasConditionName: { label: "AliasConditionName", type: "text" }
         };
     };
 
@@ -94,6 +103,7 @@
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
         models.CustomerInfo = customerInfo();
+        models.Fcondition = fcondition();
         models.FilterCondition = filterCondition();
         return models;
     };
