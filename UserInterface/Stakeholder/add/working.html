@@ -10,7 +10,7 @@
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
                     <select data-ng-model="StakeWork.Products"
-                        data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" style="min-width: 200px;">
+                        data-ng-change="getWorkingReportees(StakeWork.Products);getPaymentDetails(StakeWork.Products)" class="input-medium">
                         <option value=""></option>
                         <option data-ng-repeat="c in WorkingData.ProductList">{{c}}</option>
                     </select>
@@ -25,7 +25,7 @@
                     <select
                         data-ng-required="!WorkingData.isEditMode"
                         data-ng-model="StakeWork.ReportsTo"
-                        style="min-width: 200px;"
+                        class="input-medium"
                         data-ng-change="manageDisplay(WorkingData.LocationLevel)">
                         <option value=""></option>
                         <option data-ng-repeat="data in ReportsToList " value="{{data.Id}}">{{data.Name}}</option>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <!--Location Level-->
-            <div class="control-group span4"
+            <div class="control-group span5"
                 data-ng-show="WorkingData.LocationLevelArray.length>1 && (StakeWork.Products &&  StakeWork.ReportsTo)">
                 <label class="control-label">Location Level </label>
                 <div class="controls">
@@ -68,7 +68,7 @@
             </div>
             <!--select cluster-->
             <div class="control-group span3"
-                data-ng-show="(displayManager.showDistrict && (!displayManager.showArea && !WorkingData.Hierarchy.HasBuckets)) && (StakeWork.Products &&  StakeWork.ReportsTo)">
+                data-ng-show="!WorkingData.LocationLevelArray.length>1 && (displayManager.showDistrict && (!displayManager.showArea && !WorkingData.Hierarchy.HasBuckets)) && (StakeWork.Products &&  StakeWork.ReportsTo)">
                 <label class="control-label">District</label>
                 <div class="controls">
                     <select style="min-width: 200px;"
@@ -94,7 +94,7 @@
             </div>
             <!--select region-->
             <div class="control-group span1"
-                data-ng-show="displayManager.showRegion && (StakeWork.Products &&  StakeWork.ReportsTo)">
+                data-ng-show="(displayManager.showRegion && (StakeWork.Products &&  StakeWork.ReportsTo)) && !WorkingData.LocationLevelArray.length>1">
                 <label class="control-label">Region</label>
                 <div class="controls">
                     <select style="min-width: 200px;"
@@ -108,17 +108,17 @@
         </div>
     </div>
     <!--Working Table-->
-    <div class="row-fluid">
+    <div class="row-fluid" >
         <hr />
         <form name="validationForm">
             <table class="table table-bordered" data-ng-show="StakeWork.ReportsTo && WorkingData.LocationLevel!='Country'">
                 <thead>
                     <tr>
                         <th data-ng-show="false">Country</th>
-                        <th data-ng-show="false">Region</th>
+                        <th data-ng-show="displayManager.showRegion && WorkingData.LocationLevelArray.length>1">Region</th>
                         <th data-ng-show="displayManager.showState">State</th>
                         <th data-ng-show="false">Cluster</th>
-                        <th data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets)">District</th>
+                        <th data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets) || !WorkingData.LocationLevelArray.length>1">District</th>
                         <th data-ng-show="displayManager.showCity">City</th>
                         <th data-ng-show="displayManager.showArea">Area</th>
                         <th data-ng-show="WorkingData.Hierarchy.HasBuckets">Bucket</th>
@@ -130,7 +130,7 @@
                             <select>
                                 <option value="India">India</option>
                             </select></td>
-                        <td data-ng-show="false">
+                        <td data-ng-show="displayManager.showRegion && WorkingData.LocationLevelArray.length>1">
                             <select
                                 data-ng-model="workingModel.SelectedPincodeData.Region"
                                 data-ng-change="setQueryFor('Region')"
@@ -145,7 +145,24 @@
                                 data-ng-options="data for data in workingModel.ListOfStates"
                                 data-ng-model="workingModel.SelectedPincodeData.State"
                                 data-ng-change="setQueryFor('State')">
-                            </select></td>
+                            </select>
+                            <button class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
+                                data-ng-click="openMultiSelectPopUp(workingModel.ListOfStates)">
+                                <i class="icon-list"></i>
+                            </button>
+                            <div data-ng-show="stateArray.length>0">
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle">{{stateArray.length}} Districts selected
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li data-ng-repeat="data in clusterArray">
+                                            <a>{{data}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+
                         <!--<option value="{{workingModel.SelectedPincodeData.State || ''}}">{{workingModel.SelectedPincodeData.State || ''}}</option>-->
                         <!--<option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
                                 </option>-->
@@ -262,7 +279,8 @@
             </div>
         </form>
         <!--Show Added product in Table-->
-        <div class="row-fluid" data-ng-show="StakeWork.ReportsTo||WorkingData.PayWorkModel.WorkList.length>0||(WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))">
+        <div class="row-fluid"
+            data-ng-show="(StakeWork.ReportsTo||WorkingData.PayWorkModel.WorkList.length>0)||(WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))">
             <table data-ng-show="showAddedData||WorkingData.PayWorkModel.WorkList.length>0  || (WorkingData.isEditMode && !($parent.WizardData.FinalPostModel.Hierarchy.HasPayment))" class="table table-bordered table-hover ">
                 <thead data-ng-show="WorkingData.PayWorkModel.WorkList.length>0">
                     <tr>

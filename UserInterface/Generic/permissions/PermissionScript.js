@@ -78,10 +78,12 @@
     var setUpdatesinPrem = function (hierarchies) {
         dldata.permissionsChanged = false;
         _.forEach(hierarchies, function (item) {
-            var perm = JSON.parse(item.Permissions);
-            deleteOld(perm, permFactory.permission);
-            addNew(perm, permFactory.permission);
-            item.Permissions = JSON.stringify(perm);
+            if (!$csfactory.isEmptyObject(item.Permissions)) {
+                var perm = JSON.parse(item.Permissions);
+                deleteOld(perm, permFactory.permission);
+                addNew(perm, permFactory.permission);
+                item.Permissions = JSON.stringify(perm);
+            }
         });
     };
 

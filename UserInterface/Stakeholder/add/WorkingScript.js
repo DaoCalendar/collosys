@@ -105,7 +105,7 @@
             $scope.modalData.SelectedPincodeData = $scope.workingModel.SelectedPincodeData;
 
             var modalInstance = $modal.open({
-                templateUrl: baseUrl+'Stakeholder/add/multiselectPopUp.html',
+                templateUrl: baseUrl + 'Stakeholder/add/multiselectPopUp.html',
                 controller: 'multiSelectController',
                 resolve: {
                     modalData: function () {
@@ -195,7 +195,7 @@
                 $scope.modalData.currentDeleteData = data;
 
                 $modal.open({
-                    templateUrl: baseUrl+'Stakeholder/add/DeleteWorkingPopUp.html',
+                    templateUrl: baseUrl + 'Stakeholder/add/DeleteWorkingPopUp.html',
                     controller: 'deleteWorkingController',
                     resolve: {
                         modalData: function () {
@@ -232,9 +232,21 @@
             arrays.splice(index, 1);
         };
 
+        $scope.checkLocationLevel = function (locLevel) {
+            if ($scope.WorkingData.LocationLevelArray.length > 1)
+                return !$csfactory.isNullOrEmptyString(locLevel);
+            else return true;
+        };
+
         $scope.enableAddButton = function () {
             if (angular.isUndefined($scope.workingModel))
                 return true;
+
+            if ($scope.WorkingData.LocationLevelArray.length > 1) {
+                console.log($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
+                return $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
+            }
+
             switch ($scope.WorkingData.LocationLevel) {
                 case 'Region':
                     if (angular.isDefined($scope.workingModel.SelectedPincodeData)) {
@@ -457,6 +469,14 @@
                             $scope.workingModel.SelectedPincodeData.State = pincode.State;
                     }
                     break;
+                case 'State':
+                    var pincodeState = _.find(pincodeData.GPincodes, function (item) {
+                        if (item.State === $scope.workingModel.SelectedPincodeData.State)
+                            return item;
+                    });
+                    if (!$csfactory.isNullOrEmptyString(pincodeState))
+                        $scope.workingModel.SelectedPincodeData.Region = pincodeState.Region;
+                    break;
                 case 'City':
 
                     var pincodeCity = _.find(pincodeData.GPincodes, function (item) {
@@ -664,58 +684,88 @@
                     }
                     //data[locLevel] = "";
                     break;
-                    //case "State":
-                    //    //Adding multiple States 
-                    //    if ($csfactory.isNullOrEmptyString(data.State)) {
-                    //        var len0 = $scope.stateArray.length;
-                    //        for (var z = 0; z < len0; z++) {
-                    //            data[locLevel] = $scope.stateArray[z];
-                    //            if ($csfactory.isNullOrEmptyString(data.Region)) {
-                    //                var reg = _.find($scope.WorkingData.RegionList, function (item) {
-                    //                    if (item.State.toUpperCase() === data.State.toUpperCase())
-                    //                        return item;
-                    //                });
-                    //                data.Region = reg.Region;
-                    //            }
-                    //            $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
-                    //            //deleting the added data from the list to avoid duplication
-                    //            if ($scope.WorkingData.Hierarchy.HasBuckets === false) {
-                    //                var addedStateList = _.find($scope.WorkingData.StateList, function (item) {
-                    //                    if (item.toUpperCase() === data.State.toUpperCase()) {
-                    //                        return item;
-                    //                    }
-                    //                    return "";
-                    //                });
-                    //                $scope.WorkingData.StateList.splice($scope.WorkingData.StateList.indexOf(addedStateList), 1);
-                    //                $scope.WorkingData.StateList.sort();
-                    //            }
+                case "State":
+                    if ($csfactory.isNullOrEmptyString(data.State)) {
+                        var len9 = angular.copy($scope.clusterArray.length);
+                        var stateArray = angular.copy($scope.clusterArray);
+                        for (var mm = 0; mm < len9; mm++) {
+                            data[locLevel] = stateArray[mm];
+                            assignMissingPincodeValues($scope.pincodeData);
+                            var dup9 = pincodeMngr.CheckDuplicate($scope.workingModel.SelectedPincodeData, $scope.WorkingData.PayWorkModel.WorkList, $scope.WorkingData.LocationLevel, $scope.clusterArray);
+                        }
+                        if ($csfactory.isNullOrEmptyString(dup9)) { //add only if there are no duplicates
+                            for (var a = 0; a < $scope.stateArray.length; a++) {
+                                data[locLevel] = $scope.stateArray[p];
+                                assignMissingPincodeValues($scope.pincodeData);
+                                $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
+                            }
+                        }
+                        data[locLevel] = "";
+                    } else {
+                        //Adding single cluster
+                        if (!angular.isDefined($scope.dupState)) {
+                            assignMissingPincodeValues($scope.pincodeData);
+                            $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
+                        }
+                    }
+                    //data[locLevel] = "";
+                    break;
+
+
+
+
+
+                    //Adding multiple States 
+                    //if ($csfactory.isNullOrEmptyString(data.State)) {
+                    //    var len11 = $scope.stateArray.length;
+                    //    for (var z = 0; z < len11; z++) {
+                    //        data[locLevel] = $scope.stateArray[z];
+                    //        if ($csfactory.isNullOrEmptyString(data.Region)) {
+                    //            var reg = _.find($scope.WorkingData.RegionList, function (item) {
+                    //                if (item.State.toUpperCase() === data.State.toUpperCase())
+                    //                    return item;
+                    //            });
+                    //            data.Region = reg.Region;
                     //        }
-                    //        data[locLevel] = "";
-                    //    } else {
-                    //        //Adding single state 
-                    //        if (!angular.isDefined($scope.dupState)) {
-                    //            if ($csfactory.isNullOrEmptyString(data.Region)) {
-                    //                var reg1 = _.find($scope.WorkingData.RegionList, function (item) {
-                    //                    if (item.State.toUpperCase() === data.State.toUpperCase())
-                    //                        return item;
-                    //                });
-                    //                data.Region = reg1.Region;
-                    //            }
-                    //            $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
-                    //            //deleting the added data from the list to avoid duplication
-                    //            if ($scope.WorkingData.Hierarchy.HasBuckets === false) {
-                    //                var addedState = _.find($scope.WorkingData.StateList, function (item) {
-                    //                    if (item.toUpperCase() === data.State.toUpperCase()) {
-                    //                        return item;
-                    //                    }
-                    //                    return "";
-                    //                });
-                    //                $scope.WorkingData.StateList.splice($scope.WorkingData.StateList.indexOf(addedState), 1);
-                    //                $scope.WorkingData.StateList.sort();
-                    //            }
+                    //        $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
+                    //        //deleting the added data from the list to avoid duplication
+                    //        if ($scope.WorkingData.Hierarchy.HasBuckets === false) {
+                    //            var addedStateList = _.find($scope.WorkingData.StateList, function (item) {
+                    //                if (item.toUpperCase() === data.State.toUpperCase()) {
+                    //                    return item;
+                    //                }
+                    //                return "";
+                    //            });
+                    //            $scope.WorkingData.StateList.splice($scope.WorkingData.StateList.indexOf(addedStateList), 1);
+                    //            $scope.WorkingData.StateList.sort();
                     //        }
                     //    }
-                    //    break;
+                    //    data[locLevel] = "";
+                    //} else {
+                    //    //Adding single state 
+                    //    if (!angular.isDefined($scope.dupState)) {
+                    //        if ($csfactory.isNullOrEmptyString(data.Region)) {
+                    //            var reg1 = _.find($scope.WorkingData.RegionList, function (item) {
+                    //                if (item.State.toUpperCase() === data.State.toUpperCase())
+                    //                    return item;
+                    //            });
+                    //            data.Region = reg1.Region;
+                    //        }
+                    //        $scope.WorkingData.PayWorkModel.WorkList.push(angular.copy(data));
+                    //        //deleting the added data from the list to avoid duplication
+                    //        if ($scope.WorkingData.Hierarchy.HasBuckets === false) {
+                    //            var addedState = _.find($scope.WorkingData.StateList, function (item) {
+                    //                if (item.toUpperCase() === data.State.toUpperCase()) {
+                    //                    return item;
+                    //                }
+                    //                return "";
+                    //            });
+                    //            $scope.WorkingData.StateList.splice($scope.WorkingData.StateList.indexOf(addedState), 1);
+                    //            $scope.WorkingData.StateList.sort();
+                    //        }
+                    //    }
+                    //}
+                    //break;
                     //case "Cluster":
                     //    if ($csfactory.isNullOrEmptyString(data.Cluster)) {
                     //        for (var i = 0; i < $scope.clusterArray.length; i++) {

@@ -600,9 +600,27 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var validateOptions = function (field) {
             field.label = field.label || "Description";
             //field.textField = "record." + (field.textField || "text");
-            field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
-            field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
+
+            if (angular.isDefined(field.valueField)) {
+                if (field.valueField.substring(0, 6) !== "record") {
+                    field.valueField = "record." + field.valueField;
+                }
+            } else {
+                field.valueField = "record";
+            }
+
+            if (angular.isDefined(field.textField)) {
+                if (field.textField.substring(0, 6) !== "record") {
+                    field.textField = "record." + field.textField;
+                }
+            } else {
+                field.textField = "record";
+            }
+
+            //field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
+            //field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
             //field.valueField = "record." + (field.valueField || );
+
         };
         return {
             htmlTemplate: htmlTemplate,
