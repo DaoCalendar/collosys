@@ -126,7 +126,7 @@
             ApplyOn: { label: 'Apply On', type: 'enum', valueList: $csShared.enums.ApplyOn, required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             Rule: { label: "Rule", type: "enum", valueList: $csShared.enums.RuleForHolding, required: true, },
-            Value: { label: 'Value', type: 'number', required: true },
+            Value: { label: 'Value', type: 'number',template:'decimal', required: true },
             ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
             Tenure: { label: 'Tenure', type: 'number',template:'int', max: 24, min: 1 },

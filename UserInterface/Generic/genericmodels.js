@@ -21,7 +21,7 @@
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum', valueList: [] },
             District: { label: 'District', type: 'text' },
-            Priority: { label: 'Priority', type: 'number' },
+            Priority: { label: 'Priority', type: 'number',template:'int' },
             Percentage: { label: 'Percentage', type: 'number', template: 'percentage' },
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
