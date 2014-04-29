@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace ReflectionExtension.Tests
 {
     [SetUpFixture]
-    class SetUpAssemblies
+   public class SetUpAssemblies
     {
 
         protected readonly FileStream FileStream;
@@ -25,7 +25,7 @@ namespace ReflectionExtension.Tests
             InitNhibernate();
         }
 
-        private void InitNhibernate()
+        public void InitNhibernate()
         {
             if (_initCount++ != 0) return;
             _dbType = ConfiguredDbTypes.MsSql;

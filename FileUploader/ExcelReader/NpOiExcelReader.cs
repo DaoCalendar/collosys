@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NPOI.HSSF.UserModel;
+using NPOI.SS.Formula.Functions;
 using NPOI.SS.UserModel;
 
 namespace ReflectionExtension.ExcelReader
@@ -50,8 +52,17 @@ namespace ReflectionExtension.ExcelReader
 
         public string GetValue(uint pos)
         {
-            var cell = _currentWorkSheet.GetRow((int)CurrentRow).GetCell((int)pos - 1);
-            return cell != null ? cell.GetValue(cell.CellType) : string.Empty;
+            try
+            {
+                var cell = _currentWorkSheet.GetRow((int)CurrentRow).GetCell((int)pos - 1);
+                return cell != null ? cell.GetValue(cell.CellType) : string.Empty;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+                
+            }
+           
         }
         public string GetValue(uint rowPos, uint pos)
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
@@ -16,29 +15,29 @@ namespace ColloSys.FileUploader.FileReader
         private readonly IRecord<T> _objRecord;
         public IList<T> List { get; private set; }
         private readonly IExcelReader _excelReader;
-        private uint batchSize;
-        private FileScheduler fs;
+        private readonly uint _batchSize;
+        private readonly FileScheduler _fs;
 
         protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
-             fs = recordCreator.FileScheduler;
-            _excelReader = SharedUtility.GetInstance(new FileInfo(fs.FileDirectory));
+             _fs = recordCreator.FileScheduler;
+            string path = _fs.FileDirectory  +@"\";
+
+            _excelReader = SharedUtility.GetInstance(new FileInfo(path+_fs.FileName));
             _objRecord = new RecordCreator<T>(recordCreator, _excelReader);
-            batchSize = 100;
+            _batchSize = 100;
         }
         #endregion
 
         public void ReadAndSaveBatch()
         {
-           // if (obj == null) throw new ArgumentNullException("obj");
-            T obj;
-            for (var i = _excelReader.CurrentRow; i < _excelReader.TotalRows && (!_excelReader.EndOfFile()); i = i + batchSize)
+            for (var i = _excelReader.CurrentRow; i < _excelReader.TotalRows && (!_excelReader.EndOfFile()); i = i + _batchSize)
             {
                 List = new List<T>();
-                for (var j = 0; j < batchSize && (!_excelReader.EndOfFile()); j++)
+                for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)
                 {
-                    obj = new T();
-                    var isRecordCreate = _objRecord.CreateRecord(obj, fs.FileDetail.FileMappings);
+                    var obj = new T();
+                    var isRecordCreate = _objRecord.CreateRecord(obj, _fs.FileDetail.FileMappings);
                     if (isRecordCreate)
                     {
                         List.Add(obj);

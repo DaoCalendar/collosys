@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
@@ -20,9 +21,9 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFile();
+            _uploadedFile = _data.GetUploadedFileForEbbsAutoOd();
             _excludeCodes = _data.GetTransactionList();
-            _fileReader = new EbbsPaymentWoAutoFileReader(_uploadedFile, _excludeCodes);
+            _fileReader = new EbbsPaymentWoAutoFileReader(_uploadedFile);
         }
 
         [Test]
@@ -36,7 +37,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(payment.AccountNo, "");
+            Assert.AreEqual(_fileReader.List.ElementAt(20).AccountNo, "42705126613");
         }
 
         [Test]
@@ -50,7 +51,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
+            Assert.AreEqual(_fileReader.List.Count, 46);
 
         }
     }

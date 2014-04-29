@@ -27,7 +27,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             _reader = new NpOiExcelReader(FileInfo);
             _counter=new ExcelRecordCounter();
             _ePaymentExcludeCodes = _mappingData.GetTransactionList();
-            _recordCreator = new EbbsPaymentWoAutoRecordCreator(_fileScheduler, _ePaymentExcludeCodes);
+            _recordCreator = new EbbsPaymentWoAutoRecordCreator(_fileScheduler);
         }
 
         [Test]

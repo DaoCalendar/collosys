@@ -10,7 +10,7 @@ namespace ColloSys.FileUploader.AliasFileReader
 {
    public class EbbsPaymentLinerFileReader : FileReader<Payment>
     {
-        public EbbsPaymentLinerFileReader(FileScheduler file,List<string> excludeCodes)
+        public EbbsPaymentLinerFileReader(FileScheduler file)
             : base(new EbbsPaymentLinerRecordCreator(file))
         {
 

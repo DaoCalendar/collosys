@@ -2,10 +2,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.FileUploader;
+using ColloSys.DataLayer.Infra.SessionMgr;
 
 #endregion
 
@@ -13,7 +16,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 {
     public class FileMappingData
     {
-
+        SetUpAssemblies setUp=new SetUpAssemblies();
         private FileMapping GetDefaultMapping()
         {
             return new FileMapping
@@ -199,12 +202,76 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public FileScheduler GetUploadedFile()
         {
-            return new FileScheduler() { FileDate = new DateTime(2014, 4, 15), 
-                FileDetail = new FileDetail() { AliasName = ColloSysEnums.FileAliasName.R_PAYMENT_LINER },
-                                         FileName = "AEB Auto Charge Off Base - 28.01.2014.xls",
-                                         FileDirectory = "C://Users/Mayur/AppData/Local/Temp/DrillDown_Txn_1.xls"
-            };
+             setUp.InitNhibernate();
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"))
+                    .And(c => c.FileName == "20140429_160719_DrillDown_Txn_1.xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
         }
+        public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
+        {
+            setUp.InitNhibernate();
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("910696CC-A1D7-4035-9449-59F96D31D099"))
+                    .And(c => c.FileName == "20140429_184726_REVERSAL MIS.xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
+        }
+        public FileScheduler GetUploadedFileForRlsPaymentWoAeb()
+        {
+            setUp.InitNhibernate();
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("755FB655-D76D-46AB-9C4F-714A49DD7E90"))
+                    .And(c => c.FileName == "20140429_190243_Final GB, SCB & AEB PL Flash - July 2013.xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
+        }
+        public FileScheduler GetUploadedFileForWoSmc()
+        {
+            setUp.InitNhibernate();
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("C89DB479-6534-432C-AD81-7E43C5591EEC"))
+                    .And(c => c.FileName == "20140429_160810_SMC Final Flash - April 2013 - Copy (2).xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
+        }
+
+        public FileScheduler GetUploadedFileForEbbsAutoOd()
+        {
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("4CBEF63A-6965-4FA0-8601-B5A98D5BDD21"))
+                    .And(c => c.FileName == "20140429_161823_Final Auto OD Flash - July 2013.xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
+        }
+        public FileScheduler GetUploadedFileForEbbs()
+        {
+            var data =
+                SessionManager.GetCurrentSession()
+                    .QueryOver<FileScheduler>()
+                    .Where(c => c.FileDetail.Id == new Guid("26DB346F-0ACD-4FB6-AF25-A0EB5A28BFAE"))
+                    .And(c => c.FileName == "20140429_182525_product code_501N.xls")
+                    .List<FileScheduler>().FirstOrDefault();
+
+            return data;
+        }
+
 
         public List<string> GetTransactionList()
         {

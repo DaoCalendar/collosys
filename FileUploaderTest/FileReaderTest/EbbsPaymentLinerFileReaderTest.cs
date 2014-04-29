@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
@@ -14,43 +15,40 @@ namespace ReflectionExtension.Tests.FileReaderTest
         private IFileReader<Payment> _fileReader;
         private FileScheduler _uploadedFile;
         private FileMappingData _data;
-        private List<string> _excludeCodes;
         
         [SetUp]
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFile();
-            _excludeCodes = _data.GetTransactionList();
-            _fileReader = new EbbsPaymentLinerFileReader(_uploadedFile,_excludeCodes);
+            _uploadedFile = _data.GetUploadedFileForEbbs();
+            
+            _fileReader = new EbbsPaymentLinerFileReader(_uploadedFile);
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
+            
 
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(payment.AccountNo, "");
+            Assert.AreEqual(_fileReader.List.ElementAt(5).AccountNo, "52205836441");
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Check_ListCount()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
+          
 
             //Act
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
+            Assert.AreEqual(_fileReader.List.Count, 9);
 
         }
     }

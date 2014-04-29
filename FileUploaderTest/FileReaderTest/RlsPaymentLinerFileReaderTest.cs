@@ -9,11 +9,12 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.FileReaderTest
 {
     [TestFixture]
-    class RlsPaymentLinerFileReaderTest :SetUpAssemblies
+    class RlsPaymentLinerFileReaderTest 
     {
         private IFileReader<Payment> _fileReader;
         private FileScheduler _uploadedFile;
         private FileMappingData _data;
+
         [SetUp]
         public void Init()
         {
@@ -27,58 +28,25 @@ namespace ReflectionExtension.Tests.FileReaderTest
         {
             //Arrange
             var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
+            
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(payment.AccountNo,"" );
+            Assert.AreEqual(_fileReader.List.ElementAt(12).AccountNo, "49163353");
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Check_ListCount()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
+           
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
-
+            Assert.AreEqual(_fileReader.List.Count,17);
         }
 
-        [Test]
-        public void Test_ReadAndSaveBatch_Check_ListCount_Assignig_Batch_8()
-        {
-            //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
-            //Act
-            _fileReader.ReadAndSaveBatch();
-
-            //Assert
-            Assert.AreEqual(_fileReader.List.Count, 3);
-
-        }
-
-        [Test]
-        public void Test_ReadAndSaveBatch_Assigning_BatchSize_Is_7()
-        {
-            //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
-            //Act
-            _fileReader.ReadAndSaveBatch();
-
-            //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");
-
-        }
     }
 }

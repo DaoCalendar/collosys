@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
@@ -16,7 +11,7 @@ namespace FileUploaderService
         {
             switch (scheduler.FileDetail.AliasName)
             {
-                    #region RlsPayment
+                #region RlsPayment
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
                     var paymentLiner = new RlsPaymentLinerFileReader(scheduler);
@@ -38,13 +33,21 @@ namespace FileUploaderService
                     paymentWoplpc.ReadAndSaveBatch();
                     break;
 
-                    #endregion
+                #endregion
 
                 case ColloSysEnums.FileAliasName.E_PAYMENT_LINER:
-                    //var paymentLiner = new EbbsPaymentLinerFileReader(scheduler);
+                    var ebbspaymentLiner = new EbbsPaymentLinerFileReader(scheduler);
+                    ebbspaymentLiner.ReadAndSaveBatch();
+                    break;
+
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO:
+                    var ePaymentWo = new EbbsPaymentWoAutoFileReader(scheduler);
+                    ePaymentWo.ReadAndSaveBatch();
+                    break;
+
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_SMC:
-                    //new EPaymentReader(scheduler).UploadFile();
+                    var ePaymentEoSmc = new EbbsPaymentWoSmcFileReader(scheduler);
+                    ePaymentEoSmc.ReadAndSaveBatch();
                     break;
 
                 #region

@@ -18,52 +18,34 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFile();
+            _uploadedFile = _data.GetUploadedFileForRlsPaymentManualReserval();
             _fileReader = new RlsPaymentManualReversalFileReader(_uploadedFile);
        }
 
         [Test]
-        public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
+        public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile_CheckListCount()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
+     
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(payment.AccountNo, "");
+            Assert.AreEqual(_fileReader.List.Count, 71);
         }
 
         [Test]
-        public void Test_ReadAndSaveBatch_Check_ListCount()
+        public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile_Check_AccNo()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
 
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 14);
+            Assert.AreEqual(_fileReader.List.ElementAt(70).AccountNo, "48331589");
 
         }
 
-        [Test]
-        public void Test_ReadAndSaveBatch_Assigning_BatchSize_Is_7()
-        {
-            //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
-            //Act
-            _fileReader.ReadAndSaveBatch();
-
-            //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");
-
-        }
     }
 }
