@@ -105,7 +105,7 @@
             $scope.modalData.SelectedPincodeData = $scope.workingModel.SelectedPincodeData;
 
             var modalInstance = $modal.open({
-                templateUrl: '/Stakeholder/add/multiselectPopUp.html',
+                templateUrl: baseUrl+'Stakeholder/add/multiselectPopUp.html',
                 controller: 'multiSelectController',
                 resolve: {
                     modalData: function () {
@@ -195,7 +195,7 @@
                 $scope.modalData.currentDeleteData = data;
 
                 $modal.open({
-                    templateUrl: '/Stakeholder/add/DeleteWorkingPopUp.html',
+                    templateUrl: baseUrl+'Stakeholder/add/DeleteWorkingPopUp.html',
                     controller: 'deleteWorkingController',
                     resolve: {
                         modalData: function () {

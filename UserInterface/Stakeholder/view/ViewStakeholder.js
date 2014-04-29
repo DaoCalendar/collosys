@@ -584,7 +584,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.modalData.stakeholder = $scope.stakeholder;
 
             var modalInstance = $modal.open({
-                templateUrl: '/Stakeholder/View/approve.html',
+                templateUrl: baseUrl+'Stakeholder/View/approve.html',
                 controller: 'rejectController',
                 resolve: {
                     modalData: function () {
@@ -703,7 +703,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.modalData.StakeListLeave = $scope.StakeListLeave;
 
             var modalInstance = $modal.open({
-                templateUrl: '/Stakeholder/view/leavemodal.html',
+                templateUrl: baseUrl+'Stakeholder/view/leavemodal.html',
                 controller: 'setLeaveController',
                 resolve: {
                     modalData: function () {

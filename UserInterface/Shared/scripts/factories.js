@@ -9,7 +9,7 @@
         var ifr = document.createElement('iframe');
         ifr.style.display = 'none';
         document.body.appendChild(ifr);
-        ifr.src = "/api/GridApi/DownloadFile?filename='" + filename + "'";
+        ifr.src = baseUrl + "api/GridApi/DownloadFile?filename='" + filename + "'";
         ifr.onload = function () {
             document.body.removeChild(ifr);
             ifr = null;
@@ -79,7 +79,7 @@
         return auth.getUsername();
     };
 
-    var findIndex = function(array, field, value) {
+    var findIndex = function (array, field, value) {
         var index = _.indexOf(_.pluck(array, field), value);
         return index;
     };
