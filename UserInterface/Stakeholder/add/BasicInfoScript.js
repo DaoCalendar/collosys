@@ -31,7 +31,7 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
 
         $scope.setEmailModel = function (hierarchy) {
             if (hierarchy !== 'External')
-                $scope.$parent.stakeholderModel.Email.suffix = "'@sc.com'";
+                $scope.$parent.stakeholderModel.Email.suffix = "'@icicibank.com'";
         };
 
         // harish - no need... get true/false from server

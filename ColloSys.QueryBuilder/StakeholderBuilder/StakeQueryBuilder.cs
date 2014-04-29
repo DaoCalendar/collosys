@@ -39,7 +39,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                          JoinType.LeftOuterJoin)
                               .Where(() => workings.Products == products)
                               .And(() => hierarchy.IsInAllocation)
-                              .And(() => hierarchy.IsInField)
+                              //.And(() => hierarchy.IsInField)
                               .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
                               .And(() => stakeholders.LeavingDate == null ||
                                          stakeholders.LeavingDate > Util.GetTodayDate())

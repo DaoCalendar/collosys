@@ -153,7 +153,7 @@
                                         </td>
                                         <td>
                                             <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
-                                                    data-ng-click="factory.addNewOutput(dldata.newOutput)"></button>
+                                                    data-ng-click="factory.addNewOutput(dldata.newOutput,newOutputForm)"></button>
                                         </td>
                                     </tr>
                                 </thead>
@@ -285,7 +285,7 @@
                                             </td>
                                             <td>
                                                 <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
-                                                        data-ng-click="factory.addNewCondition(dldata.newCondition);"></button>
+                                                        data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="condition in dldata.payoutSubpolicy.BConditions | orderBy: 'Priority'">

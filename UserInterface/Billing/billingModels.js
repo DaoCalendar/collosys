@@ -25,7 +25,7 @@
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
             StartMonth: { label: 'Start Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
-            Tenure: { label: 'Tenure', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
+            Tenure: { label: 'Tenure', type: 'number', template: 'uint', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
             Description: { label: 'Description', type: 'textarea', required: true },
         };
     };
@@ -99,16 +99,16 @@
         return {
             Name: { label: "Name", type: "text", required: true },
             Dimension: { label: "Dimension", type: "select", },// to be disscuss
-            Row1DCount: { label: "Rows 1D", type: "uint", min: 1, max: 10 },
+            Row1DCount: { label: "Rows 1D", type: "number", template: "uint", min: 1, max: 10 },
             Row1DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Row1DTypeName: { type: "text" },
-            Column2DCount: { label: "Columns 2D", type: "uint", min: 1, max: 10 },
+            Column2DCount: { label: "Columns 2D", type: "number", template: "uint", min: 1, max: 10 },
             Column2DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Column2DTypeName: { type: "text" },
-            Row3DCount: { label: "Rows 3D", type: "uint", min: 1, max: 10 },
+            Row3DCount: { label: "Rows 3D", type: "number", template: "uint", min: 1, max: 10 },
             Row3DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Row3DTypeName: { type: "text" },
-            Column4DCount: { label: "Columns 4D", type: "uint", min: 1, max: 10 },
+            Column4DCount: { label: "Columns 4D", type: "number", template: "uint", min: 1, max: 10 },
             Column4DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Column4DTypeName: { type: "text" },
             RowsOperator: { type: "enum", valueList: $csShared.enums.Operators },
