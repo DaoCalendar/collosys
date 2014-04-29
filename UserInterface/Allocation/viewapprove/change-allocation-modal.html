@@ -1,4 +1,4 @@
-﻿<div class="form-horizontal">
+﻿<div class="form-horizontal" data-ng-form="changeAllocationForm">
     <div class="modal-header well" style="text-align: center">
         <h3>Change Allocation</h3>
     </div>
@@ -9,7 +9,7 @@
                     <label>Select Parameter </label>
                 </div>
                 <div class="controls">
-                    <select class="input-large" data-ui-select2="" data-ng-model="dldata.approveView.Param" data-ng-change="datalayer.getstakeholders(dldata.approveView.Param)">
+                    <select class="input-large" data-ui-select2="" required data-ng-model="dldata.approveView.Param" data-ng-change="datalayer.getstakeholders(dldata.approveView.Param)">
                         <option></option>
                         <option value="AllocateToTelecalling">Handle by telecaller</option>
                         <option value="Donotallocate">Do not allocate</option>
@@ -26,7 +26,7 @@
                     <select class="input-large"
                         data-ng-model="dldata.approveView.Stkh"
                         data-ng-change="factory.assignStakeholderToAll(dldata.approveView.Stkh)"
-                        data-ui-select2="">
+                        data-ui-select2="" data-ng-required="(dldata.approveView.Param === 'AllocateToStakeholder' && dldata.selectedAllocations.length === gridOptions.$gridScope.selectedItems.length)">
                         <option></option>
                         <option data-ng-repeat="data in dldata.stakeholder" value="{{data}}">{{data.Name}}</option>
                     </select>
@@ -65,7 +65,7 @@
                             data-ui-select2=""
                             data-ng-model="dldata.selectedStakeholder"
                             data-ng-change="data.Stakeholder = factory.setStakeholder(selectedStakeholder)"
-                            data-ng-disabled="factory.disableSelect(data)">
+                            data-ng-disabled="factory.disableSelect(data)" required>
                             <option></option>
                             <option data-ng-repeat="stkh in dldata.stakeholder" value="{{stkh}}">{{stkh.Name}}</option>
                         </select>
@@ -76,7 +76,7 @@
     </div>
     <div class="modal-footer well">
         <button class="btn btn-info" data-ng-click="saveAllocationChanges(dldata.approveView.Param)"
-            data-ng-disabled="dldata.selectedAllocations.length === 0 || dldata.approveView.Param === Null">
+            data-ng-disabled="(dldata.selectedAllocations.length === 0 || changeAllocationForm.$invalid)">
             Save</button>
         <button class="btn btn-info" data-ng-click="closeModel()">Close</button>
     </div>
