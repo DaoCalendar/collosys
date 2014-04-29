@@ -18,8 +18,8 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                 QueryOver<HoldingPolicy>().
                 Where(x => x.Products == products)
                 .And(x => x.StartDate > Util.GetTodayDate())
-                              .And(x => x.EndDate == null ||
-                                         x.EndDate.Value < Util.GetTodayDate())
+                              //.And(x => x.EndDate.Value == null ||
+                              //           x.EndDate.Value < Util.GetTodayDate())
                 .List();
         }
     }
