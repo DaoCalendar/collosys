@@ -367,7 +367,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.allocSubpolicy.Stakeholder = {};
         };
 
-        var addNewCondition = function (condition) {
+        var addNewCondition = function (condition,form) {
 
             var duplicateCond = _.find(dldata.allocSubpolicy.Conditions, function (cond) {
                 return (cond.ColumnName == condition.ColumnName && cond.Operator == condition.Operator && cond.Value == condition.Value);
@@ -389,6 +389,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             dldata.allocSubpolicy.Conditions.push(condition);
             dldata.conditionValueType = 'text';
             datalayer.resetCondition();
+            form.$setPristine();
         };
 
         var deleteCondition = function (condition, index) {
