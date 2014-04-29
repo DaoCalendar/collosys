@@ -297,6 +297,8 @@
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
     <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\images\algologo.jpg" />
+    <Content Include="Content\images\algologo2.jpg" />
     <Content Include="Content\images\Dhfl\DHFLlogo4.jpg" />
     <Content Include="Content\images\Dhfl\DHFLlogo5.jpg" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
