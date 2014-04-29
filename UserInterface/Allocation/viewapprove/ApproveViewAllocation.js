@@ -333,6 +333,10 @@ function ($scope, $modalInstance, datalayer, factory) {
             $scope.dldata.selectedAllocations.splice($scope.dldata.selectedAllocations.indexOf(allocation), 1);
             $scope.selectedAll = false;
         }
+
+        if (angular.isDefined($scope.dldata.approveView.Stkh) &&  $scope.dldata.selectedAllocations.length !== $scope.gridOptions.$gridScope.selectedItems.length) {
+            $scope.dldata.approveView.Stkh = "";
+        }
     };
     $scope.ticks = function (data) {
         return ($scope.dldata.selectedAllocations.indexOf(data) !== -1);
