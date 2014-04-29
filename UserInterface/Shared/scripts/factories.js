@@ -79,7 +79,7 @@
         return auth.getUsername();
     };
 
-    var findIndex = function(array, field, value) {
+    var findIndex = function (array, field, value) {
         var index = _.indexOf(_.pluck(array, field), value);
         return index;
     };
@@ -472,7 +472,7 @@ csapp.factory('$permissionFactory', [function () {
                     description: "update file",
                     childrens: {}
                 },
-                Approve: {
+                Create: {
                     name: "Approve",
                     access: false,
                     description: "approve file",
@@ -733,6 +733,12 @@ csapp.factory('$permissionFactory', [function () {
                     description: "update policy",
                     childrens: {}
                 },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve policy",
+                    childrens: {}
+                }
             }
         };
     };
@@ -824,6 +830,12 @@ csapp.factory('$permissionFactory', [function () {
                     description: "update billing policy",
                     childrens: {}
                 },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve billing policy",
+                    childrens: {}
+                },
             }
         };
     };
@@ -888,34 +900,32 @@ csapp.factory('$permissionFactory', [function () {
             description: "adhoc payout",
             childrens: {
 
-                childrens: {
-
-                    View: {
-                        name: "View",
-                        access: false,
-                        description: "view adhoc payout",
-                        childrens: {}
-                    },
-                    Create: {
-                        name: "Create",
-                        access: false,
-                        description: "create adhoc payout",
-                        childrens: {}
-                    },
-                    Update: {
-                        name: "Update",
-                        access: false,
-                        description: "update adhoc payout",
-                        childrens: {}
-                    },
-                    Approve: {
-                        name: "Approve",
-                        access: false,
-                        description: "approve adhoc payout",
-                        childrens: {}
-                    },
-                }
+                View: {
+                    name: "View",
+                    access: false,
+                    description: "view adhoc payout",
+                    childrens: {}
+                },
+                Create: {
+                    name: "Create",
+                    access: false,
+                    description: "create adhoc payout",
+                    childrens: {}
+                },
+                Update: {
+                    name: "Update",
+                    access: false,
+                    description: "update adhoc payout",
+                    childrens: {}
+                },
+                Approve: {
+                    name: "Approve",
+                    access: false,
+                    description: "approve adhoc payout",
+                    childrens: {}
+                },
             }
+
         };
     };
     var readyForBillingActivity = function () {
@@ -1092,6 +1102,12 @@ csapp.factory('$permissionFactory', [function () {
                     access: false,
                     description: "create tax list",
                     childrens: {}
+                },
+                Update: {
+                    name: "Update",
+                    access: false,
+                    description: "update tax list",
+                    childrens: {}
                 }
             }
         };
@@ -1120,13 +1136,7 @@ csapp.factory('$permissionFactory', [function () {
                     access: false,
                     description: "update tax master",
                     childrens: {}
-                },
-                Approve: {
-                    name: "Approve",
-                    access: false,
-                    description: "approve tax master",
-                    childrens: {}
-                },
+                }
             }
         };
     };

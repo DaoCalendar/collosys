@@ -559,8 +559,8 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             checkOptions: validateOptions
         };
     }]);
-//{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
 
+//{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
 csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -629,6 +629,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
+            html += '<option value=""></option>';
             html += field.useRepeat === true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
@@ -699,7 +700,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-            html += ' <option value="" selectable="false"></option> ';
+            html += '<option value=""></option>';
             html += '</select> ';
 
             return html;

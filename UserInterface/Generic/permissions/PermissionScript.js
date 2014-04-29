@@ -169,7 +169,7 @@
                         dldata.permissionsChanged = true;
                         console.log('activity added: ', activity);
                     } else {
-                        angular.forEach(oldPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
+                        angular.forEach(newPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
                             if (!oldPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
                                 oldPermission[module]['childrens'][activity]['childrens'][extra] = extraVal;
                                 dldata.permissionsChanged = true;
