@@ -104,7 +104,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
             }
             restApi.customPOST(billingAmount, 'ApproveBillingAmount').then(function (data) {
                 dldata.billingData = data;
-                convertToDate($scope.billingData);
+                convertToDate(dldata.billingData);
             });
         };
 
