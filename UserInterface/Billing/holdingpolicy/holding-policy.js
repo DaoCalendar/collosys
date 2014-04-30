@@ -40,11 +40,11 @@ csapp.factory('holdingpolicyDatalayer',
         }]);
 
 csapp.controller('holdingpolicyCtrl', [
-    '$scope', 'holdingpolicyDatalayer', 'holdingpolicyFactory','$csModels',
-    function ($scope, datalayer, factory, $csModels) {
+    '$scope', 'holdingpolicyDatalayer', 'holdingpolicyFactory', '$csModels','$csnotify',
+    function ($scope, datalayer, factory, $csModels, $csnotify) {
 
-       
-        
+
+
         $scope.reset = function () {
             $scope.policy = {};
             $scope.holdingpolicyform.$setPristine();
@@ -57,7 +57,7 @@ csapp.controller('holdingpolicyCtrl', [
             $scope.isAddMode = true;
             $scope.search = {};
         };
-        
+
         $scope.add = function (policy) {
             //save tax then
             datalayer.create(policy).then(function (data) {
@@ -73,7 +73,7 @@ csapp.controller('holdingpolicyCtrl', [
         };
 
         $scope.applyedit = function (t) {
-            
+
             datalayer.create(t).then(function (data) {
                 $scope.policyList[$scope.indexOfSelected] = data;
                 $scope.reset();
@@ -87,9 +87,17 @@ csapp.controller('holdingpolicyCtrl', [
             $scope.dldata = datalayer.dldata;
             $scope.HoldingPolicy = $csModels.models.Billing.HoldingPolicy;
             initLocal();
-            
+
             datalayer.getList().then(function (data) {
                 $scope.policyList = data;
             });
         })();
+
+        $scope.dateValiadation = function (startDate, endDate) {
+            if (!(endDate===null) && startDate >= endDate) {
+                $csnotify.success("EndDate should be greater than StartDate");
+                $scope.policy.EndDate = null;
+            }
+        };
+
     }]);
