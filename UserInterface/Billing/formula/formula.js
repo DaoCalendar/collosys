@@ -402,6 +402,18 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.showDiv = true;
         };
 
+        $scope.change = function (condition) {
+            var field = condition.split(".");
+            if (field[0] === "CustBillViewModel") {
+                field[0] = "Customer";
+                var fieldName = "";
+                fieldName = (field[0] + "." + field[1]);
+                return fieldName;
+            } else {
+                return condition;
+            }
+
+        };
         $scope.changeLeftTypeName = function (condition) {
 
             $scope.showField = $scope.showField === true ? false : true;

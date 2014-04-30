@@ -324,4 +324,17 @@ csapp.controller('matrixCtrl', [
             factory.initEnumsConst();
             datalayer.getProducts();
         })();
+
+        $scope.change = function (condition) {
+            var field = condition.split(".");
+            if (field[0] === "CustBillViewModel") {
+                field[0] = "Customer";
+                var fieldName = "";
+                fieldName = (field[0] + "." + field[1]);
+                return fieldName;
+            } else {
+                return condition;
+            }
+
+        };
     }]);

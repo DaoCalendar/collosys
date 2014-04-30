@@ -308,6 +308,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             dldata.payoutSubpolicy.BOutputs = [];
             dldata.deleteConditions = [];
             dldata.newCondition = {};
+            dldata.policyapproved = false;
             dldata.newOutput = {};
             dldata.payoutSubpolicy.Products = product;
             dldata.payoutSubpolicy.Category = "Liner";
@@ -392,6 +393,19 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.addsubpolicy(product);
             $scope.showDiv = false;
 
+        };
+
+        $scope.change = function (condition) {
+            var field = condition.split(".");
+            if (field[0] === "CustBillViewModel") {
+                field[0] = "Customer";
+                var fieldName = "";
+                fieldName = (field[0] + "." + field[1]);
+                return fieldName;
+            } else {
+                return condition;
+            }
+            
         };
 
         $scope.selectPayoutSubpolicy = function (spayoutSubpolicy) {
