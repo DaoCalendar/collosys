@@ -26,28 +26,24 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
 
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(payment.AccountNo, "");
+            Assert.AreEqual(_fileReader.List.ElementAt(11).AccountNo, "48547727");
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Check_ListCount()
         {
             //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
 
             //Act
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 16);
+            Assert.AreEqual(_fileReader.List.Count, 12);
 
         }
 
@@ -62,7 +58,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "49163353");
+            Assert.AreEqual(_fileReader.List.ElementAt(0).AccountNo, "48080063");
 
         }
     }

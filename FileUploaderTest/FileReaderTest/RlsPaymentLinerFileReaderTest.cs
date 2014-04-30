@@ -24,6 +24,19 @@ namespace ReflectionExtension.Tests.FileReaderTest
         }
 
         [Test]
+        public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile1()
+        {
+            //Arrange
+            var payment = _data.GetPayment();
+
+            //Act
+            _fileReader.ReadAndSaveBatch();
+
+            //Assert
+            Assert.AreEqual(_fileReader.List.ElementAt(12).AccountNo, "49163353");
+        }
+
+        [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
         {
             //Arrange

@@ -230,8 +230,8 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("755FB655-D76D-46AB-9C4F-714A49DD7E90"))
-                    .And(c => c.FileName == "20140429_190243_Final GB, SCB & AEB PL Flash - July 2013.xls")
+                    .Where(c => c.FileDetail.Id == new Guid("755fb655-d76d-46ab-9c4f-714a49dd7e90"))
+                    .And(c => c.FileName == "20140430_180100_Final GB, SCB & AEB PL Flash - July 2013-14ColumnAuto.xls")
                     .List<FileScheduler>().FirstOrDefault();
 
             return data;
@@ -242,7 +242,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("C89DB479-6534-432C-AD81-7E43C5591EEC"))
+                    .Where(c => c.FileDetail.Id == new Guid("c89db479-6534-432c-ad81-7e43c5591eec"))
                     .And(c => c.FileName == "20140429_160810_SMC Final Flash - April 2013 - Copy (2).xls")
                     .List<FileScheduler>().FirstOrDefault();
 

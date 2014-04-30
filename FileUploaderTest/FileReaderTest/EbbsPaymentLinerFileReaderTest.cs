@@ -48,7 +48,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 9);
+            Assert.AreEqual(_fileReader.List.Count, 2);
 
         }
     }

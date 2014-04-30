@@ -4,6 +4,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.Utilities;
+using NHibernate.Type;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.FileReader
@@ -13,10 +14,12 @@ namespace ColloSys.FileUploader.FileReader
         #region:: Members ::
 
         private readonly IRecord<T> _objRecord;
+        public uint I { get; private set; }
         public IList<T> List { get; private set; }
         private readonly IExcelReader _excelReader;
         private readonly uint _batchSize;
         private readonly FileScheduler _fs;
+       
 
         protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
@@ -31,7 +34,7 @@ namespace ColloSys.FileUploader.FileReader
 
         public void ReadAndSaveBatch()
         {
-            for (var i = _excelReader.CurrentRow; i < _excelReader.TotalRows && (!_excelReader.EndOfFile()); i = i + _batchSize)
+            for (  I = _excelReader.CurrentRow; I < _excelReader.TotalRows && (!_excelReader.EndOfFile()); I = I + _batchSize)
             {
                 List = new List<T>();
                 for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)

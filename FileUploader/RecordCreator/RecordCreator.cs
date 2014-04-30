@@ -80,7 +80,8 @@ namespace ColloSys.FileUploader.RecordCreator
 
                 excelstatus = ExcelMapper(obj, excelType);
             }
-            if (!excelstatus) return false;
+            if (!excelstatus || !_recordCreator.IsRecordValid(obj, _counter)) return false;
+
             var defaultType = GetMappings(ColloSysEnums.FileMappingValueType.DefaultValue, mappingss);
             var typeDefault = defaultType as FileMapping[] ?? defaultType.ToArray();
             if (typeDefault.Any())

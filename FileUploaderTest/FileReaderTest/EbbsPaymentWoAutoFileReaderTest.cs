@@ -37,7 +37,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(20).AccountNo, "42705126613");
+            Assert.AreEqual(_fileReader.List.ElementAt(1).AccountNo, "12345678905");
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileReader.ReadAndSaveBatch( );
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 46);
+            Assert.AreEqual(_fileReader.List.Count, 2);
 
         }
     }
