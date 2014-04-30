@@ -894,11 +894,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             switch (type) {
                 case "textarea":
                     return textareaFactory;
-                case "uint":
-                case "int":
-                case "ulong":
-                case "long":
-                case "decimal":
                 case "number":
                     return numberFactory;
                 case "text":
@@ -944,7 +939,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
-            field.attr = {};
+            //field.attr = {};
 
             //var valueList = attrs.valuelist;
             //if (angular.isDefined(valueList)) {

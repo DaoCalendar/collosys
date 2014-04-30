@@ -30,7 +30,7 @@
         };
     };
 
-    var billingPolicy = function() {
+    var billingPolicy = function () {
         return {
             Name: { label: 'Name', type: 'text' },
             Products: { label: 'Products', type: 'enum', valueList: $csShared.enums.ProductEnum },
@@ -38,11 +38,12 @@
         };
     };
 
-    var summary = function() {
+    var summary = function () {
         return {
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
-            FixedAmount: { label: 'FixedAmount', type: 'number', template:'decimal', editable: false },
+
+            FixedAmount: { label: 'FixedAmount', type: 'number', template: 'decimal', editable: false },
             StartDate: { label: 'StartDate', type: 'text', editable: false },
             EndDate: { label: 'EndDate', type: 'text', editable: false },
             VariableAmount: { label: 'VariableAmount', type: 'number', template: 'decimal', editable: false },
@@ -50,6 +51,7 @@
             HoldAmount: { label: 'HoldAmount', type: 'number', template: 'decimal', editable: false },
             HoldRepayment: { label: 'HoldRepayment', type: 'number', template: 'decimal', editable: false },
             TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
@@ -103,6 +105,7 @@
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
+            ValueType: { type: "enum", valueList: ['Formula', 'Value', 'Table'] }
 
         };
     };
@@ -139,7 +142,7 @@
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             Rule: { label: "Rule", type: "enum", valueList: $csShared.enums.RuleForHolding, required: true, },
             Value: { label: 'Value', type: 'number', required: true },
-            ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
+            ValuePercent: { label: 'Value', type: 'number', template: 'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
             Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
         };
@@ -147,8 +150,8 @@
 
     var activateHolding = function () {
         return {
-            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField:'Name', required: true },
-            Stakeholder: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
+            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField: 'Name', required: true },
+            Stakeholder: { label: 'Stakeholder', type: 'select', textField: 'Name', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'valuefield', textField: 'display' }
         };
