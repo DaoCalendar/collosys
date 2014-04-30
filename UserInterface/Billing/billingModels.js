@@ -43,7 +43,7 @@
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
 
-            FixedAmount: { label: 'FixedAmount', type: 'number', template: 'decimal', editable: false },
+            FixedAmount: { label: 'FixedAmount', type: 'number', template:'decimal', editable: false },
             StartDate: { label: 'StartDate', type: 'text', editable: false },
             EndDate: { label: 'EndDate', type: 'text', editable: false },
             VariableAmount: { label: 'VariableAmount', type: 'number', template: 'decimal', editable: false },
@@ -51,7 +51,7 @@
             HoldAmount: { label: 'HoldAmount', type: 'number', template: 'decimal', editable: false },
             HoldRepayment: { label: 'HoldRepayment', type: 'number', template: 'decimal', editable: false },
             TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
-
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
