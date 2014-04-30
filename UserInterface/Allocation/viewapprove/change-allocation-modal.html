@@ -52,7 +52,7 @@
                 <tr data-ng-repeat="data in gridOptions.$gridScope.selectedItems">
                     <td data-ng-style="factory.setRowColor(data)">
                         <input type="checkbox" data-ng-model="selected"
-                            data-ng-click="selectAllocation(data,selected)" data-ng-checked="ticks(data);"  />
+                            data-ng-click="selectAllocation(data,selected)" data-ng-checked="ticks(data);" />
                     </td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.Info.CustomerName}}</td>
                     <td data-ng-style="factory.setRowColor(data)">{{data.AmountDue}}</td>
@@ -65,7 +65,7 @@
                             data-ui-select2=""
                             data-ng-model="dldata.selectedStakeholder"
                             data-ng-change="data.Stakeholder = factory.setStakeholder(selectedStakeholder)"
-                            data-ng-disabled="factory.disableSelect(data)" data-ng-required="(dldata.approveView.Param === 'AllocateToStakeholder' && !(dldata.approveView.Stkh))">
+                            data-ng-disabled="factory.disableSelect(data)" data-ng-required="(dldata.approveView.Param === 'AllocateToStakeholder' && (dldata.approveView.Stkh===null || dldata.approveView.Stkh===''))">
                             <option></option>
                             <option data-ng-repeat="stkh in dldata.stakeholder" value="{{stkh}}">{{stkh.Name}}</option>
                         </select>

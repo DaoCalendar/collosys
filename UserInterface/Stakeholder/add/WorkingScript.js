@@ -238,13 +238,32 @@
             else return true;
         };
 
+
+        $scope.clrArray = function () {
+            $scope.clusterArray = [];
+            $scope.stateArray = [];
+            $scope.areaArray = [];
+        };
+
         $scope.enableAddButton = function () {
             if (angular.isUndefined($scope.workingModel))
                 return true;
 
             if ($scope.WorkingData.LocationLevelArray.length > 1) {
-                console.log($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
-                return $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
+
+                if (angular.isUndefined($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel])) return true;
+                if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel])) {
+                    switch ($scope.WorkingData.LocationLevel) {
+                        case 'Region':
+                            return $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel]);
+                        case 'District':
+                            return $scope.clusterArray.length === 0;
+                        case 'Area':
+                            return $scope.areaArray.length === 0;
+                        case 'City':
+                            return $scope.cityArray.length === 0;
+                    }
+                }
             }
 
             switch ($scope.WorkingData.LocationLevel) {
