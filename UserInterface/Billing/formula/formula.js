@@ -403,7 +403,8 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         $scope.change = function (condition) {
-            var field = condition.split(".");
+            var con = condition.toString();
+            var field = con.split(".");
             if (field[0] === "CustBillViewModel") {
                 field[0] = "Customer";
                 var fieldName = "";
