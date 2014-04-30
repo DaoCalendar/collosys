@@ -7,7 +7,7 @@
                 <div class="control-group span5">
                     <label class="control-label">Area</label>
                     <div class="controls">
-                        <select data-ng-model="gKeyValue.Area" class="input-large" data-ng-change="datalayer.GetKeyValues(gKeyValue.Area)" data-ui-select2="">
+                        <select data-ng-model="gKeyValue.Area" class="input-large" data-ng-change="datalayer.GetKeyValues(gKeyValue.Area)"   >
                             <option value=""></option>
                             <option data-ng-repeat="s in dldata.Areas | orderBy: 'toString()'">{{s}}</option>
                         </select>
@@ -16,7 +16,7 @@
                 <div class="control-group span6">
                     <label class="control-label">Key</label>
                     <div class="controls">
-                        <select data-ng-model="gKeyValue.Key" class="input-large" data-ng-change="changeKey(gKeyValue.Key)" data-ui-select2="">
+                        <select data-ng-model="gKeyValue.Key" class="input-large" data-ng-change="changeKey(gKeyValue.Key)"   >
                             <option value=""></option>
                             <option data-ng-repeat="s in dldata.Keys | orderBy: 'toString()'">{{s}}</option>
                         </select>
@@ -119,7 +119,7 @@
                 <div class="control-group row-fluid">
                     <label class="control-label">Area</label>
                     <div class="controls">
-                        <select data-ng-model="gKeyValue.Area" class="input-large" data-ui-select2="">
+                        <select data-ng-model="gKeyValue.Area" class="input-large"   >
                             <option value=""></option>
                             <option data-ng-repeat="s in dldata.Areas | orderBy: 'toString()'">{{s}}</option>
                         </select>
@@ -134,7 +134,7 @@
                 <div class="control-group row-fluid">
                     <label class="control-label">ValueType</label>
                     <div class="controls">
-                        <select data-ng-model="gKeyValue.ValueType" class="input-large" data-ui-select2="">
+                        <select data-ng-model="gKeyValue.ValueType" class="input-large"   >
                             <option value=""></option>
                             <option data-ng-repeat="s in valueTypes | orderBy: 'toString()'">{{s}}</option>
                         </select>

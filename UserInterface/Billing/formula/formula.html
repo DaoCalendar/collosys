@@ -6,7 +6,7 @@
                 <div class="controls">
                     <select class="input-medium"
                         data-ng-model="dldata.formula.Products"
-                        data-ng-change="changeProductCategory(dldata.formula.Products)" required>
+                        data-ng-change="changeProductCategory(dldata.formula.Products);datalayer.changeProductCategory()" required>
                         <option></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>

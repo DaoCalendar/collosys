@@ -29,6 +29,9 @@
                 <div class="panel-heading">
                     {{module.name}}
                 </div>
+                <div>
+                    <input type="checkbox" data-ng-checked="ticks(module)" data-ng-model="selAll" data-ng-click="selectAll(selAll,module)" /><label>Select All</label>
+                </div>
                 <div data-ng-repeat="(key,activity) in module.childrens track by key">
 
                     <div class="span5">
