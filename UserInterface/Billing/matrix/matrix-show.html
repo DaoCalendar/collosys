@@ -7,9 +7,9 @@
                     <td data-ng-repeat="m in [dldata.matrix.Column2DCount+1] | csmakeRange" data-ng-style="factory.highlightColumn(m)">
                         <div data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
                              data-ng-show="m===0 && n===0">
-                            <p class="text-right">{{dldata.matrix.Column2DTypeName}}</p>
+                            <p class="text-right">{{value=change(dldata.matrix.Column2DTypeName)}}</p>
                             <hr style="border-top: 1px solid #111010;">
-                            <p>{{dldata.matrix.Row1DTypeName}}</p>
+                            <p>{{value=change(dldata.matrix.Row1DTypeName)}}</p>
                         </div>
                         <div class="text-center">
                             <!--opertor box-->

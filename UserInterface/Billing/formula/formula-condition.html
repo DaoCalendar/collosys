@@ -84,7 +84,8 @@
                                 <input type="text" class="input-mini" readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" />
                             </td>
                             <td>
-                                <input type="text" class="input-xlarge" readonly="readonly" value="{{condition.LtypeName}}" />
+
+                                <input type="text" class="input-xlarge" readonly="readonly" value="{{ltypeName=change(condition.LtypeName)}}" />
                             </td>
                             <td>
                                 <input type="text" class="input-medium" readonly="readonly" value="{{condition.Operator}}" />

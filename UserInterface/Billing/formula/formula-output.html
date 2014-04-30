@@ -75,7 +75,7 @@
                                 <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
                             </td>
                             <td>
-                                <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" data-ng-hide="boutput.Rtype==='Formula'" />
+                                <input type="text" class="input-medium" readonly="readonly" value="{{value=change(boutput.RtypeName + boutput.Rvalue)}}" data-ng-hide="boutput.Rtype==='Formula'" />
 
                                 <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="boutput.Rtype==='Formula'" />
                             </td>

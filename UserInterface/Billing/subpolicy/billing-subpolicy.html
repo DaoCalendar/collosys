@@ -167,7 +167,7 @@
                                             <input type="text" readonly="readonly" class="input-mini" value="{{output.Rtype}}" />
                                         </td>
                                         <td>
-                                            <input type="text" class="input-large" value="{{output.RtypeName + output.Rvalue}}" readonly="readonly" />
+                                            <input type="text" class="input-large" value="{{value=change(output.RtypeName + output.Rvalue)}}" readonly="readonly" />
                                         </td>
                                         <td>
                                             <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
@@ -295,7 +295,7 @@
                                                 <input type="text" class="input-mini " readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" />
                                             </td>
                                             <td>
-                                                <input type="text" class="input-xlarge" readonly="readonly" value="{{condition.LtypeName}}" />
+                                                <input type="text" class="input-xlarge" readonly="readonly" value="{{lname=change(condition.LtypeName)}}" />
                                             </td>
                                             <td>
                                                 <input type="text" class="input-mini" readonly="readonly" data-ng-model="condition.Operator" />
