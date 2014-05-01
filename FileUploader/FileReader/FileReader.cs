@@ -4,7 +4,6 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.Utilities;
-using NHibernate.Type;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.FileReader

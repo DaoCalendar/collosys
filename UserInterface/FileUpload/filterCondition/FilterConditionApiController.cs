@@ -9,8 +9,6 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.FileUploadBuilder;
-using Glimpse.AspNet.Tab;
-using Newtonsoft.Json.Linq;
 
 namespace AngularUI.FileUpload.clientData
 {
@@ -42,16 +40,16 @@ namespace AngularUI.FileUpload.clientData
         }
 
 
-        [HttpPost]
-        protected override FilterCondition BasePost(FilterCondition obj)
-        {
-            foreach (var fcondition in obj.Fconditions)
-            {
-                fcondition.FilterCondition = obj;
-            }
-            FilterConditionBuilder.Save(obj);
-            return obj;
-        }
+        //[HttpPost]
+        //protected override FilterCondition BasePost(FilterCondition obj)
+        //{
+        //    foreach (var fcondition in obj.Fconditions)
+        //    {
+        //        fcondition.FilterCondition = obj;
+        //    }
+        //    FilterConditionBuilder.Save(obj);
+        //    return obj;
+        //}
 
     }
 }
