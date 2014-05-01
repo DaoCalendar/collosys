@@ -11,9 +11,10 @@ namespace ColloSys.DataLayer.ClientData
 {
     public class FilterCondition : Entity
     {
-        public virtual IList<Fcondition> Fconditions { get; set; }
         public virtual FileDetail FileDetail { get; set; }
-        public virtual string AliasConditionName { get; set; }
-      
+        public virtual string RelationType { get; set; }
+        public virtual string ColumnName { get; set; }
+        public virtual ColloSysEnums.Operators Operator { get; set; }
+        public virtual string Value { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels','$csfactory',
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels', '$csfactory',
     function ($scope, datalayer, factory, $modal, $csBillingModels, $csfactory) {
         (function () {
             $scope.dldata = datalayer.dldata;
@@ -36,7 +36,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
         $scope.downloadBillSummaryExcel = function (product, stakeholderId, month) {
             if (stakeholderId != '') {
                 var yearMonth = moment(month).format('YYYYMM');
-                datalayer.downloadBillSummaryExcel(product,stakeholderId,yearMonth).then(function (fileName) {
+                datalayer.downloadBillSummaryExcel(product, stakeholderId, yearMonth).then(function (fileName) {
                     $csfactory.downloadFile(fileName);
                 });
             }
@@ -104,7 +104,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
             }
             restApi.customPOST(billingAmount, 'ApproveBillingAmount').then(function (data) {
                 dldata.billingData = data;
-                convertToDate($scope.billingData);
+                convertToDate(dldata.billingData);
             });
         };
 
@@ -124,6 +124,8 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
 
                           if (dldata.billDetails.length === 0) {
                               $csnotify.success("Matching Data is not Available");
+                          } else {
+                              $csnotify.success("Matching Data is Available");
                           }
                       });
             }

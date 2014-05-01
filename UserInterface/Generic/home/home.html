@@ -2,13 +2,13 @@
     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form class="form-horizontal">
         <ng-form name="parentForm" class="form-horizontal">
-            <!--<cs-field-group mode="'add'">-->
-                <cs-field data-ng-model="abc" value-list="array" ng-disabled="true" data-ng-change ="changeFunc(abc)" field="fields[4]"></cs-field>{{array}}
-                <cs-field data-ng-model="abcd" value-ist="array" multiple="multiple" ng-disabled="true" data-ng-change ="changeFunc(abcd)" field="fields[0]"></cs-field>
+            <cs-field-group mode="'add'">
+              <cs-field data-ng-model="abc" value-list="array" data-ng-change ="changeFunc(abc)" field="fields[4]"></cs-field>{{array}}
+                <cs-field data-ng-model="abcd" value-ist="array" multiple="multiple" data-ng-change ="changeFunc(abcd)" field="fields[5]"></cs-field>
                 <cs-field data-ng-model="abce.data" data-ng-change ="changeFunc(abcde)" field="fields[7]"></cs-field>
                 <pre>{{abce.data}}</pre>
                 <pre>{{pqr}}</pre>
-           <!-- </cs-field-group>-->
+            </cs-field-group>
         </ng-form>
     </form>
 </div>

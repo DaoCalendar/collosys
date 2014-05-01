@@ -12,8 +12,10 @@ namespace ColloSys.DataLayer.ClientData
       public FilterConditionMap()
       {
           ManyToOne(x=>x.FileDetail,map=>map.NotNullable(true));
-          Property(x => x.AliasConditionName,map=>map.NotNullable(true));
-          Bag(x => x.Fconditions, colmap => { }, map => map.OneToMany(x => { }));
+          Property(x=>x.ColumnName);
+          Property(x=>x.Operator);
+          Property(x=>x.RelationType, map=>map.NotNullable(false));
+          Property(x=>x.Value);
       }
 
     }

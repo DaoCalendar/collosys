@@ -62,14 +62,15 @@
 <div>
     <div data-ng-repeat="data in WizardData.FinalPostModel.PayWorkModelList">
         <button class="btn btn-link" data-ng-click="setPayWorkIndex($index+1)">WorkingPayment Group no: {{$index+1}}</button>
-        <div data-ng-show="showIndex==={{$index+1}}" class="row-fluid" data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}">
+        <div data-ng-show="showIndex==={{$index+1}}" class="row-fluid">
             <div class="row-fluid">
-                <button 
-                    class="btn btn-success" 
+                <button
+                    class="btn btn-success"
                     data-ng-click="deletePaymentWorking($index,data)"
-                    data-ng-hide="data.Payment.RowStatus=='Delete'">Delete</button>
+                    data-ng-hide="data.Payment.RowStatus=='Delete'">
+                    Delete</button>
             </div>
-            <table class="table table-bordered" data-ng-show="data.Payment" data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}" >
+            <table class="table table-bordered" data-ng-show="data.Payment">
                 <thead>
                     <tr>
                         <th>Variable Liner</th>
@@ -80,7 +81,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}">
                         <td>{{data.Payment.VariableLiner}}</td>
                         <td>{{data.Payment.VariableWriteoff}}</td>
                         <td>{{data.Payment.FixpayBasic}}</td>
@@ -89,7 +90,7 @@
                     </tr>
                 </tbody>
             </table>
-            <table class="table table-bordered" >
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -103,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr data-ng-repeat="work in data.WorkList">
+                    <tr data-ng-repeat="work in data.WorkList" data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}">
                         <td>{{work.Products}}</td>
                         <td>INDIA</td>
                         <td>{{work.Region}}</td>

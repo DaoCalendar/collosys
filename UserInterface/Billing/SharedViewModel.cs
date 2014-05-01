@@ -39,7 +39,7 @@ namespace ColloSys.UserInterface.Shared
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
 
-            return columns;
+            return columns.OrderBy(x=>x.displayName).ToList();
         }
 
         public static IEnumerable<ColumnDef> BillingServiceConditionColumns()
@@ -79,7 +79,7 @@ namespace ColloSys.UserInterface.Shared
             //    dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             //}));
 
-            return columns;
+            return columns.OrderBy(x=>x.displayName).ToList();
         }
 
         private static ColloSysEnums.HtmlInputType GetHtmlInputType(Type type)

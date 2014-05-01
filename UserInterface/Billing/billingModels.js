@@ -5,13 +5,13 @@
         return {
             Stakeholder: { label: 'Stakeholder', type: 'text', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
-            TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox', },
             IsPretax: { label: ' IsPretax', type: 'select' },
             IsCredit: { label: 'Transaction Type', type: 'select', required: true },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
             StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'Key', textField: 'Value' },
-            Tenure: { label: 'Tenure', type: 'number',template:'uint', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
+            Tenure: { label: 'Tenure', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
             Description: { label: 'Description', type: 'text', required: true }
         };
     };
@@ -19,7 +19,7 @@
     var adhocpayout = function () {
         return {
             selectedProduct: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
-            TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
             IsPretax: { label: ' IsPretax', type: 'select' },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
@@ -30,7 +30,7 @@
         };
     };
 
-    var billingPolicy = function() {
+    var billingPolicy = function () {
         return {
             Name: { label: 'Name', type: 'text' },
             Products: { label: 'Products', type: 'enum', valueList: $csShared.enums.ProductEnum },
@@ -38,17 +38,31 @@
         };
     };
 
-    var summary = function() {
+    var summary = function () {
         return {
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
-            FixedAmount: { label: 'FixedAmount', type: 'text', editable: false },
-            StartDate : {label:'StartDate',type:'text'},
+
+            FixedAmount: { label: 'FixedAmount', type: 'number', template:'decimal', editable: false },
+            StartDate: { label: 'StartDate', type: 'text', editable: false },
+            EndDate: { label: 'EndDate', type: 'text', editable: false },
+            VariableAmount: { label: 'VariableAmount', type: 'number', template: 'decimal', editable: false },
+            TaxAmount: { label: 'TaxAmount', type: 'number', template: 'decimal', editable: false },
+            HoldAmount: { label: 'HoldAmount', type: 'number', template: 'decimal', editable: false },
+            HoldRepayment: { label: 'HoldRepayment', type: 'number', template: 'decimal', editable: false },
             TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
             Description: { label: 'Description', type: 'textarea', required: true },
+        };
+    };
+
+    var readyforbilling = function () {
+        return {
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+            BillMonth: { label: "Month", type: "date", template: "MonthPicker" }
         };
     };
 
@@ -91,6 +105,7 @@
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
+            ValueType: { type: "enum", valueList: ['Formula', 'Value', 'Table'] }
 
         };
     };
@@ -99,16 +114,16 @@
         return {
             Name: { label: "Name", type: "text", required: true },
             Dimension: { label: "Dimension", type: "select", },// to be disscuss
-            Row1DCount: { label: "Rows 1D",type: 'number',template:'uint', min: 1, max: 10 },
+            Row1DCount: { label: "Rows 1D", type: "number", template: "uint", min: 1, max: 10 },
             Row1DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Row1DTypeName: { type: "text" },
-            Column2DCount: { label: "Columns 2D", type: 'number', template: 'uint', min: 1, max: 10 },
+            Column2DCount: { label: "Columns 2D", type: "number", template: "uint", min: 1, max: 10 },
             Column2DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Column2DTypeName: { type: "text" },
-            Row3DCount: { label: "Rows 3D", type: "number",template:'uint', min: 1, max: 10 },
+            Row3DCount: { label: "Rows 3D", type: "number", template: "uint", min: 1, max: 10 },
             Row3DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Row3DTypeName: { type: "text" },
-            Column4DCount: { label: "Columns 4D", type: "number",template:'uint', min: 1, max: 10 },
+            Column4DCount: { label: "Columns 4D", type: "number", template: "uint", min: 1, max: 10 },
             Column4DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Column4DTypeName: { type: "text" },
             RowsOperator: { type: "enum", valueList: $csShared.enums.Operators },
@@ -127,16 +142,16 @@
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             Rule: { label: "Rule", type: "enum", valueList: $csShared.enums.RuleForHolding, required: true, },
             Value: { label: 'Value', type: 'number',template:'decimal', required: true },
-            ValuePercent: { label: 'Value', type: 'number', template:'percentage', required: true },
+            ValuePercent: { label: 'Value', type: 'number', template: 'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
-            Tenure: { label: 'Tenure', type: 'number',template:'int', max: 24, min: 1 },
+            Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
         };
     };
 
     var activateHolding = function () {
         return {
-            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField:'Name', required: true },
-            Stakeholder: { label: 'Stakeholder', type: 'select', textField:'Name', required: true },
+            HoldingPolicy: { label: 'Holding Policy', type: 'select', textField: 'Name', required: true },
+            Stakeholder: { label: 'Stakeholder', type: 'select', textField: 'Name', required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             StartMonth: { label: 'Start Month', type: 'select', required: true, valueField: 'valuefield', textField: 'display' }
         };
@@ -145,6 +160,7 @@
     var init = function () {
         models.BillAdhoc = billAdhoc();
         models.AdhocPayout = adhocpayout();
+        models.ReadyForBilling = readyforbilling();
         models.Summary = summary();
         models.BillAmount = billAmount();
         models.BillingPolicy = billingPolicy();

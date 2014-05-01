@@ -7,23 +7,25 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
         var apiCalls = rest.all('HierarchyApi');
 
         var getHierarchies = function () {
-            apiCalls.customGET('GetAllHierarchies').then(function (data) {
-                $scope.hierarchy = false;
-                $scope.HierarchyList = data;
-                var hierarchyArray = [];
-                var hierarchy = _.pluck($scope.HierarchyList, "Hierarchy");
-                _.forEach(hierarchy, function (item) {
+            if ($scope.$parent.WizardData.IsEditMode() !== true) {
+                apiCalls.customGET('GetAllHierarchies').then(function (data) {
+                    $scope.hierarchy = false;
+                    $scope.HierarchyList = data;
+                    var hierarchyArray = [];
+                    var hierarchy = _.pluck($scope.HierarchyList, "Hierarchy");
+                    _.forEach(hierarchy, function (item) {
 
-                    if (hierarchyArray.indexOf(item) === -1) {
-                        hierarchyArray.push(item);
-                    }
+                        if (hierarchyArray.indexOf(item) === -1) {
+                            hierarchyArray.push(item);
+                        }
+                    });
+                    $scope.$parent.stakeholderModels.hierarchy.valueList = hierarchyArray;
+                    console.log($scope.$parent.stakeholderModels.hierarchy);
+                    $scope.hierarchy = true;
+                }, function () {
+                    $csnotify.error('Error loading hierarchies');
                 });
-                $scope.$parent.stakeholderModels.hierarchy.valueList = hierarchyArray;
-                console.log($scope.$parent.stakeholderModels.hierarchy);
-                $scope.hierarchy = true;
-            }, function () {
-                $csnotify.error('Error loading hierarchies');
-            });
+            }
         };
 
         var init = function () {

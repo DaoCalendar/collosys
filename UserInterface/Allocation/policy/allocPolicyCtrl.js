@@ -240,13 +240,12 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             var origId = relation.OrigEntityId;
             var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
             return api.customGET('ApproveRelation', { relationId: relation.Id }).then(function (data) {
-                dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
+               // dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
                 $csnotify.success('Subpolicy Approved');
                 return;
             });
         };
         var saveAllocPolicy = function (allocPolicy) {
-
             var deletedData = '';
             if (!$csfactory.isNullOrEmptyGuid(allocPolicy.Id)) {
 

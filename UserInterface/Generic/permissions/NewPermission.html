@@ -5,8 +5,7 @@
             <div class="control-group span5">
                 <div class="control-label">Hierarchy</div>
                 <div class="controls">
-                    <select data-ui-select2="" class="input-medium" data-ng-model="perm.hierarchy">
-                        <option value=""></option>
+                    <select class="input-medium" data-ng-model="perm.hierarchy">
                         <option data-ng-repeat="data in dldata.stakeHierarchy|unique : 'Hierarchy'" value="{{data.Hierarchy}}">{{data.Hierarchy}}</option>
                     </select>
                 </div>
@@ -14,10 +13,9 @@
             <div data-ng-show="perm.hierarchy" class="control-group span5">
                 <div class="control-label">Designation</div>
                 <div class="controls">
-                    <select data-ui-select2="" data-ng-change="datalayer.GetPermission(perm.designation)" class="input-medium" data-ng-model="perm.designation">
-                        <option value=""></option>
+                    <select data-ng-change="datalayer.GetPermission(perm.designation)" class="input-medium" data-ng-model="perm.designation">
                         <option data-ng-repeat="data in dldata.stakeHierarchy|
-                        filter : {'Hierarchy' : perm.hierarchy  } | orderBy: 'PositionLevel'"
+                        filter : {'Hierarchy' : perm.hierarchy} | orderBy: 'PositionLevel'"
                             value="{{data.Id}}">{{data.Designation}}</option>
                     </select>
                 </div>
@@ -30,6 +28,9 @@
             <div class="panel row-fluid">
                 <div class="panel-heading">
                     {{module.name}}
+                </div>
+                <div>
+                    <input type="checkbox" data-ng-checked="ticks(module)" data-ng-model="selAll" data-ng-click="selectAll(selAll,module)" /><label>Select All</label>
                 </div>
                 <div data-ng-repeat="(key,activity) in module.childrens track by key">
 

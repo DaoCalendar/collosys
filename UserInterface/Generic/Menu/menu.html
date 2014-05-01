@@ -1,6 +1,6 @@
 ﻿<nav class="navbar" data-ng-show="$csAuthFactory.hasLoggedIn()">
     <div class="navbar-inner">
-        <a class="brand" ng-href="/">ColloSys</a>
+        <a class="brand" ng-href="/">Sale<i class="icon-rotate-right icon-spin text-success"></i>Sys</a>
         <ul class="nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">File Upload<b class="caret"></b></a>
@@ -13,7 +13,7 @@
                     <li><a href="#/fileupload/filestatus">Check Status</a></li>
                     <li><a href="#/fileupload/clientdatadownload">Data Download</a></li>
                     <li><a href="#/fileupload/customerinfo">Customer Info</a></li>
-                    <li><a href="#/fileupload/paymentchanges">Manual Payment</a></li>
+                    <li><a href="#/fileupload/paymentchanges">Exclude Case</a></li>
                     <li class="divider"></li>
                     <li><a href="#/fileupload/uploadpincode">Upload Pincode</a></li>
                     <li><a href="#/fileupload/uploadrcode">Upload Rcode</a></li>
@@ -100,29 +100,31 @@
     </div>
 </nav>
 
-<div class="navbar-inner" data-ng-if="menus.length>0" data-ng-hide="true">
-    <a class="brand" data-ng-href="/">ColloSys</a>
-    <div data-ng-repeat="menu in menus">
-        <ul class="nav">
+<nav class="navbar" data-ng-if="false" data-ng-show="$csAuthFactory.hasLoggedIn()">
+    <div class="navbar-inner" data-ng-if="menus.length>0" data-ng-hide="false">
+        <a class="brand" data-ng-href="/">ColloSys</a>
+        <div data-ng-repeat="menu in menus">
+            <ul class="nav">
+                <li class="dropdown">
+                    <a href="{{menu.url}}" class="dropdown-toggle" data-toggle="dropdown">{{menu.Title}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="child in menu.childMenu">
+                            <a href="{{child.url}}">{{child.Title}}</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav pull-right">
             <li class="dropdown">
-                <a href="{{menu.url}}" class="dropdown-toggle" data-toggle="dropdown">{{menu.Title}}<b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
+                </a>
                 <ul class="dropdown-menu">
-                    <li data-ng-repeat="child in menu.childMenu">
-                        <a href="{{child.url}}">{{child.Title}}</a>
-                    </li>
+                    <li><a href="#/generic/profile">Profile</a></li>
+                    <li><a href="#/generic/changepassword">ChangePassword</a></li>
+                    <li><a href="#/logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
     </div>
-    <ul class="nav pull-right">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="#/generic/profile">Profile</a></li>
-                <li><a href="#/generic/changepassword">ChangePassword</a></li>
-                <li><a href="#/logout">Logout</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+</nav>
