@@ -42,7 +42,6 @@
         return {
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
-
             FixedAmount: { label: 'FixedAmount', type: 'number', template:'decimal', editable: false },
             StartDate: { label: 'StartDate', type: 'text', editable: false },
             EndDate: { label: 'EndDate', type: 'text', editable: false },
