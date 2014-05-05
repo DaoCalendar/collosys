@@ -1,4 +1,7 @@
-﻿namespace ReflectionExtension.Tests.ExcelReader.Test
+﻿using ColloSys.FileUploadService;
+using FileUploaderService;
+
+namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     public interface IRowReader<in TEntity> where TEntity : class, new()
     {
@@ -55,3 +58,4 @@
         public int Dummy { get; set; }
     }
 }
+

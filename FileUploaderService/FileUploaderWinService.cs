@@ -67,7 +67,7 @@ namespace FileUploaderService
 
             _timer.Elapsed += OnEventTime;
 
-            _timer.Interval = 60000;
+            _timer.Interval = 30000;
 
             _timer.Enabled = true;
 
@@ -87,7 +87,7 @@ namespace FileUploaderService
         }
 
         private static bool HasRunBefore { get; set; }
-        private void OnEventTime(object source, ElapsedEventArgs e)
+        public void OnEventTime(object source, ElapsedEventArgs e)
         {
             TraceService("Another entry at " + DateTime.Now);
             _log.Debug("Service: in timer event");
@@ -98,6 +98,7 @@ namespace FileUploaderService
                 fileUpload.ResetFiles();
                 HasRunBefore = true;
             }
+            _log.Info("going to uploaded file");
             fileUpload.UploadFiles();
         }
 

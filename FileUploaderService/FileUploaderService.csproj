@@ -45,7 +45,9 @@
       <HintPath>..\SharedLib\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -79,7 +81,7 @@
     <Compile Include="Interfaces\IRowCounter.cs" />
     <Compile Include="Interfaces\ISingleTableExcelReader.cs" />
     <Compile Include="Logging\NLogSetup.cs" />
-    <Compile Include="Program.cs">
+    <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

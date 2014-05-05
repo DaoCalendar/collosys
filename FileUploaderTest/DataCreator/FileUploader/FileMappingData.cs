@@ -2,12 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 
 #endregion
@@ -16,7 +14,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 {
     public class FileMappingData
     {
-        SetUpAssemblies setUp=new SetUpAssemblies();
+        readonly SetUpAssemblies _setUp=new SetUpAssemblies();
         private FileMapping GetDefaultMapping()
         {
             return new FileMapping
@@ -113,7 +111,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
             return mappings;
         }
 
-        public IList<FileMapping> CreateRecord()
+        public IEnumerable<FileMapping> CreateRecord()
         {
             IList<FileMapping> mappings = new List<FileMapping>();
             var mapping1 = GetDefaultMapping();
@@ -202,7 +200,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public FileScheduler GetUploadedFile()
         {
-             setUp.InitNhibernate();
+             _setUp.InitNhibernate();
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -214,7 +212,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         }
         public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
         {
-            setUp.InitNhibernate();
+            _setUp.InitNhibernate();
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -226,7 +224,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         }
         public FileScheduler GetUploadedFileForRlsPaymentWoAeb()
         {
-            setUp.InitNhibernate();
+            _setUp.InitNhibernate();
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -238,7 +236,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         }
         public FileScheduler GetUploadedFileForWoSmc()
         {
-            setUp.InitNhibernate();
+            _setUp.InitNhibernate();
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()

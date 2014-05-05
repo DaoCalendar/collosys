@@ -21,26 +21,16 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _data=new FileMappingData();
             _uploadedFile = _data.GetUploadedFile();
             _fileReader = new RlsPaymentLinerFileReader(_uploadedFile);
-        }
+            
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
 
-        [Test]
-        public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile1()
-        {
-            //Arrange
-            var payment = _data.GetPayment();
-
-            //Act
-            _fileReader.ReadAndSaveBatch();
-
-            //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(12).AccountNo, "49163353");
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile()
         {
             //Arrange
-            var payment = _data.GetPayment();
+           
             
             //Act
             _fileReader.ReadAndSaveBatch();

@@ -37,7 +37,7 @@ namespace FileUploaderService
             {
                 sc.Stop();
             }
-
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             sc.Start();
             sc.Refresh();
         }

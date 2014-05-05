@@ -27,6 +27,7 @@ namespace FileUploaderService
         {
             try
             {
+                Logger.Info(string.Format("getting constring here "));
                 ConnString = ColloSysParam.WebParams.ConnectionString;
                 Logger.Info(string.Format("FileUpload: Connection String : {0}", ConnString.ConnectionString));
                 SessionManager.InitNhibernate(new NhInitParams
