@@ -1,11 +1,19 @@
 ﻿csapp.factory("csBootstrapInputTemplate", function () {
 
-    var bsTemplateBefore = function (field, noBootstrap, fieldname) {
-        var html = '<div class="control-group">' +
-            '<div class="control-label">{{' + fieldname + '.label}}' +
-            '<span class="text-error">{{' + fieldname + '.required ? " *":""}}</span></div>' +
-            '<div class="controls">';
-        return (noBootstrap ? "<div>" : html);
+    var bsTemplateBefore = function (field, noBootstrap, attr) {
+
+        //(attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '')
+        //(attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '')
+        //(attr.ngIf ? 'ng-if="'+attr.ngIf+'"' : ' ')
+
+        var noBootstrapDiv = '<div' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '') +
+                              (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '') +
+                              (attr.ngIf ? 'ng-if="' + attr.ngIf + '"' : ' ') + 'class="control-group" >';
+
+        var html = noBootstrapDiv + '<div class="control-label">{{' + attr.field + '.label}}' +
+         '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></div>' +
+         '<div class="controls">';
+        return (noBootstrap ? noBootstrapDiv : html);
     };
 
     var bsTemplateAfter = function (noBootstrap) {
@@ -128,7 +136,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var noBootstrap = angular.isDefined(attrs.noLabel);
             configureTypeahead(field, attrs);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -284,7 +292,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var noBootstrap = angular.isDefined(attrs.noLabel);
         configureTypeahead(field, attrs);
         var template = [
-            bstemplate.before(field, noBootstrap, attrs.field),
+            bstemplate.before(field, noBootstrap, attrs),
             valtemplate.before(),
             prefix(field),
             input(field, attrs),
@@ -392,7 +400,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -446,7 +454,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -527,7 +535,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 prefix(field),
                 input(field, attrs),
@@ -586,7 +594,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -687,7 +695,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -726,14 +734,14 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var validateOptions = function (field, attr) {
             field.label = field.label || "Select";
-            field.ngOptions = 'row for row in';
+            field.ngOptions = 'row for row in ';
             field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
         };
 
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
-                bstemplate.before(field, noBootstrap, attrs.field),
+                bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
@@ -767,7 +775,9 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         html += (angular.isDefined(field.startDate) ? ' data-date-start-date="' + field.startDate + '"' : '');
         html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
         html += ' bs-datepicker="" >';
-        html += ' <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button> ';
+        html += ' <button type="button" class="btn" data-toggle="datepicker"';
+        html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+        html += '><i class="icon-calendar"></i></button> ';
         html += ' </div>';
         return html;
     };
@@ -775,7 +785,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     var htmlTemplate = function (field, attrs) {
         var noBootstrap = angular.isDefined(attrs.noLabel);
         var template = [
-            bstemplate.before(field, noBootstrap, attrs.field),
+            bstemplate.before(field, noBootstrap, attrs),
             valtemplate.before(),
             input(field, attrs),
             valtemplate.after(attrs.field, field),
