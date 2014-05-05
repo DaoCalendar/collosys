@@ -61,23 +61,24 @@
 
         return {
             Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
-            AccountNo: { type: "enum", valueList: [] },
+            AccountNo: { label:"AccountNo", type: "text", valueList: [], pattern: "/^[0-9]+$/", placeholder: "Enter Account Number", required: true },
             GlobalCustId: { type: "enum", valueList: [] },
-            CustomerName: { type: "enum", valueList: [] },
-            Pincode: { type: "number", template: "uint" },
-            Product: { type: "enum", valueList: $csShared.enums.Products },
-            CustStatus: { type: "text" },
-            AllocationStartDate: { type: "date" },
+            CustomerName: { label:"CustomerName",type: "text" },
+            Pincode: { label:"Pincode",type: "number", template: "uint" },
+            Product: { label:"Product",type: "enum", valueList: $csShared.enums.Products },
+            CustStatus: {label:"CustStatus", type: "text" },
+            AllocStartDate: { label:"AllocStartDate",type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
-            IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
+            IsReferred: { label: "IsReferred", type: 'radio', options: [{ value: true, key: 'True' }, { value: false, key: 'False' }], valueField: 'value', textField: 'key', },
+            //IsReferred: { label: "IsReferred", type: 'text' },
             IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No'] },
-            AllocationEndDate: { type: "date" },
+            AllocEndDate: { label: "AllocEndDate", type: "date" },
             ChargeofDate: { type: "date" },
             AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
-            TotalDue: { type: "decimal" },
-            NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
-            Cycle: { type: "number", template: "uint" },
-            Bucket: { type: "number", template: "uint" },
+            TotalDue: { label: "TotalDue", type: "number",template:"decimal" },
+            NoAllocResons: { label: "NoAllocResons", type: "text" },
+            Cycle: { label:"Cycle", type: "number", template: "uint" },
+            Bucket: { label:"Bucket",type: "number", template: "uint" },
             ConditionSatisfy: { type: 'text' },
             ResolutionPercentage: { type: 'number', template: 'percentage' },
             MobWriteoff: { type: "number", template: "uint" },
@@ -141,8 +142,6 @@
 
         };
     };
-
-
 
     var init = function () {
         models.FileDetail = fileDetail();
