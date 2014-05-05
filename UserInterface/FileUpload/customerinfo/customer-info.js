@@ -1,6 +1,6 @@
 ﻿csapp.controller("customerInfoController", [
-    "$scope", "$csnotify", "Restangular","$csFileUploadModels","$csShared",
-    function ($scope, $csnotify, rest, $csFileUploadModels, $csShared) {
+    "$scope", "$csnotify", "Restangular","$csFileUploadModels",
+    function ($scope, $csnotify, rest, $csFileUploadModels) {
         "use strict";
 
         $scope.custInfoModel = $csFileUploadModels.models.CustomerInfo;
@@ -15,7 +15,6 @@
         }, function(data) {
             $csnotify.error(data.data.Message);
         });
-        console.log($csShared);
 
         $scope.GetCustomerDetails = function(custInfo) {
             if (angular.isDefined($scope.custInfo.Product) && angular.isDefined($scope.custInfo.AccountNo)) {
