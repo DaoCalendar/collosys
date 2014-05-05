@@ -1,24 +1,18 @@
-﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal',
-    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal) {
+﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal', "$csStakeholderModels",
+    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal, stakeModels) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
         var init = function () {
             $log.info("Wroking Screen");
+            $scope.workingField = stakeModels.init.StkhWorking;
             //working screen
             $scope.deleteModal = false;
             $scope.bucketArray = [{ display: '1(0-29)', value: 1 }, { display: '2(30-59)', value: 2 },
                 { display: '3(60-89)', value: 3 }, { display: '4(90-119)', value: 4 },
                 { display: '5(120-149)', value: 5 }, { display: '6(150-179)', value: 6 },
                 { display: '6(180+)', value: '>6' }];
-            $scope.stateArray = [];
-            $scope.uniqueReg = [];
-            $scope.buckArray = [];
-            $scope.uniqueClus = [];
-            $scope.clusterArray = [];
-            $scope.areaArray = [];
-            $scope.cityArray = [];
-            $scope.regionArray = [];
+
             $scope.changed = {
                 Region: false,
                 State: false,
@@ -37,11 +31,19 @@
             };
             $scope.workingModel = {
                 DisplayManager: {},
-                SelectedPincodeData: {
-                },
+                SelectedPincodeData: {},
                 MultiSelectValues: [],
-                //QueryFor: ''
             };
+
+            $scope.stateArray = [];
+            $scope.uniqueReg = [];
+            $scope.buckArray = [];
+            $scope.uniqueClus = [];
+            $scope.clusterArray = [];
+            $scope.areaArray = [];
+            $scope.cityArray = [];
+            $scope.regionArray = [];
+
             $scope.pincodeManager = pincodeMngr;
             $scope.showAddedData = false;
             $scope.showButtons = false;
@@ -250,7 +252,10 @@
                 return true;
 
             if ($scope.WorkingData.LocationLevelArray.length > 1) {
-
+                
+                if (angular.isUndefined($scope.workingModel.SelectedPincodeData))
+                    return true;
+                
                 if (angular.isUndefined($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel])) return true;
                 if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData[$scope.WorkingData.LocationLevel])) {
                     switch ($scope.WorkingData.LocationLevel) {
