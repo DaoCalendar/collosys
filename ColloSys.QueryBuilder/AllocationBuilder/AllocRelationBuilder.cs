@@ -2,6 +2,7 @@
 
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate.Criterion;

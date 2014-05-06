@@ -9,12 +9,12 @@
                     <div class="control-group span5">
                         <label class="control-label">Product</label>
                         <div class="controls">
-                            <input type="text" readonly="readonly" 
-                                   class="input-medium" 
-                                   data-ng-model="dldata.formula.Products" />
+                            <input type="text" readonly="readonly"
+                                class="input-medium"
+                                data-ng-model="dldata.formula.Products" />
                         </div>
                     </div>
-                    <div class="control-group span6">
+                    <!-- <div class="control-group span6">
                         <label class="control-label">Category</label>
                         <div class="controls">
                             <csswitch ngbind="dldata.formula.Category"
@@ -22,24 +22,24 @@
                                       onbtnclick="datalayer.changeProductCategory()"
                                       namevalues="dldata.categorySwitch"></csswitch>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="row-fluid">
                     <div class="control-group span5">
                         <label class="control-label">Name</label>
                         <div class="controls">
                             <input type="text" data-ng-disabled="dldata.formula.Id"
-                                   data-ng-model="dldata.formula.Name"
-                                   data-ng-pattern="/^\w*$/" required />
+                                data-ng-model="dldata.formula.Name"
+                                data-ng-pattern="/^\w*$/" required />
                         </div>
                     </div>
                     <div class="control-group span6">
                         <label class="control-label">Output Type</label>
                         <div class="controls">
                             <csswitch ngbind="dldata.formula.OutputType"
-                                      ngdisabled="dldata.formula.Id"
-                                      onbtnclick="factory.changeOutputType()"
-                                      namevalues="dldata.outputTypeSwitch"></csswitch>
+                                ngdisabled="dldata.formula.Id"
+                                onbtnclick="factory.changeOutputType()"
+                                namevalues="dldata.outputTypeSwitch"></csswitch>
                         </div>
                     </div>
                 </div>

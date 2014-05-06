@@ -78,10 +78,12 @@
     var setUpdatesinPrem = function (hierarchies) {
         dldata.permissionsChanged = false;
         _.forEach(hierarchies, function (item) {
-            var perm = JSON.parse(item.Permissions);
-            deleteOld(perm, permFactory.permission);
-            addNew(perm, permFactory.permission);
-            item.Permissions = JSON.stringify(perm);
+            if (!$csfactory.isEmptyObject(item.Permissions)) {
+                var perm = JSON.parse(item.Permissions);
+                deleteOld(perm, permFactory.permission);
+                addNew(perm, permFactory.permission);
+                item.Permissions = JSON.stringify(perm);
+            }
         });
     };
 
@@ -169,7 +171,7 @@
                         dldata.permissionsChanged = true;
                         console.log('activity added: ', activity);
                     } else {
-                        angular.forEach(oldPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
+                        angular.forEach(newPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
                             if (!oldPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
                                 oldPermission[module]['childrens'][activity]['childrens'][extra] = extraVal;
                                 dldata.permissionsChanged = true;
@@ -205,6 +207,47 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.saveNew(data);
         };
 
+        $scope.ticks = function (module) {
+            var access = true;
+            angular.forEach(module.childrens, function (activityVal, activityKey) {
+                if (activityVal.access === false) {
+                    console.log('return false', activityVal.access);
+                    access = false;
+                }
+                else {
+                    angular.forEach(activityVal.childrens, function (extraVal) {
+                        if (extraVal.access === false) {
+                            access = false;
+                        }
+                    });
+                }
+            });
+            return access;
+        };
+
+        $scope.selectAll = function (selected, module) {
+
+            selected = !selected;
+
+            if (selected === true) {
+
+                angular.forEach(module.childrens, function (activityVal, activitykey) {
+                    activityVal.access = true;
+                    angular.forEach(activityVal.childrens, function (extraVal, extraKey) {
+                        extraVal.access = true;
+                    });
+                });
+
+            } else if (selected === false) {
+                angular.forEach(module.childrens, function (activityVal, activitykey) {
+                    activityVal.access = false;
+                    angular.forEach(activityVal.childrens, function (extraVal, extraKey) {
+                        extraVal.access = false;
+                    });
+                });
+            }
+
+        };
 
         $scope.uncheckChildren = function (obj) {
             obj.access = !obj.access;

@@ -8,6 +8,30 @@
     };
 });
 
+csapp.directive('chosen', function () {
+    var linker = function (scope, element, attrs) {
+        var list = attrs['chosen'];
+
+        scope.$watch(list, function () {
+            element.trigger('liszt:updated');
+            element.trigger("chosen:updated");
+        });
+
+        scope.$watch(attrs.ngModel, function() {
+            element.trigger('liszt:updated');
+            element.trigger("chosen:updated");
+        });
+
+        element.chosen();
+    };
+
+    return {
+        restrict: 'A',
+        link: linker,
+        require:'ngModel'
+    };
+});
+
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
@@ -201,7 +225,7 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
     };
 
     var generateTemplate = function (templateParams, attrs) {
-       
+
         var html = '<input';
         html += ' class=" btn ' + templateParams.className + '"';
         html += ' type="' + templateParams.type + '"';

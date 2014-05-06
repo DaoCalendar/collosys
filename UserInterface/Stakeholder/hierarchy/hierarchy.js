@@ -132,7 +132,7 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
 
         $scope.openEditModal = function (hierarchy) {
             $modal.open({
-                templateUrl: '/Stakeholder/hierarchy/hierarchy-edit.html',
+                templateUrl: baseUrl+'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
                 resolve: {
                     editHierarchy: function () {

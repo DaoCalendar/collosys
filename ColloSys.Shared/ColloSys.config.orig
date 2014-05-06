@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  
+  <configSections>
+    <section name="ColloSysParams" type="ColloSys.Shared.ConfigSectionReader.ColloSysParamsSection, ColloSys.Shared" />
+    <sectionGroup name="mailSettings">
+      <section name="smtp_release" type="System.Net.Configuration.SmtpSection"/>
+      <section name="smtp_testing" type="System.Net.Configuration.SmtpSection"/>
+      <section name="smtp_debug" type="System.Net.Configuration.SmtpSection"/>
+    </sectionGroup>
+    <section name="ConnStrings" type="System.Configuration.ConnectionStringsSection, System.Configuration"/>
+
+  </configSections>
+
+  <ColloSysParams>
+    <release>
+      <add name="LogPath" value="E:\ColloSys\Logs\" />
+      <add name="ShowDebugLogs" value="true" />
+      <add name="UploadPath" value="E:\ColloSys\Files\" />
+      <add name="UploadStartTime" value="19:30" />
+      <add name="ConnectionStringName" value="Mayur" />
+      <add name="Smtp" value="smtp_release" />
+    </release>
+    <testing>
+      <add name="LogPath" value="C:\Users\Public\Documents\ColloSys\Logs\" />
+      <add name="ShowDebugLogs" value="true" />
+      <add name="UploadPath" value="C:\Users\Public\Documents\ColloSys\Files\" />
+      <add name="UploadStartTime" value="19:30" />
+      <add name="UseInmemory" value="true" />
+      <add name="Smtp" value="smtp_testing" />
+      <add name="ConnectionStringName" value="Mayur" />
+    </testing>
+    <debug>
+      <add name="LogPath" value="C:\Users\Public\Documents\ColloSys\Logs\" />
+      <add name="ShowDebugLogs" value="true" />
+      <add name="UploadPath" value="C:\Users\Public\Documents\ColloSys\Files\" />
+      <add name="UploadStartTime" value="19:30" />
+      <add name="UseInmemory" value="false" />
+      <add name="Smtp" value="smtp_debug" />
+      <add name="ConnectionStringName" value="Mayur" />
+    </debug>
+  </ColloSysParams>
+
+  <mailSettings>
+    <smtp_release deliveryMethod="Network" from="collosys@sc.com">
+      <network host="10.134.27.90"/>
+    </smtp_release>
+    <smtp_testing deliveryMethod="Network" from="collosys@sc.com">
+      <network host="192.168.0.160"/>
+    </smtp_testing>
+    <smtp_debug deliveryMethod="Network" from="collosys@sc.com">
+      <network host="192.168.0.160"/>
+    </smtp_debug>
+  </mailSettings>
+
+  <ConnStrings>
+    <clear />
+<<<<<<< HEAD
+    <add name="Ast011"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=CollosysDBVnew4;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="Mayur"         connectionString="Data Source=AST010;Initial Catalog=collosys;Integrated Security=True" providerName="" />
+=======
+    <!--<add name="Ast011"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=CollosysDBVnew4;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="Mayur"         connectionString="Data Source=localhost;Initial Catalog=collosys;Integrated Security=True" providerName="" />
+    <add name="mayurd"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+>>>>>>> a7595822c58ee6593beb40bfc3b70f9149f2d154
+    <add name="sonua"         connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys; Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="sohamn"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+    <add name="Administrator" connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="surajp"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=ColloSys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="collosys"      connectionString="Data Source=INWPDSSQL07\EUC_SQL01;Initial Catalog=ColloSys;Persist Security Info=True;User ID=appinstall;Password=Appins@123" />-->
+  
+  <add name="Ast011"        connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$EDCrfv123$" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="Mayur"         connectionString="Data Source=localhost\SQLEXPRESSR2;Initial Catalog=Collosys_NewDB3;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+    <add name="mayurd"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+    <add name="sonua"         connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="sohamn"        connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="Administrator" connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="surajp"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=ColloSys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="collosys"      connectionString="Data Source=INWPDSSQL07\EUC_SQL01;Initial Catalog=ColloSys;Persist Security Info=True;User ID=appinstall;Password=Appins@123" />
+  </ConnStrings>
+</configuration>

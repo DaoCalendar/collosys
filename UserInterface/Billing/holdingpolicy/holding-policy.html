@@ -1,5 +1,5 @@
 ﻿<div class="row-fluid">
-    <div class="row-fluid" data-ng-include="'/billing/holdingpolicy/holding-policy-list.html'"></div>
+    <div class="row-fluid" data-ng-include="baseUrl + 'billing/holdingpolicy/holding-policy-list.html'"></div>
     <form name="holdingpolicyform">
         <div class="row-fluid form-horizontal span10">
             <div class="panel panel-info">
@@ -19,18 +19,18 @@
                                 field="HoldingPolicy.Name"></cs-field>
                         </div>
                         <div class="span6">
-                            <cs-field data-ng-model="policy.StartDate"
+                            <cs-field data-ng-model="policy.StartDate" data-ng-change="dateValiadation(policy.StartDate,policy.EndDate)"
                                 field="HoldingPolicy.StartDate"></cs-field>
                         </div>
                     </div>
 
                     <div class="row-fluid">
                         <div class="span6">
-                            <cs-field data-ng-model="policy.Description"
+                            <cs-field data-ng-model="policy.Description" 
                                 field="HoldingPolicy.Description"></cs-field>
                         </div>
                         <div class="span6">
-                            <cs-field data-ng-model="policy.EndDate"
+                            <cs-field data-ng-model="policy.EndDate" data-ng-change="dateValiadation(policy.StartDate,policy.EndDate)"
                                 field="HoldingPolicy.EndDate"></cs-field>
                         </div>
                     </div>

@@ -3,8 +3,8 @@
     var stakeholder = function () {
         return {
 
-            hierarchy: { label: 'Hierarchy', type: 'select', useRepeat: "true" },
-            designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select', useRepeat: "true" },
+            hierarchy: { label: 'Hierarchy', type: 'select' },
+            designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select' },
             Name: { placeholder: 'enter name', label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', required: true, patternMessage: 'Invalid Name' },
             userId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{7}$/', patternMessage: 'Invalid ID' },
             mobile: { label: "Mobile No", type: 'text', pattern: '/^[0-9]{10}$/', template: 'phone', patternMessage: 'Invalid Mobile Number' },
@@ -33,7 +33,7 @@
             hierarchy: { label: 'Hierarchy', type: 'select' },
             ApplicationName: { label: 'Name', type: 'text' },
             LocationLevel: { label: 'LocationLevel', type: 'select' },
-            PositionLevel: { label: 'PositionLevel', type: 'int' },
+            PositionLevel: { label: 'PositionLevel', type: 'number',template:'int' },
             IsIndividual: { label: 'IsIndividual', type: 'checkbox' },
             IsUser: { label: 'IsUser', type: 'checkbox' },
             HasWorking: { label: 'HasWorking', type: 'checkbox' },
@@ -109,7 +109,7 @@
             Line2: { label: 'Line2', type: 'text' },
             Line3: { label: 'Line3', type: 'text' },
             LandlineNo: { label: 'LandlineNo', type: 'text' },
-            Pincode: { label: 'Pincode', type: 'number', template: 'int' },
+            Pincode: { label: 'Pincode', type: 'number', template: 'uint' },
             Country: { label: 'Country', type: 'text' },
             StateCity: { label: 'StateCity', type: 'text' },
         };

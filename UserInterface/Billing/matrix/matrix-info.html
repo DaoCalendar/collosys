@@ -1,0 +1,38 @@
+﻿<div class="panel panel-info" data-ng-show="dldata.matrix.Products && dldata.matrix.Dimension">
+    <div class="panel panel-heading">
+        Matrix Info
+    </div>
+    <div class="panel-body">
+        <div class="row-fluid" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
+            <div class="control-group span5">
+                <label class="control-label">Matrix Per Type</label>
+                <div class="controls">
+                    <csswitch ngbind="dldata.matrix.MatrixPerType"
+                              namevalues="dldata.typeSwitch" ngdisabled="dldata.isMatrixCreated"></csswitch>
+                </div>
+            </div>
+            <div class="control-group span6" data-ng-show="dldata.matrix.MatrixPerType">
+                <label class="control-label">Matrix Per Type Name</label>
+                <div class="controls">
+                    <div data-ng-switch on="dldata.matrix.MatrixPerType">
+                        <div data-ng-switch-when="Table">
+                            <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
+                                    data-ng-disabled="dldata.isMatrixCreated"
+                                    data-ng-required="!dldata.isMatrixCreated">
+                                <option value=""></option>
+                                <option data-ng-repeat="c in dldata.columnNames | custBillSubString">{{c}}</option>
+                            </select>
+                        </div>
+                        <div data-ng-switch-when="Formula">
+                            <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
+                                    data-ng-disabled="dldata.isMatrixCreated" required>
+                                <option value=""></option>
+                                <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

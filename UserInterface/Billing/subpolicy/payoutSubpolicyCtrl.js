@@ -230,7 +230,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             });
         };
 
-        var addNewCondition = function (condition) {
+        var addNewCondition = function (condition,form) {
             condition.Ltype = "Column";
             condition.Lsqlfunction = "";
             condition.ConditionType = 'Condition';
@@ -248,6 +248,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             dldata.conditionValueType = 'text';
 
             datalayer.resetCondition();
+            form.$setPristine();
         };
 
         var deleteCondition = function (condition, index) {
@@ -270,14 +271,15 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
         };
 
-        var addNewOutput = function (output) {
+        var addNewOutput = function (output,form) {
             output.ConditionType = 'Output';
             output.ParentId = dldata.payoutSubpolicy.Id;
             output.Priority = dldata.payoutSubpolicy.BOutputs.length;
             var out = angular.copy(output);
             dldata.payoutSubpolicy.BOutputs.push(out);
-
+           
             datalayer.resetOutput();
+            form.$setPristine();
         };
 
         var deleteOutput = function (output, index) {
@@ -306,6 +308,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             dldata.payoutSubpolicy.BOutputs = [];
             dldata.deleteConditions = [];
             dldata.newCondition = {};
+            dldata.policyapproved = false;
             dldata.newOutput = {};
             dldata.payoutSubpolicy.Products = product;
             dldata.payoutSubpolicy.Category = "Liner";
@@ -392,6 +395,20 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
         };
 
+        $scope.change = function (condition) {
+            var con = condition.toString();
+            var field = con.split(".");
+            if (field[0] === "CustBillViewModel") {
+                field[0] = "Customer";
+                var fieldName = "";
+                fieldName = (field[0] + "." + field[1]);
+                return fieldName;
+            } else {
+                return condition;
+            }
+            
+        };
+
         $scope.selectPayoutSubpolicy = function (spayoutSubpolicy) {
             $scope.datalayer.selectPayoutSubpolicy(spayoutSubpolicy);
             $scope.showDiv = true;
@@ -450,24 +467,24 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         };
 
         $scope.manageField = function (condition) {
-            condition.Rvalue = '';
-            $scope.showField = $scope.showField === true ? false : true;
-            $scope.showField2 = !$scope.showField2;
-            $scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
-            var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType !== 'text') {
-                return;
-            }
-            if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
-                condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
-                $scope.fieldname.type = "text";
-                $scope.fieldname.required = true;
-                return;
-            }
-            if (condition.Operator === "IsInList") {
-                $scope.fieldname.multiple = "multiple";
-            }
-            $scope.fieldname.type = "enum";
+            //condition.Rvalue = '';
+            //$scope.showField = $scope.showField === true ? false : true;
+            //$scope.showField2 = !$scope.showField2;
+            //$scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
+            //var inputType = $scope.dldata.selectedLeftColumn.InputType;
+            //if (inputType !== 'text') {
+            //    return;
+            //}
+            //if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
+            //    condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
+            //    $scope.fieldname.type = "text";
+            //    $scope.fieldname.required = true;
+            //    return;
+            //}
+            //if (condition.Operator === "IsInList") {
+            //    $scope.fieldname.multiple = "multiple";
+            //}
+            //$scope.fieldname.type = "enum";
         };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);

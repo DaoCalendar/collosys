@@ -1,1 +1,1 @@
-﻿angular.module('ui.modules', ['ui.map', 'ui.select2', 'ui.calendar']);
+﻿angular.module('ui.modules', ['ui.map',  'ui.calendar']);

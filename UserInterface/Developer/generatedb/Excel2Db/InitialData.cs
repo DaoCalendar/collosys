@@ -8,6 +8,7 @@ using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.Encryption;
 
 #endregion
@@ -19,7 +20,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
         public static void InsertData()
         {
             //InsertIntoStakeHierarchy2();
-            InsertIntoGPermission();
+            //InsertIntoGPermission();
             InsertIntoUsers();
             InsertProducts();
             // InsertPincodes();
@@ -320,7 +321,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             //           .Where(x => x.Designation == "HOC" && x.ApplicationName == "ColloSys")
             //           .SingleOrDefault();
             var role2 = session.QueryOver<StkhHierarchy>()
-                               .Where(x => x.Designation == "NCM" && x.Hierarchy == "Field")
+                               .Where(x => x.Designation == "Officer" && x.Hierarchy == "BackOffice")
                                .SingleOrDefault();
             //var role3 = session.QueryOver<StakeHierarchy>()
             //           .Where(x => x.Designation == "RCM" && x.ApplicationName == "ColloSys")

@@ -8,6 +8,7 @@ using System.Net;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Criterion;
 
 

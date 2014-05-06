@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using NUnit.Framework;
 

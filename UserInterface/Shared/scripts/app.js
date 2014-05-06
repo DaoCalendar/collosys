@@ -1,7 +1,7 @@
 ﻿
 var csapp = angular.module("ui.collosys",
 [
-    'ui.bootstrap', 'ui.modules', 'ngGrid', 'restangular',
+    'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', 'ngAnimate',
     'ngCookies', 'chieffancypants.loadingBar', 'ui.utils'
 ]);

@@ -1,7 +1,12 @@
 ﻿using System.IO;
 using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
+using ColloSys.QueryBuilder.Generic;
 using ColloSys.Shared.SharedUtils;
+using NHibernate.Linq;
+using NHibernate.SqlCommand;
 using NHibernate.Transform;
 using OfficeOpenXml;
 
@@ -43,8 +48,30 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         
         public IEnumerable<Stakeholders> GetStakeholders(ScbEnums.Products product)
         {
-            var data = StakeQuery.OnProduct(product);
+
+            Stakeholders stakeholders = null;
+            StkhWorking workings = null;
+            StkhHierarchy hierarchy = null;
+            StkhPayment payment = null;
+            var session = SessionManager.GetCurrentSession();
+            var data = session.QueryOver(() => stakeholders)
+                              .Fetch(x => x.StkhWorkings).Eager
+                              .Fetch(x => x.StkhPayments).Eager
+                              .Fetch(x => x.Hierarchy).Eager
+                              .JoinAlias(() => stakeholders.StkhPayments, () => payment, JoinType.LeftOuterJoin)
+                              .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
+                              .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
+                                         JoinType.LeftOuterJoin)
+                              .Where(() => workings.Products == product)
+                              .TransformUsing(Transformers.DistinctRootEntity)
+                              .List();
+            data.ForEach(x =>
+            {
+                x.Allocs = null;
+                x.AllocSubpolicies = null;
+            });
             return data;
+
         }
 
         [HttpGet]
@@ -100,7 +127,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         // TODO : ICICI demo
         #region ICICI demo
         [HttpGet]
-        [HttpTransaction2(Persist = true)]
+        [HttpTransaction2]
         public string ExcelForBillSammary(ScbEnums.Products products, Guid stakeId, int month)
         {
             var billAmount = Session.QueryOver<BillAmount>()

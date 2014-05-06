@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.AliasReader;
+using ColloSys.FileUploader.DbLayer;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploadService.Logging;
 using  ColloSys.Shared.ConfigSectionReader;
-using Excel.Log;
-using NHibernate.Type;
 using NLog;
 using ReflectionExtension.ExcelReader;
 using LogManager = NLog.LogManager;
@@ -26,17 +27,18 @@ namespace ColloSys.FileUploader.FileReader
         private readonly uint _batchSize;
         private readonly FileScheduler _fs;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        //private idb _dbLayer;
 
         protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
              _fs = recordCreator.FileScheduler;
             string path = _fs.FileDirectory  +@"\";
-
+            
             NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
 
             _excelReader = SharedUtility.GetInstance(new FileInfo(path+_fs.FileName));
             _objRecord = new RecordCreator<T>(recordCreator, _excelReader);
-            _batchSize = 100;
+            _batchSize = 500;
         }
         #endregion
 
@@ -55,17 +57,34 @@ namespace ColloSys.FileUploader.FileReader
                     }
                     _excelReader.NextRow();
                 }
-                var session = SessionManager.GetCurrentSession();
-                using (var transaction = session.BeginTransaction())
+                _log.Info("Batch object bind success");
+                using (var session = SessionManager.GetNewSession())
                 {
-                    foreach (var record in List)
+                    using (var transaction = session.BeginTransaction())
                     {
-                        session.Save(record);
-                    }
+                        foreach (var record in List)
+                        {
+                            session.Save(record);
+                            //_log.Error(string.Format("Recored could not inserted {0}", record));
+                        }
 
-                    transaction.Commit();
-                    _log.Info("Batch successfully saved");
+                        transaction.Commit();
+                        _log.Debug("In Save Batch to DB");
+                    }
                 }
+                //_log.Info(string.Format("BatchProcessing : PostProcessing Start"));
+                //_fs.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
+                //_dbLayer.ChangeStatus(UploadedFile);
+                //ReaderNeeds.PostProcesing();
+                //_log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+
+                //_log.Info("ReadFile: Retry error record.");
+                //ReaderNeeds.RetryErrorRows();
+
+                //_log.Info("ReadFile: saving the error table.");
+                //SaveDoneStatus();
+
+
             }
         }
     }

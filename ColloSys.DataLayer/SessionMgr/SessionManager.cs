@@ -1,14 +1,14 @@
 ﻿#region  references
-using System;
+
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.NhSetup;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Context;
-using ColloSys.DataLayer.SessionMgr;
+
 #endregion
 
-namespace ColloSys.DataLayer.Infra.SessionMgr
+namespace ColloSys.DataLayer.SessionMgr
 {
     public static class SessionManager
     {

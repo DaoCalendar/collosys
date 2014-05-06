@@ -10,6 +10,7 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.Services.Generic;
 using ColloSys.DataLayer.Services.Shared;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using NHibernate.Criterion;
 using NLog;

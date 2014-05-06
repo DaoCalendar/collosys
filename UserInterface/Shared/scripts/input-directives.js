@@ -559,8 +559,8 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             checkOptions: validateOptions
         };
     }]);
-//{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
 
+//{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
 csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -600,9 +600,27 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var validateOptions = function (field) {
             field.label = field.label || "Description";
             //field.textField = "record." + (field.textField || "text");
-            field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
-            field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
+
+            if (angular.isDefined(field.valueField)) {
+                if (field.valueField.substring(0, 6) !== "record") {
+                    field.valueField = "record." + field.valueField;
+                }
+            } else {
+                field.valueField = "record";
+            }
+
+            if (angular.isDefined(field.textField)) {
+                if (field.textField.substring(0, 6) !== "record") {
+                    field.textField = "record." + field.textField;
+                }
+            } else {
+                field.textField = "record";
+            }
+
+            //field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
+            //field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
             //field.valueField = "record." + (field.valueField || );
+
         };
         return {
             htmlTemplate: htmlTemplate,
@@ -616,11 +634,12 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"';
+            var html = '<select  name="myfield" ';
+            //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             //html += field.useRepeat === "true" ? ' data-ui-select2="" ' : ' ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class ="' + attr.class + '"' : 'class="input-large"';
-            html += (field.useRepeat !== "true") ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
@@ -628,7 +647,8 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
-            html += field.useRepeat === "true" ? field.ngRepeat : ' ';
+            html += '<option value=""></option>';
+            html += field.useRepeat === true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -653,13 +673,12 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (angular.isUndefined(attr.useRepeat) || attr.useRepeat === "false") {
+            if (field.useRepeat !== true) {
                 field.ngOptions = field.valueField + ' as ' + field.textField;
                 field.ngOptions += ' for row in ';
                 field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
                 field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
-            }
-            if (field.useRepeat === "true") {
+            } else {
                 var valueList = attr.valueList ? attr.valueList : 'field.valueList';
                 field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             }
@@ -688,17 +707,18 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"'; //ui-select2="" 
+            var html = '<select  name="myfield" '; //ui-select2=""
+            //html += attr.valueList ? ' chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class ="' + attr.class + '"' : 'class="input-large"';
-            html += (attr.multiple) ? 'multiple = "multiple" data-ui-select2=""' : '';
+            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
             html += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-            html += ' <option value="" selectable="false"></option> ';
+            html += '<option value=""></option>';
             html += '</select> ';
 
             return html;
@@ -874,11 +894,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             switch (type) {
                 case "textarea":
                     return textareaFactory;
-                case "uint":
-                case "int":
-                case "ulong":
-                case "long":
-                case "decimal":
                 case "number":
                     return numberFactory;
                 case "text":
@@ -924,7 +939,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
-            field.attr = {};
+            //field.attr = {};
 
             //var valueList = attrs.valuelist;
             //if (angular.isDefined(valueList)) {

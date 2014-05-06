@@ -1,4 +1,9 @@
-﻿<div data-ng-form="formStakeholder" class="form-horizontal" data-ng-init="init()">
+﻿<style>
+    .redRow {
+        background-color: #F24E4B;
+    }
+</style>
+<div data-ng-form="formStakeholder" class="form-horizontal" data-ng-init="init()">
     <div data-ng-show="showBasicInfo">
         <div class="panel">
             <div data-ng-form="basicInfoForm">
@@ -42,6 +47,7 @@
                     </div>
                     <div data-ng-show="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode()">
                         <div class="text-right">
+                            <button class="btn btn-info" data-ng-click="StepManager.Cancel()">Cancel</button>
                             <button class="btn btn-success"
                                 data-ng-show="!indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment"
                                 data-ng-disabled="basicInfoForm.$invalid "
@@ -109,6 +115,7 @@
                     </div>
                 </div>
                 <div class="text-right">
+                    <button class="btn btn-info" data-ng-click="StepManager.Cancel()">Cancel</button>
                     <button class="btn btn-success" data-ng-click="showBasicInfoScreen()"><i class="icon-arrow-left"></i>Prev</button>
                     <button class="btn btn-success"
                         data-ng-disabled="enableSave(indexData)"

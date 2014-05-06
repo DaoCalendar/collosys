@@ -27,7 +27,7 @@
                         <div class="control-group">
                             <label class="control-label">Hierarchy : </label>
                             <div class="controls">
-                                <select class="input-large" data-ui-select2="" data-ng-model="stakeholder.Hierarchy" data-ng-required="true"
+                                <select class="input-large" data-ng-model="stakeholder.Hierarchy" data-ng-required="true"
                                     data-ng-change="reloadReportsTo()">
                                     <option value=""></option>
                                     <option data-ng-repeat="data in dldata.HierarchyList|unique:'Hierarchy'">{{data.Hierarchy}}</option>
@@ -41,52 +41,52 @@
                         <div class="control-group">
                             <label class="control-label">ReportsTo :</label>
                             <div class="controls">
-                                <select class="input-large" data-ui-select2="" data-ng-required="true"
-                                        data-ng-model="stakeholder.ReportsTo">
+                                <select class="input-large" data-ng-required="true"
+                                    data-ng-model="stakeholder.ReportsTo">
                                     <option value=""></option>
                                     <option data-ng-repeat="data in dldata.HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
-                                            value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
+                                        value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
                                 </select>
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!--Reporting Level-->
                     <div class="row-fluid">
                         <div class="control-group">
                             <label class="control-label">Reporting Level :</label>
                             <div class="controls">
-                                <select class="input-large" data-ui-select2="" data-ng-required="true" data-ng-model="stakeholder.ReportingLevel">
+                                <select class="input-large" data-ng-required="true" data-ng-model="stakeholder.ReportingLevel">
                                     <option value=""></option>
                                     <option data-ng-repeat="data in dldata.ReportingLevelEnum">{{data}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    
-                     <!--Working Reports To-->
+
+                    <!--Working Reports To-->
                     <div class="row-fluid">
                         <div class="control-group">
                             <label class="control-label">Working Reports To :</label>
                             <div class="controls">
-                                <select class="input-large" data-ui-select2="" data-ng-required="true"
-                                        data-ng-model="stakeholder.WorkingReportsTo">
+                                <select class="input-large" data-ng-required="true"
+                                    data-ng-model="stakeholder.WorkingReportsTo">
                                     <option value=""></option>
                                     <option data-ng-repeat="data in dldata.HierarchyList | filter : {'Hierarchy' : stakeholder.Hierarchy } | orderBy: 'PositionLevel'"
-                                            value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
+                                        value="{{data.Id}}">{{factoryMethods.DesignationName(data)}}</option>
                                 </select>
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!--WorkingReports Level-->
                     <div class="row-fluid">
                         <div class="control-group">
                             <label class="control-label">Working Reports Level :</label>
                             <div class="controls">
-                                <select class="input-large" data-ui-select2="" data-ng-required="true" data-ng-model="stakeholder.WorkingReportsLevel">
+                                <select class="input-large" data-ng-required="true" data-ng-model="stakeholder.WorkingReportsLevel">
                                     <option value=""></option>
                                     <option data-ng-repeat="data in dldata.ReportingLevelEnum">{{data}}</option>
                                 </select>
@@ -99,10 +99,12 @@
                         <div class="control-group">
                             <label class="control-label">Location Level : </label>
                             <div class="controls">
-                                <select class="input-large" multiple="multiple" data-ui-select2="" data-ng-required="true"
-                                    data-ng-model="stakeholder.LocationLevel">
+                                <select class="input-large" multiple="multiple" data-ng-required="true"
+                                        data-ng-model="stakeholder.LocationLevel">
+                                    <option value=""></option>
                                     <option data-ng-repeat="data in dldata.LocationlevelList" value="{{data.value}}">{{data.key}}</option>
                                 </select>
+                              <span class="help-block">Can Select Multiple options using Ctrl +</span>
                             </div>
                         </div>
                     </div>
@@ -332,7 +334,7 @@
             <div class="panel-footer text-right">
                 <input type="submit" value="Back" data-ng-model="back" class="btn btn-inverse" data-ng-disabled="step==1" data-ng-click="step=step-1" />
                 <input type="submit" value="Next" class="btn btn-success" data-ng-disabled="step1form.$invalid || step==4" data-ng-click="step=step+1" />
-                <input type="submit" value="Save" class="btn btn-success" data-ng-click="save(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4"/>
+                <input type="submit" value="Save" class="btn btn-success" data-ng-click="save(stakeholder)" data-ng-disabled="step1form.$invalid || step!=4" data-ng-show="step==4" />
                 <input type="submit" value="Cancel" class="btn btn-warning" data-ng-click="closeform()" />
             </div>
         </div>

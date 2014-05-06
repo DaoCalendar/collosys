@@ -1,5 +1,10 @@
-﻿using ColloSys.FileUploadService;
+﻿using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
+using ColloSys.FileUploader.DbLayer;
+using ColloSys.FileUploadService;
 using FileUploaderService;
+using NHibernate.Linq;
+using NUnit.Framework;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
@@ -37,7 +42,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
     {
         private readonly IRowReader<TEntity> _dummy;
 
-        protected FileReader(IRowReader<TEntity> obj )
+        protected FileReader(IRowReader<TEntity> obj)
         {
             _dummy = obj;
         }
@@ -50,12 +55,40 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
 
     public class RlsPaymentFileReader1 : FileReader<Payments>
     {
-        public RlsPaymentFileReader1() : base(new RlsPaymentRowReader()){}
+        public RlsPaymentFileReader1() : base(new RlsPaymentRowReader()) { }
     }
 
     public class Payments
     {
         public int Dummy { get; set; }
     }
+
+    [TestFixture]
+    public class testGetNxtRw
+    {
+        private IDbLayer obj;
+        [SetUp]
+        public void init()
+        {
+            obj = new DbLayer();
+        }
+
+
+        [Test]
+        public void Test()
+        {
+            //var session = SessionManager.GetCurrentSession();
+
+            //using (var transaction = session.BeginTransaction())
+            //{
+            //    session.Save("");
+
+            //    transaction.Commit();
+            //}
+
+            obj.GetNextFileForSchedule();
+        }
+    }
 }
+
 

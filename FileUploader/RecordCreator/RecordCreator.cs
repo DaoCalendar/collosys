@@ -9,6 +9,9 @@ using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
+using ColloSys.FileUploadService.Logging;
+using ColloSys.Shared.ConfigSectionReader;
+using NLog;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -21,11 +24,13 @@ namespace ColloSys.FileUploader.RecordCreator
         private readonly IAliasRecordCreator<TEntity> _recordCreator;
         public readonly IExcelReader Reader;
         private readonly ICounter _counter;
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
         public RecordCreator(IAliasRecordCreator<TEntity> recordCreator,IExcelReader reader)
         {
             _recordCreator = recordCreator;
             Reader = reader;
             _counter =new ExcelRecordCounter();
+            NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
         }
         #endregion
 
@@ -38,6 +43,7 @@ namespace ColloSys.FileUploader.RecordCreator
                 {
                     var data = Reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
+                    //_log.Debug("In Excel Mapper Recored Setter");
                 }
                 catch
                 {

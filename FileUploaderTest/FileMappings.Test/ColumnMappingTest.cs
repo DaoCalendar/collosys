@@ -3,6 +3,7 @@ using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using NUnit.Framework;
 
 namespace ReflectionExtension.Tests.FileUploader.Test

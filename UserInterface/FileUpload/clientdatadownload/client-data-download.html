@@ -1,71 +1,62 @@
 ﻿<div class="form-horizontal" data-ng-form="ClientDataDownloadForm">
+
     <!-- header filter row -->
     <div class="row-fluid" style="border-color: gray">
         <!-- main clause -->
-        <div class="control-group span2">
-            <div class="control-label">Download By</div>
-            <div class="controls">
-                <select class="input-small" data-ui-select2="" data-ng-model="params.ShowDataBy" data-ng-change="ResetControls('ShowDataBy', params)">
-                    <option value=""></option>
-                    <option value="Product">Product</option>
-                    <option value="System">System</option>
-                </select>
-            </div>
+        <div class="control-group span3">
+            <label>Download By</label>
+            <select class="input-medium" data-ng-model="params.ShowDataBy"
+                data-ng-change="ResetControls('ShowDataBy', params)">
+                <option value=""></option>
+                <option value="Product">Product</option>
+                <option value="System">System</option>
+            </select>
         </div>
 
         <!-- product -->
-        <div class="control-group span2" data-ng-show="params.ShowDataBy === 'Product'">
-            <div class="control-label">Product</div>
-            <div class="controls">
-                <select class="input-small" data-ui-select2="" data-ng-model="params.SelectedProduct" data-ng-change="ResetControls('Product', params)">
-                    <option value=""></option>
-                    <option data-ng-repeat="p in datalayer.dldata.ProductList">{{p}}</option>
-                </select>
-            </div>
+        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'Product'">
+            <label>Product</label>
+            <select class="input-medium" data-ng-model="params.SelectedProduct"
+                data-ng-change="ResetControls('Product', params)">
+                <option value=""></option>
+                <option data-ng-repeat="p in datalayer.dldata.ProductList" value="{{p}}">{{p}}</option>
+            </select>
         </div>
 
         <!-- System -->
-        <div class="control-group span2" data-ng-show="params.ShowDataBy === 'System'">
-            <label class="control-label">System</label>
-            <div class="controls">
-                <select class="input-small" data-ui-select2="" data-ng-model="params.SelectedSystem" data-ng-change="ResetControls('System', params);">
-                    <option value=""></option>
-                    <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
-                </select>
-            </div>
+        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'System'">
+            <label>System</label>
+            <select class="input-medium" data-ng-model="params.SelectedSystem" data-ng-change="ResetControls('System', params);">
+                <option value=""></option>
+                <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
+            </select>
         </div>
 
         <!-- category for product -->
-        <div class="control-group span2" data-ng-show=" params.SelectedProduct !== '' ">
-            <div class="control-label">Category</div>
-            <div class="controls">
-                <select class="input-small" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
-                    <option value=""></option>
-                    <option data-ng-repeat="c in datalayer.dldata.CategoryList">{{c}}</option>
-                </select>
-            </div>
+        <div class="control-group span3" data-ng-show=" params.SelectedProduct !== '' ">
+            <label>Category</label>
+            <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
+                <option value=""></option>
+                <option data-ng-repeat="c in datalayer.dldata.CategoryList">{{c}}</option>
+            </select>
         </div>
 
         <!-- category for system -->
-        <div class="control-group span2" data-ng-show=" params.SelectedSystem !== '' ">
-            <div class="control-label">Category</div>
-            <div class="controls">
-                <select class="input-small" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
-                    <option value=""></option>
-                    <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: params.SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
-                </select>
-            </div>
+        <div class="control-group span3" data-ng-show=" params.SelectedSystem !== '' ">
+            <label>Category</label>
+            <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
+                <option value=""></option>
+                <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: params.SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
+            </select>
         </div>
 
         <!-- date -->
-        <div class="control-group span2" data-ng-show=" params.SelectedCategory !== '' ">
-            <div class="control-label">Date</div>
-            <div class="controls">
-                <div class="input-append">
-                    <input class="input-small" type="text" data-ng-model="params.SelectedDate"
-                        data-ng-change="getPagedDataAsync(params);" data-ng-readonly="true" data-bs-datepicker="">
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-                </div>
+        <div class="control-group span3" data-ng-show=" params.SelectedCategory !== '' ">
+            <label>Date</label>
+            <div class="input-append">
+                <input class="input-small" type="text" data-ng-model="params.SelectedDate"
+                    data-ng-change="getPagedDataAsync(params);" data-ng-readonly="true" data-bs-datepicker="">
+                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
             </div>
         </div>
     </div>

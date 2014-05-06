@@ -6,7 +6,6 @@ namespace ColloSys.FileUploader.FileReader
     {
         IList<T> List { get; }
         void ReadAndSaveBatch();
-
     }
 
 }

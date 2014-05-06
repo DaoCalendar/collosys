@@ -105,10 +105,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColloSys.config">
+    <EmbeddedResource Include="ColloSys.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </None>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="cleanOutput" AfterTargets="Clean">

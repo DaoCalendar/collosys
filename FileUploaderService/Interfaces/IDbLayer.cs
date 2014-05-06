@@ -4,11 +4,11 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.FileUploader;
+using ColloSys.FileUploadService.Interfaces;
 
-namespace ColloSys.FileUploadService.Interfaces
+namespace FileUploaderService.Interfaces
 {
-    public interface IDBLayer
+    public interface IDbLayer
     {
         Dictionary<string, Decimal> GetUnbilledAmounts(DateTime date);
         Dictionary<string, Decimal> GetCustTotalDue(DateTime date);

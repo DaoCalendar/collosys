@@ -21,7 +21,7 @@
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum', valueList: [] },
             District: { label: 'District', type: 'text' },
-            Priority: { label: 'Priority', type: 'number',template:'int' },
+            Priority: { label: 'Priority', type: 'number', template:'int' },
             Percentage: { label: 'Percentage', type: 'number', template: 'percentage' },
             StartDate: { label: 'Start Date', type: 'date', required: true },
             EndDate: { label: 'End Date', type: 'date' }
@@ -51,10 +51,10 @@
             Product: { label: 'Product', type: 'enum', valueList: $csShared.enums.ProductEnum },
             IsInRecovery: { label: 'IsInRecovery', type: 'checkbox' },
             ChargeofDate: { label: 'ChargeofDate', type: 'date' },
-            Cycle: { label: 'Cycle', type: 'number',template:'uint' },
-            Bucket: { label: 'Bucket', type: 'number',template:'uint' },
-            MobWriteoff: { label: 'MobWriteoff', type: 'number',template:'uint' },
-            Vintage: { label: 'Vintage', type: 'number',template:'uint' },
+            Cycle: { label: 'Cycle', type: 'number', template: 'uint' },
+            Bucket: { label: 'Bucket', type: 'number', template: 'uint' },
+            MobWriteoff: { label: 'MobWriteoff', type: 'number', template: 'uint' },
+            Vintage: { label: 'Vintage', type: 'number', template: 'uint' },
             IsXHoldAccount: { label: 'IsXHoldAccount', type: 'checkbox' },
             AllocationStartDate: { label: 'AllocationStartDate', type: 'date' },
             AllocationEndDate: { label: 'AllocationEndDate', type: 'date' },
@@ -63,42 +63,6 @@
             ResolutionPercentage: { label: 'ResolutionPercentage', type: 'number', template: 'decimal' },
             GPincode: { label: 'GPincode', type: 'enum' },
             Stakeholders: { label: 'Stakeholders', type: 'enum' },
-
-        };
-    };
-
-    var custInfo = function () {
-        return {
-            LanNo: { label: 'LanNo', type: 'text' },
-            Zone: { label: 'Zone', type: 'text' },
-            Region: { label: 'Region', type: 'text' },
-            Location: { label: 'Location', type: 'text' },
-            CustName: { label: 'CustName', type: 'text' },
-            SanctionAmt: { label: 'SanctionAmt', type: 'number',template:'ulong' },
-            StartDate: { label: 'StartDate', type: 'date' },
-            SanctionDate: { label: 'SanctionDate', type: 'date' },
-            AgreementDate: { label: 'AgreementDate', type: 'date' },
-            CustCat: { label: 'CustCat', type: 'text' },
-            IRR: { label: 'IRR', type: 'number', template: 'decimal' },
-            Tenure: { label: 'Tenure', type: 'number',template:'ulong' },
-            RepaymentMode: { label: 'RepaymentMode', type: 'text' },
-            AssetCode: { label: 'AssetCode', type: 'number',template:'ulong' },
-            AssetType: { label: 'AssetType', type: 'enum', valueList: $csShared.enums.DelqFlag },
-            Scheme: { label: 'Scheme', type: 'text' },
-            DisbMemoNo: { label: 'DisbMemoNo', type: 'text' },
-            DisbMemoDate: { label: 'DisbMemoDate', type: 'date' },
-            ProcessingFees: { label: 'ProcessingFees', type: 'number',template:'ulong' },
-            NetDisb: { label: 'NetDisb', type: 'number', template: 'ulong' },
-            DisbAmt: { label: 'DisbAmt', type: 'number', template: 'ulong' },
-            DisbMode: { label: 'DisbMode', type: 'text' },
-            DisbStatus: { label: 'DisbStatus', type: 'text' },
-            EmpIdCredit: { label: 'EmpIdCredit', type: 'number', template: 'ulong' },
-            EmpIdOps: { label: 'EmpIdOps', type: 'text' },
-            LoanSource: { label: 'LoanSource', type: 'text' },
-            DMACode: { label: 'DMACode', type: 'number', template: 'long' },
-            CityCat: { label: 'CityCat', type: 'enum', valueList: $csShared.enums.CityCategory },
-            LoanType: { label: 'LoanType', type: 'text' },
-            MemoApprovalDate: { label: 'MemoApprovalDate', type: 'date' },
         };
     };
 
@@ -107,7 +71,6 @@
         models.TaxMaster = taxMaster();
         models.Pincode = pincode();
         models.Custbill = custbill();
-        models.CustInfo = custInfo();
         return models;
     };
 

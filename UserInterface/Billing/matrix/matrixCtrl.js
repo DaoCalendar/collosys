@@ -46,6 +46,7 @@
 
                 //get column names
                 restApi.customGET("GetColumnNames", { product: matrix.Products, category: matrix.Category }).then(function (data) {
+                    dldata.columnNames = [];
                     dldata.columnDef = data;
                     _.forEach(data, function (item) {
                         dldata.columnNames.push(item.field);
@@ -72,6 +73,7 @@
             matrix.Dimension = parseInt(matrix.Dimension);
             restApi.customPOST(matrix, "Post")
                 .then(function (data) {
+                    $csnotify.success('matrix created successfully');
                     afterSavedMatrix(data);
                 }, function (data) {
                     $csnotify.error(data);
@@ -87,6 +89,7 @@
                 function (mat) { return mat.Id == data.Id; });
             dldata.matrixList.push(data);
             dldata.matrix = angular.copy(data);
+            reset();
         };
         var reset = function () {
             dldata.isMatrixCreated = false;
@@ -260,11 +263,12 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var getInputPattern = function (rowIndex, columnIndex) {
             if (rowIndex === 0 && columnIndex > 0) {
-                return "/^[a-zA-Z0-9]{1,100}$/";
+                return  "/^[a-zA-Z0-9]{1,100}$/";
             }
-            //if (rowIndex > 0 && columnIndex === 0) {
-            //    return dldata.rowType;
-            //}
+            if (rowIndex > 0 && columnIndex === 0) {
+                return "/^[a-zA-Z0-9]{1,100}$/";
+                //return dldata.rowType;
+            }
             return "/^[0-9]{1,7}(\.[0-9]+)?$/";
         };
 
@@ -320,4 +324,18 @@ csapp.controller('matrixCtrl', [
             factory.initEnumsConst();
             datalayer.getProducts();
         })();
+
+        $scope.change = function (condition) {
+            var con = condition.toString();
+            var field = con.split(".");
+            if (field[0] === "CustBillViewModel") {
+                field[0] = "Customer";
+                var fieldName = "";
+                fieldName = (field[0] + "." + field[1]);
+                return fieldName;
+            } else {
+                return condition;
+            }
+
+        };
     }]);

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NLog;
 
 #endregion
 
@@ -19,6 +20,7 @@ namespace ColloSys.Shared.ConfigSectionReader
         protected readonly IEnumerable<ParamElement> AppParams;
         protected readonly Configuration Configuration;
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         #region ctor
 
         protected BaseColloSysParam()
@@ -96,6 +98,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                 }
 
                 var connStringName = SharedUtils.WindowsAuth.GetLoggedInUserName();
+                Logger.Debug(string.Format("name {0}",connStringName));
                 if (connStringName == "SYSTEM" || _appMode == ApplicationMode.Release)
                 {
                     var paramElement = AppParams.SingleOrDefault(x => x.Name == "ConnectionStringName");
@@ -113,7 +116,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                     var config = ReadConfiguration().GetSection("ConnStrings") as ConnectionStringsSection;
                     if (config == null)
                         throw new InvalidDataException("Connection String section is not provided.");
-                    _connectionString = config.ConnectionStrings[connStringName];
+                    _connectionString = config.ConnectionStrings["Mayur"];
                 }
                 catch (Exception)
                 {

@@ -2,6 +2,7 @@
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.SessionMgr;
 
 namespace BillingService.DBLayer
 {

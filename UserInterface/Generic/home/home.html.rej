@@ -1,7 +1,0 @@
-diff a/UserInterface/Generic/home/home.html b/UserInterface/Generic/home/home.html	(rejected hunks)
-@@ -1,4 +0,4 @@
--ï»¿<div data-ng-if="false">
-+ï»¿<div data-ng-if="true">
-     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
-     <form class="form-horizontal">
-         <ng-form name="parentForm" class="form-horizontal">
