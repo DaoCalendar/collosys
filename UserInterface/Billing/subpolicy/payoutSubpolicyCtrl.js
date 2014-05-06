@@ -96,9 +96,20 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                 // get formula names
                 restApi.customGET("GetFormulaNames", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
                     dldata.formulaNames = data;
+                    console.log('formula name: ', data);
+                    
+                    restApi.customGET("GetFormulas", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (completeFormula) {
+                        dldata.formulas = completeFormula;
+                        console.log('formula: ', completeFormula);
+                    }, function (completeFormula) {
+                        $csnotify.error(completeFormula);
+                    });
+                    
                 }, function (data) {
                     $csnotify.error(data);
                 });
+               
+                
 
                 // get formula names
                 restApi.customGET("GetMatrixNames", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {

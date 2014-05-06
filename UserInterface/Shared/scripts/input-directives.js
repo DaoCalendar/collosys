@@ -524,9 +524,9 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         //#region validations
         var validateOptions = function (options) {
             options.minlength = options.length || options.minlength || 0;
-            options.maxlength = options.length || options.maxlength || 18;
-            options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
-            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 18) ? options.maxlength : 18;
+            options.maxlength = options.length || options.maxlength || 45;
+            options.minlength = (options.minlength >= 0 && options.minlength <= 45) ? options.minlength : 0;
+            options.maxlength = (options.maxlength >= 0 && options.maxlength <= 45) ? options.maxlength : 45;
             if (parseInt(options.minlength) > parseInt(options.maxlength)) {
                 var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
                 throw error;

@@ -316,7 +316,45 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="panel panel-info">
+                    <div class="panel-heading">Restriction</div>
+                    <div class="panel-body">
+                        <div class="row-fluid form-horizontal">
+                            <div class="control-group span5">
+                                <div class="controls">
+                                    <input type="text" data-ng-disabled="true" value = "Processing Fee" />
+                                </div>
+                            </div>
+                            <div class="control-group span5">
+                                <div class="control-label">Formula</div>
+                                <div class="controls">
+                                    <select
+                                        class="input-xlarge"
+                                        data-ng-model="dldata.payoutSubpolicy.ProcessingFee">
+                                        <option data-ng-repeat="formula in dldata.formulas track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid form-horizontal">
+                        <div class="control-group span5">
+                            <div class="controls">
+                                <input type="text"  data-ng-disabled="true" value = "Payout Capping" />
+                            </div>
+                        </div>
+                        <div class="control-group span5">
+                            <div class="control-label">Formula</div>
+                            <div class="controls">
+                                <select class="input-xlarge"
+                                    data-ng-model="dldata.payoutSubpolicy.PayoutCapping">
+                                    <option data-ng-repeat="formula in dldata.formulas track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!--Button-->
@@ -337,7 +375,6 @@
         </div>
     </div>
 </div>
-
 <!--<div data-ng-switch on="dldata.selectedLeftColumn.InputType">
 
                                                                 <div data-ng-switch-when="number">

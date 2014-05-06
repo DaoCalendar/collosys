@@ -30,13 +30,14 @@
         var changeProductCategory = function () {
             dldata.isDuplicate = false;
             var matrix = dldata.matrix;
+            matrix.Category = "Liner";
             if (dldata.isMatrixCreated == true)
                 return;
             if (angular.isUndefined(matrix)) {
                 return;
             }
             if (!angular.isUndefined(matrix.Products) && !angular.isUndefined(matrix.Category)) {
-
+               
                 // get matrix
                 restApi.customGET("GetMatrix", { product: matrix.Products, category: matrix.Category }).then(function (data) {
                     dldata.matrixList = data;
@@ -107,7 +108,7 @@
         };
     }]);
 
-csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory', 
+csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
     function (datalayer, $csfactory) {
         var dldata = datalayer.dldata;
 
@@ -263,7 +264,7 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var getInputPattern = function (rowIndex, columnIndex) {
             if (rowIndex === 0 && columnIndex > 0) {
-                return  "/^[a-zA-Z0-9]{1,100}$/";
+                return "/^[a-zA-Z0-9]{1,100}$/";
             }
             if (rowIndex > 0 && columnIndex === 0) {
                 return "/^[a-zA-Z0-9]{1,100}$/";

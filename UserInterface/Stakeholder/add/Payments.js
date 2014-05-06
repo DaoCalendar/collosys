@@ -1,11 +1,14 @@
 ﻿
 (
-csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify',
-    function ($scope, $http, rest, $validations, $log, $timeout, $csfactory, $csnotify) {
+csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', "$csStakeholderModels",
+    function ($scope, $http, rest, $validations, $log, $timeout, $csfactory, $csnotify, stakeModels) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
         var init = function () {
+
+            $scope.paymentModel = stakeModels.init.StkhPayment;
+
             $scope.paymentData = {
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy(),
                 Payment: {},
@@ -58,10 +61,10 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
             getPaymentDetails();
         };
 
-         $scope.addOnlyPayment = function() {
-             $scope.$parent.WizardData.Payment = $scope.paymentData.Payment;
-             $scope.$parent.SaveData();
-         };
+        $scope.addOnlyPayment = function () {
+            $scope.$parent.WizardData.Payment = $scope.paymentData.Payment;
+            $scope.$parent.SaveData();
+        };
 
 
         //Get methods 
