@@ -87,6 +87,8 @@ namespace ColloSys.DataLayer.Billing
         public virtual ColloSysEnums.CityCategory CityCat { get; set; }
         public virtual string LoanType { get; set; }
         public virtual DateTime? MemoApprovalDate { get; set; }
+
+        public virtual string SubProduct { get; set; }
         #endregion
     }
 }
