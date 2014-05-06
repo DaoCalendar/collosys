@@ -11,8 +11,8 @@ csapp.controller("gridSettingsController", [
 ]);
 
 
-csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$window", "$csConstants", "$modal",
-    function ($restangular, $timeout, $csnotify, $csfactory, $log, $window, $csConstants, $modal) {
+csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", "$log", "$csConstants", "$modal",
+    function ($restangular, $timeout, $csnotify, $csfactory, $log, $csConstants, $modal) {
 
         //#region serverData
         var restapi = $restangular.all("GridApi");

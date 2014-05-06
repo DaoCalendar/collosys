@@ -1,34 +1,41 @@
-﻿<div class="form-horizontal" data-ng-show="dldata.ProductList">
-    <div class="row-fluid">
-        <div class="control-group">
-            <div class="control-label">Product</div>
-            <div class="controls">
-                <select data-ui-select2="" class="input-large" data-ng-model="selected.Product" data-ng-change="setPattern(selected.Product)">
-                    <option value=""></option>
-                    <option data-ng-repeat="p in dldata.ProductList | orderBy:'toString()'" value="{{p}}">{{p}}</option>
-                </select>
+﻿<div class="form-horizontal">
+    <form name="uploadpincodeform">
+        <div class="row-fluid">
+            <cs-field data-ng-model="selected.Product" field="selectedfield.Product"
+                data-ng-change="setPattern(selected.Product)"></cs-field>
+        </div>
+
+        <!-- download -->
+        <div class="panel panel-info span8" data-ng-show="selected.Product">
+            <div class="panel-heading">Download Missing {{mode.toUpperCase()}}</div>
+            <div class="text-center">
+                <input type="button" class="btn btn-info" value="Download" data-ng-click="download(selected.Product)" />
             </div>
         </div>
-    </div>
 
-    <!-- download -->
-    <div class="panel panel-info span8" data-ng-show="selected.Product">
-        <div class="panel-heading">Download Missing {{mode.toUpperCase()}}</div>
-        <div class="text-center">
-            <input type="button" class="btn btn-info" value="Download" data-ng-click="download(selected.Product)" />
-        </div>
-    </div>
-
-    <!-- upload button -->
-    <div ng-form="" name="uploadpincodeform">
-        <div class="panel panel-info span8" data-ng-show="selected.Product">
-            <div class="panel-heading">Update Customer {{mode.toUpperCase()}}</div>
+        <!-- upload button -->
+        <div ng-form="" name="uploadpincodeform">
+            <div class="panel panel-info span8" data-ng-show="selected.Product">
+                <div class="panel-heading">Update Customer {{mode.toUpperCase()}}</div>
                 <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo"
                     validations="fileValidations"></cs-file-upload>
-            <div class="text-center">
-                <button class="btn btn-info" data-ng-disabled="uploadpincodeform.$invalid" data-ng-click="upload()">Upload</button>
+                <div class="text-center">
+                    <button class="btn btn-info" data-ng-disabled="uploadpincodeform.$invalid" data-ng-click="upload()">Upload</button>
+                </div>
             </div>
         </div>
-    </div>
-
+    </form>
 </div>
+
+
+
+<!--  <div class="control-group">
+          <div class="control-label">Product</div>
+          <div class="controls">
+              <select data-ui-select2="" class="input-large" data-ng-model="selected.Product" data-ng-change="setPattern(selected.Product)">
+                  <option value=""></option>
+                  <option data-ng-repeat="p in dldata.ProductList | orderBy:'toString()'" value="{{p}}">{{p}}</option>
+              </select>
+          </div>
+      </div>-->
+<!--data-ng-show="dldata.ProductList"-->
