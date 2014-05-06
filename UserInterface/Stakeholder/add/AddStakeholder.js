@@ -690,7 +690,7 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
             $scope.stakeholderModels.userId.required = true;
 
             $scope.stakeholderModels.email.required = true;
-            $scope.stakeholderModels.email.suffix = '@icicibank.com';
+            $scope.stakeholderModels.email.suffix = '@algosystech.com';
         } else {
             $scope.stakeholderModels.mobile.required = false;
             $scope.stakeholderModels.userId.required = false;

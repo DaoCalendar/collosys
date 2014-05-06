@@ -33,7 +33,7 @@
             hierarchy: { label: 'Hierarchy', type: 'select' },
             ApplicationName: { label: 'Name', type: 'text' },
             LocationLevel: { label: 'LocationLevel', type: 'select' },
-            PositionLevel: { label: 'PositionLevel', type: 'number',template:'int' },
+            PositionLevel: { label: 'PositionLevel', type: 'number', template: 'int' },
             IsIndividual: { label: 'IsIndividual', type: 'checkbox' },
             IsUser: { label: 'IsUser', type: 'checkbox' },
             HasWorking: { label: 'HasWorking', type: 'checkbox' },
@@ -59,18 +59,20 @@
 
     var stkhWorking = function () {
         return {
-            BucketStart: { label: 'BucketStart', type: 'number', template: 'uint' },
+            BucketStart: { label: 'BucketStart', type: 'select', textField: 'display',value:'value' },
             BucketEnd: { label: 'BucketEnd', type: 'number', template: 'uint' },
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum' },
+            Region: { label: 'Region', type: 'enum' },
             Cluster: { label: 'Cluster', type: 'enum' },
             District: { label: 'District', type: 'enum' },
             City: { label: 'City', type: 'enum' },
             Area: { label: 'Area', type: 'enum' },
             Products: { label: 'Product', type: 'enum', valueList: $csShared.enums.ProductEnum, required: true, },
+            ReportsTo: { label: 'Reports To', type: 'select', textField: 'Name', valueField: 'Id', required: true },
             StartDate: { label: 'StartDate', type: 'date' },
             EndDate: { label: 'EndDate', type: 'date' },
-            LocationLevel: { label: 'LocationLevel', type: 'select' },
+            LocationLevel: { label: 'LocationLevel', type: 'enum' },
         };
     };
 

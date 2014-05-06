@@ -1,4 +1,6 @@
 ﻿#region References
+
+using System;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
@@ -40,6 +42,10 @@ namespace ColloSys.DataLayer.Domain
         public virtual string GroupBy { get; set; }
 
         public virtual string Description { get; set; }
+
+        public virtual Guid? ProcessingFee { get; set; }
+        
+        public virtual Guid? PayoutCapping { get; set; }
         #endregion
 
         #region IStatusComponent

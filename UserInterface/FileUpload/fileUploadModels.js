@@ -3,26 +3,26 @@
 
     var fileDetail = function () {
         return {
-            AliasName: { label: "Alias Name", type: "enum", required: true, valueList: $csShared.enums.FileAliasName},
+            AliasName: { label: "Alias Name", type: "enum", required: true, valueList: $csShared.enums.FileAliasName },
             AliasDescription: { label: "Alias Description", type: "text", required: true },
             FileName: { label: "File Name", type: "text", placeholder: "Enter File Name", required: true },
             FileCount: { label: "File Count", type: "number", template: 'uint', min: 1, max: 100, required: true, placeholder: "Enter no of files" },
-            DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName, required: true},
+            DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName, required: true },
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
-            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat,required: true },
-            FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true,},
+            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, required: true },
+            FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, },
             SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name", required: true },
-            Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true,},
-            SkipLine: { label: "Skip Line", type: "number",template:'int', pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
+            Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, },
+            SkipLine: { label: "Skip Line", type: "number", template: 'int', pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
             FileDirectory: { label: "FileDirectory", type: "text", placeholder: "Enter File Directory Name" },
             ActualTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             EmailId: { label: "Email Id", type: "email", required: true, placeholder: "Enter Email Id" },
             Description: { label: "Description", type: "text", required: true, placeholder: "Enter Description" },
-            UsedFor: { label: "UsedFor", type: "enum", valueList: $csShared.enums.UsedFor, required: true},
+            UsedFor: { label: "UsedFor", type: "enum", valueList: $csShared.enums.UsedFor, required: true },
             StartDate: { label: "Start Date", type: "date", required: true },
             EndDate: { label: "End Date", type: "date", required: true },
-            ScbSystems: { label: "SCB Systems", type: "enum", valueList: $csShared.enums.ScbSystems, required: true,},
-            Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category, required: true},
+            ScbSystems: { label: "SCB Systems", type: "enum", valueList: $csShared.enums.ScbSystems, required: true, },
+            Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category, required: true },
         };
     };
 
@@ -30,12 +30,12 @@
 
         return {
             Position: { label: "Position", type: "number", template: 'int', required: true, min: 0 },
-            FileColumnName: { label: "Excel Column Name", required: true, type: "text", editable: false},
-            Description: { label: "Description", type: "text"},
-            Length: { label: "Length", type: "number",template:"int", min: 0, required: true},
-            ColumnDataType: { label: "Column Data Type", type: "enum", valueList: $csShared.enums.FileDataType, required: true},
-            TempColumnName: { label: "DB Column Name", type: "text", required: true, pattern: "/^\w*$/", patternMessage: "Invalid Column Name"},
-            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat},
+            FileColumnName: { label: "Excel Column Name", required: true, type: "text", editable: false },
+            Description: { label: "Description", type: "text" },
+            Length: { label: "Length", type: "number", template: "int", min: 0, required: true },
+            ColumnDataType: { label: "Column Data Type", type: "enum", valueList: $csShared.enums.FileDataType, required: true },
+            TempColumnName: { label: "DB Column Name", type: "text", required: true, pattern: "/^\w*$/", patternMessage: "Invalid Column Name" },
+            DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat },
             StartDate: { label: "Start Date", type: "date", required: true },
             EndDate: { label: "End Date", type: "date" }//data-date-start-date have function.
         };
@@ -58,26 +58,25 @@
     };
 
     var customerInfo = function () {
-
         return {
             Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
-            AccountNo: { type: "enum", valueList: [] },
+            AccountNo: { label: "AccountNo", type: "text", valueList: [], pattern: "/^[0-9]+$/", placeholder: "Enter Account Number", required: true },
             GlobalCustId: { type: "enum", valueList: [] },
-            CustomerName: { type: "enum", valueList: [] },
-            Pincode: { type: "number", template: "uint" },
-            Product: { type: "enum", valueList: $csShared.enums.Products },
-            CustStatus: { type: "text" },
-            AllocationStartDate: { type: "date" },
+            CustomerName: { label: "CustomerName", type: "text" },
+            Pincode: { label: "Pincode", type: "number", template: "uint" },
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            CustStatus: { label: "CustStatus", type: "text" },
+            AllocStartDate: { label: "AllocStartDate", type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
-            IsReferred: { type: "enum", valueList: ['Yes', 'No'] },
+            IsReferred: { label: "IsReferred", type: 'radio', options: [{ value: true, key: 'True' }, { value: false, key: 'False' }], valueField: 'value', textField: 'key', },
             IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No'] },
-            AllocationEndDate: { type: "date" },
+            AllocEndDate: { label: "AllocEndDate", type: "date" },
             ChargeofDate: { type: "date" },
             AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
-            TotalDue: { type: "decimal" },
-            NoAllocResons: { type: "enum", valueList: $csShared.enums.NoAllocResons },
-            Cycle: { type: "number", template:"uint" },
-            Bucket: { type: "number",template:"uint" },
+            TotalDue: { label: "TotalDue", type: "number", template: "decimal" },
+            NoAllocResons: { label: "NoAllocResons", type: "text" },
+            Cycle: { label: "Cycle", type: "number", template: "uint" },
+            Bucket: { label: "Bucket", type: "number", template: "uint" },
             ConditionSatisfy: { type: 'text' },
             ResolutionPercentage: { type: 'number', template: 'percentage' },
             MobWriteoff: { type: "number", template: "uint" },
@@ -120,9 +119,9 @@
         };
     };
 
-    var fcondition = function() {
-        return{
-            RelationType: { type: "enum",valueList:$csShared.enums.RelationType },
+    var fcondition = function () {
+        return {
+            RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
             ColumnName: { label: "ColumnName", type: "text" },
             Operator: { type: "enum", valueList: $csShared.enums.ConditionOperators },
             Operator: { label: "Operator", type: "enum", valueList: $csShared.enums.ConditionOperators },
@@ -138,13 +137,36 @@
         };
     };
 
+    var excludeCase = function () {
+        return {
+            Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+            AccountNo: { label: "AccountNo", type: "text", required: true, pattern: "/^[0-9]+$/" },
+            customerName: { label: "customerName", type: "text", required: "true" },
+            TransCode: { label: "Transaction Code", type: "text", pattern: "/^[0-9]+$/", required: 'true' },
+            TransDate: { label: "TransDate", type: "date", required: "true" },
+            TransDesc: { label: "Remark", type: "text", required: "true" },
+            TransAmount: { label: "Amount", type: "text", pattern: "/^[0-9]+$/", required: true },
+            IsDebit: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Payment', key: 'Payment' }, { value: 'Reversal', key: 'Reversal' }], valueField: 'value', textField: 'key', required: true },
+
+        };
+    };
+
+    var uploadPincode = function () {
+        return {
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+        };
+    };
+
+
     var init = function () {
         models.FileDetail = fileDetail();
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
+        models.UploadPincode = uploadPincode();
         models.CustomerInfo = customerInfo();
         models.Fcondition = fcondition();
         models.FilterCondition = filterCondition();
+        models.ExcludeCase = excludeCase();
         return models;
     };
 

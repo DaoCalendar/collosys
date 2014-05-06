@@ -31,6 +31,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.GroupBy, map => map.NotNullable(false));
             Property(x => x.Description, map => map.NotNullable(false));
 
+            Property(x => x.ProcessingFee);
+            Property(x => x.PayoutCapping);
             #endregion
 
             #region Bags-relationship

@@ -294,6 +294,8 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
     <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen\chosen.css" />
@@ -309,6 +311,8 @@
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
+    <Content Include="Scripts\bootstrap-select\bootstrap-select.min.js" />
     <Content Include="Scripts\chosen\chosen.jquery.js" />
     <Content Include="Scripts\chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui-ieshiv.js" />
@@ -317,6 +321,7 @@
     <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.min.js" />
     <Content Include="Scripts\ng-modules\select2.min.js" />
     <Content Include="Scripts\ng-modules\ui-module.js" />
+    <Content Include="Scripts\nya-select\nya-bootstrap-select.js" />
     <Content Include="Scripts\ui-utils\ui-utils-ieshiv.js" />
     <Content Include="Scripts\ui-utils\ui-utils-ieshiv.min.js" />
     <Content Include="Scripts\ui-utils\ui-utils.js" />
