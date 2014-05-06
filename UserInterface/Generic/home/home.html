@@ -1,9 +1,11 @@
 ﻿<div data-ng-if="false">
     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form class="form-horizontal">
-        <select chosen="array1" data-ng-model="abce.data" class="chosen-select">
-            <option data-ng-repeat="data in array1">{{data}}</option>
+        <!--<select class="nya-selectpicker" ng-options="c as c for c in array1" data-ng-model="abce.data" data-container="body">
         </select>
+        <select id="dynamic-options" class="nya-selectpicker" ng-model="myModel" data-container="body" multiple>
+            <option ng-repeat="option in array1" value="{{option}}">{{option}}</option>
+        </select>-->
         <ng-form data-ng-if="false" name="parentForm" class="form-horizontal">
             <cs-field-group mode="'add'">
                 <cs-field data-ng-model="abc" value-list="array" data-ng-change ="changeFunc(abc)" field="fields[4]"></cs-field>{{array}}
