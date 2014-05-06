@@ -5,13 +5,13 @@
         <div style="overflow: auto">
             <table class="table table-bordered table-hover">
                 <thead>
-                    <tr>
+                    <tr data-ng-hide="dldata.formula.Id">
                         <td>Operater</td>
                         <td>Value Type</td>
                         <td>Value</td>
                         <td></td>
                     </tr>
-                    <tr data-ng-form="newOutputForm">
+                    <tr data-ng-form="newOutputForm" data-ng-hide="dldata.formula.Id">
                         <td>
                             <cs-field data-ng-model="dldata.newOutput.Operator"
                                       field="formula.OperatorType"
@@ -28,7 +28,8 @@
                         <td>
                             <div data-ng-switch on="dldata.newOutput.Rtype">
                                 <div data-ng-switch-when="Table">
-                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction" field="formula.LsqlFunctionType" no-label=""></cs-field>
+                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction"
+                                              field="formula.LsqlFunctionType" no-label=""></cs-field>
 
                                     <select class="input-large"
                                             data-ng-model="dldata.newOutput.RtypeName" required>
