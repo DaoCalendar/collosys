@@ -58,7 +58,6 @@
     };
 
     var customerInfo = function () {
-
         return {
             Flag: { type: "enum", valueList: $csShared.enums.DelqFlag },
             AccountNo: { label: "AccountNo", type: "text", valueList: [], pattern: "/^[0-9]+$/", placeholder: "Enter Account Number", required: true },
@@ -120,9 +119,9 @@
         };
     };
 
-    var fcondition = function() {
-        return{
-            RelationType: { type: "enum",valueList:$csShared.enums.RelationType },
+    var fcondition = function () {
+        return {
+            RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
             ColumnName: { label: "ColumnName", type: "text" },
             Operator: { type: "enum", valueList: $csShared.enums.ConditionOperators },
             Operator: { label: "Operator", type: "enum", valueList: $csShared.enums.ConditionOperators },
@@ -152,10 +151,18 @@
         };
     };
 
+    var uploadPincode = function () {
+        return {
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+        };
+    };
+
+
     var init = function () {
         models.FileDetail = fileDetail();
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
+        models.UploadPincode = uploadPincode();
         models.CustomerInfo = customerInfo();
         models.Fcondition = fcondition();
         models.FilterCondition = filterCondition();

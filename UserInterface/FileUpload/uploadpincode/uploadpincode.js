@@ -3,15 +3,6 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     var pincodeapi = rest.all("PincodeUploadApi");
     var dldata = {};
 
-    var fetchProducts = function () {
-        pincodeapi.customGETLIST("FetchProducts")
-            .then(function (data) {
-                dldata.ProductList = data;
-            }, function (data) {
-                $csnotify.error(data);
-            });
-    };
-
     var fetchMissingPincodes = function (product) {
         return pincodeapi.customGET("FetchMissingPincodes", { 'product': product })
             .then(function (data) {
@@ -58,7 +49,6 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
 
     return {
         dldata: dldata,
-        fetchProducts: fetchProducts,
         fetchMissingPincodes: fetchMissingPincodes,
         fetchMissingRcodes: fetchMissingRcodes,
         uploadRcodes: uploadRcodes,
@@ -66,10 +56,11 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     };
 }]);
 
-csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory", "dataService",
-    function ($scope, datalayer, $csfactory, mode) {
+csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory",
+    "dataService", "$csFileUploadModels",
+    function ($scope, datalayer, $csfactory, mode, $csFileUploadModels) {
         (function () {
-            datalayer.fetchProducts();
+            $scope.selectedfield = $csFileUploadModels.models.UploadPincode;
             $scope.dldata = datalayer.dldata;
             $scope.pincodeEmpty = false;
             $scope.mode = mode;
@@ -166,3 +157,12 @@ csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer",
 //};
 
 ////#endregion
+
+//var fetchProducts = function () {
+//    pincodeapi.customGETLIST("FetchProducts")
+//        .then(function (data) {
+//            dldata.ProductList = data;
+//        }, function (data) {
+//            $csnotify.error(data);
+//        });
+//};
