@@ -7,14 +7,6 @@ csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnot
 
     var dldata = {};
 
-    var getAreas = function () {
-        restApi.customGETLIST("GetAreas").then(function (data) {
-            dldata.Areas = data;
-        }, function (data) {
-            $csnotify.error(data);
-        });
-    };
-
     var getKeyValues = function (selectedArea) {
         restApi.customGETLIST("GetKeyValues", { area: selectedArea }).then(function (data) {
             dldata.GKeyValues = data;
@@ -34,6 +26,7 @@ csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnot
                 dldata.GKeyValues = _.reject(dldata.GKeyValues, function (kv) { return kv.Id == data.Id; });
                 dldata.GKeyValues.push(data);
                 afterSave(data);
+                $csnotify.success("Changes Saved Successfully");
             }, function (data) {
                 $csnotify.error(data);
             });
@@ -41,6 +34,7 @@ csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnot
             return restApi.customPOST(gKeyValue, "Post").then(function (data) {
                 dldata.GKeyValues.push(data);
                 afterSave(data);
+                $csnotify.success("Data Saved Successfully");
             }, function (data) {
                 $csnotify.error(data);
             });
@@ -55,7 +49,7 @@ csapp.factory("keyValueDatalayer", ['$csnotify', 'Restangular', function ($csnot
 
     return {
         dldata: dldata,
-        GetAreas: getAreas,
+        //GetAreas: getAreas,
         GetKeyValues: getKeyValues,
         Save: saveKeyValue
     };
@@ -81,30 +75,45 @@ csapp.factory("KeyValueFactory", function () {
     };
 });
 
-csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValueDatalayer", "KeyValueFactory", function ($scope, $csnotify, rest, datalayer, factory) {
-    "use strict";
-    (function () {
-        $scope.showAddButton = false;
-        $scope.valueTypes = ['Text', 'TextList', 'Number', 'NumberList', 'Date', 'DateList'];
-        $scope.datalayer = datalayer;
-        $scope.dldata = datalayer.dldata;
-        datalayer.GetAreas();
-    })();
+csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValueDatalayer", "KeyValueFactory", "$csGenericModels", "$csShared",
+    function ($scope, $csnotify, rest, datalayer, factory, $csGenericModels, $csShared) {
+        "use strict";
+        (function () {
+            $scope.showAddButton = false;
+            $scope.valueTypes = ['Text', 'TextList', 'Number', 'NumberList', 'Date', 'DateList'];
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+            $scope.gKeyValuefield = $csGenericModels.models.Keyvalue;
+            $scope.gKeyValue = {};
+            //datalayer.GetAreas();
+        })();
 
-    $scope.changeKey = function (selectedKey) {
-        factory.changeKey(selectedKey, $scope.dldata);
-        $scope.showAddButton = factory.setShowAddButton($scope.showAddButton, $scope.dldata);
-    };
+        $scope.changeKey = function (selectedKey) {
+            factory.changeKey(selectedKey, $scope.dldata);
+            $scope.showAddButton = factory.setShowAddButton($scope.showAddButton, $scope.dldata);
+        };
 
-    $scope.saveKeyValue = function (gKeyValue) {
-        datalayer.Save(gKeyValue).then(function () {
-            factory.setShowAddButton($scope.showAddButton, $scope.dldata);
-        });
+        $scope.saveKeyValue = function (gKeyValue, value) {
+            $scope.gKeyValue.ValueType = value;
+            datalayer.Save(gKeyValue).then(function () {
+                factory.setShowAddButton($scope.showAddButton, $scope.dldata);
+            });
+        };
 
-    };
+    }]);
 
-}]);
 
+
+
+
+
+//var getAreas = function () {
+//    restApi.customGETLIST("GetAreas").then(function (data) {
+//        dldata.Areas = data;
+//    }, function (data) {
+//        $csnotify.error(data);
+//    });
+//};
 
 //$scope.openModel = function (keyValue) {
 //    $scope.shouldBeOpen = true;
