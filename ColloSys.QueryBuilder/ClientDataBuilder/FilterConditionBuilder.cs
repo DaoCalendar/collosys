@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.ClientDataBuilder
 {
@@ -20,11 +21,14 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
        {
            return SessionManager.GetCurrentSession()
                .QueryOver<FilterCondition>()
-               //.Fetch(x => x.Fconditions).Eager
-               //.Fetch(x => x.AliasConditionName).Eager
+               .Fetch(x => x.Fconditions).Eager
+               .Fetch(x => x.AliasConditionName).Eager
                .Where(x => x.FileDetail.Id == fileDetail)
+               .TransformUsing(Transformers.DistinctRootEntity)
                .List();
 
        }
+
+      
     }
 }

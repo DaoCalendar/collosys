@@ -35,22 +35,25 @@ csapp.factory("filterConditionDatalayer", ["Restangular", "$csnotify", function 
 
     var saveAliseCondition = function (filterCondition) {
         var obj = JSON.parse(filterCondition.FileDetail);
-        filterCondition.FileDetail = obj;
-        console.log(filterCondition);
-        return  restApi.customPOST(filterCondition, "Post").then(function (data) {
+        var finalCondition = {
+            FileDetail: obj,
+            AliasConditionName: filterCondition.AliasConditionName,
+            Fconditions: filterCondition.ConditionList,
+        };
+        return restApi.customPOST(finalCondition, "Post").then(function (data) {
             $csnotify.success("AliseCondition saved");
             return data;
         });
     };
 
-   
+
     return {
         dldata: dldata,
         getFileDetails: getFileDetails,
         saveAliseCondition: saveAliseCondition,
         getColumnValues: getColumnValues,
         getfilterConditionDetails: getfilterConditionDetails,
-      
+
     };
 
 }]);
@@ -65,8 +68,8 @@ csapp.factory("filterconditionFactory", ["filterConditionDatalayer", "$csnotify"
 }]);
 
 //Controller
-csapp.controller("filterConditionController", ["$scope", "filterConditionDatalayer", "filterconditionFactory", "$csFileUploadModels", "$csnotify","$csShared",
-    function ($scope, datalayer, factory, $csFileUploadModels, $csnotify,$csShared) {
+csapp.controller("filterConditionController", ["$scope", "filterConditionDatalayer", "filterconditionFactory", "$csFileUploadModels", "$csnotify", "$csShared",
+    function ($scope, datalayer, factory, $csFileUploadModels, $csnotify, $csShared) {
         //page load
         $scope.fetchFileDetails = function () {
             datalayer.getFileDetails().then(function (data) {
@@ -90,11 +93,10 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         $scope.addAliseCondition = function (fileDetail) {
             var data = JSON.parse(fileDetail);
-           // $scope.filterCondition = {};
             $scope.filterCondition.ConditionList = [];
             $scope.showDiv = true;
             $scope.reset();
-            //$scope.filterCondition.FileDetail = data;
+
         };
 
         $scope.addCondition = function (condition) {
@@ -109,7 +111,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
                 return;
             }
             $scope.filterCondition.ConditionList.push(condition);
-            $scope.reset();
+            $scope.dldata.newCondition = {};
 
         };
 
@@ -119,9 +121,11 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         };
         $scope.save = function (filterCondition) {
-           datalayer.saveAliseCondition(filterCondition).then(function(data) {
-               $scope.AliseConditionList = data;
-           });
+            datalayer.saveAliseCondition(filterCondition).then(function (data) {
+                $scope.AliseConditionList.push(data);
+            });
+            $scope.reset();
+
         };
 
         $scope.getColumnValues = function (fileData) {
@@ -168,6 +172,8 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         $scope.reset = function () {
             $scope.dldata.newCondition = {};
+            $scope.filterCondition.AliasConditionName = "";
+            $scope.filterCondition.ConditionList = [];
         };
 
     }]);

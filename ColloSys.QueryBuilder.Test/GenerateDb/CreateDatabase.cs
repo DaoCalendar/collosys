@@ -15,6 +15,7 @@ using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
 {
+    [TestFixture]
     public class CreateDatabase
     {
         [Test]

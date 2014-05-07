@@ -40,16 +40,16 @@ namespace AngularUI.FileUpload.clientData
         }
 
 
-        //[HttpPost]
-        //protected override FilterCondition BasePost(FilterCondition obj)
-        //{
-        //    foreach (var fcondition in obj.Fconditions)
-        //    {
-        //        fcondition.FilterCondition = obj;
-        //    }
-        //    FilterConditionBuilder.Save(obj);
-        //    return obj;
-        //}
+        [HttpPost]
+        protected override FilterCondition BasePost(FilterCondition obj)
+        {
+            foreach (var fcondition in obj.Fconditions)
+            {
+                fcondition.FilterCondition = obj;
+            }
+            FilterConditionBuilder.Save(obj);
+            return obj;
+        }
 
     }
 }

@@ -2,7 +2,7 @@
     <div class="row-fluid " id="row1">
         <div class="row-fluid form-horizontal">
             <div class="control-group span4">
-                <label class="control-label">Alise Name</label>
+                <label class="control-label">Aliase Name</label>
                 <div class="controls">
                     <select class="input-medium"
                         data-ng-model="filterCondition.FileDetail"
@@ -36,6 +36,12 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">Filter Condition</div>
                     <div class="panel-body">
+                        <div class="row-fluid">
+                            <div class="control-group">
+                              <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
+                            </div>
+                        </div>
+
                         <div class="row-fluid" style="height: 380px; overflow: auto">
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -49,7 +55,7 @@
                                     <tr>
                                         <td>
                                             <div data-ng-show="filterCondition.ConditionList.length>0">
-                                                <cs-field data-ng-model="dldata.newCondition.RelationType" field="Fcondition.RelationType" no-label=""></cs-field>
+                                                <cs-field data-ng-model="dldata.newCondition.RelationType" field="Fcondition.RelationType" no-label="" ng-required="filterCondition.ConditionList.length>0"></cs-field>
                                             </div>
                                         </td>
                                         <td>
@@ -59,7 +65,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="Fcondition.Operator" no-label=""></cs-field>
+                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="Fcondition.Operator" no-label="" ng-required="true"></cs-field>
                                         </td>
                                         <td>
                                             <div data-ng-switch on="InputType">
@@ -74,12 +80,12 @@
                                                 </div>
                                                 <div data-ng-switch-when="Date">
                                                     <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value"
-                                                        data-date-format="dd-mm-yyyy" bs-datepicker required />
+                                                           data-date-format="dd-mm-yyyy" bs-datepicker required />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn icon-plus" data-ng-click="addCondition(dldata.newCondition)"></button>
+                                            <button class="btn icon-plus" data-ng-disabled="filterConditionform.$invalid" data-ng-click="addCondition(dldata.newCondition)"></button>
                                         </td>
                                     </tr>
                                 </thead>
@@ -104,7 +110,7 @@
                 </div>
             </div>
             <div class="row-fluid text-right">
-                <button class="btn btn-success" data-ng-click="save(filterCondition)">Save</button>
+                <button class="btn btn-success" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)">Save</button>
                 <button class="btn btn-warning" data-ng-click="reset()">Reset</button>
             </div>
         </div>
