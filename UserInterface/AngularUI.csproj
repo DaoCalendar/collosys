@@ -263,6 +263,7 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\formula-back.js" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
     <Content Include="Billing\formula\formula-group-by.html" />
