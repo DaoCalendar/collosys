@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using ColloSys.DataLayer.Domain;
+using FileUploaderService.Interfaces;
 
 namespace ColloSys.FileUploadService.Interfaces
 {
     public interface IFileReader
     {
         //properties
-        IDBLayer GetDataLayer { get; }
+        IDbLayer GetDataLayer { get; }
         int GetBatchSize { get; }
         FileInfo GetInputFile { get; }
         IRowCounter Counter { get; }

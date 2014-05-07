@@ -7,6 +7,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using NHibernate.Criterion;
 

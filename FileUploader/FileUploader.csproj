@@ -132,6 +132,10 @@
       <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
       <Name>ColloSys.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
+      <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
+      <Name>ColloSys.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileUploadService\FileUploadService.csproj">
       <Project>{0BC673FC-EB6C-4D50-8001-56273F9530A2}</Project>
       <Name>FileUploadService</Name>

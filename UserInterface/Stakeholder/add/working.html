@@ -43,6 +43,7 @@
                 </div>-->
             <div class="span4">
                 <cs-field
+                    data-ng-required="!WorkingData.isEditMode"
                     data-ng-show="StakeWork.Products"
                     data-ng-model="StakeWork.ReportsTo"
                     data-ng-change="manageDisplay(WorkingData.LocationLevel)"
@@ -121,10 +122,9 @@
                     field="workingField.District">
                 </cs-field>
                 <div>
-                    <button style="margin-left: 300px" class="btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="icon-list"></i></button>
                 </div>
-                <div data-ng-show="clusterArray.length>0">
-                    <div class="dropdown">
+                <span data-ng-show="clusterArray.length>0" class="row-fluid">
+                    <span class="dropdown" style="margin-left: 180px;">
                         <a class="dropdown-toggle">{{clusterArray.length}} Districts selected
                         </a>
                         <ul class="dropdown-menu">
@@ -132,8 +132,9 @@
                                 <a>{{data}}</a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                    </span>
+                    <button class="btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="icon-list"></i></button>
+                </span>
             </div>
         </div>
         <!--select region-->

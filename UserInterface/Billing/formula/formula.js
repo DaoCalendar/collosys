@@ -233,7 +233,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
 
     };
     var addNewCondition = function (condition, newConditionForm) {
-        condition.Ltype = "Column";
+        //condition.Ltype = "Column";
         condition.Lsqlfunction = "";
         condition.ConditionType = 'Condition';
         condition.ParentId = dldata.formula.Id;
@@ -291,7 +291,7 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
         dldata.formula.BOutputs2.push(out);
 
         datalayer.resetOutput2();
-        newOutputForm.$setPristine();
+        newOutputForm2.$setPristine();
     };
 
     var deleteOutput = function (output, index) {
@@ -460,6 +460,14 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             condition.Rvalue = '';
         };
 
+        $scope.setFormulaType = function (condition) {
+            $scope.showField = $scope.showField === true ? false : true;
+            $scope.showField2 = !$scope.showField2;
+            condition.Operator = '';
+            condition.Rtype = 'Value';
+            condition.Rvalue = '';
+        };
+
         $scope.manageField = function (condition) {
             //condition.Rvalue = '';
             //$scope.showField = $scope.showField === true ? false : true;
@@ -495,9 +503,10 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         $scope.getFormulaName = function (id) {
-            if (angular.isUndefined(id)) {
+            if ($csfactory.isNullOrEmptyGuid(id)) {
                 return '';
             }
+            
             var name = _.find($scope.listofFormula, { 'Id': id });
             return name.Name;
         };

@@ -5,6 +5,7 @@ using System.Web;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 
 namespace ColloSys.DataLayer.Services.Shared
 {

@@ -10,7 +10,9 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Interfaces;
+using FileUploaderService.Interfaces;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
@@ -20,7 +22,7 @@ using NLog;
 
 namespace ColloSys.FileUploadService.Implementers
 {
-    public class DbLayer : IDBLayer
+    public class DbLayer : IDbLayer
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -46,6 +48,7 @@ namespace ColloSys.FileUploadService.Implementers
                     IList<FileScheduler> filesWaiting = new List<FileScheduler>();
                     foreach (var fileScheduler in obj)
                     {
+                        _logger.Debug("In GetNextFile For Schedule");
                         // if no depend alias then continue with upload
                         var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
                         if (dependAlias == null)
@@ -54,6 +57,7 @@ namespace ColloSys.FileUploadService.Implementers
                             break;
                         }
 
+                      
                         FileScheduler fs1 = null;
                         FileDetail fd1 = null;
                         var schedulerDate = fileScheduler.FileDate.Date;
@@ -84,6 +88,7 @@ namespace ColloSys.FileUploadService.Implementers
                     if (file2Upload != null)
                     {
                         // ReSharper disable ReturnValueOfPureMethodIsNotUsed
+                        _logger.Info("In File2Upload ");
                         file2Upload.FileStatuss.Count();
                         file2Upload.FileDetail.FileColumns.Count();
                         file2Upload.FileDetail.FileMappings.Count();
@@ -108,7 +113,7 @@ namespace ColloSys.FileUploadService.Implementers
                     {
                         tx.Rollback();
                     }
-
+                    _logger.Info(string.Format("getting Sheduled File For upload {0}", file2Upload));
                     return file2Upload;
                 }
             }

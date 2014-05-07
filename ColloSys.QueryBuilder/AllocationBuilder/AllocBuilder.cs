@@ -8,6 +8,7 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;

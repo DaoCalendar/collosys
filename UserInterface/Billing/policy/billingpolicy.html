@@ -5,20 +5,20 @@
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-large" data-ng-model="dldata.payoutPolicy.Products"
-                        data-ng-change="datalayer.changeProductCategory()" ui-select2 required>
+                        data-ng-change="datalayer.changeProductCategory()" required>
                         <option value=""></option>
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
                 </div>
             </div>
-            <div class="control-group span6">
+            <!--<div class="control-group span6">
                 <label class="control-label">Category</label>
                 <div class="controls">
                     <csswitch ngbind="dldata.payoutPolicy.Category"
                         onbtnclick="datalayer.changeProductCategory();buttonStatus=null"
                         namevalues="dldata.categorySwitch"></csswitch>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="row" data-ng-show="false">
@@ -39,17 +39,17 @@
             <div class="box">
                 <!--Expired-->
                 <div class="policy-name-box"
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
+                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
                     <div class="clickableName"
-                         data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
+                        data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--Draft-->
                 <div class="policy-name-box"
-                     data-ng-repeat="subPolicy in dldata.subPolicyList">
+                    data-ng-repeat="subPolicy in dldata.subPolicyList">
                     <div class="clickableName"
-                         data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
+                        data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
                         {{subPolicy.Name}}
                     </div>
                 </div>
@@ -60,18 +60,18 @@
             <label class="heading-for-box">Approved/UnApproved</label>
             <div class="box">
                 <!--Approved-->
-                <div class="policy-name-box" 
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
+                <div class="policy-name-box"
+                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
                     <div class="clickableName"
-                         data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                        data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--UnApproved-->
-                <div class="policy-name-box alert-error" 
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
+                <div class="policy-name-box alert-error"
+                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
                     <div class="clickableName"
-                         data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                        data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>

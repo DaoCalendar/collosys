@@ -9,6 +9,7 @@ using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;

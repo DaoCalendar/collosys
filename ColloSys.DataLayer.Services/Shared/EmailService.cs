@@ -8,6 +8,7 @@ using System.Text;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using NHibernate.Linq;
 using NLog;

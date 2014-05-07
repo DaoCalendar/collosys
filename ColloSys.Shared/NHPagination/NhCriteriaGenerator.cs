@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.NgGrid;
 using Itenso.TimePeriod;
 using NHibernate;

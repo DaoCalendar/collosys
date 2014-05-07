@@ -110,10 +110,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColloSys.config">
+    <EmbeddedResource Include="ColloSys.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </None>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

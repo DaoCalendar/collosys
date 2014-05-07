@@ -6,9 +6,11 @@ using System.Globalization;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Implementers;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.ConfigSectionReader;
+using FileUploaderService.Interfaces;
 using NLog;
 
 #endregion
@@ -23,10 +25,13 @@ namespace FileUploaderService
 
         public static readonly ConnectionStringSettings ConnString;
 
+       //  AllFileUploader _allFileUploader=new AllFileUploader();
+
         static FileUploaderService()
         {
             try
             {
+                Logger.Info(string.Format("getting constring here "));
                 ConnString = ColloSysParam.WebParams.ConnectionString;
                 Logger.Info(string.Format("FileUpload: Connection String : {0}", ConnString.ConnectionString));
                 SessionManager.InitNhibernate(new NhInitParams
@@ -64,7 +69,7 @@ namespace FileUploaderService
             }
 
             // get next file for uploading
-            IDBLayer dbLayer = new DbLayer();
+            IDbLayer dbLayer = new DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
             if (file == null)
             {
@@ -103,7 +108,7 @@ namespace FileUploaderService
 
         public static void ResetFiles()
         {
-            IDBLayer db = new DbLayer();
+            IDbLayer db = new DbLayer();
             db.ResetFileStatus();
         }
 

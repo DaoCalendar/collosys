@@ -7,25 +7,32 @@
             <div class="control-group span5">
                 <label class="control-label">Matrix Per Type</label>
                 <div class="controls">
-                    <csswitch ngbind="dldata.matrix.MatrixPerType"
-                              namevalues="dldata.typeSwitch" ngdisabled="dldata.isMatrixCreated"></csswitch>
+                    <!-- <csswitch ngbind="dldata.matrix.MatrixPerType"
+                                   namevalues="dldata.typeSwitch" ngdisabled="dldata.isMatrixCreated"></csswitch>-->
+                    <select
+                        data-ng-disabled="dldata.isMatrixCreated"
+                        data-ng-required="!dldata.isMatrixCreated"
+                        class="input-medium" data-ng-model="dldata.matrix.MatrixPerType">
+                        <option>Table</option>
+                        <option>Formula</option>
+                    </select>
                 </div>
             </div>
-            <div class="control-group span6" data-ng-show="dldata.matrix.MatrixPerType">
+            <div class="control-group span5" data-ng-show="dldata.matrix.MatrixPerType">
                 <label class="control-label">Matrix Per Type Name</label>
                 <div class="controls">
                     <div data-ng-switch on="dldata.matrix.MatrixPerType">
                         <div data-ng-switch-when="Table">
                             <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-required="!dldata.isMatrixCreated">
+                                data-ng-disabled="dldata.isMatrixCreated"
+                                data-ng-required="!dldata.isMatrixCreated">
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.columnNames | custBillSubString">{{c}}</option>
                             </select>
                         </div>
                         <div data-ng-switch-when="Formula">
                             <select class="input-xlarge" data-ng-model="dldata.matrix.MatrixPerTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated" required>
+                                data-ng-disabled="dldata.isMatrixCreated" required>
                                 <option value=""></option>
                                 <option data-ng-repeat="c in dldata.formulaNames">{{c}}</option>
                             </select>

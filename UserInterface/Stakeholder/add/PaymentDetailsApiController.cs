@@ -1,4 +1,6 @@
-﻿#region references
+﻿using ColloSys.DataLayer.SessionMgr;
+
+#region references
 
 using System;
 using System.Collections.Generic;

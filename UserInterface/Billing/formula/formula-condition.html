@@ -2,15 +2,16 @@
     <div style="overflow: auto">
         <table class="table table-bordered table-hover table-condensed">
             <thead>
-                <tr>
+                <tr data-ng-hide="dldata.formula.Id">
                     <td></td>
+                    <td>Value Type</td>
                     <td>Where</td>
                     <td>Operater</td>
                     <td>Value Type</td>
                     <td>Value</td>
                     <td></td>
                 </tr>
-                <tr data-ng-form="newConditionForm">
+                <tr data-ng-form="newConditionForm" data-ng-hide="dldata.formula.Id">
                     <td class="input-mini">
                         <cs-field data-ng-model="dldata.newCondition.RelationType"
                                   field="formula.RelationType"
@@ -18,13 +19,48 @@
                                   no-label=""></cs-field>
                     </td>
                     <td>
-                        <select class="input-large"
-                                data-ng-model="dldata.newCondition.LtypeName"
-                                data-ng-change="changeLeftTypeName(dldata.newCondition)"
-                                required>
-                            <option value=""></option>
-                            <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
-                        </select>
+                        <cs-field data-ng-model="dldata.newCondition.Ltype"
+                                  field="formula.ValueType"
+                                  no-label=""
+                                  class="input-medium"
+                                  ng-change="setFormulaType(dldata.newCondition);"></cs-field>
+                    </td>
+                    <td>
+                        <div data-ng-switch on="dldata.newCondition.Ltype">
+                            <div data-ng-switch-when="Table">
+                                <select class="input-large"
+                                        data-ng-model="dldata.newCondition.LtypeName"
+                                        data-ng-change="changeLeftTypeName(dldata.newCondition)"
+                                        required>
+                                    <option value=""></option>
+                                    <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                </select>
+                            </div>
+                            <div data-ng-switch-when="Value">
+                                <div data-ng-if="showField">
+                                    <cs-field data-ng-model="dldata.newCondition.Lvalue"
+                                              field="fieldname" ng-required="true" no-label=""></cs-field>
+                                    <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum2" field="formula.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                    </div>
+                                </div>
+                                <div data-ng-if="showField2">
+                                    <cs-field data-ng-model="dldata.newCondition.Lvalue" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                    <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum2" field="formula.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-ng-switch-when="Formula">
+                                <select class="input-medium" data-ng-model="dldata.newCondition.LtypeName"
+                                        required>
+                                    <option></option>
+                                    <option data-ng-repeat="d in listofFormula" value="{{d.Name}}">{{d.Name}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
                     </td>
                     <td>
                         <cs-field data-ng-model="dldata.newCondition.Operator"
@@ -33,9 +69,15 @@
                                   no-label=""></cs-field>
                     </td>
                     <td>
-                        <csswitch ngbind="dldata.newCondition.Rtype"
-                                  onbtnclick="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''"
-                                  namevalues="dldata.typeSwitch"></csswitch>
+                        <cs-field data-ng-model="dldata.newCondition.Rtype"
+                                  field="formula.ValueType"
+                                  no-label=""
+                                  class="input-medium"
+                                  ng-change="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''"></cs-field>
+
+                        <!--csswitch ngbind="dldata.newCondition.Rtype"
+                      onbtnclick="dldata.newCondition.Lsqlfunction='';dldata.newCondition.Rvalue='';dldata.newCondition.RtypeName=''"
+                      namevalues="dldata.typeSwitch"></csswitch>-->
                     </td>
                     <td class="input-large">
                         <div></div>
@@ -66,6 +108,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <div data-ng-switch-when="Formula">
+                                <select class="input-medium" data-ng-model="dldata.newCondition.Formula"
+                                        required>
+                                    <option></option>
+                                    <option data-ng-repeat="d in listofFormula" value="{{d.Id}}">{{d.Name}}</option>
+                                </select>
+                            </div>
 
                         </div>
                     </td>
@@ -79,8 +128,11 @@
                         <input type="text" class="input-mini" readonly="readonly" value="{{condition.RelationType}}" data-ng-show="condition.RelationType" />
                     </td>
                     <td>
+                        <input type="text" class="input-mini" readonly="readonly" value="{{condition.Ltype}}" data-ng-show="condition.Ltype" />
+                    </td>
+                    <td>
 
-                        <input type="text" class="input-xlarge" readonly="readonly" value="{{ltypeName=change(condition.LtypeName)}}" />
+                        <input type="text" class="input-medium" readonly="readonly" value="{{ltypeName=change(condition.LtypeName)}}" />
                     </td>
                     <td>
                         <input type="text" class="input-medium" readonly="readonly" value="{{condition.Operator}}" />

@@ -212,6 +212,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         if (angular.isUndefined(dldata.payoutPolicy))
             return;
         var payoutPolicy = dldata.payoutPolicy;
+        payoutPolicy.Category = 'Liner';
         if (!angular.isUndefined(payoutPolicy.Products) && !angular.isUndefined(payoutPolicy.Category)) {
             restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
                 dldata.payoutPolicy = data.PayoutPolicy;
@@ -223,12 +224,12 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var rejectSubPolicy = function (rejectedRelation) {
-       return restApi.customGET("RejectRelation", { relationId: rejectedRelation.Id }).then(function () {
+        return restApi.customGET("RejectRelation", { relationId: rejectedRelation.Id }).then(function () {
             dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             dldata.subPolicyList.push(rejectedRelation.BillingSubpolicy);
             $csnotify.success("Subpolicy Rejected");
-           return;
-       }, function (data) {
+            return;
+        }, function (data) {
             $csnotify.error(data);
         });
     };
@@ -236,11 +237,11 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     var approveRelation = function (relation) {
         var orgId = relation.OrigEntityId;
         var rejectedRelation = _.find(dldata.payoutPolicy.BillingRelations, { Id: orgId });
-       return restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
+        return restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
             //dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
-           $csnotify.success('Subpolicy Approved');
-           return;
-       });
+            $csnotify.success('Subpolicy Approved');
+            return;
+        });
     };
 
     var savePayoutPolicy = function (payoutPolicy) {
@@ -358,7 +359,7 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.modalData.forActivate = false;
             openmodal($scope.modalData);
         };
-        
+
         $scope.openModelReactivateSubPolicy = function (relation) {
             $scope.buttonStatus = null;
             $scope.modalData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
@@ -378,18 +379,18 @@ csapp.controller('payoutPolicyCtrl', [
             openmodal($scope.modalData);
         };
 
-        $scope.approve = function(relation) {
+        $scope.approve = function (relation) {
             datalayer.approveRelation(relation).then(function () {
                 relation.Status = 'Approved';
                 $scope.buttonStatus = null;
             });
         };
 
-        $scope.reject = function(relation) {
+        $scope.reject = function (relation) {
             datalayer.RejectSubPolicy(relation).then(function () {
                 $scope.buttonStatus = null;
                 relation.Status = 'Rejected';
-            }); 
+            });
         };
 
     }]);
