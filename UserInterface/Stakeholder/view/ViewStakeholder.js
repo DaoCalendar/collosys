@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams', "$csStakeholderModels",
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams, stakeModel) {
 
 
         var restApi = rest.all('ViewStakeApi');
@@ -165,6 +165,26 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.showDiv = false;
             $scope.stakeholder.Designation = "";
             $scope.product = "";
+
+            if (($scope.stakeholder.Hierarchy.Hierarchy !== 'External') || ($scope.stakeholder.Hierarchy.IsIndividual === false)) {
+                $scope.Designation = _.filter($scope.hierarchyDesignation, function (data) {
+                    if (data.Hierarchy === $scope.stakeholder.Hierarchy.Hierarchy) return data;
+                });
+            } else {
+
+                $scope.Designation = _.filter($scope.hierarchyDesignation, function (data) {
+                    if (data.Hierarchy === $scope.stakeholder.Hierarchy.Hierarchy) return data;
+                });
+
+                _.forEach($scope.Designation, function (item) {
+                    var reportTo = _.find($scope.hierarchyDesignation, { 'Id': $scope.stakeholder.Hierarchy.ReportsTo });
+                    item.Designation = item.Designation + ' (' + reportTo.Designation + ')';
+                });
+            }
+
+
+
+
         };
 
         $scope.setHierarchy = function (data) {
@@ -829,6 +849,8 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         //Permissions
         var init = function () {
 
+
+            $scope.viewModels = stakeModel.init.StakeView;
             $scope.currUser = $csfactory.getCurrentUserName();
 
 
