@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <DontImportPostSharp>True</DontImportPostSharp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +53,10 @@
     </Reference>
     <Reference Include="NHibernate.Validator.Specific">
       <HintPath>..\SharedLib\NHibernate.Validator.Specific.dll</HintPath>
+    </Reference>
+    <Reference Include="PostSharp">
+      <HintPath>..\packages\PostSharp.3.1.38\lib\net20\PostSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -107,6 +112,8 @@
     <Compile Include="ClientData\CustomerInfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />
+    <Compile Include="ClientData\Fcondition.cs" />
+    <Compile Include="ClientData\FconditionMap.cs" />
     <Compile Include="ClientData\FilterCondition.cs" />
     <Compile Include="ClientData\FilterConditionMap.cs" />
     <Compile Include="ClientData\IDeliquent.cs" />
@@ -207,6 +214,9 @@
     <Compile Include="Stakeholder\StkhWorking.cs" />
     <Compile Include="Stakeholder\StkhWorkingMap.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="cleanOutput" AfterTargets="Clean">
     <Exec Command="Del obj /s /q /f" IgnoreExitCode="true" />
@@ -214,4 +224,9 @@
     <Message Text="obj and bin folder cleaned up." Importance="normal" />
   </Target>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="..\packages\PostSharp.3.1.38\tools\PostSharp.targets" Condition="Exists('..\packages\PostSharp.3.1.38\tools\PostSharp.targets')" />
+  <Target Name="EnsurePostSharpImported" BeforeTargets="BeforeBuild" Condition="'$(PostSharp30Imported)' == ''">
+    <Error Condition="!Exists('..\packages\PostSharp.3.1.38\tools\PostSharp.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://www.postsharp.net/links/nuget-restore." />
+    <Error Condition="Exists('..\packages\PostSharp.3.1.38\tools\PostSharp.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://www.postsharp.net/links/nuget-restore." />
+  </Target>
 </Project>

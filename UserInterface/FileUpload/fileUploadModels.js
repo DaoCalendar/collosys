@@ -138,7 +138,7 @@
     var filterCondition = function () {
         return {
             FileDetail: { label: "FileDetail", type: "text" },
-            AliasConditionName: { label: "AliasConditionName", type: "text" }
+            AliasConditionName: { label: "Name", type: "text" }
         };
     };
 
