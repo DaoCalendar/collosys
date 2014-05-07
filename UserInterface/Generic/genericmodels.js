@@ -82,7 +82,9 @@
             Activity: {label:"Activity", type: "enum", valuList: $csShared.enums.Activities },
             Permission: { type: "enum", valueList: $csShared.enums.Permissions },
             Vertical: { label: "Vertical", type: "enum", valueList: $csShared.enums.Vertical },
-            EscalationDays: {type:"number",},
+            EscalationDays: { type: "number", },
+            Hierarchy: { label: "Hierarchy", type: "select", textField: "Hierarchy", valueField: "Hierarchy" },
+            Designation: { label: "Designation",type:"select",textField:"",valueField:"" }
         };
     };
 
