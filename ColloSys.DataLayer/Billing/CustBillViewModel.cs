@@ -89,6 +89,13 @@ namespace ColloSys.DataLayer.Billing
         public virtual DateTime? MemoApprovalDate { get; set; }
 
         public virtual string SubProduct { get; set; }
+
+        public virtual ulong TotalPF { get; set; }
+        public virtual ulong TotalDisb { get; set; }
+
+        public virtual ulong TotalPayout { get; set; }
+
+        public virtual ulong Payout { get; set; }
         #endregion
     }
 }

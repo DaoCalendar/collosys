@@ -13,7 +13,7 @@
 
                     <button class="btn alert-info"
                         data-ng-show="dldata.formula.Products"
-                        data-ng-click="addformula(dldata.formula.Products);setFormulaList('')">
+                        data-ng-click="addformula(dldata.formula.Products);setFormulaList('Formula')">
                         Add Formula
                     </button>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="box-heading">Formula List</div>
                 <div class="box-body">
                     <div class="sub-name" data-ng-repeat="sformula in dldata.formulaList | orderBy : 'Name'">
-                        <a class="btn-link" data-ng-click="selectFormula(sformula)">{{sformula.Name}}</a>
+                        <a class="btn-link" data-ng-click="selectFormula(sformula);setFormulaList('Formula')">{{sformula.Name}}</a>
                     </div>
                 </div>
             </div>

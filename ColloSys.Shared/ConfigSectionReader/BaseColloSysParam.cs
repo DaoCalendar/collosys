@@ -116,7 +116,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                     var config = ReadConfiguration().GetSection("ConnStrings") as ConnectionStringsSection;
                     if (config == null)
                         throw new InvalidDataException("Connection String section is not provided.");
-                    _connectionString = config.ConnectionStrings["Mayur"];
+                    _connectionString = config.ConnectionStrings[connStringName];
                 }
                 catch (Exception)
                 {
