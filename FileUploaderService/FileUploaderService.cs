@@ -25,7 +25,7 @@ namespace FileUploaderService
 
         public static readonly ConnectionStringSettings ConnString;
 
-         AllFileUploader _allFileUploader=new AllFileUploader();
+       //  AllFileUploader _allFileUploader=new AllFileUploader();
 
         static FileUploaderService()
         {

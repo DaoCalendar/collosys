@@ -21,18 +21,18 @@ namespace FileUploaderService
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
                     var paymentLiner = new RlsPaymentLinerFileReader(scheduler);
                     paymentLiner.ReadAndSaveBatch();
-                     _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
-            scheduler.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
-            dbLayer.ChangeStatus(scheduler);
-            //ReaderNeeds.PostProcesing();
-            _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+            //         _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
+            //scheduler.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
+            //dbLayer.ChangeStatus(scheduler);
+            ////ReaderNeeds.PostProcesing();
+            //_log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
 
-                    _log.Info("ReadFile: Retry error record.");
-            //ReaderNeeds.RetryErrorRows();
+            //        _log.Info("ReadFile: Retry error record.");
+            ////ReaderNeeds.RetryErrorRows();
 
-            _log.Info("ReadFile: saving the error table.");
-                    dbLayer.SetDoneStatus(scheduler,);
-            SaveDoneStatus();
+            //_log.Info("ReadFile: saving the error table.");
+            //      //  dbLayer.SetDoneStatus(scheduler,);
+            //SaveDoneStatus();
 
                     break;
 

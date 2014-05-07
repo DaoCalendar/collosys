@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.FileReader
 {
@@ -6,6 +7,8 @@ namespace ColloSys.FileUploader.FileReader
     {
         IList<T> List { get; }
         void ReadAndSaveBatch();
+
+        void Save(ICounter counter);
     }
 
 }

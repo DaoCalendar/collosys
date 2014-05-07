@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -85,6 +86,57 @@ namespace ColloSys.FileUploader.FileReader
                 //SaveDoneStatus();
 
 
+            }
+        }
+
+        public void Save(ICounter counter)
+        {
+            ReadAndSaveBatch();
+
+            //Add Save error table here
+            _log.Info(string.Format("BatchProcessing : SaveErrorTable() Done."));
+
+            _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
+            ChangeStatus(_fs,ColloSysEnums.UploadStatus.PostProcessing);
+            //ReaderNeeds.PostProcesing();
+            _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+
+            _log.Info("ReadFile: Retry error record.");
+           // ReaderNeeds.RetryErrorRows();
+
+            _log.Info("ReadFile: saving the error table.");
+           
+            ChangeStatus(_fs,ColloSysEnums.UploadStatus.Done); // make if condition for status done or donrwith erroe
+
+        }
+
+        private void ChangeStatus(FileScheduler fileScheduler ,ColloSysEnums.UploadStatus uploadStatus)
+        {
+            using (var session = SessionManager.GetNewSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    _log.Info(string.Format("ReadFile: updating fileschduler-status table. " +
+                                               "rows uploaded {0}. status {1}",
+                                               fileScheduler.TotalRows,
+                                               fileScheduler.UploadStatus));
+
+                    var status = new FileStatus
+                    {
+                        EntryDateTime = DateTime.Now,
+                        FileScheduler = fileScheduler,
+                        TotalRows = fileScheduler.TotalRows,
+                        ValidRows = fileScheduler.ValidRows,
+                        UploadedRows = 0,
+                        DuplicateRows = 0,
+                        IgnoredRows = 0,
+                        ErrorRows = 0,
+                        UploadStatus = fileScheduler.UploadStatus
+                    };
+
+                    session.SaveOrUpdate(status);
+                    tx.Commit();
+                }
             }
         }
     }
