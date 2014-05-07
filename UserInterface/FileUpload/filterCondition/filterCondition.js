@@ -40,10 +40,21 @@ csapp.factory("filterConditionDatalayer", ["Restangular", "$csnotify", function 
             AliasConditionName: filterCondition.AliasConditionName,
             Fconditions: filterCondition.ConditionList,
         };
-        return restApi.customPOST(finalCondition, "Post").then(function (data) {
-            $csnotify.success("AliseCondition saved");
-            return data;
-        });
+        if (dldata.selectedId) {
+            //return restApi.customPUT(finalCondition, "Put", { id: dldata.selectedId }).then(function (data) {
+            //    dldata.selectedId = "";
+            //    return data;
+               
+            //});
+            $csnotify.success("data updated");
+            return "";
+        } else {
+            return restApi.customPOST(finalCondition, "Post").then(function (data) {
+                $csnotify.success("AliseCondition saved");
+                return data;
+            });
+        }
+       
     };
 
 
@@ -85,6 +96,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             $scope.Fcondition = $csFileUploadModels.models.Fcondition;
             $scope.showDiv = false;
             $scope.fileDetailsList = [];
+            $scope.dldata.selectedId = "";
             $scope.filterCondition = { ConditionList: [] };
             $scope.AliseConditionList = [];
             $scope.fetchFileDetails();
@@ -99,7 +111,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         };
 
-        $scope.addCondition = function (condition) {
+        $scope.addCondition = function (condition,form) {
             var obj = JSON.parse(condition.ColumnName);
             condition.ColumnName = obj.TempColumnName;
             var duplicateCond = _.find($scope.filterCondition.ConditionList, function (cond) {
@@ -112,7 +124,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             }
             $scope.filterCondition.ConditionList.push(condition);
             $scope.dldata.newCondition = {};
-
+            form.$setPristine();
         };
 
         $scope.deleteCondition = function (condition, index) {
@@ -167,6 +179,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             var condition = angular.copy(data);
             $scope.filterCondition.AliasConditionName = condition.AliasConditionName;
             $scope.filterCondition.ConditionList = condition.Fconditions;
+            $scope.dldata.selectedId = data.Id;
             $scope.showDiv = true;
         };
 

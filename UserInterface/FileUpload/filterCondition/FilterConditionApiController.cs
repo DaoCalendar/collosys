@@ -16,7 +16,7 @@ namespace AngularUI.FileUpload.clientData
     {
         private static readonly FileDetailBuilder FileDetailBuilder = new FileDetailBuilder();
         private static readonly FileColumnBuilder FileColumnBuilder = new FileColumnBuilder();
-        private static readonly FilterConditionBuilder FilterConditionBuilder=new FilterConditionBuilder();
+        private static readonly FilterConditionBuilder FilterConditionBuilder = new FilterConditionBuilder();
 
         [HttpGet]
         public IEnumerable<FileDetail> GetFiledetails()
@@ -36,7 +36,7 @@ namespace AngularUI.FileUpload.clientData
         public HttpResponseMessage GetFilterConditionDeatils(Guid fileGuid)
         {
             var data = FilterConditionBuilder.OnAliasNameChange(fileGuid);
-            return Request.CreateResponse(HttpStatusCode.OK,data);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
 
@@ -48,6 +48,17 @@ namespace AngularUI.FileUpload.clientData
                 fcondition.FilterCondition = obj;
             }
             FilterConditionBuilder.Save(obj);
+            return obj;
+        }
+
+        protected override FilterCondition BasePut(Guid id, FilterCondition obj)
+        {
+            foreach (var fcondition in obj.Fconditions)
+            {
+                fcondition.FilterCondition = obj;
+            }
+
+            FilterConditionBuilder.Merge(obj);
             return obj;
         }
 
