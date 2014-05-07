@@ -302,8 +302,8 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
 
 
 csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes",
-    "$csGenericModels", "pincodeFactory",
-    function ($scope, datalayer, $modalInstance, gPincodes, $csGenericModels, factory) {
+    "$csGenericModels", "pincodeFactory","$csnotify",
+    function ($scope, datalayer, $modalInstance, gPincodes, $csGenericModels, factory, $csnotify) {
         (function () {
             $scope.GPincodedata = {};
             $scope.eGPincodeModel = $csGenericModels.models.Pincode;
@@ -415,7 +415,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             }
         };
 
-        $scope.missingPincode = function(value) {
+        $scope.missingPincode = function (value) {
             if (value.length >= 3) {
                 return datalayer.missingPincode(value);
             };
@@ -433,6 +433,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             });
             if (angular.isDefined(isExist)) {
                 $scope.alreadyExist = true;
+                $csnotify.success("Pincode Already Exist");
             } else {
                 $scope.alreadyExist = false;
             }
