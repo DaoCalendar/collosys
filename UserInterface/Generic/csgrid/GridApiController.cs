@@ -15,6 +15,7 @@ using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Generic;
 using ColloSys.DataLayer.Services.Shared;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.NgGrid;
 
 #endregion

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
-
+  
   <configSections>
     <section name="ColloSysParams" type="ColloSys.Shared.ConfigSectionReader.ColloSysParamsSection, ColloSys.Shared" />
     <sectionGroup name="mailSettings">
@@ -55,15 +55,30 @@
 
   <ConnStrings>
     <clear />
+<<<<<<< HEAD
     <add name="Ast011"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=CollosysDBVnew4;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
-    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
     <add name="Mayur"         connectionString="Data Source=AST010;Initial Catalog=collosys;Integrated Security=True" providerName="" />
+=======
+    <!--<add name="Ast011"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=CollosysDBVnew4;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="Mayur"         connectionString="Data Source=localhost;Initial Catalog=collosys;Integrated Security=True" providerName="" />
     <add name="mayurd"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+>>>>>>> a7595822c58ee6593beb40bfc3b70f9149f2d154
     <add name="sonua"         connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys; Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
     <add name="sohamn"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
     <add name="Administrator" connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=Collosys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
     <add name="surajp"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=ColloSys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="collosys"      connectionString="Data Source=INWPDSSQL07\EUC_SQL01;Initial Catalog=ColloSys;Persist Security Info=True;User ID=appinstall;Password=Appins@123" />-->
+  
+  <add name="Ast011"        connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$EDCrfv123$" providerName="" />
+    <add name="harishr"       connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
+    <add name="Mayur"         connectionString="Data Source=localhost\SQLEXPRESSR2;Initial Catalog=Collosys_NewDB3;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+    <add name="mayurd"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.demo;Persist Security Info=True;User ID=sa;Password=da" providerName="" />
+    <add name="sonua"         connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="sohamn"        connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="Administrator" connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$QAZwsx123$" providerName="" />
+    <add name="surajp"        connectionString="Data Source=localhost\SQLEXPRESS;Initial Catalog=ColloSys;Persist Security Info=True;User ID=sa;Password=p@55w0rld" providerName="" />
     <add name="collosys"      connectionString="Data Source=INWPDSSQL07\EUC_SQL01;Initial Catalog=ColloSys;Persist Security Info=True;User ID=appinstall;Password=Appins@123" />
-    <add name="cloud.collosys" connectionString="Data Source=138.91.37.191;Initial Catalog=SaleOSys;Persist Security Info=True;User ID=mbhakti;Password=$EDCrfv123$" providerName="" />
   </ConnStrings>
 </configuration>

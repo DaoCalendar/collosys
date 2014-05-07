@@ -7,6 +7,7 @@ using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels;
 using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;

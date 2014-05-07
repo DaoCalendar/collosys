@@ -14,6 +14,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.FileUpload;
 using ColloSys.DataLayer.Services.Shared;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Implementers;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.ExcelWriter;

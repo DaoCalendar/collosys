@@ -443,17 +443,17 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.condRcolumnNames = _.filter($scope.dldata.columnDefs, { InputType: $scope.dldata.selectedLeftColumn.InputType });
 
             var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            if (inputType === "text") {
+            //if (inputType === "text") {
 
-                condition.Operator = '';
-                $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
-                condition.Rtype = 'Value';
-                condition.Rvalue = '';
-                datalayer.getColumnValues(condition.LtypeName).then(function(data) {
-                    $scope.fieldname.valueList = data;
-                });
-                return;
-            }
+            //    condition.Operator = '';
+            //    $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.TextConditionOperators;
+            //    condition.Rtype = 'Value';
+            //    condition.Rvalue = '';
+            //    datalayer.getColumnValues(condition.LtypeName).then(function(data) {
+            //        $scope.fieldname.valueList = data;
+            //    });
+            //    return;
+            //}
 
             if (inputType === "checkbox") {
                 condition.Operator = "EqualTo";

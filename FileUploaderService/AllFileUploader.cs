@@ -2,13 +2,18 @@
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
+using ColloSys.FileUploadService.Implementers;
+using FileUploaderService.Interfaces;
+using NLog;
 
 namespace FileUploaderService
 {
     public static class AllFileUploader
     {
+        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
         public static void UploadFile(FileScheduler scheduler)
         {
+            IDbLayer dbLayer=new DbLayer();
             switch (scheduler.FileDetail.AliasName)
             {
                 #region RlsPayment
@@ -16,6 +21,19 @@ namespace FileUploaderService
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
                     var paymentLiner = new RlsPaymentLinerFileReader(scheduler);
                     paymentLiner.ReadAndSaveBatch();
+            //         _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
+            //scheduler.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
+            //dbLayer.ChangeStatus(scheduler);
+            ////ReaderNeeds.PostProcesing();
+            //_log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+
+            //        _log.Info("ReadFile: Retry error record.");
+            ////ReaderNeeds.RetryErrorRows();
+
+            //_log.Info("ReadFile: saving the error table.");
+            //      //  dbLayer.SetDoneStatus(scheduler,);
+            //SaveDoneStatus();
+
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
@@ -110,5 +128,6 @@ namespace FileUploaderService
                     throw new NotImplementedException("File Reader not implemented for given type");
             }
         }
+        
     }
 }

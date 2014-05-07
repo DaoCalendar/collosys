@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
 using NHibernate.Criterion;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;

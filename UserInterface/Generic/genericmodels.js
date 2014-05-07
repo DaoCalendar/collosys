@@ -31,15 +31,15 @@
     var pincode = function () {
         return {
             Country: { label: 'Country', type: 'text', editable: false },
-            Region: { label: 'Region', type: 'enum', editable: false, valueList: [] },
-            State: { label: 'State', type: 'enum', editable: false, valueList: [] },
-            Cluster: { label: 'Cluster', type: 'enum', editable: false, valueList: [] },
-            District: { label: 'District', type: 'enum', editable: false, valueList: [] },
+            Region: { label: 'Region', type: 'enum', editable: false,required: true, valueList: [] },
+            State: { label: 'State', type: 'enum', editable: false,required: true, valueList: [] },
+            Cluster: { label: 'Cluster', type: 'enum', editable: false,required: true, valueList: [] },
+            District: { label: 'District', type: 'enum', editable: false,required: true, valueList: [] },
             City: { label: 'City', type: 'enum', editable: true, required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "enum", valueList: ['Yes', 'No'], required: true },
-            Pincode: { label: 'Pincode', type: 'number', template: 'uint', editable: false, pattern: '/^[0-9]{6}$/', required: true }
+            Pincode: { label: 'Pincode', type: 'number', template: 'uint', editable: false, pattern: '/^[0-9]{6}$/',patternMessage: 'Only 6 digits required', required: true }
         };
     };
 
@@ -66,11 +66,35 @@
         };
     };
 
+    var keyvalue = function() {
+        return {
+            Area: { label: 'Area', type: 'enum', valueList: $csShared.enums.Activities },
+            Key: { label: 'Key', type: 'enum' },
+            TextValue: { label: 'value', type: 'text',required:true,maxlength:25 },
+            NumberValue: { label: 'Value', type: 'number', template: 'decimal', required: true },
+            DateValue: { label: 'Value', type: 'date', required: true },
+            ValueType: { label: 'ValueType',type:'enum' },
+        };
+    };
+
+    var permission = function() {
+        return {
+            Activity: {label:"Activity", type: "enum", valuList: $csShared.enums.Activities },
+            Permission: { type: "enum", valueList: $csShared.enums.Permissions },
+            Vertical: { label: "Vertical", type: "enum", valueList: $csShared.enums.Vertical },
+            EscalationDays: { type: "number", },
+            Hierarchy: { label: "Hierarchy", type: "select", textField: "Hierarchy", valueField: "Hierarchy" },
+            Designation: { label: "Designation",type:"select",textField:"",valueField:"" }
+        };
+    };
+
     var init = function () {
         models.TaxList = taxList();
         models.TaxMaster = taxMaster();
         models.Pincode = pincode();
         models.Custbill = custbill();
+        models.Keyvalue = keyvalue();
+        models.Permission = permission();
         return models;
     };
 

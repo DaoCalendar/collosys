@@ -1,15 +1,15 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
+using System.Collections.Generic;
 
 namespace ColloSys.DataLayer.ClientData
 {
     public class FilterCondition : Entity
     {
+        public virtual IList<Fcondition> Fconditions { get; set; }
         public virtual FileDetail FileDetail { get; set; }
-        public virtual string RelationType { get; set; }
-        public virtual string ColumnName { get; set; }
-        public virtual ColloSysEnums.Operators Operator { get; set; }
-        public virtual string Value { get; set; }
+        public virtual string AliasConditionName { get; set; }
+
     }
 }

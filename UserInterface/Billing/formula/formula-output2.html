@@ -1,16 +1,16 @@
 ﻿<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row-fluid"
      id="subpolicy-groupby">
    
-            <div style="height: 200px; overflow: auto">
+            <div style="overflow: auto">
                 <table class="table table-bordered table-hover">
                     <thead>
-                        <tr>
+                        <tr data-ng-hide="dldata.formula.Id">
                             <td>Operater</td>
                             <td>Value Type</td>
                             <td>Value</td>
                             <td></td>
                         </tr>
-                        <tr data-ng-form="newOutputForm2">
+                        <tr data-ng-form="newOutputForm2" data-ng-hide="dldata.formula.Id">
                             <td class="input-medium">
                                 <cs-field data-ng-model="dldata.newOutput2.Operator" field="formula.OperatorType"
                                           data-ng-hide="dldata.formula.BOutputs2<1" no-label=""></cs-field>

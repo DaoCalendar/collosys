@@ -4,6 +4,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.GenericBuilder;
 using System.Linq;
 
@@ -57,6 +58,9 @@ namespace AngularUI.Shared.webapis
 
             string[] conditionOperators = { "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo" };
             list.AddToList("ConditionOperators", new List<string>(conditionOperators));
+
+            string[] vertical = { "Field", "Telecalling", "BackOffice" };
+            list.AddToList("Vertical", new List<string>(vertical));
         }
 
         public void InitSystemEnums(EnumList list)
@@ -109,6 +113,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.TaxApplyOn));
             list.AddToList(typeof(ColloSysEnums.ApplyOn));
             list.AddToList(typeof(ColloSysEnums.RuleForHolding));
+            list.AddToList(typeof(ColloSysEnums.Activities));
 
         }
     }

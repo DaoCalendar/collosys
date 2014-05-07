@@ -116,6 +116,11 @@
             CityCat: { label: 'CityCat', type: 'enum', valueList: $csShared.enums.CityCategory },
             LoanType: { label: 'LoanType', type: 'text' },
             MemoApprovalDate: { label: 'MemoApprovalDate', type: 'date' },
+            SubProduct:{label:'Subproduct', type:'text'},
+            TotalPF:{label:'TotalPF', type:'number', template:'ulong'},
+            TotalDisb:{label:'TotalDisb', type:'number', template:'ulong'},
+            TotalPayout: { label: 'TotalPayout', type: 'number', template: 'ulong' },
+            Payout: { label: 'Payout', type: 'number', template: 'ulong' }
         };
     };
 
@@ -133,7 +138,7 @@
     var filterCondition = function () {
         return {
             FileDetail: { label: "FileDetail", type: "text" },
-            AliasConditionName: { label: "AliasConditionName", type: "text" }
+            AliasConditionName: { label: "Name", type: "text" }
         };
     };
 

@@ -9,6 +9,7 @@ using System.Security.Authentication;
 using System.Web.Http;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using NHibernate;
 using NLog;

@@ -8,6 +8,7 @@ using ColloSys.AllocationService.IgnoreCases;
 using ColloSys.AllocationService.MoveAllocations;
 using ColloSys.AllocationService.PincodeEntry;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 using ColloSys.DataLayer.Infra.SessionMgr;

@@ -33,7 +33,7 @@
     var billingPolicy = function () {
         return {
             Name: { label: 'Name', type: 'text' },
-            Products: { label: 'Products', type: 'enum', valueList: $csShared.enums.ProductEnum },
+            Products: { label: 'Product', type: 'enum', valueList: $csShared.enums.Products },
             Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category }
         };
     };
@@ -42,7 +42,7 @@
         return {
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             Month: { label: 'Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
-            FixedAmount: { label: 'FixedAmount', type: 'number', template:'decimal', editable: false },
+            FixedAmount: { label: 'FixedAmount', type: 'number', template: 'decimal', editable: false },
             StartDate: { label: 'StartDate', type: 'text', editable: false },
             EndDate: { label: 'EndDate', type: 'text', editable: false },
             VariableAmount: { label: 'VariableAmount', type: 'number', template: 'decimal', editable: false },
@@ -104,8 +104,10 @@
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },
             LsqlFunctionType: { type: "enum", valueList: $csShared.enums.LsqlFunctionType },
-            ValueType: { type: "enum", valueList: ['Formula', 'Value', 'Table'] }
-
+            ValueType: { type: "enum", valueList: ['Formula', 'Value', 'Table'] },
+            ProcessingFee: { label: 'Processing Fee', type: 'select' },
+            PayoutCapping: { label: 'Payout Capping', type: 'select' },
+            OutputType: { label: 'Output Type', type: 'select', valueList: ['Number', 'Boolean', 'IfElse'], required: true }
         };
     };
 
@@ -140,7 +142,7 @@
             ApplyOn: { label: 'Apply On', type: 'enum', valueList: $csShared.enums.ApplyOn, required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true, },
             Rule: { label: "Rule", type: "enum", valueList: $csShared.enums.RuleForHolding, required: true, },
-            Value: { label: 'Value', type: 'number',template:'decimal', required: true },
+            Value: { label: 'Value', type: 'number', template: 'decimal', required: true },
             ValuePercent: { label: 'Value', type: 'number', template: 'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
             Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
