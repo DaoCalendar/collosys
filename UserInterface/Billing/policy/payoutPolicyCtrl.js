@@ -1,34 +1,9 @@
-﻿csapp.controller("payoutPolicyCtrl1", ["$scope", "$csnotify", "Restangular", function ($scope, $csnotify, rest) {
-    "use strict";
-
-    $scope.productsList = [];
-    $scope.payoutPolicy = {};
-    $scope.payoutPolicy.Category = "Liner";
-
-    $scope.openDateModel = false;
-    $scope.isModalDateValid = false;
-
-    $scope.closeModel = function () {
-        $scope.modalData = {
-            BillingRelations: {},
-            StartDate: null,
-            endDate: null,
-            subPolicyIndex: -1,
-            forActivate: true
-        };
-        $scope.openDateModel = false;
-    };
-
-    $scope.SaveSubPolicy = function () {
-        $scope.savePayoutPolicy($scope.payoutPolicy);
-    };
-
-}]);
-
-csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer',
-    function ($scope, modaldata, $modalInstance, factory, datalayer) {
+﻿
+csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer', '$csBillingModels',
+    function ($scope, modaldata, $modalInstance, factory, datalayer, $csBillingModels) {
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
+       
 
         $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
@@ -284,8 +259,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
 }]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal', '$csBillingModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels) {
 
         var findIndex = function (list, value) {
             var index = -1;
@@ -315,6 +290,7 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.BillingPolicy = $csBillingModels.models.BillingPolicy;
             datalayer.reset();
             datalayer.getProducts();
             $scope.modalData = {

@@ -1,24 +1,11 @@
 ﻿<div>
     <div data-ng-form="payoutPolicyForm" class="form-horizontal">
         <div class="row well-small">
-            <div class="control-group span5">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.payoutPolicy.Products"
-                        data-ng-change="datalayer.changeProductCategory()" required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                    </select>
-                </div>
+            <div class="span5">
+                <cs-field data-ng-model="dldata.payoutPolicy.Products" field="BillingPolicy.Products"
+                          data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
             </div>
-            <!--<div class="control-group span6">
-                <label class="control-label">Category</label>
-                <div class="controls">
-                    <csswitch ngbind="dldata.payoutPolicy.Category"
-                        onbtnclick="datalayer.changeProductCategory();buttonStatus=null"
-                        namevalues="dldata.categorySwitch"></csswitch>
-                </div>
-            </div>-->
+           
         </div>
 
         <div class="row" data-ng-show="false">
@@ -174,5 +161,23 @@
     </div>
 </div>
 
+<!--<div class="control-group span5">
+                   <label class="control-label">Product</label>
+                   <div class="controls">
+                       <select class="input-large" data-ng-model="dldata.payoutPolicy.Products"
+                               data-ng-change="datalayer.changeProductCategory()" required>
+                           <option value=""></option>
+                           <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
+                       </select>
+                   </div>
+               </div>-->
+<!--<div class="control-group span6">
+        <label class="control-label">Category</label>
+        <div class="controls">
+            <csswitch ngbind="dldata.payoutPolicy.Category"
+                      onbtnclick="datalayer.changeProductCategory();buttonStatus=null"
+                      namevalues="dldata.categorySwitch"></csswitch>
+        </div>
+    </div>-->
 
 
