@@ -58,6 +58,9 @@ namespace AngularUI.Shared.webapis
 
             string[] conditionOperators = { "EqualTo", "NotEqualTo", "LessThan", "LessThanEqualTo", "GreaterThan", "GreaterThanEqualTo" };
             list.AddToList("ConditionOperators", new List<string>(conditionOperators));
+
+            string[] vertical = { "Field", "Telecalling", "BackOffice" };
+            list.AddToList("Vertical", new List<string>(vertical));
         }
 
         public void InitSystemEnums(EnumList list)

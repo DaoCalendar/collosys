@@ -77,12 +77,22 @@
         };
     };
 
+    var permission = function() {
+        return {
+            Activity: {label:"Activity", type: "enum", valuList: $csShared.enums.Activities },
+            Permission: { type: "enum", valueList: $csShared.enums.Permissions },
+            Vertical: { label: "Vertical", type: "enum", valueList: $csShared.enums.Vertical },
+            EscalationDays: {type:"number",},
+        };
+    };
+
     var init = function () {
         models.TaxList = taxList();
         models.TaxMaster = taxMaster();
         models.Pincode = pincode();
         models.Custbill = custbill();
         models.Keyvalue = keyvalue();
+        models.Permission = permission();
         return models;
     };
 

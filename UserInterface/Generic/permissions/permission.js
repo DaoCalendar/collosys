@@ -247,8 +247,8 @@ csapp.factory("PermissionsFactory", ["$csfactory", function ($csfactory) {
 }]);
 
 csapp.controller("PermissionscreenCtrl",
-    ["$scope", "$csfactory", "$csnotify", "Restangular", "$log", "PermissionsDatalayer", "PermissionsFactory",
-        function ($scope, $csfactory, $csnotify, rest, $log, datalayer, factory) {
+    ["$scope", "$csfactory", "$csnotify", "Restangular", "$log", "PermissionsDatalayer", "PermissionsFactory", '$csGenericModels',
+        function ($scope, $csfactory, $csnotify, rest, $log, datalayer, factory, $csGenericModels) {
             "use strict";
 
 
@@ -268,6 +268,7 @@ csapp.controller("PermissionscreenCtrl",
                 $scope.modifyPermissions = [];
                 $scope.FinalPermission = [];
                 $scope.Permissions = [];
+                $scope.Permission = $csGenericModels.models.Permission;
 
                 $scope.selectedposition = '';
 
