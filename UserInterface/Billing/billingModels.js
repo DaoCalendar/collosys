@@ -36,7 +36,7 @@
             Products: { label: 'Product', type: 'enum', valueList: $csShared.enums.Products },
             Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category },
             Output: { label: "Output", type: "textarea" },
-            Condition: { label: "Condition", type: "textarea"},
+            Condition: { label: "Condition", type: "textarea" },
 
         };
     };
@@ -80,13 +80,13 @@
 
     var billingSubpolicy = function () {
         return {
-            Name: { label: "Name", type: "text"},
-            Productname: {type:"text",label:"Product",},
+            Name: { label: "Name", type: "text" },
+            Productname: { type: "text", label: "Product", },
             Products: { label: "Product", required: true, type: "enum", valueList: $csShared.enums.Products },
             Category: { label: "Category", required: true, type: "enum", valueList: $csShared.enums.Category },
             LtypeName: { type: "select", textField: "displayName", valueField: "field" },
             typeSelect: { type: "select", textField: "displayName", valueField: "field" },
-            typeEnum: {type:"enum",valueList:[]},
+            typeEnum: { type: "enum", valueList: [] },
             PayoutSubpolicyType: { label: "PayoutSubPolicy", required: true, type: "enum", valueList: $csShared.enums.PayoutSubpolicyType },
             OutputType: { label: "Output", required: true, type: "enum", valueList: $csShared.enums.OutputType },
             GroupBy: { label: "Group By", type: "select", required: true },//TOBE Disscuss
@@ -123,21 +123,10 @@
             Name: { label: "Name", type: "text", required: true },
             Product: { type: "enum", label: "Product", valueList: $csShared.enums.Products },
             Description: { label: "Description", type: "textarea" },
-            Dimension: { label: "Dimension", type: "select", valueField:"value",textField:"text",valueList:[{value:"1",text:"1D"},{value:"2",text:"2D"}] },
-            Row1DCount: { label: "Rows 1D", type: "number", template: "uint", min: 1, max: 10 },
-            Row1DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
-            Row1DTypeName: { type: "text" },
-            Column2DCount: { label: "Columns 2D", type: "number", template: "uint", min: 1, max: 10 },
-            Column2DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
-            Column2DTypeName: { type: "text" },
-            Row3DCount: { label: "Rows 3D", type: "number", template: "uint", min: 1, max: 10 },
-            Row3DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
-            Row3DTypeName: { type: "text" },
-            Column4DCount: { label: "Columns 4D", type: "number", template: "uint", min: 1, max: 10 },
-            Column4DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
-            Column4DTypeName: { type: "text" },
-            RowsOperator: { type: "enum", valueList: $csShared.enums.Operators },
-            ColumnsOperator: { type: "enum", valueList: $csShared.enums.Operators },
+            Dimension: { label: "Dimension", type: "select", valueField: "value", textField: "text", valueList: [{ value: "1", text: "1D" }, { value: "2", text: "2D" }] },
+            RowDCount: { type: "number", min: "1", max: "10" },
+            RowDTypeName: { type: "select", valueList: [] },
+            Operator: { type: "select", valueField: "value", textField: "text", valueList: [{ value: "EqualTo", text: "EqualTo" }, { value: "GreaterThan", text: "Greater Than" }, { value: "LessThan", text: "Less Than" }] },
             MatrixPerType: { label: "Matrix Per Type", type: "enum", valueList: ["Table", "Formula"] },
             MatrixPerTypeName: { type: "enum", valueList: [], label: "Matrix Per Type Name" }
         };
