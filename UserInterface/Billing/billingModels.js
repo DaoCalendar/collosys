@@ -121,7 +121,9 @@
     var matrix = function () {
         return {
             Name: { label: "Name", type: "text", required: true },
-            Dimension: { label: "Dimension", type: "select", },// to be disscuss
+            Product: { type: "enum", label: "Product", valueList: $csShared.enums.Products },
+            Description: { label: "Description", type: "textarea" },
+            Dimension: { label: "Dimension", type: "select", valueField:"value",textField:"text",valueList:[{value:"1",text:"1D"},{value:"2",text:"2D"}] },
             Row1DCount: { label: "Rows 1D", type: "number", template: "uint", min: 1, max: 10 },
             Row1DType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
             Row1DTypeName: { type: "text" },
@@ -136,7 +138,8 @@
             Column4DTypeName: { type: "text" },
             RowsOperator: { type: "enum", valueList: $csShared.enums.Operators },
             ColumnsOperator: { type: "enum", valueList: $csShared.enums.Operators },
-            MatrixPerType: { type: "enum", valueList: $csShared.enums.PayoutLRType },
+            MatrixPerType: { label: "Matrix Per Type", type: "enum", valueList: ["Table", "Formula"] },
+            MatrixPerTypeName: { type: "enum", valueList: [], label: "Matrix Per Type Name" }
         };
     };
 
