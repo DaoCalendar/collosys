@@ -34,7 +34,10 @@
         return {
             Name: { label: 'Name', type: 'text' },
             Products: { label: 'Product', type: 'enum', valueList: $csShared.enums.Products },
-            Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category }
+            Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category },
+            Output: { label: "Output", type: "textarea" },
+            Condition: { label: "Condition", type: "textarea"},
+
         };
     };
 
