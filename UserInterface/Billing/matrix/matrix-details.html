@@ -5,16 +5,9 @@
     <div class="panel-body">
         <div class="row">
             <div class="control-group span5">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.matrix.Products"
-                        data-ng-disabled="dldata.isMatrixCreated"
-                        data-ng-change="datalayer.changeProductCategory()"
-                        data-ng-required="!dldata.isMatrixCreated">
-                        <option value=""></option>
-                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                    </select>
-                </div>
+                <cs-field data-ng-model="dldata.matrix.Products" data-ng-change="datalayer.changeProductCategory()"
+                          data-ng-disabled="dldata.isMatrixCreated"
+                          field="Matrix.Product" ng-required="!dldata.isMatrixCreated"></cs-field>
             </div>
             <!--   <div class="control-group span6">
                 <label class="control-label">Category</label>
@@ -28,44 +21,22 @@
         </div>
         <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
             <div class="control-group span5">
-                <label class="control-label">Name</label>
-                <div class="controls">
-                    <input type="text"
-                        name="matrixName"
-                        data-ng-model="dldata.matrix.Name"
-                        data-ng-pattern="/^\w*$/"
-                        data-ng-required="!dldata.isMatrixCreated"
-                        data-ng-change="factory.checkDupName(dldata.matrix.Name)"
-                        data-ng-disabled="dldata.isMatrixCreated" />
-                    <div data-ng-show="dldata.isDuplicate">
-                        <label class="text-error">Name Aready Exixts</label>
-                    </div>
-                    <div data-ng-show="matrixForm.matrixName.$dirty">
-                        <span data-ng-show="matrixForm.matrixName.$error.required" class="field-validation-error">{{val.Required()}}</span>
-                        <span data-ng-show="matrixForm.matrixName.$error.pattern" class="field-validation-error">{{val.SpecialCharNotAllow()}}</span>
-                    </div>
+                <cs-field data-ng-model="dldata.matrix.Name" data-ng-required="!dldata.isMatrixCreated"
+                          data-ng-change="factory.checkDupName(dldata.matrix.Name)" field="Matrix.Name"
+                          data-ng-disabled="dldata.isMatrixCreated"></cs-field>
+                <div data-ng-show="dldata.isDuplicate">
+                    <label class="text-error">Name Aready Exixts</label>
                 </div>
-
             </div>
             <div class="control-group span6">
-                <label class="control-label">Dimension</label>
-                <div class="controls">
-                    <select class="input-large" data-ng-model="dldata.matrix.Dimension"
-                        data-ng-disabled="dldata.isMatrixCreated"
-                        data-ng-change="factory.changeDimension(dldata.matrix)" required>
-                        <option value=""></option>
-                        <option value="1">1D</option>
-                        <option value="2">2D</option>
-                    </select>
-                </div>
+                <cs-field data-ng-model="dldata.matrix.Dimension" field="Matrix.Dimension"
+                          data-ng-disabled="dldata.isMatrixCreated"
+                          data-ng-change="factory.changeDimension(dldata.matrix)" ng-required="true"></cs-field>
             </div>
         </div>
         <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
             <div class="control-group span6">
-                <label class="control-label">Description</label>
-                <div class="controls">
-                    <textarea class="noResize" data-ng-model="dldata.matrix.Description"></textarea>
-                </div>
+                <cs-field data-ng-model="dldata.matrix.Description" field="Matrix.Description"></cs-field>
             </div>
         </div>
     </div>
