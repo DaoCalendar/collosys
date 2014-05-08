@@ -84,7 +84,7 @@
             Vertical: { label: "Vertical", type: "enum", valueList: $csShared.enums.Vertical },
             EscalationDays: { type: "number", },
             Hierarchy: { label: "Hierarchy", type: "select", textField: "Hierarchy", valueField: "Hierarchy" },
-            Designation: { label: "Designation",type:"select",textField:"",valueField:"" }
+            Designation: { label: "Designation", type: "select", textField: "Designation", valueField: "Id" }
         };
     };
 
