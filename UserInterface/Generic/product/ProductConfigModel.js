@@ -84,13 +84,14 @@ csapp.factory("ProductFactory", [function () {
 
 
 csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular', '$modal', "ProductsDatalayer",
-    function($scope, $csnotify, rest, $modal, datalayer) {
+    function ($scope, $csnotify, rest, $modal, datalayer) {
 
         $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
 
         (function () {
             $scope.dldata = datalayer.dldata;
             datalayer.GetAll();
+         
         })();
 
         $scope.openModelData = function(productRow, readOnly, index) {
@@ -114,12 +115,13 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
     }]);
 
 
-csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance", "ProductFactory",
-    function ($scope, datalayer, $modalInstance,factory) {
+csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance", "ProductFactory", "$csGenericModels",
+    function ($scope, datalayer, $modalInstance, factory, $csGenericModels) {
     
     (function() {
         $scope.dldata = datalayer.dldata;
         $scope.factory = factory;
+        $scope.Products = $csGenericModels.models.Product;
     })();
     
     $scope.isSelected = function (item, val) {
