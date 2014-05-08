@@ -84,26 +84,17 @@
                         <cs-field data-ng-model="dldata.matrix.ColumnsOperator"
                                   data-ng-required="dldata.matrix.Dimension!=='1'" field="Matrix.Operator"
                                   data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-
                     </td>
                 </tr>
                 <tr data-ng-show="matrix.Dimension>2">
                     <td>Rows 3D</td>
                     <td>
-                        <input type="number" min="1" max="10" class="input-small"
-                               data-ng-model="dldata.matrix.Row3DCount"
-                               data-ng-disabled="dldata.isMatrixCreated" />
+                        <cs-field data-ng-model="dldata.matrix.Row3DCount" field="Matrix.RowDCount"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
-                        <!-- <csswitch ngbind="dldata.matrix.Row3DType" namevalues="typeSwitch"
-                                  ngdisabled="dldata.isMatrixCreated"></csswitch>
-                        -->
-                        <select class="input-medium"
-                                data-ng-disabled="dldata.isMatrixCreated"
-                                data-ng-model="dldata.matrix.Row3DType">
-                            <option>Table</option>
-                            <option>Formula</option>
-                        </select>
+                        <cs-field data-ng-model="dldata.matrix.Row3DType" field="Matrix.MatrixPerType"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
                         <div data-ng-switch on="dldata.matrix.Row3DType">
@@ -122,20 +113,12 @@
                 <tr data-ng-show="dldata.matrix.Dimension>3">
                     <td>Columns 4D</td>
                     <td>
-                        <input type="number" min="1" max="10" class="input-small"
-                               data-ng-model="dldata.matrix.Column4DCount"
-                               data-ng-disabled="dldata.isMatrixCreated" />
+                        <cs-field data-ng-model="dldata.matrix.Column4DCount" field="Matrix.RowDCount"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
-                        <!--<csswitch ngbind="dldata.matrix.Column4DType" namevalues="typeSwitch"
-                                      ngdisabled="dldata.isMatrixCreated"></csswitch>-->
-                        <select class="input-medium"
-                                data-ng-disabled="dldata.isMatrixCreated"
-                                data-ng-model="dldata.matrix.Column4DType">
-                            <option>Table</option>
-                            <option>Formula</option>
-                        </select>
-
+                        <cs-field data-ng-model="dldata.matrix.Column4DType" field="Matrix.MatrixPerType"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
                         <div data-ng-switch on="dldata.matrix.Column4DType">
