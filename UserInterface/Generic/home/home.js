@@ -4,21 +4,22 @@
         var restApi = rest.all("HomeApi");
 
         $scope.changeFunc = function (data) {
+            $scope.clicked++;
             console.log(data);
             $scope.pqr = data;
-            $scope.array = [{ display: 1, value: 2 }];
         };
 
 
 
         (function () {
+            $scope.clicked = 0;
             $scope.abc = {};
             $scope.abce = {};
             $scope.array = [{ display: 1, value: 1 }, { display: 1, value: 2 }, { display: 1, value: 3 }];
             $scope.array1 = [1, 2, 3, 4, 5];
 
             $scope.fields = [
-                 { type: 'boolean', options: [true, false] },
+                 { type: 'boolean', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
                  { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },

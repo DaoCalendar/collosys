@@ -96,30 +96,15 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
 
 
         var input = function (field, attrs) {
-            field.toggle = 0;
-            field.boolVal = field.options[field.toggle];
-            field.clicked = [];
-            field.clickFn = function (a, b) {
-                //field.toggle = a === 0 ? 1 : 0;
-                //field.boolVal = field.options[field.toggle];
-                return a === b;
-            };
-
-            console.log(field);
-
-
-            //var html='<toggle-switchmodel="switchStatus" on-label="sí" off-label="no"><toggle-switch>';
-
-
-
-            var html = '<label> <div class="row-fluid">';
-            html += '<div class="span5" ng-init="$parent.clicked=[]" ng-repeat="data in field.options">';
-            html += '<button class="btn" ng-class="{btn-success:$parent.clicked[$index]}"  ng-change="$parent.clicked[$index] = !$parent.clicked[$index];$parent.clicked[$index+1] = false;$parent.clicked[$index-1] = false"';
-            html += ' ng-model="$parent.' + attrs.ngModel + '"  btn-radio="{{data}}">';
-            html += '{{data}}<i ng-show="$parent.clicked[$index]" class="icon-ok"></i>';
+            var html = '<div class="btn-group">';
+            html += '<button  ng-repeat="data in field.options" class="btn btn-primary"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+            html += ' ng-model="$parent.' + attrs.ngModel + '" btn-radio="data" uncheckable>';
+            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="icon-ok"></i>';
             html += '</button>';
             html += '</div>';
-            html += '</div></label>';
             return html;
         };
 
@@ -135,9 +120,25 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
             return template;
         };
 
-
         var validateOptions = function (options) {
             options.label = options.label || "Boolean";
+
+            if (angular.isDefined(options.valueField)) {
+                if (options.valueField.substring(0, 6) !== "record") {
+                    options.valueField = "record." + options.valueField;
+                }
+            } else {
+                options.valueField = "record";
+            }
+
+            if (angular.isDefined(options.textField)) {
+                if (options.textField.substring(0, 6) !== "record") {
+                    options.textField = "record." + options.textField;
+                }
+            } else {
+                options.textField = "record";
+            }
+
         };
 
 
