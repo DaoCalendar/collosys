@@ -124,7 +124,7 @@
             Product: { type: "enum", label: "Product", valueList: $csShared.enums.Products },
             Description: { label: "Description", type: "textarea" },
             Dimension: { label: "Dimension", type: "select", valueField: "value", textField: "text", valueList: [{ value: "1", text: "1D" }, { value: "2", text: "2D" }] },
-            RowDCount: { type: "number", min: "1", max: "10" },
+            RowDCount: { type: "number", min:1, max:10},
             RowDTypeName: { type: "select", valueList: [] },
             Operator: { type: "select", valueField: "value", textField: "text", valueList: [{ value: "EqualTo", text: "EqualTo" }, { value: "GreaterThan", text: "Greater Than" }, { value: "LessThan", text: "Less Than" }] },
             MatrixPerType: { label: "Matrix Per Type", type: "enum", valueList: ["Table", "Formula"] },
