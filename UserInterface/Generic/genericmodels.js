@@ -84,7 +84,23 @@
             Vertical: { label: "Vertical", type: "enum", valueList: $csShared.enums.Vertical },
             EscalationDays: { type: "number", },
             Hierarchy: { label: "Hierarchy", type: "select", textField: "Hierarchy", valueField: "Hierarchy" },
-            Designation: { label: "Designation",type:"select",textField:"",valueField:"" }
+            Designation: { label: "Designation", type: "select", textField: "Designation", valueField: "Id" }
+        };
+    };
+
+    var product = function() {
+        return {
+            Product: { label: "Product Name", type: "text", maxlength:"40",placeholder:"Enter Product Name"},
+            ProductGroup: { label: "Product Group", type: "text", maxlength: "40", placeholder: "Enter Product Group" },
+            AllocationResetStrategy: { type: "enum", valueList: $csShared.enums.AllocationPolicy },
+            BillingStrategy: { type: "enum", valueList: $csShared.enums.BillingPolicy },
+            FrCutOffDaysCycle: { label: "FR Cycle Cut Off Days *", type: "number", min: "0", max: "30", placeholder: "Enter FR Cycle Cut Off Days" },
+            FrCutOffDaysMonth: { label: "FR Month Cut Off Days *", type: "number", min: "0", max: "30", placeholder: "Enter FR Month Cut Off Days" },
+            CycleCodes: {type:"text"},
+            LinerTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
+            WriteoffTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
+            PaymentTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
+
         };
     };
 
@@ -95,6 +111,7 @@
         models.Custbill = custbill();
         models.Keyvalue = keyvalue();
         models.Permission = permission();
+        models.Product = product();
         return models;
     };
 

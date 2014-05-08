@@ -3,6 +3,7 @@
 
     var restApi = rest.all('PermissionApi');
 
+    dldata.stakeHierarchy = [];
     var getPermission = function (id) {
         if ($csfactory.isNullOrEmptyString(id)) return;
         restApi.customGET('Get', { 'id': id }).then(function (data) {
@@ -68,6 +69,7 @@
     var getAll = function () {
         restApi.customGET('Get').then(function (data) {
             dldata.stakeHierarchy = data;
+
             setUpdatesinPrem(dldata.stakeHierarchy);
             if (dldata.permissionsChanged)//save updates only if there is any change in the permissions
                 saveUpdates(dldata.stakeHierarchy);
@@ -202,6 +204,8 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.SetPermissions(permissionsFactory.permission);
             $scope.Permission = $csGenericModels.models.Permission;
             $scope.prmsn = permissionsFactory.permission;
+            
+
         })();
 
         $scope.save = function (data) {
