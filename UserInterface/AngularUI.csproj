@@ -263,6 +263,7 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\condition.html" />
     <Content Include="Billing\formula\formula-back.js" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
@@ -562,6 +563,7 @@
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
+    <Content Include="Shared\scripts\condition-directive.js" />
     <Content Include="Shared\scripts\controllers.js" />
     <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
@@ -570,6 +572,7 @@
     <Content Include="Generic\csgrid\grid-settings.html" />
     <Content Include="Generic\csgrid\grid-stakeholder.html" />
     <Content Include="Shared\scripts\input-directives.js" />
+    <Content Include="Shared\templates\condition-directive.html" />
     <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />

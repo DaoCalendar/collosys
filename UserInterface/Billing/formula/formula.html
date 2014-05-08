@@ -27,7 +27,10 @@
             <div class="span9 form-horizontal" data-ng-show="boolOpr.showDetails">
                 <div class="row-fluid">
                     <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
-                    <!--<cs-field data-ng-model="formula.Name" field="Formula.Name"></cs-field>-->
+                </div>
+                <div class="row-fluid">
+                    <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/condition.html'">load condition details</div>
+                    
                 </div>
             </div>
         </div>

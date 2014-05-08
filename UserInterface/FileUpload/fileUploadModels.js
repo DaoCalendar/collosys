@@ -128,7 +128,6 @@
         return {
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType },
             ColumnName: { label: "ColumnName", type: "text" },
-            Operator: { type: "enum", valueList: $csShared.enums.ConditionOperators },
             Operator: { label: "Operator", type: "enum", valueList: $csShared.enums.ConditionOperators },
             Value: { label: "Value", type: "text" },
             FilterCondition: { label: "FilterCondition", type: "text" }
@@ -163,7 +162,7 @@
     };
 
 
-    var init = function () {
+    var init = function (tables) {
         models.FileDetail = fileDetail();
         models.FileColumn = fileColumn();
         models.FileMapping = fileMapping();
@@ -172,6 +171,9 @@
         models.Fcondition = fcondition();
         models.FilterCondition = filterCondition();
         models.ExcludeCase = excludeCase();
+
+        tables.FileDetail = models.FileDetail;
+        tables.CustomerInfo = models.CustomerInfo;
         return models;
     };
 
