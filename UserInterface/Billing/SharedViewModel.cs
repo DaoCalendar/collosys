@@ -7,6 +7,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.Types4Product;
 using UserInterfaceAngular.NgGrid;
 
@@ -14,12 +15,12 @@ namespace ColloSys.UserInterface.Shared
 {
     public class SharedViewModel
     {
-        public static IEnumerable<ColumnDef> ConditionColumns(ScbEnums.Products products, ScbEnums.Category category)
+        public static IEnumerable<ColumnDef> ConditionColumns(ScbEnums.Products products)
         {
             IList<ColumnDef> columns = new List<ColumnDef>();
             var propertyList = new List<PropertyInfo>();
 
-            var classType = ClassType.GetTypeByProductCategoryForAlloc(products, category);
+            var classType = typeof(CustomerInfo);
             propertyList.AddRange(GetPropertyList(classType));
             propertyList.ForEach(c => columns.Add(new ColumnDef
             {

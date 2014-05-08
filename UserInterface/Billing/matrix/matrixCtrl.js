@@ -36,17 +36,17 @@
             if (angular.isUndefined(matrix)) {
                 return;
             }
-            if (!angular.isUndefined(matrix.Products) && !angular.isUndefined(matrix.Category)) {
-               
+            if (!angular.isUndefined(matrix.Products)) {
+
                 // get matrix
-                restApi.customGET("GetMatrix", { product: matrix.Products, category: matrix.Category }).then(function (data) {
+                restApi.customGET("GetMatrix", { product: matrix.Products }).then(function (data) {
                     dldata.matrixList = data;
                 }, function (data) {
                     $csnotify.error(data);
                 });
 
                 //get column names
-                restApi.customGET("GetColumnNames", { product: matrix.Products, category: matrix.Category }).then(function (data) {
+                restApi.customGET("GetColumnNames").then(function (data) {
                     dldata.columnNames = [];
                     dldata.columnDef = data;
                     _.forEach(data, function (item) {
@@ -58,7 +58,7 @@
                 });
 
                 // get formula names
-                restApi.customGET("GetFormulaNames", { product: matrix.Products, category: matrix.Category }).then(function (data) {
+                restApi.customGET("GetFormulaNames", { product: matrix.Products }).then(function (data) {
                     dldata.formulaNames = data;
                 }, function (data) {
                     $csnotify.error(data);

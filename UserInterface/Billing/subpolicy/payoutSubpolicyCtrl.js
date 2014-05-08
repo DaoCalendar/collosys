@@ -71,52 +71,62 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
             resetOutput();
 
             var payoutSubpolicy = dldata.payoutSubpolicy;
-            if (!angular.isUndefined(payoutSubpolicy.Products) && !angular.isUndefined(payoutSubpolicy.Category)) {
+            if (!angular.isUndefined(payoutSubpolicy.Products)) {
 
                 // get subpolicy
-                restApi.customGET("GetPayoutSubpolicy", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
+                restApi.customGET("GetPayoutSubpolicy", { product: payoutSubpolicy.Products }).then(function (data) {
                     dldata.payoutSubpolicyList = _.filter(data, { PayoutSubpolicyType: 'Subpolicy' });
-                    if (dldata.payoutSubpolicyList.length==0) {
+                    if (dldata.payoutSubpolicyList.length == 0) {
                         $csnotify.success("SubPolicy Not Available");
                     }
-                }, function (data) {
-                    $csnotify.error(data);
-                });
 
-                //get column names 
+                    //get column names 
+                    restApi.customGET("GetColumns").then(function (columns) {
+                        dldata.columnDefs = columns;
+                        dldata.condLcolumnNames = columns;
+                        dldata.outColumnNames = _.filter(dldata.columnDefs, { InputType: 'number' });
 
-                restApi.customGET("GetColumns", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
-                    dldata.columnDefs = data;
-                    dldata.condLcolumnNames = data;
-                    dldata.outColumnNames = _.filter(dldata.columnDefs, { InputType: 'number' });
-                }, function (data) {
-                    $csnotify.error(data);
-                });
+                        // get formula names
+                        restApi.customGET("GetFormulaNames", { product: payoutSubpolicy.Products }).then(function (formula) {
+                            dldata.formulaNames = formula;
+                            console.log('formula name: ', formula);
 
-                // get formula names
-                restApi.customGET("GetFormulaNames", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
-                    dldata.formulaNames = data;
-                    console.log('formula name: ', data);
-                    
-                    restApi.customGET("GetFormulas", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (completeFormula) {
-                        dldata.formulas = completeFormula;
-                        console.log('formula: ', completeFormula);
-                    }, function (completeFormula) {
-                        $csnotify.error(completeFormula);
+                            restApi.customGET("GetFormulas", { product: payoutSubpolicy.Products }).then(function (completeFormula) {
+                                dldata.formulas = completeFormula;
+                                console.log('formula: ', completeFormula);
+
+
+                                // get formula names
+                                restApi.customGET("GetMatrixNames", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (matrixName) {
+                                    dldata.matrixNames = matrixName;
+                                }, function (matrixName) {
+                                    $csnotify.error(matrixName);
+                                });
+
+                            }, function (completeFormula) {
+                                $csnotify.error(completeFormula);
+                            });
+
+                        }, function (formula) {
+                            $csnotify.error(formula);
+                        });
+
+
+                    }, function (columns) {
+                        $csnotify.error(columns);
                     });
-                    
-                }, function (data) {
-                    $csnotify.error(data);
-                });
-               
-                
 
-                // get formula names
-                restApi.customGET("GetMatrixNames", { product: payoutSubpolicy.Products, category: payoutSubpolicy.Category }).then(function (data) {
-                    dldata.matrixNames = data;
+
                 }, function (data) {
                     $csnotify.error(data);
                 });
+
+
+
+
+
+
+
 
             } else {
                 dldata.LcolumnNames = [];
@@ -185,9 +195,9 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var getColumnValues = function (columnName) {
-          return  restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
-              return data;
-          }, function (data) {
+            return restApi.customGET('GetValuesofColumn', { columnName: columnName }).then(function (data) {
+                return data;
+            }, function (data) {
                 $csnotify.error(data);
             });
         };
@@ -241,7 +251,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             });
         };
 
-        var addNewCondition = function (condition,form) {
+        var addNewCondition = function (condition, form) {
             condition.Ltype = "Column";
             condition.Lsqlfunction = "";
             condition.ConditionType = 'Condition';
@@ -282,13 +292,13 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             }
         };
 
-        var addNewOutput = function (output,form) {
+        var addNewOutput = function (output, form) {
             output.ConditionType = 'Output';
             output.ParentId = dldata.payoutSubpolicy.Id;
             output.Priority = dldata.payoutSubpolicy.BOutputs.length;
             var out = angular.copy(output);
             dldata.payoutSubpolicy.BOutputs.push(out);
-           
+
             datalayer.resetOutput();
             form.$setPristine();
         };
@@ -399,7 +409,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                 }
             });
         };
-        $scope.changeProductCategory = function(product) {
+        $scope.changeProductCategory = function (product) {
             $scope.datalayer.changeProductCategory();
             $scope.addsubpolicy(product);
             $scope.showDiv = false;
@@ -417,7 +427,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             } else {
                 return condition;
             }
-            
+
         };
 
         $scope.selectPayoutSubpolicy = function (spayoutSubpolicy) {
@@ -425,7 +435,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.showDiv = true;
         };
 
-        $scope.addsubpolicy = function(product) {
+        $scope.addsubpolicy = function (product) {
             $scope.showDiv = true;
             $scope.factory.resetPayoutSubpolicy(product);
         };
@@ -464,7 +474,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             }
 
             if (inputType === "dropdown") {
-               // $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
+                // $scope.dldata.conditionValues = $scope.dldata.selectedLeftColumn.dropDownValues;
                 $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.DropdownConditionOperators;
                 condition.Rtype = 'Value';
                 condition.Rvalue = '';

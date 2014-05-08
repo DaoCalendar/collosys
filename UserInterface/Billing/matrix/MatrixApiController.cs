@@ -19,15 +19,15 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
     public class MatrixApiController : BaseApiController<BMatrix>
     {
-        private static readonly ProductConfigBuilder ProductConfigBuilder=new ProductConfigBuilder();
-        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
-        private static readonly BMatrixBuilder BMatrixBuilder=new BMatrixBuilder();
-        private static readonly BMatrixValueBuilder BMatrixValueBuilder=new BMatrixValueBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
+        private static readonly BMatrixBuilder BMatrixBuilder = new BMatrixBuilder();
+        private static readonly BMatrixValueBuilder BMatrixValueBuilder = new BMatrixValueBuilder();
 
         #region Get
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -35,27 +35,27 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
-        
-        public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
+
+        public HttpResponseMessage GetFormulaNames(ScbEnums.Products product)
         {
-            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category)
+            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product)
                                               .Select(x => x.Name).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
 
-         [HttpGet]
-         
-        public HttpResponseMessage GetMatrix(ScbEnums.Products product, ScbEnums.Category category)
-         {
-             var data = BMatrixBuilder.OnProductCategory(product, category);
-             return Request.CreateResponse(HttpStatusCode.OK, data);
+        [HttpGet]
 
-         }
+        public HttpResponseMessage GetMatrix(ScbEnums.Products product)
+        {
+            var data = BMatrixBuilder.OnProductCategory(product);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+
+        }
 
         [HttpGet]
-        
-         public HttpResponseMessage GetMatrixValues(Guid matrixId)
+
+        public HttpResponseMessage GetMatrixValues(Guid matrixId)
         {
             var data = BMatrixValueBuilder.OnMatrixId(matrixId);
             return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -63,10 +63,10 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet] // action does not required DB Transaction
-        public HttpResponseMessage GetColumnNames(ScbEnums.Products product, ScbEnums.Category category)
+        public HttpResponseMessage GetColumnNames()
         {
             var data = SharedViewModel.BillingServiceConditionColumns();//.Select(x=>x.field);  //SharedViewModel.ConditionColumns(product, category).Select(c => c.field);
-                                    //.Where(c => c.InputType == ColloSysEnums.HtmlInputType.number).Select(c => c.field);
+            //.Where(c => c.InputType == ColloSysEnums.HtmlInputType.number).Select(c => c.field);
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
