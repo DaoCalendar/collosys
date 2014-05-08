@@ -34,24 +34,20 @@ namespace ReflectionExtension.Tests.FileReaderTest
             var mappings = _data.GetMappings();
 
             //Act
-            _fileReader.ReadAndSaveBatch( );
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(1).AccountNo, "12345678905");
+            Assert.AreEqual(list.ElementAt(1).AccountNo, "12345678905");
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Check_ListCount()
         {
-            //Arrange
-            var payment = _data.GetPayment();
-            var mappings = _data.GetMappings();
-
             //Act
-            _fileReader.ReadAndSaveBatch( );
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 2);
+            Assert.AreEqual(list.Count, 2);
 
         }
     }

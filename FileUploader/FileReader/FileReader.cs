@@ -42,7 +42,9 @@ namespace ColloSys.FileUploader.FileReader
         #region batch processing
         public void ReadAndSaveBatch()
         {
-            for (var I = _excelReader.CurrentRow; I < _excelReader.TotalRows && (!_excelReader.EndOfFile()); I = I + _batchSize)
+            for (var i = _excelReader.CurrentRow; 
+                i < _excelReader.TotalRows && (!_excelReader.EndOfFile()); 
+                i = i + _batchSize)
             {
                 var list = GetNextBatch();
                 SaveNextBatch(list);
@@ -67,7 +69,7 @@ namespace ColloSys.FileUploader.FileReader
             }
         }
 
-        private IEnumerable<T> GetNextBatch()
+        public IList<T> GetNextBatch()
         {
             var list = new List<T>();
             for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)
@@ -87,7 +89,7 @@ namespace ColloSys.FileUploader.FileReader
         }
         #endregion
 
-        public void Save()
+        public void ProcessFile()
         {
             try
             {
@@ -141,6 +143,8 @@ namespace ColloSys.FileUploader.FileReader
 
                     session.SaveOrUpdate(status);
                     tx.Commit();
+
+                    fileScheduler.FileStatuss.Add(status);
                 }
             }
         }
@@ -168,8 +172,6 @@ namespace ColloSys.FileUploader.FileReader
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    session.Refresh(fileScheduler);
-
                     fileScheduler.ErrorRows = rowCounter.ErrorRecords;
                     fileScheduler.ValidRows = rowCounter.ValidRecords;
                     fileScheduler.TotalRows = rowCounter.TotalRecords;

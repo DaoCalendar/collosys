@@ -48,22 +48,22 @@ namespace FileUploaderService
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
                     IFileReader<Payment> paymentLiner = new RlsPaymentLinerFileReader(scheduler);
-                    paymentLiner.Save();
+                    paymentLiner.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
                     var paymentWo = new RlsPaymentWoAebFileReader(scheduler);
-                    paymentWo.Save();
+                    paymentWo.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_MANUAL_REVERSAL:
                     var paymentManual = new RlsPaymentManualReversalFileReader(scheduler);
-                    paymentManual.Save();
+                    paymentManual.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_PLPC:
                     var paymentWoplpc = new RlsPaymentWoPlpcFileReader(scheduler);
-                    paymentWoplpc.Save();
+                    paymentWoplpc.ProcessFile();
                     break;
 
                 #endregion
@@ -71,17 +71,17 @@ namespace FileUploaderService
                 #region EbbsPayment
                 case ColloSysEnums.FileAliasName.E_PAYMENT_LINER:
                     var ebbspaymentLiner = new EbbsPaymentLinerFileReader(scheduler);
-                    ebbspaymentLiner.Save();
+                    ebbspaymentLiner.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO:
                     var ePaymentWo = new EbbsPaymentWoAutoFileReader(scheduler);
-                    ePaymentWo.Save();
+                    ePaymentWo.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_SMC:
                     var ePaymentEoSmc = new EbbsPaymentWoSmcFileReader(scheduler);
-                    ePaymentEoSmc.Save();
+                    ePaymentEoSmc.ProcessFile();
                     break;
                 #endregion
 
