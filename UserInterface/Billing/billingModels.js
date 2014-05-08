@@ -77,9 +77,13 @@
 
     var billingSubpolicy = function () {
         return {
-            Name: { label: "Name", type: "text", required: true },
+            Name: { label: "Name", type: "text"},
+            Productname: {type:"text",label:"Product",},
             Products: { label: "Product", required: true, type: "enum", valueList: $csShared.enums.Products },
             Category: { label: "Category", required: true, type: "enum", valueList: $csShared.enums.Category },
+            LtypeName: { type: "select", textField: "displayName", valueField: "field" },
+            typeSelect: { type: "select", textField: "displayName", valueField: "field" },
+            typeEnum: {type:"enum",valueList:[]},
             PayoutSubpolicyType: { label: "PayoutSubPolicy", required: true, type: "enum", valueList: $csShared.enums.PayoutSubpolicyType },
             OutputType: { label: "Output", required: true, type: "enum", valueList: $csShared.enums.OutputType },
             GroupBy: { label: "Group By", type: "select", required: true },//TOBE Disscuss
