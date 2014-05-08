@@ -13,6 +13,7 @@
     var getAllHierarchy = function () {
         return apiCalls.customGET('GetAllHierarchies').then(function (data) {
             dldata.HierarchyList = data;
+            dldata.HierarchyData = _.uniq(_.pluck(data, 'Hierarchy'));
             _.forEach(dldata.HierarchyList, function (item) {
                 setHierarchy(item, dldata.HierarchyList);
             });
@@ -23,7 +24,6 @@
     };
 
     var getReportee = function () {
-
         return apiCalls.customGET('GetReportingLevel').then(function (data) {
             dldata.ReportingLevelEnum = data;
         }, function () {
@@ -47,7 +47,6 @@
         });
     };
 
-
     return {
         dldata: dldata,
         GetAll: getAllHierarchy,
@@ -56,6 +55,8 @@
 }]);
 
 csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function ($csfactory, datalayer) {
+
+
 
     var initLocationLevelList = function (dldata) {
         dldata.LocationlevelList = [{ key: 'Pincode', value: 'Pincode' },
@@ -83,12 +84,39 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
 
     };
 
-    var reloadReportsTo = function (stakeholder) {
-        stakeholder.Designation = '';
-        stakeholder.Hierarchy = '';
-        stakeholder.ReportingLevel = '';
-        stakeholder.ReportsTo = '';
-        stakeholder.WorkingReportsTo = '';
+
+    var reloadReportsTo = function (stakeholder, dldata) {
+        dldata.Designation = [];
+
+        dldata.HierarchyList = _.sortBy(dldata.HierarchyList, 'PositionLevel');
+        if (!$csfactory.isNullOrEmptyArray(dldata.HierarchyList)) {
+            if ((stakeholder.Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
+                _.forEach(dldata.HierarchyList, function (item) {
+                    dldata.Designation.push(item);
+                });
+                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
+
+            } else {
+
+                dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
+                    if (data.Hierarchy === stakeholder.Hierarchy) return data;
+                });
+
+                _.forEach(dldata.Designation, function (item) {
+                    var reportTo = _.find(dldata.HierarchyList, { 'Id': item.ReportsTo });
+                    console.log(reportTo);
+                    var desig = {
+                        Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
+                        Id: item.Id
+                    };
+                    dldata.Designation.push(desig);
+                });
+                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
+            }
+        }
+
+
+
     };
 
     var designationName = function (hierarchy) {
@@ -118,21 +146,24 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
     };
 }]);
 
-csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations', 'hierarchyDataLayer', "hierarchyFactory", "$modal",
+csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
+    'hierarchyDataLayer', "hierarchyFactory", "$modal",
     function ($scope, $csfactory, $validation, datalayer, factory, $modal) {
 
         (function () {
             $scope.datalayer = datalayer;
             $scope.val = $validation;
             $scope.dldata = datalayer.dldata;
-
+            $scope.factory = factory;
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
         })();
 
+
+
         $scope.openEditModal = function (hierarchy) {
             $modal.open({
-                templateUrl: baseUrl+'Stakeholder/hierarchy/hierarchy-edit.html',
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
                 resolve: {
                     editHierarchy: function () {
@@ -143,19 +174,49 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
         };
     }]);
 
-csapp.controller("hierarchyAddController", ["$scope", '$csfactory', '$Validations', 'hierarchyDataLayer',
-    "hierarchyFactory", function ($scope, $csfactory, $validation, datalayer, factory) {
+csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory', '$Validations', 'hierarchyDataLayer', '$csStakeholderModels',
+    "hierarchyFactory", function ($csShared, $scope, $csfactory, $validation, datalayer, $csStakeholderModels, factory) {
 
         (function () {
             $scope.factoryMethods = factory;
             $scope.datalayer = datalayer;
             $scope.val = $validation;
             $scope.dldata = datalayer.dldata;
-
+            $scope.stakeholderfield = $csStakeholderModels.init.StkhHierarchy;
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
-
         })();
+
+
+        $scope.hierarchyChange = function () {
+            if (angular.isDefined($scope.stakeholder.Hierarchy)) {
+                $scope.stakeholder.ReportingLevel = '';
+                $scope.stakeholder.ReportsTo = '';
+                $scope.stakeholder.WorkingReportsTo = '';
+                $scope.stakeholder.WorkingReportsLevel = '';
+            };
+        };
+
+        $scope.reportsChange = function () {
+            if (angular.isDefined($scope.stakeholder.ReportsTo)) {
+                $scope.stakeholder.ReportingLevel = '';
+                $scope.stakeholder.WorkingReportsTo = '';
+                $scope.stakeholder.WorkingReportsLevel = '';
+            };
+        };
+
+        $scope.reportinglevelChange = function () {
+            if (angular.isDefined($scope.stakeholder.ReportingLevel)) {
+                $scope.stakeholder.WorkingReportsTo = '';
+                $scope.stakeholder.WorkingReportsLevel = '';
+            };
+        };
+
+        $scope.workingReportsChange = function () {
+            if (angular.isDefined($scope.stakeholder.WorkingReportsTo)) {
+                $scope.stakeholder.WorkingReportsLevel = '';
+            };
+        };
 
 
         $scope.save = function (hierarchy) {
@@ -171,14 +232,19 @@ csapp.controller("hierarchyAddController", ["$scope", '$csfactory', '$Validation
         };
     }]);
 
-csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalInstance", "hierarchyDataLayer",
-    function ($scope, editHierarchy, $modalInstance, datalayer) {
+csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalInstance",
+    "hierarchyDataLayer", "$csStakeholderModels", "hierarchyFactory",
+    function ($scope, editHierarchy, $modalInstance, datalayer, $csStakeholderModels, factory) {
 
         (function () {
+            $scope.factory = factory;
             $scope.hierarchy = angular.copy(editHierarchy);
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
+            $scope.hierarchyfield = $csStakeholderModels.init.StkhHierarchy;
         })();
+
+        console.log($scope.hierarchy);
 
         $scope.save = function (hierarchy) {
             datalayer.Save(hierarchy).then(function () {
