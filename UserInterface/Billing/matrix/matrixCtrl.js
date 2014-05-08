@@ -316,13 +316,14 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
     }]);
 
 csapp.controller('matrixCtrl', [
-    '$scope', 'matrixDataLayer', 'matrixFactory',
-    function ($scope, datalayer, factory) {
+    '$scope', 'matrixDataLayer', 'matrixFactory', '$csBillingModels',
+    function ($scope, datalayer, factory, $csBillingModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             factory.initEnumsConst();
+            $scope.Matrix = $csBillingModels.models.Matrix;
             datalayer.getProducts();
         })();
 

@@ -8,13 +8,13 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         dldata.PayoutSubpolicyTypeSwitch = [{ Name: 'Formula', Value: 'Formula' }, { Name: 'Subpolicy', Value: 'Subpolicy' }];
         dldata.outputTypeSwitch = [{ Name: 'Number', Value: 'Number' }, { Name: 'Boolean', Value: 'Boolean' }];
 
-        var getProducts = function () {
-            restApi.customGET("GetProducts").then(function (data) {
-                dldata.productsList = data;
-            }, function (data) {
-                $csnotify.error(data);
-            });
-        };
+        //var getProducts = function () {
+        //    restApi.customGET("GetProducts").then(function (data) {
+        //        dldata.productsList = data;
+        //    }, function (data) {
+        //        $csnotify.error(data);
+        //    });
+        //};
 
         var selectPayoutSubpolicy = function (spayoutSubpolicy) {
             dldata.payoutSubpolicy = spayoutSubpolicy;
@@ -215,7 +215,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
 
         return {
             dldata: dldata,
-            getProducts: getProducts,
+           // getProducts: getProducts,
             selectPayoutSubpolicy: selectPayoutSubpolicy,
             changeProductCategory: changeProductCategory,
             setIsPolicyApproved: setIsPolicyApproved,
@@ -388,7 +388,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
             $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
             $scope.GPincode = $csGenericModels.models.Pincode;
-            $scope.datalayer.getProducts();
+           // $scope.datalayer.getProducts();
             $scope.fieldname = '';
             $scope.showField = true;
             $scope.showField2 = false;

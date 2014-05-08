@@ -982,7 +982,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     return enumFactory;
                 case 'date':
                     return dateFactory;
-                case 'boolean':
+                case 'btn-radio':
                     return boolFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;

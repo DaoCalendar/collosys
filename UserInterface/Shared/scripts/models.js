@@ -20,9 +20,10 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
     function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels,$csGenericModels) {
 
         var models = {};
+        var tables = {};
 
         var init = function () {
-            models.FileUpload = $csFileUploadModels.init();
+            models.FileUpload = $csFileUploadModels.init(tables);
             models.Stakeholder = $csStakeholderModels.init;
             models.AllocSubpolicy = $csAllocationModels.init();
             models.Billing = $csBillingModels.init();
@@ -32,7 +33,8 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
 
         return {
             init: init,
-            models: models
+            models: models,
+            tables: tables
         };
     }
 ]);

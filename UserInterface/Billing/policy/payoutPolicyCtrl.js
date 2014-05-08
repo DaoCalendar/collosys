@@ -3,7 +3,7 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
     function ($scope, modaldata, $modalInstance, factory, datalayer, $csBillingModels) {
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
-       
+
 
         $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
@@ -170,14 +170,6 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
 
     dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
 
-    var getProducts = function () {
-        restApi.customGET("GetProducts").then(function (data) {
-            dldata.productsList = data;
-        }, function (data) {
-            $csnotify.error(data);
-        });
-    };
-
     var reset = function () {
         dldata.payoutPolicy = {};
         dldata.subPolicyList = [];
@@ -249,7 +241,6 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
 
     return {
         dldata: dldata,
-        getProducts: getProducts,
         changeProductCategory: changeProductCategory,
         RejectSubPolicy: rejectSubPolicy,
         savePayoutPolicy: savePayoutPolicy,
@@ -292,7 +283,6 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.dldata = datalayer.dldata;
             $scope.BillingPolicy = $csBillingModels.models.BillingPolicy;
             datalayer.reset();
-            datalayer.getProducts();
             $scope.modalData = {
                 BillingRelation: {},
                 StartDate: null,
