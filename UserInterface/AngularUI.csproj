@@ -525,7 +525,6 @@
     <Content Include="FileUpload\errorapproval\error-approval.html" />
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
-    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
