@@ -11,28 +11,42 @@
                 <hr />
                 <div class="row-fluid">
                     <!--Collection Policy-->
-                    <div class="control-group span6">
-                        <label class="control-label">Collection Policy:</label>
-                        <div class="controls">
-                            <select data-ui-select2="" id="linerPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
-                                data-ng-model="paymentData.Payment.CollectionBillingPolicy"
-                                style="min-width: 200px;">
-                                <option></option>
-                                <option value="{{c.Id}}" data-ng-repeat="c in $parent.WizardData.BillingPolicy.LinerPolicies">{{c.Name}}</option>
-                            </select>
-                        </div>
+                    <!-- <div class="control-group span6">
+                             <label class="control-label">Collection Policy:</label>
+                             <div class="controls">
+                                 <select data-ui-select2="" id="linerPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
+                                         data-ng-model="paymentData.Payment.CollectionBillingPolicy"
+                                         style="min-width: 200px;">
+                                     <option></option>
+                                     <option value="{{c.Id}}" data-ng-repeat="c in $parent.WizardData.BillingPolicy.LinerPolicies">{{c.Name}}</option>
+                                 </select>
+                             </div>
+                         </div>-->
+                    <div class="span6">
+                        <cs-field data-ng-model="paymentData.Payment.CollectionBillingPolicy"
+                            data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
+                            value-list="$parent.WizardData.BillingPolicy.LinerPolicies"
+                            field="paymentModel.CollectionPolicy">
+                        </cs-field>
                     </div>
                     <!--Recovery Policy-->
-                    <div class="control-group span6">
-                        <label class="control-label">Recovery Policy:</label>
-                        <div class="controls">
-                            <select data-ui-select2="" id="writeoffPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff) "
-                                data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
-                                style="min-width: 200px;">
-                                <option></option>
-                                <option value="{{c.Id}}" data-ng-repeat="c in $parent.WizardData.BillingPolicy.WriteOffPolicies">{{c.Name}}</option>
-                            </select>
-                        </div>
+                    <!--<div class="control-group span6">
+                            <label class="control-label">Recovery Policy:</label>
+                            <div class="controls">
+                                <select data-ui-select2="" id="writeoffPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff) "
+                                        data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
+                                        style="min-width: 200px;">
+                                    <option></option>
+                                    <option value="{{c.Id}}" data-ng-repeat="c in $parent.WizardData.BillingPolicy.WriteOffPolicies">{{c.Name}}</option>
+                                </select>
+                            </div>
+                        </div>-->
+                    <div class="span6">
+                        <cs-field data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
+                            data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff)  "
+                            value-list="$parent.WizardData.BillingPolicy.WriteOffPolicies"
+                            field="paymentModel.RecoveryPolicy">
+                        </cs-field>
                     </div>
                 </div>
             </div>
@@ -41,9 +55,9 @@
                 <h5 style="font-weight: normal;">Fixed Pay</h5>
                 <hr />
                 <div class="row-fluid">
-                    <div class="row-fluid">
-                        <!--Basic-->
-                        <div class="control-group span6">
+
+                    <!--Basic-->
+                    <!--<div class="control-group span6">
                             <label class="control-label">
                                 Basic :
                                 <label style="font-size: large; color: red">*</label></label>
@@ -52,197 +66,236 @@
                                     <span class="add-on"><i class="icon-rupee"></i></span>
                                     <input type="text" name="FixpayBasic" data-ng-required="paymentData.Hierarchy.HasFixed " min="0" max="10000000"
                                         data-ng-maxlength="8" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" data-ng-model="paymentData.Payment.FixpayBasic" />
-                                </div>
-                                <!--Basic Validation-->
-                                <div data-ng-show="paymentDetailsForm.FixpayBasic.$dirty ">
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.required ">{{val.Required()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.pattern">{{val.OnlyNumbers()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.max">{{val.MaxAmt('10000000')}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.min">{{ val.MinLength('0')}} </span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.maxlength">{{ val.MaxLength('8')}} </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--HRA-->
-                        <div class="control-group span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                            <label class="control-label">
-                                Hra :
+                                </div>-->
+                    <!--Basic Validation-->
+                    <!-- <div data-ng-show="paymentDetailsForm.FixpayBasic.$dirty ">
+                                 <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.required ">{{val.Required()}}</span>
+                                 <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.pattern">{{val.OnlyNumbers()}}</span>
+                                 <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.max">{{val.MaxAmt('10000000')}}</span>
+                                 <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.min">{{ val.MinLength('0')}} </span>
+                                 <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.maxlength">{{ val.MaxLength('8')}} </span>
+                             </div>
+                        </div>-->
+                    <div class="span6">
+                        <cs-field
+                            data-ng-model="paymentData.Payment.FixpayBasic"
+                            data-ng-required="paymentData.Hierarchy.HasFixed"
+                            field="paymentModel.FixpayBasic">
+                            </cs-field>
+                    </div>
+
+                    <!--HRA-->
+                    <div class=" span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                        <!--<label class="control-label">
+                            Hra :
                                 <label style="font-size: large; color: red">*</label></label>
-                            <div class="controls">
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-rupee"></i></span>
-                                    <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000"
-                                        data-ng-maxlength="6" data-ng-model="paymentData.Payment.FixpayHra" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayHra" />
-                                </div>
-                                <!--HRA Validation-->
-                                <div data-ng-show="paymentDetailsForm.FixpayHra.$dirty ">
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.required">{{val.Required()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.pattern">{{val.OnlyNumbers()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.maxlength">{{val.MaxLength('6')}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.min">{{ val.MinLength('0')}} </span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.max">{{val.MaxAmt('100000')}}</span>
-                                </div>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-rupee"></i></span>
+                                <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000"
+                                    data-ng-maxlength="6" data-ng-model="paymentData.Payment.FixpayHra" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayHra" />
                             </div>
-                        </div>
+                            <!--HRA Validation-->
+                        <!--<div data-ng-show="paymentDetailsForm.FixpayHra.$dirty ">
+                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.required">{{val.Required()}}</span>
+                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.pattern">{{val.OnlyNumbers()}}</span>
+                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.maxlength">{{val.MaxLength('6')}}</span>
+                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.min">{{ val.MinLength('0')}} </span>
+                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayHra.$error.max">{{val.MaxAmt('100000')}}</span>
+                            </div>
+                        </div>-->
+                        <cs-field
+                            data-ng-model="paymentData.Payment.FixpayHra"
+                            data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
+                            field="paymentModel.FixpayHra"></cs-field>
                     </div>
-                    <!--Other and Total-->
-                    <div class="row-fluid">
-                        <!--Other-->
-                        <div class="control-group span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                            <label class="control-label">
-                                Other :
+                </div>
+                <!--Other and Total-->
+                <div class="row-fluid">
+                    <!--Other-->
+                    <!--<div class="control-group span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                        <label class="control-label">
+                            Other :
                                 <label style="font-size: large; color: red">*</label></label>
-                            <div class="controls">
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-rupee"></i></span>
-                                    <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000" data-ng-maxlength="6"
-                                        data-ng-model="paymentData.Payment.FixpayOther" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayOther" />
-                                </div>
-                                <!--Other Validation-->
-                                <div data-ng-show="paymentDetailsForm.FixpayOther.$dirty ">
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.required">{{val.Required()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.pattern">{{val.OnlyNumbers()}}</span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.min">{{ val.MinLength('0')}} </span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.min">{{ val.MaxLength('6')}} </span>
-                                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.max">{{val.MaxAmt('100000')}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Total-->
-                        <div class="control-group span6 info" data-ng-show="false">
-                            <label class="control-label">Total:</label>
-                            <div class="controls">
-                                <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-rupee"></i></span>
-                                    <input type="text" data-ng-model="paymentData.Payment.FixpayTotal"
-                                        disabled value="{{paymentData.Payment.FixpayTotal=TotalPayment(paymentData.Payment.FixpayBasic,paymentData.Payment.FixpayHra,paymentData.Payment.FixpayOther)}}" />
-                                </div>
-                            </div>
-                        </div>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-rupee"></i></span>
+                                <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000" data-ng-maxlength="6"
+                                    data-ng-model="paymentData.Payment.FixpayOther" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayOther" />
+                            </div>-->
+                    <!--Other Validation-->
+                    <!--  <div data-ng-show="paymentDetailsForm.FixpayOther.$dirty ">
+                              <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.required">{{val.Required()}}</span>
+                              <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.pattern">{{val.OnlyNumbers()}}</span>
+                              <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.min">{{ val.MinLength('0')}} </span>
+                              <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.min">{{ val.MaxLength('6')}} </span>
+                              <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.max">{{val.MaxAmt('100000')}}</span>
+                          </div>
+                    </div>-->
+                    <div class="span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                        <cs-field
+                            field="paymentModel.FixpayOther"
+                            data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
+                            data-ng-model="paymentData.Payment.FixpayOther">
+                        </cs-field>
                     </div>
                 </div>
-                <!--Salary calculating Table-->
-                <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                    <table class="table table-bordered table-hover" data-ng-show="paymentData.Payment.FixpayBasic">
-                        <thead>
-                            <tr>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic">Basic</th>
-                                <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">Allowances</th>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic">Employee PF</th>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic">Employer PF</th>
-                                <th>Employee ESIC</th>
-                                <th>Employer ESIC</th>
-                                <th>Service Charge</th>
-                                <th>Service Tax</th>
-                                <th>Gross Pay</th>
-                            </tr>
-                            <tr>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic"></th>
-                                <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther"></th>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
-                                <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
-                                <th>Basic * {{FixedPay.EmployeeESIC}}%</th>
-                                <th>Basic * {{FixedPay.EmployerESIC}}% </th>
-                                <th>Basic * {{FixedPay.ServiceCharge}}%</th>
-                                <th>Basic * {{FixedPay.ServiceTax}}% </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-ng-show="paymentData.Payment.FixpayBasic">{{paymentData.Payment.FixpayBasic}}</td>
-                                <td data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">{{paymentData.Payment.FixpayHra*1 + paymentData.Payment.FixpayOther*1}}
-                                </td>
-                                <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
-                                <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
-                                <td>{{SalDetails.esicEmployee}}</td>
-                                <td>{{SalDetails.esicEmployer}}</td>
-                                <td>{{SalDetails.serviceCharge}}</td>
-                                <td>{{SalDetails.serviceTax}}</td>
-                                <td>{{paymentData.Payment.FixpayTotal}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--Allowances-->
-            <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
-                <h5 style="font-weight: normal;">Reimbursement elgibility</h5>
-                <hr />
-                <!--Mobile and Travel-->
-                <div class="row-fluid">
-                    <!--MObile-->
-                    <div class="control-group span6">
-                        <label class="control-label">
-                            Mobile:
-                            <label style="font-size: large; color: red">*</label></label>
-                        <div class="controls">
-                            <input type="text" data-ng-required="paymentData.Hierarchy.HasMobileTravel " min="0" data-ng-maxlength="5"
-                                data-ng-model="paymentData.Payment.MobileElig" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="MobileElig" />
-                            <!--Mobile Validation-->
-                            <div data-ng-show="paymentDetailsForm.MobileElig.$dirty ">
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.required">{{val.Required()}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.pattern">{{val.OnlyNumbers()}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.maxlength">{{val.MaxLength('5')}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.min">{{ val.MinLength('0')}} </span>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Travel-->
-                    <div class="control-group span6">
-                        <label class="control-label">
-                            Travel:
-                            <label style="font-size: large; color: red">*</label></label>
-                        <div class="controls">
-                            <input type="text" data-ng-required="paymentData.Hierarchy.HasMobileTravel " min="0" data-ng-maxlength="5"
-                                data-ng-model="paymentData.Payment.TravelElig" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="TravelElig" />
-                            <!--Travel Validation-->
-                            <div data-ng-show="paymentDetailsForm.TravelElig.$dirty ">
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.required">{{val.Required()}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.pattern">{{val.OnlyNumbers()}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.maxlength">{{val.MaxLength('5')}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.min">{{ val.MinLength('0')}} </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Other Pay-->
-            <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
-                <h5 style="font-weight: normal;">Other Charges</h5>
-                <hr />
-                <div class="row-fluid">
-                    <!--Service charge-->
-                    <div class="control-group span6">
-                        <label class="control-label">
-                            Service Charge:
-                            <label style="font-size: large; color: red">*</label></label>
-                        <div class="controls">
-                            <div class="input-append">
-                                <input type="text"
-                                    data-ng-required="paymentData.Hierarchy.HasServiceCharge "
-                                    data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"
-                                    data-ng-maxlength="99.99"
-                                    class="input-mini"
-                                    data-ng-model="paymentData.Payment.ServiceCharge" name="ServiceCharge" />
-                                <span class="add-on">%</span>
-                            </div>
-                            <!--Payment Validation-->
-                            <div data-ng-show="paymentDetailsForm.ServiceCharge.$dirty ">
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.required">{{val.Required()}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.maxlength">{{val.MaxLength(99.99)}}</span>
-                                <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.pattern">{{val.ValidName('Percentage')}}</span>
-                            </div>
+                <!--Total-->
+                <div class="control-group span6 info" data-ng-show="false">
+                    <label class="control-label">Total:</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-rupee"></i></span>
+                            <input type="text" data-ng-model="paymentData.Payment.FixpayTotal"
+                                disabled value="{{paymentData.Payment.FixpayTotal=TotalPayment(paymentData.Payment.FixpayBasic,paymentData.Payment.FixpayHra,paymentData.Payment.FixpayOther)}}" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <br />
+        <!--Salary calculating Table-->
+        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+            <table class="table table-bordered table-hover" data-ng-show="paymentData.Payment.FixpayBasic">
+                <thead>
+                    <tr>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic">Basic</th>
+                        <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">Allowances</th>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic">Employee PF</th>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic">Employer PF</th>
+                        <th>Employee ESIC</th>
+                        <th>Employer ESIC</th>
+                        <th>Service Charge</th>
+                        <th>Service Tax</th>
+                        <th>Gross Pay</th>
+                    </tr>
+                    <tr>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic"></th>
+                        <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther"></th>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
+                        <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
+                        <th>Basic * {{FixedPay.EmployeeESIC}}%</th>
+                        <th>Basic * {{FixedPay.EmployerESIC}}% </th>
+                        <th>Basic * {{FixedPay.ServiceCharge}}%</th>
+                        <th>Basic * {{FixedPay.ServiceTax}}% </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-ng-show="paymentData.Payment.FixpayBasic">{{paymentData.Payment.FixpayBasic}}</td>
+                        <td data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">{{paymentData.Payment.FixpayHra*1 + paymentData.Payment.FixpayOther*1}}
+                        </td>
+                        <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                        <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                        <td>{{SalDetails.esicEmployee}}</td>
+                        <td>{{SalDetails.esicEmployer}}</td>
+                        <td>{{SalDetails.serviceCharge}}</td>
+                        <td>{{SalDetails.serviceTax}}</td>
+                        <td>{{paymentData.Payment.FixpayTotal}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <!--modal pop-up for delete payment-->
+        <!--Allowances-->
+        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
+            <h5 style="font-weight: normal;">Reimbursement elgibility</h5>
+            <hr />
+            <!--Mobile and Travel-->
+            <div class="row-fluid">
+                <!--MObile-->
+                <!--<div class="control-group span6">
+                <label class="control-label">
+                    Mobile:
+                            <label style="font-size: large; color: red">*</label></label>
+                <div class="controls">
+                    <input type="text" data-ng-required="paymentData.Hierarchy.HasMobileTravel " min="0" data-ng-maxlength="5"
+                        data-ng-model="paymentData.Payment.MobileElig" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="MobileElig" />-->
+                <!--Mobile Validation-->
+                <!-- <div data-ng-show="paymentDetailsForm.MobileElig.$dirty ">
+                     <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.required">{{val.Required()}}</span>
+                     <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.pattern">{{val.OnlyNumbers()}}</span>
+                     <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.maxlength">{{val.MaxLength('5')}}</span>
+                     <span class="field-validation-error" data-ng-show="paymentDetailsForm.MobileElig.$error.min">{{ val.MinLength('0')}} </span>
+                 </div>
+            </div>
+            </div>-->
+                <div class="span6">
+                    <cs-field
+                        data-ng-required="paymentData.Hierarchy.HasMobileTravel"
+                        data-ng-model="paymentData.Payment.MobileElig"
+                        field="paymentModel.MobileElig"></cs-field>
+                </div>
+                <!--Travel-->
+                <!-- <div class="control-group span6">
+                    <label class="control-label">
+                        Travel:
+                            <label style="font-size: large; color: red">*</label></label>
+                    <div class="controls">
+                        <input type="text" data-ng-required="paymentData.Hierarchy.HasMobileTravel " min="0" data-ng-maxlength="5"
+                            data-ng-model="paymentData.Payment.TravelElig" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="TravelElig" />
+                        <!--Travel Validation-->
+                <!--<div data-ng-show="paymentDetailsForm.TravelElig.$dirty ">
+                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.required">{{val.Required()}}</span>
+                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.pattern">{{val.OnlyNumbers()}}</span>
+                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.maxlength">{{val.MaxLength('5')}}</span>
+                    <span class="field-validation-error" data-ng-show="paymentDetailsForm.TravelElig.$error.min">{{ val.MinLength('0')}} </span>
+                </div>
+            </div>
+        </div>
+        -->
+                <div class="span6">
+                    <cs-field
+                        data-ng-required="paymentData.Hierarchy.HasMobileTravel"
+                        data-ng-model="paymentData.Payment.TravelElig"
+                        field="paymentModel.TravelElig"></cs-field>
+                </div>
+            </div>
+        </div>
+        <!--Other Pay-->
+        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
+            <h5 style="font-weight: normal;">Other Charges</h5>
+            <hr />
+            <div class="row-fluid">
+                <!--Service charge-->
+                <!--<div class="control-group span6">
+            <label class="control-label">
+                Service Charge:
+                            <label style="font-size: large; color: red">*</label></label>
+            <div class="controls">
+                <div class="input-append">
+                    <input type="text"
+                        data-ng-required="paymentData.Hierarchy.HasServiceCharge "
+                        data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"
+                        data-ng-maxlength="99.99"
+                        class="input-mini"
+                        data-ng-model="paymentData.Payment.ServiceCharge" name="ServiceCharge" />
+                    <span class="add-on">%</span>
+                </div>
+                <!--Payment Validation-->
+                <!--<div data-ng-show="paymentDetailsForm.ServiceCharge.$dirty ">
+                        <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.required">{{val.Required()}}</span>
+                        <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.maxlength">{{val.MaxLength(99.99)}}</span>
+                        <span class="field-validation-error" data-ng-show="paymentDetailsForm.ServiceCharge.$error.pattern">{{val.ValidName('Percentage')}}</span>
+                    </div>
+                </div>
+                </div>-->
+                <div class="span6">
+                    <cs-field
+                        data-ng-required="paymentData.Hierarchy.HasServiceCharge"
+                        class="input-mini"
+                        data-ng-model="paymentData.Payment.ServiceCharge" name="ServiceCharge"
+                        field="paymentModel.ServiceCharge"></cs-field>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
 
-        <!-- <div modal="confirmDel.showModal" options="modelOption">
+<!--modal pop-up for delete payment-->
+
+<!-- <div modal="confirmDel.showModal" options="modelOption">
                  <div class="modal-header">
                      <strong>Confirm Delete</strong>
                  </div>
@@ -256,6 +309,3 @@
                      </div>
                  </div>
              </div>-->
-
-    </div>
-</div>

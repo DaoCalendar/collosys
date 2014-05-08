@@ -91,10 +91,98 @@ csapp.directive("csInputSuffix", function () {
     };
 });
 
+csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+
+        var input = function (field, attrs) {
+            field.toggle = 0;
+            field.boolVal = field.options[field.toggle];
+            field.clicked = [];
+            field.clickFn = function (a, b) {
+                //field.toggle = a === 0 ? 1 : 0;
+                //field.boolVal = field.options[field.toggle];
+                return a === b;
+            };
+
+            console.log(field);
+
+
+            //var html='<toggle-switchmodel="switchStatus" on-label="sí" off-label="no"><toggle-switch>';
+
+
+
+            var html = '<label> <div class="row-fluid">';
+            html += '<div class="span5" ng-init="$parent.clicked=[]" ng-repeat="data in field.options">';
+            html += '<button class="btn" ng-class="{btn-success:$parent.clicked[$index]}"  ng-change="$parent.clicked[$index] = !$parent.clicked[$index];$parent.clicked[$index+1] = false;$parent.clicked[$index-1] = false"';
+            html += ' ng-model="$parent.' + attrs.ngModel + '"  btn-radio="{{data}}">';
+            html += '{{data}}<i ng-show="$parent.clicked[$index]" class="icon-ok"></i>';
+            html += '</button>';
+            html += '</div>';
+            html += '</div></label>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs),
+                valtemplate.before(),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+
+
+        var validateOptions = function (options) {
+            options.label = options.label || "Boolean";
+        };
+
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+    }]);
+
 csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
         var $log = logManager.getInstance("csNumberFieldFactory");
+
+
+        var prefix = function (fields) {
+            var html = ' ';
+            switch (fields.template) {
+                case 'rupee':
+                    html += '<div class="input-prepend"><span class=" add-on"><i class="icon-rupee"></i></span>';
+                    break;
+                case 'percentage':
+                    html += '<div class="input-append">';
+                    break;
+                default:
+                    break;
+            }
+            return html;
+        };
+
+        var suffix = function (fields) {
+            var html = ' ';
+            switch (fields.template) {
+                case 'rupee':
+                    html += '</div>';
+                    break;
+                case 'percentage':
+                    html += '<span class="add-on"><label>%</label></span></div>';
+                default:
+                    break;
+            }
+            return html;
+        };
+
+
 
         //#region template
         var input = function (field, attrs) {
@@ -131,7 +219,9 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
                 valtemplate.before(),
+                prefix(field),
                 input(field, attrs),
+                suffix(field),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
             ].join(' ');
@@ -141,6 +231,8 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         //#region validations
         var applyTemplates = function (options) {
+
+            options.template = angular.isUndefined(options.template) ? 'decimal' : options.template;
 
             var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
             angular.forEach(tmpl, function (template) {
@@ -169,6 +261,9 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                         options.max = 100;
                         options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
                         options.patternMessage = "allows percentage with precision of 2";
+                        break;
+                    case "rupee":
+                        options.min = 0;
                         break;
                     default:
                         $log.error(options.type + " is not defined");
@@ -863,8 +958,8 @@ csapp.directive('csFieldGroup', [function () {
     };
 }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -886,6 +981,8 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     return enumFactory;
                 case 'date':
                     return dateFactory;
+                case 'boolean':
+                    return boolFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;
             }

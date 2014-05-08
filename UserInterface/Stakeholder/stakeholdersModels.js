@@ -59,7 +59,7 @@
 
     var stkhWorking = function () {
         return {
-            BucketStart: { label: 'BucketStart', type: 'select', textField: 'display',value:'value' },
+            BucketStart: { label: 'BucketStart', type: 'select', textField: 'display', value: 'value' },
             BucketEnd: { label: 'BucketEnd', type: 'number', template: 'uint' },
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum' },
@@ -82,15 +82,17 @@
             BankAccNo: { label: 'BankAccNo', type: 'text' },
             BankAccName: { label: 'BankAccName', type: 'text' },
             BankIfscCode: { label: 'BankIfscCode', type: 'text' },
-            MobileElig: { label: 'MobileElig', type: 'number', template: 'decimal' },
-            TravelElig: { label: 'TravelElig', type: 'number', template: 'decimal' },
-            FixpayBasic: { label: 'FixpayBasic', type: 'number', template: 'decimal' },
-            FixpayHra: { label: 'FixpayHra', type: 'number', template: 'decimal' },
-            FixpayOther: { label: 'FixpayOther', type: 'number', template: 'decimal' },
-            FixpayTotal: { label: 'FixpayTotal', type: 'number', template: 'decimal' },
-            ServiceCharge: { label: 'ServiceCharge', type: 'number', template: 'decimal' },
+            MobileElig: { label: 'Mobile', type: 'number', template: 'decimal' },
+            TravelElig: { label: 'Travel', type: 'number', template: 'decimal' },
+            FixpayBasic: { label: 'Basic', type: 'number', template: 'rupee' },
+            FixpayHra: { label: 'Hra', type: 'number', template: 'rupee' },
+            FixpayOther: { label: 'Other', type: 'number', template: 'rupee' },
+            FixpayTotal: { label: 'FixpayTotal', type: 'number', template: 'rupee' },
+            ServiceCharge: { label: 'Service Charge', type: 'number', template: 'percentage' },
             StartDate: { label: 'StartDate', type: 'date' },
             EndDate: { label: 'EndDate', type: 'date' },
+            CollectionPolicy: { label: 'Collection Policy', type: 'select', valueField: 'Id', textField: 'Name' },
+            RecoveryPolicy: { label: 'Recovery Policy', type: 'select', valueField: 'Id', textField: 'Name' },
         };
     };
 
@@ -117,6 +119,16 @@
         };
     };
 
+    var stakeView = function () {
+        return {
+            View: { label: "View", type: "enum" },
+            Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
+            Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
+            Stake: { label: "Stakeholder/Agency", type: "select", valueField: 'Id', textField: 'Name' },
+            Products: { label: "Products", type: "enum" },
+        };
+    };
+
     var init = function () {
         return {
             Stakeholder: stakeholder(),
@@ -125,6 +137,7 @@
             StkhPayment: stkhPayment(),
             StkhRegistration: stkhRegistration(),
             StakeAddress: stakeAddress(),
+            StakeView: stakeView()
         };
     };
 

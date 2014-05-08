@@ -1,14 +1,16 @@
-﻿<div class="form-horizontal">
+﻿<div class="form-horizontal" data-ng-form="frmPermission">
     <div class="panel">
         <div class="panel-heading">Permissions {{perm.hierarchy}}</div>
         <div class="row-fluid">
             <div class="control-group span5">
-                <div class="control-label">Hierarchy</div>
-                <div class="controls">
-                    <select class="input-medium" data-ng-model="perm.hierarchy">
-                        <option data-ng-repeat="data in dldata.stakeHierarchy|unique : 'Hierarchy'" value="{{data.Hierarchy}}">{{data.Hierarchy}}</option>
-                    </select>
-                </div>
+                <cs-field data-ng-model="perm.hierarchy"
+                          field="Permission.Hierarchy" value-list="dldata.stakeHierarchy"></cs-field>
+                <!--<div class="control-label">Hierarchy</div>
+                    <div class="controls">
+                        <select class="input-medium" data-ng-model="perm.hierarchy">
+                            <option data-ng-repeat="data in dldata.stakeHierarchy|unique : 'Hierarchy'" value="{{data.Hierarchy}}">{{data.Hierarchy}}</option>
+                        </select>
+                    </div>-->
             </div>
             <div data-ng-show="perm.hierarchy" class="control-group span5">
                 <div class="control-label">Designation</div>
@@ -16,7 +18,9 @@
                     <select data-ng-change="datalayer.GetPermission(perm.designation)" class="input-medium" data-ng-model="perm.designation">
                         <option data-ng-repeat="data in dldata.stakeHierarchy|
                         filter : {'Hierarchy' : perm.hierarchy} | orderBy: 'PositionLevel'"
-                            value="{{data.Id}}">{{data.Designation}}</option>
+                                value="{{data.Id}}">
+                            {{data.Designation}}
+                        </option>
                     </select>
                 </div>
             </div>

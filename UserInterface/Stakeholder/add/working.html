@@ -315,7 +315,7 @@
                             </span>
                         </td>
                         <td data-ng-show="WorkingData.Hierarchy.HasBuckets">
-                            <select data-ui-select2="" class="select-working" multiple="multiple"
+                            <!--<select data-ui-select2="" class="select-working" multiple="multiple"
                                 data-ng-model="workingModel.SelectedPincodeData.BucketStart"
                                 data-ng-required="(WorkingData.Hierarchy.HasBuckets)"
                                 data-ng-disabled="!WorkingData.Hierarchy.HasBuckets || buckArray.length>0">
@@ -326,7 +326,15 @@
                                 <option value="5">5(120-149)</option>
                                 <option value="6">6(150-179)</option>
                                 <option value="0">6+(180+)</option>
-                            </select>
+                            </select>-->
+                            <cs-field
+                                multiple="multiple"
+                                data-ng-model="workingModel.SelectedPincodeData.BucketStart"
+                                data-ng-required="(WorkingData.Hierarchy.HasBuckets)"
+                                value-list="bucketArray"
+                                data-ng-disabled="!WorkingData.Hierarchy.HasBuckets || buckArray.length>0"
+                                field="workingField.BucketStart">
+                            </cs-field>
                         </td>
                     </tr>
                 </tbody>
