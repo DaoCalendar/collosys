@@ -245,11 +245,9 @@
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
     <Content Include="Allocation\policy\policy-modal.html" />
-    <Content Include="Allocation\policy\temp.html" />
     <Content Include="Allocation\subpolicy\allocSubpolicyCtrl.js" />
     <Content Include="Allocation\subpolicy\allocsubpolicy.html" />
     <Content Include="Allocation\subpolicy\date-model.html" />
-    <Content Include="Allocation\subpolicy\temp.html" />
     <Content Include="Allocation\viewapprove\ApproveViewAllocation.js" />
     <Content Include="Allocation\viewapprove\change-allocation-modal.html" />
     <Content Include="Allocation\viewapprove\churn-allocation-modal.html" />
@@ -263,6 +261,7 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
+    <Content Include="Billing\formula\condition.html" />
     <Content Include="Billing\formula\formula-back.js" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
@@ -284,11 +283,9 @@
     <Content Include="Billing\matrix\matrix-show.html" />
     <Content Include="Billing\matrix\matrix.html" />
     <Content Include="Billing\matrix\matrixCtrl.js" />
-    <Content Include="Billing\matrix\temp.html" />
     <Content Include="Billing\policy\date-modal.html" />
     <Content Include="Billing\policy\billingpolicy.html" />
     <Content Include="Billing\policy\payoutPolicyCtrl.js" />
-    <Content Include="Billing\policy\test.html" />
     <Content Include="Billing\readybilling\index.html" />
     <Content Include="Billing\readybilling\ReadyForBilling.js" />
     <Content Include="Billing\status\BillingStatus.js" />
@@ -296,7 +293,6 @@
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
     <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
-    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
@@ -530,7 +526,6 @@
     <Content Include="FileUpload\errorapproval\error-approval.html" />
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
-    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
@@ -562,6 +557,7 @@
     <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
+    <Content Include="Shared\scripts\condition-directive.js" />
     <Content Include="Shared\scripts\controllers.js" />
     <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
@@ -570,6 +566,7 @@
     <Content Include="Generic\csgrid\grid-settings.html" />
     <Content Include="Generic\csgrid\grid-stakeholder.html" />
     <Content Include="Shared\scripts\input-directives.js" />
+    <Content Include="Shared\templates\condition-directive.html" />
     <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
