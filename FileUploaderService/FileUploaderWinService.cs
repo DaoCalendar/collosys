@@ -67,7 +67,7 @@ namespace FileUploaderService
 
             _timer.Elapsed += OnEventTime;
 
-            _timer.Interval = 30000;
+            _timer.Interval = 60000;
 
             _timer.Enabled = true;
 

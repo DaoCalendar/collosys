@@ -1,10 +1,17 @@
-﻿using ColloSys.DataLayer.Infra.SessionMgr;
+﻿using ColloSys.DataLayer.ClientData;
+using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.DbLayer;
+using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploadService;
 using FileUploaderService;
+using NHibernate.Cfg.ConfigurationSchema;
 using NHibernate.Linq;
 using NUnit.Framework;
+using ReflectionExtension.ExcelReader;
+using ReflectionExtension.Tests.DataCreator.FileUploader;
+using FileUploaderService = ColloSys.FileUploadService.FileUploaderService;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
@@ -67,16 +74,23 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
     public class testGetNxtRw
     {
         private IDbLayer obj;
+        private ColloSys.FileUploader.FileReader.IFileReader<Payment> _reader;
+        readonly FileMappingData _data=new FileMappingData();
+        private ICounter counter;
         [SetUp]
-        public void init()
+        public void Init()
         {
             obj = new DbLayer();
+            counter=new ExcelRecordCounter();
+            var scheduler = _data.GetUploadedFile();
+            _reader =new RlsPaymentLinerFileReader(scheduler);
         }
 
 
         [Test]
         public void Test()
         {
+            //_reader.Save();
             //var session = SessionManager.GetCurrentSession();
 
             //using (var transaction = session.BeginTransaction())
@@ -86,7 +100,8 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
             //    transaction.Commit();
             //}
 
-            obj.GetNextFileForSchedule();
+           // obj.GetNextFileForSchedule();
+            global::FileUploaderService.FileUploaderService.UploadFiles();
         }
     }
 }

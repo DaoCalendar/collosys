@@ -1,74 +1,91 @@
-﻿using System;
+﻿#region references
+
+using System;
+using System.IO;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
-using ColloSys.FileUploadService.Implementers;
-using FileUploaderService.Interfaces;
+using ColloSys.FileUploader.FileReader;
 using NLog;
+
+#endregion
 
 namespace FileUploaderService
 {
     public static class AllFileUploader
     {
-        private static readonly Logger _log = LogManager.GetCurrentClassLogger();
+        // upload only one file at a time
+        private static bool _isUploadInProgress;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public static void UploadFile(FileScheduler scheduler)
         {
-            IDbLayer dbLayer=new DbLayer();
+            if (_isUploadInProgress) return;
+
+            try
+            {
+                _isUploadInProgress = true;
+                UploadFileByAliasSwitcher(scheduler);
+            }
+            catch (Exception exception)
+            {
+                Logger.ErrorException("Could not upload file : " + scheduler.FileName, exception);
+                throw;
+            }
+            finally
+            {
+                _isUploadInProgress = false;
+            }
+
+        }
+
+        private static void UploadFileByAliasSwitcher(FileScheduler scheduler)
+        {
             switch (scheduler.FileDetail.AliasName)
             {
                 #region RlsPayment
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
-                    var paymentLiner = new RlsPaymentLinerFileReader(scheduler);
-                    paymentLiner.ReadAndSaveBatch();
-            //         _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
-            //scheduler.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
-            //dbLayer.ChangeStatus(scheduler);
-            ////ReaderNeeds.PostProcesing();
-            //_log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
-
-            //        _log.Info("ReadFile: Retry error record.");
-            ////ReaderNeeds.RetryErrorRows();
-
-            //_log.Info("ReadFile: saving the error table.");
-            //      //  dbLayer.SetDoneStatus(scheduler,);
-            //SaveDoneStatus();
-
+                    IFileReader<Payment> paymentLiner = new RlsPaymentLinerFileReader(scheduler);
+                    paymentLiner.Save();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
                     var paymentWo = new RlsPaymentWoAebFileReader(scheduler);
-                    paymentWo.ReadAndSaveBatch();
+                    paymentWo.Save();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_MANUAL_REVERSAL:
                     var paymentManual = new RlsPaymentManualReversalFileReader(scheduler);
-                    paymentManual.ReadAndSaveBatch();
+                    paymentManual.Save();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_PLPC:
                     var paymentWoplpc = new RlsPaymentWoPlpcFileReader(scheduler);
-                    paymentWoplpc.ReadAndSaveBatch();
+                    paymentWoplpc.Save();
                     break;
 
                 #endregion
 
+                #region EbbsPayment
                 case ColloSysEnums.FileAliasName.E_PAYMENT_LINER:
                     var ebbspaymentLiner = new EbbsPaymentLinerFileReader(scheduler);
-                    ebbspaymentLiner.ReadAndSaveBatch();
+                    ebbspaymentLiner.Save();
                     break;
 
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO:
                     var ePaymentWo = new EbbsPaymentWoAutoFileReader(scheduler);
-                    ePaymentWo.ReadAndSaveBatch();
+                    ePaymentWo.Save();
                     break;
 
                 case ColloSysEnums.FileAliasName.E_PAYMENT_WO_SMC:
                     var ePaymentEoSmc = new EbbsPaymentWoSmcFileReader(scheduler);
-                    ePaymentEoSmc.ReadAndSaveBatch();
+                    ePaymentEoSmc.Save();
                     break;
+                #endregion
 
-                #region
+                #region commented
 
                 //case ColloSysEnums.FileAliasName.CACS_ACTIVITY:
                 //    new CacsActivityReader(scheduler).UploadFile();
@@ -123,11 +140,10 @@ namespace FileUploaderService
 
                 #endregion
 
-
                 default:
-                    throw new NotImplementedException("File Reader not implemented for given type");
+                    throw new InvalidDataException("Alias Name is not implemented : " + scheduler.FileDetail.AliasName);
             }
         }
-        
+
     }
 }

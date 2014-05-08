@@ -1,16 +1,24 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.Linq;
+using ColloSys.DataLayer.ClientData;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.FileUploader.AliasFileReader;
+using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploadService.Implementers;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.ConfigSectionReader;
 using FileUploaderService.Interfaces;
+using NHibernate.Transform;
 using NLog;
 
 #endregion
@@ -58,49 +66,66 @@ namespace FileUploaderService
 
         public static void UploadFiles()
         {
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+            #region 
 
-            // if some file is uploading, dont start upload for another file
-            if (_fileUploading)
-            {
-                Logger.Info("FileUpload: Waiting for other uploads to finish.");
-                return;
-            }
+            //CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            //CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+
+            //// if some file is uploading, dont start upload for another file
+            //if (_fileUploading)
+            //{
+            //    Logger.Info("FileUpload: Waiting for other uploads to finish.");
+            //    return;
+            //}
 
             // get next file for uploading
-            IDbLayer dbLayer = new DbLayer();
+
+            #endregion
+
+            ColloSys.FileUploader.DbLayer.IDbLayer dbLayer = new ColloSys.FileUploader.DbLayer.DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
-            if (file == null)
-            {
-                Logger.Info("FileUpload: No files scheduled for upload or waiting for dependent files to finish uploading.");
-                return;
-            }
 
-            // upload the file - in case of error just log the error and leave
-            try
+            if (file!=null)
             {
-                _fileUploading = true;
-                // change the status of the file to uploading
-                file.UploadStatus = ColloSysEnums.UploadStatus.UploadStarted;
-                file.StatusDescription = string.Empty;
-                dbLayer.ChangeStatus(file);
-                Logger.Info("FileUpload: uploading file : " + file.FileName + ", for date" + file.FileDate.ToShortDateString());
-
                 AllFileUploader.UploadFile(file);
             }
-            catch (Exception exception)
-            {
-                file.UploadStatus = ColloSysEnums.UploadStatus.Error;
-                file.StatusDescription = exception.Message;
-                dbLayer.ChangeStatus(file);
-                Logger.Error(string.Format("FileUpload : Could not upload file {0}", file.FileName) + exception);
-            }
+           
 
-            // done with uploading the file, ready for next file
-            _fileUploading = false;
-            Logger.Info(string.Format("FileUpload : {0} is Upload with status : {1}", file.FileName, file.UploadStatus));
+            #region cmt
+
+            //if (file == null)
+            //{
+            //    Logger.Info("FileUpload: No files scheduled for upload or waiting for dependent files to finish uploading.");
+            //    return;
+            //}
+
+            //// upload the file - in case of error just log the error and leave
+            //try
+            //{
+            //    _fileUploading = true;
+            //    // change the status of the file to uploading
+            //    file.UploadStatus = ColloSysEnums.UploadStatus.UploadStarted;
+            //    file.StatusDescription = string.Empty;
+            //    dbLayer.ChangeStatus(file);
+            //    Logger.Info("FileUpload: uploading file : " + file.FileName + ", for date" + file.FileDate.ToShortDateString());
+
+            //}
+            //catch (Exception exception)
+            //{
+            //    file.UploadStatus = ColloSysEnums.UploadStatus.Error;
+            //    file.StatusDescription = exception.Message;
+            //    dbLayer.ChangeStatus(file);
+            //    Logger.Error(string.Format("FileUpload : Could not upload file {0}", file.FileName) + exception);
+            //}
+
+            //// done with uploading the file, ready for next file
+            //_fileUploading = false;
+            //Logger.Info(string.Format("FileUpload : {0} is Upload with status : {1}", file.FileName, file.UploadStatus));
+
+            #endregion
         }
+
+        
 
         #endregion
 
@@ -115,3 +140,4 @@ namespace FileUploaderService
         #endregion
     }
 }
+
