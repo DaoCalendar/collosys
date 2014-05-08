@@ -2,7 +2,7 @@
     <div class="panel panel-heading">
         Define Matrix
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="overflow: auto">
         <table data-ng-show="dldata.matrix.Dimension" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -50,18 +50,12 @@
                 <tr data-ng-show="dldata.matrix.Dimension>1">
                     <td>Columns 2D</td>
                     <td>
-                        <input type="number" min="1" max="10" class="input-small"
-                               data-ng-model="dldata.matrix.Column2DCount" data-ng-disabled="dldata.isMatrixCreated" />
+                        <cs-field data-ng-model="dldata.matrix.Column2DCount" field="Matrix.RowDCount"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
-                        <!--<csswitch ngbind="dldata.matrix.Column2DType" namevalues="dldata.typeSwitch"
-                                  ngdisabled="dldata.isMatrixCreated"></csswitch>-->
-                        <select class="input-medium"
-                                data-ng-disabled="dldata.isMatrixCreated"
-                                data-ng-model="dldata.matrix.Column2DType">
-                            <option>Table</option>
-                            <option>Formula</option>
-                        </select>
+                        <cs-field data-ng-model="dldata.matrix.Column2DType" field="Matrix.MatrixPerType"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                     </td>
                     <td>
                         <div data-ng-switch on="dldata.matrix.Column2DType">
@@ -77,11 +71,8 @@
                                 </select>
                             </div>
                             <div data-ng-switch-when="Formula">
-                                <select class="input-xlarge" data-ng-model="dldata.matrix.Column2DTypeName"
-                                        data-ng-disabled="dldata.isMatrixCreated">
-                                    <option value=""></option>
-                                    <option data-ng-repeat="c in dldata.formulaNames" value="{{c}}">{{c}}</option>
-                                </select>
+                                <cs-field data-ng-model="dldata.matrix.Column2DTypeName" ng-required="true" field="Matrix.MatrixPerTypeName"
+                                          value-list="dldata.formulaNames" data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
                             </div>
                             <div data-ng-show="factory.buttonDisable(dldata.matrix.Dimension)">
                                 <span class="field-validation-error">Type Names cannot be same </span>
@@ -90,14 +81,10 @@
                     </td>
                     <td>
                         <!--opertor select box-->
-                        <select class="input-small"
-                                data-ng-model="dldata.matrix.ColumnsOperator"
-                                data-ng-required="dldata.matrix.Dimension!=='1'"
-                                data-ng-disabled="dldata.isMatrixCreated">
-                            <option value="EqualTo">EqualTo </option>
-                            <option value="GreaterThan">Greater Than </option>
-                            <option value="LessThan">Less Than</option>
-                        </select>
+                        <cs-field data-ng-model="dldata.matrix.ColumnsOperator"
+                                  data-ng-required="dldata.matrix.Dimension!=='1'" field="Matrix.Operator"
+                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+
                     </td>
                 </tr>
                 <tr data-ng-show="matrix.Dimension>2">
