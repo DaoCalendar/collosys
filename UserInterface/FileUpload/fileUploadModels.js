@@ -54,6 +54,9 @@
             DefaultValue: { label: "Default Value", type: "text", required: true },
             StartDate: { label: "Start Date", type: "date", required: true },
             EndDate: { label: "End Date", type: "date", required: true },
+            fileDetail: { label: "File Name", type: 'select', valueField: 'Id', textField: 'AliasName' },
+            actualTable: { label: 'Actual Table', type: 'text' }
+
         };
     };
 
