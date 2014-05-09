@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -24,7 +25,7 @@ namespace ColloSys.FileUploader.AliasRecordCreator
         public EbbsPaymentWoAutoRecordCreator(FileScheduler fileShedular)
             : base(fileShedular, AccountPosition, AccountLength)
         {
-            _ePaymentExcludeCodes = reader.GetValuesFromKey(ColloSysEnums.Activities.FileUploader, "EPaymentExcludeCode");
+            _ePaymentExcludeCodes = Reader.GetValuesFromKey(ColloSysEnums.Activities.FileUploader, "EPaymentExcludeCode");
             _scheduler = fileShedular;
         }
 

@@ -86,6 +86,7 @@
     <Compile Include="FileReaderTest\EbbsPaymentLinerFileReaderTest.cs" />
     <Compile Include="FileReaderTest\EbbsPaymentWoAutoFileReaderTest.cs" />
     <Compile Include="FileReaderTest\EbbsPaymentWoSmcFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\FileProcessesTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentLinerFileReaderTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentManualReversalFileReaderTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentWoAebFileReaderTest.cs" />

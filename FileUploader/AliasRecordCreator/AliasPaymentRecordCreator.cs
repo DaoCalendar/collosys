@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.DbLayer;
+using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.AliasRecordCreator
 {
     public abstract class AliasPaymentRecordCreator : IAliasRecordCreator<Payment>
     {
-        public IDbLayer reader;
+        public readonly IDbLayer Reader;
         private readonly uint _accountPosition;
         private readonly uint _accountLength;
         public FileScheduler FileScheduler { get; protected set; }
         public AliasPaymentRecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
         {
-            reader=new DbLayer.DbLayer();
+            Reader=new DbLayer.DbLayer();
             FileScheduler = scheduler;
             _accountLength = accountLength;
             _accountPosition = accountPosition;

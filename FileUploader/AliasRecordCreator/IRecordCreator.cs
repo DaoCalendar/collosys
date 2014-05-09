@@ -1,8 +1,9 @@
- using System.Collections.Generic;
+using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
+using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.AliasReader
+namespace ColloSys.FileUploader.AliasRecordCreator
 {
     public interface IAliasRecordCreator<in TEntity> where TEntity : class, new()
     {
