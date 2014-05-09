@@ -15,9 +15,12 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 {
     public class FileMappingData
     {
-        readonly SetUpAssemblies _setUp=new SetUpAssemblies();
+        readonly SetUpAssemblies _setUp = new SetUpAssemblies();
         private FileMapping GetDefaultMapping()
         {
+            _setUp.InitNhibernate();
+
+
             return new FileMapping
             {
                 CreatedOn = DateTime.Now,
@@ -187,7 +190,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public Payment GetPayment()
         {
-            var objPayment=new Payment {TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL" ,CreditAmount = 400,DebitAmount = 500};
+            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500 };
 
             return objPayment;
         }
@@ -201,19 +204,19 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public FileScheduler GetUploadedFile()
         {
-             _setUp.InitNhibernate();
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"))
-                    .And(c => c.FileName == "20140507_174359_DrillDown_Txn_1404ce92cf1770.xls")
-                    .List<FileScheduler>().FirstOrDefault();
-
-            return data;
+            FileScheduler file;
+           
+                file = SessionManager.GetCurrentSession()
+                 .QueryOver<FileScheduler>()
+                 .Where(c => c.FileDetail.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"))
+                 .And(c => c.FileName == "20140507_174359_DrillDown_Txn_1404ce92cf1770.xls")
+                 .List<FileScheduler>().FirstOrDefault();
+          
+            return file;
         }
         public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
         {
-            _setUp.InitNhibernate();
+
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -225,7 +228,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         }
         public FileScheduler GetUploadedFileForRlsPaymentWoAeb()
         {
-            _setUp.InitNhibernate();
+
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -237,7 +240,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         }
         public FileScheduler GetUploadedFileForWoSmc()
         {
-            _setUp.InitNhibernate();
+
             var data =
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
@@ -274,11 +277,11 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public List<string> GetTransactionList()
         {
-            var strList=new List<string> {"204@PARTIAL REPAYMENT - REVERSAL"};
+            var strList = new List<string> { "204@PARTIAL REPAYMENT - REVERSAL" };
 
             return strList;
         }
-       
+
 
         public IEnumerable<FileMapping> GetMappingForCheckbasicField()
         {

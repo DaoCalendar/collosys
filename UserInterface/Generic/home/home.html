@@ -1,14 +1,14 @@
-﻿<div data-ng-if="false">
+﻿<div data-ng-if="true">
     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form class="form-horizontal">
-        <!--<select class="nya-selectpicker" ng-options="c as c for c in array1" data-ng-model="abce.data" data-container="body">
-        </select>
-        <select id="dynamic-options" class="nya-selectpicker" ng-model="myModel" data-container="body" multiple>
-            <option ng-repeat="option in array1" value="{{option}}">{{option}}</option>
+      <!--  <select class="nya-selectpicker" ng-options="c for c in array1" data-ng-model="abce.data" data-container="body">
         </select>-->
+        <select id="dynamic-options" ng-options="c for c in array1" nya-selectpicker ng-model="myModel" data-container="body" >
+            <!--<option ng-repeat="option in array1" value="{{option}}">{{option}}</option>-->
+        </select>
         <ng-form data-ng-if="true" name="parentForm" class="form-horizontal">
             <cs-field-group  mode="'add'">
-                <cs-field data-ng-model="abce.data" data-ng-disabled="false" data-ng-change="changeFunc($parent.abce.data)" field="fields[0]"></cs-field>{{array}}
+                <cs-field data-ng-model="abce.data" data-ng-disabled="false" data-ng-click="changeFunc($parent.abce.data)" field="fields[0]"></cs-field>{{array}}
                 <cs-field data-ng-model="abcd" value-ist="array" multiple="multiple" data-ng-change ="changeFunc(abcd)" field="fields[5]"></cs-field>
                 <cs-field data-ng-model="abce.data" data-ng-change ="changeFunc(abcde)" field="fields[7]"></cs-field>
                 <pre>{{abce.data}}</pre>

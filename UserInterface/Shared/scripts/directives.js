@@ -433,8 +433,10 @@ csapp.directive('btnSwitch', function () {
         restrict: 'A',
         require: 'ngModel',
         //templateUrl: 'switcher.html',
-        template: '<span class="btn boolean"><span class="on btn-primary">Yes</span>' +
-            '<span class="off btn-default">No</span></span>',
+        template: '<span class="btn boolean">' +
+                    '<span class="on btn-primary">Yes</span>' +
+                    '<span class="off btn-default">No</span>' +
+                '</span>',
         replace: true,
         link: function (scope, element, attrs, ngModel) {
 
@@ -683,7 +685,6 @@ csapp.directive('bsDatepicker', function () {
     };
 });
 //#endregion
-
 
 csapp.directive('cspagination', function () {
 

@@ -155,10 +155,10 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var html = ' ';
             switch (fields.template) {
                 case 'rupee':
-                    html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-rupee"></i></span>';
+                    html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>';
                     break;
                 case 'percentage':
-                    html += '<div class="input-append">';
+                    html += '<div class="input-group">';
                     break;
                 default:
                     break;
@@ -173,7 +173,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                     html += '</div>';
                     break;
                 case 'percentage':
-                    html += '<span class="add-on"><label>%</label></span></div>';
+                    html += '<span class="input-group-addon"><label>%</label></span></div>';
                 default:
                     break;
             }
@@ -302,13 +302,13 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var html = ' ';
         switch (fields.template) {
             case 'user':
-                html += '<div class="input-prepend"><span class="add-on"><i class="glyphicon glyphicon-user"></i></span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
                 break;
             case 'phone':
-                html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-phone"></i></span><span class="add-on">+91</span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
                 break;
             case 'percentage':
-                html += '<div class="input-append">';
+                html += '<div class="input-group">';
                 break;
             default:
                 break;
@@ -326,7 +326,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 html += '</div>';
                 break;
             case 'percentage':
-                html += '<span class="add-on"><label>%</label></span></div>';
+                html += '<span class="input-group-addon"><label>%</label></span></div>';
             default:
                 break;
         }
@@ -553,9 +553,9 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
 
             var hasSuffix = angular.isDefined(field.suffix) && field.suffix !== null && field.suffix.length > 0;
 
-            var html = '<div class="input-prepend';
-            html += hasSuffix ? ' input-append">' : '">';
-            html += '<span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>';
+            var html = '<div class="input-group';
+            html += hasSuffix ? ' input-group">' : '">';
+            html += '<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>';
             return html;
 
         };
@@ -571,7 +571,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             }
 
             if (hasSuffix) {
-                string += '<span class="add-on">' + fields.suffix + '</span>';
+                string += '<span class="input-group-addon">' + fields.suffix + '</span>';
             }
             return string;
         };
@@ -592,7 +592,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += addEmailSuffix(field);
-            html += '/>';
+            //html += '/>';
             return html;
         };
 
@@ -868,6 +868,19 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
                     break;
                 case "past":
                     field.endDate = "+0";
+                    break;
+                case "Daily":
+                    field.startDate = "-15d";
+                    field.endDate = "+5d";
+                    break;
+                case "Weekly":
+                    field.startDate = "-30d";
+                    field.endDate = "+15d";
+                    break;
+                case "Monthly":
+                    field.minViewMode = "months";
+                    field.startDate = "-80d";
+                    field.endDate = "+30d";
                     break;
                 default:
                     $log.error(template + " is not defined.");

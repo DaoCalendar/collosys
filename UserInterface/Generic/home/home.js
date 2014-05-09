@@ -9,9 +9,8 @@
             $scope.pqr = data;
         };
 
-
-
         (function () {
+            //$scope.myModel = 1;
             $scope.clicked = 0;
             $scope.abc = {};
             $scope.abce = {};
@@ -19,7 +18,7 @@
             $scope.array1 = [1, 2, 3, 4, 5];
 
             $scope.fields = [
-                 { type: 'boolean', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
+                 { type: 'btn-radio', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
                  { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
