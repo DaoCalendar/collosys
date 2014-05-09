@@ -128,7 +128,7 @@ csapp.controller("fileMappingViewEditController", [
 
     }]);
 
-csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", function ($scope, datalayer, $modal) {
+csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", "$csFileUploadModels", function ($scope, datalayer, $modal, $csFileUploadModels) {
     "use strict";
 
     (function () {
@@ -136,6 +136,7 @@ csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$m
         datalayer.fetchValueTypeEnum();
         datalayer.GetAllFileDetails();
         datalayer.dldata.actualTable = '';
+        $scope.fileMappingModel = $csFileUploadModels.models.FileMapping;
     })();
 
     $scope.openEditModalPopup = function (mode, filemapping) {
