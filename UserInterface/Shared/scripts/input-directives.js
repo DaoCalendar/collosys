@@ -869,6 +869,19 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 case "past":
                     field.endDate = "+0";
                     break;
+                case "Daily":
+                    field.startDate = "-15d";
+                    field.endDate = "+5d";
+                    break;
+                case "Weekly":
+                    field.startDate = "-30d";
+                    field.endDate = "+15d";
+                    break;
+                case "Monthly":
+                    field.minViewMode = "months";
+                    field.startDate = "-80d";
+                    field.endDate = "+30d";
+                    break;
                 default:
                     $log.error(template + " is not defined.");
             }

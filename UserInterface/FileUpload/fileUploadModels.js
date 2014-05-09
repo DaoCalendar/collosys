@@ -116,9 +116,9 @@
             CityCat: { label: 'CityCat', type: 'enum', valueList: $csShared.enums.CityCategory },
             LoanType: { label: 'LoanType', type: 'text' },
             MemoApprovalDate: { label: 'MemoApprovalDate', type: 'date' },
-            SubProduct:{label:'Subproduct', type:'text'},
-            TotalPF:{label:'TotalPF', type:'number', template:'ulong'},
-            TotalDisb:{label:'TotalDisb', type:'number', template:'ulong'},
+            SubProduct: { label: 'Subproduct', type: 'text' },
+            TotalPF: { label: 'TotalPF', type: 'number', template: 'ulong' },
+            TotalDisb: { label: 'TotalDisb', type: 'number', template: 'ulong' },
             TotalPayout: { label: 'TotalPayout', type: 'number', template: 'ulong' },
             Payout: { label: 'Payout', type: 'number', template: 'ulong' }
         };
@@ -161,20 +161,32 @@
         };
     };
 
-    var clientDataDownload = function() {
+    var clientDataDownload = function () {
         return {
             ShowDataBy: { label: 'Download By', type: 'select', textField: 'display', valueField: 'value' },
             SelectedProduct: { label: 'Product', type: "enum", valueList: $csShared.enums.ProductEnum },
             SelectedSystem: { label: 'System', type: 'enum', valueList: $csShared.enums.ScbSystems },
-            SelectedCategory: { label: 'Category', type: 'select'},
+            SelectedCategory: { label: 'Category', type: 'select' },
             SelectedDate: { label: 'Date', type: 'date' }
         };
     };
 
-    var fileStatus = function() {
+    var fileStatus = function () {
         return {
-            fromDate : {label:'Date Range', type:'date' },
+            fromDate: { label: 'Date Range', type: 'date' },
             toDate: { label: 'Date Range', type: 'date' },
+        };
+    };
+
+    var fileScheduler = function () {
+        return {
+            SelectedSystem: { label: 'System', type: 'select' },
+            SelectedCategory: { label: 'Product', type: 'select' },
+            SelectedDateDaily: { label: 'File Date', type: 'date', template: 'Daily' },
+            SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
+            SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
+            IsImmediate: { label: 'Select Schedule', type: 'radio', options: [{ value: true, key: 'Immediate' }, { value: false, key: 'Nightly' }], valueField: 'value', textField: 'key' },
+            ImmediateReason: { label: 'ImmediateReason',type:'textarea' }
         };
     };
 
@@ -189,6 +201,7 @@
         models.ExcludeCase = excludeCase();
         models.ClientDataDownload = clientDataDownload();
         models.FileStatus = fileStatus();
+        models.FileScheduler = fileScheduler();
 
         tables.FileDetail = models.FileDetail;
         tables.CustomerInfo = models.CustomerInfo;

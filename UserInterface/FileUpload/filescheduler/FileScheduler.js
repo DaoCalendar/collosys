@@ -7,6 +7,8 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
         var getFileDetails = function () {
             restApi.customGETLIST("GetFileDetails").then(function (data) {
                 dldata.fileDetails = data;
+                dldata.fileDetailsScbSystems = _.uniq(_.pluck(data, 'ScbSystems'));
+                dldata.fileDetailsCategory = _.uniq(_.pluck(data, 'Category'));
             }, function () {
                 $csnotify.error("Not able to retrieve basic data. Please contact AlgoSys support team.");
             });
@@ -55,8 +57,8 @@ csapp.factory("fileSchedulerFactory", function() {
 });
 
 
-csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory",
-    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory) {
+csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory","$csFileUploadModels",
+    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory, $csFileUploadModels) {
         "use strict";
 
         //#region helpers
@@ -74,6 +76,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.ResetPage();
             $scope.datalayer = datalayer;
             datalayer.GetAll();
+            $scope.fileSchedulerfield = $csFileUploadModels.models.FileScheduler;
         })();
 
         $scope.changeSelectedFrequency = function () {
