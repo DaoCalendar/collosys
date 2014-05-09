@@ -1,6 +1,6 @@
-﻿<div class="row-fluid">
-    <div class="row-fluid" id="row1">
-        <div class="span3">
+﻿<div class="row">
+    <div class="row" id="row1">
+        <div class="col-md-3">
             <div class="box-sub">
                 <div class="box-heading">Matrix List</div>
                 <div class="box-body">
@@ -13,30 +13,30 @@
                 </div>
             </div>
         </div>
-        <div class="span9">
+        <div class="col-md-9">
             <div  data-ng-form="matrixform">
-                <div class="row-fluid form-horizontal">
+                <div class="row form-horizontal">
                     
-                    <div class="row-fluid">
+                    <div class="row">
                         <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-details.html'"></div>
                     </div>
                     <!--Matrix Info-->
-                    <div class="row-fluid">
+                    <div class="row">
                         <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-info.html'"></div>
                     </div>
 
                     <!--Create Matrix-->
-                    <div class="row-fluid">
+                    <div class="row">
                         <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-create.html'"></div>
                     </div>
 
                     <!--Show Matrix-->
-                    <div class="row-fluid">
+                    <div class="row">
                         <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-show.html'"></div>
                     </div>
 
                     <!--buttons-->
-                    <div class="row-fluid text-right">
+                    <div class="row text-right">
                         <div class="panel panel-info"  data-ng-show="dldata.matrix.BMatricesValues.length>0">
                             <button class="btn btn-success" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)">Save</button>
                             <button class="btn btn-warning" data-ng-click="datalayer.reset()">Reset</button>

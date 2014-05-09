@@ -1,71 +1,130 @@
-﻿<div class="form-horizontal" data-ng-form="ClientDataDownloadForm">
+﻿<div class="form-horizontal">
+    <form name="ClientDataDownloadForm">
 
-    <!-- header filter row -->
-    <div class="row-fluid" style="border-color: gray">
-        <!-- main clause -->
-        <div class="control-group span3">
-            <label>Download By</label>
-            <select class="input-medium" data-ng-model="params.ShowDataBy"
-                data-ng-change="ResetControls('ShowDataBy', params)">
-                <option value=""></option>
-                <option value="Product">Product</option>
-                <option value="System">System</option>
-            </select>
-        </div>
+        <!-- header filter row -->
+        <div class="row-fluid" style="border-color: gray">
+            <!-- main clause -->
+            <span class="span3">
+                <cs-field data-ng-model="params.ShowDataBy" field="paramsfield.ShowDataBy"
+                    value-list="dldata.Downloadby" data-ng-change="ResetControls('ShowDataBy', params)"></cs-field>
+            </span>
 
-        <!-- product -->
-        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'Product'">
-            <label>Product</label>
-            <select class="input-medium" data-ng-model="params.SelectedProduct"
-                data-ng-change="ResetControls('Product', params)">
-                <option value=""></option>
-                <option data-ng-repeat="p in datalayer.dldata.ProductList" value="{{p}}">{{p}}</option>
-            </select>
-        </div>
+            <!-- product -->
+            <div data-ng-show="params.ShowDataBy === 'Product'">
+                <span class="span3">
+                    <cs-field data-ng-model="params.SelectedProduct" field="paramsfield.SelectedProduct"
+                        data-ng-change="ResetControls('Product', params)"></cs-field>
+                </span>
+            </div>
 
-        <!-- System -->
-        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'System'">
-            <label>System</label>
-            <select class="input-medium" data-ng-model="params.SelectedSystem" data-ng-change="ResetControls('System', params);">
-                <option value=""></option>
-                <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
-            </select>
-        </div>
+            <!-- System -->
+            <div data-ng-show="params.ShowDataBy === 'System'">
+                <span class="span3">
+                    <cs-field data-ng-model="params.SelectedSystem" field="paramsfield.SelectedSystem"
+                        data-ng-change="ResetControls('System', params)"></cs-field>
+                </span>
+            </div>
 
-        <!-- category for product -->
-        <div class="control-group span3" data-ng-show=" params.SelectedProduct !== '' ">
-            <label>Category</label>
-            <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
-                <option value=""></option>
-                <option data-ng-repeat="c in datalayer.dldata.CategoryList">{{c}}</option>
-            </select>
-        </div>
 
-        <!-- category for system -->
-        <div class="control-group span3" data-ng-show=" params.SelectedSystem !== '' ">
-            <label>Category</label>
-            <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
-                <option value=""></option>
-                <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: params.SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
-            </select>
-        </div>
+            <!-- category for product -->
+            <div data-ng-show="params.SelectedProduct !== '' ">
+                <span class="span3">
+                    <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
+                        data-ng-change="ResetControls('Category', params)" value-list="dldata.CategoryList"></cs-field>
+                </span>
+            </div>
 
-        <!-- date -->
-        <div class="control-group span3" data-ng-show=" params.SelectedCategory !== '' ">
-            <label>Date</label>
-            <div class="input-append">
-                <input class="input-small" type="text" data-ng-model="params.SelectedDate"
-                    data-ng-change="getPagedDataAsync(params);" data-ng-readonly="true" data-bs-datepicker="">
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+            <!-- category for system -->
+            <div data-ng-show="params.SelectedSystem !== '' ">
+                <span class="span3">
+                    <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
+                        data-ng-change="ResetControls('Category', params)" value-list="dldata.fileDetails"></cs-field>
+                </span>
+            </div>
+
+            <!-- date -->
+            <div data-ng-show=" params.SelectedCategory !== '' ">
+                <span class="span3">
+                    <cs-field data-ng-model="params.SelectedDate" field="paramsfield.SelectedDate"
+                        data-ng-change="getPagedDataAsync(params)"></cs-field>
+                </span>
             </div>
         </div>
-    </div>
 
-    <!-- grid -->
-    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
-        <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
-        <div style="height: 500px" data-ng-grid="gridOptions"></div>
-    </div>
-
+        <!-- grid -->
+        <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+            <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
+            <div style="height: 500px" data-ng-grid="gridOptions"></div>
+        </div>
+    </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="control-group span3">
+        <label>Download By</label>
+        <select class="input-medium" data-ng-model="params.ShowDataBy"
+                data-ng-change="ResetControls('ShowDataBy', params)">
+            <option value=""></option>
+            <option value="Product">Product</option>
+            <option value="System">System</option>
+        </select>
+    </div>-->
+<!--<label>Product</label>
+    <select class="input-medium" data-ng-model="params.SelectedProduct"
+            data-ng-change="ResetControls('Product', params)">
+        <option value=""></option>
+        <option data-ng-repeat="p in datalayer.dldata.ProductList" value="{{p}}">{{p}}</option>
+    </select>-->
+<!--<label>System</label>
+    <select class="input-medium" data-ng-model="params.SelectedSystem" data-ng-change="ResetControls('System', params);">
+        <option value=""></option>
+        <option data-ng-repeat="row in datalayer.dldata.fileDetails | unique: 'ScbSystems' | orderBy: 'ScbSystems'" value="{{row.ScbSystems}}">{{row.ScbSystems}}</option>
+    </select>-->
+<!--<label>Category</label>
+    <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
+        <option value=""></option>
+        <option data-ng-repeat="c in datalayer.dldata.CategoryList">{{c}}</option>
+    </select>-->
+<!--<div class="control-group span3" data-ng-show=" params.SelectedSystem !== '' ">
+        <label>Category</label>
+        <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
+            <option value=""></option>
+            <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: params.SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
+        </select>
+    </div>-->
+<!-- <label>Category</label>
+    <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
+        <option value=""></option>
+        <option data-ng-repeat="row in datalayer.dldata.fileDetails | filter:{ScbSystems: params.SelectedSystem} | unique: 'Category' | orderBy: 'Category'" value="{{row.Category}}">{{row.Category}}</option>
+    </select>-->
+<!--<label>Date</label>
+    <div class="input-append">
+        <input class="input-small" type="text" data-ng-model="params.SelectedDate"
+               data-ng-change="getPagedDataAsync(params);" data-ng-readonly="true" data-bs-datepicker="">
+        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+    </div>-->
+
+
+
+
+
+
 

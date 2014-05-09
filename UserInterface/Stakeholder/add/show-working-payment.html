@@ -2,8 +2,8 @@
     <accordion-group 
         data-ng-repeat="data in WizardData.FinalPostModel.PayWorkModelList"
         heading="WorkingPayment Group no: {{$index+1}}" >
-        <div class="row-fluid" data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}">
-            <div class="row-fluid">
+        <div class="row" data-ng-class="{redRow:data.Payment.RowStatus=='Delete'}">
+            <div class="row">
                 <button 
                     class="btn btn-success" 
                     data-ng-click="deletePaymentWorking($index,data)"
@@ -62,8 +62,8 @@
 <div>
     <div data-ng-repeat="data in WizardData.FinalPostModel.PayWorkModelList">
         <button class="btn btn-link" data-ng-click="setPayWorkIndex($index+1)">WorkingPayment Group no: {{$index+1}}</button>
-        <div data-ng-show="showIndex==={{$index+1}}" class="row-fluid">
-            <div class="row-fluid">
+        <div data-ng-show="showIndex==={{$index+1}}" class="row">
+            <div class="row">
                 <button
                     class="btn btn-success"
                     data-ng-click="deletePaymentWorking($index,data)"

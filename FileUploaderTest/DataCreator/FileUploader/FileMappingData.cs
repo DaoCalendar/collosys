@@ -206,7 +206,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
                 SessionManager.GetCurrentSession()
                     .QueryOver<FileScheduler>()
                     .Where(c => c.FileDetail.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"))
-                    .And(c => c.FileName == "20140429_160719_DrillDown_Txn_1.xls")
+                    .And(c => c.FileName == "20140507_174359_DrillDown_Txn_1404ce92cf1770.xls")
                     .List<FileScheduler>().FirstOrDefault();
 
             return data;

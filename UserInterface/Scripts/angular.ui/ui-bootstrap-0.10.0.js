@@ -665,17 +665,17 @@ angular.module('ui.bootstrap.carousel', ['ui.bootstrap.transition'])
       </div>
     </slide>
   </carousel>
-  <div class="row-fluid">
-    <div class="span6">
+  <div class="row">
+    <div class="col-md-6">
       <ul>
         <li ng-repeat="slide in slides">
           <button class="btn btn-mini" ng-class="{'btn-info': !slide.active, 'btn-success': slide.active}" ng-disabled="slide.active" ng-click="slide.active = true">select</button>
           {{$index}}: {{slide.text}}
         </li>
       </ul>
-      <a class="btn" ng-click="addSlide()">Add Slide</a>
+      <a class="btn btn-default" ng-click="addSlide()">Add Slide</a>
     </div>
-    <div class="span6">
+    <div class="col-md-6">
       Interval, in milliseconds: <input type="number" ng-model="myInterval">
       <br />Enter a negative number to stop the interval.
     </div>

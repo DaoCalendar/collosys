@@ -41,7 +41,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
             _mappingData = new FileMappingData();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
-            _record = new RecordCreator<Payment>(_aliasRecordCreator,_reader);
+            _record = new RecordCreator<Payment>(_aliasRecordCreator,_reader,_counter);
         }
 
         #endregion
@@ -188,7 +188,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Act
             _reader.Skip(3);
-            _record.CreateRecord(_payment, mapping);
+            _record.CreateRecord(_payment, mapping,_counter);
 
             //Assert
             Assert.AreEqual(_payment.AccountNo, "42297532");
@@ -203,7 +203,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Act
             _reader.Skip(3);
-            _record.CreateRecord(_payment, mapping);
+            _record.CreateRecord(_payment, mapping,_counter);
 
             //Assert
             Assert.AreEqual(_counter.InsertRecord, 1);
@@ -217,7 +217,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Act
             _reader.Skip(2);
-            _record.CreateRecord(_payment, mapping);
+            _record.CreateRecord(_payment, mapping,_counter  );
 
             //Assert
             Assert.AreEqual(_counter.IgnoreRecord, 1);
@@ -232,7 +232,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
 
             //Act
             _reader.Skip(9);
-            _record.CreateRecord(_payment, mapping);
+            _record.CreateRecord(_payment, mapping,_counter);
 
             //Assert
             Assert.AreEqual(_counter.ErrorRecords, 1);

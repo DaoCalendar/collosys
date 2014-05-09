@@ -31,10 +31,10 @@ namespace ReflectionExtension.Tests.FileReaderTest
             
 
             //Act
-            _fileReader.ReadAndSaveBatch();
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(5).AccountNo, "52205836441");
+            Assert.AreEqual(list.ElementAt(5).AccountNo, "52205836441");
         }
 
         [Test]
@@ -44,10 +44,10 @@ namespace ReflectionExtension.Tests.FileReaderTest
           
 
             //Act
-            _fileReader.ReadAndSaveBatch( );
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 2);
+            Assert.AreEqual(list.Count, 2);
 
         }
     }

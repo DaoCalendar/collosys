@@ -1,12 +1,12 @@
-﻿<div class="row-fluid">
+﻿<div class="row">
     <form name="billstatusform" class="form-horizontal">
-        <div class="span4">
+        <div class="col-md-4">
             <cs-field data-ng-model="Sele.Product" field="BillAmount.Products"></cs-field>
         </div>
-        <div class="span4">
+        <div class="col-md-4">
             <cs-field data-ng-model="Sele.Month" field="BillAmount.Month"></cs-field>
         </div>
-        <div class="span2">
+        <div class="col-md-2">
             <cs-button type="Add" text="Fetch data"
                 ng-disabled="billstatusform.$invalid"
                 ng-click="fetchData(Sele)"></cs-button>

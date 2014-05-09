@@ -12,6 +12,7 @@ using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Interfaces;
+using Excel.Log;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
@@ -23,7 +24,7 @@ namespace ColloSys.FileUploadService.Implementers
 {
     public class DbLayer : IDBLayer
     {
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         public FileScheduler GetNextFileForSchedule()
         {

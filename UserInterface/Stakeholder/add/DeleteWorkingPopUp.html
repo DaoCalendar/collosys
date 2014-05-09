@@ -2,7 +2,7 @@
     <strong>Are you sure you want to delete?</strong>
 </div>
 <div class="modal-body">
-    <div class="control-group">
+    <div class="form-group">
         <div class="control-label">End Date</div>
         <div class="controls">
             <div class="input-append">
@@ -12,13 +12,13 @@
                     data-date-start-date="+0d"
                     data-ng-model="modalData.endDate"
                     bs-datepicker required>
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
             </div>
         </div>
     </div>
 </div>
 <div class="modal-footer">
-    <div class="row-fluid form-horizontal text-right">
+    <div class="row form-horizontal text-right">
         <button class="btn btn-primary" data-ng-click="setEndDate(modalData.currentDeleteData,modalData.endDate)">Ok</button>
         <button class="btn btn-primary" data-ng-click="cancelEndDate(modalData.currentDeleteData)">Cancel</button>
     </div>

@@ -1,11 +1,11 @@
-﻿<div class="row-fluid" id="subpolicy-display">
+﻿<div class="row" id="subpolicy-display">
     <div class="panel panel-info ">
         <div class="panel-heading">
             Formula Details
         </div>
         <div class="panel-body">
-            <div class="row-fluid">
-                <div class="control-group span5">
+            <div class="row">
+                <div class="form-group col-md-5">
                     <label class="control-label">Product</label>
                     <div class="controls">
                         <input type="text" data-ng-disabled="formula.Products"
@@ -13,7 +13,7 @@
                                data-ng-model="formula.Products" />
                     </div>
                 </div>
-                <div class="span5">
+                <div class="col-md-5">
                     <cs-field data-ng-model="formula.Name"
                               field="Formula.Name"
                               data-ng-disabled="formula.Id"
@@ -21,11 +21,11 @@
                 </div>
             </div>
            
-            <div class="row-fluid">
-                <div class="control-group span5">
+            <div class="row">
+                <div class="form-group col-md-5">
                     <cs-field data-ng-model="formula.OutputType" field="Formula.OutputType"></cs-field>
                 </div>
-                <div class="control-group span5">
+                <div class="form-group col-md-5">
                     <cs-field data-ng-model="formula.Description" field="Formula.Description"></cs-field>
                 </div>
             </div>
