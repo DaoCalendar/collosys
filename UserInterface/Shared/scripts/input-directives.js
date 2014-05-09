@@ -553,9 +553,9 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
 
             var hasSuffix = angular.isDefined(field.suffix) && field.suffix !== null && field.suffix.length > 0;
 
-            var html = '<div class="input-prepend';
-            html += hasSuffix ? ' input-append">' : '">';
-            html += '<span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>';
+            var html = '<div class="input-group';
+            html += hasSuffix ? ' input-group">' : '">';
+            html += '<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>';
             return html;
 
         };
@@ -571,7 +571,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             }
 
             if (hasSuffix) {
-                string += '<span class="add-on">' + fields.suffix + '</span>';
+                string += '<span class="input-group-addon">' + fields.suffix + '</span>';
             }
             return string;
         };
@@ -592,7 +592,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += addEmailSuffix(field);
-            html += '/>';
+            //html += '/>';
             return html;
         };
 
