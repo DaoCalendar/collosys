@@ -1,9 +1,9 @@
-﻿namespace ReflectionExtension.ExcelReader
+﻿namespace ColloSys.FileUploader.RowCounter
 {
     public interface ICounter
     {
         ulong TotalRecords { get; }
-        uint CurrentRow { get; }
+       
         uint ErrorRecords { get; }
         uint ValidRecords { get; }
         uint Duplicate { get; }

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.RecordCreator

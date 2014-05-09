@@ -92,6 +92,7 @@
     <Compile Include="ExcelReader\MappingInfo.cs" />
     <Compile Include="ExcelReader\NpOiExcelReader.cs" />
     <Compile Include="ExcelReader\NPOIExtensions.cs" />
+    <Compile Include="FileReader\FileProcess.cs" />
     <Compile Include="FileReader\FileReader.cs" />
     <Compile Include="FileReader\IfileReader.cs" />
     <Compile Include="AliasFileReader\RlsPaymentLinerFileReader.cs" />

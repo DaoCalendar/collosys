@@ -6,7 +6,6 @@ namespace ColloSys.FileUploader.RowCounter
     public class ExcelRecordCounter : ICounter
     {
         public ulong TotalRecords { get; private set; }
-        public uint CurrentRow { get; private set; }
         public uint ErrorRecords { get; private set; }
         public uint ValidRecords { get; private set; }
         public uint Duplicate { get; private set; }
