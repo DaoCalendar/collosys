@@ -7,28 +7,32 @@
             <div class="form-group">
                 <label class="control-label">Start Date</label>
                 <div class="controls">
-                    <div class="input-append">
+                    <div class="input-group">
                         <input class="input-medium" data-ng-disabled="!modelData.forActivate" type="text" name="ScheduleDate" 
                                data-ng-model="modelData.startDate" required
                                data-date-start-date="+1d" 
                                data-ng-readonly="true" 
                                data-bs-datepicker="" 
                                data-ng-change="modelData.endDate=null;modelDateValidation(modelData.startDate,modelData.endDate)">
-                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label">End Date</label>
                 <div class="controls">
-                    <div class="input-append">
+                    <div class="input-group">
                         <input class="input-medium" type="text" name="ScheduleDate" 
                                data-ng-model="modelData.endDate" 
                                data-ng-change="modelDateValidation(modelData.startDate,modelData.endDate)"
                                data-date-start-date="+1d" 
                                data-ng-readonly="true"
                                data-bs-datepicker="">
-                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </div>
                 </div>
             </div>

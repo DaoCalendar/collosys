@@ -1,41 +1,39 @@
-﻿<div data-ng-form="formAddfileDetail" class="form-horizontal">
-
-    <div class="modal-header">
-        {{modelTitle}}
-    </div>
+﻿<div>
+    <div class="modal-header"> {{modelTitle}} </div>
 
     <div class="modal-body">
-
-        <cs-field-group mode="mode">
-            <cs-field data-ng-model="fileDetail.AliasName" field="fileDetailModel.AliasName"></cs-field>
-            <!--<cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
-            <cs-field data-ng-model="fileDetail.ScbSystems"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.ScbSystems"></cs-field>
-            <cs-field data-ng-model="fileDetail.Frequency"  data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.Frequency"></cs-field>
-            <cs-field data-ng-model="fileDetail.DependsOnAlias" field="fileDetailModel.DependsOnAlias"></cs-field>
-            <cs-field data-ng-model="fileDetail.Category" field="fileDetailModel.Category"></cs-field>
-            <cs-field data-ng-model="fileDetail.FileType" field="fileDetailModel.FileType" ng-change=""></cs-field>
-            <cs-field data-ng-model="fileDetail.FileName" field="fileDetailModel.FileName"></cs-field>
-            <cs-field data-ng-model="fileDetail.FileCount" field="fileDetailModel.FileCount"></cs-field>
-            <cs-field data-ng-model="fileDetail.DateFormat" field="fileDetailModel.DateFormat"></cs-field>
-            <div ng-if="factory.isSheetTypeColumn(fileDetail.FileType)">
-                <cs-field data-ng-model="fileDetail.SheetName" field="fileDetailModel.SheetName"></cs-field>
+        <div data-ng-form="formAddfileDetail" class="form-horizontal">
+            <div style="height: 450px; overflow: auto">
+                <cs-field-group mode="mode">
+                    <cs-field data-ng-model="fileDetail.AliasName" field="fileDetailModel.AliasName"></cs-field>
+                    <!--<cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
+                    <cs-field data-ng-model="fileDetail.ScbSystems" data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.ScbSystems"></cs-field>
+                    <cs-field data-ng-model="fileDetail.Frequency" data-ng-change="updateDependsOnAlias(fileDetail)" field="fileDetailModel.Frequency"></cs-field>
+                    <cs-field data-ng-model="fileDetail.DependsOnAlias" field="fileDetailModel.DependsOnAlias"></cs-field>
+                    <cs-field data-ng-model="fileDetail.Category" field="fileDetailModel.Category"></cs-field>
+                    <cs-field data-ng-model="fileDetail.FileType" field="fileDetailModel.FileType" ng-change=""></cs-field>
+                    <cs-field data-ng-model="fileDetail.FileName" field="fileDetailModel.FileName"></cs-field>
+                    <cs-field data-ng-model="fileDetail.FileCount" field="fileDetailModel.FileCount"></cs-field>
+                    <cs-field data-ng-model="fileDetail.DateFormat" field="fileDetailModel.DateFormat"></cs-field>
+                    <div ng-if="factory.isSheetTypeColumn(fileDetail.FileType)">
+                        <cs-field data-ng-model="fileDetail.SheetName" field="fileDetailModel.SheetName"></cs-field>
+                    </div>
+                    <cs-field data-ng-model="fileDetail.SkipLine" field="fileDetailModel.SkipLine"></cs-field>
+                    <cs-field data-ng-model="fileDetail.UsedFor" field="fileDetailModel.UsedFor"></cs-field>
+                    <cs-field data-ng-model="fileDetail.FileDirectory" field="fileDetailModel.FileDirectory"></cs-field>
+                    <cs-field data-ng-model="fileDetail.EmailId" field="fileDetailModel.EmailId"></cs-field>
+                    <cs-field data-ng-model="fileDetail.StartDate" field="fileDetailModel.StartDate"></cs-field>
+                    <cs-field data-ng-model="fileDetail.EndDate" field="fileDetailModel.EndDate"></cs-field>
+                    <cs-field data-ng-model="fileDetail.Description" field="fileDetailModel.Description"></cs-field>
+                </cs-field-group>
             </div>
-            <cs-field data-ng-model="fileDetail.SkipLine" field="fileDetailModel.SkipLine"></cs-field>
-            <cs-field data-ng-model="fileDetail.UsedFor" field="fileDetailModel.UsedFor"></cs-field>
-            <cs-field data-ng-model="fileDetail.FileDirectory" field="fileDetailModel.FileDirectory"></cs-field>
-            <cs-field data-ng-model="fileDetail.EmailId" field="fileDetailModel.EmailId"></cs-field>
-            <cs-field data-ng-model="fileDetail.StartDate" field="fileDetailModel.StartDate"></cs-field>
-            <cs-field data-ng-model="fileDetail.EndDate" field="fileDetailModel.EndDate"></cs-field>
-            <cs-field data-ng-model="fileDetail.Description" field="fileDetailModel.Description"></cs-field>
-        </cs-field-group>
-    </div>
-
-    <div class="modal-footer form-group">
-        <div class="controls">
-            <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
-            <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
-            <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
-            <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
+            <hr />
+            <div style="height: 40px">
+                <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
+                <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
+                <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
+                <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('Close')">Close</button>
+            </div>
         </div>
     </div>
 </div>

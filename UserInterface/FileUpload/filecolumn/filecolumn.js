@@ -119,7 +119,6 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
             if (!data) { return; }
             dldata.fileDetail = data;
             dldata.fileDetail.FileColumns = _.sortBy(dldata.fileDetail.FileColumns, 'Position');
-            $csnotify.success("All File Columns Loaded Successfully");
         }, errorDisplay);
     };
 
@@ -238,8 +237,8 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.dldata = datalayer.dldata;
-           
         })();
+
 
         $scope.fileColumnModel = $csFileUploadModels.models.FileColumn;
 
@@ -254,8 +253,8 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
     }
 ]);
 
-csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "modalService", "$modal", "fileColumnDataLayer", "fileColumnFactory",
-    function ($scope, $csnotify, $csfactory, modalService, $modal, datalayer, factory) {
+csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "modalService", "$modal", "fileColumnDataLayer", "fileColumnFactory", "$csShared",
+    function ($scope, $csnotify, $csfactory, modalService, $modal, datalayer, factory, $csShared) {
         'use strict';
 
         (function () {
@@ -263,6 +262,7 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
             $scope.factory = factory;
             $scope.datalayer.GetAliases();
             $scope.dldata = datalayer.dldata;
+            $scope.productList = { label: "File Name", type: "enum", valueList: $csShared.enums.FileAliasName };
         })();
 
         $scope.showDeleteModal = function (fileColumn, index) {

@@ -7,17 +7,17 @@
             AliasDescription: { label: "Alias Description", type: "text", required: true },
             FileName: { label: "File Name", type: "text", placeholder: "Enter File Name", required: true },
             FileCount: { label: "File Count", type: "number", template: 'uint', min: 1, max: 100, required: true, placeholder: "Enter no of files" },
-            DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName, required: true },
+            DependsOnAlias: { label: "DependsOnAlias", type: "enum", valueList: $csShared.enums.FileAliasName },
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
             DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, required: true },
             FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, },
-            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name", required: true },
+            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name"},
             Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, },
             SkipLine: { label: "Skip Line", type: "number", template: 'int', pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
-            FileDirectory: { label: "FileDirectory", type: "text", placeholder: "Enter File Directory Name" },
+            FileDirectory: { label: "FileDirectory", type: "text",  },
             ActualTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
-            EmailId: { label: "Email Id", type: "email", required: true, placeholder: "Enter Email Id" },
-            Description: { label: "Description", type: "text", required: true, placeholder: "Enter Description" },
+            EmailId: { label: "Email Id", type: "email", required: true },
+            Description: { label: "Description", type: "text", required: true },
             UsedFor: { label: "UsedFor", type: "enum", valueList: $csShared.enums.UsedFor, required: true },
             StartDate: { label: "Start Date", type: "date", required: true },
             EndDate: { label: "End Date", type: "date", required: true },
@@ -116,9 +116,9 @@
             CityCat: { label: 'CityCat', type: 'enum', valueList: $csShared.enums.CityCategory },
             LoanType: { label: 'LoanType', type: 'text' },
             MemoApprovalDate: { label: 'MemoApprovalDate', type: 'date' },
-            SubProduct:{label:'Subproduct', type:'text'},
-            TotalPF:{label:'TotalPF', type:'number', template:'ulong'},
-            TotalDisb:{label:'TotalDisb', type:'number', template:'ulong'},
+            SubProduct: { label: 'Subproduct', type: 'text' },
+            TotalPF: { label: 'TotalPF', type: 'number', template: 'ulong' },
+            TotalDisb: { label: 'TotalDisb', type: 'number', template: 'ulong' },
             TotalPayout: { label: 'TotalPayout', type: 'number', template: 'ulong' },
             Payout: { label: 'Payout', type: 'number', template: 'ulong' }
         };
@@ -161,20 +161,32 @@
         };
     };
 
-    var clientDataDownload = function() {
+    var clientDataDownload = function () {
         return {
             ShowDataBy: { label: 'Download By', type: 'select', textField: 'display', valueField: 'value' },
             SelectedProduct: { label: 'Product', type: "enum", valueList: $csShared.enums.ProductEnum },
             SelectedSystem: { label: 'System', type: 'enum', valueList: $csShared.enums.ScbSystems },
-            SelectedCategory: { label: 'Category', type: 'select'},
+            SelectedCategory: { label: 'Category', type: 'select' },
             SelectedDate: { label: 'Date', type: 'date' }
         };
     };
 
-    var fileStatus = function() {
+    var fileStatus = function () {
         return {
-            fromDate : {label:'Date Range', type:'date' },
+            fromDate: { label: 'Date Range', type: 'date' },
             toDate: { label: 'Date Range', type: 'date' },
+        };
+    };
+
+    var fileScheduler = function () {
+        return {
+            SelectedSystem: { label: 'System', type: 'select' },
+            SelectedCategory: { label: 'Product', type: 'select' },
+            SelectedDateDaily: { label: 'File Date', type: 'date', template: 'Daily' },
+            SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
+            SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
+            IsImmediate: { label: 'Select Schedule', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key' },
+            ImmediateReason: { label: 'ImmediateReason',type:'textarea', required: true, minlength: 5 }
         };
     };
 
@@ -189,6 +201,7 @@
         models.ExcludeCase = excludeCase();
         models.ClientDataDownload = clientDataDownload();
         models.FileStatus = fileStatus();
+        models.FileScheduler = fileScheduler();
 
         tables.FileDetail = models.FileDetail;
         tables.CustomerInfo = models.CustomerInfo;

@@ -793,6 +793,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             field.label = field.label || "Select";
             field.ngOptions = 'row for row in ';
             field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            field.ngOptions += " track by row";
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -868,6 +869,19 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
                     break;
                 case "past":
                     field.endDate = "+0";
+                    break;
+                case "Daily":
+                    field.startDate = "-15d";
+                    field.endDate = "+5d";
+                    break;
+                case "Weekly":
+                    field.startDate = "-30d";
+                    field.endDate = "+15d";
+                    break;
+                case "Monthly":
+                    field.minViewMode = "months";
+                    field.startDate = "-80d";
+                    field.endDate = "+30d";
                     break;
                 default:
                     $log.error(template + " is not defined.");

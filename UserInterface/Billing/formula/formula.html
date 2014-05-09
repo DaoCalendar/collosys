@@ -1,13 +1,11 @@
 ﻿<div class="row">
     <form name="formulaMain">
         <div class="row form-horizontal" id="row1">
-                <div class="col-md-4 text-left">
-                    <cs-field data-ng-model="selParams.selectedProduct"
-                              field="Formula.Products"
-                              data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
-                </div>
+            <div class="col-md-4">
+                <cs-field data-ng-model="selParams.selectedProduct" field="Formula.Products" data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
+            </div>
             <div class="col-md-2 text-left" style="margin-left: 0;" data-ng-show="selParams.selectedProduct">
-                <button class="btn alert-info">
+                <button class="btn alert-info btn-default">
                     Add Formula
                 </button>
             </div>
@@ -23,14 +21,14 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-9 form-horizontal" data-ng-show="boolOpr.showDetails">
                 <div class="row">
                     <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
                 </div>
                 <div class="row">
                     <div class="row" data-ng-include="baseUrl + 'Billing/formula/condition.html'">load condition details</div>
-                    
+
                 </div>
             </div>
         </div>

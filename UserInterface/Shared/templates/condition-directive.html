@@ -1,18 +1,19 @@
 ﻿<div class="row">
-    <div class="row alert-error" style="word-wrap:normal;">
-        {{expression}}
+    <div class="alert alert-danger" style="word-wrap:normal;">
+        <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
     </div>
     <div class="row"></div>
-    <div class="row form-horizontal">
-        <div data-ng-form="addForm">
-            <div class="controls">
-                <input type="text" data-ng-model="filter.filterString"
-                       typeahead="c.value as c.text for c in tokensList | filter:{text:$viewValue} | limitTo:8"
-                       typeahead-min-length="0"
-                       typeahead-on-select="selectFilterString($item,$model,$label)"
-                       data-ng-change="changeMessage(filter.filterString,$label)" />
-                <input type="submit" value="Add Value" data-ng-click="addFilter()" />
-            </div>
+    <div class="row" data-ng-form="addForm">
+        <div class="col-md-pull-7">
+            <input type="text" data-ng-model="filter.filterString"
+                   typeahead="c.value as c.text for c in tokens.tokensList | filter:{text:$viewValue} | limitTo:8"
+                   typeahead-min-length="0"
+                   typeahead-on-select="addToken($item,$model,$label)" class="form-control">
+        </div>
+        <div class="col-md-pull-4" >
+            <input type="submit" value="Add Value"
+                   data-ng-click="addValue(filter.filterString)"
+                   class="btn btn-default">
         </div>
     </div>
 </div>
