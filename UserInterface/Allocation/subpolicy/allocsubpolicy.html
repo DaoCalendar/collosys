@@ -1,7 +1,7 @@
-﻿<div class="row-fluid">
-    <div class="row-fluid form-horizontal" id="row1">
-        <div class="span5">
-            <div class="control-group">
+﻿<div class="row">
+    <div class="row form-horizontal" id="row1">
+        <div class="col-md-5">
+            <div class="form-group">
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-medium"
@@ -19,8 +19,8 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid" id="row2">
-        <div class="span3" data-ng-show="dldata.allocSubpolicy.Products">
+    <div class="row" id="row2">
+        <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
             <div class="box-sub">
                 <div class="box-heading">Subpolicy list</div>
                 <div class="box-body">
@@ -31,30 +31,30 @@
             </div>
         </div>
 
-        <div class="span9" data-ng-show="showDiv">
-            <div class="row-fluid form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
+        <div class="col-md-9" data-ng-show="showDiv">
+            <div class="row form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         Subpolicy Basic-Info
                     </div>
                     <div class="panel-body">
-                        <div class="row-fluid">
+                        <div class="row">
 
-                            <div class="row-fluid">
-                                <div class="control-group span6">
+                            <div class="row">
+                                <div class="form-group col-md-6">
                                     <label class="control-label">Product</label>
                                     <div class="controls">
                                         <input type="text" readonly="readonly" data-ng-model="dldata.allocSubpolicy.Products" />
                                     </div>
                                 </div>
-                                <div class="control-group span5" data-ng-hide="true">
+                                <div class="form-group col-md-5" data-ng-hide="true">
                                     <label class="control-label">Category</label>
                                     <div class="controls">
                                         <csswitch ngdisabled="dldata.allocSubpolicy.Id" ngbind="dldata.allocSubpolicy.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch"></csswitch>
                                     </div>
                                 </div>
                                 <!--Name-->
-                                <div class="control-group span6">
+                                <div class="form-group col-md-6">
                                     <label class="control-label">Subpolicy Name</label>
                                     <div class="controls">
                                         <input type="text"
@@ -70,8 +70,8 @@
                                 </div>
                             </div>
 
-                            <div class="row-fluid">
-                                <div class="control-group span6">
+                            <div class="row">
+                                <div class="form-group col-md-6">
                                     <label class="control-label">Policy Allocate Type</label>
                                     <div class="controls">
                                         <select class="input-large"
@@ -84,7 +84,7 @@
                                     </div>
                                 </div>
                                 <!--Allocate months-->
-                                <div class="control-group span6">
+                                <div class="form-group col-md-6">
                                     <label class="control-label">Allocate Months</label>
                                     <div class="controls">
                                         <input type="text"
@@ -100,8 +100,8 @@
                                 </div>
                             </div>
 
-                            <div class="row-fluid">
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="control-group span5">
+                            <div class="row">
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="form-group col-md-5">
                                     <label class="control-label">Select Reason</label>
                                     <div class="controls">
                                         <select class="input-large"
@@ -113,7 +113,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" class="control-group">
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" class="form-group">
                                     <label class="control-label">Select Stakeholder</label>
                                     <div class="controls">
                                         <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
@@ -128,8 +128,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row-fluid">
-                                <div class="control-group span9">
+                            <div class="row">
+                                <div class="form-group col-md-9">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
                                         <textarea class="noResize" data-ng-model="dldata.allocSubpolicy.Description"></textarea>
@@ -142,11 +142,11 @@
                 </div>
             </div>
 
-            <div class="row-fluid" id="subpolicy-conditions">
+            <div class="row" id="subpolicy-conditions">
                 <div class="panel panel-info">
                     <div class="panel-heading">Subpolicy Condition</div>
                     <div class="panel-body">
-                        <div class="row-fluid">
+                        <div class="row">
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
@@ -188,7 +188,7 @@
                                         </td>
                                         <!--button-->
                                         <td>
-                                            <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
+                                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
                                                 data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);">
                                             </button>
                                         </td>
@@ -202,7 +202,7 @@
                                             <input type="text" class="input-medium" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
                                         </td>
                                         <td>
-                                            <i class="btn icon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                            <i class="btn glyphicon glyphicon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                                         </td>
                                     </tr>
                                 </thead>
@@ -212,7 +212,7 @@
                 </div>
             </div>
 
-            <div class="row-fluid text-right" id="subpolicy-buttons">
+            <div class="row text-right" id="subpolicy-buttons">
                 <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                 <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
                 <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products)">Reset</button>

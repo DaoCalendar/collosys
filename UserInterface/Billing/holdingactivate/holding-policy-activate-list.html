@@ -1,6 +1,6 @@
-﻿<div class="row-fluid">
+﻿<div class="row">
     <label class="tax-list-heading">Activated Holding Policy List</label>
-    <div class="row-fluid tax-list-box">
+    <div class="row tax-list-box">
         <table class="table table-bordered table-hover" data-ng-show="policyList.length>0">
             <thead>
                 <tr>
@@ -20,7 +20,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in policyList| filter:search">
-                    <td><i class="btn icon-trash" data-ng-click="delete(t, $index)"></i></td>
+                    <td><i class="btn glyphicon glyphicon-trash" data-ng-click="delete(t, $index)"></i></td>
                     <td>{{t.Products}}</td>
                     <td>{{t.HoldingPolicy.Name}}</td>
                     <td>{{t.Stakeholder.Name}}</td>
@@ -28,7 +28,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="row-fluid text-center tax-list-box-no-data" data-ng-hide="policyList.length>0">
+        <div class="row text-center tax-list-box-no-data" data-ng-hide="policyList.length>0">
             <label>No holding policies defined</label>
         </div>
     </div>

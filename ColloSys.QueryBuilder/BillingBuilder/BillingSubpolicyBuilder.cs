@@ -44,15 +44,15 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
-        public IEnumerable<BillingSubpolicy> FormulaOnProductCategory(ScbEnums.Products product,
-                                                                      ScbEnums.Category category)
+        public IEnumerable<BillingSubpolicy> FormulaOnProductCategory(ScbEnums.Products product)
+                                                                     
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
-                                 .Where(c => c.Products == product && c.Category == category
+                                 .Where(c => c.Products == product 
                                              && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
                                  .List();
         }
-        
+
         [Transaction]
         public BillingSubpolicy FormulaOnProductAndName(ScbEnums.Products products, string formulaName)
         {
@@ -66,10 +66,10 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
-        public IEnumerable<BillingSubpolicy> SubPoliciesInDb(ScbEnums.Products products,ScbEnums.Category category,List<Guid> savedSubnpoliciesIds)
+        public IEnumerable<BillingSubpolicy> SubPoliciesInDb(ScbEnums.Products products, ScbEnums.Category category, List<Guid> savedSubnpoliciesIds)
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
-                                 .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy 
+                                 .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy
                                              && x.Products == products && x.Category == category)
                                  .WhereRestrictionOn(x => x.Id)
                                  .Not.IsIn(savedSubnpoliciesIds)
@@ -80,11 +80,11 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
-        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product, ScbEnums.Category category)
+        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product)
         {
             return SessionManager.GetCurrentSession()
                                  .QueryOver<BillingSubpolicy>()
-                                 .Where(c => c.Products == product && c.Category == category)
+                                 .Where(c => c.Products == product )
                                  .List();
         }
     }

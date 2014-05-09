@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.RecordCreator
 {
@@ -12,6 +14,6 @@ namespace ColloSys.FileUploader.RecordCreator
 
         bool DefaultMapper(TEntity obj, IEnumerable<FileMapping> mapings);
 
-        bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mapings);
+        bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mapings,ICounter counter);
     }
 }

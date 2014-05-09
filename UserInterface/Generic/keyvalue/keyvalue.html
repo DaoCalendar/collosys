@@ -1,20 +1,20 @@
 ﻿<div class="container">
     <form name="keyvalueform">
-        <div class="row-fluid form-horizontal">
+        <div class="row form-horizontal">
 
 
             <div class="panel">
-                <div class="row-fluid">
+                <div class="row">
                     <div class="panel-heading">Set Key Value</div>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="gKeyValue.Area" field="gKeyValuefield.Area"
                             data-ng-change="datalayer.GetKeyValues(gKeyValue.Area)"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="gKeyValue.Key" value-list="dldata.Keys"
                             class="input-large"
                             data-ng-change="changeKey(gKeyValue.Key)" field="gKeyValuefield.Key"></cs-field>
-                        <i class="btn icon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
+                        <i class="btn glyphicon glyphicon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
                     </span>
                 </div>
 
@@ -22,19 +22,19 @@
         </div>
         <!--style="padding-left: 200px"-->
         <div data-ng-show="gKeyValue.Key">
-            <div class="row-fluid" data-ng-show="dldata.Values.length > 0">
+            <div class="row" data-ng-show="dldata.Values.length > 0">
                 Total Values : {{dldata.Values.length}}
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>
-                        <i class="btn icon-plus" data-ng-show="showAddButton" data-ng-click="addNew=true"></i>
+                        <i class="btn glyphicon glyphicon-plus" data-ng-show="showAddButton" data-ng-click="addNew=true"></i>
                     </th>
                     <th>Values</th>
                 </tr>
                 <tr data-ng-show="showAddButton && addNew" data-ng-form="addNewValueForm">
                     <td>
-                        <i class="btn icon-save" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></i>
+                        <i class="btn glyphicon glyphicon-save" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></i>
                     </td>
                     <td>
                         <div data-ng-switch on="dldata.gKeyValue.ValueType">
@@ -66,8 +66,8 @@
                 <tr data-ng-repeat="v in dldata.Values | orderBy : 'Value'">
                     <td>
                         <div class="btn-group">
-                            <i class="btn icon-edit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></i>
-                            <i class="btn icon-save" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></i>
+                            <i class="btn glyphicon glyphicon-edit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></i>
+                            <i class="btn glyphicon glyphicon-save" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></i>
                         </div>
                     </td>
                     <td>
@@ -127,7 +127,7 @@
                 field="gKeyValuefield.ValueType"></cs-field>
 
 
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Value</label>
                 <div class="controls">
                     <div data-ng-switch on="gKeyValue.ValueType">
@@ -160,7 +160,7 @@
 
 
 
-<!--<div class="control-group span5">
+<!--<div class="form-group col-md-5">
         <label class="control-label">Area</label>
         <div class="controls">
             <select data-ng-model="gKeyValue.Area" class="input-large" data-ng-change="datalayer.GetKeyValues(gKeyValue.Area)">
@@ -169,14 +169,14 @@
             </select>
         </div>
     </div>-->
-<!-- <div class="control-group span6">
+<!-- <div class="form-group col-md-6">
          <label class="control-label">Key</label>
          <div class="controls">
              <select data-ng-model="gKeyValue.Key" class="input-large" data-ng-change="changeKey(gKeyValue.Key)">
                  <option value=""></option>
                  <option data-ng-repeat="s in dldata.Keys | orderBy: 'toString()'">{{s}}</option>
              </select>
-             <i class="btn icon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
+             <i class="btn glyphicon glyphicon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
          </div>
      </div>-->
 
@@ -202,7 +202,7 @@
 
 
 <!--modal popup data-->
-<!--  <div class="control-group row-fluid">
+<!--  <div class="form-group row">
                       <label class="control-label">Area</label>
                       <div class="controls">
                           <select data-ng-model="gKeyValue.Area" class="input-large">
@@ -211,13 +211,13 @@
                           </select>
                       </div>
                   </div>
-                <div class="control-group row-fluid">
+                <div class="form-group row">
                     <label class="control-label">Key</label>
                     <div class="controls">
                         <input type="text" data-ng-model="gKeyValue.Key" required data-placeholder="Key" />
                     </div>
                 </div>-->
-<!--<div class="control-group row-fluid">
+<!--<div class="form-group row">
         <label class="control-label">ValueType</label>
         <div class="controls">
             <select data-ng-model="gKeyValue.ValueType" class="input-large">

@@ -122,7 +122,7 @@ namespace UserInterfaceAngular.app
         [HttpGet]
         public HttpResponseMessage GetConditionColumns(ScbEnums.Products products, ScbEnums.Category category)
         {
-            var data = SharedViewModel.ConditionColumns(products, category);
+            var data = SharedViewModel.ConditionColumns(products);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 

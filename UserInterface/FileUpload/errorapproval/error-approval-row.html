@@ -5,7 +5,7 @@
     <div ng-form="errorform" class="form-horizontal">
         <div class="modal-body">
             <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
-                <div class="control-group row-fluid">
+                <div class="form-group row">
                     <label class="control-label">{{c.displayName}}</label>
                     <div class="controls">
                         <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
@@ -16,10 +16,10 @@
 
         <div class="modal-footer well">
             <label class="error">{{errorMessage}}</label>
-            <button class="btn btn-success" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"><i class="icon-save" style="color: blue"></i>Previous</button>
-            <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"><i class="icon-save" style="color: blue"></i>Approve</button>
-            <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"><i class="icon-save" style="color: blue"></i>Approve & Next</button>
-            <button class="btn btn-warning" ng-click="closeModel()"><i class="icon-off" style="color: red"></i>Close</button>
+            <button class="btn btn-success" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"><i class="glyphicon glyphicon-save" style="color: blue"></i>Previous</button>
+            <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"><i class="glyphicon glyphicon-save" style="color: blue"></i>Approve</button>
+            <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"><i class="glyphicon glyphicon-save" style="color: blue"></i>Approve & Next</button>
+            <button class="btn btn-warning" ng-click="closeModel()"><i class="glyphicon glyphicon-off" style="color: red"></i>Close</button>
         </div>
     </div>
 </div>

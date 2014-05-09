@@ -25,11 +25,11 @@ namespace ColloSys.FileUploader.RecordCreator
         public readonly IExcelReader Reader;
         private readonly ICounter _counter;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator,IExcelReader reader)
+        public RecordCreator(IAliasRecordCreator<TEntity> recordCreator,IExcelReader reader,ICounter counter)
         {
             _recordCreator = recordCreator;
             Reader = reader;
-            _counter =new ExcelRecordCounter();
+            _counter = counter;
             NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
         }
         #endregion
@@ -74,7 +74,7 @@ namespace ColloSys.FileUploader.RecordCreator
             return true;
         }
 
-        public bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mappingss)
+        public bool CreateRecord(TEntity obj, IEnumerable<FileMapping> mappingss,ICounter counter)
         {
             bool excelstatus = false, defaultMap = false, computedMap = true;
 

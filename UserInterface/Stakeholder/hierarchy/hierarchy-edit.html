@@ -3,37 +3,37 @@
         <div class="panel-heading">Edit Hierarchy</div>
 
         <!--Edit Hierarchy page-1-->
-        <div class="row-fluid" data-ng-form="step1form" data-ng-show="step==1">
-            <div class="row-fluid" style="height: 400px">
+        <div class="row" data-ng-form="step1form" data-ng-show="step==1">
+            <div class="row" style="height: 400px">
                 <!--Designation-->
-                <div class="row-fluid">
+                <div class="row">
                     <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
                         data-ng-disabled="true"></cs-field>
                 </div>
 
                 <!--Hierarchy-->
-                <div class="row-fluid ">
+                <div class="row ">
                     <cs-field data-ng-model="hierarchy.Hierarchy" field="hierarchyfield.Hierarchy"
                         value-list="dldata.HierarchyData" data-ng-disabled="true"></cs-field>
 
                 </div>
 
                 <!--Reports To-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.ReportsToName.Designation" field="hierarchyfield.ReportsToDesignation"
                              data-ng-disabled="true"></cs-field>
                     </span>
                 </div>
 
                 <!--Reporting Level-->
-                <div class="row-fluid">
+                <div class="row">
                     <cs-field data-ng-model="hierarchy.ReportingLevel" field="hierarchyfield.ReportingLevel"
                         value-list="dldata.ReportingLevelEnum" data-ng-disabled="true"></cs-field>
                 </div>
 
                 <!--Location Level-->
-                <div class="row-fluid">
+                <div class="row">
                     <cs-field data-ng-model="hierarchy.LocationLevel" field="hierarchyfield.LocationLevel"
                         value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
                 </div>
@@ -43,76 +43,76 @@
         </div>
 
         <!--Edit Hierarchy page-2-->
-        <div class="row-fluid" data-ng-form="step2form" data-ng-show="step==2">
-            <div class="row-fluid" style="height: 400px">
+        <div class="row" data-ng-form="step2form" data-ng-show="step==2">
+            <div class="row" style="height: 400px">
 
                 <!--IsUser-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.IsUser" field="hierarchyfield.IsUser"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.designation}} is user of Algosys or not</span>
                     </span>
                 </div>
 
                 <!--IsIndividual-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.IsIndividual" field="hierarchyfield.IsIndividual"
                             data-ng-change="hierarchy.IsEmployee=false"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is an Individual or any Organization </span>
                     </span>
                 </div>
 
                 <!--Registration-->
-                <div class="row-fluid" data-ng-show="!hierarchy.Individual">
-                    <span class="span5">
+                <div class="row" data-ng-show="!hierarchy.Individual">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasRegistration" field="hierarchyfield.HasRegistration"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">Is {{hierarchy.Designation}} needs Registration</span>
                     </span>
                 </div>
 
                 <!--IsEmployee-->
-                <div class="row-fluid" data-ng-show="hierarchy.Individual">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.Individual">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.IsEmployee" field="hierarchyfield.IsEmployee"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">Is {{hierarchy.Designation}} Employee of Algosys</span>
                     </span>
                 </div>
 
                 <!--Is Highest Level designation-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.ManageReportsTo" field="hierarchyfield.ManageReportsTo"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} having any highest level designation</span>
                     </span>
                 </div>
 
                 <!--Has Address-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasAddress" field="hierarchyfield.HasAddress"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has address </span>
                     </span>
                 </div>
 
                 <!--Has multiple Address-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasAddress">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasAddress">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasMultipleAddress" field="hierarchyfield.HasMultipleAddress"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has address </span>
                     </span>
                 </div>
@@ -121,46 +121,46 @@
         </div>
 
         <!--Edit Hierarchy page-3-->
-        <div class="row-fluid" data-ng-form="step3form" data-ng-show="step==3">
-            <div class="row-fluid" style="height: 400px">
+        <div class="row" data-ng-form="step3form" data-ng-show="step==3">
+            <div class="row" style="height: 400px">
 
                 <!--Has Working-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasWorking" field="hierarchyfield.HasWorking"
                             data-ng-change="ResetBtnValue()"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.designation}} has working</span>
                     </span>
                 </div>
 
                 <!--Has Bucket-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasWorking">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasWorking">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasBuckets" field="hierarchyfield.HasBuckets"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has Buckets</span>
                     </span>
                 </div>
 
                 <!--Is in Allocation-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasWorking">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasWorking">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.IsInAllocation" field="hierarchyfield.IsInAllocation"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is in allocation</span>
                     </span>
                 </div>
 
                 <!--Is in field-->
-                <div class="row-fluid" data-ng-show="hierarchy.IsInAllocation">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.IsInAllocation">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.IsInField" field="hierarchyfield.IsInField"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is in field</span>
                     </span>
                 </div>
@@ -168,75 +168,75 @@
         </div>
 
         <!--Edit Hierarchy page-4-->
-        <div class="row-fluid" data-ng-form="step4form" data-ng-show="step==4">
-            <div class="row-fluid" style="height: 400px">
+        <div class="row" data-ng-form="step4form" data-ng-show="step==4">
+            <div class="row" style="height: 400px">
                 <!--Has payment-->
-                <div class="row-fluid">
-                    <span class="span5">
+                <div class="row">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasPayment" field="hierarchyfield.HasPayment"
                             data-ng-change="ResetPaymentChlidVal()"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has Payment</span>
                     </span>
                 </div>
 
                 <!--Has Bank Details-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasPayment">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasBankDetails" field="hierarchyfield.HasBankDetails"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Bank Details</span>
                     </span>
                 </div>
 
                 <!--Has mobile Travel-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasPayment">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasMobileTravel" field="hierarchyfield.HasMobileTravel"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Mobile Travel</span>
                     </span>
                 </div>
 
                 <!--Has variable-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasPayment">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasVarible" field="hierarchyfield.HasVarible"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Variable</span>
                     </span>
                 </div>
 
                 <!--Has fixed-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasPayment">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasFixed" field="hierarchyfield.HasFixed"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Fixed</span>
                     </span>
                 </div>
 
                 <!--Has fixed Individual-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasFixed">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasFixed">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasFixedIndividual" field="hierarchyfield.HasFixedIndividual"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Fixed Individual</span>
                     </span>
                 </div>
 
                 <!--Has service charge-->
-                <div class="row-fluid" data-ng-show="hierarchy.HasPayment">
-                    <span class="span5">
+                <div class="row" data-ng-show="hierarchy.HasPayment">
+                    <span class="col-md-5">
                         <cs-field data-ng-model="hierarchy.HasServiceCharge" field="hierarchyfield.HasServiceCharge"></cs-field>
                     </span>
-                    <span class="span5">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Fixed Individual</span>
                     </span>
                 </div>
@@ -258,25 +258,25 @@
 
 
 
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Designation : </label>
         <div class="controls">
             <input type="text" data-ng-model="hierarchy.Designation" readonly />
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Hierarchy : </label>
         <div class="controls">
             <input type="text" data-ng-model="hierarchy.Hierarchy" readonly />
         </div>
     </div>-->
-<!-- <div class="control-group">
+<!-- <div class="form-group">
          <label class="control-label">ReportsTo : </label>
          <div class="controls">
              <input type="text" data-ng-model="hierarchy.ReportsToName.Designation" readonly />
          </div>
      </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Reporting Level :</label>
         <div class="controls">
             <select class="input-large" data-ui-select2="" data-ng-required="true" data-ng-model="hierarchy.ReportingLevel">
@@ -285,7 +285,7 @@
             </select>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
                             <label class="control-label">Location Level : </label>
                             <div class="controls">
                                 <select class="input-large" multiple="multiple" data-ui-select2="" data-ng-required="true" data-ng-model="hierarchy.LocationLevel">
@@ -293,21 +293,21 @@
                                 </select>
                             </div>
                         </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Is User : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.IsUser"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is user of Algosys or not</span>
         </div>
     </div>-->
-<!-- <div class="control-group">
+<!-- <div class="form-group">
          <label class="control-label">Is Individual : </label>
          <div class="controls">
              <div btn-switch data-ng-model="hierarchy.Individual" data-ng-change="hierarchy.IsEmployee=false"></div>
              <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is an Individual or any Organization </span>
          </div>
      </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Registration : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasRegistration"></div>
@@ -315,104 +315,104 @@
 
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Is Employee : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.IsEmployee"></div>
             <span style="color: gray; padding-left: 10px">Is {{hierarchy.Designation}} Employee of Algosys</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Is Highest Level Designation : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.ManageReportsTo"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} having any highest level designation</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Address : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasAddress"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has address </span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Multiple Address : </label>
         <div class="controls">
-            <input type="button" value="No" class="btn" data-ng-disabled="true" />
+            <input type="button" value="No" class="btn btn-default" data-ng-disabled="true" />
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Working : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasWorking" data-ng-change="ResetBtnValue()"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has working</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Buckets : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasBuckets"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has Buckets</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Is In Allocation : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.IsInAllocation" data-ng-change="hierarchy.IsInField=false"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is in allocation</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Is In Field : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.IsInField"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is in field</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Payment : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasPayment" data-ng-change="ResetPaymentChlidVal()"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has Payment</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Bank Details : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasBankDetails"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Bank Details</span>
         </div>
     </div>-->
-<!-- <div class="control-group">
+<!-- <div class="form-group">
          <label class="control-label">Has Mobile Travel : </label>
          <div class="controls">
              <div btn-switch data-ng-model="hierarchy.HasMobileTravel"></div>
              <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Mobile Travel</span>
          </div>
      </div>-->
-<!-- <div class="control-group">
+<!-- <div class="form-group">
          <label class="control-label">Has Variable : </label>
          <div class="controls">
              <div btn-switch data-ng-model="hierarchy.HasVariable"></div>
              <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Variable</span>
          </div>
      </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Fixed : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasFixed" data-ng-change="hierarchy.HasFixedIndividual=false"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Fixed</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Fixed Individual : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasFixedIndividual"></div>
             <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} Has Fixed Individual</span>
         </div>
     </div>-->
-<!--<div class="control-group">
+<!--<div class="form-group">
         <label class="control-label">Has Service Charge : </label>
         <div class="controls">
             <div btn-switch data-ng-model="hierarchy.HasServiceCharge"></div>

@@ -8,19 +8,19 @@
             <div class="modal-body form-horizontal">
 
                 <!--Product Name -->
-                <div class="row-fluid ">
+                <div class="row ">
                     <cs-field data-ng-model="dldata.productconfig.Product"
                               field="Products.Product" data-ng-disabled="true" ng-required="true"></cs-field>
                 </div>
 
                 <!--Product Group -->
-                <div class="row-fluid">
+                <div class="row">
                     <cs-field data-ng-model="dldata.productconfig.ProductGroup"
                               field="Products.ProductGroup" data-ng-disabled="true" ng-required="true"></cs-field>
                 </div>
 
                 <!--Allocation Reset Strategy -->
-                <div class="row-fluid control-group">
+                <div class="row form-group">
                     <label class="control-label">Allocation Reset Strategy </label>
                     <div class="controls">
                         <div class="btn-group">
@@ -31,7 +31,7 @@
                 </div>
 
                 <!--Billing Reset Strategy -->
-                <div class="row-fluid control-group">
+                <div class="row form-group">
                     <label class="control-label">Billing Reset Strategy </label>
                     <div class="controls">
                         <div class="btn-group">
@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Has Telecalling -->
-                <div class="row-fluid control-group">
+                <div class="row form-group">
                     <label class="control-label">Has Telecalling </label>
                     <div class="controls">
                         <div class="btn-group" data-ng-disabled="isReadOnly">
@@ -54,20 +54,20 @@
                 </div>
                 <div data-ng-show="dldata.productconfig.HasTelecalling" class="well">
 
-                    <div class="row-fluid ">
+                    <div class="row ">
                         <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysCycle"
                                   field="Products.FrCutOffDaysCycle" data-ng-disabled="dldata.isreadonly" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
 
                     </div>
 
-                    <div class="row-fluid ">
+                    <div class="row ">
                         <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysMonth"
                                   field="Products.FrCutOffDaysMonth" data-ng-disabled="dldata.isreadonly" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
                     </div>
 
                 </div>
 
-                <div class="row-fluid control-group">
+                <div class="row form-group">
                     <label class="control-label">Cycle Codes *</label>
                     <div class="controls">
                         <select ui-select2="select2Options" class="select2-container-multi input-large" data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple" data-placeholder="Select Cycle Codes" data-ng-readonly="dldata.isReadOnly" data-ng-required="true">
@@ -79,7 +79,7 @@
 
             <div class="modal-footer well">
 
-                <div class="row-fluid control-group">
+                <div class="row form-group">
                     <div class="controls">
                         <button class="btn btn-success" data-ng-show="!dldata.isReadOnly" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid">Save</button>
                         <button class="btn btn-info" data-ng-show="!dldata.isReadOnly" data-ng-click="closeModel()">Cancel</button>

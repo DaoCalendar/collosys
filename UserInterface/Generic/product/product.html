@@ -1,9 +1,9 @@
 ﻿<div class="container-fluid"  data-ng-cloak="">
-    <div class="row-fluid text-center well" data-ng-hide="dldata.productList.length > 0">
+    <div class="row text-center well" data-ng-hide="dldata.productList.length > 0">
         <label class="info">No Product Config Details</label>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <div style="overflow: scroll">
             <table class="table table-bordered table-hover" >
                 <thead>
@@ -44,8 +44,8 @@
                     <tr data-ng-repeat="product in dldata.productList | filter:search">
                         <td>
                             <div class="btn-group">
-                                <i class="btn icon-file-alt" data-ng-click="openModelData(product,true,$index)"></i>
-                                <i class="btn icon-edit" data-ng-click="openModelData(product,false,$index)"></i>
+                                <i class="btn glyphicon glyphicon-file-alt" data-ng-click="openModelData(product,true,$index)"></i>
+                                <i class="btn glyphicon glyphicon-edit" data-ng-click="openModelData(product,false,$index)"></i>
                             </div>
                         </td>
                         <td>{{product.Product}}</td>

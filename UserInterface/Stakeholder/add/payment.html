@@ -1,17 +1,17 @@
-﻿<div class="row-fluid">
-    <div class="row-fluid" data-ng-cloak="" data-ng-controller="PaymentDetails">
+﻿<div class="row">
+    <div class="row" data-ng-cloak="" data-ng-controller="PaymentDetails">
         <!--Stakeholder Payment-->
         <h5 style="font-weight: bold;">Payment Details</h5>
         <hr />
-        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasPayment">
+        <div class="row" data-ng-show="paymentData.Hierarchy.HasPayment">
             <!--Variable Payment-->
-            <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasVarible">
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasVarible">
                 <h5 style="font-weight: normal;">Variable Pay
                     <label style="color: red">(Select any one Policy) *</label></h5>
                 <hr />
-                <div class="row-fluid">
+                <div class="row">
                     <!--Collection Policy-->
-                    <!-- <div class="control-group span6">
+                    <!-- <div class="form-group col-md-6">
                              <label class="control-label">Collection Policy:</label>
                              <div class="controls">
                                  <select data-ui-select2="" id="linerPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
@@ -22,7 +22,7 @@
                                  </select>
                              </div>
                          </div>-->
-                    <div class="span6">
+                    <div class="col-md-6">
                         <cs-field data-ng-model="paymentData.Payment.CollectionBillingPolicy"
                             data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
                             value-list="$parent.WizardData.BillingPolicy.LinerPolicies"
@@ -30,7 +30,7 @@
                         </cs-field>
                     </div>
                     <!--Recovery Policy-->
-                    <!--<div class="control-group span6">
+                    <!--<div class="form-group col-md-6">
                             <label class="control-label">Recovery Policy:</label>
                             <div class="controls">
                                 <select data-ui-select2="" id="writeoffPolicy" data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff) "
@@ -41,7 +41,7 @@
                                 </select>
                             </div>
                         </div>-->
-                    <div class="span6">
+                    <div class="col-md-6">
                         <cs-field data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
                             data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff)  "
                             value-list="$parent.WizardData.BillingPolicy.WriteOffPolicies"
@@ -51,19 +51,19 @@
                 </div>
             </div>
             <!--Fixed Pay-->
-            <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasFixed">
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasFixed">
                 <h5 style="font-weight: normal;">Fixed Pay</h5>
                 <hr />
-                <div class="row-fluid">
+                <div class="row">
 
                     <!--Basic-->
-                    <!--<div class="control-group span6">
+                    <!--<div class="form-group col-md-6">
                             <label class="control-label">
                                 Basic :
                                 <label style="font-size: large; color: red">*</label></label>
                             <div class="controls">
                                 <div class="input-prepend">
-                                    <span class="add-on"><i class="icon-rupee"></i></span>
+                                    <span class="add-on"><i class="glyphicon glyphicon-rupee"></i></span>
                                     <input type="text" name="FixpayBasic" data-ng-required="paymentData.Hierarchy.HasFixed " min="0" max="10000000"
                                         data-ng-maxlength="8" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" data-ng-model="paymentData.Payment.FixpayBasic" />
                                 </div>-->
@@ -76,7 +76,7 @@
                                  <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayBasic.$error.maxlength">{{ val.MaxLength('8')}} </span>
                              </div>
                         </div>-->
-                    <div class="span6">
+                    <div class="col-md-6">
                         <cs-field
                             data-ng-model="paymentData.Payment.FixpayBasic"
                             data-ng-required="paymentData.Hierarchy.HasFixed"
@@ -85,13 +85,13 @@
                     </div>
 
                     <!--HRA-->
-                    <div class=" span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                    <div class=" col-md-6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
                         <!--<label class="control-label">
                             Hra :
                                 <label style="font-size: large; color: red">*</label></label>
                         <div class="controls">
                             <div class="input-prepend">
-                                <span class="add-on"><i class="icon-rupee"></i></span>
+                                <span class="add-on"><i class="glyphicon glyphicon-rupee"></i></span>
                                 <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000"
                                     data-ng-maxlength="6" data-ng-model="paymentData.Payment.FixpayHra" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayHra" />
                             </div>
@@ -111,15 +111,15 @@
                     </div>
                 </div>
                 <!--Other and Total-->
-                <div class="row-fluid">
+                <div class="row">
                     <!--Other-->
-                    <!--<div class="control-group span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                    <!--<div class="form-group col-md-6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
                         <label class="control-label">
                             Other :
                                 <label style="font-size: large; color: red">*</label></label>
                         <div class="controls">
                             <div class="input-prepend">
-                                <span class="add-on"><i class="icon-rupee"></i></span>
+                                <span class="add-on"><i class="glyphicon glyphicon-rupee"></i></span>
                                 <input type="text" data-ng-required="paymentData.Hierarchy.HasFixedIndividual " min="0" max="100000" data-ng-maxlength="6"
                                     data-ng-model="paymentData.Payment.FixpayOther" data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/" name="FixpayOther" />
                             </div>-->
@@ -132,7 +132,7 @@
                               <span class="field-validation-error" data-ng-show="paymentDetailsForm.FixpayOther.$error.max">{{val.MaxAmt('100000')}}</span>
                           </div>
                     </div>-->
-                    <div class="span6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                    <div class="col-md-6" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
                         <cs-field
                             field="paymentModel.FixpayOther"
                             data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
@@ -141,11 +141,11 @@
                     </div>
                 </div>
                 <!--Total-->
-                <div class="control-group span6 info" data-ng-show="false">
+                <div class="form-group col-md-6 info" data-ng-show="false">
                     <label class="control-label">Total:</label>
                     <div class="controls">
                         <div class="input-prepend">
-                            <span class="add-on"><i class="icon-rupee"></i></span>
+                            <span class="add-on"><i class="glyphicon glyphicon-rupee"></i></span>
                             <input type="text" data-ng-model="paymentData.Payment.FixpayTotal"
                                 disabled value="{{paymentData.Payment.FixpayTotal=TotalPayment(paymentData.Payment.FixpayBasic,paymentData.Payment.FixpayHra,paymentData.Payment.FixpayOther)}}" />
                         </div>
@@ -154,7 +154,7 @@
             </div>
         </div>
         <!--Salary calculating Table-->
-        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+        <div class="row" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
             <table class="table table-bordered table-hover" data-ng-show="paymentData.Payment.FixpayBasic">
                 <thead>
                     <tr>
@@ -198,13 +198,13 @@
         </div>
 
         <!--Allowances-->
-        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
+        <div class="row" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
             <h5 style="font-weight: normal;">Reimbursement elgibility</h5>
             <hr />
             <!--Mobile and Travel-->
-            <div class="row-fluid">
+            <div class="row">
                 <!--MObile-->
-                <!--<div class="control-group span6">
+                <!--<div class="form-group col-md-6">
                 <label class="control-label">
                     Mobile:
                             <label style="font-size: large; color: red">*</label></label>
@@ -220,14 +220,14 @@
                  </div>
             </div>
             </div>-->
-                <div class="span6">
+                <div class="col-md-6">
                     <cs-field
                         data-ng-required="paymentData.Hierarchy.HasMobileTravel"
                         data-ng-model="paymentData.Payment.MobileElig"
                         field="paymentModel.MobileElig"></cs-field>
                 </div>
                 <!--Travel-->
-                <!-- <div class="control-group span6">
+                <!-- <div class="form-group col-md-6">
                     <label class="control-label">
                         Travel:
                             <label style="font-size: large; color: red">*</label></label>
@@ -244,7 +244,7 @@
             </div>
         </div>
         -->
-                <div class="span6">
+                <div class="col-md-6">
                     <cs-field
                         data-ng-required="paymentData.Hierarchy.HasMobileTravel"
                         data-ng-model="paymentData.Payment.TravelElig"
@@ -253,12 +253,12 @@
             </div>
         </div>
         <!--Other Pay-->
-        <div class="row-fluid" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
+        <div class="row" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
             <h5 style="font-weight: normal;">Other Charges</h5>
             <hr />
-            <div class="row-fluid">
+            <div class="row">
                 <!--Service charge-->
-                <!--<div class="control-group span6">
+                <!--<div class="form-group col-md-6">
             <label class="control-label">
                 Service Charge:
                             <label style="font-size: large; color: red">*</label></label>
@@ -280,7 +280,7 @@
                     </div>
                 </div>
                 </div>-->
-                <div class="span6">
+                <div class="col-md-6">
                     <cs-field
                         data-ng-required="paymentData.Hierarchy.HasServiceCharge"
                         class="input-mini"
@@ -303,7 +303,7 @@
                      Associated Working will also be Deleted
                  </div>
                  <div class="modal-footer">
-                     <div class="row-fluid form-horizontal text-right">
+                     <div class="row form-horizontal text-right">
                          <button class="btn btn-primary" data-ng-click="deletePayment()">Delete</button>
                          <button class="btn btn-primary" data-ng-click="cancelDelete()">Cancel</button>
                      </div>

@@ -22,17 +22,17 @@ namespace AngularUI.Billing.subpolicy
     public class PayoutSubpolicyApiController : BaseApiController<BillingSubpolicy>
     {
         private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
-        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
-        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder=new BillingSubpolicyBuilder();
-        private static readonly BMatrixBuilder BMatrixBuilder=new BMatrixBuilder();
-        private static readonly BConditionBuilder BConditionBuilder=new BConditionBuilder();
-        private static readonly BillingRelationBuilder BillingRelationBuilder=new BillingRelationBuilder();
-        private static readonly BillingPolicyBuilder BillingPolicyBuilder=new BillingPolicyBuilder();
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
+        private static readonly BMatrixBuilder BMatrixBuilder = new BMatrixBuilder();
+        private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();
+        private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
+        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
 
         #region Get
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -40,35 +40,35 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        
-        public HttpResponseMessage GetFormulaNames(ScbEnums.Products product, ScbEnums.Category category)
+
+        public HttpResponseMessage GetFormulaNames(ScbEnums.Products product)
         {
-            var data=BillingSubpolicyBuilder
-                .FormulaOnProductCategory(product,category)
+            var data = BillingSubpolicyBuilder
+                .FormulaOnProductCategory(product)
                 .Select(c => c.Name)
                 .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        
-        public HttpResponseMessage GetMatrixNames(ScbEnums.Products product, ScbEnums.Category category)
+
+        public HttpResponseMessage GetMatrixNames(ScbEnums.Products product)
         {
-            var data = BMatrixBuilder.OnProductCategory(product, category)
+            var data = BMatrixBuilder.OnProductCategory(product)
                                      .Select(x => x.Name).ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet] // action does not required DB Transaction
-        public HttpResponseMessage GetColumnNames(ScbEnums.Products product, ScbEnums.Category category)
+        public HttpResponseMessage GetColumnNames(ScbEnums.Products product)
         {
-            var data= SharedViewModel.ConditionColumns(product, category).Where(c => c.InputType == ColloSysEnums.HtmlInputType.number).Select(c => c.field);
+            var data = SharedViewModel.ConditionColumns(product).Where(c => c.InputType == ColloSysEnums.HtmlInputType.number).Select(c => c.field);
             return Request.CreateResponse(HttpStatusCode.OK, data);
-            
+
         }
 
         [HttpGet] // action does not required DB Transaction
-        public HttpResponseMessage GetColumns(ScbEnums.Products product, ScbEnums.Category category)
+        public HttpResponseMessage GetColumns()
         {
             var data = SharedViewModel.BillingServiceConditionColumns();  //SharedViewModel.ConditionColumns(product, category);
             return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -76,15 +76,15 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        
-        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ScbEnums.Category category)
+
+        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product)
         {
-            var data = BillingSubpolicyBuilder.OnProductCategory(product, category);
+            var data = BillingSubpolicyBuilder.OnProductCategory(product);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetBConditions(Guid parentId)
         {
             var data = BConditionBuilder.OnSubpolicyId(parentId);
@@ -92,15 +92,15 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-        
-        public HttpResponseMessage GetFormulas(ScbEnums.Products product, ScbEnums.Category category)
+
+        public HttpResponseMessage GetFormulas(ScbEnums.Products product)
         {
-            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product, category);
+            var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetValuesofColumn(string columnName)
         {
             var column = columnName.Split('.');
@@ -131,7 +131,7 @@ namespace AngularUI.Billing.subpolicy
 
         }
         [HttpGet]
-        
+
         public uint GetMaxPriority()
         {
             var data = BillingRelationBuilder.GetAll().Select(x => x.Priority).ToList();
@@ -163,13 +163,13 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpPost]
-        
+
         public BillingRelation ActivateSubpolicy(BillingRelation relation)//string startDate, string endDate, BillingSubpolicy subPolicy
         {
             SetApproverId(relation);
             relation.Status = ColloSysEnums.ApproveStatus.Submitted;
             var maxpriority = GetMaxPriority();
-            relation.Priority =(uint) maxpriority + 1;
+            relation.Priority = (uint)maxpriority + 1;
             BillingRelationBuilder.Save(relation);
             return relation;
         }

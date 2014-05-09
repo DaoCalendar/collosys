@@ -1,31 +1,31 @@
-﻿<div class="row-fluid">
-    <div class="row-fluid" data-ng-include="baseUrl + 'Generic/taxmaster/taxmaster-list.html'"></div>
-    <div class="row-fluid">
+﻿<div class="row">
+    <div class="row" data-ng-include="baseUrl + 'Generic/taxmaster/taxmaster-list.html'"></div>
+    <div class="row">
         <form name="taxForm">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Tax Component Details
                 </div>
                 <div class="panel-body form-horizontal">
-                    <div class="row-fluid">
-                        <div class="span5">
+                    <div class="row">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.ApplicableTo"
                                 field="TaxMaster.ApplicableTo"></cs-field>
 
                         </div>
-                        <div class="span5">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.State"
                                 field="TaxMaster.State"></cs-field>
                         </div>
                     </div>
-                    <div class="row-fluid">
-                        <div class="span5">
+                    <div class="row">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.GTaxesList" track-by="Id" field="TaxMaster.GTaxesList"></cs-field>
                             <!--<cs-field data-ng-model="tax.IndustryZone" field="TaxMaster.IndustryZone"></cs-field>-->
                         </div>
-                        <div class="span5">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>
-                            <!-- <div class="control-group">
+                            <!-- <div class="form-group">
                                 <label class="control-label">Percentage</label>
                                 <div class="controls">
                                     <div class="input-append">
@@ -43,11 +43,11 @@
                         </div>
                     </div>
 
-                    <div class="row-fluid">
-                        <div class="span5">
+                    <div class="row">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.StartDate" field="TaxMaster.StartDate"></cs-field>
                         </div>
-                        <div class="span5">
+                        <div class="col-md-5">
                             <cs-field data-ng-model="tax.EndDate" field="TaxMaster.EndDate"></cs-field>
                         </div>
                     </div>

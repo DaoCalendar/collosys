@@ -202,7 +202,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
 
         var getFileInputTemplate = function () {
             return '<div ng-form="" name="myform" style="margin: 20px">' +
-                    '<div class="control-group"><div class="controls">' +
+                    '<div class="form-group"><div class="controls">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
                             '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
                                 'type="success"></progressbar>' +
@@ -486,7 +486,7 @@ csapp.directive('switchyesno', function () {
             readonly: "=",
             ngbind: "="
         },
-        template: '<div class="control-group row-fluid">' +
+        template: '<div class="form-group row">' +
             '<label class="control-label">{{text}}</label>' +
             '<div class="controls" ng-show="!readonly">' +
             '<div btn-switch data-ng-model="ngbind"></div>' +
@@ -712,11 +712,11 @@ csapp.directive('cspagination', function () {
         template: '<div>' +
             '<div class="text-right">' +
             '<div><b>Records: {{(pagesize*(currpagenum-1))+1}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
-            '<button class="btn" data-ng-click="gotofirstpage()"><i class="icon-step-backward"></i></button>' +
-            '<button class="btn" data-ng-click="stepbackward()"><i class="icon-caret-left icon-large"></i></button>' +
+            '<button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="icon-step-backward"></i></button>' +
+            '<button class="btn btn-default" data-ng-click="stepbackward()"><i class="icon-caret-left icon-large"></i></button>' +
             '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="input-mini text-center">' +
-            '<button class="btn" data-ng-click="stepforward()"><i class="icon-caret-right icon-large"></i></button>' +
-            '<button class="btn" data-ng-click="gotolastpage()"><i class="icon-step-forward"></i></button>' +
+            '<button class="btn btn-default" data-ng-click="stepforward()"><i class="icon-caret-right icon-large"></i></button>' +
+            '<button class="btn btn-default" data-ng-click="gotolastpage()"><i class="icon-step-forward"></i></button>' +
             '</div>' +
             '</div>'
     };
@@ -729,7 +729,7 @@ csapp.directive('cspagination', function () {
 
 //    var getTemplate = function () {
 //        var html = '<div ng-form="myform">' +
-//                    '<div class="control-group" class="{{options.class}}" >' +
+//                    '<div class="form-group" class="{{options.class}}" >' +
 //                    '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
 //                    '<div class="controls">';
 
@@ -745,7 +745,7 @@ csapp.directive('cspagination', function () {
 //        '</div>';
 
 //        html += '</div>' + //controls
-//            '</div>' + // control-group
+//            '</div>' + // form-group
 //            '</div>'; //ng-form;
 
 //        return html;
@@ -793,7 +793,7 @@ csapp.directive('cspagination', function () {
 
 //    var before = function (options) {
 //        var html = '<form name="myform">';
-//        html += '<div class="control-group"><div class="control-label">' + options.label + '</div>' +
+//        html += '<div class="form-group"><div class="control-label">' + options.label + '</div>' +
 //            '<div class="controls">';
 //        return html;
 //    };

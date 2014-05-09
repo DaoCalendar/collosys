@@ -11,7 +11,7 @@
         <div data-ng-show="dldata.profile">
 
             <!-- Name -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Name</label>
                 <div class="controls">
                     <input type="text" data-ng-model="dldata.profile.Name" readonly="readonly" />
@@ -19,7 +19,7 @@
             </div>
 
             <!-- User Id -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">User Id</label>
                 <div class="controls">
                     <input type="text" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
@@ -27,13 +27,13 @@
             </div>
 
             <!-- Joining Date -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Joining Date</label>
                 <div class="controls">
                     <div class="input-append">
                         <input type="text" name="DateOfJoining" class="input-medium"
                             data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
             <hr />
 
             <!-- StkhType -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Hierarchy</label>
                 <div class="controls">
                     <input type="text" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
@@ -49,7 +49,7 @@
             </div>
 
             <!-- StkhSubtype -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Designation</label>
                 <div class="controls">
                     <input type="text" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
@@ -59,7 +59,7 @@
             <hr />
 
             <!-- Email -->
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Email Id</label>
                 <div class="controls">
                     <input type="email" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
@@ -67,7 +67,7 @@
             </div>
 
             <!-- Mobile No -->
-            <div class="control-group row-fluid" data-ng-form="mobileNoForm">
+            <div class="form-group row" data-ng-form="mobileNoForm">
                 <label class="control-label">Mobile Number</label>
                 <div class="controls">
                     <input type="text" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"

@@ -2,7 +2,7 @@
     <div class="panel">
         <div class="panel-heading">Schedule File For Upload</div>
         <!-- System -->
-        <div class="control-group row" data-ng-show="datalayer.dldata.fileDetails">
+        <div class="form-group row" data-ng-show="datalayer.dldata.fileDetails">
             <label class="control-label">System</label>
             <div class="controls">
                 <select class="input-large" data-ui-select2="" data-ng-model="SelectedSystem" name="SelectedSystem"
@@ -14,7 +14,7 @@
         </div>
 
         <!-- Product -->
-        <div class="control-group row" data-ng-show="SelectedSystem">
+        <div class="form-group row" data-ng-show="SelectedSystem">
             <label class="control-label">Product</label>
             <div class="controls">
                 <select class="input-large" data-ui-select2="" data-ng-model="SelectedCategory" name="SelectedCategory"
@@ -26,7 +26,7 @@
         </div>
 
         <!-- upload date -->
-        <div class="control-group row" data-ng-show="SelectedCategory">
+        <div class="form-group row" data-ng-show="SelectedCategory">
             <label class="control-label">File Date</label>
             <div class="controls">
                 <div class="input-append">
@@ -35,14 +35,14 @@
                                data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
                                data-date-start-date="-15d" data-date-end-date="+5d" data-ng-readonly="true"
                                data-bs-datepicker="">
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                     <div data-ng-show="SelectedFrequency == 'Weekly'">
                         <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
                                data-ng-change="getFileDetails();" data-date-days-of-week-disabled="'0'"
                                data-date-start-date="-30d" data-date-end-date="+15d" data-ng-readonly="true"
                                data-bs-datepicker="">
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                     <div data-ng-show="SelectedFrequency == 'Monthly'">
                         <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="SelectedDate"
@@ -50,46 +50,46 @@
                                data-date-min-view-mode="1" data-date-format="M-yyyy"
                                data-date-start-date="-80d" data-date-end-date="+30d" data-ng-readonly="true"
                                data-bs-datepicker="">
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Display File Upload Controls -->
-        <div data-ng-show="SelectedDate" class="row-fluid">
+        <div data-ng-show="SelectedDate" class="row">
             <div data-ng-show="hasUnscheduledFiles">
                 <hr />
                 <h5>Files to Schedule</h5>
                 <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
-                    <div class="control-group row-fluid">
-                        <label class="span3 text-left">{{$index + 1}}. {{file.FileName}}</label>
+                    <div class="form-group row">
+                        <label class="col-md-3 text-left">{{$index + 1}}. {{file.FileName}}</label>
                         <div data-ng-hide="file.IsUploading">
-                            <div class="span4">
+                            <div class="col-md-4">
                                 <input type="file" ng-file-select="onFileSelect(file, $files, $index)" />
                             </div>
 
-                            <div class="offset1 span4">
+                            <div class="offset1 col-md-4">
                                 <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
                             </div>
                         </div>
-                        <div class="span6" data-ng-show="file.IsUploading">
+                        <div class="col-md-6" data-ng-show="file.IsUploading">
                             <progressbar class="progress-striped active" value="file.UploadPercent" type="success"></progressbar>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div data-ng-show="hasScheduledFiles" class="row-fluid ">
+            <div data-ng-show="hasScheduledFiles" class="row ">
                 <hr />
                 <h5>Files Scheduled</h5>
                 <table class="table table-condensed table-bordered">
                     <tr data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'true'}">
-                        <td class="span1">{{$index + 1}}.</td>
-                        <td class="span3">{{file.FileName.substring(16)}}</td>
-                        <td class="span1">{{file.FileSize | bytes}}</td>
-                        <td class="span3">Scheduled {{file.ScheduleDate | fromNow}}</td>
-                        <td class="span2">{{file.FileStatus}}</td>
+                        <td class="col-md-1">{{$index + 1}}.</td>
+                        <td class="col-md-3">{{file.FileName.substring(16)}}</td>
+                        <td class="col-md-1">{{file.FileSize | bytes}}</td>
+                        <td class="col-md-3">Scheduled {{file.ScheduleDate | fromNow}}</td>
+                        <td class="col-md-2">{{file.FileStatus}}</td>
                     </tr>
                 </table>
             </div>
@@ -98,7 +98,7 @@
         <!-- immediate -->
         <div data-ng-show="hasUnscheduledFiles">
             <hr />
-            <div class="control-group row-fluid">
+            <div class="form-group row">
                 <label class="control-label">Select Schedule</label>
                 <div class="controls">
                     <div style="float: left; margin-right: 10px" class="well">

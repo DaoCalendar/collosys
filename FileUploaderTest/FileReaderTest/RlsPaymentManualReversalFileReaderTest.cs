@@ -25,25 +25,19 @@ namespace ReflectionExtension.Tests.FileReaderTest
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile_CheckListCount()
         {
-            //Arrange
-     
-            //Act
-            _fileReader.ReadAndSaveBatch();
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.Count, 71);
+            Assert.AreEqual(list.Count, 71);
         }
 
         [Test]
         public void Test_ReadAndSaveBatch_Assigning_Valid_ExcelFile_Check_AccNo()
         {
-            //Arrange
-
-            //Act
-            _fileReader.ReadAndSaveBatch();
+            var list = _fileReader.GetNextBatch();
 
             //Assert
-            Assert.AreEqual(_fileReader.List.ElementAt(70).AccountNo, "48331589");
+            Assert.AreEqual(list.ElementAt(70).AccountNo, "48331589");
 
         }
 

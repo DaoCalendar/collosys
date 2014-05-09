@@ -31,11 +31,11 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                  .SingleOrDefault();
         }
         [Transaction]
-        public IEnumerable<BMatrix> OnProductCategory(ScbEnums.Products product, ScbEnums.Category category)
+        public IEnumerable<BMatrix> OnProductCategory(ScbEnums.Products product)
         {
             return SessionManager.GetCurrentSession()
                                  .QueryOver<BMatrix>()
-                                 .Where(c => c.Products == product && c.Category == category)
+                                 .Where(c => c.Products == product )
                                  .List();
         }
     }
