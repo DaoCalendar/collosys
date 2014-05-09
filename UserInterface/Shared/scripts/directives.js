@@ -206,7 +206,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                         '<div data-ng-show="fileInfo.isUploading">' +
                             '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
                                 'type="success"></progressbar>' +
-                            '<div class="text-error">Copying file to server!!!</div>' +
+                            '<div class="text-danger">Copying file to server!!!</div>' +
                         '</div>' +
                         '<div data-ng-hide="fileInfo.isUploading">' +
                             '<label class="fileContainer btn btn-default"> Select ' +
@@ -216,10 +216,10 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                              '<input type="text" class="input-xlarge" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
                         '</div>' +
                         '<div data-ng-show="valerror.$invalid">' +
-                            '<div class="text-error" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
-                            '<div class="text-error" data-ng-show="valerror.$error.extension">Please select {{validations.extension}} file.</div>' +
-                            '<div class="text-error" data-ng-show="valerror.$error.pattern">Pattern {{validations.pattern}} mismatch.</div>' +
-                            '<div class="text-error" data-ng-show="valerror.$error.required">Please select a file.</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.extension">Please select {{validations.extension}} file.</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.pattern">Pattern {{validations.pattern}} mismatch.</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.required">Please select a file.</div>' +
                         '</div>' +
                     '</div></div>' +
                     '</div>';
