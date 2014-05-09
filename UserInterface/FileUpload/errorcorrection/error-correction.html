@@ -2,29 +2,24 @@
     <div class="row">
         <alert type="success" data-ng-hide="dldata.fileSchedulers.length > 0">No Error recrods found!!!</alert>
     </div>
-    <div class="success well-small row" data-ng-show="dldata.fileSchedulers.length > 0">
+    <div class="row" data-ng-show="dldata.fileSchedulers.length > 0">
         <div class="form-group col-md-5">
             <label class="control-label">File Type</label>
-            <div class="controls">
-                <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)"
-                    ng-options="row as row.AliasDescription for row in dldata.fileDetails | orderBy:'AliasName'">
-                </select>
-            </div>
+            <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)"
+                    ng-options="row as row.AliasDescription for row in dldata.fileDetails | orderBy:'AliasName'"></select>
         </div>
         <div class="form-group col-md-5" data-ng-show="fileDetail">
             <label class="control-label">File Date</label>
-            <div class="controls">
-                <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)"
-                    ng-options="row as row.FileDate | date for row in dateFileSchedulers">
-                </select>
-            </div>
+            <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)"
+                    ng-options="row as row.FileDate | date for row in dateFileSchedulers"></select>
         </div>
     </div>
-    <div ui-if="gridReady">
+    <div ng-if="gridReady">
         <div class="row">
             <button class="btn btn-success" data-ng-disabled="serverNgGridOptions.data.length<1"
-                data-ng-click="retry(fileScheduler)">
-                Retry All Rows</button>
+                    data-ng-click="retry(fileScheduler)">
+                Retry All Rows
+            </button>
             <label>Total Error : {{serverNgGridOptions.data.length}}</label>
         </div>
         <div style="height: 400px" ng-grid="gridOptions"></div>

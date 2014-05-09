@@ -23,29 +23,6 @@ csapp.directive('csInclude', ["$document", function ($document) {
     };
 }]);
 
-csapp.directive('chosen', function () {
-    var linker = function (scope, element, attrs) {
-        var list = attrs['chosen'];
-
-        scope.$watch(list, function () {
-            element.trigger('liszt:updated');
-            element.trigger("chosen:updated");
-        });
-
-        scope.$watch(attrs.ngModel, function () {
-            element.trigger('liszt:updated');
-        });
-
-        element.chosen();
-    };
-
-    return {
-        restrict: 'A',
-        link: linker,
-        require: 'ngModel'
-    };
-});
-
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
@@ -59,11 +36,13 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<div class="text-danger">Copying file to server!!!</div>' +
                         '</div>' +
                         '<div data-ng-hide="fileInfo.isUploading">' +
-                            '<label class="fileContainer btn btn-default"> Select ' +
+                            '<label class="fileContainer btn btn-default col-md-2"> Select ' +
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
                              '</label>' +
-                             '<input type="text" class="input-xlarge" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
+                             '<div class="col-md-6">'+
+                                '<input type="text" class="form-control" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
+                             '</div>' +
                         '</div>' +
                         '<div data-ng-show="valerror.$invalid">' +
                             '<div class="text-danger" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +

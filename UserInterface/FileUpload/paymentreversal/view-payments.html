@@ -1,24 +1,21 @@
 ﻿<div>
-    <div class="row form-horizontal">
-        <div class="row">
-            <div class="form-group">
-                <label class="control-label">System</label>
-                <div class="controls">
-                    <select data-ng-model="selectedSystem" class="input-large" data-ng-change="getData(selectedSystem)" data-ui-select2="">
-                        <option value=""></option>
-                        <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
-                    </select>
-                    <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Case</button>
-                    <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Case</button>
-                </div>
-            </div>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="col-md-4 control-label">System</label>
+            <select data-ng-model="selectedSystem" class="col-md-8" data-ng-change="getData(selectedSystem)" 
+                    data-ui-select2="">
+                <option value=""></option>
+                <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Case</button>
+            <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Case</button>
         </div>
     </div>
 
-    <div class="row form-group">
-        <div data-ui-if="gridOptions.showGrid == true">
-            <div data-ng-include="baseUrl +'Generic/csgrid/grid-buttons.html'"></div>
-            <div style="height: 500px" data-ng-grid="gridOptions"></div>
-        </div>
+    <div data-ui-if="gridOptions.showGrid == true">
+        <div data-ng-include="baseUrl +'Generic/csgrid/grid-buttons.html'"></div>
+        <div style="height: 500px" data-ng-grid="gridOptions"></div>
     </div>
 </div>

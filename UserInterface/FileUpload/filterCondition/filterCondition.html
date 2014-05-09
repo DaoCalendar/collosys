@@ -1,26 +1,25 @@
 ﻿<div class="row">
-    <div class="row " id="row1">
+    <div class="row">
         <div class="row form-horizontal">
             <div class="form-group col-md-4">
                 <label class="control-label">Aliase Name</label>
-                <div class="controls">
-                    <select class="input-medium"
+                <select class="input-medium"
                         data-ng-model="filterCondition.FileDetail"
                         data-ng-change="getColumnValues(filterCondition.FileDetail)"
-                        required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
-                    </select>
-                </div>
+                        required data-ui-select2="">
+                    <option value=""></option>
+                    <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
+                </select>
             </div>
             <div class="col-md-8" data-ng-show="filterCondition.FileDetail">
                 <button class="btn alert-info"
-                    data-ng-click="addAliseCondition(filterCondition.FileDetail)">
-                    Add AliseCondition</button>
+                        data-ng-click="addAliseCondition(filterCondition.FileDetail)">
+                    Add AliseCondition
+                </button>
             </div>
         </div>
     </div>
-    <div class="row" id="row2">
+    <div class="row">
         <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
             <div class="box-sub">
                 <div class="box-heading">AliseCondition list</div>
@@ -38,7 +37,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="form-group">
-                              <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
+                                <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
                             </div>
                         </div>
 
@@ -92,13 +91,17 @@
                                 <tbody>
                                     <tr data-ng-repeat="data in  filterCondition.ConditionList">
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.RelationType}}" data-ng-show="data.RelationType" /></td>
+                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.RelationType}}" data-ng-show="data.RelationType" />
+                                        </td>
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.ColumnName}}" /></td>
+                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.ColumnName}}" />
+                                        </td>
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Operator}}" /></td>
+                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Operator}}" />
+                                        </td>
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Value}}" /></td>
+                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Value}}" />
+                                        </td>
                                         <td>
                                             <button class="btn glyphicon glyphicon-remove" data-ng-click="deleteCondition(data,$index)" data-ng-show="filterCondition.ConditionList.length>0"></button>
                                         </td>

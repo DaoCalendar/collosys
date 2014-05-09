@@ -1,13 +1,10 @@
 ﻿<div>
-    <div ng-form="approveErrorform" class="form-horizontal">
-        <div class="well-small">
-            <div class="form-group">
-                <label class="control-label">File Name</label>
-                <div class="controls">
-                    <select data-ng-model="fileDetail" data-ng-change="showGridData(fileDetail)"
-                        data-ng-options="row as row.AliasName for row in dldata.fileDetails | orderBy:'AliasName'">
-                    </select>
-                </div>
+    <div ng-form="approveErrorform">
+        <div class="form-horizontal">
+            <div class="form-group row">
+                <label>File Name</label>
+                <select data-ui-select2="" data-ng-model="fileDetail" class="input-large" data-ng-change="showGridData(fileDetail)"
+                        data-ng-options="row as row.AliasName for row in dldata.fileDetails | orderBy:'AliasName'"></select>
             </div>
         </div>
         <div data-ng-if="gridReady">

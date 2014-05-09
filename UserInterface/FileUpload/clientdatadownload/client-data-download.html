@@ -2,51 +2,51 @@
     <form name="ClientDataDownloadForm">
 
         <!-- header filter row -->
-        <div class="row-fluid" style="border-color: gray">
+        <div class="row" style="border-color: gray">
             <!-- main clause -->
-            <span class="span3">
+            <span class="col-md-3">
                 <cs-field data-ng-model="params.ShowDataBy" field="paramsfield.ShowDataBy"
                     value-list="dldata.Downloadby" data-ng-change="ResetControls('ShowDataBy', params)"></cs-field>
             </span>
 
             <!-- product -->
             <div data-ng-show="params.ShowDataBy === 'Product'">
-                <span class="span3">
+                <span class="col-md-3">
                     <cs-field data-ng-model="params.SelectedProduct" field="paramsfield.SelectedProduct"
-                        data-ng-change="ResetControls('Product', params)"></cs-field>
+                              data-ng-change="ResetControls('Product', params)"></cs-field>
                 </span>
             </div>
 
             <!-- System -->
             <div data-ng-show="params.ShowDataBy === 'System'">
-                <span class="span3">
+                <span class="col-md-3">
                     <cs-field data-ng-model="params.SelectedSystem" field="paramsfield.SelectedSystem"
-                        data-ng-change="ResetControls('System', params)"></cs-field>
+                              data-ng-change="ResetControls('System', params)"></cs-field>
                 </span>
             </div>
 
 
             <!-- category for product -->
             <div data-ng-show="params.SelectedProduct !== '' ">
-                <span class="span3">
+                <span class="col-md-3">
                     <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
-                        data-ng-change="ResetControls('Category', params)" value-list="dldata.CategoryList"></cs-field>
+                              data-ng-change="ResetControls('Category', params)" value-list="dldata.CategoryList"></cs-field>
                 </span>
             </div>
 
             <!-- category for system -->
             <div data-ng-show="params.SelectedSystem !== '' ">
-                <span class="span3">
+                <span class="col-md-3">
                     <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
-                        data-ng-change="ResetControls('Category', params)" value-list="dldata.fileDetails"></cs-field>
+                              data-ng-change="ResetControls('Category', params)" value-list="dldata.fileDetails"></cs-field>
                 </span>
             </div>
 
             <!-- date -->
             <div data-ng-show=" params.SelectedCategory !== '' ">
-                <span class="span3">
+                <span class="col-md-3">
                     <cs-field data-ng-model="params.SelectedDate" field="paramsfield.SelectedDate"
-                        data-ng-change="getPagedDataAsync(params)"></cs-field>
+                              data-ng-change="getPagedDataAsync(params)"></cs-field>
                 </span>
             </div>
         </div>
