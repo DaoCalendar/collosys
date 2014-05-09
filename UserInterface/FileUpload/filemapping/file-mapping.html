@@ -1,5 +1,5 @@
-﻿<div class="row-fluid form-horizontal">
-    <div class="span4 control-group">
+﻿<div class="row form-horizontal">
+    <div class="col-md-4 form-group">
         <label class="control-label">File Name</label>
         <div class="controls">
             <select data-ng-model="fileDetail" data-ng-change="datalayer.GetFileMappings(fileDetail.Id)"
@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="span4 control-group">
+    <div class="col-md-4 form-group">
         <label class="control-label">Actual Table</label>
         <div class="controls">
             <input type="text" data-ng-model="datalayer.dldata.actualTable" readonly="readonly" />

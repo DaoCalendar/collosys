@@ -1,9 +1,9 @@
 ﻿<div ng-form="error1" class="form-horizontal">
-    <div class="row-fluid">
+    <div class="row">
         <alert type="success" data-ng-hide="dldata.fileSchedulers.length > 0">No Error recrods found!!!</alert>
     </div>
-    <div class="success well-small row-fluid" data-ng-show="dldata.fileSchedulers.length > 0">
-        <div class="control-group span5">
+    <div class="success well-small row" data-ng-show="dldata.fileSchedulers.length > 0">
+        <div class="form-group col-md-5">
             <label class="control-label">File Type</label>
             <div class="controls">
                 <select ng-model="fileDetail" data-ng-change="getDateFileSchedulers(fileDetail)"
@@ -11,7 +11,7 @@
                 </select>
             </div>
         </div>
-        <div class="control-group span5" data-ng-show="fileDetail">
+        <div class="form-group col-md-5" data-ng-show="fileDetail">
             <label class="control-label">File Date</label>
             <div class="controls">
                 <select ng-model="fileScheduler" data-ng-change="showErrorGrid(fileScheduler)"
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div ui-if="gridReady">
-        <div class="row-fluid">
+        <div class="row">
             <button class="btn btn-success" data-ng-disabled="serverNgGridOptions.data.length<1"
                 data-ng-click="retry(fileScheduler)">
                 Retry All Rows</button>

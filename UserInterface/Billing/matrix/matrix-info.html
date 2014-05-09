@@ -3,13 +3,13 @@
         Matrix Info
     </div>
     <div class="panel-body">
-        <div class="row-fluid" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
-            <div class="control-group span5">
+        <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
+            <div class="form-group col-md-5">
                 <cs-field data-ng-model="dldata.matrix.MatrixPerType"
                           data-ng-disabled="dldata.isMatrixCreated" field="Matrix.MatrixPerType"
                           data-ng-required="!dldata.isMatrixCreated"></cs-field>
             </div>
-            <div class="control-group span5" data-ng-show="dldata.matrix.MatrixPerType">
+            <div class="form-group col-md-5" data-ng-show="dldata.matrix.MatrixPerType">
                 <div data-ng-switch on="dldata.matrix.MatrixPerType">
                     <div data-ng-switch-when="Table">
                         <cs-field data-ng-model="dldata.matrix.MatrixPerTypeName" ng-required="true"

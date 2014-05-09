@@ -1,7 +1,7 @@
 ﻿<div>
-    <div class="row-fluid form-horizontal">
+    <div class="row form-horizontal">
         <div class="row">
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label">System</label>
                 <div class="controls">
                     <select data-ng-model="selectedSystem" class="input-large" data-ng-change="getData(selectedSystem)" data-ui-select2="">
@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="row-fluid control-group">
+    <div class="row form-group">
         <div data-ui-if="gridOptions.showGrid == true">
             <div data-ng-include="baseUrl +'Generic/csgrid/grid-buttons.html'"></div>
             <div style="height: 500px" data-ng-grid="gridOptions"></div>

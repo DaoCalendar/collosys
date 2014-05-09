@@ -22,7 +22,7 @@
             <th>Description</th>
         </tr>
         <tr>
-            <th><i class="btn icon-plus" data-ng-click="showAddEditPopup('add')"></i></th>
+            <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddEditPopup('add')"></i></th>
             <th>
                 <input type="text" data-ng-model="search.AliasName" /></th>
            <!-- <th>
@@ -65,9 +65,9 @@
             <td>
                 <div>
                     <div class="btn-group">
-                        <i class="btn icon-file" data-ng-click="showAddEditPopup('view',fileDetail)"></i>
-                        <i class="btn icon-edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></i>
-                        <i class="btn icon-trash" data-ng-click="showDeleteModelPopup(fileDetail)"></i>
+                        <i class="btn glyphicon glyphicon-file" data-ng-click="showAddEditPopup('view',fileDetail)"></i>
+                        <i class="btn glyphicon glyphicon-edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></i>
+                        <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModelPopup(fileDetail)"></i>
                     </div>
                 </div>
             </td>
@@ -120,14 +120,14 @@
                 <!--Start Date -->
                 <div class="input-append">
                     <input type="text" name="StartDate" class="input-medium" data-ng-disabled="true" data-ng-model="fileDetail.StartDate" bs-datepicker />
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
             </td>
             <td>
                 <!--End Date -->
                 <div class="input-append">
                     <input type="text" name="EndtDate" class="input-medium" data-ng-disabled="true" data-ng-model="fileDetail.EndDate" bs-datepicker />
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
             </td>
             <td>

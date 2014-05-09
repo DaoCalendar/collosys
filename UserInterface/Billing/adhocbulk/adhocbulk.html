@@ -1,7 +1,7 @@
-﻿<div class="row-fluid">
+﻿<div class="row">
     <form data-ng-submit="onSubmit()" name="adhocForm">
-        <div class="row-fluid form-horizontal">
-            <div class="span5">
+        <div class="row form-horizontal">
+            <div class="col-md-5">
                 <cs-field data-ng-model="Product"
                           data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
             </div>
@@ -29,7 +29,7 @@
                     <td>
                         <cs-button type="Delete" ng-click="Delete($index)"></cs-button>
                        <!-- <div class="btn-group">
-                            <i class="btn icon-trash" data-ng-click="Delete($index)"></i>
+                            <i class="btn glyphicon glyphicon-trash" data-ng-click="Delete($index)"></i>
                         </div>-->
                     </td>
                     <td>
@@ -82,7 +82,7 @@
 
                     </td>
                     <td>
-                        <div class="row-fluid" data-ng-if="pay.IsRecurring === true">
+                        <div class="row" data-ng-if="pay.IsRecurring === true">
                             <cs-field data-ng-model="pay.StartMonth" no-label="" field="BillAdhoc.StartMonth"></cs-field>
                             <!--<select class="input-medium"
                                     data-ng-model="pay.StartMonth"
@@ -111,7 +111,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="row-fluid" data-ng-show="PaymentList.length>0">
+        <div class="row" data-ng-show="PaymentList.length>0">
             <cs-button type="Save" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></cs-button>
             <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
                    value="Save" data-ng-click="save(PaymentList)" />
@@ -130,7 +130,7 @@
                             
         data-ng-click="Delete($index)" />-->
 <!--data-ng-hide="$last"-->
-<!--<div class="control-group span5">
+<!--<div class="form-group col-md-5">
         <label class="control-label">Product</label>
         <div class="controls">
             <select class="input-large" data-ng-model="Product"

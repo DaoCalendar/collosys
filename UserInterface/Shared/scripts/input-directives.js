@@ -3,18 +3,16 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
         var noBootstrapDiv = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '') +
                               (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '') +
-                              (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') + 'class="control-group" >';
+                              (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') +
+                            ' class="row"  style="margin-bottom: 5px">';
 
-        var html = noBootstrapDiv + '<div class="control-label">{{' + attr.field + '.label}}' +
-                 '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></div>' +
-                 '<div class="controls">';
+        var html = noBootstrapDiv + '<label class="col-md-4 control-label">{{' + attr.field + '.label}}' +
+            '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
         return (noBootstrap ? noBootstrapDiv : html);
     };
 
-    var bsTemplateAfter = function (noBootstrap) {
-        var noBootstrapDiv = '</div>';
-        var html = noBootstrapDiv + ' </div>';
-        return (noBootstrap ? noBootstrapDiv : html);
+    var bsTemplateAfter = function () {
+        return '</div>';
     };
 
     return {
@@ -26,7 +24,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function () {
-        var html = '<div ng-form="myform">';
+        var html = '<div ng-form="myform" role="form" class="col-md-8">';
         return html;
     };
 
@@ -44,12 +42,12 @@ csapp.factory("csValidationInputTemplate", function () {
     var after = function (fieldname, field) {
         getmessages(fieldname, field);
         var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
             '</div>';
         html += '</div>'; //ng-form; 
         return html;
@@ -102,7 +100,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
             html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += ' ng-model="$parent.' + attrs.ngModel + '" btn-radio="data" uncheckable>';
-            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="icon-ok"></i>';
+            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="glyphicon glyphicon-ok"></i>';
             html += '</button>';
             html += '</div>';
             return html;
@@ -153,15 +151,14 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         var $log = logManager.getInstance("csNumberFieldFactory");
 
-
         var prefix = function (fields) {
             var html = ' ';
             switch (fields.template) {
                 case 'rupee':
-                    html += '<div class="input-prepend"><span class=" add-on"><i class="icon-rupee"></i></span>';
+                    html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>';
                     break;
                 case 'percentage':
-                    html += '<div class="input-append">';
+                    html += '<div class="input-group">';
                     break;
                 default:
                     break;
@@ -176,14 +173,12 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                     html += '</div>';
                     break;
                 case 'percentage':
-                    html += '<span class="add-on"><label>%</label></span></div>';
+                    html += '<span class="input-group-addon"><label>%</label></span></div>';
                 default:
                     break;
             }
             return html;
         };
-
-
 
         //#region template
         var input = function (field, attrs) {
@@ -192,7 +187,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"');
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += (attrs.class) ? 'class ="' + attrs.class + '"' : 'class = "' + field.class + '"';
+            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
             html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
@@ -307,13 +302,13 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var html = ' ';
         switch (fields.template) {
             case 'user':
-                html += '<div class="input-prepend"><span class="add-on"><i class="icon-user"></i></span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
                 break;
             case 'phone':
-                html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
                 break;
             case 'percentage':
-                html += '<div class="input-append">';
+                html += '<div class="input-group">';
                 break;
             default:
                 break;
@@ -331,7 +326,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 html += '</div>';
                 break;
             case 'percentage':
-                html += '<span class="add-on"><label>%</label></span></div>';
+                html += '<span class="input-group-addon"><label>%</label></span></div>';
             default:
                 break;
         }
@@ -340,12 +335,11 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
 
     var input = function (field, attrs) {
         var html = '<input  name="myfield" type="text"';
-        html += (field.template === 'percentage') ? 'class = "input-small"' : 'class = "input-large"';
         html += ' ng-model="$parent.' + attrs.ngModel + '"';
         html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += (attrs.class) ? 'class ="' + attrs.class + '"' : '';
+        html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
@@ -461,7 +455,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += (attrs.class) ? 'class ="' + attrs.class + '"' : '';
+            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
@@ -514,7 +508,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         var input = function (field, attrs) {
             var html = '<input  name="myfield" type="checkbox"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += (attrs.class) ? 'class ="' + attrs.class + '"' : '';
+            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -559,9 +553,9 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
 
             var hasSuffix = angular.isDefined(field.suffix) && field.suffix !== null && field.suffix.length > 0;
 
-            var html = '<div class="input-prepend';
-            html += hasSuffix ? ' input-append">' : '">';
-            html += '<span class="add-on"><i class="icon-envelope"></i></span>';
+            var html = '<div class="input-group';
+            html += hasSuffix ? ' input-group">' : '">';
+            html += '<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>';
             return html;
 
         };
@@ -577,7 +571,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             }
 
             if (hasSuffix) {
-                string += '<span class="add-on">' + fields.suffix + '</span>';
+                string += '<span class="input-group-addon">' + fields.suffix + '</span>';
             }
             return string;
         };
@@ -589,7 +583,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         var input = function (field, attrs) {
             var html = '<input  name="myfield" type="email"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += (attrs.class) ? 'class ="' + attrs.class + '"' : '';
+            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -598,7 +592,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += addEmailSuffix(field);
-            html += '/>';
+            //html += '/>';
             return html;
         };
 
@@ -644,11 +638,11 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         var input = function (field, attrs) {
 
-            var html = '<div class="row-fluid">';
-            html += '<div class="span5 radio" ng-repeat="(key, record) in  field.options ">';
+            var html = '<div class="row">';
+            html += '<div class="col-md-5 radio" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += (attrs.class) ? 'class ="' + attrs.class + '"' : '';
+            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += ' ng-value="' + field.valueField + '"';
             html += (attrs.ngDisabled ? ' ng-Disabled="' + attrs.ngDisabled + '"' : ' ng-Disabled="setReadonly()"');
@@ -710,15 +704,14 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" ';
+            var html = '<select  name="myfield" ui-select2=""';
             //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
-            //html += field.useRepeat === "true" ? ' data-ui-select2="" ' : ' ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
             html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += (attr.multiple) ? 'multiple = "multiple" data-ui-select2=""' : '';
+            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
@@ -781,11 +774,11 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" '; //ui-select2=""
+            var html = '<select  name="myfield" ui-select2=""';
             //html += attr.valueList ? ' chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%; height:100%" ';
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -824,12 +817,11 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
     //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
     var input = function (field, attr) {
-        var html = '<div class="input-append">';
-        html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
+        var html = '<div class="input-group">';
+        html += '<input type="text" name="myfield" class="form-control" ng-readonly="true"';
         html += ' ng-model="$parent.' + attr.ngModel + '"';
         html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
         html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-        html += (attr.ngDisabled ? ' ng-readonly="' + attr.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
         html += (angular.isDefined(field.minViewMode) ? ' data-date-min-view-mode="' + field.minViewMode + '"' : '');
         html += (angular.isDefined(field.daysOfWeekDisabled) ? ' data-date-days-of-week-disabled="' + field.daysOfWeekDisabled + '"' : '');
@@ -837,10 +829,10 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         html += (angular.isDefined(field.startDate) ? ' data-date-start-date="' + field.startDate + '"' : '');
         html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
         html += ' bs-datepicker="" >';
-        html += ' <button type="button" class="btn" data-toggle="datepicker"';
-        html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-        html += '><i class="icon-calendar"></i></button> ';
-        html += ' </div>';
+        html += ' <span class="input-group-btn"  data-toggle="datepicker"> <button type="button" class="btn btn-default"';
+        //html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+        html += '><i class="glyphicon glyphicon-calendar"></i></button> ';
+        html += ' </span></div>';
         return html;
     };
 

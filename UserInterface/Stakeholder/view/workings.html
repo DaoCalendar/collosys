@@ -27,7 +27,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="row-fluid" data-ng-show="displayApproveReject(data)">
+    <div class="row" data-ng-show="displayApproveReject(data)">
         <button class="btn btn-mini btn-success" data-ng-show="canModify||canApprove" data-ng-click="approveWorkings(data)">Approve Working</button>
         <button class="btn btn-mini btn-danger" data-ng-show="canModify||canApprove" data-ng-click="rejectWorkings(data)">Reject Working</button>
         <button class="btn btn-mini btn-success" data-ng-show="CurrUserInfo.Permission =='Modify'||CurrUserInfo.Permission =='Approve'" data-ng-click="pushToHigher(data)">Push Approval Higher</button>

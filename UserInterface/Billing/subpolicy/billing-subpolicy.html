@@ -1,11 +1,11 @@
-﻿<div class="row-fluid" data-ng-form="subpolicyForm">
-    <div class="row-fluid form-horizontal" id="row1">
-        <div class="row-fluid">
-            <div class="row-fluid span5">
+﻿<div class="row" data-ng-form="subpolicyForm">
+    <div class="row form-horizontal" id="row1">
+        <div class="row">
+            <div class="row col-md-5">
                 <cs-field data-ng-model="dldata.payoutSubpolicy.Products" data-ng-change="changeProductCategory(dldata.payoutSubpolicy.Products);datalayer.changeProductCategory()"
                           field="payoutSubpolicy.Products" ng-required="true"></cs-field>
             </div>
-            <div class="row-fluid span6">
+            <div class="row col-md-6">
                 <button class="btn alert-info"
                         data-ng-show="dldata.payoutSubpolicy.Products"
                         data-ng-click="addsubpolicy(dldata.payoutSubpolicy.Products)">
@@ -15,8 +15,8 @@
         </div>
     </div>
 
-    <div class="row-fluid" id="row2">
-        <div class="span3" data-ng-show="dldata.payoutSubpolicy.Products">
+    <div class="row" id="row2">
+        <div class="col-md-3" data-ng-show="dldata.payoutSubpolicy.Products">
             <div class="box-sub">
                 <div class="box-heading">Subpolicy list</div>
                 <div class="box-body">
@@ -27,33 +27,33 @@
             </div>
         </div>
 
-        <div class="span9">
-            <div class="row-fluid" data-ng-show="showDiv">
+        <div class="col-md-9">
+            <div class="row" data-ng-show="showDiv">
                 <!--Subpolicy-->
-                <div class="row-fluid" id="subpolicy-display"
+                <div class="row" id="subpolicy-display"
                      data-ng-form="payoutSubpolicyForm">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             Supolicy
                         </div>
                         <div class="panel-body">
-                            <div class="row-fluid form-horizontal">
-                                <div class="row-fluid">
+                            <div class="row form-horizontal">
+                                <div class="row">
                                     <cs-field data-ng-model="dldata.payoutSubpolicy.Products" field="payoutSubpolicy.Productname"
                                               ng-required="true" data-ng-disabled="true"></cs-field>
                                 </div>
 
                                 <!--Name and Description-->
-                                <div class="row-fluid">
-                                    <div class=" span5">
+                                <div class="row">
+                                    <div class=" col-md-5">
                                         <cs-field data-ng-model="dldata.payoutSubpolicy.Name" data-ng-change="factory.checkDuplicateName()"
                                                   ng-required="true" field="payoutSubpolicy.Name" ng-required="true"
                                                   data-ng-disabled="dldata.payoutSubpolicy.Id"></cs-field>
-                                        <label class="text-error" data-ng-show="dldata.isDuplicateName">
+                                        <label class="text-danger" data-ng-show="dldata.isDuplicateName">
                                             Subpolicy name already exist
                                         </label>
                                     </div>
-                                    <div class="control-group span6">
+                                    <div class="form-group col-md-6">
                                         <cs-field data-ng-model="dldata.payoutSubpolicy.Description" field="payoutSubpolicy.Description"></cs-field>
                                     </div>
                                 </div>
@@ -63,11 +63,11 @@
                 </div>
 
                 <!--Conditions-->
-                <div class="row-fluid" id="subpolicy-conditions">
+                <div class="row" id="subpolicy-conditions">
                     <div class="panel panel-info">
                         <div class="panel-heading">Conditions</div>
                         <div class="panel-body">
-                            <div class="row-fluid" style="height: 200px; overflow: auto">
+                            <div class="row" style="height: 200px; overflow: auto">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr data-ng-hide="dldata.payoutSubpolicy.Id">
@@ -145,7 +145,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
+                                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
                                                         data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
                                             </td>
                                         </tr>
@@ -167,7 +167,7 @@
                                             </td>
 
                                             <td>
-                                                <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                                             </td>
                                         </tr>
                                     </thead>
@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <!--Output -->
-                <div class="row-fluid" id="subpolicy-output">
+                <div class="row" id="subpolicy-output">
                     <div class="panel panel-info">
                         <div class="panel-heading">Output</div>
                         <div class="panel-body">
@@ -233,7 +233,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
+                                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
                                                     data-ng-click="factory.addNewOutput(dldata.newOutput,newOutputForm)"></button>
                                         </td>
                                     </tr>
@@ -250,7 +250,7 @@
                                             <input type="text" class="input-large" value="{{value=change(output.RtypeName + output.Rvalue)}}" readonly="readonly" />
                                         </td>
                                         <td>
-                                            <i class="btn icon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
+                                            <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -260,7 +260,7 @@
                 </div>
 
                 <!--GroupBy-->
-                <div data-ng-show="dldata.outputWithFunction" class="row-fluid"
+                <div data-ng-show="dldata.outputWithFunction" class="row"
                      id="subpolicy-groupby">
                     <div class="panel panel-info">
                         <div class="panel-heading">Group By</div>
@@ -275,13 +275,13 @@
                 <div class="panel panel-info">
                     <div class="panel-heading">Restriction</div>
                     <div class="panel-body">
-                        <div class="row-fluid form-horizontal">
-                            <div class="control-group span5">
+                        <div class="row form-horizontal">
+                            <div class="form-group col-md-5">
                                 <div class="controls">
                                     <input type="text" data-ng-disabled="true" value="Processing Fee" />
                                 </div>
                             </div>
-                            <div class="control-group span5">
+                            <div class="form-group col-md-5">
                                 <div class="control-label">Formula</div>
                                 <div class="controls">
                                     <select class="input-xlarge"
@@ -292,13 +292,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row-fluid form-horizontal">
-                        <div class="control-group span5">
+                    <div class="row form-horizontal">
+                        <div class="form-group col-md-5">
                             <div class="controls">
                                 <input type="text" data-ng-disabled="true" value="Payout Capping" />
                             </div>
                         </div>
-                        <div class="control-group span5">
+                        <div class="form-group col-md-5">
                             <div class="control-label">Formula</div>
                             <div class="controls">
                                 <select class="input-xlarge"
@@ -311,7 +311,7 @@
                 </div>
 
                 <!--Button-->
-                <div class="row-fluid text-right" id="subpolicy-buttons">
+                <div class="row text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled="!(payoutSubpolicyForm.$valid && (dldata.payoutSubpolicy.BConditions.length>0 && dldata.payoutSubpolicy.BOutputs.length>0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.savePayoutSubpolicy(dldata.payoutSubpolicy)">Save</button>
                     <button class="btn btn-default"
                             data-ng-show="dldata.payoutSubpolicy.Id"
@@ -330,7 +330,7 @@
 </div>
 
 
-<!-- <div class="control-group span6">
+<!-- <div class="form-group col-md-6">
          <label class="control-label">Category</label>
          <div class="controls">
              <csswitch ngdisabled="dldata.payoutSubpolicy.Id"

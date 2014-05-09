@@ -3,7 +3,7 @@
     Reject List
 </div>
 <div class="modal-body">
-    <div class="row-fluid container span12" style="overflow: auto">
+    <div class="row container col-md-12" style="overflow: auto">
         <table class="table table-bordered">
             <thead class="alert-info">
                 <tr>
@@ -30,8 +30,8 @@
             </tbody>
         </table>
     </div>
-    <div class="row-fluid">
-        <div class="control-group">
+    <div class="row">
+        <div class="form-group">
             <label class="control-label">Reject Description</label>
             <div class="controls">
                 <input type="text" data-ng-model="description" name="Description" data-ng-required="true">
@@ -40,7 +40,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" data-ng-click="closeModel()">Close</button>
+    <button class="btn btn-default" data-dismiss="modal" data-ng-click="closeModel()">Close</button>
     <button class="btn btn-success" data-ng-disabled="!description" data-ng-click="rejectedSelected(description)">Reject</button>
 </div>
 

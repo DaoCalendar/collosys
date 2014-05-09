@@ -1,74 +1,9 @@
-﻿/*body {
-    color: #232323;
-    background-color: #fff;
-}*/
-
-header, footer, nav, section {
-    display: block;
-}
-
-.loginPageLabge {
-    color: white;
-}
-
-/* Styles for basic forms
------------------------------------------------------------*/
-
-fieldset {
-    border: 1px solid #ddd;
-    padding: 0 1.4em 1.4em 1.4em;
-    margin: 0 0 1.5em 0;
-}
-
-legend {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-textarea {
-    min-height: 75px;
-}
-
-.noResize {
+﻿.noResize {
     -moz-resize: none;
     -ms-resize: none;
     -o-resize: none;
     resize: none;
 }
-
-.editor-label {
-    margin: 1em 0 0 0;
-}
-
-.editor-field {
-    margin: 0.5em 0 0 0;
-}
-
-
-/* Styles for validation helpers
------------------------------------------------------------*/
-.field-validation-error {
-    color: #f00;
-}
-
-.field-validation-valid {
-    display: none;
-}
-
-.input-validation-error {
-    border: 1px solid #f00;
-    background-color: #fee;
-}
-
-.validation-summary-errors {
-    font-weight: bold;
-    color: #f00;
-}
-
-.validation-summary-valid {
-    display: none;
-}
-
 
 /*Styles for validation
     */
@@ -93,35 +28,6 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
     border-color: #28921f;
 }
 
-/*div.select2-container {
-    background: #fff url(images/validation/red_asterisk.png) no-repeat 88% center;
-}
-
-div.select2-container.ng-invalid.ng-dirty {
-    background: #fff url(images/validation/invalid.png) no-repeat 88% center;
-    box-shadow: 0 0 5px #d45252;
-    border-color: #b03535;
-}
-
-div.select2-container.ng-valid.ng-dirty {
-    background: #fff url(images/validation/valid.png) no-repeat 88% center;
-    box-shadow: 0 0 5px #5cd053;
-    border-color: #28921f;
-}*/
-
-label {
-    display: inline-block;
-    padding: 1px 3px;
-    font-size: 12.844px;
-    line-height: 14px;
-    -webkit-text-shadow: 0 1px 0 #000000;
-    -ms-text-shadow: 0 1px 0 #000000;
-    text-shadow: 0 1px 0 #000000;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-    white-space: nowrap;
-    vertical-align: baseline;
-}
-
 .back-image {
     background-image: url(images/algologo2.jpg);
     background-position: center;
@@ -133,19 +39,6 @@ label {
     width: 150px;
 }
 
-footer {
-    background-image: url(images/stanc/footer.png);
-    background-repeat: repeat-x;
-    height: 20px;
-    bottom: 0;
-    position: fixed;
-    margin-bottom: 0;
-    text-align: right;
-    color: black;
-    font-size: 0.8em;
-    width: 100%;
-}
-
 hr {
     margin: 7px 0;
 }
@@ -154,141 +47,9 @@ hr {
     text-align: right;
 }
 
-.sitemap-bar {
-    height: 23px;
-    padding: 5px 0 5px 15px;
-    margin: 5px 0 5px 0;
-    text-align: left;
-    -webkit-box-shadow: 0 1px 1px #000000;
-    -ms-box-shadow: 0 1px 1px #000000;
-    box-shadow: 0 1px 1px #000000;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    -ms-border-radius: 7px 7px 7px 7px;
-    border-radius: 7px 7px 7px 7px;
-}
-
-.table th {
-    font-weight: normal;
-}
-
 .round-corners {
     -ms-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
-}
-
-/******************************/
-.panel {
-    /*background-color: #FFFFFF;*/
-    background-color: transparent;
-    border: 1px solid #DDDDDD;
-    -ms-border-radius: 4px 4px 4px 4px;
-    border-radius: 4px 4px 4px 4px;
-    -webkit-box-shadow: 0 1px 1px #000000;
-    -ms-box-shadow: 0 1px 1px #000000;
-    box-shadow: 0 1px 1px #000000;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-    padding: 15px;
-}
-
-.panel-heading {
-    background-color: #F5F5F5;
-    border-bottom: 1px solid #DDDDDD;
-    -ms-border-top-left-radius: 3px;
-    border-top-left-radius: 3px;
-    -ms-border-top-right-radius: 3px;
-    border-top-right-radius: 3px;
-    margin: -15px -15px 15px;
-    padding: 10px 15px;
-}
-
-.panel-title {
-    font-size: 17.5px;
-    font-weight: 500;
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.panel-footer {
-    background-color: #F5F5F5;
-    -ms-border-bottom-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    -ms-border-bottom-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-top: 1px solid #DDDDDD;
-    margin: 15px -15px -15px;
-    padding: 10px 15px;
-}
-
-.panel-primary {
-    border-color: #428BCA;
-}
-
-    .panel-primary .panel-heading {
-        background-color: #428BCA;
-        border-color: #428BCA;
-        color: #FFFFFF;
-    }
-
-.panel-success {
-    border-color: #D6E9C6;
-}
-
-    .panel-success .panel-heading {
-        background-color: #DFF0D8;
-        border-color: #D6E9C6;
-        color: #468847;
-    }
-
-.panel-warning {
-    border-color: #FBEED5;
-}
-
-    .panel-warning .panel-heading {
-        background-color: #FCF8E3;
-        border-color: #FBEED5;
-        color: #C09853;
-    }
-
-.panel-danger {
-    border-color: #EED3D7;
-}
-
-    .panel-danger .panel-heading {
-        background-color: #F2DEDE;
-        border-color: #EED3D7;
-        color: #B94A48;
-    }
-
-.panel-info {
-    border-color: #BCE8F1;
-}
-
-    .panel-info .panel-heading {
-        background-color: #D9EDF7;
-        border-color: #BCE8F1;
-        color: #3A87AD;
-    }
-/******************************/
-
-input[type="text"], input[type="number"], input[type="email"], select, textarea {
-    /*opacity: 0.30;*/
-    color: black;
-}
-
-.loading-element {
-    /**/ background-color: black;
-    filter: alpha(opacity=70);
-    -ms-opacity: 0.7;
-    opacity: 0.7;
-    width: 100px;
-    height: 100px;
-    z-index: 1001;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    padding-top: 20%;
 }
 
 .loading-new-element {

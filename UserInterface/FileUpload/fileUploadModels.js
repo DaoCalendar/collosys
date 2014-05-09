@@ -161,6 +161,22 @@
         };
     };
 
+    var clientDataDownload = function() {
+        return {
+            ShowDataBy: { label: 'Download By', type: 'select', textField: 'display', valueField: 'value' },
+            SelectedProduct: { label: 'Product', type: "enum", valueList: $csShared.enums.ProductEnum },
+            SelectedSystem: { label: 'System', type: 'enum', valueList: $csShared.enums.ScbSystems },
+            SelectedCategory: { label: 'Category', type: 'select'},
+            SelectedDate: { label: 'Date', type: 'date' }
+        };
+    };
+
+    var fileStatus = function() {
+        return {
+            fromDate : {label:'Date Range', type:'date' },
+            toDate: { label: 'Date Range', type: 'date' },
+        };
+    };
 
     var init = function (tables) {
         models.FileDetail = fileDetail();
@@ -171,6 +187,8 @@
         models.Fcondition = fcondition();
         models.FilterCondition = filterCondition();
         models.ExcludeCase = excludeCase();
+        models.ClientDataDownload = clientDataDownload();
+        models.FileStatus = fileStatus();
 
         tables.FileDetail = models.FileDetail;
         tables.CustomerInfo = models.CustomerInfo;
