@@ -1,31 +1,37 @@
 ﻿<form name="pageForm">
     <div class="form-horizontal">
         <div>
-            <div class="row form-group">
-                <div class="controls input-append">
-                    <select class="input-mini" data-ng-model="dldata.logfile.Drive" data-ng-change="changeDrive(dldata.logfile.Drive)">
+            <div class="row">
+                <div class="col-md-1">
+                    <select data-ui-select2="" class="input-mini" data-ng-model="dldata.logfile.Drive" data-ng-change="changeDrive(dldata.logfile.Drive)">
                         <option data-ng-repeat="d in dldata.drives">{{d}}</option>
                     </select>
-                    <input type="text" name="directory" class="input-xxlarge" required data-ng-model="dldata.logfile.Path" />
-                    <button class="btn btn-success" data-ng-disabled="!pageForm.$valid" 
-                            data-ng-click="datalayer.getStatus(dldata.logfile.Path)">GO</button>
-                    <button class="btn btn-success" data-ng-disabled="!pageForm.$valid" 
-                            data-ng-click="datalayer.getParentDir(dldata.logfile.Path)">UP</button>
-                    <input type="search" class="search-query" data-ng-model="search.Name" placeholder="search..." />
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="directory" class="form-control" required data-ng-model="dldata.logfile.Path" />
+                </div>
+                <button class="col-md-1 btn btn-success" data-ng-disabled="!pageForm.$valid"
+                        data-ng-click="datalayer.getStatus(dldata.logfile.Path)">
+                    GO
+                </button>
+                <button class="col-md-1 btn btn-success" data-ng-disabled="!pageForm.$valid"
+                        data-ng-click="datalayer.getParentDir(dldata.logfile.Path)">
+                    UP
+                </button>
+                <div class="col-md-2">
+                    <input type="search" class="form-control search-query" data-ng-model="search.Name" placeholder="search..." />
                 </div>
             </div>
 
             <div class="row form-group">
-                <div class="controls">
-                    <span class="col-md-5" style="margin-left: 0;" data-ng-repeat="dir in dldata.logfile.Directories|filter:search">
-                        <i class="glyphicon glyphicon-folder-open" style="color: wheat"></i>
-                        <button class="btn btn-link" data-ng-click="changeDirectory(dir)" type="button">{{dir.Name}}</button>
-                    </span>
-                    <span class="col-md-5" style="margin-left: 0;" data-ng-repeat="logFile in dldata.logfile.LogFiles|filter:search">
-                        <span>{{logFile.Name}}</span>
-                        <i class="btn btn-mini btn-success glyphicon glyphicon-arrow-down" data-ng-click="downloadFile(logFile)"></i>
-                    </span>
-                </div>
+                <span class="col-md-6" data-ng-repeat="dir in dldata.logfile.Directories|filter:search">
+                    <i class="glyphicon glyphicon-folder-open" style="color: wheat"></i>
+                    <button class="btn btn-link" data-ng-click="changeDirectory(dir)" type="button">{{dir.Name}}</button>
+                </span>
+                <span class="col-md-6" data-ng-repeat="logFile in dldata.logfile.LogFiles|filter:search">
+                    <span>{{logFile.Name}}</span>
+                    <i class="btn glyphicon glyphicon-arrow-down" data-ng-click="downloadFile(logFile)"></i>
+                </span>
             </div>
 
         </div>

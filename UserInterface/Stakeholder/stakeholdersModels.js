@@ -45,7 +45,7 @@
             HasBuckets: { label: 'HasBuckets', type: 'btn-radio', options: [true, false] },
             HasBankDetails: { label: 'HasBankDetails', type: 'btn-radio', options: [true, false] },
             HasMobileTravel: { label: 'HasMobileTravel', type: 'btn-radio', options: [true, false] },
-            HasVarible: { label: 'HasVariable', type: 'btn-radio', options: [true, false] },
+            HasVariable: { label: 'HasVariable', type: 'btn-radio', options: [true, false] },
             HasFixed: { label: 'HasFixed', type: 'btn-radio', options: [true, false] },
             HasFixedIndividual: { label: 'HasFixedIndividual', type: 'btn-radio', options: [true, false] },
             HasAddress: { label: 'HasAddress', type: 'btn-radio', options: [true, false] },

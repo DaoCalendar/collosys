@@ -1,15 +1,13 @@
 ﻿<div class="form-horizontal ">
     <div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <label class="control-label">Enter Query</label>
-                <div class="controls">
-                    <textarea style="width: 500px" data-ng-model="query"></textarea>
-                    <button class="btn btn-success" data-ng-click="executeQuery(query)">Submit</button>
-                </div>
+        <div class="form-group row">
+            <label class="col-md-2 control-label">Enter Query</label>
+            <div class="col-md-6">
+                <textarea class="form-control" data-ng-model="query"></textarea>
             </div>
+            <button class="btn btn-success" data-ng-click="executeQuery(query)">Submit</button>
         </div>
-        <ul class="nav nav-pills">
+        <ul class="nav nav-tabs">
             <li ng-class="{'active' : view==='viewData'}">
                 <button data-ng-click="view='viewData'" class="btn btn-link">View Data</button>
             </li>

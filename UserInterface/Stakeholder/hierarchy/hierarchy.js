@@ -104,7 +104,6 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
 
                 _.forEach(dldata.Designation, function (item) {
                     var reportTo = _.find(dldata.HierarchyList, { 'Id': item.ReportsTo });
-                    console.log(reportTo);
                     var desig = {
                         Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
                         Id: item.Id
