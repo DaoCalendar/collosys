@@ -130,7 +130,7 @@
                                 data-ng-change="setPageNumber();getReportsToStakeholders(reportsToStakeholder)"></cs-field>
                         </div>
                     </div>
-                    <div  data-ng-if="stakeholder.filter==='BasedOnWorking'">
+                    <div data-ng-if="stakeholder.filter==='BasedOnWorking'">
                         <cs-field
                             value-list="productList"
                             field="viewModels.Products"
@@ -160,7 +160,7 @@
                 </cspagination>
                 </div>
             </div>
-            <div class="form-horizontal well row " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+            <div class="well row " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
 
                 <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
 
