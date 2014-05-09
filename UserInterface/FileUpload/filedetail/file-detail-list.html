@@ -115,7 +115,7 @@
                 <td>
                     {{fileDetail.FileCount}}
                 </td>
-                <td>
+                <td style="white-space: nowrap">
                     {{fileDetail.DateFormat}}
                 </td>
                 <td>
@@ -133,23 +133,11 @@
                 <td>
                     {{fileDetail.EmailId}}
                 </td>
-                <td>
-                    <!--Start Date -->
-                    <div class="input-group">
-                        <input type="text" name="StartDate" class="input-medium  form-control" data-ng-disabled="true" data-ng-model="fileDetail.StartDate" bs-datepicker />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
+                <td style="white-space: nowrap">
+                    {{fileDetail.StartDate | date}}
                 </td>
-                <td>
-                    <!--End Date -->
-                    <div class="input-group">
-                        <input type="text" name="EndtDate" class="input-medium form-control" data-ng-disabled="true" data-ng-model="fileDetail.EndDate" bs-datepicker />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
+                <td style="white-space: nowrap">
+                    {{fileDetail.EndDate | date}}
                 </td>
                 <td>
                     {{fileDetail.Description}}

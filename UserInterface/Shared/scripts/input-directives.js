@@ -793,6 +793,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             field.label = field.label || "Select";
             field.ngOptions = 'row for row in ';
             field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            field.ngOptions += " track by row";
         };
 
         var htmlTemplate = function (field, attrs) {

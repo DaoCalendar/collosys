@@ -119,7 +119,6 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
             if (!data) { return; }
             dldata.fileDetail = data;
             dldata.fileDetail.FileColumns = _.sortBy(dldata.fileDetail.FileColumns, 'Position');
-            $csnotify.success("All File Columns Loaded Successfully");
         }, errorDisplay);
     };
 

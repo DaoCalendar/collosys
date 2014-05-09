@@ -1,5 +1,5 @@
-﻿<div style="overflow: auto;">
-    <table class="table table-bordered table-hover col-md-12" style="overflow: auto">
+﻿<div style="overflow: auto; height: 450px; width: 100%">
+    <table class="table table-bordered table-hover table-condensed">
         <thead>
             <tr>
                 <th>Action</th>
@@ -22,22 +22,22 @@
                     </select>
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.Position" style="width: 50px" />
+                    <input type="text" class="form-control input-medium" data-ng-model="search.Position" />
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.OutputPosition" style="width: 50px" />
+                    <input type="text" class="form-control input-medium" data-ng-model="search.OutputPosition" />
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.OutputColumnName" style="width: 50px" />
+                    <input type="text" class="form-control input-medium" data-ng-model="search.OutputColumnName" />
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.ActualColumn" style="width: 100px" />
+                    <input type="text" class="form-control input-large" data-ng-model="search.ActualColumn" />
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.TempColumn" style="width: 120px" />
+                    <input type="text" class="form-control input-large" data-ng-model="search.TempColumn" />
                 </th>
                 <th>
-                    <input type="text" data-ng-model="search.DefaultValue" style="width: 120px" />
+                    <input type="text" class="form-control input-large" data-ng-model="search.DefaultValue" />
                 </th>
                 <th></th>
                 <th></th>
@@ -48,7 +48,7 @@
             <tr data-ng-repeat="fileMapping in datalayer.dldata.fileMappings | filter:search">
                 <td>
                     <div class="btn-group">
-                        <i class="btn glyphicon glyphicon-file-alt" data-ng-click="openEditModalPopup('view', fileMapping)"></i>
+                        <i class="btn glyphicon glyphicon-file" data-ng-click="openEditModalPopup('view', fileMapping)"></i>
                         <i class="btn glyphicon glyphicon-edit" data-ng-click="openEditModalPopup('edit', fileMapping)"></i>
                     </div>
                 </td>
@@ -59,8 +59,8 @@
                 <td>{{fileMapping.ActualColumn}}</td>
                 <td>{{fileMapping.TempColumn}}</td>
                 <td>{{fileMapping.DefaultValue}}</td>
-                <td>{{fileMapping.StartDate | date : 'yyyy-MM-dd'}}</td>
-                <td>{{fileMapping.EndDate | date : 'yyyy-MM-dd'}}</td>
+                <td>{{fileMapping.StartDate | date}}</td>
+                <td>{{fileMapping.EndDate | date}}</td>
             </tr>
         </tbody>
     </table>
