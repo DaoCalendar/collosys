@@ -155,10 +155,10 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var html = ' ';
             switch (fields.template) {
                 case 'rupee':
-                    html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-rupee"></i></span>';
+                    html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>';
                     break;
                 case 'percentage':
-                    html += '<div class="input-append">';
+                    html += '<div class="input-group">';
                     break;
                 default:
                     break;
@@ -173,7 +173,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
                     html += '</div>';
                     break;
                 case 'percentage':
-                    html += '<span class="add-on"><label>%</label></span></div>';
+                    html += '<span class="input-group-addon"><label>%</label></span></div>';
                 default:
                     break;
             }
@@ -302,13 +302,13 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var html = ' ';
         switch (fields.template) {
             case 'user':
-                html += '<div class="input-prepend"><span class="add-on"><i class="glyphicon glyphicon-user"></i></span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
                 break;
             case 'phone':
-                html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-phone"></i></span><span class="add-on">+91</span>';
+                html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
                 break;
             case 'percentage':
-                html += '<div class="input-append">';
+                html += '<div class="input-group">';
                 break;
             default:
                 break;
@@ -326,7 +326,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                 html += '</div>';
                 break;
             case 'percentage':
-                html += '<span class="add-on"><label>%</label></span></div>';
+                html += '<span class="input-group-addon"><label>%</label></span></div>';
             default:
                 break;
         }
