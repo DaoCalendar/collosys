@@ -37,7 +37,7 @@ namespace UserInterfaceAngular.app
         #region Get
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -45,7 +45,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetReasons()
         {
             var data =
@@ -58,7 +58,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetValuesofColumn(string columnName)
         {
             var column = columnName.Split('.');
@@ -90,7 +90,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetStakeholders(ScbEnums.Products products)
         {
             var data = StakeQuery.OnProduct(products);
@@ -112,7 +112,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetSubPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
             var data = AllocSubpolicyBuilder.OnProductCategory(products, category);
@@ -122,14 +122,13 @@ namespace UserInterfaceAngular.app
         [HttpGet]
         public HttpResponseMessage GetConditionColumns(ScbEnums.Products products, ScbEnums.Category category)
         {
-            var data = SharedViewModel.ConditionColumns(products, category);
+            var data = SharedViewModel.ConditionColumns(products);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
 
-
         [HttpPost]
-        
+
         public AllocRelation GetRelations(AllocSubpolicy subpolicy)
         {
             var relation = AllocRelationBuilder.OnAllocSubpolicy(subpolicy);
@@ -146,7 +145,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetConditions(Guid allocationId)
         {
             var data = AllocConditionBuilder.OnSubpolicyId(allocationId);
@@ -154,7 +153,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public uint GetMaxPriority()
         {
             var data = AllocRelationBuilder.GetAll().ToList()
@@ -203,7 +202,7 @@ namespace UserInterfaceAngular.app
         #endregion
 
         [HttpPost]
-        
+
         public AllocRelation ActivateSubpolicy(AllocRelation relation)//string startDate, string endDate, AllocSubpolicy subPolicy
         {
             SetApproverId(relation);
@@ -217,7 +216,7 @@ namespace UserInterfaceAngular.app
         public void SetApproverId(AllocRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
-             var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
+            var currUser = StakeQuery.FilterBy(x => x.ExternalId == currUserId).SingleOrDefault();
 
             if (currUser != null && currUser.ReportingManager != Guid.Empty)
             {
