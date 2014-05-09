@@ -1,17 +1,14 @@
 ﻿<div class="form-horizontal" data-ng-form="formFileColumn">
     <div class="row">
-        <div class="form-group">
-            <label class="control-label">File Name</label>
-            <div class="controls">
-                <select class="input-large" data-ng-model="fileAliasName"
-                    data-ng-change="datalayer.GetAll(fileAliasName)" data-placeholder="Select File Name">
-                    <option value=""></option>
-                    <option data-ng-repeat="row in datalayer.dldata.aliasList">{{row}}</option>
-                </select>
-                <button style="padding-left: 10px" class="btn btn-success" data-ng-show="fileAliasName"
+        <div class="col-md-6">
+            <cs-field field="productList" ng-model="fileAliasName"
+                      ng-change="datalayer.GetAll(fileAliasName)"></cs-field>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-success" data-ng-show="fileAliasName"
                     data-ng-click="showAddMultiColumnModal()">
-                    Add Multiple Columns</button>
-            </div>
+                Add Multiple Columns
+            </button>
         </div>
     </div>
     <div class="row">

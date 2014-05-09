@@ -16,7 +16,6 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
                     }
                     dldata.userHierarchy = data;
                     dldata.permissions = JSON.parse(data.Permissions);
-                    console.log('permissions fetched: ', dldata.permissions);
                     return;
                 });
         };

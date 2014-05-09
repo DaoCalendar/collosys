@@ -40,7 +40,6 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
     var getAllFileDetails = function () {
         apictrl.customGET('Fetch')
             .then(function (data) {
-                $csnotify.success("All File Details Loaded Successfully.");
                 dldata.fileDetailsList = data.FileDetails;
                 dldata.enums = {
                     fileCategories: data.FileCategories,
@@ -102,15 +101,14 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
     };
 }]);
 
-csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$modalInstance", "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "$csFileUploadModels", "Logger",
-    function ($scope, $val, $modalInstance, fileDetails, datalayer, factory, $csFileUploadModels, logManager) {
+csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
+    "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "Logger", "$csFileUploadModels",
+    function ($scope, $modalInstance, fileDetails, datalayer, factory, logManager, $csFileUploadModels) {
         "use strict";
 
-        var $log = logManager.getInstance("fileDetailsAddEditController");
+        //var $log = logManager.getInstance("fileDetailsAddEditController");
 
         $scope.fileDetailModel = $csFileUploadModels.models.FileDetail;
-        $log.debug($scope.fileDetailModel);
-
 
         $scope.close = function (closer) {
             $modalInstance.dismiss(closer);
@@ -135,7 +133,6 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
             $scope.fileDetail = fileDetails.fileDetail;
             if (angular.isUndefined($scope.fileDetail))
                 $scope.fileDetail = {};
-            $scope.val = $val;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.updateDependsOnAlias($scope.fileDetail);
@@ -147,10 +144,10 @@ csapp.controller("fileDetailsAddEditController", ["$scope", '$Validations', "$mo
                     $scope.modelTitle = "Add New File Details";
                     break;
                 case "edit":
-                    $scope.modelTitle = "Add New File Details";
+                    $scope.modelTitle = "Update File Details";
                     break;
                 case "view":
-                    $scope.modelTitle = "";
+                    $scope.modelTitle = "View File Details";
                     break;
                 default:
                     throw ("Invalid display mode : " + JSON.stringify(fileDetails));
