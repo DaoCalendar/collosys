@@ -7,7 +7,7 @@
                             ' class="row"  style="margin-bottom: 5px">';
 
         var html = noBootstrapDiv + '<label class="col-md-4 control-label">{{' + attr.field + '.label}}' +
-            '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></label>';
+            '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
         return (noBootstrap ? noBootstrapDiv : html);
     };
 
@@ -42,12 +42,12 @@ csapp.factory("csValidationInputTemplate", function () {
     var after = function (fieldname, field) {
         getmessages(fieldname, field);
         var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
-            '<div class="text-error" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
             '</div>';
         html += '</div>'; //ng-form; 
         return html;
@@ -704,15 +704,14 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" ';
+            var html = '<select  name="myfield" ui-select2=""';
             //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
-            //html += field.useRepeat === "true" ? ' data-ui-select2="" ' : ' ';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
             html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += (attr.multiple) ? 'multiple = "multiple" data-ui-select2=""' : '';
+            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
@@ -775,11 +774,11 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" '; //ui-select2=""
+            var html = '<select  name="myfield" ui-select2=""';
             //html += attr.valueList ? ' chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" chosen-select ' + attr.class + '"' : 'class="input-medium chosen-select"';
+            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%; height:100%" ';
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
