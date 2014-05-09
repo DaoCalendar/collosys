@@ -1,11 +1,11 @@
 ﻿<h2>PermissionScreen</h2>
 <div data-ng-cloak="" data-ng-form="frmPermission" class="form-horizontal">
     <!-- hierarchies part -->
-    <div class="row-fluid">
+    <div class="row">
         <div class="panel">
             <div class="panel-heading">Designation</div>
-            <div class="row-fluid">
-                <div class=" span5">
+            <div class="row">
+                <div class=" col-md-5">
                     <cs-field data-ng-model="SelectedHier.Activity" data-ng-change="changeActivity()"
                               field="Permission.Activity"></cs-field>
                     <!--<label class="control-label">Activity</label>
@@ -17,7 +17,7 @@
                             </select>
                         </div>-->
                 </div>
-                <div class="span7">
+                <div class="col-md-7">
                     <cs-field data-ng-model="SelectedHier.Vertical" data-ng-change="changeActivity()" field="Permission.Vertical"
                                data-ng-change="clearOnVertical(SelectedHier.Vertical,SelectedHier.Activity,SelectPermission,dldata);factory.setFinalPermission(SelectedHier.Vertical,SelectedHier.Activity,dldata)"></cs-field>
                     <!--<label class="control-label">Vertical</label>

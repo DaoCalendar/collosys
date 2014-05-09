@@ -1,9 +1,9 @@
 ﻿<div class="form-horizontal" data-ng-form="ClientDataDownloadForm">
 
     <!-- header filter row -->
-    <div class="row-fluid" style="border-color: gray">
+    <div class="row" style="border-color: gray">
         <!-- main clause -->
-        <div class="control-group span3">
+        <div class="form-group col-md-3">
             <label>Download By</label>
             <select class="input-medium" data-ng-model="params.ShowDataBy"
                 data-ng-change="ResetControls('ShowDataBy', params)">
@@ -14,7 +14,7 @@
         </div>
 
         <!-- product -->
-        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'Product'">
+        <div class="form-group col-md-3" data-ng-show="params.ShowDataBy === 'Product'">
             <label>Product</label>
             <select class="input-medium" data-ng-model="params.SelectedProduct"
                 data-ng-change="ResetControls('Product', params)">
@@ -24,7 +24,7 @@
         </div>
 
         <!-- System -->
-        <div class="control-group span3" data-ng-show="params.ShowDataBy === 'System'">
+        <div class="form-group col-md-3" data-ng-show="params.ShowDataBy === 'System'">
             <label>System</label>
             <select class="input-medium" data-ng-model="params.SelectedSystem" data-ng-change="ResetControls('System', params);">
                 <option value=""></option>
@@ -33,7 +33,7 @@
         </div>
 
         <!-- category for product -->
-        <div class="control-group span3" data-ng-show=" params.SelectedProduct !== '' ">
+        <div class="form-group col-md-3" data-ng-show=" params.SelectedProduct !== '' ">
             <label>Category</label>
             <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
                 <option value=""></option>
@@ -42,7 +42,7 @@
         </div>
 
         <!-- category for system -->
-        <div class="control-group span3" data-ng-show=" params.SelectedSystem !== '' ">
+        <div class="form-group col-md-3" data-ng-show=" params.SelectedSystem !== '' ">
             <label>Category</label>
             <select class="input-medium" data-ui-select2="" data-ng-model="params.SelectedCategory" data-ng-change="ResetControls('Category', params)">
                 <option value=""></option>
@@ -51,18 +51,18 @@
         </div>
 
         <!-- date -->
-        <div class="control-group span3" data-ng-show=" params.SelectedCategory !== '' ">
+        <div class="form-group col-md-3" data-ng-show=" params.SelectedCategory !== '' ">
             <label>Date</label>
             <div class="input-append">
                 <input class="input-small" type="text" data-ng-model="params.SelectedDate"
                     data-ng-change="getPagedDataAsync(params);" data-ng-readonly="true" data-bs-datepicker="">
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
             </div>
         </div>
     </div>
 
     <!-- grid -->
-    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+    <div class="row" data-ui-if="gridOptions.showGrid == true">
         <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px" data-ng-grid="gridOptions"></div>
     </div>

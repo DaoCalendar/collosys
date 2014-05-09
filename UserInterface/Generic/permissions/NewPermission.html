@@ -1,13 +1,13 @@
 ﻿<div class="form-horizontal" data-ng-form="frmPermission">
     <div class="panel">
         <div class="panel-heading">Permissions {{perm.hierarchy}}</div>
-        <div class="row-fluid">
-            <div class="control-group span5">
+        <div class="row">
+            <div class="form-group col-md-5">
                 <cs-field data-ng-model="perm.hierarchy"
                           field="Permission.Hierarchy" value-list="dldata.stakeHierarchy|unique : 'Hierarchy'"></cs-field>
             
             </div>
-            <div data-ng-show="perm.hierarchy" class="control-group span5">
+            <div data-ng-show="perm.hierarchy" class="form-group col-md-5">
                 <cs-field data-ng-model="perm.designation"
                           field="Permission.Designation" value-list="dldata.stakeHierarchy|
                         filter : {'Hierarchy' : perm.hierarchy} | orderBy: 'PositionLevel'" data-ng-change="datalayer.GetPermission(perm.designation)"></cs-field>
@@ -17,7 +17,7 @@
     </div>
     <div data-ng-show="perm.designation">
         <div data-ng-repeat="(key, module) in dldata.permission track by key">
-            <div class="panel row-fluid">
+            <div class="panel row">
                 <div class="panel-heading">
                     {{module.name}}
                 </div>
@@ -26,20 +26,20 @@
                 </div>
                 <div data-ng-repeat="(key,activity) in module.childrens track by key">
 
-                    <div class="span5">
+                    <div class="col-md-5">
                         <input type="checkbox" data-ng-model="activity.access" data-ng-click="uncheckChildren(activity)" />{{activity.name}}
                         <div><sub>{{activity.description}}</sub></div>
                     </div>
 
                     <div data-ng-if="activity.access" data-ng-repeat="(key,permissions) in activity.childrens track by key">
 
-                        <div class="span5">
+                        <div class="col-md-5">
                             <input type="checkbox" data-ng-model="permissions.access" data-ng-click="uncheckChildren(permissions)" />{{permissions.name}}
                             <div><sub>{{permissions.description}}</sub></div>
                         </div>
 
                         <div data-ng-repeat="(key,extraPermissions) in permissions.childrens track by key">
-                            <div class="span5">
+                            <div class="col-md-5">
                                 <input type="checkbox" data-ng-model="extraPermissions.access" data-ng-click="uncheckChildren(extraPermissions)" />{{extraPermissions.name}}
                                 <div><sub>{{extraPermissions.description}}</sub></div>
                             </div>
@@ -60,11 +60,11 @@
 
 <!--<div data-ng-show="perm.designation">
             <div data-ng-repeat="data in dldata.permission">
-                <div class="panel row-fluid">
+                <div class="panel row">
                     <div class="panel-heading">
                         <input type="checkbox" data-ng-model="data.access" />{{data.area}}</div>
                     <div data-ng-repeat="perm in data.permissions" class="panel-body" data-ng-if="data.access">
-                        <div class="span5">
+                        <div class="col-md-5">
                             <input data-ng-model="perm.permission.access" data-ng-click="uncheckExtraPerm(perm.permission.access,perm.extrapermission)" type="checkbox">
                             {{perm.permission.display}}
                             <div>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div data-ng-show="perm.permission.access" data-ng-repeat="dt in perm.extrapermission">
-                            <div class="span5">
+                            <div class="col-md-5">
                                 <input data-ng-model="dt.access" type="checkbox">
                                 {{dt.display}}
                                 <div>

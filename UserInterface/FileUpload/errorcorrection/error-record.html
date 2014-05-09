@@ -5,7 +5,7 @@
     <div ng-form="errorform" class="form-horizontal">
         <div class="modal-body">
             <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
-                <div class="control-group row-fluid">
+                <div class="form-group row">
                     <label class="control-label">{{c.displayName}}</label>
                     <div class="controls">
                         <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />

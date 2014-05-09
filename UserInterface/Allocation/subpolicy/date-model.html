@@ -4,24 +4,24 @@
                 <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
             </div>
             <div class="modal-body" style="text-align: center">
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label">Start Date</label>
                     <div class="controls">
                         <div class="input-append">
                             <input class="input-medium" data-ng-disabled="!modalData.forActivate" type="text" name="ScheduleDate" data-ng-model="modalData.startDate" required
                                 data-date-start-date="today" data-ng-readonly="true" data-bs-datepicker="" data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)">
-                            <button type="button" class="btn" data-ng-disabled="!modalData.forActivate" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                            <button type="button" class="btn btn-default" data-ng-disabled="!modalData.forActivate" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                         </div>
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     <label class="control-label">End Date</label>
                     <div class="controls">
                         <div class="input-append">
                             <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="modalData.endDate" data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"
                                 data-date-start-date="" data-ng-readonly="true"
                                 data-bs-datepicker="today">
-                            <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                         </div>
                     </div>
                 </div>

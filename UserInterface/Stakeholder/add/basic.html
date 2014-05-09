@@ -1,40 +1,40 @@
 ﻿<div class="form-horizontal " data-ng-cloak="" data-ng-controller="basicInfoController">
     <!--Name and UserID-->
-    <div class="row-fluid">
+    <div class="row">
         <!--Name-->
-        <div class="span5">
+        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" field="stakeholderModels.Name"></cs-field>
         </div>
         <!--UserId-->
-        <div class="span5" data-ng-if="basicInfoData.Hierarchy.IsUser">
+        <div class="col-md-5" data-ng-if="basicInfoData.Hierarchy.IsUser">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
                 data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)"
                 field="stakeholderModels.userId"></cs-field>
         </div>
     </div>
     <!--MobileNo and EmailId-->
-    <div class="row-fluid">
-        <div class="span5">
+    <div class="row">
+        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"
                 field="stakeholderModels.mobile"></cs-field>
         </div>
         <!--EmailId code-->
-        <div class="span5">
+        <div class="col-md-5">
             <cs-field
                 data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"
                 field="stakeholderModels.email"></cs-field>
         </div>
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
         <!--Reporting to manager-->
-        <div class="span5" data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
+        <div class="col-md-5" data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
             <cs-field
                 data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
                 field="stakeholderModels.manager"></cs-field>
         </div>
         <!--Date of Starting-->
-        <div class="span5">
+        <div class="col-md-5">
             <cs-field
                 data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
                 field="stakeholderModels.date"></cs-field>
@@ -46,7 +46,7 @@
 
 
 
-<!-- <div class="span5 control-group" data-ng-show="basicInfoData.Hierarchy.ManageReportsTo">
+<!-- <div class="col-md-5 form-group" data-ng-show="basicInfoData.Hierarchy.ManageReportsTo">
 
             <label class="control-label"
                    data-ng-show="basicInfoData.Hierarchy.Hierarchy!='External'">
@@ -81,7 +81,7 @@
                 </select>
             </div>
         </div>-->
-<!--  <div class="span5 control-group">
+<!--  <div class="col-md-5 form-group">
             <label class="control-label" data-ng-hide="basicInfoData.Hierarchy.IsEmployee">
                 Date Of Starting
                 <label style="font-size: large; color: red">*</label></label>
@@ -98,7 +98,7 @@
                            data-date-end-date="+1y"
                            data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
                            bs-datepicker required>
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
                 <!--Date of joining validation-->
 <!-- <div data-ng-show="basicInfoForm.joiningDate.$dirty">
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>-->
-<!-- <div class="span5 control-group">
+<!-- <div class="col-md-5 form-group">
             <label class="control-label">
                 Email Id
                 <label style="font-size: large; color: red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
@@ -114,7 +114,7 @@
                 <div class="input-prepend input-append">
                     <!--EmailId-->
 <!--<div data-ng-if="basicInfoData.Hierarchy.Hierarchy == 'External'">
-                        <span class="add-on"><i class="icon-envelope"></i></span>
+                        <span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input type="email"
                             class="input-large"
                             data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"
@@ -123,7 +123,7 @@
                     </div>-->
 <!--EmailId for scEmail-->
 <!--<div data-ng-if="basicInfoData.Hierarchy.Hierarchy != 'External'">
-                        <span class="add-on"><i class="icon-envelope"></i></span>
+                        <span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>
                         <input type="text"
                             data-ng-pattern="/^[a-zA-Z0-9.]+$/"
                             class="input-medium"
@@ -143,13 +143,13 @@
                 </div>
             </div>
         </div>-->
-<!-- <div class="span5 control-group">
+<!-- <div class="col-md-5 form-group">
             <label class="control-label">
                 Mobile No
                 <label style="font-size: large; color: red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
             <div class="controls">
                 <div class="input-prepend ">
-                    <span class=" add-on"><i class="icon-phone"></i></span>
+                    <span class=" add-on"><i class="glyphicon glyphicon-phone"></i></span>
                     <span class="add-on">+91</span>
                     <input type="text"
                            class="input-medium"
@@ -166,13 +166,13 @@
                 </div>
             </div>
         </div>-->
-<!--<div class="control-group span5" data-ng-show="basicInfoData.Hierarchy.IsUser">
+<!--<div class="form-group col-md-5" data-ng-show="basicInfoData.Hierarchy.IsUser">
                 <label class="control-label">
                     User Id
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
                     <div class="input-prepend">
-                        <span class="add-on"><i class="icon-user"></i></span>
+                        <span class="add-on"><i class="glyphicon glyphicon-user"></i></span>
                         <input type="text"
                                id="UserIdBox"
                                maxlength="7"
@@ -190,7 +190,7 @@
                     </div>
                 </div>
             </div>-->
-<!--<div class="span5 control-group">
+<!--<div class="col-md-5 form-group">
                 <label class="control-label">Name
                     <label style="font-size: large; color: red">*</label></label>
                 <div class="controls">
@@ -213,8 +213,8 @@
 
 
 <!--Gender and Date of birth-->
-<!--<div class="row-fluid" data-ng-show="false">
-        <div class="span5 control-group">
+<!--<div class="row" data-ng-show="false">
+        <div class="col-md-5 form-group">
             <label class="control-label">Gender</label>
             <div class="controls">
                 <div class="input-prepend" data-ng-show="!basicInfoData.isEditMode">
@@ -229,7 +229,7 @@
                 </div>
             </div>
         </div>
-        <div class="span5 control-group">
+        <div class="col-md-5 form-group">
             <label class="control-label">Date of Birth <label style="font-size:large; color:red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
             <div class="controls">
                 <div class="input-append">
@@ -241,7 +241,7 @@
                         data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.BirthDate"
                         data-date-end-date="-18y"
                         bs-datepicker>
-                    <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
 
                

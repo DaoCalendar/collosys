@@ -1,7 +1,8 @@
-﻿<nav class="navbar" data-ng-show="$csAuthFactory.hasLoggedIn()">
-    <div class="navbar-inner">
-        <a class="brand" ng-href="/">Sale<i class="icon-rotate-right icon-spin text-success"></i>Sys</a>
-        <ul class="nav">
+﻿<nav class="navbar navbar-default" data-ng-show="$csAuthFactory.hasLoggedIn()">
+    <div class="container">
+        <div class="navbar-header"><a class="navbar-brand" ng-href="/">ColloSys</a></div>
+
+        <ul class="nav navbar-nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">File Upload<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -86,9 +87,10 @@
                 </ul>
             </li>
         </ul>
-        <ul class="nav pull-right">
+        <ul class="nav pull-right navbar-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">
+                    Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="#/generic/profile">Profile</a></li>
@@ -100,11 +102,12 @@
     </div>
 </nav>
 
-<nav class="navbar" data-ng-if="false" data-ng-show="$csAuthFactory.hasLoggedIn()">
-    <div class="navbar-inner" data-ng-if="menus.length>0" data-ng-hide="false">
-        <a class="brand" data-ng-href="/">ColloSys</a>
+<nav class="navbar navbar-default" data-ng-if="false" data-ng-show="$csAuthFactory.hasLoggedIn()">
+    <div class="container" data-ng-if="menus.length>0" data-ng-hide="false">
+        <div class="navbar-header"><a class="navbar-brand" data-ng-href="/">ColloSys</a></div>
+
         <div data-ng-repeat="menu in menus">
-            <ul class="nav">
+            <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="{{menu.url}}" class="dropdown-toggle" data-toggle="dropdown">{{menu.Title}}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -115,9 +118,10 @@
                 </li>
             </ul>
         </div>
-        <ul class="nav pull-right">
+        <ul class="nav pull-right navbar-nav">
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">
+                    Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="#/generic/profile">Profile</a></li>

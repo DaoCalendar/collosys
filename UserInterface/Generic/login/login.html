@@ -3,15 +3,15 @@
         margin-left: 25px;
     }
 </style>
-<div class="row-fluid" style="margin-top: 100px">
+<div class="row" style="margin-top: 100px">
     <div class="centered">
-        <div class="span4">
+        <div class="col-md-4">
             <section class="loginform cf" data-ng-show="hasForgotPassword != true">
                 <div class="text-center">
                     <h4 class="somemargin">Login</h4>
                 </div>
                 <form>
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <!--<div class="control-label">
                                 Username
                             </div>-->
@@ -19,7 +19,7 @@
                             <input type="text" placeholder="User Name" autofocus="autofocus" data-ng-model="login.username">
                         </div>
                     </div>
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <!--<div class="control-label">
                                 Password
                             </div>-->
@@ -27,17 +27,17 @@
                             <input type="password" placeholder="Password" data-ng-model="login.password">
                         </div>
                     </div>
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <div class="controls">
                             <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
                         </div>
                     </div>
-                    <!--<div class="control-group somemargin">
+                    <!--<div class="form-group somemargin">
                             <div class="controls">
                                 <a style="color: blue" data-ng-click="toggleForgotPassword()">Forgot Password</a>
                             </div>
                         </div>-->
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <div class="controls">
                             <button type="submit" class="btn btn-success" data-ng-click="loginUser()">
                                 Log In
@@ -50,7 +50,7 @@
             <section class="loginform cf" data-ng-show="hasForgotPassword == true">
                 <h3 class="somemarginH">Reset Password</h3>
                 <div data-ng-form="" name="forgotForm">
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <div class="control-label">
                             Username
                         </div>
@@ -60,7 +60,7 @@
                                 ng-change="validateUser(forgot)">
                         </div>
                     </div>
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <div class="controls">
                             <span data-ng-show="forgot.username == null" class="alert alert-error">Username must be of 7 digits!!!</span>
                             <span data-ng-show="forgot.username != null && forgot.isUserValid != true" class="alert alert-error">Username does not exist!!!
@@ -69,7 +69,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="control-group somemargin">
+                    <div class="form-group somemargin">
                         <div class="controls">
                             <button class="btn btn-success" data-ng-click="toggleForgotPassword()">Cancel</button>
                             <button class="btn btn-warning" data-ng-disabled="!forgot.isUserValid"

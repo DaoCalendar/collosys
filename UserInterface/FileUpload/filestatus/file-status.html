@@ -1,14 +1,14 @@
-﻿<div class="row-fluid form-horizontal">
-    <div class="control-group">
+﻿<div class="row form-horizontal">
+    <div class="form-group">
         <label class="control-label">Date Range : </label>
         <div class="controls">
             <div class="input-append">
                 <input class="input-small" type="text" data-ng-model="fileScheduler.fromDate" data-bs-datepicker="" />
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
             </div>
             <div class="input-append">
                 <input type="text" class="input-small" data-ng-model="fileScheduler.toDate" bs-datepicker />
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
             </div>
             <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
         </div>

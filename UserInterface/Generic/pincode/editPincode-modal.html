@@ -25,8 +25,8 @@
             <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
                       data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
             
-            <div class="row-fluid">
-                <div class="span3" >
+            <div class="row">
+                <div class="col-md-3" >
                     <div data-ng-show="!showTextBox" >
                         <cs-field data-ng-model="GPincodedata.City" 
                                     
@@ -34,14 +34,14 @@
                                   typeahead="c for c in pincodeCity($viewValue,GPincodedata.District)">
                         </cs-field>
                     </div>
-                    <div class="control-group span3" data-ng-show="showTextBox">
+                    <div class="form-group col-md-3" data-ng-show="showTextBox">
                         <label class="control-label">City</label>
                         <div class="controls">
                             <input type="text" class="input-large" data-ng-model="GPincodedata.City" required/>
                         </div>
                     </div>
                 </div>
-                <div class="control-group span4">
+                <div class="form-group col-md-4">
                     <div class="controls">
                         <button class="btn btn-success" data-ng-click="addCity()" data-ng-hide="showTextBox">Add New City</button>
                         <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="showTextBox">Not Now</button>
@@ -86,42 +86,42 @@
 
 <!--    <div class="modal-body">
                     
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">Country </label>
             <div class="controls">
                 <input type="text" value="India" readonly="readonly" />
             </div>
         </div>
                     
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">Region</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.Region" readonly="readonly" />
             </div>
         </div>
                   
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">State</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.State" readonly="readonly" />
             </div>
         </div>
                     
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">Cluster</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.Cluster" readonly="readonly" />
             </div>
         </div>
                    
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">District</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.District" readonly="readonly" />
             </div>
         </div>
                    
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">City</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.City"
@@ -133,7 +133,7 @@
             </div>
         </div>
                    
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">City Category</label>
             <div class="controls">
                 <select class="input-large" ui-select2 data-ng-model="eGPincode.CityCategory" data-ng-required="dldata.isInEditMode">
@@ -143,7 +143,7 @@
             </div>
         </div>
                    
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">Area</label>
             <div class="controls">
                 <input type="text" name="area"
@@ -158,7 +158,7 @@
             </div>
         </div>
                    
-        <div class="control-group row-fluid">
+        <div class="form-group row">
             <label class="control-label">Pincode</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.Pincode" readonly="readonly" />

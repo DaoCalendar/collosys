@@ -2,7 +2,7 @@
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th><i class="btn icon-plus" data-ng-click="showAddSingleColumnModal()"></i></th>
+                <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddSingleColumnModal()"></i></th>
                 <th>File Column Name </th>
                 <th>Position </th>
                 <th>Length</th>
@@ -19,10 +19,10 @@
                 <td>
                     <div>
                         <div class="btn-group">
-                            <i class="btn icon-trash" data-ng-click="showDeleteModal(column,$index)"></i>
-                            <i class="btn icon-arrow-up" data-ng-disabled="$index==0"
+                            <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModal(column,$index)"></i>
+                            <i class="btn glyphicon glyphicon-arrow-up" data-ng-disabled="$index==0"
                                 data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
-                            <i class="btn icon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
+                            <i class="btn glyphicon glyphicon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
                                 data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                     <!--Start Date -->
                     <div class="input-append">
                         <input type="text" name="StartDate" class="input-medium" data-ng-model="column.StartDate" bs-datepicker />
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </td>
 
@@ -63,7 +63,7 @@
                     <!--End Date -->
                     <div class="input-append">
                         <input type="text" name="EndtDate" class="input-medium" ui-validate=" '$value > column.StartDate'" data-ng-model="column.EndDate" bs-datepicker />
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </td>
                 <td>

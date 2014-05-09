@@ -5,7 +5,7 @@
             <h3>{{modalData.BillingRelation.BillingSubpolicy.Name}}</h3>
         </div>
         <div class="modal-body" style="text-align: center">
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label">Start Date</label>
                 <div class="controls">
                     <div class="input-append">
@@ -19,11 +19,11 @@
                                data-ng-readonly="true" 
                                data-bs-datepicker="" 
                                data-ng-change="modalData.endDate=null; factory.modelDateValidation(modalData.startDate,modalData.endDate)">
-                        <button type="button" class="btn" data-ng-disabled="!modalData.forActivate" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-ng-disabled="!modalData.forActivate" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </div>
             </div>
-            <div class="control-group">
+            <div class="form-group">
                 <label class="control-label">End Date</label>
                 <div class="controls">
                     <div class="input-append">
@@ -33,7 +33,7 @@
                                data-date-start-date="" 
                                data-ng-readonly="true"
                                data-bs-datepicker="today">
-                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                     </div>
                 </div>
             </div>
