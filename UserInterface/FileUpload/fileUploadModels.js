@@ -186,7 +186,7 @@
             SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
             SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
             IsImmediate: { label: 'Select Schedule', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key' },
-            ImmediateReason: { label: 'ImmediateReason',type:'textarea' }
+            ImmediateReason: { label: 'ImmediateReason',type:'textarea', required: true, minlength: 5 }
         };
     };
 
