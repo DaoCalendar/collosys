@@ -43,10 +43,12 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">From Date- </label>
                         <div class="controls">
-                            <div class="input-append">
+                            <div class="input-group">
                                 <input class="input-medium" type="text" name="fromDate" data-ng-model="allocData.fromDate" required
                                     data-bs-datepicker="" />
-                                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
                             </div>
                             <!--formDateFilter validation-->
                             <div data-ng-show="formDateFilter.fromDate.$dirty">
@@ -59,9 +61,11 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">To Date</label>
                         <div class="controls">
-                            <div class="input-append">
+                            <div class="input-group">
                                 <input type="text" name="toDate" class="input-medium" data-ng-model="allocData.toDate" required bs-datepicker ui-validate=" '$value >  allocData.fromDate'" />
-                                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
                             </div>
                             <!--EndDate validation-->
                             <div data-ng-show="formDateFilter.toDate.$dirty">

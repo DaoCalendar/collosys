@@ -53,17 +53,21 @@
                 </td>
                 <td>
                     <!--Start Date -->
-                    <div class="input-append">
+                    <div class="input-group">
                         <input type="text" name="StartDate" class="input-medium" data-ng-model="column.StartDate" bs-datepicker />
-                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </div>
                 </td>
 
                 <td>
                     <!--End Date -->
-                    <div class="input-append">
+                    <div class="input-group">
                         <input type="text" name="EndtDate" class="input-medium" ui-validate=" '$value > column.StartDate'" data-ng-model="column.EndDate" bs-datepicker />
-                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
                     </div>
                 </td>
                 <td>
