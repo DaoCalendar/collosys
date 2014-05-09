@@ -1,20 +1,35 @@
 ﻿<div class="row-fluid form-horizontal">
-    <div class="control-group">
-        <label class="control-label">Date Range : </label>
-        <div class="controls">
-            <div class="input-append">
-                <input class="input-small" type="text" data-ng-model="fileScheduler.fromDate" data-bs-datepicker="" />
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-            </div>
-            <div class="input-append">
-                <input type="text" class="input-small" data-ng-model="fileScheduler.toDate" bs-datepicker />
-                <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
-            </div>
+    <form name="filestatusdate">
+        <div class="row-fluid">
+            <span class="span4">
+                <cs-field data-ng-model="fileScheduler.fromDate" field="fileSchedulerfield.fromDate"></cs-field>
+            </span>
+            <span class="span4">
+                <cs-field data-ng-model="fileScheduler.toDate" field="fileSchedulerfield.toDate" no-label=""></cs-field>
+            </span>
             <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
+                       
         </div>
-    </div>
+    </form>
 </div>
 
 <div data-ng-include="baseUrl +'FileUpload/filestatus/file-status-grid.html'"></div>
-<iframe id="downloadFrame" style="display:none"></iframe>
+<iframe id="downloadFrame" style="display: none"></iframe>
 
+
+
+
+<!--<div class="control-group">
+                <label class="control-label">Date Range : </label>
+                <div class="controls">
+                    <div class="input-append">
+                        <input class="input-small" type="text" data-ng-model="fileScheduler.fromDate" data-bs-datepicker="" />
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                    <div class="input-append">
+                        <input type="text" class="input-small" data-ng-model="fileScheduler.toDate" bs-datepicker />
+                        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
+                    </div>
+                    <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
+                </div>
+            </div>-->

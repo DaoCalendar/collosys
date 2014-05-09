@@ -10,12 +10,16 @@ csapp.factory("ClientDataDownloadDataLayer", [
                     function (data) {
                         dldata.ProductList = data.Products;
                         dldata.CategoryList = data.Category;
-                        dldata.fileDetails = data.FileDetails;
+                        dldata.fileDetails = _.uniq(_.pluck(data.FileDetails,'Category'));
+
                     },
                     function (response) {
                         $csnotify.error("Data Retrieve Error." + response.data.Message);
                     });
         };
+
+        dldata.Downloadby = [{ display: 'Product', value: 'Product' }, { display: 'System', value: 'System' }];
+
 
         var getPagedDataAsync = function (downloadParams) {
             dldata.gridOptions = {};
@@ -43,8 +47,8 @@ csapp.factory("ClientDataDownloadDataLayer", [
 ]);
 
 csapp.controller("ClientDataDownloadController",
-    ["$scope", "$csfactory", "$csGrid", "Logger", "ClientDataDownloadDataLayer",
-    function ($scope, $csfactory, $grid, logManager, datalayer) {
+    ["$scope", "$csfactory", "$csGrid", "Logger", "ClientDataDownloadDataLayer", "$csFileUploadModels",
+    function ($scope, $csfactory, $grid, logManager, datalayer, $csFileUploadModels) {
 
         //#region init
         //var $log = logManager.getInstance("ClientDataDownloadController");
@@ -52,8 +56,10 @@ csapp.controller("ClientDataDownloadController",
             $scope.params = {};
             $scope.$csfactory = $csfactory;
             $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
             $scope.$grid = $grid;
             datalayer.Get();
+            $scope.paramsfield = $csFileUploadModels.models.ClientDataDownload;
         })();
         //#endregion
 
@@ -66,10 +72,13 @@ csapp.controller("ClientDataDownloadController",
                 case "ShowDataBy":
                     param.SelectedProduct = "";
                     param.SelectedSystem = "";
+                    param.SelectedCategory = "";
                 case "Product":
                     param.SelectedCategory = "";
+                    param.SelectedDate = null;
                 case "System":
                     param.SelectedCategory = "";
+                    param.SelectedDate = null;
                 case "Category":
                     param.SelectedDate = null;
                     if (angular.isDefined($scope.gridOptions)) {
