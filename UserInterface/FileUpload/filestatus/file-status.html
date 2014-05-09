@@ -1,15 +1,8 @@
-﻿<div class="row-fluid form-horizontal">
-    <form name="filestatusdate">
-        <div class="row-fluid">
-            <span class="span4">
-                <cs-field data-ng-model="fileScheduler.fromDate" field="fileSchedulerfield.fromDate"></cs-field>
-            </span>
-            <span class="span4">
-                <cs-field data-ng-model="fileScheduler.toDate" field="fileSchedulerfield.toDate" no-label=""></cs-field>
-            </span>
-            <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
-                       
-        </div>
+﻿<div class="form-horizontal">
+    <form name="filestatusdate" novalidate="">
+        <cs-field data-ng-model="fileScheduler.fromDate" field="fileSchedulerfield.fromDate"></cs-field>
+        <cs-field data-ng-model="fileScheduler.toDate" field="fileSchedulerfield.toDate" no-label=""></cs-field>
+        <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
     </form>
 </div>
 

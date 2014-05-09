@@ -3,10 +3,11 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
         var noBootstrapDiv = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '') +
                               (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '') +
-                              (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') + 'class="form-group" >';
+                              (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') +
+                            ' class="form-group clearfix" >';
 
-        var html = noBootstrapDiv + '<div class="control-label">{{' + attr.field + '.label}}' +
-            '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></div>';
+        var html = noBootstrapDiv + '<label style="col-md-3 control-label">{{' + attr.field + '.label}}' +
+            '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></label>';
         return (noBootstrap ? noBootstrapDiv : html);
     };
 
@@ -23,7 +24,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function () {
-        var html = '<div ng-form="myform">';
+        var html = '<div ng-form="myform" role="form" class="col-md-8">';
         return html;
     };
 
@@ -99,7 +100,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
             html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += ' ng-model="$parent.' + attrs.ngModel + '" btn-radio="data" uncheckable>';
-            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="icon-ok"></i>';
+            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="glyphicon glyphicon-ok"></i>';
             html += '</button>';
             html += '</div>';
             return html;
@@ -155,7 +156,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var html = ' ';
             switch (fields.template) {
                 case 'rupee':
-                    html += '<div class="input-prepend"><span class=" add-on"><i class="icon-rupee"></i></span>';
+                    html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-rupee"></i></span>';
                     break;
                 case 'percentage':
                     html += '<div class="input-append">';
@@ -302,10 +303,10 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         var html = ' ';
         switch (fields.template) {
             case 'user':
-                html += '<div class="input-prepend"><span class="add-on"><i class="icon-user"></i></span>';
+                html += '<div class="input-prepend"><span class="add-on"><i class="glyphicon glyphicon-user"></i></span>';
                 break;
             case 'phone':
-                html += '<div class="input-prepend"><span class=" add-on"><i class="icon-phone"></i></span><span class="add-on">+91</span>';
+                html += '<div class="input-prepend"><span class=" add-on"><i class="glyphicon glyphicon-phone"></i></span><span class="add-on">+91</span>';
                 break;
             case 'percentage':
                 html += '<div class="input-append">';
@@ -556,7 +557,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
 
             var html = '<div class="input-prepend';
             html += hasSuffix ? ' input-append">' : '">';
-            html += '<span class="add-on"><i class="icon-envelope"></i></span>';
+            html += '<span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>';
             return html;
 
         };
@@ -819,12 +820,11 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
     //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
     var input = function (field, attr) {
-        var html = '<div class="input-append">';
-        html += '<input type="text" name="myfield" class="input-medium" data-ng-readonly="true"';
+        var html = '<div class="input-group">';
+        html += '<input type="text" name="myfield" class="form-control" ng-readonly="true"';
         html += ' ng-model="$parent.' + attr.ngModel + '"';
         html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
         html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-        html += (attr.ngDisabled ? ' ng-readonly="' + attr.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
         html += (angular.isDefined(field.minViewMode) ? ' data-date-min-view-mode="' + field.minViewMode + '"' : '');
         html += (angular.isDefined(field.daysOfWeekDisabled) ? ' data-date-days-of-week-disabled="' + field.daysOfWeekDisabled + '"' : '');
@@ -832,10 +832,10 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         html += (angular.isDefined(field.startDate) ? ' data-date-start-date="' + field.startDate + '"' : '');
         html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
         html += ' bs-datepicker="" >';
-        html += ' <button type="button" class="btn btn-default" data-toggle="datepicker"';
-        html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-        html += '><i class="icon-calendar"></i></button> ';
-        html += ' </div>';
+        html += ' <span class="input-group-btn"  data-toggle="datepicker"> <button type="button" class="btn btn-default"';
+        //html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+        html += '><i class="glyphicon glyphicon-calendar"></i></button> ';
+        html += ' </span></div>';
         return html;
     };
 
