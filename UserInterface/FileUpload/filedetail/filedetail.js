@@ -40,7 +40,6 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
     var getAllFileDetails = function () {
         apictrl.customGET('Fetch')
             .then(function (data) {
-                $csnotify.success("All File Details Loaded Successfully.");
                 dldata.fileDetailsList = data.FileDetails;
                 dldata.enums = {
                     fileCategories: data.FileCategories,
