@@ -8,19 +8,14 @@
                 <div class="form-group col-md-5">
                     <label class="control-label">Product</label>
                     <div class="controls">
-                        <input type="text" data-ng-disabled="formula.Products"
-                               class="input-medium"
-                               data-ng-model="formula.Products" />
+                        <input type="text" data-ng-disabled="formula.Products" class="input-medium form-control" data-ng-model="formula.Products">
                     </div>
                 </div>
                 <div class="col-md-5">
-                    <cs-field data-ng-model="formula.Name"
-                              field="Formula.Name"
-                              data-ng-disabled="formula.Id"
-                        ></cs-field>
+                    <cs-field data-ng-model="formula.Name" field="Formula.Name" data-ng-disabled="formula.Id"></cs-field>
                 </div>
             </div>
-           
+
             <div class="row">
                 <div class="form-group col-md-5">
                     <cs-field data-ng-model="formula.OutputType" field="Formula.OutputType"></cs-field>
