@@ -291,8 +291,11 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
-    <Content Include="Content\bootstrap-select.css" />
-    <Content Include="Content\bootstrap-select.min.css" />
+    <Content Include="Content\select2\css\select2.png" />
+    <Content Include="Content\select2\css\select2x2.png" />
+    <Content Include="Content\select2\css\spinner.gif" />
+    <Content Include="Content\ny-select\bootstrap-select.css" />
+    <Content Include="Content\ny-select\bootstrap-select.min.css" />
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
     <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen\chosen.css" />
@@ -304,6 +307,7 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\loading-bar\loading-bar.css" />
     <Content Include="Content\select2\css\select2.css" />
+    <Content Include="Content\select2\select2-bootstrap.css" />
     <Content Include="FileUpload\filterCondition\filterCondition.html" />
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
@@ -352,10 +356,6 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\ng-grid\ng-grid.css" />
     <Content Include="Content\ng-grid\ng-grid.min.css" />
-    <Content Include="Content\angularui\select2.css" />
-    <Content Include="Content\angularui\select2.png" />
-    <Content Include="Content\angularui\select2x2.png" />
-    <Content Include="Content\angularui\spinner.gif" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Developer\connection\connection.html" />
     <Content Include="Developer\connection\connectionConfig.js" />

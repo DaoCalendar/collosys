@@ -4,14 +4,14 @@
         var noBootstrapDiv = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '') +
                               (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '') +
                               (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') +
-                            ' class="form-group clearfix" >';
+                            ' class="row"  style="margin-bottom: 5px">';
 
-        var html = noBootstrapDiv + '<label style="col-md-3 control-label">{{' + attr.field + '.label}}' +
+        var html = noBootstrapDiv + '<label class="col-md-4 control-label">{{' + attr.field + '.label}}' +
             '<span class="text-error">{{' + attr.field + '.required ? " *":""}}</span></label>';
         return (noBootstrap ? noBootstrapDiv : html);
     };
 
-    var bsTemplateAfter = function (noBootstrap) {
+    var bsTemplateAfter = function () {
         return '</div>';
     };
 
@@ -150,7 +150,6 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
     function (logManager, bstemplate, valtemplate) {
 
         var $log = logManager.getInstance("csNumberFieldFactory");
-
 
         var prefix = function (fields) {
             var html = ' ';
@@ -336,7 +335,6 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
 
     var input = function (field, attrs) {
         var html = '<input  name="myfield" type="text"';
-        html += (field.template === 'percentage') ? 'class = "input-small"' : 'class = "input-large"';
         html += ' ng-model="$parent.' + attrs.ngModel + '"';
         html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
