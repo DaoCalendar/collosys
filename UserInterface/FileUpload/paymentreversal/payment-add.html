@@ -8,12 +8,12 @@
         <cs-field data-ng-model="addpayment.Products" field="addpaymentModel.Products"></cs-field>
 
         <cs-field data-ng-model="addpayment.AccountNo" field="addpaymentModel.AccountNo"
-                  typeahead="c.AccountNo for c in datalayer.GetAccounts($viewValue,addpayment.Products)"
-                  typeahead-on-select="getCustomerName()"
-                  data-ng-change="getCustomerName()"></cs-field>
+            typeahead="c.AccountNo for c in datalayer.GetAccounts($viewValue,addpayment.Products)"
+            typeahead-on-select="getCustomerName()"
+            data-ng-change="getCustomerName()"></cs-field>
 
         <cs-field data-ng-model="addpayment.customerName" field="addpaymentModel.customerName"
-                  data-ng-disabled="true"></cs-field>
+            data-ng-disabled="true"></cs-field>
 
         <cs-field data-ng-model="addpayment.TransCode" field="addpaymentModel.TransCode"></cs-field>
 
@@ -24,16 +24,15 @@
         <cs-field data-ng-model="addpayment.TransAmount" field="addpaymentModel.TransAmount"></cs-field>
 
         <div class="row">
-            <div class="col-md-6">
-                <cs-field data-ng-model="addpayment.IsDebit" field="addpaymentModel.IsDebit"></cs-field>
-            </div>
+            <cs-field data-ng-model="addpayment.IsDebit" field="addpaymentModel.IsDebit"></cs-field>
         </div>
 
-        <div class="modal-footer well">
-            <button class="btn btn-info" data-ng-click="reset()">Reset</button>
-            <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
-            <button class="btn btn-warning" data-ng-click="close()">Close</button>
-        </div>
+
+    <div class="modal-footer well">
+        <button class="btn btn-info" data-ng-click="reset()">Reset</button>
+        <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
+        <button class="btn btn-warning" data-ng-click="close()">Close</button>
+    </div>
     </div>
 </div>
 
