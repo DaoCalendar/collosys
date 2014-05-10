@@ -4,410 +4,455 @@
         overflow: auto;
     }
 </style>
-
-<tabset style="height: 530px;">
-    <tab data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'">
-        <tab-heading>Save Report</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight">
-                <div class="form-group">
-                    <div class="control-label">Report Name</div>
-                    <div class="controls">
-                        <input type="text" name="ReportName" data-ng-model="gridOptions.Reporting.Params.ReportName"
-                               data-ng-disabled="gridOptions.Reporting.isEditMode"
-                               data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="100" data-ng-pattern="/[A-Za-z0-9 ]+/" />
+<form name="gridform">
+    <tabset style="height: 530px;">
+        <tab data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'">
+            <tab-heading>Save Report</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight">
+                    <div class="col-md-8">
+                        <cs-field data-ng-model="gridOptions.Reporting.Params.ReportName" field="gridfield.ReportName"
+                                  data-ng-disabled="gridOptions.Reporting.isEditMode"></cs-field>
                     </div>
-                    <div data-ng-show="gridSaveAsReportForm.ReportName.$invalid">
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.minlength">ReportName must have min 6 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.maxlength">ReportName can have max 100 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.ReportName.$error.pattern">ReportName must not have special characters</span>
+                    
+                    <div class="col-md-8">
+                        <cs-field data-ng-model="gridOptions.Reporting.Params.Description" field="gridfield.Description"></cs-field>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="control-label">Description</div>
-                    <div class="controls">
-                        <textarea rows="2" cols="50" name="Description" data-ng-model="gridOptions.Reporting.Params.Description"
-                                  data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="250"></textarea>
+                    
+                     <div class="col-md-8">
+                        <cs-field data-ng-model="gridOptions.Reporting.Params.DoEmailReport" field="gridfield.DoEmailReport"></cs-field>
                     </div>
-                    <div data-ng-show="gridSaveAsReportForm.Description.$invalid">
-                        <span data-ng-show="gridSaveAsReportForm.Description.$error.minlength">ReportName must have min 6 characters</span>
-                        <span data-ng-show="gridSaveAsReportForm.Description.$error.maxlength">ReportName can have max 250 characters</span>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Email Report</div>
-                    <div class="controls">
-                        <input type="checkbox" name="DoEmailReport" data-ng-model="gridOptions.Reporting.Params.DoEmailReport" />
-                    </div>
-                </div>
-                <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
-                    <div class="control-label">Email Frequency</div>
-                    <div class="controls">
-                        <select class="input-large" data-ui-select2="" name="Frequency"
-                                data-ng-model="gridOptions.Reporting.Params.Frequency"
-                                data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true">
-                            <option value=""></option>
-                            <option data-ng-repeat="fr in $grid.consts.EmailFrequency.list" value="{{fr}}">{{fr}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
-                         class="row form-group">
-                        <div class="control-label">Which Hour of Day</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
-                                <option value=""></option>
-                                <option value="9">At 8 AM</option>
-                                <option value="12">At 12 AM</option>
-                                <option value="16">At 6 PM</option>
-                                <option value="24">At EOD</option>
-                            </select>
+                  
+                    <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
+                        <div class="col-md-8">
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.Frequency" field="gridfield.Frequency"
+                                value-list="$grid.consts.EmailFrequency.list" data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true"></cs-field>
                         </div>
-                    </div>
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
-                         class="row form-group">
-                        <div class="control-label">Which Day of Week</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
-                                <option value=""></option>
-                                <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
-                         class="row form-group">
-                        <div class="control-label">Which Day of Month</div>
-                        <div class="controls">
-                            <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                    data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                    data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="31">last day</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                    <div class="control-label">Use both field & display name as excel headers</div>
-                    <div class="controls">
-                        <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
-                               data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                    </div>
-                </div>
-                <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                    <div class="control-label">Send Only If Data</div>
-                    <div class="controls">
-                        <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
-                               data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                    </div>
-                </div>
-                <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                    <div class="control-label">Send Mail to Multiple</div>
-                    <div class="controls">
-                        <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
-                               data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
-                        <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
-                    </div>
-                </div>
-                <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
-                    <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
-                </div>
-            </div>
-            <div class="text-center">
-                <hr />
-                <div data-ng-hide="gridOptions.Reporting.isEditMode">
-                    <input type="button" class="btn btn-default" value="Create Report"
-                           data-ng-disabled="gridSaveAsReportForm.$invalid"
-                           data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
-                    <input type="button" class="btn btn-default" value="Close"
-                           data-ng-click="close()" />
-                </div>
-                <div data-ng-show="gridOptions.Reporting.isEditMode">
-                    <input type="button" class="btn btn-default" value="Update Report"
-                           data-ng-disabled="gridSaveAsReportForm.$invalid"
-                           data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
-                    <input type="button" class="btn btn-default" value="Delete Report"
-                           data-ng-click="$grid.RepotingHelper.DeleteReport(gridOptions)" />
-                    <input type="button" class="btn btn-default" value="Clone Report"
-                           data-ng-click="$grid.RepotingHelper.CloneReport(gridOptions)" />
-                    <input type="button" class="btn btn-default" value="Close"
-                           data-ng-click="close()" />
-                </div>
-                <hr />
-            </div>
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Reset Settings</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight">
-                <div class=" form-group">
-                    <div class="control-label">Filters</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetFilter" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Renames</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetRenames" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Sorting</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetSorting" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Postion-Changes</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetPosition" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Freeze</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetFreeze" />
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="control-label">Column-Display</div>
-                    <div class="controls">
-                        <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetVisibility" />
-                    </div>
-                </div>
-            </div>
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Reset Selected" data-ng-click="$grid.ResetHelper.ResetSelected(gridOptions)" />
-                <input type="button" class="btn btn-default" value="Reset All" data-ng-click="$grid.ResetHelper.ResetAll(gridOptions)" />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Freeze Columns</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight text-right">
-                <table>
-                    <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
-                        <td>{{col.displayName}}</td>
-                        <td><a class="btn btn-link" data-ng-hide="col.pinned" data-ng-click="$grid.freezeColumn(gridOptions, col)">Freeze</a></td>
-                        <td><a class="btn btn-link" data-ng-show="col.pinned" data-ng-click="$grid.freezeColumn(gridOptions, col)">Unfreeze</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Show/Hide Columns</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight text-right">
-                <table>
-                    <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
-                        <td>{{col.displayName}}</td>
-                        <td><a class="btn btn-link" data-ng-disabled="col.pinned" data-ng-hide="col.visible" data-ng-click="$grid.showHideColumn(gridOptions, col)">Show</a></td>
-                        <td><a class="btn btn-link" data-ng-disabled="col.pinned" data-ng-show="col.visible" data-ng-click="$grid.showHideColumn(gridOptions, col)">Hide</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Change Sorting</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight text-right">
-                <table>
-                    <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
-                        <td>{{col.displayName}}</td>
-                        <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field,'asc')" data-ng-click="$grid.SortHelper.toggleSort(gridOptions, col.field)">ASC</a></td>
-                        <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field,'desc')" data-ng-click="$grid.SortHelper.toggleSort(gridOptions, col.field)">DESC</a></td>
-                        <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field)" data-ng-click="$grid.SortHelper.removeSort(gridOptions, col.field)">Remove</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Rename Columns</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight text-right">
-                <table>
-                    <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
-                        <td>{{col.field}}</td>
-                        <td><input class="input-large" type="text" data-ng-model="col.displayName" data-ng-minlength="2" /></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Display Order</tab-heading>
-        <div class="form-horizontal">
-            <div class="tabheight text-right">
-                <table>
-                    <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
-                        <td>{{$index}}.{{col.displayName}}</td>
-                        <td>
-                            <span class="col-md-1" data-ng-show="col.index == 1"></span>
-                            <span class="col-md-1 text-center" data-ng-hide="col.index == 1"
-                                  style="border: 1px solid black" data-ng-click="$grid.MoveColumn(gridOptions, $index+1, 'UP')">
-                                <i class="glyphicon glyphicon-arrow-up" style="color: black"></i>
-                            </span>
-                        </td>
-                        <td>
-                            <span class="col-md-1 text-center" data-ng-hide="col.index == (gridOptions.$gridScope.columns.length - 1)"
-                                  style="border: 1px solid black" data-ng-click="$grid.MoveColumn(gridOptions, $index+1, 'DOWN')">
-                                <i class="glyphicon glyphicon-arrow-down" style="color: black"></i>
-                            </span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
-
-        </div>
-    </tab>
-    <tab>
-        <tab-heading>Filter Settings</tab-heading>
-        <div class="form-horizontal">
-            <!--display filter-->
-            <table class="table table-bordered table-hover" data-ng-show="gridOptions.filtersArray.length > 0">
-                <thead>
-                    <tr>
-                        <th>Field Name</th>
-                        <th>Operator </th>
-                        <th>Filter value</th>
-                        <th colspan="2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="filter in gridOptions.filtersArray">
-                        <td>{{filter.FieldName}}</td>
-                        <td>{{filter.Operator}}</td>
-                        <td data-ng-show="filter.FilterValue.length">{{filter.FilterValue}}</td>
-                        <td data-ng-hide="filter.FilterValue.length">{{filter.FilterValueList | json}}</td>
-                        <td><i style="width: 100%; color: red; line-height: 1.5em" class="glyphicon glyphicon-remove-circle glyphicon glyphicon-border" data-ng-click="$grid.FilterHelper.RemoveFilter(gridOptions, $index)"></i></td>
-                    </tr>
-                </tbody>
-            </table>
-            <!--new filter-->
-            <div data-ng-form="filterInput" class="panel">
-                <div class="panel-heading">Add New Filter</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <!-- field name -->
-                        <select class="input-large" data-ng-model="gridOptions.customFilter.selectedField" class="input-medium"
-                                data-ng-change="$grid.FilterHelper.ResetFilter(gridOptions, gridOptions.customFilter.selectedField); ">
-                            <option data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2 | orderBy: 'field'" value="{{col.field}}">{{col.displayName}}</option>
-                        </select>
-                        <!-- operators -->
-                        <select class="input-large" data-ng-required="true" data-ng-model="gridOptions.customFilter.selectedFilter"
-                                data-ng-change="$grid.FilterHelper.filterChanged(gridOptions)"
-                                data-ng-options="f.text group by f.type for f in gridOptions.customFilter.validFilterList"></select>
-                    </div>
-                    <!-- value -->
-                    <div class="row" style="margin-top: 10px" data-ng-show="gridOptions.customFilter.selectedFilter">
-                        <!-- value -->
-                        <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Value'">
-                            <!-- text -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFieldType == 'Text'">
-                                <input data-ng-required="gridOptions.customFilter.selectedFieldType == 'Text'" type="text"
-                                       data-ng-model="gridOptions.customFilter.filterValue" />
-                            </span>
-                            <!-- number -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'">
-                                <input type="text" data-ng-required="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'"
-                                       data-ng-model="gridOptions.customFilter.filterValue" />
-                            </span>
-                            <!-- date -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'">
-                                <input data-ng-required="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'"
-                                       type="text" data-ng-model="gridOptions.customFilter.filterValue" readonly="readonly" data-bs-datepicker="">
-                                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                            <!-- bool -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Bool'">
-                                <select data-ng-model="gridOptions.customFilter.filterValue"
-                                        data-ng-required="gridOptions.customFilter.selectedFieldType === 'Bool'">
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
+                     </div>
+                    
+                    
+                  <!--  <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParam"
+                                data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"></cs-field>
+                            -->
+                  
+                    <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
+                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
+                             class="col-md-8">
+                            <div class="control-label">Which Hour of Day</div>
+                            <div class="controls">
+                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
+                                    <option value=""></option>
+                                    <option value="9">At 8 AM</option>
+                                    <option value="12">At 12 AM</option>
+                                    <option value="16">At 6 PM</option>
+                                    <option value="24">At EOD</option>
                                 </select>
+                            </div>
+                        </div>
+                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
+                             class="row form-group">
+                            <div class="control-label">Which Day of Week</div>
+                            <div class="controls">
+                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
+                                    <option value=""></option>
+                                    <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
+                             class="row form-group">
+                            <div class="control-label">Which Day of Month</div>
+                            <div class="controls">
+                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
+                                    <option value=""></option>
+                                    <option value="1">1</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
+                                    <option value="25">25</option>
+                                    <option value="31">last day</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <div class="control-label">Use both field & display name as excel headers</div>
+                        <div class="controls">
+                            <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+                        </div>
+                    </div>
+                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <div class="control-label">Send Only If Data</div>
+                        <div class="controls">
+                            <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
+                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+                        </div>
+                    </div>
+                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <div class="control-label">Send Mail to Multiple</div>
+                        <div class="controls">
+                            <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
+                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
+                            <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
+                        </div>
+                    </div>
+                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
+                        <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <hr />
+                    <div data-ng-hide="gridOptions.Reporting.isEditMode">
+                        <input type="button" class="btn btn-default" value="Create Report"
+                               data-ng-disabled="gridSaveAsReportForm.$invalid"
+                               data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
+                        <input type="button" class="btn btn-default" value="Close"
+                               data-ng-click="close()" />
+                    </div>
+                    <div data-ng-show="gridOptions.Reporting.isEditMode">
+                        <input type="button" class="btn btn-default" value="Update Report"
+                               data-ng-disabled="gridSaveAsReportForm.$invalid"
+                               data-ng-click="$grid.RepotingHelper.SaveAsReport(gridOptions)" />
+                        <input type="button" class="btn btn-default" value="Delete Report"
+                               data-ng-click="$grid.RepotingHelper.DeleteReport(gridOptions)" />
+                        <input type="button" class="btn btn-default" value="Clone Report"
+                               data-ng-click="$grid.RepotingHelper.CloneReport(gridOptions)" />
+                        <input type="button" class="btn btn-default" value="Close"
+                               data-ng-click="close()" />
+                    </div>
+                    <hr />
+                </div>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Reset Settings</tab-heading>
+            <div class="form-horizontal">
+            <div class="tabheight">
+                <div class="row">
+                    <div class="col-md-8">
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetFilter" field="gridfield.doResetFilter"></cs-field>
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetRenames" field="gridfield.doResetRenames"></cs-field>
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetSorting" field="gridfield.doResetSorting"></cs-field>
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetPosition" field="gridfield.doResetPosition"></cs-field>
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetFreeze" field="gridfield.doResetFreeze"></cs-field>
+                        <cs-field data-ng-model="gridOptions.ResetSetting.doResetVisibility" field="gridfield.doResetVisibility"></cs-field>
+                    </div>
+                </div>
+                    
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Reset Selected" data-ng-click="$grid.ResetHelper.ResetSelected(gridOptions)" />
+                    <input type="button" class="btn btn-default" value="Reset All" data-ng-click="$grid.ResetHelper.ResetAll(gridOptions)" />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+             </div>
+           </div>
+        </tab>
+        <tab>
+            <tab-heading>Freeze Columns</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight text-right">
+                    <table>
+                        <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
+                            <td>{{col.displayName}}</td>
+                            <td><a class="btn btn-link" data-ng-hide="col.pinned" data-ng-click="$grid.freezeColumn(gridOptions, col)">Freeze</a></td>
+                            <td><a class="btn btn-link" data-ng-show="col.pinned" data-ng-click="$grid.freezeColumn(gridOptions, col)">Unfreeze</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Show/Hide Columns</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight text-right">
+                    <table>
+                        <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
+                            <td>{{col.displayName}}</td>
+                            <td><a class="btn btn-link" data-ng-disabled="col.pinned" data-ng-hide="col.visible" data-ng-click="$grid.showHideColumn(gridOptions, col)">Show</a></td>
+                            <td><a class="btn btn-link" data-ng-disabled="col.pinned" data-ng-show="col.visible" data-ng-click="$grid.showHideColumn(gridOptions, col)">Hide</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Change Sorting</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight text-right">
+                    <table>
+                        <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
+                            <td>{{col.displayName}}</td>
+                            <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field,'asc')" data-ng-click="$grid.SortHelper.toggleSort(gridOptions, col.field)">ASC</a></td>
+                            <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field,'desc')" data-ng-click="$grid.SortHelper.toggleSort(gridOptions, col.field)">DESC</a></td>
+                            <td><a class="btn btn-link" data-ng-show="$grid.SortHelper.showDirection(gridOptions, col.field)" data-ng-click="$grid.SortHelper.removeSort(gridOptions, col.field)">Remove</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Rename Columns</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight text-right">
+                    <table>
+                        <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
+                            <td>{{col.field}}</td>
+                            <td><input class="input-large" type="text" data-ng-model="col.displayName" data-ng-minlength="2" /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Display Order</tab-heading>
+            <div class="form-horizontal">
+                <div class="tabheight text-right">
+                    <table>
+                        <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
+                            <td>{{$index}}.{{col.displayName}}</td>
+                            <td>
+                                <span class="col-md-1" data-ng-show="col.index == 1"></span>
+                                <span class="col-md-1 text-center" data-ng-hide="col.index == 1"
+                                      style="border: 1px solid black" data-ng-click="$grid.MoveColumn(gridOptions, $index+1, 'UP')">
+                                    <i class="glyphicon glyphicon-arrow-up" style="color: black"></i>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="col-md-1 text-center" data-ng-hide="col.index == (gridOptions.$gridScope.columns.length - 1)"
+                                      style="border: 1px solid black" data-ng-click="$grid.MoveColumn(gridOptions, $index+1, 'DOWN')">
+                                    <i class="glyphicon glyphicon-arrow-down" style="color: black"></i>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
+
+            </div>
+        </tab>
+        <tab>
+            <tab-heading>Filter Settings</tab-heading>
+            <div class="form-horizontal">
+                <!--display filter-->
+                <table class="table table-bordered table-hover" data-ng-show="gridOptions.filtersArray.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Operator </th>
+                            <th>Filter value</th>
+                            <th colspan="2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="filter in gridOptions.filtersArray">
+                            <td>{{filter.FieldName}}</td>
+                            <td>{{filter.Operator}}</td>
+                            <td data-ng-show="filter.FilterValue.length">{{filter.FilterValue}}</td>
+                            <td data-ng-hide="filter.FilterValue.length">{{filter.FilterValueList | json}}</td>
+                            <td><i style="width: 100%; color: red; line-height: 1.5em" class="glyphicon glyphicon-remove-circle glyphicon glyphicon-border" data-ng-click="$grid.FilterHelper.RemoveFilter(gridOptions, $index)"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--new filter-->
+                <div data-ng-form="filterInput" class="panel">
+                    <div class="panel-heading">Add New Filter</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <!-- field name -->
+                            <select class="input-large" data-ng-model="gridOptions.customFilter.selectedField" class="input-medium"
+                                    data-ng-change="$grid.FilterHelper.ResetFilter(gridOptions, gridOptions.customFilter.selectedField); ">
+                                <option data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2 | orderBy: 'field'" value="{{col.field}}">{{col.displayName}}</option>
+                            </select>
+                            <!-- operators -->
+                            <select class="input-large" data-ng-required="true" data-ng-model="gridOptions.customFilter.selectedFilter"
+                                    data-ng-change="$grid.FilterHelper.filterChanged(gridOptions)"
+                                    data-ng-options="f.text group by f.type for f in gridOptions.customFilter.validFilterList"></select>
+                        </div>
+                        <!-- value -->
+                        <div class="row" style="margin-top: 10px" data-ng-show="gridOptions.customFilter.selectedFilter">
+                            <!-- value -->
+                            <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Value'">
+                                <!-- text -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFieldType == 'Text'">
+                                    <input data-ng-required="gridOptions.customFilter.selectedFieldType == 'Text'" type="text"
+                                           data-ng-model="gridOptions.customFilter.filterValue" />
+                                </span>
+                                <!-- number -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'">
+                                    <input type="text" data-ng-required="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'"
+                                           data-ng-model="gridOptions.customFilter.filterValue" />
+                                </span>
+                                <!-- date -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'">
+                                    <input data-ng-required="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'"
+                                           type="text" data-ng-model="gridOptions.customFilter.filterValue" readonly="readonly" data-bs-datepicker="">
+                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                                <!-- bool -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Bool'">
+                                    <select data-ng-model="gridOptions.customFilter.filterValue"
+                                            data-ng-required="gridOptions.customFilter.selectedFieldType === 'Bool'">
+                                        <option value="true">true</option>
+                                        <option value="false">false</option>
+                                    </select>
+                                </span>
+                                <!-- enum -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Enum'">
+                                    <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValues"
+                                            data-ng-required="gridOptions.customFilter.selectedFieldType === 'Enum'"
+                                            data-ng-multiple="gridOptions.customFilter.selectedFilter.code === 'IsInList' || gridOptions.customFilter.selectedFilter.code === 'NotInList'">
+                                        <option data-ng-repeat="enumval in gridOptions.customFilter.filterValueList"
+                                                value="{{enumval}}">
+                                            {{enumval}}
+                                        </option>
+                                    </select>
+                                </span>
                             </span>
-                            <!-- enum -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Enum'">
-                                <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValues"
-                                        data-ng-required="gridOptions.customFilter.selectedFieldType === 'Enum'"
-                                        data-ng-multiple="gridOptions.customFilter.selectedFilter.code === 'IsInList' || gridOptions.customFilter.selectedFilter.code === 'NotInList'">
-                                    <option data-ng-repeat="enumval in gridOptions.customFilter.filterValueList"
-                                            value="{{enumval}}">
-                                        {{enumval}}
+                            <!-- field -->
+                            <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Field'">
+                                <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValue">
+                                    <option data-ng-repeat="fieldname in gridOptions.customFilter.relevantFields"
+                                            value="{{fieldname}}">
+                                        {{fieldname}}
                                     </option>
                                 </select>
                             </span>
-                        </span>
-                        <!-- field -->
-                        <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Field'">
-                            <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValue">
-                                <option data-ng-repeat="fieldname in gridOptions.customFilter.relevantFields"
-                                        value="{{fieldname}}">
-                                    {{fieldname}}
-                                </option>
-                            </select>
-                        </span>
-                        <!-- add button -->
-                        <span data-ng-show="gridOptions.customFilter.selectedFilter">
-                            <input type="button" data-ng-disabled="filterInput.$invalid" value="AddCondition" data-ng-click="$grid.FilterHelper.AddFilter(gridOptions)" />
-                        </span>
+                            <!-- add button -->
+                            <span data-ng-show="gridOptions.customFilter.selectedFilter">
+                                <input type="button" data-ng-disabled="filterInput.$invalid" value="AddCondition" data-ng-click="$grid.FilterHelper.AddFilter(gridOptions)" />
+                            </span>
+                        </div>
                     </div>
                 </div>
+                <!-- close button-->
+                <div class="text-center">
+                    <hr />
+                    <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
+                    <hr />
+                </div>
             </div>
-            <!-- close button-->
-            <div class="text-center">
-                <hr />
-                <input type="button" class="btn btn-default" value="Close" data-ng-click="close()" />
-                <hr />
-            </div>
+        </tab>
+    </tabset>
+</form>
+
+
+<!--<div class="form-group">
+        <div class="control-label">Report Name</div>
+        <div class="controls">
+            <input type="text" name="ReportName" data-ng-model="gridOptions.Reporting.Params.ReportName"
+                   data-ng-disabled="gridOptions.Reporting.isEditMode"
+                   data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="100" data-ng-pattern="/[A-Za-z0-9 ]+/" />
         </div>
-    </tab>
-</tabset>
+        <div data-ng-show="gridSaveAsReportForm.ReportName.$invalid">
+            <span data-ng-show="gridSaveAsReportForm.ReportName.$error.minlength">ReportName must have min 6 characters</span>
+            <span data-ng-show="gridSaveAsReportForm.ReportName.$error.maxlength">ReportName can have max 100 characters</span>
+            <span data-ng-show="gridSaveAsReportForm.ReportName.$error.pattern">ReportName must not have special characters</span>
+        </div>
+    </div>-->
+<!--  <div class="form-group row">
+          <div class="control-label">Description</div>
+          <div class="controls">
+              <textarea rows="2" cols="50" name="Description" data-ng-model="gridOptions.Reporting.Params.Description"
+                        data-ng-required="true" data-ng-minlength="6" data-ng-maxlength="250"></textarea>
+          </div>
+          <div data-ng-show="gridSaveAsReportForm.Description.$invalid">
+              <span data-ng-show="gridSaveAsReportForm.Description.$error.minlength">ReportName must have min 6 characters</span>
+              <span data-ng-show="gridSaveAsReportForm.Description.$error.maxlength">ReportName can have max 250 characters</span>
+          </div>
+      </div>-->
+<!--<div class="row form-group">
+        <div class="control-label">Email Report</div>
+        <div class="controls">
+            <input type="checkbox" name="DoEmailReport" data-ng-model="gridOptions.Reporting.Params.DoEmailReport" />
+        </div>
+    </div>-->
+<!-- <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
+         <div class="control-label">Email Frequency</div>
+         <div class="controls">
+             <select class="input-large" data-ui-select2="" name="Frequency"
+                     data-ng-model="gridOptions.Reporting.Params.Frequency"
+                     data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true">
+                 <option value=""></option>
+                 <option data-ng-repeat="fr in $grid.consts.EmailFrequency.list" value="{{fr}}">{{fr}}</option>
+             </select>
+         </div>
+     </div>-->
+<!-- <div class=" form-group">
+                             <div class="control-label">Filters</div>
+                             <div class="controls">
+                                 <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetFilter" />
+                             </div>
+                         </div>-->
+<!-- <div class="row form-group">
+                        <div class="control-label">Renames</div>
+                        <div class="controls">
+                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetRenames" />
+                        </div>
+                    </div>-->
+<!--<div class="row form-group">
+                        <div class="control-label">Sorting</div>
+                        <div class="controls">
+                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetSorting" />
+                        </div>
+                    </div>-->
+<!--<div class="row form-group">
+                        <div class="control-label">Postion-Changes</div>
+                        <div class="controls">
+                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetPosition" />
+                        </div>
+                    </div>-->
+<!-- <div class="row form-group">
+                        <div class="control-label">Freeze</div>
+                        <div class="controls">
+                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetFreeze" />
+                        </div>
+                    </div>-->
+<!--<div class="row form-group">
+                        <div class="control-label">Column-Display</div>
+                        <div class="controls">
+                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetVisibility" />
+                        </div>
+                    </div>
+                </div>-->
+
+
+
+

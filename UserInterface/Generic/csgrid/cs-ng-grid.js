@@ -1,9 +1,11 @@
 ﻿
 csapp.controller("gridSettingsController", [
-    "$scope", "gridOptions", "$csGrid", "$modalInstance", function ($scope, gridOptions, $grid, $modalInstance) {
+    "$scope", "gridOptions", "$csGrid", "$modalInstance","$csGenericModels",
+    function ($scope, gridOptions, $grid, $modalInstance, $csGenericModels) {
         $scope.gridOptions = gridOptions;
         $scope.$grid = $grid;
-
+        $scope.gridfield = $csGenericModels.models.Grid;
+        
         $scope.close = function () {
             $modalInstance.dismiss();
         };
