@@ -1,6 +1,6 @@
-﻿<div class="row">
+﻿<div>
     <label class="tax-list-heading">Tax Master List</label>
-    <div class="row tax-list-box">
+    <div class="tax-list-box">
         <table class="table table-bordered table-hover" data-ng-show="taxMasterList.length>0">
             <thead>
                 <tr>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in taxMasterList | filter: search">
-                    <td><i class="btn glyphicon glyphicon-edit-sign" data-ng-click="edit(t, $index)"></i></td>
+                    <td><i class="btn glyphicon glyphicon-edit" data-ng-click="edit(t, $index)"></i></td>
                     <td>{{t.GTaxesList.TaxName}}</td>
                     <td>{{t.ApplicableTo}}</td>
                     <td>{{t.Country}}</td>

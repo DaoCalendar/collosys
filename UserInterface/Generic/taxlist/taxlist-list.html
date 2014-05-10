@@ -1,6 +1,6 @@
-﻿<div class="row">
+﻿<div>
     <label class="tax-list-heading">Tax Component List</label>
-    <div class="row tax-list-box">
+    <div class="tax-list-box">
         <table class="table table-bordered table-hover" data-ng-show="taxList.length>0">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in taxList | filter: search">
-                    <td><i class="btn glyphicon glyphicon-edit-sign" data-ng-click="edit(t, $index)"></i></td>
+                    <td><i class="btn glyphicon glyphicon-edit" data-ng-click="edit(t, $index)"></i></td>
                     <td>{{t.TaxName}}</td>
                     <td>{{t.TaxType}}</td>
                     <td>{{t.ApplicableTo}}</td>
