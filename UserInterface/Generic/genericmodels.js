@@ -111,7 +111,11 @@
             DoEmailReport: { label: 'Email Report', type: 'checkbox' },
             Frequency: { label: 'Email Frequency', type: 'select' },
             FrequencyParam: { label: 'Which Hour of Day', type: 'select', options: [{ key: '9', display: 'At 8 AM' }, { key: '12', display: 'At 12 AM' }, { key: '12', display: 'At 6 PM' }, { key: '24', display: 'At EOD' }], valueField: 'key', textField: 'display' },
-   
+            UseFieldName4Header: { label: 'Use both field & display name as excel headers', type: 'checkbox' },
+            SendOnlyIfData: { label: 'Send Only If Data', type: 'checkbox' },
+            Send2Hierarchy: { label: 'Send Mail to Multiple', type: 'checkbox' },
+            
+            
             
             doResetFilter: { label: 'Filter', type: 'checkbox' },
             doResetRenames:{label:'Renames',type:'checkbox'},

@@ -82,29 +82,29 @@
                             </div>
                         </div>
                     </div>
-                        
-                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="control-label">Use both field & display name as excel headers</div>
-                        <div class="controls">
-                            <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
-                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                        </div>
+                  
+                    
+                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <cs-field data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                                  field="gridfield.UseFieldName4Header"
+                                  data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
                     </div>
-                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="control-label">Send Only If Data</div>
-                        <div class="controls">
-                            <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
-                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
-                        </div>
+                    
+                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <cs-field data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
+                                  field="gridfield.SendOnlyIfData"
+                                  data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
                     </div>
-                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="control-label">Send Mail to Multiple</div>
-                        <div class="controls">
-                            <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
-                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
-                            <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
-                        </div>
+                    
+                     <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                         <cs-field data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
+                                   field="gridfield.Send2Hierarchy"
+                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" 
+                                   data-ng-click="$grid.ShowStakeholder(gridOptions)"></cs-field>
+                         <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
                     </div>
+
+                  
                     <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
                         <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
                     </div>
@@ -446,12 +446,37 @@
                         </div>
                     </div>-->
 <!--<div class="row form-group">
-                        <div class="control-label">Column-Display</div>
-                        <div class="controls">
-                            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetVisibility" />
-                        </div>
-                    </div>
-                </div>-->
+        <div class="control-label">Column-Display</div>
+        <div class="controls">
+            <input type="checkbox" data-ng-model="gridOptions.ResetSetting.doResetVisibility" />
+        </div>
+    </div>
+</div>-->
+<!-- <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+         <div class="control-label">Use both field & display name as excel headers</div>
+         <div class="controls">
+             <input type="checkbox" name="UseFieldName4Header" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                    data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+         </div>
+     </div>-->
+<!--  <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+          <div class="control-label">Send Only If Data</div>
+          <div class="controls">
+              <input type="checkbox" name="sendMailForNoData" data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
+                     data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" />
+          </div>
+      </div>-->
+<!-- <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+         <div class="control-label">Send Mail to Multiple</div>
+         <div class="controls">
+             <input type="checkbox" name="sendMailtoGroup" data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
+                    data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" data-ng-click="$grid.ShowStakeholder(gridOptions)" />
+             <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
+         </div>
+     </div>-->
+
+
+
 
 
 
