@@ -1,14 +1,15 @@
 ﻿<div class="row form-horizontal">
     <form name="filemappingform">
-        <div class="row-fluid">
-            
-            <cs-field data-ng-model="fileDetails" field="fileMappingModel.fileDetail" data-ng-change="datalayer.GetFileMappings(fileDetails)"
-                      value-list="datalayer.dldata.fileDetails"></cs-field>
-
-            <cs-field data-ng-model="datalayer.dldata.actualTable" field="fileMappingModel.actualTable" data-ng-disabled="true"></cs-field>
-        
+        <div class="row">
+            <span class="col-md-5">
+                <cs-field data-ng-model="fileDetails" field="fileMappingModel.fileDetail" data-ng-change="datalayer.GetFileMappings(fileDetails)"
+                    value-list="datalayer.dldata.fileDetails"></cs-field>
+            </span>
+            <span class="col-md-5">
+                <cs-field data-ng-model="datalayer.dldata.actualTable" field="fileMappingModel.actualTable" data-ng-disabled="true"></cs-field>
+            </span>
         </div>
-      </form>
+    </form>
 </div>
 <div data-ng-show="fileDetails">
     <div data-ng-include="baseUrl +'FileUpload/filemapping/file-mapping-list.html'"></div>
