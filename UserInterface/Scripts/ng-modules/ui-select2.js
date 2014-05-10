@@ -127,7 +127,7 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
                                 elm.trigger('change');
                                 if (newVal && !oldVal && controller.$setPristine) {
                                     controller.$setPristine(true);
-                                }
+                                } else {}
                             });
                         });
                     }
@@ -203,13 +203,19 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
                     elm.select2('data', controller.$modelValue);
                     // important!
                     controller.$render();
+                    
+                    //ALGOSYS - CUSTOMIZATION
+                    if (angular.isUndefined(opts.initSelection)) {
+                        controller.$setPristine();
+                    }
 
                     // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
                     if (!opts.initSelection && !isSelect) {
                         var isPristine = controller.$pristine;
-                        controller.$setViewValue(
-                          convertToAngularModel(elm.select2('data'))
-                        );
+
+                            controller.$setViewValue(
+                              convertToAngularModel(elm.select2('data'))
+                            );
                         if (isPristine) {
                             controller.$setPristine();
                         }
