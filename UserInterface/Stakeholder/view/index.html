@@ -1,6 +1,6 @@
 ﻿<div class="container-fluid">
     <form>
-        <div class="row">
+        <div>
             <!-- <div class="row">
                  <button class="btn btn-success" data-ng-show="CurrUserInfo.Permission=='Approve'||CurrUserInfo.Permission=='Modify'" data-ng-click="addStakeholder()">Add New</button>
              </div>-->
@@ -160,7 +160,7 @@
                 </cspagination>
                 </div>
             </div>
-            <div class="well row " data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+            <div class="well" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
 
                 <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
 
