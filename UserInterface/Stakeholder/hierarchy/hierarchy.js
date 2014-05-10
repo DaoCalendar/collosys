@@ -243,8 +243,6 @@ csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalI
             $scope.hierarchyfield = $csStakeholderModels.init.StkhHierarchy;
         })();
 
-        console.log($scope.hierarchy);
-
         $scope.save = function (hierarchy) {
             datalayer.Save(hierarchy).then(function () {
                 $modalInstance.close();

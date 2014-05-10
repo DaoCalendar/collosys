@@ -323,6 +323,7 @@
     <Content Include="Scripts\ng-modules\select2.js" />
     <Content Include="Scripts\ng-modules\select2.min.js" />
     <Content Include="Scripts\ng-modules\ui-module.js" />
+    <Content Include="Scripts\ng-modules\ui-select2.js" />
     <Content Include="Scripts\nya-select\nya-bootstrap-select.js" />
     <Content Include="Scripts\ui-utils\ui-utils-ieshiv.js" />
     <Content Include="Scripts\ui-utils\ui-utils-ieshiv.min.js" />

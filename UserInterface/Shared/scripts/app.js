@@ -3,7 +3,8 @@ var csapp = angular.module("ui.collosys",
 [
     'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', 'ngAnimate',
-    'ngCookies', 'chieffancypants.loadingBar', 'ui.utils'
+    'ngCookies', 'chieffancypants.loadingBar',
+    'ui.utils', 'ui.modules'
 ]);
 
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {

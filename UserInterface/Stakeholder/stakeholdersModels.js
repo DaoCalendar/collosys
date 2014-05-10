@@ -31,7 +31,7 @@
         return {
             designation: { label: 'Designation', type: 'text', maxlength: 20, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage:"Only Characters Required",required: true },
             Hierarchy: { label: 'Hierarchy', type: 'enum', required: true },
-            ReportsTo: { label: 'Reports To', type: 'select', textField: 'Designation', valueField: 'Id', required: true },
+            ReportsTo: { label: 'Reports To', type: 'select', textField: 'Designation', valueField: 'Id'},
             ReportsToDesignation: { label: 'Reports To', type: 'text',required: true },
             WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id', required: true },
             WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true },

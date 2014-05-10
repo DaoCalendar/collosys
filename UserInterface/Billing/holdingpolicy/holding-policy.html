@@ -1,16 +1,17 @@
-﻿<div class="row">
-    <div class="row" data-ng-include="baseUrl + 'billing/holdingpolicy/holding-policy-list.html'"></div>
+﻿<div>
+    <div data-ng-include="baseUrl + 'billing/holdingpolicy/holding-policy-list.html'"></div>
     <form name="holdingpolicyform">
-        <div class="row form-horizontal col-md-10">
+        <div class="form-horizontal">
             <div class="panel panel-info">
                 <div class="panel-heading">Holding Policy Details</div>
                 <div class="panel-body">
                     <label>Policy Details</label>
                     <hr />
                     <div class="row">
+                        <pre>{{policy.Products}} {{HoldingPolicy.Products.valueList}}</pre>
                         <div class="col-md-6">
                             <cs-field data-ng-model="policy.Products"
-                                field="HoldingPolicy.Products"></cs-field>
+                                      field="HoldingPolicy.Products"></cs-field>
                         </div>
                     </div>
                     <div class="row">
