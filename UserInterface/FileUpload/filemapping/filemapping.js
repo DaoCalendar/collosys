@@ -114,10 +114,10 @@ csapp.controller("fileMappingViewEditController", [
                 //    $scope.modelTitle = "Add New Mappings";
                 //    break;
                 case "edit":
-                    $scope.modelTitle = "Add New Mappings";
+                    $scope.modelTitle = "Edit File Mappings";
                     break;
                 case "view":
-                    $scope.modelTitle = "";
+                    $scope.modelTitle = "View File Mappings";
                     break;
                 default:
                     throw ("Invalid display mode : " + JSON.stringify(fileMapping));

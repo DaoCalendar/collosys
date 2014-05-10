@@ -16,7 +16,7 @@
             <tr>
                 <th></th>
                 <th>
-                    <select data-ng-model="search.ValueType" style="width: 120px"
+                    <select data-ng-model="search.ValueType" class="form-control input-medium"
                         data-ng-options="c for c in datalayer.dldata.valueTypes">
                         <option>Select</option>
                     </select>
@@ -47,7 +47,7 @@
         <tbody>
             <tr data-ng-repeat="fileMapping in datalayer.dldata.fileMappings | filter:search">
                 <td>
-                    <div class="btn-group">
+                   <div class="btn-group" style="width: 70px">
                         <i class="btn glyphicon glyphicon-file" data-ng-click="openEditModalPopup('view', fileMapping)"></i>
                         <i class="btn glyphicon glyphicon-edit" data-ng-click="openEditModalPopup('edit', fileMapping)"></i>
                     </div>
