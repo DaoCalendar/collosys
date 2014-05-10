@@ -47,7 +47,7 @@
             HasMobileTravel: { label: 'Has Mobile Travel', type: 'btn-radio', options: [true, false] },
             HasVarible: { label: 'HasVariable', type: 'btn-radio', options: [true, false] },
             HasFixed: { label: 'HasFixed', type: 'btn-radio', options: [true, false] },
-            HasFixedIndividual: { label: 'HasFixedIndividual', type: 'btn-radio', options: [true, false] },
+            HasFixedIndividual: { label: 'Has Fixed Individual', type: 'btn-radio', options: [true, false] },
             HasAddress: { label: 'HasAddress', type: 'btn-radio', options: [true, false] },
             HasMultipleAddress: { label: 'Has Multiple Address', type: 'btn-radio', options: [true, false] },
             HasRegistration: { label: 'Has Registration', type: 'btn-radio', options: [true, false] },
