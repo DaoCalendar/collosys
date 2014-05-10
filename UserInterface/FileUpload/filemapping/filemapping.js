@@ -73,7 +73,7 @@ csapp.controller("fileMappingViewEditController", [
             $scope.fileMapping = angular.copy(fileMapping.mapping);
             $scope.isReadOnly = fileMapping.mode === 'view';
             $scope.datalayer = datalayer;
-            datalayer.GetFileColumns(fileMapping.fileDetail.Id);
+            datalayer.GetFileColumns(fileMapping.fileDetail);
         })();
 
 
