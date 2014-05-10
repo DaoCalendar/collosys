@@ -32,7 +32,7 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
 
             return function (scope, elm, attrs, controller) {
                 // instance-specific options
-                var opts = angular.extend({}, options, scope.$eval(attrs.uiSelect2));
+                var opts = angular.extend({}, options, scope.$eval(attrs.uiSelect3));
 
                 /*
                 Convert from Select2 view-model to Angular view-model.
@@ -127,7 +127,7 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
                                 elm.trigger('change');
                                 if (newVal && !oldVal && controller.$setPristine) {
                                     controller.$setPristine(true);
-                                } else {}
+                                } else { }
                             });
                         });
                     }
@@ -155,7 +155,7 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
                             }
                             scope.$apply(function () {
                                 controller.$setViewValue(
-                                  convertToAngularModel(elm.select2('data')));
+                                    convertToAngularModel(elm.select2('data')));
                             });
                         });
 
@@ -203,23 +203,25 @@ angular.module('ui.select3', []).value('uiSelect2Config', {}).directive('uiSelec
                     elm.select2('data', controller.$modelValue);
                     // important!
                     controller.$render();
-                    
-                    //ALGOSYS - CUSTOMIZATION
-                    if (angular.isUndefined(opts.initSelection)) {
-                        controller.$setPristine();
-                    }
 
                     // Not sure if I should just check for !isSelect OR if I should check for 'tags' key
                     if (!opts.initSelection && !isSelect) {
                         var isPristine = controller.$pristine;
 
-                            controller.$setViewValue(
-                              convertToAngularModel(elm.select2('data'))
-                            );
+                        controller.$setViewValue(
+                          convertToAngularModel(elm.select2('data'))
+                        );
                         if (isPristine) {
                             controller.$setPristine();
                         }
                         elm.prev().toggleClass('ng-pristine', controller.$pristine);
+                    }
+
+                    //ALGOSYS - SELECT2 $dirty hack
+                    //console.log(opts);
+                    if (opts.initPristrine === true) {
+                        opts.initPristrine = false;
+                        controller.$setPristine();
                     }
                 });
             };
