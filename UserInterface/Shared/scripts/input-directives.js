@@ -508,7 +508,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         var input = function (field, attrs) {
             var html = '<input  name="myfield" type="checkbox"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += 'style="margin-left: 0"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -642,7 +642,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += '<div class="col-md-5 radio" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' style="margin-left: 0"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += ' ng-value="' + field.valueField + '"';
             html += (attrs.ngDisabled ? ' ng-Disabled="' + attrs.ngDisabled + '"' : ' ng-Disabled="setReadonly()"');
@@ -686,10 +686,6 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             } else {
                 field.textField = "record";
             }
-
-            //field.textField = angular.isDefined(field.textField) ? "record." + (field.textField) : "record";
-            //field.valueField = angular.isDefined(field.valueField) ? "record." + (field.valueField) : "record";
-            //field.valueField = "record." + (field.valueField || );
 
         };
         return {
@@ -774,17 +770,17 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" data-ui-select3=""';
+            var html = '<select  name="myfield" data-ui-select3="field.select3Options"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += ' ng-options="' + field.ngOptions + '"';
+            //html += ' ng-options="' + field.ngOptions + '"';
             html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
-            //html += '<option value="" disabled="true" selected="false"></option>';
-            //html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
+            html += '<option value="" disabled="true" selected="false"></option>';
+            html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
@@ -795,6 +791,10 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             field.ngOptions = 'row for row in ';
             field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
             field.ngOptions += " track by row";
+            field.select3Options = {
+                initPristrine: true,
+                allowClear: field.allowClear || false,
+            };
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -1011,7 +1011,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                         return false;
                 }
             };
-            //$scope.myform.$setPristine();
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
