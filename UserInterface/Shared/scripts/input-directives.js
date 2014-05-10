@@ -776,15 +776,15 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<select  name="myfield" data-ui-select3=""';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            //html += ' ng-options="' + field.ngOptions + '"';
+            html += ' ng-options="' + field.ngOptions + '"';
             html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-            html += '<option value disabled="true" selected="false"></option>';
-            html += '<option value disabled="true" selected="false"></option>';
-            html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList')  + '"  value="{{row}}">{{row}}</option>';
+            html += '>';
+            //html += '<option value="" disabled="true" selected="false"></option>';
+            //html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
