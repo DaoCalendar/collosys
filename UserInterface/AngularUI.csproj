@@ -311,6 +311,7 @@
     <Content Include="FileUpload\filterCondition\filterCondition.html" />
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Generic\Menu\menu-vertical.html" />
+    <Content Include="Generic\Menu\vert-icon-menu.css" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />

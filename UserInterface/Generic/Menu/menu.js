@@ -8,6 +8,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "File Upload",
             url: "#",
+            icon: "glyphicon-cloud-upload",
             display: permissions.FileUpload.access,
             childMenu: [
                 {
@@ -86,6 +87,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Stakeholder",
             url: "#",
+            icon: "icon-group",
             display: permissions.Stakeholder.access,
             childMenu: [
                 {
@@ -109,6 +111,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Allocation",
             url: "#",
+            icon: "icon-briefcase",
             display: permissions.Allocation.access,
             childMenu: [
                 {
@@ -140,6 +143,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Billing",
             url: "#",
+            icon: "icon-rupee",
             display: permissions.Billing.access,
             childMenu: [
             {
@@ -212,6 +216,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Config",
                 url: "#",
+                icon: "icon-twitter",
                 display: permissions.Config.access,
                 childMenu: [
                     {
@@ -270,6 +275,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Dev Tools",
                 url: "#",
+                icon: "icon-twitter",
                 display: true,
                 childMenu: [
                     {
@@ -293,9 +299,33 @@ csapp.factory("menuFactory", [function () {
                         display: '',
                     }
                 ]
+            },
+            {
+                Title: "User",
+                url: "#",
+                icon: "icon-twitter",
+                display: true,
+                childMenu: [
+                    {
+                        Title: "Profile",
+                        url: "#/generic/profile",
+                        display: '',
+                    },
+                    {
+                        Title: "Change Password",
+                        url: "#/generic/changepassword",
+                        display: true,
+                    },
+                    {
+                        Title: "Logout",
+                        url: "#/logout",
+                        display: '',
+                    }
+                ]
             }
         ];
-        return createAuthorisedMenu(menu);
+        //return createAuthorisedMenu(menu);
+        return menu;
     };
 
     var createAuthorisedMenu = function (menus) {
@@ -339,41 +369,3 @@ csapp.controller("menuController", ["$scope", "menuFactory", "rootDatalayer", "$
     })();
 
 }]);
-
-//var menuByPerm = [];
-
-//var setMenuByPerm = function (permission) {
-//    if (permission.access) {
-
-//    }
-//};
-
-//var createByPermission = function (permissions) {
-
-//    menuByPerm = [];
-
-//    var stakeholder = _.find(permissions, { 'area': 'Stakeholder' });
-//    setMenuByPerm(stakeholder);
-
-
-//    var allocation = _.find(permissions, { 'area': 'Allocation' });
-//    var billing = _.find(permissions, { 'area': 'Billing' });
-//    var fileUpload = _.find(permissions, { 'area': 'File Upload' });
-
-
-
-
-
-//    //_.forEach(permissions, function (permission) {
-//    //    if (permission.access === true) {
-//    //        var authorisedMenu = _.find(menus, function (menu) {
-//    //            if (menu.Title === permission.area)
-//    //                return menu;
-//    //        });
-//    //        if (angular.isDefined(authorisedMenu))
-//    //            menuByPerm.push(authorisedMenu);
-//    //    }
-//    //});
-//    console.log("authorised permissions: ", menuByPerm);
-//};
-

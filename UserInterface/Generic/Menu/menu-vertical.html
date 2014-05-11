@@ -1,96 +1,44 @@
-﻿<style>
+﻿<!--<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
+        <ul>
+            <li data-ng-repeat="menu in menus">
+                <button class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon" ng-class="menu.icon"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul>
+                    <li data-ng-repeat="child in menu.childMenu">
+                        <a href="{{child.url}}">{{child.Title}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <div style="padding: 0; width: 60px">
+        <div data-ng-include="baseUrl +'Generic/Menu/menu-vertical.html'" data-ng-controller="menuController"></div>
+    </div>
+    <div class="row vertical-menu-body">
+        <div data-ng-view=""></div>
+    </div>
+
+    -->
+    <style>
     .div-margin {
         margin-top: 3px;
         margin-bottom: 3px;
     }
 </style>
 
-<div data-ng-show="$csAuthFactory.hasLoggedIn()" id="accordionmenu" class="panel panel-default">
-    <accordion close-others="true">
-        <accordion-group>
-            <accordion-heading>FileUpload</accordion-heading>
-            <div class="div-margin"><a href="#/fileupload/filedetail">File Detail</a></div>
-            <div class="div-margin"><a href="#/fileupload/filecolumn">File Column</a></div>
-            <div class="div-margin"><a href="#/fileupload/filemapping">File Mapping</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/fileupload/filescheduler">Schedule Files</a></div>
-            <div class="div-margin"><a href="#/fileupload/filestatus">Check Status</a></div>
-            <div class="div-margin"><a href="#/fileupload/clientdatadownload">Data Download</a></div>
-            <div class="div-margin"><a href="#/fileupload/customerinfo">Customer Info</a></div>
-            <div class="div-margin"><a href="#/fileupload/paymentchanges">Exclude Case</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/fileupload/uploadpincode">Upload Pincode</a></div>
-            <div class="div-margin"><a href="#/fileupload/uploadrcode">Upload Rcode</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/fileupload/errorcorrection">Upload Errors</a></div>
-            <div class="div-margin"><a href="#/fileupload/errorapproval">Approve Corrections</a></div>
-            <div class="div-margin"><a href="#/fileupload/filterCondition">Filter Condition</a></div>
-        </accordion-group>
-        <accordion-group>
-            <accordion-heading>Stakeholder</accordion-heading>
-            <div class="div-margin"><a href="#/stakeholder/add">Add</a></div>
-            <div class="div-margin"><a href="#/stakeholder/view">View</a></div>
-        </accordion-group>
-        <accordion-group>
-            <accordion-heading>Allocation</accordion-heading>
-            <div class="div-margin"><a href="#/allocation/policy">Policy</a></div>
-            <div class="div-margin"><a href="#/allocation/subpolicy">Subpolicy</a></div>
-            <div class="div-margin"><a href="#/allocation/viewapprove">View/Approve</a></div>
-        </accordion-group>
-        <accordion-group>
-            <accordion-heading>Billing</accordion-heading>
-            <div class="div-margin"><a href="#/billing/policy">Policy</a></div>
-            <div class="div-margin"><a href="#/billing/subpolicy">Subpolicy</a></div>
-            <div class="div-margin"><a href="#/billing/formula">Formula</a></div>
-            <div class="div-margin"><a href="#/billing/matrix">Matrix</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/billing/adhoc">AdHoc Single</a></div>
-            <div class="div-margin"><a href="#/billing/adhocbulk">AdHoc Multi</a></div>
-            <div class="div-margin"><a href="#/billing/holdingpolicy">Define Holding</a></div>
-            <div class="div-margin"><a href="#/billing/holdingactive">Activate Holding</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/billing/readybilling">Ready Billing</a></div>
-            <div class="div-margin"><a href="#/billing/status">Execution Status</a></div>
-            <div class="div-margin"><a href="#/billing/summary">Summary</a></div>
-            <div class="div-margin"><a href="#/billing/billstatus">Payment Status</a></div>
-        </accordion-group>
-        <accordion-group>
-            <accordion-heading>Config</accordion-heading>
-            <div class="div-margin"><a href="#/generic/hierarchy/add">Add Hierarchy</a></div>
-            <div class="div-margin"><a href="#/generic/hierarchy">View/Edit Hierarchy</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/generic/permission">Permissions</a></div>
-            <div class="div-margin"><a href="#/generic/product">Products</a></div>
-            <div class="div-margin"><a href="#/generic/keyvalue">KeyValue</a></div>
-            <div class="div-margin"><a href="#/generic/pincode">Pincode</a></div>
-            <hr class="nomarginpadding" />
-            <div class="div-margin"><a href="#/generic/taxlist">Tax List</a></div>
-            <div class="div-margin"><a href="#/generic/taxmaster">Tax Master</a></div>
-        </accordion-group>
-        <accordion-group>
-            <accordion-heading>Developer</accordion-heading>
-            <div class="div-margin"><a href="#/developer/logdownload">System Explorer</a></div>
-            <div class="div-margin"><a href="#/developer/generatedb">Generate DB</a></div>
-            <div class="div-margin"><a href="#/developer/viewdbtables">DB Tables</a></div>
-            <div class="div-margin"><a href="#/developer/queryexecuter">Execute Query</a></div>
-        </accordion-group>
-        <accordion-group is-open="true" is-disabled="true">
-            <accordion-heading>User</accordion-heading>
-            <div class="div-margin"><a href="#/generic/profile">Profile</a></div>
-            <div class="div-margin"><a href="#/generic/changepassword">ChangePassword</a></div>
-            <div class="div-margin"><a href="#/logout">Logout</a></div>
-        </accordion-group>
-    </accordion>
-</div>
-
-<!--<div class="container">
-    <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: green">
-                Welcome {{$csAuthFactory.getUsername()}}!!!<b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-            </ul>
-        </div>
-    </ul>
-</nav>-->
+    <div data-ng-show="$csAuthFactory.hasLoggedIn()" id="accordionmenu" class="panel panel-default">
+        <accordion close-others="true">
+            <accordion-group data-ng-repeat="menu in menus">
+                <accordion-heading>
+                    {{menu.Title}}
+                </accordion-heading>
+                <div data-ng-repeat="child in menu.childMenu">
+                    <div class="div-margin"><a href="{{child.url}}">{{child.Title}}</a></div>
+                </div>
+            </accordion-group>
+        </accordion>
+    </div>
+    
