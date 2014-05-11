@@ -1,4 +1,8 @@
-﻿.noResize {
+﻿html, body {
+    height: 100%;
+}
+
+.noResize {
     -moz-resize: none;
     -ms-resize: none;
     -o-resize: none;
@@ -275,13 +279,14 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     height: 650px;
     overflow: auto;
 }
-#accordionmenu .panel {
-    margin-top: 0 !important;
-    -webkit-border-radius: 0  !important;
-    -moz-border-radius: 0  !important;
-    -ms-border-radius: 0  !important;
-    border-radius: 0  !important;
-}
+
+    #accordionmenu .panel {
+        margin-top: 0 !important;
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        -ms-border-radius: 0 !important;
+        border-radius: 0 !important;
+    }
 
 /*#accordionmenu .panel-heading {
     height: 34px;
