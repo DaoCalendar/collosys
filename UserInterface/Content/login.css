@@ -19,7 +19,7 @@
 
 .loginform {
     width: 245px;
-    margin: 0px auto;
+    /*margin: 0 auto;*/
     padding: 13px;
     background-color: #fafafa;
     background-color: rgba(250,250,250,0.5);
