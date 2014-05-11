@@ -32,7 +32,6 @@ namespace AngularUI.Billing.subpolicy
         #region Get
 
         [HttpGet]
-
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -40,7 +39,6 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product)
         {
             var data = BillingSubpolicyBuilder
@@ -51,7 +49,6 @@ namespace AngularUI.Billing.subpolicy
         }
 
         [HttpGet]
-
         public HttpResponseMessage GetMatrixNames(ScbEnums.Products product)
         {
             var data = BMatrixBuilder.OnProductCategory(product)

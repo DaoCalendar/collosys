@@ -72,7 +72,7 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             if (!angular.isUndefined(formula.Products) && !angular.isUndefined(formula.Category)) {
 
                 // get formulas
-                restApi.customGET("GetFormulas", { product: formula.Products, category: formula.Category }).then(function (data) {
+                restApi.customGET("GetFormulas", { product: formula.Products}).then(function (data) {
                     dldata.formulaList = _.filter(data, { PayoutSubpolicyType: 'Formula' });
                 }, function (data) {
                     $csnotify.error(data);

@@ -1,13 +1,4 @@
-﻿csapp.directive('focusMe', function ($timeout) {
-    return {
-        link: function (scope, element) {
-            $timeout(function () {
-                element[0].focus();
-            });
-        }
-    };
-});
-
+﻿
 csapp.directive('csInclude', ["$document", function ($document) {
     var templateFn = function () {
         var hostedUrl = $document.location.path || "/";

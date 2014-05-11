@@ -1,6 +1,6 @@
-﻿<div class="row">
-    <form name="formulaMain">
-        <div class="row form-horizontal" id="row1">
+﻿<div>
+    <form name="formulaMain" novalidate="">
+        <div class="row form-horizontal">
             <div class="col-md-4">
                 <cs-field data-ng-model="selParams.selectedProduct" field="Formula.Products" data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
             </div>
@@ -10,7 +10,7 @@
                 </button>
             </div>
         </div>
-        <div class="row" id="row2">
+        <div>
             <div class="col-md-3" data-ng-show="selParams.selectedProduct">
                 <div class="box-sub">
                     <div class="box-heading">Formula List</div>
@@ -23,13 +23,8 @@
             </div>
 
             <div class="col-md-9 form-horizontal" data-ng-show="boolOpr.showDetails">
-                <div class="row">
-                    <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
-                </div>
-                <div class="row">
-                    <div class="row" data-ng-include="baseUrl + 'Billing/formula/condition.html'">load condition details</div>
-
-                </div>
+                <div data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
+                <div data-ng-include="baseUrl + 'Billing/formula/condition.html'">load condition details</div>
             </div>
         </div>
     </form>

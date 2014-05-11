@@ -1,7 +1,5 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
-using NHibernate.Mapping.ByCode;
 
 namespace ColloSys.DataLayer.ClientData
 {
