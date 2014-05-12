@@ -1,46 +1,31 @@
 ﻿<div class="row">
-    <div class="row" id="row1">
-        <div class="col-md-3">
-            <div class="box-sub">
-                <div class="box-heading">Matrix List</div>
-                <div class="box-body">
-                    <div class="sub-name" data-ng-repeat="smatrix in dldata.matrixList | orderBy : 'Name'">
-                        <a class="btn-link"
-                           data-ng-click="datalayer.selectMatrix(smatrix)">
-                            {{smatrix.Name}}
-                        </a>
-                    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info" style="height: 550px">
+            <div class="panel-heading">Matrix List</div>
+            <div class="panel-body">
+                <div class="sub-name" data-ng-repeat="smatrix in dldata.matrixList | orderBy : 'Name'">
+                    <a class="btn-link"
+                       data-ng-click="datalayer.selectMatrix(smatrix)">
+                        {{smatrix.Name}}
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
-            <div  data-ng-form="matrixform">
-                <div class="row form-horizontal">
-                    
-                    <div class="row">
-                        <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-details.html'"></div>
-                    </div>
-                    <!--Matrix Info-->
-                    <div class="row">
-                        <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-info.html'"></div>
-                    </div>
+    </div>
+    <div class="col-md-9">
+        <div data-ng-form="matrixform">
+            <div class="form-horizontal">
 
-                    <!--Create Matrix-->
-                    <div class="row">
-                        <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-create.html'"></div>
-                    </div>
+                <div data-ng-include="baseUrl + 'Billing/matrix/matrix-details.html'"></div>
+                <div data-ng-include="baseUrl + 'Billing/matrix/matrix-info.html'"></div>
+                <div data-ng-include="baseUrl + 'Billing/matrix/matrix-create.html'"></div>
+                <div data-ng-include="baseUrl + 'Billing/matrix/matrix-show.html'"></div>
 
-                    <!--Show Matrix-->
-                    <div class="row">
-                        <div data-ng-include src="baseUrl + 'Billing/matrix/matrix-show.html'"></div>
-                    </div>
-
-                    <!--buttons-->
-                    <div class="row text-right">
-                        <div class="panel panel-info"  data-ng-show="dldata.matrix.BMatricesValues.length>0">
-                            <button class="btn btn-success" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)">Save</button>
-                            <button class="btn btn-warning" data-ng-click="datalayer.reset()">Reset</button>
-                        </div>
+                <!--buttons-->
+                <div class="row text-right">
+                    <div class="panel panel-info" data-ng-show="dldata.matrix.BMatricesValues.length>0">
+                        <button class="btn btn-success" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)">Save</button>
+                        <button class="btn btn-warning" data-ng-click="datalayer.reset()">Reset</button>
                     </div>
                 </div>
             </div>
