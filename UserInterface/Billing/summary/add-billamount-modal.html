@@ -1,9 +1,10 @@
-﻿<div>
+﻿<div class="modal-content" style="height: 350px;width: 900px">
+ 
     <div class="modal-header">
-       <div class="panel-heading">Payout Details</div>
+        <div class="panel-heading">Payout Details</div>
     </div>
     <div class="modal-body">
-        <div class="form-horizontal well">
+        <div class="form-horizontal">
             <form name="adhocPayoutform">
                 <div class="row">
                     <span class="col-md-6">
@@ -11,7 +12,7 @@
                     </span>
                     <span class="col-md-6">
                         <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
-                            data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
+                                  data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
                     </span>
                 </div>
 
@@ -34,8 +35,8 @@
     <div class="modal-footer">
         <div class="text-right">
             <button class="btn btn-success"
-                data-ng-disabled="!(adhocPayoutform.$valid)"
-                data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false">
+                    data-ng-disabled="!(adhocPayoutform.$valid)"
+                    data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false">
                 Add
             </button>
             <button class="btn btn-success" data-ng-click="closeModal()">Close</button>

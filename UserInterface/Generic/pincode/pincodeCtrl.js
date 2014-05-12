@@ -1,5 +1,5 @@
-﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$modal", "$csGenericModels",
-    function ($scope, datalayer, $modal, $csGenericModels) {
+﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$modal", "$csGenericModels", "$csfactory",
+    function ($scope, datalayer, $modal, $csGenericModels, $csfactory) {
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -19,10 +19,11 @@
             $scope.dldata.PincodeUintList = [];
         })();
 
-        //var changeState = function (stateName) {
+        //$scope.changeState = function (stateName) {
+        //    if ($csfactory.isNullOrEmptyString(stateName)) return;
         //    datalayer.changeState(stateName);
         //};
-        
+
         $scope.getRegion = function () {
             datalayer.getData().then(function () {
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
@@ -64,7 +65,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             }, showErrorMessage);
         };
 
-        var getCityCategory = function() {
+        var getCityCategory = function () {
             return pincodeApi.customGETLIST("GetCityCategory").then(function (data) {
                 dldata.CityCategory = data;
             }, showErrorMessage);
@@ -92,8 +93,9 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
                 dldata.City = data;
             }, showErrorMessage);
         };
-        
+
         var changeState = function (stateName) {
+            if ($csfactory.isNullOrEmptyString(stateName)) return;
             pincodeApi.customGET("GetPincodes", { state: stateName }).then(function (data) {
                 dldata.GPincodes = data;
                 dldata.stateClusters = _.uniq(_.pluck(dldata.GPincodes, 'Cluster'));
@@ -213,7 +215,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             dldata: dldata,
             getRegion: getRegion,
             getState: getState,
-            getCityCategory:getCityCategory,
+            getCityCategory: getCityCategory,
             getCluster: getCluster,
             getDistrict: getDistrict,
             changeState: changeState,
@@ -226,7 +228,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             getWholePincode: getWholePincode,
             missingPincode: missingPincode,
             pincodeArea: pincodeArea,
-            pincodeCity:pincodeCity,
+            pincodeCity: pincodeCity,
             editPincode: editPincode,
         };
 
@@ -311,7 +313,7 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
 
 
 csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes",
-    "$csGenericModels", "pincodeFactory","$csnotify",
+    "$csGenericModels", "pincodeFactory", "$csnotify",
     function ($scope, datalayer, $modalInstance, gPincodes, $csGenericModels, factory, $csnotify) {
         (function () {
             $scope.GPincodedata = {};
@@ -429,7 +431,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 return datalayer.missingPincode(value);
             };
         };
-            
+
 
         $scope.cancelCity = function () {
             $scope.showTextBox = false;
@@ -454,7 +456,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             return data.indexOf(value) === -1;
         };
 
-       
+
 
         (function (mode) {
             switch (mode) {
