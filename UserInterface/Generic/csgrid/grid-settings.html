@@ -29,80 +29,60 @@
                                 value-list="$grid.consts.EmailFrequency.list" data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true"></cs-field>
                         </div>
                      </div>
-                    
-                    
-                  <!--  <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParam"
-                                data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"></cs-field>
-                            -->
                   
                     <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
                         <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
                              class="col-md-8">
-                            <div class="control-label">Which Hour of Day</div>
-                            <div class="controls">
-                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
-                                    <option value=""></option>
-                                    <option value="9">At 8 AM</option>
-                                    <option value="12">At 12 AM</option>
-                                    <option value="16">At 6 PM</option>
-                                    <option value="24">At EOD</option>
-                                </select>
-                            </div>
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamDaily"
+                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
+                                      value-list="FrequencyParamDaily"></cs-field>
                         </div>
+
                         <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
-                             class="row form-group">
-                            <div class="control-label">Which Day of Week</div>
-                            <div class="controls">
-                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
-                                    <option value=""></option>
-                                    <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
-                                </select>
-                            </div>
+                             class="col-md-8">
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamWeekly"
+                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
+                                      value-list="FrequencyParamWeekly"></cs-field>
                         </div>
+
                         <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
-                             class="row form-group">
-                            <div class="control-label">Which Day of Month</div>
-                            <div class="controls">
-                                <select class="input-large" name="FrequencyParam" data-ui-select2=""
-                                        data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
-                                        data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
-                                    <option value=""></option>
-                                    <option value="1">1</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                    <option value="31">last day</option>
-                                </select>
-                            </div>
+                             class="col-md-8">
+                            
+                              <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamMonthly"
+                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
+                                      value-list="FrequencyParamMonthly"></cs-field>
                         </div>
                     </div>
                   
                     
                     <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <cs-field data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
-                                  field="gridfield.UseFieldName4Header"
-                                  data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
+                        <div class="col-md-8">
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                                      field="gridfield.UseFieldName4Header"
+                                      data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
+                        </div>
                     </div>
+
                     
                     <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <cs-field data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
-                                  field="gridfield.SendOnlyIfData"
-                                  data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
+                        <div class="col-md-8">
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
+                                      field="gridfield.SendOnlyIfData"
+                                      data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
+                        </div>
                     </div>
+
                     
-                     <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                         <cs-field data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
-                                   field="gridfield.Send2Hierarchy"
-                                   data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" 
-                                   data-ng-click="$grid.ShowStakeholder(gridOptions)"></cs-field>
-                         <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
+                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                        <div class="col-md-8">
+                            <cs-field data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
+                                      field="gridfield.Send2Hierarchy"
+                                      data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" 
+                                      data-ng-click="$grid.ShowStakeholder(gridOptions)"></cs-field>
+                            <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
+                        </div>
                     </div>
+
 
                   
                     <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
@@ -474,6 +454,54 @@
              <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
          </div>
      </div>-->
+
+<!--Daily
+    <div class="control-label">Which Hour of Day</div>
+    <div class="controls">
+        <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
+            <option value=""></option>
+            <option value="9">At 8 AM</option>
+            <option value="12">At 12 AM</option>
+            <option value="16">At 6 PM</option>
+            <option value="24">At EOD</option>
+        </select>
+    </div>-->
+<!--Weekly
+    <div class="control-label">Which Day of Week</div>
+    <div class="controls">
+        <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
+            <option value=""></option>
+    [{ key: 'Sun', display: 'Sun' },
+                                        { key: 'Mon', display: 'Mon' },
+                                        { key: 'Tue', display: 'Tue' },
+                                        { key: 'Wed', display: 'Wed' },
+                                        { key: 'Thu', display: 'Thu' },
+                                        { key: 'Fri', display: 'Fri' },
+                                        { key: 'Sat', display: 'Sat' }];
+            <option data-ng-repeat="day in $grid.consts.DaysOfWeek.list" value="{{day}}">{{day}}</option>
+        </select>
+    </div>-->
+<!--Monthly 
+    <div class="control-label">Which Day of Month</div>
+    <div class="controls">
+        <select class="input-large" name="FrequencyParam" data-ui-select2=""
+                data-ng-model="gridOptions.Reporting.Params.FrequencyParam"
+                data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
+            <option value=""></option>
+            <option value="1">1</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="31">last day</option>
+        </select>
+    </div>-->
+
 
 
 
