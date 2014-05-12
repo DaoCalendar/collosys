@@ -216,7 +216,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Config",
                 url: "#",
-                icon: "fa-wrench",
+                icon: "fa-cogs",
                 display: permissions.Config.access,
                 childMenu: [
                     {
