@@ -28,7 +28,7 @@
 
     var allocPolicy = function () {
         return {
-
+            Product: {label:"Product", type:"enum",valueList:$csShared.enums.Products}
         };
     };
 

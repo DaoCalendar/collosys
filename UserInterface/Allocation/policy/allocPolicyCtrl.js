@@ -79,8 +79,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
 
     }]);
 
-csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csAllocationModels',
+    function ($scope, datalayer, factory, $modal, $csAllocationModels) {
         "use strict";
 
         var findIndex = function (list, value) {
@@ -190,7 +190,8 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 subPolicyIndex: -1,
                 forActivate: true
             };
-            $scope.datalayer.getProducts();
+           // $scope.datalayer.getProducts();
+            $scope.allocpolicy = $csAllocationModels.models.AllocPolicy;
         })();
     }]);
 
