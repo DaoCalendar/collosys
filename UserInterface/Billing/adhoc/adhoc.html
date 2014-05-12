@@ -1,19 +1,19 @@
 ﻿<div data-ng-form="adhocPayoutform" class="form-horizontal">
-    <div class="panel">
+    <div class="panel panel-info">
         <div class="panel-heading">
-            <a>Adhoc-Payout Screen</a>
+            <h5> Adhoc-Payout Screen</h5>
         </div>
         <!--Product and Stakeholder-->
         <div class="row" style="padding-top: 20px">
             <span class="col-md-4">
                 <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
-                    data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
+                          data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
             </span>
             <div class="form-group col-md-4">
                 <cs-field field="adhocPayoutbill.Stakeholder" data-ng-model="dldata.selectedStkholderId"
                           data-ng-change="factory.showData(dldata.selectedStkholderId)"
                           ng-required="true" value-list="dldata.stakeholderList"></cs-field>
-              
+
             </div>
             <div class="row text-center col-md-2" data-ng-show="dldata.selectedStkholderId">
                 <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
