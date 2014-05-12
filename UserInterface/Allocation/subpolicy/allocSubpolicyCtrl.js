@@ -411,8 +411,8 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
 
     }]);
 
-csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance', '$csAllocationModels',
-    function ($scope, modalData, datalayer, $modalInstance, $csAllocationModels) {
+csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance', '$csAllocationModels', '$csnotify',
+    function ($scope, modalData, datalayer, $modalInstance, $csAllocationModels, $csnotify) {
         $scope.dldata = datalayer.dldata;
 
         $scope.modalData = modalData;
@@ -425,6 +425,9 @@ csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', 
             startDate = moment(startDate);
             endDate = moment(endDate);
             $scope.isModalDateValid = (endDate > startDate);
+            if ($scope.isModalDateValid === false) {
+                $csnotify.success("EndDate should be Greater Than StartDate");
+            }
         };
 
         $scope.activateSubPoicy = function (modelData) {
