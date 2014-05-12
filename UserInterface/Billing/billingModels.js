@@ -27,6 +27,7 @@
             StartMonth: { label: 'Start Month', type: 'date', template: 'MonthPicker', required: true, valueField: 'Key', textField: 'Value' },
             Tenure: { label: 'Tenure', type: 'number', template: 'uint', pattern: '/^[0-9]+$/', patternMessage: 'Tenure must be in 0-9' },
             Description: { label: 'Description', type: 'textarea', required: true },
+            Stakeholder: { label: "Stakeholder Name", type: "select", valueField: "Id", textField: "Name" }
         };
     };
 

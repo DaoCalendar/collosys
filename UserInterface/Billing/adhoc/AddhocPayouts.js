@@ -94,6 +94,9 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         };
 
         var changeProductCategory = function () {
+            if (angular.isUndefined(dldata.selectedProduct)) {
+                return;
+            }
             restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
                 dldata.stakeholderList = data;
                 dldata.adhocPayout.Tenure = 1;

@@ -7,24 +7,13 @@
         <div class="row" style="padding-top: 20px">
             <span class="col-md-4">
                 <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
-                    data-ng-change="datalayer.changeProductCategory()"></cs-field>
+                    data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
             </span>
             <div class="form-group col-md-4">
-                <label class="control-label">Stakeholder Name</label>
-                <div class="controls">
-                    <select class="input-large"
-                        data-ng-model="dldata.selectedStkholderId"
-                        data-ng-change="factory.showData(dldata.selectedStkholderId)"
-                        required>
-                        <option></option>
-                        <optgroup label="Collector">
-                            <option data-ng-repeat="c in dldata.stakeholderList | filter:ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
-                        </optgroup>
-                        <optgroup label="Agency">
-                            <option data-ng-repeat="c in dldata.stakeholderList | filter:!ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
-                        </optgroup>
-                    </select>
-                </div>
+                <cs-field field="adhocPayoutbill.Stakeholder" data-ng-model="dldata.selectedStkholderId"
+                          data-ng-change="factory.showData(dldata.selectedStkholderId)"
+                          ng-required="true" value-list="dldata.stakeholderList"></cs-field>
+              
             </div>
             <div class="row text-center col-md-2" data-ng-show="dldata.selectedStkholderId">
                 <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
@@ -84,3 +73,18 @@
                         <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
                     </select>
                 </div>-->
+<!--<label class="control-label">Stakeholder Name</label>
+                  <div class="controls">
+                      <select class="input-large"
+                              data-ng-model="dldata.selectedStkholderId"
+                              data-ng-change="factory.showData(dldata.selectedStkholderId)"
+                              required>
+                          <option></option>
+                          <optgroup label="Collector">
+                              <option data-ng-repeat="c in dldata.stakeholderList | filter:ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
+                          </optgroup>
+                          <optgroup label="Agency">
+                              <option data-ng-repeat="c in dldata.stakeholderList | filter:!ShowIndividual" value="{{c.Id}}">{{c.Name}}</option>
+                          </optgroup>
+                      </select>
+                  </div>-->
