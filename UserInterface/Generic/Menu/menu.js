@@ -216,7 +216,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Config",
                 url: "#",
-                icon: "fa-twitter",
+                icon: "fa-wrench",
                 display: permissions.Config.access,
                 childMenu: [
                     {
@@ -275,7 +275,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Dev Tools",
                 url: "#",
-                icon: "fa-twitter",
+                icon: "fa-wrench",
                 display: true,
                 childMenu: [
                     {
