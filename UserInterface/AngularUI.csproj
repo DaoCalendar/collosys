@@ -312,7 +312,6 @@
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Generic\Menu\menu-vertical.html" />
-    <Content Include="Generic\Menu\vert-icon-menu.css" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
@@ -356,7 +355,6 @@
     <Content Include="Content\images\validation\red_asterisk.png" />
     <Content Include="Content\images\stanc\Stan2.jpg" />
     <Content Include="Content\images\validation\valid.png" />
-    <Content Include="Content\login.css" />
     <Content Include="Content\ng-grid\ng-grid.css" />
     <Content Include="Content\ng-grid\ng-grid.min.css" />
     <Content Include="Content\jasmine\jasmine.css" />

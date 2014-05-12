@@ -1,38 +1,16 @@
 ﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
-        <ul>
-            <li data-ng-repeat="menu in menus">
-                <span class="text-center">
-                    <!--<i class="fa  fa-square-o fa-stack fa-4x"></i>-->
-                    <i ng-class="'fa {{menu.icon}} fa-3x'"></i>
-                </span>
-                <br />
-                <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>    
-                <ul>
-                    <li data-ng-repeat="child in menu.childMenu">
-                        <a href="{{child.url}}">{{child.Title}}</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    
-    <!--<style>
-    .div-margin {
-        margin-top: 3px;
-        margin-bottom: 3px;
-    }
-</style>
-
-    <div data-ng-show="$csAuthFactory.hasLoggedIn()" id="accordionmenu" class="panel panel-default">
-        <accordion close-others="true">
-            <accordion-group data-ng-repeat="menu in menus">
-                <accordion-heading>
-                    {{menu.Title}}
-                </accordion-heading>
-                <div data-ng-repeat="child in menu.childMenu">
-                    <div class="div-margin"><a href="{{child.url}}">{{child.Title}}</a></div>
-                </div>
-            </accordion-group>
-        </accordion>
-    </div>-->
-    
+    <ul>
+        <li data-ng-repeat="menu in menus">
+            <span class="text-center">
+                <i ng-class="'fa {{menu.icon}} fa-3x'"></i>
+            </span>
+            <br />
+            <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>
+            <ul>
+                <li data-ng-repeat="child in menu.childMenu">
+                    <a href="{{child.url}}">{{child.Title}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
