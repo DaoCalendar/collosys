@@ -8,6 +8,7 @@
             $scope.dldata.Clusters = [];
             $scope.dldata.Districts = [];
             $scope.dldata.City = [];
+            datalayer.getCityCategory();
             datalayer.getRegion();
             datalayer.getState();
             datalayer.getCluster();
@@ -18,9 +19,10 @@
             $scope.dldata.PincodeUintList = [];
         })();
 
-        $scope.changeState = function (stateName) {
-            datalayer.changeState(stateName);
-        };
+        //var changeState = function (stateName) {
+        //    datalayer.changeState(stateName);
+        //};
+        
         $scope.getRegion = function () {
             datalayer.getData().then(function () {
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
@@ -62,6 +64,12 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             }, showErrorMessage);
         };
 
+        var getCityCategory = function() {
+            return pincodeApi.customGETLIST("GetCityCategory").then(function (data) {
+                dldata.CityCategory = data;
+            }, showErrorMessage);
+        };
+
         var getRegion = function () {
             return pincodeApi.customGETLIST("GetRegions").then(function (data) {
                 dldata.Regions = data;
@@ -84,9 +92,9 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
                 dldata.City = data;
             }, showErrorMessage);
         };
-
+        
         var changeState = function (stateName) {
-            pincodeApi.customGETLIST("GetPincodes", { state: stateName }).then(function (data) {
+            pincodeApi.customGET("GetPincodes", { state: stateName }).then(function (data) {
                 dldata.GPincodes = data;
                 dldata.stateClusters = _.uniq(_.pluck(dldata.GPincodes, 'Cluster'));
                 $csnotify.success("Pincodes loaded successfully");
@@ -205,6 +213,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             dldata: dldata,
             getRegion: getRegion,
             getState: getState,
+            getCityCategory:getCityCategory,
             getCluster: getCluster,
             getDistrict: getDistrict,
             changeState: changeState,
