@@ -67,7 +67,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Conditions</div>
                         <div class="panel-body">
-                            <div style="height: 200px; overflow: auto">
+                            <div style="height: 200px; overflow: auto" class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr data-ng-hide="dldata.payoutSubpolicy.Id">
@@ -78,10 +78,12 @@
                                             <td>Value</td>
                                             <td></td>
                                         </tr>
+                                    </thead>
+                                    <tbody>
                                         <tr data-ng-form="newConditionForm" data-ng-hide="dldata.payoutSubpolicy.Id">
                                             <td>
                                                 <cs-field data-ng-model="dldata.newCondition.RelationType"
-                                                    class="input-xlarge"
+                                                    class="input-medium"
                                                     data-ng-hide="dldata.payoutSubpolicy.BConditions.length<1"
                                                     field="payoutSubpolicy.RelationType" no-label=""></cs-field>
                                             </td>
@@ -102,13 +104,13 @@
                                             <td>
                                                 <cs-field data-ng-model="dldata.newCondition.Rtype"
                                                     data-ng-disabled="dldata.newCondition.Rvalue=='text'"
-                                                    class="input-xlarge"
+                                                    class="input-medium"
                                                     field="payoutSubpolicy.TypeSwitch"
                                                     no-label=""></cs-field>
 
                                             </td>
                                             <td>
-                                                <div data-ng-hide="dldata.newCondition.Rtype col-md-10">
+                                                <div data-ng-hide="dldata.newCondition.Rtype">
                                                     <input data-ng-hide="dldata.newCondition.Rtype" class="form-control"
                                                         type="text"
                                                         data-ng-model="dldata.newCondition.RtypeName" />
@@ -191,7 +193,7 @@
                                                 <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                                             </td>
                                         </tr>
-                                    </thead>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -214,6 +216,7 @@
                                         <td>
                                             <div data-ng-hide="dldata.payoutSubpolicy.BOutputs < 1">
                                                 <cs-field data-ng-model="dldata.newOutput.Operator"
+                                                    class="input-medium"
                                                     field="payoutSubpolicy.OperatorType"
                                                     no-label=""></cs-field>
                                             </div>
@@ -226,7 +229,7 @@
                                         </td>
                                         <td>
                                             <div data-ng-hide="dldata.newOutput.Rtype">
-                                                <input class="input-medium" type="number" step="any"
+                                                <input class="form-control" type="number" step="any"
                                                     data-ng-model="dldata.newOutput.Rvalue" />
                                             </div>
                                             <div data-ng-switch on="dldata.newOutput.Rtype">
@@ -263,13 +266,13 @@
                                 <tbody>
                                     <tr data-ng-repeat="output in dldata.payoutSubpolicy.BOutputs | orderBy: 'Priority'">
                                         <td>
-                                            <input type="text" class="input-mini" value="{{output.Operator}}" data-ng-show="output.Operator" readonly="readonly" />
+                                            <input type="text" class="form-control" value="{{output.Operator}}" data-ng-show="output.Operator" readonly="readonly" />
                                         </td>
                                         <td>
-                                            <input type="text" readonly="readonly" class="input-mini" value="{{output.Rtype}}" />
+                                            <input type="text" readonly="readonly" class="form-control" value="{{output.Rtype}}" />
                                         </td>
                                         <td>
-                                            <input type="text" class="input-large" value="{{value=change(output.RtypeName + output.Rvalue)}}" readonly="readonly" />
+                                            <input type="text" class="form-control" value="{{value=change(output.RtypeName + output.Rvalue)}}" readonly="readonly" />
                                         </td>
                                         <td>
                                             <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
@@ -306,6 +309,7 @@
                                 <div class="col-md-8">
                                     <select
                                         data-ui-select2=""
+                                        class="input-xlarge"
                                         data-ng-model="dldata.payoutSubpolicy.ProcessingFee">
                                         <option data-ng-repeat="formula in dldata.formulas track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
                                     </select>
@@ -322,6 +326,7 @@
                                 <div class="col-md-8">
                                     <select
                                         data-ui-select2=""
+                                        class="input-xlarge"
                                         data-ng-model="dldata.payoutSubpolicy.PayoutCapping">
                                         <option data-ng-repeat="formula in dldata.formulas track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
                                     </select>
