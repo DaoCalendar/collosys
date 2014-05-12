@@ -15,10 +15,10 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 {
     public class FileMappingData
     {
-        readonly SetUpAssemblies _setUp = new SetUpAssemblies();
+        readonly SetUpAssemblies _setUp=new SetUpAssemblies();
         private FileMapping GetDefaultMapping()
         {
-            _setUp.InitNhibernate();
+            
 
 
             return new FileMapping
@@ -204,6 +204,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public FileScheduler GetUploadedFile()
         {
+           
             FileScheduler file;
            
                 file = SessionManager.GetCurrentSession()

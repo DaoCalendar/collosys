@@ -47,68 +47,40 @@
 
                             <div class="row-fluid">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Policy Allocate Type</label>
-                                    <div class="controls">
-                                        <select class="input-large"
-                                                data-ng-model="dldata.allocSubpolicy.AllocateType"
-                                                required>
-                                            <option></option>
-                                            <option data-ng-repeat="stkpolicy in dldata.SubpolicyStakeholderList" value="{{stkpolicy.value}}">{{stkpolicy.display}}</option>
-                                        </select>
-                                        <br />
-                                    </div>
+                                    <cs-field data-ng-model="dldata.allocSubpolicy.AllocateType" field="allocSubpolicy.AllocateType"></cs-field>
                                 </div>
                                 <!--Allocate months-->
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Allocate Months</label>
-                                    <div class="controls">
-                                        <input type="text"
-                                               name="allocmonth"
-                                               class="input-small"
-                                               data-ng-model="dldata.allocSubpolicy.NoAllocMonth"
-                                               data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/"
-                                               min="0"
-                                               required
-                                               data-ng-readonly="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue" />
-                                        <div class="field-validation-error" data-ng-show=" allocSubpolicyForm.allocmonth.$error.pattern">{{val.OnlyNumbers()}}</div>
-                                    </div>
+                                    <cs-field data-ng-model="dldata.allocSubpolicy.NoAllocMonth" field="allocSubpolicy.NoAllocMonth"
+                                              data-ng-disabled="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue"></cs-field>
                                 </div>
                             </div>
 
                             <div class="row-fluid">
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="form-group col-md-5">
-                                    <label class="control-label">Select Reason</label>
-                                    <div class="controls">
-                                        <select class="input-large"
-                                                data-ng-model="dldata.allocSubpolicy.ReasonNotAllocate"
-                                                data-ng-required="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'"
-                                                data-ng-change="datalayer.check(allocSubpolicy.ReasonNotAllocate)">
-                                            <option value=""></option>
-                                            <option data-ng-repeat="c in dldata.reasonsNotAllocate">{{c}}</option>
-                                        </select>
-                                    </div>
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="form-group col-md-6">
+                                    <cs-field data-ng-model="dldata.allocSubpolicy.ReasonNotAllocate" field="allocSubpolicy.ReasonNotAllocate" value-list="dldata.reasonsNotAllocate"
+                                              data-ng-change="datalayer.check(allocSubpolicy.ReasonNotAllocate)" ng-required="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'"></cs-field>
                                 </div>
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" class="form-group">
-                                    <label class="control-label">Select Stakeholder</label>
-                                    <div class="controls">
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" class="form-group col-lg-6">
+                                    <cs-field data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'"
+                                              field="allocSubpolicy.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
+                                    <!--<label class="control-label">Select Stakeholder</label>
+                                    <div class="form-control">
                                         <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
-                                            <option value=""></option>
-                                            <optgroup label="Collector">
-                                                <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
-                                            </optgroup>
-                                            <optgroup label="Agency">
-                                                <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
+                                                <option value=""></option>
+                                                <optgroup label="Collector">
+                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
+                                                </optgroup>
+                                                <optgroup label="Agency">
+                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
+                                                </optgroup>
+                                            </select>
+                                    </div>-->
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <div class="form-group col-md-9">
-                                    <label class="control-label">Description</label>
-                                    <div class="controls">
-                                        <textarea class="noResize" data-ng-model="dldata.allocSubpolicy.Description"></textarea>
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <cs-field data-ng-model="dldata.allocSubpolicy.Description" field="allocSubpolicy.Description"></cs-field>
                                 </div>
                             </div>
 
@@ -134,12 +106,8 @@
                                     <tr data-ng-form="newConditionForm">
                                         <!--Where-->
                                         <td>
-                                            <select class="input-large"
-                                                    data-ng-model="dldata.newCondition.ColumnName"
-                                                    data-ng-change="changeLeftColName(dldata.newCondition)" required>
-                                                <option value=""></option>
-                                                <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
-                                            </select>
+                                            <cs-field data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
+                                                      data-ng-change="changeLeftColName(dldata.newCondition)" ng-required="true" no-label=""></cs-field>
                                         </td>
                                         <!--Operator-->
                                         <td>

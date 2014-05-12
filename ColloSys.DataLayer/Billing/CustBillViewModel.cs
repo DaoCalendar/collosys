@@ -55,47 +55,108 @@ namespace ColloSys.DataLayer.Billing
 
         #endregion
 
-        #region demo ICICI
-        //TODO: remove post demo
+        //#region demo ICICI
+        ////TODO: remove post demo
+        
+        //public virtual string Zone { get; set; }
+        //public virtual string Region { get; set; }
+        //public virtual string Location { get; set; }
+        //public virtual string CustName { get; set; }
+        
+        //public virtual DateTime StartDate { get; set; }
+        //public virtual DateTime SanctionDate { get; set; }
+        //public virtual DateTime AgreementDate { get; set; }
+        //public virtual string CustCat { get; set; }
+        //public virtual decimal IRR { get; set; }
+        //public virtual ulong Tenure { get; set; }
+        //public virtual string RepaymentMode { get; set; }
+        //public virtual ulong? AssetCode { get; set; }
+        //public virtual ColloSysEnums.DelqFlag? AssetType { get; set; }
+        //public virtual string Scheme { get; set; }
+        //public virtual string DisbMemoNo { get; set; }
+        //public virtual DateTime DisbMemoDate { get; set; }
+        
+        //public virtual ulong NetDisb { get; set; }
+        
+        //public virtual string DisbMode { get; set; }
+        //public virtual string DisbStatus { get; set; }
+        //public virtual ulong? EmpIdCredit { get; set; }
+        //public virtual string EmpIdOps { get; set; }
+        //public virtual string LoanSource { get; set; }
+        //public virtual long? DMACode { get; set; }
+        //public virtual ColloSysEnums.CityCategory CityCat { get; set; }
+        //public virtual string LoanType { get; set; }
+        //public virtual DateTime? MemoApprovalDate { get; set; }
+
+        //public virtual string SubProduct { get; set; }
+
+        //public virtual ulong TotalPF { get; set; }
+        
+
+       
+        //#endregion
+
+        #region Demo DHFL
         public virtual string LanNo { get; set; }
-        public virtual string Zone { get; set; }
-        public virtual string Region { get; set; }
-        public virtual string Location { get; set; }
-        public virtual string CustName { get; set; }
         public virtual ulong SanctionAmt { get; set; }
-        public virtual DateTime StartDate { get; set; }
-        public virtual DateTime SanctionDate { get; set; }
-        public virtual DateTime AgreementDate { get; set; }
-        public virtual string CustCat { get; set; }
-        public virtual decimal IRR { get; set; }
-        public virtual ulong Tenure { get; set; }
-        public virtual string RepaymentMode { get; set; }
-        public virtual ulong? AssetCode { get; set; }
-        public virtual ColloSysEnums.DelqFlag? AssetType { get; set; }
-        public virtual string Scheme { get; set; }
-        public virtual string DisbMemoNo { get; set; }
-        public virtual DateTime DisbMemoDate { get; set; }
-        public virtual ulong? ProcessingFees { get; set; }
-        public virtual ulong NetDisb { get; set; }
+        public virtual DateTime Month { get; set; }
         public virtual ulong DisbAmt { get; set; }
-        public virtual string DisbMode { get; set; }
-        public virtual string DisbStatus { get; set; }
-        public virtual ulong? EmpIdCredit { get; set; }
-        public virtual string EmpIdOps { get; set; }
-        public virtual string LoanSource { get; set; }
-        public virtual long? DMACode { get; set; }
-        public virtual ColloSysEnums.CityCategory CityCat { get; set; }
-        public virtual string LoanType { get; set; }
-        public virtual DateTime? MemoApprovalDate { get; set; }
-
-        public virtual string SubProduct { get; set; }
-
-        public virtual ulong TotalPF { get; set; }
-        public virtual ulong TotalDisb { get; set; }
-
-        public virtual ulong TotalPayout { get; set; }
-
+        public virtual ulong? ProcessingFees { get; set; }
+        public virtual ulong TotalDisbAmt { get; set; }
+        public virtual ulong TotalProcFee { get; set; }
         public virtual ulong Payout { get; set; }
+        public virtual ulong TotalPayout { get; set; }
+        public virtual ulong DeductCap { get; set; }
+        public virtual ulong DeductPf { get; set; }
+        public virtual ulong FinalPayout { get; set; }
+
+        #region input file columns
+
+        public virtual string BranchName { get; set; }
+        public virtual string Branchcat { get; set; }
+        public virtual uint ApplNo { get; set; }
+        public virtual uint Loancode { get; set; }
+        public virtual uint SalesRefNo { get; set; }
+        public virtual string Name { get; set; }
+        public virtual DateTime SanctionDt { get; set; }
+        //public virtual ulong SanAmt { get; set; }
+        public virtual DateTime DisbursementDt { get; set; }
+        //public virtual ulong DisbursementAmt { get; set; }
+        public virtual uint FeeDue { get; set; }
+        public virtual uint FeeWaived { get; set; }
+        public virtual uint FeeReceived { get; set; }
+        public virtual string MemberName { get; set; }
+        public virtual string DesigName { get; set; }
+        public virtual string Orignateby { get; set; }
+        public virtual string Orignateby2 { get; set; }
+        public virtual string Orignateby3 { get; set; }
+        public virtual string Orignateby4 { get; set; }
+        public virtual string Orignateby5 { get; set; }
+        public virtual string Occupcategory { get; set; }
+        public virtual string Referraltype { get; set; }
+        public virtual string Referralname { get; set; }
+        public virtual string Referralcode { get; set; }
+        public virtual string Sourcename { get; set; }
+        public virtual string SchemeGroupName { get; set; }
+        public virtual string MSchname { get; set; }
+        public virtual string MSchnamePremium { get; set; }
+
         #endregion
+
+        #endregion
+
+        //LoanNo- Account No
+        //    SanctionAmt	
+        //    Month	
+        //        DisbAmt	
+        //        ProcFee- ProcessingFees	
+        //            TotalDisbAmt	
+        //            TotalProcFee	
+        //                Payout	
+        //                TotalPayout	
+        //                    DeductCap	
+        //                    DeductPF	
+        //                        FinalPayout
+
     }
 }

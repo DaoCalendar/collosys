@@ -1,5 +1,5 @@
-﻿<div class="row" id="subpolicy-conditions" data-ng-show="dldata.outputWithFunction">
-    <div class="row">
+﻿<div class="row-fluid" id="subpolicy-conditions" data-ng-show="dldata.outputWithFunction">
+    <div class="row-fluid">
         <select class="input-xxlarge" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
             <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
         </select>
@@ -7,11 +7,11 @@
 </div>
 
 
-<!--<div class="row" id="subpolicy-conditions" data-ng-show="dldata.outputWithFunction">
+<!--<div class="row-fluid" id="subpolicy-conditions" data-ng-show="dldata.outputWithFunction">
     <div class="panel panel-info">
         <div class="panel-heading">Group By</div>
         <div class="panel-body">
-            <div class="row">
+            <div class="row-fluid">
                 <select class="input-xxlarge" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
                     <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
                 </select>

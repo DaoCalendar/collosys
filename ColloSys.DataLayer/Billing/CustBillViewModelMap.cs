@@ -41,38 +41,48 @@ namespace ColloSys.DataLayer.Mapping
             ManyToOne(x => x.Stakeholders);
             #endregion
 
-            #region ICICI demo
-            Property(x => x.LanNo);
-            Property(x => x.Zone);
-            Property(x => x.Region);
-            Property(x => x.Location);
-            Property(x => x.CustName);
-            Property(x => x.SanctionAmt);
-            Property(x => x.StartDate);
-            Property(x => x.SanctionDate);
-            Property(x => x.AgreementDate);
-            Property(x => x.CustCat);
-            Property(x => x.IRR);
-            Property(x => x.Tenure);
-            Property(x => x.RepaymentMode);
-            Property(x => x.AssetCode);
-            Property(x => x.AssetType);
-            Property(x => x.Scheme);
-            Property(x => x.DisbMemoNo);
-            Property(x => x.DisbMemoDate);
-            Property(x => x.ProcessingFees);
-            Property(x => x.NetDisb);
-            Property(x => x.DisbAmt);
-            Property(x => x.DisbMode);
-            Property(x => x.DisbStatus);
-            Property(x => x.EmpIdCredit);
-            Property(x => x.EmpIdOps);
-            Property(x => x.LoanSource);
-            Property(x => x.DMACode);
-            Property(x => x.CityCat);
-            Property(x => x.LoanType);
-            Property(x => x.MemoApprovalDate);
+            #region demo DHFL
 
+            Property(x => x.LanNo);
+            Property(x => x.SanctionAmt);
+            Property(x=>x.Month);
+            Property(x => x.DisbAmt);
+            Property(x => x.ProcessingFees);
+            Property(x => x.TotalDisbAmt);
+            Property(x => x.TotalProcFee);
+            Property(x => x.Payout);
+            Property(x => x.TotalPayout);
+            Property(x => x.DeductCap);
+            Property(x => x.DeductPf);
+            Property(x => x.FinalPayout);
+            Property(x => x.BranchName);
+            Property(x => x.Branchcat);
+            Property(x => x.ApplNo);
+            Property(x => x.Loancode);
+            Property(x => x.SalesRefNo);
+            Property(x => x.Name);
+            Property(x => x.SanctionDt);
+            //Property(x => x.SanAmt);
+            Property(x => x.DisbursementDt);
+            //Property(x => x.DisbursementAmt);
+            Property(x => x.FeeDue);
+            Property(x => x.FeeWaived);
+            Property(x => x.FeeReceived);
+            Property(x => x.MemberName);
+            Property(x => x.DesigName);
+            Property(x => x.Orignateby);
+            Property(x => x.Orignateby2);
+            Property(x => x.Orignateby3);
+            Property(x => x.Orignateby4);
+            Property(x => x.Orignateby5);
+            Property(x => x.Occupcategory);
+            Property(x => x.Referraltype);
+            Property(x => x.Referralname);
+            Property(x => x.Referralcode);
+            Property(x => x.Sourcename);
+            Property(x => x.SchemeGroupName);
+            Property(x => x.MSchname);
+            Property(x => x.MSchnamePremium);
             #endregion
         }
     }

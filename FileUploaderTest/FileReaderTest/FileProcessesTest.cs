@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+
+
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.FileUploader;
-using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.FileReader;
@@ -36,10 +30,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _fileScheduler = _obj.GetUploadedFile();
-            _fileProcess = Substitute.For<FileProcess>();
-           
             _counter = new ExcelRecordCounter();
-           
         }
 
         [Test]

@@ -1,4 +1,5 @@
-﻿html, body {
+﻿
+html, body {
     height: 100%;
 }
 
@@ -17,8 +18,177 @@
     margin-top: 60px;
 }
 
-/*Styles for validation
-    */
+/***************************************************/
+/************* VERTICAL MENU ***********************/
+/***************************************************/
+.cssmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 597;
+}
+
+    .cssmenu ul li {
+        background: white;
+        border: 1px solid lightblue;
+        padding-top: 10px;
+        line-height: 26px;
+    }
+
+        .cssmenu ul li.hover,
+        .cssmenu ul li:hover {
+            position: relative;
+            z-index: 599;
+            cursor: pointer;
+            background-color: powderblue;
+        }
+
+            .cssmenu ul li:hover > ul {
+                visibility: visible;
+            }
+
+    .cssmenu ul ul {
+        top: 0;
+        left: 100%;
+        z-index: 598;
+        width: 150px;
+        visibility: hidden;
+        position: absolute;
+        white-space: nowrap;
+    }
+
+        .cssmenu ul ul a {
+            padding: 15px 10px 15px 10px;
+        }
+
+        .cssmenu ul ul li {
+            background: white;
+            border: 1px solid silver;
+            border-radius: 7px;
+            float: none;
+            line-height: 5px;
+            padding-top: 0;
+        }
+
+            .cssmenu ul ul li:hover {
+                background-color: powderblue;
+            }
+
+.cssmenu span,
+.cssmenu a {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-decoration: none;
+    width: 100%;
+}
+
+.cssmenu li:hover > a,
+.cssmenu li.active > a {
+    cursor: pointer;
+}
+
+/***************************************************/
+/************* LOGIN PAGE  *************************/
+/***************************************************/
+.cf:before,
+.cf:after {
+    content: "";
+    display: table;
+}
+
+.cf:after {
+    clear: both;
+}
+
+.cf {
+    *zoom: 1;
+}
+
+:focus {
+    outline: 0;
+}
+
+.loginform {
+    width: 245px;
+    /*margin: 0 auto;*/
+    padding: 13px;
+    background-color: #fafafa;
+    background-color: rgba(250,250,250,0.8);
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2), inset 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    /*height: 240px;*/
+}
+
+    .loginform ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .loginform li {
+        display: block;
+        /*display: inline;*/
+        float: none;
+    }
+
+        .loginform li button {
+            margin-left: 25px;
+        }
+
+    .loginform input:not([type=submit]) {
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+        box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
+    }
+
+    .loginform input[type=submit] {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        background: #64c8ef; /* Old browsers */
+        background: -moz-linear-gradient(top, #64c8ef 0%, #00a2e2 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#64c8ef), color-stop(100%,#00a2e2)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* IE10+ */
+        background: linear-gradient(to bottom, #64c8ef 0%,#00a2e2 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64c8ef', endColorstr='#00a2e2',GradientType=0 ); /* IE6-9 */
+        color: #fff;
+        padding: 5px 15px;
+        margin-right: 0;
+        margin-top: 15px;
+        border-radius: 3px;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
+    }
+
+.forgotPassword {
+    cursor: pointer;
+    color: blue;
+    margin-left: 15px;
+}
+
+    .forgotPassword:hover {
+        color: green;
+    }
+
+h3.somemarginH {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 9px;
+    font-weight: normal;
+}
+
+.main-box {
+    width: 900px;
+    border: 1px solid gainsboro;
+}
+
+/***************************************************/
+/****************** ANGULAR JS *********************/
+/***************************************************/
 
 /*input:required, textarea:required, select:required {
     background: #fff url(images/validation/red_asterisk.png) no-repeat 98% center;
@@ -39,6 +209,11 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
     box-shadow: 0 0 5px #5cd053;
     border-color: #28921f;
 }
+
+/***************************************************/
+/****************** OTHER  *************************/
+/***************************************************/
+
 
 .back-image {
     background-image: url(images/algologo2.jpg);
@@ -270,39 +445,3 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 #subpolicy-buttons {
     margin-bottom: 10px;
 }
-
-/*.box-sub div.box-body div.sub-name a:hover div.sub-name{
-        background: red !important;
-    }*/
-
-#accordionmenu {
-    height: 650px;
-    overflow: auto;
-}
-
-    #accordionmenu .panel {
-        margin-top: 0 !important;
-        -webkit-border-radius: 0 !important;
-        -moz-border-radius: 0 !important;
-        -ms-border-radius: 0 !important;
-        border-radius: 0 !important;
-    }
-
-/*#accordionmenu .panel-heading {
-    height: 34px;
-    border-top: 1px solid #717171;
-    border-bottom: 1px solid #5A5A5A; 
-    background-color: #353535; 
-    background-image: -moz-linear-gradient(90deg, #595b59 0%, #616161 100%);
-    background-image: -o-linear-gradient(90deg, #595b59 0%, #616161 100%); 
-    background-image: -webkit-linear-gradient(90deg, #595b59 0%, #616161 100%); 
-    background-image: linear-gradient(90deg, #595b59 0%, #616161 100%); 
-    list-style-type:none;
-}  
-
-#accordionmenu .panel-heading  a{  
-    color: #cbcbcb !important; 
-    text-shadow: 0 1px 0 #3b3b3b; 
-    text-decoration:none;
-    font-weight:bold;  
-}*/

@@ -10,7 +10,7 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
-    class EbbsPaymentLinerRecordCreatorTest:SetUpAssembliesForEbbs
+    class EbbsPaymentLinerRecordCreatorTest:SetUpAssembliesForTest
     {
         private AliasPaymentRecordCreator _recordCreator;
         private FileScheduler _fileScheduler;
