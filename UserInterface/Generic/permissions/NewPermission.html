@@ -1,6 +1,6 @@
 ﻿<div class="form-horizontal" data-ng-form="frmPermission">
     <div class="panel">
-        <div class="panel-heading">Permissions {{perm.hierarchy}}</div>
+        <div class="panel-heading">Permissions</div>
         <div class="row">
             <div class="form-group col-md-5">
                 <cs-field data-ng-model="perm.hierarchy"
@@ -17,7 +17,7 @@
     </div>
     <div data-ng-show="perm.designation">
         <div data-ng-repeat="(key, module) in dldata.permission track by key">
-            <div class="panel row">
+            <div class="panel">
                 <div class="panel-heading">
                     {{module.name}}
                 </div>
