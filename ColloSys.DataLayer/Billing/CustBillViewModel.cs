@@ -99,7 +99,7 @@ namespace ColloSys.DataLayer.Billing
         #region Demo DHFL
         public virtual string LanNo { get; set; }
         public virtual ulong SanctionAmt { get; set; }
-        public virtual uint Month { get; set; }
+        public virtual DateTime Month { get; set; }
         public virtual ulong DisbAmt { get; set; }
         public virtual ulong? ProcessingFees { get; set; }
         public virtual ulong TotalDisbAmt { get; set; }
@@ -109,6 +109,40 @@ namespace ColloSys.DataLayer.Billing
         public virtual ulong DeductCap { get; set; }
         public virtual ulong DeductPf { get; set; }
         public virtual ulong FinalPayout { get; set; }
+
+        #region input file columns
+
+        public virtual string BranchName { get; set; }
+        public virtual string Branchcat { get; set; }
+        public virtual uint ApplNo { get; set; }
+        public virtual uint Loancode { get; set; }
+        public virtual uint SalesRefNo { get; set; }
+        public virtual string Name { get; set; }
+        public virtual DateTime SanctionDt { get; set; }
+        public virtual ulong SanAmt { get; set; }
+        public virtual DateTime DisbursementDt { get; set; }
+        public virtual ulong DisbursementAmt { get; set; }
+        public virtual uint FeeDue { get; set; }
+        public virtual uint FeeWaived { get; set; }
+        public virtual uint FeeReceived { get; set; }
+        public virtual string MemberName { get; set; }
+        public virtual string DesigName { get; set; }
+        public virtual string Orignateby { get; set; }
+        public virtual string Orignateby2 { get; set; }
+        public virtual string Orignateby3 { get; set; }
+        public virtual string Orignateby4 { get; set; }
+        public virtual string Orignateby5 { get; set; }
+        public virtual string OCCUPCATEGORY { get; set; }
+        public virtual string REFERRALTYPE { get; set; }
+        public virtual string REFERRALNAME { get; set; }
+        public virtual string REFERRALCODE { get; set; }
+        public virtual string SOURCENAME { get; set; }
+        public virtual string SchemeGroupName { get; set; }
+        public virtual string M_SCHNAME { get; set; }
+        public virtual string M_SCHNAMEPremium { get; set; }
+
+        #endregion
+
         #endregion
 
         //LoanNo- Account No
