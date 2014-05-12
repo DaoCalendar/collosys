@@ -156,7 +156,6 @@
     <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />

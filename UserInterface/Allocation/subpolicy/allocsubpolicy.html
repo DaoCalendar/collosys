@@ -106,12 +106,12 @@
                                     <tr data-ng-form="newConditionForm">
                                         <!--Where-->
                                         <td>
-                                            <cs-field data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
+                                            <cs-field class="input-large" data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
                                                       data-ng-change="changeLeftColName(dldata.newCondition)" ng-required="true" no-label=""></cs-field>
                                         </td>
                                         <!--Operator-->
                                         <td>
-                                            <cs-field data-ng-model="dldata.newCondition.Operator" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
+                                            <cs-field data-ng-model="dldata.newCondition.Operator" class="input-medium" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
 
                                         </td>
                                         <!--Value-->

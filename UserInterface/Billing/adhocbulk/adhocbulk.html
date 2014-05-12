@@ -6,7 +6,7 @@
                           data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
             </div>
         </div>
-        <table class="table table-bordered table-hover"
+       <table class="table table-bordered table-hover" style="overflow: auto"
             data-ng-show="PaymentList.length>0">
             <thead>
                 <tr>
@@ -54,36 +54,35 @@
                             typeahead-wait-ms="400" />
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.TotalAmount" no-label=""
+                        <cs-field data-ng-model="pay.TotalAmount" no-label="" 
                             field="BillAdhoc.TotalAmount"></cs-field>
 
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.IsCredit" no-label=""
-                                  data-ng-change="changeCredit(pay.IsCredit)"
-                                  field="BillAdhoc.IsCredit"></cs-field>
-
+                         <cs-field class="input-medium" data-ng-model="pay.IsCredit" no-label=""
+                                             data-ng-change="changeCredit(pay.IsCredit)"
+                                             field="BillAdhoc.IsCredit"></cs-field>
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.IsPretax" no-label=""
+                        <cs-field class="input-medium" data-ng-model="pay.IsPretax" no-label=""
                             field="BillAdhoc.IsPretax"></cs-field>
 
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.ReasonCode" no-label=""
-                            field="BillAdhoc.ReasonCode"></cs-field>
+                        <cs-field class="input-medium" data-ng-model="pay.ReasonCode" no-label=""
+                                  field="BillAdhoc.ReasonCode"></cs-field>
                     </td>
                     <td>
                         <cs-field data-ng-model="pay.Description" no-label="" field="BillAdhoc.Description"></cs-field>
 
                     </td>
                     <td>
-                        <cs-field data-ng-model="pay.IsRecurring" no-label="" field="BillAdhoc.IsRecurring"></cs-field>
+                        <cs-field  data-ng-model="pay.IsRecurring" no-label="" field="BillAdhoc.IsRecurring"></cs-field>
 
                     </td>
                     <td>
                         <div class="row" data-ng-if="pay.IsRecurring === true">
-                            <cs-field data-ng-model="pay.StartMonth" no-label="" field="BillAdhoc.StartMonth"></cs-field>
+                            <cs-field  data-ng-model="pay.StartMonth" no-label="" field="BillAdhoc.StartMonth"></cs-field>
                             <!--<select class="input-medium"
                                     data-ng-model="pay.StartMonth"
                                     data-ng-required="pay.IsRecurring === true">
