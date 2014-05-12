@@ -119,9 +119,9 @@ namespace ColloSys.DataLayer.Billing
         public virtual uint SalesRefNo { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime SanctionDt { get; set; }
-        public virtual ulong SanAmt { get; set; }
+        //public virtual ulong SanAmt { get; set; }
         public virtual DateTime DisbursementDt { get; set; }
-        public virtual ulong DisbursementAmt { get; set; }
+        //public virtual ulong DisbursementAmt { get; set; }
         public virtual uint FeeDue { get; set; }
         public virtual uint FeeWaived { get; set; }
         public virtual uint FeeReceived { get; set; }
@@ -132,14 +132,14 @@ namespace ColloSys.DataLayer.Billing
         public virtual string Orignateby3 { get; set; }
         public virtual string Orignateby4 { get; set; }
         public virtual string Orignateby5 { get; set; }
-        public virtual string OCCUPCATEGORY { get; set; }
-        public virtual string REFERRALTYPE { get; set; }
-        public virtual string REFERRALNAME { get; set; }
-        public virtual string REFERRALCODE { get; set; }
-        public virtual string SOURCENAME { get; set; }
+        public virtual string Occupcategory { get; set; }
+        public virtual string Referraltype { get; set; }
+        public virtual string Referralname { get; set; }
+        public virtual string Referralcode { get; set; }
+        public virtual string Sourcename { get; set; }
         public virtual string SchemeGroupName { get; set; }
-        public virtual string M_SCHNAME { get; set; }
-        public virtual string M_SCHNAMEPremium { get; set; }
+        public virtual string MSchname { get; set; }
+        public virtual string MSchnamePremium { get; set; }
 
         #endregion
 
