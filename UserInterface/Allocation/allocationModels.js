@@ -15,6 +15,8 @@
             NoAllocMonth: { label: "Allocate Months", type: "number", template: 'int', min: 0, required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
             ProductName: { label: "Product", type: "text", required: true, editable: false },
+            ColumnName: {type:"enum",valueList:[]},
+            Description: { label: "Description", type: "textarea" },
             Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category },
             CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
             DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },
