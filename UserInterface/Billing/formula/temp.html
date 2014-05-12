@@ -1,6 +1,6 @@
-﻿<div class="row">
-    <div class="row col-md-3">
-        <div class="row text-left">
+﻿<div class="row-fluid">
+    <div class="row-fluid span3">
+        <div class="row-fluid text-left">
             <label>Product</label>
             <select class="input-large"
                 data-ng-model="dldata.formula.Products"
@@ -9,7 +9,7 @@
                 <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
             </select>
         </div>
-        <div class="row" style="border: 1px solid; border-color: silver; height: 560px; overflow: auto" data-ng-show="dldata.formula.Products">
+        <div class="row-fluid" style="border: 1px solid; border-color: silver; height: 560px; overflow: auto" data-ng-show="dldata.formula.Products">
             <legend style="background-color: #F5F5F5">Formula List</legend>
             <ul role="menu" class="nav nav-tabs nav-stacked">
                 <li data-ng-repeat="sformula in dldata.formulaList | orderBy : 'Name'">
@@ -19,25 +19,25 @@
         </div>
     </div>
 
-    <div class="row col-md-9">
-        <div class="row" style="height: 40px" data-ng-show="dldata.formula.Products">
+    <div class="row-fluid span9">
+        <div class="row-fluid" style="height: 40px" data-ng-show="dldata.formula.Products">
             <div class="controls">
                 <button class="btn btn-primary" data-ng-click="addformula(dldata.formula.Products)">Add Formula</button>
             </div>
         </div>
-        <div class="row" data-ng-show="showDiv">
+        <div class="row-fluid" data-ng-show="showDiv">
             <!--formula-->
-            <div class="row form-horizontal" data-ng-form="formulaForm" style="border: 1px solid; border-color: silver; height: 250px">
+            <div class="row-fluid form-horizontal" data-ng-form="formulaForm" style="border: 1px solid; border-color: silver; height: 250px">
                 <legend style="background-color: #F5F5F5">Formula</legend>
-                <div class="row">
-                    <div class="row">
-                        <div class="form-group col-md-5">
+                <div class="row-fluid">
+                    <div class="row-fluid">
+                        <div class="control-group span5">
                             <label class="control-label">Product</label>
                             <div class="controls">
                                 <input type="text" readonly="readonly" class="input-medium" data-ng-model="dldata.formula.Products" />
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="control-group span6">
                             <label class="control-label">Category</label>
                             <div class="controls">
                                 <csswitch ngbind="dldata.formula.Category"
@@ -47,8 +47,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-5">
+                    <div class="row-fluid">
+                        <div class="control-group span5">
                             <label class="control-label">Name</label>
                             <div class="controls">
                                 <input type="text" data-ng-disabled="dldata.formula.Id"
@@ -56,7 +56,7 @@
                                     data-ng-pattern="/^\w*$/" required />
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="control-group span6">
                             <label class="control-label">Output Type</label>
                             <div class="controls">
                                 <csswitch ngbind="dldata.formula.OutputType"
@@ -66,8 +66,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
+                    <div class="row-fluid">
+                        <div class="control-group span6">
                             <label class="control-label">Description</label>
                             <div class="controls">
                                 <textarea class="noResize" data-ng-model="dldata.formula.Description"></textarea>
@@ -77,9 +77,9 @@
                 </div>
             </div>
             <!--Condition-->
-            <div class="row form-horizontal" data-ng-hide="dldata.formula.OutputType==='Number'" style="border: 1px solid; border-color: silver">
+            <div class="row-fluid form-horizontal" data-ng-hide="dldata.formula.OutputType==='Number'" style="border: 1px solid; border-color: silver">
                 <legend style="background-color: #F5F5F5">Condition</legend>
-                <div class="row " style="height: 250px; overflow: auto">
+                <div class="row-fluid " style="height: 250px; overflow: auto">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -158,7 +158,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
+                                    <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
                                         data-ng-click="factory.addNewCondition(dldata.newCondition);">
                                     </button>
                                 </td>
@@ -176,7 +176,7 @@
                                     <input type="text" class="input-large" readonly="readonly" value="{{condition.RtypeName + 
                                     ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" /></td>
                                 <td>
-                                    <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                    <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                                 </td>
                             </tr>
                         </thead>
@@ -184,9 +184,9 @@
                 </div>
             </div>
             <!--Output-->
-            <div class="row" data-ng-hide="dldata.formula.OutputType==='Boolean'" style="border: 1px solid; border-color: silver">
+            <div class="row-fluid" data-ng-hide="dldata.formula.OutputType==='Boolean'" style="border: 1px solid; border-color: silver">
                 <legend style="background-color: #F5F5F5">OutPut</legend>
-                <div class="row" style="height: 250px; overflow: auto">
+                <div class="row-fluid" style="height: 250px; overflow: auto">
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -222,7 +222,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
+                                    <button class="btn icon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
                                         data-ng-click="factory.addNewOutput(dldata.newOutput)">
                                     </button>
                                 </td>
@@ -237,7 +237,7 @@
                                 <td>
                                     <input type="text" class="input-medium" readonly="readonly" value="{{boutput.RtypeName + boutput.Rvalue}}" /></td>
                                 <td>
-                                    <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
+                                    <i class="btn icon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
                                 </td>
                             </tr>
                         </tbody>
@@ -245,14 +245,14 @@
                 </div>
             </div>
             <!--GroupBy-->
-            <div data-ng-show="dldata.outputWithFunction" class="row" style="border: 1px solid; border-color: silver">
+            <div data-ng-show="dldata.outputWithFunction" class="row-fluid" style="border: 1px solid; border-color: silver">
                 <legend style="background-color: #F5F5F5">Group By</legend>
                 <select class="input-xxlarge" multiple="multiple" data-ng-model="dldata.formula.GroupBy" required>
                     <option data-ng-repeat="c in dldata.columnNames" value="{{c.field}}">{{c.displayName}}</option>
                 </select>
             </div>
 
-            <div class="row text-right">
+            <div class="row-fluid text-right">
                 <button class="btn btn-success" data-ng-disabled="!(formulaForm.$valid && (dldata.formula.BConditions.length>0 || dldata.formula.BOutputs.length>0))" data-ng-click="datalayer.saveFormula(dldata.formula)">Save</button>
                 <button class="btn btn-warning" data-ng-click="datalayer.resetFormula(dldata.formula.Products)">Reset</button>
             </div>

@@ -1,4 +1,4 @@
-﻿<div class="row" id="subpolicy-output" data-ng-hide="dldata.formula.OutputType==='Number'">
+﻿<div class="row-fluid" id="subpolicy-output" data-ng-hide="dldata.formula.OutputType==='Number'">
     <div style="overflow: auto">
         <table class="table table-bordered table-hover table-condensed">
             <thead>
@@ -119,7 +119,7 @@
                         </div>
                     </td>
                     <td>
-                        <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
+                        <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
                                 data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
                     </td>
                 </tr>
@@ -145,7 +145,7 @@
                                     ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" />
                     </td>
                     <td>
-                        <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                        <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                     </td>
                 </tr>
             </thead>
@@ -154,7 +154,7 @@
 </div>
 
 
-<!--<div class="row" id="subpolicy-output" data-ng-hide="dldata.formula.OutputType==='Number'">
+<!--<div class="row-fluid" id="subpolicy-output" data-ng-hide="dldata.formula.OutputType==='Number'">
     <div class="panel panel-info">
         <div class="panel-heading">
             Condition
@@ -231,7 +231,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
+                                <button class="btn icon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.formula.BConditions.length < 1 || dldata.newCondition.RelationType !==''))"
                                         data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
                             </td>
                         </tr>
@@ -254,7 +254,7 @@
                                     ((condition.dateValueEnum==='Absolute_Date')? ( condition.Rvalue | date:'dd-MM-yyyy' ) : condition.Rvalue )}}" />
                             </td>
                             <td>
-                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                <i class="btn icon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
                             </td>
                         </tr>
                     </thead>

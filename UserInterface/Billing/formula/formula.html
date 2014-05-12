@@ -1,39 +1,7 @@
-﻿<div>
-    <form name="formulaMain" novalidate="">
-        <div class="row form-horizontal">
-            <div class="col-md-4">
-                <cs-field data-ng-model="selParams.selectedProduct" field="Formula.Products" data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
-            </div>
-            <div class="col-md-2 text-left" style="margin-left: 0;" data-ng-show="selParams.selectedProduct">
-                <button class="btn alert-info btn-default">
-                    Add Formula
-                </button>
-            </div>
-        </div>
-        <div>
-            <div class="col-md-3" data-ng-show="selParams.selectedProduct">
-                <div class="box-sub">
-                    <div class="box-heading">Formula List</div>
-                    <div class="box-body">
-                        <div class="sub-name" data-ng-repeat="sformula in formulaList | orderBy : 'Name'">
-                            <a class="btn-link" data-ng-click="selectFormula(sformula);">{{sformula.Name}}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-9 form-horizontal" data-ng-show="boolOpr.showDetails">
-                <div data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
-                <div data-ng-include="baseUrl + 'Billing/formula/condition.html'">load condition details</div>
-            </div>
-        </div>
-    </form>
-</div>
-
-<!--<div class="row">
-    <div class="row form-horizontal" id="row1">
-        <div class="col-md-5">
-            <div class="form-group">
+﻿<div class="row-fluid">
+    <div class="row-fluid form-horizontal" id="row1">
+        <div class="span5">
+            <div class="control-group">
                 <label class="control-label">Product</label>
                 <div class="controls">
                     <select class="input-medium"
@@ -52,8 +20,8 @@
             </div>
         </div>
     </div>
-    <div class="row" id="row2">
-        <div class="col-md-3" data-ng-show="dldata.formula.Products">
+    <div class="row-fluid" id="row2">
+        <div class="span3" data-ng-show="dldata.formula.Products">
             <div class="box-sub">
                 <div class="box-heading">Formula List</div>
                 <div class="box-body">
@@ -64,19 +32,32 @@
             </div>
         </div>
 
-        <div class="col-md-9" data-ng-show="showDiv">
-            <div class="row">
-                <div class="row" data-ng-form="formulaForm">
-                    <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
+        <div class="span9" data-ng-show="showDiv">
+            <div class="row-fluid">
+                <div class="row-fluid" data-ng-form="formulaForm">
+                    <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-details.html'">load formula details</div>
                 </div>
-            </div>
 
-            <div class="row">
+                <!--<div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-condition.html'">load condition</div>
+
+                <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-output.html'">load output</div>
+
+                <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-output2.html'">load output</div>
+
+                <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-group-by.html'">load group by</div>
+
+                <div class="row-fluid text-right" id="subpolicy-buttons">
+                    <button class="btn btn-default" data-ng-disabled="!(formulaForm.$valid && (dldata.formula.BConditions.length>0 || dldata.formula.BOutputs.length>0))" data-ng-click="datalayer.saveFormula(dldata.formula)">Save</button>
+                    <button class="btn btn-default" data-ng-click="datalayer.resetFormula(dldata.formula.Products)">Reset</button>
+                </div>-->
+            </div>
+            
+            <div class="row-fluid">
                 <table class="table table-bordered">
                     <tr data-ng-hide="dldata.formula.OutputType==='Number'">
                         <td>Condition</td>
                         <td>
-                            <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-condition.html'">load condition</div>
+                            <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-condition.html'">load condition</div>
                         </td>
                     </tr>
 
@@ -84,21 +65,21 @@
                         <td data-ng-hide="dldata.formula.OutputType==='IfElse'">Output</td>
                         <td data-ng-show="dldata.formula.OutputType==='IfElse'">IfOutput</td>
                         <td>
-                            <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-output.html'">load output/ifoutput</div>
+                            <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-output.html'">load output/ifoutput</div>
                         </td>
                     </tr>
-
+                    
                     <tr data-ng-show="dldata.formula.OutputType==='IfElse'">
                         <td>ElseOutput</td>
                         <td>
-                            <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-output2.html'">load elseoutput</div>
+                            <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-output2.html'">load elseoutput</div>
                         </td>
                     </tr>
-
+                    
                     <tr data-ng-show="dldata.outputWithFunction">
                         <td>Group By</td>
                         <td>
-                            <div class="row" data-ng-include="baseUrl + 'Billing/formula/formula-group-by.html'">load group by</div>
+                            <div class="row-fluid" data-ng-include="baseUrl + 'Billing/formula/formula-group-by.html'">load group by</div>
                         </td>
                     </tr>
                     <tr>
@@ -112,5 +93,5 @@
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <!--data-ng-disabled="!(formulaForm.$valid && (dldata.formula.BConditions.length>0 || dldata.formula.BOutputs.length>0))" -->

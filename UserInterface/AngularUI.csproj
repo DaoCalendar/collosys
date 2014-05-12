@@ -255,15 +255,13 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
-    <Content Include="Billing\formula\condition.html" />
-    <Content Include="Billing\formula\formula-back.js" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
     <Content Include="Billing\formula\formula-group-by.html" />
-    <Content Include="Billing\formula\formula-output2.html" />
     <Content Include="Billing\formula\formula-output.html" />
-    <Content Include="Billing\formula\formula.js" />
+    <Content Include="Billing\formula\formula-output2.html" />
     <Content Include="Billing\formula\formula.html" />
+    <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
