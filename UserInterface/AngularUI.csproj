@@ -255,15 +255,13 @@
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
-    <Content Include="Billing\formula\condition.html" />
-    <Content Include="Billing\formula\formula-back.js" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
     <Content Include="Billing\formula\formula-group-by.html" />
-    <Content Include="Billing\formula\formula-output2.html" />
     <Content Include="Billing\formula\formula-output.html" />
-    <Content Include="Billing\formula\formula.js" />
+    <Content Include="Billing\formula\formula-output2.html" />
     <Content Include="Billing\formula\formula.html" />
+    <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
@@ -291,6 +289,8 @@
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
     <Content Include="Billing\summary\view-billamount-modal.html" />
+    <Content Include="Content\font-awesome\font-awesome.css" />
+    <Content Include="Content\font-awesome\font-awesome.min.css" />
     <Content Include="Content\select2\css\select2.png" />
     <Content Include="Content\select2\css\select2x2.png" />
     <Content Include="Content\select2\css\spinner.gif" />
@@ -310,8 +310,8 @@
     <Content Include="Content\select2\select2-bootstrap.css" />
     <Content Include="FileUpload\filterCondition\filterCondition.html" />
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Generic\Menu\menu-vertical.html" />
-    <Content Include="Generic\Menu\vert-icon-menu.css" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
@@ -346,10 +346,6 @@
     <Content Include="Content\bootstrap2.3.2\bootstrap.min.css" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings.png" />
-    <Content Include="Content\fontawesome\font-awesome-ie7.css" />
-    <Content Include="Content\fontawesome\font-awesome-ie7.min.css" />
-    <Content Include="Content\fontawesome\font-awesome.css" />
-    <Content Include="Content\fontawesome\font-awesome.min.css" />
     <Content Include="Content\images\stanc\footer.png" />
     <Content Include="Content\images\stanc\LoginPage.png" />
     <Content Include="Content\images\stanc\scbcollosys.png" />
@@ -359,7 +355,6 @@
     <Content Include="Content\images\validation\red_asterisk.png" />
     <Content Include="Content\images\stanc\Stan2.jpg" />
     <Content Include="Content\images\validation\valid.png" />
-    <Content Include="Content\login.css" />
     <Content Include="Content\ng-grid\ng-grid.css" />
     <Content Include="Content\ng-grid\ng-grid.min.css" />
     <Content Include="Content\jasmine\jasmine.css" />
@@ -501,11 +496,6 @@
     <Content Include="Scripts\angularjs\angular.min.js.map">
       <DependentUpon>angular.js</DependentUpon>
     </Content>
-    <Content Include="Content\fontawesome\font\fontawesome-webfont.eot" />
-    <Content Include="Content\fontawesome\font\fontawesome-webfont.svg" />
-    <Content Include="Content\fontawesome\font\fontawesome-webfont.ttf" />
-    <Content Include="Content\fontawesome\font\fontawesome-webfont.woff" />
-    <Content Include="Content\fontawesome\font\FontAwesome.otf" />
     <Content Include="FileUpload\filecolumn\file-column.html" />
     <Content Include="FileUpload\filemapping\file-mapping.html" />
     <Content Include="FileUpload\filescheduler\file-scheduler.html" />
@@ -526,6 +516,10 @@
     <Content Include="FileUpload\errorapproval\error-approval.html" />
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />

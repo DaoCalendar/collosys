@@ -8,7 +8,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "File Upload",
             url: "#",
-            icon: "glyphicon-cloud-upload",
+            icon: "fa-cloud-upload",
             display: permissions.FileUpload.access,
             childMenu: [
                 {
@@ -87,7 +87,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Stakeholder",
             url: "#",
-            icon: "icon-group",
+            icon: "fa-users",
             display: permissions.Stakeholder.access,
             childMenu: [
                 {
@@ -111,7 +111,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Allocation",
             url: "#",
-            icon: "icon-briefcase",
+            icon: "fa-briefcase",
             display: permissions.Allocation.access,
             childMenu: [
                 {
@@ -143,7 +143,7 @@ csapp.factory("menuFactory", [function () {
         {
             Title: "Billing",
             url: "#",
-            icon: "icon-rupee",
+            icon: "fa-inr",
             display: permissions.Billing.access,
             childMenu: [
             {
@@ -216,7 +216,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Config",
                 url: "#",
-                icon: "icon-twitter",
+                icon: "fa-cogs",
                 display: permissions.Config.access,
                 childMenu: [
                     {
@@ -275,7 +275,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "Dev Tools",
                 url: "#",
-                icon: "icon-twitter",
+                icon: "fa-wrench",
                 display: true,
                 childMenu: [
                     {
@@ -303,7 +303,7 @@ csapp.factory("menuFactory", [function () {
             {
                 Title: "User",
                 url: "#",
-                icon: "icon-twitter",
+                icon: "fa-user",
                 display: true,
                 childMenu: [
                     {

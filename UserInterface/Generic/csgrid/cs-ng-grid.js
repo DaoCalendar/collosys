@@ -1,11 +1,28 @@
 ﻿
 csapp.controller("gridSettingsController", [
-    "$scope", "gridOptions", "$csGrid", "$modalInstance","$csGenericModels",
+    "$scope", "gridOptions", "$csGrid", "$modalInstance", "$csGenericModels",
     function ($scope, gridOptions, $grid, $modalInstance, $csGenericModels) {
         $scope.gridOptions = gridOptions;
         $scope.$grid = $grid;
         $scope.gridfield = $csGenericModels.models.Grid;
-        
+
+        $scope.FrequencyParamDaily = [{ key: '9', display: 'At 8 AM' }, { key: '12', display: 'At 12 AM' }, { key: '12', display: 'At 6 PM' }, { key: '24', display: 'At EOD' }];
+        $scope.FrequencyParamWeekly = [{ key: 'Sun', display: 'Sun' },
+                                        { key: 'Mon', display: 'Mon' },
+                                        { key: 'Tue', display: 'Tue' },
+                                        { key: 'Wed', display: 'Wed' },
+                                        { key: 'Thu', display: 'Thu' },
+                                        { key: 'Fri', display: 'Fri' },
+                                        { key: 'Sat', display: 'Sat' }];
+
+        $scope.FrequencyParamMonthly = [{ key: '5', display: '5' },
+                                      { key: '10', display: '10' },
+                                      { key: '15', display: '15' },
+                                      { key: '20', display: '20' },
+                                      { key: '25', display: '25' },
+                                      { key: '31', display: '31' }];
+
+
         $scope.close = function () {
             $modalInstance.dismiss();
         };
@@ -591,7 +608,7 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
                 gridOptions.SelectedStakeholderIds = [];
                 gridOptions.Reporting.Params.Send2Hierarchy = false;
                 gridOptions.selectAll = false;
-                $log.info("$csgrid : showing settings." );
+                $log.info("$csgrid : showing settings.");
             },
             showModal: function (gridOptions) {
                 $modal.open({

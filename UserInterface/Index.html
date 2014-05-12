@@ -23,14 +23,10 @@
 
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
-    <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />
-    <!--<link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />-->
-    <!--<link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />-->
+    <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
+    <link href="Content/font-awesome/font-awesome.css" rel="stylesheet" />
     <!--<link href="Content/bootstrap-select.min.css" rel="stylesheet" />-->
-    <!--<link href="Content/fontawesome/font-awesome.css" rel="stylesheet" />-->
     <link href="Content/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet" />
-    <!--<link href="Content/bootstrap-datepicker/bootstrap-fileupload.css" rel="stylesheet" />-->
-    <!--<link href="Content/angularui/select2.css" rel="stylesheet" />-->
     <link href="Content/select2/css/select2.css" rel="stylesheet" />
     <link href="Content/select2/select2-bootstrap.css" rel="stylesheet" />
     <!--<link href="Content/chosen/chosen.css" rel="stylesheet" />-->
@@ -41,8 +37,6 @@
     <link href="Content/animation/animate.css" rel="stylesheet" />
     <link href="Content/loading-bar/loading-bar.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
-    <link href="Content/login.css" rel="stylesheet" />
-    <link href="Generic/Menu/vert-icon-menu.css" rel="stylesheet" />
 </head>
 <body id="ng-app" ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
@@ -58,10 +52,10 @@
     <!-- Add your site or application content here -->
     <div class="container-fluid" ng-init="verticalMenu = true">
         <div ng-if="verticalMenu">
-            <div class="col-md-2" style="padding: 0">
+            <div class="col-md-1" style="padding: 0">
                 <div data-ng-include="baseUrl +'Generic/Menu/menu-vertical.html'" data-ng-controller="menuController"></div>
             </div>
-            <div class="col-md-10 vertical-menu-body">
+            <div class="col-md-11 vertical-menu-body">
                 <div data-ng-view=""></div>
             </div>
         </div>
@@ -78,32 +72,23 @@
     <![endif]-->
 
     <script src="Scripts/jquery/jquery-1.9.1.js"></script>
-    <!--<script src="Scripts/bootstrap/bootstrap.js"></script>-->
     <script src="Scripts/lodash/lodash.js"></script>
     <script src="Scripts/moment/moment.js"></script>
     <script src="Scripts/notifyjs/notify.js"></script>
     <script src="Scripts/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="Scripts/angular.ui/autofill-event.js"></script>
-    <!--<script src="Scripts/chosen/chosen.jquery.min.js"></script>-->
     <script src="Scripts/ng-modules/select2.min.js"></script>
-    <!--<script src="Scripts/ng-modules/oldAngularUi/select2.js"></script>-->
-    <!--<script src="Scripts/file-upload/FileAPI.min.js"></script>-->
     <script> FileAPI = { jsPath: 'Scripts/file-upload/', staticPath: 'Scripts/file-upload/' } </script>
     <script src="Scripts/file-upload/angular-file-upload-shim.js"></script>
     <script src="Scripts/angularjs/angular.js"></script>
     <script src="Scripts/angularjs/angular-locale_en-in.js"></script>
     <script src="Scripts/angularjs/angular-route.js"></script>
     <script src="Scripts/angularjs/angular-animate.js"></script>
-    <!--<script src="Scripts/angularjs/angular-resource.js"></script>-->
-    <!--<script src="Scripts/angularjs/angular-sanitize.js"></script>-->
     <script src="Scripts/angularjs/angular-cookies.js"></script>
-    <!--<script src="Scripts/bootstrap-select/bootstrap-select.min.js"></script>-->
     <script src="Scripts/ng-modules/oldAngularUi/angular-ui.js"></script>
     <script src="Scripts/ng-modules/oldAngularUi/angular-ui-ieshiv.js"></script>
     <script src="Scripts/ui-utils/ui-utils.min.js"></script>
     <script src="Scripts/ui-utils/ui-utils-ieshiv.min.js"></script>
-    <!--<script src="Scripts/ng-modules/calender.js"></script>
-    <script src="Scripts/ng-modules/map.js"></script>-->
     <script src="Scripts/ng-modules/ui-select2.js"></script>
     <script src="Scripts/ng-modules/ui-module.js"></script>
     <script src="Scripts/angular.ui/ui-bootstrap-tpls-0.10.0.js"></script>

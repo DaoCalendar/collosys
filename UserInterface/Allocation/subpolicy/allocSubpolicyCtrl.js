@@ -14,7 +14,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.CustomerInfo = $csFileUploadModels.models.CustomerInfo;
             $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.dldata.allocSubpolicyList = [];
-            $scope.datalayer.getProducts();
+           // $scope.datalayer.getProducts();
             $scope.showDiv = false;
             $scope.datalayer.getReasons();
             $scope.fieldname = '';
@@ -132,13 +132,13 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
         var dldata = {};
         var restApi = rest.all("AllocationSubPolicyApi");
 
-        var getProducts = function () {
-            restApi.customGET("GetProducts").then(function (data) {
-                dldata.productsList = data;
-            }, function (data) {
-                $csnotify.error(data.data.Message);
-            });
-        };
+        //var getProducts = function () {
+        //    restApi.customGET("GetProducts").then(function (data) {
+        //        dldata.productsList = data;
+        //    }, function (data) {
+        //        $csnotify.error(data.data.Message);
+        //    });
+        //};
 
         var getReasons = function () {
             restApi.customGET("GetReasons").then(function (data) {
@@ -314,7 +314,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
         return {
             dldata: dldata,
-            getProducts: getProducts,
+            //getProducts: getProducts,
             getReasons: getReasons,
             selectAllocSubpolicy: selectAllocSubpolicy,
             getColumnValues: getColumnValues,

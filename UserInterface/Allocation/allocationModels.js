@@ -4,12 +4,19 @@
     var allocSubpolicy = function () {
         return {
             Stakeholder: { label: "Select Stakeholder", type: "" },//TOBE Disscuss list type
-            Name: { label: "Subpolicy Name", type: "text", pattern: "/^\w*$/", maxlength: 20, required: true },
-            AllocateType: { label: "Policy Allocate Type", type: "enum", valueList: $csShared.enums.AllocationType, required: true },
-            ReasonNotAllocate: { label: "Select Reason", type: "enum", valueList: "" },//TObe disscuss list
+            Name: { label: "Name", type: "text", maxlength: 20, required: true },
+            AllocateType: {
+                label: "Allocate Type", type: "select", valueField:"value", textField:"display",
+                valueList: [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
+        { display: "Do Not Allocate", value: "DoNotAllocate" },
+        { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
+        { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }], required: true},
+            ReasonNotAllocate: { label: "Select Reason", type: "enum", valueList: [] },
             NoAllocMonth: { label: "Allocate Months", type: "number", template: 'int', min: 0, required: true },
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
-            Product: { label: "Product", type: "text", required: true, editable: false },
+            ProductName: { label: "Product", type: "text", required: true, editable: false },
+            ColumnName: {type:"enum",valueList:[]},
+            Description: { label: "Description", type: "textarea" },
             Category: { label: "Category", type: "enum", valueList: $csShared.enums.Category },
             CheckboxConditionOperators: { type: "enum", valueList: $csShared.enums.CheckboxConditionOperators, required: true },
             DropdownConditionOperators: { type: "enum", valueList: $csShared.enums.DropdownConditionOperators, required: true },

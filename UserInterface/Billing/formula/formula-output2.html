@@ -1,4 +1,4 @@
-﻿<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row"
+﻿<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row-fluid"
      id="subpolicy-groupby">
    
             <div style="overflow: auto">
@@ -48,7 +48,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm2.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput2.Operator !==''))"
+                                <button class="btn icon-plus" data-ng-disabled="!(newOutputForm2.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput2.Operator !==''))"
                                         data-ng-click="factory.addNewOutput2(dldata.newOutput2,newOutputForm2)"></button>
                             </td>
                         </tr>
@@ -68,7 +68,7 @@
                                 <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="dldata.newOutput.Rtype==='Formula'" />
                             </td>
                             <td>
-                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
+                                <i class="btn icon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -78,7 +78,7 @@
 
 
 
-<!--<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row"
+<!--<div data-ng-show="dldata.formula.OutputType==='IfElse'" class="row-fluid"
      id="subpolicy-groupby">
     <div class="panel panel-info">
         <div class="panel-heading">Else OutPut</div>
@@ -130,7 +130,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm2.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput2.Operator !==''))"
+                                <button class="btn icon-plus" data-ng-disabled="!(newOutputForm2.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput2.Operator !==''))"
                                         data-ng-click="factory.addNewOutput2(dldata.newOutput2,newOutputForm2)"></button>
                             </td>
                         </tr>
@@ -150,7 +150,7 @@
                                 <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="dldata.newOutput.Rtype==='Formula'" />
                             </td>
                             <td>
-                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
+                                <i class="btn icon-remove" data-ng-click="factory.deleteOutput2(boutput,$index)"></i>
                             </td>
                         </tr>
                     </tbody>

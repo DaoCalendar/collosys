@@ -1,44 +1,16 @@
-﻿<!--<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
-        <ul>
-            <li data-ng-repeat="menu in menus">
-                <button class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
-                    <span class="glyphicon" ng-class="menu.icon"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul>
-                    <li data-ng-repeat="child in menu.childMenu">
-                        <a href="{{child.url}}">{{child.Title}}</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-    
-    <div style="padding: 0; width: 60px">
-        <div data-ng-include="baseUrl +'Generic/Menu/menu-vertical.html'" data-ng-controller="menuController"></div>
-    </div>
-    <div class="row vertical-menu-body">
-        <div data-ng-view=""></div>
-    </div>
-
-    -->
-    <style>
-    .div-margin {
-        margin-top: 3px;
-        margin-bottom: 3px;
-    }
-</style>
-
-    <div data-ng-show="$csAuthFactory.hasLoggedIn()" id="accordionmenu" class="panel panel-default">
-        <accordion close-others="true">
-            <accordion-group data-ng-repeat="menu in menus">
-                <accordion-heading>
-                    {{menu.Title}}
-                </accordion-heading>
-                <div data-ng-repeat="child in menu.childMenu">
-                    <div class="div-margin"><a href="{{child.url}}">{{child.Title}}</a></div>
-                </div>
-            </accordion-group>
-        </accordion>
-    </div>
-    
+﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
+    <ul>
+        <li data-ng-repeat="menu in menus">
+            <span class="text-center">
+                <i ng-class="'fa {{menu.icon}} fa-3x'"></i>
+            </span>
+            <br />
+            <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>
+            <ul>
+                <li data-ng-repeat="child in menu.childMenu">
+                    <a href="{{child.url}}">{{child.Title}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
