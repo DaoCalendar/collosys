@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels', '$csfactory',
-    function ($scope, datalayer, factory, $modal, $csBillingModels, $csfactory) {
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels', '$csfactory', '$timeout',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csfactory, $timeout) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -11,6 +11,13 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             $scope.dldata.billingData = {};
             $scope.adhocPayoutbill = $csBillingModels.models.Summary;
         })();
+
+        $scope.getBillingData = function (billAmount) {
+            if ($scope.gettingBillingData === true) return;
+            $scope.gettingBillingData = true;
+            datalayer.getBillingData(billAmount.Product, billAmount.Stakeholder, billAmount.Month);
+            $timeout(function () { $scope.gettingBillingData = false; }, 100);
+        };
 
         $scope.changeCredit = function () {
             $scope.adhocPayoutbill.IsCredit.valueList = datalayer.dldata.transcationtypes;
