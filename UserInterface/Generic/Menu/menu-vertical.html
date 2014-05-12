@@ -1,12 +1,12 @@
 ﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
         <ul>
             <li data-ng-repeat="menu in menus">
-                <span class="fa-lg fa-stack">
-                    <i class="fa fa-square-o fa-stack-2x"></i>
-                    <i class="fa " ng-class="{{menu.icon}}"></i>
+                <span class="text-center">
+                    <!--<i class="fa  fa-square-o fa-stack fa-4x"></i>-->
+                    <i ng-class="'fa {{menu.icon}} fa-3x'"></i>
                 </span>
                 <br />
-                <span style="font-weight: bold">{{menu.Title}}</span>    
+                <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>    
                 <ul>
                     <li data-ng-repeat="child in menu.childMenu">
                         <a href="{{child.url}}">{{child.Title}}</a>

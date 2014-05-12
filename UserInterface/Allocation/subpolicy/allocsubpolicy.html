@@ -1,25 +1,17 @@
-﻿<div class="row">
-    <div class="row form-horizontal" id="row1">
+﻿<div class="row-fluid">
+    <div class="row form-horizontal" id="row1" data-ng-form="subpolicyForm">
         <div class="col-md-5">
-            <div class="form-group">
-                <label class="control-label">Product</label>
-                <div class="controls">
-                    <select class="input-medium"
-                        data-ng-model="dldata.allocSubpolicy.Products"
-                        data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
-                        required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in dldata.productsList">{{c}}</option>
-                    </select>
-
-                    <button class="btn alert-info" data-ng-show="dldata.allocSubpolicy.Products"
-                        data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
-                        Add Subpolicy</button>
-                </div>
-            </div>
+            <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
+                      field="allocSubpolicy.Products" ng-required="true"></cs-field>
+        </div>
+        <div class="col-md-6">
+            <button class="btn alert-info" data-ng-show="dldata.allocSubpolicy.Products"
+                    data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
+                Add Subpolicy
+            </button>
         </div>
     </div>
-    <div class="row" id="row2">
+    <div class="row-fluid" id="row2">
         <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
             <div class="box-sub">
                 <div class="box-heading">Subpolicy list</div>
@@ -32,51 +24,34 @@
         </div>
 
         <div class="col-md-9" data-ng-show="showDiv">
-            <div class="row form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
+            <div class="row-fluid form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         Subpolicy Basic-Info
                     </div>
                     <div class="panel-body">
-                        <div class="row">
+                        <div class="row-fluid">
 
-                            <div class="row">
+                            <div class="row-fluid">
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Product</label>
-                                    <div class="controls">
-                                        <input type="text" readonly="readonly" data-ng-model="dldata.allocSubpolicy.Products" />
-                                    </div>
+                                    <cs-field field="allocSubpolicy.ProductName" data-ng-disabled="true"
+                                              data-ng-model="dldata.allocSubpolicy.Products"></cs-field>
                                 </div>
-                                <div class="form-group col-md-5" data-ng-hide="true">
-                                    <label class="control-label">Category</label>
-                                    <div class="controls">
-                                        <csswitch ngdisabled="dldata.allocSubpolicy.Id" ngbind="dldata.allocSubpolicy.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch"></csswitch>
-                                    </div>
-                                </div>-->
                                 <!--Name-->
                                 <div class="form-group col-md-6">
-                                    <label class="control-label">Subpolicy Name</label>
-                                    <div class="controls">
-                                        <input type="text"
-                                            class="input-large"
-                                            data-ng-disabled="dldata.allocSubpolicy.Id"
-                                            data-ng-model="dldata.allocSubpolicy.Name"
-                                            data-ng-maxlength="20"
-                                            data-ng-pattern="/^\w*$/"
-                                            data-ng-change="factory.checkDuplicateName()"
-                                            required />
-                                        <label class="text-danger" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
-                                    </div>
+                                    <cs-field field="allocSubpolicy.Name" data-ng-model="dldata.allocSubpolicy.Name"
+                                              data-ng-disabled="dldata.allocSubpolicy.Id" data-ng-change="factory.checkDuplicateName()"></cs-field>
+                                    <label class="text-danger" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row-fluid">
                                 <div class="form-group col-md-6">
                                     <label class="control-label">Policy Allocate Type</label>
                                     <div class="controls">
                                         <select class="input-large"
-                                            data-ng-model="dldata.allocSubpolicy.AllocateType"
-                                            required>
+                                                data-ng-model="dldata.allocSubpolicy.AllocateType"
+                                                required>
                                             <option></option>
                                             <option data-ng-repeat="stkpolicy in dldata.SubpolicyStakeholderList" value="{{stkpolicy.value}}">{{stkpolicy.display}}</option>
                                         </select>
@@ -88,26 +63,26 @@
                                     <label class="control-label">Allocate Months</label>
                                     <div class="controls">
                                         <input type="text"
-                                            name="allocmonth"
-                                            class="input-small"
-                                            data-ng-model="dldata.allocSubpolicy.NoAllocMonth"
-                                            data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/"
-                                            min="0"
-                                            required
-                                            data-ng-readonly="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue" />
+                                               name="allocmonth"
+                                               class="input-small"
+                                               data-ng-model="dldata.allocSubpolicy.NoAllocMonth"
+                                               data-ng-pattern="/^\-?\d+((\.|\,)\d+)?$/"
+                                               min="0"
+                                               required
+                                               data-ng-readonly="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue" />
                                         <div class="field-validation-error" data-ng-show=" allocSubpolicyForm.allocmonth.$error.pattern">{{val.OnlyNumbers()}}</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row-fluid">
                                 <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="form-group col-md-5">
                                     <label class="control-label">Select Reason</label>
                                     <div class="controls">
                                         <select class="input-large"
-                                            data-ng-model="dldata.allocSubpolicy.ReasonNotAllocate"
-                                            data-ng-required="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'"
-                                            data-ng-change="datalayer.check(allocSubpolicy.ReasonNotAllocate)">
+                                                data-ng-model="dldata.allocSubpolicy.ReasonNotAllocate"
+                                                data-ng-required="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'"
+                                                data-ng-change="datalayer.check(allocSubpolicy.ReasonNotAllocate)">
                                             <option value=""></option>
                                             <option data-ng-repeat="c in dldata.reasonsNotAllocate">{{c}}</option>
                                         </select>
@@ -128,7 +103,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row-fluid">
                                 <div class="form-group col-md-9">
                                     <label class="control-label">Description</label>
                                     <div class="controls">
@@ -142,7 +117,7 @@
                 </div>
             </div>
 
-            <div class="row" id="subpolicy-conditions">
+            <div class="row-fluid" id="subpolicy-conditions">
                 <div class="panel panel-info">
                     <div class="panel-heading">Subpolicy Condition</div>
                     <div class="panel-body">
@@ -160,8 +135,8 @@
                                         <!--Where-->
                                         <td>
                                             <select class="input-large"
-                                                data-ng-model="dldata.newCondition.ColumnName"
-                                                data-ng-change="changeLeftColName(dldata.newCondition)" required>
+                                                    data-ng-model="dldata.newCondition.ColumnName"
+                                                    data-ng-change="changeLeftColName(dldata.newCondition)" required>
                                                 <option value=""></option>
                                                 <option data-ng-repeat="c in dldata.condLcolumnNames" value="{{c}}">{{c}}</option>
                                             </select>
@@ -173,31 +148,32 @@
                                         </td>
                                         <!--Value-->
                                         <td class="input-large">
-                                          <div data-ng-if="showField">
-                                              <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true"  no-label=""></cs-field>
-                                              <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                   <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
-                                              </div>
+                                            <div data-ng-if="showField">
+                                                <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                                <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                    <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                </div>
                                             </div>
                                             <div data-ng-if="showField2">
                                                 <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
                                                 <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                   <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
-                                              </div>
+                                                    <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                                </div>
                                             </div>
                                         </td>
                                         <!--button-->
                                         <td>
                                             <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
-                                                data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);">
-                                            </button>
+                                                    data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
                                         </td>
                                     </tr>
                                     <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{condition.ColumnName}}" /></td>
+                                            <input type="text" class="input-medium" readonly="readonly" value="{{condition.ColumnName}}" />
+                                        </td>
                                         <td>
-                                            <input type="text" class="input-medium" value="{{condition.Operator}}" readonly="readonly" /></td>
+                                            <input type="text" class="input-medium" value="{{condition.Operator}}" readonly="readonly" />
+                                        </td>
                                         <td>
                                             <input type="text" class="input-medium" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
                                         </td>
@@ -212,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="row text-right" id="subpolicy-buttons">
+            <div class="row-fluid text-right" id="subpolicy-buttons">
                 <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                 <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
                 <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products)">Reset</button>
@@ -221,4 +197,10 @@
     </div>
 </div>
 
- 
+
+<!--<div class="form-group col-md-5" data-ng-hide="true">
+                                   <label class="control-label">Category</label>
+                                   <div class="controls">
+                                       <csswitch ngdisabled="dldata.allocSubpolicy.Id" ngbind="dldata.allocSubpolicy.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch"></csswitch>
+                                   </div>
+                               </div>-->

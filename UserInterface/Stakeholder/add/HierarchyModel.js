@@ -89,7 +89,7 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             return '';
         };
 
-        $scope.assignSelectedHier = function () {
+        $scope.assignSelectedHier = function() {
             $scope.$parent.WizardData.showBasicInfo = false;
             if (angular.isUndefined($scope.$parent.WizardData)) {
                 return;
@@ -118,13 +118,11 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
             //set reports to list for stakeholder
             $scope.$parent.getReportsTo(hierarchy);
 
-            $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {};//to reset payment
+            $scope.$parent.WizardData.FinalPostModel.PayWorkModel.Payment = {}; //to reset payment
             $scope.$parent.resetWizardData();
 
             //$scope.$parent.WizardData.showBasicInfo = true;
         };
-
-
 
 
         //#endregion

@@ -4,12 +4,13 @@
             <!-- <div class="row">
                  <button class="btn btn-success" data-ng-show="CurrUserInfo.Permission=='Approve'||CurrUserInfo.Permission=='Modify'" data-ng-click="addStakeholder()">Add New</button>
              </div>-->
-            <div class="panel form-horizontal ">
+            <div class="panel panel-default ">
                 <div class="panel-heading">
                     View Stakeholders
                 </div>
-                <div class="row">
-                    <!--<div class="form-group col-md-3">
+                <div class="panel-body">
+                    <div class="row">
+                        <!--<div class="form-group col-md-3">
                         <label class="control-label">View</label>
                         <div class="controls">
                             <select class="input-medium" data-ng-model="stakeholder.filter"
@@ -19,15 +20,15 @@
                             </select>
                         </div>
                     </div>-->
-                    <div class="col-md-4">
-                        <cs-field
-                            value-list="filters"
-                            field="viewModels.View"
-                            data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)"
-                            data-ng-model="stakeholder.filter"></cs-field>
-                    </div>
-                    <div data-ng-show="checkFilter(stakeholder.filter)">
-                        <!--<div class="form-group col-md-3">
+                        <div class="col-md-4">
+                            <cs-field
+                                value-list="filters"
+                                field="viewModels.View"
+                                data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)"
+                                data-ng-model="stakeholder.filter"></cs-field>
+                        </div>
+                        <div data-ng-show="checkFilter(stakeholder.filter)">
+                            <!--<div class="form-group col-md-3">
                                 <label class="control-label">Hierarchy</label>
                                 <div class="controls">
                                     <div data-ng-show="stakeholder.filter!=='ReportingTo'">
@@ -47,15 +48,15 @@
                                     </div>
                                 </div>
                             </div>-->
-                        <div class="col-md-4">
-                            <!--get unique array-->
-                            <cs-field
-                                field="viewModels.Hierarchy"
-                                value-list="hierarchyDesignation"
-                                data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()"></cs-field>
-                        </div>
-                        <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter!='ReportingTo'">
-                            <!-- <div class="form-group col-md-3">
+                            <div class="col-md-4">
+                                <!--get unique array-->
+                                <cs-field
+                                    field="viewModels.Hierarchy"
+                                    value-list="hierarchyDesignation"
+                                    data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()"></cs-field>
+                            </div>
+                            <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter!='ReportingTo'">
+                                <!-- <div class="form-group col-md-3">
                                      <label class="control-label">Designation</label>
                                      <div class="controls">
                                          <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()">
@@ -65,16 +66,16 @@
                                          </select>
                                      </div>
                                  </div>-->
-                            <div class="col-md-4">
-                                <cs-field
-                                    field="viewModels.Designation"
-                                    value-list="Designation"
-                                    data-ng-model="stakeholder.Designation"
-                                    data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
+                                <div class="col-md-4">
+                                    <cs-field
+                                        field="viewModels.Designation"
+                                        value-list="Designation"
+                                        data-ng-model="stakeholder.Designation"
+                                        data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
+                                </div>
                             </div>
-                        </div>
-                        <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter==='ReportingTo'">
-                            <!--<div class="form-group col-md-3">
+                            <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter==='ReportingTo'">
+                                <!--<div class="form-group col-md-3">
                                     <label class="control-label">Designation</label>
                                     <div class="controls">
                                         <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data);reportsToStakeholder=''; updateScreen()">
@@ -84,15 +85,15 @@
                                         </select>
                                     </div>
                                 </div>-->
-                            <div class="col-md-4">
-                                <cs-field
-                                    field="viewModels.Designation"
-                                    value-list="Designation"
-                                    data-ng-model="stakeholder.Designation"
-                                    data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
+                                <div class="col-md-4">
+                                    <cs-field
+                                        field="viewModels.Designation"
+                                        value-list="Designation"
+                                        data-ng-model="stakeholder.Designation"
+                                        data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
+                                </div>
                             </div>
-                        </div>
-                        <!--  <div class="form-group col-md-2"
+                            <!--  <div class="form-group col-md-2"
                                    data-ng-show="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
                                   <label class="control-label">Stakeholder/Agency</label>
                                   <div class="controls">
@@ -105,62 +106,59 @@
                                   </div>
                               </div>-->
 
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!--<div class="form-group col-md-2"
-                             data-ng-show="stakeholder.filter==='BasedOnWorking'">
-                            <label class="control-label">Working for Product</label>
-                            <div class="controls">
-                                <select data-ng-model="product"
-                                        class="input-medium"
-                                        data-ng-change="setPageNumber();getStakeForProduct(product,'product')">
-                                    <option></option>
-                                    <option data-ng-repeat="data in productList">{{data}}</option>
-                                </select>
-                            </div>
-                        </div>-->
-                    <div class="pull-right">
-                        <div class="col-md-5" style="margin-right: 75px" data-ng-if="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
+                    <div class="row">
+                        <!--<div class="form-group col-md-2"
+                                 data-ng-show="stakeholder.filter==='BasedOnWorking'">
+                                <label class="control-label">Working for Product</label>
+                                <div class="controls">
+                                    <select data-ng-model="product"
+                                            class="input-medium"
+                                            data-ng-change="setPageNumber();getStakeForProduct(product,'product')">
+                                        <option></option>
+                                        <option data-ng-repeat="data in productList">{{data}}</option>
+                                    </select>
+                                </div>
+                            </div>-->
+
+                        <div class="pull-right col-md-4" data-ng-if="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
                             <cs-field
                                 field="viewModels.Stake"
                                 value-list="selStakeholder"
                                 data-ng-model="reportsToStakeholder"
-                                class="input-medium"
                                 data-ng-change="setPageNumber();getReportsToStakeholders(reportsToStakeholder)"></cs-field>
                         </div>
-                    </div>
-                    <div data-ng-if="stakeholder.filter==='BasedOnWorking'">
-                        <cs-field
-                            value-list="productList"
-                            field="viewModels.Products"
-                            data-ng-model="product"
-                            class="input-medium"
-                            data-ng-change="setPageNumber();getStakeForProduct(product,'product')"></cs-field>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-horizontal row" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">
-                <button class="btn  btn-success" data-ng-hide="true">Edit Selected </button>
-                <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
-                <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
-                <button class="btn  btn-success" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()">Leave/Exit</button>
 
-                <div data-ng-show="true">
-                    <cspagination
-                        gotofirstpage="gotoFirstPage()"
-                        gotolastpage="gotoLastPage()"
-                        stepforward="stepForward()"
-                        stepbackward="stepBackward()"
-                        currpagenum="pagenum"
-                        totalrecords="tolRec"
-                        pagesize="size">
-                </cspagination>
+                        <div class="col-md-4" data-ng-if="stakeholder.filter==='BasedOnWorking'">
+                            <cs-field
+                                value-list="productList"
+                                field="viewModels.Products"
+                                data-ng-model="product"
+                                data-ng-change="setPageNumber();getStakeForProduct(product,'product')"></cs-field>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-            <div class="well" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+            <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">
+                <div class="row">
+                    <button class="btn  btn-success" data-ng-hide="true">Edit Selected </button>
+                    <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
+                    <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
+                    <button class="btn  btn-success" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()">Leave/Exit</button>
+                </div>
+                <cspagination
+                    gotofirstpage="gotoFirstPage()"
+                    gotolastpage="gotoLastPage()"
+                    stepforward="stepForward()"
+                    stepbackward="stepBackward()"
+                    currpagenum="pagenum"
+                    totalrecords="tolRec"
+                    pagesize="size">
+                    </cspagination>
+            </div>
+            <div class="well container" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
 
                 <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
 
