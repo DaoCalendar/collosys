@@ -24,10 +24,10 @@
     };
 }]);
 
-csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory",
-    function ($scope, modeldata, $modalInstance, datalayer, factory) {
+csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory", "$csAllocationModels","$csnotify",
+    function ($scope, modeldata, $modalInstance, datalayer, factory, $csAllocationModels, $csnotify) {
         $scope.modalData = modeldata;
-
+        $scope.allocmodalData = $csAllocationModels.models.AllocPolicy;
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.isModalDateValid = true;
@@ -36,7 +36,10 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
             startDate = moment(startDate);
             endDate = moment(endDate);
             $scope.isModalDateValid = (endDate > startDate);
-
+            if ($scope.isModalDateValid===false) {
+                $csnotify.success("EndDate should be Greater Than StartDate");
+            }
+           
         };
 
 
@@ -79,8 +82,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
 
     }]);
 
-csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal',
-    function ($scope, datalayer, factory, $modal) {
+csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csAllocationModels',
+    function ($scope, datalayer, factory, $modal, $csAllocationModels) {
         "use strict";
 
         var findIndex = function (list, value) {
@@ -190,7 +193,8 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 subPolicyIndex: -1,
                 forActivate: true
             };
-            $scope.datalayer.getProducts();
+           // $scope.datalayer.getProducts();
+            $scope.allocpolicy = $csAllocationModels.models.AllocPolicy;
         })();
     }]);
 

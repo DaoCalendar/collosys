@@ -3,84 +3,102 @@ csapp.factory("menuFactory", [function () {
 
     var menu = [];
 
+    var getperm = function (perms) {
+
+        if (!angular.isArray(perms) || perms.length === 0) return false;
+        var permission = false;
+
+        for (var i = 0; i < perms.length; i++) {
+            if (angular.isUndefined(perms[i]) || perms[i] === null)
+                continue;
+            if (perms[i] === true) {
+                permission = true;
+                break;
+            }
+        }
+
+        return permission;
+    };
+
     var initMenu = function (permissions) {
+        console.log("perm: ", permissions);
         menu = [
         {
             Title: "File Upload",
             url: "#",
             icon: "fa-cloud-upload",
-            display: permissions.FileUpload.access,
+            //display: getperm([permissions.FileUpload.access]),
             childMenu: [
                 {
                     Title: "FileDetail",
                     url: "#/fileupload/filedetail",
-                    display: //(permissions.FileUpload.childrens.CreateFile.childrens.Create.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.Update.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.View.access),
+                    //display: getperm([permissions.FileUpload.childrens.CreateFile.childrens.Create.access,
+                    // permissions.FileUpload.childrens.CreateFile.childrens.Update.access,
+                    // permissions.FileUpload.childrens.CreateFile.childrens.View.access]),
                 },
                 {
                     Title: "File Column",
                     url: "#/fileupload/filecolumn",
-                    display: //(permissions.FileUpload.childrens.CreateFile.childrens.Create.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.Update.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.View.access),
+                    //display: //(permissions.FileUpload.childrens.CreateFile.childrens.Create.access) ||
+                    //getperm([(permissions.FileUpload.childrens.CreateFile.childrens.Update.access) ||
+                    //(permissions.FileUpload.childrens.CreateFile.childrens.View.access)])
                 },
                 {
                     Title: "File Mapping",
                     url: "#/fileupload/filemapping",
-                    display: //(permissions.FileUpload.childrens.CreateFile.childrens.Create.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.Update.access) ||
-                    (permissions.FileUpload.childrens.CreateFile.childrens.View.access),
+                    //display: //(permissions.FileUpload.childrens.CreateFile.childrens.Create.access) ||
+                    //getperm([(permissions.FileUpload.childrens.CreateFile.childrens.Update.access) ||
+                    //(permissions.FileUpload.childrens.CreateFile.childrens.View.access)]),
 
                 },
                 {
                     Title: "Schedule Files",
                     url: "#/fileupload/filescheduler",
-                    display: permissions.FileUpload.childrens.ScheduleFile.childrens.Schedule.access
+                    //display: getperm([permissions.FileUpload.childrens.ScheduleFile.childrens.Schedule.access])
                 },
                 {
                     Title: "Check Status",
                     url: "#/fileupload/filestatus",
-                    display: permissions.FileUpload.childrens.ScheduleFile.childrens.Status.access,
+                    //display: getperm([permissions.FileUpload.childrens.ScheduleFile.childrens.Status.access]),
 
                 },
                 {
                     Title: "Data Download",
                     url: "#/fileupload/clientdatadownload",
-                    display: permissions.FileUpload.childrens.CustomerData.childrens.View.access,
+                    //display: getperm([permissions.FileUpload.childrens.CustomerData.childrens.View.access]),
                 },
                 {
                     Title: "Customer Info",
                     url: "#/fileupload/customerinfo",
-                    display: permissions.FileUpload.childrens.CustomerData.childrens.View.access
+                    //display: getperm([permissions.FileUpload.childrens.CustomerData.childrens.View.access])
                 },
                 {
                     Title: "Manual Payment",
                     url: "#/fileupload/paymentchanges",
-                    display: (permissions.FileUpload.childrens.ModifyPayment.childrens.View.access) ||
-                    (permissions.FileUpload.childrens.ModifyPayment.childrens.Create.access) ||
-                    (permissions.FileUpload.childrens.ModifyPayment.childrens.Update.access) ||
-                    (permissions.FileUpload.childrens.ModifyPayment.childrens.Approve.access)
+                    //display: getperm([(permissions.FileUpload.childrens.ModifyPayment.childrens.View.access),
+                    //(permissions.FileUpload.childrens.ModifyPayment.childrens.Create.access),
+                    //(permissions.FileUpload.childrens.ModifyPayment.childrens.Update.access),
+                    //(permissions.FileUpload.childrens.ModifyPayment.childrens.Approve.access)])
                 },
                 {
                     Title: "Upload Pincode",
                     url: "#/fileupload/uploadpincode",
-                    display: permissions.FileUpload.childrens.UploadCustInfo.access
+                    //display: getperm([permissions.FileUpload.childrens.UploadCustInfo.access])
                 },
                 {
                     Title: "Upload Rcode",
                     url: "#/fileupload/uploadrcode",
-                    display: permissions.FileUpload.childrens.UploadCustInfo.access
+                    //display: getperm([permissions.FileUpload.childrens.UploadCustInfo.access])
                 },
                 {
                     Title: "Correct Errors",
                     url: "#/fileupload/errordata",
-                    display: permissions.FileUpload.childrens.ErrorCorrection.childrens.Update.access
+                    //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Update.access])
                 },
                 {
                     Title: "Approve Corrections",
                     url: "#/fileupload/errordata",
-                    display: permissions.FileUpload.childrens.ErrorCorrection.childrens.Approve.access
+                    //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Approve.access])
                 }
             ]
         },
@@ -88,23 +106,23 @@ csapp.factory("menuFactory", [function () {
             Title: "Stakeholder",
             url: "#",
             icon: "fa-users",
-            display: permissions.Stakeholder.access,
+            //display: getperm([permissions.Stakeholder.access]),
             childMenu: [
                 {
                     Title: "Add",
                     url: "#/stakeholder/add",
-                    display: (permissions.Stakeholder.childrens.AddStakeholder.childrens.Create.access) ||
-                    (permissions.Stakeholder.childrens.AddHierarchy.childrens.Create.access),
+                    //display: getperm([(permissions.Stakeholder.childrens.AddStakeholder.childrens.Create.access),
+                    //(permissions.Stakeholder.childrens.AddHierarchy.childrens.Create.access)])
                 },
                 {
                     Title: "View",
                     url: "#/stakeholder/view",
-                    display: (permissions.Stakeholder.childrens.ViewStakeholder.childrens.Update.access) ||
-                    (permissions.Stakeholder.childrens.ViewStakeholder.childrens.View.access) ||
-                    (permissions.Stakeholder.childrens.ViewStakeholder.childrens.Approve.access) ||
-                    (permissions.Stakeholder.childrens.ViewHierarchy.childrens.Update.access) ||
-                    (permissions.Stakeholder.childrens.ViewHierarchy.childrens.View.access) ||
-                    (permissions.Stakeholder.childrens.ViewHierarchy.childrens.Approve.access),
+                    //display: getperm([(permissions.Stakeholder.childrens.ViewStakeholder.childrens.Update.access),
+                    //(permissions.Stakeholder.childrens.ViewStakeholder.childrens.View.access),
+                    //(permissions.Stakeholder.childrens.ViewStakeholder.childrens.Approve.access),
+                    //(permissions.Stakeholder.childrens.ViewHierarchy.childrens.Update.access),
+                    //(permissions.Stakeholder.childrens.ViewHierarchy.childrens.View.access),
+                    //(permissions.Stakeholder.childrens.ViewHierarchy.childrens.Approve.access)])
                 }
             ]
         },
@@ -112,31 +130,31 @@ csapp.factory("menuFactory", [function () {
             Title: "Allocation",
             url: "#",
             icon: "fa-briefcase",
-            display: permissions.Allocation.access,
+            //display: getperm([permissions.Allocation.access]),
             childMenu: [
                 {
                     Title: "Policy",
                     url: "#/allocation/policy",
-                    display: (permissions.Allocation.childrens.DefinePolicy.childrens.View.access) ||
-                    (permissions.Allocation.childrens.DefinePolicy.childrens.Create.access) ||
-                    (permissions.Allocation.childrens.DefinePolicy.childrens.Update.access) ||
-                    (permissions.Allocation.childrens.DefinePolicy.childrens.Approve.access)
+                    //display: getperm([(permissions.Allocation.childrens.DefinePolicy.childrens.View.access),
+                    //(permissions.Allocation.childrens.DefinePolicy.childrens.Create.access),
+                    //(permissions.Allocation.childrens.DefinePolicy.childrens.Update.access),
+                    //(permissions.Allocation.childrens.DefinePolicy.childrens.Approve.access)])
 
                 },
                 {
                     Title: "Subpolicy",
                     url: "#/allocation/subpolicy",
-                    display: (permissions.Allocation.childrens.DefineSubpolicy.childrens.View.access) ||
-                    (permissions.Allocation.childrens.DefineSubpolicy.childrens.Create.access) ||
-                    (permissions.Allocation.childrens.DefineSubpolicy.childrens.Update.access) //||
-                    //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Approve.access)
+                    //display: getperm([(permissions.Allocation.childrens.DefineSubpolicy.childrens.View.access),
+                    //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Create.access),
+                    //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Update.access)])//||
+                    ////(permissions.Allocation.childrens.DefineSubpolicy.childrens.Approve.access)
                 },
                 {
                     Title: "View/Approve",
                     url: "#/allocation/viewapprove",
-                    display: (permissions.Allocation.childrens.CheckAllocation.childrens.View.access) ||
-                    (permissions.Allocation.childrens.CheckAllocation.childrens.Update.access) ||
-                    (permissions.Allocation.childrens.CheckAllocation.childrens.Approve.access)
+                    //display: getperm([(permissions.Allocation.childrens.CheckAllocation.childrens.View.access),
+                    //(permissions.Allocation.childrens.CheckAllocation.childrens.Update.access),
+                    //(permissions.Allocation.childrens.CheckAllocation.childrens.Approve.access)])
                 }
             ]
         },
@@ -144,80 +162,80 @@ csapp.factory("menuFactory", [function () {
             Title: "Billing",
             url: "#",
             icon: "fa-inr",
-            display: permissions.Billing.access,
+            //display: getperm([permissions.Billing.access]),
             childMenu: [
             {
                 Title: "Policy",
                 url: "#/billing/policy",
-                display: (permissions.Billing.childrens.DefinePolicy.childrens.View.access) ||
-                (permissions.Billing.childrens.DefinePolicy.childrens.Create.access) ||
-                (permissions.Billing.childrens.DefinePolicy.childrens.Update.access) ||
-                (permissions.Billing.childrens.DefinePolicy.childrens.Approve.access)
+                //display: getperm([(permissions.Billing.childrens.DefinePolicy.childrens.View.access),
+                //(permissions.Billing.childrens.DefinePolicy.childrens.Create.access),
+                //(permissions.Billing.childrens.DefinePolicy.childrens.Update.access),
+                //(permissions.Billing.childrens.DefinePolicy.childrens.Approve.access)])
 
             },
             {
                 Title: "Subpolicy",
                 url: "#/billing/subpolicy",
-                display: (permissions.Billing.childrens.DefineSubPolicy.childrens.View.access) ||
-                (permissions.Billing.childrens.DefineSubPolicy.childrens.Create.access) ||
-                (permissions.Billing.childrens.DefineSubPolicy.childrens.Update.access) //||
-                //(permissions.Billing.childrens.DefineSubPolicy.childrens.Approve.access),
+                //display: getperm([(permissions.Billing.childrens.DefineSubPolicy.childrens.View.access),
+                //(permissions.Billing.childrens.DefineSubPolicy.childrens.Create.access),
+                //(permissions.Billing.childrens.DefineSubPolicy.childrens.Update.access)])//||
+                ////(permissions.Billing.childrens.DefineSubPolicy.childrens.Approve.access),
             },
             {
                 Title: "Formula",
                 url: "#/billing/formula",
-                display: (permissions.Billing.childrens.DefineFormula.childrens.View.access) ||
-                (permissions.Billing.childrens.DefineFormula.childrens.Create.access) ||
-                (permissions.Billing.childrens.DefineFormula.childrens.Update.access),
+                //display: getperm([(permissions.Billing.childrens.DefineFormula.childrens.View.access),
+                //(permissions.Billing.childrens.DefineFormula.childrens.Create.access),
+                //(permissions.Billing.childrens.DefineFormula.childrens.Update.access)])
             },
             {
                 Title: "Matrix",
                 url: "#/billing/matrix",
-                display: (permissions.Billing.childrens.DefineMatrix.childrens.View.access) ||
-                (permissions.Billing.childrens.DefineMatrix.childrens.Create.access) ||
-                (permissions.Billing.childrens.DefineMatrix.childrens.Update.access),
+                //display: getperm([(permissions.Billing.childrens.DefineMatrix.childrens.View.access),
+                //(permissions.Billing.childrens.DefineMatrix.childrens.Create.access),
+                //(permissions.Billing.childrens.DefineMatrix.childrens.Update.access)])
             },
             {
                 Title: "AdHoc",
                 url: "#/billing/adhoc",
                 display: true  //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
-        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access),
-    },
+                //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access),
+            },
                     {
                         Title: "AdHoc Bulk",
                         url: "#/billing/adhocbulk",
                         display: true //(permissions.Billing.childrens.AdhocPayout.childrens.View.access) ||
-                                 //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
-                                 //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access) ||
-                                 //(permissions.Billing.childrens.AdhocPayout.childrens.Approve.access),
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Approve.access),
                     },
                     {
                         Title: "Ready For Billing",
                         url: "#/billing/readybilling",
-                        display: permissions.Billing.childrens.ReadyForBilling.childrens.View.access,
+                        //display: getperm([permissions.Billing.childrens.ReadyForBilling.childrens.View.access]),
                     },
                     {
                         Title: "Execution Status",
                         url: "#/billing/status",
-                        display: permissions.Billing.childrens.ReadyForBilling.childrens.Approve.access,
+                        //display: getperm([permissions.Billing.childrens.ReadyForBilling.childrens.Approve.access]),
                     },
                     {
                         Title: "Bill Details",
                         url: "#/billing/summary",
-                        display: permissions.Billing.childrens.PayoutStatus.childrens.View.access,
+                        //display: getperm([permissions.Billing.childrens.PayoutStatus.childrens.View.access]),
                     },
                     {
                         Title: "Pay Clearance Status",
                         url: "#/billing/billstatus",
-                        display: permissions.Billing.childrens.PayoutStatus.childrens.View.access,
+                        //display: getperm([permissions.Billing.childrens.PayoutStatus.childrens.View.access]),
                     }
-                ]
-            },
+            ]
+        },
             {
                 Title: "Config",
                 url: "#",
                 icon: "fa-cogs",
-                display: permissions.Config.access,
+                //display: getperm([permissions.Config.access]),
                 childMenu: [
                     {
                         Title: "Add Hierarchy",
@@ -229,46 +247,46 @@ csapp.factory("menuFactory", [function () {
                         url: "#/generic/hierarchy",
                         display: '',
                     },
-                    {
-                        Title: "Permissions",
-                        url: "#/generic/permission",
-                        display: (permissions.Config.childrens.Permission.childrens.View.access) ||
-                                 (permissions.Config.childrens.Permission.childrens.Update.access),
-                    },
+                {
+                    Title: "Permissions",
+                    url: "#/generic/permission",
+                    //display: getperm([(permissions.Config.childrens.Permission.childrens.View.access),
+                    //    (permissions.Config.childrens.Permission.childrens.Update.access)])
+                },
                     {
                         Title: "Products",
                         url: "#/generic/product",
-                        display: (permissions.Config.childrens.Products.childrens.View.access) ||
-                                 (permissions.Config.childrens.Products.childrens.Update.access) ||
-                                 (permissions.Config.childrens.Products.childrens.Approve.access),
+                        //display: getperm([(permissions.Config.childrens.Products.childrens.View.access),
+                        //         (permissions.Config.childrens.Products.childrens.Update.access),
+                        //         (permissions.Config.childrens.Products.childrens.Approve.access)])
                     },
                     {
                         Title: "KeyValue",
                         url: "#/generic/keyvalue",
-                        display: (permissions.Config.childrens.KeyValue.childrens.View.access) ||
-                                 (permissions.Config.childrens.KeyValue.childrens.Update.access) ||
-                                 (permissions.Config.childrens.KeyValue.childrens.Approve.access),
+                        //display: getperm([(permissions.Config.childrens.KeyValue.childrens.View.access),
+                        //         (permissions.Config.childrens.KeyValue.childrens.Update.access),
+                        //         (permissions.Config.childrens.KeyValue.childrens.Approve.access)])
                     },
                     {
                         Title: "Pincode",
                         url: "#/generic/pincode",
-                        display: (permissions.Config.childrens.Pincode.childrens.View.access) ||
-                                 (permissions.Config.childrens.Pincode.childrens.Update.access) ||
-                                 (permissions.Config.childrens.Pincode.childrens.Create.access),
+                        //display: getperm([(permissions.Config.childrens.Pincode.childrens.View.access),
+                        //         (permissions.Config.childrens.Pincode.childrens.Update.access),
+                        //         (permissions.Config.childrens.Pincode.childrens.Create.access)])
                     },
                     {
                         Title: "Tax List",
                         url: "#/generic/taxlist",
-                        display: (permissions.Config.childrens.TaxList.childrens.View.access) ||
-                                 //(permissions.Config.childrens.TaxList.childrens.Update.access) ||
-                                 (permissions.Config.childrens.TaxList.childrens.Create.access),
+                        //display: getperm([(permissions.Config.childrens.TaxList.childrens.View.access),
+                        //         //(permissions.Config.childrens.TaxList.childrens.Update.access) ||
+                        //         (permissions.Config.childrens.TaxList.childrens.Create.access)]),
                     },
                     {
                         Title: "Tax Master",
                         url: "#/generic/taxmaster",
-                        display: (permissions.Config.childrens.TaxMaster.childrens.View.access) ||
-                                 (permissions.Config.childrens.TaxMaster.childrens.Update.access) ||
-                                 (permissions.Config.childrens.TaxMaster.childrens.Create.access),
+                        //display: getperm([(permissions.Config.childrens.TaxMaster.childrens.View.access),
+                        //         (permissions.Config.childrens.TaxMaster.childrens.Update.access),
+                        //         (permissions.Config.childrens.TaxMaster.childrens.Create.access)]),
                     }
                 ]
             },

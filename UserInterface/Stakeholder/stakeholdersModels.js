@@ -128,7 +128,7 @@
             View: { label: "View", type: "enum" },
             Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
             Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
-            Stake: { label: "Stakeholder/Agency", type: "select", valueField: 'Id', textField: 'Name' },
+            Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
             Products: { label: "Products", type: "enum" },
         };
     };

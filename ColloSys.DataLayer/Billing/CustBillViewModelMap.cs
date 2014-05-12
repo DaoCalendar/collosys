@@ -42,6 +42,7 @@ namespace ColloSys.DataLayer.Mapping
             #endregion
 
             #region demo DHFL
+
             Property(x => x.LanNo);
             Property(x => x.SanctionAmt);
             Property(x=>x.Month);
@@ -61,9 +62,9 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.SalesRefNo);
             Property(x => x.Name);
             Property(x => x.SanctionDt);
-            Property(x => x.SanAmt);
+            //Property(x => x.SanAmt);
             Property(x => x.DisbursementDt);
-            Property(x => x.DisbursementAmt);
+            //Property(x => x.DisbursementAmt);
             Property(x => x.FeeDue);
             Property(x => x.FeeWaived);
             Property(x => x.FeeReceived);
@@ -74,14 +75,14 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Orignateby3);
             Property(x => x.Orignateby4);
             Property(x => x.Orignateby5);
-            Property(x => x.OCCUPCATEGORY);
-            Property(x => x.REFERRALTYPE);
-            Property(x => x.REFERRALNAME);
-            Property(x => x.REFERRALCODE);
-            Property(x => x.SOURCENAME);
+            Property(x => x.Occupcategory);
+            Property(x => x.Referraltype);
+            Property(x => x.Referralname);
+            Property(x => x.Referralcode);
+            Property(x => x.Sourcename);
             Property(x => x.SchemeGroupName);
-            Property(x => x.M_SCHNAME);
-            Property(x => x.M_SCHNAMEPremium);
+            Property(x => x.MSchname);
+            Property(x => x.MSchnamePremium);
             #endregion
         }
     }

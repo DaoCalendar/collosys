@@ -4,33 +4,19 @@
             <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
         </div>
         <div class="modal-body" style="text-align: center">
-            <div class="form-group">
-                <label class="control-label">Start Date</label>
-                <div class="controls">
-                    <div class="input-group">
-                        <input class="input-medium" data-ng-disabled="!modalData.forActivate" type="text" name="ScheduleDate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
-                               data-date-start-date="today" data-ng-readonly="true" data-bs-datepicker="" data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
+            <div class="row-fluid">
+                <div class="row-fluid col-md-6">
+                    <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
+                              data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
+                </div>
+                <div class="row-fluid col-lg-6">
+                    <cs-field field="allocmodalData.enddate" data-ng-model="modalData.endDate"
+                               data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label">End Date</label>
-                <div class="controls">
-                    <div class="input-group">
-                        <input class="input-medium" type="text" name="ScheduleDate" data-ng-model="modalData.endDate" data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"
-                               data-date-start-date="" data-ng-readonly="true"
-                               data-bs-datepicker="today">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
-                </div>
-            </div>
+           
         </div>
-        <div class="modal-footer well">
+        <div class="row-fluid text-right">
             <button class="btn btn-danger"
                     data-ng-disabled="!isModalDateValid"
                     data-ng-show="!modalData.forActivate"

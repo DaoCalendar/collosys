@@ -30,6 +30,7 @@
         <!--Reporting to manager-->
         <div class="col-md-5" data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
             <cs-field
+                value-list="$parent.WizardData.FinalPostModel.ReportsToList"
                 data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
                 field="stakeholderModels.manager"></cs-field>
         </div>

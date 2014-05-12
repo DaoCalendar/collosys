@@ -79,34 +79,34 @@
                 </div>
             </div>
 
-            <div data-ng-if="indexData.Hierarchy.HasPayment">
+            <div class="panel panel-default" data-ng-if="indexData.Hierarchy.HasPayment">
+                <div class="panel-heading">
+                    Payment    
+                </div>
                 <div data-ng-form="paymentForm">
-                    <div class="panel-footer">
-                        Payment    
-                    </div>
-                    <div class="panel-body" data-ng-show="indexData.Hierarchy.HasPayment">
+                    <div class="panel-body " data-ng-show="indexData.Hierarchy.HasPayment">
                         <div data-ng-include="baseUrl +'Stakeholder/add/payment.html'"></div>
-                    </div>
-                    <div class="row text-center">
-                        <button
-                            data-ng-show="indexData.Hierarchy.HasPayment"
-                            class="btn btn-success"
-                            data-ng-disabled="enableAddToList(paymentForm.$invalid)"
-                            data-ng-click="addAnotherWorking()">
-                            Add To List</button>
+                        <div class="row text-center">
+                            <button
+                                data-ng-show="indexData.Hierarchy.HasPayment"
+                                class="btn btn-success"
+                                data-ng-disabled="enableAddToList(paymentForm.$invalid)"
+                                data-ng-click="addAnotherWorking()">
+                                Add To List</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row" data-ng-show="displayPaymentWorkingData(indexData.Hierarchy,WizardData.FinalPostModel.PayWorkModelList.length)">
-            <div class="panel">
+        <div data-ng-show="displayPaymentWorkingData(indexData.Hierarchy,WizardData.FinalPostModel.PayWorkModelList.length)">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     Added Payment Working Groups 
                 </div>
-                <!--<div class="row">-->
-                <div data-ng-include="baseUrl +'Stakeholder/add/show-working-payment.html'"></div>
-                <!--</div>-->
+                <div class="panel-body">
+                    <div data-ng-include="baseUrl +'Stakeholder/add/show-working-payment.html'"></div>
+                </div>
             </div>
         </div>
         <div class="pull-right">
