@@ -1,61 +1,62 @@
 ﻿<!--ModalPopUp for payment Details -->
 
 <div data-ng-form="adhocPayoutform" class="form-horizontal">
-    <div class="modal-header">
-        <div class="panel-heading">Payout Details</div>
-    </div>
+    <div class="modal-content" style="height:350px;width: 900px">
+        <div class="modal-header">
+            <div class="modal-title">Payout Details</div>
+        </div>
 
-    <div class="modal-body">
+        <div class="modal-body">
 
-        <cs-field-group>
-            
-            <div class="form-horizontal well">
-             <div class="row">
-                <span class="col-md-6">
-                   <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
-                 </span>  
-                <span class="col-md-6">      
-                    <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
-                        data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
-                </span>
-            </div>      
-             
-            <div class="row">
-                <span class="col-md-6">
-                   <cs-field data-ng-model="adhocPayout.IsPretax" field="adhocPayoutbill.IsPretax"></cs-field>
-                 </span>  
-                <span class="col-md-6">      
-                  <cs-field data-ng-model="adhocPayout.ReasonCode" field="adhocPayoutbill.ReasonCode"></cs-field>
-                </span>
-            </div>     
-                <div class="row">
-                    <span class="col-md-6">
-                        <cs-field data-ng-model="adhocPayout.Description" field="adhocPayoutbill.Description"></cs-field>
-                    </span>
+            <cs-field-group>
+
+                <div class="form-horizontal ">
+                    <div class="row">
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
+                        </span>
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
+                                      data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
+                        </span>
+                    </div>
+
+                    <div class="row">
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.IsPretax" field="adhocPayoutbill.IsPretax"></cs-field>
+                        </span>
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.ReasonCode" field="adhocPayoutbill.ReasonCode"></cs-field>
+                        </span>
+                    </div>
+                    <div class="row">
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.Description" field="adhocPayoutbill.Description"></cs-field>
+                        </span>
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.IsRecurring" field="adhocPayoutbill.IsRecurring"></cs-field>
+                        </span>
+                    </div>
                 </div>
-            </div> 
-            
-             <div class="form-horizontal well">
-               <cs-field data-ng-model="adhocPayout.IsRecurring" field="adhocPayoutbill.IsRecurring"></cs-field>
-     
-                 
-               <div class="row" data-ng-if="adhocPayout.IsRecurring === true">
-                 <span class="col-md-6">
-                    <cs-field data-ng-model="adhocPayout.StartMonth" field="adhocPayoutbill.StartMonth"></cs-field>
-                 </span>  
-                 <span class="col-md-6">      
-                    <cs-field data-ng-model="adhocPayout.Tenure" field="adhocPayoutbill.Tenure"></cs-field>
-                 </span>
-               </div> 
-             </div>
-           
-        </cs-field-group>
+                <div class="row">
+                  <div class="row" data-ng-if="adhocPayout.IsRecurring === true">
+                        <div class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.StartMonth" field="adhocPayoutbill.StartMonth"></cs-field>
+                        </div>
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="adhocPayout.Tenure" field="adhocPayoutbill.Tenure"></cs-field>
+                        </span>
+                    </div>
+                </div>
 
-    </div>
+            </cs-field-group>
 
-    <div class="modal-footer well">
-        <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)">Approve</button>
-        <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
-        <button class="btn btn-info" data-ng-click="resetadhocPayout()">Reset</button>
+        </div>
+
+        <div class="modal-footer ">
+            <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)">Approve</button>
+            <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
+            <button class="btn btn-info" data-ng-click="resetadhocPayout()">Reset</button>
+        </div>
     </div>
 </div>
