@@ -411,12 +411,12 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
 
     }]);
 
-csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance',
-    function ($scope, modalData, datalayer, $modalInstance) {
+csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance', '$csAllocationModels',
+    function ($scope, modalData, datalayer, $modalInstance, $csAllocationModels) {
         $scope.dldata = datalayer.dldata;
 
         $scope.modalData = modalData;
-
+        $scope.allocmodalData = $csAllocationModels.models.AllocPolicy;
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.isModalDateValid = true;

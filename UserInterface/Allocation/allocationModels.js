@@ -23,12 +23,14 @@
             ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
             TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators, required: true },
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
-        };
+          };
     };
 
     var allocPolicy = function () {
         return {
-            Product: {label:"Product", type:"enum",valueList:$csShared.enums.Products}
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            startdate: { label: "StartDate:", type: 'date'},
+            enddate: { label: "EndDate:", type: 'date'},
         };
     };
 
