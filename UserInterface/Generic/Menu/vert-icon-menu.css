@@ -179,6 +179,7 @@ li {
         background: white;
         border: 1px solid lightblue;
         padding-top: 10px;
+        line-height: 26px;
     }
 
         .cssmenu ul li.hover,
@@ -186,7 +187,7 @@ li {
         {
             position: relative;
             z-index: 599;
-            cursor: default;
+            cursor: pointer;
             background-color: powderblue;
         }
 
