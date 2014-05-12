@@ -3,7 +3,7 @@
     var models = {};
     var allocSubpolicy = function () {
         return {
-            Stakeholder: { label: "Select Stakeholder", type: "" },//TOBE Disscuss list type
+            Stakeholder: { label: "Select Stakeholder", type: "select", textField: "Name", valueField: "Id" },//TOBE Disscuss list type
             Name: { label: "Name", type: "text", maxlength: 20, required: true },
             AllocateType: {
                 label: "Allocate Type", type: "select", valueField:"value", textField:"display",
