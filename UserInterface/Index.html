@@ -23,7 +23,8 @@
 
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
-    <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />
+    <!--<link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />-->
+    <link href="Content/font-awesome/font-awesome.css" rel="stylesheet" />
     <!--<link href="Content/bootstrap2.3.2/bootstrap.css" rel="stylesheet" />-->
     <!--<link href="Content/bootstrap2.3.2/bootstrap-responsive.css" rel="stylesheet" />-->
     <!--<link href="Content/bootstrap-select.min.css" rel="stylesheet" />-->
@@ -58,10 +59,10 @@
     <!-- Add your site or application content here -->
     <div class="container-fluid" ng-init="verticalMenu = true">
         <div ng-if="verticalMenu">
-            <div class="col-md-2" style="padding: 0">
+            <div class="col-md-1" style="padding: 0">
                 <div data-ng-include="baseUrl +'Generic/Menu/menu-vertical.html'" data-ng-controller="menuController"></div>
             </div>
-            <div class="col-md-10 vertical-menu-body">
+            <div class="col-md-11 vertical-menu-body">
                 <div data-ng-view=""></div>
             </div>
         </div>
