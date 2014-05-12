@@ -75,8 +75,8 @@ csapp.factory("KeyValueFactory", function () {
     };
 });
 
-csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValueDatalayer", "KeyValueFactory", "$csGenericModels", "$csShared",
-    function ($scope, $csnotify, rest, datalayer, factory, $csGenericModels, $csShared) {
+csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValueDatalayer", "KeyValueFactory", "$csGenericModels", "$csShared", "$csfactory",
+    function ($scope, $csnotify, rest, datalayer, factory, $csGenericModels, $csShared, $csfactory) {
         "use strict";
         (function () {
             $scope.showAddButton = false;
@@ -85,10 +85,16 @@ csapp.controller("keyValueCtrl", ["$scope", "$csnotify", "Restangular", "keyValu
             $scope.dldata = datalayer.dldata;
             $scope.gKeyValuefield = $csGenericModels.models.Keyvalue;
             $scope.gKeyValue = {};
-            //datalayer.GetAreas();
+            //datalayer.GetKeyValues();
         })();
 
+        $scope.getKeyValues = function(key) {
+            if ($csfactory.isNullOrEmptyString(key)) return;
+            datalayer.GetKeyValues(key);
+        };
+
         $scope.changeKey = function (selectedKey) {
+            if ($csfactory.isNullOrEmptyString(selectedKey)) return;
             factory.changeKey(selectedKey, $scope.dldata);
             $scope.showAddButton = factory.setShowAddButton($scope.showAddButton, $scope.dldata);
         };

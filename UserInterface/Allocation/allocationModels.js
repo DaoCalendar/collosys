@@ -3,7 +3,7 @@
     var models = {};
     var allocSubpolicy = function () {
         return {
-            Stakeholder: { label: "Select Stakeholder", type: "" },//TOBE Disscuss list type
+            Stakeholder: { label: "Select Stakeholder", type: "select", textField: "Name", valueField: "Id" },//TOBE Disscuss list type
             Name: { label: "Name", type: "text", maxlength: 20, required: true },
             AllocateType: {
                 label: "Allocate Type", type: "select", valueField:"value", textField:"display",
@@ -23,12 +23,14 @@
             ConditionOperators: { type: "enum", valueList: $csShared.enums.ConditionOperators, required: true },
             TextConditionOperators: { type: "enum", valueList: $csShared.enums.TextConditionOperators, required: true },
             DateValueEnum: { type: "enum", valueList: $csShared.enums.DateValueEnum, required: true },
-        };
+          };
     };
 
     var allocPolicy = function () {
         return {
-            Product: {label:"Product", type:"enum",valueList:$csShared.enums.Products}
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            startdate: { label: "StartDate:", type: 'date'},
+            enddate: { label: "EndDate:", type: 'date'},
         };
     };
 

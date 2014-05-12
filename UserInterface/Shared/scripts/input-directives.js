@@ -832,7 +832,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
         html += ' bs-datepicker="" >';
         html += ' <span class="input-group-btn"  data-toggle="datepicker"> <button type="button" class="btn btn-default"';
-        //html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+        html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
         html += '><i class="glyphicon glyphicon-calendar"></i></button> ';
         html += ' </span></div>';
         return html;

@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -26,6 +27,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> StateList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .Select(x => x.State)
                                  .Distinct().ToList();
         }
@@ -34,6 +36,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> RegionList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .Select(x => x.Region)
                                  .Distinct().ToList();
         }
@@ -42,6 +45,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> ClusterList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .Select(x => x.Cluster)
                                  .Distinct().ToList();
         }
@@ -50,6 +54,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> DistrictList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .Select(x => x.District)
                                  .Distinct().ToList();
         }
@@ -58,6 +63,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> CityList()
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .Select(x => x.City)
                                  .Distinct().ToList();
         }
@@ -68,6 +74,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         {
             return SessionManager.GetCurrentSession()
                                  .Query<GPincode>()
+                                 .Where(x => x.IsInUse)
                                  .First(x => x.State == state);
         }
 
@@ -75,7 +82,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public List<IGrouping<string, GPincode>> OnCluster(string cluster)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Where(x => x.Cluster.StartsWith(cluster))
+                                 .Where(x => x.Cluster.StartsWith(cluster) && x.IsInUse)
                                  .GroupBy(x => x.Cluster)
                                  .ToList();
         }
@@ -84,7 +91,8 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<GPincode> OnPinOrCity(string value)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Where(x => x.Pincode.ToString().StartsWith(value) || x.City.StartsWith(value))
+                                 .Where(x => (x.Pincode.ToString(CultureInfo.InvariantCulture).StartsWith(value)
+                                     || x.City.StartsWith(value)) && x.IsInUse)
                                  .Take(100)
                                  .ToList();
         }
@@ -94,14 +102,15 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         {
             return SessionManager.GetCurrentSession()
                                  .Query<GPincode>()
-                                 .Where(x => x.State == state)
+                                 .Where(x => x.State == state && x.IsInUse)
                                  .ToList();
         }
         [Transaction]
         public IEnumerable<GPincode> OnPinOrArea(string value)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Where(x => x.Pincode.ToString().StartsWith(value) || x.Area.StartsWith(value))
+                                 .Where(x => (x.Pincode.ToString().StartsWith(value) 
+                                     || x.Area.StartsWith(value))  && x.IsInUse )
                                  .Select(x => x)
                                  .Take(100).ToList();
         }
@@ -110,7 +119,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public string RegionOnState(string state)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                                 .Where(x => x.State == state)
+                                 .Where(x => x.State == state && x.IsInUse)
                                  .Select(x => x.Region)
                                  .Distinct()
                                  .FirstOrDefault();
@@ -119,19 +128,19 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         [Transaction]
         public IEnumerable<string> AreaOnCityAndArea(string area, string city)
         {
-          return  SessionManager.GetCurrentSession().Query<GPincode>()
-                          .Where(x => x.Area.ToString().StartsWith(area) && x.City == city)
-                          .Take(10).Select(x => x.Area)
-                          .ToList()
-                          .Distinct()
-                          .ToList();
+            return SessionManager.GetCurrentSession().Query<GPincode>()
+                            .Where(x => (x.Area.ToString().StartsWith(area) && x.City == city) && x.IsInUse)
+                            .Take(10).Select(x => x.Area)
+                            .ToList()
+                            .Distinct()
+                            .ToList();
         }
 
         [Transaction]
         public IEnumerable<string> CitiesOnCityDistrict(string city, string district)
         {
             return SessionManager.GetCurrentSession().Query<GPincode>()
-                          .Where(x => x.City.ToString().StartsWith(city) && x.District == district)
+                          .Where(x => (x.City.ToString().StartsWith(city) && x.District == district) && x.IsInUse)
                           .Take(10).Select(x => x.City)
                           .ToList()
                           .Distinct();

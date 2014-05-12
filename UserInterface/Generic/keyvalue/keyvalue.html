@@ -4,20 +4,19 @@
 
 
             <div class="panel panel-info">
-                <div class="row">
-                    <div class="panel-heading"><strong>Set Key Value</strong></div>
+                <div class="panel-heading"><strong>Set Key Value</strong></div>
+                <div class="panel-body">
                     <span class="col-md-5">
                         <cs-field data-ng-model="gKeyValue.Area" field="gKeyValuefield.Area"
-                            data-ng-change="datalayer.GetKeyValues(gKeyValue.Area)"></cs-field>
+                            data-ng-change="getKeyValues(gKeyValue.Area)"></cs-field>
                     </span>
                     <span class="col-md-5">
                         <cs-field data-ng-model="gKeyValue.Key" value-list="dldata.Keys"
                             class="input-large"
-                            data-ng-change="changeKey(gKeyValue.Key)" field="gKeyValuefield.Key"></cs-field>
+                            data-ng-change="changeKey(gKeyValue.Key,dldata)" field="gKeyValuefield.Key"></cs-field>
                         <i class="btn glyphicon glyphicon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
                     </span>
                 </div>
-
             </div>
         </div>
         <!--style="padding-left: 200px"-->
@@ -108,7 +107,7 @@
     </form>
 </div>
 
-<div data-ng-hide="true" modal="shouldBeOpen" close="closeModel()" options="modelOption">
+<!--<div data-ng-hide="true" modal="shouldBeOpen" close="closeModel()" options="modelOption">
     <div class="modal-header well">
         <h3>Add New Key Value</h3>
     </div>
@@ -159,7 +158,7 @@
 
 
 
-
+-->
 <!--<div class="form-group col-md-5">
         <label class="control-label">Area</label>
         <div class="controls">

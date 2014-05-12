@@ -31,7 +31,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
                              '</label>' +
-                             '<div class="col-md-6">'+
+                             '<div class="col-md-6">' +
                                 '<input type="text" class="form-control" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
                              '</div>' +
                         '</div>' +
@@ -530,14 +530,16 @@ csapp.directive('cspagination', function () {
             };
         },
 
-        template: '<div>' +
-            '<div class="text-right">' +
+        template:
+            '<div class="pull-right col-md-3">' +
             '<div><b>Records: {{(pagesize*(currpagenum-1))+1}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
-            '<button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="icon-step-backward"></i></button>' +
-            '<button class="btn btn-default" data-ng-click="stepbackward()"><i class="icon-caret-left icon-large"></i></button>' +
-            '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="input-mini text-center">' +
-            '<button class="btn btn-default" data-ng-click="stepforward()"><i class="icon-caret-right icon-large"></i></button>' +
-            '<button class="btn btn-default" data-ng-click="gotolastpage()"><i class="icon-step-forward"></i></button>' +
+            '<div class="input-group">' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="fa fa-angle-double-left"></i></button></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepbackward()"><i class="fa fa-chevron-left"></i></button></span>' +
+            '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="form-control text-center"></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepforward()"><i class="fa fa-chevron-right"></i></button></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotolastpage()"><i class="fa fa-angle-double-right"></i></button></span>' +
+            '</div>' +
             '</div>' +
             '</div>'
     };

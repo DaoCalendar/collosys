@@ -4,16 +4,16 @@
             <h3>Pincode</h3>
         </div>
         <!-- <div class="container ng-cloak">-->
-        <div class="row form-horizontal" data-ng-show="(dldata.States.length>0)">
+        <div class="form-horizontal" data-ng-show="(dldata.States.length>0)">
             <div class="col-md-5">
-                <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="changeState(selectedState)"
+                <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
                           value-list="dldata.States"></cs-field>
             </div>
             <div class="form-group col-md-5">
                 <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
             </div>
             <!-- </div>-->
-            <div class="row form-horizontal" data-ng-show="(dldata.GPincodes.length>0)">
+            <div class="form-horizontal" data-ng-show="(dldata.GPincodes.length>0)">
                 <div class="col-md-9">
                     <label class="control-label">Total Pincode : {{dldata.GPincodes.length}}</label>
                 </div>
@@ -47,7 +47,7 @@
                                 <td>
                                     <select data-ng-model="search.CityCategory" class="input-medium" data-ui-select2="{allowClear:true}">
                                         <option value=""></option>
-                                        <option data-ng-repeat="category in dldata.CityCategoryList">{{category}}</option>
+                                        <option data-ng-repeat="category in dldata.CityCategory">{{category}}</option>
                                     </select>
                                 </td>
                                 <td>
