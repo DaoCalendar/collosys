@@ -15,30 +15,30 @@
                             <!--opertor box-->
                             <div class="col-md-6">
                                 <input type="text"
-                                    class="form-control"
-                                    data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
-                                    value="{{matrixValue.ColumnOperator=factory.opertorValue($index,dldata.matrix.Column2DCount,dldata.matrix.ColumnsOperator)}}"
-                                    data-ng-disabled="true"
-                                    data-ng-if="matrixValue && n===0 && m!==0"
-                                    data-ng-model="matrixValue.ColumnOperator" />
+                                       class="form-control"
+                                       data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                                       value="{{matrixValue.ColumnOperator=factory.opertorValue($index,dldata.matrix.Column2DCount,dldata.matrix.ColumnsOperator)}}"
+                                       data-ng-disabled="true"
+                                       data-ng-if="matrixValue && n===0 && m!==0"
+                                       data-ng-model="matrixValue.ColumnOperator" />
                             </div>
                             <div class="col-md-6">
                                 <input type="text"
-                                    class="form-control"
-                                    data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
-                                    value="{{matrixValue.RowOperator=factory.opertorValue($parent.$index,dldata.matrix.Row1DCount,dldata.matrix.RowsOperator)}}"
-                                    data-ng-disabled="true"
-                                    data-ng-if="matrixValue && m===0 && n!==0"
-                                    data-ng-model="matrixValue.RowOperator" />
+                                       class="form-control"
+                                       data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
+                                       value="{{matrixValue.RowOperator=factory.opertorValue($parent.$index,dldata.matrix.Row1DCount,dldata.matrix.RowsOperator)}}"
+                                       data-ng-disabled="true"
+                                       data-ng-if="matrixValue && m===0 && n!==0"
+                                       data-ng-model="matrixValue.RowOperator" />
                             </div>
-                            <div class="col-md-6">
-                                <input data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)"
-                                    type="text"
-                                    data-ng-pattern="{{factory.getInputPattern(n,m)}}"
-                                    data-ng-if="!(m===0 && n===0)"
-                                    data-ng-disabled="factory.isDisabled(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue)"
-                                    data-ng-change="factory.setNextValue(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue.Value)"
-                                    class="form-control text-center" data-ng-model="matrixValue.Value" />
+                            <div class="col-md-6" data-ng-init="matrixValue=factory.getMatrixValue($parent.$index,$index)">
+                                <input type="text"
+                                       data-ng-pattern="{{factory.getInputPattern(n,m)}}"
+                                       data-ng-if="!(m===0 && n===0)"
+                                       value="{{matrixValue.Value}}"
+                                       data-ng-disabled="factory.isDisabled(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue)"
+                                       data-ng-change="factory.setNextValue(n,m,dldata.matrix.Row1DCount,dldata.matrix.Column2DCount,matrixValue.Value)"
+                                       class="form-control text-center" data-ng-model="matrixValue.Value" />
                             </div>
                         </div>
                     </td>
