@@ -14,6 +14,28 @@ csapp.directive('csInclude', ["$document", function ($document) {
     };
 }]);
 
+//csapp.directive('tagList', function () {
+//    return {
+//        require: 'ngModel',
+//        restrict: 'A',
+//        link: function (scope, element, attrs, controller) {
+//            scope.$watch(attrs.ngModel, function (value) {
+//                //console.log('value: ', value);
+//                if (value !== undefined && value !== null) {
+//                    console.log('value: ', value);
+//                    element.select2('val', value);
+//                }
+//            });
+
+//            element.bind('change', function () {
+//                var value = element.select2('val');
+//                controller.$setViewValue(value);
+//            });
+
+//        }
+//    };
+//});
+
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");

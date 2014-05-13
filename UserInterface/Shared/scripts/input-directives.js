@@ -1,14 +1,18 @@
 ﻿csapp.factory("csBootstrapInputTemplate", function () {
 
     var bsTemplateBefore = function (field, noBootstrap, attr) {
-        var noBootstrapDiv = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '') +
-                              (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '') +
-                              (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '') +
-                            ' class="row"  style="margin-bottom: 5px">';
 
-        var html = noBootstrapDiv + '<label class="col-md-4 control-label">{{' + attr.field + '.label}}' +
-            '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
-        return (noBootstrap ? noBootstrapDiv : html);
+        var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+        noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
+        noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
+        noBootstrapDiv += '>';
+
+        var html = noBootstrapDiv;
+        html += '<label class="col-md-';
+        html += angular.isDefined(field.labelSize) ? field.labelSize : 4;
+        html += ' control-label">{{' + attr.field + '.label}}' +
+        '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
+        return (noBootstrap || field.labelSize === 0 ? noBootstrapDiv : html);
     };
 
     var bsTemplateAfter = function () {
@@ -23,8 +27,10 @@
 
 csapp.factory("csValidationInputTemplate", function () {
 
-    var before = function () {
-        var html = '<div ng-form="myform" role="form" class="col-md-8">';
+    var before = function (field) {
+        var html = '<div ng-form="myform" role="form" class="col-md-';
+        html += angular.isDefined(field.controlSize) ? field.controlSize : 8;
+        html += '">';
         return html;
     };
 
@@ -110,7 +116,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -214,7 +220,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             configureTypeahead(field, attrs);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 prefix(field),
                 input(field, attrs),
                 suffix(field),
@@ -363,7 +369,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         configureTypeahead(field, attrs);
         var template = [
             bstemplate.before(field, noBootstrap, attrs),
-            valtemplate.before(),
+            valtemplate.before(field),
             prefix(field),
             input(field, attrs),
             suffix(field),
@@ -469,7 +475,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -521,7 +527,7 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -600,7 +606,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 prefix(field),
                 input(field, attrs),
                 suffix(field),
@@ -657,7 +663,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -700,7 +706,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" ui-select2=""';
+            var html = '<select  name="myfield"  ui-select2="field.select2Options"';
             //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
@@ -745,13 +751,18 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 var valueList = attr.valueList ? attr.valueList : 'field.valueList';
                 field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             }
+
+            field.select2Options = {
+                //more options here
+                setPristine: true,
+            };
         };
 
         var htmlTemplate = function (field, attrs) {
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -801,7 +812,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(),
+                valtemplate.before(field),
                 input(field, attrs),
                 valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
@@ -842,7 +853,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var noBootstrap = angular.isDefined(attrs.noLabel);
         var template = [
             bstemplate.before(field, noBootstrap, attrs),
-            valtemplate.before(),
+            valtemplate.before(field),
             input(field, attrs),
             valtemplate.after(attrs.field, field),
             bstemplate.after(noBootstrap)
@@ -1013,6 +1024,14 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
+        var setSpan = function (field, ctrl) {
+            field.labelSize = angular.isDefined(ctrl[3]) ? parseInt(ctrl[3].labelSize) : undefined;
+            field.controlSize = angular.isDefined(ctrl[3]) ? parseInt(ctrl[3].controlSize) : undefined;
+            var lSize = angular.isDefined(field.labelSize) ? field.labelSize : 0;
+            var cSize = angular.isDefined(field.controlSize) ? field.controlSize : 0;
+            field.span = lSize + cSize;
+        };
+
         var linkFunction = function (scope, element, attrs, ctrl) {
 
             var fieldGetter = $parse(attrs.field);
@@ -1020,6 +1039,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             scope.field = field;
 
             scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
+            setSpan(field, ctrl);
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field, attrs);
@@ -1035,8 +1055,30 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?^csFieldGroup'],
+            require: ['ngModel', '^form', '?^csFieldGroup', '?^csForm'],
             terminal: true,
             controller: controllerFn
         };
     }]);
+
+
+csapp.directive('csForm', ["$compile", function ($compile) {
+
+
+    var cntrlFn = function ($scope) {
+
+        //$scope.layout = $scope.layout.split(".");
+
+        this.rowWidth = parseInt($scope.layout[0]);
+        this.labelSize = parseInt($scope.layout[1]);
+        this.controlSize = parseInt($scope.layout[2]);
+    };
+
+    return {
+        restrict: 'E',
+        scope: {
+            layout: '=',
+        },
+        controller: cntrlFn
+    };
+}]);
