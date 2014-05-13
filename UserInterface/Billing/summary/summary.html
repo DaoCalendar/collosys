@@ -97,8 +97,8 @@
                 </div>
             </div>
 
-            <div class="row">
-                <span data-ng-show="(dldata.billDetails.length > 0)">
+            <div class="row text-center">
+                <span data-ng-show="(dldata.BillAmount.Month)">
                     <button class="btn btn-success"
                             data-ng-show="!factory.enableLink()"
                             data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
@@ -114,8 +114,7 @@
                         data-ng-disabled="dldata.billingData.PayStatus =='Paid'">
                     Paid
                 </button>
-
-                <span data-ng-show="(dldata.billDetails.length > 0)">
+                <span data-ng-show="(dldata.BillAmount.Month)">
                     <button class="btn btn-success"
                             data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
                         Download Excel
