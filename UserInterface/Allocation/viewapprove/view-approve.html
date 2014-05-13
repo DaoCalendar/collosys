@@ -1,6 +1,6 @@
 ﻿<div>
-    <div class="row-fluid form-horizontal">
-        <div class="row-fluid">
+    <div class="form-horizontal">
+        <div class="row">
             <form name="formviewalloc">
                 <div class="col-md-5">
                     <cs-field data-ng-model="allocData.selectedProduct" field="ViewApprovePolicy.Product" ng-required="true" value-list="ProductList | orderBy: 'toString()'"></cs-field>
@@ -11,9 +11,9 @@
             </form>
         </div>
 
-        <div class="row-fluid">
+        <div class="row">
             <form name="formDateFilter">
-                <div class="row-fluid">
+                <div class="row">
                     <div class=" col-md-5">
                         <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                     </div>
@@ -28,11 +28,11 @@
             </form>
         </div>
     </div>
-    <div class="row-fluid" data-ui-if="gridOptions.showGrid == true">
+    <div class="row" data-ui-if="gridOptions.showGrid == true">
         <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
     </div>
-    <div class="row-fluid" data-ng-show="gridOptions.showGrid == true">
+    <div class="row" data-ng-show="gridOptions.showGrid == true">
         <button class="btn btn-info" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()">Change Allocation</button>
         <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
         <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
