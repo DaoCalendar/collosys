@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Products" data-ng-change="datalayer.changeProductCategory()"
                           data-ng-disabled="dldata.isMatrixCreated"
                           field="Matrix.Product" ng-required="!dldata.isMatrixCreated"></cs-field>
@@ -20,7 +20,7 @@
             </div>-->
         </div>
         <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Name" data-ng-required="!dldata.isMatrixCreated"
                           data-ng-change="factory.checkDupName(dldata.matrix.Name)" field="Matrix.Name"
                           data-ng-disabled="dldata.isMatrixCreated"></cs-field>
