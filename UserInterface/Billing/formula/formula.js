@@ -35,13 +35,29 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 dldata.formula.BOutputs2 = _.filter(data, { ConditionType: 'OutputElse' });
 
                 if (dldata.formula.BOutputs.length > 0) {
-                    dldata.formula.BOutputs[0].Lsqlfunction = '';
-                    dldata.formula.BOutputs[0].Operator = '';
+                    _.forEach(dldata.formula.BOutputs, function(bOut) {
+                        if (bOut.Lsqlfunction === 'None') {
+                            bOut.Lsqlfunction = '';
+                        }
+                        if (bOut.Operator === 'None') {
+                            bOut.Operator = '';
+                        }
+                    });
+                    //dldata.formula.BOutputs[0].Lsqlfunction = '';
+                    //dldata.formula.BOutputs[0].Operator = '';
                 }
 
                 if (dldata.formula.BOutputs2.length > 0) {
-                    dldata.formula.BOutputs2[0].Lsqlfunction = '';
-                    dldata.formula.BOutputs2[0].Operator = '';
+                    _.forEach(dldata.formula.BOutputs2, function (bOut) {
+                        if (bOut.Lsqlfunction === 'None') {
+                            bOut.Lsqlfunction = '';
+                        }
+                        if (bOut.Operator === 'None') {
+                            bOut.Operator = '';
+                        }
+                    });
+                    //dldata.formula.BOutputs2[0].Lsqlfunction = '';
+                    //dldata.formula.BOutputs2[0].Operator = '';
                 }
                 _.forEach(dldata.formula.BOutputs, function (output) {
                     checkString(output);
