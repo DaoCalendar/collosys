@@ -128,40 +128,50 @@
                             <div class="row" style="margin-bottom: 5px">
                                 <!--Output-->
                                 <div class="col-md-6">
-                                    <!-- <cs-field data-ng-model="disSubPolicy.Output" data-ng-disabled="true"
-                                        field="BillingPolicy.Output"></cs-field>-->
-                                    <label class="col-md-4 control-label">Output</label>
-                                    <div class="col-md-8">
-                                        <textarea class="resize form-control"
-                                            data-ng-model="disSubPolicy.Output"
-                                            cols="25" data-ng-disabled="true"></textarea>
+                                    <div class="row">
+                                        <!-- <cs-field data-ng-model="disSubPolicy.Output" data-ng-disabled="true"
+                                                   field="BillingPolicy.Output"></cs-field>-->
+                                        <label class="col-md-4 control-label">Output</label>
+                                        <div class="col-md-8">
+                                            <textarea class="noResize form-control"
+                                                style="height: 150px"
+                                                data-ng-model="disSubPolicy.Output"
+                                                cols="25" data-ng-disabled="true"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Condition-->
                                 <div class="col-md-6">
-                                    <!--   <cs-field data-ng-model="disSubPolicy.Condition" data-ng-disabled="true"
-                                        field="BillingPolicy.Condition"></cs-field>-->
-                                    <label class="col-md-4 control-label">Condition</label>
-                                    <div class="col-md-8">
-                                        <textarea class="resize form-control"
-                                            data-ng-model="disSubPolicy.Condition"
-                                            cols="25" data-ng-disabled="true"></textarea>
+                                    <div class="row">
+                                        <!--   <cs-field data-ng-model="disSubPolicy.Condition" data-ng-disabled="true"
+                                                     field="BillingPolicy.Condition"></cs-field>-->
+                                        <label class="col-md-4 control-label">Condition</label>
+                                        <div class="col-md-8">
+                                            <textarea class="noResize form-control"
+                                                style="height: 150px"
+                                                data-ng-model="disSubPolicy.Condition"
+                                                cols="25" data-ng-disabled="true"></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <!--StartDate & EndDate-->
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    <label class="col-md-4 control-label">Start Date</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" readonly
-                                            value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
+                                    <div class="row">
+                                        <label class="col-md-4 control-label">Start Date</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" readonly
+                                                value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="col-md-4 control-label">End Date</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
+                                    <div class="row">
+                                        <label class="col-md-4 control-label">End Date</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
