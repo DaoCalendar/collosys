@@ -173,21 +173,21 @@
         return [
             {
                 'type': 'Operator',
-                'text': 'Opr:Avg',
+                'text': 'Avg Of',
                 'value': 'AVG',
                 'datatype': 'sql',
                 'valuelist': []
             },
             {
                 'type': 'Operator',
-                'text': 'Opr:Count',
+                'text': 'Count Of',
                 'value': 'COUNT',
                 'datatype': 'sql',
                 'valuelist': []
             },
             {
                 'type': 'Operator',
-                'text': 'Opr:Sum',
+                'text': 'Sum Of',
                 'value': 'SUM',
                 'datatype': 'sql',
                 'valuelist': []
@@ -241,14 +241,10 @@
 });
 
 csapp.directive("csCondition", function () {
-    var linkFunction = function (scope, element, attrs, conditionCtrl) {
-    };
-
     return {
         restrict: 'E',
         controller: 'conditionCtrl',
         templateUrl: baseUrl + 'Shared/templates/condition-directive.html',
-        link: linkFunction,
         scope: {
             type: '@',
             tableName: '@',
@@ -280,12 +276,22 @@ csapp.directive("csCondition", function () {
         //get all operators list from factory, add tokens list
         var getOperatorList = function () {
             $scope.tokens.tokensList = _.union($scope.tokens.tokensList,
-                operatorFactory.Operators.numberOperators(),
+            operatorFactory.Operators.numberOperators(),
             operatorFactory.Operators.relationals(),
             operatorFactory.Operators.stringOperators(),
             operatorFactory.Operators.sqlOperators(),
             operatorFactory.Operators.dateOperators(),
             operatorFactory.Operators.conditionals());
+
+            if ($scope.type === 'Output') {
+                $scope.tokens.tokensList = _.remove($scope.tokens.tokensList, function (operator) {
+                    return (operator.datatype === 'number'
+                        || operator.datatype === 'sql');
+                    //return (operator.datatype !== 'conditional' &&
+                    //operator.datatype !== 'relational' &&
+                    //operator.datatype !== 'text');
+                });
+            }
         };
 
         //add tables columns to token list
@@ -316,8 +322,12 @@ csapp.directive("csCondition", function () {
             $scope.tokens.tokensList = _.union($scope.tokens.tokensList, $scope.collections.formulaListC);
         };
 
+        var resetTokenlist = function () {
+            $scope.tokens.tokensList = [];
+        };
         //call to list initialisers
         var initialiseList = function () {
+            resetTokenlist();
             createTableList();
             getOperatorList();
             createFormulaList();
@@ -339,30 +349,52 @@ csapp.directive("csCondition", function () {
                         'type': 'Operator'
                     });
                     break;
+                case 'number':
+                    $scope.tokens.tokensList = _.filter($scope.tokens.tokensList,
+                        {
+                            'datatype': 'conditional' && 'number',
+                            'type': 'Operator' && 'Formula' && 'Table'
+                        });
                 default:
                     initialiseList();
             }
         };
 
+        var managelistOutput = function () {
+            if ($scope.type !== 'Output') {
+                return;
+            }
+
+        };
+        //set token for last and second last
+        var setToken = function(token) {
+            $scope.tokens.secondLastToken = angular.isUndefined($scope.tokens.secondLastToken) ?
+               angular.copy(token) : angular.isUndefined($scope.tokens.lastToken) ?
+                    angular.copy(token) : angular.copy($scope.tokens.lastToken);
+            $scope.tokens.lastToken = token;
+        };
         //add token selected on page to token list
         $scope.addToken = function (item, model, label) {
             $scope.tokens.selected.push(item);
-            $scope.tokens.lastToken = item;
-            managelist();
+            setToken(item);
+            //managelist();
             cleatFilterString();
         };
 
         //adds value to token list
         $scope.addValue = function (value) {
-            $scope.tokens.selected.push({
+            var seleVal = {
                 'type': 'value',
                 'text': value,
                 'value': value,
                 'datatype': 'string',
                 'valuelist': []
-            });
+            };
+            $scope.tokens.selected.push(seleVal);
+            setToken(seleVal);
             cleatFilterString();
         };
+
 
         //initialise variables
         var initLocals = function () {
@@ -376,6 +408,12 @@ csapp.directive("csCondition", function () {
                 formulaListC: [],
                 tableColumns: []
             };
+        };
+
+        $scope.reset = function () {
+            cleatFilterString();
+            initLocals();
+            initialiseList();
         };
 
         //initialise all list when product is selected in page

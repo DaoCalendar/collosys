@@ -14,6 +14,44 @@
             <input type="submit" value="Add Value"
                    data-ng-click="addValue(filter.filterString)"
                    class="btn btn-default">
+            <input type="button"
+                   class="btn btn-default"
+                   value="Reset"
+                   data-ng-click="reset()" />
         </div>
     </div>
+</div>
+<div class="row">
+    <table class="table table-bordered">
+        <tr>
+            <td class="col-md-3">Type:</td>
+            <td class="col-md-9">{{type}}</td>
+        </tr>
+        <tr>
+            <td>Last Selected Token</td>
+            <td>{{tokens.lastToken.text}}</td>
+        </tr>
+        <tr>
+            <td>Second Last Selected Token:</td>
+            <td>{{tokens.secondLastToken.text}}</td>
+        </tr>
+        <tr>
+            <td>
+                Added Tokens List
+            </td>
+            <td>
+                <table class="table table-bordered">
+                    <tr data-ng-repeat="d in tokens.selected">
+                        <td>
+                            {{d.text}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>Totoal Tokens Available</td>
+            <td>{{tokens.tokensList.length}}</td>
+        </tr>
+    </table>
 </div>

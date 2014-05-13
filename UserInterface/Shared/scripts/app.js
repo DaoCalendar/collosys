@@ -128,6 +128,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/formula', {
                 templateUrl: baseUrl + 'Billing/formula/formula.html',
                 controller: 'formulaController'
+            }).when('/billing/formula2', {
+                templateUrl: baseUrl + 'Billing/formula2/formula.html',
+                controller: 'formulaController'
             }).when('/billing/matrix', {
                 templateUrl: baseUrl + 'Billing/matrix/matrix.html',
                 controller: 'matrixCtrl'

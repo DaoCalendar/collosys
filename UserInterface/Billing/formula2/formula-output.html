@@ -1,0 +1,168 @@
+﻿<div data-ng-hide="dldata.formula.OutputType==='Boolean'" class="row"
+     id="subpolicy-groupby">
+
+    <div class="panel-body">
+        <div style="overflow: auto">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr data-ng-hide="dldata.formula.Id">
+                        <td>Operater</td>
+                        <td>Value Type</td>
+                        <td>Value</td>
+                        <td></td>
+                    </tr>
+                    <tr data-ng-form="newOutputForm" data-ng-hide="dldata.formula.Id">
+                        <td>
+                            <cs-field data-ng-model="dldata.newOutput.Operator"
+                                      field="formula.OperatorType"
+                                      data-ng-hide="dldata.formula.BOutputs<1"
+                                      no-label=""
+                                      class="input-medium"></cs-field>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.newOutput.Rtype"
+                                      field="formula.ValueType"
+                                      no-label=""
+                                      class="input-medium"></cs-field>
+                        </td>
+                        <td>
+                            <div data-ng-switch on="dldata.newOutput.Rtype">
+                                <div data-ng-switch-when="Table">
+                                    <cs-field data-ng-model="dldata.newOutput.Lsqlfunction"
+                                              field="formula.LsqlFunctionType" no-label=""></cs-field>
+
+                                    <select class="input-large"
+                                            data-ng-model="dldata.newOutput.RtypeName" required>
+                                        <option value=""></option>
+                                        <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                    </select>
+                                </div>
+                                <div data-ng-switch-when="Value">
+                                    <input class="input-medium" type="number" data-ng-model="dldata.newOutput.Rvalue" required />
+
+                                </div>
+                                <div data-ng-switch-when="Formula">
+                                    <select class="input-medium" data-ng-model="dldata.newOutput.Formula"
+                                            required>
+                                        <option></option>
+                                        <option data-ng-repeat="d in listofFormula" value="{{d.Id}}">{{d.Name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
+                                    data-ng-click="factory.addNewOutput(dldata.newOutput,newOutputForm)"></button>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
+                        <td>
+                            <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Operator}}" data-ng-show="boutput.Operator" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
+                        </td>
+                        <td>
+                            <input type="text" class="input-medium" readonly="readonly" value="{{value=change(boutput.RtypeName + boutput.Rvalue)}}" data-ng-hide="boutput.Rtype==='Formula'" />
+
+                            <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="boutput.Rtype==='Formula'" />
+                        </td>
+                        <td>
+                            <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!--<div data-ng-hide="dldata.formula.OutputType==='Boolean'" class="row"
+     id="subpolicy-groupby">
+    <div class="panel panel-info">
+        <div class="panel-heading" data-ng-show="dldata.formula.OutputType==='IfElse'">
+            If Output
+        </div>
+        <div class="panel-heading" data-ng-hide="dldata.formula.OutputType==='IfElse'">
+            OutPut
+        </div>
+        <div class="panel-body">
+            <div style="overflow: auto">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Operater</td>
+                            <td>Value Type</td>
+                            <td>Value</td>
+                            <td></td>
+                        </tr>
+                        <tr data-ng-form="newOutputForm">
+                            <td>
+                                <cs-field data-ng-model="dldata.newOutput.Operator"
+                                          field="formula.OperatorType"
+                                          data-ng-hide="dldata.formula.BOutputs<1"
+                                          no-label=""
+                                          class="input-medium"></cs-field>
+                            </td>
+                            <td>
+                                <cs-field data-ng-model="dldata.newOutput.Rtype"
+                                          field="formula.ValueType"
+                                          no-label=""
+                                          class="input-medium"></cs-field>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="dldata.newOutput.Rtype">
+                                    <div data-ng-switch-when="Table">
+                                        <cs-field data-ng-model="dldata.newOutput.Lsqlfunction" field="formula.LsqlFunctionType" no-label=""></cs-field>
+
+                                        <select class="input-large"
+                                                data-ng-model="dldata.newOutput.RtypeName" required>
+                                            <option value=""></option>
+                                            <option data-ng-repeat="c in dldata.outColumnNames" value="{{c.field}}">{{c.displayName}}</option>
+                                        </select>
+                                    </div>
+                                    <div data-ng-switch-when="Value">
+                                        <input class="input-medium" type="number" data-ng-model="dldata.newOutput.Rvalue" required />
+
+                                    </div>
+                                    <div data-ng-switch-when="Formula">
+                                        <select class="input-medium" data-ng-model="dldata.newOutput.Formula"
+                                                required>
+                                            <option></option>
+                                            <option data-ng-repeat="d in listofFormula" value="{{d.Id}}">{{d.Name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.formula.BOutputs.length < 1 || dldata.newOutput.Operator !==''))"
+                                        data-ng-click="factory.addNewOutput(dldata.newOutput,newOutputForm)"></button>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
+                            <td>
+                                <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Operator}}" data-ng-show="boutput.Operator" />
+                            </td>
+                            <td>
+                                <input type="text" class="input-mini" readonly="readonly" value="{{boutput.Rtype}}" />
+                            </td>
+                            <td>
+                                <input type="text" class="input-medium" readonly="readonly" value="{{value=change(boutput.RtypeName + boutput.Rvalue)}}" data-ng-hide="boutput.Rtype==='Formula'" />
+
+                                <input type="text" class="input-medium" readonly="readonly" value="{{getFormulaName(boutput.Formula)}}" data-ng-show="boutput.Rtype==='Formula'" />
+                            </td>
+                            <td>
+                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(boutput,$index)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>-->
