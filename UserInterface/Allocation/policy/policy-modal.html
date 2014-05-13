@@ -3,32 +3,22 @@
         <div class="modal-header well" style="text-align: center">
             <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
         </div>
-        <div class="modal-body" style="text-align: center">
-            <div class="row-fluid">
-                <div class="row-fluid col-md-6">
+        <div class="modal-body" style="margin-bottom: 7px">
+            <div class="row">
+                <div class="col-md-8">
                     <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
-                              data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
+                        data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
                 </div>
-                <div class="row-fluid col-lg-6">
+                <div class="col-md-8">
                     <cs-field field="allocmodalData.enddate" data-ng-model="modalData.endDate"
-                               data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
+                        data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
+                    <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
+                    <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
                 </div>
             </div>
-           
-        </div>
-        <div class="row-fluid text-right">
-            <button class="btn btn-danger"
-                    data-ng-disabled="!isModalDateValid"
-                    data-ng-show="!modalData.forActivate"
-                    data-ng-click="deactivateSubPoicy(modalData)">
-                Deactivate
-            </button>
-            <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)"
-                    data-ng-show="modalData.forActivate"
-                    data-ng-click="activateSubPoicy(modalData)">
-                Activate
-            </button>
-            <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
         </div>
     </div>
 </div>
