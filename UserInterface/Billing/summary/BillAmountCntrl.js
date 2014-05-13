@@ -129,7 +129,7 @@ csapp.factory('billAmountDataLayer', ['Restangular', '$csnotify',
                       then(function (data) {
                           dldata.billDetails = data;
 
-                          if (dldata.billDetails.length === 0) {
+                          if (dldata.billDetails === null) {
                               $csnotify.success("Matching Data is not Available");
                           } else {
                               $csnotify.success("Matching Data is Available");
