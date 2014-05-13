@@ -1,13 +1,15 @@
 ﻿
-csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory', "$csGrid",
-    function ($scope, datalayer, factory, $modal, $csfactory, $grid) {
+csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory', "$csGrid", "$csAllocationModels", "$csShared",
+    function ($scope, datalayer, factory, $modal, $csfactory, $grid, $csAllocationModels, $csShared) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $csfactory.enableSpinner();
-            $scope.datalayer.getProducts();
+            // $scope.datalayer.getProducts();
+            $scope.ViewApprovePolicy = $csAllocationModels.models.ViewApprovePolicy;
+            $scope.ProductList = $csShared.enums.Products;
             $scope.allocData = {};
             $scope.allocData.fromDate = moment().startOf('month').add('minute', 330).format('YYYY-MM-DD');
             $scope.allocData.toDate = moment().endOf('month').format('YYYY-MM-DD');
@@ -81,11 +83,11 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             $csnotify.error(response.data);
         };
 
-        var getProducts = function () {
-            restApi.customGETLIST("GetScbSystems").then(function (data) {
-                dldata.ProductList = data;
-            }, showErrorMessage);
-        };
+        //var getProducts = function () {
+        //    restApi.customGETLIST("GetScbSystems").then(function (data) {
+        //        dldata.ProductList = data;
+        //    }, showErrorMessage);
+        //};
 
 
         var fetchData = function (allocData) {
@@ -230,7 +232,7 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         return {
             dldata: dldata,
-            getProducts: getProducts,
+            //getProducts: getProducts,
             fetchData: fetchData,
             getstakeholders: getstakeholders,
             approveAllocations: approveAllocations,
