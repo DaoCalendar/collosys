@@ -188,6 +188,13 @@ csapp.factory("menuFactory", [function () {
                 //(permissions.Billing.childrens.DefineFormula.childrens.Create.access),
                 //(permissions.Billing.childrens.DefineFormula.childrens.Update.access)])
             },
+                {
+                    Title: "Formula2",
+                    url: "#/billing/formula2",
+                    //display: getperm([(permissions.Billing.childrens.DefineFormula.childrens.View.access),
+                    //(permissions.Billing.childrens.DefineFormula.childrens.Create.access),
+                    //(permissions.Billing.childrens.DefineFormula.childrens.Update.access)])
+                },
             {
                 Title: "Matrix",
                 url: "#/billing/matrix",
