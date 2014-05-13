@@ -157,6 +157,12 @@ namespace ColloSys.DataLayer.Billing
         public virtual ulong DeductPf { get; set; }
         public virtual ulong FinalPayout { get; set; }
 
+        public virtual string SubProduct { get; set; }
+
+        public virtual ulong TotalPf { get; set; }
+
+        public virtual string CustomerType { get; set; }
+
         #region input file columns
 
         public virtual string BranchName { get; set; }

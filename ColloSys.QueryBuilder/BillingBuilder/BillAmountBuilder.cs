@@ -24,11 +24,12 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         [Transaction]
         public BillAmount OnStakeProductMonth(ScbEnums.Products products, Guid stakeId, int month)
         {
-            return SessionManager.GetCurrentSession().QueryOver<BillAmount>()
+           var data= SessionManager.GetCurrentSession().QueryOver<BillAmount>()
                                  .Where(x => x.Stakeholder.Id == stakeId)
                                  .And(x => x.Products == products)
                                  .And(x => x.Month == month)
                                  .SingleOrDefault();
+            return data;
         }
 
         [Transaction]

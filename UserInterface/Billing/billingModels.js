@@ -56,7 +56,7 @@
             HoldRepayment: { label: 'HoldRepayment', type: 'number', template: 'decimal', editable: false },
             Stakeholder: { label: "Stakeholder", type: "select", valueField: "Id", textField: "Name" },
             // TotalAmount: { label: 'Total Amount', type: 'number', template: 'decimal', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
-            TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
+            TotalAmount: { label: 'Total Amount', type: 'number', template:'decimal', required: true },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             IsPretax: { label: ' IsPretax', type: 'select' },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },

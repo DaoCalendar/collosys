@@ -78,7 +78,8 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         
         public BillAmount GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
         {
-            return BillAmountBuilder.OnStakeProductMonth(products, stakeId, month);
+            var data= BillAmountBuilder.OnStakeProductMonth(products, stakeId, month);
+            return data;
         }
 
         [HttpPost]

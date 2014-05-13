@@ -127,6 +127,9 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.DeductCap, map => map.NotNullable(false));
             Property(x => x.DeductPf, map => map.NotNullable(false));
             Property(x => x.FinalPayout, map => map.NotNullable(false));
+            Property(x=>x.SubProduct,map=>map.NotNullable(false));
+            Property(x => x.TotalPf);
+            Property(x => x.CustomerType,map=>map.NotNullable(false));
             Property(x => x.BranchName, map => map.NotNullable(false));
             Property(x => x.Branchcat, map => map.NotNullable(false));
             Property(x => x.ApplNo, map => map.NotNullable(false));
