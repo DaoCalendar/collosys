@@ -10,7 +10,7 @@
                     <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
                               value-list="dldata.States"></cs-field>
                 </div>
-                <div class="form-group col-md-5">
+                <div class="col-md-5">
                     <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
                 </div>
             </div>
@@ -19,10 +19,10 @@
     <!-- </div>-->
     <div class="form-horizontal" data-ng-show="(dldata.GPincodes.length>0)">
         <div class="col-md-9">
-            <label class="col-md-2 control-label">Total Pincode : {{dldata.GPincodes.length}}</label>
+            <label class="col-md-3 control-label">Total Pincode : {{dldata.GPincodes.length}}</label>
         </div>
         <div class="col-md-9">
-            <label class="col-md-2 control-label ">Filter Pincode : {{(dldata.GPincodes | filter:search | orderBy: 'Pincode').length}}</label>
+            <label class="col-md-3 control-label ">Filter Pincode : {{(dldata.GPincodes | filter:search | orderBy: 'Pincode').length}}</label>
         </div>
         <div class="row" style="overflow: auto; height: 600px">
             <table class="table table-bordered table-hover">
@@ -40,13 +40,13 @@
                     <tr>
                         <td></td>
                         <td>
-                            <input class="input-small" type="text" data-ng-model="search.Pincode" required />
+                            <input class="form-control" type="text" data-ng-model="search.Pincode" required />
                         </td>
                         <td>
-                            <input class="input-medium" type="text" data-ng-model="search.Area" required />
+                            <input class="form-control" type="text" data-ng-model="search.Area" required />
                         </td>
                         <td>
-                            <input class="input-small" type="text" data-ng-model="search.City" required />
+                            <input class="form-control" type="text" data-ng-model="search.City" required />
                         </td>
                         <td>
                             <select data-ng-model="search.CityCategory" class="input-medium" data-ui-select2="{allowClear:true}">
@@ -55,7 +55,7 @@
                             </select>
                         </td>
                         <td>
-                            <input class="input-small" type="text" data-ng-model="search.District" required />
+                            <input class="form-control" type="text" data-ng-model="search.District" required />
                         </td>
                         <td>
                             <select data-ng-model="search.Cluster" class="input-medium" data-ui-select2="{allowClear:true}">
@@ -64,7 +64,7 @@
                             </select>
                         </td>
                         <td>
-                            <input class="input-small" type="text" data-ng-model="search.Region" required />
+                            <input class="form-control" type="text" data-ng-model="search.Region" required />
                         </td>
                     </tr>
                 </thead>

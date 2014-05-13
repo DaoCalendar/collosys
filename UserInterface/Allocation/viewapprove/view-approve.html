@@ -2,85 +2,31 @@
     <div class="form-horizontal">
         <div class="row">
             <form name="formviewalloc">
-                <div class="form-group col-md-4">
-                    <label class="control-label">Product</label>
-                    <div class="controls">
-                        <select data-ng-model="allocData.selectedProduct" class="input-large" data-ui-select2="" name="Product" required>
-                            <option value=""></option>
-                            <option data-ng-repeat="s in dldata.ProductList | orderBy: 'toString()'">{{s}}</option>
-                        </select>
-                        <!--Product validation-->
-                        <div data-ng-show="formviewalloc.Product.$dirty">
-                            <div class="field-validation-error" data-ng-show="formviewalloc.Product.$error.required">{{val.Required()}}</div>
-                        </div>
-                    </div>
+                <div class="col-md-5">
+                    <cs-field data-ng-model="allocData.selectedProduct" field="ViewApprovePolicy.Product" ng-required="true" value-list="ProductList | orderBy: 'toString()'"></cs-field>
                 </div>
-                <div class="form-group col-md-4">
-                    <label class="control-label">Allocation Status</label>
-                    <div class="controls">
-                        <select data-ng-model="allocData.selectedAllocation" class="input-xlarge" data-ui-select2="" name="Status" required>
-                            <option value="None">All</option>
-                            <option value="DoNotAllocate">Do not allocate</option>
-                            <option value="AllocateToTelecalling">Handle by telecaller</option>
-                            <option value="AllocateToStakeholder">Allocated to particular stakeholder</option>
-                            <option value="AsPerWorking">Allocated as per policy</option>
-                            <option value="AllocationError">Error in allocation</option>
-                            <option value="Submitted">Approve-changed allocation</option>
-                            <option data-ng-repeat="allocstat in dldata.AllocationStatus">{{allocstat}}</option>
-                        </select>
-                        <!--Product validation-->
-                        <div data-ng-show="formviewalloc.Status.$dirty">
-                            <div class="field-validation-error" data-ng-show="formviewalloc.Status.$error.required">{{val.Required()}}</div>
-                        </div>
-                    </div>
+                <div class="col-md-5">
+                    <cs-field data-ng-model="allocData.selectedAllocation" field="ViewApprovePolicy.AllocStatus" ng-required="true"></cs-field>
                 </div>
             </form>
         </div>
 
-        <div class="row">
-            <form name="formDateFilter">
-                <div class="row">
-                    <div class="form-group col-md-4">
-                        <label class="control-label">From Date- </label>
-                        <div class="controls">
-                            <div class="input-group">
-                                <input class="input-medium" type="text" name="fromDate" data-ng-model="allocData.fromDate" required
-                                    data-bs-datepicker="" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                            <!--formDateFilter validation-->
-                            <div data-ng-show="formDateFilter.fromDate.$dirty">
-                                <div class="field-validation-error" data-ng-show="formDateFilter.fromDate.$error.required">{{val.Required()}}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--To Date -->
-                    <div class="form-group col-md-4">
-                        <label class="control-label">To Date</label>
-                        <div class="controls">
-                            <div class="input-group">
-                                <input type="text" name="toDate" class="input-medium" data-ng-model="allocData.toDate" required bs-datepicker ui-validate=" '$value >  allocData.fromDate'" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                            <!--EndDate validation-->
-                            <div data-ng-show="formDateFilter.toDate.$dirty">
-                                <div class="field-validation-error" data-ng-show="formDateFilter.toDate.$error.required">{{val.Required()}}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <button class="btn btn-success" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)">OK</button>
-                    </div>
+        <form name="formDateFilter">
+            <div class="row">
+                <div class=" col-md-5">
+                    <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                 </div>
-            </form>
-        </div>
+                <div class=" col-md-5">
+                    <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-success" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)">OK</button>
+                </div>
+            </div>
+        </form>
     </div>
+
     <div class="row" data-ui-if="gridOptions.showGrid == true">
         <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
