@@ -50,7 +50,14 @@
                     { value: "AsPerWorking", display: "Allocated as per policy" },
                     { value: "AllocationError", display: "Error in allocation" },
                     { value: "Submitted", display: "Approve-changed allocation" }]
-            }
+            },
+            Allocatetype: {
+                label: "Select Parameter", type: "select", valueField: "value", textField: "display",
+                valueList: [{ value: "AllocateToTelecalling", display: "Handle by telecaller" },
+                    { value: "Donotallocate", display: "Do not allocate" },
+                    { value: "AllocateToStakeholder", display: "Allocate to stakeholder" }]
+            },
+            Stakeholder: {label:"Select Stakeholder",type:"select",valueField:"row",textField:"Name",valueList:[]}
 
         };
     };

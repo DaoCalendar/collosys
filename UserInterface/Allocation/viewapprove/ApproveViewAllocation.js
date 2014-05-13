@@ -309,14 +309,15 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
     }]);
 
 //#region "changes successfully Done"
-csapp.controller('changAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory',
-function ($scope, $modalInstance, datalayer, factory) {
+csapp.controller('changAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory', '$csAllocationModels',
+function ($scope, $modalInstance, datalayer, factory, $csAllocationModels) {
 
     (function () {
         $scope.dldata = datalayer.dldata;
         $scope.gridOptions = $scope.dldata.gridOptions;
         $scope.datalayer = datalayer;
         $scope.factory = factory;
+        $scope.ViewApprovePolicy = $csAllocationModels.models.ViewApprovePolicy;
 
     })();
 
