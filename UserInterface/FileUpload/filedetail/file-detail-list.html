@@ -1,148 +1,134 @@
-﻿<div style="width: 100%; height: 550px; overflow: auto;">
-    <table class="table table-bordered table-hover table-condensed">
-        <thead>
-            <tr>
-                <th>Operations</th>
-                <th>Alias Name</th>
-                <!--  <th>Alias Description</th>-->
-                <th>SCB Systems</th>
-                <th>Frequency</th>
-                <th>Depends On Alias</th>
-                <th>Category</th>
-                <th>File Type</th>
-                <th>File Name</th>
-                <th>File Count</th>
-                <th>Date Format</th>
-                <th>Sheet Name</th>
-                <th>Skip Line</th>
-                <th>Used For</th>
-                <th>File Directory</th>
-                <th>Email Id</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddEditPopup('add')"></i></th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.AliasName" />
-                </th>
-                <!-- <th>
-                     <input type="text" data-ng-model="search.AliasDescription" /></th>-->
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.ScbSystems" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.Frequency" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.DependsOnAlias" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.Category" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.FileType" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.FileName" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.FileCount" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.DateFormat" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.SheetName" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.SkipLine" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.UsedFor" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.FileDirectory" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.EmailId" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.StartDate" />
-                </th>
-                <th>
-                    <input type="text" class="form-control" data-ng-model="search.EndDate" />
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
-                <td>
-                    <div>
-                        <div class="btn-group">
-                            <i class="btn glyphicon glyphicon-file" data-ng-click="showAddEditPopup('view',fileDetail)"></i>
-                            <i class="btn glyphicon glyphicon-edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></i>
-                            <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModelPopup(fileDetail)"></i>
+﻿<div class="row" style="height: 550px; overflow: auto;">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Operations</th>
+                    <th>Alias Name</th>
+                    <!--  <th>Alias Description</th>-->
+                    <th>SCB Systems</th>
+                    <th>Frequency</th>
+                    <th>Depends On Alias</th>
+                    <th>Category</th>
+                    <th>File Type</th>
+                    <th>File Name</th>
+                    <th>File Count</th>
+                    <th>Date Format</th>
+                    <th>Sheet Name</th>
+                    <th>Skip Line</th>
+                    <th>Used For</th>
+                    <th>File Directory</th>
+                    <th>Email Id</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddEditPopup('add')"></i></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.AliasName" />
+                    </th>
+                    <!-- <th>
+                             <input type="text" data-ng-model="search.AliasDescription" /></th>-->
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.ScbSystems" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.Frequency" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.DependsOnAlias" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.Category" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.FileType" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.FileName" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.FileCount" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.DateFormat" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.SheetName" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.SkipLine" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.UsedFor" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.FileDirectory" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.EmailId" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.StartDate" />
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.EndDate" />
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
+                    <td>
+                        <div>
+                            <div class="btn-group">
+                                <i class="btn glyphicon glyphicon-file" data-ng-click="showAddEditPopup('view',fileDetail)"></i>
+                                <i class="btn glyphicon glyphicon-edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></i>
+                                <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModelPopup(fileDetail)"></i>
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td>
-                    {{fileDetail.AliasName}}
-                </td>
-                <!--<td>
-                    {{fileDetail.AliasDescription}}
-                </td>-->
-                <td>
-                    {{fileDetail.ScbSystems}}
-                </td>
-                <td>
-                    {{fileDetail.Frequency}}
-                </td>
-                <td>
-                    {{fileDetail.DependsOnAlias }}
-                </td>
-                <td>
-                    {{fileDetail.Category}}
-                </td>
-                <td>
-                    {{fileDetail.FileType}}
-                </td>
-                <td>
-                    {{fileDetail.FileName}}
-                </td>
-                <td>
-                    {{fileDetail.FileCount}}
-                </td>
-                <td style="white-space: nowrap">
-                    {{fileDetail.DateFormat}}
-                </td>
-                <td>
-                    {{fileDetail.SheetName}}
-                </td>
-                <td>
-                    {{fileDetail.SkipLine}}
-                </td>
-                <td>
-                    {{fileDetail.UsedFor}}
-                </td>
-                <td>
-                    {{fileDetail.FileDirectory}}
-                </td>
-                <td>
-                    {{fileDetail.EmailId}}
-                </td>
-                <td style="white-space: nowrap">
-                    {{fileDetail.StartDate | date}}
-                </td>
-                <td style="white-space: nowrap">
-                    {{fileDetail.EndDate | date}}
-                </td>
-                <td>
-                    {{fileDetail.Description}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                    <td>{{fileDetail.AliasName}}
+                    </td>
+                    <!--<td>
+                            {{fileDetail.AliasDescription}}
+                        </td>-->
+                    <td>{{fileDetail.ScbSystems}}
+                    </td>
+                    <td>{{fileDetail.Frequency}}
+                    </td>
+                    <td>{{fileDetail.DependsOnAlias }}
+                    </td>
+                    <td>{{fileDetail.Category}}
+                    </td>
+                    <td>{{fileDetail.FileType}}
+                    </td>
+                    <td>{{fileDetail.FileName}}
+                    </td>
+                    <td>{{fileDetail.FileCount}}
+                    </td>
+                    <td style="white-space: nowrap">{{fileDetail.DateFormat}}
+                    </td>
+                    <td>{{fileDetail.SheetName}}
+                    </td>
+                    <td>{{fileDetail.SkipLine}}
+                    </td>
+                    <td>{{fileDetail.UsedFor}}
+                    </td>
+                    <td>{{fileDetail.FileDirectory}}
+                    </td>
+                    <td>{{fileDetail.EmailId}}
+                    </td>
+                    <td style="white-space: nowrap">{{fileDetail.StartDate | date}}
+                    </td>
+                    <td style="white-space: nowrap">{{fileDetail.EndDate | date}}
+                    </td>
+                    <td>{{fileDetail.Description}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
