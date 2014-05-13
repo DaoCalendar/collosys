@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="boutput in dldata.formula.BOutputs">
+                <tr data-ng-repeat="boutput in dldata.formula.BOutputs | orderBy: 'Priority'">
                     <td>
                         <input type="text" class="form-control" readonly="readonly" value="{{boutput.Operator}}" data-ng-show="boutput.Operator">
                     </td>
