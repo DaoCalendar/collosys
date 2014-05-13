@@ -22,10 +22,10 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showField2 = false;
         })();
 
-        $scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
-        { display: "Do Not Allocate", value: "DoNotAllocate" },
-        { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
-        { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
+        //$scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
+        //{ display: "Do Not Allocate", value: "DoNotAllocate" },
+        //{ display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
+        //{ display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
 
         $scope.openmodal = function () {
             $scope.modalData = $scope.dldata.allocSubpolicy;
@@ -255,7 +255,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
         var saveAllocSubpolicy = function (allocSubpolicy) {
             if (allocSubpolicy.Stakeholder && allocSubpolicy.Stakeholder.Id) {
-                allocSubpolicy.Stakeholder = _.find($scope.stakeholderList, { Id: allocSubpolicy.Stakeholder.Id });
+                allocSubpolicy.Stakeholder = _.find(dldata.stakeholderList, { Id: allocSubpolicy.Stakeholder.Id });
             }
 
             if (dldata.allocSubpolicy.Products === 'CC') {
