@@ -11,23 +11,22 @@
             </form>
         </div>
 
-        <div class="row">
-            <form name="formDateFilter">
-                <div class="row">
-                    <div class=" col-md-5">
-                        <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
-                    </div>
-                    <div class=" col-md-5">
-                        <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
-                    </div>
-
-                    <div class="col-md-2">
-                        <button class="btn btn-success" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)">OK</button>
-                    </div>
+        <form name="formDateFilter">
+            <div class="row">
+                <div class=" col-md-5">
+                    <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                 </div>
-            </form>
-        </div>
+                <div class=" col-md-5">
+                    <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
+                </div>
+
+                <div class="col-md-2">
+                    <button class="btn btn-success" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)">OK</button>
+                </div>
+            </div>
+        </form>
     </div>
+
     <div class="row" data-ui-if="gridOptions.showGrid == true">
         <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
