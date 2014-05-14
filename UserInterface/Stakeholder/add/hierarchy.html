@@ -1,28 +1,22 @@
 ﻿<div data-ng-controller="StakeHierarchy">
-    <div data-ng-if="hierarchy">
-        <div class="row">
-            <div class="col-md-5">
-                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
-                    data-ng-change="changeInHierarchy()"
-                    field="$parent.stakeholderModels.hierarchy"></cs-field>
-            </div>
+    <cs-form layout="6.4.8">
+        <div data-ng-if="hierarchy">
+            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Hierarchy"
+                      data-ng-change="changeInHierarchy()"
+                      field="$parent.stakeholderModels.hierarchy"></cs-field>
 
-            <div data-ng-if="Designation"
-                class="row">
-               
-                <div class="col-md-5">
-                    <cs-field data-ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Designation"
-                        value-list="Designation"
-                        data-ng-change="assignSelectedHier()"
-                        field="$parent.stakeholderModels.designation"></cs-field>
-                </div>
+            <div data-ng-if="Designation">
+                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.SelHierarchy.Designation"
+                          value-list="Designation"
+                          data-ng-change="assignSelectedHier()"
+                          field="$parent.stakeholderModels.designation"></cs-field>
             </div>
         </div>
-    </div>
+    </cs-form>
 </div>
 
 
- <!-- <div class="form-group ">
+<!-- <div class="form-group ">
                      <label class="control-label">Designation <label style="font-size:large; color:red">*</label></label>
                      <div class="controls">
                          <select

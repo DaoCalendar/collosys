@@ -3,13 +3,13 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
         var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
-        noBootstrapDiv += 'class="' + field.class.div + '"';
+        noBootstrapDiv += 'class="' + field.layoutClass.div + '"';
         noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
         noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
         noBootstrapDiv += '>';
 
         var html = noBootstrapDiv;
-        html += '<div class="' + field.class.label + '">';
+        html += '<div class="' + field.layoutClass.label + '">';
         html += '<label';
         html += ' control-label">{{' + attr.field + '.label}}' +
                 '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
@@ -30,7 +30,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="' + field.class.control + '"';
+        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + '"';
         html += '">';
         return html;
     };
@@ -1026,14 +1026,15 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 };
             } else {
                 field.size = csFormCtrl.getSize();
+                console.log("size: ",field.size);
             }
 
 
-            if (field.size.div === 0) {
+            if (field.size.div === 0 || field.size.label < 0 || field.size.label > 12 || field.size.control < 0 || field.size.control > 12) {
                 throw "invalid div size";
             }
 
-            field.class = {
+            field.layoutClass = {
                 label: 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,

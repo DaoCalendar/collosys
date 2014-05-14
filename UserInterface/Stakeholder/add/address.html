@@ -1,39 +1,19 @@
 ﻿<div class="form-horizontal " data-ng-controller="addressCntrl" data-ng-show="addData.Hierarchy.HasAddress">
-    <div class="row">
-
-        <div class="col-md-5">
+     <cs-form layout="6.4.8">  
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Address.Line1"
                 field="stakeholderModels.line1"></cs-field>
-        </div>
-        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Address.Line2"
                 field="stakeholderModels.line2"></cs-field>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Address.Line3"
                 field="stakeholderModels.line3"></cs-field>
-        </div>
-        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Address.LandlineNo"
                 field="stakeholderModels.landline"></cs-field>
-        </div>
-    </div>
-
-    <!--Pincode-->
-    <div class="row">
-        <div class="col-md-5">
             <cs-field data-ng-model="addData.Pincode"
-                field="stakeholderModels.pincode"
-                typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
-                typeahead-min-length="3"
-                typeahead-wait-ms="400"></cs-field>
-        </div>
-    </div>
+                      field="stakeholderModels.pincode"
+                      typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
+                      typeahead-min-length="3"
+                      typeahead-wait-ms="400"></cs-field>
+        </cs-form>
 </div>
 
 
