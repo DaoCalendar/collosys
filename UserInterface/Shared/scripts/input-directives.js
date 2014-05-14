@@ -3,16 +3,18 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
         var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+        noBootstrapDiv += 'class="' + field.class.div + '"';
         noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
         noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
         noBootstrapDiv += '>';
 
         var html = noBootstrapDiv;
-        html += '<label class="col-md-';
-        html += angular.isDefined(field.labelSize) ? field.labelSize : 4;
+        html += '<div class="' + field.class.label + '">';
+        html += '<label';
         html += ' control-label">{{' + attr.field + '.label}}' +
-        '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
-        return (noBootstrap || field.labelSize === 0 ? noBootstrapDiv : html);
+                '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
+        html += '</div>';
+        return (noBootstrap || field.size.label === 0 ? noBootstrapDiv : html);
     };
 
     var bsTemplateAfter = function () {
@@ -28,8 +30,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="col-md-';
-        html += angular.isDefined(field.controlSize) ? field.controlSize : 8;
+        var html = '<div ng-form="myform" role="form" class="' + field.class.control + '"';
         html += '">';
         return html;
     };
@@ -966,17 +967,6 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     };
 }]);
 
-csapp.directive('csFieldGroup', [function () {
-    return {
-        template: '<div><div ng-transclude=""/></div>',
-        scope: { mode: '=', model: '@' },
-        restrict: 'E',
-        transclude: true,
-        require: '^form',
-        controller: function ($scope) { this.mode = $scope.mode; }
-    };
-}]);
-
 csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory",
     function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory) {
 
@@ -1024,22 +1014,45 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var setSpan = function (field, ctrl) {
-            field.labelSize = angular.isDefined(ctrl[3]) ? parseInt(ctrl[3].labelSize) : undefined;
-            field.controlSize = angular.isDefined(ctrl[3]) ? parseInt(ctrl[3].controlSize) : undefined;
-            var lSize = angular.isDefined(field.labelSize) ? field.labelSize : 0;
-            var cSize = angular.isDefined(field.controlSize) ? field.controlSize : 0;
-            field.span = lSize + cSize;
+        var setLayout = function (field, csFormCtrl) {
+
+            field.size = {};
+
+            if (angular.isUndefined(csFormCtrl)) {
+                field.size = {
+                    label: 4,
+                    div: 12,
+                    control: 8,
+                };
+            } else {
+                field.size = csFormCtrl.getSize();
+            }
+
+
+            if (field.size.div === 0) {
+                throw "invalid div size";
+            }
+
+            field.class = {
+                label: 'col-md-' + field.size.label,
+                div: 'col-md-' + field.size.div,
+                control: 'col-md-' + field.size.control,
+            };
+
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
+            var controllers = {
+                ngModelCtrl: ctrl[0],
+                formCtrl: ctrl[1],
+                csFormCtrl: ctrl[2]
+            };
 
             var fieldGetter = $parse(attrs.field);
             var field = fieldGetter(scope);
             scope.field = field;
-
-            scope.mode = angular.isDefined(ctrl[2]) ? ctrl[2].mode : '';
-            setSpan(field, ctrl);
+            scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
+            setLayout(field, controllers.csFormCtrl);
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field, attrs);
@@ -1055,30 +1068,41 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?^csFieldGroup', '?^csForm'],
+            require: ['ngModel', '^form', '?^csForm'],
             terminal: true,
             controller: controllerFn
         };
     }]);
 
-
-csapp.directive('csForm', ["$compile", function ($compile) {
-
+csapp.directive('csForm', function () {
 
     var cntrlFn = function ($scope) {
 
-        //$scope.layout = $scope.layout.split(".");
+        $scope.layout = $scope.layout.split(".");
 
-        this.rowWidth = parseInt($scope.layout[0]);
-        this.labelSize = parseInt($scope.layout[1]);
-        this.controlSize = parseInt($scope.layout[2]);
+        var size = {
+            div: angular.isUndefined($scope.layout[0]) ? 6 : parseInt($scope.layout[0]),
+            label: angular.isUndefined($scope.layout[1]) ? 4 : parseInt($scope.layout[1]),
+            control: angular.isUndefined($scope.layout[2]) ? 8 : parseInt($scope.layout[2]),
+        };
+
+        size.div = isNaN(size.div) ? 0 : size.div;
+        size.label = isNaN(size.label) ? 0 : size.label;
+        size.control = isNaN(size.control) ? 0 : size.control;
+
+        this.mode = $scope.mode;
+
+        this.getSize = function () {
+            return angular.copy(size);
+        };
     };
 
     return {
         restrict: 'E',
-        scope: {
-            layout: '=',
-        },
-        controller: cntrlFn
+        transclude: true,
+        template: '<div><div ng-transclude=""></div></div>',
+        scope: { layout: '@', mode: '=' },
+        controller: cntrlFn,
+        require: '^form'
     };
-}]);
+});
