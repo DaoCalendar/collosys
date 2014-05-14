@@ -567,6 +567,30 @@ csapp.directive('cspagination', function () {
     };
 });
 
+csapp.directive('iconBtn', function () {
+
+    var templateFn = function (element, attrs) {
+        switch (attrs.type) {
+            case 'add':
+                return '<i class="btn btn-default glyphicon glyphicon-plus"><i>';
+            case 'edit':
+                return '<i class="btn btn-default glyphicon glyphicon-edit"><i>';
+            case 'view':
+                return '<i class="btn btn-default glyphicon glyphicon-file"><i>';
+            case 'delete':
+                return '<i class="btn btn-default glyphicon glyphicon-trash"><i>';
+            default:
+        }
+    };
+
+    return {
+        scope: { type: '@' },
+        restrict: 'E',
+        template: templateFn
+    };
+});
+
+
 
 
 
