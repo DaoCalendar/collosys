@@ -342,8 +342,8 @@ csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
     };
 }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
-    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared', '$csModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared, $csModels, $csGenericModels) {
         (function () {
 
             $scope.dldata = datalayer.dldata;
@@ -351,7 +351,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.factory = factory;
             $scope.factory.initEnums();
             $scope.formula = $csBillingModels.models.Formula;
-            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
+            $scope.CustBillViewModel = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csGenericModels.models.Pincode;
             $scope.dldata.formula = {};
             $scope.dldata.formula.Category = 'Liner';

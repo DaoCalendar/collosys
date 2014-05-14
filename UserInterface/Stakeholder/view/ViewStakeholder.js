@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams', "$csStakeholderModels",
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams, stakeModel) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams) {
 
 
         var restApi = rest.all('ViewStakeApi');
@@ -850,9 +850,14 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         var init = function () {
 
 
-            $scope.viewModels = stakeModel.init.StakeView;
+            $scope.viewModels = {
+                View: { label: "View", type: "enum" },
+                Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
+                Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
+                Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
+                Products: { label: "Products", type: "enum" },
+            };
             $scope.currUser = $csfactory.getCurrentUserName();
-
 
             $scope.startCount = 0;
             $scope.showDiv = false;

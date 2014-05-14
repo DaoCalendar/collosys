@@ -56,11 +56,12 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     };
 }]);
 
-csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory",
-    "dataService", "$csFileUploadModels",
-    function ($scope, datalayer, $csfactory, mode, $csFileUploadModels) {
+csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory", "dataService",
+    function ($scope, datalayer, $csfactory, mode) {
         (function () {
-            $scope.selectedfield = $csFileUploadModels.models.UploadPincode;
+            $scope.selectedfield = {
+                Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
+            };
             $scope.dldata = datalayer.dldata;
             $scope.pincodeEmpty = false;
             $scope.mode = mode;

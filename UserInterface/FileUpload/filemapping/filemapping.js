@@ -65,8 +65,8 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
 }]);
 
 csapp.controller("fileMappingViewEditController", [
-    "$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer", "$csFileUploadModels",
-    function ($scope, fileMapping, $modalInstance, datalayer, $csFileUploadModels) {
+    "$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer", "$csModels",
+    function ($scope, fileMapping, $modalInstance, datalayer, $csModels) {
 
         (function () {
             //2 file mappings - 1 on scope - mapping edited and another is just params
@@ -77,7 +77,7 @@ csapp.controller("fileMappingViewEditController", [
         })();
 
 
-        $scope.fileMappingModel = $csFileUploadModels.models.FileMapping;
+        $scope.fileMappingModel = $csModels.getColumns("FileMapping");
 
 
         $scope.close = function () {
@@ -128,7 +128,8 @@ csapp.controller("fileMappingViewEditController", [
 
     }]);
 
-csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", "$csFileUploadModels", function ($scope, datalayer, $modal, $csFileUploadModels) {
+csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", "$csModels",
+    function ($scope, datalayer, $modal, $csModels) {
     "use strict";
 
     (function () {
@@ -136,7 +137,7 @@ csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$m
         datalayer.fetchValueTypeEnum();
         datalayer.GetAllFileDetails();
         datalayer.dldata.actualTable = '';
-        $scope.fileMappingModel = $csFileUploadModels.models.FileMapping;
+        $scope.fileMappingModel = $csModels.getColumns("FileMapping");
     })();
 
     $scope.openEditModalPopup = function (mode, filemapping) {

@@ -1,9 +1,9 @@
 ﻿csapp.controller("customerInfoController", [
-    "$scope", "$csnotify", "Restangular","$csFileUploadModels",
-    function ($scope, $csnotify, rest, $csFileUploadModels) {
+    "$scope", "$csnotify", "Restangular","$csModels",
+    function ($scope, $csnotify, rest, $csModels) {
         "use strict";
 
-        $scope.custInfoModel = $csFileUploadModels.models.CustomerInfo;
+        $scope.custInfoModel = $csModels.getColumns("CustomerInfo");
 
         var restApi = rest.all("CustomerInfoApi");
 

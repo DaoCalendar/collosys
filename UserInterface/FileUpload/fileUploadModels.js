@@ -40,6 +40,7 @@
             EndDate: { label: "End Date", type: "date" }//data-date-start-date have function.
         };
     };
+
     var fileMapping = function () {
         return {
             ActualTable: { label: "Actual Table", type: "text", editable: false },
@@ -158,23 +159,6 @@
             TransDesc: { label: "Remark", type: "text", required: "true" },
             TransAmount: { label: "Amount", type: "text", pattern: "/^[0-9]+$/", required: true },
             IsDebit: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Payment', key: 'Payment' }, { value: 'Reversal', key: 'Reversal' }], valueField: 'value', textField: 'key', required: true },
-
-        };
-    };
-
-    var uploadPincode = function () {
-        return {
-            Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
-        };
-    };
-
-    var clientDataDownload = function () {
-        return {
-            ShowDataBy: { label: 'Download By', type: 'select', textField: 'display', valueField: 'value' },
-            SelectedProduct: { label: 'Product', type: "enum", valueList: $csShared.enums.ProductEnum },
-            SelectedSystem: { label: 'System', type: 'enum', valueList: $csShared.enums.ScbSystems },
-            SelectedCategory: { label: 'Category', type: 'select' },
-            SelectedDate: { label: 'Date', type: 'date' }
         };
     };
 
@@ -197,21 +181,52 @@
         };
     };
 
-    var init = function (tables) {
-        models.FileDetail = fileDetail();
-        models.FileColumn = fileColumn();
-        models.FileMapping = fileMapping();
-        models.UploadPincode = uploadPincode();
-        models.CustomerInfo = customerInfo();
-        models.Fcondition = fcondition();
-        models.FilterCondition = filterCondition();
-        models.ExcludeCase = excludeCase();
-        models.ClientDataDownload = clientDataDownload();
-        models.FileStatus = fileStatus();
-        models.FileScheduler = fileScheduler();
+    var init = function () {
+        models.FileDetail = {
+            TableName: 'FileDetail',
+            Columns: fileDetail()
+        };
 
-        tables.FileDetail = models.FileDetail;
-        tables.CustomerInfo = models.CustomerInfo;
+        models.FileColumn = {
+            TableName: 'FileColumn',
+            Columns: fileColumn()
+        };
+
+        models.FileMapping = {
+            TableName: 'FileMapping',
+            Columns: fileMapping()
+        };
+
+        models.CustomerInfo = {
+            TableName: 'CustomerInfo',
+            Columns: customerInfo()
+        };
+
+        models.Fcondition = {
+            TableName: 'Fcondition',
+            Columns: fcondition()
+        };
+
+        models.FilterCondition = {
+            TableName: 'FilterCondition',
+            Columns: filterCondition()
+        };
+
+        models.Payment = {
+            TableName: 'Payment',
+            Columns: excludeCase()
+        };
+
+        models.FileStatus = {
+            TableName: 'FileStatus',
+            Columns: fileStatus()
+        };
+
+        models.FileScheduler = {
+            TableName: 'FileScheduler',
+            Columns: fileScheduler()
+        };
+
         return models;
     };
 

@@ -99,7 +99,7 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
             } else {
 
                 dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
-                    if (data.Hierarchy === stakeholder.Hierarchy) return data;
+                    return (data.Hierarchy === stakeholder.Hierarchy);
                 });
 
                 _.forEach(dldata.Designation, function (item) {
@@ -173,15 +173,14 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
         };
     }]);
 
-csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory', '$Validations', 'hierarchyDataLayer', '$csStakeholderModels',
-    "hierarchyFactory", function ($csShared, $scope, $csfactory, $validation, datalayer, $csStakeholderModels, factory) {
+csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory', 'hierarchyDataLayer', '$csModels',
+    "hierarchyFactory", function ($csShared, $scope, $csfactory, datalayer, $csModels, factory) {
 
         (function () {
             $scope.factoryMethods = factory;
             $scope.datalayer = datalayer;
-            $scope.val = $validation;
             $scope.dldata = datalayer.dldata;
-            $scope.stakeholderfield = $csStakeholderModels.init.StkhHierarchy;
+            $scope.stakeholderfield = $csModels.getColumns("StkhHierarchy");
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
         })();
@@ -232,15 +231,15 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
     }]);
 
 csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalInstance",
-    "hierarchyDataLayer", "$csStakeholderModels", "hierarchyFactory",
-    function ($scope, editHierarchy, $modalInstance, datalayer, $csStakeholderModels, factory) {
+    "hierarchyDataLayer", "$csModels", "hierarchyFactory",
+    function ($scope, editHierarchy, $modalInstance, datalayer, $csModels, factory) {
 
         (function () {
             $scope.factory = factory;
             $scope.hierarchy = angular.copy(editHierarchy);
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.hierarchyfield = $csStakeholderModels.init.StkhHierarchy;
+            $scope.hierarchyfield = $csModels.getColumns("StkhHierarchy");
         })();
 
         $scope.save = function (hierarchy) {

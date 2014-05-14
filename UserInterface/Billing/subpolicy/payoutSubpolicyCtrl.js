@@ -355,8 +355,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels', '$csShared', '$csModels', '$csGenericModels',
+    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared, $csModels, $csGenericModels) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -368,7 +368,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.newCondition.Rtype = "Value";
             $scope.showDiv = false;
             $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
-            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
+            $scope.CustBillViewModel = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csGenericModels.models.Pincode;
            // $scope.datalayer.getProducts();
             $scope.fieldname = '';

@@ -229,8 +229,8 @@ csapp.controller("fileColumnMultiAddModalController", ["$scope", "$modalInstance
     }
 ]);
 
-csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer", "fileColumnFactory", "$modalInstance","$csFileUploadModels",
-    function ($scope, datalayer, factory, $modalInstance, $csFileUploadModels) {
+csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer", "fileColumnFactory", "$modalInstance","$csModels",
+    function ($scope, datalayer, factory, $modalInstance, $csModels) {
         $scope.modelHeader = "Add New File Column";
 
         (function () {
@@ -240,7 +240,7 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
         })();
 
 
-        $scope.fileColumnModel = $csFileUploadModels.models.FileColumn;
+        $scope.fileColumnModel = $csModels.getColumns("FileColumn");
 
         $scope.close = function () {
             $modalInstance.dismiss();

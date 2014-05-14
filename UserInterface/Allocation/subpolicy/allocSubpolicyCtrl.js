@@ -1,18 +1,16 @@
 ﻿
-csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$Validations', '$csAllocationModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
-    function ($scope, datalayer, factory, $modal, $validation, $csAllocationModels, $csShared, $csFileUploadModels, $csGenericModels) {
+csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpolicyFactory', '$modal', '$csModels', '$csShared',
+    function ($scope, datalayer, factory, $modal, $csModels, $csShared) {
         "use strict";
 
         (function () {
-            $scope.val = $validation;
-
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.dldata.allocSubpolicy = {};
-            $scope.allocSubpolicy = $csAllocationModels.models.AllocSubpolicy;
-            $scope.CustomerInfo = $csFileUploadModels.models.CustomerInfo;
-            $scope.GPincode = $csGenericModels.models.Pincode;
+            $scope.allocSubpolicy = $csModels.getColumns("AllocSubpolicy");
+            $scope.CustomerInfo = $csModels.getColumns("CustomerInfo");
+            $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.dldata.allocSubpolicyList = [];
            // $scope.datalayer.getProducts();
             $scope.showDiv = false;
@@ -227,8 +225,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             if (angular.isUndefined(val)) {
                 return;
             }
-            var arr = [];
-            arr = val.split(" ");
+            var arr = val.split(" ");
             _.find(arr, function (string) {
                 if (string == 'dead' || string == 'died') {
                     dldata.allocSubpolicy.NoAllocMonth = 0;
@@ -411,12 +408,12 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
 
     }]);
 
-csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance', '$csAllocationModels', '$csnotify',
-    function ($scope, modalData, datalayer, $modalInstance, $csAllocationModels, $csnotify) {
+csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', '$modalInstance', '$csModels', '$csnotify',
+    function ($scope, modalData, datalayer, $modalInstance, $csModels, $csnotify) {
         $scope.dldata = datalayer.dldata;
 
         $scope.modalData = modalData;
-        $scope.allocmodalData = $csAllocationModels.models.AllocPolicy;
+        $scope.allocmodalData = $csModels.getColumns("AllocPolicy");
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.isModalDateValid = true;

@@ -83,8 +83,8 @@ csapp.factory("filterconditionFactory", ["filterConditionDatalayer", "$csnotify"
 }]);
 
 //Controller
-csapp.controller("filterConditionController", ["$scope", "filterConditionDatalayer", "filterconditionFactory", "$csFileUploadModels", "$csnotify", "$csShared",
-    function ($scope, datalayer, factory, $csFileUploadModels, $csnotify, $csShared) {
+csapp.controller("filterConditionController", ["$scope", "filterConditionDatalayer", "filterconditionFactory", "$csModels", "$csnotify", "$csShared",
+    function ($scope, datalayer, factory, $csModels, $csnotify, $csShared) {
         //page load
         $scope.fetchFileDetails = function () {
             datalayer.getFileDetails().then(function (data) {
@@ -96,8 +96,8 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
-            $scope.FilterCondition = $csFileUploadModels.models.FilterCondition;
-            $scope.Fcondition = $csFileUploadModels.models.Fcondition;
+            $scope.FilterCondition = $csModels.getColumns("FilterCondition");
+            $scope.Fcondition = $csModels.getColumns("Fcondition");
             $scope.showDiv = false;
             $scope.fileDetailsList = [];
             $scope.dldata.selectedCondition = {};

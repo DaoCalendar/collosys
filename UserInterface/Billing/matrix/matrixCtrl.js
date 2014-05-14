@@ -1,10 +1,10 @@
-﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify', '$csFileUploadModels',
-    function (rest, $csnotify, $csFileUploadModels) {
+﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify', '$csModels',
+    function (rest, $csnotify, $csModels) {
         var restApi = rest.all("MatrixApi");
         var dldata = {};
         dldata.columnDef = [];
 
-        dldata.custInfoData = $csFileUploadModels.CustomerInfo; //customerInfo from model.js
+        dldata.custInfoData = $csModels.getColumns("CustomerInfo"); //customerInfo from model.js
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {

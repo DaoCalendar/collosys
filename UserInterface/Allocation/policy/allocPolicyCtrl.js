@@ -24,10 +24,11 @@
     };
 }]);
 
-csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory", "$csAllocationModels","$csnotify",
-    function ($scope, modeldata, $modalInstance, datalayer, factory, $csAllocationModels, $csnotify) {
+csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory", "$csModels","$csnotify",
+    function ($scope, modeldata, $modalInstance, datalayer, factory, $csModels, $csnotify) {
         $scope.modalData = modeldata;
-        $scope.allocmodalData = $csAllocationModels.models.AllocPolicy;
+        $scope.allocmodalData = $csModels.getColumns("AllocPolicy");
+
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.isModalDateValid = true;
@@ -82,8 +83,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
 
     }]);
 
-csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csAllocationModels',
-    function ($scope, datalayer, factory, $modal, $csAllocationModels) {
+csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csModels',
+    function ($scope, datalayer, factory, $modal, $csModels) {
         "use strict";
 
         var findIndex = function (list, value) {
@@ -194,7 +195,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 forActivate: true
             };
            // $scope.datalayer.getProducts();
-            $scope.allocpolicy = $csAllocationModels.models.AllocPolicy;
+            $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
         })();
     }]);
 

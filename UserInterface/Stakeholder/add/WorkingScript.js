@@ -1,11 +1,11 @@
-﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal', "$csStakeholderModels",
-    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal, stakeModels) {
+﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal', "$csModels",
+    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal, $csModels) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
         var init = function () {
             $log.info("Wroking Screen");
-            $scope.workingField = stakeModels.init.StkhWorking;
+            $scope.workingField = $csModels.getColumns("StkhWorking");
             //working screen
             $scope.deleteModal = false;
             $scope.bucketArray = [{ display: '1(0-29)', value: 1 }, { display: '2(30-59)', value: 2 },
