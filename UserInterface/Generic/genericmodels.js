@@ -31,11 +31,11 @@
     var pincode = function () {
         return {
             Country: { label: 'Country', type: 'text', editable: false },
-            Region: { label: 'Region', type: 'enum', editable: false, required: true, valueList: [] },
-            State: { label: 'State', type: 'enum', editable: false, required: true, valueList: [] },
-            Cluster: { label: 'Cluster', type: 'enum', editable: false, required: true, valueList: [] },
-            District: { label: 'District', type: 'enum', editable: false, required: true, valueList: [] },
-            City: { label: 'City', type: 'enum', editable: true, required: true, valueList: [] },
+            Region: { label: 'Region', type: 'select', editable: false, required: true, valueList: [] },
+            State: { label: 'State', type: 'select', editable: false, required: true, valueList: [] },
+            Cluster: { label: 'Cluster', type: 'select', editable: false, required: true, valueList: [] },
+            District: { label: 'District', type: 'select', editable: false, required: true, valueList: [] },
+            City: { label: 'City', type: 'select', editable: true, required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "enum", valueList: ['Yes', 'No'], required: true },
