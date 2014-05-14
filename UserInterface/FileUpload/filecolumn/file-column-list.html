@@ -1,80 +1,83 @@
-﻿<div data-ng-form="fileColumngrid" style="overflow: scroll; height: 500px; white-space: nowrap" data-ng-show="fileAliasName">
-    <table class="table table-bordered table-hover table-condensed">
-        <thead>
-            <tr>
-                <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddSingleColumnModal()"></i></th>
-                <th>File Column Name </th>
-                <th>Position </th>
-                <th>Length</th>
-                <th>Data Type</th>
-                <th>DB Column Name </th>
-                <th>Date Format </th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr data-ng-repeat="column in datalayer.dldata.fileDetail.FileColumns | orderBy: 'Position'" data-ng-animate="{ enter: 'animation-enter', leave: 'animation-leave'} ">
-                <td style="width: 100px">
-                    <div class="btn-group">
-                        <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModal(column,$index)"></i>
-                        <i class="btn glyphicon glyphicon-arrow-up" data-ng-disabled="$index==0"
-                           data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
-                        <i class="btn glyphicon glyphicon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
-                           data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
-                    </div>
-                </td>
-                <td>
-                    <input type="text" class="form-control" data-ng-model="column.FileColumnName" data-ng-disabled="true" />
-                </td>
-                <td>
-                    <input type="number" class="form-control input-mini" data-ng-disabled="true" min="0" data-ng-model="column.Position" />
-                </td>
-                <td>
-                    <input type="number" class="form-control input-mini" min="0" data-ng-model="column.Length" />
-                </td>
-                <td>
-                    <select class="form-control input-medium" name="ColumnDataType" data-ng-model="column.ColumnDataType">
-                        <option value=""></option>
-                        <option data-ng-repeat="type in dldata.dataTypes">{{type}}</option>
-                    </select>
-                </td>
-                <td>
-                    <input type="text" class="form-control" data-ng-model="column.TempColumnName" data-ng-pattern="/^\w*$/" />
-                </td>
-                <td>
-                    <select class="form-control input-medium" name="DateFormat" data-ng-show="factory.isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-placeholder="Select Date Format">
-                        <option value=""></option>
-                        <option data-ng-repeat="format in factory.dateFormats">{{format}}</option>
-                    </select>
-                </td>
-                <td>
-                    <!--Start Date -->
-                    <div class="input-group">
-                        <input type="text" name="StartDate" class="form-control input-medium" data-ng-model="column.StartDate" bs-datepicker />
-                        <span class="input-group-btn" data-toggle="datepicker">
-                            <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
-                </td>
+﻿<div class="row" data-ng-form="fileColumngrid" style="overflow: auto; height: 500px; white-space: nowrap" data-ng-show="fileAliasName">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddSingleColumnModal()"></i></th>
+                    <th>File Column Name </th>
+                    <th>Position </th>
+                    <th>Length</th>
+                    <th>Data Type</th>
+                    <th>DB Column Name </th>
+                    <th>Date Format </th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="column in datalayer.dldata.fileDetail.FileColumns | orderBy: 'Position'" data-ng-animate="{ enter: 'animation-enter', leave: 'animation-leave'} ">
+                    <td style="width: 100px">
+                        <div class="btn-group">
+                            <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModal(column,$index)"></i>
+                            <i class="btn glyphicon glyphicon-arrow-up" data-ng-disabled="$index==0"
+                               data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
+                            <i class="btn glyphicon glyphicon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
+                               data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" data-ng-model="column.FileColumnName" data-ng-disabled="true" />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" data-ng-disabled="true" min="0" data-ng-model="column.Position" />
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" min="0" data-ng-model="column.Length" />
+                    </td>
+                    <td>
+                        <select class="form-control" name="ColumnDataType" data-ng-model="column.ColumnDataType">
+                            <option value=""></option>
+                            <option data-ng-repeat="type in dldata.dataTypes">{{type}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" data-ng-model="column.TempColumnName" data-ng-pattern="/^\w*$/" />
+                    </td>
+                    <td>
+                        <select class="form-control" name="DateFormat" data-ng-show="factory.isDateTypeColumn(column.ColumnDataType)" data-ng-model="column.DateFormat" data-placeholder="Select Date Format">
+                            <option value=""></option>
+                            <option data-ng-repeat="format in factory.dateFormats">{{format}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <!--Start Date -->
+                        <div class="input-group">
+                            <input type="text" name="StartDate" class="form-control" data-ng-model="column.StartDate" bs-datepicker />
+                            <span class="input-group-btn" data-toggle="datepicker">
+                                <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </td>
 
-                <td>
-                    <!--End Date -->
-                    <div class="input-group">
-                        <input type="text" name="EndtDate" class="form-control input-medium" ui-validate=" '$value > column.StartDate'" data-ng-model="column.EndDate" bs-datepicker />
-                        <span class="input-group-btn" data-toggle="datepicker">
-                            <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </div>
-                </td>
-                <td>
-                    <input type="text" class="form-control input-medium" data-ng-model="column.Description" placeholder="Enter Description" />
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td>
+                        <!--End Date -->
+                        <div class="input-group">
+                            <input type="text" name="EndtDate" class="form-control" ui-validate=" '$value > column.StartDate'" data-ng-model="column.EndDate" bs-datepicker />
+                            <span class="input-group-btn" data-toggle="datepicker">
+                                <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" data-ng-model="column.Description" placeholder="Enter Description" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <div class="row text-center">
     <button class="btn btn-success" data-ng-show="datalayer.dldata.fileDetail.FileColumns.length>0"
             data-ng-click="datalayer.SaveMulti()">
