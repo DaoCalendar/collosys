@@ -1,5 +1,4 @@
 ﻿csapp.factory("$csGenericModels", ["$csShared", function ($csShared) {
-    var models = {};
 
     var taxList = function () {
         return {
@@ -118,8 +117,6 @@
             SendOnlyIfData: { label: 'Send Only If Data', type: 'checkbox' },
             Send2Hierarchy: { label: 'Send Mail to Multiple', type: 'checkbox' },
             
-            
-            
             doResetFilter: { label: 'Filter', type: 'checkbox' },
             doResetRenames:{label:'Renames',type:'checkbox'},
             doResetSorting: { label: 'Sorting', type: 'checkbox' },
@@ -129,15 +126,48 @@
         };
     };
 
+    var models = {};
     var init = function () {
-        models.TaxList = taxList();
-        models.TaxMaster = taxMaster();
-        models.Pincode = pincode();
-        models.Custbill = custbill();
-        models.Keyvalue = keyvalue();
-        models.Permission = permission();
-        models.Product = product();
-        models.Grid = grid();
+        models.TaxList = {
+            Table: "TaxList",
+            Columns: taxList(),
+        };
+
+        models.TaxMaster = {
+            Table: "TaxMaster",
+            Columns: taxMaster(),
+        };
+
+        models.Pincode = {
+            Table: "Pincode",
+            Columns: pincode(),
+        };
+
+        models.Custbill = {
+            Table: "Custbill",
+            Columns: custbill(),
+        };
+
+        models.Keyvalue = {
+            Table: "Keyvalue",
+            Columns: keyvalue(),
+        };
+
+        models.Permission = {
+            Table: "Permission",
+            Columns: permission(),
+        };
+
+        models.Product = {
+            Table: "Product",
+            Columns: product(),
+        };
+
+        models.Grid = {
+            Table: "Grid",
+            Columns: grid(),
+        };
+
         return models;
     };
 

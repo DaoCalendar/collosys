@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csBillingModels', '$csfactory', '$timeout',
-    function ($scope, datalayer, factory, $modal, $csBillingModels, $csfactory, $timeout) {
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csModels', '$csfactory', '$timeout',
+    function ($scope, datalayer, factory, $modal, $csModels, $csfactory, $timeout) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -9,7 +9,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             factory.initEnums();
             $scope.dldata.BillAmount = {};
             $scope.dldata.billingData = {};
-            $scope.adhocPayoutbill = $csBillingModels.models.Summary;
+            $scope.adhocPayoutbill = $csModels.getColumns("Summary");
         })();
 
         $scope.getBillingData = function (billAmount) {
@@ -203,13 +203,13 @@ csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billA
     }]);
 
 csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory',
-    '$modalInstance', '$csBillingModels',
-    function ($scope, datalayer, factory, $modalInstance, $csBillingModels) {
+    '$modalInstance', '$csModels',
+    function ($scope, datalayer, factory, $modalInstance, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.adhocPayoutbill = $csBillingModels.models.Summary;
+            $scope.adhocPayoutbill = $csModels.getColumns("Summary");
         })();
 
         $scope.changeCredit = function (credit) {
