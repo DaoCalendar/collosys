@@ -445,3 +445,23 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 #subpolicy-buttons {
     margin-bottom: 10px;
 }
+
+
+/*typeahed */
+.typeahead-lg + ul.dropdown-menu {
+    width: 500px !important;
+    height: 300px !important;
+    overflow: scroll !important;
+}
+
+.typeahead-md + ul.dropdown-menu {
+    width: 300px;
+    height: 250px;
+    overflow: scroll;
+}
+
+.typeahead-sm + ul.dropdown-menu {
+    width: 200px;
+    height: 250px;
+    overflow: scroll;
+}

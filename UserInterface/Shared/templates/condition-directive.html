@@ -10,10 +10,10 @@
     <div class="row" data-ng-form="addForm">
 
         <div class="col-md-pull-7">
-            <input type="text" data-ng-model="filter.filterString"
-                   typeahead="c.value as c.text for c in tokens.tokensList | filter:{text:$viewValue} | limitTo:8"
+            <input type="text" data-ng-model="filter.filterString" class="form-control typeahead-lg"
+                   typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} | limitTo:10"
                    typeahead-min-length="0"
-                   typeahead-on-select="addToken($item,$model,$label)" class="form-control">
+                   typeahead-on-select="addToken($item,$model,$label)" >
         </div>
         <div class="col-md-pull-4">
             <input type="submit" value="Add Value"
@@ -41,6 +41,10 @@
             <td>{{tokens.secondLastToken.text}}</td>
         </tr>
         <tr>
+            <td>Next Token: </td>
+            <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
+        </tr>
+        <tr>
             <td>
                 Added Tokens List
             </td>
@@ -56,7 +60,7 @@
         </tr>
         <tr>
             <td>Total Tokens Available</td>
-            <td>{{tokens.tokensList.length}}</td>
+            <td>{{tokens.nextTokens.length}}</td>
         </tr>
     </table>
 </div>
