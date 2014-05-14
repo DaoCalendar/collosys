@@ -1,246 +1,4 @@
-﻿csapp.factory('operatorsFactory', function () {
-    var operators = {};
-
-    operators.numberOperators = function () {
-        return [
-            {
-                'type': 'Operator',
-                'text': 'Opr:+',
-                'value': 'Plus',
-                'datatype': 'number',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:-',
-                'value': 'Minus',
-                'datatype': 'number',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:/',
-                'value': 'Divide',
-                'datatype': 'number',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:*',
-                'value': 'Multiply',
-                'datatype': 'number',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:%',
-                'value': 'ModuloDivide',
-                'datatype': 'number',
-                'valuelist': []
-            }
-        ];
-    };
-
-    operators.conditionals = function () {
-        return [
-            {
-                'type': 'Operator',
-                'text': 'Opr:=',
-                'value': 'EqualTo',
-                'datatype': 'conditional',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:!=',
-                'value': 'NotEqualTo',
-                'datatype': 'conditional',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:<',
-                'value': 'LessThan',
-                'datatype': 'conditional',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:<=',
-                'value': 'LessThanEqualTo',
-                'datatype': 'conditional',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:>',
-                'value': 'GreaterThan',
-                'datatype': 'conditional',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:>=',
-                'value': 'GreaterThanEqualTo',
-                'datatype': 'conditional',
-                'valuelist': []
-            }
-        ];
-    };
-
-    operators.relationals = function () {
-        return [{
-            'type':
-                'Operator',
-            'text':
-                'Opr:And',
-            'value':
-                'AND',
-            'datatype':
-                'relational',
-            'valuelist':
-                []
-        },
-            {
-                'type':
-                    'Operator',
-                'text':
-                    'Opr:Or',
-                'value':
-                    'OR',
-                'datatype':
-                    'relational',
-                'valuelist':
-                    []
-            }];
-    };
-
-    operators.stringOperators = function () {
-        return [
-             {
-                 'type': 'Operator',
-                 'text': 'Opr:=',
-                 'value': 'EqualTo',
-                 'datatype': 'text',
-                 'valuelist': []
-             },
-             {
-                 'type': 'Operator',
-                 'text': 'Opr:!=',
-                 'value': 'NotEqualTo',
-                 'datatype': 'text',
-                 'valuelist': []
-             },
-            {
-                'type': 'Operator',
-                'text': 'Opr:Contains',
-                'value': 'Contains',
-                'datatype': 'text',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:DoNotContains',
-                'value': 'DoNotContains',
-                'datatype': 'text',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:StartsWith',
-                'value': 'StartsWith',
-                'datatype': 'text',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:EndsWith',
-                'value': 'EndsWith',
-                'datatype': 'text',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Opr:IsInList',
-                'value': 'IsInList',
-                'datatype': 'text',
-                'valuelist': []
-            },
-        ];
-    };
-
-    operators.sqlOperators = function () {
-        return [
-            {
-                'type': 'Operator',
-                'text': 'Avg Of',
-                'value': 'AVG',
-                'datatype': 'sql',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Count Of',
-                'value': 'COUNT',
-                'datatype': 'sql',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Sum Of',
-                'value': 'SUM',
-                'datatype': 'sql',
-                'valuelist': []
-            }
-        ];
-    };
-
-    operators.dateOperators = function () {
-        return [
-             {
-                 'type': 'Operator',
-                 'text': 'Date:Today',
-                 'value': 'Today',
-                 'datatype': 'date',
-                 'valuelist': []
-             },
-            {
-                'type': 'Operator',
-                'text': 'Date:Yesterday',
-                'value': 'Yesterday',
-                'datatype': 'date',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Date:Tommorow',
-                'value': 'Tommorow',
-                'datatype': 'date',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Date:MonthStart',
-                'value': 'MonthStart',
-                'datatype': 'date',
-                'valuelist': []
-            },
-            {
-                'type': 'Operator',
-                'text': 'Date:MonthEnd',
-                'value': 'MonthEnd',
-                'datatype': 'date',
-                'valuelist': []
-            },
-        ];
-    };
-
-    return {
-        Operators: operators
-    };
-});
-
-csapp.directive("csCondition", function () {
+﻿csapp.directive("csCondition", function () {
     return {
         restrict: 'E',
         controller: 'conditionCtrl',
@@ -255,8 +13,8 @@ csapp.directive("csCondition", function () {
 
 })
 
-    .controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory',
-    function ($scope, $csmodels, operatorFactory) {
+    .controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations',
+    function ($scope, $csmodels, operatorFactory, validations) {
 
         //get enum values from $csmodels
         var getEnumValues = function (value) {
@@ -276,12 +34,12 @@ csapp.directive("csCondition", function () {
         //get all operators list from factory, add tokens list
         var getOperatorList = function () {
             $scope.tokens.tokensList = _.union($scope.tokens.tokensList,
-            operatorFactory.Operators.numberOperators(),
-            operatorFactory.Operators.relationals(),
-            operatorFactory.Operators.stringOperators(),
-            operatorFactory.Operators.sqlOperators(),
-            operatorFactory.Operators.dateOperators(),
-            operatorFactory.Operators.conditionals());
+                operatorFactory.Operators.numberOperators(),
+                operatorFactory.Operators.relationals(),
+                operatorFactory.Operators.stringOperators(),
+                operatorFactory.Operators.sqlOperators(),
+                operatorFactory.Operators.dateOperators(),
+                operatorFactory.Operators.conditionals());
 
             if ($scope.type === 'Output') {
                 $scope.tokens.tokensList = _.remove($scope.tokens.tokensList, function (operator) {
@@ -296,6 +54,7 @@ csapp.directive("csCondition", function () {
 
         //add tables columns to token list
         var createTableList = function () {
+
             angular.forEach($scope.modal, function (value, key) {
                 $scope.collections.tableColumns.push({
                     'type': 'Table',
@@ -322,63 +81,52 @@ csapp.directive("csCondition", function () {
             $scope.tokens.tokensList = _.union($scope.tokens.tokensList, $scope.collections.formulaListC);
         };
 
+        //reset tokens list
         var resetTokenlist = function () {
             $scope.tokens.tokensList = [];
         };
+
+        //reset columns and formula list
+        var resetCollections = function () {
+            $scope.collections = {
+                tableColumns: [],
+                formulaListC: []
+            };
+        };
+
         //call to list initialisers
         var initialiseList = function () {
             resetTokenlist();
+            resetCollections();
             createTableList();
             getOperatorList();
             createFormulaList();
         };
 
         //clear the filter string of text box
-        var cleatFilterString = function () {
+        var clearFilterString = function () {
             $scope.filter.filterString = '';
         };
 
-        //manage list of tokens basis of last added token
-        var managelist = function () {
-            initialiseList();
-            switch ($scope.tokens.lastToken.datatype) {
-                case 'date':
-                    $scope.tokens.tokensList = _.filter($scope.tokens.tokensList,
-                    {
-                        'datatype': 'conditional',
-                        'type': 'Operator'
-                    });
-                    break;
-                case 'number':
-                    $scope.tokens.tokensList = _.filter($scope.tokens.tokensList,
-                        {
-                            'datatype': 'conditional' && 'number',
-                            'type': 'Operator' && 'Formula' && 'Table'
-                        });
-                default:
-                    initialiseList();
-            }
-        };
-
-        var managelistOutput = function () {
-            if ($scope.type !== 'Output') {
-                return;
-            }
-
-        };
         //set token for last and second last
-        var setToken = function(token) {
+        var setToken = function (token) {
             $scope.tokens.secondLastToken = angular.isUndefined($scope.tokens.secondLastToken) ?
-               angular.copy(token) : angular.isUndefined($scope.tokens.lastToken) ?
+                angular.copy(token) : angular.isUndefined($scope.tokens.lastToken) ?
                     angular.copy(token) : angular.copy($scope.tokens.lastToken);
             $scope.tokens.lastToken = token;
         };
+
         //add token selected on page to token list
         $scope.addToken = function (item, model, label) {
-            $scope.tokens.selected.push(item);
-            setToken(item);
-            //managelist();
-            cleatFilterString();
+            if (validations.validate($scope.tokens, item)) {
+                $scope.tokens.selected.push(item);
+                setToken(item);
+                clearFilterString();
+                $scope.tokens.error = null;
+            } else {
+                $scope.tokens.error = 'Please insert valid token';
+                clearFilterString();
+            }
         };
 
         //adds value to token list
@@ -390,11 +138,16 @@ csapp.directive("csCondition", function () {
                 'datatype': 'string',
                 'valuelist': []
             };
-            $scope.tokens.selected.push(seleVal);
-            setToken(seleVal);
-            cleatFilterString();
-        };
+            if (validations.validateValue($scope.tokens, value)) {
+                $scope.tokens.selected.push(seleVal);
+                setToken(seleVal);
+                clearFilterString();
+            } else {
+                $scope.tokens.error = 'Please select field or operator first';
+                clearFilterString();
+            }
 
+        };
 
         //initialise variables
         var initLocals = function () {
@@ -411,9 +164,8 @@ csapp.directive("csCondition", function () {
         };
 
         $scope.reset = function () {
-            cleatFilterString();
+            clearFilterString();
             initLocals();
-            initialiseList();
         };
 
         //initialise all list when product is selected in page
@@ -421,8 +173,327 @@ csapp.directive("csCondition", function () {
 
         (function () {
             initLocals();
+            initialiseList();
         })();
-    }]);
+    }])
+
+    .factory('tokenValidations', ['$csfactory', function ($csfactory) {
+
+        var validateOperator = function (tokens, newToken) {
+
+            if (newToken.datatype === 'sql' &&
+                (angular.isDefined(tokens.lastToken.type) &&
+                tokens.lastToken.type !== 'Operator'))
+                return false;
+
+            if (newToken.datatype === 'sql' &&
+            (angular.isDefined(tokens.lastToken.type)
+                && tokens.lastToken.type === 'Operator'
+                && tokens.lastToken.datatype !== 'sql')) {
+                return true;
+            }
+
+            if (angular.isDefined(tokens.lastToken.type) && tokens.lastToken.type !== 'Operator')
+                return true;
+            if (newToken.datatype === 'sql') {
+                if (tokens.lastToken.datatype !== 'sql') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            return false;
+        };
+
+        var validateFormula = function (tokens, newToken) {
+            if (angular.isUndefined(tokens.lastToken.type)) {
+                return true;
+            }
+            if (tokens.lastToken.type == 'Operator') {
+                return true;
+            }
+            return false;
+        };
+
+        var validateTable = function (tokens, newToken) {
+            return validateFormula(tokens, newToken);
+        };
+
+        var validate = function (tokens, newToken) {
+            var result = false;
+            switch (newToken.type) {
+                case 'Operator':
+                    result = validateOperator(tokens, newToken);
+                    break;
+                case 'Formula':
+                    result = validateFormula(tokens, newToken);
+                    break;
+                case 'Table':
+                    result = validateTable(tokens, newToken);
+                    break;
+                default:
+            }
+
+            return result;
+        };
+
+        var validateValue = function (tokens, value) {
+            if (angular.isDefined(tokens.lastToken.type) &&
+                tokens.lastToken.type === 'Operator') {
+                return true;
+            }
+            return false;
+        };
+
+        return {
+            validate: validate,
+            validateValue: validateValue
+        };
+    }])
+
+    .factory('operatorsFactory', function () {
+        var operators = {};
+
+        operators.numberOperators = function () {
+            return [
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:+',
+                    'value': 'Plus',
+                    'datatype': 'number',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:-',
+                    'value': 'Minus',
+                    'datatype': 'number',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:/',
+                    'value': 'Divide',
+                    'datatype': 'number',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:*',
+                    'value': 'Multiply',
+                    'datatype': 'number',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:%',
+                    'value': 'ModuloDivide',
+                    'datatype': 'number',
+                    'valuelist': []
+                }
+            ];
+        };
+
+        operators.conditionals = function () {
+            return [
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:=',
+                    'value': 'EqualTo',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:!=',
+                    'value': 'NotEqualTo',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:<',
+                    'value': 'LessThan',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:<=',
+                    'value': 'LessThanEqualTo',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:>',
+                    'value': 'GreaterThan',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:>=',
+                    'value': 'GreaterThanEqualTo',
+                    'datatype': 'conditional',
+                    'valuelist': []
+                }
+            ];
+        };
+
+        operators.relationals = function () {
+            return [{
+                'type':
+                    'Operator',
+                'text':
+                    'Opr:And',
+                'value':
+                    'AND',
+                'datatype':
+                    'relational',
+                'valuelist':
+                    []
+            },
+                {
+                    'type':
+                        'Operator',
+                    'text':
+                        'Opr:Or',
+                    'value':
+                        'OR',
+                    'datatype':
+                        'relational',
+                    'valuelist':
+                        []
+                }];
+        };
+
+        operators.stringOperators = function () {
+            return [
+                 {
+                     'type': 'Operator',
+                     'text': 'Opr:=',
+                     'value': 'EqualTo',
+                     'datatype': 'text',
+                     'valuelist': []
+                 },
+                 {
+                     'type': 'Operator',
+                     'text': 'Opr:!=',
+                     'value': 'NotEqualTo',
+                     'datatype': 'text',
+                     'valuelist': []
+                 },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:Contains',
+                    'value': 'Contains',
+                    'datatype': 'text',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:DoNotContains',
+                    'value': 'DoNotContains',
+                    'datatype': 'text',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:StartsWith',
+                    'value': 'StartsWith',
+                    'datatype': 'text',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:EndsWith',
+                    'value': 'EndsWith',
+                    'datatype': 'text',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Opr:IsInList',
+                    'value': 'IsInList',
+                    'datatype': 'text',
+                    'valuelist': []
+                },
+            ];
+        };
+
+        operators.sqlOperators = function () {
+            return [
+                {
+                    'type': 'Operator',
+                    'text': 'Avg Of',
+                    'value': 'AVG',
+                    'datatype': 'sql',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Count Of',
+                    'value': 'COUNT',
+                    'datatype': 'sql',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Sum Of',
+                    'value': 'SUM',
+                    'datatype': 'sql',
+                    'valuelist': []
+                }
+            ];
+        };
+
+        operators.dateOperators = function () {
+            return [
+                 {
+                     'type': 'Operator',
+                     'text': 'Date:Today',
+                     'value': 'Today',
+                     'datatype': 'date',
+                     'valuelist': []
+                 },
+                {
+                    'type': 'Operator',
+                    'text': 'Date:Yesterday',
+                    'value': 'Yesterday',
+                    'datatype': 'date',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Date:Tommorow',
+                    'value': 'Tommorow',
+                    'datatype': 'date',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Date:MonthStart',
+                    'value': 'MonthStart',
+                    'datatype': 'date',
+                    'valuelist': []
+                },
+                {
+                    'type': 'Operator',
+                    'text': 'Date:MonthEnd',
+                    'value': 'MonthEnd',
+                    'datatype': 'date',
+                    'valuelist': []
+                },
+            ];
+        };
+
+        return {
+            Operators: operators
+        };
+    });
+
 
 csapp.filter('changetext', function () {
     return function (input) {
