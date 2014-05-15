@@ -1,39 +1,11 @@
-﻿<div data-ng-if="true">
+﻿<div data-ng-if="false">
     <!--<input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x"/>-->
     <form>
-        <!--  <select class="nya-selectpicker" ng-options="c for c in array1" data-ng-model="abce.data" data-container="body">
-        </select>-->
-        <!--  <select id="dynamic-options" ng-options="c for c in array1" nya-selectpicker ng-model="myModel" data-container="body">-->
-        <!--<option ng-repeat="option in array1" value="{{option}}">{{option}}</option>-->
-        <!-- </select>-->
-
-            <cs-form  mode="'add'">
-        <div class="dropdown">
-            <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
-                <div class="input-group">
-                    <input type="text" class="form-control" data-ng-model="data.dateDropDownInput"><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                </div>
-            </cs-form>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                <datetimepicker data-ng-model="data.dateDropDownInput" data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }" />
-            </ul>
+        <div ng-controller="HomeCtrl">
+            <cs-field data-ng-model="date.dt" field="fields[0]" min-date="'2014-05-12'"></cs-field>
         </div>
-
-
-        <ng-form data-ng-if="true" name="parentForm">
-            <cs-form  layout="5.4.8" >
-                <!--<cs-field data-ng-model="abce.data1" data-ng-change ="changeFunc(abcde)" field="fields[7]"></cs-field>-->
-                <cs-field data-ng-model="abce.data" layout="10.2.8" data-ng-change="dataChanged()" field="fields[1]"></cs-field>
-                <!--<cs-field data-ng-model="abce.data"  field="fields[1]"></cs-field>
-                <cs-field data-ng-model="abce.data"  track-by="value" value-list="array" field="fields[0]"></cs-field>-->
-                <cs-field data-ng-model="abce.data1"  value-list="array" field="fields[0]"></cs-field>
-            </cs-form>
-        </ng-form>
-        <pre>{{abce}}</pre>
-        <pre>{{pqr}}{{clicked}}</pre>
     </form>
 </div>
-
 <div
     data-ng-show="showPendingOptions()"
     data-ng-cloack="">
