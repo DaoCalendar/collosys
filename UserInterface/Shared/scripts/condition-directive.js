@@ -163,6 +163,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
             if (validations.validateValue($scope.tokens, value)) {
                 $scope.tokens.selected.push(seleVal);
                 setToken(seleVal);
+                setNextToken(seleVal);
                 clearFilterString();
             } else {
                 $scope.tokens.error = 'Please select field or operator first';
@@ -186,6 +187,10 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
             } else if(token.type=='Formula' || token.type=='Table') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
                     return ((row.type === 'Operator') && (row.datatype === token.datatype));
+                });
+            } else if (token.type === 'value') {
+                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                    return ((row.type === 'Operator') && (row.datatype === $scope.tokens.secondLastToken.datatype));
                 });
             }
             
@@ -536,6 +541,23 @@ csapp.filter('changetext', function () {
     };
 });
 
+//#region Condition directive
+csapp.directive("csCondition", function () {
+    return {
+        restrict: 'E',
+        controller: 'conditionCtrl',
+        templateUrl: baseUrl + 'Shared/templates/condition-directive.html',
+        scope: {
+            type: '@',
+            tableName: '@',
+            selected: '=',
+            formulaList: '='
+        }
+    };
+
+});
+
+//#endregion
 
 //if (validations.validate($scope.tokens, item)) {
 //    $scope.tokens.selected.push(item);
