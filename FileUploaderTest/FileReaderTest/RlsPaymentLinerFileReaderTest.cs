@@ -19,7 +19,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data=new FileMappingData();
-            _uploadedFile = _data.GetUploadedFile();
+           // _uploadedFile = _data.GetUploadedFile();
             _fileReader = new RlsPaymentLinerFileReader(_uploadedFile);
             
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();

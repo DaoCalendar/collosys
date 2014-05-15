@@ -141,13 +141,14 @@ namespace ColloSys.DataLayer.NhSetup
             });
         }
 
-        private static Configuration ConfigureSqLite(string dbFilePath)
+        private static Configuration ConfigureSqLite(string connection)
         {
             var config = new Configuration().DataBaseIntegration(db =>
              {
-                 db.Dialect<SQLiteDialect>();
-                 db.Driver<SQLite20Driver>();
-                 db.ConnectionString = string.Format("Data Source='{0}';Version=3;", dbFilePath);
+                 db.Dialect<ExtendedSqliteDialect>();
+
+                 db.Driver<ExtendedSqliteDriver>();
+                 db.ConnectionString = connection;
                  db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
                  db.IsolationLevel = IsolationLevel.ReadCommitted;
                  db.Timeout = 10;
@@ -157,10 +158,10 @@ namespace ColloSys.DataLayer.NhSetup
                  db.AutoCommentSql = true;
 
                  db.BatchSize = 1000;
-                 db.SchemaAction = SchemaAutoAction.Validate;
+                 //db.SchemaAction = SchemaAutoAction.Validate;
              });
 
-            config.SessionFactory().GenerateStatistics();
+            //config.SessionFactory().GenerateStatistics();
             return config;
         }
     }

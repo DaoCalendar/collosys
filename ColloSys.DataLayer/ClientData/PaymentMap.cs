@@ -15,12 +15,11 @@ namespace ColloSys.DataLayer.Mapping
     {
         public PaymentMap()
         {
-            Table("PAYMENT");
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
 
-            Property(x => x.FileDate, map => map.Index("IX_PAYMENT"));
+            Property(x => x.FileDate);
             Property(x => x.FileRowNo);
-            Property(x => x.AccountNo, map => map.Index("PAYMENT"));
+            Property(x => x.AccountNo, map => map.Index("IX_PAYMENT"));
 
             Property(x => x.TransCode);
             Property(x => x.TransDate);

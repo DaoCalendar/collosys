@@ -18,7 +18,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFileForRlsPaymentManualReserval();
+          //  _uploadedFile = _data.GetUploadedFileForRlsPaymentManualReserval();
             _fileReader = new RlsPaymentManualReversalFileReader(_uploadedFile);
        }
 

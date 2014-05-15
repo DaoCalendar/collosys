@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
@@ -7,10 +8,10 @@ using NLog;
 
 namespace ColloSys.FileUploader.FileReader
 {
-   public  class FileProcess
+    public class FileProcess
     {
-       private readonly Logger _log = LogManager.GetCurrentClassLogger();
-
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        
         #region status updates
         public void UpdateFileStatus(FileScheduler fileScheduler, ColloSysEnums.UploadStatus uploadStatus, ICounter rowCounter)
         {
@@ -18,16 +19,12 @@ namespace ColloSys.FileUploader.FileReader
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    fileScheduler.ErrorRows = rowCounter.ErrorRecords;
-                    fileScheduler.ValidRows = rowCounter.ValidRecords;
-                    fileScheduler.TotalRows = rowCounter.TotalRecords;
-                    fileScheduler.EndDateTime = DateTime.Now;
-                    fileScheduler.UploadStatus = uploadStatus;
+                    
 
-                    _log.Info(string.Format("ReadFile: updating fileschduler-status table. " +
-                                               "rows uploaded {0}. status {1}",
-                                               fileScheduler.TotalRows,
-                                               fileScheduler.UploadStatus));
+                    //_log.Info(string.Format("ReadFile: updating fileschduler-status table. " +
+                    //                        "rows uploaded {0}. status {1}",
+                    //    fileScheduler.TotalRows,
+                    //    fileScheduler.UploadStatus));
 
                     var status = new FileStatus
                     {
@@ -41,23 +38,21 @@ namespace ColloSys.FileUploader.FileReader
                         ErrorRows = rowCounter.ErrorRecords,
                         UploadStatus = uploadStatus
                     };
-                    fileScheduler.FileStatuss.Add(status);
-                    session.SaveOrUpdate(fileScheduler);
+                    
+                    session.SaveOrUpdate(status);
                     tx.Commit();
-
-                   
                 }
             }
         }
 
-        public void ComputeStatus(FileScheduler fileScheduler)
+        public void ComputeStatus(FileScheduler fileScheduler,ICounter counter)
         {
-            if (fileScheduler.ValidRows <= 0)
+            if (counter.ValidRecords <= 0)
             {
                 fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.Error;
                 fileScheduler.StatusDescription = "0 Valid Rows";
             }
-            else if (fileScheduler.ErrorRows > 0)
+            else if (counter.ErrorRecords > 0)
             {
                 fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.DoneWithError;
             }
@@ -69,12 +64,10 @@ namespace ColloSys.FileUploader.FileReader
 
         public void UpdateFileScheduler(FileScheduler fileScheduler, ICounter rowCounter, ColloSysEnums.UploadStatus uploadStatus)
         {
-            using (var session = SessionManager.GetCurrentSession())
+            using (var session = SessionManager.GetNewSession())
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    
-
                     _log.Info(string.Format("ReadFile: updating fileschduler-status table. " +
                                                "rows uploaded {0}. status {1}",
                                                fileScheduler.TotalRows,
@@ -93,14 +86,14 @@ namespace ColloSys.FileUploader.FileReader
                         UploadStatus = uploadStatus,
                     };
                     fileScheduler.FileStatuss.Add(status);
-                    tx.Commit();
+
                     fileScheduler.ErrorRows = rowCounter.ErrorRecords;
                     fileScheduler.ValidRows = rowCounter.ValidRecords;
                     fileScheduler.TotalRows = rowCounter.TotalRecords;
                     fileScheduler.EndDateTime = DateTime.Now;
                     fileScheduler.UploadStatus = uploadStatus;
                     session.SaveOrUpdate(fileScheduler);
-                    
+                    tx.Commit();
                 }
             }
         }

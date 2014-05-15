@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="alert" data-ng-class="(tokens.lastToken.type=='Operator')? 'alert-danger':'alert-info'" style="word-wrap:normal;">
+    <div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
         <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
     </div>
     <div class="row" data-ng-show="tokens.error">
@@ -35,10 +35,7 @@
             <td>Second Last Selected Token:</td>
             <td>{{tokens.secondLastToken.text}} (type: {{tokens.secondLastToken.type}})</td>
         </tr>
-        <tr>
-            <td>Next Token: </td>
-            <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
-        </tr>
+        
         <tr>
             <td>
                 Added Tokens List

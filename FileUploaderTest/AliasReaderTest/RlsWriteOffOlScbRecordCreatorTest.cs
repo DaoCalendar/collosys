@@ -23,7 +23,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             _mappingData = new FileMappingData();
             _excelReader = new NpOiExcelReader(FileInfo);
-            _fileScheduler = _mappingData.GetUploadedFile();
+            //_fileScheduler = _mappingData.GetUploadedFile();
             _counter = new ExcelRecordCounter();
             _record = new RlsWriteOffPlScbRecordCreator(_fileScheduler);
         }

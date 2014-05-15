@@ -32,7 +32,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Arrange
             _mappingData = new FileMappingData();
-            _fileScheduler = _mappingData.GetUploadedFile();
+           // _fileScheduler = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
             _objCreator = Substitute.For<AliasPaymentRecordCreator>(_fileScheduler, (uint) 3, (uint) 8);

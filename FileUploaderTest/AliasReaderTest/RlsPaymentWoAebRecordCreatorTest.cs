@@ -19,7 +19,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Init()
         {
             _mappingData = new FileMappingData();
-            _fileUploaded = _mappingData.GetUploadedFile();
+            //_fileUploaded = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _objRecordCreator = new RlsPaymentWoAebRecordCreator(_fileUploaded);
         }

@@ -10,7 +10,7 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
-    class EbbsPaymentWoAutoRecordCreatorTest:SetUpAssembliesForTest
+    class EbbsPaymentWoAutoRecordCreatorTest:SetUpAssemblies
     {
         private AliasPaymentRecordCreator _recordCreator;
         private FileScheduler _fileScheduler;
@@ -23,7 +23,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Init()
         {
             _mappingData = new FileMappingData();
-            _fileScheduler = _mappingData.GetUploadedFile();
+            //_fileScheduler = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _counter=new ExcelRecordCounter();
             _ePaymentExcludeCodes = _mappingData.GetTransactionList();
