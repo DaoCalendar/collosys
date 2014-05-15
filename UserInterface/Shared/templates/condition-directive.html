@@ -9,14 +9,14 @@
     </div>
     <div class="row" data-ng-form="addForm">
         <div class="col-md-pull-7">
-            <input type="text" data-ng-model="filter.filterString" class="form-control typeahead-lg"
-                   typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} | limitTo:10"
+            <input type="text" data-ng-model="tokens.filterString" class="form-control typeahead-lg"
+                   typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} "
                    typeahead-min-length="0"
                    typeahead-on-select="addToken($item,$model,$label)">
         </div>
         <div class="col-md-pull-4">
             <input type="submit" value="Add Value"
-                   data-ng-click="addValue(filter.filterString)"
+                   data-ng-click="addValue(tokens.filterString)"
                    class="btn btn-default">
             <input type="button"
                    class="btn btn-default"
@@ -28,16 +28,12 @@
 <div class="row">
     <table class="table table-bordered">
         <tr>
-            <td class="col-md-3">Type:</td>
-            <td class="col-md-9">{{type}}</td>
-        </tr>
-        <tr>
-            <td>Last Selected Token</td>
-            <td>{{tokens.lastToken.text}}</td>
+            <td class="col-md-3">Last Selected Token</td>
+            <td class="col-md-9"> {{tokens.lastToken.text}}</td>
         </tr>
         <tr>
             <td>Second Last Selected Token:</td>
-            <td>{{tokens.secondLastToken.text}}</td>
+            <td>{{tokens.secondLastToken.text}} (type: {{tokens.secondLastToken.type}})</td>
         </tr>
         <tr>
             <td>Next Token: </td>
