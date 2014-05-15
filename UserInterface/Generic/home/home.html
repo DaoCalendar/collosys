@@ -7,13 +7,13 @@
             <!--<option ng-repeat="option in array1" value="{{option}}">{{option}}</option>-->
         </select>
         <ng-form data-ng-if="true" name="parentForm" class="form-horizontal">
-            <cs-field-group  mode="'add'">
+            <cs-form  mode="'add'">
                 <cs-field data-ng-model="abce.data" data-ng-disabled="false" data-ng-click="changeFunc($parent.abce.data)" field="fields[0]"></cs-field>{{array}}
                 <cs-field data-ng-model="abcd" value-ist="array" multiple="multiple" data-ng-change ="changeFunc(abcd)" field="fields[5]"></cs-field>
                 <cs-field data-ng-model="abce.data" data-ng-change ="changeFunc(abcde)" field="fields[7]"></cs-field>
                 <pre>{{abce.data}}</pre>
                 <pre>{{pqr}}{{clicked}}</pre>
-            </cs-field-group>
+            </cs-form>
         </ng-form>
     </form>
 </div>
