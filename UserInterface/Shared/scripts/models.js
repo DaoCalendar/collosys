@@ -140,12 +140,12 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
 
         var getColumns = function (tableName) {
             var table = getTable(tableName);
-            return angular.copy(table.Columns);
+            return table.Columns;
         };
 
         var getBillingColumns = function () {
             var table = getTable("CustomerInfo");
-            return angular.copy(table.Columns);
+            return table.Columns;
         };
 
         return {
