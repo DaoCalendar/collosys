@@ -14,7 +14,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
         var init = function () {
             models.FileUpload = $csFileUploadModels.init();
             models.Stakeholder = $csStakeholderModels.init();
-            models.AllocSubpolicy = $csAllocationModels.init();
+            models.Allocation = $csAllocationModels.init();
             models.Billing = $csBillingModels.init();
             models.Generic = $csGenericModels.init();
             return;
@@ -50,88 +50,88 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                     return angular.copy(models.FileUpload.FilterCondition);
 
                 case "Stakeholder":
-                    return angular.copy(models.FileUpload.Stakeholder);
+                    return angular.copy(models.Stakeholder.Stakeholder);
 
                 case "StkhHierarchy":
-                    return angular.copy(models.FileUpload.StkhHierarchy);
+                    return angular.copy(models.Stakeholder.StkhHierarchy);
 
                 case "StkhWorking":
-                    return angular.copy(models.FileUpload.StkhWorking);
+                    return angular.copy(models.Stakeholder.StkhWorking);
 
                 case "StkhPayment":
-                    return angular.copy(models.FileUpload.StkhPayment);
+                    return angular.copy(models.Stakeholder.StkhPayment);
 
                 case "StkhRegistration":
-                    return angular.copy(models.FileUpload.StkhRegistration);
+                    return angular.copy(models.Stakeholder.StkhRegistration);
 
                 case "StakeAddress":
-                    return angular.copy(models.FileUpload.StakeAddress);
+                    return angular.copy(models.Stakeholder.StakeAddress);
 
                 case "AllocSubpolicy":
-                    return angular.copy(models.FileUpload.AllocSubpolicy);
+                    return angular.copy(models.Allocation.AllocSubpolicy);
 
                 case "AllocPolicy":
-                    return angular.copy(models.FileUpload.AllocPolicy);
+                    return angular.copy(models.Allocation.AllocPolicy);
 
                 case "ViewApprovePolicy":
-                    return angular.copy(models.FileUpload.ViewApprovePolicy);
+                    return angular.copy(models.Allocation.ViewApprovePolicy);
 
                 case "BillAdhoc":
-                    return angular.copy(models.FileUpload.BillAdhoc);
+                    return angular.copy(models.Billing.BillAdhoc);
 
                 case "AdhocPayout":
-                    return angular.copy(models.FileUpload.AdhocPayout);
+                    return angular.copy(models.Billing.AdhocPayout);
 
                 case "ReadyForBilling":
-                    return angular.copy(models.FileUpload.ReadyForBilling);
+                    return angular.copy(models.Billing.ReadyForBilling);
 
                 case "Summary":
-                    return angular.copy(models.FileUpload.Summary);
+                    return angular.copy(models.Billing.Summary);
 
                 case "BillAmount":
-                    return angular.copy(models.FileUpload.BillAmount);
+                    return angular.copy(models.Billing.BillAmount);
 
                 case "BillingPolicy":
-                    return angular.copy(models.FileUpload.BillingPolicy);
+                    return angular.copy(models.Billing.BillingPolicy);
 
                 case "BillingSubpolicy":
-                    return angular.copy(models.FileUpload.BillingSubpolicy);
+                    return angular.copy(models.Billing.BillingSubpolicy);
 
                 case "Formula":
-                    return angular.copy(models.FileUpload.Formula);
+                    return angular.copy(models.Billing.Formula);
 
                 case "Matrix":
-                    return angular.copy(models.FileUpload.Matrix);
+                    return angular.copy(models.Billing.Matrix);
 
                 case "HoldingPolicy":
-                    return angular.copy(models.FileUpload.HoldingPolicy);
+                    return angular.copy(models.Billing.HoldingPolicy);
 
                 case "ActivateHoldingPolicy":
-                    return angular.copy(models.FileUpload.ActivateHoldingPolicy);
+                    return angular.copy(models.Billing.ActivateHoldingPolicy);
 
                 case "TaxList":
-                    return angular.copy(models.FileUpload.TaxList);
+                    return angular.copy(models.Generic.TaxList);
 
                 case "TaxMaster":
-                    return angular.copy(models.FileUpload.TaxMaster);
+                    return angular.copy(models.Generic.TaxMaster);
 
                 case "Pincode":
-                    return angular.copy(models.FileUpload.Pincode);
+                    return angular.copy(models.Generic.Pincode);
 
                 case "Custbill":
-                    return angular.copy(models.FileUpload.Custbill);
+                    return angular.copy(models.Generic.Custbill);
 
                 case "Keyvalue":
-                    return angular.copy(models.FileUpload.Keyvalue);
+                    return angular.copy(models.Generic.Keyvalue);
 
                 case "Permission":
-                    return angular.copy(models.FileUpload.Permission);
+                    return angular.copy(models.Generic.Permission);
 
                 case "Product":
-                    return angular.copy(models.FileUpload.Product);
+                    return angular.copy(models.Generic.Product);
 
                 case "Grid":
-                    return angular.copy(models.FileUpload.Grid);
+                    return angular.copy(models.Generic.Grid);
 
                 default:
                     throw "Invalid Table Name : " + tableName + ".";
