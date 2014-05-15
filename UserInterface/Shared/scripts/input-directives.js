@@ -707,18 +707,18 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"  ui-select2="field.select2Options"';
+            var html = '<select  name="myfield"  data-ui-select3="field.select3Options"';
             //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
             html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (field.useRepeat !== true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            html += (field.useOptions === true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
-            html += field.useRepeat === true ? field.ngRepeat : ' ';
+            html += field.useOptions !== true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -743,7 +743,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (field.useRepeat !== true) {
+            if (field.useOptions === true) {
                 field.ngOptions = field.valueField + ' as ' + field.textField;
                 field.ngOptions += ' for row in ';
                 field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
@@ -753,9 +753,9 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             }
 
-            field.select2Options = {
-                //more options here
-                setPristine: true,
+            field.select3Options = {
+                initPristrine: true,
+                allowClear: field.allowClear || false,
             };
         };
 
@@ -1014,7 +1014,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var setLayout = function (field, csFormCtrl) {
+        var setLayout = function (field, csFormCtrl, attr) {
 
             field.size = {};
 
@@ -1025,8 +1025,17 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     control: 8,
                 };
             } else {
-                field.size = csFormCtrl.getSize();
-                console.log("size: ",field.size);
+                if (angular.isDefined(attr.layout)) {
+                    layout = attr.layout.split(".");
+                    field.size = {
+                        div: layout[0],
+                        label: layout[1],
+                        control: layout[2]
+                    };
+                } else {
+                    field.size = csFormCtrl.getSize();
+                }
+
             }
 
 
@@ -1053,7 +1062,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             var field = fieldGetter(scope);
             scope.field = field;
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
-            setLayout(field, controllers.csFormCtrl);
+            setLayout(field, controllers.csFormCtrl, attrs);
 
             var typedFactory = getFactory(field.type);
             typedFactory.checkOptions(field, attrs);
@@ -1101,7 +1110,7 @@ csapp.directive('csForm', function () {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div><div ng-transclude=""></div></div>',
+        template: '<div class="container"><div ng-transclude=""></div></div>',
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'
