@@ -367,7 +367,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.factory = factory;
             $scope.factory.initEnums();
             $scope.formula = $csModels.getColumns("Formula");
-            $scope.CustBillViewModel = $csModels.Columns("CustomerInfo");
+            $scope.CustBillViewModel = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.dldata.formula = {};
             $scope.dldata.formula.Category = 'Liner';

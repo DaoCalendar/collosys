@@ -85,7 +85,7 @@ csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalI
             $scope.accNoAndCustList = [];
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.addpaymentModel = $csModels.getColumns("ExcludeCase");
+            $scope.addpaymentModel = $csModels.getColumns("Payment");
         })();
 
         $scope.getCustomerName = function () {

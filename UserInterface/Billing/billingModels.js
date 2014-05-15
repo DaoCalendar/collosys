@@ -159,8 +159,9 @@
         };
     };
 
-    var models = {};
     var init = function () {
+        var models = {};
+
         models.BillAdhoc = {
             Table: "BillAdhoc",
             Columns: billAdhoc()
@@ -220,7 +221,6 @@
     };
 
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);

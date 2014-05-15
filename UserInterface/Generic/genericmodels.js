@@ -126,8 +126,9 @@
         };
     };
 
-    var models = {};
     var init = function () {
+        var models = {};
+
         models.TaxList = {
             Table: "TaxList",
             Columns: taxList(),
@@ -172,7 +173,6 @@
     };
 
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);

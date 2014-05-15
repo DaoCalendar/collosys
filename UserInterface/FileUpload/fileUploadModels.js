@@ -1,6 +1,4 @@
 ﻿csapp.factory("$csFileUploadModels", ["$csShared", function ($csShared) {
-    var models = {};
-
     var fileDetail = function () {
         return {
             AliasName: { label: "Alias Name", type: "enum", required: true, valueList: $csShared.enums.FileAliasName },
@@ -182,6 +180,8 @@
     };
 
     var init = function () {
+        var models = {};
+
         models.FileDetail = {
             TableName: 'FileDetail',
             Columns: fileDetail()
@@ -230,11 +230,8 @@
         return models;
     };
 
-
-
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);
 
