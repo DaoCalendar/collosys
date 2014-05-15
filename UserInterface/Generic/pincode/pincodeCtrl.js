@@ -8,13 +8,13 @@
             $scope.dldata.Clusters = [];
             $scope.dldata.Districts = [];
             $scope.dldata.City = [];
-            datalayer.getCityCategory();
-            datalayer.getRegion();
+            //datalayer.getCityCategory();
+            //datalayer.getRegion();
             datalayer.getState();
-            datalayer.getCluster();
-            datalayer.getDistrict();
-            datalayer.getCity();
-            datalayer.getWholePincode();
+            //datalayer.getCluster();
+            //datalayer.getDistrict();
+            //datalayer.getCity();
+            //datalayer.getWholePincode();
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             $scope.dldata.PincodeUintList = [];
         })();
@@ -24,14 +24,20 @@
         //    datalayer.changeState(stateName);
         //};
 
+
+
         $scope.getRegion = function () {
             datalayer.getData().then(function () {
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
             });
         };
+        $scope.$watch('eGPincodeModel.Region.valueList', function (oldVal,newVal) {
+            console.log('oldVal: ', oldVal, 'newVal: ', newVal);
+        });
+
+        console.log(datalayer.dldata);
 
         $scope.openAddEditModal = function (mode, gPincodes) {
-            $scope.getRegion();
             $modal.open({
                 templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
                 controller: 'editPincodeModalController',
@@ -314,6 +320,13 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
 
 csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes", "$csModels", "pincodeFactory", "$csnotify",
     function ($scope, datalayer, $modalInstance, gPincodes, $csModels, factory, $csnotify) {
+        
+        $scope.getRegion = function () {
+            datalayer.getData().then(function () {
+                $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
+            });
+        };
+        
         (function () {
             $scope.GPincodedata = {};
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
@@ -326,11 +339,12 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
             } else {
                 $scope.GPincodedata = datalayer.dldata.GPincodedata;
+                $scope.getRegion();
             };
         })();
 
         var dldata = datalayer.dldata;
-
+        console.log($csModels.getColumns("Pincode"));
         $scope.getState = function (region) {
             datalayer.getStateData(region).then(function (data) {
                 $scope.eGPincodeModel.State.valueList = data;

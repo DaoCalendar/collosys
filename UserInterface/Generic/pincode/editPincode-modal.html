@@ -5,79 +5,68 @@
     </div>
 
     <div class="modal-body">
-        <div class="row">
-            <cs-field-group mode="mode">
-                <div class="col-md-8">
+
+        <cs-form layout="7.2.5" mode="mode">
                     <cs-field data-ng-model="GPincodedata.Country" field="eGPincodeModel.Country" data-ng-disabled="true"></cs-field>
-                </div>
            
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.Region" 
                               data-ng-change="getState(GPincodedata.Region);regionChange()"
                               field="eGPincodeModel.Region">
                     </cs-field>
-                </div>
             
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.State" field="eGPincodeModel.State" 
                               data-ng-change="getCluster(GPincodedata.Region,GPincodedata.State);stateChange()"></cs-field>
-                </div>
 
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.Cluster" field="eGPincodeModel.Cluster"
                               data-ng-change="getDistrict(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster);clusterChange()"></cs-field>
-                </div>
 
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
                               data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
-                </div>
-
-                <div style="margin-bottom: 5px">
-                    <div class="col-md-8" data-ng-show="!showTextBox" >
-                        <cs-field data-ng-model="GPincodedata.City"
+            
+          
+                    <div data-ng-if="!showTextBox" class="row"  >
+                        <cs-field layout="7.2.5" data-ng-model="GPincodedata.City"
                                   field="eGPincodeModel.City"
                                   data-ng-required="!showTextBox"
                                   typeahead="c for c in pincodeCity($viewValue,GPincodedata.District)">
                         </cs-field>
-                    </div>
-                    <div class="col-md-8" data-ng-show="showTextBox" style="margin-bottom: 5px">
-                        <label class="col-md-4 control-label">City<span style="color: red">*</span></label>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" data-ng-model="GPincodedata.City" data-ng-required="showTextBox"/>
+                        <div class="col-md-2">
+                           <button class="btn btn-success" data-ng-click="addCity()" data-ng-show="!showTextBox">Add New City</button>
+                    </div></div>
+                    <div data-ng-if="showTextBox" class="row">
+                        <div class="col-md-7">
+                            <label class="col-md-2">City<span style="color: red">*</span></label>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" data-ng-model="GPincodedata.City" data-ng-required="showTextBox"/>
+                            </div>
                         </div>
+                        <div class="col-md-3">
+                        <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="showTextBox">Cancel</button>
                     </div>
-                   
-                    <div class="col-md-3">
-                        <button class="btn btn-success" data-ng-click="addCity()" data-ng-show="!showTextBox">Add New City</button>
-                        <button class="btn btn-warning" data-ng-click="cancelCity()" data-ng-show="showTextBox">Not Now</button>
                     </div>
-                </div>
-                
-
-                <div class="col-md-8">
+                  <!--  <div class="col-md-5" style="margin-bottom: 7px">
+                     
+                        
+                    </div>-->
+               
+           
                     <cs-field data-ng-model="GPincodedata.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
-                </div>
 
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
                               typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
                               data-ng-change="areaChange()"></cs-field>
-                </div>
 
-                <div class="col-md-8">
                     <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
                               data-ng-change="pincodedata(GPincodedata.Pincode)"
                               typeahead="c for c in missingPincode($viewValue)"
                               ui-validate="{'data' : 'pincodeCheck($value)'}">
                     </cs-field>
-                </div>
 
 
-            </cs-field-group>
-        </div>
-
+            </cs-form>
     </div>
+
+
 
     <div class="modal-footer well">
         <button class="btn btn-success" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist">Save</button>
