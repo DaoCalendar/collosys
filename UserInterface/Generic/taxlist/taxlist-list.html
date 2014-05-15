@@ -27,7 +27,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in taxList | filter: search">
-                    <td><i class="btn glyphicon glyphicon-edit" data-ng-click="edit(t, $index)"></i></td>
+                    <td><icon-btn type="edit" data-ng-click="edit(t, $index)"></icon-btn></td>
                     <td>{{t.TaxName}}</td>
                     <td>{{t.TaxType}}</td>
                     <td>{{t.ApplicableTo}}</td>

@@ -72,7 +72,7 @@
                     <tr data-ng-repeat="GPincode in dldata.GPincodes | filter:search | orderBy: 'Pincode'">
                         <td>
                             <div class="btn-group">
-                                <i class="btn glyphicon glyphicon-edit" data-ng-click="openAddEditModal('edit',GPincode)"></i>
+                                <icon-btn type="edit" data-ng-click="openAddEditModal('edit',GPincode)"></icon-btn>
                             </div>
                         </td>
                         <td>{{GPincode.Pincode}}</td>

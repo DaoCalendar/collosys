@@ -3,7 +3,7 @@
         <table class="table table-bordered table-hover table-condensed">
             <thead>
                 <tr>
-                    <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddSingleColumnModal()"></i></th>
+                    <th><icon-btn type="add" data-ng-click="showAddSingleColumnModal()"></icon-btn></th>
                     <th>File Column Name </th>
                     <th>Position </th>
                     <th>Length</th>
@@ -19,11 +19,11 @@
                 <tr data-ng-repeat="column in datalayer.dldata.fileDetail.FileColumns | orderBy: 'Position'" data-ng-animate="{ enter: 'animation-enter', leave: 'animation-leave'} ">
                     <td style="width: 100px">
                         <div class="btn-group">
-                            <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModal(column,$index)"></i>
-                            <i class="btn glyphicon glyphicon-arrow-up" data-ng-disabled="$index==0"
-                               data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
-                            <i class="btn glyphicon glyphicon-arrow-down" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
-                               data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></i>
+                            <icon-btn type="delete" data-ng-click="showDeleteModal(column,$index)"></icon-btn>
+                            <icon-btn type="up-arrow" data-ng-disabled="$index==0"
+                               data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></icon-btn>
+                            <icon-btn type="down-arrow" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
+                               data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></icon-btn>
                         </div>
                     </td>
                     <td>

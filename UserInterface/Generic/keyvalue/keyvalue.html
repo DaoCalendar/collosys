@@ -23,85 +23,86 @@
         <div data-ng-show="gKeyValue.Key">
             <div class="row" data-ng-show="dldata.Values.length > 0">
                 Total Values : {{dldata.Values.length}}
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        <i class="btn glyphicon glyphicon-plus" data-ng-show="showAddButton" data-ng-click="addNew=true"></i>
-                    </th>
-                    <th>Values</th>
-                </tr>
-                <tr data-ng-show="showAddButton && addNew" data-ng-form="addNewValueForm">
-                    <td>
-                        <i class="btn glyphicon glyphicon-save" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></i>
-                    </td>
-                    <td>
-                        <div data-ng-switch on="dldata.gKeyValue.ValueType">
-                            <div data-ng-switch-when="Number">
-                                <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
+                <table class="table table-bordered table-hover">
+                   <col width="50">
+                    <thead>
+                        <tr>
+                            <th>
+                                <icon-btn type="add" data-ng-show="showAddButton" data-ng-click="addNew=true"></icon-btn>
+                            </th>
+                            <th>Values</th>
+                        </tr>
+                        <tr data-ng-show="showAddButton && addNew" data-ng-form="addNewValueForm">
+                            <td>
+                                <icon-btn type="save" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></icon-btn>
+                            </td>
+                            <td>
+                                <div data-ng-switch on="dldata.gKeyValue.ValueType">
+                                    <div data-ng-switch-when="Number">
+                                        <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
 
-                            </div>
-                            <div data-ng-switch-when="NumberList">
-                                <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
-                            </div>
+                                    </div>
+                                    <div data-ng-switch-when="NumberList">
+                                        <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
+                                    </div>
 
 
-                            <div data-ng-switch-when="Date">
-                                <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
+                                    <div data-ng-switch-when="Date">
+                                        <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
 
-                            </div>
-                            <div data-ng-switch-when="DateList">
-                                <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
-                            </div>
+                                    </div>
+                                    <div data-ng-switch-when="DateList">
+                                        <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
+                                    </div>
 
-                            <div data-ng-switch-default>
-                                <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.TextValue" no-label=""></cs-field>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-ng-repeat="v in dldata.Values | orderBy : 'Value'">
-                    <td>
-                        <div class="btn-group">
-                            <i class="btn glyphicon glyphicon-edit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></i>
-                            <i class="btn glyphicon glyphicon-save" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></i>
-                        </div>
-                    </td>
-                    <td>
-                        <div data-ng-show="!isEdit" data-ng-switch on="dldata.gKeyValue.ValueType">
-                            <div data-ng-switch-when="Date">{{v.Value | date:'yyyy-MM-dd'}}</div>
-                            <div data-ng-switch-when="DateList">{{v.Value | date:'yyyy-MM-dd'}}</div>
-                            <div data-ng-switch-default>{{v.Value}}</div>
-                        </div>
+                                    <div data-ng-switch-default>
+                                        <cs-field data-ng-model="gKeyValue.Value" field="gKeyValuefield.TextValue" no-label=""></cs-field>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="v in dldata.Values | orderBy : 'Value'">
+                            <td>
+                                <div class="btn-group">
+                                    <icon-btn type="edit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></icon-btn>
+                                    <icon-btn type="save" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></icon-btn>
+                                </div>
+                            </td>
+                            <td>
+                                <div data-ng-show="!isEdit" data-ng-switch on="dldata.gKeyValue.ValueType">
+                                    <div data-ng-switch-when="Date">{{v.Value | date:'yyyy-MM-dd'}}</div>
+                                    <div data-ng-switch-when="DateList">{{v.Value | date:'yyyy-MM-dd'}}</div>
+                                    <div data-ng-switch-default>{{v.Value}}</div>
+                                </div>
 
-                        <div data-ng-show="isEdit" data-ng-switch on="dldata.gKeyValue.ValueType">
-                            <div data-ng-switch-when="Number">
-                                <cs-field data-ng-model="v.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
+                                <div data-ng-show="isEdit" data-ng-switch on="dldata.gKeyValue.ValueType">
+                                    <div data-ng-switch-when="Number">
+                                        <cs-field data-ng-model="v.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
 
-                            </div>
-                            <div data-ng-switch-when="NumberList">
-                                <cs-field data-ng-model="v.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
+                                    </div>
+                                    <div data-ng-switch-when="NumberList">
+                                        <cs-field data-ng-model="v.Value" field="gKeyValuefield.NumberValue" no-label=""></cs-field>
 
-                            </div>
+                                    </div>
 
-                            <div data-ng-switch-when="Date">
-                                <cs-field data-ng-model="v.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
+                                    <div data-ng-switch-when="Date">
+                                        <cs-field data-ng-model="v.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
 
-                            </div>
-                            <div data-ng-switch-when="DateList">
-                                <cs-field data-ng-model="v.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
-                            </div>
+                                    </div>
+                                    <div data-ng-switch-when="DateList">
+                                        <cs-field data-ng-model="v.Value" field="gKeyValuefield.DateValue" no-label=""></cs-field>
+                                    </div>
 
-                            <div data-ng-switch-default>
-                                <cs-field data-ng-model="v.Value" field="gKeyValuefield.TextValue" no-label=""></cs-field>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                                    <div data-ng-switch-default>
+                                        <cs-field data-ng-model="v.Value" field="gKeyValuefield.TextValue" no-label=""></cs-field>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>
