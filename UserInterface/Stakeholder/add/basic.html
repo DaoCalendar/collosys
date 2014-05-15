@@ -1,46 +1,37 @@
-﻿<div class="form-horizontal " data-ng-cloak="" data-ng-controller="basicInfoController">
+﻿<div data-ng-cloak="" data-ng-controller="basicInfoController">
     <!--Name and UserID-->
-    <div class="row">
+
+    <cs-form layout="6.4.8">
         <!--Name-->
-        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" field="stakeholderModels.Name"></cs-field>
-        </div>
+ 
         <!--UserId-->
-        <div class="col-md-5" data-ng-if="basicInfoData.Hierarchy.IsUser">
+        <div  data-ng-if="basicInfoData.Hierarchy.IsUser">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
-                data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)"
-                field="stakeholderModels.userId"></cs-field>
+                      data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)"
+                      field="stakeholderModels.userId"></cs-field>
         </div>
-    </div>
     <!--MobileNo and EmailId-->
-    <div class="row">
-        <div class="col-md-5">
             <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"
                 field="stakeholderModels.mobile"></cs-field>
-        </div>
         <!--EmailId code-->
-        <div class="col-md-5">
             <cs-field
                 data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"
                 field="stakeholderModels.email"></cs-field>
-        </div>
+    <!--Reporting to manager-->
+    <div data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
+        <cs-field
+            value-list="$parent.WizardData.FinalPostModel.ReportsToList"
+            data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
+            field="stakeholderModels.manager"></cs-field>
     </div>
+    <!--Date of Starting-->
+  
+        <cs-field
+            data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
+            field="stakeholderModels.date"></cs-field>
 
-    <div class="row">
-        <!--Reporting to manager-->
-        <div class="col-md-5" data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
-            <cs-field
-                value-list="$parent.WizardData.FinalPostModel.ReportsToList"
-                data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
-                field="stakeholderModels.manager"></cs-field>
-        </div>
-        <!--Date of Starting-->
-        <div class="col-md-5">
-            <cs-field
-                data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
-                field="stakeholderModels.date"></cs-field>
-        </div>
-    </div>
+    </cs-form>
 </div>
 
 

@@ -57,8 +57,8 @@ csapp.factory("fileSchedulerFactory", function() {
 });
 
 
-csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory","$csFileUploadModels",
-    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory, $csFileUploadModels) {
+csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory","$csModels",
+    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory, $csModels) {
         "use strict";
 
         //#region helpers
@@ -76,7 +76,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.ResetPage();
             $scope.datalayer = datalayer;
             datalayer.GetAll();
-            $scope.fileSchedulerfield = $csFileUploadModels.models.FileScheduler;
+            $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
         })();
 
         $scope.changeSelectedFrequency = function () {

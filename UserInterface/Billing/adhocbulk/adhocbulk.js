@@ -109,7 +109,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.BillAdhoc = $csModels.models.Billing.BillAdhoc;
+            $scope.BillAdhoc = $csModels.getColumns("BillAdhoc");
             datalayer.getProducts();
             $scope.PaymentList = [];
             $scope.selecttransdata = [];

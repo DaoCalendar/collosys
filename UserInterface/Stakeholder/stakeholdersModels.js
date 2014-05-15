@@ -22,8 +22,6 @@
             line3: { label: "Line3", type: 'text' },
             pincode: { label: "Pincode", type: "text" },
             landline: { label: "Landline", type: 'text', template: 'phone', patternMessage: "Invalid Number" }
-
-
         };
     };
 
@@ -123,30 +121,45 @@
         };
     };
 
-    var stakeView = function () {
-        return {
-            View: { label: "View", type: "enum" },
-            Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
-            Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
-            Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
-            Products: { label: "Products", type: "enum" },
-        };
-    };
 
     var init = function () {
-        return {
-            Stakeholder: stakeholder(),
-            StkhHierarchy: stkhHierarchy(),
-            StkhWorking: stkhWorking(),
-            StkhPayment: stkhPayment(),
-            StkhRegistration: stkhRegistration(),
-            StakeAddress: stakeAddress(),
-            StakeView: stakeView()
+        var models = {};
+
+        models.Stakeholder = {
+            Table: 'Stakeholder',
+            Columns: stakeholder()
         };
+
+        models.StkhHierarchy = {
+            Table: 'StkhHierarchy',
+            Columns: stkhHierarchy()
+        };
+
+        models.StkhWorking = {
+            Table: 'StkhWorking',
+            Columns: stkhWorking()
+        };
+
+        models.StkhPayment = {
+            Table: 'StkhPayment',
+            Columns: stkhPayment()
+        };
+
+        models.StkhRegistration = {
+            Table: 'StkhRegistration',
+            Columns: stkhRegistration()
+        };
+
+        models.StakeAddress = {
+            Table: 'StakeAddress',
+            Columns: stakeAddress()
+        };
+
+        return models;
     };
 
     return {
-        init: init()
+        init: init
     };
 
 }]);

@@ -1,5 +1,5 @@
-﻿csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$Validations', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csStakeholderModels",
-function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $csnotify, $csConstants, $location, stakeModels) {
+﻿csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels",
+function ($routeParams, $scope, rest, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels) {
 
     $scope.StepManager = {
         StepNames: {
@@ -447,10 +447,9 @@ function ($routeParams, $scope, rest, $validations, $log, $window, $csfactory, $
         $scope.showInEditmode = false;
         $scope.showBasicInfo = true;
         $scope.showWorking = false;
-        $scope.stakeholderModels = stakeModels.init.Stakeholder;
+        $scope.stakeholderModels = $csModels.getColumns("Stakeholder");
 
         // $scope.showHierarchyDesignation = false;
-        $scope.val = $validations;
         $scope.indexData = {
             Hierarchy: $scope.WizardData.GetHierarchy(),
             ShowHierarchyDesignation: true

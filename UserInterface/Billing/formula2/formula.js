@@ -38,13 +38,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
     }]);
 
-csapp.factory('formulaFactory', ['formulaDataLayer', function (datalayer) {
-    return {
-    };
-}]);
-
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
-    function ($scope, datalayer, factory, $csfactory, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels',
+    function ($scope, datalayer, factory, $csfactory, $csModels) {
 
         $scope.initFormulaList = function (product) {
             if (angular.isUndefined(product)) {
@@ -85,18 +80,12 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.boolOpr.showDetails = true;
             $scope.formula = selectedformula;
         };
-
-        var getBConditions = function (formulaId) {
-            datalayer.getBConditions(formulaId).then(function (data) {
-                $scope.formula.BConditions = data;
-            });
-        };
-
+        
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.Formula = $csBillingModels.models.Formula;
+            $scope.Formula = $csModels.getColumns("Formula");
             initPageData();
         })();
 

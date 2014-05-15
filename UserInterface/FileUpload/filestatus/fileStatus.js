@@ -152,8 +152,8 @@ csapp.controller("fileStatusDetailsController", ["$scope", "fileStatusDataLayer"
 ]);
 
 csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "fileStatusDataLayer",
-    "fileStatusFactory", "modalService", "$modal","$csFileUploadModels",
-    function ($scope, $interval, $csfactory, datalayer, factory, modalServer, $modal, $csFileUploadModels) {
+    "fileStatusFactory", "modalService", "$modal","$csModels",
+    function ($scope, $interval, $csfactory, datalayer, factory, modalServer, $modal, $csModels) {
         "use strict";
 
         //#region auto refresh
@@ -163,7 +163,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
             $scope.fileScheduler.toDate = moment().format('L');
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.fileSchedulerfield = $csFileUploadModels.models.FileStatus;
+            $scope.fileSchedulerfield = $csModels.getColumns("FileStatus");
         })();
 
         $scope.$watch(function () {

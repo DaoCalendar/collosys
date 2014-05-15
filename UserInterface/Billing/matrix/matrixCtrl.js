@@ -1,10 +1,10 @@
-﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify', '$csFileUploadModels',
-    function (rest, $csnotify, $csFileUploadModels) {
+﻿csapp.factory('matrixDataLayer', ['Restangular', '$csnotify', '$csModels',
+    function (rest, $csnotify, $csModels) {
         var restApi = rest.all("MatrixApi");
         var dldata = {};
         dldata.columnDef = [];
 
-        dldata.custInfoData = $csFileUploadModels.CustomerInfo; //customerInfo from model.js
+        dldata.custInfoData = $csModels.getColumns("CustomerInfo"); //customerInfo from model.js
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {
@@ -193,11 +193,9 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
         };
 
         var highlightSelectedMatrix = function (smatrix) {
-            if (angular.isUndefined(dldata.matrix.Name)) {
-                return { backgroundColor: 'white' };
-            }
             if (smatrix.Name.toUpperCase() === dldata.matrix.Name.toUpperCase())
                 return { backgroundColor: 'rgba(195, 201, 204, 0.24)' };
+            return { backgroundColor: 'white' };
         };
 
         var getMatrixValue = function (row, col) {
@@ -211,6 +209,7 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
             if (n === 0) {
                 return ({ backgroundColor: 'rgba(128, 128, 128, 0.29)' });
             }
+            return ({ backgroundColor: '' });
         };
 
         var opertorValue = function (index, totalRows, selOperator) {
@@ -222,8 +221,7 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
 
         var setInputTypeForColumn = function (columnTypeValue) {
             var inputTypeItem = _.find(dldata.columnDef, function (item) {
-                if (item.field === columnTypeValue)
-                    return item;
+                return (item.field === columnTypeValue);
             });
             dldata.columnType = inputTypeItem.InputType === 'number' ? inputTypeItem.InputType : 'text';
         };
@@ -316,14 +314,14 @@ csapp.factory('matrixFactory', ['matrixDataLayer', '$csfactory',
     }]);
 
 csapp.controller('matrixCtrl', [
-    '$scope', 'matrixDataLayer', 'matrixFactory', '$csBillingModels',
-    function ($scope, datalayer, factory, $csBillingModels) {
+    '$scope', 'matrixDataLayer', 'matrixFactory', '$csModels',
+    function ($scope, datalayer, factory, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             factory.initEnumsConst();
-            $scope.Matrix = $csBillingModels.models.Matrix;
+            $scope.Matrix = $csModels.getColumns("Matrix");
             datalayer.getProducts();
         })();
 

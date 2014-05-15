@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory', "$csGrid", "$csAllocationModels", "$csShared",
-    function ($scope, datalayer, factory, $modal, $csfactory, $grid, $csAllocationModels, $csShared) {
+csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approveViewFactory', '$modal', '$csfactory', "$csGrid", "$csModels", "$csShared",
+    function ($scope, datalayer, factory, $modal, $csfactory, $grid, $csModels, $csShared) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
@@ -8,7 +8,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $scope.factory = factory;
             $csfactory.enableSpinner();
             // $scope.datalayer.getProducts();
-            $scope.ViewApprovePolicy = $csAllocationModels.models.ViewApprovePolicy;
+            $scope.ViewApprovePolicy = $csModels.getColumns("ViewApprovePolicy");
             $scope.ProductList = $csShared.enums.Products;
             $scope.allocData = {};
             $scope.allocData.fromDate = moment().startOf('month').add('minute', 330).format('YYYY-MM-DD');
@@ -78,17 +78,6 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
 
         var dldata = {};
         dldata.selectedAllocations = [];
-
-        var showErrorMessage = function (response) {
-            $csnotify.error(response.data);
-        };
-
-        //var getProducts = function () {
-        //    restApi.customGETLIST("GetScbSystems").then(function (data) {
-        //        dldata.ProductList = data;
-        //    }, showErrorMessage);
-        //};
-
 
         var fetchData = function (allocData) {
             var allocStatus = "None";
@@ -309,15 +298,15 @@ csapp.factory('approveViewFactory', ['approveViewDataLayer',
     }]);
 
 //#region "changes successfully Done"
-csapp.controller('changAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory', '$csAllocationModels',
-function ($scope, $modalInstance, datalayer, factory, $csAllocationModels) {
+csapp.controller('changAllocCtrl', ['$scope', '$modalInstance', 'approveViewDataLayer', 'approveViewFactory', '$csModels',
+function ($scope, $modalInstance, datalayer, factory, $csModels) {
 
     (function () {
         $scope.dldata = datalayer.dldata;
         $scope.gridOptions = $scope.dldata.gridOptions;
         $scope.datalayer = datalayer;
         $scope.factory = factory;
-        $scope.ViewApprovePolicy = $csAllocationModels.models.ViewApprovePolicy;
+        $scope.ViewApprovePolicy = $csModels.getColumns("ViewApprovePolicy");
 
     })();
 

@@ -1,6 +1,5 @@
 ﻿csapp.factory("$csAllocationModels", ["$csShared", function ($csShared) {
 
-    var models = {};
     var allocSubpolicy = function () {
         return {
             Stakeholder: { label: "Select Stakeholder", type: "select", textField: "Name", valueField: "Id" },//TOBE Disscuss list type
@@ -8,9 +7,10 @@
             AllocateType: {
                 label: "Allocate Type", type: "select", valueField: "value", textField: "display",
                 valueList: [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
-        { display: "Do Not Allocate", value: "DoNotAllocate" },
-        { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
-        { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }], required: true
+                            { display: "Do Not Allocate", value: "DoNotAllocate" },
+                            { display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
+                            { display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }],
+                required: true
             },
             ReasonNotAllocate: { label: "Select Reason", type: "enum", valueList: [] },
             NoAllocMonth: { label: "Allocate Months", type: "number", template: 'int', min: 0, required: true },
@@ -37,7 +37,7 @@
 
     var viewApprovePolicy = function () {
         return {
-            Product: { label: "Product", type: "enum", valueList:[] },
+            Product: { label: "Product", type: "enum", valueList: [] },
             Todate: { label: "To Date", type: "date" },
             Fromdate: { label: "From Date", type: "date" },
             AllocStatus: {
@@ -57,19 +57,32 @@
                     { value: "Donotallocate", display: "Do not allocate" },
                     { value: "AllocateToStakeholder", display: "Allocate to stakeholder" }]
             },
-            Stakeholder: {label:"Select Stakeholder",type:"select",valueField:"row",textField:"Name",valueList:[]}
+            Stakeholder: { label: "Select Stakeholder", type: "select", valueField: "row", textField: "Name", valueList: [] }
 
         };
     };
 
     var init = function () {
-        models.AllocSubpolicy = allocSubpolicy();
-        models.AllocPolicy = allocPolicy();
-        models.ViewApprovePolicy = viewApprovePolicy();
+        var models = {};
+
+        models.AllocSubpolicy = {
+            Table: "AllocSubpolicy",
+            Columns: allocSubpolicy()
+        };
+
+        models.AllocPolicy = {
+            Table: "AllocPolicy",
+            Columns: allocPolicy()
+        };
+
+        models.ViewApprovePolicy = {
+            Table: "ViewApprovePolicy",
+            Columns: viewApprovePolicy()
+        };
+
         return models;
     };
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);

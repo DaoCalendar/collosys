@@ -41,7 +41,7 @@ csapp.controller('taxlistCtrl', ['$scope', 'taxlistDataLayer', '$csModels',
             $scope.taxForm.$setPristine();
         };
         var initLocal = function() {
-            $scope.TaxList = $csModels.models.Generic.TaxList;
+            $scope.TaxList = $csModels.getColumns("TaxList");
             $scope.taxList = [];
             $scope.tax = {};
             $scope.indexOfSelected = -1;

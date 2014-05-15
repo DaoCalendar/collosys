@@ -195,14 +195,14 @@
     };
 }]);
 
-csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer', '$csGenericModels',
-    function ($scope, permissionsFactory, rest, datalayer, $csGenericModels) {
+csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer', '$csModels',
+    function ($scope, permissionsFactory, rest, datalayer, $csModels) {
 
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             datalayer.SetPermissions(permissionsFactory.permission);
-            $scope.Permission = $csGenericModels.models.Permission;
+            $scope.Permission = $csModels.getColumns("Permission");
             $scope.prmsn = permissionsFactory.permission;
             
 

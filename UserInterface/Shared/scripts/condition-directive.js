@@ -103,7 +103,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         };
 
         var initLocals = function () {
-            $scope.modal = $csmodels.tables[$scope.tableName];
+            $scope.modal = $csmodels.getTables($scope.tableName);
             $scope.tokens = {
                 tokensList: [],
                 selected: [],

@@ -1,8 +1,8 @@
 ﻿
 //#region "Controller"
 csapp.controller('readyForBillingController', ["$scope", "$csnotify", "$csfactory", "$csGrid",
-    "$Validations", "readyForBillingDataLayer", "$csBillingModels",
-    function ($scope, $csnotify, $csfactory, $grid, $validation, factoryForBilling, $csBillingModels) {
+    "$Validations", "readyForBillingDataLayer", "$csModels",
+    function ($scope, $csnotify, $csfactory, $grid, $validation, factoryForBilling, $csModels) {
 
     (function () {
         $scope.dldata = factoryForBilling.dldata;
@@ -10,7 +10,7 @@ csapp.controller('readyForBillingController', ["$scope", "$csnotify", "$csfactor
         $scope.dldata.pageData = [];
         $scope.dldata.oldBillStatus = 'null';
         factoryForBilling.GetProducts();
-        $scope.readyforbilling = $csBillingModels.models.ReadyForBilling;
+        $scope.readyforbilling = $csModels.getColumns("ReadyForBilling");
     })();
 
     //#region "Fetch Grid Data"

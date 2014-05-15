@@ -330,6 +330,7 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
             });
 
             dldata.outputWithFunction = (outResult) ? true : false;
+            return dldata.outputWithFunction;
         };
 
         var modelDateValidation = function (startDate, endDate) {
@@ -355,8 +356,8 @@ csapp.factory('payoutSubpolicyFactory', ['payoutSubpolicyDataLayer', '$csfactory
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csBillingModels', '$csShared', '$csFileUploadModels', '$csGenericModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels, $csShared, $csFileUploadModels, $csGenericModels) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', 'payoutSubpolicyFactory', '$modal', '$csModels', '$csShared',
+    function ($scope, datalayer, factory, $modal, $csModels, $csShared) {
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -367,9 +368,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.dldata.newCondition = {};
             $scope.dldata.newCondition.Rtype = "Value";
             $scope.showDiv = false;
-            $scope.payoutSubpolicy = $csBillingModels.models.BillingSubpolicy;
-            $scope.CustBillViewModel = $csFileUploadModels.models.CustomerInfo;
-            $scope.GPincode = $csGenericModels.models.Pincode;
+            $scope.payoutSubpolicy = $csModels.getColumns("BillingSubpolicy");
+            $scope.CustBillViewModel = $csModels.getColumns("CustomerInfo");
+            $scope.GPincode = $csModels.getColumns("Pincode");
            // $scope.datalayer.getProducts();
             $scope.fieldname = '';
             $scope.showField = true;
@@ -403,8 +404,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             var field = con.split(".");
             if (field[0] === "CustBillViewModel") {
                 field[0] = "Customer";
-                var fieldName = "";
-                fieldName = (field[0] + "." + field[1]);
+                var fieldName = (field[0] + "." + field[1]);
                 return fieldName;
             } else {
                 return condition;
@@ -467,27 +467,6 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.payoutSubpolicy.ConditionOperators.valueList = $csShared.enums.ConditionOperators;
             condition.Rtype = 'Value';
             condition.Rvalue = '';
-        };
-
-        $scope.manageField = function (condition) {
-            //condition.Rvalue = '';
-            //$scope.showField = $scope.showField === true ? false : true;
-            //$scope.showField2 = !$scope.showField2;
-            //$scope.dldata.selectedLeftColumn = _.find($scope.dldata.columnDefs, { field: condition.LtypeName });
-            //var inputType = $scope.dldata.selectedLeftColumn.InputType;
-            //if (inputType !== 'text') {
-            //    return;
-            //}
-            //if (condition.Operator === 'EndsWith' || condition.Operator === 'StartsWith' ||
-            //    condition.Operator === 'Contains' || condition.Operator === 'DoNotContains') {
-            //    $scope.fieldname.type = "text";
-            //    $scope.fieldname.required = true;
-            //    return;
-            //}
-            //if (condition.Operator === "IsInList") {
-            //    $scope.fieldname.multiple = "multiple";
-            //}
-            //$scope.fieldname.type = "enum";
         };
 
         $scope.$watch("payoutSubpolicy.BOutputs.length", factory.watchPayoutSubpolicy);

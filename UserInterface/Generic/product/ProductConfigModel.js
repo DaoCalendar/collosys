@@ -115,13 +115,13 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
     }]);
 
 
-csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance", "ProductFactory", "$csGenericModels",
-    function ($scope, datalayer, $modalInstance, factory, $csGenericModels) {
+csapp.controller("updateView", ["$scope", "ProductsDatalayer", "$modalInstance", "ProductFactory", "$csModels",
+    function ($scope, datalayer, $modalInstance, factory, $csModels) {
     
     (function() {
         $scope.dldata = datalayer.dldata;
         $scope.factory = factory;
-        $scope.Products = $csGenericModels.models.Product;
+        $scope.Products = $csModels.getColumns("Product");
     })();
     
     $scope.isSelected = function (item, val) {

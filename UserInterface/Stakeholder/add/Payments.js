@@ -1,13 +1,13 @@
 ﻿
 (
-csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', "$csStakeholderModels",
-    function ($scope, $http, rest, $validations, $log, $timeout, $csfactory, $csnotify, stakeModels) {
+csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$log', '$timeout', '$csfactory', '$csnotify', "$csModels",
+    function ($scope, $http, rest, $log, $timeout, $csfactory, $csnotify, $csModels) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
         var init = function () {
 
-            $scope.paymentModel = stakeModels.init.StkhPayment;
+            $scope.paymentModel = $csModels.getColumns("StkhPayment");
 
             $scope.paymentData = {
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy(),
@@ -55,9 +55,6 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
                 index: ''
             };
 
-            $scope.val = $validations;
-            //$scope.paymentData.Payment = {};
-
             getPaymentDetails();
         };
 
@@ -83,7 +80,6 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
         };
 
         $scope.TotalPayment = function (basic, hra, other) {
-            var reportStakeholder = null;
             var serviceCharge = 1;
 
             if (angular.isUndefined(basic)) {
@@ -124,6 +120,7 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
                 }
                 return $scope.SalDetails.total;
             }
+            return 0;
         };
         $scope.clear = function () {
             $scope.paymentData.Payment = null;
@@ -131,11 +128,6 @@ csapp.controller("PaymentDetails", ['$scope', '$http', 'Restangular', '$Validati
         };
 
         //Post methos
-        $scope.AddPayment = function (stakeholder) {
-            //if ($scope.$parent.WizardData.isFromWorking) {
-            //    $scope.$parent.WizardData.PayWorkModel = {
-        };
-
         $scope.confirmDelete = function (index) {
             $scope.confirmDel.showModal = true;
             $scope.confirmDel.index = index;

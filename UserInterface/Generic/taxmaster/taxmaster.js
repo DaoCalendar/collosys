@@ -56,7 +56,7 @@ csapp.controller('taxmasterCtrl', ['$scope', 'taxmasterDataLayer', 'taxmasterFac
         
         
         var initLocal = function () {
-            $scope.TaxMaster = $csModels.models.Generic.TaxMaster;
+            $scope.TaxMaster = $csModels.getColumns("TaxMaster");
             $scope.taxMasterList = [];
             $scope.tax = {
                 Country: 'India',

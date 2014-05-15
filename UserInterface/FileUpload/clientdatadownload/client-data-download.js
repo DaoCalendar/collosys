@@ -10,7 +10,7 @@ csapp.factory("ClientDataDownloadDataLayer", [
                     function (data) {
                         dldata.ProductList = data.Products;
                         dldata.CategoryList = data.Category;
-                        dldata.fileDetails = _.uniq(_.pluck(data.FileDetails,'Category'));
+                        dldata.fileDetails = _.uniq(_.pluck(data.FileDetails, 'Category'));
 
                     },
                     function (response) {
@@ -47,8 +47,8 @@ csapp.factory("ClientDataDownloadDataLayer", [
 ]);
 
 csapp.controller("ClientDataDownloadController",
-    ["$scope", "$csfactory", "$csGrid", "Logger", "ClientDataDownloadDataLayer", "$csFileUploadModels",
-    function ($scope, $csfactory, $grid, logManager, datalayer, $csFileUploadModels) {
+    ["$scope", "$csfactory", "$csGrid", "Logger", "ClientDataDownloadDataLayer", "$csShared",
+    function ($scope, $csfactory, $grid, logManager, datalayer, $csShared) {
 
         //#region init
         //var $log = logManager.getInstance("ClientDataDownloadController");
@@ -59,7 +59,13 @@ csapp.controller("ClientDataDownloadController",
             $scope.dldata = datalayer.dldata;
             $scope.$grid = $grid;
             datalayer.Get();
-            $scope.paramsfield = $csFileUploadModels.models.ClientDataDownload;
+            $scope.paramsfield = {
+                ShowDataBy: { label: 'Download By', type: 'select', textField: 'display', valueField: 'value' },
+                SelectedProduct: { label: 'Product', type: "enum", valueList: $csShared.enums.ProductEnum },
+                SelectedSystem: { label: 'System', type: 'enum', valueList: $csShared.enums.ScbSystems },
+                SelectedCategory: { label: 'Category', type: 'select' },
+                SelectedDate: { label: 'Date', type: 'date' }
+            };
         })();
         //#endregion
 

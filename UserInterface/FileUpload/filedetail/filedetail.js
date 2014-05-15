@@ -102,13 +102,13 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
 }]);
 
 csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
-    "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "Logger", "$csFileUploadModels",
-    function ($scope, $modalInstance, fileDetails, datalayer, factory, logManager, $csFileUploadModels) {
+    "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "Logger", "$csModels",
+    function ($scope, $modalInstance, fileDetails, datalayer, factory, logManager, $csModels) {
         "use strict";
 
         //var $log = logManager.getInstance("fileDetailsAddEditController");
 
-        $scope.fileDetailModel = $csFileUploadModels.models.FileDetail;
+        $scope.fileDetailModel = $csModels.getColumns("FileDetail");
 
         $scope.close = function (closer) {
             $modalInstance.dismiss(closer);

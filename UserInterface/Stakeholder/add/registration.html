@@ -1,24 +1,17 @@
 ﻿<div class="form-horizontal" data-ng-controller="Registration">
-    <div class="row">
-        <div class="col-md-5">
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo"
-                field="stakeholderModels.TAN"></cs-field>
-        </div>
-        <div class="col-md-5">
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo"
-                field="stakeholderModels.PAN"></cs-field>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-5">
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo"
-                field="stakeholderModels.Registration"></cs-field>
-        </div>
-        <div class="col-md-5">
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno"
-                field="stakeholderModels.ServiceTaxNo"></cs-field>
-        </div>
-    </div>
+    <cs-form layout="6.4.8">
+                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.TanNo"
+                                            field="stakeholderModels.TAN"></cs-field>
+       
+                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.PanNo"
+                          field="stakeholderModels.PAN"></cs-field>
+      
+                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.RegistrationNo"
+                          field="stakeholderModels.Registration"></cs-field>
+      
+                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Registration.ServiceTaxno"
+                          field="stakeholderModels.ServiceTaxNo"></cs-field>
+    </cs-form>
 </div>
 
 <!--<div class="form-group col-md-5">

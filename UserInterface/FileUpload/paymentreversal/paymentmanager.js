@@ -77,17 +77,15 @@ csapp.factory("paymentDataLayer", ["Restangular", "$csnotify", "$csGrid",
 ]);
 
 
-csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalInstance", "$Validations",
-    "$csFileUploadModels",
-    function ($scope, datalayer, $modalInstance, $Validation, $csFileUploadModels) {
+csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalInstance", "$csModels",
+    function ($scope, datalayer, $modalInstance, $csModels) {
 
         (function () {
-            $scope.val = $Validation;
             $scope.addpayment = {};
             $scope.accNoAndCustList = [];
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.addpaymentModel = $csFileUploadModels.models.ExcludeCase;
+            $scope.addpaymentModel = $csModels.getColumns("Payment");
         })();
 
         $scope.getCustomerName = function () {
@@ -121,8 +119,8 @@ csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalI
 ]);
 
 csapp.controller("paymentManagerController", [
-    "$scope", "$csGrid", "$Validations", "paymentDataLayer", "$modal", "$csfactory", "$csFileUploadModels",
-    function ($scope, $grid, $validation, datalayer, $modal, $csfactory, $csFileUploadModels) {
+    "$scope", "$csGrid", "$Validations", "paymentDataLayer", "$modal", "$csfactory", "$csModels",
+    function ($scope, $grid, $validation, datalayer, $modal, $csfactory, $csModels) {
         "use strict";
 
         (function () {
@@ -131,7 +129,7 @@ csapp.controller("paymentManagerController", [
             datalayer.GetSystems();
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.addpaymentModel = $csFileUploadModels.models.ExcludeCase;
+            $scope.addpaymentModel = $csModels.getColumns("Payment");
         })();
 
         $scope.excludePayment = function () {
