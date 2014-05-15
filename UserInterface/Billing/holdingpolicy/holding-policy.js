@@ -1,15 +1,5 @@
-﻿csapp.factory('holdingpolicyFactory', [
-    '$csfactory',
-    function ($csfactory) {
-        return {
-
-        };
-    }
-]);
-
-csapp.factory('holdingpolicyDatalayer',
-    ['Restangular', '$csnotify', '$csfactory',
-        function (rest, $csnotify, $csfactory) {
+﻿csapp.factory('holdingpolicyDatalayer', ['Restangular', '$csnotify',
+        function (rest, $csnotify) {
             var api = rest.all('HoldingPolicyApi');
             var dldata = {};
 
@@ -49,8 +39,9 @@ csapp.controller('holdingpolicyCtrl', [
             $scope.policy = {};
             $scope.holdingpolicyform.$setPristine();
         };
+
         var initLocal = function () {
-            $scope.PolicyList = $csModels.models.Billing.HoldingPolicy;
+            $scope.PolicyList = $csModels.getColumns("HoldingPolicy");
             $scope.policyList = [];
             $scope.policy = {};
             $scope.indexOfSelected = -1;
@@ -85,7 +76,7 @@ csapp.controller('holdingpolicyCtrl', [
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.HoldingPolicy = $csModels.models.Billing.HoldingPolicy;
+            $scope.HoldingPolicy = $csModels.getColumns("HoldingPolicy");
             initLocal();
 
             datalayer.getList().then(function (data) {

@@ -576,6 +576,7 @@
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
+    <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\add\address.html" />
     <Content Include="Stakeholder\add\AddressInfo.js" />
     <Content Include="Stakeholder\add\AddStakeholder.js" />

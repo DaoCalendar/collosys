@@ -62,8 +62,9 @@
         };
     };
 
-    var models = {};
     var init = function () {
+        var models = {};
+
         models.AllocSubpolicy = {
             Table: "AllocSubpolicy",
             Columns: allocSubpolicy()
@@ -82,7 +83,6 @@
         return models;
     };
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);

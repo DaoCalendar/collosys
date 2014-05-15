@@ -4,7 +4,7 @@
     </div>
     <div class="modal-body">
 
-        <cs-field-group mode="mode">
+        <cs-form mode="mode">
             <cs-field data-ng-model="fileMapping.ActualTable" field="fileMappingModel.ActualTable" data-ng-disabled="isReadOnly"></cs-field>
             <cs-field data-ng-model="fileMapping.TempTable" field="fileMappingModel.TempTable"  readonly="isReadOnly"></cs-field>
             <cs-field data-ng-model="fileMapping.ActualColumn" field="fileMappingModel.ActualColumn"  readonly="isReadOnly"></cs-field>
@@ -28,7 +28,7 @@
             <cs-field data-ng-model="fileMapping.OutputColumnName" field="fileMappingModel.OutputColumnName"></cs-field>
             <cs-field data-ng-model="fileMapping.StartDate" field="fileMappingModel.StartDate"></cs-field>
             <cs-field data-ng-model="fileMapping.EndDate" field="fileMappingModel.EndDate"></cs-field>
-        </cs-field-group>
+        </cs-form>
     </div>
 
     <div class="modal-footer form-group">

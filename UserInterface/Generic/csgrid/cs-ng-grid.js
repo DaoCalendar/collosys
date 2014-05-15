@@ -1,10 +1,10 @@
 ﻿
 csapp.controller("gridSettingsController", [
-    "$scope", "gridOptions", "$csGrid", "$modalInstance", "$csGenericModels",
-    function ($scope, gridOptions, $grid, $modalInstance, $csGenericModels) {
+    "$scope", "gridOptions", "$csGrid", "$modalInstance", "$csModels",
+    function ($scope, gridOptions, $grid, $modalInstance, $csModels) {
         $scope.gridOptions = gridOptions;
         $scope.$grid = $grid;
-        $scope.gridfield = $csGenericModels.models.Grid;
+        $scope.gridfield = $csModels.getColumns("Grid");
 
         $scope.FrequencyParamDaily = [{ key: '9', display: 'At 8 AM' }, { key: '12', display: 'At 12 AM' }, { key: '12', display: 'At 6 PM' }, { key: '24', display: 'At EOD' }];
         $scope.FrequencyParamWeekly = [{ key: 'Sun', display: 'Sun' },

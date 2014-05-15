@@ -572,15 +572,41 @@ csapp.directive('iconBtn', function () {
     var templateFn = function (element, attrs) {
         switch (attrs.type) {
             case 'add':
-                return '<i class="btn btn-default glyphicon glyphicon-plus"><i>';
+                return '<div class="text-center">' + '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-plus "></span>' +
+                    '</button>' + '</div>';
             case 'edit':
-                return '<i class="btn btn-default glyphicon glyphicon-edit"><i>';
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-edit"></span>' +
+                    '</button>';
             case 'view':
-                return '<i class="btn btn-default glyphicon glyphicon-file"><i>';
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-file"></span>' +
+                    '</button>';
             case 'delete':
-                return '<i class="btn btn-default glyphicon glyphicon-trash"><i>';
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-trash"></span>' +
+                    '</button>';
+            case 'up-arrow':
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-arrow-up"></span>' +
+                    '</button>';
+            case 'down-arrow':
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-arrow-down"></span>' +
+                    '</button>';
+            case 'remove':
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-remove"></span>' +
+                    '</button>';
+            case 'save':
+                return '<button class="btn btn-default">' +
+                    '<span class="glyphicon glyphicon-save"></span>' +
+                    '</button>' ;
+
             default:
         }
+        return type;
     };
 
     return {

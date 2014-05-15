@@ -121,9 +121,10 @@
         };
     };
 
-    var models = {};
 
     var init = function () {
+        var models = {};
+
         models.Stakeholder = {
             Table: 'Stakeholder',
             Columns: stakeholder()
@@ -158,8 +159,7 @@
     };
 
     return {
-        init: init,
-        models: models
+        init: init
     };
 
 }]);

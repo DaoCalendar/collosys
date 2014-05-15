@@ -26,8 +26,8 @@
 //}]);
 
 
-csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal','$csBillingModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels) {
+csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal','$csModels',
+    function ($scope, datalayer, factory, $modal, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -36,7 +36,7 @@ csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPay
             $scope.dldata.selectedProduct = '';
             $scope.dldata.adhocPayoutList = [];
             $scope.adhocPayout = {};
-            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
+            $scope.adhocPayoutbill = $csModels.getColumns("AdhocPayout");
         })();
 
         $scope.ShowIndividual = function (stkh) {
@@ -173,12 +173,12 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         };
     }]);
 
-csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modalInstance','$csBillingModels',
-    function ($scope, datalayer, factory, $modalInstance, $csBillingModels) {
+csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modalInstance','$csModels',
+    function ($scope, datalayer, factory, $modalInstance, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
-            $scope.adhocPayoutbill = $csBillingModels.models.AdhocPayout;
+            $scope.adhocPayoutbill = $csModels.getColumns("AdhocPayout");
             $scope.factory = factory;
             $scope.adhocPayout = {};
         })();

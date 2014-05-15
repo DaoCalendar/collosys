@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer', '$csBillingModels',
-    function ($scope, modaldata, $modalInstance, factory, datalayer, $csBillingModels) {
+csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer',
+    function ($scope, modaldata, $modalInstance, factory, datalayer) {
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
 
@@ -202,10 +202,7 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var approveRelation = function (relation) {
-        var orgId = relation.OrigEntityId;
-        var rejectedRelation = _.find(dldata.payoutPolicy.BillingRelations, { Id: orgId });
         return restApi.customGET('ApproveRelation', { relationId: relation.Id }).then(function () {
-            //dldata.payoutPolicy.BillingRelations.splice(dldata.payoutPolicy.BillingRelations.indexOf(rejectedRelation), 1);
             $csnotify.success('Subpolicy Approved');
             return;
         });
@@ -250,8 +247,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
 }]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal', '$csBillingModels',
-    function ($scope, datalayer, factory, $modal, $csBillingModels) {
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal', '$csModels',
+    function ($scope, datalayer, factory, $modal, $csModels) {
 
         var findIndex = function (list, value) {
             var index = -1;
@@ -281,7 +278,7 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            $scope.BillingPolicy = $csBillingModels.models.BillingPolicy;
+            $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
             datalayer.reset();
             $scope.modalData = {
                 BillingRelation: {},
@@ -305,7 +302,7 @@ csapp.controller('payoutPolicyCtrl', [
             });
         };
 
-        $scope.openModelNewSubPolicy = function (subPolicy, index) {
+        $scope.openModelNewSubPolicy = function (subPolicy) {
             $scope.buttonStatus = null;
             $scope.modalData.BillingRelations = { BillingSubpolicy: subPolicy };
             var indexl = findIndex($scope.dldata.subPolicyList, subPolicy.Id);

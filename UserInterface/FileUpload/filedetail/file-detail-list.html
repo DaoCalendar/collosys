@@ -24,7 +24,9 @@
                     <th>Description</th>
                 </tr>
                 <tr>
-                    <th><i class="btn glyphicon glyphicon-plus" data-ng-click="showAddEditPopup('add')"></i></th>
+                    <th>
+                        <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                    </th>
                     <th>
                         <input type="text" class="form-control" data-ng-model="search.AliasName" />
                     </th>
@@ -81,13 +83,12 @@
             <tbody>
                 <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
                     <td>
-                        <div>
-                            <div class="btn-group">
-                                <i class="btn glyphicon glyphicon-file" data-ng-click="showAddEditPopup('view',fileDetail)"></i>
-                                <i class="btn glyphicon glyphicon-edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></i>
-                                <i class="btn glyphicon glyphicon-trash" data-ng-click="showDeleteModelPopup(fileDetail)"></i>
-                            </div>
+                        <div class="btn-group" style="width: 130px">
+                            <icon-btn type="view" data-ng-click="showAddEditPopup('view',fileDetail)"></icon-btn>
+                            <icon-btn type="edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></icon-btn>
+                            <icon-btn type="delete" data-ng-click="showDeleteModelPopup(fileDetail)"></icon-btn>
                         </div>
+
                     </td>
                     <td>{{fileDetail.AliasName}}
                     </td>

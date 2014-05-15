@@ -1,5 +1,5 @@
-﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$modal", "$csGenericModels", "$csfactory",
-    function ($scope, datalayer, $modal, $csGenericModels, $csfactory) {
+﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$modal", "$csModels",
+    function ($scope, datalayer, $modal, $csModels) {
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -15,7 +15,7 @@
             datalayer.getDistrict();
             datalayer.getCity();
             datalayer.getWholePincode();
-            $scope.eGPincodeModel = $csGenericModels.models.Pincode;
+            $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             $scope.dldata.PincodeUintList = [];
         })();
 
@@ -312,12 +312,11 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
     }]);
 
 
-csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes",
-    "$csGenericModels", "pincodeFactory", "$csnotify",
-    function ($scope, datalayer, $modalInstance, gPincodes, $csGenericModels, factory, $csnotify) {
+csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes", "$csModels", "pincodeFactory", "$csnotify",
+    function ($scope, datalayer, $modalInstance, gPincodes, $csModels, factory, $csnotify) {
         (function () {
             $scope.GPincodedata = {};
-            $scope.eGPincodeModel = $csGenericModels.models.Pincode;
+            $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             if (gPincodes.displaymode === 'edit') {
                 $scope.GPincodedata = gPincodes.gpincode;
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.Regions;

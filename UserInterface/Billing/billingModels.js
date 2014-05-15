@@ -1,5 +1,4 @@
 ﻿csapp.factory("$csBillingModels", ["$csShared", function ($csShared) {
-    var models = {};
 
     var billAdhoc = function () {
         return {
@@ -161,22 +160,67 @@
     };
 
     var init = function () {
-        models.BillAdhoc = billAdhoc();
-        models.AdhocPayout = adhocpayout();
-        models.ReadyForBilling = readyforbilling();
-        models.Summary = summary();
-        models.BillAmount = billAmount();
-        models.BillingPolicy = billingPolicy();
-        models.BillingSubpolicy = billingSubpolicy();
-        models.Formula = formula();
-        models.Matrix = matrix();
-        models.HoldingPolicy = holdingPolicy();
-        models.ActivateHoldingPolicy = activateHolding();
+        var models = {};
+
+        models.BillAdhoc = {
+            Table: "BillAdhoc",
+            Columns: billAdhoc()
+        };
+
+        models.AdhocPayout = {
+            Table: "AdhocPayout",
+            Columns: adhocpayout()
+        }; 
+        
+        models.ReadyForBilling = {
+            Table: "ReadyForBilling",
+            Columns: readyforbilling()
+        };
+
+        models.Summary = {
+            Table: "Summary",
+            Columns: summary()
+        };
+
+        models.BillAmount = {
+            Table: "BillAmount",
+            Columns: billAmount()
+        };
+
+        models.BillingPolicy = {
+            Table: "BillingPolicy",
+            Columns: billingPolicy()
+        };
+
+        models.BillingSubpolicy = {
+            Table: "BillingSubpolicy",
+            Columns: billingSubpolicy()
+        };
+
+        models.Formula = {
+            Table: "Formula",
+            Columns: formula()
+        };
+
+        models.Matrix = {
+            Table: "Matrix",
+            Columns: matrix()
+        };
+
+        models.HoldingPolicy = {
+            Table: "HoldingPolicy",
+            Columns: holdingPolicy()
+        };
+
+        models.ActivateHoldingPolicy = {
+            Table: "ActivateHoldingPolicy",
+            Columns: activateHolding()
+        };
+
         return models;
     };
 
     return {
-        init: init,
-        models: models
+        init: init
     };
 }]);

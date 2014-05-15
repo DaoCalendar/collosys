@@ -38,8 +38,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
     }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csBillingModels',
-    function ($scope, datalayer, factory, $csfactory, $csBillingModels) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels',
+    function ($scope, datalayer, factory, $csfactory, $csModels) {
 
         $scope.initFormulaList = function (product) {
             if (angular.isUndefined(product)) {
@@ -85,7 +85,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.Formula = $csBillingModels.models.Formula;
+            $scope.Formula = $csModels.getColumns("Formula");
             initPageData();
         })();
 

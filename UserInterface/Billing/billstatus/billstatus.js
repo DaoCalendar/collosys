@@ -35,7 +35,7 @@ csapp.controller('billStatusController', ['$scope', 'billStatusDataLayer', 'bill
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
-            $scope.BillAmount = $csModels.models.Billing.BillAmount;
+            $scope.BillAmount = $csModels.getColumns("BillAmount");
         })();
 
         $scope.fetchData = function (seleData) {

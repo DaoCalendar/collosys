@@ -97,7 +97,7 @@ csapp.controller('holdingactiveCtrl', [
         };
 
         (function () {
-            $scope.ActPolicy = $csModels.models.Billing.ActivateHoldingPolicy;
+            $scope.ActPolicy = $csModels.getColumns("ActivateHoldingPolicy");
             calculateMonthList();
             initlocals();
             datalayer.getList().then(function (data) {
