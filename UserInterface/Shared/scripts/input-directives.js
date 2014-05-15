@@ -1093,7 +1093,7 @@ csapp.directive('csForm', function () {
 
     var cntrlFn = function ($scope) {
 
-        $scope.layout = $scope.layout.split(".");
+        $scope.layout = angular.isDefined($scope.layout) ? $scope.layout.split(".") : [6, 4, 8];
 
         var size = {
             div: angular.isUndefined($scope.layout[0]) ? 6 : parseInt($scope.layout[0]),
