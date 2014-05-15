@@ -153,6 +153,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
         };
     }]);
 
+//{ label: 'Number', template: 'phone', editable: false, required: true, type: 'number'}
 csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -1014,10 +1015,18 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
+        var validateSize = function (field) {
+            field.size.div = isNaN(field.size.div) ? 0 : field.size.div;
+            field.size.label = isNaN(field.size.label) ? 0 : field.size.label;
+            field.size.control = isNaN(field.size.control) ? 0 : field.size.control;
+
+            if (field.size.div === 0 || field.size.label < 0 || field.size.label > 12 || field.size.control < 0 || field.size.control > 12) {
+                throw "invalid div size";
+            }
+        };
+
         var setLayout = function (field, csFormCtrl, attr) {
-
             field.size = {};
-
             if (angular.isUndefined(csFormCtrl)) {
                 field.size = {
                     label: 4,
@@ -1028,21 +1037,17 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 if (angular.isDefined(attr.layout)) {
                     layout = attr.layout.split(".");
                     field.size = {
-                        div: layout[0],
+                        div: parseInt(layout[0]),
                         label: layout[1],
                         control: layout[2]
                     };
+
                 } else {
                     field.size = csFormCtrl.getSize();
                 }
 
             }
-
-
-            if (field.size.div === 0 || field.size.label < 0 || field.size.label > 12 || field.size.control < 0 || field.size.control > 12) {
-                throw "invalid div size";
-            }
-
+            validateSize(field);
             field.layoutClass = {
                 label: 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
@@ -1096,9 +1101,7 @@ csapp.directive('csForm', function () {
             control: angular.isUndefined($scope.layout[2]) ? 8 : parseInt($scope.layout[2]),
         };
 
-        size.div = isNaN(size.div) ? 0 : size.div;
-        size.label = isNaN(size.label) ? 0 : size.label;
-        size.control = isNaN(size.control) ? 0 : size.control;
+
 
         this.mode = $scope.mode;
 

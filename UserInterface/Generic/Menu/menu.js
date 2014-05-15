@@ -21,7 +21,6 @@ csapp.factory("menuFactory", [function () {
     };
 
     var initMenu = function (permissions) {
-        console.log("perm: ", permissions);
         menu = [
         {
             Title: "File Upload",
