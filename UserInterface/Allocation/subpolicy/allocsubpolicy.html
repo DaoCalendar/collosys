@@ -131,22 +131,22 @@
                                         </td>
                                         <!--button-->
                                         <td>
-                                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
-                                                    data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></button>
+                                            <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
+                                                    data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
                                         </td>
                                     </tr>
                                     <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{condition.ColumnName}}" />
+                                            <input type="text" class="form-control" readonly="readonly" value="{{condition.ColumnName}}" />
                                         </td>
                                         <td>
-                                            <input type="text" class="input-medium" value="{{condition.Operator}}" readonly="readonly" />
+                                            <input type="text" class="form-control" value="{{condition.Operator}}" readonly="readonly" />
                                         </td>
                                         <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
+                                            <input type="text" class="form-control" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
                                         </td>
                                         <td>
-                                            <i class="btn glyphicon glyphicon-remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                            <icon-btn type="remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
                                         </td>
                                     </tr>
                                 </thead>

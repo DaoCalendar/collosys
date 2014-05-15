@@ -167,9 +167,9 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
+                                                <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid && (dldata.payoutSubpolicy.BConditions.length < 1 || dldata.newCondition.RelationType !=='')) || dldata.policyapproved"
                                                     data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);">
-                                                </button>
+                                                </icon-btn>
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="condition in dldata.payoutSubpolicy.BConditions | orderBy: 'Priority'">
@@ -190,7 +190,7 @@
                                             </td>
 
                                             <td>
-                                                <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteCondition(condition,$index)"></i>
+                                                <icon-btn type="remove" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -257,9 +257,9 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
+                                            <icon-btn type="add" data-ng-disabled="!(newOutputForm.$valid && (dldata.payoutSubpolicy.BOutputs.length < 1 || newOutput.Operator !=='')) ||policyapproved"
                                                 data-ng-click="factory.addNewOutput(dldata.newOutput,newOutputForm)">
-                                            </button>
+                                            </icon-btn>
                                         </td>
                                     </tr>
                                 </thead>
@@ -275,7 +275,7 @@
                                             <input type="text" class="form-control" value="{{value=change(output.RtypeName + output.Rvalue)}}" readonly="readonly" />
                                         </td>
                                         <td>
-                                            <i class="btn glyphicon glyphicon-remove" data-ng-click="factory.deleteOutput(output,$index)"></i>
+                                            <icon-btn type="remove" data-ng-click="factory.deleteOutput(output,$index)"></icon-btn>
                                         </td>
                                     </tr>
                                 </tbody>

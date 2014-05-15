@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in taxMasterList | filter: search">
-                    <td><i class="btn glyphicon glyphicon-edit" data-ng-click="edit(t, $index)"></i></td>
+                    <td><icon-btn type="edit" data-ng-click="edit(t, $index)"></icon-btn></td>
                     <td>{{t.GTaxesList.TaxName}}</td>
                     <td>{{t.ApplicableTo}}</td>
                     <td>{{t.Country}}</td>
