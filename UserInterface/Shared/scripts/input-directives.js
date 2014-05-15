@@ -839,7 +839,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             field.opened = !field.opened;
         };
 
-        var disableDate = function (date,field) {
+        var disableDate = function (date, field) {
             console.log(date);
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
@@ -1054,7 +1054,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         var controllerFn = function ($scope, $element, $attrs) {
             var fieldGetter = $parse($attrs.field);
             var field = fieldGetter($scope);
-            $scope.setReadonly = function () {
+            $scope.setReadonly = function() {
                 switch ($scope.mode) {
                     case 'add':
                         return false;
@@ -1068,45 +1068,38 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var validateSize = function (field) {
-            field.size.div = isNaN(field.size.div) ? 0 : field.size.div;
-            field.size.label = isNaN(field.size.label) ? 0 : field.size.label;
-            field.size.control = isNaN(field.size.control) ? 0 : field.size.control;
-
-            if (field.size.div === 0 || field.size.label < 0 || field.size.label > 12 || field.size.control < 0 || field.size.control > 12) {
-                throw "invalid div size";
-            }
-        };
-
         var setLayout = function (field, csFormCtrl, attr) {
             field.size = {};
             if (angular.isUndefined(csFormCtrl)) {
-                field.size = {
-                    label: 4,
-                    div: 12,
-                    control: 8,
-                };
-            } else {
-                if (angular.isDefined(attr.layout)) {
-                    layout = attr.layout.split(".");
-                    field.size = {
-                        div: parseInt(layout[0]),
-                        label: layout[1],
-                        control: layout[2]
-                    };
-
-                } else {
-                    field.size = csFormCtrl.getSize();
-                }
-
+                field.size = { label: 4, div: 6, control: 8 };
+                return;
             }
-            validateSize(field);
+
+            field.size = csFormCtrl.getSize();
+            if (angular.isUndefined(attr.layout)) {
+                return;
+            }
+
+            var layout = attr.layout.split(".");
+            var size = {
+                div: angular.isUndefined(layout[0]) ? -1 : parseInt(layout[0]),
+                label: angular.isUndefined(layout[1]) ? -1 : parseInt(layout[1]),
+                control: angular.isUndefined(layout[2]) ? -1 : parseInt(layout[2]),
+            };
+
+            size.div = (isNaN(size.div) || size.div < 1 || size.div > 12) ? field.size.div : size.div;
+            size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? field.size.label : size.label;
+            size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? field.size.control : size.control;
+            field.size = size;
+            return;
+        };
+
+        var setClasses = function(field) {
             field.layoutClass = {
                 label: 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,
             };
-
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
@@ -1117,16 +1110,14 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
 
             var fieldGetter = $parse(attrs.field);
-            var field = fieldGetter(scope);
-            scope.field = field;
+            scope.field = fieldGetter(scope);
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
-            setLayout(field, controllers.csFormCtrl, attrs);
+            setLayout(scope.field, controllers.csFormCtrl, attrs);
+            setClasses(scope.field);
 
-            var typedFactory = getFactory(field.type);
-            typedFactory.checkOptions(field, attrs);
-
-            var html = typedFactory.htmlTemplate(field, attrs);
-
+            var typedFactory = getFactory(scope.field.type);
+            typedFactory.checkOptions(scope.field, attrs);
+            var html = typedFactory.htmlTemplate(scope.field, attrs);
             var newElem = angular.element(html);
             element.replaceWith(newElem);
             $compile(newElem)(scope);
@@ -1154,7 +1145,9 @@ csapp.directive('csForm', function () {
             control: angular.isUndefined($scope.layout[2]) ? 8 : parseInt($scope.layout[2]),
         };
 
-
+        size.div = (isNaN(size.div) || size.div < 1 || size.div > 12) ? 6 : size.div;
+        size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? 4 : size.label;
+        size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
         this.mode = $scope.mode;
 
