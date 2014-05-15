@@ -21,7 +21,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFileForWoSmc();
+            //_uploadedFile = _data.GetUploadedFileForWoSmc();
             _excludeCodes = _data.GetTransactionList();
             _fileReader = new EbbsPaymentWoSmcFileReader(_uploadedFile);
         }

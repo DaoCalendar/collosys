@@ -21,7 +21,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             _uploadedFile = new FileScheduler();
             _mappingData = new FileMappingData();
             _reader = new NpOiExcelReader(FileInfo);
-            _uploadedFile = _mappingData.GetUploadedFile();
+            //_uploadedFile = _mappingData.GetUploadedFile();
             _rlsPaymentLiner = new RlsPaymentLinerRecordCreator(_uploadedFile);
         }
         #endregion

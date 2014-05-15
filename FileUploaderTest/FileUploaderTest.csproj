@@ -85,6 +85,7 @@
     <Compile Include="AliasReaderTest\RlsPaymentWoPlpcRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsWriteOffAutoAebRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsWriteOffOlScbRecordCreatorTest.cs" />
+    <Compile Include="Data Provider\FileDataProvider.cs" />
     <Compile Include="DataCreator\FileUploader\FileMappingData.cs" />
     <Compile Include="DataCreator\Generic\G_KeyValue.cs" />
     <Compile Include="DummyTest\DummyTest.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection.Test\ReflectionGetValueTest.cs" />
     <Compile Include="Reflection.Test\ReflectionTest.cs" />
-    <Compile Include="SetUpAssembliesForEbbs.cs" />
     <Compile Include="UtilitiesTest\SharedUtilitiesTest.cs" />
     <Compile Include="ValueSetters.Tests\AssignTypedTests.cs" />
     <Compile Include="ValueSetters.Tests\BooleanAssignTest.cs" />

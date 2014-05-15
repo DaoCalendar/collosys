@@ -19,7 +19,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Init()
         {
             _data = new FileMappingData();
-            _uploadedFile = _data.GetUploadedFileForEbbs();
+            //_uploadedFile = _data.GetUploadedFileForEbbs();
             
             _fileReader = new EbbsPaymentLinerFileReader(_uploadedFile);
         }
