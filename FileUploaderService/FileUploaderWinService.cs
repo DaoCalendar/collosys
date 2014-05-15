@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Configuration.Install;
 using System.Globalization;
 using System.IO;
@@ -6,6 +7,8 @@ using System.Reflection;
 using System.ServiceModel;
 using System.Timers;
 using System.ServiceProcess;
+using ColloSys.DataLayer.NhSetup;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
@@ -16,11 +19,17 @@ namespace FileUploaderService
     {
         readonly Timer _timer = new Timer();
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
+        private readonly ConnectionStringSettings ConnString;
        
         private ServiceHost _serviceHost;
-        public FileUploaderWinService()
+
+        private FileUploaderWinService()
         {
+            ConnString = ColloSysParam.WebParams.ConnectionString;
             ServiceName = ProjectInstaller.ColloSysServiceName;
+            _log.Info(string.Format("Allocation Service: Connection String : {0}", ConnString.ConnectionString));
+            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
+           
             NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
         }
 
@@ -63,7 +72,6 @@ namespace FileUploaderService
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
-            TraceService("Service Start ");
 
             _timer.Elapsed += OnEventTime;
 
@@ -78,8 +86,6 @@ namespace FileUploaderService
         {
             _timer.Enabled = false;
 
-            TraceService("Service stoped");
-
             _log.Info("Service: File uploader service stoped.");
             if (_serviceHost == null) return;
             _serviceHost.Close();
@@ -89,7 +95,6 @@ namespace FileUploaderService
         private static bool HasRunBefore { get; set; }
         public void OnEventTime(object source, ElapsedEventArgs e)
         {
-            TraceService("Another entry at " + DateTime.Now);
             _log.Debug("Service: in timer event");
 
             IFileUploadService fileUpload = new FileUploadService();
@@ -100,24 +105,6 @@ namespace FileUploaderService
             }
             _log.Info("going to uploaded file");
             fileUpload.UploadFiles();
-        }
-
-        private void TraceService(string content)
-        {
-            var fs = new FileStream(@"c:\FileUploaderService.txt", FileMode.OpenOrCreate, FileAccess.Write);
-
-            var sw = new StreamWriter(fs);
-
-            //find the end of the underlying filestream
-            sw.BaseStream.Seek(0, SeekOrigin.End);
-
-            //add the text
-            sw.WriteLine(content);
-            //add the text to the underlying filestream
-
-            sw.Flush();
-            //close the writer
-            sw.Close();
         }
     }
 }

@@ -3,6 +3,8 @@
 using System;
 using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Context;
+using NHibernate.Tool.hbm2ddl;
 
 #endregion
 
@@ -11,6 +13,8 @@ namespace ColloSys.DataLayer.NhSetup
     public static class SessionFactoryManager
     {
         private static Configuration _configuration;
+
+        public static NhInitParams NhInitParams { get; private set; }
 
         public static Configuration NhConfiguration
         {
@@ -23,10 +27,7 @@ namespace ColloSys.DataLayer.NhSetup
                 }
                 return _configuration;
             }
-            private set
-            {
-                _configuration = value;
-            }
+            private set { _configuration = value; }
         }
 
         private static ISessionFactory _sessionFactory;
@@ -50,28 +51,33 @@ namespace ColloSys.DataLayer.NhSetup
             {
                 return;
             }
+
+            NhInitParams = obj;
+
             //LoggingSetup.SetupLogging();
 
-            NhConfiguration = Build(obj);
+            NhConfiguration = ConfigurationSetup.ConfigureNHibernate(obj);
 
-            _sessionFactory = NhConfiguration.BuildSessionFactory();
-        }
-
-        private static Configuration Build(NhInitParams obj)
-        {
-            var configuration = ConfigurationSetup.ConfigureNHibernate(obj);
-
-            MappingSetup.Setup(configuration);
+            MappingSetup.Setup(NhConfiguration);
 
             //ValidationSetup.Setup(configuration);
 
-            NhCachingSetup.Setup(configuration);
+            NhCachingSetup.Setup(NhConfiguration);
 
             //AudtingSetup.Setup(configuration);
 
-            return configuration;
+            _sessionFactory = NhConfiguration.BuildSessionFactory();
+
+            if (obj.DbType == ConfiguredDbTypes.SqLite)
+            {
+                var session = _sessionFactory.OpenSession();
+                CurrentSessionContext.Bind(session);
+                var schema = new SchemaExport(NhConfiguration);
+                schema.Execute(false, true, false, session.Connection, null);
+            }
         }
     }
+
 }
 
 

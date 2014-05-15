@@ -55,7 +55,14 @@ namespace ColloSys.DataLayer.SessionMgr
 
         public static ISession GetNewSession()
         {
-            return GetSessionFactory().OpenSession();
+            if (SessionFactoryManager.NhInitParams.DbType == ConfiguredDbTypes.SqLite)
+            {
+                return GetCurrentSession();
+            }
+            else
+            {
+                return GetSessionFactory().OpenSession();
+            }
         }
 
         public static IStatelessSession GetStatelessSession()

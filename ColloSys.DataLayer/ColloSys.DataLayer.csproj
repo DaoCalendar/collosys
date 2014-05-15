@@ -177,6 +177,8 @@
     <Compile Include="NhSetup\ConfigurationSetup.cs" />
     <Compile Include="NhSetup\ExtendedMsSql2008ClientDriver.cs" />
     <Compile Include="NhSetup\ExtendedMsSql2008Dialect.cs" />
+    <Compile Include="NhSetup\ExtendedSqliteDialect.cs" />
+    <Compile Include="NhSetup\ExtendedSqliteDriver.cs" />
     <Compile Include="NhSetup\MappingSetup.cs" />
     <Compile Include="NhSetup\NHCachingSetup.cs" />
     <Compile Include="NhSetup\NhInitParams.cs" />

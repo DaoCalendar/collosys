@@ -1,17 +1,22 @@
-﻿using System.IO;
-
-
+﻿using System;
+using System.IO;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
-using NSubstitute;
+using NHibernate.Tool.hbm2ddl;
+using NLog;
+using NLog.Config;
+using NLog.Layouts;
+using NLog.Targets;
 using NUnit.Framework;
+
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
@@ -22,15 +27,20 @@ namespace ReflectionExtension.Tests.FileReaderTest
     {
         private FileProcess _fileProcess;
         private FileScheduler _fileScheduler;
-        readonly FileMappingData _obj = new FileMappingData();
+        readonly FileDataProvider _obj = new FileDataProvider();
         private ICounter _counter;
-        
+        //SetUpAssembliesForTest objTest = new SetUpAssembliesForTest();
+        private SchemaExport _db;
 
         [SetUp]
         public void Init()
         {
-            _fileScheduler = _obj.GetUploadedFile();
+
             _counter = new ExcelRecordCounter();
+            _fileProcess = new FileProcess();
+
+            _fileScheduler = _obj.GetUploadedFile();
+
         }
 
         [Test]
@@ -38,9 +48,10 @@ namespace ReflectionExtension.Tests.FileReaderTest
         {
             //Arrange
             _fileScheduler.ErrorRows = 1;
+            _fileScheduler.ValidRows = 5;
 
             //Act
-            _fileProcess.ComputeStatus(_fileScheduler);
+            _fileProcess.ComputeStatus(_fileScheduler, _counter);
 
 
             Assert.AreEqual(_fileScheduler.UploadStatus, ColloSysEnums.UploadStatus.DoneWithError);
@@ -50,14 +61,14 @@ namespace ReflectionExtension.Tests.FileReaderTest
         public void Test_UpdateFileScheduler_Assigning_UploadStatus()
         {
             //Arrange
-             _fileProcess.UpdateFileScheduler(_fileScheduler,_counter,ColloSysEnums.UploadStatus.DoneWithError);
+            _fileProcess.UpdateFileScheduler(_fileScheduler, _counter, ColloSysEnums.UploadStatus.DoneWithError);
 
             var fs = new FileScheduler();
-            IExcelReader Exreader = SharedUtility.GetInstance(new FileInfo(_fileScheduler.FileDirectory + @"\" + _fileScheduler.FileName));
+            IExcelReader exreader = SharedUtility.GetInstance(new FileInfo(_fileScheduler.FileDirectory + @"\" + _fileScheduler.FileName));
             IAliasRecordCreator<Payment> objrecord = new RlsPaymentLinerRecordCreator(_fileScheduler);
-            IRecord<Payment> record = new RecordCreator<Payment>(objrecord, Exreader, _counter);
-             // RlsPaymentLinerFileReader rls=new RlsPaymentLinerFileReader();
-           
+            IRecord<Payment> record = new RecordCreator<Payment>(objrecord, exreader, _counter);
+            // RlsPaymentLinerFileReader rls=new RlsPaymentLinerFileReader();
+
             //Act
             _fileProcess.UpdateFileScheduler(_fileScheduler, _counter, ColloSysEnums.UploadStatus.UploadRequest);
 
@@ -68,6 +79,18 @@ namespace ReflectionExtension.Tests.FileReaderTest
         [Test]
         public void Test_UpdateFileStatus_Asssigning()
         {
+            //Arrange
+            var file = new FileScheduler() { FileDetail = { } };
+
+            //Act
+            _fileProcess.UpdateFileStatus(_fileScheduler, ColloSysEnums.UploadStatus.Done, _counter);
+
+            //Assert
+            Assert.AreEqual(_fileScheduler.UploadStatus, ColloSysEnums.UploadStatus.Done);
         }
+
     }
+
+
+ 
 }

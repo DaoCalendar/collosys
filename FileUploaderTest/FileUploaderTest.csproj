@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=2.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SharedLib\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="NSubstitute, Version=1.7.2.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\NSubstitute.dll</HintPath>
@@ -129,6 +133,10 @@
     <ProjectReference Include="..\ColloSys.DataLayer\ColloSys.DataLayer.csproj">
       <Project>{B2A3CD93-04C0-401B-AB97-C70638956AA3}</Project>
       <Name>ColloSys.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ColloSys.QueryBuilder\ColloSys.QueryBuilder.csproj">
+      <Project>{4450bb2e-c544-40c2-bcc3-eab5c385fb0c}</Project>
+      <Name>ColloSys.QueryBuilder</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>

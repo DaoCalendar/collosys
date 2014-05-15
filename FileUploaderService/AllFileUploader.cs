@@ -25,12 +25,13 @@ namespace FileUploaderService
 
             try
             {
+                Logger.Info("In Uploading file by Alias Switcher");
                 _isUploadInProgress = true;
                 UploadFileByAliasSwitcher(scheduler);
             }
             catch (Exception exception)
             {
-                Logger.ErrorException("Could not upload file : " + scheduler.FileName, exception);
+                Logger.ErrorException("Could not upload file : " + scheduler.FileName+"error deswcriptions here--", exception);
                 throw;
             }
             finally

@@ -7,7 +7,6 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
@@ -110,7 +109,7 @@ namespace ColloSys.FileUploader.FileReader
                 _fileProcess.PostProcesing();
 
                 _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
-                _fileProcess.ComputeStatus(_fs);
+                _fileProcess.ComputeStatus(_fs,_counter);
                 _fileProcess.UpdateFileScheduler(_fs, _counter, _fs.UploadStatus);
             }
             catch (Exception exception)
@@ -118,7 +117,7 @@ namespace ColloSys.FileUploader.FileReader
                 _fs.UploadStatus = ColloSysEnums.UploadStatus.Error;
                 _fs.StatusDescription = exception.Message;
                 _fileProcess.UpdateFileScheduler(_fs, _counter, ColloSysEnums.UploadStatus.Error);
-                _log.Error(string.Format("FileUpload : Could not upload file {0}", _fs.FileName) + exception);
+                _log.Error(string.Format("FileUpload : Could not upload file {0}-error description-{1}", _fs.FileName, exception) );
             }
         }
 
