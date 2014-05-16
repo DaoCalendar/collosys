@@ -3,41 +3,35 @@
         Matrix Details
     </div>
     <div class="panel-body">
+        <cs-form layout="6.4.8">
         <div class="row">
-            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Products" data-ng-change="datalayer.changeProductCategory()"
                           data-ng-disabled="dldata.isMatrixCreated"
                           field="Matrix.Product" ng-required="!dldata.isMatrixCreated"></cs-field>
-            </div>
             <!--   <div class="form-group col-md-6">
-                <label class="control-label">Category</label>
-                <div class="controls">
-                    <csswitch ngbind="dldata.matrix.Category"
-                              onbtnclick="datalayer.changeProductCategory()"
-                              namevalues="dldata.categorySwitch"
-                              ngdisabled="dldata.isMatrixCreated"></csswitch>
-                </div>
-            </div>-->
+                       <label class="control-label">Category</label>
+                       <div class="controls">
+                           <csswitch ngbind="dldata.matrix.Category"
+                                     onbtnclick="datalayer.changeProductCategory()"
+                                     namevalues="dldata.categorySwitch"
+                                     ngdisabled="dldata.isMatrixCreated"></csswitch>
+                       </div>
+                   </div>-->
         </div>
         <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
-            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Name" data-ng-required="!dldata.isMatrixCreated"
                           data-ng-change="factory.checkDupName(dldata.matrix.Name)" field="Matrix.Name"
                           data-ng-disabled="dldata.isMatrixCreated"></cs-field>
                 <div data-ng-show="dldata.isDuplicate">
                     <label class="text-danger">Name Aready Exixts</label>
                 </div>
-            </div>
-            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Dimension" field="Matrix.Dimension"
                           data-ng-disabled="dldata.isMatrixCreated"
                           data-ng-change="factory.changeDimension(dldata.matrix)" ng-required="true"></cs-field>
-            </div>
         </div>
         <div class="row" data-ng-show="dldata.matrix.Category && dldata.matrix.Products">
-            <div class="form-group col-md-6">
                 <cs-field data-ng-model="dldata.matrix.Description" field="Matrix.Description"></cs-field>
-            </div>
         </div>
+    </cs-form>
     </div>
 </div>

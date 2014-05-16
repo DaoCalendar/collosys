@@ -3,17 +3,18 @@
         <div class="panel-heading">Bill Summary</div>
     </div>
     <div class="panel-body">
+        <cs-form layout="4.4.8">
         <form class="form-horizontal">
             <div class="row">
-                <span class="col-md-4">
+              
                     <cs-field data-ng-model="dldata.BillAmount.Product" field="adhocPayoutbill.Product"
                               data-ng-change="datalayer.getStakeholders(dldata.BillAmount.Product)">></cs-field>
-                </span>
+             
 
-                <div data-ng-show="dldata.BillAmount.Product" class="form-group col-md-4">
+                <div data-ng-show="dldata.BillAmount.Product" >
                     <cs-field class="input-large" data-ng-model="dldata.BillAmount.Stakeholder" field="adhocPayoutbill.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
                 </div>
-                <span class="col-md-4" data-ng-show="dldata.BillAmount.Stakeholder">
+                <span data-ng-show="dldata.BillAmount.Stakeholder">
                     <cs-field data-ng-model="dldata.BillAmount.Month" field="adhocPayoutbill.Month"
                               data-ng-change="getBillingData(dldata.BillAmount)"></cs-field>
                 </span>
@@ -21,12 +22,9 @@
 
             <hr />
             <div class="row">
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.FixedAmount" field="adhocPayoutbill.FixedAmount"
                               data-ng-disabled="true"></cs-field>
-                </span>
 
-                <div class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.VariableAmount" field="adhocPayoutbill.VariableAmount" data-ng-disabled="true"></cs-field>
                     <button data-ng-disabled="factory.enableLink()"
                             data-ng-click="factory.getDetailData('Variable');
@@ -34,24 +32,16 @@
                             class="btn btn-link">
                         View Subpolicy Amounts
                     </button>
-                </div>
             </div>
             <div class="row">
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.StartDate" field="adhocPayoutbill.StartDate"
                               data-ng-disabled="true"></cs-field>
-                </span>
 
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.EndDate " field="adhocPayoutbill.EndDate"
                               data-ng-disabled="true"></cs-field>
-                </span>
             </div>
             <div class="row">
-                <div class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.Deductions" field="adhocPayoutbill.DeductionIncentive" data-ng-disabled="true"></cs-field>
-                </div>
-                <div class="col-md-5">
                     <button data-ng-disabled="factory.enableLink()"
                             data-ng-click="factory.getDetailData('Adhoc');openViewModal()"
                             class="btn btn-link">
@@ -62,39 +52,30 @@
                             class="btn btn-link">
                         Add Adhoc Deduction
                     </button>
-                </div>
             </div>
 
             <hr />
             <div class="row">
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.TaxAmount"
                               field="adhocPayoutbill.TaxAmount"
                               data-ng-disabled="true"></cs-field>
-                </span>
             </div>
 
             <div class="row">
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.HoldAmount"
                               field="adhocPayoutbill.HoldAmount"
                               data-ng-disabled="true"></cs-field>
-                </span>
 
-                <span class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.HoldRepayment"
                               field="adhocPayoutbill.HoldRepayment"
                               data-ng-disabled="true"></cs-field>
-                </span>
 
             </div>
 
             <div class="row">
-                <div class="col-md-5">
                     <cs-field data-ng-model="dldata.billingData.TotalAmount"
                               field="adhocPayoutbill.TotalAmount"
                               data-ng-disabled="true"></cs-field>
-                </div>
             </div>
 
             <div class="row text-center">
@@ -123,5 +104,6 @@
                 <div></div>
             </div>
         </form>
+    </cs-form>
     </div>
 </div>
