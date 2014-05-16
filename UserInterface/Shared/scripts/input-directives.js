@@ -903,7 +903,6 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                 }
                 return;
             });
-            console.log(field.minViewMode);
         };
 
         var manageViewMode = function (field) {
@@ -1034,7 +1033,6 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 }
                 return;
             });
-            console.log(field.minViewMode);
         };
 
         var manageViewMode = function (field) {
@@ -1182,7 +1180,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,
             };
-            console.log(field.size);
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {

@@ -14,28 +14,6 @@ csapp.directive('csInclude', ["$document", function ($document) {
     };
 }]);
 
-//csapp.directive('tagList', function () {
-//    return {
-//        require: 'ngModel',
-//        restrict: 'A',
-//        link: function (scope, element, attrs, controller) {
-//            scope.$watch(attrs.ngModel, function (value) {
-//                //console.log('value: ', value);
-//                if (value !== undefined && value !== null) {
-//                    console.log('value: ', value);
-//                    element.select2('val', value);
-//                }
-//            });
-
-//            element.bind('change', function () {
-//                var value = element.select2('val');
-//                controller.$setViewValue(value);
-//            });
-
-//        }
-//    };
-//});
-
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
@@ -274,7 +252,6 @@ csapp.directive('btnSwitch', function () {
     return {
         restrict: 'A',
         require: 'ngModel',
-        //templateUrl: 'switcher.html',
         template: '<span class="btn boolean">' +
                     '<span class="on btn-primary">Yes</span>' +
                     '<span class="off btn-default">No</span>' +
@@ -322,27 +299,6 @@ csapp.directive('btnSwitch', function () {
     };
 });
 
-csapp.directive('switchyesno', function () {
-    return {
-        restrict: 'E',
-        scope: {
-            text: "@",
-            readonly: "=",
-            ngbind: "="
-        },
-        template: '<div class="form-group row">' +
-            '<label class="control-label">{{text}}</label>' +
-            '<div class="controls" ng-show="!readonly">' +
-            '<div btn-switch data-ng-model="ngbind"></div>' +
-            '</div>' +
-            '<div class="controls" ng-show="readonly">' +
-            '<i ng-show="{{ngbind}}" class="btn icon-check" style="color: green"></i>' +
-            '<i ng-show="{{!ngbind}}" class="btn icon-remove" style="color: red"></i>' +
-            '</div>' +
-            '</div>'
-    };
-});
-
 csapp.directive("csswitch", function () {
 
     var linkfunction = function (scope) {
@@ -373,21 +329,6 @@ csapp.directive("csswitch", function () {
     };
 });
 //#endregion
-
-//#region spinner & bs-datepicker
-csapp.directive("spinner", function () {
-    return {
-        restrict: 'C',
-        link: function (scope, element) {
-            element.bind("mouseenter", function () {
-                element.addClass("icon-spin");
-            });
-            element.bind("mouseleave", function () {
-                element.removeClass("icon-spin");
-            });
-        }
-    };
-});
 
 csapp.directive('bsDatepicker', function () {
     var isAppleTouch = /(iP(a|o)d|iPhone)/g.test(navigator.userAgent);
@@ -526,7 +467,6 @@ csapp.directive('bsDatepicker', function () {
         }
     };
 });
-//#endregion
 
 csapp.directive('cspagination', function () {
 
@@ -617,145 +557,3 @@ csapp.directive('iconBtn', function () {
     };
 });
 
-
-
-
-
-//csapp.directive("csTemplate", ["$compile", function ($compile) {
-
-//    var getTemplate = function () {
-//        var html = '<div ng-form="myform">' +
-//                    '<div class="form-group" class="{{options.class}}" >' +
-//                    '<div class="control-label">{{options.label}} <span style="color:red">{{options.required ? "*" : ""}} </span></div>' +
-//                    '<div class="controls">';
-
-//        html += '<div ng-transclude></div>';
-
-//        html += '<div class="field-validation-error" data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-//            '<div data-ng-show="myform.myfield.$error.required ">{{options.label}} is required!!!</div>' +
-//            '<div data-ng-show="myform.myfield.$error.pattern">{{options.patternMessage}}</div>' +
-//            '<div data-ng-show="myform.myfield.$error.minlength">{{options.label}} should have atleast {{options.minlength}} character/s.</div>' +
-//            '<div data-ng-show="myform.myfield.$error.maxlength">{{options.label}} can have maximum {{options.maxlength}} character/s.</div>' +
-//            '<div data-ng-show="myform.myfield.$error.min">{{options.label}} cannot have value less than {{options.min}}</div>' +
-//            '<div data-ng-show="myform.myfield.$error.max">{{options.label}} cannot have value greater than {{options.max}}</div>' +
-//        '</div>';
-
-//        html += '</div>' + //controls
-//            '</div>' + // form-group
-//            '</div>'; //ng-form;
-
-//        return html;
-
-//    };
-
-//    return {
-//        scope: { options: '=' },
-//        restrict: 'E',
-//        transclude: true,
-//        replace: true,
-//        template: getTemplate
-//    };
-//}]);
-
-//csapp.directive('csOptions', ["$compile", function ($compile) {
-
-
-//    function getPropertyByKeyPath(targetObj, keyPath) {
-//        var keys = keyPath.split('.');
-//        if (keys.length === 0) return undefined;
-//        keys = keys.reverse();
-//        var subObject = targetObj;
-//        while (keys.length) {
-//            var k = keys.pop();
-//            if (!subObject.hasOwnProperty(k)) {
-//                return undefined;
-//            } else {
-//                subObject = subObject[k];
-//            }
-//        }
-//        return subObject;
-//    }
-
-//    var validations = function (options) {
-//        var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty">';
-//        html += '<div data-ng-show="myform.myfield.$error.required">' + options.label + ' required!!</div>' +
-//            '<div data-ng-show="myform.myfield.$error.minlength">' + options.label + ' must have atleast ' + options.minlength + ' characters</div>' +
-//            '<div data-ng-show="myform.myfield.$error.maxlength">' + options.label + ' can have atmost ' + options.maxlength + ' characters</div>' +
-//            '<div data-ng-show="myfrom.myfield.$error.pattern">pattern error</div>';
-//        html += '</div>';
-
-//        return html;
-//    };
-
-//    var before = function (options) {
-//        var html = '<form name="myform">';
-//        html += '<div class="form-group"><div class="control-label">' + options.label + '</div>' +
-//            '<div class="controls">';
-//        return html;
-//    };
-
-//    var after = function (options) {
-
-//        var html = '</div>' +
-//            '</div>' +
-//            validations(options) +
-//        '</form>';
-//        return html;
-//    };
-
-//    var getHTML = function (element, options) {
-
-//        var html = before(options);
-//        html += element.html();
-//        html += after(options);
-
-//        return html;
-//    };
-
-//    var setElementAttr = function (element, fieldValue) {
-
-//        console.log('setting attrs');
-
-//        if (!element.attr('ng-required'))
-//            element.attr("ng-required", fieldValue.required);
-//        console.log(fieldValue);
-
-//        if (!element.attr('ng-maxlength'))
-//            element.attr("ng-maxlength", fieldValue.maxlength);
-
-//        if (!element.attr('ng-minlength'))
-//            element.attr("ng-minlength", fieldValue.minlength);
-
-//        if (!element.attr('ng-pattern'))
-//            element.attr("ng-pattern", fieldValue.pattern);
-
-//        if (!element.attr('name'))
-//            element.attr("name", "myfield");
-
-//        element.removeAttr("cs-options");
-//    };
-
-
-//    var linkFunction = function (scope, element, attrs) {
-
-//        var fieldText = attrs['csOptions'];
-//        var fieldValue = getPropertyByKeyPath(scope, fieldText);
-//        setElementAttr(element, fieldValue);
-
-//        var $parent = element.parent();
-
-//        var html = getHTML($parent, fieldValue);
-//        $parent.html(html);
-//        $compile($parent)(scope);
-//    };
-
-//    return {
-//        restrict: 'A',
-//        compile: function () {
-//            return {
-//                pre: linkFunction
-//            };
-//        },
-//        require: 'ngModel'
-//    };
-//}]);

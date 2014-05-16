@@ -83,14 +83,14 @@ csapp.factory("menuFactory", [function () {
                     },
                     {
                         Title: "Correct Errors",
-                        url: "#/fileupload/errordata",
+                        url: "#/fileupload/errorcorrection",
                         //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Update.access])
-                    },
-                    {
-                        Title: "Approve Corrections",
-                        url: "#/fileupload/errordata",
-                        //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Approve.access])
-                    }
+                    } //,
+                    //{
+                    //    Title: "Approve Corrections",
+                    //    url: "#/fileupload/errordata",
+                    //    //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Approve.access])
+                    //}
                 ]
             },
             {
