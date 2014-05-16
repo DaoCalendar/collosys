@@ -255,8 +255,17 @@ namespace AngularUI.FileUpload.filescheduler
             var originalFileName = GetDeserializedFileName(result.FileData.First());
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
             string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff", CultureInfo.InvariantCulture);
-            var folder = Directory.CreateDirectory(Path.GetTempPath() + @"\" + timestamp);
-            if(folder.Exists) folder.Create();
+            DirectoryInfo folder;
+            string path = string.Empty;
+            try
+            {
+                path = Path.GetTempPath() + @"\" + timestamp;
+                folder = Directory.CreateDirectory(path);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Could not create directory : " + path, exception);
+            }
             var filename = folder.FullName + @"\" + originalFileName;
             uploadedFileInfo.MoveTo(filename);
             return uploadedFileInfo;

@@ -15,15 +15,15 @@
                 </div>
 
                 <div data-ng-show="Selected.Category">
-                    <div data-ng-show="Selected.Frequency == 'Daily'">
+                    <div data-ng-if="Selected.Frequency == 'Daily'">
                         <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateDaily"
                                   data-ng-change="getFileDetails();"></cs-field>
                     </div>
-                    <div data-ng-show="Selected.Frequency == 'Weekly'">
+                    <div data-ng-if="Selected.Frequency == 'Weekly'">
                         <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateWeekly"
                                   data-ng-change="getFileDetails();"></cs-field>
                     </div>
-                    <div data-ng-show="Selected.Frequency == 'Monthly'">
+                    <div data-ng-if="Selected.Frequency == 'Monthly'">
                         <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateMonthly"
                                   data-ng-change="getFileDetails();"></cs-field>
                     </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div data-ng-show="hasUnscheduledFiles">
+            <div data-ng-show="hasUnscheduledFiles" ng-form="immediateReasonForm">
                 <hr />
                 <cs-form layout="6.4.8">
                     <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
@@ -80,7 +80,7 @@
 
             <div class="text-center row" data-ng-show="hasUnscheduledFiles">
                 <hr />
-                    <button class="btn btn-success" data-ng-disabled="validatePage()" data-ng-click="scheduleFiles()">Schedule Files</button>
+                <button class="btn btn-success" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()">Schedule Files</button>
             </div>
         </div>
     </div>
