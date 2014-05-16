@@ -1,11 +1,10 @@
 ﻿<div class="form-horizontal">
     <form name="uploadpincodeform">
-        <div class="row">
-            <div class="col-md-6">
-                <cs-field data-ng-model="selected.Product" field="selectedfield.Product"
-                          data-ng-change="setPattern(selected.Product)"></cs-field>
-            </div>
-        </div>
+
+        <cs-form layout="12.3.6">
+            <cs-field data-ng-model="selected.Product" field="selectedfield.Product"
+                      data-ng-change="setPattern(selected.Product)"></cs-field>
+        </cs-form>
 
         <!-- download -->
         <div class="panel panel-info" data-ng-show="selected.Product">

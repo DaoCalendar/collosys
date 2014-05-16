@@ -624,9 +624,7 @@
       <DependentUpon>ui-utils.js</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FileUpload\uploadrcode\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>

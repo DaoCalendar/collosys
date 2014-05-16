@@ -1,12 +1,13 @@
 ﻿<div class="form-horizontal">
-    <form name="filestatusdate" novalidate="" class="row">
-        <div class="col-md-4">
-            <cs-field data-ng-model="fileScheduler.fromDate" field="fileSchedulerfield.fromDate"></cs-field>
-        </div>
-        <div class="col-md-4">
-            <cs-field data-ng-model="fileScheduler.toDate" field="fileSchedulerfield.toDate" no-label=""></cs-field>
-        </div>
-        <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
+    <form name="filestatusdate" novalidate="">
+        <cs-form>
+            <cs-field layout="5.4.8" data-ng-model="fileScheduler.fromDate" field="fileSchedulerfield.fromDate"></cs-field>
+
+            <cs-field layout="3.0.12" data-ng-model="fileScheduler.toDate" field="fileSchedulerfield.toDate" no-label=""></cs-field>
+            <span class="col-md-2">
+                <button class="btn btn-success btn-small" data-ng-click="factory.timer.force()">OK</button>
+            </span>
+      </cs-form>
     </form>
 </div>
 
