@@ -5,15 +5,15 @@
         </div>
         <div class="panel-body">
             <!-- <div class="container ng-cloak">-->
-            <div class="form-horizontal" data-ng-show="(dldata.States.length>0)">
-                <div class="col-md-5">
-                    <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
-                        value-list="dldata.States"></cs-field>
+            <cs-form layout="6.3.7">
+                <div data-ng-show="(dldata.States.length>0)">
+                        <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
+                                  value-list="dldata.States"></cs-field>
+                    <cs-form layout="7" >
+                        <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
+                    </cs-form>
                 </div>
-                <div class="col-md-5">
-                    <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
-                </div>
-            </div>
+            </cs-form>
         </div>
     </div>
     <!-- </div>-->

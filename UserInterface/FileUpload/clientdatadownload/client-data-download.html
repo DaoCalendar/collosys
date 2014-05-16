@@ -2,54 +2,45 @@
     <form name="ClientDataDownloadForm">
 
         <!-- header filter row -->
-        <div class="row" style="border-color: gray">
-            <!-- main clause -->
-            <span class="col-md-3">
-                <cs-field data-ng-model="params.ShowDataBy" field="paramsfield.ShowDataBy"
-                    value-list="dldata.Downloadby" data-ng-change="ResetControls('ShowDataBy', params)"></cs-field>
-            </span>
+        <div style="border-color: gray">
+            <cs-form>
+                <!-- main clause -->
+                <cs-field layout="3.4.3" data-ng-model="params.ShowDataBy" field="paramsfield.ShowDataBy"
+                          value-list="dldata.Downloadby" data-ng-change="ResetControls('ShowDataBy', params)"></cs-field>
 
-            <!-- product -->
-            <div data-ng-show="params.ShowDataBy === 'Product'">
-                <span class="col-md-3">
-                    <cs-field data-ng-model="params.SelectedProduct" field="paramsfield.SelectedProduct"
+                <!-- product -->
+                <div data-ng-show="params.ShowDataBy === 'Product'">
+                    <cs-field layout="3.4.3" data-ng-model="params.SelectedProduct" field="paramsfield.SelectedProduct"
                               data-ng-change="ResetControls('Product', params)"></cs-field>
-                </span>
-            </div>
+                </div>
 
-            <!-- System -->
-            <div data-ng-show="params.ShowDataBy === 'System'">
-                <span class="col-md-3">
-                    <cs-field data-ng-model="params.SelectedSystem" field="paramsfield.SelectedSystem"
+                <!-- System -->
+                <div data-ng-show="params.ShowDataBy === 'System'">
+                    <cs-field layout="3.4.3" data-ng-model="params.SelectedSystem" field="paramsfield.SelectedSystem"
                               data-ng-change="ResetControls('System', params)"></cs-field>
-                </span>
-            </div>
+                </div>
 
 
-            <!-- category for product -->
-            <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedProduct)">
-                <span class="col-md-3">
-                    <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
+                <!-- category for product -->
+                <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedProduct)">
+                    <cs-field layout="3.4.3" data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
                               data-ng-change="ResetControls('Category', params)" value-list="dldata.CategoryList"></cs-field>
-                </span>
-            </div>
+                </div>
 
-            <!-- category for system -->
-            <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedSystem)">
-                <span class="col-md-3">
-                    <cs-field data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
+                <!-- category for system -->
+                <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedSystem)">
+                    <cs-field layout="3.4.3" data-ng-model="params.SelectedCategory" field="paramsfield.SelectedCategory"
                               data-ng-change="ResetControls('Category', params)" value-list="dldata.fileDetails"></cs-field>
-                </span>
-            </div>
+                </div>
 
-            <!-- date -->
-            <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedCategory)">
-                <span class="col-md-3">
-                    <cs-field data-ng-model="params.SelectedDate" field="paramsfield.SelectedDate"
+                <!-- date -->
+                <div data-ng-show="!$csfactory.isNullOrEmptyString(params.SelectedCategory)">
+                    <cs-field layout="3.2.10" data-ng-model="params.SelectedDate" field="paramsfield.SelectedDate"
                               data-ng-change="getPagedDataAsync(params)"></cs-field>
-                </span>
-            </div>
+                </div>
+            </cs-form>
         </div>
+
 
         <!-- grid -->
         <div data-ui-if="gridOptions.showGrid == true">

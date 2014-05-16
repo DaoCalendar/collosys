@@ -12,7 +12,7 @@
                 ng-click="fetchData(Sele)"></cs-button>
             <!--ng-disabled="billstatusform.$invalid"-->
         </div>
-
+        <cs-form layout="12.0.12">
         <table data-ng-show="billAmountList.length>0" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -42,7 +42,7 @@
                             ng-disabled="amount.PayStatus=='Closed'"></cs-field>
                     </td>
                     <td>
-                        <input class="btn btn-default" type="button" value="Update as {{getNextStatus(amount.PayStatus)}}"
+                        <input class="btn btn-default minWidth" type="button" value="Update as {{getNextStatus(amount.PayStatus)}}"
                             data-ng-click="changeStatus(amount)"
                             data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" />
                         <!--<cs-button type="Add" text="{{nextStatusText}}"
@@ -59,5 +59,6 @@
                 </tr>
             </tbody>
         </table>
+    </cs-form>
     </form>
 </div>

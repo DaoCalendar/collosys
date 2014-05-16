@@ -3,6 +3,10 @@ html, body {
     height: 100%;
 }
 
+label {
+    font-weight: normal;
+}
+
 .noResize {
     -moz-resize: none;
     -ms-resize: none;
@@ -12,6 +16,10 @@ html, body {
 
 .vertical-menu-body {
     margin-top: 10px;
+}
+
+.minWidth {
+    min-width: 150px;
 }
 
 .top-menu-body {
@@ -30,8 +38,7 @@ html, body {
 }
 
     .cssmenu ul li {
-        background: white;
-        border: 1px solid lightblue;
+        border: 1px solid lightgray;
         padding-top: 10px;
         line-height: 26px;
     }
@@ -464,4 +471,11 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     width: 200px;
     height: 250px;
     overflow: scroll;
+}
+
+
+.cs-field-label {
+    text-align: right;
+    margin-top: 7px;
+    white-space: nowrap;
 }

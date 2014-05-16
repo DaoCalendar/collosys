@@ -602,8 +602,9 @@ csapp.directive('iconBtn', function () {
             case 'save':
                 return '<button class="btn btn-default">' +
                     '<span class="glyphicon glyphicon-save"></span>' +
-                    '</button>' ;
-
+                    '</button>';
+            case 'calendar':
+                return '<span class="glyphicon glyphicon-calendar"></span>';
             default:
         }
         return type;

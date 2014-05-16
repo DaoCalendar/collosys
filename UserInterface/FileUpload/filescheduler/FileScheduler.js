@@ -7,10 +7,10 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
         var getFileDetails = function () {
             restApi.customGETLIST("GetFileDetails").then(function (data) {
                 dldata.fileDetails = data;
-                dldata.fileDetailsScbSystems = _.uniq(_.pluck(data, 'ScbSystems'));
+                dldata.fileDetailsScbSystems = _.sortBy(_.uniq(_.pluck(data, 'ScbSystems')));
                 dldata.fileDetailsCategory = _.uniq(_.pluck(data, 'Category'));
             }, function () {
-                $csnotify.error("Not able to retrieve basic data. Please contact AlgoSys support team.");
+                $csnotify.error("Not able to retrieve basic data.");
             });
         };
 
@@ -22,7 +22,7 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
             }).then(function (data) {
                 dldata.fileScheduleDetails = data;
             }, function () {
-                $csnotify.error("Not able to retrieve basic data. Please contact AlgoSys support team.");
+                $csnotify.error("Not able to retrieve basic data.");
             });
         };
 
@@ -45,25 +45,13 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
     }
 ]);
 
-csapp.factory("fileSchedulerFactory", function() {
-
-    var validateFile = function(file) {
-        return true;
-    };
-
-    return {
-        isFileValid: validateFile
-    };
-});
-
-
-csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory","$csModels",
-    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory, $csModels) {
+csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "$csModels",
+    function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, $csModels) {
         "use strict";
 
         //#region helpers
         $scope.ResetPage = function () {
-            $scope.SelectedDate = null;
+            $scope.Selected.Date = null;
             $scope.fileScheduleDetails = {};
             $scope.IsImmediate = false;
             $scope.immedateReason = '';
@@ -72,27 +60,41 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         };
 
         (function () {
+            $scope.fetchingFileStatus = false;
+            $scope.Selected = { Date: null };
             $scope.isPageValid = false;
             $scope.ResetPage();
             $scope.datalayer = datalayer;
             datalayer.GetAll();
             $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
+            $scope.IsImmediate = false;
         })();
 
         $scope.changeSelectedFrequency = function () {
-            var list = _.where(datalayer.dldata.fileDetails, { ScbSystems: $scope.SelectedSystem, Category: $scope.SelectedCategory });
-            $scope.SelectedFrequency = list[0].Frequency;
-            $scope.IsImmediate = "false";
+            var list = _.where(datalayer.dldata.fileDetails, { ScbSystems: $scope.Selected.System, Category: $scope.Selected.Category });
+            $scope.Selected.Frequency = list[0].Frequency;
+        };
+
+        $scope.changeSelectedSystem = function() {
+            var fileDetails = _.filter(datalayer.dldata.fileDetails,
+            { 'ScbSystems': $scope.Selected.System });
+            datalayer.dldata.fileDetailsCategory = _.sortBy(_.uniq(_.pluck(fileDetails, 'Category')));
         };
 
         $scope.getFileDetails = function () {
-            var selecteddate = moment($scope.SelectedDate).format('YYYY-MM-DD');
-            datalayer.GetStatus($scope.SelectedSystem,
-                    $scope.SelectedCategory,
+            if ($scope.fetchingFileStatus === true) return;
+            $scope.fetchingFileStatus = true;
+
+            var selecteddate = moment($scope.Selected.Date).format('YYYY-MM-DD');
+            datalayer.GetStatus($scope.Selected.System,
+                    $scope.Selected.Category,
                     selecteddate)
                 .then(function () {
                     hasAnyUnscheduledFiles();
-                });
+                }).finally(function() {
+                    $scope.fetchingFileStatus = false;
+                }
+            );
         };
 
         var hasAnyUnscheduledFiles = function () {
@@ -117,14 +119,11 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         $scope.upload = [];
         $scope.onFileSelect = function (file, $files, $index) {
             var cfile = $files[0];
-            if (!factory.isFileValid(cfile)) {
-                return;
-            }
             file.IsUploading = true;
             $scope.uploadCount++;
             file.UploadPercent = 10;
             $scope.upload[$index] = $upload.upload({
-                url: '/api/FileSchedulerApi/SaveFileOnServer',
+                url: baseUrl + 'api/FileSchedulerApi/SaveFileOnServer',
                 method: "Post",
                 file: cfile,
                 data: { schedulerInfo: file },
@@ -140,46 +139,15 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
                 file.IsUploading = false;
                 $scope.uploadCount--;
             });
+            console.log($scope.upload.length);
         };
 
         $scope.scheduleFiles = function () {
+            $csfactory.enableSpinner();
             datalayer.Schedule().then(function () {
                 $scope.upload = [];
                 hasAnyUnscheduledFiles();
             });
-        };
-        //#endregion
-
-        //#region validate page
-        $scope.validatePage = function () {
-            var isPageValid = isReasonValid();
-            isPageValid = isPageValid && ($scope.uploadCount === 0); // no files being copied
-            isPageValid = isPageValid && ($scope.upload.length > 0); // atleast one file scheduled
-            return !isPageValid;
-        };
-
-        var isReasonValid = function () {
-            // if not scheduled, keep it disabled
-            if (!$scope.IsImmediate) {
-                return false;
-            }
-
-            // if nightly, no reason needed, enable
-            if ($scope.IsImmediate === 'false') {
-                return true;
-            }
-
-            // if not nightly='immediate', reason must be provided
-            if (!$scope.immedateReason) {
-                return false;
-            }
-
-            //reason must be min 10 chars
-            if ($scope.immedateReason.length < 5) {
-                return false;
-            }
-
-            return true;
         };
         //#endregion
     }

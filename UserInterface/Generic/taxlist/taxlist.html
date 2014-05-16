@@ -7,46 +7,29 @@
                     Tax Component Details
                 </div>
                 <div class="panel-body form-horizontal">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
-                        </div>
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.TaxType" 
-                                      field="TaxList.TaxType" 
-                                ></cs-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.ApplicableTo" 
-                                      field="TaxList.ApplicableTo"
-                                ></cs-field>
-                        </div>
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
-                        </div>
-                    </div>
+                    <cs-form layout="6.3.5">
+                        <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+
+                        <cs-field data-ng-model="tax.TaxType" 
+                                  field="TaxList.TaxType"></cs-field>
+
+                        <cs-field data-ng-model="tax.ApplicableTo" 
+                                  field="TaxList.ApplicableTo"></cs-field>
+
+                        <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
                     
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
-                        </div>
-                        <div class="col-md-5" >
-                            <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
-                        </div>
-                    </div>
+                        <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
+
+                        <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
                     
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
-                        </div>
-                    </div>
+                        <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
+                    </cs-form>
+
                 </div>
                 <div class="panel-footer text-right">
                     <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>
                     <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
-                    <cs-button type="Add" text="Reset"  ng-click="resetTax()" ></cs-button>
+                    <cs-button type="Add" text="Reset" ng-click="resetTax()"></cs-button>
                 </div>
             </div>
         </form>
@@ -54,7 +37,7 @@
 </div>
 
 
-   <!--<div class="panel panel-default">
+<!--<div class="panel panel-default">
                 <div class="panel-heading">
                     Tax Component Details
                 </div>

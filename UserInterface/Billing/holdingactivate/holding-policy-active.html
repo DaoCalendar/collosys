@@ -1,5 +1,6 @@
 ﻿<div class="row">
     <form name="activateform">
+        <cs-form layout="6.4.8">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -22,7 +23,7 @@
                         <cs-field data-ng-model="active.HoldingPolicy"
                                   field="ActPolicy.HoldingPolicy"
                                   no-label=""
-                                  ></cs-field>
+                            ></cs-field>
                     </td>
                     <td>
                         <cs-field data-ng-model="active.Stakeholder"
@@ -45,7 +46,8 @@
                 </tr>
             </tbody>
         </table>
+    </cs-form>
     </form>
-    
+
     <div data-ng-include="baseurl+'Billing/holdingactivate/holding-policy-activate-list.html'"></div>
 </div>

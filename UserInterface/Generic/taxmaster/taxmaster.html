@@ -6,51 +6,39 @@
                 <div class="panel-heading">
                     Tax Component Details
                 </div>
-                <div class="panel-body form-horizontal">
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.ApplicableTo"
-                                field="TaxMaster.ApplicableTo"></cs-field>
+                <div class="panel-body">
+                    
+                    <cs-form layout="6.3.5">
+                        <cs-field data-ng-model="tax.ApplicableTo"
+                                  field="TaxMaster.ApplicableTo"></cs-field>
 
-                        </div>
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.State"
-                                field="TaxMaster.State"></cs-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.GTaxesList" track-by="Id" field="TaxMaster.GTaxesList"></cs-field>
-                            <!--<cs-field data-ng-model="tax.IndustryZone" field="TaxMaster.IndustryZone"></cs-field>-->
-                        </div>
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>
-                            <!-- <div class="form-group">
-                                <label class="control-label">Percentage</label>
-                                <div class="controls">
-                                    <div class="input-append">
-                                        <input type="text"
-                                               data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"
-                                               data-ng-maxlength="99.99"
-                                               class="input-mini"
-                                               data-ng-model="tax.Percentage" />
-                                        <span class="add-on">%</span>
-                                    </div>
-                                </div>
-                            </div>-->
-                            <!--<cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>-->
-                            <!--<input type="text" data-ng-model="tax.Percentage" data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"/>-->
-                        </div>
-                    </div>
+                        <cs-field data-ng-model="tax.State"
+                                  field="TaxMaster.State"></cs-field>
 
-                    <div class="row">
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.StartDate" field="TaxMaster.StartDate"></cs-field>
-                        </div>
-                        <div class="col-md-5">
-                            <cs-field data-ng-model="tax.EndDate" field="TaxMaster.EndDate"></cs-field>
-                        </div>
-                    </div>
+                        <cs-field data-ng-model="tax.GTaxesList" track-by="Id" field="TaxMaster.GTaxesList"></cs-field>
+                        <!--<cs-field data-ng-model="tax.IndustryZone" field="TaxMaster.IndustryZone"></cs-field>-->
+
+                        <cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>
+                        <!-- <div class="form-group">
+                                 <label class="control-label">Percentage</label>
+                                 <div class="controls">
+                                     <div class="input-append">
+                                         <input type="text"
+                                                data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"
+                                                data-ng-maxlength="99.99"
+                                                class="input-mini"
+                                                data-ng-model="tax.Percentage" />
+                                         <span class="add-on">%</span>
+                                     </div>
+                                 </div>
+                             </div>-->
+                        <!--<cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>-->
+                        <!--<input type="text" data-ng-model="tax.Percentage" data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"/>-->
+
+                        <cs-field data-ng-model="tax.StartDate" field="TaxMaster.StartDate"></cs-field>
+
+                        <cs-field data-ng-model="tax.EndDate" field="TaxMaster.EndDate"></cs-field>
+                    </cs-form>
 
                 </div>
                 <div class="panel-footer text-right">

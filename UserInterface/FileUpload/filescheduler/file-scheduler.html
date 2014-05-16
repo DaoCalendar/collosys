@@ -1,41 +1,39 @@
 ﻿<form class="form-horizontal">
     <div class="panel panel-info">
         <div class="panel-heading">Schedule File For Upload</div>
-        
+
         <div class="panel-body">
-            <div class="row" style="margin-top: 20px">
-                <div class="col-md-6">
-                    <cs-field data-ng-model="SelectedSystem" field="fileSchedulerfield.SelectedSystem"
-                              value-list="datalayer.dldata.fileDetailsScbSystems" data-ng-change="SelectedCategory = '';ResetPage();"></cs-field>
-                </div>
-            </div>
+            <cs-form layout="4.4.8">
+                <cs-field data-ng-model="Selected.System" field="fileSchedulerfield.SelectedSystem"
+                          value-list="datalayer.dldata.fileDetailsScbSystems"
+                          data-ng-change="ResetPage();changeSelectedSystem()"></cs-field>
 
-            <div class="row" data-ng-show="SelectedSystem">
-                <div class="col-md-6">
-                    <cs-field data-ng-model="SelectedCategory" field="fileSchedulerfield.SelectedCategory"
-                              value-list="datalayer.dldata.fileDetailsCategory" data-ng-change="ResetPage();changeSelectedFrequency();"></cs-field>
+                <div data-ng-show="Selected.System">
+                    <cs-field data-ng-model="Selected.Category" field="fileSchedulerfield.SelectedCategory"
+                              value-list="datalayer.dldata.fileDetailsCategory"
+                              data-ng-change="ResetPage();changeSelectedFrequency();"></cs-field>
                 </div>
-            </div>
 
-            <div class="row" data-ng-show="SelectedCategory">
-                <div class="col-md-6" data-ng-show="SelectedFrequency == 'Daily'">
-                    <cs-field data-ng-model="SelectedDate" field="fileSchedulerfield.SelectedDateDaily"
-                              data-ng-change="getFileDetails();"></cs-field>
+                <div data-ng-show="Selected.Category">
+                    <div data-ng-if="Selected.Frequency == 'Daily'">
+                        <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateDaily"
+                                  data-ng-change="getFileDetails();"></cs-field>
+                    </div>
+                    <div data-ng-if="Selected.Frequency == 'Weekly'">
+                        <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateWeekly"
+                                  data-ng-change="getFileDetails();"></cs-field>
+                    </div>
+                    <div data-ng-if="Selected.Frequency == 'Monthly'">
+                        <cs-field data-ng-model="Selected.Date" field="fileSchedulerfield.SelectedDateMonthly"
+                                  data-ng-change="getFileDetails();"></cs-field>
+                    </div>
                 </div>
-                <div class="col-md-6" data-ng-show="SelectedFrequency == 'Weekly'">
-                    <cs-field data-ng-model="SelectedDate" field="fileSchedulerfield.SelectedDateWeekly"
-                              data-ng-change="getFileDetails();"></cs-field>
-                </div>
-                <div class="col-md-6" data-ng-show="SelectedFrequency == 'Monthly'">
-                    <cs-field data-ng-model="SelectedDate" field="fileSchedulerfield.SelectedDateMonthly"
-                              data-ng-change="getFileDetails();"></cs-field>
-                </div>
-            </div>
+            </cs-form>
 
-            <div data-ng-show="SelectedDate">
+            <div data-ng-show="Selected.Date">
                 <div data-ng-show="hasUnscheduledFiles">
                     <hr />
-                    <h5>Files to Schedule</h5>
+                    <h4>Files to Schedule</h4>
                     <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
                         <div class="form-group row">
                             <label class="col-md-3 text-left">{{$index + 1}}. {{file.FileName}}</label>
@@ -70,21 +68,19 @@
                 </div>
             </div>
 
-            <div data-ng-show="hasUnscheduledFiles">
-                <hr/>
-                <div class="row">
-                    <span class="col-md-6">
-                        <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
-                    </span>
-                    <span class="col-md-4" data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
+            <div data-ng-show="hasUnscheduledFiles" ng-form="immediateReasonForm">
+                <hr />
+                <cs-form layout="6.4.8">
+                    <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
+                    <span data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
                         <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
                     </span>
-                </div>
+                </cs-form>
             </div>
 
             <div class="text-center row" data-ng-show="hasUnscheduledFiles">
                 <hr />
-                <button class="btn btn-success" data-ng-disabled="validatePage()" data-ng-click="scheduleFiles()">Schedule Files</button>
+                <button class="btn btn-success" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()">Schedule Files</button>
             </div>
         </div>
     </div>

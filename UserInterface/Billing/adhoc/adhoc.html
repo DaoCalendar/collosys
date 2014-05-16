@@ -1,68 +1,65 @@
 ﻿<div data-ng-form="adhocPayoutform" class="form-horizontal">
     <div class="panel panel-info">
         <div class="panel-heading">
-            <h5> Adhoc-Payout Screen</h5>
+            <h5>Adhoc-Payout Screen</h5>
         </div>
         <div class="panel-body">
-            <div class="row-fluid">
-                <!--Product and Stakeholder-->
-                <div class="row-fluid" style="padding-top: 20px">
-                    <span class="col-md-4">
-                        <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
-                                  data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
-                    </span>
-                    <div class="form-group col-md-5">
-                        <cs-field field="adhocPayoutbill.Stakeholder" data-ng-model="dldata.selectedStkholderId"
-                                  data-ng-change="factory.showData(dldata.selectedStkholderId)"
-                                  ng-required="true" value-list="dldata.stakeholderList"></cs-field>
-
-                    </div>
-                    <div class="row text-center col-md-2" data-ng-show="dldata.selectedStkholderId">
-                        <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
-                    </div>
+            <!--Product and Stakeholder-->
+            <cs-form layout="5.3.7">
+                
+                <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
+                          data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
+                
+                <div data-ng-show="dldata.selectedProduct">
+                    <cs-field layout="6.4.8" field="adhocPayoutbill.Stakeholder" data-ng-model="dldata.selectedStkholderId"
+                              data-ng-change="factory.showData(dldata.selectedStkholderId)"
+                              ng-required="true" value-list="dldata.stakeholderList"></cs-field>
+                </div> 
+                <div data-ng-show="dldata.selectedProduct && adhocPayoutbill.Stakeholder">
+                    <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
                 </div>
-                <!--Table showing details-->
-                <div class="row-fluid" style="width: 100%" data-ng-show="dldata.adhocPayoutList.length>0">
-                    <table class="table table-bordered" style="overflow: auto">
-                        <thead>
-                            <tr>
-                                <th>Stakeholder Name</th>
-                                <th>Total Amount</th>
-                                <th>IsRecurring</th>
-                                <th>IsPretax</th>
-                                <th>Transaction Type</th>
-                                <th>Reasons</th>
-                                <th>Description</th>
-                                <th>Start Month</th>
-                                <th>End Month</th>
-                                <th>Tenure</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-ng-repeat="adhocpayouts in dldata.adhocPayoutList">
-                                <td>{{adhocpayouts.Stakeholder.Name}}</td>
-                                <td>{{adhocpayouts.TotalAmount}}</td>
-                                <!--IsRecurring-->
-                                <td style="text-align: center">
-                                    <i data-ng-show="{{adhocpayouts.IsRecurring}}" class="btn btn-primary">Yes</i>
-                                    <i data-ng-hide="{{adhocpayouts.IsRecurring}}" class="btn ">No</i>
-                                </td>
-                                <td>{{adhocpayouts.IsPretax}}</td>
-                                <!--IsCredit-->
-                                <td style="text-align: center">
-                                    <i data-ng-show="{{adhocpayouts.IsCredit}}" class="btn btn-primary">Credit</i>
-                                    <i data-ng-hide="{{adhocpayouts.IsCredit}}" class="btn ">Debit</i>
-                                </td>
-                                <td>{{adhocpayouts.ReasonCode}}</td>
-                                <td>{{adhocpayouts.Description}}</td>
-                                <td>{{adhocpayouts.StartMonth}}</td>
-                                <td>{{adhocpayouts.EndMonth}}</td>
-                                <td>{{adhocpayouts.Tenure}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </cs-form>
+        </div>
+        <!--Table showing details-->
+        <div class="row-fluid" style="width: 100%" data-ng-show="dldata.adhocPayoutList.length>0">
+            <table class="table table-bordered" style="overflow: auto">
+                <thead>
+                    <tr>
+                        <th>Stakeholder Name</th>
+                        <th>Total Amount</th>
+                        <th>IsRecurring</th>
+                        <th>IsPretax</th>
+                        <th>Transaction Type</th>
+                        <th>Reasons</th>
+                        <th>Description</th>
+                        <th>Start Month</th>
+                        <th>End Month</th>
+                        <th>Tenure</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="adhocpayouts in dldata.adhocPayoutList">
+                        <td>{{adhocpayouts.Stakeholder.Name}}</td>
+                        <td>{{adhocpayouts.TotalAmount}}</td>
+                        <!--IsRecurring-->
+                        <td style="text-align: center">
+                            <i data-ng-show="{{adhocpayouts.IsRecurring}}" class="btn btn-primary">Yes</i>
+                            <i data-ng-hide="{{adhocpayouts.IsRecurring}}" class="btn ">No</i>
+                        </td>
+                        <td>{{adhocpayouts.IsPretax}}</td>
+                        <!--IsCredit-->
+                        <td style="text-align: center">
+                            <i data-ng-show="{{adhocpayouts.IsCredit}}" class="btn btn-primary">Credit</i>
+                            <i data-ng-hide="{{adhocpayouts.IsCredit}}" class="btn ">Debit</i>
+                        </td>
+                        <td>{{adhocpayouts.ReasonCode}}</td>
+                        <td>{{adhocpayouts.Description}}</td>
+                        <td>{{adhocpayouts.StartMonth}}</td>
+                        <td>{{adhocpayouts.EndMonth}}</td>
+                        <td>{{adhocpayouts.Tenure}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

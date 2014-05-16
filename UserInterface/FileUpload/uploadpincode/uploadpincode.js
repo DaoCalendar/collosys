@@ -56,8 +56,8 @@ csapp.factory("uploadPincodeDatalayer", ["Restangular", "$csnotify", function (r
     };
 }]);
 
-csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory", "dataService",
-    function ($scope, datalayer, $csfactory, mode) {
+csapp.controller("uploadPincodeController", ["$scope", "uploadPincodeDatalayer", "$csfactory", "dataService", "$csShared",
+    function ($scope, datalayer, $csfactory, mode, $csShared) {
         (function () {
             $scope.selectedfield = {
                 Product: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },

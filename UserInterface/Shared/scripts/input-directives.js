@@ -9,11 +9,10 @@
         noBootstrapDiv += '>';
 
         var html = noBootstrapDiv;
-        html += '<div class="' + field.layoutClass.label + '">';
-        html += '<label';
-        html += ' control-label">{{' + attr.field + '.label}}' +
-                '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
-        html += '</div>';
+        html += '<div data-ng-hide="field.size.nolabel">' +
+            '<label class="cs-field-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
+                '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>' +
+            '</div>';
         return (noBootstrap || field.size.label === 0 ? noBootstrapDiv : html);
     };
 
@@ -195,7 +194,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"');
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
@@ -347,7 +346,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+        html += ' class ="minWidth form-control"';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
@@ -463,7 +462,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
@@ -591,7 +590,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         var input = function (field, attrs) {
             var html = '<input  name="myfield" type="email"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -708,18 +707,15 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"  data-ui-select3="field.select3Options"';
-            //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (field.useOptions === true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            var html = '<select  name="myfield" ';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="minWidth form-control" ';
+            html += ' ng-options="' + field.ngOptions + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
-            html += field.useOptions !== true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -744,16 +740,13 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (field.useOptions === true) {
-                field.ngOptions = field.valueField + ' as ' + field.textField;
-                field.ngOptions += ' for row in ';
-                field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
-                field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
-            } else {
-                var valueList = attr.valueList ? attr.valueList : 'field.valueList';
-                field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
-            }
+            field.ngOptions = field.valueField + ' as ' + field.textField;
+            field.ngOptions += ' for row in ';
+            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
 
+            var valueList = attr.valueList ? attr.valueList : 'field.valueList';
+            field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             field.select3Options = {
                 initPristrine: true,
                 allowClear: field.allowClear || false,
@@ -783,17 +776,13 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" data-ui-select3="field.select3Options"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            //html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
+            var html = '<select  name="myfield" ng-options="' + field.ngOptions + '"';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control minWidth" ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value="" disabled="true" selected="false"></option>';
-            html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
@@ -828,11 +817,8 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
+csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
-
-        //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
-
         var openDatePicker = function ($event, field) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -840,9 +826,139 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
 
         var disableDate = function (date, field) {
-            console.log(date);
+
+
+
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
+
+        //TODO mode,min max date
+        var input = function (field, attr) {
+            var html = '<p class="input-group">';
+            html += '<input type="text" class="form-control"';
+            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';
+            html += 'is-open="field.opened"';
+            html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
+            html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
+            html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
+            html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
+            html += '/>';
+            html += '<span class="input-group-btn">';
+            html += '<button type="button" class="btn btn-default" ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
+            html += '</button>';
+            html += '</span>';
+            html += '</p>';
+
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs),
+                valtemplate.before(field),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+
+        var applyTemplate = function (field) {
+            if (angular.isUndefined(field.template) || field.template === null) {
+                return;
+            }
+
+            var tmpl = field.template.split(",").filter(function (str) { return str !== ''; });
+            angular.forEach(tmpl, function (template) {
+                if (template.length < 1) return;
+                switch (template) {
+                    case "MonthPicker":
+                        field.minViewMode = "months";
+                        break;
+                    case "YearPicker":
+                        field.minViewMode = "years";
+                        break;
+                    case "future":
+                        field.startDate = "+0";
+                        break;
+                    case "past":
+                        field.endDate = "+0";
+                        break;
+                    case "Daily":
+                        field.startDate = "-15d";
+                        field.endDate = "+5d";
+                        break;
+                    case "Weekly":
+                        field.startDate = "-30d";
+                        field.endDate = "+15d";
+                        break;
+                    case "Monthly":
+                        field.minViewMode = "months";
+                        field.startDate = "-80d";
+                        field.endDate = "+30d";
+                        break;
+                    default:
+                        $log.error(template + " is not defined.");
+                }
+                return;
+            });
+            console.log(field.minViewMode);
+        };
+
+        var manageViewMode = function (field) {
+
+            if ($csfactory.isNullOrEmptyString(field.minViewMode))
+                field.minViewMode = '';
+            switch (field.minViewMode.toUpperCase()) {
+                case "MONTHS":
+                    field.format = "M-yyyy";
+                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan';
+                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec';
+                    break;
+                case "YEAR":
+                    field.format = ".yyyy";
+                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '.1800';
+                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '.2400';
+                    break;
+                default:
+                    field.format = "dd-MMMM-yyyy";
+                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan-01';
+                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec-31';
+            }
+
+
+
+        };
+
+        var validateOptions = function (field) {
+            applyTemplate(field);
+            manageViewMode(field);
+            field.opened = false;
+            field.open = openDatePicker;
+            field.disableDate = disableDate;
+
+            if ($csfactory.isNullOrEmptyString(field.label)) {
+                field.label = "Date";
+            }
+
+            if ($csfactory.isNullOrEmptyString(field.daysOfWeekDisabled)) {
+                field.daysOfWeekDisabled = [];
+            }
+        };
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions
+        };
+
+
+    }]);
+
+csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function ($csfactory, bstemplate, valtemplate) {
+
+        //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
 
         var input = function (field, attr) {
             var html = '<div class="input-group">';
@@ -864,22 +980,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             return html;
 
 
-            //var html = '<p class="input-group">';
-            //html += '<input type="text" class="form-control"';
-            //html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';
-            //html += 'is-open="field.opened"';
-            //html += 'min-date="' + (angular.isDefined(attr.minDate) ? attr.minDate :"'"+ field.minDate+"'") + '"';
-            //html += 'max-date="' + (angular.isDefined(attr.maxDate) ? attr.maxDate : field.maxDate) + '"';
-            //html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
-            //html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
-            //html += '/>';
-            //html += '<span class="input-group-btn">';
-            //html += '<button type="button" class="btn btn-default" ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
-            //html += '</button>';
-            //html += '</span>';
-            //html += '</p>';
 
-            //return html;
         };
 
         var htmlTemplate = function (field, attrs) {
@@ -938,73 +1039,51 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var manageViewMode = function (field) {
             //month/year modes
-            //if ($csfactory.isNullOrEmptyString(field.minViewMode))
-            //    field.minViewMode = 'months';
-            //} else if (field.minViewMode === "1" || field.minViewMode === "months") {
-            //    field.minViewMode = 1;
-            //} else if (field.minViewMode === "2" || field.minViewMode === "years") {
-            //    field.minViewMode = 2;
-            //} else {
-            //    field.minViewMode = 0;
-            //}
-
-            //format
             if ($csfactory.isNullOrEmptyString(field.minViewMode))
-                field.minViewMode = '';
-            switch (field.minViewMode.toUpperCase()) {
-                case "MONTHS":
-                    field.format = "M-yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : 'Jan-1800';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : 'Dec-2400';
-                    break;
-                case "YEAR":
-                    field.format = ".yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '.1800';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '.2400';
-                    break;
-                default:
-                    field.format = "dd-M-yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '01-Jan-1800';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '31-Dec-2400';
+                field.minViewMode = 0;
+            else if (field.minViewMode === "1" || field.minViewMode === "months") {
+                field.minViewMode = 1;
+            } else if (field.minViewMode === "2" || field.minViewMode === "years") {
+                field.minViewMode = 2;
+            } else {
+                field.minViewMode = 0;
             }
 
-            //if (field.minViewMode === 0) {
-            //    field.format = "dd-M-yyyy";
-            //} else if (field.minViewMode === 1) {
-            //    field.format = "M-yyyy";
-            //} else {
-            //    field.format = ".yyyy";
-            //}
+            //format
+            if (field.minViewMode === 0) {
+                field.format = "dd-M-yyyy";
+            } else if (field.minViewMode === 1) {
+                field.format = "M-yyyy";
+            } else {
+                field.format = ".yyyy";
+            }
 
             //min date        
-            //if ($csfactory.isNullOrEmptyString(field.minDate)) {
-            //    if (field.minViewMode === 0) {
-            //        field.minDate = '01-Jan-1800';
-            //    } else if (field.minViewMode === 1) {
-            //        field.minDate = 'Jan-1800';
-            //    } else {
-            //        field.minDate = '.1800';
-            //    }
-            //}
+            if ($csfactory.isNullOrEmptyString(field.minDate)) {
+                if (field.minViewMode === 0) {
+                    field.minDate = '01-Jan-1800';
+                } else if (field.minViewMode === 1) {
+                    field.minDate = 'Jan-1800';
+                } else {
+                    field.minDate = '.1800';
+                }
+            }
 
             //max date
-            //if ($csfactory.isNullOrEmptyString(field.maxDate)) {
-            //    if (field.minViewMode === 0) {
-            //        field.maxDate = '31-Dec-2400';
-            //    } else if (field.minViewMode === 1) {
-            //        field.maxDate = 'Dec-2400';
-            //    } else {
-            //        field.maxDate = '.2400';
-            //    }
-
+            if ($csfactory.isNullOrEmptyString(field.maxDate)) {
+                if (field.minViewMode === 0) {
+                    field.maxDate = '31-Dec-2400';
+                } else if (field.minViewMode === 1) {
+                    field.maxDate = 'Dec-2400';
+                } else {
+                    field.maxDate = '.2400';
+                }
+            }
         };
 
         var validateOptions = function (field) {
             applyTemplate(field);
             manageViewMode(field);
-            field.opened = false;
-            field.open = openDatePicker;
-            field.disableDate = disableDate;
 
             if ($csfactory.isNullOrEmptyString(field.label)) {
                 field.label = "Date";
@@ -1021,8 +1100,8 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -1054,7 +1133,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         var controllerFn = function ($scope, $element, $attrs) {
             var fieldGetter = $parse($attrs.field);
             var field = fieldGetter($scope);
-            $scope.setReadonly = function() {
+            $scope.setReadonly = function () {
                 switch ($scope.mode) {
                     case 'add':
                         return false;
@@ -1076,6 +1155,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             }
 
             field.size = csFormCtrl.getSize();
+
             if (angular.isUndefined(attr.layout)) {
                 return;
             }
@@ -1094,12 +1174,15 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             return;
         };
 
-        var setClasses = function(field) {
+        var setClasses = function (field) {
+            field.size.nolabel = field.size.label === 0;
+            
             field.layoutClass = {
-                label: 'col-md-' + field.size.label,
+                label: field.size.nolabel ? ' ' : 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,
             };
+            console.log(field.size);
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
@@ -1127,7 +1210,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?^csForm'],
+            require: ['ngModel', '^form', '^csForm'],
             terminal: true,
             controller: controllerFn
         };
@@ -1159,7 +1242,7 @@ csapp.directive('csForm', function () {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="container"><div ng-transclude=""></div></div>',
+        template: '<div class="row"><div ng-transclude=""></div></div>',
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'

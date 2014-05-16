@@ -25,18 +25,6 @@
         //};
 
 
-
-        $scope.getRegion = function () {
-            datalayer.getData().then(function () {
-                $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
-            });
-        };
-        $scope.$watch('eGPincodeModel.Region.valueList', function (oldVal,newVal) {
-            console.log('oldVal: ', oldVal, 'newVal: ', newVal);
-        });
-
-        console.log(datalayer.dldata);
-
         $scope.openAddEditModal = function (mode, gPincodes) {
             $modal.open({
                 templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
@@ -338,7 +326,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
                 $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
             } else {
-                $scope.GPincodedata = datalayer.dldata.GPincodedata;
+                //$scope.GPincodedata = datalayer.dldata.GPincodedata;
                 $scope.getRegion();
             };
         })();
@@ -388,6 +376,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.closeEditModel = function () {
+            $scope.GPincodedata.Country = 'India';
             $scope.GPincodedata.Region = '';
             $scope.GPincodedata.State = '';
             $scope.GPincodedata.Cluster = '';
