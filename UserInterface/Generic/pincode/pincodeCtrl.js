@@ -376,7 +376,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.closeEditModel = function () {
-            $scope.GPincodedata.Country = 'India';
+            if(angular.isDefined( $scope.GPincodedata))
             $scope.GPincodedata.Region = '';
             $scope.GPincodedata.State = '';
             $scope.GPincodedata.Cluster = '';

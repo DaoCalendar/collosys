@@ -160,13 +160,16 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
 
 
 
-        $scope.openEditModal = function (hierarchy) {
+        $scope.openEditModal = function (mode,hierarchy) {
             $modal.open({
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
                 resolve: {
                     editHierarchy: function () {
-                        return hierarchy;
+                        return {
+                            edithierarchy: angular.copy(hierarchy),
+                            displayMode: mode
+                        };
                     }
                 }
             });
@@ -187,7 +190,7 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
 
 
         $scope.hierarchyChange = function () {
-            if (angular.isDefined($scope.stakeholder.Hierarchy)) {
+            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.Hierarchy)) {
                 $scope.stakeholder.ReportingLevel = '';
                 $scope.stakeholder.ReportsTo = '';
                 $scope.stakeholder.WorkingReportsTo = '';
@@ -196,7 +199,7 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
         };
 
         $scope.reportsChange = function () {
-            if (angular.isDefined($scope.stakeholder.ReportsTo)) {
+            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.ReportsTo)) {
                 $scope.stakeholder.ReportingLevel = '';
                 $scope.stakeholder.WorkingReportsTo = '';
                 $scope.stakeholder.WorkingReportsLevel = '';
@@ -204,14 +207,14 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
         };
 
         $scope.reportinglevelChange = function () {
-            if (angular.isDefined($scope.stakeholder.ReportingLevel)) {
+            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.ReportingLevel)) {
                 $scope.stakeholder.WorkingReportsTo = '';
                 $scope.stakeholder.WorkingReportsLevel = '';
             };
         };
 
         $scope.workingReportsChange = function () {
-            if (angular.isDefined($scope.stakeholder.WorkingReportsTo)) {
+            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.WorkingReportsTo)) {
                 $scope.stakeholder.WorkingReportsLevel = '';
             };
         };
@@ -232,15 +235,31 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
 
 csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalInstance",
     "hierarchyDataLayer", "$csModels", "hierarchyFactory",
-    function ($scope, editHierarchy, $modalInstance, datalayer, $csModels, factory) {
+    function($scope, editHierarchy, $modalInstance, datalayer, $csModels, factory) {
 
-        (function () {
+        (function() {
             $scope.factory = factory;
-            $scope.hierarchy = angular.copy(editHierarchy);
+            $scope.hierarchy = editHierarchy.edithierarchy;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.hierarchyfield = $csModels.getColumns("StkhHierarchy");
         })();
+
+
+        (function(mode) {
+            switch (mode) {
+            case "edit":
+                $scope.modelTitle = "Update File Details";
+                break;
+            case "view":
+                $scope.modelTitle = "View File Details";
+                break;
+            default:
+                throw ("Invalid display mode : " + JSON.stringify(editHierarchy));
+            }
+            $scope.mode = mode;
+        })(editHierarchy.displayMode);
+    
 
         $scope.save = function (hierarchy) {
             datalayer.Save(hierarchy).then(function () {
@@ -248,10 +267,10 @@ csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalI
             });
         };
 
-        $scope.closeModal = function () {
-            $modalInstance.dismiss();
-        };
-    }]);
+$scope.closeModal = function () {
+    $modalInstance.dismiss();
+};
+}]);
 
 
 

@@ -1,9 +1,9 @@
 ﻿<form name="MyForm" class="form-horizontal" data-ng-init="step=1" novalidate>
-    <div class="modal-header">Edit Hierarchy</div>
+    <div class="modal-header">{{modelTitle}}</div>
     <div class="modal-body">
         <!--Edit Hierarchy page-1-->
         <div data-ng-form="step1form" data-ng-show="step==1">
-            <cs-form layout="9.4.6">
+            <cs-form layout="9.4.8">
                 <!--Designation-->
                 <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
                           data-ng-disabled="true"></cs-field>
