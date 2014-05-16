@@ -129,8 +129,8 @@
 
     var fileScheduler = function () {
         return {
-            SelectedSystem: { label: 'System', type: 'select' },
-            SelectedCategory: { label: 'Product', type: 'select' },
+            SelectedSystem: { label: 'System', type: 'enum' },
+            SelectedCategory: { label: 'Category', type: 'enum' },
             SelectedDateDaily: { label: 'File Date', type: 'date', template: 'Daily' },
             SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
             SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
