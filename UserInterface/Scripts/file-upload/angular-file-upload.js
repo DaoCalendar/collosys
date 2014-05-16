@@ -118,7 +118,6 @@ angularFileUpload.directive('ngFileSelect', [ '$parse', '$http', '$timeout', fun
 	return function(scope, elem, attr) {
 		var fn = $parse(attr['ngFileSelect']);
 		elem.bind('change', function (evt) {
-		    console.log('change called');
 			var files = [], fileList, i;
 			fileList = evt.target.files;
 			if (fileList != null) {

@@ -144,6 +144,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         };
 
         $scope.scheduleFiles = function () {
+            $csfactory.enableSpinner();
             datalayer.Schedule().then(function () {
                 $scope.upload = [];
                 hasAnyUnscheduledFiles();
