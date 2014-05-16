@@ -1,31 +1,27 @@
 ﻿<div class="container-fluid">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            Generate DB
-        </div>
-        <div class="panel-body">
-            <button class="btn btn-info" data-ng-click="generateDB()">Generate DB</button>
-        </div>
+    <div class="modal-header">
+        Generate DB
     </div>
+    <div class="modal-body">
+        <button class="btn btn-info" data-ng-click="generateDB()">Generate DB</button>
+    </div>
+</div>
 
-    <div class="panel panel-info" ng-form="encryptForm">
-        <div class="panel-heading">
-            Encrypt / Decrypt Sections Web.config
+<div ng-form="encryptForm">
+    <div class="modal-header">
+        Encrypt / Decrypt Sections Web.config
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label">Select Section</label>
+            <select data-ng-model="sectionName" data-ui-select2="" class="input-large"
+                ng-options="c for c in sections" required>
+                <option value=""></option>
+            </select>
         </div>
-        <div class="panel-body">
-            <div class="form-horizontal">
-                <div class="row form-group">
-                    <label class="control-label">Select Section</label>
-                    <select data-ng-model="sectionName" data-ui-select2="" class="input-large"
-                            ng-options="c for c in sections" required>
-                        <option value=""></option>
-                    </select>
-                </div>
-                <div class="row">
-                    <input type="button" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Encrypt Section" />
-                    <input type="button" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Decrypt Section" />
-                </div>
-            </div>
+        <div>
+            <input type="button" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Encrypt Section" />
+            <input type="button" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Decrypt Section" />
         </div>
     </div>
 </div>
