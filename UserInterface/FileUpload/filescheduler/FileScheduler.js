@@ -45,9 +45,9 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
     }
 ]);
 
-csapp.factory("fileSchedulerFactory", function() {
+csapp.factory("fileSchedulerFactory", function () {
 
-    var validateFile = function(file) {
+    var validateFile = function (file) {
         return true;
     };
 
@@ -57,13 +57,13 @@ csapp.factory("fileSchedulerFactory", function() {
 });
 
 
-csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory","$csModels",
+csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", "$csnotify", "fileSchedulerDataLayer", "$upload", "fileSchedulerFactory", "$csModels",
     function ($scope, $filter, $csfactory, $csnotify, datalayer, $upload, factory, $csModels) {
         "use strict";
 
         //#region helpers
         $scope.ResetPage = function () {
-            $scope.SelectedDate = null;
+            $scope.Selected.Date = null;
             $scope.fileScheduleDetails = {};
             $scope.IsImmediate = false;
             $scope.immedateReason = '';
@@ -72,23 +72,24 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         };
 
         (function () {
+            $scope.Selected = { Date: null };
             $scope.isPageValid = false;
             $scope.ResetPage();
             $scope.datalayer = datalayer;
             datalayer.GetAll();
             $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
+            $scope.IsImmediate = "false";
         })();
 
         $scope.changeSelectedFrequency = function () {
-            var list = _.where(datalayer.dldata.fileDetails, { ScbSystems: $scope.SelectedSystem, Category: $scope.SelectedCategory });
-            $scope.SelectedFrequency = list[0].Frequency;
-            $scope.IsImmediate = "false";
+            var list = _.where(datalayer.dldata.fileDetails, { ScbSystems: $scope.Selected.System, Category: $scope.Selected.Category });
+            $scope.Selected.Frequency = list[0].Frequency;
         };
 
         $scope.getFileDetails = function () {
-            var selecteddate = moment($scope.SelectedDate).format('YYYY-MM-DD');
-            datalayer.GetStatus($scope.SelectedSystem,
-                    $scope.SelectedCategory,
+            var selecteddate = moment($scope.Selected.Date).format('YYYY-MM-DD');
+            datalayer.GetStatus($scope.Selected.System,
+                    $scope.Selected.Category,
                     selecteddate)
                 .then(function () {
                     hasAnyUnscheduledFiles();

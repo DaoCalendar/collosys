@@ -82,8 +82,8 @@
 
     var billingSubpolicy = function () {
         return {
-            Name: { label: "Name", type: "text" },
-            Productname: { type: "text", label: "Product", },
+            Name: { label: "Name", type: "text",required:true },
+            Productname: { type: "text", label: "Product", required: true },
             Products: { label: "Product", required: true, type: "enum", valueList: $csShared.enums.Products },
             Category: { label: "Category", required: true, type: "enum", valueList: $csShared.enums.Category },
             LtypeName: { type: "select", textField: "displayName", valueField: "field" },
@@ -91,7 +91,7 @@
             typeEnum: { type: "enum", valueList: [] },
             PayoutSubpolicyType: { label: "PayoutSubPolicy", required: true, type: "enum", valueList: $csShared.enums.PayoutSubpolicyType },
             OutputType: { label: "Output", required: true, type: "enum", valueList: $csShared.enums.OutputType },
-            GroupBy: { label: "Group By", type: "select", required: true },//TOBE Disscuss
+            GroupBy: { label: "Group By",type: "select", required: true, textField: "displayName", valueField: "field"},//TOBE Disscuss
             Description: { label: "Description", type: "textarea" },
             OperatorType: { type: "enum", valueList: $csShared.enums.OperatorType },
             RelationType: { type: "enum", valueList: $csShared.enums.RelationType, },

@@ -708,18 +708,15 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"  data-ui-select3="field.select3Options"';
-            //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (field.useOptions === true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            var html = '<select  name="myfield" ';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
+            html += ' ng-options="' + field.ngOptions + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
-            html += field.useOptions !== true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -744,16 +741,13 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (field.useOptions === true) {
-                field.ngOptions = field.valueField + ' as ' + field.textField;
-                field.ngOptions += ' for row in ';
-                field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
-                field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
-            } else {
-                var valueList = attr.valueList ? attr.valueList : 'field.valueList';
-                field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
-            }
+            field.ngOptions = field.valueField + ' as ' + field.textField;
+            field.ngOptions += ' for row in ';
+            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
 
+            var valueList = attr.valueList ? attr.valueList : 'field.valueList';
+            field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             field.select3Options = {
                 initPristrine: true,
                 allowClear: field.allowClear || false,
@@ -783,17 +777,13 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" data-ui-select3="field.select3Options"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            //html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
+            var html = '<select  name="myfield" ng-options="' + field.ngOptions + '"';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value="" disabled="true" selected="false"></option>';
-            html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
@@ -1158,45 +1148,38 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var validateSize = function (field) {
-            field.size.div = isNaN(field.size.div) ? 0 : field.size.div;
-            field.size.label = isNaN(field.size.label) ? 0 : field.size.label;
-            field.size.control = isNaN(field.size.control) ? 0 : field.size.control;
-
-            if (field.size.div === 0 || field.size.label < 0 || field.size.label > 12 || field.size.control < 0 || field.size.control > 12) {
-                throw "invalid div size";
-            }
-        };
-
         var setLayout = function (field, csFormCtrl, attr) {
             field.size = {};
             if (angular.isUndefined(csFormCtrl)) {
-                field.size = {
-                    label: 4,
-                    div: 12,
-                    control: 8,
-                };
-            } else {
-                if (angular.isDefined(attr.layout)) {
-                    layout = attr.layout.split(".");
-                    field.size = {
-                        div: parseInt(layout[0]),
-                        label: layout[1],
-                        control: layout[2]
-                    };
-
-                } else {
-                    field.size = csFormCtrl.getSize();
-                }
-
+                field.size = { label: 4, div: 6, control: 8 };
+                return;
             }
-            validateSize(field);
+
+            field.size = csFormCtrl.getSize();
+            if (angular.isUndefined(attr.layout)) {
+                return;
+            }
+
+            var layout = attr.layout.split(".");
+            var size = {
+                div: angular.isUndefined(layout[0]) ? -1 : parseInt(layout[0]),
+                label: angular.isUndefined(layout[1]) ? -1 : parseInt(layout[1]),
+                control: angular.isUndefined(layout[2]) ? -1 : parseInt(layout[2]),
+            };
+
+            size.div = (isNaN(size.div) || size.div < 1 || size.div > 12) ? field.size.div : size.div;
+            size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? field.size.label : size.label;
+            size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? field.size.control : size.control;
+            field.size = size;
+            return;
+        };
+
+        var setClasses = function (field) {
             field.layoutClass = {
                 label: 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,
             };
-
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
@@ -1207,16 +1190,14 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
 
             var fieldGetter = $parse(attrs.field);
-            var field = fieldGetter(scope);
-            scope.field = field;
+            scope.field = fieldGetter(scope);
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
-            setLayout(field, controllers.csFormCtrl, attrs);
+            setLayout(scope.field, controllers.csFormCtrl, attrs);
+            setClasses(scope.field);
 
-            var typedFactory = getFactory(field.type);
-            typedFactory.checkOptions(field, attrs);
-
-            var html = typedFactory.htmlTemplate(field, attrs);
-
+            var typedFactory = getFactory(scope.field.type);
+            typedFactory.checkOptions(scope.field, attrs);
+            var html = typedFactory.htmlTemplate(scope.field, attrs);
             var newElem = angular.element(html);
             element.replaceWith(newElem);
             $compile(newElem)(scope);
@@ -1226,7 +1207,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?^csForm'],
+            require: ['ngModel', '^form', '^csForm'],
             terminal: true,
             controller: controllerFn
         };
@@ -1244,7 +1225,9 @@ csapp.directive('csForm', function () {
             control: angular.isUndefined($scope.layout[2]) ? 8 : parseInt($scope.layout[2]),
         };
 
-
+        size.div = (isNaN(size.div) || size.div < 1 || size.div > 12) ? 6 : size.div;
+        size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? 4 : size.label;
+        size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
         this.mode = $scope.mode;
 
@@ -1256,7 +1239,7 @@ csapp.directive('csForm', function () {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="container"><div ng-transclude=""></div></div>',
+        template: '<div class="row"><div ng-transclude=""></div></div>',
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'

@@ -3,6 +3,10 @@ html, body {
     height: 100%;
 }
 
+label {
+    font-weight: normal;
+}
+
 .noResize {
     -moz-resize: none;
     -ms-resize: none;
@@ -30,8 +34,7 @@ html, body {
 }
 
     .cssmenu ul li {
-        background: white;
-        border: 1px solid lightblue;
+        border: 1px solid lightgray;
         padding-top: 10px;
         line-height: 26px;
     }
