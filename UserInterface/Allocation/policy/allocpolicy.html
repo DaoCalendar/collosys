@@ -1,10 +1,8 @@
-﻿<div class="row">
-    <div data-ng-form="allocPolicyForm" class="form-horizontal">
+﻿<cs-form layout="5.4.8">
+    <div data-ng-form="allocPolicyForm" >
         <div class="row">
-            <div class="col-md-5">
                 <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
                           data-ng-change="datalayer.changeProductCategory();buttonStatus=null" ng-required="true"></cs-field>
-            </div>
             <!--<div class="col-md-5">
                 <select data-ng-options="el for el in dldata.productsList"
                         multiple="multiple" move-on-select="true" class="input-medium"
@@ -63,48 +61,46 @@
 
     <div class="row margin-box" data-ng-show="buttonStatus">
         <div class="col-md-1"></div>
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{disSubPolicy.Name}} :({{buttonStatus}})
+                    <div class="row">
+                    <p class="col-md-2">{{disSubPolicy.Name}} :({{buttonStatus}})</p>
                     <!--Deactivate,Approv, Reject Buttons-->
-                    <div class="pull-right">
-                        <div class="form-group">
-                            <div class="controls">
-                                <button class="btn  btn-danger"
-                                        data-ng-show="buttonStatus==='Approved'"
-                                        data-ng-click="openModelDeactivateSubPolicy(allocRelation);">
-                                    Deactivate
-                                </button>
-                                <!--for draft-->
-                                <button class="btn btn-primary"
-                                        data-ng-show="buttonStatus=='Draft'"
-                                        data-ng-click="openModelNewSubPolicy(allocRelation,$index);">
-                                    Activate
-                                </button>
+                        <div class="pull-right" style="margin-right:5px">
+                            <button class="btn  btn-danger"
+                                    data-ng-show="buttonStatus==='Approved'"
+                                    data-ng-click="openModelDeactivateSubPolicy(allocRelation);">
+                                Deactivate
+                            </button>
+                            <!--for draft-->
+                            <button class="btn btn-primary"
+                                    data-ng-show="buttonStatus=='Draft'"
+                                    data-ng-click="openModelNewSubPolicy(allocRelation,$index);">
+                                Activate
+                            </button>
 
-                                <!--for Expired-->
-                                <button class="btn btn-primary"
-                                        data-ng-show="buttonStatus=='Expired'"
-                                        data-ng-click="openModelReactivateSubPolicy(allocRelation);">
-                                    Reactivate
-                                </button>
+                            <!--for Expired-->
+                            <button class="btn btn-primary"
+                                    data-ng-show="buttonStatus=='Expired'"
+                                    data-ng-click="openModelReactivateSubPolicy(allocRelation);">
+                                Reactivate
+                            </button>
 
-                                <button class="btn btn-success"
-                                        data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="approve(allocRelation)">
-                                    Approve
-                                </button>
-                                <button class="btn btn-success"
-                                        data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="reject(allocRelation)">
-                                    Reject
-                                </button>
-                            </div>
+                            <button class="btn btn-success"
+                                    data-ng-show="buttonStatus=='UnApproved'"
+                                    data-ng-click="approve(allocRelation)">
+                                Approve
+                            </button>
+                            <button class="btn btn-success"
+                                    data-ng-show="buttonStatus=='UnApproved'"
+                                    data-ng-click="reject(allocRelation)">
+                                Reject
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="panel-body  form-horizontal">
+                <div class="panel-body">
                     <!--Name & Policy-->
                     <div class="row">
                         <!--Name-->
@@ -115,9 +111,9 @@
                             </div>
                         </div>-->
                         <!--Policy Stakeholder-->
-                        <div class="col-md-5" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
-                            <label class="control-label">Stakeholder</label>
-                            <div class="controls">
+                        <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
+                            <label class="col-md-4">Stakeholder</label>
+                            <div class="col-md-8">
                                 <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
                             </div>
                         </div>
@@ -126,16 +122,16 @@
                     <!--Conditions & Policy Reason/ Stakeholder-->
                     <div class="row">
                         <!--Policy-->
-                        <div class="col-md-5">
-                            <label class="col-md-3 control-label">Policy</label>
-                            <div class="col-md-7">
+                        <div class="col-md-6">
+                            <label class="col-md-4 control-label">Policy</label>
+                            <div class="col-md-8">
                                 <input type="text" class="form-control" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                             </div>
                         </div>
                         <!--POlicy Reason-->
-                        <div class="col-md-5" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
-                            <label class="col-md-3 control-label">Reason</label>
-                            <div class="col-md-7">
+                        <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
+                            <label class="col-md-4 control-label">Reason</label>
+                            <div class="col-md-8">
                                 <input type="text" class="form-control" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
                             </div>
                         </div>
@@ -144,26 +140,26 @@
                     <!--Start & End Date-->
                     <div class="row" data-ng-hide="buttonStatus=='Draft'">
                         <!--Start date-->
-                        <div class="col-md-5">
-                            <label class="control-label">Start Date</label>
-                            <div class="controls">
-                                <input type="text" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
+                        <div class="col-md-6">
+                            <label class="col-md-4">Start Date</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
                             </div>
                         </div>
                         <!--End Date-->
-                        <div class="col-md-5">
-                            <label class="control-label">End Date</label>
-                            <div class="controls">
-                                <input type="text" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
+                        <div class="col-md-6">
+                            <label class="col-md-4">End Date</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <!--conditions-->
-                        <div class="col-md-5">
-                            <label class="control-label">Condition</label>
-                            <div class="controls">
-                                <textarea class="resize" data-ng-model="disSubPolicy.Condition" style="width: 550px" readonly="readonly"></textarea>
+                        <div class="col-md-6">
+                            <label class="col-md-4">Condition</label>
+                            <div class="col-md-8">
+                                <textarea class="resize form-control"  data-ng-model="disSubPolicy.Condition"  readonly="readonly"></textarea>
                             </div>
                         </div>
                     </div>
@@ -171,4 +167,4 @@
             </div>
         </div>
     </div>
-</div>
+</cs-form>

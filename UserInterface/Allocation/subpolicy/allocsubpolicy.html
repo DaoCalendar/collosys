@@ -1,15 +1,11 @@
-﻿<div class="row-fluid">
-    <div class="row form-horizontal" id="row1" data-ng-form="subpolicyForm">
-        <div class="col-md-5">
+﻿<cs-form layout="5.4.8">
+    <div class="row " id="row1" data-ng-form="subpolicyForm">
             <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
                       field="allocSubpolicy.Products" ng-required="true"></cs-field>
-        </div>
-        <div class="col-md-6">
             <button class="btn alert-info" data-ng-show="dldata.allocSubpolicy.Products"
                     data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
                 Add Subpolicy
             </button>
-        </div>
     </div>
     <div class="row-fluid" id="row2">
         <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
@@ -30,38 +26,28 @@
                         Subpolicy Basic-Info
                     </div>
                     <div class="panel-body">
-                        <div class="row-fluid">
-
-                            <div class="row-fluid">
-                                <div class="form-group col-md-6">
+                        <div class="row">
                                     <cs-field field="allocSubpolicy.ProductName" data-ng-disabled="true"
                                               data-ng-model="dldata.allocSubpolicy.Products"></cs-field>
-                                </div>
                                 <!--Name-->
-                                <div class="form-group col-md-6">
                                     <cs-field field="allocSubpolicy.Name" data-ng-model="dldata.allocSubpolicy.Name"
                                               data-ng-disabled="dldata.allocSubpolicy.Id" data-ng-change="factory.checkDuplicateName()"></cs-field>
                                     <label class="text-danger" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
-                                </div>
                             </div>
 
-                            <div class="row-fluid">
-                                <div class="form-group col-md-6">
+                            <div class="row">
                                     <cs-field data-ng-model="dldata.allocSubpolicy.AllocateType" field="allocSubpolicy.AllocateType"></cs-field>
-                                </div>
                                 <!--Allocate months-->
-                                <div class="form-group col-md-6">
                                     <cs-field data-ng-model="dldata.allocSubpolicy.NoAllocMonth" field="allocSubpolicy.NoAllocMonth"
                                               data-ng-disabled="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue"></cs-field>
-                                </div>
                             </div>
 
-                            <div class="row-fluid">
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" class="form-group col-md-6">
+                            <div class="row">
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'" >
                                     <cs-field data-ng-model="dldata.allocSubpolicy.ReasonNotAllocate" field="allocSubpolicy.ReasonNotAllocate" value-list="dldata.reasonsNotAllocate"
                                               data-ng-change="datalayer.check(allocSubpolicy.ReasonNotAllocate)" ng-required="dldata.allocSubpolicy.AllocateType=='DoNotAllocate'"></cs-field>
                                 </div>
-                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" class="form-group col-lg-6">
+                                <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'" >
                                     <cs-field data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'"
                                               field="allocSubpolicy.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
                                     <!--<label class="control-label">Select Stakeholder</label>
@@ -78,14 +64,11 @@
                                     </div>-->
                                 </div>
                             </div>
-                            <div class="row-fluid">
-                                <div class="form-group col-md-6">
+                            <div class="row">
                                     <cs-field data-ng-model="dldata.allocSubpolicy.Description" field="allocSubpolicy.Description"></cs-field>
-                                </div>
                             </div>
 
                         </div>
-                    </div>
                 </div>
             </div>
 
@@ -163,7 +146,7 @@
             </div>
         </div>
     </div>
-</div>
+</cs-form>
 
 
 <!--<div class="form-group col-md-5" data-ng-hide="true">
