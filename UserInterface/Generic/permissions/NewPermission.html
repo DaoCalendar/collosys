@@ -1,19 +1,15 @@
 ﻿<div class="form-horizontal" data-ng-form="frmPermission">
     <div class="panel">
         <div class="panel-heading">Permissions</div>
-        <div class="row">
-            <div class="form-group col-md-5">
+        <cs-form layout="6.3.7">
                 <cs-field data-ng-model="perm.hierarchy"
                           field="Permission.Hierarchy" value-list="dldata.stakeHierarchy|unique : 'Hierarchy'"></cs-field>
             
-            </div>
-            <div data-ng-show="perm.hierarchy" class="form-group col-md-5">
+            <div data-ng-show="perm.hierarchy">
                 <cs-field data-ng-model="perm.designation"
                           field="Permission.Designation" value-list="dldata.stakeHierarchy|
                         filter : {'Hierarchy' : perm.hierarchy} | orderBy: 'PositionLevel'" data-ng-change="datalayer.GetPermission(perm.designation)"></cs-field>
-            </div>
-
-        </div>
+        </cs-form>
     </div>
     <div data-ng-show="perm.designation">
         <div data-ng-repeat="(key, module) in dldata.permission track by key">
