@@ -9,11 +9,10 @@
         noBootstrapDiv += '>';
 
         var html = noBootstrapDiv;
-        html += '<div class="' + field.layoutClass.label + '">';
-        html += '<label';
-        html += ' control-label">{{' + attr.field + '.label}}' +
-                '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>';
-        html += '</div>';
+        html += '<div data-ng-hide="field.size.nolabel">' +
+            '<label class="cs-field-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
+                '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>' +
+            '</div>';
         return (noBootstrap || field.size.label === 0 ? noBootstrapDiv : html);
     };
 
@@ -195,7 +194,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"');
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += ((field.type === "decimal") ? ' step="any"' : '');
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
@@ -347,7 +346,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+        html += ' class ="minWidth form-control"';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
@@ -463,7 +462,7 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
             html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
@@ -591,7 +590,7 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         var input = function (field, attrs) {
             var html = '<input  name="myfield" type="email"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += 'class ="form-control ' + (attrs.class ? attrs.class : field.class) + '"';
+            html += ' class ="minWidth form-control"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += (attrs.ngReadonly ? ' ng-readonly="' + attrs.ngReadonly + '"' : ' ng-readonly="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
@@ -709,7 +708,7 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select  name="myfield" ';
-            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="minWidth form-control" ';
             html += ' ng-options="' + field.ngOptions + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
@@ -778,7 +777,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<select  name="myfield" ng-options="' + field.ngOptions + '"';
-            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control minWidth" ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
@@ -1156,6 +1155,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             }
 
             field.size = csFormCtrl.getSize();
+
             if (angular.isUndefined(attr.layout)) {
                 return;
             }
@@ -1175,11 +1175,14 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
         var setClasses = function (field) {
+            field.size.nolabel = field.size.label === 0;
+            
             field.layoutClass = {
-                label: 'col-md-' + field.size.label,
+                label: field.size.nolabel ? ' ' : 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
                 control: 'col-md-' + field.size.control,
             };
+            console.log(field.size);
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {

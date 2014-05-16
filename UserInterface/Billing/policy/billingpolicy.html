@@ -1,23 +1,19 @@
-﻿<div>
-    <div data-ng-form="payoutPolicyForm" class="form-horizontal">
-        <div class="row well-small">
-            <div class="col-md-5">
-                <cs-field data-ng-model="dldata.payoutPolicy.Products" field="BillingPolicy.Products"
-                    data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
+﻿<cs-form layout="6.4.8">
+    <div data-ng-form="payoutPolicyForm" >
+        <div class="row">
+            <cs-field data-ng-model="dldata.payoutPolicy.Products" field="BillingPolicy.Products"></cs-field>
             </div>
-
-        </div>
-
-        <div class="row" data-ng-show="false">
-            <div class="form-group col-md-5">
-                <label class="control-label">Name</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.payoutPolicy.Name"
-                        data-ng-pattern="/^\w*$/" readonly="readonly" required />
+            <div class="row" data-ng-if="false">
+                <div class="form-group col-md-6">
+                    <label class="col-md-4">Name</label>
+                    <div class="col-md-8">
+                        <input type="text" data-ng-model="dldata.payoutPolicy.Name"
+                               data-ng-pattern="/^\w*$/" readonly="readonly" required />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+   
     <div class="row">
         <div class="col-md-1">
         </div>
@@ -119,30 +115,22 @@
                             <!--Name & Policy-->
                             <div class="row">
                                 <!--Name-->
-                                <div class="col-md-6">
+                                
                                     <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
                                         field="BillingPolicy.Name"></cs-field>
-                                </div>
                             </div>
                             <!--Output & Condition-->
                             <div class="row" style="margin-bottom: 5px">
                                 <!--Output-->
-                                <div class="col-md-6">
-                                    <div class="row">
                                         <!-- <cs-field data-ng-model="disSubPolicy.Output" data-ng-disabled="true"
                                                    field="BillingPolicy.Output"></cs-field>-->
                                         <label class="col-md-4 control-label">Output</label>
                                         <div class="col-md-8">
                                             <textarea class="noResize form-control"
-                                                style="height: 150px"
-                                                data-ng-model="disSubPolicy.Output"
-                                                cols="25" data-ng-disabled="true"></textarea>
-                                        </div>
-                                    </div>
+                                                      style="height: 150px"
+                                                      data-ng-model="disSubPolicy.Output"></textarea>
                                 </div>
                                 <!--Condition-->
-                                <div class="col-md-6">
-                                    <div class="row">
                                         <!--   <cs-field data-ng-model="disSubPolicy.Condition" data-ng-disabled="true"
                                                      field="BillingPolicy.Condition"></cs-field>-->
                                         <label class="col-md-4 control-label">Condition</label>
@@ -152,9 +140,8 @@
                                                 data-ng-model="disSubPolicy.Condition"
                                                 cols="25" data-ng-disabled="true"></textarea>
                                         </div>
-                                    </div>
                                 </div>
-                            </div>
+                           
                             <!--StartDate & EndDate-->
                             <div class="row">
                                 <div class="form-group col-md-6">
@@ -182,7 +169,7 @@
         </div>
 
     </div>
-</div>
+</cs-form>
 
 <!--<div class="form-group col-md-5">
                    <label class="control-label">Product</label>
