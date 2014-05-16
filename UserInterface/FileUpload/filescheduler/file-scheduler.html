@@ -3,7 +3,6 @@
         <div class="panel-heading">Schedule File For Upload</div>
 
         <div class="panel-body">
-            <pre>{{Selected}}</pre>
             <cs-form layout="4.4.8">
                 <cs-field data-ng-model="Selected.System" field="fileSchedulerfield.SelectedSystem"
                           value-list="datalayer.dldata.fileDetailsScbSystems" 
@@ -30,61 +29,62 @@
                     </div>
                 </div>
             </cs-form>
-            <div data-ng-show="Selected.Date">
-                <div data-ng-show="hasUnscheduledFiles">
-                    <hr />
-                    <h5>Files to Schedule</h5>
-                    <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
-                        <div class="form-group row">
-                            <label class="col-md-3 text-left">{{$index + 1}}. {{file.FileName}}</label>
-                            <div data-ng-hide="file.IsUploading">
-                                <div class="col-md-4">
-                                    <input type="file" ng-file-select="onFileSelect(file, $files, $index)" />
-                                </div>
+            
+                <div data-ng-show="Selected.Date">
+                    <div data-ng-show="hasUnscheduledFiles">
+                        <hr />
+                        <h4>Files to Schedule</h4>
+                        <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
+                            <div class="form-group row">
+                                <label class="col-md-3 text-left">{{$index + 1}}. {{file.FileName}}</label>
+                                <div data-ng-hide="file.IsUploading">
+                                    <div class="col-md-4">
+                                        <input type="file" ng-file-select="onFileSelect(file, $files, $index)" />
+                                    </div>
 
-                                <div class="col-md-offset-1 col-md-4">
-                                    <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
+                                    <div class="col-md-offset-1 col-md-4">
+                                        <span data-ng-show="file.HasError">{{file.ErrorMessage}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" data-ng-show="file.IsUploading">
+                                    <progressbar class="progress-striped active" value="file.UploadPercent" type="success"></progressbar>
                                 </div>
                             </div>
-                            <div class="col-md-6" data-ng-show="file.IsUploading">
-                                <progressbar class="progress-striped active" value="file.UploadPercent" type="success"></progressbar>
-                            </div>
+
                         </div>
-
+                    </div>
+                    <div data-ng-show="hasScheduledFiles">
+                        <hr />
+                        <h5>Files Scheduled</h5>
+                        <table class="table table-condensed table-bordered">
+                            <tr data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'true'}">
+                                <td class="col-md-1">{{$index + 1}}.</td>
+                                <td class="col-md-3">{{file.FileName.substring(16)}}</td>
+                                <td class="col-md-1">{{file.FileSize | bytes}}</td>
+                                <td class="col-md-3">Scheduled {{file.ScheduleDate | fromNow}}</td>
+                                <td class="col-md-2">{{file.FileStatus}}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div data-ng-show="hasScheduledFiles">
+
+                <div data-ng-show="hasUnscheduledFiles">
                     <hr />
-                    <h5>Files Scheduled</h5>
-                    <table class="table table-condensed table-bordered">
-                        <tr data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'true'}">
-                            <td class="col-md-1">{{$index + 1}}.</td>
-                            <td class="col-md-3">{{file.FileName.substring(16)}}</td>
-                            <td class="col-md-1">{{file.FileSize | bytes}}</td>
-                            <td class="col-md-3">Scheduled {{file.ScheduleDate | fromNow}}</td>
-                            <td class="col-md-2">{{file.FileStatus}}</td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <span class="col-md-6">
+                            <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
+                        </span>
+                        <span class="col-md-4" data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
+                            <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
+                        </span>
+                    </div>
                 </div>
-            </div>
 
-            <div data-ng-show="hasUnscheduledFiles">
-                <hr />
-                <div class="row">
-                    <span class="col-md-6">
-                        <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
-                    </span>
-                    <span class="col-md-4" data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
-                        <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
-                    </span>
+                <div class="text-center row" data-ng-show="hasUnscheduledFiles">
+                    <hr />
+                    <button class="btn btn-success" data-ng-disabled="validatePage()" data-ng-click="scheduleFiles()">Schedule Files</button>
                 </div>
-            </div>
-
-            <div class="text-center row" data-ng-show="hasUnscheduledFiles">
-                <hr />
-                <button class="btn btn-success" data-ng-disabled="validatePage()" data-ng-click="scheduleFiles()">Schedule Files</button>
             </div>
         </div>
-    </div>
 </form>
 

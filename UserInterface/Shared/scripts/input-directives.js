@@ -1149,7 +1149,7 @@ csapp.directive('csForm', function () {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="container-fluid"><div ng-transclude=""></div></div>',
+        template: '<div class="row"><div ng-transclude=""></div></div>',
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'
