@@ -7,7 +7,7 @@ csapp.factory("fileSchedulerDataLayer", ["Restangular", "$csnotify",
         var getFileDetails = function () {
             restApi.customGETLIST("GetFileDetails").then(function (data) {
                 dldata.fileDetails = data;
-                dldata.fileDetailsScbSystems = _.uniq(_.pluck(data, 'ScbSystems'));
+                dldata.fileDetailsScbSystems = _.sortBy(_.uniq(_.pluck(data, 'ScbSystems')));
                 dldata.fileDetailsCategory = _.uniq(_.pluck(data, 'Category'));
             }, function () {
                 $csnotify.error("Not able to retrieve basic data.");
@@ -73,6 +73,12 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         $scope.changeSelectedFrequency = function () {
             var list = _.where(datalayer.dldata.fileDetails, { ScbSystems: $scope.Selected.System, Category: $scope.Selected.Category });
             $scope.Selected.Frequency = list[0].Frequency;
+        };
+
+        $scope.changeSelectedSystem = function() {
+            var fileDetails = _.filter(datalayer.dldata.fileDetails,
+            { 'ScbSystems': $scope.Selected.System });
+            datalayer.dldata.fileDetailsCategory = _.sortBy(_.uniq(_.pluck(fileDetails, 'Category')));
         };
 
         $scope.getFileDetails = function () {

@@ -6,7 +6,7 @@
             <cs-form layout="4.4.8">
                 <cs-field data-ng-model="Selected.System" field="fileSchedulerfield.SelectedSystem"
                           value-list="datalayer.dldata.fileDetailsScbSystems"
-                          data-ng-change="Selected.Category = '';ResetPage();"></cs-field>
+                          data-ng-change="ResetPage();changeSelectedSystem()"></cs-field>
 
                 <div data-ng-show="Selected.System">
                     <cs-field data-ng-model="Selected.Category" field="fileSchedulerfield.SelectedCategory"

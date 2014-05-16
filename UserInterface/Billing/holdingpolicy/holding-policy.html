@@ -5,85 +5,61 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Holding Policy Details</div>
                 <div class="panel-body">
+                    <cs-form layout="6.4.8">
                     <label>Policy Details</label>
                     <hr />
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.Products"
                                       field="HoldingPolicy.Products"></cs-field>
-                        </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.Name"
-                                field="HoldingPolicy.Name"></cs-field>
-                        </div>
-                        <div class="col-md-6">
+                                      field="HoldingPolicy.Name"></cs-field>
                             <cs-field data-ng-model="policy.StartDate" data-ng-change="dateValiadation(policy.StartDate,policy.EndDate)"
-                                field="HoldingPolicy.StartDate"></cs-field>
-                        </div>
+                                      field="HoldingPolicy.StartDate"></cs-field>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.Description" 
-                                field="HoldingPolicy.Description"></cs-field>
-                        </div>
-                        <div class="col-md-6">
+                                      field="HoldingPolicy.Description"></cs-field>
                             <cs-field data-ng-model="policy.EndDate" data-ng-change="dateValiadation(policy.StartDate,policy.EndDate)"
-                                field="HoldingPolicy.EndDate"></cs-field>
-                        </div>
+                                      field="HoldingPolicy.EndDate"></cs-field>
                     </div>
 
                     <label>Payout Details</label>
                     <hr />
 
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.ApplyOn"
-                                field="HoldingPolicy.ApplyOn"></cs-field>
-                        </div>
-                        <div class="col-md-6">
-                        </div>
+                                      field="HoldingPolicy.ApplyOn"></cs-field>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.Rule"
-                                field="HoldingPolicy.Rule"></cs-field>
-                        </div>
-                        <div class="col-md-6" data-ng-if="policy.Rule=='Value'">
+                                      field="HoldingPolicy.Rule"></cs-field>
                             <cs-field data-ng-model="policy.Value" field="HoldingPolicy.Value"></cs-field>
-                        </div>
 
-                        <div class="col-md-6" data-ng-if="policy.Rule=='Percentage'">
                             <cs-field data-ng-model="policy.Value" field="HoldingPolicy.ValuePercent"></cs-field>
-                        </div>
 
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.TransactionType"
-                                field="HoldingPolicy.TransactionType"></cs-field>
-                        </div>
-                        <div class="col-md-6">
+                                      field="HoldingPolicy.TransactionType"></cs-field>
                             <!--<select data-ng-model="policy.StartMonth" 
-                                  >
-                                <option data-ng-repeat="d in monthList" value="{{d.valuefield}}">{{d.display}}</option>
-                            </select>-->
+                                >
+                                    <option data-ng-repeat="d in monthList" value="{{d.valuefield}}">{{d.display}}</option>
+                                </select>-->
                            
-                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
                             <cs-field data-ng-model="policy.Tenure"
-                                field="HoldingPolicy.Tenure"></cs-field>
-                        </div>
+                                      field="HoldingPolicy.Tenure"></cs-field>
                     </div>
-
+                </cs-form>
                 </div>
+
                 <div class="panel-footer text-right">
                     <cs-button type="Add" ng-click="add(policy)" data-ng-show="isAddMode" ng-disabled="holdingpolicyform.$invalid"></cs-button>
                     <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
