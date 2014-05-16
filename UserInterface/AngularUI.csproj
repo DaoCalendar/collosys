@@ -256,15 +256,11 @@
     <Content Include="Billing\billstatus\billstatus.html" />
     <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula2\condition.html" />
-    <Content Include="Billing\formula2\formula-back.js" />
-    <Content Include="Billing\formula2\formula-condition.html" />
     <Content Include="Billing\formula2\formula-details.html" />
-    <Content Include="Billing\formula2\formula-group-by.html" />
-    <Content Include="Billing\formula2\formula-output.html" />
-    <Content Include="Billing\formula2\formula-output2.html" />
     <Content Include="Billing\formula2\formula.html" />
     <Content Include="Billing\formula2\formula.js" />
-    <Content Include="Billing\formula2\temp.html" />
+    <Content Include="Billing\formula2\if-else.html" />
+    <Content Include="Billing\formula2\output.html" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
     <Content Include="Billing\formula\formula-group-by.html" />
@@ -571,6 +567,7 @@
     <Content Include="Generic\csgrid\grid-stakeholder.html" />
     <Content Include="Shared\scripts\input-directives.js" />
     <Content Include="Shared\templates\condition-directive.html" />
+    <Content Include="Shared\templates\if-else-directive.html" />
     <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />

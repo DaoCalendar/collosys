@@ -6,7 +6,10 @@
         scope: {
             tableName: '@',
             selected: '=',
-            formulaList: '='
+            formulaList: '=',
+            groupId: '@',
+            tokensList: '=',
+            debug:'@'
         }
     };
 
@@ -35,6 +38,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 },
                 filterString: ''
             };
+            $scope.tokensList = $scope.tokens.selected;
         };
 
         var initFirstTokens = function () {
@@ -59,13 +63,13 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         //#region 
 
         $scope.addToken = function (item, model, label) {
-            tokenHelper.addTokenToTokenList($scope.tokens, item);
+            tokenHelper.addTokenToTokenList($scope.tokens, item,$scope.groupId);
             setNextToken(item);
         };
 
         $scope.addValue = function (value) {
             if (validations.validateValue($scope.tokens, value)) {
-                var seleVal = tokenHelper.setAddValue($scope.tokens, value);
+                var seleVal = tokenHelper.setAddValue($scope.tokens, value, $scope.groupId);
                 setNextToken(seleVal);
             } else {
                 $scope.tokens.error = 'Please select field or operator first';
@@ -78,10 +82,6 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
             $scope.tokens.nextTokens = [];
             $scope.tokens.collections.formulaListC = [];
             $scope.tokens.collections.tableColumns = [];
-        };
-
-        $scope.tokens.resetAll = function () {
-            initToken();
         };
 
         var setNextToken = function (token) {
@@ -112,12 +112,176 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
             }
         };
 
+        $scope.setValidation = function () {
+            if ($scope.tokens.lastToken.type == 'Operator' || $scope.tokens.selected.length<2) {
+                return 'alert-danger';
+            }
+            return 'alert-info';
+        };
+
         $scope.reset = function () {
-            $scope.tokens.resetAll();
+            initToken();
             initFirstTokens();
         };
 
     }]);
+
+
+//#region Condition directive
+csapp.directive("csCondition", function () {
+    return {
+        restrict: 'E',
+        controller: 'conditionCtrl',
+        templateUrl: baseUrl + 'Shared/templates/condition-directive.html',
+        scope: {
+            tableName: '@',
+            selected: '=',
+            formulaList: '=',
+            groupId: '@',
+            tokensList: '=',
+            debug: '@'
+        }
+    };
+
+});
+
+csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
+    function ($scope, $csmodels, operatorFactory, validations, helpers, tokenHelpers) {
+
+        //#region init
+        var tokenHelper = tokenHelpers.tokenHelper;
+
+        var initLocals = function () {
+            $scope.modal = $csmodels.getTable($scope.tableName);
+            initToken();
+        };
+
+        var initToken = function () {
+            $scope.tokens = {
+                tokensList: [],
+                selected: [],
+                nextTokens: [],
+                lastToken: {},
+                collections: {
+                    formulaListC: [],
+                    tableColumns: []
+                },
+                filterString: '',
+                hasConditional:false
+            };
+            $scope.tokensList = $scope.tokens.selected;
+        };
+
+        var initFirstTokens = function () {
+            tokenHelper.initListsConditions($scope.tokens, $scope.modal,
+                $scope.tableName, $scope.formulaList);
+
+            $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                return (row.type == 'Formula' || row.type == 'Table');
+            });
+            return;
+        };
+
+        (function () {
+            initLocals();
+            initFirstTokens();
+        })();
+
+        $scope.$watch('formulaList', initFirstTokens);
+
+        //#endregion
+
+        //#region 
+
+        $scope.addToken = function (item, model, label) {
+            tokenHelper.addTokenToTokenList($scope.tokens, item, $scope.groupId);
+            if (item.datatype == 'conditional') {
+                $scope.tokens.hasConditional = true;
+            }
+            if (item.datatype == 'relational') {
+                $scope.tokens.hasConditional = false;
+            }
+            setNextToken(item);
+        };
+
+        $scope.addValue = function (value) {
+            if (validations.validateValue($scope.tokens, value)) {
+                var seleVal = tokenHelper.setAddValue($scope.tokens, value, $scope.groupId);
+                seleVal.datatype = $scope.tokens.secondLastToken.datatype;
+                setNextToken(seleVal);
+            } else {
+                $scope.tokens.error = 'Please select field or operator first';
+                tokenHelper.clearFilterString($scope.tokens);
+            }
+        };
+
+        $scope.tokens.resetClearList = function () {
+            $scope.tokens.tokensList = [];
+            $scope.tokens.nextTokens = [];
+            $scope.tokens.collections.formulaListC = [];
+            $scope.tokens.collections.tableColumns = [];
+        };
+
+        var setNextToken = function (token) {
+            if (token.type == 'Operator') {
+                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function(row) {
+                    return ((row.type == 'Formula' || row.type == 'Table') &&
+                    (row.datatype == $scope.tokens.secondLastToken.datatype));
+                });
+            } else { //(token.type == 'Formula' || token.type == 'Table' || token.type=='value')
+                if ($scope.tokens.hasConditional) {
+                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                        return ((row.type == 'Operator') && (row.datatype == 'relational' ||
+                            $scope.tokens.lastToken.datatype == row.datatype));
+                    });
+                } else {
+                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                        return ((row.type == 'Operator') && (row.datatype == 'conditional' ||
+                            $scope.tokens.lastToken.datatype == row.datatype));
+                    });
+                }
+            }
+        };
+
+        $scope.setValidation = function() {
+            if ($scope.tokens.hasConditional && $scope.tokens.lastToken.type !== 'Operator') {
+                return 'alert-info';
+            }
+            return 'alert-danger';
+        };
+        
+        $scope.reset = function () {
+            initToken();
+            initFirstTokens();
+        };
+
+    }]);
+//#endregion
+
+//#region Single If else directive
+csapp.directive('csIfElse', function() {
+    return {
+        restrict: 'E',
+        controller: 'ifElseCtrl',
+        templateUrl: baseUrl + 'Shared/templates/if-else-directive.html',
+        scope: {
+            tableName: '@',
+            selected: '=',
+            formulaList: '=',
+            groupId: '@',
+            tokensList: '=',
+            debug: '@'
+        }
+    };
+});
+
+csapp.controller('ifElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
+    function ($scope, $csmodels, operatorFactory, validations, helpers, tokenHelpers) {
+        
+    }]);
+//#endregion
+
+
 
 csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
 
@@ -567,15 +731,19 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             token.createFormulaList(tokens, formulaList);
         };
 
-        token.setAddValue = function (tokens, value) {
+        token.setAddValue = function (tokens, value, groupId) {
             var seleVal = helpers.convertValue(value);
+            seleVal.groupId = groupId;
+            seleVal.priority = tokens.selected.length;
             tokens.selected.push(seleVal);
             token.setLastandSecondToken(tokens, seleVal);
             token.clearFilterString(tokens);
             return seleVal;
         };
 
-        token.addTokenToTokenList = function (tokens, tokenVal) {
+        token.addTokenToTokenList = function (tokens, tokenVal, groupId) {
+            tokenVal.groupId = groupId;
+            tokenVal.priority = tokens.selected.length;
             tokens.selected.push(tokenVal);
             token.setLastandSecondToken(tokens, tokenVal);
             token.clearFilterString(tokens);
@@ -585,139 +753,6 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             tokenHelper: token,
         };
     }]);
-
-//#region Condition directive
-csapp.directive("csCondition", function () {
-    return {
-        restrict: 'E',
-        controller: 'conditionCtrl',
-        templateUrl: baseUrl + 'Shared/templates/condition-directive.html',
-        scope: {
-            tableName: '@',
-            selected: '=',
-            formulaList: '='
-        }
-    };
-
-});
-
-csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
-    function ($scope, $csmodels, operatorFactory, validations, helpers, tokenHelpers) {
-
-        //#region init
-        var tokenHelper = tokenHelpers.tokenHelper;
-
-        var initLocals = function () {
-            $scope.modal = $csmodels.getTable($scope.tableName);
-            initToken();
-        };
-
-        var initToken = function () {
-            $scope.tokens = {
-                tokensList: [],
-                selected: [],
-                nextTokens: [],
-                lastToken: {},
-                collections: {
-                    formulaListC: [],
-                    tableColumns: []
-                },
-                filterString: '',
-                hasConditional:false
-            };
-        };
-
-        var initFirstTokens = function () {
-            tokenHelper.initListsConditions($scope.tokens, $scope.modal,
-                $scope.tableName, $scope.formulaList);
-
-            $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return (row.type == 'Formula' || row.type == 'Table');
-            });
-            return;
-        };
-
-        (function () {
-            initLocals();
-            initFirstTokens();
-        })();
-
-        $scope.$watch('formulaList', initFirstTokens);
-
-        //#endregion
-
-        //#region 
-
-        $scope.addToken = function (item, model, label) {
-            tokenHelper.addTokenToTokenList($scope.tokens, item);
-            if (item.datatype == 'conditional') {
-                $scope.tokens.hasConditional = true;
-            }
-            if (item.datatype == 'relational') {
-                $scope.tokens.hasConditional = false;
-            }
-            setNextToken(item);
-        };
-
-        $scope.addValue = function (value) {
-            if (validations.validateValue($scope.tokens, value)) {
-                var seleVal = tokenHelper.setAddValue($scope.tokens, value);
-                seleVal.datatype = $scope.tokens.secondLastToken.datatype;
-                setNextToken(seleVal);
-            } else {
-                $scope.tokens.error = 'Please select field or operator first';
-                tokenHelper.clearFilterString($scope.tokens);
-            }
-        };
-
-        $scope.tokens.resetClearList = function () {
-            $scope.tokens.tokensList = [];
-            $scope.tokens.nextTokens = [];
-            $scope.tokens.collections.formulaListC = [];
-            $scope.tokens.collections.tableColumns = [];
-        };
-
-        $scope.tokens.resetAll = function () {
-            initToken();
-        };
-
-        var setNextToken = function (token) {
-            if (token.type == 'Operator') {
-                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function(row) {
-                    return ((row.type == 'Formula' || row.type == 'Table') &&
-                    (row.datatype == $scope.tokens.secondLastToken.datatype));
-                });
-            } else { //(token.type == 'Formula' || token.type == 'Table' || token.type=='value')
-                if ($scope.tokens.hasConditional) {
-                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.type == 'Operator') && (row.datatype == 'relational' ||
-                            $scope.tokens.lastToken.datatype == row.datatype));
-                    });
-                } else {
-                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.type == 'Operator') && (row.datatype == 'conditional' ||
-                            $scope.tokens.lastToken.datatype == row.datatype));
-                    });
-                }
-            }
-        };
-
-        $scope.setValidation = function() {
-            if ($scope.tokens.hasConditional && $scope.tokens.lastToken.type !== 'Operator') {
-                return 'alert-info';
-            }
-            return 'alert-danger';
-        };
-        
-        $scope.reset = function () {
-            $scope.tokens.resetAll();
-            initFirstTokens();
-        };
-
-    }]);
-
-//#endregion
-
 
 //$scope.tokens.tokensList = [];
 //$scope.tokens.selected = [];

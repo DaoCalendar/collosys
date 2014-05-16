@@ -1,12 +1,14 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
@@ -28,6 +30,7 @@ namespace AngularUI.Billing.subpolicy
         private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();
         private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
         private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
+        private static readonly BillTokenBuilder BillTokenBuilder = new BillTokenBuilder();
 
         #region Get
 
@@ -169,6 +172,12 @@ namespace AngularUI.Billing.subpolicy
             relation.Priority = (uint)maxpriority + 1;
             BillingRelationBuilder.Save(relation);
             return relation;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage SaveTokens(IList<BillTokens> tokensList)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         private void SetApproverId(BillingRelation relation)

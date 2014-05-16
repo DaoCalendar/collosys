@@ -94,6 +94,7 @@
     <Compile Include="Billing\BillingSubpolicyMap.cs" />
     <Compile Include="Billing\BillStatus.cs" />
     <Compile Include="Billing\BillStatusMap.cs" />
+    <Compile Include="Billing\BillTokensMap.cs" />
     <Compile Include="Billing\BMatrix.cs" />
     <Compile Include="Billing\BMatrixMap.cs" />
     <Compile Include="Billing\BMatrixValue.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Billing\HoldingPolicy.cs" />
     <Compile Include="Billing\HoldingPolicyMap.cs" />
     <Compile Include="Billing\ICustBillViewModel.cs" />
+    <Compile Include="Billing\BillTokens.cs" />
     <Compile Include="ClientData\CacsActivity.cs" />
     <Compile Include="ClientData\CacsActivityMap.cs" />
     <Compile Include="ClientData\CustomerInfoMap.cs" />

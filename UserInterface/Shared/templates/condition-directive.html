@@ -1,58 +1,56 @@
-﻿<div class="row">
-    <div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
-        <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
+﻿<div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
+    <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
+</div>
+<div class="alert alert-warning" data-ng-show="tokens.error">
+    <label>{{tokens.error}}</label>
+</div>
+<div class="row" data-ng-form="addForm">
+    <div class="col-md-pull-7">
+        <input type="text" data-ng-model="tokens.filterString" class="form-control typeahead-lg"
+               typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} "
+               typeahead-min-length="0"
+               typeahead-on-select="addToken($item,$model,$label)">
     </div>
-    <div class="row" data-ng-show="tokens.error">
-        <div class="alert alert-warning">
-            <label>{{tokens.error}}</label>
-        </div>
-    </div>
-    <div class="row" data-ng-form="addForm">
-        <div class="col-md-pull-7">
-            <input type="text" data-ng-model="tokens.filterString" class="form-control typeahead-lg"
-                   typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} "
-                   typeahead-min-length="0"
-                   typeahead-on-select="addToken($item,$model,$label)">
-        </div>
-        <div class="col-md-pull-4">
-            <input type="submit" value="Add Value"
-                   data-ng-click="addValue(tokens.filterString)"
-                   class="btn btn-default">
-            <input type="button"
-                   class="btn btn-default"
-                   value="Reset"
-                   data-ng-click="reset()" />
-        </div>
+    <div class="col-md-pull-4">
+        <input type="submit" value="Add Value"
+               data-ng-click="addValue(tokens.filterString)"
+               class="btn btn-default">
+        <input type="button"
+               class="btn btn-default"
+               value="Reset"
+               data-ng-click="reset()" />
     </div>
 </div>
-<div class="row">
-    <table class="table table-bordered">
-        <tr>
-            <td class="col-md-3">Last Selected Token</td>
-            <td class="col-md-9"> {{tokens.lastToken.text}}</td>
-        </tr>
-        <tr>
-            <td>Second Last Selected Token:</td>
-            <td>{{tokens.secondLastToken.text}} (type: {{tokens.secondLastToken.type}})</td>
-        </tr>
-        
-        <tr>
-            <td>
-                Added Tokens List
-            </td>
-            <td>
-                <table class="table table-bordered">
-                    <tr data-ng-repeat="d in tokens.selected">
-                        <td>
-                            {{d.text}}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>Total Tokens Available</td>
-            <td>{{tokens.nextTokens.length}}</td>
-        </tr>
-    </table>
-</div>
+<table class="table table-bordered" data-ng-show="debug=='true'">
+    <tr>
+        <td class="col-md-3">Last Selected Token</td>
+        <td class="col-md-9"> {{tokens.lastToken.text}}</td>
+    </tr>
+    <tr>
+        <td>Second Last Selected Token:</td>
+        <td>{{tokens.secondLastToken.text}} (type: {{tokens.secondLastToken.type}})</td>
+    </tr>
+
+    <tr>
+        <td>
+            Added Tokens List
+        </td>
+        <td>
+            <table class="table table-bordered">
+                <tr data-ng-repeat="d in tokens.selected">
+                    <td>
+                        {{d.text}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Total Tokens Available</td>
+        <td>{{tokens.nextTokens.length}}</td>
+    </tr>
+    <tr>
+        <td>Group Token is:</td>
+        <td>{{groupId}}</td>
+    </tr>
+</table>

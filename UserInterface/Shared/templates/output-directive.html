@@ -1,12 +1,9 @@
-﻿<div class="row">
-    <div class="alert" data-ng-class="(tokens.lastToken.type=='Operator')? 'alert-danger':'alert-info'" style="word-wrap:normal;">
+﻿    <div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
         <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
     </div>
-    <div class="row" data-ng-show="tokens.error">
-        <div class="alert alert-warning">
+        <div class="alert alert-warning" data-ng-show="tokens.error">
             <label>{{tokens.error}}</label>
         </div>
-    </div>
     <div class="row" data-ng-form="addForm">
         <div class="col-md-pull-7">
             <input type="text" data-ng-model="tokens.filterString" class="form-control typeahead-lg"
@@ -24,42 +21,47 @@
                    data-ng-click="reset()" />
         </div>
     </div>
-</div>
-<div class="row">
-    <table class="table table-bordered">
-        <tr>
-            <td class="col-md-3">Type:</td>
-            <td class="col-md-9">{{type}}</td>
-        </tr>
-        <tr>
-            <td>Last Selected Token</td>
-            <td>{{tokens.lastToken.text}}</td>
-        </tr>
-        <tr>
-            <td>Second Last Selected Token:</td>
-            <td>{{tokens.secondLastToken.text}}</td>
-        </tr>
-        <tr>
-            <td>Next Token: </td>
-            <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
-        </tr>
-        <tr>
-            <td>
-                Added Tokens List
-            </td>
-            <td>
-                <table class="table table-bordered">
-                    <tr data-ng-repeat="d in tokens.selected">
-                        <td>
-                            {{d.text}}
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>Total Tokens Available</td>
-            <td>{{tokens.nextTokens.length}}</td>
-        </tr>
-    </table>
-</div>
+    <table class="table table-bordered" data-ng-show="debug=='true'">
+    <tr>
+        <td class="col-md-3">Type:</td>
+        <td class="col-md-9">{{type}}</td>
+    </tr>
+    <tr>
+        <td>Last Selected Token</td>
+        <td>{{tokens.lastToken.text}}</td>
+    </tr>
+    <tr>
+        <td>Second Last Selected Token:</td>
+        <td>{{tokens.secondLastToken.text}}</td>
+    </tr>
+    <tr>
+        <td>Next Token: </td>
+        <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
+    </tr>
+    <tr>
+        <td>
+            Added Tokens List
+        </td>
+        <td>
+            <table class="table table-bordered">
+                <tr data-ng-repeat="d in tokens.selected">
+                    <td>
+                        {{d.text}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>Total Tokens Available</td>
+        <td>{{tokens.nextTokens.length}}</td>
+    </tr>
+    <tr>
+        <td>Group Token is:</td>
+        <td>{{groupId}}</td>
+    </tr>
+    <tr>
+        <td>First Token</td>
+        <td>{{tokens.selected[0]}}</td>
+    </tr>
+</table>

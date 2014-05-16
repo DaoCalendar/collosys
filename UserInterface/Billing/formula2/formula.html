@@ -2,7 +2,9 @@
     <form name="formulaMain" novalidate="">
         <div class="row form-horizontal">
             <div class="col-md-4">
-                <cs-field data-ng-model="selParams.selectedProduct" field="Formula.Products" data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
+                <cs-field data-ng-model="selParams.selectedProduct"
+                          field="Formula.Products"
+                          data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
             </div>
             <div class="col-md-2 text-left" style="margin-left: 0;" data-ng-show="selParams.selectedProduct">
                 <button class="btn alert-info btn-default">
@@ -22,10 +24,16 @@
                 </div>
             </div>
 
-            <div class="col-md-9 form-horizontal">
+            <div class="col-md-9 form-horizontal" data-ng-show="selParams.selectedProduct">
                 <div data-ng-include="baseUrl + 'Billing/formula2/formula-details.html'">load formula details</div>
                 <div data-ng-include="baseUrl + 'Billing/formula2/condition.html'">load condition details</div>
+                <div data-ng-include="baseUrl + 'Billing/formula2/output.html'">load condition details</div>
+                <div data-ng-include="baseUrl + 'Billing/formula2/if-else.html'">load condition details</div>
             </div>
+            <div class="col-md-9 text-right" data-ng-show="selParams.selectedProduct">
+                <input type="button" class="btn btn-default" value="Save" data-ng-disabled="formulaMain.$invalid" />
+            </div>
+
         </div>
     </form>
 </div>

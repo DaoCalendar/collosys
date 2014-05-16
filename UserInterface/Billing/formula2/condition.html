@@ -1,4 +1,7 @@
-﻿<cs-condition table-name="CustomerInfo"
-              selected="selParams"
-              formula-list="formulaList"></cs-condition>
-
+﻿<div class="row" data-ng-if="formula.OutputType=='Boolean'">
+    <cs-condition table-name="CustomerInfo"
+                  selected="selParams"
+                  formula-list="formulaList"
+                  tokens-list="selectedTokens.conditionTokens"
+                  debug="true"></cs-condition>
+</div>

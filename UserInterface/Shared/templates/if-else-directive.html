@@ -1,0 +1,41 @@
+﻿<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            If Condition
+        </div>
+        <div class="panel-body">
+            <cs-condition table-name="{{tableName}}"
+                          selected="selected"
+                          formula-list="formulaList"
+                          group-id="0.Condition"
+                          tokens-list="tokensList.conditionTokens"
+                          debug="{{debug}}"></cs-condition>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            If Condition Output
+        </div>
+        <div class="panel-body">
+            <cs-output table-name="{{tableName}}"
+                       selected="selected"
+                       formula-list="formulaList"
+                       group-id="1.Output"
+                       tokens-list="tokensList.ifOutputTokens"
+                       debug="{{debug}}"></cs-output>
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Else Output
+        </div>
+        <div class="panel-body">
+            <cs-output table-name="{{tableName}}"
+                       selected="selected"
+                       formula-list="formulaList"
+                       group-id="2.Output"
+                       tokens-list="tokensList.ElseOutputTokens"
+                       debug="{{debug}}"></cs-output>
+        </div>
+    </div>
+</div>

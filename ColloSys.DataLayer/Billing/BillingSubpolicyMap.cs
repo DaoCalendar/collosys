@@ -44,6 +44,8 @@ namespace ColloSys.DataLayer.Mapping
                 colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
 
+            Set(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));
+
             //ManyToOne(x => x.BConditionPayoutId,
             //          map =>
             //              {

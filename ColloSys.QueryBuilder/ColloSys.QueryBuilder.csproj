@@ -75,6 +75,7 @@
     <Compile Include="BillingBuilder\BMatrixBuilder.cs" />
     <Compile Include="BillingBuilder\BMatrixValueBuilder.cs" />
     <Compile Include="BillingBuilder\HoldingPolicyBuilder.cs" />
+    <Compile Include="BillingBuilder\BillTokenBuilder.cs" />
     <Compile Include="ClientDataBuilder\CacsActivityBuilder.cs" />
     <Compile Include="ClientDataBuilder\CLinerBuilder.cs" />
     <Compile Include="ClientDataBuilder\CUnbilledBuilder.cs" />

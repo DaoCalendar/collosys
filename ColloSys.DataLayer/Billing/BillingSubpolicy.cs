@@ -2,6 +2,7 @@
 
 using System;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using Iesi.Collections.Generic;
@@ -23,6 +24,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual ISet<BillingRelation> BillingRelations { get; set; }
         public virtual ISet<BCondition> BConditions { get; set; }
         public virtual ISet<BillDetail> BillDetails { get; set; }
+        public virtual ISet<BillTokens> BillTokens { get; set; } 
 
         #endregion
 
@@ -46,6 +48,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual Guid? ProcessingFee { get; set; }
         
         public virtual Guid? PayoutCapping { get; set; }
+
         #endregion
 
         #region IStatusComponent

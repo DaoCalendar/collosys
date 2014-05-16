@@ -30,11 +30,18 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
                 return data;
             });
         };
+
+        var saveTokens = function (tokensList) {
+            return restApi.customPOST(tokensList, 'SaveTokens').then(function () {
+                return;
+            });
+        };
         return {
             dldata: dldata,
             getFormulaList: getFormulaList,
             getColumnNames: getColumnNames,
-            getBConditions: getBConditions
+            getBConditions: getBConditions,
+            saveTokens: saveTokens
         };
     }]);
 
@@ -47,6 +54,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             }
             datalayer.getFormulaList(product).then(function (data) {
                 $scope.formulaList = data;
+                $scope.formula.Products = product;
                 getColumnNames(product);
             });
         };
@@ -54,6 +62,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         var initPageData = function () {
             $scope.selParams = {};
             $scope.formulaList = [];
+            $scope.formula = {};
             $scope.columns = {
                 columnNames: [],
                 formulaNames: [],
@@ -80,12 +89,23 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.boolOpr.showDetails = true;
             $scope.formula = selectedformula;
         };
+        $scope.saveTokens = function(selectedTokens) {
+            var tokensList = _.union(selectedTokens.conditionTokens,
+                selectedTokens.ifOutputTokens,
+                selectedTokens.ElseOutputTokens);
+            datalayer.saveTokens(tokensList);
+        };
         
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.Formula = $csModels.getColumns("Formula");
+            $scope.selectedTokens = {
+                conditionTokens: [],
+                ifOutputTokens: [],
+                ElseOutputTokens: []
+            };
             initPageData();
         })();
 
