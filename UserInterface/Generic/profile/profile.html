@@ -1,88 +1,92 @@
 ﻿<form class="form-horizontal">
-    <div class="panel">
-        <div class="panel-heading">Profile</div>
-        <div data-ng-hide="dldata.profile">
-            <div class="well-small">
-                No Profile Present For Display
-            </div>
-
+    <div class="modal-header">Profile</div>
+    <div data-ng-hide="dldata.profile">
+        <div class="well-small">
+            No Profile Present For Display
         </div>
 
+    </div>
+    <div class="modal-body">
         <div data-ng-show="dldata.profile">
-
-            <!-- Name -->
-            <div class="form-group row">
-                <label class="control-label">Name</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.profile.Name" readonly="readonly" />
-                </div>
-            </div>
-
-            <!-- User Id -->
-            <div class="form-group row">
-                <label class="control-label">User Id</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
-                </div>
-            </div>
-
-            <!-- Joining Date -->
-            <div class="form-group row">
-                <label class="control-label">Joining Date</label>
-                <div class="controls">
-                    <div class="input-append">
-                        <input type="text" name="DateOfJoining" class="input-medium"
-                            data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
-                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+            <div class="row">
+                <!-- Name -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">Name</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" data-ng-model="dldata.profile.Name" readonly="readonly" />
                     </div>
                 </div>
-            </div>
 
-            <hr />
-
-            <!-- StkhType -->
-            <div class="form-group row">
-                <label class="control-label">Hierarchy</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
+                <!-- User Id -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">User Id</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
+                    </div>
                 </div>
-            </div>
 
-            <!-- StkhSubtype -->
-            <div class="form-group row">
-                <label class="control-label">Designation</label>
-                <div class="controls">
-                    <input type="text" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
+                <!-- Joining Date -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">Joining Date</label>
+                    <span class="col-md-5">
+                        <input type="text" class="form-control" name="DateOfJoining" class="input-medium"
+                            data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
+                    </span>
+                    <icon-btn type="calendar" class="btn btn-default" data-toggle="datepicker"></icon-btn>
+
                 </div>
-            </div>
 
-            <hr />
+                <hr />
 
-            <!-- Email -->
-            <div class="form-group row">
-                <label class="control-label">Email Id</label>
-                <div class="controls">
-                    <input type="email" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
+                <!-- StkhType -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">Hierarchy</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
+                    </div>
                 </div>
-            </div>
 
-            <!-- Mobile No -->
-            <div class="form-group row" data-ng-form="mobileNoForm">
-                <label class="control-label">Mobile Number</label>
-                <div class="controls">
-                    <input type="text" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
-                        data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
-                    <button data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
-                        data-ng-click="saveMobile()" class="btn btn-success">
-                        Save</button>
-                    <button data-ng-show="isChangingMobile" data-ng-click="resetMobile()" 
-                        class="btn btn-warning">Cancel</button>
-                    <button data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile" 
-                        class="btn btn-success">Change</button>
+                <!-- StkhSubtype -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">Designation</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
+                    </div>
+                </div>
+
+                <hr />
+
+                <!-- Email -->
+                <div class="col-md-10" style="margin-bottom: 7px">
+                    <label class="col-md-3 control-label">Email Id</label>
+                    <div class="col-md-5">
+                        <input type="email" class="form-control" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
+                    </div>
+                </div>
+
+                <!-- Mobile No -->
+                <div class="col-md-10" style="margin-bottom: 7px" data-ng-form="mobileNoForm">
+                    <label class="col-md-3 control-label">Mobile Number</label>
+                    <div class="col-md-5">
+                        <input type="text" class="form-control" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"
+                            data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
+                    </div>
+                    <div class="col-md-2">
+                        <button data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
+                            data-ng-click="saveMobile()" class="btn btn-success">
+                            Save</button>
+                        <button data-ng-show="isChangingMobile" data-ng-click="resetMobile()"
+                            class="btn btn-warning">
+                            Cancel</button>
+                        <button data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile"
+                            class="btn btn-success">
+                            Change</button>
+                    </div>
                     <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
                         <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
                         <div data-ng-show="mobileNoForm.mobileNo.$error.maxlength">Phone Number can have max 11 digits</div>
                     </div>
+
                 </div>
             </div>
         </div>
