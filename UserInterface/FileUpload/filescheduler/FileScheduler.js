@@ -117,7 +117,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.uploadCount++;
             file.UploadPercent = 10;
             $scope.upload[$index] = $upload.upload({
-                url: '/api/FileSchedulerApi/SaveFileOnServer',
+                url: baseUrl + 'api/FileSchedulerApi/SaveFileOnServer',
                 method: "Post",
                 file: cfile,
                 data: { schedulerInfo: file },
