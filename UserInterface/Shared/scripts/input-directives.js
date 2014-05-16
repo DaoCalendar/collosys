@@ -708,18 +708,15 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield"  data-ui-select3="field.select3Options"';
-            //html += attr.valueList ? 'chosen="' + attr.valueList + '"' : ' chosen = "field.valueList"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (field.useOptions === true) ? ' ng-options="' + field.ngOptions + '"' : ' ';
+            var html = '<select  name="myfield" ';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
+            html += ' ng-options="' + field.ngOptions + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.multiple) ? 'multiple = "multiple" ' : '';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value=""></option>';
-            html += field.useOptions !== true ? field.ngRepeat : ' ';
             html += '</select> ';
             return html;
         };
@@ -744,16 +741,13 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
                 field.textField = "row";
             }
 
-            if (field.useOptions === true) {
-                field.ngOptions = field.valueField + ' as ' + field.textField;
-                field.ngOptions += ' for row in ';
-                field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
-                field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
-            } else {
-                var valueList = attr.valueList ? attr.valueList : 'field.valueList';
-                field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
-            }
+            field.ngOptions = field.valueField + ' as ' + field.textField;
+            field.ngOptions += ' for row in ';
+            field.ngOptions += attr.valueList ? attr.valueList : ' field.valueList';
+            field.ngOptions += attr.trackBy ? ' track by row.' + attr.trackBy : ' ';
 
+            var valueList = attr.valueList ? attr.valueList : 'field.valueList';
+            field.ngRepeat = '<option data-ng-repeat="row in ' + valueList + '"  value="{{' + field.valueField + '}}">{{' + field.textField + '}}</option>';
             field.select3Options = {
                 initPristrine: true,
                 allowClear: field.allowClear || false,
@@ -783,17 +777,13 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
     function ($csfactory, bstemplate, valtemplate) {
 
         var input = function (field, attr) {
-            var html = '<select  name="myfield" data-ui-select3="field.select3Options"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            //html += ' ng-options="' + field.ngOptions + '"';
-            html += (attr.class) ? 'class =" ' + attr.class + '"' : ' style="width: 100%;" ';
-            html += (attr.multiple) ? 'multiple = "multiple" ' : '';
+            var html = '<select  name="myfield" ng-options="' + field.ngOptions + '"';
+            html += ' ng-model="$parent.' + attr.ngModel + '" class="form-control" ';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += '>';
             html += '<option value="" disabled="true" selected="false"></option>';
-            html += '<option data-ng-repeat="row in ' + (attr.valueList ? attr.valueList : 'field.valueList') + '"  value="{{row}}">{{row}}</option>';
             html += '</select> ';
 
             return html;
@@ -1054,7 +1044,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         var controllerFn = function ($scope, $element, $attrs) {
             var fieldGetter = $parse($attrs.field);
             var field = fieldGetter($scope);
-            $scope.setReadonly = function() {
+            $scope.setReadonly = function () {
                 switch ($scope.mode) {
                     case 'add':
                         return false;
@@ -1094,7 +1084,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             return;
         };
 
-        var setClasses = function(field) {
+        var setClasses = function (field) {
             field.layoutClass = {
                 label: 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
@@ -1159,7 +1149,7 @@ csapp.directive('csForm', function () {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="container"><div ng-transclude=""></div></div>',
+        template: '<div class="container-fluid"><div ng-transclude=""></div></div>',
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'
