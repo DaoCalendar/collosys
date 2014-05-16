@@ -1117,7 +1117,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             restrict: 'E',
             link: linkFunction,
             scope: true,
-            require: ['ngModel', '^form', '?^csForm'],
+            require: ['ngModel', '^form', '^csForm'],
             terminal: true,
             controller: controllerFn
         };
