@@ -1178,7 +1178,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
         var setClasses = function (field) {
             field.size.nolabel = field.size.label === 0;
-            
+
             field.layoutClass = {
                 label: field.size.nolabel ? ' ' : 'col-md-' + field.size.label,
                 div: 'col-md-' + field.size.div,
@@ -1240,10 +1240,17 @@ csapp.directive('csForm', function () {
         };
     };
 
+    var templateFn = function (element, attr) {
+        var template = '<div ';
+        template += ' class="' + (angular.isDefined(attr.class) ?  attr.class : "row") + '"';
+        template += '><div ng-transclude=""></div></div>';
+        return template;
+    };
+
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="row"><div ng-transclude=""></div></div>',
+        template: templateFn,
         scope: { layout: '@', mode: '=' },
         controller: cntrlFn,
         require: '^form'

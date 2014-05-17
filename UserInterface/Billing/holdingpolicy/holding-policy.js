@@ -30,8 +30,8 @@
         }]);
 
 csapp.controller('holdingpolicyCtrl', [
-    '$scope', 'holdingpolicyDatalayer', 'holdingpolicyFactory', '$csModels','$csnotify',
-    function ($scope, datalayer, factory, $csModels, $csnotify) {
+    '$scope', 'holdingpolicyDatalayer','$csModels','$csnotify',
+    function ($scope, datalayer, $csModels, $csnotify) {
 
 
 
@@ -73,7 +73,6 @@ csapp.controller('holdingpolicyCtrl', [
         };
 
         (function () {
-            $scope.factory = factory;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.HoldingPolicy = $csModels.getColumns("HoldingPolicy");

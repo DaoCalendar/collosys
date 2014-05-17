@@ -4,35 +4,33 @@
     </div>
 
     <div class="modal-body">
+        <cs-form layout="9.4.8">
+            <cs-field data-ng-model="addpayment.Products" field="addpaymentModel.Products"></cs-field>
 
-        <cs-field data-ng-model="addpayment.Products" field="addpaymentModel.Products"></cs-field>
+            <cs-field data-ng-model="addpayment.AccountNo" field="addpaymentModel.AccountNo"
+                      typeahead="c.AccountNo for c in datalayer.GetAccounts($viewValue,addpayment.Products)"
+                      typeahead-on-select="getCustomerName()"
+                      data-ng-change="getCustomerName()"></cs-field>
 
-        <cs-field data-ng-model="addpayment.AccountNo" field="addpaymentModel.AccountNo"
-            typeahead="c.AccountNo for c in datalayer.GetAccounts($viewValue,addpayment.Products)"
-            typeahead-on-select="getCustomerName()"
-            data-ng-change="getCustomerName()"></cs-field>
+            <cs-field data-ng-model="addpayment.customerName" field="addpaymentModel.customerName"
+                      data-ng-disabled="true"></cs-field>
 
-        <cs-field data-ng-model="addpayment.customerName" field="addpaymentModel.customerName"
-            data-ng-disabled="true"></cs-field>
+            <cs-field data-ng-model="addpayment.TransCode" field="addpaymentModel.TransCode"></cs-field>
 
-        <cs-field data-ng-model="addpayment.TransCode" field="addpaymentModel.TransCode"></cs-field>
+            <cs-field data-ng-model="addpayment.TransDate" field="addpaymentModel.TransDate"></cs-field>
 
-        <cs-field data-ng-model="addpayment.TransDate" field="addpaymentModel.TransDate"></cs-field>
+            <cs-field data-ng-model="addpayment.TransDesc" field="addpaymentModel.TransDesc"></cs-field>
 
-        <cs-field data-ng-model="addpayment.TransDesc" field="addpaymentModel.TransDesc"></cs-field>
+            <cs-field data-ng-model="addpayment.TransAmount" field="addpaymentModel.TransAmount"></cs-field>
 
-        <cs-field data-ng-model="addpayment.TransAmount" field="addpaymentModel.TransAmount"></cs-field>
-
-        <div class="row">
             <cs-field data-ng-model="addpayment.IsDebit" field="addpaymentModel.IsDebit"></cs-field>
+        </cs-form>
+
+        <div class="modal-footer">
+            <button class="btn btn-info" data-ng-click="reset()">Reset</button>
+            <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
+            <button class="btn btn-warning" data-ng-click="close()">Close</button>
         </div>
-
-
-    <div class="modal-footer well">
-        <button class="btn btn-info" data-ng-click="reset()">Reset</button>
-        <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
-        <button class="btn btn-warning" data-ng-click="close()">Close</button>
-    </div>
     </div>
 </div>
 
@@ -53,7 +51,7 @@
         <h4>Add-Payment Screen</h4>
     </div>
     <div class="row modal-body">
-        
+
         <div class="row form-group">
             <label class="control-label">Product</label>
             <div class="controls">
@@ -67,7 +65,7 @@
             </div>
         </div>
 
-      
+
         <div class="row form-group">
             <label class="control-label">AccountNo</label>
             <div class="controls">
@@ -86,7 +84,7 @@
             </div>
         </div>
 
-       
+
         <div class="row form-group">
             <label class="control-label">Customer Name</label>
             <div class="controls">
@@ -94,7 +92,7 @@
             </div>
         </div>
 
-      
+
         <div class="row form-group">
             <label class="control-label">Transaction Code</label>
             <div class="controls">
@@ -107,7 +105,7 @@
             </div>
         </div>
 
-       
+
         <div class="row form-group">
             <label class="control-label">Date</label>
             <div class="controls">
@@ -116,7 +114,7 @@
                            data-date-start-date="today" data-bs-datepicker="" />
                     <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
-               
+
                 <div data-ng-show="addpaymentform.Date.$dirty">
                     <div class="field-validation-error" data-ng-show="addpaymentform.Date.$error.required">{{val.Required()}}</div>
                 </div>
@@ -124,7 +122,7 @@
             </div>
         </div>
 
-       
+
         <div class="row form-group">
             <label class="control-label">Remark</label>
             <div class="controls">
@@ -135,7 +133,7 @@
             </div>
         </div>
 
-       
+
         <div class="row form-group">
             <label class="control-label">Amount</label>
             <div class="controls">
@@ -147,7 +145,7 @@
             </div>
         </div>
 
-        
+
         <div class="row form-group">
             <label class="control-label">Transaction Type</label>
             <div class="controls">

@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body">
             <!--Product and Stakeholder-->
-            <cs-form layout="5.3.7">
+            <cs-form layout="4.3.7">
                 
                 <cs-field data-ng-model="dldata.selectedProduct" field="adhocPayoutbill.selectedProduct"
                           data-ng-change="datalayer.changeProductCategory()" ng-required="true"></cs-field>
@@ -15,7 +15,7 @@
                               data-ng-change="factory.showData(dldata.selectedStkholderId)"
                               ng-required="true" value-list="dldata.stakeholderList"></cs-field>
                 </div> 
-                <div data-ng-show="dldata.selectedProduct && adhocPayoutbill.Stakeholder">
+                <div data-ng-show="dldata.selectedProduct && dldata.selectedStkholderId">
                     <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
                 </div>
                 </cs-form>

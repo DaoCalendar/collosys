@@ -44,17 +44,11 @@ csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPay
             return stkh.Hierarchy.IsIndividual === true;
         };
 
-        $scope.changeCredit = function () {
-            $scope.adhocPayoutbill.IsCredit.valueList = datalayer.dldata.transcationtypes;
-            $scope.adhocPayoutbill.IsPretax.valueList = datalayer.dldata.taxtype;
-        };
-
-        $scope.openmodal = function () {
+      $scope.openmodal = function () {
             $scope.dldata.adhocPayout.Products = $scope.dldata.selectedProduct;
             if ($scope.dldata.selectedStkholderId) {
                 $scope.dldata.adhocPayout.Stakeholder = _.find($scope.dldata.stakeholderList, { Id: $scope.dldata.selectedStkholderId });
             }
-            $scope.changeCredit();
             $modal.open({
                 templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
                 controller: 'adhocPaymentCtrl',
@@ -175,12 +169,19 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
 
 csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modalInstance','$csModels',
     function ($scope, datalayer, factory, $modalInstance, $csModels) {
+
+        $scope.changeCredit = function () {
+            $scope.adhocPayoutbill.IsCredit.valueList = datalayer.dldata.transcationtypes;
+            $scope.adhocPayoutbill.IsPretax.valueList = datalayer.dldata.taxtype;
+        };
+
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.adhocPayoutbill = $csModels.getColumns("AdhocPayout");
             $scope.factory = factory;
             $scope.adhocPayout = {};
+            $scope.changeCredit();
         })();
 
         $scope.CloseAdhocPayoutManager = function () {

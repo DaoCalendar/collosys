@@ -2,16 +2,11 @@
     <form name="readyforbillingform">
         <div class=" row panel">
             <div class="panel-heading">Ready For Billing</div>
-            <div class="row">
-                <span class="col-md-5">
-                    <cs-field data-ng-model="dldata.billing.Products" field="readyforbilling.Products"></cs-field>
-                </span>
-
-                <span class="col-md-5">
-                    <cs-field data-ng-model="dldata.billing.BillMonth" field="readyforbilling.BillMonth"
-                        data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)"></cs-field>
-                </span>
-            </div>
+            <cs-form layout="4.3.8">
+                <cs-field data-ng-model="dldata.billing.Products" field="readyforbilling.Products"></cs-field>
+                <cs-field data-ng-model="dldata.billing.BillMonth" field="readyforbilling.BillMonth"
+                          data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)"></cs-field>
+            </cs-form>
         </div>
     </form>
     <div class="row text-right">

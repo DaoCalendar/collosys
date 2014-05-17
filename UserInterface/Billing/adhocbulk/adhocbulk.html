@@ -1,15 +1,15 @@
 ﻿<form data-ng-submit="onSubmit()" name="adhocForm">
     <cs-form layout="4.4.7">
-       
-                <cs-field data-ng-model="Product"
-                          data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
-          </cs-form>
-    <cs-form layout="12.0.12">
-        <div class="table-responsive"  style="width:1200px;overflow: auto" data-ng-show="PaymentList.length>0">
-            <table class="table table-bordered table-hover" >
-                <thead >
-                    <tr class="row">
-                        <th></th>
+
+        <cs-field data-ng-model="Product"
+                  data-ng-change="initialiseRow(Product)" field="BillAdhoc.Products"></cs-field>
+    </cs-form>
+    <cs-form layout="12.0.12" class="">
+        <div class="table-responsive" style="width:1200px;overflow: auto" data-ng-show="PaymentList.length>0">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Action</th>
                         <th>Product</th>
                         <th>Stakeholder</th>
                         <th>Total Amount</th>
@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="row" data-ng-repeat="pay in PaymentList">
+                    <tr data-ng-repeat="pay in PaymentList">
                         <td>
                             <cs-button type="Delete" ng-click="Delete($index)"></cs-button>
                             <!-- <div class="btn-group">
@@ -55,7 +55,7 @@
                                    typeahead-wait-ms="400" />
                         </td>
                         <td>
-                            <cs-field data-ng-model="pay.TotalAmount" no-label="" 
+                            <cs-field data-ng-model="pay.TotalAmount" no-label=""
                                       field="BillAdhoc.TotalAmount"></cs-field>
 
                         </td>
@@ -78,12 +78,12 @@
 
                         </td>
                         <td>
-                            <cs-field  data-ng-model="pay.IsRecurring" no-label="" field="BillAdhoc.IsRecurring"></cs-field>
+                            <cs-field data-ng-model="pay.IsRecurring" no-label="" field="BillAdhoc.IsRecurring"></cs-field>
 
                         </td>
                         <td>
                             <div class="row" data-ng-if="pay.IsRecurring === true">
-                                <cs-field  data-ng-model="pay.StartMonth" no-label="" field="BillAdhoc.StartMonth"></cs-field>
+                                <cs-field data-ng-model="pay.StartMonth" no-label="" field="BillAdhoc.StartMonth"></cs-field>
                                 <!--<select class="input-medium"
                                             data-ng-model="pay.StartMonth"
                                             data-ng-required="pay.IsRecurring === true">
@@ -95,31 +95,30 @@
                             <input type="number" min="1" max="12"
                                    data-ng-model="pay.Tenure"
                                    name="Tenure"
-                                   class="input-medium"
+                                   class="input-medium form-control"
                                    data-ng-pattern="/^[0-9]+$/"
                                    data-ng-required="pay.IsRecurring === true"
                                    data-ng-show="pay.IsRecurring === true" />
                         </td>
                         <td>
                             <!--<cs-button type="submit" text="Add" ng-show="$last"></cs-button>-->
-                            <input
-                                type="submit"
-                                class="btn btn-default"
-                                value="Add Another"
-                                data-ng-show="$last" />
+                            <input type="submit"
+                                   class="btn btn-default"
+                                   value="Add Another"
+                                   data-ng-show="$last" />
                         </td>
                     </tr>
                 </tbody>
             </table>
-    </div>
-    <div data-ng-show="PaymentList.length>0">
-        <cs-button type="Save" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></cs-button>
-        <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
-                       value="Save" data-ng-click="save(PaymentList)" />
-                <cs-button type="Delete"  ng-disabled="true"></cs-button>
-                <cs-button type="Add" class="btn-block" ></cs-button>-->
-    </div>
-   </cs-form>
+        </div>
+        <div data-ng-show="PaymentList.length>0">
+            <cs-button type="Save" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></cs-button>
+            <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
+                           value="Save" data-ng-click="save(PaymentList)" />
+                    <cs-button type="Delete"  ng-disabled="true"></cs-button>
+                    <cs-button type="Add" class="btn-block" ></cs-button>-->
+        </div>
+    </cs-form>
 </form>
 
 
@@ -128,7 +127,7 @@
         type="button"
         class="btn btn-default"
         value="Delete"
-                            
+
         data-ng-click="Delete($index)" />-->
 <!--data-ng-hide="$last"-->
 <!--<div class="form-group col-md-5">
@@ -142,18 +141,13 @@
             </select>
         </div>
     </div>-->
-
 <!--<input type="text" data-ng-model="pay.TotalAmount" name="totalamount"
            data-ng-pattern="/^[0-9]+$/" required />-->
-
-
-
 <!--<select class="input-large" data-ng-model="pay.IsCredit" name="TranscationType"
             data-ng-change="selecttransdata=factory.selectTransaction(pay.IsCredit)" required>
         <option value=""></option>
         <option data-ng-repeat="type in dldata.transcationtypes" value="{{type.value}}">{{type.display}}</option>
     </select>-->
-
 <!--<select class="input-large"
             data-ng-model="pay.ReasonCode" required>
         <option value=""></option>
