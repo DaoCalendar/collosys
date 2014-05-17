@@ -473,9 +473,22 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     overflow: scroll;
 }
 
+/*.cs-field label {
+    
+}*/
 
 .cs-field-label {
     text-align: right;
     margin-top: 7px;
     white-space: nowrap;
+    padding-right: 0;
+}
+
+.text-shadow {
+    -ms-text-shadow: black 5px 3px 3px;
+    text-shadow: black 5px 3px 3px;
+}
+
+.cs-field-radio-margin {
+    margin: 7px 0 0 0;
 }

@@ -202,20 +202,6 @@ csapp.factory("menuFactory", [function () {
                         //(permissions.FileUpload.childrens.ModifyPayment.childrens.Approve.access)])
                     },
                     {
-                        Title: "AdHoc",
-                        url: "#/billing/adhoc",
-                        display: true //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
-                        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access),
-                    },
-                    {
-                        Title: "AdHoc Bulk",
-                        url: "#/billing/adhocbulk",
-                        display: true //(permissions.Billing.childrens.AdhocPayout.childrens.View.access) ||
-                        //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
-                        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access) ||
-                        //(permissions.Billing.childrens.AdhocPayout.childrens.Approve.access),
-                    },
-                    {
                         Title: "Ready For Billing",
                         url: "#/billing/readybilling",
                         //display: getperm([permissions.Billing.childrens.ReadyForBilling.childrens.View.access]),
@@ -237,6 +223,39 @@ csapp.factory("menuFactory", [function () {
                     }
                 ]
             },
+            {
+                Title: "Bill Extension",
+                url: "#",
+                icon: "fa-rupee",
+                childMenu: [
+                    {
+                        Title: "AdHoc",
+                        url: "#/billing/adhoc",
+                        display: true //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access),
+                    },
+                    {
+                        Title: "AdHoc Bulk",
+                        url: "#/billing/adhocbulk",
+                        display: true //(permissions.Billing.childrens.AdhocPayout.childrens.View.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Create.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Update.access) ||
+                        //(permissions.Billing.childrens.AdhocPayout.childrens.Approve.access),
+                    },
+                    {
+                        Title: "Holding Policy",
+                        url: "#/billing/holdingpolicy",
+                        display: true
+                    },
+                    {
+                        Title: "Manage Holding",
+                        url: "#/billing/holdingactive",
+                        display: true
+                    }
+                ]
+
+            },
+
             {
                 Title: "Config",
                 url: "#",

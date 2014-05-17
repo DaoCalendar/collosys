@@ -41,7 +41,8 @@ csapp.factory("csValidationInputTemplate", function () {
             minlength: '{{' + fieldname + '.label}} should have atleast {{' + fieldname + '.minlength}} character/s.',
             maxlength: '{{' + fieldname + '.label}} can have maximum {{' + fieldname + '.maxlength}} character/s.',
             min: '{{' + fieldname + '.label}} cannot be less than {{' + fieldname + '.min}}.',
-            max: '{{' + fieldname + '.label}} cannot be greater than {{' + fieldname + '.max}}.'
+            max: '{{' + fieldname + '.label}} cannot be greater than {{' + fieldname + '.max}}.',
+            unique: '{{' + fieldname + '.label}} is already in user.'
         };
     };
 
@@ -54,6 +55,7 @@ csapp.factory("csValidationInputTemplate", function () {
             '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
             '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
             '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+            '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
             '</div>';
         html += '</div>'; //ng-form; 
         return html;
@@ -202,10 +204,11 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (angular.isDefined(field.max) ? ' max="' + field.max + '"' : '');
             html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
-            html += (angular.isDefined(attrs.typeahead) ? 'typeahead="' + attrs.typeahead + '"' : ' ');
-            html += (angular.isDefined(attrs.typeahead) ? 'typeahead-min-length="' + field.typeaheadMinLength + '"' : '');
-            html += (angular.isDefined(attrs.typeahead) ? 'typeahead-wait-ms="' + field.typeaheadWaitMs + '"' : '');
-            html += (angular.isDefined(attrs.typeahead) && attrs.ngChange ? 'typeahead-on-select="' + attrs.ngChange + '"' : '');
+            html += (angular.isDefined(attrs.typeahead) ? ' typeahead="' + attrs.typeahead + '"' : ' ');
+            html += (angular.isDefined(attrs.typeahead) ? ' typeahead-min-length="' + field.typeaheadMinLength + '"' : '');
+            html += (angular.isDefined(attrs.typeahead) ? ' typeahead-wait-ms="' + field.typeaheadWaitMs + '"' : '');
+            html += (angular.isDefined(attrs.typeahead) && attrs.ngChange ? ' typeahead-on-select="' + attrs.ngChange + '"' : '');
+            html += (angular.isDefined(attrs.uiValidate) ? ' ui-validate="' + attrs.uiValidate + '"' : '');
             html += '/>';
             return html;
         };
@@ -351,10 +354,11 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
         html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
-        html += (angular.isDefined(attrs.typeahead) ? 'typeahead="' + attrs.typeahead + '"' : ' ');
-        html += (angular.isDefined(attrs.typeahead) ? 'typeahead-min-length="' + field.typeaheadMinLength + '"' : '');
-        html += (angular.isDefined(attrs.typeahead) ? 'typeahead-wait-ms="' + field.typeaheadWaitMs + '"' : '');
-        html += (angular.isDefined(attrs.typeahead) && attrs.ngChange ? 'typeahead-on-select="' + attrs.ngChange + '"' : '');
+        html += (angular.isDefined(attrs.ngFocus) ? ' ng-focus="' + attrs.ngFocus + '"' : ' ');
+        html += (angular.isDefined(attrs.typeahead) ? ' typeahead="' + attrs.typeahead + '"' : ' ');
+        html += (angular.isDefined(attrs.typeahead) ? ' typeahead-min-length="' + field.typeaheadMinLength + '"' : '');
+        html += (angular.isDefined(attrs.typeahead) ? ' typeahead-wait-ms="' + field.typeaheadWaitMs + '"' : '');
+        html += (angular.isDefined(attrs.typeahead) && attrs.ngChange ? ' typeahead-on-select="' + attrs.ngChange + '"' : '');
         html += '/>';
         return html;
     };
@@ -646,7 +650,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row">';
-            html += '<div class="col-md-5 radio" ng-repeat="(key, record) in  field.options ">';
+            html += '<div class="col-md-5 cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += ' style="margin-left: 0"';

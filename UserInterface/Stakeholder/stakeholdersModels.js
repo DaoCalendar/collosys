@@ -27,17 +27,17 @@
 
     var stkhHierarchy = function () {
         return {
-            designation: { label: 'Designation', type: 'text', maxlength: 20, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage:"Only Characters Required",required: true },
+            designation: { label: 'Designation', type: 'text', maxlength: 100, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage:"Only Characters Required",required: true },
             Hierarchy: { label: 'Hierarchy', type: 'enum', required: true },
             ReportsTo: { label: 'Reports To', type: 'select', textField: 'Designation', valueField: 'Id'},
-            ReportsToDesignation: { label: 'Reports To', type: 'text',required: true },
+            ReportsToDesignation: { label: 'Reports To', type: 'text' },
             WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id', required: true },
             WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true },
             ApplicationName: { label: 'Name', type: 'text' },
             LocationLevel: { label: 'LocationLevel', type: 'select', valueField: 'key', textField: 'value', required: true },
             PositionLevel: { label: 'PositionLevel', type: 'number', template: 'int' },
             IsIndividual: { label: 'IsIndividual', type: 'btn-radio', options: [true, false] },
-            IsUser: { label: 'IsUser', type: 'btn-radio',options:[true,false] },
+            IsUser: { label: 'IsUser', type: 'btn-radio', options: [true, false] },
             HasWorking: { label: 'HasWorking', type: 'btn-radio', options: [true, false] },
             HasPayment: { label: 'HasPayment', type: 'btn-radio', options: [true, false] },
             HasBuckets: { label: 'HasBuckets', type: 'btn-radio', options: [true, false] },

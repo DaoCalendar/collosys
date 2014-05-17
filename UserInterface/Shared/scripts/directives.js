@@ -163,8 +163,6 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
-//button directive
-
 csapp.factory('buttonFactory', ['Logger', function (logManager) {
 
     var $log = logManager.getInstance('buttonFactory');
@@ -512,19 +510,23 @@ csapp.directive('iconBtn', function () {
     var templateFn = function (element, attrs) {
         switch (attrs.type) {
             case 'add':
-                return '<div class="text-center">' + '<button class="btn btn-default">' +
-                    '<span class="glyphicon glyphicon-plus "></span>' +
-                    '</button>' + '</div>';
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                    'data-toggle="tooltip" data-placement="top" title="Add">' +
+                    '<span class="glyphicon glyphicon-plus"></span>' +
+                    '</button>';
             case 'edit':
-                return '<button class="btn btn-default">' +
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                    'data-toggle="tooltip" data-placement="top" title="Edit">' +
                     '<span class="glyphicon glyphicon-edit"></span>' +
                     '</button>';
             case 'view':
-                return '<button class="btn btn-default">' +
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                    'data-toggle="tooltip" data-placement="top" title="View">' +
                     '<span class="glyphicon glyphicon-file"></span>' +
                     '</button>';
             case 'delete':
-                return '<button class="btn btn-default">' +
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                    'data-toggle="tooltip" data-placement="top" title="Delete">' +
                     '<span class="glyphicon glyphicon-trash"></span>' +
                     '</button>';
             case 'up-arrow':
@@ -541,7 +543,7 @@ csapp.directive('iconBtn', function () {
                     '</button>';
             case 'save':
                 return '<button class="btn btn-default">' +
-                    '<span class="glyphicon glyphicon-save"></span>' +
+                    '<span class="glyphicon glyphicon-save"></span>Save' +
                     '</button>';
             case 'calendar':
                 return '<span class="glyphicon glyphicon-calendar"></span>';

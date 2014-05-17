@@ -34,7 +34,7 @@
             State: { label: 'State', type: 'select', editable: false, required: true, valueList: [] },
             Cluster: { label: 'Cluster', type: 'select', editable: false, required: true, valueList: [] },
             District: { label: 'District', type: 'select', editable: false, required: true, valueList: [] },
-            City: { label: 'City', type: 'select', editable: true, required: true, valueList: [] },
+            City: { label: 'City', type: 'select', required: true, valueList: [] },
             CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "enum", valueList: ['Yes', 'No'], required: true },

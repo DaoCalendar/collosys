@@ -4,29 +4,21 @@
         <!--Edit Hierarchy page-1-->
         <div data-ng-form="step1form" data-ng-show="step==1">
             <cs-form layout="9.4.8">
-                <!--Designation-->
                 <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
                           data-ng-disabled="true"></cs-field>
 
-                <!--Hierarchy-->
                 <cs-field data-ng-model="hierarchy.Hierarchy" field="hierarchyfield.Hierarchy"
                           value-list="dldata.HierarchyData" data-ng-disabled="true"></cs-field>
 
-
-                <!--Reports To-->
-                <cs-field data-ng-model="hierarchy.ReportsToName.Designation" field="hierarchyfield.ReportsTo"
+                <cs-field data-ng-model="hierarchy.ReportsToName.Designation"
+                          field="hierarchyfield.ReportsToDesignation"
                           data-ng-disabled="true"></cs-field>
 
-                <!--Reporting Level-->
                 <cs-field data-ng-model="hierarchy.ReportingLevel" field="hierarchyfield.ReportingLevel"
                           value-list="dldata.ReportingLevelEnum" data-ng-disabled="true"></cs-field>
 
-                <!--Location Level-->
                 <cs-field data-ng-model="hierarchy.LocationLevel" field="hierarchyfield.LocationLevel"
                           value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
-               
-                <!--validation-->
-                <div class="field-validation-error" style="padding-left: 180px;" data-ng-show="step1form.$invalid">{{val.Mandatory()}}</div>
             </cs-form>
         </div>
 

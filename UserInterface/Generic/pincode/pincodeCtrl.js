@@ -8,22 +8,10 @@
             $scope.dldata.Clusters = [];
             $scope.dldata.Districts = [];
             $scope.dldata.City = [];
-            //datalayer.getCityCategory();
-            //datalayer.getRegion();
             datalayer.getState();
-            //datalayer.getCluster();
-            //datalayer.getDistrict();
-            //datalayer.getCity();
-            //datalayer.getWholePincode();
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             $scope.dldata.PincodeUintList = [];
         })();
-
-        //$scope.changeState = function (stateName) {
-        //    if ($csfactory.isNullOrEmptyString(stateName)) return;
-        //    datalayer.changeState(stateName);
-        //};
-
 
         $scope.openAddEditModal = function (mode, gPincodes) {
             $modal.open({
@@ -42,10 +30,12 @@
         };
     }]);
 
-
 csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
     function (rest, $csnotify, $csfactory) {
-        var dldata = {};
+        var dldata = {
+            GPincodes: [],
+            PincodeUintList: []
+        };
 
         var pincodeApi = rest.all('PincodeApi');
 
@@ -82,6 +72,7 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
                 dldata.Districts = data;
             }, showErrorMessage);
         };
+
         var getCity = function () {
             return pincodeApi.customGETLIST("GetCity").then(function (data) {
                 dldata.City = data;
@@ -112,13 +103,13 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             var gPincodedata = dldata.GPincodedata;
 
             return pincodeApi.customPOST(gPincodedata, "GetWholedata").then(function (data2) {
+                console.log(data2.length);
                 if (angular.isUndefined(gPincodedata.Region) || gPincodedata.Region == "") {
                     dldata.RegionList = _.uniq(data2);
                     return;
                 }
             }, showErrorMessage);
         };
-
 
         var getStateData = function (region) {
             var pincodeData = { Country: 'India', Region: region };
@@ -148,18 +139,15 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             var pincodeData = { Country: 'India', Region: region, State: state, Cluster: cluster, District: district };
             return pincodeApi.customPOST(pincodeData, "GetWholedata").then(function (data2) {
                 dldata.CityList = _.uniq(data2);
-                //dldata.citydata = true;
                 return dldata.CityList;
             });
         };
-
 
         var missingPincode = function (pincode) {
             return pincodeApi.customGET('GetMissingPincodes', { pincode: pincode }).then(function (data) {
                 return data;
             });
         };
-
 
         var getWholePincode = function () {
             if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
@@ -171,9 +159,10 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
         };
 
         var pincodeArea = function (value, level) {
-            return pincodeApi.customGET('GetPincodesArea', { area: value, city: level }).then(function (data) {
-                return data;
-            });
+            return pincodeApi.customGET('GetPincodesArea', { area: value, city: level })
+                .then(function (data) {
+                    return data;
+                });
         };
 
         var pincodeCity = function (city, district) {
@@ -227,7 +216,6 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
         };
 
     }]);
-
 
 csapp.factory("pincodeFactory", ["pincodeDataLayer",
     function (datalayer) {
@@ -305,18 +293,19 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
         };
     }]);
 
-
 csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes", "$csModels", "pincodeFactory", "$csnotify",
     function ($scope, datalayer, $modalInstance, gPincodes, $csModels, factory, $csnotify) {
-        
+
         $scope.getRegion = function () {
             datalayer.getData().then(function () {
                 $scope.eGPincodeModel.Region.valueList = datalayer.dldata.RegionList;
             });
         };
-        
+
         (function () {
-            $scope.GPincodedata = {};
+            $scope.GPincodedata = {
+                Country: "India"
+            };
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             if (gPincodes.displaymode === 'edit') {
                 $scope.GPincodedata = gPincodes.gpincode;
@@ -326,13 +315,11 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
                 $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
             } else {
-                //$scope.GPincodedata = datalayer.dldata.GPincodedata;
                 $scope.getRegion();
             };
         })();
 
         var dldata = datalayer.dldata;
-        console.log($csModels.getColumns("Pincode"));
         $scope.getState = function (region) {
             datalayer.getStateData(region).then(function (data) {
                 $scope.eGPincodeModel.State.valueList = data;
@@ -376,8 +363,8 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.closeEditModel = function () {
-            if(angular.isDefined( $scope.GPincodedata))
-            $scope.GPincodedata.Region = '';
+            if (angular.isDefined($scope.GPincodedata))
+                $scope.GPincodedata.Region = '';
             $scope.GPincodedata.State = '';
             $scope.GPincodedata.Cluster = '';
             $scope.GPincodedata.District = '';
@@ -441,6 +428,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
 
         $scope.pincodedata = function (pincode) {
             //var pincodeexist = parseInt(pincode);
+            console.log(dldata.PincodeUintList.length);
             var isExist = _.find(dldata.PincodeUintList, function (item) {
                 return item == pincode;
             });

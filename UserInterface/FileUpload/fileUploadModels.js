@@ -66,7 +66,7 @@
             GlobalCustId: { type: "enum", valueList: [] },
             CustomerName: { label: "CustomerName", type: "text" },
             Pincode: { label: "Pincode", type: "number", template: "uint" },
-            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required:true },
             CustStatus: { label: "CustStatus", type: "text" },
             AllocStartDate: { label: "AllocStartDate", type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox

@@ -4,103 +4,92 @@
             <div class="panel-heading">Add Hierarchy</div>
 
             <div class="panel-body">
-                <!--Add Hierarchy Page 1-->
+                <!--<pre>Stakeholder: {{stakeholder}}</pre>-->
+                
                 <div data-ng-form="step1form" data-ng-show="step==1">
-
                     <cs-form layout="7.3.8">
 
-                        <!--Designation-->
-                            <cs-field data-ng-model="stakeholder.designation" field="stakeholderfield.designation"></cs-field>
+                        <cs-field data-ng-model="stakeholder.designation" 
+                                  field="stakeholderfield.designation"></cs-field>
 
-                        <!--Hierarchy-->
-                            <cs-field data-ng-model="stakeholder.Hierarchy" field="stakeholderfield.Hierarchy"
-                                      data-ng-change="factoryMethods.reloadReportsTo(stakeholder,dldata);hierarchyChange()" value-list="dldata.HierarchyData"></cs-field>
+                        <cs-field data-ng-model="stakeholder.Hierarchy" field="stakeholderfield.Hierarchy"
+                                  data-ng-change="factoryMethods.reloadReportsTo(stakeholder,dldata);hierarchyChange()" value-list="dldata.HierarchyData"></cs-field>
 
-                        <!--Reports To-->
-                            <cs-field data-ng-model="stakeholder.ReportsTo" field="stakeholderfield.ReportsTo"
-                                      value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
+                        <cs-field data-ng-model="stakeholder.ReportsTo" field="stakeholderfield.ReportsTo"
+                                  value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
                         <span class="col-md-5">
                             <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                         </span>
 
-                        <!--Reporting Level-->
-                            <cs-field data-ng-model="stakeholder.ReportingLevel" field="stakeholderfield.ReportingLevel"
-                                      value-list="dldata.ReportingLevelEnum" data-ng-change="reportinglevelChange()"></cs-field>
+                        <cs-field data-ng-model="stakeholder.ReportingLevel" 
+                                  field="stakeholderfield.ReportingLevel"
+                                  value-list="dldata.ReportingLevelEnum" data-ng-change="reportinglevelChange()"></cs-field>
 
-                        <!--Working Reports To-->
-                            <cs-field data-ng-model="stakeholder.WorkingReportsTo" field="stakeholderfield.WorkingReportsTo"
-                                      value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
+                        <cs-field data-ng-model="stakeholder.WorkingReportsTo" 
+                                  field="stakeholderfield.WorkingReportsTo"
+                                  value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
                         <span class="col-md-5">
                             <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Reports to Designation of {{stakeholder.Hierarchy}} Hierarchy</span>
                         </span>
 
-                        <!--WorkingReports Level-->
-                            <cs-field data-ng-model="stakeholder.WorkingReportsLevel" field="stakeholderfield.WorkingReportsLevel"
-                                      value-list="dldata.ReportingLevelEnum"></cs-field>
+                        <cs-field data-ng-model="stakeholder.WorkingReportsLevel" 
+                                  field="stakeholderfield.WorkingReportsLevel"
+                                  value-list="dldata.ReportingLevelEnum"></cs-field>
 
-                        <!--Location Level-->
-                            <cs-field data-ng-model="stakeholder.LocationLevel" field="stakeholderfield.LocationLevel"
-                                      value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
+                        <cs-field data-ng-model="stakeholder.LocationLevel" field="stakeholderfield.LocationLevel"
+                                  value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
                     </cs-form>
                 </div>
 
                 <!--Add Hierarchy Page 2-->
                 <div data-ng-form="step2form" data-ng-show="step==2">
-
                     <cs-form layout="7.4.8">
-                    <!--IsUser-->
-                    <div>
-                        <cs-field data-ng-model="stakeholder.IsUser" field="stakeholderfield.IsUser"></cs-field>
+                        <cs-field data-ng-model="stakeholder.IsUser" 
+                                  field="stakeholderfield.IsUser"></cs-field>
                         <span class="col-md-5">
                             <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} is user of Algosys or not</span>
                         </span>
-                    </div>
-                    <!--IsIndividual-->
-                    <div>
-                        <cs-field data-ng-model="stakeholder.Individual" field="stakeholderfield.IsIndividual"
+
+                        <cs-field data-ng-model="stakeholder.Individual" 
+                                  field="stakeholderfield.IsIndividual"
                                   data-ng-change="stakeholder.IsEmployee=false"></cs-field>
                         <span class="col-md-5">
                             <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} is an Individual or any Organization </span>
                         </span>
-                    </div>
-               
 
-                <!--Registration-->
-                <div data-ng-show="!stakeholder.Individual">
-                    <cs-field data-ng-model="stakeholder.HasRegistration" field="stakeholderfield.HasRegistration"></cs-field>
-                    <span class="col-md-5">
-                        <span style="color: gray; padding-left: 10px">Is {{stakeholder.designation}} needs Registration</span>
-                    </span>
-                </div>
-           
-            <!--IsEmployee-->
-            <div data-ng-show="stakeholder.Individual">
-                <cs-field data-ng-model="stakeholder.IsEmployee" field="stakeholderfield.IsEmployee"></cs-field>
-                <span class="col-md-5">
-                    <span style="color: gray; padding-left: 10px">Is {{stakeholder.designation}} Employee of Algosys</span>
-                </span>
-            </div>
+                        <div data-ng-show="!stakeholder.Individual">
+                            <cs-field data-ng-model="stakeholder.HasRegistration" 
+                                      field="stakeholderfield.HasRegistration"></cs-field>
+                            <span class="col-md-5">
+                                <span style="color: gray; padding-left: 10px">Is {{stakeholder.designation}} needs Registration</span>
+                            </span>
+                        </div>
 
-            <!--Is Highest Level designation-->
-            <cs-field data-ng-model="stakeholder.ManageReportsTo" field="stakeholderfield.ManageReportsTo"></cs-field>
-            <span class="col-md-5">
-                <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} having any highest level designation</span>
-            </span>
+                        <div data-ng-show="stakeholder.Individual">
+                            <cs-field data-ng-model="stakeholder.IsEmployee" 
+                                      field="stakeholderfield.IsEmployee"></cs-field>
+                            <span class="col-md-5">
+                                <span style="color: gray; padding-left: 10px">Is {{stakeholder.designation}} Employee of Algosys</span>
+                            </span>
+                        </div>
 
+                        <cs-field data-ng-model="stakeholder.ManageReportsTo" 
+                                  field="stakeholderfield.ManageReportsTo"></cs-field>
+                        <span class="col-md-5">
+                            <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} having any highest level designation</span>
+                        </span>
 
+                        <cs-field data-ng-model="stakeholder.HasAddress" 
+                                  field="stakeholderfield.HasAddress"></cs-field>
+                        <span class="col-md-5">
+                            <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has address </span>
+                        </span>
 
-            <!--Has Address-->
-            <cs-field data-ng-model="stakeholder.HasAddress" field="stakeholderfield.HasAddress"></cs-field>
-            <span class="col-md-5">
-                <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has address </span>
-            </span>
-
-            <!--Has multiple Address-->
-            <div data-ng-show="stakeholder.HasAddress">
-                <cs-field data-ng-model="stakeholder.HasMultipleAddress" field="stakeholderfield.HasMultipleAddress"
-                    data-ng-disabled="true"></cs-field>
-            </div>
-            </cs-form>
+                        <div data-ng-show="stakeholder.HasAddress">
+                            <cs-field data-ng-model="stakeholder.HasMultipleAddress" field="stakeholderfield.HasMultipleAddress"
+                                      data-ng-disabled="true"></cs-field>
+                        </div>
+                    </cs-form>
                 </div>
 
 
@@ -108,33 +97,29 @@
                 <div data-ng-form="step3form" data-ng-show="step==3">
 
                     <cs-form layout="7.4.8">
-                        <!--Has Working-->
-                                <cs-field data-ng-model="stakeholder.HasWorking" field="stakeholderfield.HasWorking"
-                                    data-ng-change="ResetBtnValue()"></cs-field>
-                            <span class="col-md-5">
-                                <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has working</span>
-                            </span>
+                        <cs-field data-ng-model="stakeholder.HasWorking" field="stakeholderfield.HasWorking"
+                                  data-ng-change="ResetBtnValue()"></cs-field>
+                        <span class="col-md-5">
+                            <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has working</span>
+                        </span>
 
-                        <!--Has Bucket-->
                         <div data-ng-show="stakeholder.HasWorking">
-                                <cs-field data-ng-model="stakeholder.HasBuckets" field="stakeholderfield.HasBuckets"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasBuckets" field="stakeholderfield.HasBuckets"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has Buckets</span>
                             </span>
                         </div>
 
-                        <!--Is in Allocation-->
                         <div data-ng-show="stakeholder.HasWorking">
-                                <cs-field data-ng-model="stakeholder.IsInAllocation" field="stakeholderfield.IsInAllocation"
-                                    data-ng-change="stakeholder.IsInField=false"></cs-field>
+                            <cs-field data-ng-model="stakeholder.IsInAllocation" field="stakeholderfield.IsInAllocation"
+                                      data-ng-change="stakeholder.IsInField=false"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} is in allocation</span>
                             </span>
                         </div>
 
-                        <!--Is in field-->
                         <div data-ng-show="stakeholder.IsInAllocation">
-                         <cs-field data-ng-model="stakeholder.IsInField" field="stakeholderfield.IsInField"></cs-field>
+                            <cs-field data-ng-model="stakeholder.IsInField" field="stakeholderfield.IsInField"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} is in field</span>
                             </span>
@@ -142,29 +127,24 @@
                     </cs-form>
                 </div>
 
-                <!--Add Hierarchy Page 4-->
                 <div data-ng-form="step4form" data-ng-show="step==4">
-
                     <cs-form layout="7.4.8">
-                        <!--Has payment-->
-                                <cs-field data-ng-model="stakeholder.HasPayment" field="stakeholderfield.HasPayment"
-                                    data-ng-change="factoryMethod.resetPaymentChlidVal()"></cs-field>
-                            <span class="col-md-5">
-                                <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has Payment</span>
-                            </span>
+                        <cs-field data-ng-model="stakeholder.HasPayment" field="stakeholderfield.HasPayment"
+                                  data-ng-change="factoryMethod.resetPaymentChlidVal()"></cs-field>
+                        <span class="col-md-5">
+                            <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} has Payment</span>
+                        </span>
 
-                        <!--Has Bank Details-->
                         <div data-ng-show="stakeholder.HasPayment">
-                                <cs-field data-ng-model="stakeholder.HasBankDetails" field="stakeholderfield.HasBankDetails"
-                                    data-ng-change="factoryMethod.resetPaymentChlidVal()"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasBankDetails" field="stakeholderfield.HasBankDetails"
+                                      data-ng-change="factoryMethod.resetPaymentChlidVal()"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Bank Details</span>
                             </span>
                         </div>
 
-                        <!--Has mobile Travel-->
                         <div data-ng-show="stakeholder.HasPayment">
-                                <cs-field data-ng-model="stakeholder.HasMobileTravel" field="stakeholderfield.HasMobileTravel"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasMobileTravel" field="stakeholderfield.HasMobileTravel"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Mobile Travel</span>
                             </span>
@@ -172,7 +152,7 @@
 
                         <!--Has variable-->
                         <div data-ng-show="stakeholder.HasPayment">
-                                <cs-field data-ng-model="stakeholder.HasVarible" field="stakeholderfield.HasVarible"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasVarible" field="stakeholderfield.HasVarible"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Variable</span>
                             </span>
@@ -180,7 +160,7 @@
 
                         <!--Has fixed-->
                         <div data-ng-show="stakeholder.HasPayment">
-                                <cs-field data-ng-model="stakeholder.HasFixed" field="stakeholderfield.HasFixed"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasFixed" field="stakeholderfield.HasFixed"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Fixed</span>
                             </span>
@@ -188,7 +168,7 @@
 
                         <!--Has fixed Individual-->
                         <div data-ng-show="stakeholder.HasFixed">
-                                <cs-field data-ng-model="stakeholder.HasFixedIndividual" field="stakeholderfield.HasFixedIndividual"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasFixedIndividual" field="stakeholderfield.HasFixedIndividual"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Fixed Individual</span>
                             </span>
@@ -196,7 +176,7 @@
 
                         <!--Has service charge-->
                         <div data-ng-show="stakeholder.HasPayment">
-                                <cs-field data-ng-model="stakeholder.HasServiceCharge" field="stakeholderfield.HasServiceCharge"></cs-field>
+                            <cs-field data-ng-model="stakeholder.HasServiceCharge" field="stakeholderfield.HasServiceCharge"></cs-field>
                             <span class="col-md-5">
                                 <span style="color: gray; padding-left: 10px">{{stakeholder.designation}} Has Service Charge </span>
                             </span>

@@ -1,28 +1,26 @@
-﻿<!--AddEdit Modal PopUp-->
-<form name="formEditPincode" class="form-horizontal" no-validate="">
-    <div class="modal-header">
-        {{modelTitle}}
-    </div>
-
+﻿<form name="formEditPincode" no-validate="">
+    <div class="modal-header"> {{modelTitle}} </div>
     <div class="modal-body">
-
+        <pre>{{GPincodedata}}</pre>
         <cs-form layout="9.3.9" mode="mode">
-                    <cs-field data-ng-model="GPincodedata.Country" field="eGPincodeModel.Country" data-ng-disabled="true"></cs-field>
-           
-                    <cs-field data-ng-model="GPincodedata.Region" 
-                              data-ng-change="getState(GPincodedata.Region);regionChange()"
-                              field="eGPincodeModel.Region">
-                    </cs-field>
-            
-                    <cs-field data-ng-model="GPincodedata.State" field="eGPincodeModel.State" 
-                              data-ng-change="getCluster(GPincodedata.Region,GPincodedata.State);stateChange()"></cs-field>
+            <cs-field data-ng-model="GPincodedata.Country"
+                      field="eGPincodeModel.Country"
+                      data-ng-disabled="true"></cs-field>
 
-                    <cs-field data-ng-model="GPincodedata.Cluster" field="eGPincodeModel.Cluster"
-                              data-ng-change="getDistrict(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster);clusterChange()"></cs-field>
+            <cs-field data-ng-model="GPincodedata.Region"
+                      data-ng-change="getState(GPincodedata.Region);regionChange()"
+                      field="eGPincodeModel.Region">
+            </cs-field>
 
-                    <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District" 
-                              data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
-            
+            <cs-field data-ng-model="GPincodedata.State" field="eGPincodeModel.State"
+                      data-ng-change="getCluster(GPincodedata.Region,GPincodedata.State);stateChange()"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.Cluster" field="eGPincodeModel.Cluster"
+                      data-ng-change="getDistrict(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster);clusterChange()"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.District" field="eGPincodeModel.District"
+                      data-ng-change="getCity(GPincodedata.Region,GPincodedata.State,GPincodedata.Cluster,GPincodedata.District);districtChange()"></cs-field>
+
             <div>
                 <div data-ng-if="!showTextBox">
                     <cs-field data-ng-model="GPincodedata.City"
@@ -35,7 +33,7 @@
                     <div class="col-md-9">
                         <label class="col-md-3">City<span style="color: red">*</span></label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" data-ng-model="GPincodedata.City" data-ng-required="showTextBox"/>
+                            <input type="text" class="form-control" data-ng-model="GPincodedata.City" data-ng-required="showTextBox" />
                         </div>
                     </div>
                 </div>
@@ -45,21 +43,20 @@
                 </div>
             </div>
 
-           
-                    <cs-field data-ng-model="GPincodedata.CityCategory" field="eGPincodeModel.CityCategory"></cs-field>
 
-                    <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
-                              typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
-                              data-ng-change="areaChange()"></cs-field>
+            <cs-field data-ng-model="GPincodedata.CityCategory" 
+                      field="eGPincodeModel.CityCategory"></cs-field>
 
-                    <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
-                              data-ng-change="pincodedata(GPincodedata.Pincode)"
-                              typeahead="c for c in missingPincode($viewValue)"
-                              ui-validate="{'data' : 'pincodeCheck($value)'}">
-                    </cs-field>
+            <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
+                      typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
+                      data-ng-change="areaChange()"></cs-field>
+
+            <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
+                      typeahead="c for c in missingPincode($viewValue)"
+                      ui-validate="{unique : 'pincodedata($value)'}"></cs-field>
 
 
-            </cs-form>
+        </cs-form>
     </div>
 
 
@@ -87,42 +84,42 @@
 
 
 <!--    <div class="modal-body">
-                    
+
         <div class="form-group row">
             <label class="control-label">Country </label>
             <div class="controls">
                 <input type="text" value="India" readonly="readonly" />
             </div>
         </div>
-                    
+
         <div class="form-group row">
             <label class="control-label">Region</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.Region" readonly="readonly" />
             </div>
         </div>
-                  
+
         <div class="form-group row">
             <label class="control-label">State</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.State" readonly="readonly" />
             </div>
         </div>
-                    
+
         <div class="form-group row">
             <label class="control-label">Cluster</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.Cluster" readonly="readonly" />
             </div>
         </div>
-                   
+
         <div class="form-group row">
             <label class="control-label">District</label>
             <div class="controls">
                 <input type="text" data-ng-model="eGPincode.District" readonly="readonly" />
             </div>
         </div>
-                   
+
         <div class="form-group row">
             <label class="control-label">City</label>
             <div class="controls">
@@ -134,7 +131,7 @@
                 </div>
             </div>
         </div>
-                   
+
         <div class="form-group row">
             <label class="control-label">City Category</label>
             <div class="controls">
@@ -144,7 +141,7 @@
                 </select>
             </div>
         </div>
-                   
+
         <div class="form-group row">
             <label class="control-label">Area</label>
             <div class="controls">
@@ -159,7 +156,7 @@
                 </div>
             </div>
         </div>
-                   
+
         <div class="form-group row">
             <label class="control-label">Pincode</label>
             <div class="controls">
@@ -167,4 +164,3 @@
             </div>
         </div>
     </div>      -->
-

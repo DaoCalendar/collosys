@@ -186,6 +186,7 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
             $scope.stakeholderfield = $csModels.getColumns("StkhHierarchy");
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
+            $scope.stakeholder = {};
         })();
 
 
@@ -272,42 +273,3 @@ $scope.closeModal = function () {
 };
 }]);
 
-
-
-//#region Save Hierarchy
-
-//$scope.saveUpdatedData = function (hierarchy) {
-//    $scope.closeform();
-
-//    datalayer.saveUpdatedData(hierarchy);
-
-//    //hierarchy.ApplicationName = 'collosys';
-//    //hierarchy.PositionLevel = 0;
-//    //var list = JSON.stringify(hierarchy.LocationLevel);
-//    //hierarchy.LocationLevel = list;
-//    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
-//    //    $scope.stakeholder = {};
-//    //    $scope.hierarchy = {};
-//    //    if ($scope.isInEditMode === true) {
-//    //        displayHierarchy();
-//    //        getReporty();
-//    //    }
-//    //    $scope.closeEditBox();
-//    //    $csnotify.success('Data Saved');
-//    //}, function () {
-//    //    $csnotify.error('error in saving hierarchy');
-//    //});
-
-
-//    //apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function () {
-//    //    $scope.hierarchy = {};
-//    //    $scope.closeEditBox();
-//    //    $csnotify.success(' Data Updated');
-
-//    //}, function () {
-//    //    $csnotify.error('error in saving hierarchy');
-//    //});
-//};
-
-
-//#endregion
