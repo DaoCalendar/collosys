@@ -5,90 +5,75 @@
     }
 </style>
 <form name="gridform">
-    <tabset style="height: 530px;">
+    <tabset>
         <tab data-ng-hide="angular.isUndefined(gridOptions.Reporting.ScreenName) || gridOptions.Reporting.ScreenName == 'NotSpecified'">
             <tab-heading>Save Report</tab-heading>
             <div class="form-horizontal">
                 <div class="tabheight">
-                    <div class="col-md-8">
+                    <cs-form layout="11.3.9">
+
                         <cs-field data-ng-model="gridOptions.Reporting.Params.ReportName" field="gridfield.ReportName"
                                   data-ng-disabled="gridOptions.Reporting.isEditMode"></cs-field>
-                    </div>
                     
-                    <div class="col-md-8">
                         <cs-field data-ng-model="gridOptions.Reporting.Params.Description" field="gridfield.Description"></cs-field>
-                    </div>
                     
-                     <div class="col-md-8">
                         <cs-field data-ng-model="gridOptions.Reporting.Params.DoEmailReport" field="gridfield.DoEmailReport"></cs-field>
-                    </div>
                   
-                    <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
-                        <div class="col-md-8">
+                        <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport">
                             <cs-field data-ng-model="gridOptions.Reporting.Params.Frequency" field="gridfield.Frequency"
-                                value-list="$grid.consts.EmailFrequency.list" data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true"></cs-field>
+                                      value-list="$grid.consts.EmailFrequency.list" data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true"></cs-field>
                         </div>
-                     </div>
                   
-                    <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
-                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
-                             class="col-md-8">
-                            <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamDaily"
-                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
-                                      value-list="FrequencyParamDaily"></cs-field>
-                        </div>
+                        <div data-ui-if="gridOptions.Reporting.Params.DoEmailReport" data-ng-show="gridOptions.Reporting.Params.Frequency">
+                            <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily">
+                                <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamDaily"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Daily"
+                                          value-list="FrequencyParamDaily"></cs-field>
+                            </div>
 
-                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
-                             class="col-md-8">
-                            <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamWeekly"
-                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
-                                      value-list="FrequencyParamWeekly"></cs-field>
-                        </div>
+                            <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly">
+                                <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamWeekly"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Weekly"
+                                          value-list="FrequencyParamWeekly"></cs-field>
+                            </div>
 
-                        <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
-                             class="col-md-8">
+                            <div data-ui-if="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly">
                             
-                              <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamMonthly"
-                                      data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
-                                      value-list="FrequencyParamMonthly"></cs-field>
+                                <cs-field data-ng-model="gridOptions.Reporting.Params.FrequencyParam" field="gridfield.FrequencyParamMonthly"
+                                          data-ng-required="gridOptions.Reporting.Params.Frequency === $grid.consts.EmailFrequency.value.Monthly"
+                                          value-list="FrequencyParamMonthly"></cs-field>
+                            </div>
                         </div>
-                    </div>
                   
                     
-                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="col-md-8">
-                            <cs-field data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
+                        <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
+                            <cs-field layout="12.6.6" data-ng-model="gridOptions.Reporting.Params.UseFieldName4Header"
                                       field="gridfield.UseFieldName4Header"
                                       data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
                         </div>
-                    </div>
 
                     
-                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="col-md-8">
+                        <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
                             <cs-field data-ng-model="gridOptions.Reporting.Params.SendOnlyIfData"
                                       field="gridfield.SendOnlyIfData"
                                       data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" ></cs-field>
                         </div>
-                    </div>
 
                     
-                    <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
-                        <div class="col-md-8">
+                        <div data-ui-if="gridOptions.Reporting.Params.FrequencyParam">
                             <cs-field data-ng-model="gridOptions.Reporting.Params.Send2Hierarchy"
                                       field="gridfield.Send2Hierarchy"
                                       data-ng-required="gridOptions.Reporting.Params.DoEmailReport === true" 
                                       data-ng-click="$grid.ShowStakeholder(gridOptions)"></cs-field>
                             <span data-ng-show=" gridOptions.totalSelectedStake">Total Selected :{{gridOptions.SelectedStakeholderIds.length}}</span>
                         </div>
-                    </div>
-
-
                   
-                    <div class="row form-group" data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
-                        <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
-                    </div>
+                        <div data-ui-if="gridOptions.Reporting.Params.Send2Hierarchy">
+                            <button class="btn btn-link" data-ng-click="$grid.ShowStakeholder(gridOptions)">Add More Stakeholders</button>
+                        </div>
+                    </cs-form>
                 </div>
+
                 <div class="text-center">
                     <hr />
                     <div data-ng-hide="gridOptions.Reporting.isEditMode">
@@ -116,18 +101,17 @@
         <tab>
             <tab-heading>Reset Settings</tab-heading>
             <div class="form-horizontal">
-            <div class="tabheight">
-                <div class="row">
-                    <div class="col-md-8">
+                <div class="tabheight">
+                    <cs-form layout="8.4.6">
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetFilter" field="gridfield.doResetFilter"></cs-field>
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetRenames" field="gridfield.doResetRenames"></cs-field>
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetSorting" field="gridfield.doResetSorting"></cs-field>
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetPosition" field="gridfield.doResetPosition"></cs-field>
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetFreeze" field="gridfield.doResetFreeze"></cs-field>
                         <cs-field data-ng-model="gridOptions.ResetSetting.doResetVisibility" field="gridfield.doResetVisibility"></cs-field>
-                    </div>
+                    </cs-form>
                 </div>
-                    
+                
                 <div class="text-center">
                     <hr />
                     <input type="button" class="btn btn-default" value="Reset Selected" data-ng-click="$grid.ResetHelper.ResetSelected(gridOptions)" />
@@ -136,7 +120,6 @@
                     <hr />
                 </div>
              </div>
-           </div>
         </tab>
         <tab>
             <tab-heading>Freeze Columns</tab-heading>
