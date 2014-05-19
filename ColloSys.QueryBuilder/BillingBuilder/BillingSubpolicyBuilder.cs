@@ -84,7 +84,9 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return SessionManager.GetCurrentSession()
                                  .QueryOver<BillingSubpolicy>()
+                                 .Fetch(x=>x.BillTokens).Eager
                                  .Where(c => c.Products == product )
+                                 .TransformUsing(Transformers.DistinctRootEntity)
                                  .List();
         }
     }
