@@ -25,58 +25,58 @@
 
         <!--Edit Hierarchy page-2-->
         <div data-ng-form="step2form" data-ng-show="step==2">
-            <cs-form layout="7.4.6" mode="mode">
+            <cs-form layout="7.5.4" mode="mode">
 
                 <!--IsUser-->
                 <cs-field data-ng-model="hierarchy.IsUser" field="hierarchyfield.IsUser"></cs-field>
-                <cs-form layout="1">
+                <span class="col-md-5">
                     <span style="color: gray; padding-left: 10px">{{hierarchy.designation}} is user of Algosys or not</span>
-                </cs-form>
+                </span>
 
 
                 <!--IsIndividual-->
                 <cs-field data-ng-model="hierarchy.IsIndividual" field="hierarchyfield.IsIndividual"
                           data-ng-change="hierarchy.IsEmployee=false"></cs-field>
-                <cs-form layout="1">
+                <span class="col-md-5">
                     <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} is an Individual or any Organization </span>
-                </cs-form>
+                </span>
 
 
                 <!--Registration-->
                 <div data-ng-show="!hierarchy.Individual">
                     <cs-field data-ng-model="hierarchy.HasRegistration" field="hierarchyfield.HasRegistration"></cs-field>
-                    <cs-form layout="1">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">Is {{hierarchy.Designation}} needs Registration</span>
-                    </cs-form>
+                    </span>
                 </div>
 
 
                 <!--IsEmployee-->
                 <div data-ng-show="hierarchy.Individual">
                     <cs-field data-ng-model="hierarchy.IsEmployee" field="hierarchyfield.IsEmployee"></cs-field>
-                    <cs-form layout="1">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">Is {{hierarchy.Designation}} Employee of Algosys</span>
-                    </cs-form>
+                    </span>
                 </div>
 
                 <!--Is Highest Level designation-->
                 <cs-field data-ng-model="hierarchy.ManageReportsTo" field="hierarchyfield.ManageReportsTo"></cs-field>
-                <cs-form layout="1">
+                <span class="col-md-5">
                     <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} having any highest level designation</span>
-                </cs-form>
+                </span>
 
                 <!--Has Address-->
                 <cs-field data-ng-model="hierarchy.HasAddress" field="hierarchyfield.HasAddress"></cs-field>
-                <cs-form layout="1">
+                <span class="col-md-5">
                     <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has address </span>
-                </cs-form>
+                </span>
 
                 <!--Has multiple Address-->
                 <div data-ng-show="hierarchy.HasAddress">
                     <cs-field data-ng-model="hierarchy.HasMultipleAddress" field="hierarchyfield.HasMultipleAddress"></cs-field>
-                    <cs-form layout="1">
+                    <span class="col-md-5">
                         <span style="color: gray; padding-left: 10px">{{hierarchy.Designation}} has address </span>
-                    </cs-form>
+                    </span>
                 </div>
             </cs-form>
         </div>
