@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -15,7 +16,10 @@ using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NHibernate.Criterion;
+using WebGrease.Css.Extensions;
 
 #endregion
 
@@ -91,12 +95,14 @@ namespace AngularUI.Billing.subpolicy
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        //[CamelCasedApiMethod]
         [HttpGet]
 
         public HttpResponseMessage GetFormulas(ScbEnums.Products product)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            
+          return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
@@ -174,12 +180,6 @@ namespace AngularUI.Billing.subpolicy
             return relation;
         }
 
-        [HttpPost]
-        public HttpResponseMessage SaveTokens(IList<BillTokens> tokensList)
-        {
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
         private void SetApproverId(BillingRelation relation)
         {
             var currUserId = HttpContext.Current.User.Identity.Name;
@@ -203,7 +203,7 @@ namespace AngularUI.Billing.subpolicy
 
         protected override BillingSubpolicy BasePost(BillingSubpolicy obj)
         {
-            foreach (var bcondition in obj.BConditions)
+            foreach (var bcondition in obj.BillTokens)
             {
                 bcondition.BillingSubpolicy = obj;
             }

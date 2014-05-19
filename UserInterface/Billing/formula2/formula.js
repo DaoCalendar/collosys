@@ -31,17 +31,18 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             });
         };
 
-        var saveTokens = function (tokensList) {
-            return restApi.customPOST(tokensList, 'SaveTokens').then(function () {
+        var saveFormula = function (formula) {
+            return restApi.customPOST(formula, 'Post').then(function () {
                 return;
             });
         };
+        
         return {
             dldata: dldata,
             getFormulaList: getFormulaList,
             getColumnNames: getColumnNames,
             getBConditions: getBConditions,
-            saveTokens: saveTokens
+            saveFormula: saveFormula
         };
     }]);
 
@@ -84,16 +85,32 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             });
 
         };
+        
+        var combineTokens = function (selectedTokens) {
+            return _.union(selectedTokens.conditionTokens,
+                selectedTokens.ifOutputTokens,
+                selectedTokens.ElseOutputTokens);
+        };
+
+        var divideTokens = function(tokensList) {
+            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupId': '0.Condition' });
+            $scope.selectedTokens.ifOutputTokens = _.filter(tokensList, { 'GroupId': '1.Output' });
+            $scope.selectedTokens.ElseOutputTokens = _.filter(tokensList, { 'GroupId': '2.Output' });
+        };
 
         $scope.selectFormula = function (selectedformula) {
             $scope.boolOpr.showDetails = true;
             $scope.formula = selectedformula;
+            divideTokens(selectedformula.BillTokens);
         };
-        $scope.saveTokens = function(selectedTokens) {
-            var tokensList = _.union(selectedTokens.conditionTokens,
-                selectedTokens.ifOutputTokens,
-                selectedTokens.ElseOutputTokens);
-            datalayer.saveTokens(tokensList);
+        
+        
+
+        $scope.saveFormula = function(formula, selectedTokens) {
+            formula.BillTokens = combineTokens(selectedTokens);
+            datalayer.saveFormula(formula).then(function(data) {
+
+            });
         };
         
         (function () {
