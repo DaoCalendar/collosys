@@ -324,6 +324,10 @@
     <Content Include="Generic\Menu\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.min.js" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.min.js" />
     <Content Include="Scripts\chosen\chosen.jquery.js" />
@@ -554,10 +558,10 @@
     <Content Include="Scripts\moment\moment.min.js" />
     <Content Include="Scripts\spin\spin.js" />
     <Content Include="Scripts\spin\spin.min.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.min.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\condition-directive.js" />

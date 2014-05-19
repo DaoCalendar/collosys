@@ -46,9 +46,15 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 $scope.tableName, $scope.formulaList);
 
             $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return ((row.type == 'Formula' || row.type == 'Table') && row.datatype == 'number');
+                return ((row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Sql') && row.DataType == 'number');
             });
             return;
+        };
+
+        var assignTokensForEdit = function () {
+            if ($scope.tokensList.length > 0) {
+                $scope.tokens.selected = _.sortBy($scope.tokensList,'Priority');
+            }
         };
 
         (function () {
@@ -58,6 +64,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         $scope.$watch('formulaList', initFirstTokens);
 
+        $scope.$watch('tokensList', assignTokensForEdit);
         //#endregion
 
         //#region 
@@ -85,35 +92,35 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         };
 
         var setNextToken = function (token) {
-            if (token.type == 'Operator' || token.type == 'Sql') {
+            if (token.Type == 'Operator' || token.Type == 'Sql') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                    return ((row.type == 'Formula' || row.type == 'Table') &&
+                    return ((row.Type == 'Formula' || row.Type == 'Table') &&
                     (row.datatype === token.datatype));
                 });
                 if (token.datatype == 'number') {
                     $scope.tokens.nextTokens = _.union($scope.tokens.nextTokens, _.filter($scope.tokens.tokensList, function (row) {
-                        return (row.type == 'Sql');
+                        return (row.Type == 'Sql');
                     }));
                 }
-            } else if (token.type == 'Formula' || token.type == 'Table') {
+            } else if (token.Type == 'Formula' || token.Type == 'Table') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                    return ((row.type === 'Operator') && (row.datatype === token.datatype));
+                    return ((row.Type === 'Operator') && (row.datatype === token.datatype));
                 });
-            } else if (token.type === 'value') {
+            } else if (token.Type === 'Value') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                    return ((row.type === 'Operator') && (row.datatype === $scope.tokens.secondLastToken.datatype));
+                    return ((row.Type === 'Operator') && (row.datatype === $scope.tokens.secondLastToken.datatype));
                 });
             }
 
-            if (token.type == 'Sql') {
+            if (token.Type == 'Sql') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.nextTokens, function (row) {
-                    return (row.type !== token.type);
+                    return (row.Type !== token.Type);
                 });
             }
         };
 
         $scope.setValidation = function () {
-            if ($scope.tokens.lastToken.type == 'Operator' || $scope.tokens.selected.length<2) {
+            if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokens.selected.length<2) {
                 return 'alert-danger';
             }
             return 'alert-info';
@@ -177,9 +184,15 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
                 $scope.tableName, $scope.formulaList);
 
             $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return (row.type == 'Formula' || row.type == 'Table');
+                return (row.Type == 'Formula' || row.Type == 'Table');
             });
             return;
+        };
+        
+        var assignTokensForEdit = function () {
+            if ($scope.tokensList.length > 0) {
+                $scope.tokens.selected = _.sortBy($scope.tokensList, 'Priority');
+            }
         };
 
         (function () {
@@ -188,6 +201,8 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         })();
 
         $scope.$watch('formulaList', initFirstTokens);
+        
+        $scope.$watch('tokensList', assignTokensForEdit);
 
         //#endregion
 
@@ -223,20 +238,20 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         };
 
         var setNextToken = function (token) {
-            if (token.type == 'Operator') {
+            if (token.Type == 'Operator') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function(row) {
-                    return ((row.type == 'Formula' || row.type == 'Table') &&
+                    return ((row.Type == 'Formula' || row.Type == 'Table') &&
                     (row.datatype == $scope.tokens.secondLastToken.datatype));
                 });
-            } else { //(token.type == 'Formula' || token.type == 'Table' || token.type=='value')
+            } else { //(token.Type == 'Formula' || token.Type == 'Table' || token.Type=='Value')
                 if ($scope.tokens.hasConditional) {
                     $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.type == 'Operator') && (row.datatype == 'relational' ||
+                        return ((row.Type == 'Operator') && (row.datatype == 'relational' ||
                             $scope.tokens.lastToken.datatype == row.datatype));
                     });
                 } else {
                     $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.type == 'Operator') && (row.datatype == 'conditional' ||
+                        return ((row.Type == 'Operator') && (row.datatype == 'conditional' ||
                             $scope.tokens.lastToken.datatype == row.datatype));
                     });
                 }
@@ -244,7 +259,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         };
 
         $scope.setValidation = function() {
-            if ($scope.tokens.hasConditional && $scope.tokens.lastToken.type !== 'Operator') {
+            if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
                 return 'alert-info';
             }
             return 'alert-danger';
@@ -288,18 +303,18 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
     var validateOperator = function (tokens, newToken) {
 
         if (newToken.datatype === 'sql' &&
-            (angular.isDefined(tokens.lastToken.type) &&
-                tokens.lastToken.type !== 'Operator'))
+            (angular.isDefined(tokens.lastToken.Type) &&
+                tokens.lastToken.Type !== 'Operator'))
             return false;
 
         if (newToken.datatype === 'sql' &&
-            (angular.isDefined(tokens.lastToken.type)
-                && tokens.lastToken.type === 'Operator'
+            (angular.isDefined(tokens.lastToken.Type)
+                && tokens.lastToken.Type === 'Operator'
                 && tokens.lastToken.datatype !== 'sql')) {
             return true;
         }
 
-        if (angular.isDefined(tokens.lastToken.type) && tokens.lastToken.type !== 'Operator')
+        if (angular.isDefined(tokens.lastToken.Type) && tokens.lastToken.Type !== 'Operator')
             return true;
         if (newToken.datatype === 'sql') {
             if (tokens.lastToken.datatype !== 'sql') {
@@ -313,10 +328,10 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
     };
 
     var validateFormula = function (tokens, newToken) {
-        if (angular.isUndefined(tokens.lastToken.type)) {
+        if (angular.isUndefined(tokens.lastToken.Type)) {
             return true;
         }
-        if (tokens.lastToken.type == 'Operator') {
+        if (tokens.lastToken.Type == 'Operator') {
             return true;
         }
         return false;
@@ -328,7 +343,7 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
 
     var validate = function (tokens, newToken) {
         var result = false;
-        switch (newToken.type) {
+        switch (newToken.Type) {
             case 'Operator':
                 result = validateOperator(tokens, newToken);
                 break;
@@ -345,8 +360,8 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
     };
 
     var validateValue = function (tokens, value) {
-        if (angular.isDefined(tokens.lastToken.type) &&
-            tokens.lastToken.type === 'Operator') {
+        if (angular.isDefined(tokens.lastToken.Type) &&
+            tokens.lastToken.Type === 'Operator') {
             return true;
         }
         return false;
@@ -364,38 +379,38 @@ csapp.factory('operatorsFactory', function () {
     operators.numberOperators = function () {
         return [
             {
-                'type': 'Operator',
-                'text': 'Opr:+',
-                'value': 'Plus',
-                'datatype': 'number',
+                'Type': 'Operator',
+                'Text': 'Opr:+',
+                'Value': 'Plus',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:-',
-                'value': 'Minus',
-                'datatype': 'number',
+                'Type': 'Operator',
+                'Text': 'Opr:-',
+                'Value': 'Minus',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:/',
-                'value': 'Divide',
-                'datatype': 'number',
+                'Type': 'Operator',
+                'Text': 'Opr:/',
+                'Value': 'Divide',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:*',
-                'value': 'Multiply',
-                'datatype': 'number',
+                'Type': 'Operator',
+                'Text': 'Opr:*',
+                'Value': 'Multiply',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:%',
-                'value': 'ModuloDivide',
-                'datatype': 'number',
+                'Type': 'Operator',
+                'Text': 'Opr:%',
+                'Value': 'ModuloDivide',
+                'DataType': 'number',
                 'valuelist': []
             }
         ];
@@ -404,45 +419,45 @@ csapp.factory('operatorsFactory', function () {
     operators.conditionals = function () {
         return [
             {
-                'type': 'Operator',
-                'text': 'Opr:=',
-                'value': 'EqualTo',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:=',
+                'Value': 'EqualTo',
+                'DataType': 'conditional',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:!=',
-                'value': 'NotEqualTo',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:!=',
+                'Value': 'NotEqualTo',
+                'DataType': 'conditional',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:<',
-                'value': 'LessThan',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:<',
+                'Value': 'LessThan',
+                'DataType': 'conditional',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:<=',
-                'value': 'LessThanEqualTo',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:<=',
+                'Value': 'LessThanEqualTo',
+                'DataType': 'conditional',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:>',
-                'value': 'GreaterThan',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:>',
+                'Value': 'GreaterThan',
+                'DataType': 'conditional',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:>=',
-                'value': 'GreaterThanEqualTo',
-                'datatype': 'conditional',
+                'Type': 'Operator',
+                'Text': 'Opr:>=',
+                'Value': 'GreaterThanEqualTo',
+                'DataType': 'conditional',
                 'valuelist': []
             }
         ];
@@ -450,25 +465,25 @@ csapp.factory('operatorsFactory', function () {
 
     operators.relationals = function () {
         return [{
-            'type':
+            'Type':
                 'Operator',
-            'text':
+            'Text':
                 'Opr:And',
-            'value':
+            'Value':
                 'AND',
-            'datatype':
+            'DataType':
                 'relational',
             'valuelist':
                 []
         },
             {
-                'type':
+                'Type':
                     'Operator',
-                'text':
+                'Text':
                     'Opr:Or',
-                'value':
+                'Value':
                     'OR',
-                'datatype':
+                'DataType':
                     'relational',
                 'valuelist':
                     []
@@ -478,52 +493,52 @@ csapp.factory('operatorsFactory', function () {
     operators.stringOperators = function () {
         return [
              {
-                 'type': 'Operator',
-                 'text': 'Opr:=',
-                 'value': 'EqualTo',
-                 'datatype': 'text',
+                 'Type': 'Operator',
+                 'Text': 'Opr:=',
+                 'Value': 'EqualTo',
+                 'DataType': 'Text',
                  'valuelist': []
              },
              {
-                 'type': 'Operator',
-                 'text': 'Opr:!=',
-                 'value': 'NotEqualTo',
-                 'datatype': 'text',
+                 'Type': 'Operator',
+                 'Text': 'Opr:!=',
+                 'Value': 'NotEqualTo',
+                 'DataType': 'Text',
                  'valuelist': []
              },
             {
-                'type': 'Operator',
-                'text': 'Opr:Contains',
-                'value': 'Contains',
-                'datatype': 'text',
+                'Type': 'Operator',
+                'Text': 'Opr:Contains',
+                'Value': 'Contains',
+                'DataType': 'Text',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:DoNotContains',
-                'value': 'DoNotContains',
-                'datatype': 'text',
+                'Type': 'Operator',
+                'Text': 'Opr:DoNotContains',
+                'Value': 'DoNotContains',
+                'DataType': 'Text',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:StartsWith',
-                'value': 'StartsWith',
-                'datatype': 'text',
+                'Type': 'Operator',
+                'Text': 'Opr:StartsWith',
+                'Value': 'StartsWith',
+                'DataType': 'Text',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:EndsWith',
-                'value': 'EndsWith',
-                'datatype': 'text',
+                'Type': 'Operator',
+                'Text': 'Opr:EndsWith',
+                'Value': 'EndsWith',
+                'DataType': 'Text',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Opr:IsInList',
-                'value': 'IsInList',
-                'datatype': 'text',
+                'Type': 'Operator',
+                'Text': 'Opr:IsInList',
+                'Value': 'IsInList',
+                'DataType': 'Text',
                 'valuelist': []
             }
         ];
@@ -532,24 +547,24 @@ csapp.factory('operatorsFactory', function () {
     operators.sqlOperators = function () {
         return [
             {
-                'type': 'Sql',
-                'text': 'Avg Of',
-                'value': 'AVG',
-                'datatype': 'number',
+                'Type': 'Sql',
+                'Text': 'Avg Of',
+                'Value': 'AVG',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Sql',
-                'text': 'Count Of',
-                'value': 'COUNT',
-                'datatype': 'number',
+                'Type': 'Sql',
+                'Text': 'Count Of',
+                'Value': 'COUNT',
+                'DataType': 'number',
                 'valuelist': []
             },
             {
-                'type': 'Sql',
-                'text': 'Sum Of',
-                'value': 'SUM',
-                'datatype': 'number',
+                'Type': 'Sql',
+                'Text': 'Sum Of',
+                'Value': 'SUM',
+                'DataType': 'number',
                 'valuelist': []
             }
         ];
@@ -558,38 +573,38 @@ csapp.factory('operatorsFactory', function () {
     operators.dateOperators = function () {
         return [
              {
-                 'type': 'Operator',
-                 'text': 'Date:Today',
-                 'value': 'Today',
-                 'datatype': 'Date',
+                 'Type': 'Operator',
+                 'Text': 'Date:Today',
+                 'Value': 'Today',
+                 'DataType': 'Date',
                  'valuelist': []
              },
             {
-                'type': 'Operator',
-                'text': 'Date:Yesterday',
-                'value': 'Yesterday',
-                'datatype': 'Date',
+                'Type': 'Operator',
+                'Text': 'Date:Yesterday',
+                'Value': 'Yesterday',
+                'DataType': 'Date',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Date:Tommorow',
-                'value': 'Tommorow',
-                'datatype': 'Date',
+                'Type': 'Operator',
+                'Text': 'Date:Tommorow',
+                'Value': 'Tommorow',
+                'DataType': 'Date',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Date:MonthStart',
-                'value': 'MonthStart',
-                'datatype': 'Date',
+                'Type': 'Operator',
+                'Text': 'Date:MonthStart',
+                'Value': 'MonthStart',
+                'DataType': 'Date',
                 'valuelist': []
             },
             {
-                'type': 'Operator',
-                'text': 'Date:MonthEnd',
-                'value': 'MonthEnd',
-                'datatype': 'Date',
+                'Type': 'Operator',
+                'Text': 'Date:MonthEnd',
+                'Value': 'MonthEnd',
+                'DataType': 'Date',
                 'valuelist': []
             }
         ];
@@ -621,10 +636,10 @@ csapp.factory('queryGenHelpers', function () {
         var list = [];
         angular.forEach(modal.Columns, function (value, key) {
             list.push({
-                'type': 'Table',
-                'text': 'Col:' + key,
-                'value': tableName + '.' + key,
-                'datatype': value.type,
+                'Type': 'Table',
+                'Text': 'Col:' + key,
+                'Value': tableName + '.' + key,
+                'DataType': value.type,
                 'valuelist': []
             });
         });
@@ -635,10 +650,10 @@ csapp.factory('queryGenHelpers', function () {
         var list = [];
         angular.forEach(formulaList, function (value, key) {
             list.push({
-                'type': 'Formula',
-                'text': 'For:' + value.Name + '()',
-                'value': value.Id,
-                'datatype': value.OutputType.toLowerCase(),
+                'Type': 'Formula',
+                'Text': 'For:' + value.Name + '()',
+                'Value': value.Id,
+                'DataType': value.OutputType.toLowerCase(),
                 'valuelist': []
             });
         });
@@ -647,10 +662,10 @@ csapp.factory('queryGenHelpers', function () {
 
     var convertValueIntoObject = function (value) {
         return angular.copy({
-            'type': 'value',
-            'text': value,
-            'value': value,
-            'datatype': 'value',
+            'Type': 'Value',
+            'Text': value,
+            'Value': value,
+            'DataType': 'Value',
             'valuelist': []
         });
     };
@@ -733,7 +748,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
 
         token.setAddValue = function (tokens, value, groupId) {
             var seleVal = helpers.convertValue(value);
-            seleVal.groupId = groupId;
+            seleVal.GroupId = groupId;
             seleVal.priority = tokens.selected.length;
             tokens.selected.push(seleVal);
             token.setLastandSecondToken(tokens, seleVal);
@@ -742,7 +757,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
         };
 
         token.addTokenToTokenList = function (tokens, tokenVal, groupId) {
-            tokenVal.groupId = groupId;
+            tokenVal.GroupId = groupId;
             tokenVal.priority = tokens.selected.length;
             tokens.selected.push(tokenVal);
             token.setLastandSecondToken(tokens, tokenVal);
