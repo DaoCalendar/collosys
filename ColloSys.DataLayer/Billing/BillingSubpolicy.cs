@@ -1,11 +1,11 @@
 ﻿#region References
 
 using System;
+using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
-using Iesi.Collections.Generic;
 
 #endregion
 
@@ -21,10 +21,10 @@ namespace ColloSys.DataLayer.Domain
         //    if (!NHibernateUtil.IsInitialized(BConditions) || forceEmpty) BConditions = null;
         //}
         //// list
-        public virtual ISet<BillingRelation> BillingRelations { get; set; }
-        public virtual ISet<BCondition> BConditions { get; set; }
-        public virtual ISet<BillDetail> BillDetails { get; set; }
-        public virtual ISet<BillTokens> BillTokens { get; set; } 
+        public virtual IList<BillingRelation> BillingRelations { get; set; }
+        public virtual IList<BCondition> BConditions { get; set; }
+        public virtual IList<BillDetail> BillDetails { get; set; }
+        public virtual IList<BillTokens> BillTokens { get; set; } 
 
         #endregion
 

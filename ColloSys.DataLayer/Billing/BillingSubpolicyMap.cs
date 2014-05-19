@@ -38,13 +38,13 @@ namespace ColloSys.DataLayer.Mapping
             #region Bags-relationship
 
 
-            Set(x => x.BillingRelations,
+            Bag(x => x.BillingRelations,
                 colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.BConditions,
+            Bag(x => x.BConditions,
                 colmap => { }, map => map.OneToMany(x => { }));
-            Set(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
 
-            Set(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));
 
             //ManyToOne(x => x.BConditionPayoutId,
             //          map =>
