@@ -1,17 +1,13 @@
 ﻿<div class="form-horizontal" data-ng-form="formFileColumn">
-    <div class="row">
-        <div class="col-md-6">
-            <cs-field field="productList" ng-model="fileAliasName"
-                      ng-change="datalayer.GetAll(fileAliasName)"></cs-field>
-        </div>
-        <div class="col-md-2">
-            <button class="btn btn-success" data-ng-show="fileAliasName"
-                    data-ng-click="showAddMultiColumnModal()">
-                Add Multiple Columns
-            </button>
-        </div>
-    </div>
-    <div>
+    <cs-form layout="5.3.6" class="">
+        <cs-field field="productList" ng-model="fileAliasName"
+                  ng-change="datalayer.GetAll(fileAliasName)"></cs-field>
+        <button class="btn btn-success" data-ng-show="fileAliasName"
+                data-ng-click="showAddMultiColumnModal()">
+            Add Multiple Columns
+        </button>
         <div data-ng-include="baseUrl +'FileUpload/filecolumn/file-column-list.html'"></div>
-    </div>
+    </cs-form>
 </div>
+
+
