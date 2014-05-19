@@ -219,6 +219,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
             var inst2 = $modal.open({
                 templateUrl: baseUrl + 'FileUpload/filestatus/file-status-detail.html',
                 controller: 'fileStatusDetailsController',
+                windowClass: 'modal-large',
                 resolve: { fileScheduled: function () { return file; } }
             });
 
