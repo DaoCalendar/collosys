@@ -1,5 +1,5 @@
 ﻿<div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
-    <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index">{{d.text| changetext}}</label>
+    <label style="padding-left: 15px;" data-ng-repeat="d in tokens.selected track by $index ">{{d.Text| changetext}}</label>
 </div>
 <div class="alert alert-warning" data-ng-show="tokens.error">
     <label>{{tokens.error}}</label>
@@ -7,7 +7,7 @@
 <div class="row" data-ng-form="addForm">
     <div class="col-md-pull-7">
         <input type="text" data-ng-model="tokens.filterString" class="form-control typeahead-lg"
-               typeahead="c.value as c.text for c in tokens.nextTokens | filter:{text:$viewValue} "
+               typeahead="c.Value as c.Text for c in tokens.nextTokens | filter:{Text:$viewValue} "
                typeahead-min-length="0"
                typeahead-on-select="addToken($item,$model,$label)">
     </div>
@@ -24,11 +24,11 @@
 <table class="table table-bordered" data-ng-show="debug=='true'">
     <tr>
         <td class="col-md-3">Last Selected Token</td>
-        <td class="col-md-9"> {{tokens.lastToken.text}}</td>
+        <td class="col-md-9"> {{tokens.lastToken.Text}}</td>
     </tr>
     <tr>
         <td>Second Last Selected Token:</td>
-        <td>{{tokens.secondLastToken.text}} (type: {{tokens.secondLastToken.type}})</td>
+        <td>{{tokens.secondLastToken.Text}} (type: {{tokens.secondLastToken.type}})</td>
     </tr>
 
     <tr>
@@ -39,7 +39,7 @@
             <table class="table table-bordered">
                 <tr data-ng-repeat="d in tokens.selected">
                     <td>
-                        {{d.text}}
+                        {{d.Text}}
                     </td>
                 </tr>
             </table>
