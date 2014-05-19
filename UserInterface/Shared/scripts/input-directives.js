@@ -1246,9 +1246,7 @@ csapp.directive('csForm', function () {
     };
 
     var templateFn = function (element, attr) {
-        var template = '<div ';
-        template += ' class="' + (angular.isDefined(attr.class) ?  attr.class : "row") + '"';
-        template += '><div ng-transclude=""></div></div>';
+        var template = '<div><div ng-transclude=""></div><div class="clearfix"></div></div>';
         return template;
     };
 
