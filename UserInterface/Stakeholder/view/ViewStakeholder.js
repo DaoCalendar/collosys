@@ -849,7 +849,8 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         //Permissions
         var init = function () {
 
-
+            $scope.size = $scope.size ? $scope.size : 5;
+            $scope.pagenum = 1;
             $scope.viewModels = {
                 View: { label: "View", type: "enum" },
                 Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },

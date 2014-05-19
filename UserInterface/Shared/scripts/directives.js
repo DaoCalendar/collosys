@@ -482,17 +482,22 @@ csapp.directive('cspagination', function () {
 
         link: function (scope) {
             scope.pagesize = 5;
-            scope.currpagenum = 1;
+            //scope.currpagenum = 1;
             scope.getrecordnum = function () {
+                console.log(scope.pagesize, scope.currpagenum);
                 if (scope.currpagenum * scope.pagesize > scope.totalrecords)
                     return scope.totalrecords;
                 else return (scope.currpagenum * scope.pagesize);
+            };
+            scope.getInitialNum = function () {
+                debugger;
+                return (scope.pagesize * (scope.currpagenum - 1)) + 1;
             };
         },
 
         template:
             '<div class="pull-right col-md-3">' +
-            '<div><b>Records: {{(pagesize*(currpagenum-1))+1}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
+            '<div><b>Records: {{getInitialNum()}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
             '<div class="input-group">' +
             '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="fa fa-angle-double-left"></i></button></span>' +
             '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepbackward()"><i class="fa fa-chevron-left"></i></button></span>' +

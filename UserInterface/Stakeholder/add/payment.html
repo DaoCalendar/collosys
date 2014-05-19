@@ -5,136 +5,138 @@
     <div data-ng-show="paymentData.Hierarchy.HasPayment">
         <!--Variable Payment-->
         <cs-form layout="6.4.8">
-                            <div class="row" data-ng-show="paymentData.Hierarchy.HasVarible">
-                            <h5 style="font-weight: normal;"><b>Variable Pay</b>
-                                    <label style="color: red">(Select any one Policy) *</label></h5>
-                            <hr />
-                                <!--Collection Policy-->
-                                    <cs-field data-ng-model="paymentData.Payment.CollectionBillingPolicy"
-                                        data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
-                                        value-list="$parent.WizardData.BillingPolicy.LinerPolicies"
-                                        field="paymentModel.CollectionPolicy">
-                                        </cs-field>
-                                <!--Recovery Policy-->
-                                    <cs-field data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
-                                        data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff)  "
-                                        value-list="$parent.WizardData.BillingPolicy.WriteOffPolicies"
-                                        field="paymentModel.RecoveryPolicy">
-                                        </cs-field>
-                                </div>
-                            <!--Fixed Pay-->
-                            <div class="row" data-ng-if="paymentData.Hierarchy.HasFixed">
-                            <h5 style="font-weight: normal;"><b>Fixed Pay</b></h5>
-                            <hr />
-                                <!--Basic-->
-                                    <cs-field
-                                        data-ng-model="paymentData.Payment.FixpayBasic"
-                                        data-ng-required="paymentData.Hierarchy.HasFixed"
-                                        field="paymentModel.FixpayBasic">
-                                    </cs-field>
-                                <!--HRA-->
-                                    <div  data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                                        <cs-field
-                                            data-ng-model="paymentData.Payment.FixpayHra"
-                                            data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
-                                            field="paymentModel.FixpayHra"></cs-field>
-                                    </div>
-                            </div>
-                            <!--Other and Total-->
-                            <!--Other-->
-                            <div class="row"  data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                                    <cs-field
-                                        field="paymentModel.FixpayOther"
-                                        data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
-                                        data-ng-model="paymentData.Payment.FixpayOther">
-                                        </cs-field>
-                                </div>
-                            <!--Total-->
-                            <div class="form-group  info" data-ng-show="false">
-                                <label class="control-label">Total:</label>
-                                <div class="controls">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>
-                                        <input type="text" data-ng-model="paymentData.Payment.FixpayTotal"
-                                            disabled value="{{paymentData.Payment.FixpayTotal=TotalPayment(paymentData.Payment.FixpayBasic,paymentData.Payment.FixpayHra,paymentData.Payment.FixpayOther)}}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Salary calculating Table-->
-                            <div class="row" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
-                        <table class="table table-bordered table-hover" data-ng-show="paymentData.Payment.FixpayBasic">
-                            <thead>
-                                <tr>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic">Basic</th>
-                                    <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">Allowances</th>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic">Employee PF</th>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic">Employer PF</th>
-                                    <th>Employee ESIC</th>
-                                    <th>Employer ESIC</th>
-                                    <th>Service Charge</th>
-                                    <th>Service Tax</th>
-                                    <th>Gross Pay</th>
-                                </tr>
-                                <tr>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic"></th>
-                                    <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther"></th>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
-                                    <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
-                                    <th>Basic * {{FixedPay.EmployeeESIC}}%</th>
-                                    <th>Basic * {{FixedPay.EmployerESIC}}% </th>
-                                    <th>Basic * {{FixedPay.ServiceCharge}}%</th>
-                                    <th>Basic * {{FixedPay.ServiceTax}}% </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td data-ng-show="paymentData.Payment.FixpayBasic">{{paymentData.Payment.FixpayBasic}}</td>
-                                    <td data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">{{paymentData.Payment.FixpayHra*1 + paymentData.Payment.FixpayOther*1}}
-                                    </td>
-                                    <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
-                                    <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
-                                    <td>{{SalDetails.esicEmployee}}</td>
-                                    <td>{{SalDetails.esicEmployer}}</td>
-                                    <td>{{SalDetails.serviceCharge}}</td>
-                                    <td>{{SalDetails.serviceTax}}</td>
-                                    <td>{{paymentData.Payment.FixpayTotal}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="container">
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasVarible">
+                <h5 style="font-weight: normal;"><b>Variable Pay</b>
+                    <label style="color: red">(Select any one Policy) *</label></h5>
+                <hr />
+                <!--Collection Policy-->
+                <cs-field data-ng-model="paymentData.Payment.CollectionBillingPolicy"
+                          data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableLiner) "
+                          value-list="$parent.WizardData.BillingPolicy.LinerPolicies"
+                          field="paymentModel.CollectionPolicy">
+                </cs-field>
+                <!--Recovery Policy-->
+                <cs-field data-ng-model="paymentData.Payment.RecoveryBillingPolicy"
+                          data-ng-required="(paymentData.Hierarchy.HasVarible && paymentData.Payment.VariableWriteoff)  "
+                          value-list="$parent.WizardData.BillingPolicy.WriteOffPolicies"
+                          field="paymentModel.RecoveryPolicy">
+                </cs-field>
+            </div>
+            <!--Fixed Pay-->
+            <div class="row" data-ng-if="paymentData.Hierarchy.HasFixed">
+                <h5 style="font-weight: normal;"><b>Fixed Pay</b></h5>
+                <hr />
+                <!--Basic-->
+                <cs-field
+                    data-ng-model="paymentData.Payment.FixpayBasic"
+                    data-ng-required="paymentData.Hierarchy.HasFixed"
+                    field="paymentModel.FixpayBasic">
+                </cs-field>
+                <!--HRA-->
+                <div  data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                    <cs-field
+                        data-ng-model="paymentData.Payment.FixpayHra"
+                        data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
+                        field="paymentModel.FixpayHra"></cs-field>
+                </div>
+            </div>
+            <!--Other and Total-->
+            <!--Other-->
+            <div class="row"  data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                <cs-field
+                    field="paymentModel.FixpayOther"
+                    data-ng-required="paymentData.Hierarchy.HasFixedIndividual"
+                    data-ng-model="paymentData.Payment.FixpayOther">
+                </cs-field>
+            </div>
+            <!--Total-->
+            <div class="form-group  info" data-ng-show="false">
+                <label class="control-label">Total:</label>
+                <div class="controls">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>
+                        <input type="text" data-ng-model="paymentData.Payment.FixpayTotal"
+                               disabled value="{{paymentData.Payment.FixpayTotal=TotalPayment(paymentData.Payment.FixpayBasic,paymentData.Payment.FixpayHra,paymentData.Payment.FixpayOther)}}" />
                     </div>
-                            <!--Allowances-->
-                  <div class="row" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
-                        <h5 style="font-weight: normal;"><b>Reimbursement elgibility</b></h5>
-                        <hr />
-                        <!--Mobile and Travel-->
-                            <!--MObile-->
-                                <cs-field
-                                    data-ng-required="paymentData.Hierarchy.HasMobileTravel"
-                                    data-ng-model="paymentData.Payment.MobileElig"
-                                    field="paymentModel.MobileElig"></cs-field>
+                </div>
+            </div>
+            <!--Salary calculating Table-->
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasFixedIndividual">
+                <table class="table table-bordered table-hover" data-ng-show="paymentData.Payment.FixpayBasic">
+                    <thead>
+                        <tr>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic">Basic</th>
+                            <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">Allowances</th>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic">Employee PF</th>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic">Employer PF</th>
+                            <th>Employee ESIC</th>
+                            <th>Employer ESIC</th>
+                            <th>Service Charge</th>
+                            <th>Service Tax</th>
+                            <th>Gross Pay</th>
+                        </tr>
+                        <tr>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic"></th>
+                            <th data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther"></th>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
+                            <th data-ng-show="paymentData.Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
+                            <th>Basic * {{FixedPay.EmployeeESIC}}%</th>
+                            <th>Basic * {{FixedPay.EmployerESIC}}% </th>
+                            <th>Basic * {{FixedPay.ServiceCharge}}%</th>
+                            <th>Basic * {{FixedPay.ServiceTax}}% </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-ng-show="paymentData.Payment.FixpayBasic">{{paymentData.Payment.FixpayBasic}}</td>
+                            <td data-ng-show="paymentData.Payment.FixpayHra && paymentData.Payment.FixpayOther">{{paymentData.Payment.FixpayHra*1 + paymentData.Payment.FixpayOther*1}}
+                            </td>
+                            <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                            <td data-ng-show="paymentData.Payment.FixpayBasic">{{(SalDetails.pf*1)}}</td>
+                            <td>{{SalDetails.esicEmployee}}</td>
+                            <td>{{SalDetails.esicEmployer}}</td>
+                            <td>{{SalDetails.serviceCharge}}</td>
+                            <td>{{SalDetails.serviceTax}}</td>
+                            <td>{{paymentData.Payment.FixpayTotal}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Allowances-->
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasMobileTravel">
+                <h5 style="font-weight: normal;"><b>Reimbursement elgibility</b></h5>
+                <hr />
+                <!--Mobile and Travel-->
+                <!--MObile-->
+                <cs-field
+                    data-ng-required="paymentData.Hierarchy.HasMobileTravel"
+                    data-ng-model="paymentData.Payment.MobileElig"
+                    field="paymentModel.MobileElig"></cs-field>
           
-                            <!--Travel-->
+                <!--Travel-->
             
-                                <cs-field
-                                    data-ng-required="paymentData.Hierarchy.HasMobileTravel"
-                                    data-ng-model="paymentData.Payment.TravelElig"
-                                    field="paymentModel.TravelElig"></cs-field>
+                <cs-field
+                    data-ng-required="paymentData.Hierarchy.HasMobileTravel"
+                    data-ng-model="paymentData.Payment.TravelElig"
+                    field="paymentModel.TravelElig"></cs-field>
             
-                    </div>
-                            <!--Other Pay-->
-                            <!--Service charge-->
-                            <div class="row" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
-                            <h5 style="font-weight: normal;"><b>Other Charges</b></h5>
-                            <hr />
-                            <cs-field
-                                data-ng-required="paymentData.Hierarchy.HasServiceCharge"
-                                class="input-mini"
-                                data-ng-model="paymentData.Payment.ServiceCharge" name="ServiceCharge"
-                                field="paymentModel.ServiceCharge"></cs-field><br/>
+            </div>
+            <!--Other Pay-->
+            <!--Service charge-->
+            <div class="row" data-ng-show="paymentData.Hierarchy.HasServiceCharge">
+                <h5 style="font-weight: normal;"><b>Other Charges</b></h5>
+                <hr />
+                <cs-field
+                    data-ng-required="paymentData.Hierarchy.HasServiceCharge"
+                    class="input-mini"
+                    data-ng-model="paymentData.Payment.ServiceCharge" name="ServiceCharge"
+                    field="paymentModel.ServiceCharge"></cs-field><br/>
          
-                            </div>
-            </cs-form>
+            </div>
+            </div>
+      </cs-form>
     </div>
 </div>
 

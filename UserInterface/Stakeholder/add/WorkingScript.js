@@ -1,5 +1,5 @@
-﻿csapp.controller("Working", ['$scope', 'Restangular', '$Validations', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal', "$csModels",
-    function ($scope, rest, $validations, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal, $csModels) {
+﻿csapp.controller("Working", ['$scope', 'Restangular', '$log', '$timeout', '$csfactory', '$csnotify', 'pincodeMngr', '$modal', "$csModels",
+    function ($scope, rest, $log, $timeout, $csfactory, $csnotify, pincodeMngr, $modal, $csModels) {
 
         var restApi = rest.all('PaymentDetailsApi');
 
@@ -49,7 +49,6 @@
             $scope.showButtons = false;
             $scope.disableLocCombo = false;
             $scope.multiple = false;
-            $scope.val = $validations;
             $scope.clusterArray = [];
             $scope.StakeWork = {
                 Cluster: []
@@ -1388,18 +1387,18 @@
             if ($csfactory.isEmptyObject($scope.workingModel)) return;
             if ($scope.displayManager.showRegion === true && !$scope.changed.Region) {
                 $scope.workingModel.QueryFor = 'Region';
-                 $scope.setWorkingModel('Region');
+                $scope.setWorkingModel('Region');
                 //locLevel = 'Region';
             }
             if ($scope.displayManager.showState === true && !$scope.changed.State) {
                 if ($scope.workingModel.ListOfStates.length > 0 && $csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State))
                     return;
-                 $scope.setWorkingModel('State');
+                $scope.setWorkingModel('State');
                 //locLevel = 'State';
 
             }
             if ($scope.displayManager.showCluster === true && !$scope.changed.Cluster) {
-                 $scope.setWorkingModel('Cluster');
+                $scope.setWorkingModel('Cluster');
                 //$scope.workingModel.QueryFor = 'Cluster';
                 //locLevel = 'Cluster';
             }
@@ -1410,13 +1409,13 @@
             }
             if ($scope.displayManager.showCity === true && !$scope.changed.City) {
                 if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.State)) return;
-                 $scope.setWorkingModel('District');
+                $scope.setWorkingModel('District');
                 //locLevel = 'District';
             }
             if ($scope.displayManager.showArea === true && !$scope.changed.Area) {
 
                 if ($csfactory.isNullOrEmptyString($scope.workingModel.SelectedPincodeData.District)) return;
-                 $scope.setWorkingModel('Area');
+                $scope.setWorkingModel('Area');
                 //locLevel = 'Area';
             }
             //$scope.setWorkingModel(locLevel);
