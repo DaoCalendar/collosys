@@ -24,7 +24,7 @@
                     <th>Description</th>
                 </tr>
                 <tr>
-                    <th>
+                    <th class="text-center">
                         <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
                     </th>
                     <th>
@@ -83,7 +83,7 @@
             <tbody>
                 <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
                     <td>
-                        <div class="btn-group" style="width: 130px">
+                        <div class="btn-group" style="width: 120px">
                             <icon-btn type="view" data-ng-click="showAddEditPopup('view',fileDetail)"></icon-btn>
                             <icon-btn type="edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></icon-btn>
                             <icon-btn type="delete" data-ng-click="showDeleteModelPopup(fileDetail)"></icon-btn>

@@ -10,7 +10,7 @@
 </div>
 
 <!-- status display -->
-<div class="nopadding" style="overflow: auto; height: 450px; width: 100%; white-space: nowrap">
+<div class="nopadding" style="overflow: auto; height: 600px; width: 100%;white-space: nowrap">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -76,12 +76,12 @@
             <tr data-ng-repeat="fileScheduler in datalayer.dldata.fileSchedulers | filter:search"
                 data-ng-class="{'alert-danger': fileScheduler.UploadStatus == 'Error', 'alert-info': fileScheduler.UploadStatus == 'UploadStarted', 'alert-success': fileScheduler.UploadStatus == 'Done' || fileScheduler.UploadStatus == 'DoneWithError','alert-info': fileScheduler.UploadStatus == 'PostProcessing'}">
                 <td colspan="2">
-                    <div class="btn-group">
+                    <div class="btn-group" style="width: 90px">
                         <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="showDeleteModal(fileScheduler)" type="button">Delete</button>
-                        <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Done' || fileScheduler.UploadStatus=='DoneWithError'}}" data-ng-click="downloadOutput(fileScheduler)" type="button">Download</button>
+                        <icon-btn type="download" data-ng-show="{{fileScheduler.UploadStatus=='Done' || fileScheduler.UploadStatus=='DoneWithError'}}" data-ng-click="downloadOutput(fileScheduler)"></icon-btn>
                         <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='UploadRequest' && fileScheduler.IsImmediate != true }}" data-ng-click="showImmediateModal(fileScheduler)" type="button">Immediate</button>
                         <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus=='Error'}}" data-ng-click="retryUpload(fileScheduler)" type="button">Retry</button>
-                        <button class="btn btn-link" data-ng-show="{{fileScheduler.UploadStatus!='UploadRequest' && fileScheduler.UploadStatus!='Error' && fileScheduler.UploadStatus!='RetryUpload' }}" data-ng-click="showStatusModal(fileScheduler)" type="button">Status</button>
+                        <icon-btn type="status"data-ng-show="{{fileScheduler.UploadStatus!='UploadRequest' && fileScheduler.UploadStatus!='Error' && fileScheduler.UploadStatus!='RetryUpload' }}" data-ng-click="showStatusModal(fileScheduler)" type="button">Status</icon-btn>
                     </div>
                 </td>
                 <td>{{fileScheduler.ScbSystems}}</td>
