@@ -1,8 +1,8 @@
 ﻿
 //#region "Controller"
 csapp.controller('readyForBillingController', ["$scope", "$csnotify", "$csfactory", "$csGrid",
-    "$Validations", "readyForBillingDataLayer", "$csModels",
-    function ($scope, $csnotify, $csfactory, $grid, $validation, factoryForBilling, $csModels) {
+    "readyForBillingDataLayer", "$csModels",
+    function ($scope, $csnotify, $csfactory, $grid, factoryForBilling, $csModels) {
 
     (function () {
         $scope.dldata = factoryForBilling.dldata;
