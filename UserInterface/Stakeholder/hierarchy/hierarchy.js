@@ -145,13 +145,13 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
     };
 }]);
 
-csapp.controller('hierarchyController', ['$scope', '$csfactory', '$Validations',
+csapp.controller('hierarchyController', ['$scope', '$csfactory', 
     'hierarchyDataLayer', "hierarchyFactory", "$modal",
-    function ($scope, $csfactory, $validation, datalayer, factory, $modal) {
+    function ($scope, $csfactory,  datalayer, factory, $modal) {
 
         (function () {
             $scope.datalayer = datalayer;
-            $scope.val = $validation;
+            //$scope.val = $validation;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
             factory.initLocationLevelList(datalayer.dldata);
