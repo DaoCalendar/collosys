@@ -12,7 +12,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.CustomerInfo = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.dldata.allocSubpolicyList = [];
-           // $scope.datalayer.getProducts();
+            // $scope.datalayer.getProducts();
             $scope.showDiv = false;
             $scope.datalayer.getReasons();
             $scope.fieldname = '';
@@ -364,7 +364,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 dldata.allocSubpolicy.Stakeholder = {};
         };
 
-        var addNewCondition = function (condition,form) {
+        var addNewCondition = function (condition, form) {
 
             var duplicateCond = _.find(dldata.allocSubpolicy.Conditions, function (cond) {
                 return (cond.ColumnName == condition.ColumnName && cond.Operator == condition.Operator && cond.Value == condition.Value);
@@ -441,3 +441,36 @@ csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', 
         };
 
     }]);
+
+csapp.directive('csList', function () {
+
+    var templateFn = function (element, attrs) {
+        var template = '<div class="row" style="height:400px">';
+        template += '<a class="list-group-item active">' + attrs.listHeading + ' </a>';
+        template += '<ul class="list-group">';
+        template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
+        template += ' ng-click="onClick(row)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
+        template += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
+        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
+        template += '</ul>';
+        template += '</div>';
+        console.log(template);
+        return template;
+    };
+
+    var linkFn = function (scope, element, attrs) {
+        scope.onClick = function (row) {
+            if (angular.isUndefined(row)) return;
+            console.log(row);
+            scope.$parent[attrs.ngModel] = row;
+        };
+    };
+
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: true,
+        template: templateFn,
+        link: linkFn
+    };
+});

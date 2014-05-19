@@ -1195,6 +1195,11 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
             var fieldGetter = $parse(attrs.field);
             scope.field = fieldGetter(scope);
+            if (angular.isUndefined(scope.field)) {
+                console.error("field cannot be undefined : " + attrs.field);
+                throw new "Invalid field exception";
+            }
+
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setClasses(scope.field);

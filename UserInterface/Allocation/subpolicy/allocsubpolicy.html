@@ -8,15 +8,18 @@
             </button>
     </div>
     <div class="row-fluid" id="row2">
-        <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
-            <div class="box-sub">
+        <div class="col-md-3"  data-ng-show="dldata.allocSubpolicy.Products">
+            <cs-list list-heading="SubPolicy_List" value-list="dldata.allocSubpolicyList" text-field="Name" 
+                     data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
+            <!--<div class="box-sub">
                 <div class="box-heading">Subpolicy list</div>
                 <div class="box-body">
+                   
                     <div class="sub-name" data-ng-repeat="sallocSubpolicy in dldata.allocSubpolicyList | orderBy : 'Name'">
-                        <a class="btn-link" data-ng-click="selectAllocSubpolicy(sallocSubpolicy)">{{sallocSubpolicy.Name}}</a>
-                    </div>
+                            <a class="btn-link" data-ng-click="selectAllocSubpolicy(sallocSubpolicy)">{{sallocSubpolicy.Name}}</a>
+                        </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <div class="col-md-9" data-ng-show="showDiv">
