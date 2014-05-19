@@ -1245,8 +1245,11 @@ csapp.directive('csForm', function () {
         };
     };
 
-    var templateFn = function (element, attr) {
-        var template = '<div><div ng-transclude=""></div><div class="clearfix"></div></div>';
+    var templateFn = function () {
+        var template = '<div class="clearfix">' +
+            '<div ng-transclude="">' +
+            '</div>' +
+            '</div>';
         return template;
     };
 
