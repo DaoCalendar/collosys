@@ -3,7 +3,7 @@
     <div class="modal-body">
         <!--Edit Hierarchy page-1-->
         <div data-ng-form="step1form" data-ng-show="step==1">
-            <cs-form layout="9.4.8">
+            <cs-form layout="9.4.8" mode="mode">
                 <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
                           data-ng-disabled="true"></cs-field>
 
@@ -25,7 +25,7 @@
 
         <!--Edit Hierarchy page-2-->
         <div data-ng-form="step2form" data-ng-show="step==2">
-            <cs-form layout="7.4.6">
+            <cs-form layout="7.4.6" mode="mode">
 
                 <!--IsUser-->
                 <cs-field data-ng-model="hierarchy.IsUser" field="hierarchyfield.IsUser"></cs-field>
@@ -84,7 +84,7 @@
 
         <!--Edit Hierarchy page-3-->
         <div data-ng-form="step3form" data-ng-show="step==3">
-            <cs-form layout="7.3.6">
+            <cs-form layout="7.3.6" mode="mode">
                 <!--Has Working-->
                 <cs-field data-ng-model="hierarchy.HasWorking" field="hierarchyfield.HasWorking"
                           data-ng-change="ResetBtnValue()"></cs-field>
@@ -122,7 +122,7 @@
 
         <!--Edit Hierarchy page-4-->
         <div data-ng-form="step4form" data-ng-show="step==4">
-            <cs-form layout="7.4.6">
+            <cs-form layout="7.4.6" mode="mode">
                     
                 <!--Has payment-->
                 <cs-field data-ng-model="hierarchy.HasPayment" field="hierarchyfield.HasPayment"

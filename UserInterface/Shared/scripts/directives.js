@@ -527,7 +527,7 @@ csapp.directive('iconBtn', function () {
             case 'view':
                 return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
                     'data-toggle="tooltip" data-placement="top" title="View">' +
-                    '<span class="glyphicon glyphicon-file"></span>' +
+                    '<span class="glyphicon glyphicon-zoom-in"></span>' +
                     '</button>';
             case 'delete':
                 return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
@@ -535,21 +535,35 @@ csapp.directive('iconBtn', function () {
                     '<span class="glyphicon glyphicon-trash"></span>' +
                     '</button>';
             case 'up-arrow':
-                return '<button class="btn btn-default">' +
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                    'data-toggle="tooltip" data-placement="top" title="Arrow-up">' +
                     '<span class="glyphicon glyphicon-arrow-up"></span>' +
                     '</button>';
             case 'down-arrow':
-                return '<button class="btn btn-default">' +
-                    '<span class="glyphicon glyphicon-arrow-down"></span>' +
-                    '</button>';
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                     'data-toggle="tooltip" data-placement="top" title="Arrow-down">' +
+                     '<span class="glyphicon glyphicon-arrow-down"></span>' +
+                     '</button>';
             case 'remove':
-                return '<button class="btn btn-default">' +
-                    '<span class="glyphicon glyphicon-remove"></span>' +
-                    '</button>';
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                      'data-toggle="tooltip" data-placement="top" title="Remove">' +
+                      '<span class="glyphicon glyphicon-remove"></span>' +
+                      '</button>';
             case 'save':
-                return '<button class="btn btn-default">' +
-                    '<span class="glyphicon glyphicon-save"></span>Save' +
-                    '</button>';
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                     'data-toggle="tooltip" data-placement="top" title="Save">' +
+                     '<span class="glyphicon glyphicon-floppy-save"></span>' +
+                     '</button>';
+            case 'download':
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm"' +
+                      '<data-toggle="tooltip" data-placement="top" title="Download">' +
+                      '<span class="glyphicon glyphicon-download-alt"></span>' +
+                      '</button>';
+            case 'status':
+                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     '<span class="glyphicon glyphicon-zoom-in"></span>' +
+                     '</button>';
             case 'calendar':
                 return '<span class="glyphicon glyphicon-calendar"></span>';
             default:

@@ -1,4 +1,4 @@
-﻿<div>
+﻿<cs-form layout="5.4.8">
     <form name="formulaMain" novalidate="">
         <div class="row form-horizontal">
             <div class="col-md-4">
@@ -31,12 +31,16 @@
                 <div data-ng-include="baseUrl + 'Billing/formula2/if-else.html'">load condition details</div>
             </div>
             <div class="col-md-9 text-right" data-ng-show="selParams.selectedProduct">
-                <input type="button" class="btn btn-default" value="Save" data-ng-disabled="formulaMain.$invalid" />
+                <input type="button"
+                       class="btn btn-default"
+                       value="Save"
+                       data-ng-disabled="formulaMain.$invalid"
+                       data-ng-click="saveFormula(formula,selectedTokens)" />
             </div>
 
         </div>
     </form>
-</div>
+</cs-form>
 
 <!--<div class="row">
     <div class="row form-horizontal" id="row1">
