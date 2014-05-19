@@ -1,32 +1,4 @@
-﻿//csapp.controller("adhocPayoutCtrl1", ["$scope", "$csnotify", "Restangular", '$Validations', function ($scope,
-//    $csnotify, rest, $validation) {
-//    //#region "init"
-//    $scope.init = function () {
-//        $scope.val = $validation;
-//        $scope.productsList = [];
-//        $scope.stakeholderList = [];
-//        $scope.adhocPayout = {};
-//        $scope.adhocPayoutList = [];
-//        $scope.adhocPayoutAllList = [];
-//        $scope.adhocPayout.Tenure = 1;
-//        $scope.transcationtypes = [{ display: 'Incentive', value: 'true' }, { display: 'Fine', value: 'false' }];
-//        $scope.taxtype = ['PreTax', 'PostTax'];
-//        $scope.Reasonstype = [{ display: 'Performance', transcationtype: 'true' },
-//            { display: 'Customer Complaints', transcationtype: 'false' }];
-//    };
-//    $scope.init();
-//    //#endregion
-
-
-//    $scope.OpenAdhocPayoutManager = function () {
-//        $scope.OpenAdhocPayout = true;
-//    };
-
-
-//}]);
-
-
-csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal','$csModels',
+﻿csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal','$csModels',
     function ($scope, datalayer, factory, $modal, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;

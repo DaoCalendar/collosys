@@ -119,12 +119,11 @@ csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalI
 ]);
 
 csapp.controller("paymentManagerController", [
-    "$scope", "$csGrid", "$Validations", "paymentDataLayer", "$modal", "$csfactory", "$csModels",
-    function ($scope, $grid, $validation, datalayer, $modal, $csfactory, $csModels) {
+    "$scope", "$csGrid", "paymentDataLayer", "$modal", "$csfactory", "$csModels",
+    function ($scope, $grid, datalayer, $modal, $csfactory, $csModels) {
         "use strict";
 
         (function () {
-            $scope.val = $validation;
             datalayer.GetProducts();
             datalayer.GetSystems();
             $scope.datalayer = datalayer;
