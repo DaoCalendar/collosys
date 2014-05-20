@@ -1,5 +1,5 @@
 ﻿
-    <div class="container-fluid">
+<div class="container-fluid">
     <cs-form layout="5.4.8">
         <div class="row " data-ng-form="subpolicyForm">
             <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
@@ -13,8 +13,14 @@
             <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
                 <cs-list list-heading="SubPolicy_List" value-list="dldata.allocSubpolicyList" text-field="Name"
                          data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
-               </div>
-
+            </div>
+            <!--DualList Example-->
+            <!--<div class="col-md-9">
+                <cs-dual-list lhs-heading="subpolicy" rhs-heading="dataList"
+                              lhs-value-list="data1"
+                              rhs-value-list="dldata.allocSubpolicyList" text-field="Name"
+                              ng-model="selected" on-click="clickMe(selected,direction)"></cs-dual-list>
+            </div>-->
             <div class="col-md-9" data-ng-show="showDiv">
                 <div class="row-fluid form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
                     <div class="panel panel-info">

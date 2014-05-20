@@ -11,8 +11,14 @@
             </div>-->
         </div>
     </div>
-
     <div class="row">
+        <cs-dual-list lhs-heading="Expired_OR_Draft" rhs-heading="Approved_OR_UnApproved" lhs-value-list="dldata.subPolicyList"
+                      rhs-value-list="dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'"
+                      lhs-text-field="Name" rhs-text-field="AllocSubpolicy.Name" ng-model="selected" ng-click="clickMe(selected)"></cs-dual-list>
+
+    </div>
+
+    <div class="row" data-ng-hide="true">
         <div class="col-md-1">
         </div>
         <div class="col-md-4">

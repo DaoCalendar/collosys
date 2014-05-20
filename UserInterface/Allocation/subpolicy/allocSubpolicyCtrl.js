@@ -18,6 +18,10 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.fieldname = '';
             $scope.showField = true;
             $scope.showField2 = false;
+            $scope.data1 = $scope.dldata.list;
+            $scope.data2 = $scope.dldata.list1;
+
+            //$scope.listtwo = [];
         })();
 
         //$scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
@@ -25,6 +29,9 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         //{ display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
         //{ display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
 
+        $scope.clickMe = function (obj) {
+            console.log(obj + " Click Function also called");
+        };
         $scope.openmodal = function () {
             $scope.modalData = $scope.dldata.allocSubpolicy;
             $scope.modalData.forActivate = true;
@@ -48,6 +55,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
 
         $scope.changeProductCategory = function (product) {
             $scope.datalayer.changeProductCategory();
+            // $scope.listtwo = $scope.dldata.allocSubpolicyList;
             $scope.addsubpolicy(product);
             $scope.showDiv = false;
 
@@ -129,14 +137,33 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
         var dldata = {};
         var restApi = rest.all("AllocationSubPolicyApi");
+        dldata.list = [{
+            value: "1",
+            Name: "parent1"
+        }, {
+            value: "2",
+            Name: "parent2"
+        }, {
+            value: "3",
+            Name: "parent3"
+        }, {
+            value: "4",
+            Name: "parent4"
+        }];
+        dldata.list1 = [{
+            value: "1",
+            display: "child1"
+        }, {
+            value: "2",
+            display: "child2"
+        }, {
+            value: "3",
+            display: "child3"
+        }, {
+            value: "4",
+            display: "child4"
+        }];
 
-        //var getProducts = function () {
-        //    restApi.customGET("GetProducts").then(function (data) {
-        //        dldata.productsList = data;
-        //    }, function (data) {
-        //        $csnotify.error(data.data.Message);
-        //    });
-        //};
 
         var getReasons = function () {
             restApi.customGET("GetReasons").then(function (data) {
@@ -442,35 +469,3 @@ csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', 
 
     }]);
 
-csapp.directive('csList', function () {
-
-    var templateFn = function (element, attrs) {
-        var template = '<div class="row" style="height:400px">';
-        template += '<a class="list-group-item active">' + attrs.listHeading + ' </a>';
-        template += '<ul class="list-group">';
-        template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
-        template += ' ng-click="onClick(row)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
-        template += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
-        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
-        template += '</ul>';
-        template += '</div>';
-        console.log(template);
-        return template;
-    };
-
-    var linkFn = function (scope, element, attrs) {
-        scope.onClick = function (row) {
-            if (angular.isUndefined(row)) return;
-            console.log(row);
-            scope.$parent[attrs.ngModel] = row;
-        };
-    };
-
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: true,
-        template: templateFn,
-        link: linkFn
-    };
-});

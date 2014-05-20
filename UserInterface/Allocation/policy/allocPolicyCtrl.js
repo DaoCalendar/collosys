@@ -181,7 +181,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 allocRelation.Status = 'Rejected';
             });
         };
-
+       
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -196,6 +196,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             };
            // $scope.datalayer.getProducts();
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
+           
         })();
     }]);
 
@@ -398,3 +399,4 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         downside: downside
     };
 }]);
+
