@@ -189,6 +189,7 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$location"
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
             $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails.Id);
+                windowClass: 'modal-large',
         };
     }
 ]);
