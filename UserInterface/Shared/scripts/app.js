@@ -44,7 +44,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/filedetail/addedit/:mode/:id', {
                 templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController'
-            }).when('/fileupload/filedetail/addedit/mode/', {
+            }).when('/fileupload/filedetail/addedit/:mode/', {
                 templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController'
             }).when('/fileupload/filecolumn', {
