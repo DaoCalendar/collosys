@@ -57,12 +57,26 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public IList<Stakeholders> GetStakeByExtId(string id)
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            var stakeholder = session.QueryOver<Stakeholders>()
+                .Where(x => x.ExternalId == id)
+                .Fetch(x => x.StkhWorkings).Eager
+                .Fetch(x=>x.StkhPayments).Eager
+                .Fetch(x => x.Hierarchy).Eager.List();
+            return stakeholder;
+        }
+        
+        [Transaction]
         public IList<Stakeholders> ListForAdhoc(string name, ScbEnums.Products products)
         {
             var list = OnProduct(products);
             var data=list.Where(x => x.Name.ToString().StartsWith(name)).Take(10).ToList();
             return data;
         }
+
         [Transaction]
         public IList<Stakeholders> ExitedOnProduct(ScbEnums.Products products)
         {

@@ -60,6 +60,12 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
+        public IEnumerable<Stakeholders> GetStakeById(string id)
+        {
+            return StakeQuery.GetStakeByExtId(id);
+        }
+
+        [HttpGet]
         public IEnumerable<GPincode> GetPincodes(string pincode, string level)
         {
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);

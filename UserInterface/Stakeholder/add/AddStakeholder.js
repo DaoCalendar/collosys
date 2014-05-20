@@ -455,6 +455,7 @@ function ($routeParams, $scope, rest, $log, $window, $csfactory, $csnotify, $csC
             ShowHierarchyDesignation: true
         };
         if (!$csfactory.isNullOrEmptyGuid($routeParams.data)) {
+            console.log('in edit mode');
             $scope.WizardData.FinalPostModel.IsEditMode = true;
             getStakeholderForEdit($routeParams.data);
         } else {

@@ -484,13 +484,11 @@ csapp.directive('cspagination', function () {
             scope.pagesize = 5;
             //scope.currpagenum = 1;
             scope.getrecordnum = function () {
-                console.log(scope.pagesize, scope.currpagenum);
                 if (scope.currpagenum * scope.pagesize > scope.totalrecords)
                     return scope.totalrecords;
                 else return (scope.currpagenum * scope.pagesize);
             };
             scope.getInitialNum = function () {
-                debugger;
                 return (scope.pagesize * (scope.currpagenum - 1)) + 1;
             };
         },
