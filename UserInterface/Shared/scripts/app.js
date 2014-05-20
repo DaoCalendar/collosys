@@ -110,6 +110,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy/add', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-add.html',
                 controller: 'hierarchyAddController'
+            }).when('/generic/hierarchy/editview/:mode/:id', {
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
+                controller: 'hierarchyEditController',
             })
 
             //allocation
@@ -179,6 +182,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/pincode', {
                 templateUrl: baseUrl + 'Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
+            }).when('/generic/pincode/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
+                controller: 'editPincodeModalController',
             }).when('/generic/changepassword', {
                 templateUrl: baseUrl + 'Generic/changepassword/changepassword.html',
                 controller: 'changepasswordCtrl'
