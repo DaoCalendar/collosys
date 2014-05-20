@@ -114,19 +114,18 @@
                     <option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}</option>
                 </select>-->
 
-            <div class="col-md-4"
+            <div 
                  data-ng-if="((displayManager.showDistrict && (!displayManager.showArea && !WorkingData.Hierarchy.HasBuckets)) && (StakeWork.Products &&  StakeWork.ReportsTo)) && WorkingData.LocationLevelArray.length==1">
-                <cs-field
+                <cs-field layout="3.4.8"
                     data-ng-disabled="clusterArray.length>0"
                     data-ng-model="workingModel.SelectedPincodeData.District"
                     data-ng-change="changed.Cluster=true;changed.District=true;changed.City=false;changed.Area=false;setQueryFor()"
                     value-list="workingModel.ListOfDistricts"
                     field="workingField.District">
                 </cs-field>
-                <div>
-                </div>
-                <span data-ng-show="clusterArray.length>0" class="row">
-                    <span class="dropdown" style="margin-left: 180px;">
+                <button class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="glyphicon glyphicon-list"></i></button>
+                <span data-ng-show="clusterArray.length>0" class="pull-right row">
+                    <div class="dropdown">
                         <a class="dropdown-toggle">{{clusterArray.length}} Districts selected
                         </a>
                         <ul class="dropdown-menu">
@@ -134,8 +133,7 @@
                                 <a>{{data}}</a>
                             </li>
                         </ul>
-                    </span>
-                    <button class="btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="glyphicon glyphicon-list"></i></button>
+                    </div>
                 </span>
             </div>
             <!--select region-->
@@ -194,18 +192,19 @@
                             <!-- <option data-ng-repeat="data in workingModel.ListOfRegions" value="{{data}}">{{data}}
                                  </option>-->
                             <td data-ng-show="displayManager.showState">
-                                <cs-field
-                                    class="input-large"
+                                <cs-field layout="3.0.12"
+                                    style="min-width: 145px"
                                     value-list="workingModel.ListOfStates"
                                     data-ng-model="workingModel.SelectedPincodeData.State"
                                     data-ng-change="setQueryFor('State')"
                                     field="workingField.State"
                                     no-label="">
                                 </cs-field>
-                                <button style="margin-left: 170px" class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
+                                <button class="btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
                                         data-ng-click="openMultiSelectPopUp(workingModel.ListOfStates)">
                                     <i class="glyphicon glyphicon-list"></i>
                                 </button>
+                             
                                 <span data-ng-show="stateArray.length>0">
                                     <span class="dropdown">
                                         <a class="dropdown-toggle">{{stateArray.length}} Districts selected
@@ -223,7 +222,7 @@
                             <!--<option data-ng-repeat="data in workingModel.ListOfStates" value="{{data}}">{{data}}
                                 </option>-->
                             <td data-ng-show="displayManager.showCluster">
-                                <cs-field
+                                <cs-field layout="3.0.12"
                                     value-list="workingModel.ListOfClusters"
                                     data-ng-model="workingModel.SelectedPincodeData.Cluster"
                                     data-ng-change="changed.State=true;changed.Cluster=true;changed.District=false;
@@ -235,7 +234,7 @@
                                     </option>-->
                             </td>
                             <td data-ng-show="(displayManager.showDistrict && WorkingData.Hierarchy.HasBuckets) || (displayManager.showDistrict && (WorkingData.LocationLevelArray.length>1||displayManager.showArea))">
-                                <cs-field
+                                <cs-field layout="3.0.12"
                                     value-list="workingModel.ListOfDistricts"
                                     data-ng-disabled="clusterArray.length>0"
                                     class="input-large"
@@ -247,7 +246,7 @@
                                 <!--<option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
                                 <!--<option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}-->
                                 <!--</option>-->
-                                <button style="margin-left: 175px" class="btn btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
+                                <button class="btn btn-info" data-ng-show="(displayManager.showDistrict && !displayManager.showArea)"
                                         data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)">
                                     <i class="glyphicon glyphicon-list"></i>
                                 </button>
@@ -264,7 +263,7 @@
                                 </span>
                             </td>
                             <td data-ng-show="displayManager.showCity">
-                                <cs-field
+                                <cs-field layout="5.0.12"
                                     value-list="workingModel.ListOfDistricts"
                                     class="input-large"
                                     data-ng-disabled="cityArray.length>0"
@@ -276,8 +275,8 @@
                                 <!--<option value="{{workingModel.SelectedPincodeData.District || ''}}">{{workingModel.SelectedPincodeData.District || ''}}</option>-->
                                 <!--<option data-ng-repeat="data in workingModel.ListOfDistricts" value="{{data}}">{{data}}
                                     </option>-->
-                                <button style="margin-left: 170px" class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="glyphicon glyphicon-list"></i></button>
-                                <span data-ng-show="cityArray.length>0">
+                                <button  class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfDistricts)"><i class="glyphicon glyphicon-list"></i></button>
+                                    <span data-ng-show="cityArray.length>0">
                                     <span class="dropdown">
                                         <a class="dropdown-toggle">{{cityArray.length}} City selected
                                         </a>
@@ -291,7 +290,7 @@
 
                             </td>
                             <td data-ng-show="displayManager.showArea">
-                                <cs-field
+                                <cs-field layout="6.0.12"
                                     no-label=""
                                     value-list="workingModel.ListOfAreas"
                                     class="input-large"
@@ -303,8 +302,8 @@
                                 <!--<option value="{{workingModel.SelectedPincodeData.Area || ''}}">{{workingModel.SelectedPincodeData.Area || ''}}</option>-->
                                 <!--  <option data-ng-repeat="data in workingModel.ListOfAreas" value="{{data}}">{{data}}
                                       </option>-->
-                                <button style="margin-left: 170px" class="btn btn-info" data-ng-click="openMultiSelectPopUp(workingModel.ListOfAreas)"><i class="glyphicon glyphicon-list"></i></button>
-                                <span data-ng-show="areaArray.length>0">
+                                <button class="btn btn-info"  data-ng-click="openMultiSelectPopUp(workingModel.ListOfAreas)"><i class="glyphicon glyphicon-list"></i></button>
+                                    <span data-ng-show="areaArray.length>0">
                                     <span class="dropdown">
                                         <a class="dropdown-toggle">{{areaArray.length}} Area selected
                                         </a>
@@ -329,7 +328,7 @@
                                         <option value="6">6(150-179)</option>
                                         <option value="0">6+(180+)</option>
                                     </select>-->
-                                <cs-field
+                                <cs-field 
                                     multiple="multiple"
                                     data-ng-model="workingModel.SelectedPincodeData.BucketStart"
                                     data-ng-required="(WorkingData.Hierarchy.HasBuckets)"
