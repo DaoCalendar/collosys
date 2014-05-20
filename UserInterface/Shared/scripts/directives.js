@@ -641,8 +641,8 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         html += 'on-click="clicked.right(' + attrs.ngModel + ', $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"></cs-list>';
         html += '</div>';
         html += '<div class="col-md-1">';
-        html += '<button class="btn btn-success" ng-click="move.up(selectedItem)" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
-        html += '<button class="btn btn-success" ng-click="move.down(selectedItem)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
+        html += '<button class="btn btn-success" ng-click="move.up(selectedItem,selectedIndex)" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
+        html += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         html += '</div>';
         html += '</div>';
         console.log(html);
@@ -686,9 +686,16 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
                 scope.direction = {
                     left: false,
                     right: true,
-                    up: false,
-                    down: false
+                    up: true,
+                    down: true
                 };
+                if (index !== 0) {
+                    scope.direction.up = false;
+                }
+                var maxindex = ($csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList).length) - 1;
+                if (maxindex !== index) {
+                    scope.direction.down = false;
+                }
                 scope.selectedItem = selected;
                 scope.selectedIndex = index;
                 scope.selectedDir = "rhs";
@@ -720,11 +727,17 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
                    scope.selectedItem = {};
                    scope.$parent[attrs.ngModel] = null;
                },
-               up: function (selected) {
-
+               up: function (selected, index) {
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   var temp = rhslist[index];
+                   rhslist[index] = rhslist[index - 1];
+                   rhslist[index - 1] = temp;
                },
-               down: function (selected) {
-
+               down: function (selected, index) {
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   var temp = rhslist[index];
+                   rhslist[index] = rhslist[index + 1];
+                   rhslist[index + 1] = temp;
                },
            };
     };
