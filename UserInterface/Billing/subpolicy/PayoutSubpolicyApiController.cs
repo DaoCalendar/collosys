@@ -63,6 +63,14 @@ namespace AngularUI.Billing.subpolicy
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetMatrixList(ScbEnums.Products product)
+        {
+            var data = BMatrixBuilder.OnProductCategory(product)
+                .ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
         [HttpGet] // action does not required DB Transaction
         public HttpResponseMessage GetColumnNames(ScbEnums.Products product)
         {

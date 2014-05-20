@@ -1,4 +1,5 @@
-﻿csapp.directive("csOutput", function () {
+﻿//#region Output directive
+csapp.directive("csOutput", function () {
     return {
         restrict: 'E',
         controller: 'outputCtrl',
@@ -7,6 +8,7 @@
             tableName: '@',
             selected: '=',
             formulaList: '=',
+            matrixList:'=',
             groupId: '@',
             tokensList: '=',
             debug:'@'
@@ -34,7 +36,8 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 lastToken: {},
                 collections: {
                     formulaListC: [],
-                    tableColumns: []
+                    tableColumns: [],
+                    matrixListC:[]
                 },
                 filterString: ''
             };
@@ -43,10 +46,10 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         var initFirstTokens = function () {
             tokenHelper.initListOutput($scope.tokens, $scope.modal,
-                $scope.tableName, $scope.formulaList);
+                $scope.tableName, $scope.formulaList,$scope.matrixList);
 
             $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return ((row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Sql') && row.DataType == 'number');
+                return ((row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Sql' || row.Type=='Matrix') && row.DataType == 'number');
             });
             return;
         };
@@ -63,6 +66,8 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         })();
 
         $scope.$watch('formulaList', initFirstTokens);
+        
+        $scope.$watch('matrixList', initFirstTokens);
 
         $scope.$watch('tokensList', assignTokensForEdit);
         //#endregion
@@ -88,6 +93,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
             $scope.tokens.tokensList = [];
             $scope.tokens.nextTokens = [];
             $scope.tokens.collections.formulaListC = [];
+            $scope.tokens.collections.matrixListC = [];
             $scope.tokens.collections.tableColumns = [];
         };
 
@@ -102,7 +108,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                         return (row.Type == 'Sql');
                     }));
                 }
-            } else if (token.Type == 'Formula' || token.Type == 'Table') {
+            } else if (token.Type == 'Formula' || token.Type == 'Table' || token.Type=='Matrix') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
                     return ((row.Type === 'Operator') && (row.datatype === token.datatype));
                 });
@@ -297,7 +303,7 @@ csapp.controller('ifElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 //#endregion
 
 
-
+//#region factory
 csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
 
     var validateOperator = function (tokens, newToken) {
@@ -615,21 +621,6 @@ csapp.factory('operatorsFactory', function () {
     };
 });
 
-csapp.filter('changetext', function () {
-    return function (input) {
-        if (input.search('Opr:') > -1) {
-            return input.replace("Opr:", "");
-        }
-        if (input.search('For:') > -1) {
-            return input.replace("For:", "");
-        }
-        if (input.search('Col:') > -1) {
-            return input.replace("Col:", "");
-        }
-        return input;
-    };
-});
-
 csapp.factory('queryGenHelpers', function () {
 
     var createTableList = function (modal, tableName) {
@@ -658,6 +649,20 @@ csapp.factory('queryGenHelpers', function () {
             });
         });
         return angular.copy(list);
+    }; 
+    
+    var createMatrixList = function (matrixList) {
+        var list = [];
+        angular.forEach(matrixList, function (value, key) {
+            list.push({
+                'Type': 'Matrix',
+                'Text': 'Mat:' + value.Name + '()',
+                'Value': value.Id,
+                'DataType':'number',
+                'valuelist': []
+            });
+        });
+        return angular.copy(list);
     };
 
     var convertValueIntoObject = function (value) {
@@ -673,6 +678,7 @@ csapp.factory('queryGenHelpers', function () {
     return {
         getTableList: createTableList,
         getFormulaList: createFormulaList,
+        getMatrixList: createMatrixList,
         convertValue: convertValueIntoObject
     };
 });
@@ -712,6 +718,10 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             tokens.collections.formulaListC = helpers.getFormulaList(formulaList);
             tokens.tokensList = _.union(tokens.tokensList, tokens.collections.formulaListC);
         };
+        token.createMatrixList = function (tokens, matrixList) {
+            tokens.collections.matrixListC = helpers.getMatrixList(matrixList);
+            tokens.tokensList = _.union(tokens.tokensList, tokens.collections.matrixListC);
+        };
 
         token.loadAllOperators = function (tokens) {
             tokens.tokensList = _.union(tokens.tokensList,
@@ -730,12 +740,13 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
            operatorFactory.Operators.sqlOperators());
         };
 
-        token.initListOutput = function (tokens, modal, tableName, formulaList) {
+        token.initListOutput = function (tokens, modal, tableName, formulaList,matrixList) {
             token.resetTokenList(tokens);
             token.resetCollections(tokens);
             token.createTableList(tokens, modal, tableName);
             token.loadOutputOperators(tokens);
             token.createFormulaList(tokens, formulaList);
+            token.createMatrixList(tokens, matrixList);
         };
 
         token.initListsConditions = function (tokens, modal, tableName, formulaList) {
@@ -769,11 +780,25 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
         };
     }]);
 
-//$scope.tokens.tokensList = [];
-//$scope.tokens.selected = [];
-//$scope.tokens.lastToken = {};
-//$scope.tokens.nextTokens = [];
-//$scope.tokens.collections = {};
-//$scope.tokens.collections.formulaListC = [];
-//$scope.tokens.collections.tableColumns = [];
-//$scope.tokens.filterString = '';
+//#endregion
+
+//#region filters
+csapp.filter('changetext', function () {
+    return function (input) {
+        if (input.search('Opr:') > -1) {
+            return input.replace("Opr:", "");
+        }
+        if (input.search('For:') > -1) {
+            return input.replace("For:", "");
+        }
+        if (input.search('Col:') > -1) {
+            return input.replace("Col:", "");
+        }
+        if (input.search('Mat:') > -1) {
+            return input.replace("Mat:", "");
+        }
+
+        return input;
+    };
+});
+//#endregion

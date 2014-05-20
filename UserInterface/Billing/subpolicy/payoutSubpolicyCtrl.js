@@ -27,21 +27,21 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
             });
         };
 
-        var activateSubPoicy = function (modelData) {
-            dldata.curRelation.StartDate = modelData.startDate;
-            dldata.curRelation.EndDate = modelData.endDate;
-            return restApi.customPOST(dldata.curRelation, "ActivateSubpolicy").then(function (data) {
-                data.BillingPolicy = null;
-                data.BillingSubpolicy = null;
-                dldata.curRelation = data;
-                $csnotify.success("Policy Activated");
-            });
+        var getMatrixList = function(product) {
+            return restApi.customGET("GetMatrixList", { product: product })
+               .then(function (data) {
+                   return data;
+
+               }, function (data) {
+                   $csnotify.error(data);
+               });
         };
 
         return {
             getSubpolicyList: getSubpolicyList,
             getFormulaList: getFormulaList,
-            saveSubpolicy: saveSubpolicy
+            saveSubpolicy: saveSubpolicy,
+            getMatrixList: getMatrixList
         };
     }]);
 
@@ -52,6 +52,11 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             datalayer.getSubpolicyList(product).then(function (data) {
                 $scope.subpolicyList = _.filter(data, { PayoutSubpolicyType: 'Subpolicy' });
                 $scope.formulaList = _.filter(data, { PayoutSubpolicyType: 'Formula' });
+                
+                //get matrixList
+                datalayer.getMatrixList(product).then(function (matrixData) {
+                    $scope.matrixList = matrixData;
+                });
             });
             $scope.subpolicy.Products = product;
         };
@@ -85,6 +90,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
                 PayoutSubpolicyType: 'Subpolicy'
             };
             $scope.formulaList = [];
+            $scope.matrixList = [];
             $scope.selectedTokens = {
                 conditionTokens: [],
                 ifOutputTokens: [],
