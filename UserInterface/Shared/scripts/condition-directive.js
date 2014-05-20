@@ -302,6 +302,37 @@ csapp.controller('ifElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
     }]);
 //#endregion
 
+csapp.directive('csMultiIfElse', function() {
+    return {
+        restrict: 'E',
+        controller: 'multiIfElseCtrl',
+        templateUrl: baseUrl + 'Shared/templates/multi-if-else-directive.html',
+        scope: {
+            tableName: '@',
+            selected: '=',
+            formulaList: '=',
+            matrixList:'=',
+            groupId: '@',
+            tokensList: '=',
+            debug: '@'
+        }
+    };
+});
+
+csapp.controller('multiIfElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
+    function ($scope, $csmodels, operatorFactory, validations, helpers, tokenHelpers) {
+        $scope.addIf = function(index) {
+            $scope.noOfIf.push(index + 1);
+        };
+
+        $scope.deleteIf = function(index) {
+            $scope.noOfIf.splice(index, 1);
+        };
+        (function () {
+            $scope.noOfIf = new Array(1);
+        })();
+    }]);
+
 
 //#region factory
 csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {

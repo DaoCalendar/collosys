@@ -1,0 +1,123 @@
+﻿<div class="row">
+    <table class="table table-bordered">
+        <tr data-ng-repeat="d in noOfIf">
+            <td class="text-center">If</td>
+            <td>
+                <div>
+                    <div class="col-md-2 text-center">Condition</div>
+                    <div class="col-md-10">
+                        <cs-condition table-name="{{tableName}}"
+                                      selected="selected"
+                                      formula-list="formulaList"
+                                      group-id="{{$index}}.Condition"
+                                      tokens-list="tokensList.conditionTokens"
+                                      debug="{{debug}}"></cs-condition>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-2 text-center">Output</div>
+                    <div class="col-md-10">
+                        <cs-output table-name="{{tableName}}"
+                                   selected="selected"
+                                   formula-list="formulaList"
+                                   group-id="{{$index}}.Output"
+                                   tokens-list="tokensList.ifOutputTokens"
+                                   debug="{{debug}}"></cs-output>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                <input type="button"
+                       class="btn btn-default"
+                       value="Add If"
+                       data-ng-click="addIf($index)" />
+                <input type="button"
+                       class="btn btn-default"
+                       value="Delete If"
+                       data-ng-show="noOfIf.length>1"
+                       data-ng-click="deleteIf($index)" />
+            </td>
+        </tr>
+        <tr>
+            <td>Else</td>
+            <td>
+                <div class="col-md-2">Output</div>
+                <div class="col-md-10">
+                    <cs-output table-name="{{tableName}}"
+                               selected="selected"
+                               formula-list="formulaList"
+                               group-id="{{noOfIf.length}}.Output"
+                               tokens-list="tokensList.ElseOutputTokens"
+                               debug="{{debug}}"></cs-output>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+</div>
+
+<!--<table class="table table-bordered">
+                   <tr>
+                       <td>Condition</td>
+                       <td>
+                           <cs-condition table-name="{{tableName}}"
+                                         selected="selected"
+                                         formula-list="formulaList"
+                                         group-id="0.Condition"
+                                         tokens-list="tokensList.conditionTokens"
+                                         debug="{{debug}}"></cs-condition>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td>Output</td>
+                       <td>
+                           <cs-output table-name="{{tableName}}"
+                                      selected="selected"
+                                      formula-list="formulaList"
+                                      group-id="1.Output"
+                                      tokens-list="tokensList.ifOutputTokens"
+                                      debug="{{debug}}"></cs-output>
+                       </td>
+                   </tr>
+               </table>-->
+<!--<div class="panel panel-info">
+    <div class="panel-heading">
+        If
+    </div>
+    <div class="panel-body">
+        <h4>Condition</h4>
+        <cs-condition table-name="{{tableName}}"
+                      selected="selected"
+                      formula-list="formulaList"
+                      group-id="0.Condition"
+                      tokens-list="tokensList.conditionTokens"
+                      debug="{{debug}}"></cs-condition>
+        <hr />
+        <h4>Output</h4>
+        <cs-output table-name="{{tableName}}"
+                   selected="selected"
+                   formula-list="formulaList"
+                   group-id="1.Output"
+                   tokens-list="tokensList.ifOutputTokens"
+                   debug="{{debug}}"></cs-output>
+    </div>
+    <div class="panel-footer text-right">
+        <input type="button" class="btn btn-default" value="Add If" />
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Else Output
+    </div>
+    <div class="panel-body">
+        <cs-output table-name="{{tableName}}"
+                   selected="selected"
+                   formula-list="formulaList"
+                   group-id="2.Output"
+                   tokens-list="tokensList.ElseOutputTokens"
+                   debug="{{debug}}"></cs-output>
+    </div>
+</div>-->
