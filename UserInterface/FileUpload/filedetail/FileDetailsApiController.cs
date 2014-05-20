@@ -21,7 +21,6 @@ namespace AngularUI.FileUpload.filedetail
         readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         [HttpGet]
-        
         public HttpResponseMessage Fetch()
         {
             try
@@ -42,7 +41,6 @@ namespace AngularUI.FileUpload.filedetail
         }
 
         [HttpGet]
-        
         public IEnumerable<FileDetail> GetFileDetailList()
         {
             return Session.QueryOver<FileDetail>().Select(x=>x).List();
