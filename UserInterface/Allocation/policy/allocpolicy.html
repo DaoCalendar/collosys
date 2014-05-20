@@ -1,24 +1,12 @@
 ﻿<cs-form layout="5.4.8">
-    <div data-ng-form="allocPolicyForm" >
+    <div data-ng-form="allocPolicyForm">
         <div class="row">
-                <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
-                          data-ng-change="datalayer.changeProductCategory();buttonStatus=null" ng-required="true"></cs-field>
-            <!--<div class="col-md-5">
-                <select data-ng-options="el for el in dldata.productsList"
-                        multiple="multiple" move-on-select="true" class="input-medium"
-                        ng-model="selections"
-                        bs-duallistbox></select>
-            </div>-->
+            <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
+                      data-ng-change="datalayer.changeProductCategory();buttonStatus=null" ng-required="true"></cs-field>
         </div>
     </div>
+
     <div class="row">
-        <cs-dual-list lhs-heading="Expired_OR_Draft" rhs-heading="Approved_OR_UnApproved" lhs-value-list="dldata.subPolicyList"
-                      rhs-value-list="dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'"
-                      lhs-text-field="Name" rhs-text-field="AllocSubpolicy.Name" ng-model="selected" ng-click="clickMe(selected)"></cs-dual-list>
-
-    </div>
-
-    <div class="row" data-ng-hide="true">
         <div class="col-md-1">
         </div>
         <div class="col-md-4">
@@ -71,8 +59,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                    <p class="col-md-2">{{disSubPolicy.Name}} :({{buttonStatus}})</p>
-                    <!--Deactivate,Approv, Reject Buttons-->
+                        <p class="col-md-2">{{disSubPolicy.Name}} :({{buttonStatus}})</p>
+                        <!--Deactivate,Approv, Reject Buttons-->
                         <div class="pull-right" style="margin-right:5px">
                             <button class="btn  btn-danger"
                                     data-ng-show="buttonStatus==='Approved'"
@@ -165,7 +153,7 @@
                         <div class="col-md-6">
                             <label class="col-md-4">Condition</label>
                             <div class="col-md-8">
-                                <textarea class="resize form-control"  data-ng-model="disSubPolicy.Condition"  readonly="readonly"></textarea>
+                                <textarea class="resize form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly"></textarea>
                             </div>
                         </div>
                     </div>
