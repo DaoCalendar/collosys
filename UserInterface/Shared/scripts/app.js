@@ -41,6 +41,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             .when('/fileupload/filedetail', {
                 templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-list.html',
                 controller: 'fileDetailsController'
+            }).when('/fileupload/filedetail/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
+                controller: 'fileDetailsAddEditController'
             }).when('/fileupload/filecolumn', {
                 templateUrl: baseUrl + 'FileUpload/filecolumn/file-column.html',
                 controller: 'fileColumnController'

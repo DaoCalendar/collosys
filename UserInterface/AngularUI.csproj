@@ -147,9 +147,7 @@
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\Menu\MenuApiController.cs" />
-    <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
-    <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
     <Compile Include="Billing\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
@@ -291,10 +289,7 @@
     <Content Include="Billing\status\BillingStatus.js" />
     <Content Include="Billing\status\index.html" />
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
-    <Content Include="Billing\subpolicy\payoutSubpolicyCtrl-back.js" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
-    <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
-    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
@@ -417,8 +412,6 @@
     <Content Include="Generic\menu\menu.html" />
     <Content Include="Generic\menu\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
-    <Content Include="Generic\permissions\permission.html" />
-    <Content Include="Generic\permissions\permission.js" />
     <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />

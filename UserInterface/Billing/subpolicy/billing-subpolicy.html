@@ -70,6 +70,7 @@
                 <cs-output table-name="CustomerInfo"
                            selected="selParams"
                            formula-list="formulaList"
+                           matrix-list="matrixList"
                            tokens-list="selectedTokens.ifOutputTokens"
                            group-id="1.Output"></cs-output>
             </div>
@@ -119,12 +120,6 @@
                         data-ng-disabled="payoutSubpolicyForm.$invalid "
                         data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
                     Save
-                </button>
-                <button class="btn btn-default"
-                        data-ng-show="subpolicy.Id"
-                        data-ng-disabled="payoutSubpolicyForm.$invalid"
-                        data-ng-click="openmodal()">
-                    Activate
                 </button>
                 <button class="btn btn-default"
                         data-ng-click="">
