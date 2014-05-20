@@ -41,7 +41,7 @@
 
     var fileMapping = function () {
         return {
-            ActualTable: { label: "Actual Table", type: "text", editable: false },
+            ActualTable: { label: "Actual Table", type: "text",},
             FileDetail: { label: "File Name", type: "enum" },// tobe disscuss Enum query 
             ActualColumn: { label: "Actual Column", type: "text" },
             Position: { label: "Position", type: "number",template:"uint", required: true },

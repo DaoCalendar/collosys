@@ -113,7 +113,6 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$routeParams",
 
         var $log = logManager.getInstance("fileDetailsAddEditController");
 
-        $scope.fileDetailModel = $csModels.getColumns("FileDetail");
 
         $scope.close = function () {
             $location.path("/fileupload/filedetail");
@@ -135,9 +134,12 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$routeParams",
         };
 
         (function () {
+            $scope.fileDetailModel = $csModels.getColumns("FileDetail");
+
             datalayer.Get($routeParams.id).then(function(data) {
                 $scope.fileDetail = data;
             });
+            $scope.isReadOnly = $routeParams.mode == 'view';
 
             if (angular.isUndefined($scope.fileDetail))
                 $scope.fileDetail = {};
@@ -188,7 +190,11 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$location"
         };
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
-            $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails.Id);
+            if (mode === "edit" || mode === "view") {
+                $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails.Id);
+            } else {
+                $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails);
+            }
         };
     }
 ]);

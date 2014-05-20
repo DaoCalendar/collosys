@@ -18,7 +18,7 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
     var getFileDetails = function () {
         restApi.customGET("GetFileDetails")
             .then(function (data) {
-                dldata.fileDetails = data;
+                dldata.fileDetails = _.sortBy(data,'AliasName');
             }, errorDisplay);
     };
 
@@ -53,6 +53,14 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
                 $csnotify.success("File Updated Successfully");
             }, errorDisplay);
     };
+    
+    var getMappings = function (detailsid) {
+        return restApi.customGET('Get', { id: detailsid })
+            .then(function (data) {
+                return data;
+            },
+            errorDisplay);
+    };
 
     return {
         fetchValueTypeEnum: getValueTypes,
@@ -60,20 +68,23 @@ csapp.factory("fileMappingDataLayer", ["Restangular", "$csnotify", "$csfactory",
         GetFileMappings: getFileMappings,
         GetFileColumns: getFileColumns,
         Save: saveFileMapping,
+        Get :getMappings,
         dldata: dldata
     };
 }]);
 
 csapp.controller("fileMappingViewEditController", [
-    "$scope", "FileMapping", "$modalInstance", "fileMappingDataLayer", "$csModels",
-    function ($scope, fileMapping, $modalInstance, datalayer, $csModels) {
+    "$scope", "$routeParams", "fileMappingDataLayer", "$csModels","$location",
+    function ($scope,$routeParams, datalayer, $csModels, $location) {
 
         (function () {
             //2 file mappings - 1 on scope - mapping edited and another is just params
-            $scope.fileMapping = angular.copy(fileMapping.mapping);
-            $scope.isReadOnly = fileMapping.mode === 'view';
+            datalayer.Get($routeParams.id).then(function (data) {
+                $scope.fileMapping = data;
+            });
+            $scope.isReadOnly = $routeParams.mode == 'view';
             $scope.datalayer = datalayer;
-            datalayer.GetFileColumns(fileMapping.fileDetail);
+            //datalayer.GetFileColumns(fileMapping.fileDetail);
         })();
 
 
@@ -81,7 +92,7 @@ csapp.controller("fileMappingViewEditController", [
 
 
         $scope.close = function () {
-            $modalInstance.dismiss();
+            $location.path("/fileupload/filemapping");
         };
 
         $scope.changeValueType = function () {
@@ -104,7 +115,7 @@ csapp.controller("fileMappingViewEditController", [
                 .then(function (data) {
                     var index = _.findIndex(datalayer.dldata.fileMappings, { 'Id': filemapping.Id });
                     if (index !== -1) datalayer.dldata.fileMappings[index] = filemapping;
-                    $modalInstance.close(data);
+                    $location.path("/fileupload/filemapping");
                 });
         };
 
@@ -123,36 +134,25 @@ csapp.controller("fileMappingViewEditController", [
                     throw ("Invalid display mode : " + JSON.stringify(fileMapping));
             }
             $scope.mode = mode;
-        })(fileMapping.mode);
+        })($routeParams.mode);
 
 
     }]);
 
-csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$modal", "$csModels",
-    function ($scope, datalayer, $modal, $csModels) {
-    "use strict";
+csapp.controller("fileMappingController", ["$scope", "fileMappingDataLayer", "$location", "$csModels",
+    function ($scope, datalayer, $location, $csModels) {
+        "use strict";
 
-    (function () {
-        $scope.datalayer = datalayer;
-        datalayer.fetchValueTypeEnum();
-        datalayer.GetAllFileDetails();
-        datalayer.dldata.actualTable = '';
-        $scope.fileMappingModel = $csModels.getColumns("FileMapping");
-    })();
+        (function () {
+            $scope.datalayer = datalayer;
+            datalayer.fetchValueTypeEnum();
+            datalayer.GetAllFileDetails();
+            datalayer.dldata.actualTable = '';
+            $scope.fileMappingModel = $csModels.getColumns("FileMapping");
+        })();
 
-    $scope.openEditModalPopup = function (mode, filemapping) {
-        $modal.open({
-            templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping-edit.html',
-            controller: 'fileMappingViewEditController',
-            resolve: {
-                FileMapping: function () {
-                    return {
-                        mapping: filemapping,
-                        mode: mode,
-                        fileDetail: $scope.fileDetail
-                    };
-                }
-            }
-        });
-    };
-}]);
+        $scope.openEditModalPopup = function (mode, filemapping) {
+            $location.path("/fileupload/filemapping/editview/" + mode + "/" + filemapping.Id);
+
+        };
+    }]);

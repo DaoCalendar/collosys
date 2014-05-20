@@ -50,6 +50,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/fileupload/filemapping', {
                 templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping.html',
                 controller: 'fileMappingController'
+            }).when('/fileupload/filemapping/editview/:mode/:id', {
+                templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping-edit.html',
+                controller: 'fileMappingViewEditController',
             }).when('/fileupload/filescheduler', {
                 templateUrl: baseUrl + 'FileUpload/filescheduler/file-scheduler.html',
                 controller: 'fileSchedulerController'
