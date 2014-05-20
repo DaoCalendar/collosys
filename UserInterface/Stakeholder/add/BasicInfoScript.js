@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$Validations', '$log',
-    function ($scope, $http, rest, $csfactory, $csnotify, $val, $log) {
+csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$log',
+    function ($scope, $http, rest, $csfactory, $csnotify, $log) {
         'use strict';
 
         var apistake = rest.all('StakeholderApi');
@@ -74,7 +74,6 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
             $log.info("Initializing BasicInfo.");
             $scope.duplicateUserId = false;
 
-            $scope.val = $val;
             $scope.UserIdList = [];
             $scope.basicInfoData = {
                 Hierarchy: $scope.$parent.WizardData.GetHierarchy(),

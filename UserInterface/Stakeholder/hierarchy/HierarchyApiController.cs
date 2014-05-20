@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.StakeholderBuilder;
@@ -15,7 +16,7 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 //hierarchy calls changed
 namespace AngularUI.Stakeholder.hierarchy
 {
-    public class HierarchyApiController : ApiController
+    public class HierarchyApiController : BaseApiController<StkhHierarchy>
     {
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 

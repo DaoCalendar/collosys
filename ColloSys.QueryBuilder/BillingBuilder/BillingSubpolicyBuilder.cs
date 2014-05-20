@@ -45,12 +45,14 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 
         [Transaction]
         public IEnumerable<BillingSubpolicy> FormulaOnProductCategory(ScbEnums.Products product)
-                                                                     
+
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
-                                 .Where(c => c.Products == product 
-                                             && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
-                                 .List();
+                .Fetch(x => x.BillTokens).Eager
+                .Where(c => c.Products == product
+                            && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
+                .TransformUsing(Transformers.DistinctRootEntity)
+                .List();
         }
 
         [Transaction]

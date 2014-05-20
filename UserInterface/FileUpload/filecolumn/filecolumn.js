@@ -231,7 +231,7 @@ csapp.controller("fileColumnMultiAddModalController", ["$scope", "$modalInstance
 
 csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer", "fileColumnFactory", "$modalInstance","$csModels",
     function ($scope, datalayer, factory, $modalInstance, $csModels) {
-        $scope.modelHeader = "Add New File Column";
+        $scope.modelTitle = "Add New File Column";
 
         (function () {
             $scope.datalayer = datalayer;

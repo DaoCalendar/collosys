@@ -11,14 +11,14 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.startCount = 0;
             $scope.pagenum = 1;
         };
+
         $scope.gotoFirstPage = function () {
             $scope.pagenum = 1;
             $scope.startCount = parseInt($scope.size) * ($scope.pagenum - 1);
             //get stakeholder and its reporting manager data respectively
             getDataForPagination();
-
-
         };
+
         $scope.gotoLastPage = function () {
             if ($scope.tolRec % $scope.size != 0)
                 $scope.pagenum = parseInt($scope.tolRec / $scope.size) + 1;
@@ -28,8 +28,8 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             //get stakeholder and its reporting manager data respectively
             getDataForPagination();
         };
-        $scope.stepForward = function () {
 
+        $scope.stepForward = function () {
             $scope.pagenum += 1;
             $scope.startCount = parseInt($scope.size) * ($scope.pagenum - 1);
             if ($scope.startCount < parseInt($scope.tolRec)) {
@@ -290,6 +290,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
 
         };
+
         var deleteExpiredWorkings = function (stakeholderData) {
             var expiredWorkings = [];
             //finds all the expired workings
@@ -310,6 +311,22 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                         stakeholderData[j].StkhWorkings.splice(index, 1);
                 }
             }
+        };
+
+        $scope.getStakeById = function (id) {
+            if (id.length < 7 || id.length>7) {
+                $scope.stakeholderData = [];
+                $scope.showDiv = false;
+                return;
+            }
+
+            restApi.customGET('GetStakeById', { 'Id': id })
+                .then(function (data) {
+                    $scope.stakeholderData = data;
+                    $scope.stakeholderData.length > 0 ? $scope.showDiv = true : $csnotify.success("Stakeholder not available");
+                }, function () {
+                    $csnotify.error('eror loading data');
+                });
         };
 
         $scope.getReportsToStakeholders = function (stakeId) {
@@ -725,6 +742,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             var modalInstance = $modal.open({
                 templateUrl: baseUrl + 'Stakeholder/view/leavemodal.html',
                 controller: 'setLeaveController',
+                windowClass: 'modal-large',
                 resolve: {
                     modalData: function () {
                         return $scope.modalData;
@@ -849,13 +867,15 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         //Permissions
         var init = function () {
 
-
+            $scope.size = $scope.size ? $scope.size : 5;
+            $scope.pagenum = 1;
             $scope.viewModels = {
                 View: { label: "View", type: "enum" },
                 Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
                 Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
                 Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
                 Products: { label: "Products", type: "enum" },
+                SearchByName: { label:'ID',placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
             };
             $scope.currUser = $csfactory.getCurrentUserName();
 
@@ -881,7 +901,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
             //$scope.selected = false;
 
-            $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo"];
+            $scope.filters = ["All", "Active", "Inactive", "PendingForMe", "PendingForAll", "BasedOnWorking", "ReportingTo", "SearchById"];
 
             //$scope.getStakeData($scope.stakeholder);
 

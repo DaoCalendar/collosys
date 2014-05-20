@@ -61,7 +61,7 @@
 
     var stkhWorking = function () {
         return {
-            BucketStart: { label: 'BucketStart', type: 'select', textField: 'display', value: 'value' },
+            BucketStart: { label: 'BucketStart', type: 'select', textField: 'display', valueField: 'value' },
             BucketEnd: { label: 'BucketEnd', type: 'number', template: 'uint' },
             Country: { label: 'Country', type: 'text' },
             State: { label: 'State', type: 'enum' },

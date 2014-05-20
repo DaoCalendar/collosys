@@ -482,17 +482,20 @@ csapp.directive('cspagination', function () {
 
         link: function (scope) {
             scope.pagesize = 5;
-            scope.currpagenum = 1;
+            //scope.currpagenum = 1;
             scope.getrecordnum = function () {
                 if (scope.currpagenum * scope.pagesize > scope.totalrecords)
                     return scope.totalrecords;
                 else return (scope.currpagenum * scope.pagesize);
             };
+            scope.getInitialNum = function () {
+                return (scope.pagesize * (scope.currpagenum - 1)) + 1;
+            };
         },
 
         template:
             '<div class="pull-right col-md-3">' +
-            '<div><b>Records: {{(pagesize*(currpagenum-1))+1}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
+            '<div><b>Records: {{getInitialNum()}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
             '<div class="input-group">' +
             '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="fa fa-angle-double-left"></i></button></span>' +
             '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepbackward()"><i class="fa fa-chevron-left"></i></button></span>' +
@@ -573,3 +576,174 @@ csapp.directive('iconBtn', function () {
     };
 });
 
+csapp.directive('csList', function () {
+
+    var templateFn = function (element, attrs) {
+        var template = '<div class="row">';
+        template += '<a class="list-group-item alert-info">' + attrs.listHeading + ' </a>';
+        template += '<ul class="list-group">';
+        template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
+        template += ' ng-click="onClick(row, $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
+        template += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
+        template += angular.isDefined(attrs.ngClass) ? attrs.ngClass : ' ng-class="{active : isSelected($index) }"';
+        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
+        template += '</ul>';
+        template += '</div>';
+        return template;
+    };
+
+    var linkFn = function (scope, element, attrs) {
+        scope.onClick = function (row, index) {
+            if (angular.isUndefined(row)) return;
+            scope.$parent[attrs.ngModel] = row;
+            scope.selectedIndex = index;
+        };
+
+        scope.isSelected = function (index) {
+            var result = scope.selectedIndex === index;
+            if (result === false) return false;
+            if (angular.isDefined(scope.$parent.isSelected)) {
+                return scope.$parent.isSelected(attrs.dir);
+            }
+            return false;
+        };
+    };
+
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: true,
+        template: templateFn,
+        link: linkFn
+    };
+});
+
+csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
+    var templateFunction = function (element, attrs) {
+        var html = '<div class="row">';
+        html += '<div class="col-md-5">';
+        html += '<cs-list list-heading="' + attrs.lhsHeading + '" value-list="' + attrs.lhsValueList + '"  text-field="' + attrs.textField + '" ';
+        html += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
+        html += ' dir = "lhs"';
+        html += ' on-click="clicked.left(' + attrs.ngModel + ', $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '">';
+        html += '</cs-list>';
+        html += '</div>';
+        html += '<div class="col-md-1">';
+        html += '<button class="btn btn-success" ng-click="move.left(selectedItem)" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
+        html += '<button class="btn btn-success" ng-click="move.right(selectedItem)" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
+        html += '</div>';
+        html += '<div class="col-md-5">';
+        html += '<cs-list list-heading="' + attrs.rhsHeading + '" value-list="' + attrs.rhsValueList + '"  text-field="' + attrs.textField + '" ';
+        html += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
+        html += ' dir = "rhs"';
+        html += 'on-click="clicked.right(' + attrs.ngModel + ', $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"></cs-list>';
+        html += '</div>';
+        html += '<div class="col-md-1">';
+        html += '<button class="btn btn-success" ng-click="move.up(selectedItem,selectedIndex)" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
+        html += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
+        html += '</div>';
+        html += '</div>';
+        console.log(html);
+        return html;
+
+    };
+
+    var linkFunction = function (scope, el, attrs) {
+        scope.direction = {
+            left: true,
+            right: true,
+            up: true,
+            down: true
+        };
+
+        scope.isSelected = function (dir) {
+            return (dir === scope.selectedDir);
+        };
+
+        scope.clicked = {
+            left: function (selected, index) {
+                if (angular.isUndefined(index)) return;
+                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
+                    return;
+                }
+                scope.direction = {
+                    left: true,
+                    right: false,
+                    up: true,
+                    down: true
+                };
+                scope.selectedItem = selected;
+                scope.selectedIndex = index;
+                scope.selectedDir = "lhs";
+            },
+            right: function (selected, index) {
+                if (angular.isUndefined(index)) return;
+                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
+                    return;
+                }
+                scope.direction = {
+                    left: false,
+                    right: true,
+                    up: true,
+                    down: true
+                };
+                if (index !== 0) {
+                    scope.direction.up = false;
+                }
+                var maxindex = ($csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList).length) - 1;
+                if (maxindex !== index) {
+                    scope.direction.down = false;
+                }
+                scope.selectedItem = selected;
+                scope.selectedIndex = index;
+                scope.selectedDir = "rhs";
+            },
+        },
+
+           scope.move = {
+               left: function (selected) {
+                   var lhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.lhsValueList);
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   lhslist.push(selected);
+                   rhslist.splice(rhslist.indexOf(selected), 1);
+                   scope.selectedItem = {};
+                   scope.$parent[attrs.ngModel] = null;
+                   scope.direction = {
+                       right: true,
+                       left: true,
+                       up: true,
+                       down: true
+                   };
+
+               },
+               right: function (selected) {
+                   var lhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.lhsValueList);
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   rhslist.push(selected);
+                   lhslist.splice(lhslist.indexOf(selected), 1);
+                   scope.direction.right = true;
+                   scope.selectedItem = {};
+                   scope.$parent[attrs.ngModel] = null;
+               },
+               up: function (selected, index) {
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   var temp = rhslist[index];
+                   rhslist[index] = rhslist[index - 1];
+                   rhslist[index - 1] = temp;
+               },
+               down: function (selected, index) {
+                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
+                   var temp = rhslist[index];
+                   rhslist[index] = rhslist[index + 1];
+                   rhslist[index + 1] = temp;
+               },
+           };
+    };
+
+    return {
+        restrict: 'E',
+        scope: true,
+        template: templateFunction,
+        link: linkFunction
+    };
+}]);

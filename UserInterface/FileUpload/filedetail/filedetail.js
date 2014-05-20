@@ -28,7 +28,7 @@ csapp.factory("fileDetailFactory", [function () {
     };
 }]);
 
-csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory",  function (rest, $csnotify, $csfactory) {
+csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
 
     var apictrl = rest.all('FileDetailsApi');
     var dldata = {};
@@ -88,30 +88,34 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
         }
     };
 
-    //var resetdata = function () {
-    //    dldata.fileDetail = {};
-    //};
+    var getFileDetails = function (detailsid) {
+        return apictrl.customGET('Get', { id: detailsid })
+            .then(function(data) {
+                return data; 
+            },
+            errorDisplay);
+    };
 
     return {
         Save: saveFileDetails,
         Delete: deleteFileDetails,
         GetAll: getAllFileDetails,
         dldata: dldata,
+        Get: getFileDetails
         //reset: resetdata
     };
 }]);
 
-csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
-    "fileDetails", "fileDetailDataLayer", "fileDetailFactory", "Logger", "$csModels",
-    function ($scope, $modalInstance, fileDetails, datalayer, factory, logManager, $csModels) {
+csapp.controller("fileDetailsAddEditController", ["$scope", "$routeParams",
+    "fileDetailDataLayer", "fileDetailFactory", "Logger", "$csModels", "$location",
+    function ($scope, $routeParams, datalayer, factory, logManager, $csModels, $location) {
         "use strict";
 
-        //var $log = logManager.getInstance("fileDetailsAddEditController");
+        var $log = logManager.getInstance("fileDetailsAddEditController");
 
-        $scope.fileDetailModel = $csModels.getColumns("FileDetail");
 
-        $scope.close = function (closer) {
-            $modalInstance.dismiss(closer);
+        $scope.close = function () {
+            $location.path("/fileupload/filedetail");
         };
 
         $scope.reset = function () {
@@ -120,7 +124,7 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
 
         $scope.add = function (fileDetail) {
             datalayer.Save(fileDetail).then(function () {
-                $modalInstance.close();
+                $location.path("/fileupload/filedetail");
             });
         };
 
@@ -130,7 +134,13 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
         };
 
         (function () {
-            $scope.fileDetail = fileDetails.fileDetail;
+            $scope.fileDetailModel = $csModels.getColumns("FileDetail");
+
+            datalayer.Get($routeParams.id).then(function(data) {
+                $scope.fileDetail = data;
+            });
+            $scope.isReadOnly = $routeParams.mode == 'view';
+
             if (angular.isUndefined($scope.fileDetail))
                 $scope.fileDetail = {};
             $scope.datalayer = datalayer;
@@ -153,12 +163,12 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$modalInstance",
                     throw ("Invalid display mode : " + JSON.stringify(fileDetails));
             }
             $scope.mode = mode;
-        })(fileDetails.displayMode);
+        })($routeParams.mode);
     }
 ]);
 
-csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "fileDetailDataLayer",
-    function ($scope, modalService, $modal, datalayer) {
+csapp.controller("fileDetailsController", ['$scope', "modalService", "$location", "fileDetailDataLayer",
+    function ($scope, modalService, $location, datalayer) {
         "use strict";
 
         (function () {
@@ -180,18 +190,11 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "
         };
 
         $scope.showAddEditPopup = function (mode, fileDetails) {
-            $modal.open({
-                templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
-                controller: 'fileDetailsAddEditController',
-                resolve: {
-                    fileDetails: function () {
-                        return {
-                            fileDetail: angular.copy(fileDetails),
-                            displayMode: mode
-                        };
-                    }
-                }
-            });
+            if (mode === "edit" || mode === "view") {
+                $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails.Id);
+            } else {
+                $location.path("/fileupload/filedetail/addedit/" + mode  );
+            }
         };
     }
 ]);

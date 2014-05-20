@@ -5,19 +5,18 @@
 </style>
 <div data-ng-form="formStakeholder" data-ng-init="init()">
     <div data-ng-show="showBasicInfo">
-        <div class="panel panel-default" data-ng-show="!(WizardData.IsEditMode() === true)">
-            <div class="panel-heading">
+        <div class="panel panel-default">
+
+            <div data-ng-show="!(WizardData.IsEditMode() === true)" class="panel-heading">
                 Select Hierarchy/Designation
             </div>
             <div data-ng-form="basicInfoForm">
-                <div class="panel-body">
+                <div data-ng-show="!(WizardData.IsEditMode() === true)" class="panel-body">
                     <div data-ng-include="baseUrl +'Stakeholder/add/hierarchy.html'"></div>
                 </div>
-
                 <!--Basic Information-->
-                <div data-ng-if="WizardData.showBasicInfo || WizardData.IsEditMode() === true">
-                    <div data-ng-if="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode() === true"
-                        data-ng-hide="!(WizardData.IsEditMode() === true || WizardData.FinalPostModel.SelHierarchy.Designation)">
+                <div data-ng-if="WizardData.showBasicInfo || WizardData.IsEditMode()">
+                    <div data-ng-if="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode() === true">
                         <div class="panel-footer">
                             Basic Information : <span data-ng-show="indexData.Hierarchy.Designation!=null">{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</span>
                         </div>
@@ -86,7 +85,8 @@
                 <div data-ng-form="paymentForm">
                     <div class="panel-body " data-ng-show="indexData.Hierarchy.HasPayment">
                         <div data-ng-include="baseUrl +'Stakeholder/add/payment.html'"></div>
-                        <br/><br/>
+                        <br />
+                        <br />
                         <div class="row text-center">
                             <button
                                 data-ng-show="indexData.Hierarchy.HasPayment"
@@ -119,10 +119,5 @@
                 Save</button>
         </div>
     </div>
-
-
-    <div class="field-validation-error text-right" data-ng-show="formStakeholder.$invalid">{{val.Mandatory()}}</div>
-    <br />
-
 </div>
 

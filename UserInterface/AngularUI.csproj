@@ -147,9 +147,7 @@
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\Menu\MenuApiController.cs" />
-    <Compile Include="Generic\permissions\PermisionData.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
-    <Compile Include="Generic\permissions\PermissionScreenApiController.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
     <Compile Include="Billing\SharedViewModel.cs" />
     <Compile Include="Allocation\viewapprove\ApproveViewAllocationApiController.cs" />
@@ -262,6 +260,7 @@
     <Content Include="Billing\formula2\formula.html" />
     <Content Include="Billing\formula2\formula.js" />
     <Content Include="Billing\formula2\if-else.html" />
+    <Content Include="Billing\formula2\multi-if-else.html" />
     <Content Include="Billing\formula2\output.html" />
     <Content Include="Billing\formula\formula-condition.html" />
     <Content Include="Billing\formula\formula-details.html" />
@@ -291,10 +290,7 @@
     <Content Include="Billing\status\BillingStatus.js" />
     <Content Include="Billing\status\index.html" />
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
-    <Content Include="Billing\subpolicy\payoutSubpolicyCtrl-back.js" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
-    <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
-    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
@@ -324,6 +320,10 @@
     <Content Include="Generic\Menu\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.min.js" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select\bootstrap-select.min.js" />
     <Content Include="Scripts\chosen\chosen.jquery.js" />
@@ -413,8 +413,6 @@
     <Content Include="Generic\menu\menu.html" />
     <Content Include="Generic\menu\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
-    <Content Include="Generic\permissions\permission.html" />
-    <Content Include="Generic\permissions\permission.js" />
     <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
     <Content Include="Generic\pincode\pincode.html" />
@@ -554,10 +552,10 @@
     <Content Include="Scripts\moment\moment.min.js" />
     <Content Include="Scripts\spin\spin.js" />
     <Content Include="Scripts\spin\spin.min.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-0.10.0.min.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.js" />
-    <Content Include="Scripts\angular.ui\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\condition-directive.js" />
@@ -576,6 +574,7 @@
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
+    <Content Include="Shared\templates\multi-if-else-directive.html" />
     <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\add\address.html" />
     <Content Include="Stakeholder\add\AddressInfo.js" />

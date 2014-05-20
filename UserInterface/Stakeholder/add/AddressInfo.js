@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller('addressCntrl', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$Validations', '$log',
-    function ($scope, $http, rest, $csfactory, $csnotify, $val, $log) {
+csapp.controller('addressCntrl', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$log',
+    function ($scope, $http, rest, $csfactory, $csnotify, $log) {
         'use strict';
 
         var apistake = rest.all('StakeholderApi');

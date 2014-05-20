@@ -1,8 +1,8 @@
 ﻿(
-csapp.controller('Registration', ['$scope', '$Validations',
-    function ($scope, $validation) {
+csapp.controller('Registration', ['$scope', 
+    function ($scope) {
 
-        $scope.val = $validation;
+ 
 
     }])
 );

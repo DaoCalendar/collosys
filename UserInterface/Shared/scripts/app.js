@@ -41,12 +41,21 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             .when('/fileupload/filedetail', {
                 templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-list.html',
                 controller: 'fileDetailsController'
+            }).when('/fileupload/filedetail/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
+                controller: 'fileDetailsAddEditController'
+            }).when('/fileupload/filedetail/addedit/:mode/', {
+                templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
+                controller: 'fileDetailsAddEditController'
             }).when('/fileupload/filecolumn', {
                 templateUrl: baseUrl + 'FileUpload/filecolumn/file-column.html',
                 controller: 'fileColumnController'
             }).when('/fileupload/filemapping', {
                 templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping.html',
                 controller: 'fileMappingController'
+            }).when('/fileupload/filemapping/editview/:mode/:id', {
+                templateUrl: baseUrl + 'FileUpload/filemapping/file-mapping-edit.html',
+                controller: 'fileMappingViewEditController',
             }).when('/fileupload/filescheduler', {
                 templateUrl: baseUrl + 'FileUpload/filescheduler/file-scheduler.html',
                 controller: 'fileSchedulerController'
@@ -104,6 +113,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy/add', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-add.html',
                 controller: 'hierarchyAddController'
+            }).when('/generic/hierarchy/editview/:mode/:id', {
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
+                controller: 'hierarchyEditController',
             })
 
             //allocation
@@ -173,6 +185,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/pincode', {
                 templateUrl: baseUrl + 'Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
+            }).when('/generic/pincode/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
+                controller: 'editPincodeModalController',
             }).when('/generic/changepassword', {
                 templateUrl: baseUrl + 'Generic/changepassword/changepassword.html',
                 controller: 'changepasswordCtrl'

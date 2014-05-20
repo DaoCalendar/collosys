@@ -19,11 +19,17 @@ label {
 }
 
 .minWidth {
-    min-width: 150px;
+    min-width: 125px;
 }
 
 .top-menu-body {
     margin-top: 60px;
+}
+
+.modal-large .modal-dialog {
+    width :70%;
+    height: 550px;
+    overflow: auto;
 }
 
 /***************************************************/

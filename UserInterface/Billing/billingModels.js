@@ -116,7 +116,7 @@
             ValueType: { type: "enum", valueList: ['Formula', 'Value', 'Table'] },
             ProcessingFee: { label: 'Processing Fee', type: 'select' },
             PayoutCapping: { label: 'Payout Capping', type: 'select' },
-            OutputType: { label: 'Output Type', type: 'select', valueList: ['Number', 'Boolean', 'IfElse'], required: true }
+            OutputType: { label: 'Output Type', type: 'select', valueList: ['Number', 'Boolean', 'IfElse','MultiIfElse'], required: true }
         };
     };
 

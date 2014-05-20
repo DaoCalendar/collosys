@@ -12,12 +12,14 @@
         Encrypt / Decrypt Sections Web.config
     </div>
     <div class="modal-body">
-        <div class="form-group">
-            <label class="control-label">Select Section</label>
-            <select data-ng-model="sectionName" data-ui-select2="" class="input-large"
-                ng-options="c for c in sections" required>
-                <option value=""></option>
-            </select>
+        <div class="col-md-11">
+            <label class="col-md-3">Select Section</label>
+            <div class="col-md-6">
+                <select data-ng-model="sectionName" data-ui-select2="" class="form-control"
+                    ng-options="c for c in sections" required>
+                    <option value=""></option>
+                </select>
+            </div>
         </div>
         <div>
             <input type="button" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Encrypt Section" />
