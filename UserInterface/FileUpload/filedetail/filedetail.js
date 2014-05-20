@@ -193,7 +193,7 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$location"
             if (mode === "edit" || mode === "view") {
                 $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails.Id);
             } else {
-                $location.path("/fileupload/filedetail/addedit/" + mode + "/" + fileDetails);
+                $location.path("/fileupload/filedetail/addedit/" + mode + "/" );
             }
         };
     }
