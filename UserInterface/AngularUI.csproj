@@ -291,10 +291,7 @@
     <Content Include="Billing\status\BillingStatus.js" />
     <Content Include="Billing\status\index.html" />
     <Content Include="Billing\subpolicy\billing-subpolicy.html" />
-    <Content Include="Billing\subpolicy\payoutSubpolicyCtrl-back.js" />
     <Content Include="Billing\subpolicy\payoutSubpolicyCtrl.js" />
-    <Content Include="Billing\subpolicy\subpolicy-date-model.html" />
-    <Content Include="Billing\subpolicy\temp.html" />
     <Content Include="Billing\summary\add-billamount-modal.html" />
     <Content Include="Billing\summary\BillAmountCntrl.js" />
     <Content Include="Billing\summary\summary.html" />
