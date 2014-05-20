@@ -47,10 +47,20 @@
         });
     };
 
+    var gethierarchy = function (detailsid) {
+        return apiCalls.customGET('Get', { id: detailsid })
+            .then(function (data) {
+                return data;
+            }, function () {
+                $csnotify.error('Error loading hierarchies');
+            });
+    };
+
     return {
         dldata: dldata,
         GetAll: getAllHierarchy,
-        Save: saveUpdatedData
+        Save: saveUpdatedData,
+        Get: gethierarchy,
     };
 }]);
 
@@ -145,9 +155,9 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
     };
 }]);
 
-csapp.controller('hierarchyController', ['$scope', '$csfactory', 
-    'hierarchyDataLayer', "hierarchyFactory", "$modal",
-    function ($scope, $csfactory,  datalayer, factory, $modal) {
+csapp.controller('hierarchyController', ['$scope', '$csfactory',
+    'hierarchyDataLayer', "hierarchyFactory", "$location",
+    function ($scope, $csfactory, datalayer, factory, $location) {
 
         (function () {
             $scope.datalayer = datalayer;
@@ -160,20 +170,22 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory',
 
 
 
-        $scope.openEditModal = function (mode,hierarchy) {
-            $modal.open({
-                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
-                controller: 'hierarchyEditController',
-                windowClass: 'modal-large',
-                resolve: {
-                    editHierarchy: function () {
-                        return {
-                            edithierarchy: angular.copy(hierarchy),
-                            displayMode: mode
-                        };
-                    }
-                }
-            });
+        $scope.openEditModal = function (mode, hierarchy) {
+            $location.path("/generic/hierarchy/editview/" + mode + "/" + hierarchy.Id);
+
+            //$modal.open({
+            //    templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
+            //    controller: 'hierarchyEditController',
+            //    windowClass: 'modal-large',
+            //    resolve: {
+            //        editHierarchy: function () {
+            //            return {
+            //                edithierarchy: angular.copy(hierarchy),
+            //                displayMode: mode
+            //            };
+            //        }
+            //    }
+            //});
         };
     }]);
 
@@ -235,42 +247,44 @@ csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory',
         };
     }]);
 
-csapp.controller("hierarchyEditController", ["$scope", "editHierarchy", "$modalInstance",
-    "hierarchyDataLayer", "$csModels", "hierarchyFactory",
-    function($scope, editHierarchy, $modalInstance, datalayer, $csModels, factory) {
+csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
+    "hierarchyDataLayer", "$csModels", "hierarchyFactory","$location",
+    function ($scope, $routeParams, datalayer, $csModels, factory, $location) {
 
-        (function() {
+        (function () {
             $scope.factory = factory;
-            $scope.hierarchy = editHierarchy.edithierarchy;
+            datalayer.Get($routeParams.id).then(function (data) {
+                $scope.hierarchy = data;
+            });
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.hierarchyfield = $csModels.getColumns("StkhHierarchy");
         })();
 
 
-        (function(mode) {
+        (function (mode) {
             switch (mode) {
-            case "edit":
-                $scope.modelTitle = "Update File Details";
-                break;
-            case "view":
-                $scope.modelTitle = "View File Details";
-                break;
-            default:
-                throw ("Invalid display mode : " + JSON.stringify(editHierarchy));
+                case "edit":
+                    $scope.modelTitle = "Update File Details";
+                    break;
+                case "view":
+                    $scope.modelTitle = "View File Details";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(hierarchy));
             }
             $scope.mode = mode;
-        })(editHierarchy.displayMode);
-    
+        })($routeParams.mode);
+
 
         $scope.save = function (hierarchy) {
             datalayer.Save(hierarchy).then(function () {
-                $modalInstance.close();
+                $location.path("/generic/hierarchy");
             });
         };
 
-$scope.closeModal = function () {
-    $modalInstance.dismiss();
-};
-}]);
+        $scope.closeModal = function () {
+            $location.path("/generic/hierarchy");
+        };
+    }]);
 

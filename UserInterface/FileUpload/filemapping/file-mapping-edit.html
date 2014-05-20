@@ -4,10 +4,10 @@
     </div>
     <div class="modal-body">
 
-        <cs-form mode="mode">
-            <cs-field data-ng-model="fileMapping.ActualTable" field="fileMappingModel.ActualTable" data-ng-disabled="isReadOnly"></cs-field>
-            <cs-field data-ng-model="fileMapping.TempTable" field="fileMappingModel.TempTable"  readonly="isReadOnly"></cs-field>
-            <cs-field data-ng-model="fileMapping.ActualColumn" field="fileMappingModel.ActualColumn"  readonly="isReadOnly"></cs-field>
+        <cs-form mode="mode" layout="8.3.6">
+            <cs-field data-ng-model="fileMapping.ActualTable" field="fileMappingModel.ActualTable"></cs-field>
+            <cs-field data-ng-model="fileMapping.TempTable" field="fileMappingModel.TempTable"></cs-field>
+            <cs-field data-ng-model="fileMapping.ActualColumn" field="fileMappingModel.ActualColumn"></cs-field>
             <cs-field data-ng-model="fileMapping.ValueType"  data-ng-change="changeValueType(fileMapping)" field="fileMappingModel.ValueType"></cs-field>
             <div data-ng-switch on="fileMapping.ValueType">
                 <div data-ng-switch-when="ExcelValue">
@@ -31,11 +31,9 @@
         </cs-form>
     </div>
 
-    <div class="modal-footer form-group">
-        <div class="controls">
+    <div class="modal-footer">
             <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="save(fileMapping)" data-ng-disabled="!formAddfileMapping.$valid">Save</button>
             <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('cancel')">Cancel</button>
-            <button class="btn btn-info " data-ng-show="isReadOnly" data-ng-click="close('close')">Close</button>
+            <button class="btn btn-info" data-ng-show="isReadOnly" data-ng-click="close('close')">Close</button>
         </div>
-    </div>
 </form>
