@@ -39,6 +39,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\SharedLib\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
@@ -63,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
     <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
