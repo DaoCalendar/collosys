@@ -1,11 +1,11 @@
-﻿<div data-ng-form="formAddfileColumn" class="form-horizontal">
+﻿<div data-ng-form="formAddfileColumn">
 
     <div class="modal-header">
         {{modelTitle}} 
     </div>
 
     <div class="modal-body">
-        <cs-form mode="mode">
+        <cs-form mode="mode" layout="10.4.8">
             <cs-field data-ng-model="fileColumn.FileColumnName" field="fileColumnModel.FileColumnName" data-ng-disabled="isReadOnly"></cs-field>
             <cs-field data-ng-model="fileColumn.Position" field="fileColumnModel.Position"></cs-field>
             <cs-field data-ng-model="fileColumn.Length" field="fileColumnModel.Length"></cs-field>
@@ -19,11 +19,9 @@
         </cs-form>
     </div>
 
-    <div class="modal-footer form-group">
-        <div class="controls">
-            <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileColumn,fileDetail)" data-ng-disabled="!formAddfileColumn.$valid">Save</button>
-            <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close()">Cancel</button>
-        </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileColumn,fileDetail)" data-ng-disabled="!formAddfileColumn.$valid">Save</button>
+        <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close()">Cancel</button>
     </div>
 
 </div>

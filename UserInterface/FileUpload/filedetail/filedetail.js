@@ -28,7 +28,7 @@ csapp.factory("fileDetailFactory", [function () {
     };
 }]);
 
-csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory",  function (rest, $csnotify, $csfactory) {
+csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
 
     var apictrl = rest.all('FileDetailsApi');
     var dldata = {};
@@ -183,6 +183,7 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$modal", "
             $modal.open({
                 templateUrl: baseUrl + 'FileUpload/filedetail/file-detail-add.html',
                 controller: 'fileDetailsAddEditController',
+                windowClass: 'modal-large',
                 resolve: {
                     fileDetails: function () {
                         return {

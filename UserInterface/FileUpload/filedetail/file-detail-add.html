@@ -1,9 +1,9 @@
 ﻿<div>
-    <div class="modal-header"> {{modelTitle}} </div>
+    <div class="modal-header">{{modelTitle}} </div>
 
     <div class="modal-body">
-        <div data-ng-form="formAddfileDetail" class="form-horizontal">
-            <div style="height: 450px; overflow: auto">
+        <div data-ng-form="formAddfileDetail">
+            <div style="height: 350px; overflow: auto">
                 <cs-form mode="mode">
                     <cs-field data-ng-model="fileDetail.AliasName" field="fileDetailModel.AliasName"></cs-field>
                     <!--<cs-field data-ng-model="fileDetail.AliasDescription" field="fileDetailModel.AliasDescription"></cs-field>-->
@@ -27,8 +27,7 @@
                     <cs-field data-ng-model="fileDetail.Description" field="fileDetailModel.Description"></cs-field>
                 </cs-form>
             </div>
-            <hr />
-            <div style="height: 40px">
+            <div class="modal-footer">
                 <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid">Save</button>
                 <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')">Cancel</button>
                 <button class="btn btn-primary" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)">Reset</button>
