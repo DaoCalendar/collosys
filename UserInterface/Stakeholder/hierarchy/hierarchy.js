@@ -32,11 +32,11 @@
 
     };
 
-    var saveUpdatedData = function (hierarchy) {
-        hierarchy.ApplicationName = 'ColloSys';
-        hierarchy.PositionLevel = 0;
-        hierarchy.LocationLevel = JSON.stringify(hierarchy.LocationLevel);
-        return apiCalls.customPOST(hierarchy, 'SaveHierarchy').then(function (data) {
+    var saveUpdatedData = function (stkh) {
+        stkh.ApplicationName = 'ColloSys';
+        stkh.PositionLevel = 0;
+        stkh.LocationLevel = JSON.stringify(stkh.LocationLevel);
+        return apiCalls.customPOST(stkh, 'SaveHierarchy').then(function (data) {
             $csnotify.success('Data Saved');
             setHierarchy(data, dldata.HierarchyList);
             var index = _.indexOf(_.pluck(dldata.HierarchyList, 'Id'), data.Id);
@@ -161,7 +161,6 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory',
 
         (function () {
             $scope.datalayer = datalayer;
-            //$scope.val = $validation;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
             factory.initLocationLevelList(datalayer.dldata);
@@ -171,99 +170,45 @@ csapp.controller('hierarchyController', ['$scope', '$csfactory',
 
 
         $scope.openEditModal = function (mode, hierarchy) {
-            $location.path("/generic/hierarchy/editview/" + mode + "/" + hierarchy.Id);
+            if (mode === "edit" || mode === "view") {
+                $location.path("/generic/hierarchy/addedit/" + mode + "/" + hierarchy.Id);
+            } else {
+                $location.path("/generic/hierarchy/addedit/" + mode);
+            }
 
-            //$modal.open({
-            //    templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
-            //    controller: 'hierarchyEditController',
-            //    windowClass: 'modal-large',
-            //    resolve: {
-            //        editHierarchy: function () {
-            //            return {
-            //                edithierarchy: angular.copy(hierarchy),
-            //                displayMode: mode
-            //            };
-            //        }
-            //    }
-            //});
         };
     }]);
 
-csapp.controller("hierarchyAddController", ["$csShared", "$scope", '$csfactory', 'hierarchyDataLayer', '$csModels',
-    "hierarchyFactory", function ($csShared, $scope, $csfactory, datalayer, $csModels, factory) {
-
-        (function () {
-            $scope.factoryMethods = factory;
-            $scope.datalayer = datalayer;
-            $scope.dldata = datalayer.dldata;
-            $scope.stakeholderfield = $csModels.getColumns("StkhHierarchy");
-            factory.initLocationLevelList(datalayer.dldata);
-            datalayer.GetAll();
-            $scope.stakeholder = {};
-        })();
-
-
-        $scope.hierarchyChange = function () {
-            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.Hierarchy)) {
-                $scope.stakeholder.ReportingLevel = '';
-                $scope.stakeholder.ReportsTo = '';
-                $scope.stakeholder.WorkingReportsTo = '';
-                $scope.stakeholder.WorkingReportsLevel = '';
-            };
-        };
-
-        $scope.reportsChange = function () {
-            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.ReportsTo)) {
-                $scope.stakeholder.ReportingLevel = '';
-                $scope.stakeholder.WorkingReportsTo = '';
-                $scope.stakeholder.WorkingReportsLevel = '';
-            };
-        };
-
-        $scope.reportinglevelChange = function () {
-            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.ReportingLevel)) {
-                $scope.stakeholder.WorkingReportsTo = '';
-                $scope.stakeholder.WorkingReportsLevel = '';
-            };
-        };
-
-        $scope.workingReportsChange = function () {
-            if (angular.isDefined($scope.stakeholder) && angular.isDefined($scope.stakeholder.WorkingReportsTo)) {
-                $scope.stakeholder.WorkingReportsLevel = '';
-            };
-        };
-
-
-        $scope.save = function (hierarchy) {
-            datalayer.Save(hierarchy).then(function () {
-                $scope.step = 1;
-                $scope.stakeholder = {};
-            });
-        };
-
-        $scope.closeform = function () {
-            $scope.step = 1;
-            $scope.stakeholder = null;
-        };
-    }]);
 
 csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
-    "hierarchyDataLayer", "$csModels", "hierarchyFactory","$location",
+    "hierarchyDataLayer", "$csModels", "hierarchyFactory", "$location",
     function ($scope, $routeParams, datalayer, $csModels, factory, $location) {
 
         (function () {
             $scope.factory = factory;
-            datalayer.Get($routeParams.id).then(function (data) {
-                $scope.hierarchy = data;
-            });
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function(data) {
+                    $scope.hierarchy = data;
+                });
+            } else {
+                $scope.hierarchy = {};
+            }
+            $scope.hierarchy = datalayer.hierarchy;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.hierarchyfield = $csModels.getColumns("StkhHierarchy");
+            $scope.factoryMethods = factory;
+            factory.initLocationLevelList(datalayer.dldata);
+            datalayer.GetAll();
+            $scope.hierarchy = {};
         })();
 
 
         (function (mode) {
             switch (mode) {
+                case "add":
+                    $scope.modelTitle = "Add File Details";
+                    break;
                 case "edit":
                     $scope.modelTitle = "Update File Details";
                     break;
@@ -276,15 +221,56 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
             $scope.mode = mode;
         })($routeParams.mode);
 
+        $scope.hierarchyChange = function () {
+            if (angular.isDefined($scope.hierarchy) && angular.isDefined($scope.hierarchy.Hierarchy)) {
+                $scope.hierarchy.ReportingLevel = '';
+                $scope.hierarchy.ReportsTo = '';
+                $scope.hierarchy.WorkingReportsTo = '';
+                $scope.hierarchy.WorkingReportsLevel = '';
+            };
+        };
 
-        $scope.save = function (hierarchy) {
-            datalayer.Save(hierarchy).then(function () {
+        $scope.reportsChange = function () {
+            if (angular.isDefined($scope.hierarchy) && angular.isDefined($scope.hierarchy.ReportsTo)) {
+                $scope.hierarchy.ReportingLevel = '';
+                $scope.hierarchy.WorkingReportsTo = '';
+                $scope.hierarchy.WorkingReportsLevel = '';
+            };
+        };
+
+        $scope.reportinglevelChange = function () {
+            if (angular.isDefined($scope.hierarchy) && angular.isDefined($scope.hierarchy.ReportingLevel)) {
+                $scope.hierarchy.WorkingReportsTo = '';
+                $scope.hierarchy.WorkingReportsLevel = '';
+            };
+        };
+
+        $scope.workingReportsChange = function () {
+            if (angular.isDefined($scope.hierarchy) && angular.isDefined($scope.hierarchy.WorkingReportsTo)) {
+                $scope.hierarchy.WorkingReportsLevel = '';
+            };
+        };
+   
+        $scope.closeModal = function () {
+            $location.path("/generic/hierarchy");
+        };
+
+        $scope.reloadReportsTo = function(stkh,dldata) {
+            return factory.reloadReportsTo(stkh, dldata);
+        };
+        
+        $scope.save = function (stkh) {
+            datalayer.Save(stkh).then(function () {
+                $scope.hierarchy = {};
                 $location.path("/generic/hierarchy");
             });
         };
 
-        $scope.closeModal = function () {
+        $scope.closeform = function () {
+            $scope.step = 1;
+            $scope.hierarchy = null;
             $location.path("/generic/hierarchy");
         };
     }]);
+
 

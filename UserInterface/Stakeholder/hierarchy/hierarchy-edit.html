@@ -1,40 +1,60 @@
 ﻿<form name="MyForm" class="form-horizontal" data-ng-init="step=1" novalidate>
-    <div class="modal-header">{{modelTitle}}{{hierarchy.ReportsTo}}</div>
+    <div class="modal-header">{{modelTitle}}{{hierarchy.ReportsToName.Designation}}</div>
     <div class="modal-body">
-        <!--Edit Hierarchy page-1-->
+        <!--Edit hierarchy page-1-->
         <div data-ng-form="step1form" data-ng-show="step==1">
-            <cs-form layout="9.4.8" mode="mode">
+            <cs-form layout="7.3.8" mode="mode">
                 <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
-                          data-ng-disabled="true"></cs-field>
+                    ></cs-field>
 
                 <cs-field data-ng-model="hierarchy.Hierarchy" field="hierarchyfield.Hierarchy"
-                          value-list="dldata.HierarchyData" data-ng-disabled="true"></cs-field>
+                          value-list="dldata.HierarchyData" data-ng-change="reloadReportsTo(hierarchy,dldata);hierarchyChange()"></cs-field>
+                
+                <div data-ng-show="mode === 'add'">
+                <cs-field data-ng-model="hierarchy.ReportsTo" field="hierarchyfield.ReportsTo"
+                          value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
+                <span class="col-md-5">
+                    <span >{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
+                </span>
 
-                <cs-field data-ng-model="hierarchy.ReportsToName.Designation"
-                          field="hierarchyfield.ReportsToDesignation"
-                          data-ng-disabled="true"></cs-field>
+                <cs-field data-ng-model="hierarchy.ReportingLevel" 
+                          field="hierarchyfield.ReportingLevel"
+                          data-ng-change="reportinglevelChange()"></cs-field>
 
-                <cs-field data-ng-model="hierarchy.ReportingLevel" field="hierarchyfield.ReportingLevel"
-                          value-list="dldata.ReportingLevelEnum" data-ng-disabled="true"></cs-field>
+                <cs-field data-ng-model="hierarchy.WorkingReportsTo" 
+                          field="hierarchyfield.WorkingReportsTo"
+                          value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
+                <span class="col-md-5">
+                    <span >{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
+                </span>
 
+                <cs-field data-ng-model="hierarchy.WorkingReportsLevel" 
+                          field="hierarchyfield.WorkingReportsLevel"></cs-field>
+                </div>
+
+                <div data-ng-show="mode !== 'add'">
+                    <cs-field data-ng-model="hierarchy.ReportsToName.Designation"
+                              field="hierarchyfield.ReportsToDesignation"></cs-field>
+                </div>
+                
                 <cs-field data-ng-model="hierarchy.LocationLevel" field="hierarchyfield.LocationLevel"
                           value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
+
             </cs-form>
         </div>
 
 
-        <!--Edit Hierarchy page-2-->
-        <div data-ng-form="step2form" data-ng-show="step==2">
-            <cs-form layout="7.8.4" mode="mode">
 
-                <!--IsUser-->
+        <!--Edit hierarchy page-2-->
+        <div data-ng-form="step2form" data-ng-show="step==2">
+            <cs-form layout="7.4.8" mode="mode">
+
                 <cs-field data-ng-model="hierarchy.IsUser" field="hierarchyfield.IsUser"></cs-field>
                 <span class="col-md-5">
-                    <span>{{hierarchy.designation}} is user of Algosys or not</span>
+                    <span>{{hierarchy.Designation}} is user of Algosys or not</span>
                 </span>
 
 
-                <!--IsIndividual-->
                 <cs-field data-ng-model="hierarchy.IsIndividual" field="hierarchyfield.IsIndividual"
                           data-ng-change="hierarchy.IsEmployee=false"></cs-field>
                 <span class="col-md-5">
@@ -42,7 +62,6 @@
                 </span>
 
 
-                <!--Registration-->
                 <div data-ng-show="!hierarchy.Individual">
                     <cs-field data-ng-model="hierarchy.HasRegistration" field="hierarchyfield.HasRegistration"></cs-field>
                     <span class="col-md-5">
@@ -51,29 +70,27 @@
                 </div>
 
 
-                <!--IsEmployee-->
                 <div data-ng-show="hierarchy.Individual">
-                    <cs-field data-ng-model="hierarchy.IsEmployee" field="hierarchyfield.IsEmployee"></cs-field>
+                    <cs-field data-ng-model="hierarchy.IsEmployee" 
+                              field="hierarchyfield.IsEmployee"></cs-field>
                     <span class="col-md-5">
                         <span>Is {{hierarchy.Designation}} Employee of Algosys</span>
                     </span>
                 </div>
-
-                <!--Is Highest Level designation-->
+                
                 <cs-field data-ng-model="hierarchy.ManageReportsTo" field="hierarchyfield.ManageReportsTo"></cs-field>
                 <span class="col-md-5">
                     <span>{{hierarchy.Designation}} having any highest level designation</span>
                 </span>
 
-                <!--Has Address-->
                 <cs-field data-ng-model="hierarchy.HasAddress" field="hierarchyfield.HasAddress"></cs-field>
                 <span class="col-md-5">
                     <span>{{hierarchy.Designation}} has address </span>
                 </span>
 
-                <!--Has multiple Address-->
                 <div data-ng-show="hierarchy.HasAddress">
-                    <cs-field data-ng-model="hierarchy.HasMultipleAddress" field="hierarchyfield.HasMultipleAddress"></cs-field>
+                    <cs-field data-ng-model="hierarchy.HasMultipleAddress" field="hierarchyfield.HasMultipleAddress"
+                        data-ng-disabled="true"></cs-field>
                     <span class="col-md-5">
                         <span>{{hierarchy.Designation}} has address </span>
                     </span>
@@ -82,18 +99,16 @@
         </div>
 
 
-        <!--Edit Hierarchy page-3-->
+        <!--Edit hierarchy page-3-->
         <div data-ng-form="step3form" data-ng-show="step==3">
-            <cs-form layout="7.8.4" mode="mode">
-                <!--Has Working-->
+            <cs-form layout="7.4.8" mode="mode">
                 <cs-field data-ng-model="hierarchy.HasWorking" field="hierarchyfield.HasWorking"
                           data-ng-change="ResetBtnValue()"></cs-field>
                 <cs-form layout="1">
-                    <span>{{hierarchy.designation}} has working</span>
+                    <span>{{hierarchy.Designation}} has working</span>
                 </cs-form>
              
 
-                <!--Has Bucket-->
                 <div data-ng-show="hierarchy.HasWorking">
                     <cs-field data-ng-model="hierarchy.HasBuckets" field="hierarchyfield.HasBuckets"></cs-field>
                     <cs-form layout="1">
@@ -101,7 +116,6 @@
                     </cs-form>
                 </div>
 
-                <!--Is in Allocation-->
                 <div data-ng-show="hierarchy.HasWorking">
                     <cs-field data-ng-model="hierarchy.IsInAllocation" field="hierarchyfield.IsInAllocation"></cs-field>
                     <cs-form layout="1">
@@ -109,7 +123,6 @@
                     </cs-form>
                 </div>
 
-                <!--Is in field-->
                 <div data-ng-show="hierarchy.IsInAllocation">
                     <cs-field data-ng-model="hierarchy.IsInField" field="hierarchyfield.IsInField"></cs-field>
                     <cs-form layout="1">
@@ -120,11 +133,10 @@
         </div>
 
 
-        <!--Edit Hierarchy page-4-->
+        <!--Edit hierarchy page-4-->
         <div data-ng-form="step4form" data-ng-show="step==4">
-            <cs-form layout="7.8.4" mode="mode">
+            <cs-form layout="7.4.8" mode="mode">
                     
-                <!--Has payment-->
                 <cs-field data-ng-model="hierarchy.HasPayment" field="hierarchyfield.HasPayment"
                           data-ng-change="ResetPaymentChlidVal()"></cs-field>
                 <cs-form layout="1">
@@ -132,7 +144,6 @@
                 </cs-form>
 
 
-                <!--Has Bank Details-->
                 <div data-ng-show="hierarchy.HasPayment">
                     <cs-field data-ng-model="hierarchy.HasBankDetails" field="hierarchyfield.HasBankDetails"></cs-field>
                     <cs-form layout="1">
@@ -140,7 +151,6 @@
                     </cs-form>
                 </div>
 
-                <!--Has mobile Travel-->
                 <div data-ng-show="hierarchy.HasPayment">
                     <cs-field data-ng-model="hierarchy.HasMobileTravel" field="hierarchyfield.HasMobileTravel"></cs-field>
                     <cs-form layout="1">
@@ -148,7 +158,6 @@
                     </cs-form>
                 </div>
 
-                <!--Has variable-->
                 <div data-ng-show="hierarchy.HasPayment">
                     <cs-field data-ng-model="hierarchy.HasVarible" field="hierarchyfield.HasVarible"></cs-field>
                     <cs-form layout="1">
@@ -156,17 +165,13 @@
                     </cs-form>
                 </div>
 
-
-                <!--Has fixed-->
                 <div data-ng-show="hierarchy.HasPayment">
                     <cs-field data-ng-model="hierarchy.HasFixed" field="hierarchyfield.HasFixed"></cs-field>
                     <cs-form layout="1">
                         <span>{{hierarchy.Designation}} Has Fixed</span>
                     </cs-form>
                 </div>
-
-
-                <!--Has fixed Individual-->
+                
                 <div data-ng-show="hierarchy.HasFixed">
                     <cs-field data-ng-model="hierarchy.HasFixedIndividual" field="hierarchyfield.HasFixedIndividual"></cs-field>
                     <cs-form layout="1">
@@ -174,8 +179,6 @@
                     </cs-form>
                 </div>
 
-
-                <!--Has service charge-->
                 <div data-ng-show="hierarchy.HasPayment">
                     <cs-field data-ng-model="hierarchy.HasServiceCharge" field="hierarchyfield.HasServiceCharge"></cs-field>
                     <cs-form layout="1">
@@ -184,7 +187,6 @@
                 </div>
             </cs-form>
         </div>
-
     </div>
 
     <div class="modal-footer">
@@ -207,9 +209,9 @@
         </div>
     </div>-->
 <!--<div class="form-group">
-        <label class="control-label">Hierarchy : </label>
+        <label class="control-label">hierarchy : </label>
         <div class="controls">
-            <input type="text" data-ng-model="hierarchy.Hierarchy" readonly />
+            <input type="text" data-ng-model="hierarchy.hierarchy" readonly />
         </div>
     </div>-->
 <!-- <div class="form-group">
@@ -281,7 +283,7 @@
 <!--<div class="form-group">
         <label class="control-label">Has Multiple Address : </label>
         <div class="controls">
-            <input type="button" value="No" class="btn btn-default" data-ng-disabled="true" />
+            <input type="button" value="No" class="btn btn-default" />
         </div>
     </div>-->
 <!--<div class="form-group">
