@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
@@ -6,6 +8,7 @@ using ColloSys.DataLayer.SessionMgr;
 using NUnit.Framework;
 using System.Linq.Expressions;
 
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
@@ -24,7 +27,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         }
 
-        private IEnumerable<BillTokens> GreaterThanTokens()
+        private IList<BillTokens> GreaterThanTokens()
         {
             // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
@@ -40,18 +43,18 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         public void GreaterThanTest()
         {
             var condtions = GreaterThanTokens();
-            var query = _builder.GenerateQuery(condtions);
+            var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             Assert.AreEqual(result.Count, 0);
         }
 
-        private IEnumerable<BillTokens> SumOfTwoTokens()
+        private IList<BillTokens> SumOfTwoTokens()
         {
             // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "conditional"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
                 new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"}
             };
             return query;
@@ -61,18 +64,18 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         public void SumTest()
         {
             var condtions = SumOfTwoTokens();
-            var query = _builder.GenerateQuery(condtions);
+            var query = _builder.GenerateMathQuery(condtions);
             var result = _builder.ExecuteOutput(_dataList, query);
             Assert.AreEqual(result.Count, _dataList.Count);
         }
 
-        private IEnumerable<BillTokens> SumOfTwoTokensByValue()
+        private IList<BillTokens> SumOfTwoTokensReverse()
         {
             // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "conditional"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"}
             };
             return query;
@@ -81,19 +84,19 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         [Test]
         public void SumTestByValue()
         {
-            var condtions = SumOfTwoTokensByValue();
-            var query = _builder.GenerateQuery(condtions);
+            var condtions = SumOfTwoTokensReverse();
+            var query = _builder.GenerateMathQuery(condtions);
             var result = _builder.ExecuteOutput(_dataList, query);
             Assert.AreEqual(result.Count, _dataList.Count);
         }
 
-        private IEnumerable<BillTokens> SumNGreaterThanTokens()
+        private IList<BillTokens> SumNGreaterThanTokens()
         {
             // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "conditional"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
                 new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
                 new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 3, DataType = "conditional"},
                 new BillTokens {Type = "Value", Value = "0", Priority = 4, DataType = "number"}
@@ -105,21 +108,25 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         public void SumnGreaterThanTest()
         {
             var condtions = SumNGreaterThanTokens();
-            var query = _builder.GenerateQuery(condtions);
+            var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
-            Assert.AreNotEqual(result.Count, 0);
+            var actual = _dataList.Count(x => (x.Cycle + 2) > 0);
+            Assert.AreEqual(result.Count, actual);
         }
     }
 
     public class ExpressionBuilder<T>
     {
+        #region ctor
         private readonly ParameterExpression _parameterExpression;
 
         public ExpressionBuilder()
         {
             _parameterExpression = Expression.Parameter(typeof(T), "x");
         }
+        #endregion
 
+        #region convertor
         public Expression ConvertColumnToExpression(BillTokens token)
         {
             var field = token.Value.Replace("CustBillViewModel.", "");
@@ -145,7 +152,9 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
                     throw new ArgumentOutOfRangeException("token");
             }
         }
+        #endregion
 
+        #region combine
         public Expression CombineExpressionsByOperator(Expression lhsExpression, Expression rhsExpression, BillTokens tokens)
         {
             if (tokens.Type != "Operator") throw new ArgumentOutOfRangeException("tokens");
@@ -160,23 +169,88 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             }
         }
 
+        public Expression CombineExpressionsByRelation(Expression lhsExpression, Expression rhsExpression, BillTokens tokens)
+        {
+            if (tokens.Type != "Operator") throw new ArgumentOutOfRangeException("tokens");
+            switch (tokens.Value)
+            {
+                case "And":
+                    return Expression.And(lhsExpression, rhsExpression);
+                case "Or":
+                    return Expression.Or(lhsExpression, rhsExpression);
+                default:
+                    throw new ArgumentOutOfRangeException("tokens");
+            }
+        }
+        #endregion
+
+        #region query generators
         public Expression AppendTokensToExpression(Expression expression, BillTokens operToken, BillTokens fieldToken)
         {
             var rhs = ConvertToken2Expression(fieldToken);
             return CombineExpressionsByOperator(expression, rhs, operToken);
         }
 
-        public Expression GenerateQuery(IEnumerable<BillTokens> tokens)
+        public Expression GenerateMathQuery(IList<BillTokens> tokens)
         {
-            var billTokenses = tokens as BillTokens[] ?? tokens.ToArray();
-            var tokenArray = billTokenses.ToArray();
-
-            var expression = ConvertToken2Expression(tokenArray[0]);
-            for (var i = 1; i < tokenArray.Length; i = i + 2)
-                expression = AppendTokensToExpression(expression, tokenArray[i], tokenArray[i + 1]);
+            var expression = ConvertToken2Expression(tokens[0]);
+            for (var i = 1; i < tokens.Count; i = i + 2)
+                expression = AppendTokensToExpression(expression, tokens[i], tokens[i + 1]);
             return expression;
         }
 
+        public Expression GenerateConditionalQuery(IList<BillTokens> tokens)
+        {
+            var indexToken = tokens.First(x => x.Type == "Operator" && x.DataType == "conditional");
+            var index = tokens.IndexOf(indexToken);
+            
+            var lhsTokens = tokens.Skip(0).Take(index).ToList();
+            var lhsExpression = GenerateMathQuery(lhsTokens);
+
+            var rhsTokens = tokens.Skip(index+1).ToList();
+            var rhsExpression = GenerateMathQuery(rhsTokens);
+
+            return CombineExpressionsByOperator(lhsExpression, rhsExpression, tokens[index]);
+        }
+
+        private Expression GenerateAndOrQuery(Expression expression, IList<BillTokens> tokens)
+        {
+            var indexToken = tokens.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "conditional");
+            IList<BillTokens> lhsTokens, remaingingTokens;
+            BillTokens relationToken = tokens[0];
+            if (indexToken == null)
+            {
+                remaingingTokens = null;
+                lhsTokens = tokens.Skip(1).ToList();
+            }
+            else
+            {
+                var relationIndex = tokens.IndexOf(indexToken);
+                lhsTokens = tokens.Skip(1).Take(relationIndex).ToList();
+                remaingingTokens = tokens.Skip(relationIndex + 1).ToList();
+            }
+
+            var lhsExpression = GenerateConditionalQuery(lhsTokens);
+            var expression2 = CombineExpressionsByRelation(expression, lhsExpression, relationToken);
+
+            return remaingingTokens == null
+                ? expression
+                : GenerateAndOrQuery(expression2, remaingingTokens);
+        }
+
+        public Expression GenerateAndOrQuery(IList<BillTokens> tokens)
+        {
+            var indexToken = tokens.First(x => x.Type == "Operator" && x.DataType == "conditional");
+            var index = tokens.IndexOf(indexToken);
+
+            var lhsTokens = tokens.Skip(0).Take(index).ToList();
+            var lhsExpression = GenerateConditionalQuery(lhsTokens);
+
+            return GenerateAndOrQuery(lhsExpression, tokens.Skip(index).ToList());
+        }
+        #endregion
+
+        #region execute
         public IList<T> ExecuteCondition(IEnumerable<T> data, Expression condition)
         {
             var expression = Expression.Lambda<Func<T, bool>>(condition, _parameterExpression);
@@ -188,5 +262,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var expression = Expression.Lambda<Func<T, decimal>>(condition, _parameterExpression);
             return data.Select(expression.Compile()).ToList();
         }
+        #endregion
     }
 }
