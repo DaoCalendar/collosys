@@ -31,8 +31,8 @@
             Hierarchy: { label: 'Hierarchy', type: 'enum', required: true },
             ReportsTo: { label: 'Reports To', type: 'select', textField: 'Designation', valueField: 'Id'},
             ReportsToDesignation: { label: 'Reports To', type: 'text' },
-            WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id', required: true },
-            WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true },
+            WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id',},
+            WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true, valueList: $csShared.enums.ReportingLevel },
             ApplicationName: { label: 'Name', type: 'text' },
             LocationLevel: { label: 'LocationLevel', type: 'select', valueField: 'key', textField: 'value', required: true },
             PositionLevel: { label: 'PositionLevel', type: 'number', template: 'int' },
@@ -54,7 +54,7 @@
             IsInAllocation: { label: 'Is In Allocation ', type: 'btn-radio', options: [true, false] },
             IsEmployee: { label: 'IsEmployee', type: 'btn-radio', options: [true, false] },
             IsInField: { label: 'IsInField', type: 'btn-radio', options: [true, false] },
-            ReportingLevel: { label: 'ReportingLevel', type: 'enum',required: true },
+            ReportingLevel: { label: 'ReportingLevel', type: 'enum', required: true, valueList: $csShared.enums.ReportingLevel },
             Permissions: { label: 'Permissions', type: 'text' }
         };
     };
