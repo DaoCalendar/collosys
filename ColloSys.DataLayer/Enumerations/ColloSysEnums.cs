@@ -465,7 +465,10 @@ namespace ColloSys.DataLayer.Enumerations
         public enum CityCategory
         {
             Tier1,
-            Tier2
+            Tier2,
+            Metro, 
+            A,
+            B
         }
 
         #endregion
