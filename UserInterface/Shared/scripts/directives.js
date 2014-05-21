@@ -573,7 +573,7 @@ csapp.directive('iconBtn', function () {
                      '<span class="glyphicon glyphicon-forward"></span>' +
                      '</button>';
             case 'calendar':
-                return '<span class="glyphicon glyphicon-repeat"></span>';
+                return '<span class="glyphicon glyphicon-calendar"></span>';
             default:
         }
         return type;

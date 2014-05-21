@@ -1,53 +1,58 @@
 ﻿<div>
-    <div data-ng-include="baseUrl + 'Generic/taxmaster/taxmaster-list.html'"></div>
-    <div>
-        <form name="taxForm">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Tax Component Details
-                </div>
-                <div class="panel-body">
-                    
-                    <cs-form layout="6.3.5">
-                        <cs-field data-ng-model="tax.ApplicableTo"
-                                  field="TaxMaster.ApplicableTo"></cs-field>
+    <div class="modal-header">Tax Master List</div>
+    <div style="height: 550px; overflow: auto;">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Type</th>
+                    <th>Applicable To</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>Percentage</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
 
-                        <cs-field data-ng-model="tax.State"
-                                  field="TaxMaster.State"></cs-field>
+                <tr>
+                    <th class="text-center">
+                        <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.GTaxesList.TaxName" /></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.ApplicableTo" /></th>
+                    <th></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.State" /></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.Percentage" /></th>
+                    <th></th>
+                    <th></th>
+                </tr>
 
-                        <cs-field data-ng-model="tax.GTaxesList" track-by="Id" field="TaxMaster.GTaxesList"></cs-field>
-                        <!--<cs-field data-ng-model="tax.IndustryZone" field="TaxMaster.IndustryZone"></cs-field>-->
-
-                        <cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>
-                        <!-- <div class="form-group">
-                                 <label class="control-label">Percentage</label>
-                                 <div class="controls">
-                                     <div class="input-append">
-                                         <input type="text"
-                                                data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"
-                                                data-ng-maxlength="99.99"
-                                                class="input-mini"
-                                                data-ng-model="tax.Percentage" />
-                                         <span class="add-on">%</span>
-                                     </div>
-                                 </div>
-                             </div>-->
-                        <!--<cs-field data-ng-model="tax.Percentage" field="TaxMaster.Percentage"></cs-field>-->
-                        <!--<input type="text" data-ng-model="tax.Percentage" data-ng-pattern="/^$|^\d{0,2}(\.\d{1,2})? *%?$/"/>-->
-
-                        <cs-field data-ng-model="tax.StartDate" field="TaxMaster.StartDate"></cs-field>
-
-                        <cs-field data-ng-model="tax.EndDate" field="TaxMaster.EndDate"></cs-field>
-                    </cs-form>
-
-                </div>
-                <div class="panel-footer text-right">
-                    <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>
-                    <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
-                    <cs-button type="Add" text="Reset" ng-click="resetTax()"></cs-button>
-                </div>
-            </div>
-        </form>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="tax in taxMasterList | filter: search">
+                    <td>
+                        <div class="btn-group" style="width: 70px">
+                            <icon-btn type="view" data-ng-click="showAddEditPopup('view', tax)"></icon-btn>
+                            <icon-btn type="edit" data-ng-click="showAddEditPopup('edit', tax)"></icon-btn>
+                        </div>
+                    </td>
+                    <td>{{tax.GTaxesList.TaxName}}</td>
+                    <td>{{tax.ApplicableTo}}</td>
+                    <td>{{tax.Country}}</td>
+                    <td>{{tax.State}}</td>
+                    <td>{{tax.Percentage}}</td>
+                    <td>{{tax.StartDate | date}}</td>
+                    <td>{{tax.EndDate | date}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row text-center tax-list-box-no-data" data-ng-hide="taxMasterList.length>0">
+            <label>No Master </label>
+        </div>
     </div>
-
 </div>
+
