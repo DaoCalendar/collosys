@@ -90,8 +90,8 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
 
     var getFileDetails = function (detailsid) {
         return apictrl.customGET('Get', { id: detailsid })
-            .then(function(data) {
-                return data; 
+            .then(function(data2) {
+                return data2; 
             },
             errorDisplay);
     };
@@ -135,10 +135,13 @@ csapp.controller("fileDetailsAddEditController", ["$scope", "$routeParams",
 
         (function () {
             $scope.fileDetailModel = $csModels.getColumns("FileDetail");
-
-            datalayer.Get($routeParams.id).then(function(data) {
-                $scope.fileDetail = data;
-            });
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function(data) {
+                    $scope.fileDetail = data;
+                });
+            } else {
+                $scope.fileDetail = {};
+            }
             $scope.isReadOnly = $routeParams.mode == 'view';
 
             if (angular.isUndefined($scope.fileDetail))
