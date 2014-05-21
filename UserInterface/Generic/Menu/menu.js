@@ -266,11 +266,11 @@ csapp.factory("menuFactory", [function () {
                 icon: "fa-cogs",
                 //display: getperm([permissions.Config.access]),
                 childMenu: [
-                    {
-                        Title: "Add Hierarchy",
-                        url: "#/generic/hierarchy/add",
-                        display: ""
-                    },
+                    //{
+                    //    Title: "Add Hierarchy",
+                    //    url: "#/generic/hierarchy/add",
+                    //    display: ""
+                    //},
                     {
                         Title: "View/Edit Hierarchy",
                         url: "#/generic/hierarchy",

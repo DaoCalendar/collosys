@@ -30,7 +30,7 @@
             designation: { label: 'Designation', type: 'text', maxlength: 100, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage:"Only Characters Required",required: true },
             Hierarchy: { label: 'Hierarchy', type: 'enum', required: true },
             ReportsTo: { label: 'Reports To', type: 'select', textField: 'Designation', valueField: 'Id'},
-            ReportsToDesignation: { label: 'Reports To', type: 'text' },
+            ReportsToDesignation: { label: 'Reports To', type: 'text'},
             WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id',},
             WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true, valueList: $csShared.enums.ReportingLevel },
             ApplicationName: { label: 'Name', type: 'text' },

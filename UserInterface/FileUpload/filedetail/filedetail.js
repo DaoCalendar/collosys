@@ -90,8 +90,8 @@ csapp.factory("fileDetailDataLayer", ["Restangular", "$csnotify", "$csfactory", 
 
     var getFileDetails = function (detailsid) {
         return apictrl.customGET('Get', { id: detailsid })
-            .then(function(data2) {
-                return data2; 
+            .then(function(data) {
+                return data; 
             },
             errorDisplay);
     };
