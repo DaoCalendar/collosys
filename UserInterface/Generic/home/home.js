@@ -9,6 +9,7 @@
             $scope.pqr = data;
         };
 
+        $scope.mask = '999-999';
 
         $scope.clear = function () {
             $scope.dt = null;
@@ -58,14 +59,13 @@
             };
 
             $scope.fields = [
-               { name: 'DOB', label: 'DOB',daysOfWeekDisabled:[0,1],minDate: '2014-06-02', required: true, type: 'date' },
+                 { name: 'Name',  editable: true, required: true, type: 'password' },
                  { name: 'select', label: 'select', textField: 'display', useRepeat: true, valueField: 'value', editable: false, required: true, type: 'select', min: 10, max: 100 },
                  { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
                  { type: 'btn-radio', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
-                 { name: 'Name', label: 'Name', editable: true, required: true, type: 'text', pattern: '/^[a-zA-Z]{0,15}$/', patternMessage: "pattern" },
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
                  { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
-                
+
 
                  { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
                  { name: 'Radio', label: 'Radio', editable: false, required: true, type: 'int' }

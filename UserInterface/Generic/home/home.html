@@ -1,9 +1,10 @@
 ﻿<div data-ng-if="true">
-    <input name="masked" type="text" ui-mask="(999) 999-9999" ng-model="x" />
-    <form>
-        <cs-form mode="'view'">
+    <form name="demo">
+        <input name="masked" ui-mask="{{mask}}" ng-model="x"  >{{x}}
+        <cs-form>
+           
             <div ng-controller="HomeCtrl">
-                <cs-field data-ng-model="date.dt" field="fields[3]" ></cs-field>
+                <cs-field data-ng-model="date.pw" field="fields[0]" ></cs-field>{{date.pw}}
             </div>
         </cs-form>
     </form>
