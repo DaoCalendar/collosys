@@ -1,46 +1,39 @@
 ﻿<div>
-    <label class="tax-list-heading">Tax Component List</label>
-    <div class="tax-list-box">
-        <table class="table table-bordered table-hover" data-ng-show="taxList.length>0">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Applicable To</th>
-                    <th>Industry Zone</th>
-                    <th>Apply On</th>
-                    <th>TOT Source</th>
-                    <th>Description</th>
-                </tr>
-                
-                <tr>
-                    <th></th>
-                    <th><input type="text" class="form-control" data-ng-model="search.TaxName" /></th>
-                    <th><input type="text" class="form-control" data-ng-model="search.TaxType" /></th>
-                    <th><input type="text" class="form-control" data-ng-model="search.ApplicableTo" /></th>
-                    <th></th>
-                    <th><input type="text" class="form-control" data-ng-model="search.ApplyOn" /></th>
-                    <th><input type="text" class="form-control" data-ng-model="search.TotSource" /></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-ng-repeat="t in taxList | filter: search">
-                    <td><icon-btn type="edit" data-ng-click="edit(t, $index)"></icon-btn></td>
-                    <td>{{t.TaxName}}</td>
-                    <td>{{t.TaxType}}</td>
-                    <td>{{t.ApplicableTo}}</td>
-                    <td>{{t.IndustryZone}}</td>
-                    <td>{{t.ApplyOn}}</td>
-                    <td>{{t.TotSource}}</td>
-                    <td>{{t.Description}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row text-center tax-list-box-no-data" data-ng-hide="taxList.length>0">
-            <label>No Tax added in list</label>
-        </div>
+    <!--    <div data-ng-include="baseUrl + 'Generic/taxlist/taxlist-list.html'"></div>-->
+    <div>
+        <form name="taxForm">
+            <div class="modal-header">
+                {{modelTitle}}
+            </div>
+            <div class="modal-body">
+                <cs-form layout="6.3.5" mode="mode">
+                    <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+
+                    <cs-field data-ng-model="tax.TaxType" 
+                              field="TaxList.TaxType"></cs-field>
+
+                    <cs-field data-ng-model="tax.ApplicableTo" 
+                              field="TaxList.ApplicableTo"></cs-field>
+
+                    <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
+                    
+                    <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
+
+                    <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
+                    
+                    <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
+                </cs-form>
+
+            </div>
+            <div class="modal-footer">
+                <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
+                <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="resetTax()"></cs-button>
+                <cs-button type="Add" text="Close" data-ng-click="closeTaxlist()"></cs-button>
+            </div>
+        </form>
     </div>
 
 </div>
+
+<!-- <cs-button type="Add" data-ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>-->
+

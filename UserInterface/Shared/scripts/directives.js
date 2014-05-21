@@ -513,57 +513,67 @@ csapp.directive('iconBtn', function () {
     var templateFn = function (element, attrs) {
         switch (attrs.type) {
             case 'add':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                     'data-toggle="tooltip" data-placement="top" title="Add">' +
                     '<span class="glyphicon glyphicon-plus"></span>' +
                     '</button>';
             case 'edit':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                     'data-toggle="tooltip" data-placement="top" title="Edit">' +
                     '<span class="glyphicon glyphicon-edit"></span>' +
                     '</button>';
             case 'view':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                     'data-toggle="tooltip" data-placement="top" title="View">' +
                     '<span class="glyphicon glyphicon-zoom-in"></span>' +
                     '</button>';
             case 'delete':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                     'data-toggle="tooltip" data-placement="top" title="Delete">' +
                     '<span class="glyphicon glyphicon-trash"></span>' +
                     '</button>';
             case 'up-arrow':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                     'data-toggle="tooltip" data-placement="top" title="Arrow-up">' +
                     '<span class="glyphicon glyphicon-arrow-up"></span>' +
                     '</button>';
             case 'down-arrow':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                      'data-toggle="tooltip" data-placement="top" title="Arrow-down">' +
                      '<span class="glyphicon glyphicon-arrow-down"></span>' +
                      '</button>';
             case 'remove':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                       'data-toggle="tooltip" data-placement="top" title="Remove">' +
                       '<span class="glyphicon glyphicon-remove"></span>' +
                       '</button>';
             case 'save':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                      'data-toggle="tooltip" data-placement="top" title="Save">' +
                      '<span class="glyphicon glyphicon-floppy-save"></span>' +
                      '</button>';
             case 'download':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm"' +
+                return '<button type="button"' +
                       '<data-toggle="tooltip" data-placement="top" title="Download">' +
                       '<span class="glyphicon glyphicon-download-alt"></span>' +
                       '</button>';
             case 'status':
-                return '<button type="button" class="btn btn-primary text-shadow btn-sm" ' +
+                return '<button type="button"' +
                      'data-toggle="tooltip" data-placement="top" title="Status">' +
                      '<span class="glyphicon glyphicon-zoom-in"></span>' +
                      '</button>';
+            case 'retry':
+                return '<button type="button"' +
+                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     '<span class="glyphicon glyphicon-repeat"></span>' +
+                     '</button>';
+            case 'forward':
+                return '<button type="button"' +
+                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     '<span class="glyphicon glyphicon-forward"></span>' +
+                     '</button>';
             case 'calendar':
-                return '<span class="glyphicon glyphicon-calendar"></span>';
+                return '<span class="glyphicon glyphicon-repeat"></span>';
             default:
         }
         return type;
@@ -585,7 +595,7 @@ csapp.directive('csList2', function () {
         template += '<li class="list-group-item" ng-repeat="row in valueList"';
         template += ' ng-click="onChange(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
         template += ' ng-model="ngModel" ng-class="{active : isSelected($index) }"';
-        template += ' value="row">{{row.' + attrs.textField +'}}</li>';
+        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
         template += '</ul>';
         template += '</div>';
         return template;
@@ -606,7 +616,7 @@ csapp.directive('csList2', function () {
     return {
         restrict: 'E',
         replace: true,
-        scope: {heading : '@', valueList: '=', ngModel: '=', onClick: '&'}, //textField
+        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&' }, //textField
         template: templateFn,
         link: linkFn,
         require: 'ngModel'

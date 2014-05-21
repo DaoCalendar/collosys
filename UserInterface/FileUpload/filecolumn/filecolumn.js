@@ -130,9 +130,9 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
         }, errorDisplay);
     };
 
-    var saveAllColumns = function () {
+    var saveAllColumns = function (column) {
         if (!dldata.fileDetail) { return; }
-        apictrl.customPOST(dldata.fileDetail, 'SaveAllColumns')
+        apictrl.customPOST(column, 'SaveAllColumns')
             .then(function (data) {
                 dldata.fileDetail = data;
                 $csnotify.success('All File Columns Save Successfully');

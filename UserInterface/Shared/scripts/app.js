@@ -32,6 +32,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/taxlist', {
                 templateUrl: baseUrl + 'Generic/taxlist/taxlist.html',
                 controller: 'taxlistCtrl'
+            }).when('/generic/taxlist/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/taxlist/taxlist-list.html',
+                controller: 'taxlistAddEditCtrl'
+            }).when('/generic/taxlist/addedit/:mode', {
+                templateUrl: baseUrl + 'Generic/taxlist/taxlist-list.html',
+                controller: 'taxlistAddEditCtrl'
             }).when('/generic/taxmaster', {
                 templateUrl: baseUrl + 'Generic/taxmaster/taxmaster.html',
                 controller: 'taxmasterCtrl'

@@ -1,41 +1,60 @@
 ﻿<div>
-    <div data-ng-include="baseUrl + 'Generic/taxlist/taxlist-list.html'"></div>
-    <div>
-        <form name="taxForm">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Tax Component Details
-                </div>
-                <div class="panel-body form-horizontal">
-                    <cs-form layout="6.3.5">
-                        <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+    <div class="modal-header">Tax Component List</div>
+    <div style="height: 550px; overflow: auto;">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Applicable To</th>
+                    <th>Industry Zone</th>
+                    <th>Apply On</th>
+                    <th>TOT Source</th>
+                    <th>Description</th>
+                </tr>
 
-                        <cs-field data-ng-model="tax.TaxType" 
-                                  field="TaxList.TaxType"></cs-field>
-
-                        <cs-field data-ng-model="tax.ApplicableTo" 
-                                  field="TaxList.ApplicableTo"></cs-field>
-
-                        <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
-                    
-                        <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
-
-                        <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
-                    
-                        <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
-                    </cs-form>
-
-                </div>
-                <div class="panel-footer text-right">
-                    <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>
-                    <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
-                    <cs-button type="Add" text="Reset" ng-click="resetTax()"></cs-button>
-                </div>
-            </div>
-        </form>
+                <tr>
+                    <th class="text-center">
+                        <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                    </th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.TaxName" /></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.TaxType" /></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.ApplicableTo" /></th>
+                    <th></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.ApplyOn" /></th>
+                    <th>
+                        <input type="text" class="form-control" data-ng-model="search.TotSource" /></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="tax in taxList | filter: search">
+                    <td>
+                        <div class="btn-group" style="width: 80px">
+                            <icon-btn type="edit" data-ng-click="showAddEditPopup('edit', tax)"></icon-btn>
+                            <icon-btn type="view" data-ng-click="showAddEditPopup('view', tax)"></icon-btn>
+                        </div>
+                    </td>
+                    <td>{{tax.TaxName}}</td>
+                    <td>{{tax.TaxType}}</td>
+                    <td>{{tax.ApplicableTo}}</td>
+                    <td>{{tax.IndustryZone}}</td>
+                    <td>{{tax.ApplyOn}}</td>
+                    <td>{{tax.TotSource}}</td>
+                    <td>{{tax.Description}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row text-center tax-list-box-no-data" data-ng-hide="taxList.length>0">
+            <label>No Tax added in list</label>
+        </div>
     </div>
 </div>
-
 
 <!--<div class="panel panel-default">
                 <div class="panel-heading">
