@@ -46,8 +46,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
     }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels',
-    function ($scope, datalayer, factory, $csfactory, $csModels) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels','tokenHelpers',
+    function ($scope, datalayer, factory, $csfactory, $csModels,tokenHelpers) {
 
         $scope.initFormulaList = function (product) {
             if (angular.isUndefined(product)) {
@@ -72,6 +72,13 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.boolOpr = {
                 showDetails: false
             };
+            $scope.selectedTokens = {
+                conditionTokens: [],
+                ifOutputTokens: [],
+                ElseOutputTokens: []
+            };
+            $scope.groupTokens = [];
+            $scope.groupTokens.push(tokenHelpers.tokenHelper.getEmptyGroupToken(0));
         };
 
         var getColumnNames = function (product) {
@@ -86,16 +93,28 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
 
         };
         
-        var combineTokens = function (selectedTokens) {
-            return _.union(selectedTokens.conditionTokens,
-                selectedTokens.ifOutputTokens,
-                selectedTokens.ElseOutputTokens);
+        var combineTokens = function (groupTokens) {
+            var list = [];
+            _.forEach(groupTokens, function(item) {
+                list = _.union(list, item.Condition,
+                    item.IfOutput, item.ElseOutput);
+            });
+            return list;
         };
 
-        var divideTokens = function(tokensList) {
-            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupId': '0.Condition' });
-            $scope.selectedTokens.ifOutputTokens = _.filter(tokensList, { 'GroupId': '1.Output' });
-            $scope.selectedTokens.ElseOutputTokens = _.filter(tokensList, { 'GroupId': '2.Output' });
+        var divideTokens = function (tokensList) {
+            $scope.groupTokens = [];
+            var maxGroupId = _.max(_.uniq(_.pluck(_.filter(tokensList, { 'GroupType': 'Condition' }), 'GroupId')));
+            if (maxGroupId != 0 || maxGroupId > 0) {
+                maxGroupId = _.max(_.uniq(_.pluck(_.filter(tokensList, { 'GroupType': 'Output' }), 'GroupId')));
+            }
+            for (var i = 0; i <= maxGroupId; i++) {
+                var groupToken = tokenHelpers.tokenHelper.getEmptyGroupToken(i);
+                groupToken.Condition = _.sortBy(_.filter(tokensList, { 'GroupType': 'Condition', 'GroupId': i }),'Priority');
+                groupToken.IfOutput =_.sortBy(_.filter(tokensList, { 'GroupType': 'Output', 'GroupId': i }),'Priority');
+                groupToken.ElseOutput =_.sortBy(_.filter(tokensList, { 'GroupType': 'ElseOutput'}),'Priority');
+                $scope.groupTokens.push(groupToken);
+            }
         };
 
         $scope.selectFormula = function (selectedformula) {
@@ -106,10 +125,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         
         
 
-        $scope.saveFormula = function(formula, selectedTokens) {
-            formula.BillTokens = combineTokens(selectedTokens);
+        $scope.saveFormula = function(formula, groupTokens) {
+            formula.BillTokens = combineTokens(groupTokens);
             datalayer.saveFormula(formula).then(function(data) {
-
             });
         };
         
@@ -118,11 +136,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.Formula = $csModels.getColumns("Formula");
-            $scope.selectedTokens = {
-                conditionTokens: [],
-                ifOutputTokens: [],
-                ElseOutputTokens: []
-            };
+            
             initPageData();
         })();
 
