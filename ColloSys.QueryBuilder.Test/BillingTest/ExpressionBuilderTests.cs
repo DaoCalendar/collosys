@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
@@ -110,7 +109,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var result = _builder.ExecuteCondition(_dataList, query);
             Assert.AreNotEqual(result.Count, 0);
         }
-
     }
 
     public class ExpressionBuilder<T>
@@ -122,23 +120,33 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             _parameterExpression = Expression.Parameter(typeof(T), "x");
         }
 
-        public Expression GetExpressionByField(BillTokens token)
+        public Expression ConvertColumnToExpression(BillTokens token)
+        {
+            var field = token.Value.Replace("CustBillViewModel.", "");
+            var exField = Expression.PropertyOrField(_parameterExpression, field);
+            return Expression.Convert(exField, typeof(decimal));
+        }
+
+        public Expression ConvertValueToExpression(BillTokens token)
+        {
+            var fieldValue = Convert.ChangeType(token.Value, typeof(decimal));
+            return Expression.Constant(fieldValue);
+        }
+
+        public Expression ConvertToken2Expression(BillTokens token)
         {
             switch (token.Type)
             {
                 case "Table":
-                    var field = token.Value.Replace("CustBillViewModel.", "");
-                    var exField = Expression.PropertyOrField(_parameterExpression, field);
-                    return Expression.Convert(exField, typeof(decimal));
+                    return ConvertColumnToExpression(token);
                 case "Value":
-                    var fieldValue = Convert.ChangeType(token.Value, typeof(decimal));
-                    return Expression.Constant(fieldValue);
+                    return ConvertValueToExpression(token);
                 default:
                     throw new ArgumentOutOfRangeException("token");
             }
         }
 
-        public Expression GetExpressionByOperator(Expression lhsExpression, Expression rhsExpression, BillTokens tokens)
+        public Expression CombineExpressionsByOperator(Expression lhsExpression, Expression rhsExpression, BillTokens tokens)
         {
             if (tokens.Type != "Operator") throw new ArgumentOutOfRangeException("tokens");
             switch (tokens.Value)
@@ -152,16 +160,10 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             }
         }
 
-        public Expression GetInitialExpression(BillTokens token)
+        public Expression AppendTokensToExpression(Expression expression, BillTokens operToken, BillTokens fieldToken)
         {
-            var ex = GetExpressionByField(token);
-            return ex;
-        }
-
-        public Expression GetExpression(Expression expression, BillTokens operToken, BillTokens fieldToken)
-        {
-            var rhs = GetExpressionByField(fieldToken);
-            return GetExpressionByOperator(expression, rhs, operToken);
+            var rhs = ConvertToken2Expression(fieldToken);
+            return CombineExpressionsByOperator(expression, rhs, operToken);
         }
 
         public Expression GenerateQuery(IEnumerable<BillTokens> tokens)
@@ -169,9 +171,9 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var billTokenses = tokens as BillTokens[] ?? tokens.ToArray();
             var tokenArray = billTokenses.ToArray();
 
-            var expression = GetInitialExpression(tokenArray[0]);
+            var expression = ConvertToken2Expression(tokenArray[0]);
             for (var i = 1; i < tokenArray.Length; i = i + 2)
-                expression = GetExpression(expression, tokenArray[i], tokenArray[i + 1]);
+                expression = AppendTokensToExpression(expression, tokenArray[i], tokenArray[i + 1]);
             return expression;
         }
 

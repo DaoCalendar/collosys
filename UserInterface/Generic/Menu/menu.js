@@ -85,7 +85,11 @@ csapp.factory("menuFactory", [function () {
                         Title: "Correct Errors",
                         url: "#/fileupload/errorcorrection",
                         //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Update.access])
-                    } //,
+                    },
+                    {
+                        Title: "Filter Data",
+                        url: "#/fileupload/filterCondition"
+                    }
                     //{
                     //    Title: "Approve Corrections",
                     //    url: "#/fileupload/errordata",
