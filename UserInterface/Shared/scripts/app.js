@@ -110,10 +110,10 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-grid.html',
                 controller: 'hierarchyController'
-            }).when('/generic/hierarchy/add', {
-                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-add.html',
-                controller: 'hierarchyAddController'
-            }).when('/generic/hierarchy/editview/:mode/:id', {
+            }).when('/generic/hierarchy/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
+                controller: 'hierarchyEditController',
+            }).when('/generic/hierarchy/addedit/:mode', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
             })

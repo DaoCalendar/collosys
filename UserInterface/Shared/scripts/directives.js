@@ -576,6 +576,42 @@ csapp.directive('iconBtn', function () {
     };
 });
 
+csapp.directive('csList2', function () {
+
+    var templateFn = function (element, attrs) {
+        var template = '<div class="row">';
+        template += '<a class="list-group-item alert-info">{{heading}}</a>';
+        template += '<ul class="list-group">';
+        template += '<li class="list-group-item" ng-repeat="row in valueList"';
+        template += ' ng-click="onChange(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
+        template += ' ng-model="ngModel" ng-class="{active : isSelected($index) }"';
+        template += ' value="row">{{row.' + attrs.textField +'}}</li>';
+        template += '</ul>';
+        template += '</div>';
+        return template;
+    };
+
+    var linkFn = function (scope, element, attrs) {
+        scope.onChange = function (row, index) {
+            if (angular.isUndefined(row)) return;
+            scope.$parent[attrs.ngModel] = row;
+            scope.selectedIndex = index;
+        };
+
+        scope.isSelected = function (index) {
+            return (scope.selectedIndex === index);
+        };
+    };
+
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {heading : '@', valueList: '=', ngModel: '=', onClick: '&'}, //textField
+        template: templateFn,
+        link: linkFn,
+        require: 'ngModel'
+    };
+});
 csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {

@@ -147,6 +147,7 @@
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\Menu\MenuApiController.cs" />
+    <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
     <Compile Include="Billing\SharedViewModel.cs" />

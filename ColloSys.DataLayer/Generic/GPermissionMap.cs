@@ -11,22 +11,16 @@ namespace ColloSys.DataLayer.Mapping
     {
         public GPermissionMap()
         {
-            Table("G_PERMISSIONS");
-
-            #region Property
-
-            Property(x => x.Activity, map => map.UniqueKey("UQ_G_PERMISSIONS"));
-            Property(x => x.Permission);
+            Property(x => x.Activity);
+            Property(x => x.HasAccess);
             Property(x => x.EscalationDays);
+            Property( x=> x.Description);
 
-            #endregion
-
-            ManyToOne(x => x.Role, map =>
-                {
-                    map.NotNullable(true);
-                    map.Index("IX_StakeHierarchy");
-                    map.UniqueKey("UQ_G_PERMISSIONS");
-                });
+            ManyToOne(x => x.Role, map =>{map.NotNullable(true);map.Index("IX_StakeHierarchy");});
+            Bag( x=> x.Childrens, map => map.Key( x=> x.Column("ParentId")), colmap => colmap.OneToMany());
+            ManyToOne(x => x.Permission, map => map.Column("ParentId"));
+                //map.Bag(x => x.MenuItems, cm =>cm.Key(km => km.Column("ParentMenuItem_Id")),m => m.OneToMany());
+                //map.ManyToOne(x =>x.ParentMenuItem, m => m.Column("ParentMenuItem_Id"));
         }
     }
 }
