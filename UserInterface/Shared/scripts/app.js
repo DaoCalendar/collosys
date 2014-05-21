@@ -32,6 +32,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/taxlist', {
                 templateUrl: baseUrl + 'Generic/taxlist/taxlist.html',
                 controller: 'taxlistCtrl'
+            }).when('/generic/taxlist/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/taxlist/taxlist-list.html',
+                controller: 'taxlistAddEditCtrl'
+            }).when('/generic/taxlist/addedit/:mode', {
+                templateUrl: baseUrl + 'Generic/taxlist/taxlist-list.html',
+                controller: 'taxlistAddEditCtrl'
             }).when('/generic/taxmaster', {
                 templateUrl: baseUrl + 'Generic/taxmaster/taxmaster.html',
                 controller: 'taxmasterCtrl'
@@ -110,10 +116,10 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-grid.html',
                 controller: 'hierarchyController'
-            }).when('/generic/hierarchy/add', {
-                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-add.html',
-                controller: 'hierarchyAddController'
-            }).when('/generic/hierarchy/editview/:mode/:id', {
+            }).when('/generic/hierarchy/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
+                controller: 'hierarchyEditController',
+            }).when('/generic/hierarchy/addedit/:mode', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
             })

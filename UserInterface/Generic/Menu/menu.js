@@ -85,7 +85,11 @@ csapp.factory("menuFactory", [function () {
                         Title: "Correct Errors",
                         url: "#/fileupload/errorcorrection",
                         //display: getperm([permissions.FileUpload.childrens.ErrorCorrection.childrens.Update.access])
-                    } //,
+                    },
+                    {
+                        Title: "Filter Data",
+                        url: "#/fileupload/filterCondition"
+                    }
                     //{
                     //    Title: "Approve Corrections",
                     //    url: "#/fileupload/errordata",
@@ -262,11 +266,11 @@ csapp.factory("menuFactory", [function () {
                 icon: "fa-cogs",
                 //display: getperm([permissions.Config.access]),
                 childMenu: [
-                    {
-                        Title: "Add Hierarchy",
-                        url: "#/generic/hierarchy/add",
-                        display: ""
-                    },
+                    //{
+                    //    Title: "Add Hierarchy",
+                    //    url: "#/generic/hierarchy/add",
+                    //    display: ""
+                    //},
                     {
                         Title: "View/Edit Hierarchy",
                         url: "#/generic/hierarchy",
