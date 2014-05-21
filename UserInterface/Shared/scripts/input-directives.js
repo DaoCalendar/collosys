@@ -453,6 +453,139 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
 }]);
 
+//{ label: 'Password',  editable: false, required: true, type: 'password'},
+csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
+
+    var $log = logManager.getInstance("csPasswordFieldFactory");
+
+    //#region template
+    //var prefix = function (fields) {
+    //    var html = ' ';
+    //    switch (fields.template) {
+    //        case 'user':
+    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
+    //            break;
+    //        case 'phone':
+    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
+    //            break;
+    //        case 'percentage':
+    //            html += '<div class="input-group">';
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //    return html;
+    //};
+
+    //var suffix = function (fields) {
+    //    var html = ' ';
+    //    switch (fields.template) {
+    //        case 'user':
+    //            html += '</div>';
+    //            break;
+    //        case 'phone':
+    //            html += '</div>';
+    //            break;
+    //        case 'percentage':
+    //            html += '<span class="input-group-addon"><label>%</label></span></div>';
+    //        default:
+    //            break;
+    //    }
+    //    return html;
+    //};
+
+    var input = function (field, attrs) {
+        var html = '<input  name="myfield" type="password"';
+        html += ' ng-model="$parent.' + attrs.ngModel + '"';
+        html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
+        html += ' class ="minWidth form-control"';
+        html += (angular.isDefined(field.minlength) ? ' ng-minlength="' + field.minlength + '"' : '');
+        html += (angular.isDefined(field.maxlength) ? ' ng-maxlength="' + field.maxlength + '"' : '');
+        html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
+        html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
+        html += '/>';
+        return html;
+    };
+
+    var htmlTemplate = function (field, attrs) {
+        var noBootstrap = angular.isDefined(attrs.noLabel);
+        var template = [
+            bstemplate.before(field, noBootstrap, attrs),
+            valtemplate.before(field),
+            //prefix(field),
+            input(field, attrs),
+            //suffix(field),
+            valtemplate.after(attrs.field, field),
+            bstemplate.after(noBootstrap)
+        ].join(' ');
+        return template;
+    };
+    //#endregion
+
+    //#region validations
+    var applyTemplates = function(options) {
+        if (angular.isUndefined(options.template) || options.template === null) {
+            return;
+        }
+
+        var tmpl = options.template.split(",").filter(function(str) { return str !== ''; });
+        angular.forEach(tmpl, function(template) {
+            if (template.length < 1) return;
+
+            switch (template) {
+            case "alphanum":
+                options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                options.patternMessage = "Value contains non-numeric character/s.";
+                break;
+            case "alphabates":
+                options.pattern = "/^[a-zA-Z ]*$/";
+                options.patternMessage = "Value contains non-alphabtical character/s.";
+                break;
+            case "numeric":
+                options.pattern = "/^[0-9]*$/";
+                options.patternMessage = "Value contains non-numeric character/s.";
+                break;
+            case "phone":
+                options.length = 10;
+                options.pattern = "/^[0-9]{10}$/";
+                options.patternMessage = "Phone number must contain 10 digits.";
+                options.mask = "(999) 999-9999";
+                break;
+            case "pan":
+                options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                break;
+            case "user":
+                options.pattern = "/^[0-9]{7}$/";
+                options.patternMessage = "UserId must be a 7 digit number";
+                break;
+            default:
+                $log.error(template + " is not defined");
+            }
+        });
+    };
+
+    var validateOptions = function (options) {
+        applyTemplates(options);
+        options.minlength = options.length || options.minlength || 0;
+        options.maxlength = options.length || options.maxlength || 255;
+        options.minlength = (options.minlength >= 0 && options.minlength <= 18) ? options.minlength : 0;
+        options.maxlength = (options.maxlength >= 0 && options.maxlength <= 255) ? options.maxlength : 255;
+        if (parseInt(options.minlength) > parseInt(options.maxlength)) {
+            var error = "minlength(" + options.minlength + ") cannot be greather than maxlength(" + options.maxlength + ").";
+            throw error;
+        }
+        options.label = options.label || "Password";
+        options.patternMessage = options.patternMessage || "Dosen't follow the specified pattern: " + options.pattern;
+    };
+    //#endregion
+
+    return {
+        htmlTemplate: htmlTemplate,
+        checkOptions: validateOptions
+    };
+}]);
+
 //{ label: "label", type: 'textarea', pattern: '/^[a-zA-Z ]{1,100}$/', patternMessage: 'Invalid Name' }
 csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
@@ -1102,8 +1235,8 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2, passwordFactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -1125,6 +1258,8 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                     return enumFactory;
                 case 'date':
                     return dateFactory;
+                case 'password':
+                    return passwordFactory;
                 case 'btn-radio':
                     return boolFactory;
                 default:
