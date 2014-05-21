@@ -85,234 +85,234 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             }
         }
 
-        private static void InsertIntoGPermission()
-        {
-            var session = SessionManager.GetCurrentSession();
+        //private static void InsertIntoGPermission()
+        //{
+        //    var session = SessionManager.GetCurrentSession();
 
-            #region Role For Field
+        //    #region Role For Field
 
-            var roleHoc = session.QueryOver<StkhHierarchy>()
-                                 .Where(x => x.Designation == "HOC" && x.Hierarchy == "Field")
-                                 .SingleOrDefault();
-            var roleNcm = session.QueryOver<StkhHierarchy>()
-                                 .Where(x => x.Designation == "NCM" && x.Hierarchy == "Field")
-                                 .SingleOrDefault();
-            var roleRcm = session.QueryOver<StkhHierarchy>()
-                                 .Where(x => x.Designation == "RCM" && x.Hierarchy == "Field")
-                                 .SingleOrDefault();
-            var roleDeveloper = session.QueryOver<StkhHierarchy>()
-                                       .Where(x => x.Designation == "Developer" && x.Hierarchy == "Developer")
-                                       .SingleOrDefault();
-            var roleClusterManager = session.QueryOver<StkhHierarchy>()
-                                            .Where(x => x.Designation == "ClusterManager" && x.Hierarchy == "Field")
-                                            .SingleOrDefault();
-            var roleLocationManager = session.QueryOver<StkhHierarchy>()
-                                             .Where(x => x.Designation == "LocationManager" && x.Hierarchy == "Field")
-                                             .SingleOrDefault();
-            var roleFieldCollector = session.QueryOver<StkhHierarchy>()
-                                            .Where(x => x.Designation == "Collector" && x.Hierarchy == "Field")
-                                            .SingleOrDefault();
-            var roleAgencySupervisor = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "AgencySupervisor" && x.Hierarchy == "Field")
-                                              .SingleOrDefault();
+        //    var roleHoc = session.QueryOver<StkhHierarchy>()
+        //                         .Where(x => x.Designation == "HOC" && x.Hierarchy == "Field")
+        //                         .SingleOrDefault();
+        //    var roleNcm = session.QueryOver<StkhHierarchy>()
+        //                         .Where(x => x.Designation == "NCM" && x.Hierarchy == "Field")
+        //                         .SingleOrDefault();
+        //    var roleRcm = session.QueryOver<StkhHierarchy>()
+        //                         .Where(x => x.Designation == "RCM" && x.Hierarchy == "Field")
+        //                         .SingleOrDefault();
+        //    var roleDeveloper = session.QueryOver<StkhHierarchy>()
+        //                               .Where(x => x.Designation == "Developer" && x.Hierarchy == "Developer")
+        //                               .SingleOrDefault();
+        //    var roleClusterManager = session.QueryOver<StkhHierarchy>()
+        //                                    .Where(x => x.Designation == "ClusterManager" && x.Hierarchy == "Field")
+        //                                    .SingleOrDefault();
+        //    var roleLocationManager = session.QueryOver<StkhHierarchy>()
+        //                                     .Where(x => x.Designation == "LocationManager" && x.Hierarchy == "Field")
+        //                                     .SingleOrDefault();
+        //    var roleFieldCollector = session.QueryOver<StkhHierarchy>()
+        //                                    .Where(x => x.Designation == "Collector" && x.Hierarchy == "Field")
+        //                                    .SingleOrDefault();
+        //    var roleAgencySupervisor = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "AgencySupervisor" && x.Hierarchy == "Field")
+        //                                      .SingleOrDefault();
 
-            #endregion
+        //    #endregion
 
-            #region Role for Telecalling
-            var roleHubManager = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "HubManager" && x.Hierarchy == "Telecalling")
-                                              .SingleOrDefault();
-            var roleTeleManager = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "Manager" && x.Hierarchy == "Telecalling")
-                                              .SingleOrDefault();
-            var roleTelecallingSupervisor = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "TelecallingSupervisor" && x.Hierarchy == "Telecalling")
-                                              .SingleOrDefault();
-            var roleTelecaller = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "Telecaller" && x.Hierarchy == "Telecalling")
-                                              .SingleOrDefault();
-            #endregion
+        //    #region Role for Telecalling
+        //    var roleHubManager = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "HubManager" && x.Hierarchy == "Telecalling")
+        //                                      .SingleOrDefault();
+        //    var roleTeleManager = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "Manager" && x.Hierarchy == "Telecalling")
+        //                                      .SingleOrDefault();
+        //    var roleTelecallingSupervisor = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "TelecallingSupervisor" && x.Hierarchy == "Telecalling")
+        //                                      .SingleOrDefault();
+        //    var roleTelecaller = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "Telecaller" && x.Hierarchy == "Telecalling")
+        //                                      .SingleOrDefault();
+        //    #endregion
 
-            #region Role For BackOffice
-            var roleBackNcm = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "NCM" && x.Hierarchy == "BackOffice")
-                                              .SingleOrDefault();
-            var rolebackManager = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "Manager" && x.Hierarchy == "BackOffice")
-                                              .SingleOrDefault();
-            var roleOfficer = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "Officer" && x.Hierarchy == "BackOffice")
-                                              .SingleOrDefault();
-            var roleAsstMnager = session.QueryOver<StkhHierarchy>()
-                                              .Where(x => x.Designation == "AsstManager" && x.Hierarchy == "BackOffice")
-                                              .SingleOrDefault();
-            #endregion
+        //    #region Role For BackOffice
+        //    var roleBackNcm = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "NCM" && x.Hierarchy == "BackOffice")
+        //                                      .SingleOrDefault();
+        //    var rolebackManager = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "Manager" && x.Hierarchy == "BackOffice")
+        //                                      .SingleOrDefault();
+        //    var roleOfficer = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "Officer" && x.Hierarchy == "BackOffice")
+        //                                      .SingleOrDefault();
+        //    var roleAsstMnager = session.QueryOver<StkhHierarchy>()
+        //                                      .Where(x => x.Designation == "AsstManager" && x.Hierarchy == "BackOffice")
+        //                                      .SingleOrDefault();
+        //    #endregion
 
-            #region Permission for Field
+        //    #region Permission for Field
 
-            var permission1 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.Allocation,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleHoc
-                };
-            var permission2 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.Stakeholder,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleNcm
-                };
-            var permission3 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.Allocation,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleRcm
-                };
-            var permission5 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleNcm
-                };
-            var permission6 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileApproval,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleNcm
-                };
-            var permission7 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.Development,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleDeveloper
-                };
-            var permission8 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleClusterManager
-                };
-            var permission9 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleLocationManager
-                };
-            var permission10 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleFieldCollector
-                };
-            var permission11 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleAgencySupervisor
-                };
+        //    var permission1 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.Allocation,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleHoc
+        //        };
+        //    var permission2 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.Stakeholder,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleNcm
+        //        };
+        //    var permission3 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.Allocation,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleRcm
+        //        };
+        //    var permission5 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleNcm
+        //        };
+        //    var permission6 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileApproval,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleNcm
+        //        };
+        //    var permission7 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.Development,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleDeveloper
+        //        };
+        //    var permission8 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleClusterManager
+        //        };
+        //    var permission9 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleLocationManager
+        //        };
+        //    var permission10 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleFieldCollector
+        //        };
+        //    var permission11 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleAgencySupervisor
+        //        };
 
-            #endregion
+        //    #endregion
 
-            #region Permission for Telecalling
+        //    #region Permission for Telecalling
 
-            var permission12 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleHubManager
-                };
-            var permission13 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleTeleManager
-                };
-            var permission14 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleTelecallingSupervisor
-                };
-            var permission15 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleTelecaller
-                };
-            #endregion
+        //    var permission12 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleHubManager
+        //        };
+        //    var permission13 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleTeleManager
+        //        };
+        //    var permission14 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleTelecallingSupervisor
+        //        };
+        //    var permission15 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleTelecaller
+        //        };
+        //    #endregion
 
-            #region Permission For Backoffice
+        //    #region Permission For Backoffice
 
-            var permission16 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleBackNcm
-                };
-            var permission17 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = rolebackManager
-                };
-            var permission18 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleOfficer
-                };
-            var permission19 = new GPermission
-                {
-                    EscalationDays = 5,
-                    Activity = ColloSysEnums.Activities.FileUploader,
-                    Permission = ColloSysEnums.Permissions.Approve,
-                    Role = roleAsstMnager
-                };
-            #endregion
+        //    var permission16 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleBackNcm
+        //        };
+        //    var permission17 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = rolebackManager
+        //        };
+        //    var permission18 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleOfficer
+        //        };
+        //    var permission19 = new GPermission
+        //        {
+        //            EscalationDays = 5,
+        //            Activity = ColloSysEnums.Activities.FileUploader,
+        //            Permission = ColloSysEnums.Permissions.Approve,
+        //            Role = roleAsstMnager
+        //        };
+        //    #endregion
 
-            using (var trans = session.BeginTransaction())
-            {
-                session.SaveOrUpdate(permission1);
-                session.SaveOrUpdate(permission2);
-                session.SaveOrUpdate(permission3);
-                session.SaveOrUpdate(permission5);
-                session.SaveOrUpdate(permission6);
-                session.SaveOrUpdate(permission7);
-                session.SaveOrUpdate(permission8);
-                session.SaveOrUpdate(permission9);
-                session.SaveOrUpdate(permission10);
-                session.SaveOrUpdate(permission11);
-                session.SaveOrUpdate(permission12);
-                session.SaveOrUpdate(permission13);
-                session.SaveOrUpdate(permission14);
-                session.SaveOrUpdate(permission14);
-                session.SaveOrUpdate(permission15);
-                session.SaveOrUpdate(permission16);
-                session.SaveOrUpdate(permission17);
-                session.SaveOrUpdate(permission18);
-                session.SaveOrUpdate(permission19);
+        //    using (var trans = session.BeginTransaction())
+        //    {
+        //        session.SaveOrUpdate(permission1);
+        //        session.SaveOrUpdate(permission2);
+        //        session.SaveOrUpdate(permission3);
+        //        session.SaveOrUpdate(permission5);
+        //        session.SaveOrUpdate(permission6);
+        //        session.SaveOrUpdate(permission7);
+        //        session.SaveOrUpdate(permission8);
+        //        session.SaveOrUpdate(permission9);
+        //        session.SaveOrUpdate(permission10);
+        //        session.SaveOrUpdate(permission11);
+        //        session.SaveOrUpdate(permission12);
+        //        session.SaveOrUpdate(permission13);
+        //        session.SaveOrUpdate(permission14);
+        //        session.SaveOrUpdate(permission14);
+        //        session.SaveOrUpdate(permission15);
+        //        session.SaveOrUpdate(permission16);
+        //        session.SaveOrUpdate(permission17);
+        //        session.SaveOrUpdate(permission18);
+        //        session.SaveOrUpdate(permission19);
 
-                trans.Commit();
-            }
+        //        trans.Commit();
+        //    }
 
-        }
+        //}
 
         private static void InsertIntoUsers()
         {

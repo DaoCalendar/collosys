@@ -188,14 +188,23 @@ namespace ColloSys.DataLayer.Enumerations
         [Serializable]
         public enum Activities
         {
-            All,
-            Development,
+            AddEdit,
+            View,
+            Approve,
+            FileUploader,
+            CreateFile,
+            ScheduleFile,
+            CustomerData,
+            UploadPincode,
+            ErrorCorrection,
+            Stakeholder,
             Allocation,
             Billing,
-            FileUploader,
-            FileApproval,
-            Stakeholder,
-            Reporting
+            Config,
+            Developer,
+            AddHierarchy,
+            Schedule,
+            Status
         }
 
         [Serializable]
