@@ -198,6 +198,11 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.approvedPolicyList = [];
             $scope.ApproveUnapp = [];
             $scope.draftAndExpired = [];
+            $scope.subpolicyObj = {
+                name: "",
+                type: "",
+                subpolicy: {}
+            };
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
         })();
 
