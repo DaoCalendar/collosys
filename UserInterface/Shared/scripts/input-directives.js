@@ -350,6 +350,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
         html += ' class ="minWidth form-control"';
+        html += angular.isDefined(field.mask) ? 'ui-mask="{{field.mask}}"' : ' ';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
@@ -409,9 +410,9 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.patternMessage = "Value contains non-numeric character/s.";
                     break;
                 case "phone":
-                    options.length = 10;
-                    options.pattern = "/^[0-9]{10}$/";
-                    options.patternMessage = "Phone number must contain 10 digits.";
+                    //options.length = 10;
+                    //options.pattern = "/^[0-9]{10}$/";
+                    //options.patternMessage = "Phone number must contain 10 digits.";
                     options.mask = "(999) 999-9999";
                     break;
                 case "pan":
