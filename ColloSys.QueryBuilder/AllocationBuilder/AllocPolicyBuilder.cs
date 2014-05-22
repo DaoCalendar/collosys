@@ -11,6 +11,7 @@ using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
 using NHibernate.Criterion;
 using NHibernate.SqlCommand;
+using NHibernate.Transform;
 
 #endregion
 
@@ -61,6 +62,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
                                  .Where(x => x.Products == products && x.Category == category)
+                                 .TransformUsing(Transformers.DistinctRootEntity)
                                  .SingleOrDefault();
         }
     }
