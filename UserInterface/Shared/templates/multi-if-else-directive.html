@@ -1,27 +1,28 @@
 ﻿<div class="row">
     <table class="table table-bordered">
-        <tr data-ng-repeat="d in noOfIf">
-            <td class="text-center">If</td>
+        <tr data-ng-repeat="d in noOfIf track by $index">
             <td>
                 <div>
-                    <div class="col-md-2 text-center">Condition</div>
+                    <div class="col-md-2 text-center">When</div>
                     <div class="col-md-10">
                         <cs-condition table-name="{{tableName}}"
                                       selected="selected"
                                       formula-list="formulaList"
-                                      group-id="{{$index}}.Condition"
-                                      tokens-list="tokensList.conditionTokens"
+                                      group-id="{{$index}}"
+                                      group-type="Condition"
+                                      tokens-list="tokensList[$index].Condition"
                                       debug="{{debug}}"></cs-condition>
                     </div>
                 </div>
                 <div>
-                    <div class="col-md-2 text-center">Output</div>
+                    <div class="col-md-2 text-center">Then</div>
                     <div class="col-md-10">
                         <cs-output table-name="{{tableName}}"
                                    selected="selected"
                                    formula-list="formulaList"
-                                   group-id="{{$index}}.Output"
-                                   tokens-list="tokensList.ifOutputTokens"
+                                   group-id="{{$index}}"
+                                   group-type="Output"
+                                   tokens-list="tokensList[$index].IfOutput"
                                    debug="{{debug}}"></cs-output>
                     </div>
                 </div>
@@ -32,6 +33,7 @@
                        class="btn btn-default"
                        value="Add If"
                        data-ng-click="addIf($index)" />
+
                 <input type="button"
                        class="btn btn-default"
                        value="Delete If"
@@ -40,15 +42,15 @@
             </td>
         </tr>
         <tr>
-            <td>Else</td>
             <td>
-                <div class="col-md-2">Output</div>
+                <div class="col-md-2">Otherwise</div>
                 <div class="col-md-10">
                     <cs-output table-name="{{tableName}}"
                                selected="selected"
                                formula-list="formulaList"
-                               group-id="{{noOfIf.length}}.Output"
-                               tokens-list="tokensList.ElseOutputTokens"
+                               group-id="{{noOfIf.length}}"
+                               group-type="ElseOutput"
+                               tokens-list="tokensList[0].ElseOutput"
                                debug="{{debug}}"></cs-output>
                 </div>
             </td>

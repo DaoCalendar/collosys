@@ -28,7 +28,6 @@
                 <div data-ng-include="baseUrl + 'Billing/formula2/formula-details.html'">load formula details</div>
                 <div data-ng-include="baseUrl + 'Billing/formula2/condition.html'">load condition details</div>
                 <div data-ng-include="baseUrl + 'Billing/formula2/output.html'">load condition details</div>
-                <div data-ng-include="baseUrl + 'Billing/formula2/if-else.html'">load condition details</div>
                 <div data-ng-include="baseUrl + 'Billing/formula2/multi-if-else.html'">load condition details</div>
             </div>
             <div class="col-md-9 text-right" data-ng-show="selParams.selectedProduct">
@@ -36,7 +35,7 @@
                        class="btn btn-default"
                        value="Save"
                        data-ng-disabled="formulaMain.$invalid"
-                       data-ng-click="saveFormula(formula,selectedTokens)" />
+                       data-ng-click="saveFormula(formula,groupTokens)" />
             </div>
 
         </div>

@@ -24,7 +24,7 @@
     };
 }]);
 
-csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory", "$csModels","$csnotify",
+csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'allocPolicyDataLayer', "allocPolicyFactory", "$csModels", "$csnotify",
     function ($scope, modeldata, $modalInstance, datalayer, factory, $csModels, $csnotify) {
         $scope.modalData = modeldata;
         $scope.allocmodalData = $csModels.getColumns("AllocPolicy");
@@ -37,10 +37,10 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
             startDate = moment(startDate);
             endDate = moment(endDate);
             $scope.isModalDateValid = (endDate > startDate);
-            if ($scope.isModalDateValid===false) {
+            if ($scope.isModalDateValid === false) {
                 $csnotify.success("EndDate should be Greater Than StartDate");
             }
-           
+
         };
 
 
@@ -168,20 +168,20 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.approve = function (allocRelation) {
-            datalayer.approveRelation(allocRelation).then(function() {
+            datalayer.approveRelation(allocRelation).then(function () {
                 $scope.buttonStatus = null;
                 allocRelation.Status = 'Approved';
             });
         };
 
         $scope.reject = function (allocRelation) {
-            
-            datalayer.RejectSubPolicy(allocRelation).then(function() {
+
+            datalayer.RejectSubPolicy(allocRelation).then(function () {
                 $scope.buttonStatus = null;
                 allocRelation.Status = 'Rejected';
             });
         };
-       
+
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -194,10 +194,52 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 subPolicyIndex: -1,
                 forActivate: true
             };
-           // $scope.datalayer.getProducts();
+            $scope.expiredPolicyList = [];
+            $scope.approvedPolicyList = [];
+            $scope.ApproveUnapp = [];
+            $scope.draftAndExpired = [];
+            $scope.subpolicyObj = {
+                name: "",
+                type: "",
+                subpolicy: {}
+            };
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
-           
         })();
+
+        $scope.changeProductCategory = function () {
+            datalayer.changeProductCategory().then(function (data) {
+                $scope.dldata.allocPolicy = data.AllocPolicy;
+                $scope.dldata.subPolicyList = data.UnUsedSubpolicies;
+                $scope.expiredPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    return $scope.frelation(row, false, '');
+                });
+                $scope.approvedPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    return $scope.frelation(row, true, 'Approved');
+                });
+                $scope.unapprovedPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    return $scope.frelation(row, true, 'Submitted');
+                });
+                $scope.draftAndExpired = _.union($scope.expiredPolicyList, $scope.dldata.subPolicyList);
+                $scope.ApproveUnapp = _.union($scope.approvedPolicyList, $scope.unapprovedPolicyList);
+
+            });
+            console.log($scope.expiredPolicyList);
+            console.log($scope.approvedPolicyList);
+        };
+
+        $scope.frelation = function (relation, todayActive, status) {
+            var today = moment();
+            // var startDate = moment(relation.StartDate);
+            var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
+            var diff = endDate.diff(today, 'days');
+            var dateFilter = ((diff >= 0) === todayActive);
+            var statusfilter = true;
+            if (status != '') {
+                statusfilter = relation.Status == status;
+            }
+            return (dateFilter && statusfilter);
+        };
+
     }]);
 
 csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
@@ -223,14 +265,20 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
 
             if (!angular.isUndefined(allocPolicy.Products) && !angular.isUndefined(allocPolicy.Category)) {
 
-                api.customGET("GetAllocPolicy", { products: allocPolicy.Products, category: allocPolicy.Category }).then(function (data) {
-                    dldata.allocPolicy = data.AllocPolicy;
-                    dldata.subPolicyList = data.UnUsedSubpolicies;
-                }, function (data) {
-                    $csnotify.error(data);
-                });
+                return api.customGET("GetAllocPolicy", { products: allocPolicy.Products, category: allocPolicy.Category });//.then(function (data) {
+                //console.log(data);
+                //dldata.allocPolicy = data.AllocPolicy;
+                //dldata.subPolicyList = data.UnUsedSubpolicies;
+                //dldata.expiredPolicyList = _.filter(dldata.allocPolicy.AllocRelations, function (row) {
+                //    return frelation(row, false, '');
+                //});
+                //console.log(expiredPolicyList);
+                //}, function (data) {
+                //    $csnotify.error(data);
+                //});
             }
         };
+
 
         var rejectSubPolicy = function (rejectedRelation) {
             return api.customDELETE("RejectSubpolicy", { id: rejectedRelation.Id }).then(function () {
@@ -246,7 +294,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             var origId = relation.OrigEntityId;
             var origRelation = _.find(dldata.allocPolicy.AllocRelations, { Id: origId });
             return api.customGET('ApproveRelation', { relationId: relation.Id }).then(function (data) {
-               // dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
+                // dldata.allocPolicy.AllocRelations.splice(dldata.allocPolicy.AllocRelations.indexOf(origRelation), 1);
                 $csnotify.success('Subpolicy Approved');
                 return;
             });
@@ -293,11 +341,10 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             RejectSubPolicy: rejectSubPolicy,
             saveAllocPolicy: saveAllocPolicy,
             reset: reset,
-            approveRelation: approveRelation
+            approveRelation: approveRelation,
+
         };
     }]);
-
-
 
 csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer) {
 

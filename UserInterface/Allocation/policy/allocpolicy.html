@@ -2,11 +2,16 @@
     <div data-ng-form="allocPolicyForm">
         <div class="row">
             <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
-                      data-ng-change="datalayer.changeProductCategory();buttonStatus=null" ng-required="true"></cs-field>
+                      data-ng-change="changeProductCategory();buttonStatus=null" ng-required="true"></cs-field>
         </div>
     </div>
-
-    <div class="row">
+    <!--<div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
+        <cs-dual-list lhs-heading="Expired/Draft" rhs-heading="Approved/UnApproved"
+                      lhs-value-list="draftAndExpired"
+                      rhs-value-list="ApproveUnapp" text-field="AllocSubpolicy.Name"
+                      ng-model="policy" on-click="setDisplaySubpolicy(policy.AllocSubpolicy);setButtonStatus('Expired')"></cs-dual-list>
+    </div>-->
+    <div class="row" data-ng-show="dldata.allocPolicy.Products">
         <div class="col-md-1">
         </div>
         <div class="col-md-4">

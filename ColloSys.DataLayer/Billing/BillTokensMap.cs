@@ -10,6 +10,7 @@ namespace ColloSys.DataLayer.Billing
             Property(x => x.Text);
             Property(x => x.Value);
             Property(x => x.DataType);
+            Property(x=>x.GroupType);
             Property(x => x.GroupId);
             Property(x => x.Priority);
 
