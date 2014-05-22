@@ -10,6 +10,7 @@ using NHibernate.Criterion;
 using NHibernate.Linq;
 using NUnit.Framework;
 using System.Linq.Expressions;
+using System.Linq.Dynamic;
 using Expression = System.Linq.Expressions.Expression;
 
 #endregion
@@ -50,6 +51,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             Assert.AreEqual(result.Count, 0);
+        }
+
+        [Test]
+        public void GreaterThan_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Cycle > 2").ToList();
+            var actual = _dataList.Where(x => x.Cycle > 2).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
         }
 
         private IList<BillTokens> SumOfTwoTokens()
@@ -120,6 +129,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actual);
         }
 
+        [Test]
+        public void SumnGreaterThan_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Cycle + 2 > 0").ToList();
+            var actual = _dataList.Where(x => x.Cycle + 2 > 0).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
         #region Token by Mayur
 
         #region Condition
@@ -145,6 +162,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actual);
         }
 
+        [Test]
+        public void ProductEqualPL_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Product = \"PL\"").ToList();
+            var actual = _dataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
         // x => x.CityCategory.IsIn(new object[] { "Metro", "A" })
         private IList<BillTokens> CityCategoryIsIn_Tokens()
         {
@@ -163,9 +188,18 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var condtions = CityCategoryIsIn_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
-            var actual = _dataList.Count(x => x.CityCategory.IsIn(new object[] { "Metro", "A" }));
+            var actual = _dataList.Where(x => x.CityCategory.IsIn(new object[] { "Metro", "A" }));
             Assert.AreEqual(result.Count, actual);
         }
+
+        [Test]
+        public void CityCategoryIsIn_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("CityCategory.IsIn(\"Metro\",\"A\")").ToList();
+            var actual = _dataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
 
         // x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1 && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL
         private IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
