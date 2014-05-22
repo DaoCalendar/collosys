@@ -146,7 +146,7 @@
             Value: { label: 'Value', type: 'number', template: 'decimal', required: true },
             ValuePercent: { label: 'Value', type: 'number', template: 'percentage', required: true },
             TransactionType: { label: 'Transaction Type', type: 'radio', options: [{ value: 'Fixed', key: 'Fixed' }, { value: 'Recurring', key: 'Recurring' }], valueField: 'value', textField: 'key', required: true },
-            Tenure: { label: 'Tenure', type: 'number', max: 24, min: 1 },
+            Tenure: { label: 'Tenure', type: 'number',template:'int', max: 24, min: 0 },
         };
     };
 
