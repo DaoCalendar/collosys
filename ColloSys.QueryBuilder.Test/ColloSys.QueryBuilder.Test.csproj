@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
+    <Compile Include="BillingTest\StringQueryBuilder.cs" />
     <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
