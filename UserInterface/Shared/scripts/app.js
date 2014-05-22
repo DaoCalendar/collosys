@@ -161,6 +161,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/adhoc', {
                 templateUrl: baseUrl + 'Billing/adhoc/adhoc.html',
                 controller: 'adhocPayoutCtrl'
+            }).when('/billing/adhoc/addedit/:mode', {
+                templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
+                controller: 'adhocPaymentCtrl'
             }).when('/billing/adhocbulk', {
                 templateUrl: baseUrl + 'Billing/adhocbulk/adhocbulk.html',
                 controller: 'adhocbulkCtrl'
@@ -207,6 +210,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
             }).when('/generic/pincode/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
+                controller: 'editPincodeModalController',
+            }).when('/generic/pincode/addedit/:mode', {
                 templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
                 controller: 'editPincodeModalController',
             }).when('/generic/changepassword', {

@@ -1,13 +1,10 @@
 ﻿<!--ModalPopUp for payment Details -->
 
 <div data-ng-form="adhocPayoutform" class="form-horizontal">
-    <div class="modal-content" style="height: 350px; width: 900px">
-        <div class="modal-header">
-            <div class="modal-title">Payout Details</div>
-        </div>
+        <div class="modal-header">Payout Details</div>
 
         <div class="modal-body">
-            <cs-form layout="6.4.7">
+            <cs-form layout="7.4.8">
                  <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
                  <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
                            data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
@@ -24,10 +21,9 @@
                     </cs-form>
         </div>
 
-        <div class="modal-footer ">
+        <div class="modal-footer">
             <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)">Approve</button>
             <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
             <button class="btn btn-info" data-ng-click="resetadhocPayout()">Reset</button>
         </div>
     </div>
-</div>
