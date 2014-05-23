@@ -8,6 +8,12 @@
             $scope.dldata.Clusters = [];
             $scope.dldata.Districts = [];
             $scope.dldata.City = [];
+            datalayer.getCityCategory();
+            datalayer.getRegion();
+            datalayer.getState();
+            datalayer.getCluster();
+            datalayer.getDistrict();
+            datalayer.getCity();
             datalayer.getState();
             datalayer.getWholePincode();
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
@@ -145,9 +151,9 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
         };
 
         var getWholePincode = function () {
-            if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
-                return;
-            }
+            //if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
+            //    return;
+            //}
             pincodeApi.customGET('GetWholePincode').then(function (data) {
                 dldata.PincodeUintList = data;
             });
@@ -311,6 +317,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             } else {
                 $scope.getRegion();
             };
+            datalayer.getWholePincode();
         })();
 
         var dldata = datalayer.dldata;
@@ -343,6 +350,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.save = function (pincode, mode) {
+            if (gPincodes.displaymode === 'add') {
+                pincode.IsInUse = 'true';
+            }
             datalayer.editPincode(pincode, mode).then(function (data) {
                 $scope.GPincodedata.Region = '';
                 $scope.GPincodedata.State = '';
@@ -415,14 +425,16 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
 
         $scope.pincodedata = function (pincode) {
             var pincodeexist = parseInt(pincode);
-            var isExist = _.find(dldata.PincodeUintList, function (item) {
-                return item == pincodeexist;
-            });
-            if (angular.isDefined(isExist)) {
-                $scope.alreadyExist = true;
-                $csnotify.success("Pincode Already Exist");
-            } else {
-                $scope.alreadyExist = false;
+            if (gPincodes.displaymode === 'add') {
+                var isExist = _.find(dldata.PincodeUintList, function(item) {
+                    return item == pincodeexist;
+                });
+                if (angular.isDefined(isExist)) {
+                    $scope.alreadyExist = true;
+                    $csnotify.success("Pincode Already Exist");
+                } else {
+                    $scope.alreadyExist = false;
+                }
             }
             return dldata.PincodeUintList.indexOf(pincodeexist) === -1;
         };
