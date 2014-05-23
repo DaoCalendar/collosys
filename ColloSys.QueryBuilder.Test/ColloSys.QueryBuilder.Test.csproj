@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BillingTest\TestingBillTokens.cs" />
     <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
+    <Compile Include="BillingTest\StringExpressionBuilderTests.cs" />
     <Compile Include="BillingTest\StringQueryBuilder.cs" />
     <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
