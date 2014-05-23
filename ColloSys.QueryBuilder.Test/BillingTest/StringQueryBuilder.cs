@@ -1,51 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.Billing;
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
     public class StringQueryBuilder
     {
-        private static bool OpenBracketAttached = false;
-        private static bool OperatorAttached = false;
-        private static BillTokens lastToken = new BillTokens();
-        private static List<BillTokens> TokensList = new List<BillTokens>();
+        private bool _openBracketAttached = false;
+        private BillTokens _lastToken = new BillTokens();
+        private List<BillTokens> _tokensList = new List<BillTokens>();
+        public string TableName = string.Empty;
 
-        public IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
+        public StringQueryBuilder(string tableName = "")
         {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table",Value = "CustBillViewModel.City",Priority = 0,DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "Pune", Priority = 2, DataType = "string"},
-
-                new BillTokens {Type = "Operator", Value = "AND", Priority = 3, DataType = "relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.CityCategory", Priority = 4, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 5, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "Tier1", Priority = 6, DataType = "string"},
-
-                new BillTokens {Type = "Operator", Value = "AND", Priority = 7, DataType = "relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Flag", Priority = 8, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 9, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "O", Priority = 10, DataType = "string"},
-
-                 new BillTokens {Type = "Operator", Value = "AND", Priority = 11, DataType = "relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 12, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 13, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "PL", Priority = 14, DataType = "string"}
-            };
-            return query;
+            TableName = tableName;
         }
 
         public string GenerateQuery(IList<BillTokens> tokensList)
         {
-            TokensList = tokensList.ToList();
+            _tokensList = tokensList.ToList();
             var query = string.Empty;
 
             foreach (var token in tokensList)
@@ -57,6 +31,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         private string AttachTokenToString(string query, BillTokens token)
         {
+
             switch (token.Type)
             {
                 case "Formula":
@@ -72,6 +47,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
                 case "Sql":
                     query = Process_SqlFunctions(query, token);
                     break;
+
                 case "Value":
                     query = Process_Value(query, token);
                     break;
@@ -82,25 +58,61 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         private string Process_Formula_Table(string query, BillTokens token)
         {
-            if (lastToken.Type == "Formula" || lastToken.Type == "Table" || lastToken.Type == "Value")
+            if (_lastToken.Type == "Formula" || _lastToken.Type == "Table" || _lastToken.Type == "Value")
                 throw new Exception("Field can not attached to field");
 
-            query += OpenBracketAttached ? token.Value : "(" + token.Value;
-            OpenBracketAttached = true;
+            if (token.Type == "Table")
+            {
+                var seperatedList = token.Value.Split('.');
+                token.Value = string.IsNullOrEmpty(TableName)
+                    ? seperatedList[1]
+                    : TableName + "." + seperatedList[1];
+            }
+            query += _openBracketAttached ? token.Value : "(" + token.Value;
+            query += _lastToken.Type == "Sql" ? ")" : "";
+            _openBracketAttached = true;
             SetLastToken(token);
+            query += IsLastToken(token) && _openBracketAttached ? ")" : "";
             return query;
         }
 
         private string Process_Value(string query, BillTokens token)
         {
-            if (lastToken.Type == "Formula" || lastToken.Type == "Table" || lastToken.Type == "Value")
+            if (_lastToken.Type == "Formula" || _lastToken.Type == "Table" || _lastToken.Type == "Value")
                 throw new Exception("value can not be attached to Formula/Table/Value");
 
-            query += token.DataType == "string"
-                ? "\"" + token.Value + "\""
-                : token.Value;
+            switch (token.DataType)
+            {
+                case "string":
+                    if (_openBracketAttached)
+                    {
+                        query += "\"" + token.Value + "\"";
+                    }
+                    else
+                    {
+                        query += "(\"" + token.Value + "\"";
+                        _openBracketAttached = true;
+                    }
+                    break;
+                default:
+                    if (_openBracketAttached)
+                    {
+                        query += token.Value;
+                    }
+                    else
+                    {
+                        query += "(" + token.Value;
+                        _openBracketAttached = true;
+                    }
+                    break;
+            }
+            //query +=OpenBracketAttached ? (token.DataType == "string"
+            //    ? "\"" + token.Value + "\""
+            //    : token.Value) : (token.DataType == "string"
+            //    ? "(\"" + token.Value + "\""
+            //    : "("+token.Value);
             SetLastToken(token);
-            query += IsLastToken(token) && OpenBracketAttached ? ")" : "";
+            query += IsLastToken(token) && _openBracketAttached ? ")" : "";
             return query;
         }
 
@@ -116,26 +128,38 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
                 case "relational":
                     query = Process_Operators_Relational(query, token);
                     break;
+                case "number":
+                    query = Process_Operators_Conditional(query, token);
+                    break;
             }
             return query;
         }
 
         private string Process_Operators_Conditional(string query, BillTokens token)
         {
-            if (lastToken.Type == "Operator" || lastToken.Type == "Sql")
+            if (_lastToken.Type == "Operator" || _lastToken.Type == "Sql")
                 throw new Exception("Operator can not be attached to operator");
             query += Convert_Operator(token);
             SetLastToken(token);
             return query;
         }
 
+        //private string Process_Operators_Number(string query, BillTokens token)
+        //{
+        //    if (lastToken.Type == "Operator" || lastToken.Type == "Sql")
+        //        throw new Exception("Operator can not be attached to operator");
+        //    query += Convert_Operator(token);
+        //    SetLastToken(token);
+        //    return query;
+        //}
+
         private string Process_Operators_Relational(string query, BillTokens token)
         {
-            if (lastToken.Type == "Operator" || lastToken.Type == "Sql")
+            if (_lastToken.Type == "Operator" || _lastToken.Type == "Sql")
                 throw new Exception("Operator can not be attached to operator");
-            query += ") " + token.Value + "(";
+            query += ") " + token.Value + " (";
             SetLastToken(token);
-            OpenBracketAttached = true;
+            _openBracketAttached = true;
             return query;
         }
 
@@ -145,23 +169,37 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         private string Process_SqlFunctions(string query, BillTokens token)
         {
+            if (_lastToken.Type == "Formula" || _lastToken.Type == "Table" || _lastToken.Type == "Value")
+                throw new Exception("value can not be attached to Formula/Table/Value");
+
+            if (_openBracketAttached)
+            {
+                query += token.Value + "(";
+            }
+            else
+            {
+                query += "(" + token.Value + "(";
+                _openBracketAttached = true;
+            }
+            SetLastToken(token);
+            //query += IsLastToken(token) && _openBracketAttached ? ")" : "";
             return query;
         }
 
         private void SetLastToken(BillTokens token)
         {
-            lastToken = token;
+            _lastToken = token;
         }
 
         private int Index(BillTokens token)
         {
-            return TokensList.IndexOf(token);
+            return _tokensList.IndexOf(token);
         }
 
         private bool IsLastToken(BillTokens token)
         {
             var index = Index(token);
-            return TokensList.Count - 1 == index;
+            return _tokensList.Count - 1 == index;
         }
 
         private string Convert_Operator(BillTokens token)
@@ -180,6 +218,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
                     return "<=";
                 case "EqualTo":
                     return "=";
+                case "Plus":
+                    return "+";
+                case "Minus":
+                    return "-";
+                case "Divide":
+                    return "/";
+                case "Multiply":
+                    return "*";
             }
             return token.Value;
         }

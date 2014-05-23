@@ -1,5 +1,5 @@
 ﻿<form name="formEditPincode" no-validate="">
-    <div class="modal-header">{{modelTitle}} </div>
+    <div class="modal-header">{{modelTitle}}</div>
     <div class="modal-body">
         <cs-form layout="9.3.9" mode="mode">
             <cs-field data-ng-model="GPincodedata.Country"
@@ -33,7 +33,7 @@
                         <label class="col-md-3 text-right" style="padding-top: 8px">City<span style="color: red">*</span></label>
                         <div class="col-md-9">
                             <input type="text" class="form-control" data-ng-model="GPincodedata.City" 
-                                data-ng-required="showTextBox" />
+                                   data-ng-required="showTextBox" />
                         </div>
                     </div>
                 </div>
@@ -51,18 +51,22 @@
                       typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
                       data-ng-change="areaChange()"></cs-field>
 
-            <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
-                      ui-validate="{unique : 'pincodedata($value)'}"></cs-field>
+            <div data-ng-if="mode === 'add'">
+                <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"
+                          ui-validate="{unique : 'pincodedata($value)'}"></cs-field> 
+            </div>
+            <div data-ng-if="mode === 'edit'">
+                <cs-field data-ng-model="GPincodedata.Pincode" field="eGPincodeModel.Pincode"></cs-field> 
+            </div>
 
-
+           
         </cs-form>
     </div>
 
-
-
     <div class="modal-footer well">
         <button class="btn btn-success" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist">Save</button>
-        <button class="btn btn-primary" data-ng-click="reset(GPincodedata)">Reset</button>
+        <button class="btn btn-primary" data-ng-hide="mode === 'edit'" data-ng-click="reset(GPincodedata)">Reset</button>
+        <button class="btn btn-primary" data-ng-hide="mode === 'add'" data-ng-click="resetedit(GPincodedata)">Reset</button>
         <button class="btn btn-warning" data-ng-click="closeEditModel()">Close</button>
     </div>
 </form>

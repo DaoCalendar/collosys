@@ -1,5 +1,6 @@
 ﻿
-csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", function (rest, $csnotify) {
+csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", "$csfactory",
+    function (rest, $csnotify, $csfactory) {
     var restApi = rest.all("FileStatusApi");
     var dldata = { isHttpCallInProgress: false };
 
@@ -34,6 +35,7 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", function (rest
 
     var deleteUpload = function (fileScheduler) {
         dldata.isHttpCallInProgress = true;
+        $csfactory.enableSpinner();
         restApi.customDELETE("Delete", { id: fileScheduler.Id })
             .then(function () {
                 dldata.isHttpCallInProgress = false;

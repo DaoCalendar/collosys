@@ -134,7 +134,7 @@
             SelectedDateDaily: { label: 'File Date', type: 'date', template: 'Daily' },
             SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
             SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
-            IsImmediate: { label: 'Select Schedule', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key' },
+            IsImmediate: { label: 'Upload Mode', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key' },
             ImmediateReason: { label: 'ImmediateReason',type:'textarea', required: true, minlength: 5 }
         };
     };

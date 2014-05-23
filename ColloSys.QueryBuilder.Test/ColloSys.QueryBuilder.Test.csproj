@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\HibernatingRhinos.Profiler.Appender.dll</HintPath>
@@ -40,7 +46,7 @@
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="LinqKit">
-      <HintPath>..\SharedLib\LinqKit.dll</HintPath>
+      <HintPath>..\packages\LinqKit.1.1.1\lib\net45\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
@@ -55,6 +61,7 @@
       <HintPath>..\SharedLib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration">
       <Private>True</Private>
     </Reference>
@@ -73,6 +80,7 @@
     <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
     <Compile Include="BillingTest\StringExpressionBuilderTests.cs" />
     <Compile Include="BillingTest\StringQueryBuilder.cs" />
+    <Compile Include="BillingTest\StringQueryBuilderTest.cs" />
     <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

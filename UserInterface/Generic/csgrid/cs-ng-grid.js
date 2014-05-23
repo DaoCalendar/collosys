@@ -764,7 +764,7 @@ csapp.factory("$csGrid", ["Restangular", "$timeout", "$csnotify", "$csfactory", 
             gridOptions.selectedOption = '';
             var dataParams = serverData.GetDataParams(gridOptions);
             $log.debug("$csgrid: downloading data from server " + dataParams);
-
+            $csfactory.enableSpinner();
             restapi.customPOST(dataParams, "EmailGridData")
                 .then(
                     function () {
