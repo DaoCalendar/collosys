@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillingTest\DBDataForTesting.cs" />
-    <Compile Include="BillingTest\StringQueryBuilder.cs" />
+    <Compile Include="BillingTest\QueryGenerator.cs" />
     <Compile Include="BillingTest\SubPolicyCalculaterTests.cs" />
     <Compile Include="BillingTest\TestingBillTokens.cs" />
     <Compile Include="Properties\BillingTest\StringQueryBuilderTest.cs" />

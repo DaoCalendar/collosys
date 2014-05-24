@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
 using NHibernate.Linq;
 using NUnit.Framework;
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
     public class TokenExeculterTests
     {
-        private List<CustBillViewModel> _dataList = null;
-        private TestingBillTokens _testingBillTokens = new TestingBillTokens();
-        private QueryGenerator _queryGenerator = new QueryGenerator();
+        private List<CustBillViewModel> _dataList;
+        private readonly TestingBillTokens _testingBillTokens = new TestingBillTokens();
 
         [SetUp]
         public void SetUp()
