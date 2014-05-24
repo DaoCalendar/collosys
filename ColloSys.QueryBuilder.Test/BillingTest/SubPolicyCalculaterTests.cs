@@ -188,7 +188,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             if (conditionToken.Count <= 0)
                 return dataList;
 
-            var stringConditionQuery = _stringQueryBuilder.GenerateConditionalQuery(conditionToken);
+            var stringConditionQuery = _stringQueryBuilder.GenerateAndOrQuery(conditionToken);
 
             var conditionExpression = DynamicExpression.ParseLambda<CustBillViewModel, bool>(stringConditionQuery);
             var resultData = dataList.Where(x => conditionExpression.Compile().Invoke(x)).ToList();

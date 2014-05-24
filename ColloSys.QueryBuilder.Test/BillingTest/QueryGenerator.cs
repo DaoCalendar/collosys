@@ -1,13 +1,19 @@
+#region references
+
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
     public class QueryGenerator
     {
-        public string GenerateOutputQuery(IEnumerable<BillTokens> tokensList )
+        #region query generators
+        public string GenerateOutputQuery(IEnumerable<BillTokens> tokensList)
         {
             return GenerateMathQuery(tokensList);
         }
@@ -43,7 +49,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        public string GenerateConditionalQuery(List<BillTokens> tokensList)
+        private string GenerateConditionalQuery(List<BillTokens> tokensList)
         {
             var conditionToken = tokensList.First(x => x.Type == "Operator" && x.DataType == "conditional");
             var index = tokensList.IndexOf(conditionToken);
@@ -59,35 +65,39 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         public string GenerateAndOrQuery(List<BillTokens> tokensList)
         {
-            var conditionToken = tokensList.First(x => x.Type == "Operator" && x.DataType == "relational");
-            var index = tokensList.IndexOf(conditionToken);
-            var lhsList = tokensList.Skip(0).Take(index).ToList();
-            var rhsList = tokensList.Skip(index + 1).ToList();
-
-            var lhsQuery = GenerateConditionalQuery(lhsList);
-            var rhsQuery = GenerateConditionalQuery(rhsList);
-            var oper = ProcessOperators(conditionToken);
-
-            return string.Format("({0}) {1} ({2})", lhsQuery, oper, rhsQuery);
-        }
-
-        private string ProcessValue(BillTokens token)
-        {
-            if (token.DataType == "string")
+            var conditionToken = tokensList.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational");
+            if (conditionToken == null)
             {
-                return string.Format("\"{0}\"", token.Value);
+                throw new InvalidDataException("AndOr query needs atleast one relational operator");
             }
-            else
+
+            var query = string.Empty;
+            var remainingTokens = tokensList;
+            do
             {
-                return token.Value;
-            }
-        }
+                var condtionIndex = conditionToken == null
+                    ? -1
+                    : remainingTokens.IndexOf(conditionToken);
+                var lhsTokens = conditionToken == null
+                    ? remainingTokens.Skip(0).ToList()
+                    : remainingTokens.Skip(0).Take(condtionIndex).ToList();
 
-        private string ProcessSqlFunctions(BillTokens token)
-        {
-            throw new NotImplementedException();
-        }
+                query += string.Format("( {0} )", GenerateConditionalQuery(lhsTokens));
+                if (conditionToken != null) query += ProcessOperators(conditionToken);
 
+                remainingTokens = conditionToken == null 
+                    ? new List<BillTokens>() 
+                    : remainingTokens.Skip(condtionIndex + 1).ToList();
+                conditionToken = remainingTokens.Count > 0 
+                    ? remainingTokens.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational")
+                    : null;
+            } while (remainingTokens.Count > 0);
+
+            return query;
+        }
+        #endregion
+
+        #region operators to linq
         private string ProcessOperators(BillTokens token)
         {
             switch (token.DataType)
@@ -151,10 +161,12 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
                     throw new ArgumentOutOfRangeException(token.Value);
             }
         }
+        #endregion
 
+        #region non-operators to linq
         private string ProcessTableColumn(BillTokens token)
         {
-            return token.Value.Replace("CustBillViewModel.","");
+            return token.Value.Replace("CustBillViewModel.", "");
         }
 
         //TODO: fix formula
@@ -162,5 +174,18 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         {
             return token.Value;
         }
+
+        private string ProcessValue(BillTokens token)
+        {
+            return token.DataType == "string"
+                ? string.Format("\"{0}\"", token.Value)
+                : token.Value;
+        }
+
+        private string ProcessSqlFunctions(BillTokens token)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

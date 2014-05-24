@@ -70,8 +70,6 @@
     <Compile Include="BillingTest\QueryGenerator.cs" />
     <Compile Include="BillingTest\SubPolicyCalculaterTests.cs" />
     <Compile Include="BillingTest\TestingBillTokens.cs" />
-    <Compile Include="Properties\BillingTest\StringQueryBuilderTest.cs" />
-    <Compile Include="Properties\BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
