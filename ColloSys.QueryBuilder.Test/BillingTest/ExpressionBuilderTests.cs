@@ -6,10 +6,13 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
+using LinqKit;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NUnit.Framework;
 using System.Linq.Expressions;
+using System.Linq.Dynamic;
+using DynamicExpression = System.Linq.Dynamic.DynamicExpression;
 using Expression = System.Linq.Expressions.Expression;
 
 #endregion
@@ -50,6 +53,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             Assert.AreEqual(result.Count, 0);
+        }
+
+        [Test]
+        public void GreaterThan_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Cycle > 2").ToList();
+            var actual = _dataList.Where(x => x.Cycle > 2).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
         }
 
         private IList<BillTokens> SumOfTwoTokens()
@@ -120,6 +131,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actual);
         }
 
+        [Test]
+        public void SumnGreaterThan_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Cycle + 2 > 0").ToList();
+            var actual = _dataList.Where(x => x.Cycle + 2 > 0).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
         #region Token by Mayur
 
         #region Condition
@@ -145,6 +164,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actual);
         }
 
+        [Test]
+        public void ProductEqualPL_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("Product = \"PL\"").ToList();
+            var actual = _dataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
         // x => x.CityCategory.IsIn(new object[] { "Metro", "A" })
         private IList<BillTokens> CityCategoryIsIn_Tokens()
         {
@@ -163,9 +190,18 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var condtions = CityCategoryIsIn_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
-            var actual = _dataList.Count(x => x.CityCategory.IsIn(new object[] { "Metro", "A" }));
+            var actual = _dataList.Where(x => x.CityCategory.IsIn(new object[] { "Metro", "A" }));
             Assert.AreEqual(result.Count, actual);
         }
+
+        [Test]
+        public void CityCategoryIsIn_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("CityCategory.IsIn(\"Metro\",\"A\")").ToList();
+            var actual = _dataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
+
 
         // x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1 && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL
         private IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
@@ -208,6 +244,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actual);
         }
 
+        [Test]
+        public void City_CityCategory_Flag_Product_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("City = \"pune\" && CityCategory = \"Tier1\" && Flag = \"O\" && Product = \"PL\"").ToList();
+            var actual = _dataList.Where(x => x.City == "pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1
+                                                    && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
+        }
 
         // x => (x.TotalAmountRecovered * (decimal)0.02) >= 10000
         private IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
@@ -231,6 +275,14 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Count(x => (x.TotalAmountRecovered * (decimal)0.02) >= 10000);
             Assert.AreEqual(result.Count, actual);
+        }
+
+        [Test]
+        public void TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_StringTest()
+        {
+            var result = _dataList.AsQueryable().Where("TotalAmountRecovered * 0.02 > 10000").ToList();
+            var actual = _dataList.Where(x => x.TotalAmountRecovered * (decimal)0.02 > 10000).ToList();
+            Assert.AreEqual(result.Count(), actual.Count());
         }
 
         #endregion
@@ -285,6 +337,24 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             _builder.ExecuteOutput(dataList, query);
             actual.ForEach(x => x.TotalDueOnAllocation = (x.TotalAmountRecovered * (decimal)0.02));
             Assert.AreEqual(dataList, actual);
+        }
+
+        /// <summary>
+        /// See this For Output
+        /// </summary>
+        [Test]
+        public void TotalAmountRecoveredMultiPlay2Per_StringTest()
+        {
+            const string queryString = @"(Cycle + 3)";
+            var expression = DynamicExpression.ParseLambda<CustBillViewModel, uint>(queryString);
+
+            var actual = new List<CustBillViewModel>(_dataList);
+            var dataList = new List<CustBillViewModel>(_dataList);
+
+            dataList.ForEach(x => x.Bucket = expression.Compile().Invoke(x));
+            actual.ForEach(x => x.Bucket = (x.Cycle + 2));
+
+            Assert.AreEqual(dataList.First().Bucket, actual.First().Bucket);
         }
 
         // dataList.ForEach(x => x.ResolutionPercentage = (x.TotalAmountRecovered / x.ResolutionPercentage))
@@ -480,7 +550,9 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         {
             var expression = Expression.Lambda<decimal>(condition, _parameterExpression);
 
-            data.ForEach(x => x.ResolutionPercentage = expression.Compile());
+            TypeHelperExtensionMethods.ForEach(data, x => x.ResolutionPercentage = expression.Compile());
+
+
 
             return data.ToList();
         }

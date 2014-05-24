@@ -161,6 +161,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/adhoc', {
                 templateUrl: baseUrl + 'Billing/adhoc/adhoc.html',
                 controller: 'adhocPayoutCtrl'
+            }).when('/billing/adhoc/addedit/:mode', {
+                templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
+                controller: 'adhocPaymentCtrl'
             }).when('/billing/adhocbulk', {
                 templateUrl: baseUrl + 'Billing/adhocbulk/adhocbulk.html',
                 controller: 'adhocbulkCtrl'
@@ -177,11 +180,20 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Billing/billstatus/billstatus.html',
                 controller: 'billStatusController'
             }).when('/billing/holdingpolicy', {
-                templateUrl: baseUrl + 'Billing/holdingpolicy/holding-policy.html',
+                templateUrl: baseUrl + 'Billing/holdingpolicy/holding-policy-list.html',
                 controller: 'holdingpolicyCtrl'
+            }).when('/billing/holdingpolicy/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Billing/holdingpolicy/holding-policy.html',
+                controller: 'holdingpolicyAddEditCtrl'
+            }).when('/billing/holdingpolicy/addedit/:mode', {
+                templateUrl: baseUrl + 'Billing/holdingpolicy/holding-policy.html',
+                controller: 'holdingpolicyAddEditCtrl'
             }).when('/billing/holdingactive', {
-                templateUrl: baseUrl + 'Billing/holdingactivate/holding-policy-active.html',
+                templateUrl: baseUrl + 'Billing/holdingactivate/holding-policy-activate-list.html',
                 controller: 'holdingactiveCtrl'
+            }).when('/billing/holdingactive/addedit/:mode', {
+                templateUrl: baseUrl + 'Billing/holdingactivate/holding-policy-active.html',
+                controller: 'holdingactiveAddEditCtrl'
             })
 
             //generic
@@ -198,6 +210,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Generic/pincode/pincode.html',
                 controller: 'pincodeCtrl'
             }).when('/generic/pincode/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
+                controller: 'editPincodeModalController',
+            }).when('/generic/pincode/addedit/:mode', {
                 templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
                 controller: 'editPincodeModalController',
             }).when('/generic/changepassword', {

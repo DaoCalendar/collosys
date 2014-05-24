@@ -564,12 +564,12 @@ csapp.directive('iconBtn', function () {
                      '</button>';
             case 'retry':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     'data-toggle="tooltip" data-placement="top" title="Retry">' +
                      '<span class="glyphicon glyphicon-repeat"></span>' +
                      '</button>';
             case 'forward':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     'data-toggle="tooltip" data-placement="top" title="forward">' +
                      '<span class="glyphicon glyphicon-forward"></span>' +
                      '</button>';
             case 'calendar':

@@ -1,9 +1,9 @@
 ﻿<div>
-    <div data-ng-include="baseUrl + 'billing/holdingpolicy/holding-policy-list.html'"></div>
+<!--    <div data-ng-include="baseUrl + 'billing/holdingpolicy/holding-policy-list.html'"></div>-->
     <form name="holdingpolicyform">
         <div class="modal-header">Holding Policy Details</div>
         <div class="modal-body">
-            <cs-form layout="6.4.8">
+            <cs-form layout="6.4.8" mode="mode">
                 <h3>Policy Details</h3>
 
                 <cs-field data-ng-model="policy.Products"
@@ -48,10 +48,13 @@
             </cs-form>
         </div>
 
-        <div class="modal-footer text-right">
-            <cs-button type="Add" ng-click="add(policy)" data-ng-show="isAddMode" ng-disabled="holdingpolicyform.$invalid"></cs-button>
-            <cs-button type="Add" text="Save" data-ng-hide="isAddMode" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
-            <cs-button type="Add" text="Reset" ng-click="reset()"></cs-button>
+        <div class="modal-footer">
+            <cs-button type="Add" text="Close" data-ng-click="close()"></cs-button>
+            <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
+            <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="reset()"></cs-button>
         </div>
     </form>
 </div>
+
+
+<!--            <cs-button type="Add" ng-click="add(policy)" data-ng-show="isAddMode" ng-disabled="holdingpolicyform.$invalid"></cs-button>-->

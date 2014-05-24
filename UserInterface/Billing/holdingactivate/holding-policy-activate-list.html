@@ -1,26 +1,30 @@
 ﻿<div>
-    <label class="tax-list-heading">Activated Holding Policy List</label>
-    <div class="tax-list-box">
-        <table class="table table-bordered table-hover" data-ng-show="policyList.length>0">
+    <div class="modal-header">Activated Holding Policy List</div>
+    <div class="modal-body">
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Action</th>
                     <th>Product</th>
                     <th>Holding Policy</th>
                     <th>Stakeholder</th>
                     <th>Start Month</th>
                 </tr>
                 <tr>
-                    <th></th>
-                    <th><input type="text" class="input-medium" data-ng-model="search.Products" /></th>
-                    <th><input type="text" class="input-medium" data-ng-model="search.HoldingPolicy.Name" /></th>
-                    <th><input type="text" class="input-medium" data-ng-model="search.Stakeholder.Name" /></th>
+                    <th class="text-center">
+                        <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                    </th>
+                    <th><input type="text" class="form-control" data-ng-model="search.Products" /></th>
+                    <th><input type="text" class="form-control" data-ng-model="search.HoldingPolicy.Name" /></th>
+                    <th><input type="text" class="form-control" data-ng-model="search.Stakeholder.Name" /></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr data-ng-repeat="t in policyList| filter:search">
-                    <td><icon-btn type="delete" data-ng-click="delete(t, $index)"></icon-btn></td>
+                    <td class="text-center">
+                        <icon-btn type="delete" data-ng-click="delete(t, $index)"></icon-btn>
+                    </td>
                     <td>{{t.Products}}</td>
                     <td>{{t.HoldingPolicy.Name}}</td>
                     <td>{{t.Stakeholder.Name}}</td>

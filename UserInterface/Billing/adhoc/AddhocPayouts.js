@@ -1,5 +1,5 @@
-﻿csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modal','$csModels',
-    function ($scope, datalayer, factory, $modal, $csModels) {
+﻿csapp.controller('adhocPayoutCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$location', '$csModels',
+    function ($scope, datalayer, factory, $location, $csModels) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -16,15 +16,23 @@
             return stkh.Hierarchy.IsIndividual === true;
         };
 
-      $scope.openmodal = function () {
+        //$scope.openmodal = function () {
+        //      $scope.dldata.adhocPayout.Products = $scope.dldata.selectedProduct;
+        //      if ($scope.dldata.selectedStkholderId) {
+        //          $scope.dldata.adhocPayout.Stakeholder = _.find($scope.dldata.stakeholderList, { Id: $scope.dldata.selectedStkholderId });
+        //      }
+        //      $modal.open({
+        //          templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
+        //          controller: 'adhocPaymentCtrl',
+        //      });
+        //  };
+
+        $scope.openmodal = function (mode) {
             $scope.dldata.adhocPayout.Products = $scope.dldata.selectedProduct;
             if ($scope.dldata.selectedStkholderId) {
                 $scope.dldata.adhocPayout.Stakeholder = _.find($scope.dldata.stakeholderList, { Id: $scope.dldata.selectedStkholderId });
             }
-            $modal.open({
-                templateUrl: baseUrl + 'Billing/adhoc/add-hoc-payment-details.html',
-                controller: 'adhocPaymentCtrl',
-            });
+            $location.path("/billing/adhoc/addedit/" + mode);
         };
     }]);
 
@@ -48,7 +56,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
 
         var getdetails = function (product, month) {
             month = moment(month).format('YYYYMM');
-           return restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
+            return restApi.customGET("GetStatus", { product: product, startmonth: month }).then(function (data) {
                 dldata.isBilled = data;
                 if (data == "true") {
                     $csnotify.success("Billing Already Done");
@@ -66,7 +74,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
             restApi.customGET("GetStakeHolders", { products: dldata.selectedProduct }).then(function (data) {
                 dldata.stakeholderList = data;
                 dldata.adhocPayout.Tenure = 1;
-               }, function (data) {
+            }, function (data) {
                 $csnotify.error(data);
             });
             restApi.customGET("GetAdhocdata", { products: dldata.selectedProduct }).then(function (data) {
@@ -86,7 +94,7 @@ csapp.factory('adhocPayoutDataLayer', ['Restangular', '$csnotify',
         };
 
         var saveData = function (adhocPayout) {
-           
+
             if (adhocPayout.IsRecurring !== true) {
                 adhocPayout.Tenure = 1;
             }
@@ -139,8 +147,9 @@ csapp.factory('adhocPayoutFactory', ['$csfactory', 'adhocPayoutDataLayer',
         };
     }]);
 
-csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory', '$modalInstance','$csModels',
-    function ($scope, datalayer, factory, $modalInstance, $csModels) {
+csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPayoutFactory',
+    '$location', '$csModels', '$routeParams',
+    function ($scope, datalayer, factory, $location, $csModels, $routeParams) {
 
         $scope.changeCredit = function () {
             $scope.adhocPayoutbill.IsCredit.valueList = datalayer.dldata.transcationtypes;
@@ -156,16 +165,27 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
             $scope.changeCredit();
         })();
 
+        (function (mode) {
+            switch (mode) {
+                case "add":
+                    $scope.modelTitle = "Add Holding Policy";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(adhocPayout));
+            }
+            $scope.mode = mode;
+        })($routeParams.mode);
+
         $scope.CloseAdhocPayoutManager = function () {
             $scope.adhocPayout = {};
-            $modalInstance.dismiss(); //failure
+            $location.path("/billing/adhoc"); //failure
         };
 
         $scope.getdetails = function (product, month) {
             datalayer.getdetails(product, month);
         };
 
-        $scope.changeCredit = function(credit) {
+        $scope.changeCredit = function (credit) {
             $scope.selecttransdata = factory.selectTransaction(credit);
             $scope.adhocPayoutbill.ReasonCode.valueList = $scope.selecttransdata;
         };
@@ -184,7 +204,7 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
                 $scope.adhocPayout.Description = '';
                 $scope.adhocPayout.IsRecurring = '';
                 $scope.adhocPayout.StartMonth = '';
-                $modalInstance.close(data); //success
+                $location.path("/billing/adhoc"); //success
             });
         };
 

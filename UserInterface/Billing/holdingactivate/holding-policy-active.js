@@ -1,15 +1,7 @@
-﻿csapp.factory('holdingactiveFactory', [
-    '$csfactory',
-    function ($csfactory) {
-        return {
-
-        };
-    }
-]);
-
+﻿
 csapp.factory('holdingactiveDatalayer',
-    ['Restangular', '$csnotify', '$csfactory',
-        function (rest, $csnotify, $csfactory) {
+    ['Restangular', '$csnotify',
+        function (rest, $csnotify) {
             var restApi = rest.all("ActivateHoldingApi");
             var dldata = {};
 
@@ -26,7 +18,8 @@ csapp.factory('holdingactiveDatalayer',
                 });
             };
             var deleteData = function (policy) {
-                return restApi.remove(policy).then(function (data) {
+                return restApi.customDELETE('Delete', { id: policy.Id }).then(function (data) {
+                    $csnotify.success('data deleted successfully');
                     return;
                 });
             };
@@ -46,8 +39,38 @@ csapp.factory('holdingactiveDatalayer',
         }]);
 
 csapp.controller('holdingactiveCtrl', [
-    '$scope', 'holdingactiveDatalayer', 'holdingactiveFactory', '$csModels',
-    function ($scope, datalayer, factory, $csModels) {
+    '$scope', 'holdingactiveDatalayer', '$location',
+    function ($scope, datalayer, $location) {
+
+        var initlocals = function () {
+            $scope.policyList = [];
+            $scope.indexOfSelected = -1;
+            $scope.search = {};
+            $scope.active = {};
+        };
+
+        $scope.delete = function (policy, index) {
+            datalayer.deleteData(policy).then(function () {
+                $scope.policyList.splice(index, 1);
+            });
+
+        };
+
+        (function () {
+            initlocals();
+            datalayer.getList().then(function (data) {
+                $scope.policyList = data;
+            });
+        })();
+
+        $scope.showAddEditPopup = function (mode) {
+                $location.path("/billing/holdingactive/addedit/" + mode);
+        };
+    }]);
+
+csapp.controller('holdingactiveAddEditCtrl', [
+    '$scope', 'holdingactiveDatalayer','$csModels','$location','$routeParams',
+    function ($scope, datalayer, $csModels, $location, $routeParams) {
 
         var calculateMonthList = function () {
             var i = 1;
@@ -61,12 +84,12 @@ csapp.controller('holdingactiveCtrl', [
             }
             $scope.ActPolicy.StartMonth.valueList = $scope.monthList;
         };
-        
+
         $scope.reset = function () {
             $scope.active = {};
             $scope.activateform.$setPristine();
         };
-        
+
         var initlocals = function () {
             $scope.policyList = [];
             $scope.indexOfSelected = -1;
@@ -79,29 +102,39 @@ csapp.controller('holdingactiveCtrl', [
             datalayer.create(policy).then(function (data) {
                 $scope.policyList.push(data);
                 $scope.reset();
+                $location.path("/billing/holdingactive");
             });
         };
 
-        $scope.delete = function (policy, index) {
-            datalayer.deleteData(policy).then(function() {
-                $scope.policyList.splice(index, 1);
-            });
-            
-        };
-        
         $scope.pageData = function (product) {
             datalayer.pageData(product).then(function (data) {
                 $scope.ActPolicy.Stakeholder.valueList = data.Stakeholders;
-                $scope.ActPolicy.HoldingPolicy.valueList= data.HoldingPolicies;
+                $scope.ActPolicy.HoldingPolicy.valueList = data.HoldingPolicies;
             });
+        };
+        
+        $scope.close = function () {
+            $location.path("/billing/holdingactive");
         };
 
         (function () {
+            $scope.active = {};
             $scope.ActPolicy = $csModels.getColumns("ActivateHoldingPolicy");
             calculateMonthList();
             initlocals();
-            datalayer.getList().then(function (data) {
-                $scope.policyList = data;
-            });
+            //datalayer.getList().then(function (data) {
+            //    $scope.policyList = data;
+            //});
         })();
+        
+        (function (mode) {
+            switch (mode) {
+                case "add":
+                    $scope.modelTitle = "Add Holding Policy";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(policy));
+            }
+            $scope.mode = mode;
+        })($routeParams.mode);
     }]);

@@ -1,5 +1,5 @@
-﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$modal", "$csModels",
-    function ($scope, datalayer, $modal, $csModels) {
+﻿csapp.controller("pincodeCtrl", ["$scope", "pincodeDataLayer", "$location", "$csModels",
+    function ($scope, datalayer, $location, $csModels) {
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -8,26 +8,41 @@
             $scope.dldata.Clusters = [];
             $scope.dldata.Districts = [];
             $scope.dldata.City = [];
+            datalayer.getCityCategory();
+            datalayer.getRegion();
             datalayer.getState();
+            datalayer.getCluster();
+            datalayer.getDistrict();
+            datalayer.getCity();
+            datalayer.getState();
+            //datalayer.getWholePincode();
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             $scope.dldata.PincodeUintList = [];
         })();
 
         $scope.openAddEditModal = function (mode, gPincodes) {
-            $modal.open({
-                templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
-                controller: 'editPincodeModalController',
-                resolve: {
-                    gPincodes: function () {
-                        return {
-                            gpincode: angular.copy(gPincodes),
-                            displaymode: mode
-                        };
-                    }
-                }
-
-            });
+            if (mode === "edit" || mode === "view") {
+                $location.path("/generic/pincode/addedit/" + mode + "/" + gPincodes.Id);
+            } else {
+                $location.path("/generic/pincode/addedit/" + mode);
+            }
         };
+
+        //$scope.openAddEditModal = function (mode, gPincodes) {
+        //    $modal.open({
+        //        templateUrl: baseUrl + 'Generic/pincode/editPincode-modal.html',
+        //        controller: 'editPincodeModalController',
+        //        resolve: {
+        //            gPincodes: function () {
+        //                return {
+        //                    gpincode: angular.copy(gPincodes),
+        //                    displaymode: mode
+        //                };
+        //            }
+        //        }
+
+        //    });
+        //};
     }]);
 
 csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
@@ -143,19 +158,24 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             });
         };
 
-        var missingPincode = function (pincode) {
-            return pincodeApi.customGET('GetMissingPincodes', { pincode: pincode }).then(function (data) {
-                return data;
-            });
-        };
-
+        //var getWholePincode = function () {
+        //    if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
+        //        pincodeApi.customGET('GetWholePincode').then(function (data) {
+        //            dldata.PincodeUintList = data;
+        //        });
+        //    } else {
+        //        pincodeApi.customGET('GetWholePincode').then(function (data) {
+        //            dldata.PincodeUintList = data;
+        //        });
+        //    }
+        //    return;
+        //};
         var getWholePincode = function () {
-            if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
-                return;
-            }
             pincodeApi.customGET('GetWholePincode').then(function (data) {
                 dldata.PincodeUintList = data;
+                return;
             });
+           
         };
 
         var pincodeArea = function (value, level) {
@@ -194,6 +214,15 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             }
         };
 
+        var getPincode = function (detailsid) {
+            return pincodeApi.customGET('Get', { id: detailsid })
+                .then(function (data) {
+                    return data;
+                }, function (data) {
+                    $csnotify.error("Error occured, can't saved", data);
+                });
+        };
+
         return {
             dldata: dldata,
             getRegion: getRegion,
@@ -209,10 +238,10 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             getDistrictData: getDistrictData,
             getCityData: getCityData,
             getWholePincode: getWholePincode,
-            missingPincode: missingPincode,
             pincodeArea: pincodeArea,
             pincodeCity: pincodeCity,
             editPincode: editPincode,
+            Get: getPincode,
         };
 
     }]);
@@ -283,18 +312,26 @@ csapp.factory("pincodeFactory", ["pincodeDataLayer",
             gpincode.Pincode = '';
         };
 
+        var resetedit = function (gpincode) {
+            gpincode.City = '';
+            gpincode.CityCategory = '';
+            gpincode.Area = '';
+        };
+
         return {
             regionChange: regionChange,
             stateChange: stateChange,
             clusterChange: clusterChange,
             districtChange: districtChange,
             areaChange: areaChange,
-            reset: reset
+            reset: reset,
+            resetedit: resetedit,
         };
     }]);
 
-csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$modalInstance", "gPincodes", "$csModels", "pincodeFactory", "$csnotify",
-    function ($scope, datalayer, $modalInstance, gPincodes, $csModels, factory, $csnotify) {
+csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$routeParams",
+    "$csModels", "pincodeFactory", "$csnotify", "$location",
+    function ($scope, datalayer, $routeParams, $csModels, factory, $csnotify, $location) {
 
         $scope.getRegion = function () {
             datalayer.getData().then(function () {
@@ -303,20 +340,36 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         (function () {
-            $scope.GPincodedata = {
-                Country: "India"
-            };
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
-            if (gPincodes.displaymode === 'edit') {
-                $scope.GPincodedata = gPincodes.gpincode;
-                $scope.eGPincodeModel.Region.valueList = datalayer.dldata.Regions;
-                $scope.eGPincodeModel.State.valueList = datalayer.dldata.States;
-                $scope.eGPincodeModel.Cluster.valueList = datalayer.dldata.Clusters;
-                $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
-                $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function (data) {
+                    $scope.GPincodedata = data;
+                    $scope.eGPincodeModel.Region.valueList = datalayer.dldata.Regions;
+                    $scope.eGPincodeModel.State.valueList = datalayer.dldata.States;
+                    $scope.eGPincodeModel.Cluster.valueList = datalayer.dldata.Clusters;
+                    $scope.eGPincodeModel.District.valueList = datalayer.dldata.Districts;
+                    $scope.eGPincodeModel.City.valueList = datalayer.dldata.City;
+                });
             } else {
+                $scope.GPincodedata = {
+                    Country: "India",
+                    Region: '',
+                    Cluster: '',
+                    District: '',
+                    City: '',
+                    CityCategory: '',
+                    Area: '',
+                    Pincode: '',
+                };
                 $scope.getRegion();
+            }
+            if ($routeParams.displaymode === 'edit') {
+                $scope.GPincodedata = gPincodes.gpincode;
+
+            } else {
+
             };
+            datalayer.getWholePincode();
         })();
 
         var dldata = datalayer.dldata;
@@ -349,6 +402,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         $scope.save = function (pincode, mode) {
+            if ($routeParams.mode === 'add') {
+                pincode.IsInUse = 'true';
+            }
             datalayer.editPincode(pincode, mode).then(function (data) {
                 $scope.GPincodedata.Region = '';
                 $scope.GPincodedata.State = '';
@@ -358,7 +414,7 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 $scope.GPincodedata.CityCategory = '';
                 $scope.GPincodedata.Area = '';
                 $scope.GPincodedata.Pincode = '';
-                $scope.closeEditModel(data);
+                $location.path("/generic/pincode");
             });
         };
 
@@ -372,12 +428,17 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $scope.GPincodedata.CityCategory = '';
             $scope.GPincodedata.Area = '';
             $scope.GPincodedata.Pincode = '';
-            $modalInstance.dismiss();
+            $location.path("/generic/pincode");
         };
 
         $scope.reset = function (gpincode) {
             factory.reset(gpincode);
         };
+
+        $scope.resetedit = function (gpincode) {
+            factory.resetedit(gpincode);
+        };
+
 
         $scope.regionChange = function () {
             factory.regionChange();
@@ -415,36 +476,30 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             }
         };
 
-        $scope.missingPincode = function (value) {
-            if (value.length >= 3) {
-                return datalayer.missingPincode(value);
-            };
-        };
-
-
         $scope.cancelCity = function () {
             $scope.showTextBox = false;
         };
 
         $scope.pincodedata = function (pincode) {
-            //var pincodeexist = parseInt(pincode);
-            console.log(dldata.PincodeUintList.length);
-            var isExist = _.find(dldata.PincodeUintList, function (item) {
-                return item == pincode;
-            });
-            if (angular.isDefined(isExist)) {
-                $scope.alreadyExist = true;
-                $csnotify.success("Pincode Already Exist");
-            } else {
-                $scope.alreadyExist = false;
+            var pincodeexist = parseInt(pincode);
+            if ($routeParams.mode === 'add') {
+                var isExist = _.find(dldata.PincodeUintList, function (item) {
+                    return item == pincodeexist;
+                });
+                if (angular.isDefined(isExist)) {
+                    $scope.alreadyExist = true;
+                    $csnotify.success("Pincode Already Exist");
+                } else {
+                    $scope.alreadyExist = false;
+                }
             }
-            return;
+            return dldata.PincodeUintList.indexOf(pincodeexist) === -1;
         };
 
-        $scope.pincodeCheck = function (value) {
-            var data = dldata.PincodeUintList;
-            return data.indexOf(value) === -1;
-        };
+        //$scope.pincodeCheck = function (value) {
+        //    var data = dldata.PincodeUintList;
+        //    return data.indexOf(value) === -1;
+        //};
 
 
 
@@ -460,5 +515,19 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                     throw ("Invalid display mode : " + JSON.stringify(gPincodes));
             }
             $scope.mode = mode;
-        })(gPincodes.displaymode);
+        })($routeParams.mode);
     }]);
+
+
+
+//$scope.missingPincode = function (value) {
+//    if (value.length >= 3) {
+//        return datalayer.missingPincode(value);
+//    };
+//};
+
+//var missingPincode = function (pincode) {
+//    return pincodeApi.customGET('GetMissingPincodes', { pincode: pincode }).then(function (data) {
+//        return data;
+//    });
+//};

@@ -33,6 +33,17 @@
             <div data-ng-show="Selected.Date">
                 <div data-ng-show="hasUnscheduledFiles">
                     <hr />
+                    <div data-ng-show="hasUnscheduledFiles" ng-form="immediateReasonForm">
+                        <hr />
+                        <cs-form layout="6.4.8">
+                            <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
+                            <span data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
+                                <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
+                            </span>
+                        </cs-form>
+                    </div>
+
+                    <hr />
                     <h4>Files to Schedule</h4>
                     <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
                         <div class="form-group row">
@@ -68,19 +79,11 @@
                 </div>
             </div>
 
-            <div data-ng-show="hasUnscheduledFiles" ng-form="immediateReasonForm">
-                <hr />
-                <cs-form layout="6.4.8">
-                    <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
-                    <span data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
-                        <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
-                    </span>
-                </cs-form>
-            </div>
+
 
             <div class="text-center row" data-ng-show="hasUnscheduledFiles">
                 <hr />
-                <button class="btn btn-success" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()">Schedule Files</button>
+                <button class="btn btn-success" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()">Schedule</button>
             </div>
         </div>
     </div>

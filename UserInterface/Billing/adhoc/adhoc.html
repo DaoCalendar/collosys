@@ -1,9 +1,8 @@
 ﻿<div data-ng-form="adhocPayoutform" class="form-horizontal">
-    <div class="panel panel-info">
-        <div class="panel-heading">
+        <div class="modal-header">
             <h5>Adhoc-Payout Screen</h5>
         </div>
-        <div class="panel-body">
+        <div class="modal-body">
             <!--Product and Stakeholder-->
             <cs-form layout="4.3.7">
                 
@@ -16,7 +15,7 @@
                               ng-required="true" value-list="dldata.stakeholderList"></cs-field>
                 </div> 
                 <div data-ng-show="dldata.selectedProduct && dldata.selectedStkholderId">
-                    <button class="btn btn-success " data-ng-click="openmodal()">Add</button>
+                    <button class="btn btn-success " data-ng-click="openmodal('add')">Add</button>
                 </div>
                 </cs-form>
         </div>
@@ -62,7 +61,6 @@
             </table>
         </div>
     </div>
-</div>
 
 <!--<div class="form-group col-md-4">
                 <label class="control-label">Product</label>

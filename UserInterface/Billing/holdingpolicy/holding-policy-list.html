@@ -1,9 +1,9 @@
 ﻿<div>
     <h4>Holding Policies List</h4>
-    <table class="table table-bordered table-hover" data-ng-show="policyList.length>0">
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th></th>
+                <th>Action</th>
                 <th>Name</th>
                 <th>Product</th>
                 <th>Apply On</th>
@@ -12,28 +12,41 @@
                 <th>Transaction Type</th>
             </tr>
             <tr>
-                <th></th>
-                <th><input type="text" class="form-control" data-ng-model="search.Name" /></th>
-                <th><input type="text" class="form-control" data-ng-model="search.Products" /></th>
-                <th><input type="text" class="form-control" data-ng-model="search.ApplyOn" /></th>
-                <th><input type="text" class="form-control" data-ng-model="search.Rule" /></th>
-                <th><input type="text" class="form-control" data-ng-model="search.Value" /></th>
-                <th><input type="text" class="form-control" data-ng-model="search.TransactionType" /></th>
+                <th class="text-center">
+                    <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                </th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.Name" /></th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.Products" /></th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.ApplyOn" /></th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.Rule" /></th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.Value" /></th>
+                <th>
+                    <input type="text" class="form-control" data-ng-model="search.TransactionType" /></th>
             </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="t in policyList| filter:search">
-                <td><icon-btn type="edit" data-ng-click="edit(t, $index)"></icon-btn></td>
-                <td>{{t.Name}}</td>
-                <td>{{t.Products}}</td>
-                <td>{{t.ApplyOn}}</td>
-                <td>{{t.Rule}}</td>
-                <td>{{t.Value}}</td>
-                <td>{{t.TransactionType}}</td>
+            <tr data-ng-repeat="tax in policyList| filter:search">
+                <td>
+                    <div class="btn-group" style="width: 80px">
+                        <icon-btn type="view" data-ng-click="showAddEditPopup('view',tax)"></icon-btn>
+                        <icon-btn type="edit" data-ng-click="showAddEditPopup('edit',tax)"></icon-btn>
+                    </div>
+                </td>
+                <td>{{tax.Name}}</td>
+                <td>{{tax.Products}}</td>
+                <td>{{tax.ApplyOn}}</td>
+                <td>{{tax.Rule}}</td>
+                <td>{{tax.Value}}</td>
+                <td>{{tax.TransactionType}}</td>
             </tr>
         </tbody>
     </table>
-    <div class="row text-center tax-list-box-no-data" data-ng-hide="policyList.length>0">
+    <div class="row text-center tax-Policy-box-no-data" data-ng-hide="policyList.length>0">
         <label>No holding policies defined</label>
     </div>
 
