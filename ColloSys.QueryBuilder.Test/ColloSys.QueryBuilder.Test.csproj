@@ -39,9 +39,6 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="LinqKit">
-      <HintPath>..\SharedLib\LinqKit.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\SharedLib\NHibernate.dll</HintPath>
     </Reference>
@@ -60,7 +57,7 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Linq.Dynamic">
-      <HintPath>..\packages\System.Linq.Dynamic.1.0.0\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <HintPath>..\SharedLib\System.Linq.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -113,7 +110,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

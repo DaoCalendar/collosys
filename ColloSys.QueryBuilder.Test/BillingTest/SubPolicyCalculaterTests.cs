@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Linq;
 using NUnit.Framework;
 
