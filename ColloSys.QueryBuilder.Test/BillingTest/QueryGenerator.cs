@@ -65,14 +65,10 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         public string GenerateAndOrQuery(List<BillTokens> tokensList)
         {
-            var conditionToken = tokensList.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational");
-            if (conditionToken == null)
-            {
-                throw new InvalidDataException("AndOr query needs atleast one relational operator");
-            }
-
             var query = string.Empty;
             var remainingTokens = tokensList;
+            var conditionToken = tokensList.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational");
+            
             do
             {
                 var condtionIndex = conditionToken == null

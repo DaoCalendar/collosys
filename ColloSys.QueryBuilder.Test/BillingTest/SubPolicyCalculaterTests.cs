@@ -40,8 +40,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var tokens = _testingBillTokens.GreaterThanWithPlas2Tokens();
             var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
             var result = tokenBuilder.ExeculteOnList(_dataList);
-
-            Assert.AreEqual(result.Count, actual.Count);
         }
 
         /// <summary>
