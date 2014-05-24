@@ -7,17 +7,25 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
         var dldata = {};
         var $log = logManager.getInstance("rootDatalayer");
 
+        //var getPermission = function (user) {
+        //    return menuApi.customGET("GetPermission", { 'user': user })
+        //        .then(function (data) {
+        //            if ($csfactory.isNullOrEmptyArray(data)) {
+        //                $csnotify.error('Hierarchy not found');
+        //                return;
+        //            }
+        //            dldata.userHierarchy = data;
+        //            dldata.permissions = JSON.parse(data.Permissions);
+        //            return;
+        //        });
+        //};
+
         var getPermission = function (user) {
             return menuApi.customGET("GetPermission", { 'user': user })
-                .then(function (data) {
-                    if ($csfactory.isNullOrEmptyArray(data)) {
-                        $csnotify.error('Hierarchy not found');
-                        return;
-                    }
-                    dldata.userHierarchy = data;
-                    dldata.permissions = JSON.parse(data.Permissions);
-                    return;
-                });
+                    .then(function (data) {
+                        console.log("permission: ", data);
+                        return data;
+                    });
         };
 
         var fetchWholeEnums = function () {
@@ -85,8 +93,8 @@ csapp.factory("routeManagerFactory", [
     }
 ]);
 
-csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger",  "$csfactory",
-    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager,  $csfactory) {
+csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory", "$location", "loadingWidget", "rootDatalayer", "Logger", "$csfactory",
+    function ($scope, $csAuthFactory, routeManagerFactory, $location, loadingWidget, datalayer, logManager, $csfactory) {
 
         var $log = logManager.getInstance("RootCtrl");
 
@@ -94,10 +102,6 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
         $scope.$on("$locationChangeSuccess", routeManagerFactory.$locationChangeSuccess);
         $scope.$on("$routeChangeStart", routeManagerFactory.$routeChangeStart);
         $scope.$on("$routeChangeSuccess", routeManagerFactory.$routeChangeSuccess);
-
-
-      
-
 
         var redirect = function () {
             if (!$csAuthFactory.hasLoggedIn()) {

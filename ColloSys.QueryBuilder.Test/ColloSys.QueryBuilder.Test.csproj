@@ -69,6 +69,7 @@
     <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
     <Compile Include="BillingTest\TestBillingService.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
+    <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StakeBuilder.Test\StakeBuilderTest.cs" />
     <Compile Include="TestingSetup\GlobalSetup.cs" />

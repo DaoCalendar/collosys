@@ -23,10 +23,12 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual StkhHierarchy Role { get; set; }
 
-        public virtual GPermission Permission { get; set; }
+        public virtual GPermission Parent { get; set; }
         public virtual IList<GPermission> Childrens { get; set; }
 
         public virtual string Description { get; set; }
+
+
 
         #endregion
     }
