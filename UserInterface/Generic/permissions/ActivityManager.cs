@@ -10,7 +10,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
 {
-    public static class PermissionManager 
+    public static class PermissionManager
     {
         private static void AddActivity(GPermission parent, GPermission child)
         {
@@ -19,7 +19,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             parent.Childrens.Add(child);
         }
 
-    
+
 
         public static GPermission AddActivity(GPermission parent, ColloSysEnums.Activities activity, string desciption = "")
         {
@@ -45,7 +45,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 if (perm.Childrens == null || perm.Childrens.Count == 0) return false;
                 permission = perm;
             }
-            return false;
+            return permission.HasAccess;
         }
 
         private static StkhHierarchy _hierarchy;

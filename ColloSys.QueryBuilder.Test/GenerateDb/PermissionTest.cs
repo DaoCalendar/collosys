@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AngularUI.Generic.Menu;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
@@ -42,6 +43,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                     //.TransformUsing(Transformers.DistinctRootEntity)
                     .List<GPermission>();
 
+                var menu = new MenuManager();
+                var ma = menu.CreateMenu();
+                ma = MenuManager.CreateAutherizedMenu(root[0], ma);
 
                 rx.Rollback();
             }

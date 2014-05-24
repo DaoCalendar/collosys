@@ -44,6 +44,9 @@ namespace AngularUI.Generic.Menu
                                   .TransformUsing(Transformers.DistinctRootEntity)
                                   .List();
 
+            var menu = new MenuManager();
+            var ma = menu.CreateMenu();
+
             //var permData = Session.QueryOver<GPermission>()
             //        .Where(x => x.Role.Id == userData.Role.Id)
             //        .And(x => x.Parent == null)

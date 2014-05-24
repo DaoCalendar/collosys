@@ -146,6 +146,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
+    <Compile Include="Generic\Menu\Menu.cs" />
     <Compile Include="Generic\Menu\MenuApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
