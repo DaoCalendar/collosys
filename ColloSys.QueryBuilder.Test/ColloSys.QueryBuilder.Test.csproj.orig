@@ -69,11 +69,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <Compile Include="Properties\BillingTest\ExpressionBuilderTests.cs" />
+    <Compile Include="Properties\BillingTest\StringQueryBuilder.cs" />
+    <Compile Include="Properties\BillingTest\StringQueryBuilderTest.cs" />
+    <Compile Include="Properties\BillingTest\TestBillingService.cs" />
+=======
     <Compile Include="BillingTest\DBDataForTesting.cs" />
     <Compile Include="BillingTest\SubPolicyCalculaterTests.cs" />
-    <Compile Include="Properties\BillingTest\StringQueryBuilderTest.cs" />
-    <Compile Include="BillingTest\ExpressionBuilderTests.cs" />
-    <Compile Include="Properties\BillingTest\TestBillingService.cs" />
+    <Compile Include="BillingTest\TestingBillTokens.cs" />
+    <Compile Include="BillingTest\StringQueryBuilder.cs" />
+    <Compile Include="BillingTest\TestBillingService.cs" />
+>>>>>>> 061b842b300426efac165272c2e20d92d8610426
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

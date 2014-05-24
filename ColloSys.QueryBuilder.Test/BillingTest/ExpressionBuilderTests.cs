@@ -8,6 +8,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using LinqKit;
 using NHibernate.Criterion;
+using NHibernate.Hql.Ast.ANTLR;
 using NHibernate.Linq;
 using NUnit.Framework;
 using System.Linq.Expressions;
@@ -23,33 +24,21 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
     public class ExpressionBuilderTests
     {
         IList<CustBillViewModel> _dataList = new List<CustBillViewModel>();
-        private ExpressionBuilder<CustBillViewModel> _builder;
+        private StringQueryBuilder _builder;
+        private TestingBillTokens _testingBillTokens;
 
         [SetUp]
         public void InitData()
         {
-            var session = SessionManager.GetCurrentSession();
-            _dataList = session.QueryOver<CustBillViewModel>().List();
-            _builder = new ExpressionBuilder<CustBillViewModel>();
-
-        }
-
-        private IList<BillTokens> GreaterThanTokens()
-        {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number"}
-            };
-            return query;
+            _builder = new string;
+            _testingBillTokens = new TestingBillTokens();
+            _dataList = _testingBillTokens.GenerateData();
         }
 
         [Test]
         public void GreaterThanTest()
         {
-            var condtions = GreaterThanTokens();
+            var condtions = _testingBillTokens.GreaterThanTokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             Assert.AreEqual(result.Count, 0);
@@ -58,73 +47,35 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         [Test]
         public void GreaterThan_StringTest()
         {
-            var result = _dataList.AsQueryable().Where("Cycle > 2").ToList();
+            var stringQuery = "Cycle > 2";
+            var result = _dataList.AsQueryable().Where(stringQuery).ToList();
             var actual = _dataList.Where(x => x.Cycle > 2).ToList();
             Assert.AreEqual(result.Count(), actual.Count());
-        }
-
-        private IList<BillTokens> SumOfTwoTokens()
-        {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"}
-            };
-            return query;
         }
 
         [Test]
         public void SumTest()
         {
-            var condtions = SumOfTwoTokens();
+            var condtions = _testingBillTokens.SumOfTwoTokens();
             var query = _builder.GenerateMathQuery(condtions);
             var result = _builder.ExecuteOutput(_dataList, query);
             Assert.AreEqual(result.Count, _dataList.Count);
-        }
-
-        private IList<BillTokens> SumOfTwoTokensReverse()
-        {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"}
-            };
-            return query;
         }
 
         [Test]
         public void SumTestByValue()
         {
-            var condtions = SumOfTwoTokensReverse();
+            var condtions = _testingBillTokens.SumOfTwoTokensReverse();
             var query = _builder.GenerateMathQuery(condtions);
             var result = _builder.ExecuteOutput(_dataList, query);
             Assert.AreEqual(result.Count, _dataList.Count);
         }
 
-        private IList<BillTokens> SumNGreaterThanTokens()
-        {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 3, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "0", Priority = 4, DataType = "number"}
-            };
-            return query;
-        }
-
-
 
         [Test]
         public void SumnGreaterThanTest()
         {
-            var condtions = SumNGreaterThanTokens();
+            var condtions = _testingBillTokens.SumNGreaterThanTokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Count(x => (x.Cycle + 2) > 0);
@@ -134,7 +85,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         [Test]
         public void SumnGreaterThan_StringTest()
         {
-            var result = _dataList.AsQueryable().Where("Cycle + 2 > 0").ToList();
+            var stringQuery = "Cycle + 2 > 0";
+            var result = _dataList.AsQueryable().Where(stringQuery).ToList();
             var actual = _dataList.Where(x => x.Cycle + 2 > 0).ToList();
             Assert.AreEqual(result.Count(), actual.Count());
         }
@@ -142,22 +94,11 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         #region Token by Mayur
 
         #region Condition
-        // x => x.Product == ScbEnums.Products.PL
-        private IList<BillTokens> ProductEqualPL_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "enum"},
-                new BillTokens {Type = "Operator", Value = "Equal", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "enum"}
-            };
-            return query;
-        }
 
         [Test]
         public void ProductEqualPL_Test()
         {
-            var condtions = ProductEqualPL_Tokens();
+            var condtions = _testingBillTokens.ProductEqualPL_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Count(x => x.Product == ScbEnums.Products.PL);
@@ -172,22 +113,10 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count(), actual.Count());
         }
 
-        // x => x.CityCategory.IsIn(new object[] { "Metro", "A" })
-        private IList<BillTokens> CityCategoryIsIn_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.CityCategory", Priority = 0, DataType = "enum"},
-                new BillTokens {Type = "Operator", Value = "IsIn", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "Metro, A", Priority = 2, DataType = "enum"}
-            };
-            return query;
-        }
-
         [Test]
         public void CityCategoryIsIn_Test()
         {
-            var condtions = CityCategoryIsIn_Tokens();
+            var condtions = _testingBillTokens.CityCategoryIsIn_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Where(x => x.CityCategory.IsIn(new object[] { "Metro", "A" }));
@@ -203,40 +132,11 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
 
 
-        // x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1 && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL
-        private IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table",Value = "CustBillViewModel.City",Priority = 0,DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "Pune", Priority = 2, DataType = "string"},
-
-                new BillTokens {Type = "Operator", Value = "AND", Priority = 3, DataType = "Relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.CityCategory", Priority = 4, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 5, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "Tier1", Priority = 6, DataType = "string"},
-
-                new BillTokens {Type = "Operator", Value = "AND", Priority = 7, DataType = "Relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Flag", Priority = 8, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 9, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "O", Priority = 10, DataType = "string"},
-
-                 new BillTokens {Type = "Operator", Value = "AND", Priority = 11, DataType = "Relational"},
-
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 12, DataType = "string"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 13, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "PL", Priority = 14, DataType = "string"}
-            };
-            return query;
-        }
 
         [Test]
         public void City_CityCategory_Flag_Product_Test()
         {
-            var condtions = City_CityCategory_Flag_Product_Tokens();
+            var condtions = _testingBillTokens.City_CityCategory_Flag_Product_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Count(x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1
@@ -253,24 +153,12 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count(), actual.Count());
         }
 
-        // x => (x.TotalAmountRecovered * (decimal)0.02) >= 10000
-        private IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 0, DataType = "number"},
-                 new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
-                  new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "GreaterThenEqual", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "10000", Priority = 2, DataType = "number"}
-            };
-            return query;
-        }
+
 
         [Test]
         public void TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Test()
         {
-            var condtions = TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens();
+            var condtions = _testingBillTokens.TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var result = _builder.ExecuteCondition(_dataList, query);
             var actual = _dataList.Count(x => (x.TotalAmountRecovered * (decimal)0.02) >= 10000);
@@ -315,22 +203,12 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         #region Ouput
 
-        // dataList.ForEach(x => x.TotalDueOnAllocation = (x.TotalAmountRecovered * (decimal)0.02))s
-        private IList<BillTokens> TotalAmountRecoveredMultiPlay2Per_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 0,DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
-                new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"}
-            };
-            return query;
-        }
+
 
         [Test]
         public void TotalAmountRecoveredMultiPlay2Per_Test()
         {
-            var condtions = TotalAmountRecoveredMultiPlay2Per_Tokens();
+            var condtions = _testingBillTokens.TotalAmountRecoveredMultiPlay2Per_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             var actual = new List<CustBillViewModel>(_dataList);
             var dataList = new List<CustBillViewModel>(_dataList);
@@ -345,28 +223,17 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         [Test]
         public void TotalAmountRecoveredMultiPlay2Per_StringTest()
         {
-            const string queryString = @"(Cycle + 3)";
-            var expression = DynamicExpression.ParseLambda<CustBillViewModel, uint>(queryString);
+            const string queryString = @"(Cycle + 3) > Bucket";
+            var expression = DynamicExpression.ParseLambda<CustBillViewModel, bool>(queryString);
 
             var actual = new List<CustBillViewModel>(_dataList);
             var dataList = new List<CustBillViewModel>(_dataList);
 
-            dataList.ForEach(x => x.Bucket = expression.Compile().Invoke(x));
+            var test = dataList.Where(x => expression.Compile().Invoke(x));
+            //dataList.ForEach(x => x.Bucket = expression.Compile().Invoke(x));
             actual.ForEach(x => x.Bucket = (x.Cycle + 2));
 
             Assert.AreEqual(dataList.First().Bucket, actual.First().Bucket);
-        }
-
-        // dataList.ForEach(x => x.ResolutionPercentage = (x.TotalAmountRecovered / x.ResolutionPercentage))
-        private IList<BillTokens> TotalAmountRecoveredDivideResolutionPercentage_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 0,DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Divide", Priority = 1, DataType = "Arithmetic"},
-                new BillTokens {Type = "Value", Value = "CustBillViewModel.ResolutionPercentage", Priority = 1, DataType = "number"}
-            };
-            return query;
         }
 
         [Test]
@@ -375,7 +242,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var actual = new List<CustBillViewModel>(_dataList);
             var dataList = new List<CustBillViewModel>(_dataList);
 
-            var condtions = TotalAmountRecoveredDivideResolutionPercentage_Tokens();
+            var condtions = _testingBillTokens.TotalAmountRecoveredDivideResolutionPercentage_Tokens();
             var query = _builder.GenerateConditionalQuery(condtions);
             _builder.ExecuteOutput(dataList, query);
             actual.ForEach(x => x.TotalDueOnAllocation = (x.TotalAmountRecovered * (decimal)0.02));
