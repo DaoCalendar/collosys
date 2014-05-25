@@ -67,10 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGeneration\BillingSubpolicyDGC.cs" />
+    <Compile Include="QueryExecutionTests\AndOrQueryTests.cs" />
     <Compile Include="QueryExecutionTests\ConditionalQueryTests.cs" />
+    <Compile Include="QueryExecutionTests\FormulaTests.cs" />
     <Compile Include="QueryExecutionTests\OutputQueryTests.cs" />
     <Compile Include="QueryExecution\QueryGenerator.cs" />
-    <Compile Include="QueryExecutionTests\QueryGeneratorTest.cs" />
     <Compile Include="DataGeneration\BillTokensDGC.cs" />
     <Compile Include="QueryExecution\QueryExecuter.cs" />
     <Compile Include="QueryExecutionTests\SubpolicyTests.cs" />

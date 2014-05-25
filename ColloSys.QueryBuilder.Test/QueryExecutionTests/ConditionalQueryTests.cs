@@ -10,10 +10,11 @@ using NUnit.Framework;
 
 #endregion
 
-namespace ColloSys.QueryBuilder.Test.BillingTest
+namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 {
     //TODO: HARISH: <, <=, >= tests for String, Number, Date 
     //TODO: HARISH: needs atleast 20-30 more tests, grouped by region per datatype
+    //1. tc > f, f >= number, delqDate > Today/tomorrow/yesterday/etc
     public class ConditionalQueryTests
     {
         #region ctor

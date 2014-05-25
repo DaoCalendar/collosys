@@ -2,17 +2,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
 
 #endregion
 
-namespace ColloSys.QueryBuilder.Test.BillingTest
+namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
     public class QueryGenerator
     {
-        #region query generators
+        #region combine tokens
         public string GenerateOutputQuery(IEnumerable<BillTokens> tokensList)
         {
             return GenerateMathQuery(tokensList);
@@ -93,7 +92,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
         #endregion
 
-        #region operators to linq
+        #region operator tokens
         private string ProcessOperators(BillTokens token)
         {
             switch (token.DataType)
@@ -159,7 +158,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
         #endregion
 
-        #region non-operators to linq
+        #region non-operator tokens
         private string ProcessTableColumn(BillTokens token)
         {
             return token.Value.Replace("CustBillViewModel.", "");
@@ -180,7 +179,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         private string ProcessSqlFunctions(BillTokens token)
         {
-            throw new NotImplementedException();
+            return token.Value;
         }
         #endregion
     }
