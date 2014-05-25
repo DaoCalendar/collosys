@@ -66,11 +66,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BillingTest\BillingSubpolicyDGC.cs" />
-    <Compile Include="BillingTest\QueryGenerator.cs" />
-    <Compile Include="BillingTest\QueryGeneratorTest.cs" />
-    <Compile Include="BillingTest\BillTokensDGC.cs" />
-    <Compile Include="BillingTest\QueryExecuter.cs" />
+    <Compile Include="DataGeneration\BillingSubpolicyDGC.cs" />
+    <Compile Include="QueryExecutionTests\ConditionalQueryTests.cs" />
+    <Compile Include="QueryExecutionTests\OutputQueryTests.cs" />
+    <Compile Include="QueryExecution\QueryGenerator.cs" />
+    <Compile Include="QueryExecutionTests\QueryGeneratorTest.cs" />
+    <Compile Include="DataGeneration\BillTokensDGC.cs" />
+    <Compile Include="QueryExecution\QueryExecuter.cs" />
+    <Compile Include="QueryExecutionTests\SubpolicyTests.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,14 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region references
+
+using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 
-namespace ColloSys.QueryBuilder.Test.BillingTest
+#endregion
+
+namespace ColloSys.QueryBuilder.Test.DataGeneration
 {
+    // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
     public class BillTokensDGC
     {
-        internal IList<BillTokens> GreaterThanWithPlas2Tokens()
+        public IList<BillTokens> GreaterThanWithPlus2Tokens()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
@@ -25,7 +29,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
         public List<BillTokens> GreaterThanTokens()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
@@ -35,9 +38,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        internal IList<BillTokens> SumOfTwoTokens()
+        public IList<BillTokens> SumOfTwoTokens()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
@@ -47,9 +49,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        internal IList<BillTokens> SumOfTwoTokensReverse()
+        public IList<BillTokens> SumOfTwoTokensReverse()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
@@ -59,9 +60,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        internal IList<BillTokens> SumNGreaterThanTokens()
+        public IList<BillTokens> SumNGreaterThanTokens()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Condition"},
@@ -73,9 +73,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        internal IList<BillTokens> GreaterThanNSumTokens()
+        public IList<BillTokens> GreaterThanNSumTokens()
         {
-            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
             var query = new List<BillTokens>
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Condition"},
@@ -87,8 +86,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        // x => x.Product == ScbEnums.Products.PL
-        internal IList<BillTokens> ProductEqualPL_Tokens()
+        public IList<BillTokens> ProductEqualPL_Tokens()
         {
             var query = new List<BillTokens>
             {
@@ -99,8 +97,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        // x => x.CityCategory.IsIn(new object[] { "Metro", "A" })
-        internal IList<BillTokens> CityCategoryIsIn_Tokens()
+        public IList<BillTokens> CityCategoryIsIn_Tokens()
         {
             var query = new List<BillTokens>
             {
@@ -112,8 +109,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
 
 
-        // x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1 && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL
-        internal IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
+        public IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
         {
             var query = new List<BillTokens>
             {
@@ -142,8 +138,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return query;
         }
 
-        // x => (x.TotalAmountRecovered * (decimal)0.02) >= 10000
-        internal IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
+        public IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
         {
             var query = new List<BillTokens>
             {
@@ -159,7 +154,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         #region Output Tokens
 
         // dataList.ForEach(x => x.TotalDueOnAllocation = (x.TotalAmountRecovered * (decimal)0.02))s
-        internal IList<BillTokens> TotalAmountRecoveredMultiPlay2Per_Tokens()
+        public IList<BillTokens> TotalAmountRecoveredMultiPlay2Per_Tokens()
         {
             var query = new List<BillTokens>
             {
@@ -172,7 +167,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
 
         // dataList.ForEach(x => x.ResolutionPercentage = (x.TotalAmountRecovered / x.ResolutionPercentage))
-        internal IList<BillTokens> TotalAmountRecoveredDivideResolutionPercentage_Tokens()
+        public IList<BillTokens> TotalAmountRecoveredDivideResolutionPercentage_Tokens()
         {
             var query = new List<BillTokens>
             {

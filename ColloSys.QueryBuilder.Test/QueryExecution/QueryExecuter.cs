@@ -1,16 +1,21 @@
+#region references
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
+using ColloSys.QueryBuilder.Test.BillingTest;
 
-namespace ColloSys.QueryBuilder.Test.BillingTest
+#endregion
+
+namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
-    public class TokenExeculter<T> where T : CustBillViewModel
+    public class QueryExecuter<T> where T : CustBillViewModel
     {
         private readonly IList<BillTokens> _billTokenses;
         private readonly QueryGenerator _stringQueryBuilder;
 
-        public TokenExeculter(IList<BillTokens> billTokenses)
+        public QueryExecuter(IList<BillTokens> billTokenses)
         {
             _billTokenses = billTokenses;
             _stringQueryBuilder = new QueryGenerator();
