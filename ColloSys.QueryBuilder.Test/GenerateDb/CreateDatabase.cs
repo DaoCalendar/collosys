@@ -11,6 +11,7 @@ using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
+using NHibernate.Transform;
 using NUnit.Framework;
 
 #endregion
@@ -32,40 +33,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             FileUploaderService.UploadFiles();
         }
 
-        [Test]
-        public void CreatePermissions()
-        {
-            var session = SessionManager.GetCurrentSession();
-            using (var rx = session.BeginTransaction())
-            {
-                var hierarchy = session.QueryOver<StkhHierarchy>()
-                    .Where(x => x.Designation == "Developer")
-                    .And(x => x.Hierarchy == "Developer")
-                    .SingleOrDefault();
-                var root = PermissionManager.CreateDevPermissions(hierarchy);
-                root.Role = hierarchy;
-                session.SaveOrUpdate(root);
-                rx.Commit();
-            }
-        }
-
-        [Test]
-        public void FetchPermissions()
-        {
-            var session = SessionManager.GetCurrentSession();
-            using (var rx = session.BeginTransaction())
-            {
-                var hierarchy = session.QueryOver<StkhHierarchy>()
-                    .Where(x => x.Designation == "Developer")
-                    .And(x => x.Hierarchy == "Developer")
-                    .SingleOrDefault();
-                var root = session.QueryOver<GPermission>()
-                    .Where(x => x.Role.Id == hierarchy.Id).List<GPermission>();
-                var count = root.Where(x => x.Permission == null);
-                rx.Rollback();
-            }
-        }
-
+       
         [Test]
         public void UpdateScbuserPassword()
         {

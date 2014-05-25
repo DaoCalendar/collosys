@@ -88,6 +88,22 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
         //private static void InsertIntoGPermission()
         //{
         //    var session = SessionManager.GetCurrentSession();
+        //        var roleHoc = session.QueryOver<StkhHierarchy>()
+        //                         .Where(x => x.Designation == "HOC" && x.Hierarchy == "Field")
+        //                         .SingleOrDefault();
+
+        //    var perm = new GPermission()
+        //        {
+        //            Role = roleHoc,
+        //            Activity = ColloSysEnums.Activities.Billing,
+
+        //        };
+
+        //}
+
+        //private static void InsertIntoGPermission()
+        //{
+        //    var session = SessionManager.GetCurrentSession();
 
         //    #region Role For Field
 

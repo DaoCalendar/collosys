@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
+﻿#region
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SessionMgr;
-using NHibernate.Linq;
 using NUnit.Framework;
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
     public class TokenExeculterTests
     {
-        private List<CustBillViewModel> _dataList = null;
-        private TestingBillTokens _testingBillTokens = new TestingBillTokens();
-        private QueryGenerator _queryGenerator = new QueryGenerator();
+        private List<CustBillViewModel> _dataList;
+        private readonly TestingBillTokens _testingBillTokens = new TestingBillTokens();
 
         [SetUp]
         public void SetUp()
@@ -239,7 +238,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             if (conditionToken.Count <= 0)
                 return dataList;
 
-            var stringConditionQuery = _stringQueryBuilder.GenerateConditionalQuery(conditionToken);
+            var stringConditionQuery = _stringQueryBuilder.GenerateAndOrQuery(conditionToken);
 
             var conditionExpression = DynamicExpression.ParseLambda<CustBillViewModel, bool>(stringConditionQuery);
             var resultData = dataList.Where(x => conditionExpression.Compile().Invoke(x)).ToList();

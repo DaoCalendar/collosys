@@ -387,7 +387,7 @@ csapp.service('modalService', ['$modal', function ($modal) {
 }]);
 
 csapp.factory('$permissionFactory', [function () {
-    //file upload activities
+    //#region file upload activities
     var createFileActivity = function () {
         return {
             name: "CreateFile",
@@ -506,7 +506,7 @@ csapp.factory('$permissionFactory', [function () {
                     childrens: {}
                 },
                 Update: {
-                    name: "Create",
+                    name: "Update",
                     access: false,
                     description: "update payment",
                     childrens: {}
@@ -520,7 +520,9 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
-    //stakeholder activities
+    //#endregion
+    
+    //#region stakeholder activities
     var addStakeholderActivity = function () {
         return {
             name: "Add Stakeholder",
@@ -606,7 +608,9 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
-    //allocation activities
+    //#endregion
+    
+    //#region allocation activities
     var definePolicyActivity = function () {
         return {
             name: "Define Policy",
@@ -704,7 +708,9 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
-    //billing activities
+    //#endregion
+
+    //#region billing activities
     var defineBillingPolicyActivity = function () {
         return {
             name: "Define Policy",
@@ -905,7 +911,9 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
-    //config
+    //#endregion
+    
+    //#region config
     var permissionActivity = function () {
         return {
             name: "Permission",
@@ -1074,6 +1082,8 @@ csapp.factory('$permissionFactory', [function () {
             }
         };
     };
+    //#endregion
+    
     var permission = {
 
         FileUpload: {

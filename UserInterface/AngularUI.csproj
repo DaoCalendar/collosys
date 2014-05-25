@@ -146,6 +146,7 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
+    <Compile Include="Generic\Menu\Menu.cs" />
     <Compile Include="Generic\Menu\MenuApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
@@ -622,6 +623,9 @@
     </Content>
     <Content Include="Scripts\ui-utils\ui-utils.min.js.map">
       <DependentUpon>ui-utils.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.min.js.map">
+      <DependentUpon>angular-ui.js</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup />
