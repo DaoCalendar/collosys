@@ -8,13 +8,13 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
-    public class DBDataForTesting
+    public class BillingSubpolicyDGC
     {
-        private TestingBillTokens testingBillTokens;
+        private BillTokensDGC testingBillTokens;
 
-        public DBDataForTesting()
+        public BillingSubpolicyDGC()
         {
-            testingBillTokens = new TestingBillTokens();
+            testingBillTokens = new BillTokensDGC();
         }
 
         public List<BillingSubpolicy> GetBillingSubpolicies()

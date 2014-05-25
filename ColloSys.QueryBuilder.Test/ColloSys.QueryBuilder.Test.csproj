@@ -66,10 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BillingTest\DBDataForTesting.cs" />
+    <Compile Include="BillingTest\BillingSubpolicyDGC.cs" />
     <Compile Include="BillingTest\QueryGenerator.cs" />
-    <Compile Include="BillingTest\SubPolicyCalculaterTests.cs" />
-    <Compile Include="BillingTest\TestingBillTokens.cs" />
+    <Compile Include="BillingTest\QueryGeneratorTest.cs" />
+    <Compile Include="BillingTest\BillTokensDGC.cs" />
+    <Compile Include="BillingTest\QueryExecuter.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

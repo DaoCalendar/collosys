@@ -4,7 +4,7 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.QueryBuilder.Test.BillingTest
 {
-    public class TestingBillTokens
+    public class BillTokensDGC
     {
         internal IList<BillTokens> GreaterThanWithPlas2Tokens()
         {
