@@ -26,7 +26,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             _dataList = null;
         }
 
-        #region Billing Subpolicy 
+        #region Billing Subpolicy
 
         /// <summary>
         /// condition : Cycle = 0 
@@ -82,6 +82,38 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actualDataList.Count);
         }
 
+        /// <summary>
+        /// output : TotalDueOnAllocation * 0.02
+        /// </summary>
+        [Test]
+        public void TotalAmountRecoveredMultiPlay2Per_TokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalAmountRecovered * (decimal)0.02));
+
+            var tokens = _testingBillTokens.TotalAmountRecoveredMultiPlay2Per_Tokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actualDataList.Count);
+        }
+
+        /// <summary>
+        /// output : TotalAmountRecovered / ResolutionPercentage
+        /// </summary>
+        [Test]
+        public void TotalAmountRecoveredDivideResolutionPercentage_TokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalAmountRecovered * x.ResolutionPercentage));
+
+            var tokens = _testingBillTokens.TotalAmountRecoveredDivideResolutionPercentage_Tokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actualDataList.Count);
+        }
+
         #endregion
 
         #region Condition
@@ -101,7 +133,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
             Assert.AreEqual(result.Count, actual.Count);
         }
-        
+
         /// <summary>
         /// condition : Cycle + 2 > 0
         /// </summary>
@@ -115,7 +147,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
-            Assert.AreEqual(result.Count, actualDataList.Count);
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         /// <summary>
@@ -149,7 +181,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
 
             Assert.AreEqual(result.Count, actual.Count);
         }
-        
+
         /// <summary>
         /// condition : CityCategory IsIn ("Metro", "A")
         /// </summary>
@@ -201,23 +233,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
 
         #endregion
-
-
-        [Test]
-        public void TotalAmountRecoveredMultiPlay2Per_TokensTest()
-        {
-            var tokens = _testingBillTokens.TotalAmountRecoveredMultiPlay2Per_Tokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
-
-        [Test]
-        public void TotalAmountRecoveredDivideResolutionPercentage_TokensTest()
-        {
-            var tokens = _testingBillTokens.TotalAmountRecoveredMultiPlay2Per_Tokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
     }
 
     public class TokenExeculter<T> where T : CustBillViewModel
