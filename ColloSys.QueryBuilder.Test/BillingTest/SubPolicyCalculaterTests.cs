@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Linq;
 using NUnit.Framework;
@@ -26,6 +27,8 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             _dataList = null;
         }
 
+        #region Billing Subpolicy 
+
         /// <summary>
         /// condition : Cycle = 0 
         /// output : Cycle + 2
@@ -34,31 +37,19 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         public void GreaterThanWithPlas2TokensTest()
         {
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Cycle > 0).ToList();
+            var actual = actualDataList.Where(x => x.Cycle == 0).ToList();
             actual.ForEach(x => x.Bucket = (x.Cycle + 2));
 
             var tokens = _testingBillTokens.GreaterThanWithPlas2Tokens();
             var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
-            Assert.AreEqual(result.Count, actual.Count);
+            //CollectionAssert.AreEqual(result,actual);
         }
 
-        /// <summary>
-        /// condition : Cycle > 0
-        /// </summary>
-        [Test]
-        public void GreaterThanTokensTest()
-        {
-            var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Cycle > 0).ToList();
+        #endregion
 
-            var tokens = _testingBillTokens.GreaterThanTokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            var result = tokenBuilder.ExeculteOnList(_dataList);
-
-            Assert.AreEqual(result.Count, actual.Count);
-        }
+        #region Output
 
         /// <summary>
         /// output : Cycle + 2
@@ -76,7 +67,6 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actualDataList.Count);
         }
 
-        //
         /// <summary>
         /// output : 2 + Cycle
         /// </summary>
@@ -93,65 +83,126 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             Assert.AreEqual(result.Count, actualDataList.Count);
         }
 
+        #endregion
 
+        #region Condition
 
         /// <summary>
-        /// condition : Cycle = 0 
+        /// condition : Cycle > 0
+        /// </summary>
+        [Test]
+        public void GreaterThanTokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Cycle > 0).ToList();
+
+            var tokens = _testingBillTokens.GreaterThanTokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+        }
+        
+        /// <summary>
+        /// condition : Cycle + 2 > 0
+        /// </summary>
+        [Test]
+        public void SumNGreaterThanTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Cycle + 2 > 0).ToList();
+
+            var tokens = _testingBillTokens.SumNGreaterThanTokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actualDataList.Count);
+        }
+
+        /// <summary>
+        /// condition : Cycle > 2 + 0
+        /// </summary>
+        [Test]
+        public void GreaterThanNSumTokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Cycle > 2 + 0).ToList();
+
+            var tokens = _testingBillTokens.GreaterThanNSumTokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+        }
+
+        /// <summary>
+        /// condition : Product = PL
+        /// </summary>
+        [Test]
+        public void ProductEqualPL_TokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+
+            var tokens = _testingBillTokens.ProductEqualPL_Tokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+        }
+        
+        /// <summary>
+        /// condition : CityCategory IsIn ("Metro", "A")
+        /// </summary>
+        [Test]
+        public void CityCategoryIsIn_TokensTest()
+        {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+
+            var tokens = _testingBillTokens.CityCategoryIsIn_Tokens();
+            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+        }
+
+        /// <summary>
+        /// condition : City = "Pune" &&  CityCategory = "Tier1" && Flag = "O" && Product = "PL"
         /// </summary>
         [Test]
         public void City_CityCategory_Flag_Product_Tokens_Test()
         {
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Cycle > 0).ToList();
-            actual.ForEach(x => x.Bucket = (x.Cycle + 2));
+            var actual = actualDataList.Where(x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1
+                                && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL).ToList();
 
             var tokens = _testingBillTokens.City_CityCategory_Flag_Product_Tokens();
             var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+
         }
 
-        [Test]
-        public void SumNGreaterThanTest()
-        {
-            var tokens = _testingBillTokens.SumNGreaterThanTokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
-
-
-
-
-        [Test]
-        public void GreaterThanNSumTokensTest()
-        {
-            var tokens = _testingBillTokens.GreaterThanNSumTokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
-
-        [Test]
-        public void ProductEqualPL_TokensTest()
-        {
-            var tokens = _testingBillTokens.ProductEqualPL_Tokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
-
-        [Test]
-        public void CityCategoryIsIn_TokensTest()
-        {
-            var tokens = _testingBillTokens.CityCategoryIsIn_Tokens();
-            var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
-        }
-
+        /// <summary>
+        /// condition : TotalAmountRecovered * 0.02 > 10000
+        /// </summary>
         [Test]
         public void TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens_TokensTest()
         {
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.TotalAmountRecovered * (decimal)0.02 > 10000).ToList();
+
             var tokens = _testingBillTokens.TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens();
             var tokenBuilder = new TokenExeculter<CustBillViewModel>(tokens);
-            tokenBuilder.ExeculteOnList(_dataList);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
+
+        #endregion
+
 
         [Test]
         public void TotalAmountRecoveredMultiPlay2Per_TokensTest()
@@ -181,7 +232,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             _stringQueryBuilder = new QueryGenerator();
         }
 
-        public IList<T> ConditionExecuter(IList<T> dataList)
+        public List<T> ConditionExecuter(List<T> dataList)
         {
             var conditionToken = _billTokenses.Where(x => x.GroupType == "Condition").ToList();
 
@@ -195,7 +246,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
             return resultData;
         }
 
-        public IList<T> OutputExecuter(IList<T> dataList)
+        public List<T> OutputExecuter(List<T> dataList)
         {
             var outPutToken = _billTokenses.Where(x => x.GroupType == "Output").ToList();
 
@@ -210,7 +261,7 @@ namespace ColloSys.QueryBuilder.Test.BillingTest
         }
 
 
-        public IList<T> ExeculteOnList(IList<T> dataList)
+        public List<T> ExeculteOnList(List<T> dataList)
         {
             var filterData = ConditionExecuter(dataList);
             var resultData = OutputExecuter(filterData);
