@@ -14,7 +14,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 {
     //TODO: HARISH: <, <=, >= tests for String, Number, Date 
     //TODO: HARISH: needs atleast 20-30 more tests, grouped by region per datatype
-    //1. tc > f, f >= number, delqDate > Today/tomorrow/yesterday/etc
+    //1. tc > f, f >= number, string -> contains, equal etc, date >, < etc.
     [TestFixture]
     public class ConditionalQueryTests
     {
