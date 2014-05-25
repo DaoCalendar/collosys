@@ -10,6 +10,7 @@ using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 {
+    [TestFixture]
     public class OutputQueryTests
     {
         #region ctor
@@ -71,6 +72,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
             Assert.AreEqual(result.Count, actualDataList.Count);
         }
 
+        //TODO: MAHENDRA: is this correct name - are you testing variable names or logic??
         [Test]
         public void TotalAmountRecoveredDivideResolutionPercentage_TokensTest()
         {

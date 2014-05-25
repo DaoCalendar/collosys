@@ -1,4 +1,6 @@
-﻿namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
+﻿using NUnit.Framework;
+
+namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 {
     //TODO: MAHENDRA
     //1. formula(output) > number and number > column
@@ -11,6 +13,7 @@
 
     //also name the test as per the logic and not as per the field
     //do i need to tell you, how to name variables/methods???????
+    [TestFixture]
     public class AndOrQueryTests
     {
         

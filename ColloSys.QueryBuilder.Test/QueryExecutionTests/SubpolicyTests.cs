@@ -11,6 +11,7 @@ using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 {
+    [TestFixture]
     public class SubpolicyTests
     {
         #region ctor
