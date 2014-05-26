@@ -251,6 +251,9 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             if (!angular.isUndefined(allocPolicy.Products) && !angular.isUndefined(allocPolicy.Category)) {
 
                 return api.customGET("GetAllocPolicy", { products: allocPolicy.Products, category: allocPolicy.Category }).then(function (data) {
+                    if (data.AllocPolicy.AllocRelations.length === 0 && data.UnUsedSubpolicies.length === 0) {
+                        $csnotify.success("Policy not Available ");
+                    } 
                     dldata.allocPolicy = data.AllocPolicy;
                     dldata.subPolicyList = data.UnUsedSubpolicies;
                     dldata.expiredPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
