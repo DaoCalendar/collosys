@@ -164,7 +164,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var html = ' ';
             switch (fields.template) {
                 case 'rupee':
-                    html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-rupee"></i></span>';
+                    html += '<div class="input-group"><span class="input-group-addon"><i class="fa fa-rupee"></i></span>';
                     break;
                 case 'percentage':
                     html += '<div class="input-group">';
