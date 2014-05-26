@@ -11,21 +11,10 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
     // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
     public class BillTokensDGC
     {
-        public IList<BillTokens> GreaterThanWithPlus2Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
-                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional",GroupId = 0, GroupType = "Condition"},
-                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Condition"},
 
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupId = 0, GroupType = "Output"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupId = 0, GroupType = "Output"},
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Output"}
-            };
-            return query;
-        }
+        #region ConditionTokens
 
+        #region number
 
         public List<BillTokens> GreaterThanTokens()
         {
@@ -34,28 +23,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
                 new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 1, DataType = "conditional", GroupType = "Condition"},
                 new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number", GroupType = "Condition"}
-            };
-            return query;
-        }
-
-        public IList<BillTokens> SumOfTwoTokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"}
-            };
-            return query;
-        }
-
-        public IList<BillTokens> SumOfTwoTokensReverse()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"}
             };
             return query;
         }
@@ -86,16 +53,154 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             return query;
         }
 
-        public IList<BillTokens> ProductEqualPL_Tokens()
+        public List<BillTokens> EqualToTokens()
         {
             var query = new List<BillTokens>
             {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "enum"},
-                new BillTokens {Type = "Operator", Value = "Equal", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "enum"}
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "3", Priority = 2, DataType = "number", GroupType = "Condition"}
             };
             return query;
         }
+
+        public IList<BillTokens> NotEqualToTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "NotEqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> GreaterThanEqualToTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThanEqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "3", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> LessThanTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "4", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> LessThanEqualToTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThanEqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "3", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> SumNLessThanTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 3, DataType = "conditional",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "5", Priority = 4, DataType = "number",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> LessThanNSumTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 1, DataType = "conditional",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 3, DataType = "number",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "4", Priority = 4, DataType = "number",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 0, DataType = "number"},
+                 new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
+                  new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"},
+                new BillTokens {Type = "Operator", Value = "GreaterThenEqual", Priority = 1, DataType = "conditional"},
+                new BillTokens {Type = "Value", Value = "10000", Priority = 2, DataType = "number"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> TotalAmountRecoveredMultiPlay2PerLessThenEqual10000_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 0, DataType = "number"},
+                 new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
+                  new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 1, DataType = "conditional"},
+                new BillTokens {Type = "Value", Value = "10000", Priority = 2, DataType = "number"}
+            };
+            return query;
+        }
+
+        #endregion
+
+        #endregion
+        public IList<BillTokens> GreaterThanWithPlus2Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Condition"},
+
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupId = 0, GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupId = 0, GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> SumOfTwoTokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> SumOfTwoTokensReverse()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"}
+            };
+            return query;
+        }
+
+
 
         public IList<BillTokens> CityCategoryIsIn_Tokens()
         {
@@ -107,7 +212,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             };
             return query;
         }
-
 
         public IList<BillTokens> City_CityCategory_Flag_Product_Tokens()
         {
@@ -138,18 +242,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             return query;
         }
 
-        public IList<BillTokens> TotalAmountRecoveredMultiPlay2PerGraterThenEqual10000_Tokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 0, DataType = "number"},
-                 new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
-                  new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "GreaterThenEqual", Priority = 1, DataType = "conditional"},
-                new BillTokens {Type = "Value", Value = "10000", Priority = 2, DataType = "number"}
-            };
-            return query;
-        }
+
 
         #region Output Tokens
 
@@ -200,6 +293,79 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         }
 
         #endregion
+
+
+        #region Bill Subpolicy
+
+        public IList<BillTokens> EqualToWithPlas2SubpolicTokens()
+        {
+            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Condition"},
+
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupId = 0, GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupId = 0, GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> EqualToWithFormulaCyclePlus2SubpolicTokens()
+        {
+            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 2, DataType = "number",GroupId = 0, GroupType = "Condition"},
+
+                new BillTokens {Type = "Formula", Value = "CyclePlus2", Priority = 0, DataType = "number",GroupId = 0, GroupType = "Output"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> FormulaCycleGreterThen2AndFormulaCyclePlus2SubpolicTokens()
+        {
+            // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Formula", Value = "CycleGreterThen2", Priority = 0, DataType = "number", GroupId = 0,GroupType = "Condition"},
+            
+                new BillTokens {Type = "Formula", Value = "CyclePlus2", Priority = 0, DataType = "number",GroupId = 0, GroupType = "Output"},
+            };
+            return query;
+        }
+
+        #endregion
+
+        #region enum
+
+        public IList<BillTokens> ProductEqualPL_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "enum",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "enum",GroupType = "Condition"}
+            };
+            return query;
+        }
+        public IList<BillTokens> ProductNotEqualPL_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "enum",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "NotEqualTo", Priority = 1, DataType = "conditional",GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "enum",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        #endregion
+
 
     }
 }

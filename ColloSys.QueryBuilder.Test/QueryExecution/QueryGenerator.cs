@@ -152,6 +152,8 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
                     return "<=";
                 case "EqualTo":
                     return "=";
+                case "NotEqualTo":
+                    return "!=";
                 default:
                     throw new ArgumentOutOfRangeException(token.Value);
             }
