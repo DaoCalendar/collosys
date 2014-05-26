@@ -382,7 +382,9 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
             if (condition.dateValueEnum && condition.dateValueEnum != 'Absolute_Date') {
                 condition.Value = condition.dateValueEnum;
             }
-            condition.Value = JSON.stringify(condition.Value);
+            if (condition.Operator === "IsInList") {
+                 condition.Value = JSON.stringify(condition.Value);
+            }
 
             //var con = angular.copy(condition);
             dldata.allocSubpolicy.Conditions.push(condition);
