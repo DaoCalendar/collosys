@@ -46,7 +46,7 @@
                 <h4>Files to Schedule</h4>
                 <div data-ng-repeat="file in datalayer.dldata.fileScheduleDetails.ScheduleInfo | orderBy : 'FileName' | filter: {IsScheduled: 'false'}">
                     <div class="form-group row ">
-                        <div class="col-md-9">
+                        <div class="col-md-10">
                             <label class="col-md-3 text-left">{{$index + 1}}. {{file.FileName}}</label>
                             <div data-ng-hide="file.IsUploading">
                                 <div class="col-md-4">
