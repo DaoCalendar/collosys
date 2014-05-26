@@ -130,12 +130,15 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
         }, errorDisplay);
     };
 
-    var saveAllColumns = function (column) {
-        if (!dldata.fileDetail) { return; }
-        apictrl.customPOST(column, 'SaveAllColumns')
+    var saveAllColumns = function (fileDetail) {
+        if (!dldata.fileDetail) {
+             return;
+        }
+        return apictrl.customPOST(fileDetail, 'SaveAllColumns')
             .then(function (data) {
                 dldata.fileDetail = data;
                 $csnotify.success('All File Columns Save Successfully');
+                return data;
             }, errorDisplay);
     };
 
@@ -237,6 +240,7 @@ csapp.controller("fileColumnAddEditController", ["$scope", "fileColumnDataLayer"
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.dldata = datalayer.dldata;
+            $scope.fileColumn = {};
         })();
 
 
@@ -262,8 +266,13 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
             $scope.factory = factory;
             $scope.datalayer.GetAliases();
             $scope.dldata = datalayer.dldata;
+            $scope.column = {};
             $scope.productList = { label: "File Name", type: "enum", valueList: $csShared.enums.FileAliasName };
         })();
+
+        $scope.SaveMulti = function (fileDetail) {
+            return datalayer.SaveMulti(fileDetail);
+        };
 
         $scope.showDeleteModal = function (fileColumn, index) {
             var modalOptions = {
