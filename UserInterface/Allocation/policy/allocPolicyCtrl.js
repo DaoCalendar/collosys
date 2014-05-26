@@ -44,8 +44,7 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
                 $scope.closeModel();
             });
         };
-
-
+        
         $scope.closeModel = function () {
             $modalInstance.close();
             $scope.modalData = {
@@ -159,10 +158,11 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             // $scope.dldata.selectedPolicy = subpolicy;
         };
 
-        $scope.approve = function (allocRelation) {
-            datalayer.approveRelation(allocRelation).then(function () {
+        $scope.approve = function (policy) {
+            datalayer.approveRelation(policy.allocRelation).then(function () {
                 $scope.buttonStatus = null;
-                allocRelation.Status = 'Approved';
+                policy.Status = 'Approved';
+                datalayer.resetList();
                 $scope.changeProductCategory();
             });
         };
