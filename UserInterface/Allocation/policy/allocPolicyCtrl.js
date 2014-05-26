@@ -54,15 +54,17 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
             if (modalData.subPolicyIndex > -1) {
                 datalayer.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
-
-            var policy = angular.copy(datalayer.dldata.allocPolicy);
-            policy.AllocRelations = [];
-            policy.AllocRelations.push(datalayer.dldata.allocPolicy.AllocRelations[5]);
-            policy.AllocRelations[0].AllocSubpolicy = datalayer.dldata.selectedPolicy;
-            datalayer.saveAllocPolicy(policy).then(function () {
+            datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy).then(function () {
                 $scope.closeModel();
-
             });
+            //var policy = angular.copy(datalayer.dldata.allocPolicy);
+            //policy.AllocRelations = [];
+            //policy.AllocRelations.push(datalayer.dldata.allocPolicy.AllocRelations[5]);
+            //policy.AllocRelations[0].AllocSubpolicy = datalayer.dldata.selectedPolicy;
+            //datalayer.saveAllocPolicy(policy).then(function () {
+            //    $scope.closeModel();
+
+            //});
         };
 
         $scope.deactivateSubPoicy = function (modalData) {
@@ -103,7 +105,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.setButtonStatus = function (policy) {
-           // $scope.buttonStatus = status;
+           //$scope.buttonStatus = policy;
             if (policy.type === "") {
                 $scope.buttonStatus = 'Draft';
             }
@@ -154,16 +156,16 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             openModal($scope.modalData);
         };
 
-        $scope.openModelNewSubPolicy = function (subPolicy, index) {
+        $scope.openModelNewSubPolicy = function (policy, index) {
             $scope.buttonStatus = null;
-            $scope.modalData.AllocRelations = { AllocSubpolicy: subPolicy };
-            var indexl = findIndex($scope.dldata.subPolicyList, subPolicy.Id);
+            $scope.modalData.AllocRelations = { AllocSubpolicy: policy.subpolicy };
+            var indexl = findIndex($scope.dldata.subPolicyList, policy.subpolicy.Id);
             $scope.modalData.subPolicyIndex = indexl;
             $scope.modalData.startDate = null;
             $scope.modalData.endDate = null;
             $scope.modalData.forActivate = true;
             openModal($scope.modalData);
-         };
+        };
 
         $scope.openModel = function (allocRelations, forActivate) {
             $scope.modalData.AllocRelations = allocRelations;
@@ -185,7 +187,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             }
 
             $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
-            $scope.dldata.selectedPolicy = subpolicy;
+           // $scope.dldata.selectedPolicy = subpolicy;
         };
 
         $scope.approve = function (allocRelation) {
@@ -195,11 +197,11 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             });
         };
 
-        $scope.reject = function (allocRelation) {
+        $scope.reject = function (policy) {
 
-            datalayer.RejectSubPolicy(allocRelation).then(function () {
+            datalayer.RejectSubPolicy(policy.allocRelation).then(function () {
                 $scope.buttonStatus = null;
-                allocRelation.Status = 'Rejected';
+                policy.Status = 'Rejected';
             });
         };
 

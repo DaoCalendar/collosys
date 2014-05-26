@@ -6,10 +6,18 @@
         </div>
     </div>
     <div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
-        <cs-dual-list lhs-heading="Expired/Draft" rhs-heading="Approved/UnApproved"
-                      lhs-value-list="draftAndExpired"
-                      rhs-value-list="ApproveUnapp" text-field="Name"
-                      ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy,policy.allocRelation); setButtonStatus(policy)"></cs-dual-list>
+        <div class="col-md-5">
+            <cs-list list-heading="SubPolicy_List" value-list="draftAndExpired" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
+        </div>
+        <div class="col-md-5">
+            <cs-list list-heading="SubPolicy_List" value-list="ApproveUnapp" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
+        </div>
+        <!--<cs-dual-list lhs-heading="Expired/Draft" rhs-heading="Approved/UnApproved"
+                            lhs-value-list="draftAndExpired"
+                            rhs-value-list="ApproveUnapp" text-field="Name"
+                            ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy,policy.allocRelation); setButtonStatus(policy)"></cs-dual-list>-->
     </div>
     <div class="row" data-ng-show="false">
         <div class="col-md-1">
@@ -69,31 +77,31 @@
                         <div class="pull-right" style="margin-right:5px">
                             <button class="btn  btn-danger"
                                     data-ng-show="buttonStatus==='Approved'"
-                                    data-ng-click="openModelDeactivateSubPolicy(allocRelation);">
+                                    data-ng-click="openModelDeactivateSubPolicy(policy);">
                                 Deactivate
                             </button>
                             <!--for draft-->
                             <button class="btn btn-primary"
                                     data-ng-show="buttonStatus=='Draft'"
-                                    data-ng-click="openModelNewSubPolicy(allocRelation,$index);">
+                                    data-ng-click="openModelNewSubPolicy(policy,$index);">
                                 Activate
                             </button>
 
                             <!--for Expired-->
                             <button class="btn btn-primary"
                                     data-ng-show="buttonStatus=='Expired'"
-                                    data-ng-click="openModelReactivateSubPolicy(allocRelation);">
+                                    data-ng-click="openModelReactivateSubPolicy(policy);">
                                 Reactivate
                             </button>
 
                             <button class="btn btn-success"
                                     data-ng-show="buttonStatus=='UnApproved'"
-                                    data-ng-click="approve(allocRelation)">
+                                    data-ng-click="approve(policy)">
                                 Approve
                             </button>
                             <button class="btn btn-success"
                                     data-ng-show="buttonStatus=='UnApproved'"
-                                    data-ng-click="reject(allocRelation)">
+                                    data-ng-click="reject(policy)">
                                 Reject
                             </button>
                         </div>
