@@ -12,7 +12,7 @@
         <div>
             <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
                 <cs-list list-heading="SubPolicy_List" value-list="dldata.allocSubpolicyList" text-field="Name"
-                          data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
+                         data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
             </div>
 
             <!--DualList Example-->
@@ -145,7 +145,7 @@
                 <div class="row-fluid text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                     <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products)">Reset</button>
+                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm)">Reset</button>
                 </div>
             </div>
         </div>
