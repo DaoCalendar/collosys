@@ -6,18 +6,15 @@
         </div>
     </div>
     <div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
-        <div class="col-md-5">
-            <cs-list list-heading="SubPolicy_List" value-list="draftAndExpired" text-field="Name"
+        <div class="col-md-5" data-ng-show="dldata.draftAndExpired">
+            <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.draftAndExpired" text-field="Name"
                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
         </div>
-        <div class="col-md-5">
-            <cs-list list-heading="SubPolicy_List" value-list="ApproveUnapp" text-field="Name"
+        <div class="col-md-1"></div>
+        <div class="col-md-5" data-ng-show="dldata.ApproveUnapp">
+            <cs-list list-heading="Approved/Unapproved SubPolicy" value-list="dldata.ApproveUnapp" text-field="Name"
                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
         </div>
-        <!--<cs-dual-list lhs-heading="Expired/Draft" rhs-heading="Approved/UnApproved"
-                            lhs-value-list="draftAndExpired"
-                            rhs-value-list="ApproveUnapp" text-field="Name"
-                            ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy,policy.allocRelation); setButtonStatus(policy)"></cs-dual-list>-->
     </div>
     <div class="row" data-ng-show="false">
         <div class="col-md-1">
@@ -109,7 +106,7 @@
                 </div>
                 <div class="panel-body">
                     <!--Name & Policy-->
-                    <div class="row">
+                    <div class="row" data-ng-form="allocPolicyForm">
                         <!--Name-->
                         <!--<div class="form-group col-md-5">
                             <label class="control-label">Name </label>
@@ -166,7 +163,7 @@
                         <div class="col-md-6">
                             <label class="col-md-4">Condition</label>
                             <div class="col-md-8">
-                                <textarea class="resize form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly"></textarea>
+                                <textarea class="form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly" style="height: 100px"></textarea>
                             </div>
                         </div>
                     </div>

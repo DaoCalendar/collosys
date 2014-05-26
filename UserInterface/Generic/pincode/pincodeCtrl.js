@@ -21,7 +21,7 @@
         })();
 
         $scope.openAddEditModal = function (mode, gPincodes) {
-            if (mode === "edit" || mode === "view") {
+            if (mode === "edit") {
                 $location.path("/generic/pincode/addedit/" + mode + "/" + gPincodes.Id);
             } else {
                 $location.path("/generic/pincode/addedit/" + mode);
@@ -158,24 +158,17 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             });
         };
 
-        //var getWholePincode = function () {
-        //    if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
-        //        pincodeApi.customGET('GetWholePincode').then(function (data) {
-        //            dldata.PincodeUintList = data;
-        //        });
-        //    } else {
-        //        pincodeApi.customGET('GetWholePincode').then(function (data) {
-        //            dldata.PincodeUintList = data;
-        //        });
-        //    }
-        //    return;
-        //};
         var getWholePincode = function () {
-            pincodeApi.customGET('GetWholePincode').then(function (data) {
-                dldata.PincodeUintList = data;
-                return;
-            });
-           
+            if (!$csfactory.isNullOrEmptyArray(dldata.PincodeUintList)) {
+                pincodeApi.customGET('GetWholePincode').then(function (data) {
+                    dldata.PincodeUintList = data;
+                });
+            } else {
+                pincodeApi.customGET('GetWholePincode').then(function (data) {
+                    dldata.PincodeUintList = data;
+                });
+            }
+            return;
         };
 
         var pincodeArea = function (value, level) {
