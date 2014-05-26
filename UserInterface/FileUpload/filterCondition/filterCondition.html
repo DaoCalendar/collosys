@@ -1,21 +1,26 @@
-﻿<div class="row">
-    <div class="row">
-        <div class="row form-horizontal">
-            <div class="form-group col-md-4">
-                <label class="control-label">Aliase Name</label>
-                <select class="input-medium"
-                        data-ng-model="filterCondition.FileDetail"
-                        data-ng-change="getColumnValues(filterCondition.FileDetail)"
-                        required data-ui-select2="">
-                    <option value=""></option>
-                    <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
-                </select>
-            </div>
-            <div class="col-md-8" data-ng-show="filterCondition.FileDetail">
-                <button class="btn alert-info"
+﻿<div>
+    <div>
+        <div class="row form-horizontal" style="margin-bottom: 7px">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="col-md-4" style="padding-right: 60px">Aliase Name</label>
+                    <div class="col-md-8">
+                        <select class="form-control"
+                            data-ng-model="filterCondition.FileDetail"
+                            data-ng-change="getColumnValues(filterCondition.FileDetail)"
+                            required data-ui-select2="">
+                            <option value=""></option>
+                            <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
+                    <button class="btn alert-info"
                         data-ng-click="addAliseCondition(filterCondition.FileDetail)">
-                    Add AliseCondition
-                </button>
+                        Add AliseCondition
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -31,7 +36,7 @@
             </div>
         </div>
         <div class="col-md-9" data-ng-show="showDiv">
-            <div class="row form-horizontal" data-ng-form="filterConditionform">
+            <div class="form-horizontal" data-ng-form="filterConditionform">
                 <div class="panel panel-info">
                     <div class="panel-heading">Filter Condition</div>
                     <div class="panel-body">
@@ -58,7 +63,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <select class="input-large" data-ng-model="dldata.newCondition.ColumnName" data-ng-change="manageOperatorField(dldata.newCondition)" required>
+                                            <select class="form-control" data-ng-model="dldata.newCondition.ColumnName" data-ng-change="manageOperatorField(dldata.newCondition)" required>
                                                 <option value=""></option>
                                                 <option data-ng-repeat="data in ColumnNameList" value="{{data}}">{{data.FileColumnName}}</option>
                                             </select>
@@ -79,12 +84,12 @@
                                                 </div>
                                                 <div data-ng-switch-when="Date">
                                                     <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value"
-                                                           data-date-format="dd-mm-yyyy" bs-datepicker required />
+                                                        data-date-format="dd-mm-yyyy" bs-datepicker required />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn glyphicon glyphicon-plus" data-ng-disabled="filterConditionform.$invalid" data-ng-click="addCondition(dldata.newCondition,filterConditionform)"></button>
+                                            <icon-btn type="add" data-ng-disabled="filterConditionform.$invalid" data-ng-click="addCondition(dldata.newCondition,filterConditionform)"></icon-btn>
                                         </td>
                                     </tr>
                                 </thead>
@@ -103,7 +108,7 @@
                                             <input type="text" class="input-medium" readonly="readonly" value="{{data.Value}}" />
                                         </td>
                                         <td>
-                                            <button class="btn glyphicon glyphicon-remove" data-ng-click="deleteCondition(data,$index)" data-ng-show="filterCondition.ConditionList.length>0"></button>
+                                            <icon-btn type="remove" data-ng-click="deleteCondition(data,$index)" data-ng-show="filterCondition.ConditionList.length>0"></icon-btn>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -112,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row text-right">
+            <div class="modal-footer text-right">
                 <button class="btn btn-success" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)">Save</button>
                 <button class="btn btn-warning" data-ng-click="reset()">Reset</button>
             </div>

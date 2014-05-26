@@ -28,7 +28,7 @@ namespace UserInterfaceAngular.app
 
         // GET api/<controller>
         [HttpGet]
-        
+
         public HttpResponseMessage GetFileColumns(string aliasName)
         {
             try
@@ -66,7 +66,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage Fetch()
         {
             try
@@ -93,14 +93,22 @@ namespace UserInterfaceAngular.app
 
             var fileDetailId = fileColumn.FileDetail.Id;
             fileColumn.FileDetail = null;
-            var session = SessionManager.GetCurrentSession();
-            fileColumn.FileDetail = session.QueryOver<FileDetail>().Where(c => c.Id == fileDetailId).SingleOrDefault();
-            SessionManager.GetCurrentSession().SaveOrUpdate(fileColumn);
+
+            using (var session = SessionManager.GetCurrentSession())
+            {
+                using (var trans = session.BeginTransaction())
+                {
+                    fileColumn.FileDetail = session.QueryOver<FileDetail>().Where(c => c.Id == fileDetailId).SingleOrDefault();
+                    session.SaveOrUpdate(fileColumn);
+                    trans.Commit();
+                }
+            }
+
             return fileColumn;
         }
 
         [HttpPost]
-        
+
         public HttpResponseMessage SaveAllColumns(FileDetail fileDetail)
         {
             try
@@ -108,13 +116,24 @@ namespace UserInterfaceAngular.app
                 if (fileDetail == null || fileDetail.FileColumns == null || fileDetail.FileColumns.Count == 0)
                     throw new NullReferenceException("File Detail or File columns can not be null");
 
-                foreach (var column in fileDetail.FileColumns)
-                {
-                    column.FileDetail = fileDetail;
-                }
-                Session.SaveOrUpdate(fileDetail);
 
-                return Request.CreateResponse(HttpStatusCode.Created, fileDetail);
+                using (var session = SessionManager.GetCurrentSession())
+                {
+                    using (var trans = session.BeginTransaction())
+                    {
+                        foreach (var column in fileDetail.FileColumns)
+                        {
+                            column.FileDetail = fileDetail;
+                        }
+                        Session.SaveOrUpdate(fileDetail);
+                        trans.Commit();
+                    }
+                    return Request.CreateResponse(HttpStatusCode.Created, fileDetail);
+                }
+
+
+
+
             }
             catch (NullReferenceException e)
             {
@@ -129,7 +148,7 @@ namespace UserInterfaceAngular.app
         }
 
         [HttpPut]
-        
+
         public HttpResponseMessage PutFileColumn(IEnumerable<FileColumn> fileColumns)
         {
             var enumerable = fileColumns as FileColumn[] ?? fileColumns.ToArray();

@@ -10,9 +10,9 @@
             </button>
         </div>
         <div>
-            <div class="col-md-3" data-ng-show="dldata.allocSubpolicy.Products">
-                <cs-list list-heading="SubPolicy_List" value-list="dldata.allocSubpolicyList" text-field="Name"
-                          data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
+            <div class="col-md-3" data-ng-show="dldata.allocSubpolicyList">
+                <cs-list list-heading="SubPolicy List" value-list="dldata.allocSubpolicyList" text-field="Name"
+                         data-ng-model="selected" on-click="selectAllocSubpolicy(selected)"></cs-list>
             </div>
 
             <!--DualList Example-->
@@ -33,9 +33,12 @@
                                 <cs-field field="allocSubpolicy.ProductName" data-ng-disabled="true"
                                           data-ng-model="dldata.allocSubpolicy.Products"></cs-field>
                                 <!--Name-->
+                               
                                 <cs-field field="allocSubpolicy.Name" data-ng-model="dldata.allocSubpolicy.Name"
                                           data-ng-disabled="dldata.allocSubpolicy.Id" data-ng-change="factory.checkDuplicateName()"></cs-field>
-                                <label class="text-danger" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
+                                <div class="col-md-10 text-right">
+                                    <label class="text-danger" data-ng-show="dldata.isDuplicateName">Subpolicy name already exist</label>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -145,7 +148,7 @@
                 <div class="row-fluid text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                     <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products)">Reset</button>
+                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm)">Reset</button>
                 </div>
             </div>
         </div>

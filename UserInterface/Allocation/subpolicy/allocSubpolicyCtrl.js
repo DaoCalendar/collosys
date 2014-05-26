@@ -20,7 +20,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showField2 = false;
             $scope.data1 = $scope.dldata.list;
             $scope.data2 = $scope.dldata.list1;
-
+            $scope.dldata.isActive = false;
             //$scope.listtwo = [];
         })();
 
@@ -137,34 +137,6 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
         var dldata = {};
         var restApi = rest.all("AllocationSubPolicyApi");
-        dldata.list = [{
-            value: "1",
-            Name: "parent1"
-        }, {
-            value: "2",
-            Name: "parent2"
-        }, {
-            value: "3",
-            Name: "parent3"
-        }, {
-            value: "4",
-            Name: "parent4"
-        }];
-        dldata.list1 = [{
-            value: "1",
-            display: "child1"
-        }, {
-            value: "2",
-            display: "child2"
-        }, {
-            value: "3",
-            display: "child3"
-        }, {
-            value: "4",
-            display: "child4"
-        }];
-
-
         var getReasons = function () {
             restApi.customGET("GetReasons").then(function (data) {
                 dldata.reasonsNotAllocate = data;
@@ -304,7 +276,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
                     resetAllocSubpolicy(data.Products);
-                    //selectAllocSubpolicy(data);
+                    selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -322,7 +294,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
         };
 
-        var resetAllocSubpolicy = function (products) {
+        var resetAllocSubpolicy = function (products,form) {
             dldata.policyapproved = false;
             dldata.allocSubpolicy = {};
             dldata.allocSubpolicy.Conditions = [];
@@ -334,6 +306,9 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             //dldata.allocSubpolicy.DoAllocate = 1;
             dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
+            if (angular.isDefined(form)) {
+                form.$setPristine();
+            }
         };
 
         return {
