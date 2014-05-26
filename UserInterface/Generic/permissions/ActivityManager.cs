@@ -25,12 +25,13 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         {
             var perm = new GPermission
             {
-                HasAccess = false,
+                HasAccess = true,
                 Description = desciption,
                 Activity = activity,
                 Role = _hierarchy,
                 Parent = parent
             };
+            
             AddActivity(parent, perm);
             return perm;
         }

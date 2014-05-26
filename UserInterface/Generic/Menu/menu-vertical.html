@@ -1,14 +1,14 @@
 ﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
     <ul>
-        <li data-ng-repeat="menu in menus">
+        <li data-ng-repeat="menu in menus.Childrens" data-ng-if="menu.HasAccess">
             <span class="text-center">
-                <i ng-class="'fa {{menu.icon}} fa-3x'"></i>
+                <i ng-class="'fa {{menu.Icon}} fa-3x'"></i>
             </span>
             <br />
             <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>
             <ul>
-                <li data-ng-repeat="child in menu.childMenu">
-                    <a href="{{child.url}}">{{child.Title}}</a>
+                <li data-ng-repeat="child in menu.Childrens"><!--data-ng-if="child.HasAccess"-->
+                    <a href="{{child.Url}}">{{child.Title}}{{child.HasAccess}}</a>
                 </li>
             </ul>
         </li>
