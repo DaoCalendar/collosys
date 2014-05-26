@@ -1,8 +1,7 @@
 ﻿<form class="form-horizontal">
-    <div class="panel panel-info">
-        <div class="panel-heading">Schedule File For Upload</div>
+        <div class="modal-header">Schedule File For Upload</div>
 
-        <div class="panel-body">
+        <div class="modal-body">
             <cs-form layout="4.4.8">
                 <cs-field data-ng-model="Selected.System" field="fileSchedulerfield.SelectedSystem"
                           value-list="datalayer.dldata.fileDetailsScbSystems"
@@ -86,6 +85,5 @@
                 <button class="btn btn-success" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()">Schedule</button>
             </div>
         </div>
-    </div>
 </form>
 

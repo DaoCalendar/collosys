@@ -321,7 +321,7 @@ csapp.factory("menuFactory", [function () {
                     //    display: ""
                     //},
                     {
-                        Title: "View/Edit Hierarchy",
+                        Title: "Add/Edit/View Hierarchy",
                         url: "#/generic/hierarchy",
                         display: '',
                     },
