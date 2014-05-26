@@ -181,6 +181,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.datalayer.reset();
+            $scope.datalayer.resetList();
             $scope.modalData = {
                 AllocRelation: {},
                 StartDate: null,
@@ -193,6 +194,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         })();
 
         $scope.changeProductCategory = function () {
+            datalayer.resetList();
             datalayer.changeProductCategory();
         };
 

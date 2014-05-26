@@ -105,7 +105,7 @@
                 </div>
                 <div class="panel-body">
                     <!--Name & Policy-->
-                    <div class="row">
+                    <div class="row" data-ng-form="allocPolicyForm">
                         <!--Name-->
                         <!--<div class="form-group col-md-5">
                             <label class="control-label">Name </label>
@@ -162,7 +162,7 @@
                         <div class="col-md-6">
                             <label class="col-md-4">Condition</label>
                             <div class="col-md-8">
-                                <textarea class="resize form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly"></textarea>
+                                <textarea class="form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly" style="height: 100px"></textarea>
                             </div>
                         </div>
                     </div>
