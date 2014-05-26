@@ -6,12 +6,17 @@
     dldata.stakeHierarchy = [];
     var getPermission = function (id) {
         if ($csfactory.isNullOrEmptyString(id)) return;
-        restApi.customGET('Get', { 'id': id }).then(function (data) {
-            dldata.permission = JSON.parse(data.Permissions);
-            dldata.Hierarchy = data;
+        return restApi.customGET('GetPermission', { 'id': id }).then(function (data) {
+            dldata.permission = data;
+            return dldata.permission;
         });
     };
 
+    var getStakeData = function () {
+        restApi.customGET("GetStakeHierarchy").then(function (data) {
+            dldata.Hierarchy = data;
+        });
+    };
 
     var setAccess = function (data) {
         angular.forEach(data, function (value, module) {
@@ -35,18 +40,18 @@
 
     var saveNew = function (data) {
 
-        setAccess(data);
+        //setAccess(data);
 
-        dldata.Hierarchy.Permissions = JSON.stringify(data);
-        restApi.customPOST(dldata.Hierarchy, 'Post').then(function (hierarchy) {
+        //dldata.Hierarchy.Permissions = JSON.stringify(data);
+        restApi.customPOST(data, 'Post').then(function (hierarchy) {
             dldata.Hierarchy = hierarchy;//update the hierarchy
             //update the hierarchy in the list of hierarchies
-            _.forEach(dldata.stakeHierarchy, function (item) {
-                if (item.Id === hierarchy.Id) {
-                    item = hierarchy;
-                    return;
-                }
-            });
+            //_.forEach(dldata.stakeHierarchy, function (item) {
+            //    if (item.Id === hierarchy.Id) {
+            //        item = hierarchy;
+            //        return;
+            //    }
+            //});
 
             $csnotify.success('Permission Saved');
         });
@@ -188,10 +193,11 @@
 
     return {
         dldata: dldata,
-        saveNew: saveNew,
+        Save: saveNew,
         SetPermissions: setPermissions,
         GetPermission: getPermission,
-        GetAll: getAll
+        GetAll: getAll,
+        GetStakeData: getStakeData
     };
 }]);
 
@@ -199,17 +205,32 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
     function ($scope, permissionsFactory, rest, datalayer, $csModels) {
 
         (function () {
-            $scope.dldata = datalayer.dldata;
+
+            datalayer.GetStakeData();
             $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
             datalayer.SetPermissions(permissionsFactory.permission);
             $scope.Permission = $csModels.getColumns("Permission");
             $scope.prmsn = permissionsFactory.permission;
-            
 
+            console.log("dldata: ", $scope.dldata);
         })();
 
         $scope.save = function (data) {
             datalayer.saveNew(data);
+        };
+
+        $scope.getPermission = function (id) {
+            datalayer.GetPermission(id).then(function (data) {
+                $scope.displayData = data[0].Childrens;
+                $scope.currPermData = data[0];
+            });
+        };
+
+        $scope.save = function (data) {
+            $scope.currPermData.childrens = data;
+            $scope.dldata.permission = $scope.currPermData;
+            datalayer.Save($scope.dldata.permission);
         };
 
         $scope.ticks = function (module) {
@@ -255,10 +276,13 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
         };
 
         $scope.uncheckChildren = function (obj) {
-            obj.access = !obj.access;
-            if (obj.access === false) {
-                angular.forEach(obj.childrens, function (value, key) {
-                    value.access = false;
+            obj.HasAccess = !obj.HasAccess;
+            if (obj.HasAccess === false) {
+                //angular.forEach(obj.childrens, function (value, key) {
+                //    value.access = false;
+                //});
+                _.forEach(obj.Childrens, function (item) {
+                    item.HasAccess = false;
                 });
             }
         };

@@ -34,19 +34,15 @@ namespace AngularUI.Generic.Menu
             GPermission childern = null;
             GPermission grandChildren = null;
 
-            var permData = Session.QueryOver<GPermission>(() => parent)
-                                  .Fetch(x => x.Childrens).Eager
-                                  .Fetch(x => x.Role).Eager
-                                  .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
-                                  .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
-                                  .Where(() => parent.Role.Id == userData.Role.Id)
-                                  .And(() => parent.Parent == null)
-                                  .TransformUsing(Transformers.DistinctRootEntity)
-                                  .List();
+            var root = Session.QueryOver<GPermission>()
+                    .Where(x => x.Role.Id == userData.Role.Id)
+                    .And(x => x.Parent == null)
+                //.TransformUsing(Transformers.DistinctRootEntity)
+                    .List<GPermission>();
 
             var menu = new MenuManager();
             var ma = menu.CreateMenu();
-
+            ma = MenuManager.CreateAutherizedMenu(root[0], ma);
             //var permData = Session.QueryOver<GPermission>()
             //        .Where(x => x.Role.Id == userData.Role.Id)
             //        .And(x => x.Parent == null)
@@ -58,7 +54,7 @@ namespace AngularUI.Generic.Menu
 
             //var permData = PermQuery.Execute(permQuery);
 
-            return Request.CreateResponse(HttpStatusCode.OK, permData);
+            return Request.CreateResponse(HttpStatusCode.OK, ma);
 
 
             //var root = session.QueryOver<GPermission>()

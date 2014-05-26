@@ -69,60 +69,60 @@ csapp.factory("menuFactory", [function () {
 
     var initMenu = function (permissions) {
 
-        //var root = permissions[0];
-        //var permObj = {};
-        //permObj = setPermObj(permObj, root);
+        var root = permissions[0];
+        var permObj = {};
+        permObj = setPermObj(permObj, root);
 
         menu = [
             {
                 Title: "File Upload",
                 url: "#",
                 icon: "fa-cloud-upload",
-                //display: permObj.fileUpload.HasAccess,
+                display: permObj.fileUpload.HasAccess,
                 childMenu: [
                     {
                         Title: "FileDetail",
                         url: "#/fileupload/filedetail",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
-                        //                                                { activity: 'CreateFile', subActivity: "Update" },
-                        //                                                { activity: 'CreateFile', subActivity: "View" }], false)
-                       
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
+                                                                        { activity: 'CreateFile', subActivity: "Update" },
+                                                                        { activity: 'CreateFile', subActivity: "View" }], false)
+
                     },
                     {
                         Title: "File Column",
                         url: "#/fileupload/filecolumn",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
-                        //                                                { activity: 'CreateFile', subActivity: "Update" },
-                        //                                                { activity: 'CreateFile', subActivity: "View" }], false)
-                       
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
+                                                                        { activity: 'CreateFile', subActivity: "Update" },
+                                                                        { activity: 'CreateFile', subActivity: "View" }], false)
+
                     },
                     {
                         Title: "File Mapping",
                         url: "#/fileupload/filemapping",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
-                        //                                                { activity: 'CreateFile', subActivity: "Update" },
-                        //                                                { activity: 'CreateFile', subActivity: "View" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: 'CreateFile', subActivity: "AddEdit" },
+                                                                        { activity: 'CreateFile', subActivity: "Update" },
+                                                                        { activity: 'CreateFile', subActivity: "View" }], false)
                     },
                     {
                         Title: "Schedule Files",
                         url: "#/fileupload/filescheduler",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "ScheduleFile", subActivity: "Schedule" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "ScheduleFile", subActivity: "Schedule" }], false)
                     },
                     {
                         Title: "Check Status",
                         url: "#/fileupload/filestatus",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "ScheduleFile", subActivity: "Status" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "ScheduleFile", subActivity: "Status" }], false)
 
                     },
                     {
                         Title: "Data Download",
                         url: "#/fileupload/clientdatadownload",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "CustomerData", subActivity: "View" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "CustomerData", subActivity: "View" }], false)
                     },
                     {
                         Title: "Customer Info",
                         url: "#/fileupload/customerinfo",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "CustomerData", subActivity: "View" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "CustomerData", subActivity: "View" }], false)
                     },
                     {
                         Title: "Upload Pincode",
@@ -132,41 +132,41 @@ csapp.factory("menuFactory", [function () {
                     {
                         Title: "Upload Rcode",
                         url: "#/fileupload/uploadrcode",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "UploadCustInfo", subActivity: "" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "UploadCustInfo", subActivity: "" }], false)
                     },
                     {
                         Title: "Correct Errors",
                         url: "#/fileupload/errorcorrection",
-                        //display: getperm(permObj.fileUpload.Childrens, [{ activity: "ErrorCorrection", subActivity: "Update" }], false)
+                        display: getperm(permObj.fileUpload.Childrens, [{ activity: "ErrorCorrection", subActivity: "Update" }], false)
                     },
                     {
                         Title: "Filter Data",
                         url: "#/fileupload/filterCondition",
                         display: true
                     }
-                   
+
                 ]
             },
             {
                 Title: "Stakeholder",
                 url: "#",
                 icon: "fa-users",
-               // display: permObj.stakeholder.HasAccess,
+                display: permObj.stakeholder.HasAccess,
                 childMenu: [
                     {
                         Title: "Add",
                         url: "#/stakeholder/add",
-                        //display: getperm(permObj.stakeholder.Childrens, [{ activity: "AddStakeholder", subActivity: "Create" },
-                        //                                                 { activity: "AddHierarchy", subActivity: "Create" }], false)
+                        display: getperm(permObj.stakeholder.Childrens, [{ activity: "AddStakeholder", subActivity: "Create" },
+                                                                         { activity: "AddHierarchy", subActivity: "Create" }], false)
                     },
                     {
                         Title: "View",
                         url: "#/stakeholder/view",
-                        //display: getperm(permObj.stakeholder.Childrens, [{ activity: "ViewStakeholder", subActivity: "View" },
-                        //                                                 { activity: "ViewStakeholder", subActivity: "Approve" },
-                        //                                                 { activity: "ViewHierarchy", subActivity: "View" },
-                        //                                                 { activity: "ViewHierarchy", subActivity: "Approve" }], false)
-                       
+                        display: getperm(permObj.stakeholder.Childrens, [{ activity: "ViewStakeholder", subActivity: "View" },
+                                                                         { activity: "ViewStakeholder", subActivity: "Approve" },
+                                                                         { activity: "ViewHierarchy", subActivity: "View" },
+                                                                         { activity: "ViewHierarchy", subActivity: "Approve" }], false)
+
                     }
                 ]
             },
@@ -191,7 +191,7 @@ csapp.factory("menuFactory", [function () {
                         //display: getperm([(permissions.Allocation.childrens.DefineSubpolicy.childrens.View.access),
                         //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Create.access),
                         //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Update.access)])//||
-                        ////(permissions.Allocation.childrens.DefineSubpolicy.childrens.Approve.access)
+                        //(permissions.Allocation.childrens.DefineSubpolicy.childrens.Approve.access)
                     },
                     {
                         Title: "View/Approve",
@@ -420,7 +420,7 @@ csapp.factory("menuFactory", [function () {
                 ]
             }
         ];
-        //createAuthorisedMenu(menu);
+        createAuthorisedMenu(menu);
         return menu;
     };
 
@@ -461,7 +461,9 @@ csapp.controller("menuController", ["$scope", "menuFactory", "rootDatalayer", "$
             if (!$csfactory.isNullOrEmptyString(newval)) {
                 datalayer.getPermission($csAuthFactory.getUsername()).then(function (data) {
                     console.log("Permission: ", data);
-                    $scope.menus = menuFactory.initMenu(data);
+                    //$scope.menus = menuFactory.initMenu(data);
+                    console.log("menu: ", data);
+                    $scope.menus = data;
                 });
             }
         });

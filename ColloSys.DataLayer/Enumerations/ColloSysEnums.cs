@@ -227,7 +227,11 @@ namespace ColloSys.DataLayer.Enumerations
             Developer,
             AddHierarchy,
             Schedule,
-            Status
+            Status,
+            User,
+            Profile,
+            Logout,
+            ChangePassword
         }
 
         [Serializable]

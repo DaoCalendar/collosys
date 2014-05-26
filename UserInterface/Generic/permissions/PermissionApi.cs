@@ -23,8 +23,14 @@ namespace AngularUI.Generic.permissions
         private static readonly GPermissionBuilder PermQuery = new GPermissionBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 
+        [HttpGet]
+        public HttpResponseMessage GetStakeHierarchy()
+        {
+            var hierData = Session.QueryOver<StkhHierarchy>().List();
+            return Request.CreateResponse(HttpStatusCode.OK, hierData);
+        }
 
-
+        [HttpGet]
         public HttpResponseMessage GetPermission(Guid id)
         {
 
@@ -32,24 +38,36 @@ namespace AngularUI.Generic.permissions
             GPermission childern = null;
             GPermission grandChildren = null;
 
-            var permData = Session.QueryOver<GPermission>(() => parent)
-                                  .Fetch(x => x.Childrens).Eager
-                                  .Fetch(x => x.Role).Eager
-                                  .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
-                                  .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
-                                  .Where(() => parent.Role.Id == id)
-                                  .And(() => parent.Parent == null)
-                                  .TransformUsing(Transformers.DistinctRootEntity)
-                                  .List();
+            var permData = Session.QueryOver<GPermission>()
+                    .Where(x => x.Role.Id == id)
+                    .And(x => x.Parent == null)
+                //.TransformUsing(Transformers.DistinctRootEntity)
+                    .List<GPermission>();
 
-            if (permData == null)
+            //var permData = Session.QueryOver<GPermission>(() => parent)
+            //                      .Fetch(x => x.Childrens).Eager
+            //                      .Fetch(x => x.Role).Eager
+            //                      .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
+            //                      .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
+            //                      .Where(() => parent.Role.Id == id)
+            //                      .And(() => parent.Parent == null)
+            //                      .TransformUsing(Transformers.DistinctRootEntity)
+            //                      .List();
+
+            if (permData == null || permData.Count == 0)
             {
+
+                var hierarchy = Session.QueryOver<StkhHierarchy>()
+                    .Where(x => x.Designation == "Developer")
+                    .And(x => x.Hierarchy == "Developer")
+                    .SingleOrDefault();
+
                 permData = Session.QueryOver<GPermission>(() => parent)
                                   .Fetch(x => x.Childrens).Eager
                                   .Fetch(x => x.Role).Eager
                                   .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
                                   .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
-                                  .Where(() => parent.Role.Id == Guid.Parse("2cdaf45b-52d5-4181-b9f8-a23201155b3c"))
+                                  .Where(() => parent.Role.Id == hierarchy.Id)
                                   .And(() => parent.Parent == null)
                                   .TransformUsing(Transformers.DistinctRootEntity)
                                   .List();
