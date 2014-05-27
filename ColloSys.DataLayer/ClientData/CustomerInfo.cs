@@ -13,7 +13,7 @@ namespace ColloSys.DataLayer.SharedDomain
 {
     public class CustomerInfo : Entity, IDeliquent
     {
-        public virtual IList<Allocations> Allocs { get; set; }
+        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         #region Properties
 
