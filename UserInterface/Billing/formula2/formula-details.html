@@ -1,36 +1,24 @@
 ﻿<div class="row" id="subpolicy-display" data-ng-show="selParams.selectedProduct">
-    <cs-form layout="6.3.5">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                Formula Details
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="form-group col-md-5">
-                        <label class="control-label">Product</label>
-                        <div class="controls">
-                            <input type="text"
-                                   class="input-medium col-md-6"
-                                   data-ng-model="formula.Products"
-                                   readonly="readonly">
-                        </div>
-                    </div>
-                    <div>
-                        <cs-field data-ng-model="formula.Name"
-                                  field="Formula.Name"
-                                  data-ng-disabled="formula.Id"></cs-field>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div>
-                        <cs-field data-ng-model="formula.OutputType" field="Formula.OutputType"></cs-field>
-                    </div>
-                    <div>
-                        <cs-field data-ng-model="formula.Description" field="Formula.Description"></cs-field>
-                    </div>
-                </div>
-            </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Formula Details
         </div>
-    </cs-form>
+        <div class="panel-body">
+            <cs-form layout="5.4.8">
+             
+                <cs-field data-ng-model="formula.Products" field="Formula.Products"
+                          data-ng-disabled="true"></cs-field>
+
+                <cs-field data-ng-model="formula.Name"
+                          field="Formula.Name"
+                          data-ng-disabled="formula.Id"></cs-field>
+                   
+                <cs-field data-ng-model="formula.OutputType" field="Formula.OutputType"></cs-field>
+                   
+                <cs-field data-ng-model="formula.Description" field="Formula.Description"></cs-field>
+                   
+            </cs-form>
+        </div>
+    </div>
 </div>
+
