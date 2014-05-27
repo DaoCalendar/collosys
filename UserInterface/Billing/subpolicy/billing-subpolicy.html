@@ -5,25 +5,18 @@
                       data-ng-change="getSubpolicyList(sele.Products)"
                       field="payoutSubpolicy.Products" ng-required="true"></cs-field>
             <button class="btn alert-info"
-                    data-ng-show="sele.Products" data-ng-click="addSubPolicy(sele.Products)">
+                    data-ng-show="sele.Products" data-ng-click="addSubPolicy(sele.Products,subpolicyForm)">
                 Add Subpolicy
             </button>
 
         </cs-form>
     </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <div class="box-sub">
-                <div class="box-heading">Subpolicy list</div>
-                <div class="box-body">
-                    <div class="sub-name"
-                        data-ng-repeat="spayoutSubpolicy in subpolicyList | orderBy : 'Name'">
-                        <a class="btn-link"
-                            data-ng-click="selectSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
-                    </div>
-                </div>
-            </div>
+    <div>
+        <div class="col-md-3" data-ng-show="sele.Products">
+            <cs-list list-heading="Subpolicy list" value-list="subpolicyList" text-field="Name"
+                data-ng-model="spayoutSubpolicy" data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list>
+
         </div>
 
 
@@ -123,7 +116,7 @@
                     Save
                 </button>
                 <button class="btn btn-default"
-                    data-ng-click="resetSubPolicy()">
+                    data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)">
                     Reset
                 </button>
             </div>
@@ -142,3 +135,14 @@
                        namevalues="dldata.categorySwitch"></csswitch>
          </div>
      </div>-->
+
+<!--<div class="box-sub">
+                    <div class="box-heading">Subpolicy list</div>
+                    <div class="box-body">
+                        <div class="sub-name"
+                             data-ng-repeat="spayoutSubpolicy in subpolicyList | orderBy : 'Name'">
+                            <a class="btn-link"
+                               data-ng-click="selectSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
+                        </div>
+                    </div>
+                </div>-->
