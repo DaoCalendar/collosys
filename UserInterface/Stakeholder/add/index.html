@@ -13,7 +13,7 @@
         <div data-ng-form="formStakeholder" class="form-horizontal" data-ng-init="init()">
             <!-- basic info -->
             <div class="row" data-ng-if="currentStep==StepManager.StepNames.BasicInfo ">
-                <div class="panel">
+                <div class="panel panel-default">
                     <div class="row" data-ng-show="!(WizardData.IsEditMode() === true)">
                         <div class="panel-heading">
                             Select Hierarchy/Designation
@@ -58,7 +58,7 @@
                 <h5>{{indexData.Hierarchy.Hierarchy}} / {{indexData.Hierarchy.Designation}}</h5>
                 <!--Working-->
                 <div class="row">
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="row" data-ng-show="indexData.Hierarchy.HasWorking">
                             <div class="panel-heading">
                                 Working  

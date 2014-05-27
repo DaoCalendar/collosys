@@ -24,7 +24,7 @@
                 </div>-->
             <div class="col-md-9" data-ng-show="showDiv">
                 <div class="row-fluid form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Subpolicy Basic-Info
                         </div>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="row-fluid" id="subpolicy-conditions">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">Subpolicy Condition</div>
                         <div class="panel-body">
                             <div class="row">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
 
-                <div class="row-fluid text-right" id="subpolicy-buttons">
+                <div class="text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                     <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
                     <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)">Reset</button>

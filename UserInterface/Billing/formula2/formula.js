@@ -124,16 +124,12 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             divideTokens(selectedformula.BillTokens);
         };
 
-        $scope.addformula = function (product, form, form2) {
+        $scope.addformula = function (product, form) {
             $scope.showDiv = true;
             $scope.formula = {};
             $scope.selected = [];
             $scope.formula.Products = product;
-            if (angular.isDefined(form) || angular.isDefined(form2)) {
-                form.$setPristine();
-                form2.$setPristine();
-
-            }
+            form.$setPristine();
         };
 
         $scope.saveFormula = function (formula, groupTokens) {
