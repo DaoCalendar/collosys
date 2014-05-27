@@ -289,7 +289,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
         };
 
-        var resetAllocSubpolicy = function (products, form) {
+        var resetAllocSubpolicy = function (products, form, form2) {
             dldata.policyapproved = false;
             dldata.allocSubpolicy = {};
             dldata.allocSubpolicy.Conditions = [];
@@ -301,8 +301,10 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             //dldata.allocSubpolicy.DoAllocate = 1;
             dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
-            if (angular.isDefined(form)) {
+            if (angular.isDefined(form) || angular.isDefined(form2)) {
                 form.$setPristine();
+                form2.$setPristine();
+
             }
         };
 

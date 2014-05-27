@@ -424,8 +424,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $location.path("/generic/pincode");
         };
 
-        $scope.reset = function (gpincode) {
+        $scope.reset = function (gpincode,form) {
             factory.reset(gpincode);
+            form.$setPristine();
         };
 
         $scope.resetedit = function (gpincode) {
