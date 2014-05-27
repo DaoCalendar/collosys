@@ -67,13 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataGeneration\BillingSubpolicyDGC.cs" />
+    <Compile Include="FileUploader\FileSchedulerTests.cs" />
     <Compile Include="QueryExecutionTests\AndOrQueryTests.cs" />
     <Compile Include="QueryExecutionTests\ConditionalQueryTests.cs" />
     <Compile Include="QueryExecutionTests\FormulaTests.cs" />
     <Compile Include="QueryExecutionTests\OutputQueryTests.cs" />
-    <Compile Include="QueryExecution\QueryGenerator.cs" />
     <Compile Include="DataGeneration\BillTokensDGC.cs" />
-    <Compile Include="QueryExecution\QueryExecuter.cs" />
     <Compile Include="QueryExecutionTests\SubpolicyTests.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
@@ -85,6 +84,10 @@
     <ProjectReference Include="..\AllocationService\AllocationService.csproj">
       <Project>{65ca14cb-44d0-42c2-9945-cad72fa1519a}</Project>
       <Name>AllocationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BillingService2\BillingService2.csproj">
+      <Project>{ebeb1fa6-41d8-485a-9e33-59fb776ecef1}</Project>
+      <Name>BillingService2</Name>
     </ProjectReference>
     <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
       <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
