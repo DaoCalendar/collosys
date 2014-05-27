@@ -187,7 +187,7 @@
                     <table>
                         <tr data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2">
                             <td>{{col.field}}</td>
-                            <td><input class="input-large" type="text" data-ng-model="col.displayName" data-ng-minlength="2" /></td>
+                            <td><input class="form-control" type="text" data-ng-model="col.displayName" data-ng-minlength="2" /></td>
                         </tr>
                     </table>
                 </div>
@@ -260,69 +260,77 @@
                     <div class="panel-body">
                         <div class="row">
                             <!-- field name -->
-                            <select class="input-large" data-ng-model="gridOptions.customFilter.selectedField" class="input-medium"
-                                    data-ng-change="$grid.FilterHelper.ResetFilter(gridOptions, gridOptions.customFilter.selectedField); ">
-                                <option data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2 | orderBy: 'field'" value="{{col.field}}">{{col.displayName}}</option>
-                            </select>
-                            <!-- operators -->
-                            <select class="input-large" data-ng-required="true" data-ng-model="gridOptions.customFilter.selectedFilter"
-                                    data-ng-change="$grid.FilterHelper.filterChanged(gridOptions)"
-                                    data-ng-options="f.text group by f.type for f in gridOptions.customFilter.validFilterList"></select>
+                            <div class="col-md-5">
+                                <select class="form-control" data-ng-model="gridOptions.customFilter.selectedField" class="input-medium"
+                                        data-ng-change="$grid.FilterHelper.ResetFilter(gridOptions, gridOptions.customFilter.selectedField); ">
+                                    <option data-ng-repeat="col in gridOptions.$gridScope.columns | minLength:'field':2 | orderBy: 'field'" value="{{col.field}}">{{col.displayName}}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5"> 
+                                <!-- operators -->
+                                <select class="form-control" data-ng-required="true" data-ng-model="gridOptions.customFilter.selectedFilter"
+                                        data-ng-change="$grid.FilterHelper.filterChanged(gridOptions)"
+                                        data-ng-options="f.text group by f.type for f in gridOptions.customFilter.validFilterList"></select>
+                            </div>
                         </div>
                         <!-- value -->
                         <div class="row" style="margin-top: 10px" data-ng-show="gridOptions.customFilter.selectedFilter">
-                            <!-- value -->
-                            <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Value'">
-                                <!-- text -->
-                                <span data-ng-show="gridOptions.customFilter.selectedFieldType == 'Text'">
-                                    <input data-ng-required="gridOptions.customFilter.selectedFieldType == 'Text'" type="text"
-                                           data-ng-model="gridOptions.customFilter.filterValue" />
+                            
+                            <div class="col-md-5">
+                                <!-- value -->
+                                <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Value'">
+                                    <!-- text -->
+                                    <span data-ng-show="gridOptions.customFilter.selectedFieldType == 'Text'">
+                                        <input data-ng-required="gridOptions.customFilter.selectedFieldType == 'Text'" type="text"
+                                               data-ng-model="gridOptions.customFilter.filterValue" class="form-control" />
+                                    </span>
+                                    <!-- number -->
+                                    <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'">
+                                        <input type="text" data-ng-required="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'"
+                                               data-ng-model="gridOptions.customFilter.filterValue" class="form-control" />
+                                    </span>
+                                    <!-- date -->
+                                    <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'">
+                                        <input data-ng-required="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'"
+                                               type="text" data-ng-model="gridOptions.customFilter.filterValue" class="form-control" readonly="readonly" data-bs-datepicker="">
+                                        <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                    <!-- bool -->
+                                    <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Bool'">
+                                        <select data-ng-model="gridOptions.customFilter.filterValue" class="form-control"
+                                                data-ng-required="gridOptions.customFilter.selectedFieldType === 'Bool'">
+                                            <option value="true">true</option>
+                                            <option value="false">false</option>
+                                        </select>
+                                    </span>
+                                    <!-- enum -->
+                                    <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Enum'">
+                                        <select class="form-control" data-ng-model="gridOptions.customFilter.filterValues"
+                                                data-ng-required="gridOptions.customFilter.selectedFieldType === 'Enum'"
+                                                data-ng-multiple="gridOptions.customFilter.selectedFilter.code === 'IsInList' || gridOptions.customFilter.selectedFilter.code === 'NotInList'">
+                                            <option data-ng-repeat="enumval in gridOptions.customFilter.filterValueList"
+                                                    value="{{enumval}}">
+                                                {{enumval}}
+                                            </option>
+                                        </select>
+                                    </span>
                                 </span>
-                                <!-- number -->
-                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'">
-                                    <input type="text" data-ng-required="gridOptions.customFilter.selectedFieldType === 'Amount' || gridOptions.customFilter.selectedFieldType === 'Number'"
-                                           data-ng-model="gridOptions.customFilter.filterValue" />
-                                </span>
-                                <!-- date -->
-                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'">
-                                    <input data-ng-required="gridOptions.customFilter.selectedFieldType === 'Date' || gridOptions.customFilter.selectedFieldType === 'DateTime'"
-                                           type="text" data-ng-model="gridOptions.customFilter.filterValue" readonly="readonly" data-bs-datepicker="">
-                                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                                <!-- bool -->
-                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Bool'">
-                                    <select data-ng-model="gridOptions.customFilter.filterValue"
-                                            data-ng-required="gridOptions.customFilter.selectedFieldType === 'Bool'">
-                                        <option value="true">true</option>
-                                        <option value="false">false</option>
-                                    </select>
-                                </span>
-                                <!-- enum -->
-                                <span data-ng-show="gridOptions.customFilter.selectedFieldType === 'Enum'">
-                                    <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValues"
-                                            data-ng-required="gridOptions.customFilter.selectedFieldType === 'Enum'"
-                                            data-ng-multiple="gridOptions.customFilter.selectedFilter.code === 'IsInList' || gridOptions.customFilter.selectedFilter.code === 'NotInList'">
-                                        <option data-ng-repeat="enumval in gridOptions.customFilter.filterValueList"
-                                                value="{{enumval}}">
-                                            {{enumval}}
+                                <!-- field -->
+                                <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Field'">
+                                    <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValue">
+                                        <option data-ng-repeat="fieldname in gridOptions.customFilter.relevantFields"
+                                                value="{{fieldname}}">
+                                            {{fieldname}}
                                         </option>
                                     </select>
                                 </span>
-                            </span>
-                            <!-- field -->
-                            <span data-ng-if="gridOptions.customFilter.selectedFilter.type === 'Field'">
-                                <select class="input-medium" data-ng-model="gridOptions.customFilter.filterValue">
-                                    <option data-ng-repeat="fieldname in gridOptions.customFilter.relevantFields"
-                                            value="{{fieldname}}">
-                                        {{fieldname}}
-                                    </option>
-                                </select>
-                            </span>
-                            <!-- add button -->
-                            <span data-ng-show="gridOptions.customFilter.selectedFilter">
-                                <input type="button" data-ng-disabled="filterInput.$invalid" value="AddCondition" data-ng-click="$grid.FilterHelper.AddFilter(gridOptions)" />
-                            </span>
+                                <!-- add button -->
+                                <span data-ng-show="gridOptions.customFilter.selectedFilter">
+                                    <input type="button" data-ng-disabled="filterInput.$invalid" value="AddCondition" data-ng-click="$grid.FilterHelper.AddFilter(gridOptions)" />
+                                </span>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- close button-->
