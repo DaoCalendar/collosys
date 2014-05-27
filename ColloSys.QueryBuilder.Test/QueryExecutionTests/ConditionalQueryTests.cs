@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.DataGeneration;
@@ -16,10 +17,12 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
     //TODO: HARISH: needs atleast 20-30 more tests, grouped by region per datatype
     //TODO:=,contains,startwith, endswith,notequal to not in
     //1. tc > f, f >= number, string -> contains, equal etc, date >, < etc.
+
     [TestFixture]
     public class ConditionalQueryTests
     {
         #region ctor
+
         private List<CustBillViewModel> _dataList;
         private readonly BillTokensDGC _testingBillTokens = new BillTokensDGC();
 
@@ -211,6 +214,95 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 
         #region string type tests
 
+        [Test]
+        public void String_Equals_Test()
+        {
+            
+        }
+
+        [Test]
+        public void String_NotEquals_Test()
+        {
+
+        }
+
+        [Test]
+        public void String_Contains_Test()
+        {
+            
+        }
+
+        [Test]
+        public void String_StartsWith_Test()
+        {
+
+        }
+
+        [Test]
+        public void String_EndsWith_Test()
+        {
+
+        }
+
+        [Test]
+        public void String_NotIn_Test()
+        {
+            
+        }
+
+        [Test]
+        public void StringIsIn_ConditionTest()
+        {
+            // condition : CityCategory IsIn ("Metro", "A")
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
+
+            var tokens = _testingBillTokens.CityCategoryIsIn_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
+        }
+
+        #endregion
+
+        #region date type tests
+
+        [Test]
+        public void Greater_Than_Date_Test()
+        {
+            
+        }
+
+        [Test]
+        public void Greater_Than_EqualTo_Date_Test()
+        {
+
+        }
+
+        [Test]
+        public void Less_Than_Date_Test()
+        {
+            
+        }
+
+        [Test]
+        public void Less_Than_EqualTo_Date_Test()
+        {
+
+        }
+
+        [Test]
+        public void EqualTo_Date_Test()
+        {
+            
+        }
+
+        [Test]
+        public void NotEqualTo_Date_Test()
+        {
+            
+        }
         #endregion
 
         #region enum type tests
@@ -244,22 +336,6 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         }
 
         #endregion
-
-        
-        [Test]
-        public void StringIsIn_ConditionTest()
-        {
-            // condition : CityCategory IsIn ("Metro", "A")
-            var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL).ToList();
-
-            var tokens = _testingBillTokens.CityCategoryIsIn_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
-            var result = tokenBuilder.ExeculteOnList(_dataList);
-
-            Assert.AreEqual(result.Count, actual.Count);
-        }
-        
 
         [Test]
         public void MultipleAnd_ConditionTest()

@@ -163,6 +163,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         #endregion
 
         #endregion
+
         public IList<BillTokens> GreaterThanWithPlus2Tokens()
         {
             var query = new List<BillTokens>
@@ -199,8 +200,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             };
             return query;
         }
-
-
 
         public IList<BillTokens> CityCategoryIsIn_Tokens()
         {
@@ -241,8 +240,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             };
             return query;
         }
-
-
 
         #region Output Tokens
 
@@ -353,6 +350,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             };
             return query;
         }
+
         public IList<BillTokens> ProductNotEqualPL_Tokens()
         {
             var query = new List<BillTokens>
@@ -366,6 +364,19 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
 
         #endregion
 
+        #region formual Tokens
+
+        public IList<BillTokens> Formula_within_Formula_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Formula", Value = "46AD54D1-DB32-4B89-831F-A33800B57827", Priority = 0, DataType = "number", GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number", GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "200", Priority = 2, DataType = "number", GroupType = "Output"}
+            };
+            return query;
+        }
+        #endregion
 
     }
 }
