@@ -1,32 +1,34 @@
 ﻿<div data-ng-form="subpolicyForm">
-    <div class="form-horizontal" id="row1">
+    <div class="form-horizontal">
         <cs-form layout="7.3.6">
             <cs-field data-ng-model="sele.Products"
                       data-ng-change="getSubpolicyList(sele.Products)"
                       field="payoutSubpolicy.Products" ng-required="true"></cs-field>
             <button class="btn alert-info"
-                    data-ng-show="sele.Products">
+                    data-ng-show="sele.Products" data-ng-click="addSubPolicy(sele.Products)">
                 Add Subpolicy
             </button>
 
         </cs-form>
     </div>
 
-    <div class="row" id="row2">
+    <div class="row">
         <div class="col-md-3">
             <div class="box-sub">
                 <div class="box-heading">Subpolicy list</div>
                 <div class="box-body">
-                    <div class="sub-name" 
-                         data-ng-repeat="spayoutSubpolicy in subpolicyList | orderBy : 'Name'">
+                    <div class="sub-name"
+                        data-ng-repeat="spayoutSubpolicy in subpolicyList | orderBy : 'Name'">
                         <a class="btn-link"
-                           data-ng-click="selectSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
+                            data-ng-click="selectSubpolicy(spayoutSubpolicy)">{{spayoutSubpolicy.Name}}</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-9">
+
+
+        <div class="col-md-9" data-ng-show="showDiv">
             <!--Subpolicy-->
             <div id="subpolicy-display" data-ng-form="payoutSubpolicyForm">
                 <div class="panel panel-info">
@@ -57,23 +59,23 @@
             <!--Conditions-->
             <div id="subpolicy-conditions">
                 <cs-condition table-name="CustomerInfo"
-                              selected="selParams"
-                              formula-list="formulaList"
-                              tokens-list="selectedTokens.conditionTokens"
-                              group-id="0.Condition"
-                              debug="true"></cs-condition>
+                    selected="selParams"
+                    formula-list="formulaList"
+                    tokens-list="selectedTokens.conditionTokens"
+                    group-id="0.Condition"
+                    debug="true"></cs-condition>
             </div>
 
             <!--Output -->
             <div id="subpolicy-output">
                 <cs-output table-name="CustomerInfo"
-                           selected="selParams"
-                           formula-list="formulaList"
-                           matrix-list="matrixList"
-                           tokens-list="selectedTokens.ifOutputTokens"
-                           group-id="1.Output"></cs-output>
+                    selected="selParams"
+                    formula-list="formulaList"
+                    matrix-list="matrixList"
+                    tokens-list="selectedTokens.ifOutputTokens"
+                    group-id="1.Output"></cs-output>
             </div>
-            
+
             <!--Restriction-->
             <div class="panel panel-info">
                 <div class="panel-heading">Restriction</div>
@@ -86,8 +88,8 @@
                             <div class="col-md-4 control-label">Formula</div>
                             <div class="col-md-8">
                                 <select data-ui-select2=""
-                                        class="input-xlarge"
-                                        data-ng-model="subpolicy.ProcessingFee">
+                                    class="input-xlarge"
+                                    data-ng-model="subpolicy.ProcessingFee">
                                     <option data-ng-repeat="formula in formulaList track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
                                 </select>
                             </div>
@@ -102,8 +104,8 @@
                             <div class="col-md-4 control-label">Formula</div>
                             <div class="col-md-8">
                                 <select data-ui-select2=""
-                                        class="input-xlarge"
-                                        data-ng-model="subpolicy.PayoutCapping">
+                                    class="input-xlarge"
+                                    data-ng-model="subpolicy.PayoutCapping">
                                     <option data-ng-repeat="formula in formulaList track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
                                 </select>
                             </div>
@@ -116,18 +118,19 @@
             <!--Button-->
             <div class="row text-right" id="subpolicy-buttons">
                 <button class="btn btn-default"
-                        data-ng-disabled="payoutSubpolicyForm.$invalid "
-                        data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
+                    data-ng-disabled="payoutSubpolicyForm.$invalid "
+                    data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
                     Save
                 </button>
                 <button class="btn btn-default"
-                        data-ng-click="">
+                    data-ng-click="resetSubPolicy()">
                     Reset
                 </button>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <!-- <div class="form-group col-md-6">

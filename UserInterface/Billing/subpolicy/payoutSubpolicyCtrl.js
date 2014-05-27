@@ -80,9 +80,21 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             });
         };
 
+        $scope.resetSubPolicy = function() {
+            $scope.subpolicy.Name = '';
+            $scope.subpolicy.Description = '';
+            $scope.subpolicy.PayoutCapping = '';
+            $scope.subpolicy.ProcessingFee = '';
+            $scope.selParams = {};
+        };
+
         $scope.selectSubpolicy = function (subpolicy) {
             $scope.subpolicy = subpolicy;
             divideTokens(subpolicy.BillTokens);
+        };
+
+        $scope.addSubPolicy = function () {
+            $scope.showDiv = true;
         };
 
         var init = function () {
