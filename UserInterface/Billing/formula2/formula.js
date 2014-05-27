@@ -123,7 +123,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             divideTokens(selectedformula.BillTokens);
         };
         
-        
+        $scope.addformula = function () {
+            $scope.showDiv = true;
+        };
 
         $scope.saveFormula = function(formula, groupTokens) {
             formula.BillTokens = combineTokens(groupTokens);
