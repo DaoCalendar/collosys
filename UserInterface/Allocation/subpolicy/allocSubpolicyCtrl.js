@@ -12,7 +12,6 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.CustomerInfo = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.dldata.allocSubpolicyList = [];
-            // $scope.datalayer.getProducts();
             $scope.showDiv = false;
             $scope.datalayer.getReasons();
             $scope.fieldname = '';
@@ -20,14 +19,10 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.showField2 = false;
             $scope.data1 = $scope.dldata.list;
             $scope.data2 = $scope.dldata.list1;
+            $scope.dldata.policyapproved = false;
             $scope.dldata.isActive = false;
-            //$scope.listtwo = [];
-        })();
 
-        //$scope.dldata.SubpolicyStakeholderList = [{ display: "Handle By Telecaller", value: "HandleByTelecaller" },
-        //{ display: "Do Not Allocate", value: "DoNotAllocate" },
-        //{ display: "Allocate As Per Stakeholder Working", value: "AllocateAsPerPolicy" },
-        //{ display: "Allocate to Particular Stakeholder", value: "AllocateToStkholder" }];
+        })();
 
         $scope.clickMe = function (obj) {
             console.log(obj + " Click Function also called");
@@ -294,7 +289,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
         };
 
-        var resetAllocSubpolicy = function (products,form) {
+        var resetAllocSubpolicy = function (products, form) {
             dldata.policyapproved = false;
             dldata.allocSubpolicy = {};
             dldata.allocSubpolicy.Conditions = [];
@@ -383,7 +378,7 @@ csapp.factory('subpolicyFactory', ['subpolicyDataLayer', '$csfactory', '$csnotif
                 condition.Value = condition.dateValueEnum;
             }
             if (condition.Operator === "IsInList") {
-                 condition.Value = JSON.stringify(condition.Value);
+                condition.Value = JSON.stringify(condition.Value);
             }
 
             //var con = angular.copy(condition);
