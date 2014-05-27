@@ -75,8 +75,8 @@ namespace AngularUI.Generic.Menu
             var billing = home.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefinePolicy }, "#/billing/policy");
             billing.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineBillingSubpolicy }, "#/billing/subpolicy");
-            billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula");
-            billing.AddChild("Formula2", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula2");
+            //billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula");
+            billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula2");
             billing.AddChild("Define Matrix", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineMatrix }, "#/billing/matrix");
             billing.AddChild("Manual Payment", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ModifyPayment }, "#/fileupload/paymentchanges");
             billing.AddChild("Ready For Billing", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/readybilling");
