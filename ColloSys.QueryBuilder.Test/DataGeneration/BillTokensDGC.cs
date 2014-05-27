@@ -1,8 +1,11 @@
 ﻿#region references
 
+using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using NHibernate.Proxy;
 
 #endregion
 
@@ -11,7 +14,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
     // and or : relational & gt, lt : conditional & sum, count , avg : Sql/number
     public class BillTokensDGC
     {
-
         #region ConditionTokens
 
         #region number
@@ -160,6 +162,144 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             return query;
         }
 
+        #endregion
+
+        #region  string
+
+        public IList<BillTokens> EqualTo_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "pune", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Not_EqualTo_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "NotEqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "pune", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Contains_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "Contains", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "pune", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> StartsWith_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "StartsWith", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "p", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> EndsWith_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EndsWith", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "e", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> NotIn_String_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.City", Priority = 0, DataType = "string",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "NotIn", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "mumbai", Priority = 2, DataType = "text",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        #endregion
+
+        #region date
+        public IList<BillTokens> GreaterThan_Date_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> GreaterThan_EqualTo_Date_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThanEqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> LessThan_Date_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> LessThan_EqualTo_Date_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThanEqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> EqualTo_Date_Tokens()
+        {
+            var query = new List<BillTokens>()
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Not_EqualTo_Date_Tokens()
+        {
+            var query = new List<BillTokens>()
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.ChargeofDate", Priority = 0, DataType = "date",GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "NotEqualTo", Priority = 1,DataType = "conditional",GroupId = 0, GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "01/03/2014", Priority = 2, DataType = "date",GroupType = "Condition"}
+            };
+            return query;
+        }
         #endregion
 
         #endregion
@@ -368,13 +508,41 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
 
         public IList<BillTokens> Formula_within_Formula_Tokens()
         {
+            //var formula = new BillingSubpolicy()
+            //{
+            //    Id = Guid.Parse("0A51C0D0-5351-4C10-9215-A338013A4192"),
+            //    Name = "Formula1",
+            //    PayoutSubpolicyType = ColloSysEnums.PayoutSubpolicyType.Formula
+            //};
+            //var tokens = Formula_Output_Tokens();
+            //formula.BillTokens = SetFormulaReference(tokens, formula);
             var query = new List<BillTokens>
             {
-                new BillTokens {Type = "Formula", Value = "46AD54D1-DB32-4B89-831F-A33800B57827", Priority = 0, DataType = "number", GroupType = "Output"},
+                new BillTokens {Type = "Formula", Value = "0A51C0D0-5351-4C10-9215-A338013A4192", Priority = 0, DataType = "number", GroupType = "Output"},
                 new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number", GroupType = "Output"},
                 new BillTokens {Type = "Value", Value = "200", Priority = 2, DataType = "number", GroupType = "Output"}
             };
             return query;
+        }
+
+        private IList<BillTokens> Formula_Output_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalDueOnAllocation", Priority = 0, DataType = "number", GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number", GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "200", Priority = 2, DataType = "number", GroupType = "Output"}
+            };
+            return query;
+        }
+
+        private IList<BillTokens> SetFormulaReference(IList<BillTokens> tokens, BillingSubpolicy billingSubpolicy)
+        {
+            foreach (var billTokense in tokens)
+            {
+                billTokense.BillingSubpolicy = billingSubpolicy;
+            }
+            return tokens;
         }
         #endregion
 

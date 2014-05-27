@@ -8,11 +8,11 @@ csapp.directive("csOutput", function () {
             tableName: '@',
             selected: '=',
             formulaList: '=',
-            matrixList:'=',
+            matrixList: '=',
             groupId: '@',
-            groupType:'@',
+            groupType: '@',
             tokensList: '=',
-            debug:'@'
+            debug: '@'
         }
     };
 
@@ -38,7 +38,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 collections: {
                     formulaListC: [],
                     tableColumns: [],
-                    matrixListC:[]
+                    matrixListC: []
                 },
                 filterString: ''
             };
@@ -47,10 +47,10 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         var initFirstTokens = function () {
             tokenHelper.initListOutput($scope.tokens, $scope.modal,
-                $scope.tableName, $scope.formulaList,$scope.matrixList);
+                $scope.tableName, $scope.formulaList, $scope.matrixList);
 
             $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return ((row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Sql' || row.Type=='Matrix') && row.DataType == 'number');
+                return ((row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Sql' || row.Type == 'Matrix') && row.DataType == 'number');
             });
             return;
         };
@@ -62,7 +62,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         })();
 
         $scope.$watch('formulaList', initFirstTokens);
-        
+
         $scope.$watch('matrixList', initFirstTokens);
 
         //#endregion
@@ -70,13 +70,13 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         //#region 
 
         $scope.addToken = function (item, model, label) {
-            tokenHelper.addTokenToTokenList($scope.tokens,$scope.tokensList, item,$scope.groupId,$scope.groupType);
+            tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
             setNextToken(item);
         };
 
         $scope.addValue = function (value) {
             if (validations.validateValue($scope.tokens, value)) {
-                var seleVal = tokenHelper.setAddValue($scope.tokens ,$scope.tokensList, value, $scope.groupId, $scope.groupType);
+                var seleVal = tokenHelper.setAddValue($scope.tokens, $scope.tokensList, value, $scope.groupId, $scope.groupType);
                 setNextToken(seleVal);
             } else {
                 $scope.tokens.error = 'Please select field or operator first';
@@ -103,7 +103,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                         return (row.Type == 'Sql');
                     }));
                 }
-            } else if (token.Type == 'Formula' || token.Type == 'Table' || token.Type=='Matrix') {
+            } else if (token.Type == 'Formula' || token.Type == 'Table' || token.Type == 'Matrix') {
                 $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
                     return ((row.Type === 'Operator') && (row.datatype === token.datatype));
                 });
@@ -121,7 +121,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         };
 
         $scope.setValidation = function () {
-            if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length<2) {
+            if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
                 return 'alert-danger';
             }
             return 'alert-info';
@@ -168,7 +168,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         var initToken = function () {
             $scope.tokens = {
                 tokensList: [],
-               // selected: [],
+                // selected: [],
                 nextTokens: [],
                 lastToken: {},
                 collections: {
@@ -176,7 +176,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
                     tableColumns: []
                 },
                 filterString: '',
-                hasConditional:false
+                hasConditional: false
             };
             //$scope.tokensList = $scope.tokens.selected;
         };
@@ -190,20 +190,20 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
             });
             return;
         };
-        
+
         (function () {
             initLocals();
             initFirstTokens();
         })();
 
         $scope.$watch('formulaList', initFirstTokens);
-        
+
         //#endregion
 
         //#region 
 
         $scope.addToken = function (item, model, label) {
-            tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId,$scope.groupType);
+            tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
             if (item.datatype == 'conditional') {
                 $scope.tokens.hasConditional = true;
             }
@@ -215,7 +215,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.addValue = function (value) {
             if (validations.validateValue($scope.tokens, value)) {
-                var seleVal = tokenHelper.setAddValue($scope.tokens,$scope.tokensList, value, $scope.groupId, $scope.groupType);
+                var seleVal = tokenHelper.setAddValue($scope.tokens, $scope.tokensList, value, $scope.groupId, $scope.groupType);
                 seleVal.datatype = $scope.tokens.secondLastToken.datatype;
                 setNextToken(seleVal);
             } else {
@@ -233,10 +233,15 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         var setNextToken = function (token) {
             if (token.Type == 'Operator') {
-                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function(row) {
-                    return ((row.Type == 'Formula' || row.Type == 'Table') &&
+                if ($scope.tokens.secondLastToken.DataType == 'enum') {
+                    $scope.tokens.nextTokens = $scope.tokens.secondLastToken.valuelist;
+                } else {
+                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                        return ((row.Type == 'Formula' || row.Type == 'Table') &&
                     (row.datatype == $scope.tokens.secondLastToken.datatype));
-                });
+                    });
+                }
+
             } else { //(token.Type == 'Formula' || token.Type == 'Table' || token.Type=='Value')
                 if ($scope.tokens.hasConditional) {
                     $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
@@ -252,13 +257,13 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
             }
         };
 
-        $scope.setValidation = function() {
+        $scope.setValidation = function () {
             if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
                 return 'alert-info';
             }
             return 'alert-danger';
         };
-        
+
         $scope.reset = function () {
             initToken();
             initFirstTokens();
@@ -268,7 +273,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 //#endregion
 
 //#region Single If else directive
-csapp.directive('csIfElse', function() {
+csapp.directive('csIfElse', function () {
     return {
         restrict: 'E',
         controller: 'ifElseCtrl',
@@ -286,11 +291,11 @@ csapp.directive('csIfElse', function() {
 
 csapp.controller('ifElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
     function ($scope, $csmodels, operatorFactory, validations, helpers, tokenHelpers) {
-        
+
     }]);
 //#endregion
 
-csapp.directive('csMultiIfElse', function() {
+csapp.directive('csMultiIfElse', function () {
     return {
         restrict: 'E',
         controller: 'multiIfElseCtrl',
@@ -299,7 +304,7 @@ csapp.directive('csMultiIfElse', function() {
             tableName: '@',
             selected: '=',
             formulaList: '=',
-            matrixList:'=',
+            matrixList: '=',
             tokensList: '=',
             debug: '@'
         }
@@ -315,12 +320,12 @@ csapp.controller('multiIfElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 
             $scope.tokensList.push(tokenHelper.getEmptyGroupToken(index));
         };
 
-        $scope.deleteIf = function(index) {
+        $scope.deleteIf = function (index) {
             $scope.noOfIf.splice(index, 1);
             $scope.tokensList.splice(index, 1);
         };
 
-        var init = function() {
+        var init = function () {
             $scope.noOfIf = new Array($scope.tokensList.length);
         };
 
@@ -651,6 +656,20 @@ csapp.factory('operatorsFactory', function () {
 
 csapp.factory('queryGenHelpers', function () {
 
+    var getEnumValues = function (value) {
+        var values = [];
+        angular.forEach(value.valueList, function (valueInner, key) {
+            values.push({
+                'Type': 'Table',
+                'Text': valueInner,
+                'Value': valueInner,
+                'DataType': 'text',
+                'valuelist': []
+            });
+        });
+        return values;
+    };
+
     var createTableList = function (modal, tableName) {
         var list = [];
         angular.forEach(modal.Columns, function (value, key) {
@@ -659,7 +678,7 @@ csapp.factory('queryGenHelpers', function () {
                 'Text': 'Col:' + key,
                 'Value': tableName + '.' + key,
                 'DataType': value.type,
-                'valuelist': []
+                'valuelist': value.type === 'enum' ? getEnumValues(value) : []
             });
         });
         return angular.copy(list);
@@ -677,8 +696,8 @@ csapp.factory('queryGenHelpers', function () {
             });
         });
         return angular.copy(list);
-    }; 
-    
+    };
+
     var createMatrixList = function (matrixList) {
         var list = [];
         angular.forEach(matrixList, function (value, key) {
@@ -686,7 +705,7 @@ csapp.factory('queryGenHelpers', function () {
                 'Type': 'Matrix',
                 'Text': 'Mat:' + value.Name + '()',
                 'Value': value.Id,
-                'DataType':'number',
+                'DataType': 'number',
                 'valuelist': []
             });
         });
@@ -746,7 +765,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             tokens.collections.formulaListC = helpers.getFormulaList(formulaList);
             tokens.tokensList = _.union(tokens.tokensList, tokens.collections.formulaListC);
         };
-        
+
         token.createMatrixList = function (tokens, matrixList) {
             tokens.collections.matrixListC = helpers.getMatrixList(matrixList);
             tokens.tokensList = _.union(tokens.tokensList, tokens.collections.matrixListC);
@@ -769,7 +788,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
            operatorFactory.Operators.sqlOperators());
         };
 
-        token.initListOutput = function (tokens, modal, tableName, formulaList,matrixList) {
+        token.initListOutput = function (tokens, modal, tableName, formulaList, matrixList) {
             token.resetTokenList(tokens);
             token.resetCollections(tokens);
             token.createTableList(tokens, modal, tableName);
@@ -786,7 +805,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             token.createFormulaList(tokens, formulaList);
         };
 
-        token.setAddValue = function (tokens,tokensList, value, groupId,groupType) {
+        token.setAddValue = function (tokens, tokensList, value, groupId, groupType) {
             var seleVal = helpers.convertValue(value);
             seleVal.GroupId = groupId;
             seleVal.GroupType = groupType;
@@ -797,7 +816,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             return seleVal;
         };
 
-        token.addTokenToTokenList = function (tokens,tokensList, tokenVal, groupId,groupType) {
+        token.addTokenToTokenList = function (tokens, tokensList, tokenVal, groupId, groupType) {
             tokenVal.GroupId = groupId;
             tokenVal.GroupType = groupType;
             tokenVal.priority = tokensList.length;
@@ -805,9 +824,9 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             token.setLastandSecondToken(tokens, tokenVal);
             token.clearFilterString(tokens);
         };
-        
-        token.getEmptyGroupToken = function(index) {
-            return angular.copy({ 'id': index, 'Condition': [], 'IfOutput':[],'ElseOutput':[] });
+
+        token.getEmptyGroupToken = function (index) {
+            return angular.copy({ 'id': index, 'Condition': [], 'IfOutput': [], 'ElseOutput': [] });
         };
 
         return {

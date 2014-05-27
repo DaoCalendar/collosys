@@ -1,5 +1,6 @@
 ﻿#region references
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -7,6 +8,7 @@ using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.DataGeneration;
 using ColloSys.QueryBuilder.Test.QueryExecution;
+using NHibernate.Criterion;
 using NUnit.Framework;
 
 #endregion
@@ -217,37 +219,85 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         [Test]
         public void String_Equals_Test()
         {
-            
+            //condition : City ='pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City == "Pune").ToList();
+
+            var tokens = _testingBillTokens.EqualTo_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void String_NotEquals_Test()
         {
+            //condition : City !='pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City != "Pune").ToList();
 
+            var tokens = _testingBillTokens.Not_EqualTo_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void String_Contains_Test()
         {
-            
+            //condition : City contains 'pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City.Contains("Pune")).ToList();
+
+            var tokens = _testingBillTokens.Contains_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void String_StartsWith_Test()
         {
+            //condition : City contains 'pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City.StartsWith("p")).ToList();
 
+            var tokens = _testingBillTokens.StartsWith_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void String_EndsWith_Test()
         {
+            //condition : City contains 'pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City.EndsWith("e")).ToList();
 
+            var tokens = _testingBillTokens.EndsWith_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void String_NotIn_Test()
         {
-            
+            //condition : City contains 'pune'
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.City.EndsWith("e")).ToList();
+
+            var tokens = _testingBillTokens.NotIn_String_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
@@ -271,37 +321,85 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         [Test]
         public void Greater_Than_Date_Test()
         {
-            
+            // condition : ChargeofDate> 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate > DateTime.Parse("01/02/2014")).ToList();
+
+            var tokens = _testingBillTokens.GreaterThan_Date_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void Greater_Than_EqualTo_Date_Test()
         {
+            // condition : ChargeofDate >= 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate >= DateTime.Parse("01/02/2014")).ToList();
 
+            var tokens = _testingBillTokens.GreaterThan_EqualTo_Date_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void Less_Than_Date_Test()
         {
-            
+            // condition : ChargeofDate< 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate < DateTime.Parse("01/02/2014")).ToList();
+
+            var tokens = _testingBillTokens.LessThan_Date_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void Less_Than_EqualTo_Date_Test()
         {
+            // condition : ChargeofDate<= 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate <= DateTime.Parse("01/02/2014")).ToList();
 
+            var tokens = _testingBillTokens.LessThan_EqualTo_Date_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void EqualTo_Date_Test()
         {
-            
+            // condition : ChargeofDate<= 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate == DateTime.Parse("01/02/2014")).ToList();
+
+            var tokens = _testingBillTokens.EqualTo_Date_Tokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
 
         [Test]
         public void NotEqualTo_Date_Test()
         {
-            
+            // condition : ChargeofDate<= 01/02/2014 
+            var actualDataList = _testingBillTokens.GenerateData();
+            var actual = actualDataList.Where(x => x.ChargeofDate != DateTime.Parse("01/02/2014")).ToList();
+
+            var tokens = _testingBillTokens.NotEqualToTokens();
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var result = tokenBuilder.ExeculteOnList(_dataList);
+
+            Assert.AreEqual(result.Count, actual.Count);
         }
         #endregion
 
