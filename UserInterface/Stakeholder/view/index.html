@@ -68,10 +68,11 @@
             </div>
         </div>
         <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">
+            <!--TODO remove true from data-ng-show-->
             <div class="row">
                 <button class="btn  btn-success" data-ng-hide="true">Edit Selected </button>
-                <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
-                <button class="btn  btn-success" data-ng-show="canApprove" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
+                <button class="btn  btn-success" data-ng-show="canApprove || true" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
+                <button class="btn  btn-success" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
                 <button class="btn  btn-success" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()">Leave/Exit</button>
             </div>
             <div data-ng-if="stakeholder.filter!=='SearchById'">
