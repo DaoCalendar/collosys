@@ -73,6 +73,7 @@ namespace AngularUI.Generic.Menu
 
             var billing = home.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefinePolicy }, "#/billing/policy");
+            billing.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineBillingSubpolicy }, "#/billing/subpolicy");
             billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula");
             billing.AddChild("Formula2", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula2");
             billing.AddChild("Define Matrix", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineMatrix }, "#/billing/matrix");
@@ -98,10 +99,16 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax List", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxlist }, "#/generic/taxlist");
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
 
-            var user = home.AddChild("User", new[] {ColloSysEnums.Activities.User}, "#", "fa fa-users");
-            user.AddChild("Profile", new[] {ColloSysEnums.Activities.Profile}, "#/generic/profile");
+            var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
+            user.AddChild("Profile", new[] { ColloSysEnums.Activities.Profile }, "#/generic/profile");
             user.AddChild("Change Password", new[] { ColloSysEnums.Activities.ChangePassword }, "#/generic/changepassword");
             user.AddChild("Logout", new[] { ColloSysEnums.Activities.Logout }, "#/logout");
+
+            var devTools = home.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
+            devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.GenerateDb }, "#/developer/generatedb");
+            devTools.AddChild("Db Tables", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.DbTables }, "#/developer/viewdbtables");
+            devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.ExecuteQuery }, "#/developer/queryexecuter");
+            devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.SystemExplorer }, "#/developer/logdownload");
 
             return home;
         }

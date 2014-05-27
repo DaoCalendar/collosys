@@ -231,7 +231,11 @@ namespace ColloSys.DataLayer.Enumerations
             User,
             Profile,
             Logout,
-            ChangePassword
+            ChangePassword,
+            GenerateDb,
+            SystemExplorer,
+            DbTables,
+            ExecuteQuery
         }
 
         [Serializable]
