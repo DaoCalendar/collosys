@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
+using ColloSys.QueryBuilder.BillingBuilder;
 
 #endregion
 
@@ -11,6 +12,8 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
     public class QueryGenerator
     {
+        private BillTokenBuilder _billTokenBuilder=new BillTokenBuilder();
+
         #region combine tokens
         public string GenerateOutputQuery(IEnumerable<BillTokens> tokensList)
         {
@@ -90,6 +93,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             return query;
         }
+
         #endregion
 
         #region operator tokens
@@ -158,6 +162,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
                     throw new ArgumentOutOfRangeException(token.Value);
             }
         }
+
         #endregion
 
         #region non-operator tokens
@@ -169,7 +174,9 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         //TODO: fix formula
         private string ProcessFormula(BillTokens token)
         {
-            return token.Value;
+            var tokensForFormula = _billTokenBuilder.FormulaTokens(Guid.Parse(token.Value));
+            return GenerateOutputQuery(tokensForFormula);
+            //return token.Value;
         }
 
         private string ProcessValue(BillTokens token)

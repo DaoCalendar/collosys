@@ -32,22 +32,22 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var saveFormula = function (formula) {
-            return restApi.customPOST(formula, 'Post').then(function () {
-                return;
+            return restApi.customPOST(formula, 'Post').then(function (data) {
+                return data;
             });
         };
-        
+
         return {
             dldata: dldata,
             getFormulaList: getFormulaList,
             getColumnNames: getColumnNames,
             getBConditions: getBConditions,
-            saveFormula: saveFormula
+            saveFormula: saveFormula,
         };
     }]);
 
-csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels','tokenHelpers',
-    function ($scope, datalayer, factory, $csfactory, $csModels,tokenHelpers) {
+csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFactory', '$csfactory', '$csModels', 'tokenHelpers',
+    function ($scope, datalayer, factory, $csfactory, $csModels, tokenHelpers) {
 
         $scope.initFormulaList = function (product) {
             if (angular.isUndefined(product)) {
@@ -92,10 +92,10 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             });
 
         };
-        
+
         var combineTokens = function (groupTokens) {
             var list = [];
-            _.forEach(groupTokens, function(item) {
+            _.forEach(groupTokens, function (item) {
                 list = _.union(list, item.Condition,
                     item.IfOutput, item.ElseOutput);
             });
@@ -110,35 +110,49 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             }
             for (var i = 0; i <= maxGroupId; i++) {
                 var groupToken = tokenHelpers.tokenHelper.getEmptyGroupToken(i);
-                groupToken.Condition = _.sortBy(_.filter(tokensList, { 'GroupType': 'Condition', 'GroupId': i }),'Priority');
-                groupToken.IfOutput =_.sortBy(_.filter(tokensList, { 'GroupType': 'Output', 'GroupId': i }),'Priority');
-                groupToken.ElseOutput =_.sortBy(_.filter(tokensList, { 'GroupType': 'ElseOutput'}),'Priority');
+                groupToken.Condition = _.sortBy(_.filter(tokensList, { 'GroupType': 'Condition', 'GroupId': i }), 'Priority');
+                groupToken.IfOutput = _.sortBy(_.filter(tokensList, { 'GroupType': 'Output', 'GroupId': i }), 'Priority');
+                groupToken.ElseOutput = _.sortBy(_.filter(tokensList, { 'GroupType': 'ElseOutput' }), 'Priority');
                 $scope.groupTokens.push(groupToken);
             }
         };
 
         $scope.selectFormula = function (selectedformula) {
             $scope.boolOpr.showDetails = true;
-            $scope.formula = selectedformula;
+            $scope.showDiv = true;
+            $scope.formula = angular.copy(selectedformula);
             divideTokens(selectedformula.BillTokens);
         };
-        
-        $scope.addformula = function () {
+
+        $scope.addformula = function (product, form) {
             $scope.showDiv = true;
+            $scope.formula = {};
+            $scope.selected = [];
+            $scope.formula.Products = product;
+            form.$setPristine();
         };
 
-        $scope.saveFormula = function(formula, groupTokens) {
+        $scope.reset = function (product,form) {
+            $scope.formula = {};
+            $scope.selected = [];
+            $scope.formula.Products = product;
+            form.$setPristine();
+        };
+
+        $scope.saveFormula = function (formula, groupTokens) {
             formula.BillTokens = combineTokens(groupTokens);
-            datalayer.saveFormula(formula).then(function(data) {
+            datalayer.saveFormula(formula).then(function (data) {
+                $scope.formulaList.push(data);
+                $scope.reset();
             });
         };
-        
+
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.Formula = $csModels.getColumns("Formula");
-            
+
             initPageData();
         })();
 

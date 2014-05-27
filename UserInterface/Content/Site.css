@@ -418,7 +418,8 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
         font-family: verdana;
         line-height: 40px;
         color: #31708f;
-        background-color: #d9edf7;
+        background-color: #f5f5f5;
+        border-color: #dddddd;
         padding-left: 7px;
         height: 40px;
     }

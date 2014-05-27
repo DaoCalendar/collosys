@@ -28,15 +28,15 @@ namespace AngularUI.Allocation.policy
 
     public class AllocationPolicyApiController : BaseApiController<AllocPolicy>
     {
-        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder(); 
-        private static readonly StakeQueryBuilder StakeQuery=new StakeQueryBuilder();
-        private static readonly AllocPolicyBuilder AllocPolicyBuilder=new AllocPolicyBuilder();
-        private static readonly AllocSubpolicyBuilder AllocSubpolicyBuilder=new AllocSubpolicyBuilder();
-        private static readonly AllocRelationBuilder AllocRelationBuilder=new AllocRelationBuilder();
+        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
+        private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
+        private static readonly AllocPolicyBuilder AllocPolicyBuilder = new AllocPolicyBuilder();
+        private static readonly AllocSubpolicyBuilder AllocSubpolicyBuilder = new AllocSubpolicyBuilder();
+        private static readonly AllocRelationBuilder AllocRelationBuilder = new AllocRelationBuilder();
         #region Get
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetProducts()
         {
             var data = ProductConfigBuilder.GetProducts();
@@ -44,11 +44,12 @@ namespace AngularUI.Allocation.policy
         }
 
         [HttpGet]
-        
+
         public HttpResponseMessage GetAllocPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {
 
             var allocPolicy = AllocPolicyBuilder.NonApproved(products, category);
+            allocPolicy.AllocRelations = allocPolicy.AllocRelations.Distinct().ToList();
 
             // create new alloc policy
             var savedAllocSubpolicyIds = new List<Guid>();
@@ -192,6 +193,6 @@ namespace AngularUI.Allocation.policy
             return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
-       
+
     }
 }

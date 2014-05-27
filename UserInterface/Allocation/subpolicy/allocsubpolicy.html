@@ -1,7 +1,7 @@
 ﻿
-<div class="container-fluid">
+<div class="container-fluid" data-ng-form="subpolicyForm">
     <cs-form layout="5.4.8">
-        <div class="row " data-ng-form="subpolicyForm">
+        <div class="row ">
             <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
                       field="allocSubpolicy.Products" ng-required="true"></cs-field>
             <button class="btn alert-info" data-ng-show="dldata.allocSubpolicy.Products"
@@ -17,14 +17,14 @@
 
             <!--DualList Example-->
             <!--<div class="col-md-9">
-                <cs-dual-list lhs-heading="subpolicy" rhs-heading="dataList"
-                              lhs-value-list="data1"
-                              rhs-value-list="dldata.allocSubpolicyList" text-field="Name"
-                              ng-model="selected" on-click="clickMe(selected,direction)"></cs-dual-list>
-            </div>-->
+                    <cs-dual-list lhs-heading="subpolicy" rhs-heading="dataList"
+                                  lhs-value-list="data1"
+                                  rhs-value-list="dldata.allocSubpolicyList" text-field="Name"
+                                  ng-model="selected" on-click="clickMe(selected,direction)"></cs-dual-list>
+                </div>-->
             <div class="col-md-9" data-ng-show="showDiv">
                 <div class="row-fluid form-horizontal" id="subpolicy-display" data-ng-form="allocSubpolicyForm">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Subpolicy Basic-Info
                         </div>
@@ -33,7 +33,7 @@
                                 <cs-field field="allocSubpolicy.ProductName" data-ng-disabled="true"
                                           data-ng-model="dldata.allocSubpolicy.Products"></cs-field>
                                 <!--Name-->
-                               
+
                                 <cs-field field="allocSubpolicy.Name" data-ng-model="dldata.allocSubpolicy.Name"
                                           data-ng-disabled="dldata.allocSubpolicy.Id" data-ng-change="factory.checkDuplicateName()"></cs-field>
                                 <div class="col-md-10 text-right">
@@ -57,17 +57,17 @@
                                     <cs-field data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'"
                                               field="allocSubpolicy.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
                                     <!--<label class="control-label">Select Stakeholder</label>
-                                    <div class="form-control">
-                                        <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
-                                            <option value=""></option>
-                                            <optgroup label="Collector">
-                                                <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
-                                            </optgroup>
-                                            <optgroup label="Agency">
-                                                <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>-->
+                                        <div class="form-control">
+                                            <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
+                                                <option value=""></option>
+                                                <optgroup label="Collector">
+                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
+                                                </optgroup>
+                                                <optgroup label="Agency">
+                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>-->
                                 </div>
                             </div>
                             <div class="row">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="row-fluid" id="subpolicy-conditions">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">Subpolicy Condition</div>
                         <div class="panel-body">
                             <div class="row">
@@ -120,8 +120,7 @@
                                             </td>
                                             <!--button-->
                                             <td>
-                                                <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved"
-                                                          data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
+                                                <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
@@ -145,10 +144,10 @@
                     </div>
                 </div>
 
-                <div class="row-fluid text-right" id="subpolicy-buttons">
+                <div class="text-right" id="subpolicy-buttons">
                     <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
                     <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm)">Reset</button>
+                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)">Reset</button>
                 </div>
             </div>
         </div>

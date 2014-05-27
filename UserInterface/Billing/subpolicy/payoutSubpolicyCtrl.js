@@ -22,8 +22,8 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
 
         var saveSubpolicy = function (subpolicy) {
-            return restApi.customPOST(subpolicy, 'Post').then(function () {
-                return;
+            return restApi.customPOST(subpolicy, 'Post').then(function (data) {
+                return data;
             });
         };
 
@@ -41,7 +41,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
             getSubpolicyList: getSubpolicyList,
             getFormulaList: getFormulaList,
             saveSubpolicy: saveSubpolicy,
-            getMatrixList: getMatrixList
+            getMatrixList: getMatrixList,
         };
     }]);
 
@@ -76,19 +76,38 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         $scope.saveSubPolicy = function (subpolicy, selectedTokens) {
             subpolicy.BillTokens = combineTokens(selectedTokens);
             datalayer.saveSubpolicy(subpolicy).then(function (data) {
-
+                $scope.subpolicyList.push(data);
+                $scope.resetSubPolicy();
             });
         };
 
+        $scope.resetSubPolicy = function(products,form) {
+            $scope.subpolicy = {};
+            $scope.subpolicy.Products = products;
+            $scope.selected = [];
+            form.$setPristine();
+        };
+
         $scope.selectSubpolicy = function (subpolicy) {
+            $scope.showDiv = true;
             $scope.subpolicy = subpolicy;
             divideTokens(subpolicy.BillTokens);
         };
 
+        $scope.addSubPolicy = function (products,form) {
+            $scope.showDiv = true;
+            $scope.subpolicy = {};
+            $scope.subpolicy.Products = products;
+            $scope.selected = [];
+            form.$setPristine();
+        };
+
         var init = function () {
+            $scope.sele = {};
             $scope.subpolicy = {
                 PayoutSubpolicyType: 'Subpolicy'
             };
+            $scope.subpolicyList = [];
             $scope.formulaList = [];
             $scope.matrixList = [];
             $scope.selectedTokens = {

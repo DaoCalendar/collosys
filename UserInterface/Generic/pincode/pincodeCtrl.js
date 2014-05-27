@@ -356,12 +356,12 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 };
                 $scope.getRegion();
             }
-            if ($routeParams.displaymode === 'edit') {
-                $scope.GPincodedata = gPincodes.gpincode;
+            //if ($routeParams.displaymode === 'edit') {
+            //    $scope.GPincodedata = gPincodes.gpincode;
 
-            } else {
+            //} else {
 
-            };
+            //};
             datalayer.getWholePincode();
         })();
 
@@ -424,8 +424,9 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
             $location.path("/generic/pincode");
         };
 
-        $scope.reset = function (gpincode) {
+        $scope.reset = function (gpincode,form) {
             factory.reset(gpincode);
+            form.$setPristine();
         };
 
         $scope.resetedit = function (gpincode) {
