@@ -569,7 +569,7 @@ csapp.directive('iconBtn', function () {
                      '</button>';
             case 'forward':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="forward">' +
+                     'data-toggle="tooltip" data-placement="top" title="Immediate">' +
                      '<span class="glyphicon glyphicon-forward"></span>' +
                      '</button>';
             case 'calendar':

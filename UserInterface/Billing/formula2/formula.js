@@ -32,8 +32,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         var saveFormula = function (formula) {
-            return restApi.customPOST(formula, 'Post').then(function () {
-                return;
+            return restApi.customPOST(formula, 'Post').then(function (data) {
+                return data;
             });
         };
         
@@ -129,7 +129,8 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
 
         $scope.saveFormula = function(formula, groupTokens) {
             formula.BillTokens = combineTokens(groupTokens);
-            datalayer.saveFormula(formula).then(function(data) {
+            datalayer.saveFormula(formula).then(function (data) {
+                $scope.formulaList.push(data);
             });
         };
         
