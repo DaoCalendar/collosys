@@ -186,7 +186,7 @@ namespace UserInterfaceAngular.app
                 allocCondition.AllocSubpolicy = obj;
             }
 
-            if (obj.Stakeholder.Id == Guid.Empty)
+            if (obj.Stakeholder != null && obj.Stakeholder.Id == Guid.Empty)
                 obj.Stakeholder = null;
 
             AllocSubpolicyBuilder.Merge(obj);
