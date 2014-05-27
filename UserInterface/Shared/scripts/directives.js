@@ -626,7 +626,7 @@ csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
-        template += '<a class="list-group-item alert-info">' + attrs.listHeading + ' </a>';
+        template += '<a class="list-group-item alert-default">' + attrs.listHeading + ' </a>';
         template += '<ul class="list-group">';
         template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
         template += ' ng-click="onClick(row, $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';

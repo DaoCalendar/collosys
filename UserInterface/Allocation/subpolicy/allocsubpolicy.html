@@ -120,7 +120,7 @@
                                             </td>
                                             <!--button-->
                                             <td>
-                                                <button class="btn" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);">Add</button>
+                                                <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
                                             </td>
                                         </tr>
                                         <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
