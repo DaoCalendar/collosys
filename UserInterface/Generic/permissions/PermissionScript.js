@@ -39,21 +39,15 @@
 
 
     var saveNew = function (data) {
-
-        //setAccess(data);
-
-        //dldata.Hierarchy.Permissions = JSON.stringify(data);
         restApi.customPOST(data, 'Post').then(function (hierarchy) {
-            dldata.Hierarchy = hierarchy;//update the hierarchy
-            //update the hierarchy in the list of hierarchies
-            //_.forEach(dldata.stakeHierarchy, function (item) {
-            //    if (item.Id === hierarchy.Id) {
-            //        item = hierarchy;
-            //        return;
-            //    }
-            //});
-
             $csnotify.success('Permission Saved');
+        });
+    };
+
+    var savePerm = function (data) {
+        return restApi.customPOST(data, 'SavePerm').then(function (data) {
+            $csnotify.success("Permisson Saved");
+            return data;
         });
     };
 
@@ -194,6 +188,7 @@
     return {
         dldata: dldata,
         Save: saveNew,
+        SavePerm: savePerm,
         SetPermissions: setPermissions,
         GetPermission: getPermission,
         GetAll: getAll,
@@ -224,13 +219,39 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.GetPermission(id).then(function (data) {
                 $scope.displayData = data[0].Childrens;
                 $scope.currPermData = data[0];
+                console.log("permission: ", $scope.currPermData);
             });
         };
 
         $scope.save = function (data) {
-            $scope.currPermData.childrens = data;
-            $scope.dldata.permission = $scope.currPermData;
-            datalayer.Save($scope.dldata.permission);
+            debugger;
+            $scope.currPermData.Childrens = data;
+            $scope.currPermData.Role = getRoleById($scope.perm.designation, $scope.dldata.Hierarchy);
+            datalayer.SavePerm($scope.currPermData).then(function (updatedData) {
+                $scope.currPermData = updatedData;
+            });
+        };
+
+        var setParent = function (permData) {
+            _.forEach(permData.Childrens, function (activity) {
+                var activityParent = activity;
+                activity.Parent = permData;
+                _.forEach(activity.Childrens, function (subActivity) {
+                    var subActivityParent = subActivity;
+                    subActivity.Parent = activityParent;
+                    _.forEach(subActivity.Childrens, function (child) {
+                        child.Parent = subActivityParent;
+                    });
+                });
+            });
+        };
+
+
+        var getRoleById = function (id, listOfHierarchy) {
+            var hierarachy = _.find(listOfHierarchy, function (hier) {
+                if (hier.Id === id) return hier;
+            });
+            return hierarachy;
         };
 
         $scope.ticks = function (module) {
@@ -289,6 +310,19 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
     }]);
 
+
+
+//setAccess(data);
+
+//dldata.Hierarchy.Permissions = JSON.stringify(data);
+//update the hierarchy
+//update the hierarchy in the list of hierarchies
+//_.forEach(dldata.stakeHierarchy, function (item) {
+//    if (item.Id === hierarchy.Id) {
+//        item = hierarchy;
+//        return;
+//    }
+//});
 
 
 

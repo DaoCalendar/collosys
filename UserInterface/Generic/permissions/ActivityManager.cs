@@ -31,7 +31,6 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 Role = _hierarchy,
                 Parent = parent
             };
-
             AddActivity(parent, perm);
             return perm;
         }
@@ -69,6 +68,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
             var config = AddActivity(root, ColloSysEnums.Activities.Config);
             AddConfigActivities(config);
+
+            var user = AddActivity(root, ColloSysEnums.Activities.User);
+            AddUserActivity(user);
 
             var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
             AddDeveloperActivities(developer);
@@ -226,5 +228,42 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(dev, ColloSysEnums.Activities.DbTables, "cofigure new file for upload");
             AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, "cofigure new file for upload");
         }
+
+        private static void AddUserActivity(GPermission user)
+        {
+            AddActivity(user, ColloSysEnums.Activities.Logout);
+            AddActivity(user, ColloSysEnums.Activities.Profile);
+            AddActivity(user, ColloSysEnums.Activities.ChangePassword);
+        }
+
+        public static GPermission CreateNcmPermissions(StkhHierarchy hierarchy)
+        {
+            _hierarchy = hierarchy;
+            var root = new GPermission();
+
+            var fileupload = AddActivity(root, ColloSysEnums.Activities.FileUploader);
+            AddFileUploadActivities(fileupload);
+
+            var stakeholder = AddActivity(root, ColloSysEnums.Activities.Stakeholder);
+            AddStakeholderActivities(stakeholder);
+
+            var billing = AddActivity(root, ColloSysEnums.Activities.Billing);
+            AddBillingActivities(billing);
+
+            var allocation = AddActivity(root, ColloSysEnums.Activities.Allocation);
+            AddAllocationActivities(allocation);
+
+            var config = AddActivity(root, ColloSysEnums.Activities.Config);
+            AddConfigActivities(config);
+
+            var user = AddActivity(root, ColloSysEnums.Activities.User);
+            AddUserActivity(user);
+
+            var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
+            AddDeveloperActivities(developer);
+
+            return root;
+        }
+
     }
 }

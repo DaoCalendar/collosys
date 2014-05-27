@@ -100,9 +100,9 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
 
             var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
-            user.AddChild("Profile", new[] { ColloSysEnums.Activities.Profile }, "#/generic/profile");
-            user.AddChild("Change Password", new[] { ColloSysEnums.Activities.ChangePassword }, "#/generic/changepassword");
-            user.AddChild("Logout", new[] { ColloSysEnums.Activities.Logout }, "#/logout");
+            user.AddChild("Profile", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.Profile }, "#/generic/profile");
+            user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.ChangePassword }, "#/generic/changepassword");
+            user.AddChild("Logout", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.Logout }, "#/logout");
 
             var devTools = home.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
             devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.GenerateDb }, "#/developer/generatedb");
@@ -141,5 +141,32 @@ namespace AngularUI.Generic.Menu
             return menulist;
         }
 
+        public static Menu DefaultMenu(Menu menulist)
+        {
+            foreach (var menu in menulist.Childrens)
+            {
+                if (menu.Title == "User")
+                {
+                    menu.HasAccess = true;
+                    SetChild(menu, true);
+
+                }
+                else
+                {
+                    menu.HasAccess = false;
+                    SetChild(menu, false);
+                }
+            }
+
+            return menulist;
+        }
+
+        private static void SetChild(Menu menu, bool access)
+        {
+            foreach (var child in menu.Childrens)
+            {
+                child.HasAccess = access;
+            }
+        }
     }
 }

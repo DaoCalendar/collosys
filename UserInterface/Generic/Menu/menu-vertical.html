@@ -7,7 +7,8 @@
             <br />
             <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>
             <ul>
-                <li data-ng-repeat="child in menu.Childrens"><!--data-ng-if="child.HasAccess"-->
+                <li data-ng-repeat="child in menu.Childrens" data-ng-if="child.HasAccess">
+                    <!--data-ng-if="child.HasAccess"-->
                     <a href="{{child.Url}}">{{child.Title}}</a>
                 </li>
             </ul>

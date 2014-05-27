@@ -42,26 +42,28 @@ namespace AngularUI.Generic.Menu
 
             var menu = new MenuManager();
             var ma = menu.CreateMenu();
-            ma = MenuManager.CreateAutherizedMenu(root[0], ma);
-            //var permData = Session.QueryOver<GPermission>()
-            //        .Where(x => x.Role.Id == userData.Role.Id)
-            //        .And(x => x.Parent == null)
-            //        .Fetch(x=>x.Childrens).Eager
-            //        .Fetch(x=>x.Role).Eager
-            //        .TransformUsing(Transformers.DistinctRootEntity)
-            //        .List<GPermission>();
 
-
-            //var permData = PermQuery.Execute(permQuery);
-
+            ma = (root == null || root.Count == 0) ? MenuManager.DefaultMenu(ma) : MenuManager.CreateAutherizedMenu(root[0], ma);
             return Request.CreateResponse(HttpStatusCode.OK, ma);
 
 
-            //var root = session.QueryOver<GPermission>()
-            //    .Where(x => x.Role.Id == hierarchy.Id)
-            //    .And(x => x.Parent == null)
-            //    //.TransformUsing(Transformers.DistinctRootEntity)
-            //    .List<GPermission>();
         }
     }
 }
+//var permData = Session.QueryOver<GPermission>()
+//        .Where(x => x.Role.Id == userData.Role.Id)
+//        .And(x => x.Parent == null)
+//        .Fetch(x=>x.Childrens).Eager
+//        .Fetch(x=>x.Role).Eager
+//        .TransformUsing(Transformers.DistinctRootEntity)
+//        .List<GPermission>();
+
+
+//var permData = PermQuery.Execute(permQuery);
+
+
+//var root = session.QueryOver<GPermission>()
+//    .Where(x => x.Role.Id == hierarchy.Id)
+//    .And(x => x.Parent == null)
+//    //.TransformUsing(Transformers.DistinctRootEntity)
+//    .List<GPermission>();

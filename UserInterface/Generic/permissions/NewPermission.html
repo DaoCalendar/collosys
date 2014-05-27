@@ -12,7 +12,7 @@
                 <div class="col-md-6">
                     <select data-ng-model="perm.designation"
                         class="form-control"
-                        data-ng-options="hier.Id as hier.Designation for hier in  dldata.Hierarchy| filter:'Hierarchy' : perm.hierarchy|orderBy: 'PositionLevel'"
+                        data-ng-options="hier.Id as hier.Designation for hier in  dldata.Hierarchy|orderBy: 'PositionLevel'"
                         data-ng-change="getPermission(perm.designation)">
                     </select>
                     <!--  <select data-ng-model="perm.designation"

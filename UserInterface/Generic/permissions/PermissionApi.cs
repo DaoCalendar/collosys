@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using ColloSys.QueryBuilder.TransAttributes;
 using ColloSys.UserInterface.Areas.Generic.apiController;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
@@ -41,58 +42,55 @@ namespace AngularUI.Generic.permissions
             var permData = Session.QueryOver<GPermission>()
                     .Where(x => x.Role.Id == id)
                     .And(x => x.Parent == null)
-                //.TransformUsing(Transformers.DistinctRootEntity)
+                    .Fetch(x => x.Role).Eager
+                    .Fetch(x => x.Parent).Eager
+                    .TransformUsing(Transformers.DistinctRootEntity)
                     .List<GPermission>();
-
-            //var permData = Session.QueryOver<GPermission>(() => parent)
-            //                      .Fetch(x => x.Childrens).Eager
-            //                      .Fetch(x => x.Role).Eager
-            //                      .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
-            //                      .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
-            //                      .Where(() => parent.Role.Id == id)
-            //                      .And(() => parent.Parent == null)
-            //                      .TransformUsing(Transformers.DistinctRootEntity)
-            //                      .List();
 
             if (permData == null || permData.Count == 0)
             {
-
                 var hierarchy = Session.QueryOver<StkhHierarchy>()
                     .Where(x => x.Designation == "Developer")
                     .And(x => x.Hierarchy == "Developer")
                     .SingleOrDefault();
 
-                permData = Session.QueryOver<GPermission>(() => parent)
-                                  .Fetch(x => x.Childrens).Eager
-                                  .Fetch(x => x.Role).Eager
-                                  .JoinAlias(() => parent.Childrens, () => childern, JoinType.InnerJoin)
-                                  .JoinAlias(() => childern.Childrens, () => grandChildren, JoinType.InnerJoin)
-                                  .Where(() => parent.Role.Id == hierarchy.Id)
-                                  .And(() => parent.Parent == null)
-                                  .TransformUsing(Transformers.DistinctRootEntity)
-                                  .List();
+                permData = Session.QueryOver<GPermission>()
+                    .Where(x => x.Role.Id == hierarchy.Id)
+                    .And(x => x.Parent == null)
+                    .Fetch(x => x.Role).Eager
+                    .Fetch(x => x.Parent).Eager
+                    .TransformUsing(Transformers.DistinctRootEntity)
+                    .List<GPermission>();
             }
+
 
             return Request.CreateResponse(HttpStatusCode.OK, permData);
 
-            //var permData = Session.QueryOver<GPermission>()
-            //        .Where(x => x.Role.Id == userData.Role.Id)
-            //        .And(x => x.Parent == null)
-            //        .Fetch(x=>x.Childrens).Eager
-            //        .Fetch(x=>x.Role).Eager
-            //        .TransformUsing(Transformers.DistinctRootEntity)
-            //        .List<GPermission>();
 
-
-            //var permData = PermQuery.Execute(permQuery);
-
-            //var root = session.QueryOver<GPermission>()
-            //    .Where(x => x.Role.Id == hierarchy.Id)
-            //    .And(x => x.Parent == null)
-            //    //.TransformUsing(Transformers.DistinctRootEntity)
-            //    .List<GPermission>();
         }
 
+
+        [HttpPost]
+        public HttpResponseMessage SavePerm(GPermission data)
+        {
+            foreach (var activity in data.Childrens)
+            {
+                var subActivityParent = activity;
+                activity.Parent = data;
+                foreach (var subActivity in activity.Childrens)
+                {
+                    var childParent = subActivity;
+                    subActivity.Parent = subActivityParent;
+                    foreach (var child in subActivity.Childrens)
+                    {
+                        child.Parent = childParent;
+                    }
+                }
+            }
+
+            PermQuery.Save(data);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
 
         [HttpPost]
         public void SetPermission(JObject json)
