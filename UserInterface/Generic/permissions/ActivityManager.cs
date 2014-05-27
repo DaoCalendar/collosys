@@ -31,7 +31,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 Role = _hierarchy,
                 Parent = parent
             };
-            
+
             AddActivity(parent, perm);
             return perm;
         }
@@ -71,7 +71,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddConfigActivities(config);
 
             var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
-            AddDeveloperActivities(config);
+            AddDeveloperActivities(developer);
 
             return root;
         }
@@ -219,9 +219,12 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.Update);
         }
 
-        private static void AddDeveloperActivities(GPermission root)
+        private static void AddDeveloperActivities(GPermission dev)
         {
-            AddActivity(root, ColloSysEnums.Activities.Developer, "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.GenerateDb, "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.SystemExplorer, "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.DbTables, "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, "cofigure new file for upload");
         }
     }
 }
