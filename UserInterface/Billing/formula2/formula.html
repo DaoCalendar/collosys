@@ -6,24 +6,24 @@
                           data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
 
             <div class="col-md-2 text-left" style="margin-left: 0;" data-ng-show="selParams.selectedProduct">
-                <button class="btn alert-info btn-default" data-ng-click="addformula(selParams.selectedProduct)">
+                <button class="btn alert-info btn-default" data-ng-click="addformula(selParams.selectedProduct,formulaMain)">
                     Add Formula
                 </button>
             </div>
         </div>
         <div>
             <div class="col-md-3" data-ng-show="selParams.selectedProduct">
-                <!-- <div class="box-sub">
+                 <div class="box-sub">
                          <div class="box-heading">Formula List</div>
                          <div class="box-body">
                              <div class="sub-name" data-ng-repeat="sformula in formulaList | orderBy : 'Name'">
                                  <a class="btn-link" data-ng-click="selectFormula(sformula)">{{sformula.Name}}</a>
                              </div>
                          </div>
-                     </div>-->
-                <cs-list list-heading="Formula List" value-list="formulaList" text-field="Name"
+                     </div>
+               <!-- <cs-list list-heading="Formula List" value-list="formulaList" text-field="Name"
                        data-ng-model="sformula" data-ng-click="selectFormula(sformula)"></cs-list>
-          
+          -->
             </div>
             
 
@@ -40,6 +40,10 @@
                        value="Save"
                        data-ng-disabled="formulaMain.$invalid"
                        data-ng-click="saveFormula(formula,groupTokens)" />
+                <input type="button"
+                       class="btn btn-default"
+                       value="Reset"
+                       data-ng-click="reset(selParams.selectedProduct,formulaMain)" />
             </div>
 
         </div>

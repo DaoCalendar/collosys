@@ -132,10 +132,18 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             form.$setPristine();
         };
 
+        $scope.reset = function (product,form) {
+            $scope.formula = {};
+            $scope.selected = [];
+            $scope.formula.Products = product;
+            form.$setPristine();
+        };
+
         $scope.saveFormula = function (formula, groupTokens) {
             formula.BillTokens = combineTokens(groupTokens);
             datalayer.saveFormula(formula).then(function (data) {
                 $scope.formulaList.push(data);
+                $scope.reset();
             });
         };
 

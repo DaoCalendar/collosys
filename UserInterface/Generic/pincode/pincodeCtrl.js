@@ -356,12 +356,12 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 };
                 $scope.getRegion();
             }
-            if ($routeParams.displaymode === 'edit') {
-                $scope.GPincodedata = gPincodes.gpincode;
+            //if ($routeParams.displaymode === 'edit') {
+            //    $scope.GPincodedata = gPincodes.gpincode;
 
-            } else {
+            //} else {
 
-            };
+            //};
             datalayer.getWholePincode();
         })();
 
