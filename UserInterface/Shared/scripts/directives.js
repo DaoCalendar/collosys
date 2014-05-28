@@ -626,7 +626,8 @@ csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
-        template += '<a class="list-group-item alert-default">' + attrs.listHeading + ' </a>';
+        template += '<div class="panel panel-default">';
+        template += '<div class="panel-heading">' + attrs.listHeading + ' </div>';
         template += '<ul class="list-group">';
         template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
         template += ' ng-click="onClick(row, $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
@@ -634,6 +635,7 @@ csapp.directive('csList', function () {
         template += angular.isDefined(attrs.ngClass) ? attrs.ngClass : ' ng-class="{active : isSelected($index) }"';
         template += ' value="row">{{row.' + attrs.textField + '}}</li>';
         template += '</ul>';
+        template += '</div>';
         template += '</div>';
         return template;
     };
