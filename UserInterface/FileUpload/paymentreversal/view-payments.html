@@ -1,4 +1,4 @@
-﻿<div>
+﻿<form name="viewPayment">
     <div class="row">
         <div class="form-group col-md-4">
             <label class="col-md-4 control-label">System</label>
@@ -9,8 +9,8 @@
             </select>
         </div>
         <div class="col-md-4">
-            <button data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()">Exclude Case</button>
-            <button data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()">Add Case</button>
+            <cs-button type="add" text="Exclude Case" data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()"></cs-button>
+            <cs-button type="add" text="Add Case" data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()"></cs-button>
         </div>
     </div>
 
@@ -18,4 +18,4 @@
         <div data-ng-include="baseUrl +'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px" data-ng-grid="gridOptions"></div>
     </div>
-</div>
+</form>
