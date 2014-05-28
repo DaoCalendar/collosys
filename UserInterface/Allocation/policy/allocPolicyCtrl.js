@@ -237,6 +237,37 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             return (dateFilter && statusfilter);
         };
 
+        $scope.moveUp = function (policy) {
+            //var test = [];
+            //_.forEach($scope.dldata.ApproveUnapp, function (item) {
+            //    _.forEach($scope.dldata.allocPolicy.AllocRelations, function (rel) {
+            //        if (angular.isDefined(rel)) {
+            //            if (item.allocRelation.Id === rel.Id) {
+            //                $scope.dldata.allocPolicy.AllocRelations.splice($scope.dldata.allocPolicy.AllocRelations.indexOf(rel), 1);
+            //                test.push(rel);
+            //            }
+            //        }
+
+            //    });
+            //});
+
+            //console.log(test);
+            //var relations = _.sortBy(test, 'Priority');
+            //console.log(relations);
+            //var index = relations.indexOf(policy.allocRelation);
+            //var tempPriority = relations[index].Priority;
+            //relations[index].Priority = relations[index - 1].Priority;
+            //relations[index - 1].Priority = tempPriority;
+            //console.log(relations);
+            //_.forEach(relations, function (item) {
+            //    $scope.dldata.allocPolicy.AllocRelations.push(item);
+            //});
+            //datalayer.saveAllocPolicy($scope.dldata.allocPolicy);
+          
+        };
+        $scope.moveDown = function () {
+
+        };
     }]);
 
 csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
