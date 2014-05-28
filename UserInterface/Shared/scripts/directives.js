@@ -173,33 +173,37 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
         };
 
         switch (type) {
-            case 'Submit':
-                templateParams.text = type || 'submit';
+            case 'submit':
+                templateParams.type = 'submit';
                 templateParams.text = text || 'Submit';
                 break;
-            case 'Delete':
+            case 'delete':
                 templateParams.className = 'btn-danger';
                 templateParams.text = text || 'Delete';
                 break;
-            case 'Save':
+            case 'save':
                 templateParams.className = 'btn-success';
                 templateParams.text = text || 'Save';
                 break;
-            case 'Add':
-                templateParams.className = 'btn-default';
+            case 'reset':
+                templateParams.text = text || 'Reset';
+                break;
+            case 'close':
+                templateParams.text = text || 'Close';
+                break;
+            case 'add':
                 templateParams.text = text || 'Add';
                 break;
-            case 'Edit':
-                templateParams.className = 'btn-default';
+            case 'edit':
                 templateParams.text = text || 'Edit';
                 break;
-            case 'View':
-                templateParams.className = 'btn-default';
+            case 'view':
                 templateParams.text = text || 'View';
                 break;
             default:
                 $log.error('invalid button type: ' + type);
         }
+
         return templateParams;
     };
 
