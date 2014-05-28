@@ -3,7 +3,7 @@
         Define Matrix
     </div>
     <div class="panel-body" style="overflow: auto">
-    <cs-form layout="6.4.8">
+        <cs-form layout="6.4.8">
         <table data-ng-show="dldata.matrix.Dimension" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -153,12 +153,10 @@
                 <tr>
                     <td colspan="5">
                         <div class="text-right">
-                            <button class="btn btn-primary"
+                            <cs-button type="add" text="Create Matrix"
                                     data-ng-disabled="(dldata.isMatrixCreated || !matrixform.$valid)
                     ||(factory.buttonDisable(dldata.matrix.Dimension)||dldata.isDuplicate)"
-                                    data-ng-click="factory.createMatrix(dldata.matrix)">
-                                Create Matrix
-                            </button>
+                                    data-ng-click="factory.createMatrix(dldata.matrix)"></cs-button>
                         </div>
                     </td>
                 </tr>

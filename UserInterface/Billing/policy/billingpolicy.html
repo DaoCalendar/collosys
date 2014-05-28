@@ -76,35 +76,30 @@
                                 <div class="pull-right" style="margin-right: 5px">
                                     <!--<div class="form-group">
                                         <div class="controls">-->
-                                    <button class="btn  btn-danger"
+                                    <cs-button type="delete" text="Deactivate"
                                         data-ng-show="buttonStatus=='Approved'"
-                                        data-ng-click="openModelDeactivateSubPolicy(billingRelation);">
-                                        Deactivate
-                                    </button>
+                                        data-ng-click="openModelDeactivateSubPolicy(billingRelation);"></cs-button>
                                     <!--for draft-->
-                                    <button class="btn btn-primary"
+                                    <cs-button type="save" text="Activate"
                                         data-ng-show="buttonStatus=='Draft'"
-                                        data-ng-click="openModelNewSubPolicy(billingRelation,$index);">
-                                        Activate
-                                    </button>
+                                        data-ng-click="openModelNewSubPolicy(billingRelation,$index);"></cs-button>
 
                                     <!--for Expired-->
-                                    <button class="btn btn-primary"
+                                    <cs-button type="add" text="Reactivate"
                                         data-ng-show="buttonStatus=='Expired'"
                                         data-ng-click="openModelReactivateSubPolicy(billingRelation);">
-                                        Reactivate
-                                    </button>
+                                    </cs-button>
 
-                                    <button class="btn btn-success"
-                                        data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="approve(billingRelation)">
-                                        Approve
-                                    </button>
-                                    <button class="btn btn-success"
-                                        data-ng-show="buttonStatus=='UnApproved'"
-                                        data-ng-click="reject(billingRelation)">
-                                        Reject
-                                    </button>
+                                    <cs-button type="save" text="Approve"
+                                               data-ng-show="buttonStatus=='UnApproved'"
+                                               data-ng-click="approve(billingRelation)">
+                                    </cs-button>
+
+                                    <cs-button type="save" text="Reject"
+                                               data-ng-show="buttonStatus=='UnApproved'"
+                                               data-ng-click="reject(billingRelation)">
+                                    </cs-button>
+
                                     <!--   </div>
                                     </div>-->
                                 </div>

@@ -1,6 +1,6 @@
 ﻿<!--ModalPopUp for payment Details -->
 
-<div data-ng-form="adhocPayoutform" class="form-horizontal">
+<form name="adhocPayoutform">
     <div class="panel panel-default">
         <div class="panel-heading">Payout Details</div>
 
@@ -24,11 +24,12 @@
     </div>
 
     <div class="panel-footer text-right">
-        <button class="btn btn-success" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)">Approve</button>
-        <button class="btn btn-warning" data-ng-click="CloseAdhocPayoutManager()">Close</button>
-        <button class="btn btn-info" data-ng-click="resetadhocPayout()">Reset</button>
+        <cs-button type="add" text="Approve" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)"></cs-button>
+        <cs-button type="close" data-ng-click="CloseAdhocPayoutManager()"></cs-button>
+        <cs-button type="reset" data-ng-click="resetadhocPayout()"></cs-button>
     </div>
-</div>
+</form>
+
 
 
 

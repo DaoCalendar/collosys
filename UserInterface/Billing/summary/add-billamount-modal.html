@@ -23,17 +23,15 @@
             </cs-form>
         </div>
     </div>
-    <div class="panel-footer text-right">
-        <div class="text-right">
-            <button class="btn btn-success"
-                    data-ng-disabled="!(adhocPayoutform.$valid)"
-                    data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false">
-                Add
-            </button>
-            <button class="btn btn-success" data-ng-click="closeModal()">Close</button>
-        </div>
+    <div class="text-right">
+        <cs-button type="add"
+            data-ng-disabled="!(adhocPayoutform.$valid)"
+            data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false"></cs-button>
+        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
     </div>
 </div>
+
+
 
 
 

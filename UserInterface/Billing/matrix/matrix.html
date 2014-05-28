@@ -24,8 +24,8 @@
                 <!--buttons-->
               
                 <div class="text-right" data-ng-show="dldata.matrix.BMatricesValues.length>0">
-                    <button class="btn btn-success" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)">Save</button>
-                    <button class="btn btn-warning" data-ng-click="datalayer.reset()">Reset</button>
+                    <cs-button type="save" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)"></cs-button>
+                    <cs-button type="reset" data-ng-click="datalayer.reset()"></cs-button>
                 </div>
             </div>
         </div>
