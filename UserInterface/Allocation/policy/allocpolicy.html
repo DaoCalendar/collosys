@@ -8,12 +8,16 @@
     <div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
         <div class="col-md-5" data-ng-show="dldata.draftAndExpired">
             <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.draftAndExpired" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation, $index); setButtonStatus(policy)"></cs-list>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5" data-ng-show="dldata.ApproveUnapp">
             <cs-list list-heading="Approved/Unapproved SubPolicy" value-list="dldata.ApproveUnapp" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation); setButtonStatus(policy)"></cs-list>
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation,$index); setButtonStatus(policy)"></cs-list>
+        </div>
+        <div class="col-md-1" data-ng-show="dldata.ApproveUnapp">
+            <button class="btn btn-success" data-ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>
+            <button class="btn btn-success" data-ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>
         </div>
     </div>
     <div class="row" data-ng-show="false">

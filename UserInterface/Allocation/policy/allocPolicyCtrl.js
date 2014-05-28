@@ -44,7 +44,7 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
                 $scope.closeModel();
             });
         };
-        
+
         $scope.closeModel = function () {
             $modalInstance.close();
             $scope.modalData = {
@@ -73,7 +73,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.setButtonStatus = function (policy) {
-           if (policy.type === "") {
+            if (policy.type === "") {
                 $scope.dldata.buttonStatus = 'Draft';
             }
             if (policy.type === 'Approved') {
@@ -146,7 +146,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             openModal($scope.modalData);
         };
 
-        $scope.setDisplaySubpolicy = function (subpolicy, relation) {
+        $scope.setDisplaySubpolicy = function (subpolicy, relation, index) {
             if (angular.isUndefined(relation)) {
                 $scope.allocRelation = subpolicy;
             } else {
@@ -154,7 +154,31 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             }
 
             $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
-            // $scope.dldata.selectedPolicy = subpolicy;
+
+            var isinlist = _.find($scope.dldata.ApproveUnapp, function (item) {
+                if (item.allocRelation.Id === relation.Id) {
+                    $scope.direction = {
+                        up: false,
+                        down: false
+                    };
+                    return item;
+                }
+
+            });
+            if (angular.isUndefined(isinlist)) {
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            } else {
+                if (index === 0) {
+                    $scope.direction.up = true;
+                }
+                var maxindex = ($scope.dldata.ApproveUnapp.length) - 1;
+                if (maxindex === index) {
+                    $scope.direction.down = true;
+                }
+            }
         };
 
         $scope.approve = function (policy) {
@@ -186,6 +210,10 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 subPolicyIndex: -1,
                 forActivate: true
             };
+            $scope.direction = {
+                up: true,
+                down: true
+            };
             $scope.dldata.buttonStatus = "";
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
         })();
@@ -193,7 +221,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         $scope.changeProductCategory = function () {
             datalayer.resetList();
             datalayer.changeProductCategory();
-           // $scope.dldata.buttonStatus = "";
+            // $scope.dldata.buttonStatus = "";
         };
 
         $scope.frelation = function (relation, todayActive, status) {
