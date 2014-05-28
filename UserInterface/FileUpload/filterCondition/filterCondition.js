@@ -96,6 +96,7 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.factory = factory;
+            $scope.filterCondition = {};
             $scope.FilterCondition = $csModels.getColumns("FilterCondition");
             $scope.Fcondition = $csModels.getColumns("Fcondition");
             $scope.showDiv = false;

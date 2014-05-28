@@ -66,14 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataGeneration\BillingSubpolicyDGC.cs" />
     <Compile Include="FileUploader\FileSchedulerTests.cs" />
-    <Compile Include="QueryExecutionTests\AndOrQueryTests.cs" />
-    <Compile Include="QueryExecutionTests\ConditionalQueryTests.cs" />
-    <Compile Include="QueryExecutionTests\FormulaTests.cs" />
-    <Compile Include="QueryExecutionTests\OutputQueryTests.cs" />
-    <Compile Include="DataGeneration\BillTokensDGC.cs" />
-    <Compile Include="QueryExecutionTests\SubpolicyTests.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

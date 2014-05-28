@@ -1,8 +1,8 @@
-﻿<div class="modal-content form-horizontal" data-ng-form="changeAllocationForm">
-    <div class="modal-header" style="text-align: center">
-        <div class="modal-title">Change Allocation</div>
+﻿<div class="form-horizontal" data-ng-form="changeAllocationForm">
+    <div class="panel panel-default">
+        <div class="panel-heading">Change Allocation</div>
     </div>
-    <div class="modal-body" style="text-align: left">
+    <div class="panel-body" style="text-align: left">
         <cs-form layout="5.4.8">
         <div class="row ">
                 <cs-field field="ViewApprovePolicy.Allocatetype" ng-required="true" data-ng-model="dldata.approveView.Param" 
@@ -82,7 +82,7 @@
             </tbody>
         </table>
     </div>
-    <div class="modal-footer well">
+    <div class="panel-footer">
         <button class="btn btn-info" data-ng-click="saveAllocationChanges(dldata.approveView.Param)"
             data-ng-disabled="((dldata.selectedAllocations.length === 0 )|| changeAllocationForm.$invalid)">
             Save</button>

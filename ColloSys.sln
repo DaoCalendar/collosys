@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularUI", "UserInterface\AngularUI.csproj", "{DDD31537-2BFC-40FE-8344-8D87BFEB998F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03A3E9F8-1E99-49A2-AE14-370E029E2AF0}"
@@ -64,6 +66,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderService", "FileUploaderService\FileUploaderService.csproj", "{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2", "BillingService2\BillingService2.csproj", "{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2.Test", "BillingService2.Test\BillingService2.Test.csproj", "{A4BFBB11-34B5-4EFA-B888-D39EF353953F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +202,12 @@ Global
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Testing|Any CPU.ActiveCfg = Release|Any CPU
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -222,5 +232,6 @@ Global
 		{B918CD29-F06C-426B-AFD6-ED92D230D30E} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 		{97C3BD67-1F87-4847-ACBE-0018367754CE} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 	EndGlobalSection
 EndGlobal

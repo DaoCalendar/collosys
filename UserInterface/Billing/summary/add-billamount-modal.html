@@ -1,32 +1,33 @@
-﻿<div class="modal-content" style="height: 350px; width: 900px">
-
-    <div class="modal-header">
-        Payout Details
-    </div>
-    <div class="modal-body">
-        <cs-form layout="6.4.8">
-            <form name="adhocPayoutform">
-                <div class="row">
+﻿<div>
+    <div class="panel panel-default" style="height: 350px; width: 900px">
+        <div class="panel-heading">
+            Payout Details
+        </div>
+        <div class="panel-body">
+            <cs-form layout="6.4.8">
+                <form name="adhocPayoutform">
+                    <div class="row">
                         <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
                         <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
                                   data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
-                </div>
+                    </div>
 
-                <div class="row">
+                    <div class="row">
                         <cs-field data-ng-model="adhocPayout.IsPretax" field="adhocPayoutbill.IsPretax"></cs-field>
                         <cs-field data-ng-model="adhocPayout.ReasonCode" field="adhocPayoutbill.ReasonCode"></cs-field>
-                </div>
-                <div class="row ">
+                    </div>
+                    <div class="row ">
                         <cs-field data-ng-model="adhocPayout.Description" field="adhocPayoutbill.Description"></cs-field>
-                </div>
-            </form>
-        </cs-form>
+                    </div>
+                </form>
+            </cs-form>
+        </div>
     </div>
-    <div class="modal-footer">
+    <div class="panel-footer text-right">
         <div class="text-right">
             <button class="btn btn-success"
-                data-ng-disabled="!(adhocPayoutform.$valid)"
-                data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false">
+                    data-ng-disabled="!(adhocPayoutform.$valid)"
+                    data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false">
                 Add
             </button>
             <button class="btn btn-success" data-ng-click="closeModal()">Close</button>

@@ -1,37 +1,37 @@
 ﻿<div>
     <form name="activateform">
-        <div class="modal-header">Active Holding Policy Details</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Active Holding Policy Details</div>
+            <div class="panel-body">
+                <cs-form layout="7.3.9" class="">
+                    <cs-field data-ng-model="active.Products" field="ActPolicy.Products"
+                              data-ng-change="pageData(active.Products)"></cs-field>
 
-
-        <div class="modal-body">
-            <cs-form layout="7.3.9" class="">
-                <cs-field data-ng-model="active.Products" field="ActPolicy.Products"
-                          data-ng-change="pageData(active.Products)"></cs-field>
-
-                <cs-field data-ng-model="active.HoldingPolicy" field="ActPolicy.HoldingPolicy"></cs-field>
+                    <cs-field data-ng-model="active.HoldingPolicy" field="ActPolicy.HoldingPolicy"></cs-field>
                        
-                <cs-field data-ng-model="active.Stakeholder" field="ActPolicy.Stakeholder"></cs-field>
+                    <cs-field data-ng-model="active.Stakeholder" field="ActPolicy.Stakeholder"></cs-field>
 
-                <cs-field data-ng-model="active.StartMonth" use-repeat="true" 
-                          field="ActPolicy.StartMonth"></cs-field>
-            </cs-form>
+                    <cs-field data-ng-model="active.StartMonth" use-repeat="true" 
+                              field="ActPolicy.StartMonth"></cs-field>
+                </cs-form>
+            </div>
         </div>
+        <div class="panel-footer text-right">
+            <cs-button type="save" ng-click="save(active)"
+                       ng-disabled="activateform.$invalid"></cs-button>
 
+            <cs-button type="reset" ng-click="reset()"></cs-button>
 
-        <div class="modal-footer">
-            <cs-button type="Add" text="Save" ng-click="save(active)"
-                ng-disabled="activateform.$invalid"></cs-button>
-
-            <cs-button type="Add" text="Reset" ng-click="reset()"></cs-button>
-
-            <cs-button type="Add" text="Close" ng-click="close()"></cs-button>
+            <cs-button type="close" text="Close" ng-click="close()"></cs-button>
         </div>
-
-
     </form>
+</div>
+
+
+
+
 
     <!--    <div data-ng-include="baseurl+'Billing/holdingactivate/holding-policy-activate-list.html'"></div>-->
-</div>
 
 
 <!--            <table class="table table-bordered">

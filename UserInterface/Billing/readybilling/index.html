@@ -1,19 +1,22 @@
 ﻿<div class="container form-horizontal" data-ng-controller="readyForBillingController">
     <form name="readyforbillingform">
-        <div class=" row panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">Ready For Billing</div>
-            <cs-form layout="4.3.8">
-                <cs-field data-ng-model="dldata.billing.Products" field="readyforbilling.Products"></cs-field>
-                <cs-field data-ng-model="dldata.billing.BillMonth" field="readyforbilling.BillMonth"
-                          data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)"></cs-field>
-            </cs-form>
+            <div class="panel-body">
+                <cs-form layout="4.3.8">
+                    <cs-field data-ng-model="dldata.billing.Products" field="readyforbilling.Products"></cs-field>
+                    <cs-field data-ng-model="dldata.billing.BillMonth" field="readyforbilling.BillMonth"
+                              data-ng-change="showGrid(dldata.billing.Products,dldata.billing.BillMonth)"></cs-field>
+                </cs-form>
+            </div>
+        </div>
+        <div class="text-right">
+            <span class="label-warning" data-ng-show="dldata.oldBillStatus!='null'">Billing for this product & month already created.</span>
+            <span class="label-warning" data-ng-show="dldata.pageData.length<1">There is no Billing data for this product & month</span>
+            <button class="btn btn-success" data-ng-disabled="dldata.oldBillStatus!='null' || dldata.pageData.length<1" data-ng-click="saveData(dldata.billing)">Ready For Billing</button>
         </div>
     </form>
-    <div class="row text-right">
-        <span class="label-warning" data-ng-show="dldata.oldBillStatus!='null'">Billing for this product & month already created.</span>
-        <span class="label-warning" data-ng-show="dldata.pageData.length<1">There is no Billing data for this product & month</span>
-        <button class="btn btn-success" data-ng-disabled="dldata.oldBillStatus!='null' || dldata.pageData.length<1" data-ng-click="saveData(dldata.billing)">Ready For Billing</button>
-    </div>
+    
     <div class="row">
         <table class="table table-bordered" data-ng-show="dldata.pageData.length>0">
             <thead>

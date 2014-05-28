@@ -173,33 +173,40 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
         };
 
         switch (type) {
-            case 'Submit':
-                templateParams.text = type || 'submit';
+            case 'submit':
+                //templateParams.type = 'submit';
                 templateParams.text = text || 'Submit';
                 break;
-            case 'Delete':
-                templateParams.className = 'btn-danger';
+            case 'delete':
+                //templateParams.className = 'btn-danger';
                 templateParams.text = text || 'Delete';
                 break;
-            case 'Save':
-                templateParams.className = 'btn-success';
+            case 'save':
+                //templateParams.className = 'btn-success';
                 templateParams.text = text || 'Save';
                 break;
-            case 'Add':
-                templateParams.className = 'btn-default';
+            case 'reset':
+                templateParams.text = text || 'Reset';
+                break;
+            case 'close':
+                templateParams.text = text || 'Close';
+                break;
+            case 'add':
                 templateParams.text = text || 'Add';
                 break;
-            case 'Edit':
-                templateParams.className = 'btn-default';
+            case 'fetch':
+                templateParams.text = text || 'Fetch data';
+                break;
+            case 'edit':
                 templateParams.text = text || 'Edit';
                 break;
-            case 'View':
-                templateParams.className = 'btn-default';
+            case 'view':
                 templateParams.text = text || 'View';
                 break;
             default:
                 $log.error('invalid button type: ' + type);
         }
+
         return templateParams;
     };
 
@@ -626,7 +633,8 @@ csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
-        template += '<a class="list-group-item alert-default">' + attrs.listHeading + ' </a>';
+        template += '<div class="panel panel-default">';
+        template += '<div class="panel-heading">' + attrs.listHeading + ' </div>';
         template += '<ul class="list-group">';
         template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
         template += ' ng-click="onClick(row, $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
@@ -634,6 +642,7 @@ csapp.directive('csList', function () {
         template += angular.isDefined(attrs.ngClass) ? attrs.ngClass : ' ng-class="{active : isSelected($index) }"';
         template += ' value="row">{{row.' + attrs.textField + '}}</li>';
         template += '</ul>';
+        template += '</div>';
         template += '</div>';
         return template;
     };

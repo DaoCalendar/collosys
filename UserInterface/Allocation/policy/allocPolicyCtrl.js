@@ -44,7 +44,7 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
                 $scope.closeModel();
             });
         };
-        
+
         $scope.closeModel = function () {
             $modalInstance.close();
             $scope.modalData = {
@@ -73,7 +73,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.setButtonStatus = function (policy) {
-           if (policy.type === "") {
+            if (policy.type === "") {
                 $scope.dldata.buttonStatus = 'Draft';
             }
             if (policy.type === 'Approved') {
@@ -146,7 +146,7 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             openModal($scope.modalData);
         };
 
-        $scope.setDisplaySubpolicy = function (subpolicy, relation) {
+        $scope.setDisplaySubpolicy = function (subpolicy, relation, index) {
             if (angular.isUndefined(relation)) {
                 $scope.allocRelation = subpolicy;
             } else {
@@ -154,7 +154,31 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             }
 
             $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
-            // $scope.dldata.selectedPolicy = subpolicy;
+
+            var isinlist = _.find($scope.dldata.ApproveUnapp, function (item) {
+                if (item.allocRelation.Id === relation.Id) {
+                    $scope.direction = {
+                        up: false,
+                        down: false
+                    };
+                    return item;
+                }
+
+            });
+            if (angular.isUndefined(isinlist)) {
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            } else {
+                if (index === 0) {
+                    $scope.direction.up = true;
+                }
+                var maxindex = ($scope.dldata.ApproveUnapp.length) - 1;
+                if (maxindex === index) {
+                    $scope.direction.down = true;
+                }
+            }
         };
 
         $scope.approve = function (policy) {
@@ -186,6 +210,10 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
                 subPolicyIndex: -1,
                 forActivate: true
             };
+            $scope.direction = {
+                up: true,
+                down: true
+            };
             $scope.dldata.buttonStatus = "";
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
         })();
@@ -193,28 +221,43 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         $scope.changeProductCategory = function () {
             datalayer.resetList();
             datalayer.changeProductCategory();
-           // $scope.dldata.buttonStatus = "";
         };
 
-        $scope.frelation = function (relation, todayActive, status) {
-            var today = moment();
-            // var startDate = moment(relation.StartDate);
-            var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
-            var diff = endDate.diff(today, 'days');
-            var dateFilter = ((diff >= 0) === todayActive);
-            var statusfilter = true;
-            if (status != '') {
-                statusfilter = relation.Status == status;
-            }
-            return (dateFilter && statusfilter);
-        };
+        $scope.moveUp = function (policy) {
+            //var test = [];
+            //_.forEach($scope.dldata.ApproveUnapp, function (item) {
+            //    _.forEach($scope.dldata.allocPolicy.AllocRelations, function (rel) {
+            //        if (angular.isDefined(rel)) {
+            //            if (item.allocRelation.Id === rel.Id) {
+            //                $scope.dldata.allocPolicy.AllocRelations.splice($scope.dldata.allocPolicy.AllocRelations.indexOf(rel), 1);
+            //                test.push(rel);
+            //            }
+            //        }
 
+            //    });
+            //});
+
+            //var relations = _.sortBy(test, 'Priority');
+            //console.log(relations);
+            //var index = relations.indexOf(policy.allocRelation);
+            //var tempPriority = relations[index].Priority;
+            //relations[index].Priority = relations[index - 1].Priority;
+            //relations[index - 1].Priority = tempPriority;
+            //_.forEach(relations, function (item) {
+            //    $scope.dldata.allocPolicy.AllocRelations.push(item);
+            //});
+            //datalayer.saveAllocPolicy($scope.dldata.allocPolicy);
+        };
+        $scope.moveDown = function () {
+
+        };
     }]);
 
 csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
     function (rest, $csnotify, $csfactory) {
 
         var dldata = {};
+        var api = rest.all('AllocationPolicyApi');
 
         dldata.expiredPolicyList = [];
         dldata.expiredPolicyUniqList = [];
@@ -231,9 +274,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             subpolicy: {}
         };
         dldata.buttonStatus = "";
-        var api = rest.all('AllocationPolicyApi');
-
-        var getProducts = function () {
+       var getProducts = function () {
             dldata.productsList = [];
             api.customGET("GetProducts").then(function (data) {
                 dldata.productsList = data;
@@ -311,7 +352,6 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
 
         var frelation = function (relation, todayActive, status) {
             var today = moment();
-            // var startDate = moment(relation.StartDate);
             var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
             var diff = endDate.diff(today, 'days');
             var dateFilter = ((diff >= 0) === todayActive);
@@ -400,19 +440,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
 
 csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer) {
 
-    var setStatus = function (status) {
-        if (status === 'Rejected') {
-            datalayer.dldata.color = { color: 'red' };
-        }
-        if (status === 'Approved') {
-            datalayer.dldata.color = { color: 'green' };
-        }
-        if (status === 'Submitted') {
-            datalayer.dldata.color = { color: 'blue' };
-        }
-        return status;
-    };
-
+    
     var getDisplaySubPolicy = function (subPolicy) {
         var displaySubPolicy = {};
         displaySubPolicy.Name = subPolicy.Name;
@@ -436,20 +464,19 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         return conditionString;
     };
 
-    var filterRelation = function (todayActive, status) {
-        return function (relation) {
-            var today = moment();
-            // var startDate = moment(relation.StartDate);
-            var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
-            var diff = endDate.diff(today, 'days');
-            var dateFilter = ((diff >= 0) === todayActive);
-            var statusfilter = true;
-            if (status != '') {
-                statusfilter = relation.Status == status;
-            }
-            return (dateFilter && statusfilter);
-        };
-    };
+    //var filterRelation = function (todayActive, status) {
+    //    return function (relation) {
+    //        var today = moment();
+    //        var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
+    //        var diff = endDate.diff(today, 'days');
+    //        var dateFilter = ((diff >= 0) === todayActive);
+    //        var statusfilter = true;
+    //        if (status != '') {
+    //            statusfilter = relation.Status == status;
+    //        }
+    //        return (dateFilter && statusfilter);
+    //    };
+    //};
 
     var expiredPolicyStatus = function (policy) {
         var status = setStatus(policy);
@@ -463,39 +490,62 @@ csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer
         return ((today <= endDate) === todayActive);
     };
 
-    var upside = function (subPolicy, index) {
-        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
-            return (subpolicy.Status == 'Approved');
-        });
-        var relations = _.sortBy(test, 'Priority');
-        var tempPriority = relations[index].Priority;
-        relations[index].Priority = relations[index - 1].Priority;
-        relations[index - 1].Priority = tempPriority;
-        datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy);
-    };
+    //var upside = function (subPolicy, index) {
+    //    var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+    //        return (subpolicy.Status == 'Approved');
+    //    });
+    //    var relations = _.sortBy(test, 'Priority');
+    //    var tempPriority = relations[index].Priority;
+    //    relations[index].Priority = relations[index - 1].Priority;
+    //    relations[index - 1].Priority = tempPriority;
+    //    datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy);
+    //};
 
-    var downside = function (subPolicy, index) {
-        var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
-            return (subpolicy.Status == 'Approved');
-        });
-        var relations = _.sortBy(test, 'Priority');
+    //var downside = function (subPolicy, index) {
+    //    var test = _.filter(datalayer.dldata.allocPolicy.AllocRelations, function (subpolicy) {
+    //        return (subpolicy.Status == 'Approved');
+    //    });
+    //    var relations = _.sortBy(test, 'Priority');
 
-        var tempPriority = relations[index].Priority;
-        relations[index].Priority = relations[index + 1].Priority;
-        relations[index + 1].Priority = tempPriority;
-        datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy);
-    };
+    //    var tempPriority = relations[index].Priority;
+    //    relations[index].Priority = relations[index + 1].Priority;
+    //    relations[index + 1].Priority = tempPriority;
+    //    datalayer.saveAllocPolicy(datalayer.dldata.allocPolicy);
+    //};
 
 
 
     return {
-        setStatus: setStatus,
         getDisplaySubPolicy: getDisplaySubPolicy,
-        filterRelation: filterRelation,
+        //filterRelation: filterRelation,
         expiredPolicyStatus: expiredPolicyStatus,
         relationValidToday: relationValidToday,
-        upside: upside,
-        downside: downside
+        //upside: upside,
+        //downside: downside
     };
 }]);
 
+//$scope.frelation = function (relation, todayActive, status) {
+//    var today = moment();
+//    // var startDate = moment(relation.StartDate);
+//    var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
+//    var diff = endDate.diff(today, 'days');
+//    var dateFilter = ((diff >= 0) === todayActive);
+//    var statusfilter = true;
+//    if (status != '') {
+//        statusfilter = relation.Status == status;
+//    }
+//    return (dateFilter && statusfilter);
+//};
+//var setStatus = function (status) {
+//    if (status === 'Rejected') {
+//        datalayer.dldata.color = { color: 'red' };
+//    }
+//    if (status === 'Approved') {
+//        datalayer.dldata.color = { color: 'green' };
+//    }
+//    if (status === 'Submitted') {
+//        datalayer.dldata.color = { color: 'blue' };
+//    }
+//    return status;
+//};

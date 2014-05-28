@@ -1,46 +1,52 @@
 ﻿<!--model for edit single stakeholder-->
-<div class="modal-header">
-    Reject List
-</div>
-<div class="modal-body">
-    <div class="row container col-md-12" style="overflow: auto">
-        <table class="table table-bordered">
-            <thead class="alert-info">
-                <tr>
-                    <td>Name</td>
-                    <td>Email ID</td>
-                    <td>Date of Joining</td>
-                    <!--<td>Date of Birth</td>-->
-                    <td>User Id</td>
-                    <td>Mobile Number</td>
-                    <!--<td>Gender</td>-->
-                    <td>Reporting Manager</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-ng-repeat="data in modalData.chosenStakeholders">
-                    <td>{{data.Name}}</td>
-                    <td>{{data.EmailId}}</td>
-                    <td>{{data.JoiningDate|date:dd-MM-yyyy}}</td>
-                    <!--<td>{{data.BirthDate|date:dd-MM-yyyy}}</td>-->
-                    <td>{{data.ExternalId}}</td>
-                    <td>{{data.MobileNo}}</td>
-                    <!--<td>{{data.Gender}}</td>-->
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <div class="form-group">
-            <label class="control-label">Reject Description</label>
-            <div class="controls">
-                <input type="text" data-ng-model="description" name="Description" data-ng-required="true">
+<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Reject List
+        </div>
+        <div class="panel-body">
+            <div class="row container col-md-12" style="overflow: auto">
+                <table class="table table-bordered">
+                    <thead class="alert-info">
+                        <tr>
+                            <td>Name</td>
+                            <td>Email ID</td>
+                            <td>Date of Joining</td>
+                            <!--<td>Date of Birth</td>-->
+                            <td>User Id</td>
+                            <td>Mobile Number</td>
+                            <!--<td>Gender</td>-->
+                            <td>Reporting Manager</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="data in modalData.chosenStakeholders">
+                            <td>{{data.Name}}</td>
+                            <td>{{data.EmailId}}</td>
+                            <td>{{data.JoiningDate|date:dd-MM-yyyy}}</td>
+                            <!--<td>{{data.BirthDate|date:dd-MM-yyyy}}</td>-->
+                            <td>{{data.ExternalId}}</td>
+                            <td>{{data.MobileNo}}</td>
+                            <!--<td>{{data.Gender}}</td>-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label">Reject Description</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="description" name="Description" data-ng-required="true">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="panel-footer text-right">
+        <button class="btn btn-default" data-dismiss="modal" data-ng-click="closeModel()">Close</button>
+        <button class="btn btn-success" data-ng-disabled="!description" data-ng-click="rejectedSelected(description)">Reject</button>
+    </div>
 </div>
-<div class="modal-footer">
-    <button class="btn btn-default" data-dismiss="modal" data-ng-click="closeModel()">Close</button>
-    <button class="btn btn-success" data-ng-disabled="!description" data-ng-click="rejectedSelected(description)">Reject</button>
-</div>
+
+
 

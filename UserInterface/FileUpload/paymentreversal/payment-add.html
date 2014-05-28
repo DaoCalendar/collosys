@@ -1,7 +1,6 @@
-﻿<div data-ng-form="addpaymentform" class="form-horizontal">
-    <div class="modal-header">
-        <strong>Add-Payment Screen</strong>
-    </div>
+﻿<div data-ng-form="addpaymentform">
+  
+    <div class="modal-header">Add-Payment Screen</div>
 
     <div class="modal-body">
         <cs-form layout="9.4.8">
@@ -25,14 +24,16 @@
 
             <cs-field data-ng-model="addpayment.IsDebit" field="addpaymentModel.IsDebit"></cs-field>
         </cs-form>
-
-        <div class="modal-footer">
-            <button class="btn btn-info" data-ng-click="reset()">Reset</button>
-            <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
-            <button class="btn btn-warning" data-ng-click="close()">Close</button>
-        </div>
+    </div> 
+    
+    <div class="modal-footer">
+        <button class="btn btn-info" data-ng-click="reset()">Reset</button>
+        <button class="btn btn-success" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)">Save</button>
+        <button class="btn btn-warning" data-ng-click="close()">Close</button>
     </div>
 </div>
+
+
 
 
 

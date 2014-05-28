@@ -8,7 +8,6 @@ using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.DataGeneration;
 using ColloSys.QueryBuilder.Test.QueryExecution;
-using NHibernate.Criterion;
 using NUnit.Framework;
 
 #endregion
@@ -317,7 +316,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         #endregion
 
         #region date type tests
-
+        //TODO:Add for Today, Tomorrow
         [Test]
         public void Greater_Than_Date_Test()
         {
@@ -435,20 +434,6 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
 
         #endregion
 
-        [Test]
-        public void MultipleAnd_ConditionTest()
-        {
-            // condition : City = "Pune" &&  CityCategory = "Tier1" && Flag = "O" && Product = "PL"
-            var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1
-                                && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL).ToList();
-
-            var tokens = _testingBillTokens.City_CityCategory_Flag_Product_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
-            var result = tokenBuilder.ExeculteOnList(_dataList);
-
-            Assert.AreEqual(result.Count, actual.Count);
-
-        }
+        
     }
 }

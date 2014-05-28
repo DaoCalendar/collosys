@@ -6,9 +6,9 @@
                     <label class="col-md-4" style="padding-right: 60px">Aliase Name</label>
                     <div class="col-md-8">
                         <select class="form-control"
-                            data-ng-model="filterCondition.FileDetail"
-                            data-ng-change="getColumnValues(filterCondition.FileDetail)"
-                            required data-ui-select2="">
+                                data-ng-model="filterCondition.FileDetail"
+                                data-ng-change="getColumnValues(filterCondition.FileDetail)"
+                                required data-ui-select2="">
                             <option value=""></option>
                             <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
                         </select>
@@ -17,23 +17,17 @@
 
                 <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
                     <button class="btn alert-info"
-                        data-ng-click="addAliseCondition(filterCondition.FileDetail)">
+                            data-ng-click="addAliseCondition(filterCondition.FileDetail)">
                         Add AliseCondition
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div>
         <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
-            <div class="box-sub">
-                <div class="box-heading">AliseCondition list</div>
-                <div class="box-body">
-                    <div class="sub-name" data-ng-repeat="data in AliseConditionList">
-                        <a class="btn-link" data-ng-click="selectFilterCondition(data)">{{data.AliasConditionName}}</a>
-                    </div>
-                </div>
-            </div>
+            <cs-list list-heading="AliseCondition list" value-list="AliseConditionList" text-field="Name"
+                     data-ng-model="data" on-click="selectFilterCondition(data)"></cs-list>
         </div>
         <div class="col-md-9" data-ng-show="showDiv">
             <div class="form-horizontal" data-ng-form="filterConditionform">
@@ -84,7 +78,7 @@
                                                 </div>
                                                 <div data-ng-switch-when="Date">
                                                     <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value"
-                                                        data-date-format="dd-mm-yyyy" bs-datepicker required />
+                                                           data-date-format="dd-mm-yyyy" bs-datepicker required />
                                                 </div>
                                             </div>
                                         </td>
@@ -117,12 +111,21 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer text-right">
-                <button class="btn btn-success" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)">Save</button>
-                <button class="btn btn-warning" data-ng-click="reset()">Reset</button>
-            </div>
         </div>
-
     </div>
-
+    <div class="text-right">
+        <button class="btn btn-success" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)">Save</button>
+        <button class="btn btn-warning" data-ng-click="reset()">Reset</button>
+    </div>
 </div>
+
+
+
+<!--<div class="box-sub">
+                    <div class="box-heading">AliseCondition list</div>
+                    <div class="box-body">
+                        <div class="sub-name" data-ng-repeat="data in AliseConditionList">
+                            <a class="btn-link" data-ng-click="selectFilterCondition(data)">{{data.AliasConditionName}}</a>
+                        </div>
+                    </div>
+                </div>-->

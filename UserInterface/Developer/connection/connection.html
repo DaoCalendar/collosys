@@ -6,7 +6,7 @@
                     <tr>
                         <th>
                             <div class="btn-group">
-                                <i class="btn glyphicon glyphicon-plus" data-ng-click="showModelAdd()"></i>
+                                <icon-btn type="add" data-ng-click="showModelAdd()"></icon-btn>
                             </div>
                         </th>
                         <th>Name</th>
@@ -38,17 +38,18 @@
     </div>
     
     <div class="row">
-         <div modal="showModel" close="closeModel()" options="modelOption">
-                <div class="row">
-                    <div class="text-right text-danger">
-                        * Mandatory fields
-                    </div>
+        <div modal="showModel" close="closeModel()" options="modelOption">
+            <div class="row">
+                <div class="text-right text-danger">
+                    * Mandatory fields
                 </div>
-                <div class="modal-body" ng-form="formConnection">
-                    <!--row for multiaddress edit -->
-                    <div class="row form-horizontal">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">ConnectionString Details</div>
+            </div>
+            <div class="modal-body" ng-form="formConnection">
+                <!--row for multiaddress edit -->
+                <div class="row form-horizontal">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">ConnectionString Details</div>
+                        <div class="panel-body">
                             <div class="row" ng-form="formConnection" >
                                 <div class="form-group">
                                     <label class="control-label">Name</label>
@@ -108,20 +109,20 @@
                                         <input type="password" required ui-validate=" '$value == Pass' "   ng-model="ConnectionStringData.Password" />
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        
-                    </div>
-                </div>
-                <div class="modal-footer well">
-                    <div class="row text-left">
-                        <input type="button"  value="Save" ng-disabled="!formConnection.$valid" ng-click="save()" class="btn btn-success"/>
-                        <input type="button" value="Cancel" ng-click="closeModel()" class="btn btn-info"/>
                     </div>
                 </div>
             </div>
+            <div class="text-left">
+                <input type="button"  value="Save" ng-disabled="!formConnection.$valid" ng-click="save()" class="btn btn-success"/>
+                <input type="button" value="Cancel" ng-click="closeModel()" class="btn btn-info"/>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
 
 

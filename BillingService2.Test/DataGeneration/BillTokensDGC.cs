@@ -1,11 +1,10 @@
 ﻿#region references
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using NHibernate.Proxy;
 
 #endregion
 
@@ -235,6 +234,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         #endregion
 
         #region date
+
         public IList<BillTokens> GreaterThan_Date_Tokens()
         {
             var query = new List<BillTokens>
@@ -319,28 +319,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             return query;
         }
 
-        public IList<BillTokens> SumOfTwoTokens()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"}
-            };
-            return query;
-        }
-
-        public IList<BillTokens> SumOfTwoTokensReverse()
-        {
-            var query = new List<BillTokens>
-            {
-                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number"},
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number"}
-            };
-            return query;
-        }
-
         public IList<BillTokens> CityCategoryIsIn_Tokens()
         {
             var query = new List<BillTokens>
@@ -383,43 +361,165 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
 
         #region Output Tokens
 
-        // dataList.ForEach(x => x.TotalDueOnAllocation = (x.TotalAmountRecovered * (decimal)0.02))s
-        public IList<BillTokens> TotalAmountRecoveredMultiPlay2Per_Tokens()
+        public IList<BillTokens> Field_Plus_Value_Tokens()
         {
             var query = new List<BillTokens>
             {
-                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 0,DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "Arithmetic"},
-                new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number"}
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupType = "Output"}
             };
             return query;
         }
 
-
-        // dataList.ForEach(x => x.ResolutionPercentage = (x.TotalAmountRecovered / x.ResolutionPercentage))
-        public IList<BillTokens> TotalAmountRecoveredDivideResolutionPercentage_Tokens()
+        public IList<BillTokens> Value_Plus_Field_Tokens()
         {
             var query = new List<BillTokens>
             {
-                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 0,DataType = "number"},
-                new BillTokens {Type = "Operator", Value = "Divide", Priority = 1, DataType = "Arithmetic"},
-                new BillTokens {Type = "Value", Value = "CustBillViewModel.ResolutionPercentage", Priority = 1, DataType = "number"}
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 0, DataType = "number",GroupType = "Output"}
             };
             return query;
         }
 
+        public IList<BillTokens> Field_Multiply_By_Value_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "0.02", Priority = 1, DataType = "number",GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Value_Multiply_By_Field_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Value", Value = "0.02", Priority = 0, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 2,DataType = "number",GroupType = "Output"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Divide_By_Value_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Divide", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 1, DataType = "number",GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Value_Divide_By_Field_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Value", Value = "2000", Priority = 0, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Divide", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 2,DataType = "number",GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Minus_Value_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Minus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "100", Priority = 1, DataType = "number",GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Value_Minus_Field_Tokens()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Value", Value = "100", Priority = 0, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Minus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 2,DataType = "number",GroupType = "Output"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Plus_Field_Multiply_By_Value_Tokens()
+        {
+            // TotalDueOnAllocation + TotalAmountRecovered * 2
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 2,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 3, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 4, DataType = "number",GroupType = "Output"}
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Multiply_By_Value_Plus_Field()
+        {
+            //TotalDueOnAllocation * 2 + TotalAmountRecovered 
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 2, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Plus", Priority = 3, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 4,DataType = "number",GroupType = "Output"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Multiply_By_Field_Divided_By_Value()
+        {
+            //TotalDueOnAllocation * TotalAmountRecovered / 2
+
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalAmountRecovered",Priority = 2,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Divide", Priority = 3, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 4, DataType = "number",GroupType = "Output"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Field_Minus_Value_Multiply_By_Value()
+        {
+            //TotalDueOnAllocation - 100 * 2
+            var query = new List<BillTokens>
+            {
+                new BillTokens{Type = "Table",Value = "CustBillViewModel.TotalDueOnAllocation",Priority = 0,DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Minus", Priority = 1, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "100", Priority = 2, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Operator", Value = "Multiply", Priority = 3, DataType = "number",GroupType = "Output"},
+                new BillTokens {Type = "Value", Value = "2", Priority = 4, DataType = "number",GroupType = "Output"},
+            };
+            return query;
+        }
+
+        #endregion
 
         public List<CustBillViewModel> GenerateData()
         {
             var list = new List<CustBillViewModel>();
             for (int i = 0; i < 5; i++)
             {
+                var j = i + 1;
                 list.Add(new CustBillViewModel
                 {
                     Cycle = (uint)i,
                     Bucket = (uint)i,
-                    TotalAmountRecovered = i * 10000,
-                    TotalDueOnAllocation = i * 15000,
+                    TotalAmountRecovered = j * 10000,
+                    TotalDueOnAllocation = j * 15000,
                     Product = ScbEnums.Products.PL,
                     CityCategory = ColloSysEnums.CityCategory.Tier1,
                     City = "pune",
@@ -427,6 +527,210 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
                 });
             }
             return list;
+        }
+
+        #region AndOr
+
+        private IEnumerable<BillTokens> Product_EqualTo_PL()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> Cycle_GreaterThan_2()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 4, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 5, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 6, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> TotalDue_LessThan_7000()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalDueOnAllocation", Priority = 8, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 9, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "7000", Priority = 10, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> TotalAmount_GreaterThan_1000()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 12, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 13, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "7000", Priority = 14, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> And_Token(int priority)
+        {
+            var query = new List<BillTokens>
+            {
+               new BillTokens {Type = "Operator", Value = "And", Priority = priority, DataType = "relational", GroupId = 0,GroupType = "Condition"},
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> Or_Token(int priority)
+        {
+            var query = new List<BillTokens>
+            {
+               new BillTokens {Type = "Operator", Value = "Or", Priority = priority, DataType = "relational", GroupId = 0,GroupType = "Condition"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Or_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2 Or TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_And_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_And_Condition()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(And_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_Or_Condition()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Or_Condition_And_Condition()
+        {
+            //Product=PL And Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(And_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_Or_Condition()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_And_Condition_Or_Condition()
+        {
+            //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_And_Condition()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+               .Concat(Or_Token(3))
+               .Concat(Cycle_GreaterThan_2())
+               .Concat(Or_Token(7))
+               .Concat(TotalDue_LessThan_7000())
+               .Concat(And_Token(11))
+               .Concat(TotalAmount_GreaterThan_1000())
+               .ToList();
         }
 
         #endregion
@@ -546,5 +850,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         }
         #endregion
 
+        
     }
 }

@@ -4,24 +4,24 @@
     </div>
     <div class="panel-body">
         <cs-form layout="4.4.8">
-        <form class="form-horizontal">
-            <div class="row">
+            <form class="form-horizontal">
+                <div class="row">
               
                     <cs-field data-ng-model="dldata.BillAmount.Product" field="adhocPayoutbill.Product"
                               data-ng-change="datalayer.getStakeholders(dldata.BillAmount.Product)">></cs-field>
              
 
-                <div data-ng-show="dldata.BillAmount.Product" >
-                    <cs-field class="input-large" data-ng-model="dldata.BillAmount.Stakeholder" field="adhocPayoutbill.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
+                    <div data-ng-show="dldata.BillAmount.Product" >
+                        <cs-field class="input-large" data-ng-model="dldata.BillAmount.Stakeholder" field="adhocPayoutbill.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
+                    </div>
+                    <span data-ng-show="dldata.BillAmount.Stakeholder">
+                        <cs-field data-ng-model="dldata.BillAmount.Month" field="adhocPayoutbill.Month"
+                                  data-ng-change="getBillingData(dldata.BillAmount)"></cs-field>
+                    </span>
                 </div>
-                <span data-ng-show="dldata.BillAmount.Stakeholder">
-                    <cs-field data-ng-model="dldata.BillAmount.Month" field="adhocPayoutbill.Month"
-                              data-ng-change="getBillingData(dldata.BillAmount)"></cs-field>
-                </span>
-            </div>
 
-            <hr />
-            <div class="row">
+                <hr />
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.FixedAmount" field="adhocPayoutbill.FixedAmount"
                               data-ng-disabled="true"></cs-field>
 
@@ -32,15 +32,15 @@
                             class="btn btn-link">
                         View Subpolicy Amounts
                     </button>
-            </div>
-            <div class="row">
+                </div>
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.StartDate" field="adhocPayoutbill.StartDate"
                               data-ng-disabled="true"></cs-field>
 
                     <cs-field data-ng-model="dldata.billingData.EndDate " field="adhocPayoutbill.EndDate"
                               data-ng-disabled="true"></cs-field>
-            </div>
-            <div class="row">
+                </div>
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.Deductions" field="adhocPayoutbill.DeductionIncentive" data-ng-disabled="true"></cs-field>
                     <button data-ng-disabled="factory.enableLink()"
                             data-ng-click="factory.getDetailData('Adhoc');openViewModal()"
@@ -52,16 +52,16 @@
                             class="btn btn-link">
                         Add Adhoc Deduction
                     </button>
-            </div>
+                </div>
 
-            <hr />
-            <div class="row">
+                <hr />
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.TaxAmount"
                               field="adhocPayoutbill.TaxAmount"
                               data-ng-disabled="true"></cs-field>
-            </div>
+                </div>
 
-            <div class="row">
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.HoldAmount"
                               field="adhocPayoutbill.HoldAmount"
                               data-ng-disabled="true"></cs-field>
@@ -70,40 +70,41 @@
                               field="adhocPayoutbill.HoldRepayment"
                               data-ng-disabled="true"></cs-field>
 
-            </div>
+                </div>
 
-            <div class="row">
+                <div class="row">
                     <cs-field data-ng-model="dldata.billingData.TotalAmount"
                               field="adhocPayoutbill.TotalAmount"
                               data-ng-disabled="true"></cs-field>
-            </div>
+                </div>
 
-            <div class="row text-center">
-                <span data-ng-show="(dldata.BillAmount.Month)">
+                <div class="row text-center">
+                    <span data-ng-show="(dldata.BillAmount.Month)">
+                        <button class="btn btn-success"
+                                data-ng-show="!factory.enableLink()"
+                                data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
+                                data-ng-disabled="dldata.billingData.Status==='Approved'">
+                            Approve
+                        </button>
+                    </span>
+
+
                     <button class="btn btn-success"
-                            data-ng-show="!factory.enableLink()"
-                            data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
-                            data-ng-disabled="dldata.billingData.Status==='Approved'">
-                        Approve
+                            data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Pay')"
+                            data-ng-show="dldata.billingData.Status==='Approved'"
+                            data-ng-disabled="dldata.billingData.PayStatus =='Paid'">
+                        Paid
                     </button>
-                </span>
-
-
-                <button class="btn btn-success"
-                        data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Pay')"
-                        data-ng-show="dldata.billingData.Status==='Approved'"
-                        data-ng-disabled="dldata.billingData.PayStatus =='Paid'">
-                    Paid
-                </button>
-                <span data-ng-show="(dldata.BillAmount.Month)">
-                    <button class="btn btn-success"
-                            data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
-                        Download Excel
-                    </button>
-                </span>
-                <div></div>
-            </div>
-        </form>
-    </cs-form>
+                    <span data-ng-show="(dldata.BillAmount.Month)">
+                        <button class="btn btn-success"
+                                data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
+                            Download Excel
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </cs-form>
     </div>
 </div>
+
+
