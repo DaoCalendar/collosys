@@ -1,6 +1,7 @@
 ﻿#region references
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -528,7 +529,211 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             return list;
         }
 
-        
+        #region AndOr
+
+        private IEnumerable<BillTokens> Product_EqualTo_PL()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> Cycle_GreaterThan_2()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 4, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 5, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "0", Priority = 6, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> TotalDue_LessThan_7000()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalDueOnAllocation", Priority = 8, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "LessThan", Priority = 9, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "7000", Priority = 10, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> TotalAmount_GreaterThan_1000()
+        {
+            var query = new List<BillTokens>
+            {
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 12, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 13, DataType = "conditional", GroupType = "Condition"},
+                new BillTokens {Type = "Value", Value = "7000", Priority = 14, DataType = "number", GroupType = "Condition"}
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> And_Token(int priority)
+        {
+            var query = new List<BillTokens>
+            {
+               new BillTokens {Type = "Operator", Value = "And", Priority = priority, DataType = "relational", GroupId = 0,GroupType = "Condition"},
+            };
+            return query;
+        }
+
+        private IEnumerable<BillTokens> Or_Token(int priority)
+        {
+            var query = new List<BillTokens>
+            {
+               new BillTokens {Type = "Operator", Value = "Or", Priority = priority, DataType = "relational", GroupId = 0,GroupType = "Condition"},
+            };
+            return query;
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Or_Condition_Tokens()
+        {
+            //Product=PL And Cycle>2 Or TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_And_Condition_Tokens()
+        {
+            //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_And_Condition()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(And_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_Or_Condition()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_Or_Condition_And_Condition()
+        {
+            //Product=PL And Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(Or_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(And_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_And_Condition_And_Condition_Or_Condition()
+        {
+            //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(And_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_And_Condition_Or_Condition()
+        {
+            //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+                .Concat(Or_Token(3))
+                .Concat(Cycle_GreaterThan_2())
+                .Concat(And_Token(7))
+                .Concat(TotalDue_LessThan_7000())
+                .Concat(Or_Token(11))
+                .Concat(TotalAmount_GreaterThan_1000())
+                .ToList();
+        }
+
+        public IList<BillTokens> Condition_Or_Condition_Or_Condition_And_Condition()
+        {
+            //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
+            return Product_EqualTo_PL()
+               .Concat(Or_Token(3))
+               .Concat(Cycle_GreaterThan_2())
+               .Concat(Or_Token(7))
+               .Concat(TotalDue_LessThan_7000())
+               .Concat(And_Token(11))
+               .Concat(TotalAmount_GreaterThan_1000())
+               .ToList();
+        }
+
+        #endregion
 
 
         #region Bill Subpolicy
@@ -645,6 +850,6 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         }
         #endregion
 
-       
+        
     }
 }
