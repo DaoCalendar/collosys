@@ -1,22 +1,23 @@
 ﻿<div>
-    <div class="form-horizontal" data-ng-form="allocpolicyDateRangeForm">
-        <div class="modal-header well" style="text-align: center">
+    <div class="panel panel-default" data-ng-form="allocpolicyDateRangeForm">
+        <div class="panel-heading" style="text-align: center">
             <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
         </div>
-        <div class="modal-body" style="margin-bottom: 7px">
+        <div class="panel-body" style="margin-bottom: 7px">
             <cs-form layout="8.4.8">
-            <div class="row">
-                    <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
-                              data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
-                    <cs-field field="allocmodalData.enddate" data-ng-model="modalData.endDate"
-                              data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
-                <div class="col-md-12 text-right">
-                    <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
-                    <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
-                    <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
-                </div>
-            </div>
-           </cs-form>
+           
+                <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
+                          data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
+                <cs-field field="allocmodalData.enddate" data-ng-model="modalData.endDate"
+                          data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
+            </cs-form>
+        </div>
+
+        <div class="panel-footer text-right">
+            <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
+            <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
+            <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
         </div>
     </div>
 </div>
+

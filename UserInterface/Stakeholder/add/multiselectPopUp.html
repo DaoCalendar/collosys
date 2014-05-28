@@ -1,27 +1,31 @@
-﻿<div class="modal-header">
-    <strong>Select</strong>
-</div>
-<div class="modal-body">
-    Search:
-                            <input type="text" data-ng-model="search"><br>
-    <div>
-        <input type="checkbox"
-            data-ng-model="selAll"
-            data-ng-checked="modalData.array.length===checkLength(modalData.LocationLevel)"
-            data-ng-click="selectAll(selAll)">
-        SELECT ALL
+﻿<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Select</strong>
+        </div>
+        <div class="panel-body">
+            Search:
+            <input type="text" data-ng-model="search"><br>
+                                                      <div>
+                                                          <input type="checkbox"
+                                                                 data-ng-model="selAll"
+                                                                 data-ng-checked="modalData.array.length===checkLength(modalData.LocationLevel)"
+                                                                 data-ng-click="selectAll(selAll)">
+                                                          SELECT ALL
+                                                      </div>
+                                                      <br>
+                                                      <div data-ng-repeat="data in modalData.array|orderBy|filter:search">
+                                                          <input type="checkbox" data-ng-model="selected"
+                                                                 data-ng-checked="ticks(data)"
+                                                                 data-ng-click="chooseMultiple(data,selected,modalData.LocationLevel)" />
+                                                          {{data}}
+                                                      </div>
+        </div>
     </div>
-    <br>
-    <div data-ng-repeat="data in modalData.array|orderBy|filter:search">
-        <input type="checkbox" data-ng-model="selected"
-            data-ng-checked="ticks(data)"
-            data-ng-click="chooseMultiple(data,selected,modalData.LocationLevel)" />
-        {{data}}
-    </div>
-</div>
-<div class="modal-footer">
-    <div class="row form-horizontal text-right">
+    <div class="text-right">
         <button class="btn btn-primary" data-ng-click="multipleModalOk(modalData.LocationLevel)">Ok</button>
         <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
     </div>
 </div>
+
+

@@ -2,38 +2,41 @@
     <!--    <div data-ng-include="baseUrl + 'Generic/taxlist/taxlist-list.html'"></div>-->
     <div>
         <form name="taxForm">
-            <div class="modal-header">
-                {{modelTitle}}
-            </div>
-            <div class="modal-body">
-                <cs-form layout="6.3.5" mode="mode">
-                    <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{modelTitle}}
+                </div>
+                <div class="panel-body">
+                    <cs-form layout="6.3.5" mode="mode">
+                        <cs-field data-ng-model="tax.TaxName" field="TaxList.TaxName"></cs-field>
 
-                    <cs-field data-ng-model="tax.TaxType" 
-                              field="TaxList.TaxType"></cs-field>
+                        <cs-field data-ng-model="tax.TaxType" 
+                                  field="TaxList.TaxType"></cs-field>
 
-                    <cs-field data-ng-model="tax.ApplicableTo" 
-                              field="TaxList.ApplicableTo"></cs-field>
+                        <cs-field data-ng-model="tax.ApplicableTo" 
+                                  field="TaxList.ApplicableTo"></cs-field>
 
-                    <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
+                        <cs-field data-ng-model="tax.IndustryZone" field="TaxList.IndustryZone"></cs-field>
                     
-                    <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
+                        <cs-field data-ng-model="tax.ApplyOn" field="TaxList.ApplyOn"></cs-field>
 
-                    <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
+                        <cs-field data-ng-model="tax.TotSource"  field="TaxList.TotSource"></cs-field>
                     
-                    <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
-                </cs-form>
+                        <cs-field data-ng-model="tax.Description" field="TaxList.Description"></cs-field>
+                    </cs-form>
 
+                </div>
             </div>
-            <div class="modal-footer">
+            <div class="text-right">
                 <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
                 <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="resetTax()"></cs-button>
                 <cs-button type="Add" text="Close" data-ng-click="closeTaxlist()"></cs-button>
             </div>
         </form>
     </div>
-
 </div>
+
+
 
 <!-- <cs-button type="Add" data-ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>-->
 

@@ -1,11 +1,12 @@
 ﻿<div data-ng-form="formAddfileColumn">
 
-    <div class="modal-header">
-        {{modelTitle}} 
-    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{modelTitle}} 
+        </div>
 
-    <div class="modal-body">
-        <cs-form mode="mode" layout="10.4.8">
+        <div class="panel-body">
+            <cs-form mode="mode" layout="10.4.8">
             <cs-field data-ng-model="fileColumn.FileColumnName" field="fileColumnModel.FileColumnName" data-ng-disabled="isReadOnly"></cs-field>
             <cs-field data-ng-model="fileColumn.Position" field="fileColumnModel.Position"></cs-field>
             <cs-field data-ng-model="fileColumn.Length" field="fileColumnModel.Length"></cs-field>
@@ -17,11 +18,12 @@
             <cs-field data-ng-model="fileColumn.StartDate" field="fileColumnModel.StartDate"></cs-field>
             <cs-field data-ng-model="fileColumn.EndDate" field="fileColumnModel.EndDate"></cs-field>
         </cs-form>
-    </div>
+        </div>
 
-    <div class="modal-footer">
-        <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileColumn,fileDetail)" data-ng-disabled="!formAddfileColumn.$valid">Save</button>
-        <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close()">Cancel</button>
+        <div class="panel-footer text-right">
+            <button class="btn btn-success" data-ng-show="!isReadOnly" data-ng-click="add(fileColumn,fileDetail)" data-ng-disabled="!formAddfileColumn.$valid">Save</button>
+            <button class="btn btn-info" data-ng-show="!isReadOnly" data-ng-click="close()">Cancel</button>
+        </div>
     </div>
 
 </div>

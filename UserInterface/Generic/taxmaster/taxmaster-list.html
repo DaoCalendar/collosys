@@ -2,11 +2,12 @@
     <!--    <div data-ng-include="baseUrl + 'Generic/taxmaster/taxmaster-list.html'"></div>-->
     <div>
         <form name="taxForm">
-            <div class="modal-header">
-                Tax Component Details
-            </div>
-            <div class="modal-body">
-                <cs-form layout="6.3.5" mode="mode">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Tax Component Details
+                </div>
+                <div class="panel-body">
+                    <cs-form layout="6.3.5" mode="mode">
                         <cs-field data-ng-model="tax.ApplicableTo"
                                   field="TaxMaster.ApplicableTo"></cs-field>
 
@@ -37,16 +38,17 @@
 
                         <cs-field data-ng-model="tax.EndDate" field="TaxMaster.EndDate"></cs-field>
                     </cs-form>
-
+                </div>
             </div>
-            <div class="modal-footer">
-                <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
-                <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="resetTax()"></cs-button>
-                <cs-button type="Add" text="Close" data-ng-click="closeTaxlist()"></cs-button>
-            </div>
+             <div class="text-right">
+                    <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" data-ng-hide="isAddMode" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
+                    <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="resetTax()"></cs-button>
+                    <cs-button type="Add" text="Close" data-ng-click="closeTaxlist()"></cs-button>
+                </div>
         </form>
     </div>
 </div>
+
 
 
 <!--                    <cs-button type="Add" ng-click="add(tax)" data-ng-show="isAddMode" ng-disabled="taxForm.$invalid"></cs-button>-->
