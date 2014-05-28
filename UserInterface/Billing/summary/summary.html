@@ -80,31 +80,28 @@
 
                 <div class="row text-center">
                     <span data-ng-show="(dldata.BillAmount.Month)">
-                        <button class="btn btn-success"
-                                data-ng-show="!factory.enableLink()"
-                                data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
-                                data-ng-disabled="dldata.billingData.Status==='Approved'">
-                            Approve
-                        </button>
+                        <cs-button type="save" text="Approve"
+                                   data-ng-show="!factory.enableLink()"
+                                   data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
+                                   data-ng-disabled="dldata.billingData.Status==='Approved'"></cs-button>
                     </span>
 
 
-                    <button class="btn btn-success"
-                            data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Pay')"
-                            data-ng-show="dldata.billingData.Status==='Approved'"
-                            data-ng-disabled="dldata.billingData.PayStatus =='Paid'">
-                        Paid
-                    </button>
+                    <cs-button type="save" text="Paid"
+                               data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Pay')"
+                               data-ng-show="dldata.billingData.Status==='Approved'"
+                               data-ng-disabled="dldata.billingData.PayStatus =='Paid'"></cs-button>
+
                     <span data-ng-show="(dldata.BillAmount.Month)">
-                        <button class="btn btn-success"
-                                data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
-                            Download Excel
-                        </button>
+                        <cs-button type="save" text=" Download Excel"
+                                   data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
+                        </cs-button>
                     </span>
                 </div>
             </form>
         </cs-form>
     </div>
 </div>
+
 
 
