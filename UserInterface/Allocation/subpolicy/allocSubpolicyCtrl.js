@@ -225,7 +225,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                     dldata.allocSubpolicy.NoAllocMonth = 0;
                     dldata.readTrue = true;
                 } else {
-                    dldata.allocSubpolicy.NoAllocMonth = 1;
+                   // dldata.allocSubpolicy.NoAllocMonth = 1;
                     dldata.readTrue = false;
                 }
             });
@@ -299,7 +299,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             dldata.allocSubpolicy.Products = products;
             dldata.allocSubpolicy.Category = 'Liner';
             //dldata.allocSubpolicy.DoAllocate = 1;
-            dldata.allocSubpolicy.NoAllocMonth = 1;
+           dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
             if (angular.isDefined(form) || angular.isDefined(form2)) {
                 form.$setPristine();
