@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using NHibernate.Proxy;
 
 #endregion
 
@@ -235,6 +234,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         #endregion
 
         #region date
+
         public IList<BillTokens> GreaterThan_Date_Tokens()
         {
             var query = new List<BillTokens>

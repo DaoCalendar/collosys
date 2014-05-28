@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderService", "File
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2", "BillingService2\BillingService2.csproj", "{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2.Test", "BillingService2.Test\BillingService2.Test.csproj", "{A4BFBB11-34B5-4EFA-B888-D39EF353953F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -200,6 +202,12 @@ Global
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Testing|Any CPU.ActiveCfg = Release|Any CPU
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,5 +232,6 @@ Global
 		{B918CD29-F06C-426B-AFD6-ED92D230D30E} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 		{97C3BD67-1F87-4847-ACBE-0018367754CE} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 		{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
+		{A4BFBB11-34B5-4EFA-B888-D39EF353953F} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}
 	EndGlobalSection
 EndGlobal

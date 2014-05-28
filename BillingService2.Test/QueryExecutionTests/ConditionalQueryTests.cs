@@ -8,7 +8,6 @@ using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.DataGeneration;
 using ColloSys.QueryBuilder.Test.QueryExecution;
-using NHibernate.Criterion;
 using NUnit.Framework;
 
 #endregion
