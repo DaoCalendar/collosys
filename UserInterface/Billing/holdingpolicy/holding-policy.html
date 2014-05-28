@@ -49,14 +49,12 @@
             </div>
         </div>
         <div class="text-right">
-            <cs-button type="Add" text="Close" data-ng-click="close()"></cs-button>
-            <cs-button type="Add" text="Save" data-ng-hide="mode === 'view'" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
-            <cs-button type="Add" text="Reset" data-ng-hide="mode === 'view'" ng-click="reset()"></cs-button>
+            <cs-button type="save" data-ng-hide="mode === 'view'" ng-click="applyedit(policy)" ng-disabled="holdingpolicyform.$invalid"></cs-button>
+            <cs-button type="reset" data-ng-hide="mode === 'view'" ng-click="reset()"></cs-button>
+            <cs-button type="close" data-ng-click="close()"></cs-button>
         </div>
     </form>
 </div>
-
-
 
 
 <!--            <cs-button type="Add" ng-click="add(policy)" data-ng-show="isAddMode" ng-disabled="holdingpolicyform.$invalid"></cs-button>-->
