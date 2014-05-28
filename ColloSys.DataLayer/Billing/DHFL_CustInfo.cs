@@ -9,7 +9,7 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.ClientData
 {
-  public  class DHFL_CustInfo:Entity
+    public  class DHFL_CustInfo :UploadableEntity
     {
         #region Demo DHFL
         public virtual string LanNo { get; set; }
@@ -65,9 +65,23 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string Subvention { get; set; }
         public virtual string Corporate { get; set; }
         public virtual string Product { get; set; }
+        public virtual string AgentId { get; set; }
 
         #endregion
 
         #endregion
+
+        public override FileScheduler FileScheduler { get; set; }
+        public override DateTime FileDate { get; set; }
+        public override ulong FileRowNo { get; set; }
+        public override IList<string> GetExcludeInExcelProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

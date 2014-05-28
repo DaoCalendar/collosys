@@ -58,6 +58,7 @@ namespace ColloSys.DataLayer.Billing
             Property(x=>x.DisbNo);
             Property(x=>x.Subvention);
             Property(x=>x.Product);
+            Property(x=>x.AgentId);
             Property(x=>x.Corporate);
             #endregion
         }
