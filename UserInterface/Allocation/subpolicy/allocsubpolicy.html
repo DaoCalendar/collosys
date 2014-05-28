@@ -8,6 +8,7 @@
                 Add Subpolicy
             </button>
         </div>
+
         <div>
             <div class="col-md-3" data-ng-show="dldata.allocSubpolicyList">
                 <cs-list list-heading="SubPolicy List" value-list="dldata.allocSubpolicyList" text-field="Name"
@@ -15,15 +16,8 @@
             </div>
         </div>
 
-        <!--DualList Example-->
-        <!--<div class="col-md-9">
-                <cs-dual-list lhs-heading="subpolicy" rhs-heading="dataList"
-                              lhs-value-list="data1"
-                              rhs-value-list="dldata.allocSubpolicyList" text-field="Name"
-                              ng-model="selected" on-click="clickMe(selected,direction)"></cs-dual-list>
-            </div>-->
         <div class="col-md-9" data-ng-show="showDiv">
-            <div id="subpolicy-display" data-ng-form="allocSubpolicyForm">
+            <div data-ng-form="allocSubpolicyForm">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         Subpolicy Basic-Info
@@ -76,98 +70,77 @@
 
                     </div>
                 </div>
-               
+            </div>
 
-                <div id="subpolicy-conditions">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Subpolicy Condition</div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
+            <div class="panel panel-default">
+                <div class="panel-heading">Subpolicy Condition</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
 
-                                            <td>Where</td>
-                                            <td>Operator</td>
-                                            <td>Value</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr data-ng-form="newConditionForm">
-                                            <!--Where-->
-                                            <td>
-                                                <cs-field class="input-large" data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
-                                                          data-ng-change="changeLeftColName(dldata.newCondition)" ng-required="true" no-label=""></cs-field>
-                                            </td>
-                                            <!--Operator-->
-                                            <td>
-                                                <cs-field data-ng-model="dldata.newCondition.Operator" class="input-medium" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
+                                    <td>Where</td>
+                                    <td>Operator</td>
+                                    <td>Value</td>
+                                    <td></td>
+                                </tr>
+                                <tr data-ng-form="newConditionForm">
+                                    <!--Where-->
+                                    <td>
+                                        <cs-field class="input-large" data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
+                                                  data-ng-change="changeLeftColName(dldata.newCondition)" ng-required="true" no-label=""></cs-field>
+                                    </td>
+                                    <!--Operator-->
+                                    <td>
+                                        <cs-field data-ng-model="dldata.newCondition.Operator" class="input-medium" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
 
-                                            </td>
-                                            <!--Value-->
-                                            <td class="input-large">
-                                                <div data-ng-if="showField">
-                                                    <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
-                                                    <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
-                                                    </div>
-                                                </div>
-                                                <div data-ng-if="showField2">
-                                                    <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
-                                                    <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
-                                                        <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <!--button-->
-                                            <td>
-                                                <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
-                                            </td>
-                                        </tr>
-                                        <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
-                                            <td>
-                                                <input type="text" class="form-control" readonly="readonly" value="{{condition.ColumnName}}" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" value="{{condition.Operator}}" readonly="readonly" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
-                                            </td>
-                                            <td>
-                                                <icon-btn type="remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
+                                    </td>
+                                    <!--Value-->
+                                    <td class="input-large">
+                                        <div data-ng-if="showField">
+                                            <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                            </div>
+                                        </div>
+                                        <div data-ng-if="showField2">
+                                            <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
+                                            <div data-ng-if="dldata.selectedLeftColumn.InputType==='date'">
+                                                <cs-field data-ng-model="dldata.newCondition.dateValueEnum" field="allocSubpolicy.DateValueEnum" ng-required="true" no-label=""></cs-field>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <!--button-->
+                                    <td>
+                                        <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
+                                    </td>
+                                </tr>
+                                <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
+                                    <td>
+                                        <input type="text" class="form-control" readonly="readonly" value="{{condition.ColumnName}}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="{{condition.Operator}}" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
+                                    </td>
+                                    <td>
+                                        <icon-btn type="remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
-                <div class="text-right" id="subpolicy-buttons">
-                    <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
-                    <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
-                    <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)">Reset</button>
-                </div>
+            </div>
+
+            <div class="text-right">
+                <button class="btn btn-default" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)">Save</button>
+                <button class="btn btn-default" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()">Activate</button>
+                <button class="btn btn-default" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)">Reset</button>
             </div>
         </div>
     </cs-form>
 </div>
-
-
-
-
-<!--<div class="form-group col-md-5" data-ng-hide="true">
-                                   <label class="control-label">Category</label>
-                                   <div class="controls">
-                                       <csswitch ngdisabled="dldata.allocSubpolicy.Id" ngbind="dldata.allocSubpolicy.Category" onbtnclick="changeProductCategory()" namevalues="categorySwitch"></csswitch>
-                                   </div>
-                               </div>-->
-<!--<div class="box-sub">
-                   <div class="box-heading">Subpolicy list</div>
-                   <div class="box-body">
-
-                       <div class="sub-name" data-ng-repeat="sallocSubpolicy in dldata.allocSubpolicyList | orderBy : 'Name'">
-                           <a class="btn-link" data-ng-click="selectAllocSubpolicy(sallocSubpolicy)">{{sallocSubpolicy.Name}}</a>
-                       </div>
-                   </div>
-               </div>-->
