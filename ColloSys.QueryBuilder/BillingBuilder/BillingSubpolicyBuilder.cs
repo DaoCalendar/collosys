@@ -45,7 +45,6 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 
         [Transaction]
         public IEnumerable<BillingSubpolicy> FormulaOnProductCategory(ScbEnums.Products product)
-
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
                 .Fetch(x => x.BillTokens).Eager
@@ -82,12 +81,13 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
-        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product)
+        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product, ColloSysEnums.PolicyType policyType)
         {
             return SessionManager.GetCurrentSession()
                                  .QueryOver<BillingSubpolicy>()
-                                 .Fetch(x=>x.BillTokens).Eager
-                                 .Where(c => c.Products == product )
+                                 .Fetch(x => x.BillTokens).Eager
+                                 .Where(c => c.Products == product)
+                                 .And(p => p.PolicyType == policyType)
                                  .TransformUsing(Transformers.DistinctRootEntity)
                                  .List();
         }

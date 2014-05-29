@@ -176,18 +176,29 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     };
 
     var changeProductCategory = function () {
-        if (angular.isUndefined(dldata.payoutPolicy))
+        if (angular.isUndefined(dldata.payoutPolicy) || angular.isUndefined(dldata.payoutPolicy.Products) || angular.isUndefined(dldata.payoutPolicy.PolicyType))
             return;
         var payoutPolicy = dldata.payoutPolicy;
+        var policyType = dldata.payoutPolicy.PolicyType;
         payoutPolicy.Category = 'Liner';
         if (!angular.isUndefined(payoutPolicy.Products) && !angular.isUndefined(payoutPolicy.Category)) {
             restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
                 dldata.payoutPolicy = data.PayoutPolicy;
+                dldata.payoutPolicy.PolicyType = policyType;
                 dldata.subPolicyList = data.UnUsedSubpolicies;
+                console.log("policy data: ", data);
             }, function (data) {
                 $csnotify.error(data);
             });
         }
+    };
+
+    var getStakeHier = function () {
+
+        return restApi.customGET("GetStakeHier").then(function (data) {
+            dldata.hierarchy = data;
+            return data;
+        });
     };
 
     var rejectSubPolicy = function (rejectedRelation) {
@@ -242,7 +253,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         RejectSubPolicy: rejectSubPolicy,
         savePayoutPolicy: savePayoutPolicy,
         approveRelation: approveRelation,
-        reset: reset
+        reset: reset,
+        GetStakeHier: getStakeHier
     };
 }]);
 
@@ -258,6 +270,21 @@ csapp.controller('payoutPolicyCtrl', [
                 }
             }
             return index;
+        };
+
+        $scope.getApplyToData = function (applyTo) {
+            switch (applyTo) {
+                case "Stakeholder":
+                    $scope.applyOnArray = _.uniq(_.pluck($scope.stakeHierarchy, 'Designation'));
+                    break;
+                case "Hierarchy":
+                    $scope.applyOnArray = _.uniq(_.pluck($scope.stakeHierarchy, 'Hierarchy'));
+                    break;
+                case "Product":
+                    $scope.applyOnArray = [$scope.dldata.payoutPolicy.Products];
+                    break;
+
+            }
         };
 
         $scope.setButtonStatus = function (status) {
@@ -279,6 +306,10 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
+            $scope.BillingPolicy.PolicyType = { label: "Policy Type", type: "enum", valueList: ["Payout", "Capping", "PF"] };
+            $scope.BillingPolicy.ApplyTo = { label: "Apply To", type: "enum", valueList: ["Stakeholder", "Hierarchy", "Product"] };
+            $scope.BillingPolicy.ApplyOn = { label: "Apply On", type: "enum" };
+            $scope.BillingPolicy.ApplyOnText = { label: "Apply On", type: "text" };
             datalayer.reset();
             $scope.modalData = {
                 BillingRelation: {},
@@ -287,13 +318,16 @@ csapp.controller('payoutPolicyCtrl', [
                 subPolicyIndex: -1,
                 forActivate: true
             };
+            datalayer.GetStakeHier().then(function (data) {
+                $scope.stakeHierarchy = data;
+            });
         })();
 
         var openmodal = function (modaldata) {
             $modal.open({
                 templateUrl: baseUrl + 'Billing/policy/date-modal.html',
                 controller: 'policymodal',
-                size:'lg',
+                size: 'lg',
                 resolve: {
                     modaldata: function () {
                         return modaldata;

@@ -43,6 +43,13 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         }
 
         [HttpGet]
+        public HttpResponseMessage GetStakeHier()
+        {
+            var data = Session.QueryOver<StkhHierarchy>().List();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
 
         public HttpResponseMessage GetPayoutPolicy(ScbEnums.Products products, ScbEnums.Category category)
         {

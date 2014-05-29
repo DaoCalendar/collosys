@@ -1,8 +1,28 @@
 ﻿<cs-form layout="6.4.8">
     <div data-ng-form="payoutPolicyForm" >
         <div class="row">
-            <cs-field data-ng-model="dldata.payoutPolicy.Products" field="BillingPolicy.Products"></cs-field>
+            
+            <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.Products" 
+                      data-ng-change="datalayer.changeProductCategory()"     
+                      field="BillingPolicy.Products"></cs-field>
+            
+            <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyType"
+                      data-ng-change="datalayer.changeProductCategory()" 
+                      field="BillingPolicy.PolicyType" ></cs-field>
+            
+            <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.ApplyTo"
+                      field="BillingPolicy.ApplyTo" data-ng-change="getApplyToData(dldata.payoutPolicy.ApplyTo)"></cs-field>
+            
+            <div data-ng-if="dldata.payoutPolicy.ApplyTo != 'Product' && dldata.payoutPolicy.Products">
+                <cs-field  layout="3.4.8" data-ng-model="dldata.payoutPolicy.ApplyOn"
+                           field="BillingPolicy.ApplyOn" value-list="applyOnArray" ></cs-field>
             </div>
+
+            <div  data-ng-if="dldata.payoutPolicy.ApplyTo == 'Product'"  data-ng-init="dldata.payoutPolicy.ApplyOn = dldata.payoutPolicy.Products">
+                <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.ApplyOn"
+                          field="BillingPolicy.ApplyOnText" data-ng-disabled="true"></cs-field>
+            </div>
+        </div>
             <div class="row" data-ng-if="false">
                 <div class="form-group col-md-6">
                     <label class="col-md-4">Name</label>

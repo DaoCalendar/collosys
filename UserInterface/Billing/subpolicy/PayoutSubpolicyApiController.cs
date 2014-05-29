@@ -89,9 +89,9 @@ namespace AngularUI.Billing.subpolicy
 
         [HttpGet]
 
-        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product)
+        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ColloSysEnums.PolicyType policyType)
         {
-            var data = BillingSubpolicyBuilder.OnProductCategory(product);
+            var data = BillingSubpolicyBuilder.OnProductCategory(product, policyType);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -109,8 +109,8 @@ namespace AngularUI.Billing.subpolicy
         public HttpResponseMessage GetFormulas(ScbEnums.Products product)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product);
-            
-          return Request.CreateResponse(HttpStatusCode.OK, data);
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]

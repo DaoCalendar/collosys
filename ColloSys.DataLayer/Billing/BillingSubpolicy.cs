@@ -49,6 +49,8 @@ namespace ColloSys.DataLayer.Domain
         
         public virtual Guid? PayoutCapping { get; set; }
 
+        public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
+
         #endregion
 
         #region IStatusComponent

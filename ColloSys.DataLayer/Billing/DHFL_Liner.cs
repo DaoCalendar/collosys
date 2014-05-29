@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
@@ -12,11 +8,7 @@ namespace ColloSys.DataLayer.ClientData
     public  class DHFL_Liner :UploadableEntity
     {
         #region Demo DHFL
-        
-        //public virtual ulong SanctionAmt { get; set; }
-        //public virtual DateTime Month { get; set; }
-        //public virtual ulong DisbAmt { get; set; }
-        //public virtual ulong? ProcessingFees { get; set; }
+      
         public virtual ulong TotalDisbAmt { get; set; }
         public virtual ulong TotalProcFee { get; set; }
         public virtual ulong Payout { get; set; }
@@ -25,18 +17,12 @@ namespace ColloSys.DataLayer.ClientData
         public virtual ulong DeductPf { get; set; }
         public virtual ulong FinalPayout { get; set; }
 
-        //public virtual string SubProduct { get; set; }
-
-        //public virtual ulong TotalPf { get; set; }
-
-        //public virtual string CustomerType { get; set; }
-
         #region input file columns
 
         public virtual string BranchName { get; set; }
         public virtual string Branchcat { get; set; }
         public virtual uint ApplNo { get; set; }
-        public virtual uint Loancode { get; set; }
+        public virtual string Loancode { get; set; }
         public virtual uint SalesRefNo { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime SanctionDt { get; set; }

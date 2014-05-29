@@ -80,6 +80,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.FileFrequency));
             list.AddToList(typeof(ColloSysEnums.FileType));
             list.AddToList(typeof(ColloSysEnums.ApproveStatus));
+            list.AddToList(typeof(ColloSysEnums.PolicyType));
             list.AddToList(typeof(ColloSysEnums.BillStatus));
             list.AddToList(typeof(ColloSysEnums.ErrorStatus));
             list.AddToList(typeof(ColloSysEnums.AllocationPolicy));
