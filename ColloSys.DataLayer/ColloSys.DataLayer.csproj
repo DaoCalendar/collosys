@@ -100,6 +100,10 @@
     <Compile Include="Billing\BMatrixValue.cs" />
     <Compile Include="Billing\BMatrixValueMap.cs" />
     <Compile Include="Billing\CustBillViewModelMap.cs" />
+    <Compile Include="Billing\DHFL_Liner.cs" />
+    <Compile Include="Billing\DHFL_CustInfoMap.cs" />
+    <Compile Include="Billing\DHFL_Info.cs" />
+    <Compile Include="Billing\DHFL_InfoMap.cs" />
     <Compile Include="Billing\HoldingPolicy.cs" />
     <Compile Include="Billing\HoldingPolicyMap.cs" />
     <Compile Include="Billing\ICustBillViewModel.cs" />
