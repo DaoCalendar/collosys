@@ -524,44 +524,44 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
     //#endregion
 
     //#region validations
-    var applyTemplates = function(options) {
+    var applyTemplates = function (options) {
         if (angular.isUndefined(options.template) || options.template === null) {
             return;
         }
 
-        var tmpl = options.template.split(",").filter(function(str) { return str !== ''; });
-        angular.forEach(tmpl, function(template) {
+        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+        angular.forEach(tmpl, function (template) {
             if (template.length < 1) return;
 
             switch (template) {
-            case "alphanum":
-                options.pattern = "/^[a-zA-Z0-9 ]*$/";
-                options.patternMessage = "Value contains non-numeric character/s.";
-                break;
-            case "alphabates":
-                options.pattern = "/^[a-zA-Z ]*$/";
-                options.patternMessage = "Value contains non-alphabtical character/s.";
-                break;
-            case "numeric":
-                options.pattern = "/^[0-9]*$/";
-                options.patternMessage = "Value contains non-numeric character/s.";
-                break;
-            case "phone":
-                options.length = 10;
-                options.pattern = "/^[0-9]{10}$/";
-                options.patternMessage = "Phone number must contain 10 digits.";
-                options.mask = "(999) 999-9999";
-                break;
-            case "pan":
-                options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                break;
-            case "user":
-                options.pattern = "/^[0-9]{7}$/";
-                options.patternMessage = "UserId must be a 7 digit number";
-                break;
-            default:
-                $log.error(template + " is not defined");
+                case "alphanum":
+                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "alphabates":
+                    options.pattern = "/^[a-zA-Z ]*$/";
+                    options.patternMessage = "Value contains non-alphabtical character/s.";
+                    break;
+                case "numeric":
+                    options.pattern = "/^[0-9]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "phone":
+                    options.length = 10;
+                    options.pattern = "/^[0-9]{10}$/";
+                    options.patternMessage = "Phone number must contain 10 digits.";
+                    options.mask = "(999) 999-9999";
+                    break;
+                case "pan":
+                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                    break;
+                case "user":
+                    options.pattern = "/^[0-9]{7}$/";
+                    options.patternMessage = "UserId must be a 7 digit number";
+                    break;
+                default:
+                    $log.error(template + " is not defined");
             }
         });
     };
@@ -1101,6 +1101,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             var html = '<div class="input-group">';
             html += '<input type="text" name="myfield" class="form-control" ng-readonly="true"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
+            html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');

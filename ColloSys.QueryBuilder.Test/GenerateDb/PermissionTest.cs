@@ -1,9 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AngularUI.Generic.Menu;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.JsonSerialization;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 using NUnit.Framework;
+using Newtonsoft.Json;
+
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
 {
@@ -21,17 +26,33 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                     .And(x => x.Hierarchy == "Developer")
                     .SingleOrDefault();
                 var root = PermissionManager.CreateDevPermissions(hierarchy);
+                root = PermissionManager.SetAccess(root, true);
                 root.Role = hierarchy;
                 session.SaveOrUpdate(root);
-
-                var hierarchyNcm = session.QueryOver<StkhHierarchy>()
-                                   .Where(x => x.Designation == "Officer")
-                                   .And(x => x.Hierarchy == "BackOffice")
-                                   .SingleOrDefault();
-                var ncmRoot = PermissionManager.CreateNcmPermissions(hierarchyNcm);
-                ncmRoot.Role = hierarchy;
-                session.SaveOrUpdate(ncmRoot);
                 rx.Commit();
+            }
+        }
+
+        [Test]
+        public void SetPermissions()
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            using (var sx = session.BeginTransaction())
+            {
+                var hierarchy = session.QueryOver<StkhHierarchy>()
+                                       .Where(x => x.Designation == "HOC")
+                                       .And(x => x.Hierarchy == "Field")
+                                       .SingleOrDefault();
+                GPermission root = PermissionManager.CreateDevPermissions(hierarchy);
+                root = PermissionManager.SetAccess(root, true);
+
+                root.Childrens[0].Childrens[0].Childrens[0].HasAccess = false;
+                root = PermissionManager.SetAccess(root, hierarchy);
+
+               
+
+                sx.Rollback();
             }
         }
 
@@ -139,5 +160,42 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             }
         }
 
+        [Test]
+        public void FetchData()
+        {
+
+            var session = SessionManager.GetCurrentSession();
+            using (var rx = session.BeginTransaction())
+            {
+                var permData = session.Query<GPermission>()
+                                      .Where(
+                                          x =>
+                                          x.Role.Id == Guid.Parse("2cdaf45b-52d5-4181-b9f8-a23201155b3c") &&
+                                          x.Parent == null)
+
+                                      .ToList();
+                //.Fetch(x => x.Role).Eager
+                //.Fetch(x => x.Childrens)
+                //.Fetch(x => x.Parent)
+                //.List<GPermission>();
+
+
+
+                var setting = new JsonSerializerSettings
+                    {
+                        PreserveReferencesHandling = PreserveReferencesHandling.None,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                        ContractResolver = new NHibernateContractResolver()
+                    };
+                var data = JsonConvert.SerializeObject(permData[0], setting);
+
+
+
+                rx.Rollback();
+            }
+
+
+
+        }
     }
 }

@@ -101,15 +101,15 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
 
             var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
-            user.AddChild("Profile", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.Profile }, "#/generic/profile");
-            user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.ChangePassword }, "#/generic/changepassword");
-            user.AddChild("Logout", new[] { ColloSysEnums.Activities.User, ColloSysEnums.Activities.Logout }, "#/logout");
+            user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
+            user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User }, "#/generic/changepassword");
+            user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
 
             var devTools = home.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
-            devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.GenerateDb }, "#/developer/generatedb");
-            devTools.AddChild("Db Tables", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.DbTables }, "#/developer/viewdbtables");
-            devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.ExecuteQuery }, "#/developer/queryexecuter");
-            devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer, ColloSysEnums.Activities.SystemExplorer }, "#/developer/logdownload");
+            devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer }, "#/developer/generatedb");
+            devTools.AddChild("Db Tables", new[] { ColloSysEnums.Activities.Developer }, "#/developer/viewdbtables");
+            devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
+            devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
 
             return home;
         }

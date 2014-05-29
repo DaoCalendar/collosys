@@ -217,35 +217,18 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
         $scope.getPermission = function (id) {
             datalayer.GetPermission(id).then(function (data) {
-                $scope.displayData = data[0].Childrens;
-                $scope.currPermData = data[0];
-                console.log("permission: ", $scope.currPermData);
+                $scope.currPermData = data;
+                //var obj = JSON.parse(data);
+                //console.log("permission: ", JSON.parse(obj));
             });
         };
 
-        $scope.save = function (data) {
-            debugger;
-            $scope.currPermData.Childrens = data;
-            $scope.currPermData.Role = getRoleById($scope.perm.designation, $scope.dldata.Hierarchy);
-            datalayer.SavePerm($scope.currPermData).then(function (updatedData) {
+        $scope.save = function (data, id) {
+            data.Role = getRoleById(id, $scope.dldata.Hierarchy);
+            datalayer.SavePerm(data).then(function (updatedData) {
                 $scope.currPermData = updatedData;
             });
         };
-
-        var setParent = function (permData) {
-            _.forEach(permData.Childrens, function (activity) {
-                var activityParent = activity;
-                activity.Parent = permData;
-                _.forEach(activity.Childrens, function (subActivity) {
-                    var subActivityParent = subActivity;
-                    subActivity.Parent = activityParent;
-                    _.forEach(subActivity.Childrens, function (child) {
-                        child.Parent = subActivityParent;
-                    });
-                });
-            });
-        };
-
 
         var getRoleById = function (id, listOfHierarchy) {
             var hierarachy = _.find(listOfHierarchy, function (hier) {

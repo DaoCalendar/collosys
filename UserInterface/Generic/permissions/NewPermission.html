@@ -27,7 +27,7 @@
     </div>
 
     <div data-ng-show="perm.designation">
-        <div data-ng-repeat="(key,module) in displayData track by key">
+        <div data-ng-repeat="(key,module) in currPermData.Childrens track by key">
             <div class="panel">
                 <div class="panel-heading"><b>{{module.Activity}}</b></div>
                 <div class="panel-body">
@@ -50,7 +50,7 @@
         </div>
 
         <div class="text-right">
-            <button data-ng-click="save(displayData)" class="btn btn-success ">Save</button>
+            <button data-ng-click="save(currPermData,perm.designation)" class="btn btn-success ">Save</button>
         </div>
     </div>
 </div>

@@ -19,13 +19,10 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             parent.Childrens.Add(child);
         }
 
-
-
-        public static GPermission AddActivity(GPermission parent, ColloSysEnums.Activities activity, string desciption = "")
+        private static GPermission AddActivity(GPermission parent, ColloSysEnums.Activities activity, string desciption = "")
         {
             var perm = new GPermission
             {
-                HasAccess = true,
                 Description = desciption,
                 Activity = activity,
                 Role = _hierarchy,
@@ -48,7 +45,48 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             return permission.HasAccess;
         }
 
+        public static GPermission SetAccess(GPermission root, bool access)
+        {
+            root.HasAccess = access;
+            if (root.Childrens != null && root.Childrens.Count != 0)
+            {
+                foreach (var child in root.Childrens)
+                {
+                    SetAccess(child, access);
+                }
+            }
+
+            return root;
+        }
+
+        public static GPermission SetAccess(GPermission permission, StkhHierarchy hierarchy)
+        {
+            GPermission root = PermissionManager.CreateDevPermissions(hierarchy);
+
+            //TODO:compare obj
+
+            UpdateRoot(root.Childrens, permission.Childrens);
+
+            return root;
+        }
+
+        private static void UpdateRoot(IList<GPermission> newChildren, IList<GPermission> oldChildren)
+        {
+            foreach (var newChild in newChildren)
+            {
+                foreach (var oldChild in oldChildren)
+                {
+                    if (newChild.Activity == oldChild.Activity)
+                    {
+                        newChild.HasAccess = oldChild.HasAccess;
+                        UpdateRoot(newChild.Childrens, oldChild.Childrens);
+                    }
+                }
+            }
+        }
+
         private static StkhHierarchy _hierarchy;
+
         public static GPermission CreateDevPermissions(StkhHierarchy hierarchy)
         {
             _hierarchy = hierarchy;
@@ -109,7 +147,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         private static void AddStakeholderActivities(GPermission stakeholder)
         {
-            var addStakeholder = AddActivity(stakeholder, ColloSysEnums.Activities.AddStakeholder, "Add,Edit,Approve other users");
+            var addStakeholder = AddActivity(stakeholder, ColloSysEnums.Activities.AddStakeholder, desciption: "Add,Edit,Approve other users");
             AddActivity(addStakeholder, ColloSysEnums.Activities.Create);
 
             var viewStakeholder = AddActivity(stakeholder, ColloSysEnums.Activities.ViewStakeholder);
@@ -128,19 +166,19 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         private static void AddAllocationActivities(GPermission allocation)
         {
-            var definePolicy = AddActivity(allocation, ColloSysEnums.Activities.DefinePolicy, "define policy");
+            var definePolicy = AddActivity(allocation, ColloSysEnums.Activities.DefinePolicy, desciption: "define policy");
             AddActivity(definePolicy, ColloSysEnums.Activities.View);
             AddActivity(definePolicy, ColloSysEnums.Activities.Create);
             AddActivity(definePolicy, ColloSysEnums.Activities.Update);
             AddActivity(definePolicy, ColloSysEnums.Activities.Approve);
 
-            var defineSubpolicy = AddActivity(allocation, ColloSysEnums.Activities.DefineSubpolicy, "define subpolicy");
+            var defineSubpolicy = AddActivity(allocation, ColloSysEnums.Activities.DefineSubpolicy, desciption: "define subpolicy");
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.View);
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.Create);
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.Update);
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.Approve);
 
-            var chechAllocation = AddActivity(allocation, ColloSysEnums.Activities.CheckAllocation, "check allocation");
+            var chechAllocation = AddActivity(allocation, ColloSysEnums.Activities.CheckAllocation, desciption: "check allocation");
             AddActivity(chechAllocation, ColloSysEnums.Activities.View);
             AddActivity(chechAllocation, ColloSysEnums.Activities.Update);
             AddActivity(chechAllocation, ColloSysEnums.Activities.Approve);
@@ -148,40 +186,40 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         private static void AddBillingActivities(GPermission billing)
         {
-            var defineBillingPolicy = AddActivity(billing, ColloSysEnums.Activities.DefineBillingPolicy, "billing");
+            var defineBillingPolicy = AddActivity(billing, ColloSysEnums.Activities.DefineBillingPolicy, desciption: "billing");
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.View);
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.Create);
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.Update);
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.Approve);
 
-            var defineBillingSubpolicy = AddActivity(billing, ColloSysEnums.Activities.DefineBillingSubpolicy, "billing");
+            var defineBillingSubpolicy = AddActivity(billing, ColloSysEnums.Activities.DefineBillingSubpolicy, desciption: "billing");
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.View);
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.Create);
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.Update);
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.Approve);
 
-            var defineFormulaActivity = AddActivity(billing, ColloSysEnums.Activities.DefineFormula, "billing");
+            var defineFormulaActivity = AddActivity(billing, ColloSysEnums.Activities.DefineFormula, desciption: "billing");
             AddActivity(defineFormulaActivity, ColloSysEnums.Activities.View);
             AddActivity(defineFormulaActivity, ColloSysEnums.Activities.Create);
             AddActivity(defineFormulaActivity, ColloSysEnums.Activities.Update);
 
-            var defineMatrix = AddActivity(billing, ColloSysEnums.Activities.DefineMatrix, "billing");
+            var defineMatrix = AddActivity(billing, ColloSysEnums.Activities.DefineMatrix, desciption: "billing");
             AddActivity(defineMatrix, ColloSysEnums.Activities.View);
             AddActivity(defineMatrix, ColloSysEnums.Activities.Create);
             AddActivity(defineMatrix, ColloSysEnums.Activities.Update);
 
-            var adhocPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.AdhocPayout, "billing");
+            var adhocPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.AdhocPayout, desciption: "billing");
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.View);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.Create);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.Update);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.Approve);
 
 
-            var readyForBilling = AddActivity(billing, ColloSysEnums.Activities.ReadyForBilling, "billing");
+            var readyForBilling = AddActivity(billing, ColloSysEnums.Activities.ReadyForBilling, desciption: "billing");
             AddActivity(readyForBilling, ColloSysEnums.Activities.View);
             AddActivity(readyForBilling, ColloSysEnums.Activities.Approve);
 
-            var payoutStatusActivity = AddActivity(billing, ColloSysEnums.Activities.PayoutStatus, "billing");
+            var payoutStatusActivity = AddActivity(billing, ColloSysEnums.Activities.PayoutStatus, desciption: "billing");
             AddActivity(payoutStatusActivity, ColloSysEnums.Activities.View);
             AddActivity(payoutStatusActivity, ColloSysEnums.Activities.Update);
 
@@ -189,33 +227,33 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         private static void AddConfigActivities(GPermission config)
         {
-            var permissionActivity = AddActivity(config, ColloSysEnums.Activities.Permission, "Config");
+            var permissionActivity = AddActivity(config, ColloSysEnums.Activities.Permission, desciption: "Config");
             AddActivity(permissionActivity, ColloSysEnums.Activities.View);
             AddActivity(permissionActivity, ColloSysEnums.Activities.Approve);
             AddActivity(permissionActivity, ColloSysEnums.Activities.Update);
 
-            var productActivity = AddActivity(config, ColloSysEnums.Activities.Product, "Config");
+            var productActivity = AddActivity(config, ColloSysEnums.Activities.Product, desciption: "Config");
             AddActivity(productActivity, ColloSysEnums.Activities.View);
             AddActivity(productActivity, ColloSysEnums.Activities.Approve);
             AddActivity(productActivity, ColloSysEnums.Activities.Update);
 
-            var keyValueActivity = AddActivity(config, ColloSysEnums.Activities.KeyValue, "Config");
+            var keyValueActivity = AddActivity(config, ColloSysEnums.Activities.KeyValue, desciption: "Config");
             AddActivity(keyValueActivity, ColloSysEnums.Activities.View);
             AddActivity(keyValueActivity, ColloSysEnums.Activities.Approve);
             AddActivity(keyValueActivity, ColloSysEnums.Activities.Update);
 
-            var pincodeActivity = AddActivity(config, ColloSysEnums.Activities.Pincode, "Config");
+            var pincodeActivity = AddActivity(config, ColloSysEnums.Activities.Pincode, desciption: "Config");
             AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.Create);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.Update);
 
 
-            var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, "Config");
+            var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, desciption: "Config");
             AddActivity(taxlistActivity, ColloSysEnums.Activities.View);
             AddActivity(taxlistActivity, ColloSysEnums.Activities.Create);
             AddActivity(taxlistActivity, ColloSysEnums.Activities.Update);
 
-            var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, "Config");
+            var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.Create);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.Update);
@@ -223,10 +261,10 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         private static void AddDeveloperActivities(GPermission dev)
         {
-            AddActivity(dev, ColloSysEnums.Activities.GenerateDb, "cofigure new file for upload");
-            AddActivity(dev, ColloSysEnums.Activities.SystemExplorer, "cofigure new file for upload");
-            AddActivity(dev, ColloSysEnums.Activities.DbTables, "cofigure new file for upload");
-            AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.GenerateDb, desciption: "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.SystemExplorer, desciption: "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.DbTables, desciption: "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, desciption: "cofigure new file for upload");
         }
 
         private static void AddUserActivity(GPermission user)
@@ -235,35 +273,5 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(user, ColloSysEnums.Activities.Profile);
             AddActivity(user, ColloSysEnums.Activities.ChangePassword);
         }
-
-        public static GPermission CreateNcmPermissions(StkhHierarchy hierarchy)
-        {
-            _hierarchy = hierarchy;
-            var root = new GPermission();
-
-            var fileupload = AddActivity(root, ColloSysEnums.Activities.FileUploader);
-            AddFileUploadActivities(fileupload);
-
-            var stakeholder = AddActivity(root, ColloSysEnums.Activities.Stakeholder);
-            AddStakeholderActivities(stakeholder);
-
-            var billing = AddActivity(root, ColloSysEnums.Activities.Billing);
-            AddBillingActivities(billing);
-
-            var allocation = AddActivity(root, ColloSysEnums.Activities.Allocation);
-            AddAllocationActivities(allocation);
-
-            var config = AddActivity(root, ColloSysEnums.Activities.Config);
-            AddConfigActivities(config);
-
-            var user = AddActivity(root, ColloSysEnums.Activities.User);
-            AddUserActivity(user);
-
-            var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
-            AddDeveloperActivities(developer);
-
-            return root;
-        }
-
     }
 }
