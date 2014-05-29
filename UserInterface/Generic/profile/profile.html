@@ -1,4 +1,4 @@
-﻿<form class="form-horizontal">
+﻿<form name="profileform">
     <div class="modal-header">Profile</div>
     <div data-ng-hide="dldata.profile">
         <div class="well-small">
@@ -72,15 +72,12 @@
                             data-ng-maxlength="11" data-ng-readonly="!isChangingMobile" />
                     </div>
                     <div class="col-md-2">
-                        <button data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
-                            data-ng-click="saveMobile()" class="btn btn-success">
-                            Save</button>
-                        <button data-ng-show="isChangingMobile" data-ng-click="resetMobile()"
-                            class="btn btn-warning">
-                            Cancel</button>
-                        <button data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile"
-                            class="btn btn-success">
-                            Change</button>
+                        <cs-button type="save" data-ng-show="isChangingMobile" data-ng-disabled="mobileNoForm.mobileNo.$invalid || mobileNoForm.mobileNo.$pristine"
+                            data-ng-click="saveMobile()"></cs-button>
+                        <cs-button type="close" text="cancel" data-ng-show="isChangingMobile" data-ng-click="resetMobile()"
+                            class="btn btn-warning"></cs-button>
+                        <cs-button type="add" text="Change" data-ng-hide="isChangingMobile" data-ng-click="isChangingMobile = !isChangingMobile"
+                            class="btn btn-success"></cs-button>
                     </div>
                     <div data-ng-show="mobileNoForm.mobileNo.$dirty && mobileNoForm.mobileNo.$invalid">
                         <div data-ng-show="mobileNoForm.mobileNo.$error.minlength">Phone Number must be of min 10 digits</div>
