@@ -43,8 +43,8 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                 case "Payment":
                     return angular.copy(models.FileUpload.Payment);
 
-                case "FCondition":
-                    return angular.copy(models.FileUpload.FCondition);
+                case "Fcondition":
+                    return angular.copy(models.FileUpload.Fcondition);
 
                 case "FilterCondition":
                     return angular.copy(models.FileUpload.FilterCondition);
