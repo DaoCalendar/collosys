@@ -1,5 +1,5 @@
 ﻿<div>
-    <div data-ng-form="allocpolicyDateRangeForm">
+    <form name="allocpolicyDateRangeForm">
         <div class="modal-header" style="text-align: center">
             <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
         </div>
@@ -11,12 +11,12 @@
                           data-bs-datepicker="today"></cs-field>                
             </cs-form>
         </div>
-        <div class="modal text-right">
-            <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
-            <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid) " data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
-            <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
+        <div class="modal-footer">
+            <cs-button type="save" text="Activate" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid) " data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
+            <cs-button type="delete" text="Deactivate" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
+            <cs-button type="close" data-ng-click="closeModel()"></cs-button>
         </div>
-    </div>
+    </form>
 </div>
 
 

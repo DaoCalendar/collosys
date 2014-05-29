@@ -3,7 +3,7 @@
         <cs-form layout="4.3.8">
             <cs-field data-ng-model="Sele.Product" field="BillAmount.Products"></cs-field>
             <cs-field data-ng-model="Sele.Month" field="BillAmount.Month"></cs-field>
-            <cs-button type="fetch" ng-disabled="billstatusform.$invalid"
+            <cs-button type="save" text="Fetch data" ng-disabled="billstatusform.$invalid"
                        ng-click="fetchData(Sele)"></cs-button>
             <!--ng-disabled="billstatusform.$invalid"-->
         </cs-form>

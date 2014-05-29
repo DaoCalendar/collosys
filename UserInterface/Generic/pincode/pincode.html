@@ -10,7 +10,7 @@
                         <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
                                   value-list="dldata.States"></cs-field>
                     <cs-form layout="7" >
-                        <button class="btn btn-primary" data-ng-click="openAddEditModal('add')">Add New Pincode</button>
+                        <cs-button type="add" text="Add New Pincode" data-ng-click="openAddEditModal('add')"></cs-button>
                     </cs-form>
                 </div>
             </cs-form>

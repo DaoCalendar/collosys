@@ -1,9 +1,9 @@
-﻿<div>
-    <div class="panel panel-default" data-ng-form="allocpolicyDateRangeForm">
-        <div class="panel-heading" style="text-align: center">
+﻿<form name="allocpolicymodalform">
+    <div data-ng-form="allocpolicyDateRangeForm">
+        <div class="modal-header" style="text-align: center">
             <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
         </div>
-        <div class="panel-body" style="margin-bottom: 7px">
+        <div class="modal-body" style="margin-bottom: 7px">
             <cs-form layout="8.4.8">
            
                 <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
@@ -13,11 +13,13 @@
             </cs-form>
         </div>
 
-        <div class="panel-footer text-right">
-            <button class="btn btn-danger" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)">Deactivate</button>
-            <button class="btn btn-primary" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)">Activate</button>
-            <button class="btn btn-warning" data-ng-click="closeModel()">Cancel</button>
+        <div class="modal-footer">
+            <cs-button type="delete" text="Deactivate" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
+            <cs-button type="save" text="Activate" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
+            <cs-button type="close" data-ng-click="closeModel()"></cs-button>
         </div>
     </div>
-</div>
+</form>
+
+
 

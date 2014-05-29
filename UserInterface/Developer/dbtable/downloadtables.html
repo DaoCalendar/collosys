@@ -1,17 +1,18 @@
 ﻿<div data-ng-controller="databaseTablesCtrl">
-    <div class="row form-horizontal">
-        <div>
-            <button class="btn btn-warning" data-ng-click="downloadTables()">Download</button>
-            <ul style="height: 200px">
-                <li data-ng-repeat="table in ckbTables">
-                    <label>
-                        <input type="checkbox" data-ng-model="table.Checked">
-                        {{table.Name}}
-                    </label>
-                </li>
-            </ul>
+    <form name="downloadtablesform">
+        <div class="row form-horizontal">
+            <div>
+                <cs-button type="save" text="Download" data-ng-click="downloadTables()"></cs-button>
+                <ul style="height: 200px">
+                    <li data-ng-repeat="table in ckbTables">
+                        <label>
+                            <input type="checkbox" data-ng-model="table.Checked">
+                            {{table.Name}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div>
-    </div>
+    </form>
 </div>
+

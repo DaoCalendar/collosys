@@ -81,9 +81,9 @@
 
                 <div class="row form-group">
                     <div class="controls">
-                        <button class="btn btn-success" data-ng-show="!dldata.isReadOnly" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid">Save</button>
-                        <button class="btn btn-info" data-ng-show="!dldata.isReadOnly" data-ng-click="closeModel()">Cancel</button>
-                        <button class="btn btn-info" data-ng-show="dldata.isReadOnly" data-ng-click="closeModel()">Close</button>
+                        <cs-button type="save" data-ng-show="!dldata.isReadOnly" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid"></cs-button>
+                        <cs-button type="close" data-ng-show="!dldata.isReadOnly" data-ng-click="closeModel()"></cs-button>
+                        <cs-button type="close" data-ng-show="dldata.isReadOnly" data-ng-click="closeModel()"></cs-button>
                     </div>
 
                 </div>

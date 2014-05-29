@@ -174,7 +174,7 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
 
         switch (type) {
             case 'submit':
-                //templateParams.type = 'submit';
+                templateParams.type = 'submit';
                 templateParams.text = text || 'Submit';
                 break;
             case 'delete':
@@ -186,16 +186,16 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
                 templateParams.text = text || 'Save';
                 break;
             case 'reset':
+                //templateParams.className = 'btn-info';
                 templateParams.text = text || 'Reset';
                 break;
             case 'close':
+                //templateParams.className = 'btn-warning';
                 templateParams.text = text || 'Close';
                 break;
             case 'add':
+                //templateParams.className = 'btn-primary';
                 templateParams.text = text || 'Add';
-                break;
-            case 'fetch':
-                templateParams.text = text || 'Fetch data';
                 break;
             case 'edit':
                 templateParams.text = text || 'Edit';

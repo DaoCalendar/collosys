@@ -13,7 +13,7 @@
                     <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                     <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
 
-                    <button class="btn btn-success" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)">OK</button>
+                    <cs-button type="save" text="OK" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)"></cs-button>
             </div>
         </form>
    </cs-form>
@@ -24,12 +24,12 @@
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
     </div>
     <div class="row" data-ng-show="gridOptions.showGrid == true">
-        <button class="btn btn-info" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()">Change Allocation</button>
+        <cs-button type="add" text="Change Allocation" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()"></cs-button>
         <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
         <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
         <!-- data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()"-->
-        <button class="btn btn-info" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationApprove(allocData)">Approve Allocation</button>
-        <button class="btn btn-danger" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationReject(allocData)">Reject Allocation</button>
+        <cs-button type="save" text="Approve Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationApprove(allocData)"></cs-button>
+        <cs-button type="delete" text="Reject Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationReject(allocData)"></cs-button>
         <div style="vertical-align: bottom; height: 60px;">
         </div>
     </div>

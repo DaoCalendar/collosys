@@ -1,128 +1,123 @@
 ﻿<cs-form layout="5.4.8">
-    <div data-ng-form="allocPolicyForm">
-        <div class="row">
-            <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
-                      data-ng-change="changeProductCategory()" ng-required="true"></cs-field>
+    <form name="allocPolicyForm">
+        <div data-ng-form="allocPolicyForm">
+            <div class="row">
+                <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
+                          data-ng-change="changeProductCategory()" ng-required="true"></cs-field>
+            </div>
         </div>
-    </div>
-    <div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
-        <div class="col-md-5" data-ng-show="dldata.draftAndExpired">
-            <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.draftAndExpired" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation, $index); setButtonStatus(policy)"></cs-list>
+        <div class="col-md-9" data-ng-show="dldata.allocPolicy.Products">
+            <div class="col-md-5" data-ng-show="dldata.draftAndExpired">
+                <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.draftAndExpired" text-field="Name"
+                         data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation, $index); setButtonStatus(policy)"></cs-list>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5" data-ng-show="dldata.ApproveUnapp">
+                <cs-list list-heading="Approved/Unapproved SubPolicy" value-list="dldata.ApproveUnapp" text-field="Name"
+                         data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation,$index); setButtonStatus(policy)"></cs-list>
+            </div>
+            <div class="col-md-1" data-ng-show="dldata.ApproveUnapp">
+                <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(policy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
+                <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(policy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
+            </div>
         </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-5" data-ng-show="dldata.ApproveUnapp">
-            <cs-list list-heading="Approved/Unapproved SubPolicy" value-list="dldata.ApproveUnapp" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.allocRelation,$index); setButtonStatus(policy)"></cs-list>
-        </div>
-        <div class="col-md-1" data-ng-show="dldata.ApproveUnapp">
-            <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(policy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
-            <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(policy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
-        </div>
-    </div>
    
-    <div class="row margin-box" data-ng-show="!(dldata.buttonStatus==='')">
-        <div class="col-md-1"></div>
-        <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <p class="col-md-2">{{disSubPolicy.Name}} :({{dldata.buttonStatus}})</p>
-                        <!--Deactivate,Approv, Reject Buttons-->
-                        <div class="pull-right" style="margin-right:5px">
-                            <button class="btn  btn-danger"
-                                    data-ng-show="dldata.buttonStatus==='Approved'"
-                                    data-ng-click="openModelDeactivateSubPolicy(policy.allocRelation);">
-                                Deactivate
-                            </button>
-                            <!--for draft-->
-                            <button class="btn btn-primary"
-                                    data-ng-show="dldata.buttonStatus=='Draft'"
-                                    data-ng-click="openModelNewSubPolicy(policy,$index);">
-                                Activate
-                            </button>
+        <div class="row margin-box" data-ng-show="!(dldata.buttonStatus==='')">
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <p class="col-md-2">{{disSubPolicy.Name}} :({{dldata.buttonStatus}})</p>
+                            <!--Deactivate,Approv, Reject Buttons-->
+                            <div class="pull-right" style="margin-right:5px">
+                                <cs-button type="delete" text="Deactivate"
+                                           data-ng-show="dldata.buttonStatus==='Approved'"
+                                           data-ng-click="openModelDeactivateSubPolicy(policy.allocRelation);"></cs-button>
+                                <!--for draft-->
+                                <cs-button type="save" text="Activate"
+                                           data-ng-show="dldata.buttonStatus=='Draft'"
+                                           data-ng-click="openModelNewSubPolicy(policy,$index);"></cs-button>
 
-                            <!--for Expired-->
-                            <button class="btn btn-primary"
-                                    data-ng-show="dldata.buttonStatus=='Expired'"
-                                    data-ng-click="openModelReactivateSubPolicy(policy);">
-                                Reactivate
-                            </button>
+                                <!--for Expired-->
+                                <cs-button type="add" text="Reactivate"
+                                           data-ng-show="dldata.buttonStatus=='Expired'"
+                                           data-ng-click="openModelReactivateSubPolicy(policy);"></cs-button>
 
-                            <button class="btn btn-success"
-                                    data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                    data-ng-click="approve(policy)">
-                                Approve
-                            </button>
-                            <button class="btn btn-success"
-                                    data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                    data-ng-click="reject(policy)">
-                                Reject
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <!--Name & Policy-->
-                    <div class="row" data-ng-form="allocPolicyForm">
-                       <!--Policy Stakeholder-->
-                        <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
-                            <label class="col-md-4">Stakeholder</label>
-                            <div class="col-md-8">
-                                <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
-                            </div>
-                        </div>
+                                <cs-button type="save" text="Approve"
+                                           data-ng-show="dldata.buttonStatus=='UnApproved'"
+                                           data-ng-click="approve(policy)"></cs-button>
 
-                    </div>
-                    <!--Conditions & Policy Reason/ Stakeholder-->
-                    <div class="row">
-                        <!--Policy-->
-                        <div class="col-md-6">
-                            <label class="col-md-4 control-label">Policy</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
-                            </div>
-                        </div>
-                        <!--POlicy Reason-->
-                        <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
-                            <label class="col-md-4 control-label">Reason</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--Start & End Date-->
-                    <div class="row" data-ng-hide="dldata.buttonStatus=='Draft'">
-                        <!--Start date-->
-                        <div class="col-md-6">
-                            <label class="col-md-4">Start Date</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
-                            </div>
-                        </div>
-                        <!--End Date-->
-                        <div class="col-md-6">
-                            <label class="col-md-4">End Date</label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
+                                <cs-button type="delete" text="Reject"
+                                           data-ng-show="dldata.buttonStatus=='UnApproved'"
+                                           data-ng-click="reject(policy)">
+                                </cs-button>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!--conditions-->
-                        <div class="col-md-6" style="padding-top:7px">
-                            <label class="col-md-4">Condition</label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly" style="height: 100px"></textarea>
+                    <div class="panel-body">
+                        <!--Name & Policy-->
+                        <div class="row" data-ng-form="allocPolicyForm">
+                            <!--Policy Stakeholder-->
+                            <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
+                                <label class="col-md-4">Stakeholder</label>
+                                <div class="col-md-8">
+                                    <input type="text" readonly="readonly" data-ng-model="disSubPolicy.StakeholdersName" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Conditions & Policy Reason/ Stakeholder-->
+                        <div class="row">
+                            <!--Policy-->
+                            <div class="col-md-6">
+                                <label class="col-md-4 control-label">Policy</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
+                                </div>
+                            </div>
+                            <!--POlicy Reason-->
+                            <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
+                                <label class="col-md-4 control-label">Reason</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" data-ng-model="disSubPolicy.Reason" readonly="readonly" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--Start & End Date-->
+                        <div class="row" data-ng-hide="dldata.buttonStatus=='Draft'">
+                            <!--Start date-->
+                            <div class="col-md-6">
+                                <label class="col-md-4">Start Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
+                                </div>
+                            </div>
+                            <!--End Date-->
+                            <div class="col-md-6">
+                                <label class="col-md-4">End Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" readonly value="{{allocRelation.EndDate|date:'dd-MM-yyyy'}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--conditions-->
+                            <div class="col-md-6" style="padding-top:7px">
+                                <label class="col-md-4">Condition</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" data-ng-model="disSubPolicy.Condition" readonly="readonly" style="height: 100px"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </cs-form>
+
 
 <!--<div class="row" data-ng-show="false">
     <div class="col-md-1">

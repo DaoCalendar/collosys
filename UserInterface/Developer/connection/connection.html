@@ -1,126 +1,129 @@
 ﻿<div class="container-fluid" ng-controller="connection" ng-cloak="">
-    <div class="row">
+    <form name="connectionform">
         <div class="row">
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="btn-group">
-                                <icon-btn type="add" data-ng-click="showModelAdd()"></icon-btn>
-                            </div>
-                        </th>
-                        <th>Name</th>
-                        <th>Provider Name</th>
-                        <th>Data Source</th>
-                        <th>Initial Cataloge</th>
-                        <th>Persist Security Info</th>
-                        <th>User Id</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="data in listAllConnectionStrings ">
-                        <td>
-                            <div class="btn-group">
-                                <i class="btn glyphicon glyphicon-edit" data-ng-click="showModelEdit($index)"></i>
-                            </div>
-                        </td>
-                       
-                        <td>{{data.Name}}</td>
-                        <td>{{data.ProviderName}}</td>
-                        <td>{{data.DataSource}}</td>
-                        <td>{{data.InitialCataloge}}</td>
-                        <td>{{data.PersistSecurityInfo}}</td>
-                        <td>{{data.UserId}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-    <div class="row">
-        <div modal="showModel" close="closeModel()" options="modelOption">
             <div class="row">
-                <div class="text-right text-danger">
-                    * Mandatory fields
-                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="btn-group">
+                                    <icon-btn type="add" data-ng-click="showModelAdd()"></icon-btn>
+                                </div>
+                            </th>
+                            <th>Name</th>
+                            <th>Provider Name</th>
+                            <th>Data Source</th>
+                            <th>Initial Cataloge</th>
+                            <th>Persist Security Info</th>
+                            <th>User Id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in listAllConnectionStrings ">
+                            <td>
+                                <div class="btn-group">
+                                    <i class="btn glyphicon glyphicon-edit" data-ng-click="showModelEdit($index)"></i>
+                                </div>
+                            </td>
+                       
+                            <td>{{data.Name}}</td>
+                            <td>{{data.ProviderName}}</td>
+                            <td>{{data.DataSource}}</td>
+                            <td>{{data.InitialCataloge}}</td>
+                            <td>{{data.PersistSecurityInfo}}</td>
+                            <td>{{data.UserId}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="modal-body" ng-form="formConnection">
-                <!--row for multiaddress edit -->
-                <div class="row form-horizontal">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">ConnectionString Details</div>
-                        <div class="panel-body">
-                            <div class="row" ng-form="formConnection" >
-                                <div class="form-group">
-                                    <label class="control-label">Name</label>
-                                    <div class="controls">
-                                        <input type="text" required ng-model="ConnectionStringData.Name" />
+        </div>
+    
+        <div class="row">
+            <div modal="showModel" close="closeModel()" options="modelOption">
+                <div class="row">
+                    <div class="text-right text-danger">
+                        * Mandatory fields
+                    </div>
+                </div>
+                <div class="modal-body" ng-form="formConnection">
+                    <!--row for multiaddress edit -->
+                    <div class="row form-horizontal">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">ConnectionString Details</div>
+                            <div class="panel-body">
+                                <div class="row" ng-form="formConnection" >
+                                    <div class="form-group">
+                                        <label class="control-label">Name</label>
+                                        <div class="controls">
+                                            <input type="text" required ng-model="ConnectionStringData.Name" />
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Provider Name</label>
-                                    <div class="controls">
-                                        <input type="text" ng-model="ConnectionStringData.ProviderName"/>
+                                    <div class="form-group">
+                                        <label class="control-label">Provider Name</label>
+                                        <div class="controls">
+                                            <input type="text" ng-model="ConnectionStringData.ProviderName"/>
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Data Source</label>
-                                    <div class="controls">
-                                        <input type="text" required ng-model="ConnectionStringData.DataSource" />
+                                    <div class="form-group">
+                                        <label class="control-label">Data Source</label>
+                                        <div class="controls">
+                                            <input type="text" required ng-model="ConnectionStringData.DataSource" />
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Initial Cataloge</label>
-                                    <div class="controls">
-                                        <input type="text" required ng-model="ConnectionStringData.InitialCataloge" />
+                                    <div class="form-group">
+                                        <label class="control-label">Initial Cataloge</label>
+                                        <div class="controls">
+                                            <input type="text" required ng-model="ConnectionStringData.InitialCataloge" />
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Persist Security Info</label>
-                                    <div class="controls">
-                                        <select required ng-model="ConnectionStringData.PersistSecurityInfo" ng-selected="ConnectionStringData.PersistSecurityInfo">
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label class="control-label">Persist Security Info</label>
+                                        <div class="controls">
+                                            <select required ng-model="ConnectionStringData.PersistSecurityInfo" ng-selected="ConnectionStringData.PersistSecurityInfo">
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">User Id</label>
-                                    <div class="controls">
-                                        <input type="text" required ng-model="ConnectionStringData.UserId" />
+                                    <div class="form-group">
+                                        <label class="control-label">User Id</label>
+                                        <div class="controls">
+                                            <input type="text" required ng-model="ConnectionStringData.UserId" />
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Password</label>
-                                    <div class="controls">
-                                        <input type="password" required ng-model="Pass" value="ConnectionStringData.Password"/>
+                                    <div class="form-group">
+                                        <label class="control-label">Password</label>
+                                        <div class="controls">
+                                            <input type="password" required ng-model="Pass" value="ConnectionStringData.Password"/>
+                                        </div>
                                     </div>
-                                </div>
                                 
-                                <div class="form-group">
-                                    <label class="control-label">Confirm Password</label>
-                                    <div class="controls">
-                                        <input type="password" required ui-validate=" '$value == Pass' "   ng-model="ConnectionStringData.Password" />
+                                    <div class="form-group">
+                                        <label class="control-label">Confirm Password</label>
+                                        <div class="controls">
+                                            <input type="password" required ui-validate=" '$value == Pass' "   ng-model="ConnectionStringData.Password" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="text-left">
-                <input type="button"  value="Save" ng-disabled="!formConnection.$valid" ng-click="save()" class="btn btn-success"/>
-                <input type="button" value="Cancel" ng-click="closeModel()" class="btn btn-info"/>
+                <div class="text-left">
+                    <cs-button type="save" ng-disabled="!formConnection.$valid" ng-click="save()"></cs-button>
+                    <cs-button type="close" ng-click="closeModel()"></cs-button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
+
 
 
 
