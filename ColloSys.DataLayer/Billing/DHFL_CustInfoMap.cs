@@ -7,19 +7,16 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
 using NHibernate.Hql.Ast.ANTLR;
 
-namespace ColloSys.DataLayer.Billing
+namespace ColloSys.DataLayer.Mapping
 {
-    class DHFL_CustInfoMap:EntityMap<DHFL_CustInfo>
+    class DHFL_CustInfoMap:EntityMap<DHFL_Liner>
     {
         public DHFL_CustInfoMap()
         {
             #region demo DHFL
 
-            Property(x => x.LanNo);
-            Property(x => x.SanctionAmt);
-            Property(x => x.Month);
-            Property(x => x.DisbAmt);
-            Property(x => x.ProcessingFees);
+          
+           
             Property(x => x.TotalDisbAmt);
             Property(x => x.TotalProcFee);
             Property(x => x.Payout);
@@ -34,9 +31,9 @@ namespace ColloSys.DataLayer.Billing
             Property(x => x.SalesRefNo);
             Property(x => x.Name);
             Property(x => x.SanctionDt);
-            //Property(x => x.SanAmt);
+            Property(x => x.SanAmt);
             Property(x => x.DisbursementDt);
-            //Property(x => x.DisbursementAmt);
+            Property(x => x.DisbursementAmt);
             Property(x => x.FeeDue);
             Property(x => x.FeeWaived);
             Property(x => x.FeeReceived);
@@ -53,8 +50,8 @@ namespace ColloSys.DataLayer.Billing
             Property(x => x.Referralcode);
             Property(x => x.Sourcename);
             Property(x => x.SchemeGroupName);
-            Property(x => x.MSchname);
-            Property(x => x.MSchnamePremium);
+            Property(x => x.M_Schname);
+            Property(x => x.Premium);
             Property(x=>x.DisbNo);
             Property(x=>x.Subvention);
             Property(x=>x.Product);
