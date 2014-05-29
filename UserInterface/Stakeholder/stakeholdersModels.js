@@ -6,7 +6,7 @@
             hierarchy: { label: 'Hierarchy', type: 'select' },
             designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select' },
             Name: { placeholder: 'enter name', label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', required: true, patternMessage: 'Invalid Name' },
-            userId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{7}$/', patternMessage: 'Invalid ID' },
+            userId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{6}$/', patternMessage: 'Invalid ID' },
             mobile: { label: "Mobile No", type: 'text', template: 'phone' },
             email: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
             date: { type: 'date', required: true },

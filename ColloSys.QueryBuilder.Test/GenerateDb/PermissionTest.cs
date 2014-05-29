@@ -25,8 +25,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 session.SaveOrUpdate(root);
 
                 var hierarchyNcm = session.QueryOver<StkhHierarchy>()
-                                   .Where(x => x.Designation == "Officer")
-                                   .And(x => x.Hierarchy == "BackOffice")
+                                   .Where(x => x.Designation == "HOS")
+                                   .And(x => x.Hierarchy == "DSA")
                                    .SingleOrDefault();
                 var ncmRoot = PermissionManager.CreateNcmPermissions(hierarchyNcm);
                 ncmRoot.Role = hierarchy;

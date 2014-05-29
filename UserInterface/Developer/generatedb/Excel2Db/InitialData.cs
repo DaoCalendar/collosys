@@ -337,7 +337,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             //           .Where(x => x.Designation == "HOC" && x.ApplicationName == "ColloSys")
             //           .SingleOrDefault();
             var role2 = session.QueryOver<StkhHierarchy>()
-                               .Where(x => x.Designation == "Officer" && x.Hierarchy == "BackOffice")
+                               .Where(x => x.Designation == "HOS" && x.Hierarchy == "DSA")
                                .SingleOrDefault();
             //var role3 = session.QueryOver<StakeHierarchy>()
             //           .Where(x => x.Designation == "RCM" && x.ApplicationName == "ColloSys")
