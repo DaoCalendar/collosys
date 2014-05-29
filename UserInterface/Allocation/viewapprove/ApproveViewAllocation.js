@@ -20,6 +20,7 @@ csapp.controller('approveViewCntrl', ['$scope', 'approveViewDataLayer', 'approve
             $modal.open({
                 templateUrl: baseUrl + 'Allocation/viewapprove/change-allocation-modal.html',
                 controller: 'changAllocCtrl',
+                windowClass: 'modal-large',
             });
         };
 
