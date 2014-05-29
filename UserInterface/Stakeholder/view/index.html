@@ -24,8 +24,8 @@
                                 <!--get unique array-->
                                 <cs-field
                                     field="viewModels.Hierarchy"
-                                    value-list="hierarchyDesignation"
-                                    data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()"></cs-field>
+                                    value-list="HierarchyData"
+                                    data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist(stakeholder)"></cs-field>
                                
                                  <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter!='ReportingTo'">
                                     <cs-field
