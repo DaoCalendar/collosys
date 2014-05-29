@@ -420,8 +420,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
                     break;
                 case "user":
-                    options.pattern = "/^[0-9]{7}$/";
-                    options.patternMessage = "UserId must be a 7 digit number";
+                    options.pattern = "/^[0-9]{6}$/";
+                    options.patternMessage = "UserId must be a 6 digit number";
                     break;
                 case "percentage":
                     options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
