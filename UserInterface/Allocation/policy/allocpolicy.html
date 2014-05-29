@@ -42,7 +42,7 @@
                                 <!--for Expired-->
                                 <cs-button type="add" text="Reactivate"
                                            data-ng-show="dldata.buttonStatus=='Expired'"
-                                           data-ng-click="openModelReactivateSubPolicy(policy);"></cs-button>
+                                           data-ng-click="openModelReactivateSubPolicy(policy.allocRelation);"></cs-button>
 
                                 <cs-button type="save" text="Approve"
                                            data-ng-show="dldata.buttonStatus=='UnApproved'"
