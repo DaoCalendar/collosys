@@ -1,4 +1,4 @@
-﻿<div>
+﻿<form name="multiselectform">
     <div class="panel panel-default">
         <div class="panel-heading">
             <strong>Select</strong>
@@ -23,9 +23,9 @@
         </div>
     </div>
     <div class="text-right">
-        <button class="btn btn-primary" data-ng-click="multipleModalOk(modalData.LocationLevel)">Ok</button>
-        <button class="btn btn-primary" data-ng-click="closeModal()">Close</button>
+        <cs-button type="save" text="Ok" data-ng-click="multipleModalOk(modalData.LocationLevel)"></cs-button>
+        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
     </div>
-</div>
+</form>
 
 

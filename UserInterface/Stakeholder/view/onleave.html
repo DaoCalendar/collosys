@@ -1,4 +1,4 @@
-﻿<div data-ng-form="formLeave">
+﻿<form name="formLeave">
     <div class="row">
         <div class="col-md-5" style="margin-bottom: 5px">
             <label class="col-md-4">Name:</label>
@@ -103,11 +103,10 @@
     <!--for button-->
     <div class="col-md-5">
         <div class="col-md-12">
-            <button class="btn btn-success"
+            <cs-button type="save" text="Change Working"
                 data-ng-disabled="formLeave.$invalid"
-                data-ng-click="changeWorking(modalData.StakeForLeave)">
-                Change Working</button>
+                data-ng-click="changeWorking(modalData.StakeForLeave)"></cs-button>
         </div>
     </div>
-</div>
+</form>
 

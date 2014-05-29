@@ -62,12 +62,11 @@
 <div data-ng-repeat="data in WizardData.FinalPostModel.PayWorkModelList">
     <button class="btn btn-link" data-ng-click="setPayWorkIndex($index+1)">WorkingPayment Group no: {{$index+1}}</button>
     <div data-ng-show="showIndex==={{$index+1}}">
-        <button
+        <cs-button type="delete"
             style="margin-bottom: 5px"
             class="btn btn-success"
             data-ng-click="deletePaymentWorking($index,data)"
-            data-ng-hide="data.Payment.RowStatus=='Delete'">
-            Delete</button>
+            data-ng-hide="data.Payment.RowStatus=='Delete'"></cs-button>
         <table class="table table-bordered" data-ng-show="data.Payment">
             <thead>
                 <tr>
