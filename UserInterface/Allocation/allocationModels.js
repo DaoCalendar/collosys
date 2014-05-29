@@ -14,7 +14,7 @@
             },
             ReasonNotAllocate: { label: "Select Reason", type: "enum", valueList: [] },
             NoAllocMonth: { label: "Allocate Months", type: "number", template: 'int', min: 0, required: true },
-            Products: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
+            Products: { label: "Product", type: "enum", valueList:[], required: true },
             ProductName: { label: "Product", type: "text", required: true, editable: false },
             ColumnName: { type: "enum", valueList: [] },
             Description: { label: "Description", type: "textarea" },
@@ -29,7 +29,7 @@
 
     var allocPolicy = function () {
         return {
-            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
+            Product: { label: "Product", type: "enum", valueList:[] },
             startdate: { label: "StartDate:", type: 'date' },
             enddate: { label: "EndDate:", type: 'date' },
         };

@@ -3,6 +3,7 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
     function ($scope, datalayer, factory, $modal, $csModels, $csShared) {
         "use strict";
 
+
         (function () {
             $scope.factory = factory;
             $scope.datalayer = datalayer;
@@ -21,6 +22,9 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
             $scope.data2 = $scope.dldata.list1;
             $scope.dldata.policyapproved = false;
             $scope.dldata.isActive = false;
+            $scope.allocSubpolicy.Products.valueList = _.reject($csShared.enums.Products, function (item) {
+                return (item === "UNKNOWN" || item === "ALL");
+            });
 
         })();
 
@@ -225,7 +229,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                     dldata.allocSubpolicy.NoAllocMonth = 0;
                     dldata.readTrue = true;
                 } else {
-                   // dldata.allocSubpolicy.NoAllocMonth = 1;
+                    // dldata.allocSubpolicy.NoAllocMonth = 1;
                     dldata.readTrue = false;
                 }
             });
@@ -260,7 +264,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
                     resetAllocSubpolicy(data.Products);
-                   selectAllocSubpolicy(data);
+                    selectAllocSubpolicy(data);
                     $csnotify.success("Alloc Subpolicy saved");
                 }, function (data) {
                     $csnotify.error(data);
@@ -299,7 +303,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
             dldata.allocSubpolicy.Products = products;
             dldata.allocSubpolicy.Category = 'Liner';
             //dldata.allocSubpolicy.DoAllocate = 1;
-           dldata.allocSubpolicy.NoAllocMonth = 1;
+            dldata.allocSubpolicy.NoAllocMonth = 1;
             resetCondition();
             if (angular.isDefined(form) || angular.isDefined(form2)) {
                 form.$setPristine();

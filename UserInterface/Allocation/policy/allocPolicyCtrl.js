@@ -58,8 +58,8 @@ csapp.controller('datemodelctrl', ['$scope', 'modelData', '$modalInstance', 'all
 
     }]);
 
-csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csModels',
-    function ($scope, datalayer, factory, $modal, $csModels) {
+csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPolicyFactory', '$modal', '$csModels', '$csShared',
+    function ($scope, datalayer, factory, $modal, $csModels, $csShared) {
         "use strict";
 
         var findIndex = function (list, value) {
@@ -216,6 +216,9 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             };
             $scope.dldata.buttonStatus = "";
             $scope.allocpolicy = $csModels.getColumns("AllocPolicy");
+            $scope.allocpolicy.Product.valueList = _.reject($csShared.enums.Products, function (item) {
+                return (item === "UNKNOWN" || item === "ALL");
+            });
         })();
 
         $scope.changeProductCategory = function () {
