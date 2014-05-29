@@ -1,36 +1,39 @@
 ﻿<div>
     <div class="form-horizontal">
         <cs-form layout="5.4.8">
-        <div class="row">
-            <form name="formviewalloc">
+            <div class="row">
+                <form name="formviewalloc">
                     <cs-field data-ng-model="allocData.selectedProduct" field="ViewApprovePolicy.Product" ng-required="true" value-list="ProductList | orderBy: 'toString()'"></cs-field>
                     <cs-field data-ng-model="allocData.selectedAllocation" field="ViewApprovePolicy.AllocStatus" ng-required="true"></cs-field>
-            </form>
-        </div>
+                </form>
+            </div>
 
-        <form name="formDateFilter">
-            <div class="row">
+            <form name="formDateFilter">
+                <div class="row">
                     <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                     <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
 
                     <cs-button type="save" text="OK" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)"></cs-button>
-            </div>
-        </form>
-   </cs-form>
+                </div>
+            </form>
+        </cs-form>
     </div>
 
     <div data-ui-if="gridOptions.showGrid == true">
         <div data-ng-include=" baseUrl + 'Generic/csgrid/grid-buttons.html'"></div>
         <div style="height: 500px;" data-ng-grid="gridOptions"></div>
     </div>
-    <div class="row" data-ng-show="gridOptions.showGrid == true">
-        <cs-button type="add" text="Change Allocation" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()"></cs-button>
-        <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
-        <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
-        <!-- data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()"-->
-        <cs-button type="save" text="Approve Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationApprove(allocData)"></cs-button>
-        <cs-button type="delete" text="Reject Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationReject(allocData)"></cs-button>
-        <div style="vertical-align: bottom; height: 60px;">
+    <form name="selectedAllocationform">
+        <div class="row" data-ng-show="gridOptions.showGrid == true">
+            <cs-button type="add" text="Change Allocation" data-ng-disabled="!(gridOptions.$gridScope.selectedItems.length>0)" data-ng-click="openChangeModal()"></cs-button>
+            <!--data-ng-show="gridOptions.$gridScope.selectedItems.length>0" data-ng-click="openModal=!openModal"-->
+            <!--<button class="btn btn-info" data-ng-click="openChurnModal()">Churn Allocation</button>-->
+            <!-- data-ng-click="churnModal=!churnModal" data-ng-show="showChurnButton()"-->
+            <cs-button type="save" text="Approve Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationApprove(allocData)"></cs-button>
+            <cs-button type="delete" text="Reject Allocation" data-ng-show="allocData.selectedAllocation=='Submitted' && dldata.gridOptions.$gridScope.selectedItems.length>0" data-ng-click="allocationReject(allocData)"></cs-button>
+            <div style="vertical-align: bottom; height: 60px;">
+            </div>
         </div>
-    </div>
+    </form>
 </div>
+
