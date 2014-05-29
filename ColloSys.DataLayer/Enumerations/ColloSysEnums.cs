@@ -177,6 +177,14 @@ namespace ColloSys.DataLayer.Enumerations
         }
 
         [Serializable]
+        public enum PolicyType
+        {
+            Payout,
+            Capping,
+            PF
+        }
+
+        [Serializable]
         public enum FileType
         {
             csv,

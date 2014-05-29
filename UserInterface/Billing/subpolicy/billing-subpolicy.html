@@ -1,22 +1,28 @@
 ﻿<div data-ng-form="subpolicyForm">
     <div class="form-horizontal">
-        <cs-form layout="7.3.6">
+        <cs-form layout="4.4.8">
             <cs-field data-ng-model="sele.Products"
-                      data-ng-change="getSubpolicyList(sele.Products)"
+                      data-ng-change="getSubpolicyList(sele)"
                       field="payoutSubpolicy.Products" ng-required="true"></cs-field>
-            <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.Products" 
-                       data-ng-click="addSubPolicy(sele.Products,subpolicyForm)">
+            
+            <cs-field data-ng-if="sele.Products" data-ng-model="sele.PolicyType"
+                      data-ng-change="getSubpolicyList(sele)"
+                      field="payoutSubpolicy.PolicyType">
+            </cs-field>
+
+            <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.PolicyType" 
+                       data-ng-click="addSubPolicy(sele,subpolicyForm)">
             </cs-button>
         </cs-form>
     </div>
 
     <div>
         <div class="col-md-3" data-ng-show="sele.Products">
-            <cs-list list-heading="Subpolicy list" value-list="subpolicyList" text-field="Name"
+            <cs-list list-heading="Subpolicy List" value-list="subpolicyList" text-field="Name"
                 data-ng-model="spayoutSubpolicy" data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list>
         </div>
 
-        <div class="col-md-9" data-ng-show="showDiv">
+        <div class="col-md-9" data-ng-if="showDiv">
             <!--Subpolicy-->
             <div id="subpolicy-display" data-ng-form="payoutSubpolicyForm">
                 <div class="panel panel-default">
@@ -27,6 +33,10 @@
                         <cs-form layout="7.3.7">
                             <cs-field data-ng-model="subpolicy.Products"
                                       field="payoutSubpolicy.Productname"
+                                      data-ng-disabled="true"></cs-field>
+
+                             <cs-field data-ng-model="subpolicy.PolicyType"
+                                      field="payoutSubpolicy.PolicyTypeText"
                                       data-ng-disabled="true"></cs-field>
                             <!--Name and Description-->
 

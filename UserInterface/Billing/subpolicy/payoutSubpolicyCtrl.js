@@ -3,11 +3,10 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
     function (rest, $csnotify, $csfactory) {
         var restApi = rest.all("PayoutSubpolicyApi");
 
-        var getSubpolicyList = function (product) {
-            return restApi.customGET("GetPayoutSubpolicy", { product: product })
+        var getSubpolicyList = function (selectedParams) {
+            return restApi.customGET("GetPayoutSubpolicy", { product: selectedParams.Products, policyType: selectedParams.PolicyType })
                 .then(function (data) {
                     return data;
-
                 }, function (data) {
                     $csnotify.error(data);
                 });
@@ -27,7 +26,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
             });
         };
 
-        var getMatrixList = function(product) {
+        var getMatrixList = function (product) {
             return restApi.customGET("GetMatrixList", { product: product })
                .then(function (data) {
                    return data;
@@ -45,20 +44,31 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
         };
     }]);
 
-csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '$modal', '$csModels', '$csShared',
-    function ($scope, datalayer,$modal, $csModels, $csShared) {
+csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '$modal', '$csModels', '$csShared', "$csnotify", "$csfactory",
+    function ($scope, datalayer, $modal, $csModels, $csShared, $csnotify, $csfactory) {
 
-        $scope.getSubpolicyList = function (product) {
-            datalayer.getSubpolicyList(product).then(function (data) {
+        $scope.getSubpolicyList = function (selectedParams) {
+
+            if ($csfactory.isNullOrEmptyString(selectedParams.Products) || $csfactory.isNullOrEmptyString(selectedParams.PolicyType))
+                return;
+
+            datalayer.getSubpolicyList(selectedParams).then(function (data) {
+
+                if (data.length === 0) {
+                    $csnotify.success("subpolicy dosen't exists");
+                    return;
+                }
+
                 $scope.subpolicyList = _.filter(data, { PayoutSubpolicyType: 'Subpolicy' });
                 $scope.formulaList = _.filter(data, { PayoutSubpolicyType: 'Formula' });
-                
                 //get matrixList
-                datalayer.getMatrixList(product).then(function (matrixData) {
+                datalayer.getMatrixList(selectedParams.Products).then(function (matrixData) {
                     $scope.matrixList = matrixData;
                 });
             });
-            $scope.subpolicy.Products = product;
+            $scope.subpolicy.Products = selectedParams.Products;
+            $scope.subpolicy.PolicyType = selectedParams.PolicyType;
+
         };
 
         var combineTokens = function (selectedTokens) {
@@ -81,7 +91,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             });
         };
 
-        $scope.resetSubPolicy = function(products,form) {
+        $scope.resetSubPolicy = function (products, form) {
             $scope.subpolicy = {};
             $scope.subpolicy.Products = products;
             $scope.selected = [];
@@ -94,10 +104,11 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             divideTokens(subpolicy.BillTokens);
         };
 
-        $scope.addSubPolicy = function (products,form) {
+        $scope.addSubPolicy = function (selectedParams, form) {
             $scope.showDiv = true;
             $scope.subpolicy = {};
-            $scope.subpolicy.Products = products;
+            $scope.subpolicy.Products = selectedParams.Products;
+            $scope.subpolicy.PolicyType = selectedParams.PolicyType;
             $scope.selected = [];
             form.$setPristine();
         };
@@ -121,6 +132,8 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.CustBillViewModel = $csModels.getColumns("CustomerInfo");
             $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.payoutSubpolicy = $csModels.getColumns("BillingSubpolicy");
+            $scope.payoutSubpolicy.PolicyTypeText = { type: "text", label: "Policy Type" };
+
             init();
         })();
     }]);
