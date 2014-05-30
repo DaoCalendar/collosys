@@ -8,6 +8,7 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using ColloSys.QueryBuilder.Test.GenerateDb;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
 
@@ -28,23 +29,15 @@ namespace AngularUI.Generic.Menu
         public HttpResponseMessage GetPermission(string user)
         {
             var query = GUserQueryBuilder.ApplyRelations().Where(x => x.Username == user);
-            var userData = GUserQueryBuilder.Execute(query).FirstOrDefault();
+            var userData = GUserQueryBuilder.Execute(query).Single();
+            var permission = PermissionManager.GetPermission(userData.Role);
 
-            GPermission parent = null;
-            GPermission childern = null;
-            GPermission grandChildren = null;
+            var menuMgr = new MenuManager();
+            var menu = menuMgr.CreateMenu();
 
-            var root = Session.QueryOver<GPermission>()
-                    .Where(x => x.Role.Id == userData.Role.Id)
-                    .And(x => x.Parent == null)
-                //.TransformUsing(Transformers.DistinctRootEntity)
-                    .List<GPermission>();
+            MenuManager.CreateAutherizedMenu(permission, menu);
 
-            var menu = new MenuManager();
-            var ma = menu.CreateMenu();
-
-            ma = (root == null || root.Count == 0) ? MenuManager.DefaultMenu(ma) : MenuManager.CreateAutherizedMenu(root[0], ma);
-            return Request.CreateResponse(HttpStatusCode.OK, ma);
+            return Request.CreateResponse(HttpStatusCode.OK, menu);
 
 
         }

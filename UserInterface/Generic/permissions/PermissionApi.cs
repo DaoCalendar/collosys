@@ -41,32 +41,8 @@ namespace AngularUI.Generic.permissions
         public HttpResponseMessage GetPermission(Guid id)
         {
             var hierarchy = Session.Get<StkhHierarchy>(id);
-            var devPermission = PermissionManager.CreateDevPermissions(hierarchy);
-            if (hierarchy.Hierarchy == "devadmin")
-            {
-                PermissionManager.SetAccess(devPermission, true);
-                return Request.CreateResponse(HttpStatusCode.OK, devPermission); ;
-            }
-
-
-            var userPermission = Session.Query<GPermission>()
-                                     .Where(x => x.Role.Id == id && x.Parent == null)
-                                     .Fetch(x => x.Role)
-                                     .FirstOrDefault();
-
-            var usermenu = devPermission.Childrens.First(x => x.Activity == ColloSysEnums.Activities.User);
-            if (userPermission == null)
-            {
-                PermissionManager.SetAccess(usermenu, true);
-                return Request.CreateResponse(HttpStatusCode.OK, devPermission); ; 
-            }
-
-            ParseList(userPermission);
-            PermissionManager.SetAccess(devPermission, false);
-            devPermission.HasAccess = true;
-            userPermission.HasAccess = true;
-            PermissionManager.UpdateRoot(devPermission, userPermission);
-            return Request.CreateResponse(HttpStatusCode.OK, devPermission); ; 
+            var devPermission = PermissionManager.GetPermission(hierarchy);
+            return Request.CreateResponse(HttpStatusCode.OK, devPermission); 
         }
         #endregion
 

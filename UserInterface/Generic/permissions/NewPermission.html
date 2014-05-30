@@ -2,25 +2,24 @@
     <div class="panel panel-default">
         <div class="panel-heading">Permissions</div>
         <div class="panel-body">
-            <div class="col-md-6">
-                <select data-ng-model="perm.hierarchy"
-                        class="form-control" data-ng-options="hier.Hierarchy for hier in  dldata.Hierarchy|unique : 'Hierarchy'">
-                </select>
-            </div>
-
-            <div data-ng-show="perm.hierarchy">
-                <div class="col-md-6">
-                    <select data-ng-model="perm.designation"
-                            class="form-control"
-                            data-ng-options="hier.Id as hier.Designation for hier in  dldata.Hierarchy|orderBy: 'PositionLevel'"
-                            data-ng-change="getPermission(perm.designation)">
+            <div class="col-md-5">
+                <div class="col-md-4">Hierarchy</div>
+                <div class="col-md-8">
+                    <select data-ng-model="perm.hierarchy" data-ng-click="getDesignation(perm.hierarchy)"
+                        class="form-control" data-ng-options="hier.Hierarchy as hier.Hierarchy for hier in  dldata.Hierarchy|unique : 'Hierarchy'">
                     </select>
-                    <!--  <select data-ng-model="perm.designation"
-                                  class="form-control"
-                                  data-ng-options="hier.Id as hier.Designation for hier in dldata.Hierarchy|
-                        filter : {'Hierarchy' : perm.hierarchy} | orderBy: 'PositionLevel'"
-                                  data-ng-change="datalayer.GetPermission(perm.designation)">
-                          </select>-->
+                </div>
+            </div>
+            <div data-ng-show="perm.hierarchy">
+                <div class="col-md-5">
+                    <div class="col-md-4">Designation</div>
+                    <div class="col-md-8">
+                        <select data-ng-model="perm.designation"
+                            class="form-control"
+                            data-ng-options="hier.Id as hier.Designation for hier in  dldata.Hierarchy|filter:{'Hierarchy':perm.hierarchy}|orderBy:'PositionLevel'"
+                            data-ng-change="getPermission(perm.designation)">
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>

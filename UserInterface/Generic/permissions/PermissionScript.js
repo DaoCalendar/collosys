@@ -4,6 +4,7 @@
     var restApi = rest.all('PermissionApi');
 
     dldata.stakeHierarchy = [];
+
     var getPermission = function (id) {
         if ($csfactory.isNullOrEmptyString(id)) return;
         return restApi.customGET('GetPermission', { 'id': id }).then(function (data) {
@@ -18,25 +19,6 @@
         });
     };
 
-    var setAccess = function (data) {
-        angular.forEach(data, function (value, module) {
-            var hasPerm = false;
-            var currModule = data[module];
-            console.log('current module: ', currModule);
-            angular.forEach(currModule.childrens, function (activityVal, activity) {
-                if (activity === 'access' && activityVal === true)
-                    hasPerm = true;
-                if (angular.isObject(activityVal)) {
-                    angular.forEach(activityVal, function (extraPermVal, extraPermKey) {
-                        if (extraPermKey === 'access' && extraPermVal === true)
-                            hasPerm = true;
-                    });
-                }
-            });
-            currModule['access'] = hasPerm;
-        });
-    };
-
 
     var saveNew = function (data) {
         restApi.customPOST(data, 'Post').then(function (hierarchy) {
@@ -45,153 +27,18 @@
     };
 
     var savePerm = function (data) {
-        return restApi.customPOST(data, 'SavePerm').then(function (data) {
+        return restApi.customPOST(data, 'SavePerm').then(function (updatedPerm) {
             $csnotify.success("Permisson Saved");
-            return data;
+            return updatedPerm;
         });
     };
 
-    var setPermissions = function (permission) {
-        var perm = JSON.stringify(permission);
-        restApi.customPOST({ 'json': perm }, 'SetPermission').then(function () {
-            getAll();
-        });
-    };
-
-    var saveUpdates = function (hierarchies) {
-        restApi.customPOST(hierarchies, 'SaveHierarchies').then(function (data) {
-            dldata.stakeHierarchy = data;
-            $csnotify.success('Permissions Updated');
-        });
-    };
-
-    var getAll = function () {
-        restApi.customGET('Get').then(function (data) {
-            dldata.stakeHierarchy = data;
-
-            setUpdatesinPrem(dldata.stakeHierarchy);
-            if (dldata.permissionsChanged)//save updates only if there is any change in the permissions
-                saveUpdates(dldata.stakeHierarchy);
-        });
-
-    };
-
-    var setUpdatesinPrem = function (hierarchies) {
-        dldata.permissionsChanged = false;
-        _.forEach(hierarchies, function (item) {
-            if (!$csfactory.isEmptyObject(item.Permissions)) {
-                var perm = JSON.parse(item.Permissions);
-                deleteOld(perm, permFactory.permission);
-                addNew(perm, permFactory.permission);
-                item.Permissions = JSON.stringify(perm);
-            }
-        });
-    };
-
-    var checkChange = function (oldName, newName) {
-        if (oldName !== newName) {
-            oldName = newName;
-            dldata.permissionsChanged = true;
-            console.log('changed from: ', oldName, 'to: ', newName);
-        }
-
-        return oldName;
-    };
-
-    var deleteOld = function (oldPermission, newPermission) {
-        angular.forEach(angular.copy(oldPermission), function (value, module) {
-            if (newPermission.hasOwnProperty(module)) {
-
-                var newModule = newPermission[module];
-                oldPermission[module].name = checkChange(oldPermission[module].name, newModule.name);//check change in name
-                oldPermission[module].description = checkChange(oldPermission[module].description, newModule.description);//check change in description
-
-                angular.forEach(oldPermission[module]['childrens'], function (activityValues, activity) {
-                    if (newPermission[module]['childrens'].hasOwnProperty(activity)) {
-
-                        var newActivity = newPermission[module]['childrens'][activity];
-                        var oldActivity = oldPermission[module]['childrens'][activity];
-                        oldPermission[module]['childrens'][activity].name = checkChange(oldActivity.name, newActivity.name);
-                        oldPermission[module]['childrens'][activity].description = checkChange(oldActivity.description, newActivity.description);
-
-
-                        angular.forEach(oldPermission[module]['childrens'][activity]['childrens'], function (extravalues, extra) {
-                            if (newPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
-
-                                var newExtra = newPermission[module]['childrens'][activity]['childrens'][extra];
-                                var oldExtra = oldPermission[module]['childrens'][activity]['childrens'][extra];
-                                oldPermission[module]['childrens'][activity]['childrens'][extra].name = checkChange(oldExtra.name, newExtra.name);
-                                oldPermission[module]['childrens'][activity]['childrens'][extra].description = checkChange(oldExtra.description, newExtra.description);
-
-                            }
-                            else {
-
-                                if (angular.isUndefined(oldPermission[module]['childrens'][activity]['childrens'][extra]))
-                                    return;
-                                else {
-                                    console.log('extraPerm deleted: ', oldPermission[module]['childrens'][activity]['childrens'][extra]);
-                                    dldata.permissionsChanged = true;
-                                    delete oldPermission[module]['childrens'][activity]['childrens'][extra];
-
-                                }
-
-                            }
-                        });
-                    } else {
-
-                        if (angular.isUndefined(oldPermission[module]['childrens'][activity]))
-                            return;
-                        console.log('activity deleted: ', oldPermission[module]['childrens'][activity]);
-                        dldata.permissionsChanged = true;
-                        delete oldPermission[module]['childrens'][activity];
-
-                    }
-                });
-            } else {
-
-                if (angular.isUndefined(oldPermission[module]))
-                    return;
-                console.log('module deleted: ', oldPermission[module]);
-                dldata.permissionsChanged = true;
-                delete oldPermission[module];
-
-            }
-        });
-    };
-
-    var addNew = function (oldPermission, newPermission) {
-        angular.forEach(newPermission, function (value, module) {
-            if (!oldPermission.hasOwnProperty(module)) {
-                oldPermission[module] = value;
-                dldata.permissionsChanged = true;
-                console.log('module added: ', module);
-            } else {
-                angular.forEach(newPermission[module]['childrens'], function (activityVal, activity) {
-                    if (!oldPermission[module]['childrens'].hasOwnProperty(activity)) {
-                        oldPermission[module]['childrens'][activity] = activityVal;
-                        dldata.permissionsChanged = true;
-                        console.log('activity added: ', activity);
-                    } else {
-                        angular.forEach(newPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
-                            if (!oldPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
-                                oldPermission[module]['childrens'][activity]['childrens'][extra] = extraVal;
-                                dldata.permissionsChanged = true;
-                                console.log('extraPerm added: ', extra);
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    };
 
     return {
         dldata: dldata,
         Save: saveNew,
         SavePerm: savePerm,
-        SetPermissions: setPermissions,
         GetPermission: getPermission,
-        GetAll: getAll,
         GetStakeData: getStakeData
     };
 }]);
@@ -204,16 +51,11 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.GetStakeData();
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
-            datalayer.SetPermissions(permissionsFactory.permission);
             $scope.Permission = $csModels.getColumns("Permission");
             $scope.prmsn = permissionsFactory.permission;
 
             console.log("dldata: ", $scope.dldata);
         })();
-
-        $scope.save = function (data) {
-            datalayer.saveNew(data);
-        };
 
         $scope.getPermission = function (id) {
             datalayer.GetPermission(id).then(function (data) {
@@ -225,6 +67,7 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
         $scope.save = function (data, id) {
             data.Role = getRoleById(id, $scope.dldata.Hierarchy);
+            setModuleAccess(data);
             datalayer.SavePerm(data).then(function (updatedData) {
                 $scope.currPermData = updatedData;
             });
@@ -235,6 +78,20 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
                 if (hier.Id === id) return hier;
             });
             return hierarachy;
+        };
+
+        var setModuleAccess = function (root) {
+
+            _.forEach(root.Childrens, function (module) {
+                module.HasAccess = false;
+                _.forEach(module.Childrens, function (activity) {
+                    if (activity.HasAccess === true) module.HasAccess = true;
+                    _.forEach(activity.Childrens, function (child) {
+                        if (child.HasAccess === true) module.HasAccess = true;
+                    });
+                });
+            });
+
         };
 
         $scope.ticks = function (module) {
@@ -295,135 +152,89 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
 
 
-//setAccess(data);
+//var deleteOld = function (oldPermission, newPermission) {
+//    angular.forEach(angular.copy(oldPermission), function (value, module) {
+//        if (newPermission.hasOwnProperty(module)) {
 
-//dldata.Hierarchy.Permissions = JSON.stringify(data);
-//update the hierarchy
-//update the hierarchy in the list of hierarchies
-//_.forEach(dldata.stakeHierarchy, function (item) {
-//    if (item.Id === hierarchy.Id) {
-//        item = hierarchy;
-//        return;
-//    }
-//});
+//            var newModule = newPermission[module];
+//            oldPermission[module].name = checkChange(oldPermission[module].name, newModule.name);//check change in name
+//            oldPermission[module].description = checkChange(oldPermission[module].description, newModule.description);//check change in description
+
+//            angular.forEach(oldPermission[module]['childrens'], function (activityValues, activity) {
+//                if (newPermission[module]['childrens'].hasOwnProperty(activity)) {
+
+//                    var newActivity = newPermission[module]['childrens'][activity];
+//                    var oldActivity = oldPermission[module]['childrens'][activity];
+//                    oldPermission[module]['childrens'][activity].name = checkChange(oldActivity.name, newActivity.name);
+//                    oldPermission[module]['childrens'][activity].description = checkChange(oldActivity.description, newActivity.description);
 
 
+//                    angular.forEach(oldPermission[module]['childrens'][activity]['childrens'], function (extravalues, extra) {
+//                        if (newPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
 
+//                            var newExtra = newPermission[module]['childrens'][activity]['childrens'][extra];
+//                            var oldExtra = oldPermission[module]['childrens'][activity]['childrens'][extra];
+//                            oldPermission[module]['childrens'][activity]['childrens'][extra].name = checkChange(oldExtra.name, newExtra.name);
+//                            oldPermission[module]['childrens'][activity]['childrens'][extra].description = checkChange(oldExtra.description, newExtra.description);
 
-//var updatePermission = function (oldPermission, newPermission) {
+//                        }
+//                        else {
 
+//                            if (angular.isUndefined(oldPermission[module]['childrens'][activity]['childrens'][extra]))
+//                                return;
+//                            else {
+//                                console.log('extraPerm deleted: ', oldPermission[module]['childrens'][activity]['childrens'][extra]);
+//                                dldata.permissionsChanged = true;
+//                                delete oldPermission[module]['childrens'][activity]['childrens'][extra];
 
-//    _.forEach(oldPermission, function (perm) {
-//        //gets the currently  referrenced area from the newPermission
-//        var newPermArea = _.find(newPermission, function (item) {
-//            if (item.area === perm.area)
-//                return item;
-//        });
-//        if (angular.isUndefined(newPermArea)) return;
+//                            }
 
-//        _.forEach(perm.permissions, function (category) {
-//            //gets the currently  referrenced category from the newPermission
-//            var newPermCategory = _.find(newPermArea.permissions, function (item) {
-//                if (item.category === category.category)
-//                    return item;
-//            });
-//            if (angular.isUndefined(newPermCategory)) return;
+//                        }
+//                    });
+//                } else {
 
-//            _.forEach(angular.copy(newPermCategory.extrapermission), function (extraPerm) {
-//                //checks for new permission if any
-//                var checkForNew = _.find(category.extrapermission, function (newExtraPerm) {
-//                    if (newExtraPerm.display === extraPerm.display)
-//                        return newExtraPerm;
-//                });
-//                if (angular.isUndefined(checkForNew)) {
-//                    //add the extrapermission if it dosen't exist
-//                    category.extrapermission.push(extraPerm);
+//                    if (angular.isUndefined(oldPermission[module]['childrens'][activity]))
+//                        return;
+//                    console.log('activity deleted: ', oldPermission[module]['childrens'][activity]);
 //                    dldata.permissionsChanged = true;
-//                }
+//                    delete oldPermission[module]['childrens'][activity];
 
-//            });
-//            _.forEach(angular.copy(category.extrapermission), function (oldExtraPerm) {
-//                //checks for removed permission if any
-//                var checkForRemoved = _.find(newPermCategory.extrapermission, function (newExtraPerm) {
-//                    if (oldExtraPerm.display === newExtraPerm.display)
-//                        return newExtraPerm;
-//                });
-//                //delete the extrapermission from oldPermission which dosen't exist in newPermission 
-//                if (angular.isUndefined(checkForRemoved)) {
-//                    var oldPermArray = _.pluck(category.extrapermission, 'display');
-//                    var index = oldPermArray.indexOf(oldExtraPerm.display);
-//                    category.extrapermission.splice(index, 1);
-//                    dldata.permissionsChanged = true;
 //                }
 //            });
-//        });
+//        } else {
 
+//            if (angular.isUndefined(oldPermission[module]))
+//                return;
+//            console.log('module deleted: ', oldPermission[module]);
+//            dldata.permissionsChanged = true;
+//            delete oldPermission[module];
+
+//        }
 //    });
 //};
 
-
-//$scope.uncheckExtraPerm = function (checked, extraPermission) {
-//    if (checked === false) {
-//        _.forEach(extraPermission, function (item) {
-//            item.access = false;
-//        });
-//    } else return;
-//};
-
-
-
-//var oldStakePerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'Stakeholder') return item;
-//});
-//var newStakePerm = _.find(newPermission, function (item) {
-//    if (item.area === 'Stakeholder') return item;
-//});
-//updateArea(oldStakePerm, newStakePerm);//updates stakeholder
-
-//var newAllocPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'Allocation') return item;
-//});
-//var oldAllocPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'Allocation') return item;
-//});
-//updateArea(newAllocPerm, oldAllocPerm);//updates allocation
-
-//var oldBillingPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'Billing') return item;
-//});
-//var newBillingPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'Billing') return item;
-//});
-//updateArea(oldBillingPerm, newBillingPerm);//updates billing
-
-//var oldFileUploadPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'File Upload') return item;
-//});
-//var newFileUploadPerm = _.find(oldPermission, function (item) {
-//    if (item.area === 'File Upload') return item;
-//});
-//updateArea(oldFileUploadPerm, newFileUploadPerm);//updates file upload
-
-//var updateArea = function (oldPerm, newPerm) {
-//    var oldView = _.find(oldPerm.permissions, function (item) {
-//        if (item.category === 'view') return item;
-//    });
-//    var newView = _.find(newPerm.permissions, function (item) {
-//        if (item.category === 'view') return item;
-//    });
-//    updateExtraPerm(oldView, newView);
-
-//};
-
-//var updateExtraPerm = function (oldCategory, newCategory) {
-//    _.forEach(newCategory.extrapermission, function (newExtraPerm) {
-//        var perm = _.find(oldCategory.extrapermission, function (item) {
-//            if (item.display === newExtraPerm.display)
-//                return item;
-//        });
-
-//        if (angular.isUndefined(perm))
-//            oldCategory.extrapermission.push(newExtraPerm);
+//var addNew = function (oldPermission, newPermission) {
+//    angular.forEach(newPermission, function (value, module) {
+//        if (!oldPermission.hasOwnProperty(module)) {
+//            oldPermission[module] = value;
+//            dldata.permissionsChanged = true;
+//            console.log('module added: ', module);
+//        } else {
+//            angular.forEach(newPermission[module]['childrens'], function (activityVal, activity) {
+//                if (!oldPermission[module]['childrens'].hasOwnProperty(activity)) {
+//                    oldPermission[module]['childrens'][activity] = activityVal;
+//                    dldata.permissionsChanged = true;
+//                    console.log('activity added: ', activity);
+//                } else {
+//                    angular.forEach(newPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
+//                        if (!oldPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
+//                            oldPermission[module]['childrens'][activity]['childrens'][extra] = extraVal;
+//                            dldata.permissionsChanged = true;
+//                            console.log('extraPerm added: ', extra);
+//                        }
+//                    });
+//                }
+//            });
+//        }
 //    });
 //};
-

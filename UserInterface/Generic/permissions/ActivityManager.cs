@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SessionMgr;
 using Glimpse.AspNet.Tab;
 using Microsoft.Ajax.Utilities;
+using NHibernate.Linq;
 using NHibernate.SqlCommand;
 using NHibernate.Transform;
 
@@ -46,10 +50,53 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             return permission.HasAccess;
         }
 
+        private static void ParseList(GPermission permissions)
+        {
+            if (permissions.Childrens == null || permissions.Childrens.Count == 0) return;
+            foreach (var gPermission in permissions.Childrens)
+            {
+                ParseList(gPermission);
+            }
+        }
+
+
+        public static GPermission GetPermission(StkhHierarchy hierarchy)
+        {
+            var devPermission = CreateDevPermissions(hierarchy);
+
+            if (hierarchy.Hierarchy == "Developer")
+            {
+                SetAccess(devPermission, true);
+                return devPermission;
+            }
+
+            var session = SessionManager.GetCurrentSession();
+            var userPermission = session.Query<GPermission>()
+                                     .Where(x => x.Role.Id == hierarchy.Id && x.Parent == null)
+                                     .Fetch(x => x.Role)
+                                     .FirstOrDefault();
+
+            var usermenu = devPermission.Childrens.First(x => x.Activity == ColloSysEnums.Activities.User);
+            if (userPermission == null)
+            {
+                SetAccess(devPermission, false);
+                SetAccess(usermenu, true);
+                return devPermission;
+            }
+
+            ParseList(userPermission);
+            devPermission.HasAccess = true;
+            userPermission.HasAccess = true;
+            UpdateRoot(devPermission, userPermission);
+
+            SetAccess(usermenu, true);
+            return devPermission;
+        }
+
         public static GPermission SetAccess(GPermission root, bool access)
         {
             root.HasAccess = access;
-            if (root.Childrens == null || root.Childrens.Count == 0) 
+            if (root.Childrens == null || root.Childrens.Count == 0)
                 return root;
             foreach (var child in root.Childrens)
             {
@@ -61,13 +108,17 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         public static void UpdateRoot(GPermission devPermission, GPermission userPermission)
         {
+
+            devPermission.Id = userPermission.Id;
+            devPermission.Version = userPermission.Version;
+
             if (devPermission.Activity != userPermission.Activity) return;
             devPermission.HasAccess = userPermission.HasAccess;
 
             foreach (var child in devPermission.Childrens)
             {
                 var userPerm = userPermission.Childrens.SingleOrDefault(x => x.Activity == child.Activity);
-                if(userPerm != null) UpdateRoot(child, userPerm);
+                if (userPerm != null) UpdateRoot(child, userPerm);
             }
         }
 

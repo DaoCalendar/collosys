@@ -44,13 +44,14 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                                        .Where(x => x.Designation == "HOC")
                                        .And(x => x.Hierarchy == "Field")
                                        .SingleOrDefault();
-                GPermission root = PermissionManager.CreateDevPermissions(hierarchy);
-                root = PermissionManager.SetAccess(root, true);
+                GPermission devadmin = PermissionManager.CreateDevPermissions(hierarchy);
 
-                root.Childrens[0].Childrens[0].Childrens[0].HasAccess = false;
-                root = PermissionManager.SetAccess(root, hierarchy);
+                GPermission userperm = PermissionManager.CreateDevPermissions(hierarchy);
+                userperm = PermissionManager.SetAccess(userperm, true);
+                userperm.Childrens[0].Childrens[0].Childrens[0].HasAccess = false;
+                PermissionManager.UpdateRoot(userperm, devadmin);
 
-               
+
 
                 sx.Rollback();
             }
