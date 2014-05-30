@@ -54,6 +54,8 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string Subvention { get; set; }
         public virtual string Corporate { get; set; }
         public virtual ScbEnums.Products Product { get; set; }
+        public virtual string OrignateByFinal{ get; set; }
+
         public virtual string AgentId { get; set; }
         public virtual UInt32 BillMonth { get; set; }
         public virtual ColloSysEnums.BillStatus BillStatus { get; set; }

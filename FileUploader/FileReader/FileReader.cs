@@ -30,7 +30,7 @@ namespace ColloSys.FileUploader.FileReader
         private readonly IExcelReader _excelReader;
         private readonly uint _batchSize;
         private readonly ICounter _counter;
-
+        public readonly bool IsNpOi; 
         protected FileReader(IAliasRecordCreator<T> recordCreator)
         {
             
@@ -41,6 +41,15 @@ namespace ColloSys.FileUploader.FileReader
             _excelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
             _objRecord = new RecordCreator<T>(recordCreator, _excelReader, _counter);
             _batchSize = 500;
+
+            if (_excelReader.CurrentRow==1)
+            {
+                IsNpOi = false;
+            }
+            else
+            {
+                IsNpOi = true;
+            }
         }
         #endregion
 
@@ -85,7 +94,15 @@ namespace ColloSys.FileUploader.FileReader
                 {
                     obj.FileScheduler = _fs;
                     obj.FileDate = _fs.FileDate;
-                    obj.FileRowNo = _excelReader.CurrentRow;
+                    if (IsNpOi)
+                    {
+                        obj.FileRowNo = _excelReader.CurrentRow+1;
+                    }
+                    else
+                    {
+                        obj.FileRowNo = _excelReader.CurrentRow;
+                    }
+                    
                     list.Add(obj);
                 }
                 _excelReader.NextRow();
@@ -93,6 +110,8 @@ namespace ColloSys.FileUploader.FileReader
             return list;
         }
         #endregion
+
+       
 
         public void ProcessFile()
         {

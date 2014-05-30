@@ -30,7 +30,10 @@ namespace ColloSys.FileUploader.AliasRecordCreator
             try
             {
                 obj.FileDate = FileScheduler.FileDate.Date;
+                obj.AgentId = reader.GetValue(33).Substring(0, 6);
+                obj.BillMonth = Convert.ToUInt32(FileScheduler.FileDate.ToString("yyyyMM"));
                 obj.Loancode = uint.Parse(reader.GetValue(_accountPosition)).ToString("D" + _accountLength.ToString(CultureInfo.InvariantCulture));
+                
                 GetComputations(obj, reader);
                 return true;
             }
@@ -51,14 +54,14 @@ namespace ColloSys.FileUploader.AliasRecordCreator
         {
             // loan no should be a number
             ulong loanNumber;
-            if (!ulong.TryParse(reader.GetValue(_accountPosition), out loanNumber))
+            if (!ulong.TryParse(reader.GetValue(_accountPosition), out loanNumber) )
             {
                 counter.IncrementIgnoreRecord();
                 return false;
             }
 
             // loan number must be of 2 digits min
-            return (loanNumber.ToString(CultureInfo.InvariantCulture).Length >= 2);
+            return (true);
         }
 
         public bool IsRecordValid(DHFL_Liner record, ICounter counter)

@@ -53,11 +53,14 @@ namespace ColloSys.DataLayer.Mapping
             Property(x=>x.DisbNo);
             Property(x=>x.Subvention);
             Property(x=>x.Product);
+            Property(x=>x.OrignateByFinal);
             Property(x=>x.AgentId);
             Property(x=>x.Corporate);
 
-            //ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
-
+            ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
+            ManyToOne(x => x.BillDetail, map => map.NotNullable(false));
+            Property(x=>x.BillMonth);
+            Property(x=>x.BillStatus);
             Property(x => x.FileDate);
             Property(x => x.FileRowNo);
             #endregion
