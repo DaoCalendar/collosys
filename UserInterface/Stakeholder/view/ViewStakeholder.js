@@ -117,6 +117,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             restApi.customGET("AllData", { currUser: $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.completeData = data.completeData;
                 $scope.hierarchyDesignation = data.hierarchyDesignation;
+                $scope.HierarchyData = _.uniq(_.pluck(data.hierarchyDesignation, 'Hierarchy'));
                 $scope.productList = data.products;
                 $scope.CurrUserInfo = data.currUserData;
                 showButton();
@@ -161,31 +162,33 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
         };
 
-        $scope.changeHierarchylist = function () {
+        $scope.changeHierarchylist = function (stakeholder) {
+            if (angular.isUndefined(stakeholder)) return;
+
             $scope.showDiv = false;
             $scope.stakeholder.Designation = "";
             $scope.product = "";
+            $scope.Designation = [];
 
-            if (($scope.stakeholder.Hierarchy.Hierarchy !== 'External') || ($scope.stakeholder.Hierarchy.IsIndividual === false)) {
-                $scope.Designation = _.filter($scope.hierarchyDesignation, function (data) {
-                    if (data.Hierarchy === $scope.stakeholder.Hierarchy.Hierarchy) return data;
+            $scope.hierarchyDesignation = _.sortBy($scope.hierarchyDesignation, 'PositionLevel');
+            if (stakeholder.Hierarchy !== 'External') {
+                _.forEach($scope.hierarchyDesignation, function (item) {
+                    $scope.Designation.push(item);
                 });
             } else {
 
                 $scope.Designation = _.filter($scope.hierarchyDesignation, function (data) {
-                    if (data.Hierarchy === $scope.stakeholder.Hierarchy.Hierarchy) return data;
+                    if (data.Hierarchy === stakeholder.Hierarchy) return data;
                 });
 
                 _.forEach($scope.Designation, function (item) {
-                    var reportTo = _.find($scope.hierarchyDesignation, { 'Id': $scope.stakeholder.Hierarchy.ReportsTo });
+                    var reportTo = _.find($scope.hierarchyDesignation, { 'Id': stakeholder.ReportsTo });
                     item.Designation = item.Designation + ' (' + reportTo.Designation + ')';
                 });
             }
-
-
-
-
         };
+
+
 
         $scope.setHierarchy = function (data) {
             $scope.hierarchyId = data;
@@ -314,7 +317,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeById = function (id) {
-            if (id.length < 7 || id.length>7) {
+            if (id.length < 7 || id.length > 7) {
                 $scope.stakeholderData = [];
                 $scope.showDiv = false;
                 return;
@@ -871,11 +874,11 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.pagenum = 1;
             $scope.viewModels = {
                 View: { label: "View", type: "enum" },
-                Hierarchy: { label: "Hierarchy", type: "select", textField: 'Hierarchy' },
+                Hierarchy: { label: "Hierarchy", type: "enum" },
                 Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
                 Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
                 Products: { label: "Products", type: "enum" },
-                SearchByName: { label:'ID',placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
+                SearchByName: { label: 'ID', placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
             };
             $scope.currUser = $csfactory.getCurrentUserName();
 
