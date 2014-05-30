@@ -16,6 +16,65 @@ namespace BillingService2.DBLayer
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static BillingPolicy GetPolicies(Stakeholders stakeholders)
+        {
+            try
+            {
+                var session = SessionManager.GetCurrentSession();
+
+                var billingPolicy = session.QueryOver<BillingPolicy>()
+                                              //.Where(x => x == products)
+                                              .SingleOrDefault();
+                return billingPolicy;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+
+                return null;
+            }
+        }
+
+        public static BillingPolicy GetPolicies(StkhHierarchy stkhHierarchy)
+        {
+            try
+            {
+                var session = SessionManager.GetCurrentSession();
+
+                var billingPolicy = session.QueryOver<BillingPolicy>()
+                                              //.Where(x => x == products)
+                                              .SingleOrDefault();
+                return billingPolicy;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+
+                return null;
+            }
+        }
+
+        public static BillingPolicy GetPolicies(ScbEnums.Products products)
+        {
+            try
+            {
+                var session = SessionManager.GetCurrentSession();
+
+                var billingPolicy = session.QueryOver<BillingPolicy>()
+                                              .Where(x => x.Products == products)
+                                              .SingleOrDefault();
+                return billingPolicy;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(string.Format("BillingPolicyDbLayer.GetSubpolicies() : {0}", ex.Message));
+
+                return null;
+            }
+        }
+
+
+
         // get list of billing policy based on product
         public static BillingPolicy GetPolicies(ScbEnums.Products products, ScbEnums.Category category)
         {

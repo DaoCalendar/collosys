@@ -9,10 +9,10 @@
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
             DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, required: true },
             FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, },
-            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name"},
+            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name" },
             Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, },
             SkipLine: { label: "Skip Line", type: "number", template: 'int', pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
-            FileDirectory: { label: "FileDirectory", type: "text",  },
+            FileDirectory: { label: "FileDirectory", type: "text", },
             ActualTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             EmailId: { label: "Email Id", type: "email", required: true },
             Description: { label: "Description", type: "text", required: true },
@@ -41,11 +41,11 @@
 
     var fileMapping = function () {
         return {
-            ActualTable: { label: "Actual Table", type: "text",},
+            ActualTable: { label: "Actual Table", type: "text", },
             FileDetail: { label: "File Name", type: "enum" },// tobe disscuss Enum query 
             ActualColumn: { label: "Actual Column", type: "text" },
-            Position: { label: "Position", type: "number",template:"uint", required: true },
-            OutputPosition: { label: "Output Position", type: "number",template:"uint", required: true },
+            Position: { label: "Position", type: "number", template: "uint", required: true },
+            OutputPosition: { label: "Output Position", type: "number", template: "uint", required: true },
             OutputColumnName: { label: "Output ColumnName", type: "text", required: true },
             ValueType: { label: "Value Type", type: "enum", valueList: $csShared.enums.FileMappingValueType, required: true },
             TempTable: { label: "Temp Table", type: "text" },
@@ -66,7 +66,7 @@
             GlobalCustId: { type: "enum", valueList: [] },
             CustomerName: { label: "CustomerName", type: "text" },
             Pincode: { label: "Pincode", type: "number", template: "uint" },
-            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required:true },
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
             CustStatus: { label: "CustStatus", type: "text" },
             AllocStartDate: { label: "AllocStartDate", type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
@@ -87,6 +87,51 @@
             TotalAmountRecovered: { type: "number", template: "uint" },
             City: { type: 'text' },
             CityCategory: { type: 'enum', valueList: $csShared.enums.CityCategory },
+        };
+    };
+
+    var dhflLiner = function () {
+        return {
+            TotalDisbAmt: { label: "TotalDisbAmt", type: "number", template: "ulong" },
+            TotalProcFee: { label: "TotalProcFee", type: "number", template: "ulong" },
+            Payout: { label: "Payout", type: "number", template: "ulong" },
+            TotalPayout: { label: "TotalPayout", type: "number", template: "ulong" },
+            DeductCap: { label: "DeductCap", type: "number", template: "ulong" },
+            DeductPf: { label: "DeductPf", type: "number", template: "ulong" },
+            FinalPayout: { label: "FinalPayout", type: "number", template: "ulong" },
+            BranchName: { label: "BranchName", type: "text" },
+            Branchcat: { label: "Branchcat", type: "text" },
+            ApplNo: { label: "ApplNo", type: "number", template: "uint" },
+            Loancode: { label: "Loancode", type: "text" },
+            SalesRefNo: { label: "SalesRefNo", type: "number", template: "uint" },
+            Name: { label: "Name", type: "text" },
+            SanctionDt: { label: "SanctionDt", type: "date" },
+            SanAmt: { label: "SanAmt", type: "number", template: "ulong" },
+            DisbursementDt: { label: "DisbursementDt", type: "date" },
+            DisbursementAmt: { label: "DisbursementAmt", type: "number", template: "ulong" },
+            FeeDue: { label: "FeeDue", type: "number", template: "uint" },
+            FeeWaived: { label: "FeeWaived", type: "number", template: "uint" },
+            FeeReceived: { label: "FeeReceived", type: "number", template: "uint" },
+            MemberName: { label: "MemberName", type: "text" },
+            DesigName: { label: "DesigName", type: "text" },
+            Orignateby: { label: "Orignateby", type: "text" },
+            Orignateby2: { label: "Orignateby2", type: "text" },
+            Orignateby3: { label: "Orignateby3", type: "text" },
+            Orignateby4: { label: "Orignateby4", type: "text" },
+            Orignateby5: { label: "Orignateby5", type: "text" },
+            Occupcategory: { label: "Orignateby", type: "text" },
+            Referraltype: { label: "Referraltype", type: "text" },
+            Referralname: { label: "Referralname", type: "text" },
+            Referralcode: { label: "Referralcode", type: "text" },
+            Sourcename: { label: "Sourcename", type: "text" },
+            SchemeGroupName: { label: "SchemeGroupName", type: "text" },
+            M_Schname: { label: "M_Schname", type: "text" },
+            Premium: { label: "Premium", type: "text" },
+            DisbNo: { label: "DisbNo", type: "text" },
+            Subvention: { label: "Subvention", type: "text" },
+            Corporate: { label: "Corporate", type: "text" },
+            Product: { label: "Product", type: "text" },
+            AgentId: { label: "AgentId", type: "text" },
         };
     };
 
@@ -135,7 +180,7 @@
             SelectedDateWeekly: { label: 'File Date', type: 'date', template: 'Weekly' },
             SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'Monthly' },
             IsImmediate: { label: 'Upload Mode', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key' },
-            ImmediateReason: { label: 'ImmediateReason',type:'textarea', required: true, minlength: 5 }
+            ImmediateReason: { label: 'ImmediateReason', type: 'textarea', required: true, minlength: 5 }
         };
     };
 
@@ -160,6 +205,11 @@
         models.CustomerInfo = {
             TableName: 'CustomerInfo',
             Columns: customerInfo()
+        };
+
+        models.DhflLiner = {
+            TableName: 'DhflLiner',
+            Columns: dhflLiner()
         };
 
         models.Fcondition = {

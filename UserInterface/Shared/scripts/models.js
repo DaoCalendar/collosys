@@ -39,6 +39,8 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
 
                 case "CustomerInfo":
                     return angular.copy(models.FileUpload.CustomerInfo);
+                case "DhflLiner":
+                    return angular.copy(models.FileUpload.DhflLiner);
 
                 case "Payment":
                     return angular.copy(models.FileUpload.Payment);

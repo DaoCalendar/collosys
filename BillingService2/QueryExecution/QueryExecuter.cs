@@ -1,18 +1,21 @@
 #region references
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
 using BillingService2.ViewModel;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 
 #endregion
 
 namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
-    public class QueryExecuter<T> where T : CustBillViewModel
+    public class QueryExecuter<T> where T : class 
     {
         #region ctor
         private readonly IList<BillTokens> _billTokenses;
@@ -31,6 +34,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         #region executer
 
+        public delegate void ForEachFuc(T obj, decimal value);
+
+        public ForEachFuc ForEachFuction { get; set; }
+
         public List<T> ExeculteOnList(List<T> dataList)
         {
             var filterData = ConditionExecuter(dataList);
@@ -48,7 +55,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             var stringConditionQuery = _stringQueryBuilder.GenerateAndOrQuery(conditionToken);
 
-            var conditionExpression = DynamicExpression.ParseLambda<CustBillViewModel, bool>(stringConditionQuery);
+            var conditionExpression = DynamicExpression.ParseLambda<T, bool>(stringConditionQuery);
             var resultData = dataList.Where(x => conditionExpression.Compile().Invoke(x)).ToList();
             return resultData;
         }
@@ -59,6 +66,9 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             if (outPutToken.Count <= 0)
                 return dataList;
+
+            if (ForEachFuction == null)
+                throw new NotImplementedException("ForEachFunction not implimented");
 
             if (outPutToken[0].Type == "Formula" && outPutToken[0].DataType == "IfElse")
             {
@@ -71,8 +81,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             }
 
             var stringOutputQuery = _stringQueryBuilder.GenerateOutputQuery(outPutToken);
-            var outputExpression = DynamicExpression.ParseLambda<CustBillViewModel, dynamic>(stringOutputQuery);
-            dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
+            var outputExpression = DynamicExpression.ParseLambda<T, decimal>(stringOutputQuery);
+            //dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
+            
+            dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x)));
 
             return dataList;
         }
@@ -93,7 +105,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
                 var groupId = groupIds[i];
                 var tokens = formulaTokens.Where(x => x.GroupId == groupId).ToList();
 
-                var queryExecuter = new QueryExecuter<T>(tokens);
+                var queryExecuter = new QueryExecuter<T>(tokens)
+                {
+                    ForEachFuction = ForEachFuction
+                };
                 queryExecuter.ExeculteOnList(dataList);
             }
 
@@ -102,11 +117,14 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private List<T> MatrixExecuter(List<T> dataList)
         {
-            var bMatrix=new BMatrix();
+            var bMatrix = new BMatrix();
 
             var tokens = MatrixCalulater.GetBConditionsForMatrix(bMatrix);
 
-            var queryExecuter = new QueryExecuter<T>(tokens);
+            var queryExecuter = new QueryExecuter<T>(tokens)
+            {
+                ForEachFuction = ForEachFuction
+            };
             queryExecuter.ExeculteOnList(dataList);
 
             return new List<T>();

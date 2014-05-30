@@ -18,6 +18,8 @@ namespace ColloSys.DataLayer.Enumerations
             CC,
             AUTO_OD,
             SMC,
+            HL,
+            NHL,
             ALL
         }
 

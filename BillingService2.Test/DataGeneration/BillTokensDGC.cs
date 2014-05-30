@@ -535,9 +535,9 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
         {
             var query = new List<BillTokens>
             {
-                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "number", GroupType = "Condition"},
+                new BillTokens {Type = "Table", Value = "CustBillViewModel.Product", Priority = 0, DataType = "enum", GroupType = "Condition"},
                 new BillTokens {Type = "Operator", Value = "EqualTo", Priority = 1, DataType = "conditional", GroupType = "Condition"},
-                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "number", GroupType = "Condition"}
+                new BillTokens {Type = "Value", Value = "PL", Priority = 2, DataType = "enum", GroupType = "Condition"}
             };
             return query;
         }
@@ -548,7 +548,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.Cycle", Priority = 4, DataType = "number", GroupType = "Condition"},
                 new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 5, DataType = "conditional", GroupType = "Condition"},
-                new BillTokens {Type = "Value", Value = "0", Priority = 6, DataType = "number", GroupType = "Condition"}
+                new BillTokens {Type = "Value", Value = "2", Priority = 6, DataType = "number", GroupType = "Condition"}
             };
             return query;
         }
@@ -570,7 +570,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
             {
                 new BillTokens {Type = "Table", Value = "CustBillViewModel.TotalAmountRecovered", Priority = 12, DataType = "number", GroupType = "Condition"},
                 new BillTokens {Type = "Operator", Value = "GreaterThan", Priority = 13, DataType = "conditional", GroupType = "Condition"},
-                new BillTokens {Type = "Value", Value = "7000", Priority = 14, DataType = "number", GroupType = "Condition"}
+                new BillTokens {Type = "Value", Value = "1000", Priority = 14, DataType = "number", GroupType = "Condition"}
             };
             return query;
         }

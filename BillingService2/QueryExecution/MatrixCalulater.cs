@@ -60,7 +60,7 @@ namespace BillingService2.ViewModel
         }
 
 
-        private static List<BillTokens> GetRowCondition(BMatrix bMatrix, int rowIndex,int groupid)
+        private static List<BillTokens> GetRowCondition(BMatrix bMatrix, int rowIndex, int groupid)
         {
             var matrixValueRowHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == rowIndex
                                                                            && x.ColumnNo2D == 0
@@ -157,7 +157,7 @@ namespace BillingService2.ViewModel
             return new List<BillTokens>() { token1, token2, token3, token4, token5, token6 };
         }
 
-        private static List<BillTokens> GetColumnCondition(BMatrix bMatrix, int colIndex,int groupId)
+        private static List<BillTokens> GetColumnCondition(BMatrix bMatrix, int colIndex, int groupId)
         {
             var matrixValueColHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == 0
                                                                                   && x.ColumnNo2D == colIndex
@@ -257,7 +257,7 @@ namespace BillingService2.ViewModel
         }
 
 
-        private static List<BillTokens> GetValueOutput(BMatrix bMatrix, int rowIndex, int colIndex,int groupId)
+        private static List<BillTokens> GetValueOutput(BMatrix bMatrix, int rowIndex, int colIndex, int groupId)
         {
             var matrixValue = bMatrix.BMatricesValues.Single(x => x.RowNo1D == rowIndex
                                                                          && x.ColumnNo2D == colIndex
@@ -272,6 +272,24 @@ namespace BillingService2.ViewModel
                 Priority = 12,
                 Type = "Value",
                 Value = matrixValue.Value,
+            };
+
+            var token2 = new BillTokens()
+            {
+                GroupId = groupId,
+                GroupType = "Output",
+                Priority = 13,
+                Type = "Operator",
+                Value = "Multiply",
+            };
+
+            var token3 = new BillTokens()
+            {
+                GroupId = groupId,
+                GroupType = "Output",
+                Priority = 14,
+                Type = bMatrix.MatrixPerType.ToString(),
+                Value = bMatrix.MatrixPerTypeName,
             };
 
             //var bcondition1 = new BCondition()
@@ -291,7 +309,7 @@ namespace BillingService2.ViewModel
             //    RtypeName = bMatrix.MatrixPerTypeName,
             //};
 
-            return new List<BillTokens>() { token1 };
+            return new List<BillTokens>() { token1, token2, token3 };
         }
     }
 }
