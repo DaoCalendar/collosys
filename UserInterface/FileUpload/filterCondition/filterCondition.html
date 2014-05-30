@@ -1,123 +1,123 @@
-﻿<form name="filtercondition">
-    <div>
-        <div class="row form-horizontal" style="margin-bottom: 7px">
-            <div class="row">
-                <div class="col-md-5">
-                    <label class="col-md-4" style="padding-right: 60px">Aliase Name</label>
-                    <div class="col-md-8">
-                        <select class="form-control"
-                                data-ng-model="filterCondition.FileDetail"
-                                data-ng-change="getColumnValues(filterCondition.FileDetail)"
-                                required>
-                            <option value=""></option>
-                            <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
-                    <button class="btn alert-info"
-                            data-ng-click="addAliseCondition(filterCondition.FileDetail)">
-                        Add AliseCondition
-                    </button>
+﻿<form name="filterConditionform">
+    <cs-form>
+        <div class="row" style="margin-bottom: 7px">
+            <div class="col-md-5">
+                <label class="col-md-4 text-right">Aliase Name</label>
+                <div class="col-md-8">
+                    <select class="form-control"
+                            data-ng-model="filterCondition.FileDetail"
+                            data-ng-change="getColumnValues(filterCondition.FileDetail)"
+                            required>
+                        <option value=""></option>
+                        <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
+                    </select>
                 </div>
             </div>
+
+            <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
+                <cs-button type="add" text="Add AliseCondition"
+                        data-ng-click="addAliseCondition(filterCondition.FileDetail)"></cs-button>
+            </div>
         </div>
-    </div>
-    <div>
-        <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
-            <cs-list list-heading="AliseCondition list" value-list="AliseConditionList" text-field="Name"
-                     data-ng-model="data" on-click="selectFilterCondition(data)"></cs-list>
-        </div>
-        <div class="col-md-9" data-ng-show="showDiv">
-            <div class="form-horizontal" data-ng-form="filterConditionform">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Filter Condition</div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="form-group">
-                                <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
+        <div>
+            <div>
+                <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
+                    <cs-list list-heading="AliseCondition list" value-list="AliseConditionList" text-field="AliasConditionName"
+                             data-ng-model="data" on-click="selectFilterCondition(data)"></cs-list>
+                </div>
+            </div>
+
+            <div class="col-md-9" data-ng-show="showDiv">
+                <div class="form-horizontal">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Filter Condition</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
+                                </div>
+                            </div>
+
+                            <div class="row" style="height: 380px; overflow: auto">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td>Where</td>
+                                            <td>Operator</td>
+                                            <td>Value</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div data-ng-show="filterCondition.ConditionList.length>0">
+                                                    <cs-field data-ng-model="dldata.newCondition.RelationType" field="Fcondition.RelationType" no-label="" ng-required="filterCondition.ConditionList.length>0"></cs-field>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <select class="form-control minWidth" data-ng-model="dldata.newCondition.ColumnName" data-ng-change="manageOperatorField(dldata.newCondition)" required>
+                                                    <option value=""></option>
+                                                    <option data-ng-repeat="data in ColumnNameList" value="{{data}}">{{data.FileColumnName}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <cs-field data-ng-model="dldata.newCondition.Operator" field="Fcondition.Operator" no-label="" ng-required="true"></cs-field>
+                                            </td>
+                                            <td>
+                                                <div data-ng-switch on="InputType">
+                                                    <div data-ng-switch-when="Number">
+                                                        <input type="number" class="form-control minWidth" data-ng-model="dldata.newCondition.Value" required />
+                                                    </div>
+                                                    <div data-ng-switch-when="Amount">
+                                                        <input type="number" class="form-control minWidth" data-ng-model="dldata.newCondition.Value" required />
+                                                    </div>
+                                                    <div data-ng-switch-when="String">
+                                                        <input type="text" class="form-control minWidth" data-ng-model="dldata.newCondition.Value" required />
+                                                    </div>
+                                                    <div data-ng-switch-when="Date">
+                                                        <input class="form-control" type="text" data-ng-model="dldata.newCondition.Value"
+                                                               data-date-format="dd-mm-yyyy" bs-datepicker required />
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <icon-btn type="add" data-ng-disabled="filterConditionform.$invalid" data-ng-click="addCondition(dldata.newCondition,filterConditionform)"></icon-btn>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="data in  filterCondition.ConditionList">
+                                            <td>
+                                                <input type="text" class="form-control" readonly="readonly" value="{{data.RelationType}}" data-ng-show="data.RelationType" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" readonly="readonly" value="{{data.ColumnName}}" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" readonly="readonly" value="{{data.Operator}}" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" readonly="readonly" value="{{data.Value}}" />
+                                            </td>
+                                            <td>
+                                                <icon-btn type="remove" data-ng-click="deleteCondition(data,$index)" data-ng-show="filterCondition.ConditionList.length>0"></icon-btn>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-
-                        <div class="row" style="height: 380px; overflow: auto">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <td></td>
-                                        <td>Where</td>
-                                        <td>Operator</td>
-                                        <td>Value</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div data-ng-show="filterCondition.ConditionList.length>0">
-                                                <cs-field data-ng-model="dldata.newCondition.RelationType" field="Fcondition.RelationType" no-label="" ng-required="filterCondition.ConditionList.length>0"></cs-field>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <select class="form-control" data-ng-model="dldata.newCondition.ColumnName" data-ng-change="manageOperatorField(dldata.newCondition)" required>
-                                                <option value=""></option>
-                                                <option data-ng-repeat="data in ColumnNameList" value="{{data}}">{{data.FileColumnName}}</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <cs-field data-ng-model="dldata.newCondition.Operator" field="Fcondition.Operator" no-label="" ng-required="true"></cs-field>
-                                        </td>
-                                        <td>
-                                            <div data-ng-switch on="InputType">
-                                                <div data-ng-switch-when="Number">
-                                                    <input type="number" class="input-medium" data-ng-model="dldata.newCondition.Value" required />
-                                                </div>
-                                                <div data-ng-switch-when="Amount">
-                                                    <input type="number" class="input-medium" data-ng-model="dldata.newCondition.Value" required />
-                                                </div>
-                                                <div data-ng-switch-when="String">
-                                                    <input type="text" class="input-medium" data-ng-model="dldata.newCondition.Value" required />
-                                                </div>
-                                                <div data-ng-switch-when="Date">
-                                                    <input class="input-medium" type="text" data-ng-model="dldata.newCondition.Value"
-                                                           data-date-format="dd-mm-yyyy" bs-datepicker required />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <icon-btn type="add" data-ng-disabled="filterConditionform.$invalid" data-ng-click="addCondition(dldata.newCondition,filterConditionform)"></icon-btn>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-repeat="data in  filterCondition.ConditionList">
-                                        <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.RelationType}}" data-ng-show="data.RelationType" />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.ColumnName}}" />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Operator}}" />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="input-medium" readonly="readonly" value="{{data.Value}}" />
-                                        </td>
-                                        <td>
-                                            <icon-btn type="remove" data-ng-click="deleteCondition(data,$index)" data-ng-show="filterCondition.ConditionList.length>0"></icon-btn>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="text-right" data-ng-show="showDiv">
-        <cs-button type="save" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)"></cs-button>
-        <cs-button type="reset" data-ng-click="reset()"></cs-button>
-    </div>
+        <div class="text-right" data-ng-show="showDiv">
+            <cs-button type="save" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)"></cs-button>
+            <cs-button type="reset" data-ng-click="reset()"></cs-button>
+        </div>
+    </cs-form>
 </form>
+
 
 
 
