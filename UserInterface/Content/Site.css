@@ -7,25 +7,6 @@ label {
     font-weight: normal;
 }
 
-.noResize {
-    -moz-resize: none;
-    -ms-resize: none;
-    -o-resize: none;
-    resize: none;
-}
-
-.vertical-menu-body {
-    margin-top: 10px;
-}
-
-.minWidth {
-    min-width: 125px;
-}
-
-.top-menu-body {
-    margin-top: 60px;
-}
-
 .modal-large .modal-dialog {
     width :70%;
     height: 550px;
@@ -35,6 +16,14 @@ label {
 /***************************************************/
 /************* VERTICAL MENU ***********************/
 /***************************************************/
+.vertical-menu-body {
+    margin-top: 10px;
+}
+
+.top-menu-body {
+    margin-top: 60px;
+}
+
 .cssmenu ul {
     list-style: none;
     margin: 0;
@@ -223,33 +212,6 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
     border-color: #28921f;
 }
 
-/***************************************************/
-/****************** OTHER  *************************/
-/***************************************************/
-
-
-.back-image {
-    background-image: url(images/algologo2.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-.align-right {
-    text-align: right;
-}
-
-.round-corners {
-    -ms-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-}
-
-.loading-new-element {
-    z-index: 1001;
-    padding: 200px 500px;
-    position: absolute;
-}
-
 /* ReSharper disable UnknownHtmlAttribute */
 /* ReSharper disable Html.AttributeNotResolved */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -257,17 +219,6 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
 }
 /* ReSharper restore Html.AttributeNotResolved */
 /* ReSharper restore UnknownHtmlAttribute */
-
-.centered {
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%,-50%);
-    -moz-transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    -o-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
-    position: absolute;
-}
 
 /* ANIMATIONS  */
 div[ng-view].ng-enter, div[data-ng-view].ng-enter {
@@ -293,6 +244,52 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     -o-animation: fadeOut 1.5s;
     animation: fadeOut 1.5s;
 }*/
+
+
+/***************************************************/
+/****************** OTHER  *************************/
+/***************************************************/
+
+
+.back-image {
+    background-image: url(images/algologo2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.noResize {
+    -moz-resize: none;
+    -ms-resize: none;
+    -o-resize: none;
+    resize: none;
+}
+
+.minWidth {
+    min-width: 125px;
+}
+
+.round-corners {
+    -ms-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.loading-new-element {
+    z-index: 1001;
+    padding: 200px 500px;
+    position: absolute;
+}
+
+.centered {
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
 
 .fileContainer {
     overflow: hidden;
@@ -336,7 +333,7 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 }
 
 /* styles for taxlist */
-.tax-list-heading {
+/*.tax-list-heading {
     line-height: 15px;
     font-size: 15px;
 }
@@ -355,10 +352,10 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 
         .tax-list-box .tax-list-box-no-data label {
             line-height: 250px;
-        }
+        }*/
 
 /*policy pages style*/
-.box {
+/*.box {
     min-height: 250px;
     overflow-y: auto;
     border: solid 1px #bce8f1;
@@ -402,10 +399,10 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 
 .margin-box {
     margin-top: 5px;
-}
+}*/
 
 /* subpolicy screens styles*/
-.box-sub {
+/*.box-sub {
     width: 100%;
     border: solid 1px #bce8f1;
     background: white;
@@ -458,7 +455,7 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 #subpolicy-output,
 #subpolicy-buttons {
     margin-bottom: 10px;
-}
+}*/
 
 
 /*typeahed */
@@ -485,7 +482,6 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
 }*/
 
 .cs-field-label {
-    text-align: right;
     margin-top: 7px;
     white-space: nowrap;
     padding-right: 0;
