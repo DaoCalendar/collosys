@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.ClientData
 {
-    public  class DHFL_Liner :UploadableEntity
+    public class DHFL_Liner : UploadableEntity
     {
         #region Demo DHFL
       
@@ -26,12 +27,12 @@ namespace ColloSys.DataLayer.ClientData
         public virtual uint SalesRefNo { get; set; }
         public virtual string Name { get; set; }
         public virtual DateTime SanctionDt { get; set; }
-        public virtual ulong SanAmt { get; set; }
+        public virtual decimal SanAmt { get; set; }
         public virtual DateTime DisbursementDt { get; set; }
         public virtual decimal DisbursementAmt { get; set; }
-        public virtual uint FeeDue { get; set; }
-        public virtual uint FeeWaived { get; set; }
-        public virtual uint FeeReceived { get; set; }
+        public virtual decimal FeeDue { get; set; }
+        public virtual decimal FeeWaived { get; set; }
+        public virtual decimal FeeReceived { get; set; }
         public virtual string MemberName { get; set; }
         public virtual string DesigName { get; set; }
         public virtual string Orignateby { get; set; }
@@ -58,6 +59,7 @@ namespace ColloSys.DataLayer.ClientData
         #endregion
 
         public override FileScheduler FileScheduler { get; set; }
+        
         public override DateTime FileDate { get; set; }
         public override ulong FileRowNo { get; set; }
         public override IList<string> GetExcludeInExcelProperties()
@@ -69,5 +71,7 @@ namespace ColloSys.DataLayer.ClientData
         {
             throw new NotImplementedException();
         }
+
+      
     }
 }

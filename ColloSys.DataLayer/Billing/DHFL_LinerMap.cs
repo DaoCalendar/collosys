@@ -14,8 +14,6 @@ namespace ColloSys.DataLayer.Mapping
         public DHFL_LinerMap()
         {
             #region demo DHFL
-
-          
            
             Property(x => x.TotalDisbAmt);
             Property(x => x.TotalProcFee);
@@ -57,6 +55,11 @@ namespace ColloSys.DataLayer.Mapping
             Property(x=>x.Product);
             Property(x=>x.AgentId);
             Property(x=>x.Corporate);
+
+            //ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
+
+            Property(x => x.FileDate);
+            Property(x => x.FileRowNo);
             #endregion
         }
 
