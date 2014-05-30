@@ -32,6 +32,8 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual ScbEnums.Category Category { get; set; }
 
+        public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
+
         public virtual ColloSysEnums.PolicyOn PolicyFor { get; set; }
 
         public virtual Guid? PolicyForId { get; set; }

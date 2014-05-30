@@ -25,6 +25,8 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x=>x.PolicyForId);
 
+            Property(x=>x.PolicyType);
+
             #endregion
 
             #region IApprove
