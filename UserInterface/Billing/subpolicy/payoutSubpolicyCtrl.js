@@ -11,7 +11,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                     $csnotify.error(data);
                 });
         };
-        
+
         var saveSubpolicy = function (subpolicy) {
             return restApi.customPOST(subpolicy, 'Post').then(function (data) {
                 return data;
@@ -69,7 +69,7 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         };
 
         var divideTokens = function (tokensList) {
-            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupType':'Condition' });
+            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupType': 'Condition' });
             $scope.selectedTokens.ifOutputTokens = _.filter(tokensList, { 'GroupType': 'Output' });
             $scope.selectedTokens.ElseOutputTokens = _.filter(tokensList, { 'GroupType': 'ElseOutput' });
         };
@@ -88,6 +88,11 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.subpolicy = {};
             $scope.subpolicy.Products = products;
             $scope.selected = [];
+            $scope.selectedTokens = {
+                conditionTokens: [],
+                ifOutputTokens: [],
+                ElseOutputTokens: []
+            };
             form.$setPristine();
         };
 
@@ -99,11 +104,8 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
         $scope.addSubPolicy = function (selectedParams, form) {
             $scope.showDiv = true;
-            $scope.subpolicy = {};
-            $scope.subpolicy.Products = selectedParams.Products;
+            $scope.resetSubPolicy(selectedParams.Products, form);
             $scope.subpolicy.PolicyType = selectedParams.PolicyType;
-            $scope.selected = [];
-            form.$setPristine();
         };
 
         var init = function () {
