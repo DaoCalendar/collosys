@@ -15,11 +15,15 @@ namespace ColloSys.DataLayer.Mapping
 
             #region properties
 
-            Property(x => x.Name, map => map.UniqueKey("UQ_BILLING_POLICY"));
+            Property(x => x.Name);
 
-            Property(x => x.Products, map => map.UniqueKey("UQ_BILLING_POLICY"));
+            Property(x => x.Products);
 
-            Property(x => x.Category, map => map.UniqueKey("UQ_BILLING_POLICY"));
+            Property(x => x.Category);
+
+            Property(x=>x.PolicyFor);
+
+            Property(x=>x.PolicyForId);
 
             #endregion
 
