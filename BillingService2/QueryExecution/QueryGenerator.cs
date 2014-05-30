@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
 
@@ -163,7 +164,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         #region non-operator tokens
         private string ProcessTableColumn(BillTokens token)
         {
-            return token.Value.Replace("CustBillViewModel.", "");
+            return token.Value.Replace("CustBillViewModel.", "").Replace("DhflLiner.", "");
         }
 
         //TODO: fix formula
@@ -174,9 +175,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private string ProcessValue(BillTokens token)
         {
-            return (token.DataType == "string" || token.DataType == "enum")
-                ? string.Format("\"{0}\"", token.Value)
-                : token.Value;
+            decimal value;
+            return decimal.TryParse(token.Value, out value) ? token.Value : string.Format("\"{0}\"", token.Value);
+
+
+            //return (token.DataType == "string" || token.DataType == "Value" || token.DataType == "enum")
+            //    ? string.Format("\"{0}\"", token.Value)
+            //    : token.Value;
         }
 
         private string ProcessSqlFunctions(BillTokens token)

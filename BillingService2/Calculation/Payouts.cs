@@ -90,7 +90,7 @@ namespace BillingService2.Calculation
                                                .ToList();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(billingPolicy.PolicyType);
+                    throw new ArgumentOutOfRangeException(billingPolicy.PolicyType.ToString());
             }
 
             queryExecuter.ExeculteOnList(dhflLinersBillDeatail);

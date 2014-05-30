@@ -15,7 +15,7 @@ using ColloSys.DataLayer.Domain;
 
 namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
-    public class QueryExecuter<T> where T : class 
+    public class QueryExecuter<T> where T : class
     {
         #region ctor
         private readonly IList<BillTokens> _billTokenses;
@@ -48,7 +48,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private List<T> ConditionExecuter(List<T> dataList)
         {
-            var conditionToken = _billTokenses.Where(x => x.GroupType == "Condition").ToList();
+            var conditionToken = _billTokenses.Where(x => x.GroupType == "Condition").OrderBy(x => x.Priority).ToList();
 
             if (conditionToken.Count <= 0)
                 return dataList;
@@ -62,7 +62,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private List<T> OutputExecuter(List<T> dataList)
         {
-            var outPutToken = _billTokenses.Where(x => x.GroupType == "Output").ToList();
+            var outPutToken = _billTokenses.Where(x => x.GroupType == "Output").OrderBy(x => x.Priority).ToList();
 
             if (outPutToken.Count <= 0)
                 return dataList;
@@ -83,7 +83,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             var stringOutputQuery = _stringQueryBuilder.GenerateOutputQuery(outPutToken);
             var outputExpression = DynamicExpression.ParseLambda<T, decimal>(stringOutputQuery);
             //dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
-            
+
             dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x)));
 
             return dataList;
