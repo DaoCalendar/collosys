@@ -31,15 +31,15 @@ namespace AngularUI.Generic.Menu
         public Menu AddChild(string title, ColloSysEnums.Activities[] permission, string url = "#", string icon = "")
         {
             var menu = new Menu
-                {
-                    Title = title,
-                    Url = url,
-                    Icon = icon,
-                    Level = (ushort)(Level + 1),
-                    Parent = this,
-                    Permissions = permission,
+            {
+                Title = title,
+                Url = url,
+                Icon = icon,
+                Level = (ushort)(Level + 1),
+                Parent = this,
+                Permissions = permission,
 
-                };
+            };
             AddMenu(menu);
             return menu;
         }
@@ -54,41 +54,45 @@ namespace AngularUI.Generic.Menu
             fileUpload.AddChild("File Detail", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filedetail");
             fileUpload.AddChild("File Column", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filecolumn");
             fileUpload.AddChild("File Mapping", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filemapping");
+            fileUpload.AddChild("Filter Data", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filterCondition");
+
             fileUpload.AddChild("Schedule", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.ScheduleFile }, "#/fileupload/filescheduler");
             fileUpload.AddChild("Check Status", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.ScheduleFile }, "#/fileupload/filestatus");
+
             fileUpload.AddChild("Data Download", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CustomerData }, "#/fileupload/clientdatadownload");
-            fileUpload.AddChild("CustomerInfo", new[] { ColloSysEnums.Activities.FileUploader }, "#/fileupload/customerinfo");
-            fileUpload.AddChild("Upload Pincode", new[] { ColloSysEnums.Activities.FileUploader }, "#/fileupload/uploadpincode");
+            fileUpload.AddChild("CustomerInfo", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CustomerData }, "#/fileupload/customerinfo");
+
+            fileUpload.AddChild("Upload Pincode", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.UploadCustInfo }, "#/fileupload/uploadpincode");
             fileUpload.AddChild("Upload Rcode", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.UploadCustInfo }, "#/fileupload/uploadrcode");
+
             fileUpload.AddChild("Correct Errors", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.ErrorCorrection }, "#/fileupload/errorcorrection");
-            fileUpload.AddChild("Filter Data", new[] { ColloSysEnums.Activities.FileUploader }, "#/fileupload/filterCondition");
+
 
             var stakeholder = home.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
-            stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.AddStakeholder }, "#/stakeholder/add");
-            stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.ViewStakeholder }, "#/stakeholder/view");
+            stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
+            stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
 
             var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
-            allocation.AddChild("Define Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.DefinePolicy }, "#/allocation/policy");
-            allocation.AddChild("Define Subpolicy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.DefineSubpolicy }, "#/allocation/subpolicy");
+            allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");
+            allocation.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationSubpolicy }, "#/allocation/subpolicy");
             allocation.AddChild("View/Approve", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.CheckAllocation }, "#/allocation/viewapprove");
 
             var billing = home.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
-            billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineBillingPolicy }, "#/billing/policy");
-            billing.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineBillingSubpolicy }, "#/billing/subpolicy");
-            //billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula");
-            billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineFormula }, "#/billing/formula2");
-            billing.AddChild("Define Matrix", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.DefineMatrix }, "#/billing/matrix");
+            billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.BillingPolicy }, "#/billing/policy");
+            billing.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.BillingSubpolicy }, "#/billing/subpolicy");
+            billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.Formula }, "#/billing/formula2");
+            billing.AddChild("Matrix", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.Matrix }, "#/billing/matrix");
+            billing.AddChild("Holding Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.HoldingPolicy }, "#/billing/holdingpolicy");
+            billing.AddChild("Manage Holding", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ManageHolidng }, "#/billing/holdingactive");
             billing.AddChild("Manual Payment", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ModifyPayment }, "#/fileupload/paymentchanges");
-            billing.AddChild("Ready For Billing", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/readybilling");
-            billing.AddChild("Execution Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/status");
-            billing.AddChild("Bill Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/summary");
-            billing.AddChild("Pay Clearance Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/billstatus");
+            billing.AddChild("Adhoc", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhoc");
+            billing.AddChild("Adhoc Bulk", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhocbulk");
 
-            var billingExtension = home.AddChild("Billing Extension", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
-            billingExtension.AddChild("Adhoc", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhoc");
-            billingExtension.AddChild("Adhoc Bulk", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhocbulk");
-            billingExtension.AddChild("Holding Policy", new[] { ColloSysEnums.Activities.Billing }, "#/billing/holdingpolicy");
-            billingExtension.AddChild("Manage Holding", new[] { ColloSysEnums.Activities.Billing }, "#/billing/holdingactive");
+            var billingStatus = home.AddChild("Billing Status", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
+            billingStatus.AddChild("Ready For Billing", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/readybilling");
+            billingStatus.AddChild("Execution Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/status");
+            billingStatus.AddChild("Bill Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/summary");
+            billingStatus.AddChild("Pay Clearance Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/billstatus");
 
             var config = home.AddChild("Config", new[] { ColloSysEnums.Activities.Config }, "#", "fa-cogs");
             config.AddChild("Permission", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Permission }, "#/generic/permission");
