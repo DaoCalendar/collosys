@@ -1,12 +1,15 @@
 ﻿<div class="container-fluid">
     <form name="subpolicyForm">
         <cs-form layout="5.4.8">
-            <div class="row">
-                <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
-                          field="allocSubpolicy.Products" ng-required="true"></cs-field>
-                <cs-button type="add" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
-                           data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
-                </cs-button>
+            <div class="panel panel-default">
+                <div class="panel-heading">Product</div>
+                <div class="panel-body">
+                    <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
+                              field="allocSubpolicy.Products" ng-required="true"></cs-field>
+                    <cs-button type="add" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
+                               data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
+                    </cs-button>
+                </div>
             </div>
 
             <div>
