@@ -1,77 +1,82 @@
-﻿<table class="table table-bordered" data-ng-form="addForm">
-    <tr>
-        <td class="col-md-8">
-            <pre data-ng-class="setValidation()" style="word-wrap:normal;">
-                <label style="padding-left: 15px;" data-ng-repeat="d in tokensList track by $index">
-                    {{d.Text| changetext}}
-                </label>
-            </pre>
-            <div class="alert alert-warning" data-ng-show="tokens.error">
-                <label>{{tokens.error}}</label>
-            </div>
-        </td>
-        <td class="col-md-4">
-            <div>
-                <input type="text" data-ng-model="tokens.filterString"
-                       class="form-control typeahead-md"
-                       typeahead="c.Value as c.Text for c in tokens.nextTokens | filter:{Text:$viewValue} | limitTo:10"
-                       typeahead-min-length="0"
-                       typeahead-on-select="addToken($item,$model,$label)">
-            </div>
-            <div>
-                <input type="submit" value="Add Value"
-                       data-ng-click="addValue(tokens.filterString)"
-                       class="btn btn-default">
-                <input type="button"
-                       class="btn btn-default"
-                       value="Reset"
-                       data-ng-click="reset()" />
-            </div>
-        </td>
-    </tr>
+﻿<div class="panel panel-default">
+    <div class="panel-heading">Output</div>
+    <div class="panel-body">
+        <table class="table table-bordered" data-ng-form="addForm">
+            <tr>
+                <td class="col-md-8">
+                    <div data-ng-class="setValidation()" style="word-wrap:normal;">
+                        <label style="padding-left: 15px;" data-ng-repeat="d in tokensList track by $index">
+                            {{d.Text| changetext}}
+                        </label>
+                    </div>
+                    <div class="alert alert-warning" data-ng-show="tokens.error">
+                        <label>{{tokens.error}}</label>
+                    </div>
+                </td>
+                <td class="col-md-4">
+                    <div>
+                        <input type="text" data-ng-model="tokens.filterString"
+                               class="form-control typeahead-md"
+                               typeahead="c.Value as c.Text for c in tokens.nextTokens | filter:{Text:$viewValue} | limitTo:10"
+                               typeahead-min-length="0"
+                               typeahead-on-select="addToken($item,$model,$label)">
+                    </div>
+                    <div>
+                        <input type="submit" value="Add Value"
+                               data-ng-click="addValue(tokens.filterString)"
+                               class="btn btn-default">
+                        <input type="button"
+                               class="btn btn-default"
+                               value="Reset"
+                               data-ng-click="reset()" />
+                    </div>
+                </td>
+            </tr>
 
-</table>
-<table class="table table-bordered" data-ng-show="debug=='true'">
-    <tr>
-        <td class="col-md-3">Type:</td>
-        <td class="col-md-9">{{type}}</td>
-    </tr>
-    <tr>
-        <td>Last Selected Token</td>
-        <td>{{tokens.lastToken.Text}}</td>
-    </tr>
-    <tr>
-        <td>Second Last Selected Token:</td>
-        <td>{{tokens.secondLastToken.Text}}</td>
-    </tr>
-    <tr>
-        <td>Next Token: </td>
-        <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
-    </tr>
-    <tr>
-        <td>
-            Added Tokens List
-        </td>
-        <td>
-            <table class="table table-bordered">
-                <tr data-ng-repeat="d in tokens.selected">
-                    <td>
-                        {{d.Text}}
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td>Total Tokens Available</td>
-        <td>{{tokens.nextTokens.length}}</td>
-    </tr>
-    <tr>
-        <td>Group Token is:</td>
-        <td>{{groupId}}</td>
-    </tr>
-    <tr>
-        <td>First Token</td>
-        <td>{{tokens.selected[0]}}</td>
-    </tr>
-</table>
+        </table>
+        <table class="table table-bordered" data-ng-show="debug=='true'">
+            <tr>
+                <td class="col-md-3">Type:</td>
+                <td class="col-md-9">{{type}}</td>
+            </tr>
+            <tr>
+                <td>Last Selected Token</td>
+                <td>{{tokens.lastToken.Text}}</td>
+            </tr>
+            <tr>
+                <td>Second Last Selected Token:</td>
+                <td>{{tokens.secondLastToken.Text}}</td>
+            </tr>
+            <tr>
+                <td>Next Token: </td>
+                <td>type: {{tokens.nextToken.type}} and datatype: {{tokens.nextToken.datatype}}</td>
+            </tr>
+            <tr>
+                <td>
+                    Added Tokens List
+                </td>
+                <td>
+                    <table class="table table-bordered">
+                        <tr data-ng-repeat="d in tokens.selected">
+                            <td>
+                                {{d.Text}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Total Tokens Available</td>
+                <td>{{tokens.nextTokens.length}}</td>
+            </tr>
+            <tr>
+                <td>Group Token is:</td>
+                <td>{{groupId}}</td>
+            </tr>
+            <tr>
+                <td>First Token</td>
+                <td>{{tokens.selected[0]}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

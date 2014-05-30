@@ -45,10 +45,7 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual string Description { get; set; }
 
-        public virtual Guid? ProcessingFee { get; set; }
-        
-        public virtual Guid? PayoutCapping { get; set; }
-
+      
         public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
 
         #endregion

@@ -122,9 +122,9 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         $scope.setValidation = function () {
             if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
-                return 'bg-danger';
+                return 'alert-danger';
             }
-            return 'bg-info';
+            return 'alert-info';
         };
 
         $scope.reset = function () {
@@ -259,9 +259,9 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.setValidation = function () {
             if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
-                return 'bg-info';
+                return 'alert-info';
             }
-            return 'bg-danger';
+            return 'alert-danger';
         };
 
         $scope.reset = function () {

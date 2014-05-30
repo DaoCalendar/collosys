@@ -1,52 +1,43 @@
 ﻿<div data-ng-form="subpolicyForm">
     <div class="form-horizontal">
         <cs-form layout="4.4.8">
-            <cs-field data-ng-model="sele.Products"
-                      data-ng-change="getSubpolicyList(sele)"
-                      field="payoutSubpolicy.Products" ng-required="true"></cs-field>
-            
-            <cs-field data-ng-if="sele.Products" data-ng-model="sele.PolicyType"
-                      data-ng-change="getSubpolicyList(sele)"
-                      field="payoutSubpolicy.PolicyType">
-            </cs-field>
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <cs-field data-ng-model="sele.Products"
+                              data-ng-change="getSubpolicyList(sele)"
+                              field="payoutSubpolicy.Products" ng-required="true"></cs-field>
 
-            <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.PolicyType" 
-                       data-ng-click="addSubPolicy(sele,subpolicyForm)">
-            </cs-button>
+                    <cs-field data-ng-if="sele.Products" data-ng-model="sele.PolicyType"
+                              data-ng-change="getSubpolicyList(sele)"
+                              field="payoutSubpolicy.PolicyType">
+                    </cs-field>
+
+                    <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.PolicyType"
+                               data-ng-click="addSubPolicy(sele,subpolicyForm)">
+                    </cs-button>
+                </div>
+            </div>
         </cs-form>
     </div>
 
     <div>
         <div class="col-md-3" data-ng-show="sele.Products">
             <cs-list list-heading="Subpolicy List" value-list="subpolicyList" text-field="Name"
-                data-ng-model="spayoutSubpolicy" data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list>
+                     data-ng-model="spayoutSubpolicy" data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list>
         </div>
 
         <div class="col-md-9" data-ng-if="showDiv">
             <!--Subpolicy-->
-            <div id="subpolicy-display" data-ng-form="payoutSubpolicyForm">
+            <div data-ng-form="payoutSubpolicyForm">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Subpolicy
-                    </div>
+                    <div class="panel-heading">Subpolicy</div>
                     <div class="panel-body">
-                        <cs-form layout="7.3.7">
-                            <cs-field data-ng-model="subpolicy.Products"
-                                      field="payoutSubpolicy.Productname"
-                                      data-ng-disabled="true"></cs-field>
-
-                             <cs-field data-ng-model="subpolicy.PolicyType"
-                                      field="payoutSubpolicy.PolicyTypeText"
-                                      data-ng-disabled="true"></cs-field>
-                            <!--Name and Description-->
-
+                        <cs-form layout="6.4.8">
                             <cs-field data-ng-model="subpolicy.Name"
                                       ng-required="true"
                                       field="payoutSubpolicy.Name"
                                       data-ng-disabled="subpolicy.Id"></cs-field>
-                            <!--<label class="text-danger" data-ng-show="dldata.isDuplicateName">
-                                    Subpolicy name already exist
-                                </label>-->
                             <cs-field data-ng-model="subpolicy.Description"
                                       field="payoutSubpolicy.Description"></cs-field>
                         </cs-form>
@@ -76,54 +67,15 @@
                            group-id="1.Output"></cs-output>
             </div>
 
-            <!--Restriction-->
-            <div class="panel panel-default">
-                <div class="panel-heading">Restriction</div>
-                <div class="panel-body">
-                    <div class="row" style="margin-bottom: 5px">
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-disabled="true" value="Processing Fee" />
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-4 control-label">Formula</div>
-                            <div class="col-md-8">
-                                <select data-ui-select2=""
-                                    class="input-xlarge"
-                                    data-ng-model="subpolicy.ProcessingFee">
-                                    <option data-ng-repeat="formula in formulaList track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" data-ng-disabled="true" value="Payout Capping" />
-                        </div>
-                        <div class="col-md-5">
-                            <div class="col-md-4 control-label">Formula</div>
-                            <div class="col-md-8">
-                                <select data-ui-select2=""
-                                    class="input-xlarge"
-                                    data-ng-model="subpolicy.PayoutCapping">
-                                    <option data-ng-repeat="formula in formulaList track by formula.Id" value="{{formula.Id}}">{{formula.Name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
             <!--Button-->
             <div class="row text-right" id="subpolicy-buttons">
                 <cs-button type="save"
-                    data-ng-disabled="payoutSubpolicyForm.$invalid "
-                    data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
+                           data-ng-disabled="payoutSubpolicyForm.$invalid "
+                           data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
                 </cs-button>
 
                 <cs-button type="reset"
-                    data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button>
+                           data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button>
             </div>
         </div>
     </div>
@@ -141,7 +93,6 @@
                        namevalues="dldata.categorySwitch"></csswitch>
          </div>
      </div>-->
-
 <!--<div class="box-sub">
                     <div class="box-heading">Subpolicy list</div>
                     <div class="box-body">
