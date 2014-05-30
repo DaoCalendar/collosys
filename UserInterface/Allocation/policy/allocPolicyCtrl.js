@@ -227,11 +227,6 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
         };
 
         $scope.moveUp = function (policy) {
-            //var index = $scope.dldata.ApproveUnapp.indexOf(policy);
-            //var temp = $scope.dldata.ApproveUnapp[index];
-            //$scope.dldata.ApproveUnapp[index] = $scope.dldata.ApproveUnapp[index - 1];
-            //$scope.dldata.ApproveUnapp[index - 1] = temp;
-
             var test = [];
             _.forEach($scope.dldata.ApproveUnapp, function (item) {
                 _.forEach($scope.dldata.allocPolicy.AllocRelations, function (rel) {
@@ -250,15 +245,46 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             var tempPriority = relations[index].Priority;
             relations[index].Priority = relations[index - 1].Priority;
             relations[index - 1].Priority = tempPriority;
-            var list = _.sortBy(relations, 'Priority');
-
-            _.forEach(list, function (item) {
+            _.forEach(relations, function (item) {
                 $scope.dldata.allocPolicy.AllocRelations.push(item);
             });
-            datalayer.saveAllocPolicy($scope.dldata.allocPolicy);
+            datalayer.saveAllocPolicy($scope.dldata.allocPolicy).then(function () {
+                $scope.changeProductCategory();
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            });
         };
-        $scope.moveDown = function () {
+        $scope.moveDown = function (policy) {
+            var test = [];
+            _.forEach($scope.dldata.ApproveUnapp, function (item) {
+                _.forEach($scope.dldata.allocPolicy.AllocRelations, function (rel) {
+                    if (angular.isDefined(rel)) {
+                        if (item.allocRelation.Id === rel.Id) {
+                            $scope.dldata.allocPolicy.AllocRelations.splice($scope.dldata.allocPolicy.AllocRelations.indexOf(rel), 1);
+                            test.push(rel);
+                        }
+                    }
+                });
+            });
 
+            var relations = _.sortBy(test, 'Priority');
+            console.log(relations);
+            var index = relations.indexOf(policy.allocRelation);
+            var tempPriority = relations[index].Priority;
+            relations[index].Priority = relations[index + 1].Priority;
+            relations[index + 1].Priority = tempPriority;
+            _.forEach(relations, function (item) {
+                $scope.dldata.allocPolicy.AllocRelations.push(item);
+            });
+            datalayer.saveAllocPolicy($scope.dldata.allocPolicy).then(function () {
+                $scope.changeProductCategory();
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            });
         };
     }]);
 
@@ -283,7 +309,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             subpolicy: {}
         };
         dldata.buttonStatus = "";
-       var getProducts = function () {
+        var getProducts = function () {
             dldata.productsList = [];
             api.customGET("GetProducts").then(function (data) {
                 dldata.productsList = data;
@@ -337,6 +363,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                         dldata.subpolicyObj = {
                             Name: row.AllocSubpolicy.Name,
                             type: row.Status,
+                            Priority: row.Priority,
                             allocRelation: row,
                             subpolicy: row.AllocSubpolicy
                         };
@@ -349,10 +376,12 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                         dldata.subpolicyObj = {
                             Name: row.AllocSubpolicy.Name,
                             type: row.Status,
+                            Priority: row.Priority,
                             allocRelation: row,
                             subpolicy: row.AllocSubpolicy
                         };
                         dldata.unapprovedPolicyUniqList.push(dldata.subpolicyObj);
+                        console.log(dldata.unapprovedPolicyUniqList);
                     });
                     dldata.ApproveUnapp = _.union(dldata.approvedPolicyUniqList, dldata.unapprovedPolicyUniqList);
                 });
@@ -449,7 +478,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
 
 csapp.factory('allocPolicyFactory', ['allocPolicyDataLayer', function (datalayer) {
 
-    
+
     var getDisplaySubPolicy = function (subPolicy) {
         var displaySubPolicy = {};
         displaySubPolicy.Name = subPolicy.Name;
