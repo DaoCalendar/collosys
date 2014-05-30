@@ -261,6 +261,9 @@ namespace ColloSys.DataLayer.Enumerations
         public enum BillStatus
         {
             Unbilled,
+            PayoutApply,
+            CappingApply,
+            PfApply,
             Billed,
             Paid
         }

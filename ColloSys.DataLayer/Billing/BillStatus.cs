@@ -10,6 +10,9 @@ namespace ColloSys.DataLayer.Domain
 {
     public class BillStatus : Entity
     {
+
+        public virtual Stakeholders Stakeholder { get; set; }
+
         #region Property
         public virtual UInt32 BillMonth { get; set; }
 

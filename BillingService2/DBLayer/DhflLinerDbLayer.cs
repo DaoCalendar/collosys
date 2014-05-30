@@ -9,10 +9,15 @@ namespace BillingService2.DBLayer
 {
     internal static class DhflLinerDbLayer
     {
-        public static List<DHFL_Liner> GetDhflLinerDbData(ScbEnums.Products products, uint billMonth)
+        public static List<DHFL_Liner> GetDhflLinerForStkholderDbData(BillStatus billStatus)
         {
+            //ScbEnums.Products products, uint billMonth
             var session = SessionManager.GetCurrentSession();
-            var dhflLiners = session.QueryOver<DHFL_Liner>().List<DHFL_Liner>();
+            var dhflLiners = session.QueryOver<DHFL_Liner>()
+                                    .Where(x => x.Product == billStatus.Products
+                                                && x.BillMonth == billStatus.BillMonth
+                                                && x.AgentId == billStatus.Stakeholder.ExternalId)
+                                    .List<DHFL_Liner>();
 
             return dhflLiners.ToList();
         }

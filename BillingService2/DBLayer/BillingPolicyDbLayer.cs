@@ -16,7 +16,7 @@ namespace BillingService2.DBLayer
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static BillingPolicy GetPolicies(Stakeholders stakeholders)
+        public static BillingPolicy GetBillingPolicy(Stakeholders stakeholders, ColloSysEnums.PolicyType policyType)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace BillingService2.DBLayer
             }
         }
 
-        public static BillingPolicy GetPolicies(StkhHierarchy stkhHierarchy)
+        public static BillingPolicy GetBillingPolicy(StkhHierarchy stkhHierarchy, ColloSysEnums.PolicyType policyType)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace BillingService2.DBLayer
             }
         }
 
-        public static BillingPolicy GetPolicies(ScbEnums.Products products)
+        public static BillingPolicy GetBillingPolicy(ScbEnums.Products products, ColloSysEnums.PolicyType policyType)
         {
             try
             {
