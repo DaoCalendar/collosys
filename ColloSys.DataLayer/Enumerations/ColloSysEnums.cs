@@ -235,7 +235,8 @@ namespace ColloSys.DataLayer.Enumerations
             GenerateDb,
             SystemExplorer,
             DbTables,
-            ExecuteQuery
+            ExecuteQuery,
+            Root
         }
 
         [Serializable]

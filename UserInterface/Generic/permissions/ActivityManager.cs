@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using ColloSys.DataLayer.Domain;
@@ -48,40 +49,25 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         public static GPermission SetAccess(GPermission root, bool access)
         {
             root.HasAccess = access;
-            if (root.Childrens != null && root.Childrens.Count != 0)
+            if (root.Childrens == null || root.Childrens.Count == 0) 
+                return root;
+            foreach (var child in root.Childrens)
             {
-                foreach (var child in root.Childrens)
-                {
-                    SetAccess(child, access);
-                }
+                SetAccess(child, access);
             }
 
             return root;
         }
 
-        public static GPermission SetAccess(GPermission permission, StkhHierarchy hierarchy)
+        public static void UpdateRoot(GPermission devPermission, GPermission userPermission)
         {
-            GPermission root = PermissionManager.CreateDevPermissions(hierarchy);
+            if (devPermission.Activity != userPermission.Activity) return;
+            devPermission.HasAccess = userPermission.HasAccess;
 
-            //TODO:compare obj
-
-            UpdateRoot(root.Childrens, permission.Childrens);
-
-            return root;
-        }
-
-        private static void UpdateRoot(IList<GPermission> newChildren, IList<GPermission> oldChildren)
-        {
-            foreach (var newChild in newChildren)
+            foreach (var child in devPermission.Childrens)
             {
-                foreach (var oldChild in oldChildren)
-                {
-                    if (newChild.Activity == oldChild.Activity)
-                    {
-                        newChild.HasAccess = oldChild.HasAccess;
-                        UpdateRoot(newChild.Childrens, oldChild.Childrens);
-                    }
-                }
+                var userPerm = userPermission.Childrens.SingleOrDefault(x => x.Activity == child.Activity);
+                if(userPerm != null) UpdateRoot(child, userPerm);
             }
         }
 
@@ -89,8 +75,19 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         public static GPermission CreateDevPermissions(StkhHierarchy hierarchy)
         {
+            if (hierarchy == null)
+            {
+                throw new ArgumentNullException("hierarchy");
+            }
+
             _hierarchy = hierarchy;
-            var root = new GPermission();
+            var root = new GPermission
+            {
+                Activity = ColloSysEnums.Activities.Root,
+                Description = "root member",
+                HasAccess = true,
+                Parent = null
+            };
 
             var fileupload = AddActivity(root, ColloSysEnums.Activities.FileUploader);
             AddFileUploadActivities(fileupload);
