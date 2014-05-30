@@ -56,22 +56,24 @@
 
             <!--Conditions-->
             <div id="subpolicy-conditions">
-                <cs-condition table-name="CustomerInfo"
-                    selected="selParams"
-                    formula-list="formulaList"
-                    tokens-list="selectedTokens.conditionTokens"
-                    group-id="0.Condition"
-                    debug="true"></cs-condition>
+                <cs-condition table-name="DhflLiner"
+                              selected="selParams"
+                              formula-list="formulaList"
+                              tokens-list="selectedTokens.conditionTokens"
+                              group-id="0.Condition"
+                              group-type="Condition"
+                              debug="true"></cs-condition>
             </div>
 
             <!--Output -->
             <div id="subpolicy-output">
-                <cs-output table-name="CustomerInfo"
-                    selected="selParams"
-                    formula-list="formulaList"
-                    matrix-list="matrixList"
-                    tokens-list="selectedTokens.ifOutputTokens"
-                    group-id="1.Output"></cs-output>
+                <cs-output table-name="DhflLiner"
+                           selected="selParams"
+                           formula-list="formulaList"
+                           matrix-list="matrixList"
+                           tokens-list="selectedTokens.ifOutputTokens"
+                           group-type="Output"
+                           group-id="1.Output"></cs-output>
             </div>
 
             <!--Restriction-->

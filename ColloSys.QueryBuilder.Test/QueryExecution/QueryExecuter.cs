@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Domain;
 
 #endregion
 
@@ -23,6 +24,15 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         #endregion
 
         #region executer
+
+        public List<T> ExeculteOnList(List<T> dataList)
+        {
+            var filterData = ConditionExecuter(dataList);
+            var resultData = OutputExecuter(filterData);
+
+            return resultData;
+        }
+
         private List<T> ConditionExecuter(List<T> dataList)
         {
             var conditionToken = _billTokenses.Where(x => x.GroupType == "Condition").ToList();
@@ -44,6 +54,16 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             if (outPutToken.Count <= 0)
                 return dataList;
 
+            if (outPutToken[0].Type == "Formula" && outPutToken[0].DataType == "IfElse")
+            {
+                return FormulaExecuter(dataList);
+            }
+
+            if (outPutToken[0].Type == "Matrix")
+            {
+                MatrixExecuter(dataList);
+            }
+
             var stringOutputQuery = _stringQueryBuilder.GenerateOutputQuery(outPutToken);
             var outputExpression = DynamicExpression.ParseLambda<CustBillViewModel, uint>(stringOutputQuery);
             dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
@@ -51,12 +71,31 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             return dataList;
         }
 
-        public List<T> ExeculteOnList(List<T> dataList)
+        private List<T> FormulaExecuter(List<T> dataList)
         {
-            var filterData = ConditionExecuter(dataList);
-            var resultData = OutputExecuter(filterData);
+            var formula = new BillingSubpolicy();
 
-            return resultData;
+            var formulaTokens = formula.BillTokens;
+
+            var groupIds = formulaTokens.Select(x => x.GroupId).Distinct().OrderBy(x => x).ToList();
+
+            for (int i = 0; i < groupIds.Count; i++)
+            {
+                var groupId = groupIds[i];
+                var tokens = formulaTokens.Where(x => x.GroupId == groupId).ToList();
+
+                var queryExecuter = new QueryExecuter<T>(tokens);
+                queryExecuter.ExeculteOnList(dataList);
+            }
+
+            return dataList;
+        }
+
+        private List<T> MatrixExecuter(string matrixName, List<T> dataList)
+        {
+
+
+            return new List<T>();
         }
         #endregion
     }

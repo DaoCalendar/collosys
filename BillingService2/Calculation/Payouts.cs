@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BillingService2.DBLayer;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.QueryExecution;
@@ -82,7 +83,7 @@ namespace BillingService2.Calculation
             return billDetail;
         }
 
-        public IList<BillDetail> GetVariablePayout(BillingPolicy billingPolicy, List<CustBillViewModel> custBillViewModels)
+        public IList<BillDetail> GetVariablePayout(BillingPolicy billingPolicy, List<DHFL_Liner> dhflLiners)
         {
             var billDetails = new List<BillDetail>();
 
@@ -93,13 +94,13 @@ namespace BillingService2.Calculation
                 var billingSubpolicy = billingSubpolicies[i];
 
                 billDetails.Add(GetBillDetail(billingPolicy, billingSubpolicy,
-                                              custBillViewModels));
+                                              dhflLiners));
             }
 
             return billDetails;
         }
 
-        private BillDetail GetBillDetail(BillingPolicy billingPolicy, BillingSubpolicy billingSubpolicy, List<CustBillViewModel> custBillViewModels)
+        private BillDetail GetBillDetail(BillingPolicy billingPolicy, BillingSubpolicy billingSubpolicy, List<DHFL_Liner> dhflLiners)
         {
             var billDetail = new BillDetail
             {
@@ -114,22 +115,39 @@ namespace BillingService2.Calculation
             };
 
             //TODO:Done please check 4 lines
-            var custBillViewModelsNonBillDeatail = custBillViewModels;//.Where(x => x.BillDetail == null).ToList();
+            var dhflLinersBillDeatail = dhflLiners;//.Where(x => x.BillDetail == null).ToList();
 
             // billDetail.Amount = 
             //GetBillingSubpolicyAmount(billDetail, billingSubpolicy.BillTokens.ToList(),
             //                                                                   custBillViewModelsNonBillDeatail);
             //billDetail.TraceLog = tracelog.GetLog();
 
-            var queryExecuter = new QueryExecuter<CustBillViewModel>(billingSubpolicy.BillTokens);
-            queryExecuter.ExeculteOnList(custBillViewModelsNonBillDeatail);
+            var queryExecuter = new QueryExecuter<DHFL_Liner>(billingSubpolicy.BillTokens);
+            billingSubpolicy.PolicyType=ColloSysEnums.PolicyType.Payout;
+            queryExecuter.ForEachFuction = ForEachFuctionPayout;
+            queryExecuter.ExeculteOnList(dhflLiners);
 
             Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
-                                          "and month : {3} has Amount : {4}", _stakeholder.Name,
+                                           "and month : {3} has Amount : {4}", _stakeholder.Name,
                                           _billStatus.Products, billingSubpolicy.Name, _billStatus.BillMonth,
                                           billDetail.Amount));
 
             return billDetail;
+        }
+
+        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner,decimal outputValue)
+        {
+            dhtfLiner.Payout = outputValue;
+        }
+
+        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
+        {
+            dhtfLiner.DeductCap = outputValue;
+        }
+
+        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue)
+        {
+            dhtfLiner.DeductPf = outputValue;
         }
 
         #endregion

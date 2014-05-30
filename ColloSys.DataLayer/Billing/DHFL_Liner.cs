@@ -9,13 +9,13 @@ namespace ColloSys.DataLayer.ClientData
     {
         #region Demo DHFL
       
-        public virtual ulong TotalDisbAmt { get; set; }
-        public virtual ulong TotalProcFee { get; set; }
-        public virtual ulong Payout { get; set; }
-        public virtual ulong TotalPayout { get; set; }
-        public virtual ulong DeductCap { get; set; }
-        public virtual ulong DeductPf { get; set; }
-        public virtual ulong FinalPayout { get; set; }
+        public virtual decimal TotalDisbAmt { get; set; }
+        public virtual decimal TotalProcFee { get; set; }
+        public virtual decimal Payout { get; set; }
+        public virtual decimal TotalPayout { get; set; }
+        public virtual decimal DeductCap { get; set; }
+        public virtual decimal DeductPf { get; set; }
+        public virtual decimal FinalPayout { get; set; }
 
         #region input file columns
 

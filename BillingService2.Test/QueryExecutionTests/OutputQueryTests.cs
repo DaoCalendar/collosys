@@ -1,5 +1,6 @@
 ﻿#region references
 
+using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.QueryBuilder.Test.DataGeneration;
@@ -30,18 +31,26 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         }
         #endregion
 
+        private void ForEachFunction(CustBillViewModel cust, decimal value)
+        {
+            cust.TotalAmountRecovered = value;
+        }
+
         [Test]
         public void Field_Plus_Value_Test()
         {
             // output : Cycle + 2
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = x.Cycle + 2);
+            actualDataList.ForEach(x => x.TotalAmountRecovered = x.Cycle + 2);
 
             var tokens = _testingBillTokens.Field_Plus_Value_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+              {
+                  ForEachFuction = ForEachFunction
+              };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
-            Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
+            Assert.AreEqual(result[0].TotalAmountRecovered, actualDataList[0].TotalAmountRecovered);
         }
 
         [Test]
@@ -49,13 +58,16 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output : 2 + Cycle
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = 2 + x.Cycle);
+            actualDataList.ForEach(x => x.TotalAmountRecovered = 2 + x.Cycle);
 
             var tokens = _testingBillTokens.Value_Plus_Field_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
-            Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
+            Assert.AreEqual(result[0].TotalAmountRecovered, actualDataList[0].TotalAmountRecovered);
         }
 
         [Test]
@@ -63,10 +75,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output : TotalDueOnAllocation * 0.02
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation * (decimal)0.02));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation * (decimal)0.02));
 
             var tokens = _testingBillTokens.Field_Multiply_By_Value_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -77,10 +92,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   0.02 * TotalDueOnAllocation
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)((decimal)0.02 * x.TotalDueOnAllocation));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = ((decimal)0.02 * x.TotalDueOnAllocation));
 
             var tokens = _testingBillTokens.Value_Multiply_By_Field_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -91,10 +109,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output : TotalDueOnAllocation / 2
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation / 2));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation / 2));
 
             var tokens = _testingBillTokens.Field_Divide_By_Value_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -105,10 +126,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   2000 / TotalDueOnAllocation
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(2000 / x.TotalDueOnAllocation));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (2000 / x.TotalDueOnAllocation));
 
             var tokens = _testingBillTokens.Value_Divide_By_Field_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -119,10 +143,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output : TotalDueOnAllocation - 100
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation - 100));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation - 100));
 
             var tokens = _testingBillTokens.Field_Minus_Value_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -133,10 +160,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   2000-TotalDueOnAllocation
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(2000 - x.TotalDueOnAllocation));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (2000 - x.TotalDueOnAllocation));
 
             var tokens = _testingBillTokens.Value_Minus_Field_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -147,10 +177,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   TotalDueOnAllocation + TotalAmountRecovered * 2
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation + x.TotalAmountRecovered * 2));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation + x.TotalAmountRecovered * 2));
 
             var tokens = _testingBillTokens.Field_Plus_Field_Multiply_By_Value_Tokens();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -161,10 +194,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   TotalDueOnAllocation * 2 + TotalAmountRecovered 
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation * 2 + x.TotalAmountRecovered));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation * 2 + x.TotalAmountRecovered));
 
             var tokens = _testingBillTokens.Field_Multiply_By_Value_Plus_Field();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -175,10 +211,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   TotalDueOnAllocation * TotalAmountRecovered / 2
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation * x.TotalAmountRecovered / 2));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation * x.TotalAmountRecovered / 2));
 
             var tokens = _testingBillTokens.Field_Multiply_By_Field_Divided_By_Value();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
@@ -189,14 +228,17 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // output :   TotalDueOnAllocation - 100 * 2
             var actualDataList = _testingBillTokens.GenerateData();
-            actualDataList.ForEach(x => x.Bucket = (uint)(x.TotalDueOnAllocation -100* 2));
+            actualDataList.ForEach(x => x.TotalAmountRecovered = (x.TotalDueOnAllocation - 100 * 2));
 
             var tokens = _testingBillTokens.Field_Minus_Value_Multiply_By_Value();
-            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
+            var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens)
+            {
+                ForEachFuction = ForEachFunction
+            };
             var result = tokenBuilder.ExeculteOnList(_dataList);
 
             Assert.AreEqual(result[0].Bucket, actualDataList[0].Bucket);
         }
-        
+
     }
 }
