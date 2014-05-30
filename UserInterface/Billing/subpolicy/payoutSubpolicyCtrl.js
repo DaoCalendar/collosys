@@ -11,15 +11,7 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
                     $csnotify.error(data);
                 });
         };
-
-        var getFormulaList = function (product) {
-            return restApi.customGET('GetFormulas', { product: product, category: 'Liner' }).then(function (data) {
-                return _.filter(data, { PayoutSubpolicyType: 'Formula' });
-            }, function (data) {
-                $csnotify.error(data);
-            });
-        };
-
+        
         var saveSubpolicy = function (subpolicy) {
             return restApi.customPOST(subpolicy, 'Post').then(function (data) {
                 return data;
@@ -38,7 +30,6 @@ csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfacto
 
         return {
             getSubpolicyList: getSubpolicyList,
-            getFormulaList: getFormulaList,
             saveSubpolicy: saveSubpolicy,
             getMatrixList: getMatrixList,
         };
@@ -78,9 +69,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
         };
 
         var divideTokens = function (tokensList) {
-            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupId': '0.Condition' });
-            $scope.selectedTokens.ifOutputTokens = _.filter(tokensList, { 'GroupId': '1.Output' });
-            $scope.selectedTokens.ElseOutputTokens = _.filter(tokensList, { 'GroupId': '2.Output' });
+            $scope.selectedTokens.conditionTokens = _.filter(tokensList, { 'GroupType':'Condition' });
+            $scope.selectedTokens.ifOutputTokens = _.filter(tokensList, { 'GroupType': 'Output' });
+            $scope.selectedTokens.ElseOutputTokens = _.filter(tokensList, { 'GroupType': 'ElseOutput' });
         };
 
         $scope.saveSubPolicy = function (subpolicy, selectedTokens) {
