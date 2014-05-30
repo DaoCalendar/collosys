@@ -235,7 +235,7 @@ namespace ColloSys.UserInterface.Areas.Allocation.apiController
             var memberStakeholder = new MemberHelper<Stakeholders>();
             var stakeholderType = typeof(Stakeholders);
             var properyStakeholder = stakeholderType.GetProperty(memberStakeholder.GetName(x => x.Name));
-            gridData.AddNewColumn(properyStakeholder, stakeholderType.Name, "Stakeholder Name");
+            gridData.AddNewColumn(properyStakeholder, "Stakeholder", "Stakeholder Name");
 
             // add Info Columns
             //var memberInfo = new MemberHelper<CustomerInfo>();
