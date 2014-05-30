@@ -242,7 +242,6 @@ csapp.controller('allocPolicyCtrl', ['$scope', 'allocPolicyDataLayer', 'allocPol
             });
 
             var relations = _.sortBy(test, 'Priority');
-            console.log(relations);
             var index = relations.indexOf(policy.allocRelation);
             var tempPriority = relations[index].Priority;
             relations[index].Priority = relations[index - 1].Priority;

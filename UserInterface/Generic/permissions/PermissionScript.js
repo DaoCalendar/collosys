@@ -22,7 +22,6 @@
         angular.forEach(data, function (value, module) {
             var hasPerm = false;
             var currModule = data[module];
-            console.log('current module: ', currModule);
             angular.forEach(currModule.childrens, function (activityVal, activity) {
                 if (activity === 'access' && activityVal === true)
                     hasPerm = true;
@@ -92,7 +91,6 @@
         if (oldName !== newName) {
             oldName = newName;
             dldata.permissionsChanged = true;
-            console.log('changed from: ', oldName, 'to: ', newName);
         }
 
         return oldName;
@@ -129,7 +127,6 @@
                                 if (angular.isUndefined(oldPermission[module]['childrens'][activity]['childrens'][extra]))
                                     return;
                                 else {
-                                    console.log('extraPerm deleted: ', oldPermission[module]['childrens'][activity]['childrens'][extra]);
                                     dldata.permissionsChanged = true;
                                     delete oldPermission[module]['childrens'][activity]['childrens'][extra];
 
@@ -141,7 +138,6 @@
 
                         if (angular.isUndefined(oldPermission[module]['childrens'][activity]))
                             return;
-                        console.log('activity deleted: ', oldPermission[module]['childrens'][activity]);
                         dldata.permissionsChanged = true;
                         delete oldPermission[module]['childrens'][activity];
 
@@ -151,7 +147,6 @@
 
                 if (angular.isUndefined(oldPermission[module]))
                     return;
-                console.log('module deleted: ', oldPermission[module]);
                 dldata.permissionsChanged = true;
                 delete oldPermission[module];
 
@@ -164,19 +159,16 @@
             if (!oldPermission.hasOwnProperty(module)) {
                 oldPermission[module] = value;
                 dldata.permissionsChanged = true;
-                console.log('module added: ', module);
             } else {
                 angular.forEach(newPermission[module]['childrens'], function (activityVal, activity) {
                     if (!oldPermission[module]['childrens'].hasOwnProperty(activity)) {
                         oldPermission[module]['childrens'][activity] = activityVal;
                         dldata.permissionsChanged = true;
-                        console.log('activity added: ', activity);
                     } else {
                         angular.forEach(newPermission[module]['childrens'][activity]['childrens'], function (extraVal, extra) {
                             if (!oldPermission[module]['childrens'][activity]['childrens'].hasOwnProperty(extra)) {
                                 oldPermission[module]['childrens'][activity]['childrens'][extra] = extraVal;
                                 dldata.permissionsChanged = true;
-                                console.log('extraPerm added: ', extra);
                             }
                         });
                     }
@@ -208,7 +200,6 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             $scope.Permission = $csModels.getColumns("Permission");
             $scope.prmsn = permissionsFactory.permission;
 
-            console.log("dldata: ", $scope.dldata);
         })();
 
         $scope.save = function (data) {
@@ -219,7 +210,6 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             datalayer.GetPermission(id).then(function (data) {
                 $scope.displayData = data[0].Childrens;
                 $scope.currPermData = data[0];
-                console.log("permission: ", $scope.currPermData);
             });
         };
 
@@ -258,7 +248,6 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
             var access = true;
             angular.forEach(module.childrens, function (activityVal, activityKey) {
                 if (activityVal.access === false) {
-                    console.log('return false', activityVal.access);
                     access = false;
                 }
                 else {

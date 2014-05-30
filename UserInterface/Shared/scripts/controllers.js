@@ -23,7 +23,6 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
         var getPermission = function (user) {
             return menuApi.customGET("GetPermission", { 'user': user })
                     .then(function (data) {
-                        console.log("permission: ", data);
                         return data;
                     });
         };

@@ -186,7 +186,6 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 dldata.payoutPolicy = data.PayoutPolicy;
                 dldata.payoutPolicy.PolicyType = policyType;
                 dldata.subPolicyList = data.UnUsedSubpolicies;
-                console.log("policy data: ", data);
             }, function (data) {
                 $csnotify.error(data);
             });

@@ -698,7 +698,6 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         html += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         html += '</div>';
         html += '</div>';
-        console.log(html);
         return html;
 
     };
