@@ -1,12 +1,11 @@
 ﻿<table class="table table-bordered" data-ng-form="addForm">
     <tr>
         <td class="col-md-8">
-            <div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
-                <label style="padding-left: 15px;"
-                       data-ng-repeat="d in tokensList track by $index">
+            <pre data-ng-class="setValidation()" style="word-wrap:normal;">
+                <label style="padding-left: 15px;" data-ng-repeat="d in tokensList track by $index">
                     {{d.Text| changetext}}
                 </label>
-            </div>
+            </pre>
             <div class="alert alert-warning" data-ng-show="tokens.error">
                 <label>{{tokens.error}}</label>
             </div>

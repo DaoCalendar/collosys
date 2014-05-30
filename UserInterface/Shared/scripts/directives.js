@@ -633,7 +633,7 @@ csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
-        template += '<div class="panel panel-default">';
+        template += '<div class="panel panel-default" style="height: 400px;overflow: auto">';
         template += '<div class="panel-heading">' + attrs.listHeading + ' </div>';
         template += '<ul class="list-group">';
         template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
