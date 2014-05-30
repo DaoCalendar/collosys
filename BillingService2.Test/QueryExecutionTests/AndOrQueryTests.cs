@@ -76,8 +76,8 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL 
-                && x.Cycle > 2 && x.TotalDueOnAllocation<7000).ToList();
+            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
+                && x.Cycle > 2 && x.TotalDueOnAllocation < 7000).ToList();
 
             var tokens = _testingBillTokens.Condition_And_Condition_And_Condition_Tokens();
             var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
@@ -121,8 +121,8 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                && x.Cycle > 2 || x.TotalDueOnAllocation < 7000).ToList();
+            var actual = actualDataList.Where(x => (x.Product == ScbEnums.Products.PL)
+                || (x.Cycle > 2 && x.TotalDueOnAllocation < 7000)).ToList();
 
             var tokens = _testingBillTokens.Condition_Or_Condition_And_Condition_Tokens();
             var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
@@ -153,7 +153,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
             //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
             var actualDataList = _testingBillTokens.GenerateData();
             var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                || x.Cycle > 2 
+                || x.Cycle > 2
                 || x.TotalDueOnAllocation < 7000
                 || x.TotalAmountRecovered > 1000).ToList();
 
@@ -169,10 +169,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             //Product=PL And Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                && x.Cycle > 2 
-                || x.TotalDueOnAllocation < 7000
-                && x.TotalAmountRecovered > 1000).ToList();
+            var actual = actualDataList.Where(x => (x.Product == ScbEnums.Products.PL
+                && x.Cycle > 2)
+                || (x.TotalDueOnAllocation < 7000
+                && x.TotalAmountRecovered > 1000)).ToList();
 
             var tokens = _testingBillTokens.Condition_And_Condition_Or_Condition_And_Condition();
             var tokenBuilder = new QueryExecuter<CustBillViewModel>(tokens);
@@ -187,7 +187,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
             //Product=PL And Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
             var actualDataList = _testingBillTokens.GenerateData();
             var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                && x.Cycle > 2 
+                && x.Cycle > 2
                 && x.TotalDueOnAllocation < 7000
                 || x.TotalAmountRecovered > 1000).ToList();
 
@@ -204,7 +204,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
             //Product=PL Or Cycle>2 And TotalDueOnAllocation < 7000 Or TotalAmountRecovered > 1000
             var actualDataList = _testingBillTokens.GenerateData();
             var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                || x.Cycle > 2 
+                || x.Cycle > 2
                 && x.TotalDueOnAllocation < 7000
                 || x.TotalAmountRecovered > 1000).ToList();
 
@@ -221,7 +221,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
             //Product=PL Or Cycle>2 Or TotalDueOnAllocation < 7000 And TotalAmountRecovered > 1000
             var actualDataList = _testingBillTokens.GenerateData();
             var actual = actualDataList.Where(x => x.Product == ScbEnums.Products.PL
-                || x.Cycle > 2 
+                || x.Cycle > 2
                 || x.TotalDueOnAllocation < 7000
                 && x.TotalAmountRecovered > 1000).ToList();
 

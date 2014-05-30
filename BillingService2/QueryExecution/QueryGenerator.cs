@@ -67,7 +67,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             var query = string.Empty;
             var remainingTokens = tokensList;
             var conditionToken = tokensList.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational");
-            
+
             do
             {
                 var condtionIndex = conditionToken == null
@@ -80,10 +80,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
                 query += string.Format("( {0} )", GenerateConditionalQuery(lhsTokens));
                 if (conditionToken != null) query += ProcessOperators(conditionToken);
 
-                remainingTokens = conditionToken == null 
-                    ? new List<BillTokens>() 
+                remainingTokens = conditionToken == null
+                    ? new List<BillTokens>()
                     : remainingTokens.Skip(condtionIndex + 1).ToList();
-                conditionToken = remainingTokens.Count > 0 
+                conditionToken = remainingTokens.Count > 0
                     ? remainingTokens.FirstOrDefault(x => x.Type == "Operator" && x.DataType == "relational")
                     : null;
             } while (remainingTokens.Count > 0);
@@ -174,7 +174,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private string ProcessValue(BillTokens token)
         {
-            return token.DataType == "string"
+            return (token.DataType == "string" || token.DataType == "enum")
                 ? string.Format("\"{0}\"", token.Value)
                 : token.Value;
         }
