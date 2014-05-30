@@ -1,44 +1,58 @@
 ﻿<form name="filterConditionform">
     <cs-form>
-        <div class="row" style="margin-bottom: 7px">
-            <div class="col-md-5">
-                <label class="col-md-4 text-right">Aliase Name</label>
-                <div class="col-md-8">
-                    <select class="form-control"
-                            data-ng-model="filterCondition.FileDetail"
-                            data-ng-change="getColumnValues(filterCondition.FileDetail)"
-                            required>
-                        <option value=""></option>
-                        <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
-                    </select>
-                </div>
-            </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">AliaseName</div>
+            <div class="panel-body">
+                <div class="row" style="margin-bottom: 7px">
+                    <div class="col-md-5">
+                        <label class="col-md-4 text-right">Aliase Name</label>
+                        <div class="col-md-8">
+                            <select class="form-control"
+                                    data-ng-model="filterCondition.FileDetail"
+                                    data-ng-change="getColumnValues(filterCondition.FileDetail)"
+                                    required>
+                                <option value=""></option>
+                                <option data-ng-repeat="c in fileDetailsList |orderBy :'FileType'" value="{{c}}">{{c.AliasName}}</option>
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
-                <cs-button type="add" text="Add AliseCondition"
-                        data-ng-click="addAliseCondition(filterCondition.FileDetail)"></cs-button>
+                    <div class="col-md-7" data-ng-show="filterCondition.FileDetail">
+                        <cs-button type="add" text="Add AliseCondition"
+                                   data-ng-click="addAliseCondition(filterCondition.FileDetail)"></cs-button>
+                    </div>
+                </div>
             </div>
         </div>
+
+
         <div>
-            <div>
-                <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
-                    <cs-list list-heading="AliseCondition list" value-list="AliseConditionList" text-field="AliasConditionName"
-                             data-ng-model="data" on-click="selectFilterCondition(data)"></cs-list>
-                </div>
+            <div class="col-md-3" data-ng-show="filterCondition.FileDetail">
+                <cs-list list-heading="AliseCondition list" value-list="AliseConditionList" text-field="AliasConditionName"
+                         data-ng-model="data" on-click="selectFilterCondition(data)"></cs-list>
             </div>
+
+        
 
             <div class="col-md-9" data-ng-show="showDiv">
                 <div class="form-horizontal">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Filter Condition</div>
+                        <div class="panel-heading">Alias-Info</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="form-group">
+                                <div class="text-right">
                                     <cs-field data-ng-model="filterCondition.AliasConditionName" field="FilterCondition.AliasConditionName" ng-required="true"></cs-field>
                                 </div>
                             </div>
-
-                            <div class="row" style="height: 380px; overflow: auto">
+                        </div>
+                    </div>
+                    
+                    
+                     <div class="panel panel-default">
+                        <div class="panel-heading">Condition</div>
+                        <div class="panel-body">
+                            <div class="row">
+<!--                                <div style="height: 380px; overflow: auto">-->
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -106,17 +120,24 @@
                                     </tbody>
                                 </table>
                             </div>
+                            </div>
+                        </div>
+<!--                    </div>-->
+
+                   
                         </div>
                     </div>
-                </div>
+                
+          
+       
+            <div class="text-right" data-ng-show="showDiv">
+                <cs-button type="save" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)"></cs-button>
+                <cs-button type="reset" data-ng-click="reset()"></cs-button>
             </div>
-        </div>
-        <div class="text-right" data-ng-show="showDiv">
-            <cs-button type="save" data-ng-disabled="!(filterConditionform.$invalid && (filterCondition.ConditionList.length>0))" data-ng-click="save(filterCondition)"></cs-button>
-            <cs-button type="reset" data-ng-click="reset()"></cs-button>
         </div>
     </cs-form>
 </form>
+
 
 
 
