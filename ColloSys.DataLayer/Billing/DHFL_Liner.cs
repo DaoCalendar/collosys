@@ -18,6 +18,8 @@ namespace ColloSys.DataLayer.ClientData
         public virtual decimal DeductPf { get; set; }
         public virtual decimal FinalPayout { get; set; }
 
+        
+
         #region input file columns
 
         public virtual string BranchName { get; set; }
@@ -51,12 +53,16 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string DisbNo { get; set; }
         public virtual string Subvention { get; set; }
         public virtual string Corporate { get; set; }
-        public virtual string Product { get; set; }
+        public virtual ScbEnums.Products Product { get; set; }
         public virtual string AgentId { get; set; }
+        public virtual UInt32 BillMonth { get; set; }
+        public virtual ColloSysEnums.BillStatus BillStatus { get; set; }
 
         #endregion
 
         #endregion
+
+        public virtual BillDetail BillDetail { get; set; }
 
         public override FileScheduler FileScheduler { get; set; }
         

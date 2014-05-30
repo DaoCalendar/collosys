@@ -1,9 +1,15 @@
-﻿<table class="table table-bordered" data-ng-form="addForm">
+﻿<!--<div class="panel panel-default">
+    <div class="panel-heading">Output</div>
+    <div class="panel-body">
+    
+    </div>
+</div>-->
+<table class="table table-bordered" data-ng-form="addForm">
     <tr>
+        <td><span>OutPut</span></td>
         <td class="col-md-8">
-            <div class="alert" data-ng-class="setValidation()" style="word-wrap:normal;">
-                <label style="padding-left: 15px;"
-                       data-ng-repeat="d in tokensList track by $index">
+            <div data-ng-class="setValidation()" style="word-wrap:normal;">
+                <label style="padding-left: 15px;" data-ng-repeat="d in tokensList track by $index">
                     {{d.Text| changetext}}
                 </label>
             </div>

@@ -32,9 +32,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Description, map => map.NotNullable(false));
 
             Property(x => x.PolicyType);
-            Property(x => x.ProcessingFee);
-            Property(x => x.PayoutCapping);
-
+        
             #endregion
 
             #region Bags-relationship

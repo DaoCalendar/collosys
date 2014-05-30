@@ -55,9 +55,9 @@ namespace BillingService2
 
                 try
                 {
-                    Logger.Info(string.Format("Moving Product from Info to Payment table started"));
+                    //Logger.Info(string.Format("Moving Product from Info to Payment table started"));
                     //MoveProductInfoToPayment.Init();
-                    Logger.Info(string.Format("Moving Product from Info to Payment table Ended"));
+                    //Logger.Info(string.Format("Moving Product from Info to Payment table Ended"));
                 }
                 catch (Exception exception)
                 {
@@ -89,89 +89,35 @@ namespace BillingService2
             Logger.Info(string.Format("biling start for month : {0}, and product : {1}", billStatus.BillMonth,
                                       billStatus.Products));
 
-            var dhflLiners = DhflLinerDbLayer.GetDhflLinerDbData(billStatus.Products, billStatus.BillMonth);
+            var dhflLiners = DhflLinerDbLayer.GetDhflLinerForStkholderDbData(billStatus);
 
-            Logger.Info(string.Format("Total {0} custstkBillViewModel available for product : {1}", dhflLiners.Count(),
-                                      billStatus.Products));
+            Logger.Info(string.Format("Total {0} dhflLiners available for product : {1}, month : {2}, stakeholder : {3}", dhflLiners.Count(),
+                                      billStatus.Products, billStatus.BillMonth, billStatus.Stakeholder.Name));
 
-            var agentIds = dhflLiners.Select(x => x.AgentId).Distinct().ToList();
-            var stakeholders = StkholderDbLayer.GetStakeholdersDbData(agentIds);
-
-
-
-            Logger.Info(string.Format("Total {0} stakeholder available for product : {1}", stakeholders.Count(),
-                                      billStatus.Products));
+           
 
             var billDetails = new List<BillDetail>();
-            foreach (var stakeholder in stakeholders)
-            {
-                var dhflLinersForStkholder = dhflLiners
-                    .Where(x => x.AgentId == stakeholder.ExternalId).ToList();
+            var payouts = new Payouts(billStatus);
 
-                billDetails.AddRange(BillingForStakeholder(stakeholder, billStatus, dhflLiners));
-            }
+
+            billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners,ColloSysEnums.PolicyType.Payout));
+
+            billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.Capping));
+
+            billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.PF));
+
+
+            var billAmount = GetBillAmountForStkholder(billStatus, billDetails);
+
 
             BillStatusDbLayer.SaveDoneBillStatus(billStatus);
         }
 
-        public IList<BillDetail> BillingForStakeholder(Stakeholders stakeholder, BillStatus billStatus, List<DHFL_Liner> dhflLiners)
-        {
-            Logger.Info(string.Format("biling start for stakeholder : {0}, and product : {1}, and month {2}", stakeholder.Name,
-                                      billStatus.Products, billStatus.BillMonth));
-
-            var billDetails = new List<BillDetail>();
-
-            var stkhPayment = stakeholder.StkhPayments.FirstOrDefault(x => x.Products == billStatus.Products);
-            if (stkhPayment == null)
-            {
-                Logger.Info(string.Format("No working for stakeholder : {0} and product : {1}", stakeholder.Name,
-                                          billStatus.Products));
-                return billDetails;
-            }
-
-            var payouts = new Payouts(stakeholder, billStatus);
-
-            //// for fixed payment
-            //if (stakeholder.Hierarchy.HasFixed)
-            //{
-            //    billDetails.Add(payouts.GetFixedPayout(stkhPayment));
-            //}
-
-            // for variable payment
-            //if (stakeholder.Hierarchy.HasVarible)
-            //{
-            //    var collectionbillingPolicy = BillingPolicyDbLayer.GetPolicies(billStatus.Products, ScbEnums.Category.Liner);
-
-            //    if (collectionbillingPolicy != null)
-            //        billDetails.AddRange(payouts.GetVariablePayout(collectionbillingPolicy, dhflLiners));
-            //}
-
-            //// for adhoc payment 
-            //billDetails.AddRange(payouts.GetAdhocPayout());
-
-            var billingPolicy = (BillingPolicyDbLayer.GetPolicies(stakeholder) 
-                                    ?? BillingPolicyDbLayer.GetPolicies(stakeholder.Hierarchy)) 
-                                    ?? BillingPolicyDbLayer.GetPolicies(billStatus.Products);
-
-
-            if (billingPolicy != null)
-                billDetails.AddRange(payouts.GetVariablePayout(billingPolicy, dhflLiners));
-
-
-            var billAmount = GetBillAmountForStkholder(stakeholder, billStatus, billDetails);
-
-            //ToDO:Done Please Check 2 lines
-            //var custBillViewModelsWithBillDetail = dhflLiners.Where(x => x.BillDetail != null).ToList();
-            //BillDetailDbLayer.SaveBillDetailsBillAmount(billDetails, billAmount, custBillViewModelsWithBillDetail);
-
-            return billDetails;
-        }
-
-        private BillAmount GetBillAmountForStkholder(Stakeholders stakeholders, BillStatus billStatus, List<BillDetail> billDetails)
+        private BillAmount GetBillAmountForStkholder(BillStatus billStatus, List<BillDetail> billDetails)
         {
             var billAmount = new BillAmount();
 
-            billAmount.Stakeholder = stakeholders;
+            billAmount.Stakeholder = billStatus.Stakeholder;
             billAmount.Products = billStatus.Products;
             billAmount.Month = billStatus.BillMonth;
             billAmount.Cycle = 0;
@@ -229,3 +175,57 @@ namespace BillingService2
         #endregion
     }
 }
+
+
+//public IList<BillDetail> BillingForStakeholder(Stakeholders stakeholder, BillStatus billStatus, List<DHFL_Liner> dhflLiners)
+//        {
+//            Logger.Info(string.Format("biling start for stakeholder : {0}, and product : {1}, and month {2}", stakeholder.Name,
+//                                      billStatus.Products, billStatus.BillMonth));
+
+//            var billDetails = new List<BillDetail>();
+
+//            var stkhPayment = stakeholder.StkhPayments.FirstOrDefault(x => x.Products == billStatus.Products);
+//            if (stkhPayment == null)
+//            {
+//                Logger.Info(string.Format("No working for stakeholder : {0} and product : {1}", stakeholder.Name,
+//                                          billStatus.Products));
+//                return billDetails;
+//            }
+
+//            var payouts = new Payouts(stakeholder, billStatus);
+
+//            //// for fixed payment
+//            //if (stakeholder.Hierarchy.HasFixed)
+//            //{
+//            //    billDetails.Add(payouts.GetFixedPayout(stkhPayment));
+//            //}
+
+//            // for variable payment
+//            //if (stakeholder.Hierarchy.HasVarible)
+//            //{
+//            //    var collectionbillingPolicy = BillingPolicyDbLayer.GetPolicies(billStatus.Products, ScbEnums.Category.Liner);
+
+//            //    if (collectionbillingPolicy != null)
+//            //        billDetails.AddRange(payouts.GetVariablePayout(collectionbillingPolicy, dhflLiners));
+//            //}
+
+//            //// for adhoc payment 
+//            //billDetails.AddRange(payouts.GetAdhocPayout());
+
+//            var billingPolicy = (BillingPolicyDbLayer.GetPolicies(stakeholder)
+//                                    ?? BillingPolicyDbLayer.GetPolicies(stakeholder.Hierarchy))
+//                                    ?? BillingPolicyDbLayer.GetPolicies(billStatus.Products);
+
+
+//            if (billingPolicy != null)
+//                billDetails.AddRange(payouts.GetVariablePayout(billingPolicy, dhflLiners));
+
+
+//            var billAmount = GetBillAmountForStkholder(stakeholder, billStatus, billDetails);
+
+//            //ToDO:Done Please Check 2 lines
+//            //var custBillViewModelsWithBillDetail = dhflLiners.Where(x => x.BillDetail != null).ToList();
+//            //BillDetailDbLayer.SaveBillDetailsBillAmount(billDetails, billAmount, custBillViewModelsWithBillDetail);
+
+//            return billDetails;
+//        }
