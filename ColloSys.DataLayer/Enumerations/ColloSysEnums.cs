@@ -8,6 +8,15 @@ namespace ColloSys.DataLayer.Enumerations
 {
     public static class ColloSysEnums
     {
+
+        [Serializable]
+        public enum PolicyOn
+        {
+            Stakeholder,
+            Hierarchy,
+            Product
+        }
+
         [Serializable]
         public enum RuleForHolding
         {

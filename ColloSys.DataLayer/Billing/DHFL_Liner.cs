@@ -22,7 +22,7 @@ namespace ColloSys.DataLayer.ClientData
         #region input file columns
 
         public virtual string BranchName { get; set; }
-        public virtual string Branchcat { get; set; }
+        public virtual string BranchCat { get; set; }
         public virtual uint ApplNo { get; set; }
         public virtual string Loancode { get; set; }
         public virtual uint SalesRefNo { get; set; }
@@ -30,7 +30,7 @@ namespace ColloSys.DataLayer.ClientData
         public virtual DateTime SanctionDt { get; set; }
         public virtual ulong SanAmt { get; set; }
         public virtual DateTime DisbursementDt { get; set; }
-        public virtual ulong DisbursementAmt { get; set; }
+        public virtual decimal DisbursementAmt { get; set; }
         public virtual uint FeeDue { get; set; }
         public virtual uint FeeWaived { get; set; }
         public virtual uint FeeReceived { get; set; }
