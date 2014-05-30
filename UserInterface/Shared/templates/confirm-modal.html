@@ -6,10 +6,10 @@
         <p>{{modalOptions.bodyText}}</p>
     </div>
     <div class="modal-footer">
-        <cs-button type="close" text="cancel"
+        <cs-button type="cancel" text="{{modalOptions.closeButtonText}}"
             data-ng-click="modalOptions.close()">
             {{modalOptions.closeButtonText}}</cs-button>
-        <cs-button type="delete"
+        <cs-button type="ok" text="{{modalOptions.actionButtonText}}"
             data-ng-click="modalOptions.ok();">
             {{modalOptions.actionButtonText}}</cs-button>
     </div>

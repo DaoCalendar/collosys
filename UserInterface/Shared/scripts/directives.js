@@ -193,6 +193,14 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
                 //templateParams.className = 'btn-warning';
                 templateParams.text = text || 'Close';
                 break;
+            case 'ok':
+                //templateParams.className = 'btn-primary';
+                templateParams.text = text || 'OK';
+                break;
+            case 'cancel':
+                //templateParams.className = 'btn-primary';
+                templateParams.text = text || 'Cancel';
+                break;
             case 'add':
                 //templateParams.className = 'btn-primary';
                 templateParams.text = text || 'Add';
