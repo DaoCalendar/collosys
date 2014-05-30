@@ -1,22 +1,19 @@
 ﻿<div data-ng-form="subpolicyForm">
     <div class="form-horizontal">
         <cs-form layout="4.4.8">
-            <div class="panel panel-default">
-                <div class="panel-heading"></div>
-                <div class="panel-body">
-                    <cs-field data-ng-model="sele.Products"
-                              data-ng-change="getSubpolicyList(sele)"
-                              field="payoutSubpolicy.Products" ng-required="true"></cs-field>
+            <div>
+                <cs-field data-ng-model="sele.Products"
+                          data-ng-change="getSubpolicyList(sele)"
+                          field="payoutSubpolicy.Products" ng-required="true"></cs-field>
 
-                    <cs-field data-ng-if="sele.Products" data-ng-model="sele.PolicyType"
-                              data-ng-change="getSubpolicyList(sele)"
-                              field="payoutSubpolicy.PolicyType">
-                    </cs-field>
+                <cs-field data-ng-if="sele.Products" data-ng-model="sele.PolicyType"
+                          data-ng-change="getSubpolicyList(sele)"
+                          field="payoutSubpolicy.PolicyType">
+                </cs-field>
 
-                    <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.PolicyType"
-                               data-ng-click="addSubPolicy(sele,subpolicyForm)">
-                    </cs-button>
-                </div>
+                <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.PolicyType"
+                           data-ng-click="addSubPolicy(sele,subpolicyForm)">
+                </cs-button>
             </div>
         </cs-form>
     </div>
@@ -80,9 +77,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <!-- <div class="form-group col-md-6">
          <label class="control-label">Category</label>
