@@ -57,6 +57,10 @@ namespace ColloSys.DataLayer.Mapping
             Property(x=>x.Product);
             Property(x=>x.AgentId);
             Property(x=>x.Corporate);
+            Property(x => x.BillMonth);
+            Property(x => x.BillStatus);
+
+            ManyToOne(x => x.BillDetail);
             #endregion
         }
 

@@ -94,13 +94,13 @@ namespace BillingService2
             Logger.Info(string.Format("Total {0} dhflLiners available for product : {1}, month : {2}, stakeholder : {3}", dhflLiners.Count(),
                                       billStatus.Products, billStatus.BillMonth, billStatus.Stakeholder.Name));
 
-           
+
 
             var billDetails = new List<BillDetail>();
             var payouts = new Payouts(billStatus);
 
 
-            billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners,ColloSysEnums.PolicyType.Payout));
+            billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.Payout));
 
             billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.Capping));
 
@@ -110,7 +110,11 @@ namespace BillingService2
             var billAmount = GetBillAmountForStkholder(billStatus, billDetails);
 
 
-            BillStatusDbLayer.SaveDoneBillStatus(billStatus);
+            //BillStatusDbLayer.SaveDoneBillStatus(billStatus);
+
+            var dhflLinersWithBillDetail = dhflLiners.Where(x => x.BillDetail != null).ToList();
+            billStatus.Status = ColloSysEnums.BillingStatus.Done;
+            BillDetailDbLayer.SaveBillDetailsBillAmount(billStatus, billDetails, billAmount, dhflLinersWithBillDetail);
         }
 
         private BillAmount GetBillAmountForStkholder(BillStatus billStatus, List<BillDetail> billDetails)

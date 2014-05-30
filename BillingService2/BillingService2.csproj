@@ -55,6 +55,7 @@
     <Compile Include="BillingService.cs" />
     <Compile Include="Calculation\Payouts.cs" />
     <Compile Include="DBLayer\BillAdhocDbLayer.cs" />
+    <Compile Include="DBLayer\BillDetailDbLayer.cs" />
     <Compile Include="DBLayer\BillingPolicyDbLayer.cs" />
     <Compile Include="DBLayer\BillStatusDbLayer.cs" />
     <Compile Include="DBLayer\CustBillViewModelDbLayer.cs" />

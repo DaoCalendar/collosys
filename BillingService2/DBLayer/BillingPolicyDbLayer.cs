@@ -8,6 +8,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Hql.Ast.ANTLR;
 using NLog;
 
 namespace BillingService2.DBLayer
@@ -23,8 +24,8 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                              //.Where(x => x == products)
-                                              .SingleOrDefault();
+                                            .Where(x => x.PolicyType == policyType && x.PolicyForId == stakeholders.Id)
+                                            .SingleOrDefault();
                 return billingPolicy;
             }
             catch (Exception ex)
@@ -42,7 +43,7 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                              //.Where(x => x == products)
+                                              .Where(x => x.PolicyType == policyType && x.PolicyForId == stkhHierarchy.Id)
                                               .SingleOrDefault();
                 return billingPolicy;
             }
@@ -61,7 +62,7 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                              .Where(x => x.Products == products)
+                                              .Where(x => x.PolicyType == policyType && x.Products == products)
                                               .SingleOrDefault();
                 return billingPolicy;
             }
