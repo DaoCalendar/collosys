@@ -784,7 +784,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row">';
-            html += '<div class="col-md-5 cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
+            html += '<div class="col-md-6 text-right cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += ' style="margin-left: 0"';

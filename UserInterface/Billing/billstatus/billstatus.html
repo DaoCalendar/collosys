@@ -38,9 +38,9 @@
                                       ng-disabled="amount.PayStatus=='Closed'"></cs-field>
                         </td>
                         <td>
-                            <input class="btn btn-default minWidth" type="button" value="Update as {{getNextStatus(amount.PayStatus)}}"
-                                   data-ng-click="changeStatus(amount)"
-                                   data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" />
+                            <cs-button type="add" value="Update as {{getNextStatus(amount.PayStatus)}}"
+                                       data-ng-click="changeStatus(amount)"
+                                       data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" ></cs-button>
                             <!--<cs-button type="Add" text="{{nextStatusText}}"
                                            ng-click="changeStatus(amount)"
                                            ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'"></cs-button>-->
