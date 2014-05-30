@@ -21,7 +21,7 @@
                 <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(policy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
             </div>
         </div>
-   
+
         <div class="row margin-box" data-ng-show="!(dldata.buttonStatus==='')">
             <div class="col-md-1"></div>
             <div class="col-md-9">
@@ -29,17 +29,14 @@
                     <div class="panel-heading">
                         <div class="row">
                             <p class="col-md-2">{{disSubPolicy.Name}} :({{dldata.buttonStatus}})</p>
-                            <!--Deactivate,Approv, Reject Buttons-->
                             <div class="pull-right" style="margin-right:5px">
                                 <cs-button type="delete" text="Deactivate"
                                            data-ng-show="dldata.buttonStatus==='Approved'"
                                            data-ng-click="openModelDeactivateSubPolicy(policy.allocRelation);"></cs-button>
-                                <!--for draft-->
                                 <cs-button type="save" text="Activate"
                                            data-ng-show="dldata.buttonStatus=='Draft'"
                                            data-ng-click="openModelNewSubPolicy(policy,$index);"></cs-button>
 
-                                <!--for Expired-->
                                 <cs-button type="add" text="Reactivate"
                                            data-ng-show="dldata.buttonStatus=='Expired'"
                                            data-ng-click="openModelReactivateSubPolicy(policy.allocRelation);"></cs-button>
@@ -56,9 +53,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <!--Name & Policy-->
                         <div class="row" data-ng-form="allocPolicyForm">
-                            <!--Policy Stakeholder-->
                             <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='AllocateToStkholder'">
                                 <label class="col-md-4">Stakeholder</label>
                                 <div class="col-md-8">
@@ -67,16 +62,13 @@
                             </div>
 
                         </div>
-                        <!--Conditions & Policy Reason/ Stakeholder-->
                         <div class="row">
-                            <!--Policy-->
                             <div class="col-md-6">
                                 <label class="col-md-4 control-label">Policy</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" data-ng-model="disSubPolicy.Policy" readonly="readonly" />
                                 </div>
                             </div>
-                            <!--POlicy Reason-->
                             <div class="col-md-6" data-ng-show="disSubPolicy.Policy=='DoNotAllocate'">
                                 <label class="col-md-4 control-label">Reason</label>
                                 <div class="col-md-8">
@@ -85,16 +77,13 @@
                             </div>
 
                         </div>
-                        <!--Start & End Date-->
                         <div class="row" data-ng-hide="dldata.buttonStatus=='Draft'">
-                            <!--Start date-->
                             <div class="col-md-6">
                                 <label class="col-md-4">Start Date</label>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" readonly value="{{allocRelation.StartDate|date:'dd-MM-yyyy'}}">
                                 </div>
                             </div>
-                            <!--End Date-->
                             <div class="col-md-6">
                                 <label class="col-md-4">End Date</label>
                                 <div class="col-md-8">
@@ -103,7 +92,6 @@
                             </div>
                         </div>
                         <div class="row">
-                            <!--conditions-->
                             <div class="col-md-6" style="padding-top:7px">
                                 <label class="col-md-4">Condition</label>
                                 <div class="col-md-8">
@@ -117,51 +105,3 @@
         </div>
     </form>
 </cs-form>
-
-
-<!--<div class="row" data-ng-show="false">
-    <div class="col-md-1">
-    </div>
-    <div class="col-md-4">
-        <label class="heading-for-box">Expired/Draft</label>
-        <div class="box">
-            <div class="policy-name-box"
-                 data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(false,'')">
-                <div class="clickableName"
-                     data-ng-click="setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation);setButtonStatus('Expired')">
-                    {{allocRelation.AllocSubpolicy.Name}}
-                </div>
-            </div>
-           
-            <div class="policy-name-box" data-ng-repeat="allocRelation in dldata.subPolicyList">
-                <div class="clickableName"
-                     data-ng-click="setDisplaySubpolicy(allocRelation);setButtonStatus('Draft')">
-                    {{allocRelation.Name}}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4">
-        <label class="heading-for-box">Approved/UnApproved</label>
-        <div class="box">
-
-            <div class="policy-name-box" data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
-
-                <div class="clickableName"
-                     data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation)">
-                    {{allocRelation.AllocSubpolicy.Name}}
-                </div>
-            </div>
-
-            <div class="policy-name-box alert-error" data-ng-repeat="allocRelation in dldata.allocPolicy.AllocRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
-
-                <div class="clickableName"
-                     data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(allocRelation.AllocSubpolicy,allocRelation)">
-                    {{allocRelation.AllocSubpolicy.Name}}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1"></div>
-</div>-->

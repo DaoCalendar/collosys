@@ -26,7 +26,6 @@
                             <div class="row">
                                 <cs-field field="allocSubpolicy.ProductName" data-ng-disabled="true"
                                           data-ng-model="dldata.allocSubpolicy.Products"></cs-field>
-                                <!--Name-->
 
                                 <cs-field field="allocSubpolicy.Name" data-ng-model="dldata.allocSubpolicy.Name"
                                           data-ng-disabled="dldata.allocSubpolicy.Id" data-ng-change="factory.checkDuplicateName()"></cs-field>
@@ -37,7 +36,6 @@
 
                             <div class="row">
                                 <cs-field data-ng-model="dldata.allocSubpolicy.AllocateType" field="allocSubpolicy.AllocateType"></cs-field>
-                                <!--Allocate months-->
                                 <cs-field data-ng-model="dldata.allocSubpolicy.NoAllocMonth" field="allocSubpolicy.NoAllocMonth"
                                           data-ng-disabled="dldata.allocSubpolicy.AllocateType=='DoNotAllocate' && dldata.readTrue"></cs-field>
                             </div>
@@ -50,18 +48,6 @@
                                 <div data-ng-show="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
                                     <cs-field data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'"
                                               field="allocSubpolicy.Stakeholder" value-list="dldata.stakeholderList"></cs-field>
-                                    <!--<label class="control-label">Select Stakeholder</label>
-                                        <div class="form-control">
-                                            <select class="input-large" data-ng-model="dldata.allocSubpolicy.Stakeholder.Id" data-ng-required="dldata.allocSubpolicy.AllocateType=='AllocateToStkholder'">
-                                                <option value=""></option>
-                                                <optgroup label="Collector">
-                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : showIndividual" value="{{c.Id}}">{{c.Name}}</option>
-                                                </optgroup>
-                                                <optgroup label="Agency">
-                                                    <option data-ng-repeat="c in dldata.stakeholderList | filter : !(showIndividual)" value="{{c.Id}}">{{c.Name}}</option>
-                                                </optgroup>
-                                            </select>
-                                        </div>-->
                                 </div>
                             </div>
                             <div class="row">
@@ -86,17 +72,14 @@
                                         <td></td>
                                     </tr>
                                     <tr data-ng-form="newConditionForm">
-                                        <!--Where-->
                                         <td>
                                             <cs-field class="input-large" data-ng-model="dldata.newCondition.ColumnName" field="allocSubpolicy.ColumnName" value-list="dldata.condLcolumnNames"
                                                       data-ng-change="changeLeftColName(dldata.newCondition)" ng-required="true" no-label=""></cs-field>
                                         </td>
-                                        <!--Operator-->
                                         <td>
                                             <cs-field data-ng-model="dldata.newCondition.Operator" class="input-medium" data-ng-change="manageField(dldata.newCondition)" field="allocSubpolicy.ConditionOperators" no-label=""></cs-field>
 
                                         </td>
-                                        <!--Value-->
                                         <td class="input-large">
                                             <div data-ng-if="showField">
                                                 <cs-field data-ng-model="dldata.newCondition.Value" field="fieldname" ng-required="true" no-label=""></cs-field>
@@ -111,7 +94,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <!--button-->
                                         <td>
                                             <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
                                         </td>
