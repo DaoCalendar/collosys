@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngularUI", "UserInterface\AngularUI.csproj", "{DDD31537-2BFC-40FE-8344-8D87BFEB998F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03A3E9F8-1E99-49A2-AE14-370E029E2AF0}"
@@ -63,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploader", "FileUploade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderTest", "FileUploaderTest\FileUploaderTest.csproj", "{96025A22-841E-446E-A7D8-EAB18257D6E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderService", "FileUploaderService\FileUploaderService.csproj", "{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploadServiceV2", "FileUploaderService\FileUploadServiceV2.csproj", "{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2", "BillingService2\BillingService2.csproj", "{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}"
 EndProject

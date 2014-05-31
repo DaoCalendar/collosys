@@ -98,7 +98,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                 }
 
                 var connStringName = SharedUtils.WindowsAuth.GetLoggedInUserName();
-                Logger.Debug(string.Format("name {0}",connStringName));
+                Logger.Debug(string.Format("connection string name : {0}",connStringName));
                 if (connStringName == "SYSTEM" || _appMode == ApplicationMode.Release)
                 {
                     var paramElement = AppParams.SingleOrDefault(x => x.Name == "ConnectionStringName");
@@ -110,6 +110,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                 {
                     throw new InvalidDataException("Please provider name of ConnectionString for collosys system.");
                 }
+                Logger.Debug(string.Format("connection string name : {0}", connStringName));
 
                 try
                 {
@@ -123,6 +124,7 @@ namespace ColloSys.Shared.ConfigSectionReader
                     throw new InvalidDataException(string.Format("Please provider ConnectionString for name \"{0}\" collosys system.", connStringName));
                 }
 
+                Logger.Debug(string.Format("connection string : {0}", _connectionString));
                 return _connectionString;
             }
         }
