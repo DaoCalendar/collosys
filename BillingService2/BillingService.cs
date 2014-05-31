@@ -90,6 +90,7 @@ namespace BillingService2
                                       billStatus.Products));
 
             var dhflLiners = DhflLinerDbLayer.GetDhflLinerForStkholderDbData(billStatus);
+            UpdateDhflLiners(dhflLiners);
 
             Logger.Info(string.Format("Total {0} dhflLiners available for product : {1}, month : {2}, stakeholder : {3}", dhflLiners.Count(),
                                       billStatus.Products, billStatus.BillMonth, billStatus.Stakeholder.Name));
@@ -114,7 +115,8 @@ namespace BillingService2
 
             var dhflLinersWithBillDetail = dhflLiners.Where(x => x.BillDetail != null).ToList();
             billStatus.Status = ColloSysEnums.BillingStatus.Done;
-            BillDetailDbLayer.SaveBillDetailsBillAmount(billStatus, billDetails, billAmount, dhflLinersWithBillDetail);
+            var dhflInfos = UpdateDhflInfos(dhflLinersWithBillDetail);
+            BillDetailDbLayer.SaveBillDetailsBillAmount(billStatus, billDetails, billAmount, dhflLinersWithBillDetail, dhflInfos);
         }
 
         private BillAmount GetBillAmountForStkholder(BillStatus billStatus, List<BillDetail> billDetails)
@@ -159,6 +161,57 @@ namespace BillingService2
 
             return billAmount;
         }
+
+        private List<DHFL_Info> UpdateDhflInfos(List<DHFL_Liner> dhflLiners)
+        {
+            var linerAppNos = dhflLiners.Select(x => x.ApplNo).ToList();
+
+            var dhflInfos = DhflInfoDbLayer.GetDhflInfo(linerAppNos);
+
+            foreach (var dhflLiner in dhflLiners)
+            {
+                DHFL_Liner liner = dhflLiner;
+                var dhflInfo = dhflInfos.SingleOrDefault(x => x.ApplNo == liner.ApplNo) ?? new DHFL_Info();
+
+                dhflInfo.ApplNo = liner.ApplNo;
+                dhflInfo.DeductCap = liner.DeductCap;
+                dhflInfo.DeductPF = liner.DeductPf;
+                dhflInfo.LoanNo = liner.Loancode;
+                dhflInfo.Month = liner.BillMonth;
+                dhflInfo.SanctionAmt = liner.SanAmt;
+                dhflInfo.TotalDisbAmt += liner.DisbursementAmt;
+                dhflInfo.TotalPayout += liner.Payout;
+                dhflInfo.TotalProcFee += liner.DeductPf;
+
+                if (dhflInfo.Id == Guid.Empty)
+                {
+                    dhflInfos.Add(dhflInfo);
+                }
+            }
+
+            return dhflInfos;
+        }
+
+        private void UpdateDhflLiners(List<DHFL_Liner> dhflLiners)
+        {
+            var linerAppNos = dhflLiners.Select(x => x.ApplNo).ToList();
+
+            var dhflInfos = DhflInfoDbLayer.GetDhflInfo(linerAppNos);
+
+            foreach (var dhflInfo in dhflInfos)
+            {
+                var dhflLiner = dhflLiners.SingleOrDefault(x => x.ApplNo == dhflInfo.ApplNo
+                                                                && x.BillMonth > dhflInfo.Month);
+
+                if (dhflLiner == null)
+                    continue;
+
+                dhflLiner.TotalPayout = dhflInfo.TotalPayout;
+                dhflLiner.TotalDisbAmt = dhflInfo.TotalDisbAmt;
+                dhflLiner.TotalProcFee = dhflInfo.TotalProcFee;
+            }
+        }
+
 
         #region Helper
 

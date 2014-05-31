@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -20,6 +21,21 @@ namespace BillingService2.DBLayer
                                     .List<DHFL_Liner>();
 
             return dhflLiners.ToList();
+        }
+    }
+
+
+    internal static class DhflInfoDbLayer
+    {
+        public static List<DHFL_Info> GetDhflInfo(List<uint> AppNos)
+        {
+            //ScbEnums.Products products, uint billMonth
+            var session = SessionManager.GetCurrentSession();
+            var dhflInfos = session.QueryOver<DHFL_Info>()
+                                    .AndRestrictionOn(x => x.ApplNo).IsIn(AppNos)
+                                    .List<DHFL_Info>();
+
+            return dhflInfos.ToList();
         }
     }
 

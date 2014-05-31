@@ -10,7 +10,7 @@ namespace BillingService2.DBLayer
     internal static class BillDetailDbLayer
     {
         // save list of bill detail
-        public static bool SaveBillDetailsBillAmount(BillStatus billStatus, IList<BillDetail> billDetails, BillAmount billAmount,List<DHFL_Liner> dhflLiners)
+        public static bool SaveBillDetailsBillAmount(BillStatus billStatus, IList<BillDetail> billDetails, BillAmount billAmount, List<DHFL_Liner> dhflLiners, List<DHFL_Info> dhflInfos)
         {
             var session = SessionManager.GetCurrentSession();
 
@@ -24,6 +24,11 @@ namespace BillingService2.DBLayer
                 }
 
                 foreach (var entity in dhflLiners)
+                {
+                    session.SaveOrUpdate(entity);
+                }
+
+                foreach (var entity in dhflInfos)
                 {
                     session.SaveOrUpdate(entity);
                 }

@@ -25,7 +25,7 @@ namespace BillingService2.Calculation
         public Payouts(BillStatus billStatus)
         {
             _billStatus = billStatus;
-            _formulaList=BillingSubpolicyDbLayer.GetFormulas(billStatus.Products);
+            _formulaList = BillingSubpolicyDbLayer.GetFormulas(billStatus.Products);
             _bMatrices = BMatrixDbLayer.GetMatrices(billStatus.Products);
         }
 
@@ -97,10 +97,15 @@ namespace BillingService2.Calculation
                     throw new ArgumentOutOfRangeException(billingPolicy.PolicyType.ToString());
             }
 
-            queryExecuter.ExeculteOnList(dhflLinersBillDeatail); 
+            queryExecuter.ExeculteOnList(dhflLinersBillDeatail);
 
             if (billingPolicy.PolicyType == ColloSysEnums.PolicyType.Payout)
-                dhflLinersBillDeatail.ForEach(x => x.BillDetail = billDetail);
+            {
+                dhflLinersBillDeatail.ForEach(x => x.BillDetail =
+                    (x.BillStatus == ColloSysEnums.BillStatus.PayoutApply)
+                        ? billDetail
+                        : null);
+            }
 
             Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
                                            "and month : {3} has Amount : {4}", _billStatus.Stakeholder.Name,
@@ -120,7 +125,7 @@ namespace BillingService2.Calculation
 
         private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
         {
-            dhtfLiner.DeductCap = outputValue;
+            dhtfLiner.Payout = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
         }
 

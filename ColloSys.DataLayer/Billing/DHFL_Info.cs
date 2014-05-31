@@ -7,15 +7,16 @@ using ColloSys.DataLayer.BaseEntity;
 
 namespace ColloSys.DataLayer.Billing
 {
-    class DHFL_Info:Entity
+    public class DHFL_Info : Entity
     {
-        public virtual uint LoanNo { get; set; }
-        public virtual ulong SanctionAmt { get; set; }
-        public virtual DateTime Month { get; set; }
-        public virtual ulong TotalDisbAmt { get; set; }
-        public virtual ulong? TotalProcFee { get; set; }
-        public virtual ulong? TotalPayout { get; set; }
-        public virtual ulong? DeductCap { get; set; }
-        public virtual ulong? DeductPF { get; set; }
+        public virtual uint ApplNo { get; set; }
+        public virtual string LoanNo { get; set; }
+        public virtual decimal SanctionAmt { get; set; }
+        public virtual UInt32 Month { get; set; }
+        public virtual decimal TotalDisbAmt { get; set; }
+        public virtual decimal TotalProcFee { get; set; }
+        public virtual decimal TotalPayout { get; set; }
+        public virtual decimal DeductCap { get; set; }
+        public virtual decimal DeductPF { get; set; }
     }
 }

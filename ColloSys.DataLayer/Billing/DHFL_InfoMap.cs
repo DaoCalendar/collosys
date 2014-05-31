@@ -11,6 +11,7 @@ namespace ColloSys.DataLayer.Billing
     {
         public DHFL_InfoMap()
         {
+            Property(x => x.ApplNo);
             Property(x=>x.LoanNo);
             Property(x=>x.Month);
             Property(x=>x.SanctionAmt);
