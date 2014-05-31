@@ -20,6 +20,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Status);
 
             ManyToOne(x => x.Stakeholder);
+            Property( x=> x.OriginMonth);
             #endregion
         }
     }

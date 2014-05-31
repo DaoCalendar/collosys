@@ -1,13 +1,21 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+
+#endregion
 
 namespace ColloSys.DataLayer.ClientData
 {
     public class DHFL_Liner : UploadableEntity
     {
+        public DHFL_Liner()
+        {
+            ExcludeReason = string.Empty;
+        }
+
         #region Demo DHFL
       
         public virtual decimal TotalDisbAmt { get; set; }
@@ -17,8 +25,8 @@ namespace ColloSys.DataLayer.ClientData
         public virtual decimal DeductCap { get; set; }
         public virtual decimal DeductPf { get; set; }
         public virtual decimal FinalPayout { get; set; }
-
         
+        #endregion
 
         #region input file columns
 
@@ -54,7 +62,7 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string Subvention { get; set; }
         public virtual string Corporate { get; set; }
         public virtual ScbEnums.Products Product { get; set; }
-        public virtual string OrignateByFinal{ get; set; }
+        public virtual string OrignateByFinal { get; set; }
 
         public virtual string AgentId { get; set; }
         public virtual UInt32 BillMonth { get; set; }
@@ -62,14 +70,12 @@ namespace ColloSys.DataLayer.ClientData
 
         #endregion
 
-        #endregion
-
+        #region file upload
         public virtual BillDetail BillDetail { get; set; }
-
         public override FileScheduler FileScheduler { get; set; }
-        
         public override DateTime FileDate { get; set; }
         public override ulong FileRowNo { get; set; }
+
         public override IList<string> GetExcludeInExcelProperties()
         {
             throw new NotImplementedException();
@@ -79,7 +85,10 @@ namespace ColloSys.DataLayer.ClientData
         {
             throw new NotImplementedException();
         }
+        #endregion
 
-      
+        public virtual bool IsExcluded { get; set; }
+        public virtual string ExcludeReason { get; set; }
+        public virtual uint DisbMonth { get; set; }
     }
 }

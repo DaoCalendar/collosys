@@ -1,24 +1,13 @@
 ﻿#region references
 
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
-using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.AliasFileReader;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploadService.Implementers;
-using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.ConfigSectionReader;
 using FileUploaderService.Interfaces;
-using NHibernate.Transform;
 using NLog;
 
 #endregion
@@ -33,7 +22,7 @@ namespace FileUploaderService
 
         public static readonly ConnectionStringSettings ConnString;
 
-       //  AllFileUploader _allFileUploader=new AllFileUploader();
+        //  AllFileUploader _allFileUploader=new AllFileUploader();
 
         static FileUploaderService()
         {
@@ -62,38 +51,19 @@ namespace FileUploaderService
 
         #region upload files
 
-        private static bool _fileUploading;
 
         public static void UploadFiles()
-            {
-
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-            #region 
-
-            //CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
-            //CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
-
-            //// if some file is uploading, dont start upload for another file
-            //if (_fileUploading)
-            //{
-            //    Logger.Info("FileUpload: Waiting for other uploads to finish.");
-            //    return;
-            //}
-
-            // get next file for uploading
-
-            #endregion
-           
+        {
 
             ColloSys.FileUploader.DbLayer.IDbLayer dbLayer = new ColloSys.FileUploader.DbLayer.DbLayer();
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             var file = dbLayer.GetNextFileForSchedule();
 
-            if (file!=null)
+            if (file != null)
             {
                 AllFileUploader.UploadFile(file);
             }
-           
 
             #region cmt
 
@@ -129,7 +99,7 @@ namespace FileUploaderService
             #endregion
         }
 
-        
+
 
         #endregion
 

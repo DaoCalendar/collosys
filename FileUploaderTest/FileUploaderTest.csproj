@@ -95,6 +95,7 @@
     <Compile Include="FileReaderTest\RlsPaymentManualReversalFileReaderTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentWoAebFileReaderTest.cs" />
     <Compile Include="FileReaderTest\RlsPaymentWoPlpcFileReaderTest.cs" />
+    <Compile Include="FileUploadServiceV2Test\FileUploadServiceV2Test.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
     <Compile Include="RecordCreatorTest\RecordCreatorTest.cs" />
@@ -136,9 +137,9 @@
       <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileUploaderService\FileUploaderService.csproj">
+    <ProjectReference Include="..\FileUploaderService\FileUploadServiceV2.csproj">
       <Project>{7059a372-4fb6-4cff-9d11-7bf707ef4bf8}</Project>
-      <Name>FileUploaderService</Name>
+      <Name>FileUploadServiceV2</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileUploader\FileUploader.csproj">
       <Project>{12419049-4F49-4557-91CD-188D60E0C565}</Project>
@@ -159,12 +160,7 @@
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DbLayerTest\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

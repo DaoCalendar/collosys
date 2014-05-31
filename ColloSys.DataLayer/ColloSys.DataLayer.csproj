@@ -35,7 +35,8 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\SharedLib\Iesi.Collections.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
@@ -216,6 +217,9 @@
     <Compile Include="Stakeholder\StkhRegistrationMap.cs" />
     <Compile Include="Stakeholder\StkhWorking.cs" />
     <Compile Include="Stakeholder\StkhWorkingMap.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="cleanOutput" AfterTargets="Clean">

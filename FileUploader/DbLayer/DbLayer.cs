@@ -26,17 +26,19 @@ namespace ColloSys.FileUploader.DbLayer
             {
                 using (var tx = session.BeginTransaction())
                 {
-                    
+                    FileScheduler fs = null;
+                    FileDetail fd = null;
                     var enddatetime = DateTime.Now.AddDays(-40);
-                    var obj = session.QueryOver<FileScheduler>()
+                    var obj = session.QueryOver(() => fs)
+                                     .JoinAlias(() => fs.FileDetail, () => fd)
                                      .Where(c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
                                                   || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload))
                                      .And(c => c.IsImmediate || c.StartDateTime <= DateTime.Now)
                                      .And(c => c.CreatedOn > enddatetime)
                                      .Fetch(x => x.FileDetail).Eager
-                                     .Fetch(x=>x.FileStatuss).Eager
-                                     .Fetch(x=>x.FileDetail.FileMappings).Eager
-                                     .Fetch(x=>x.FileDetail).Eager
+                                     .Fetch(x => x.FileStatuss).Eager
+                                     .Fetch(x => x.FileDetail.FileColumns).Eager
+                                     .Fetch(x => x.FileDetail.FileMappings).Eager
                                      .TransformUsing(Transformers.DistinctRootEntity)
                                      .OrderBy(x => x.FileDate).Asc
                                      .ThenBy(x => x.CreatedOn).Asc
