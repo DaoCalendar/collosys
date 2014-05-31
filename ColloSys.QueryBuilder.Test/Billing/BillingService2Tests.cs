@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BillingService2;
-using ColloSys.FileUploadService;
+﻿using BillingService2;
 using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.Billing

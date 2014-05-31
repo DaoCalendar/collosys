@@ -2,7 +2,7 @@
 
 namespace ColloSys.DataLayer.Billing
 {
-    class DHFL_InfoMap :EntityMap<DHFL_Info>
+    public class DHFL_InfoMap :EntityMap<DHFL_Info>
     {
         public DHFL_InfoMap()
         {

@@ -32,7 +32,7 @@ namespace ColloSys.DataLayer.ClientData
 
         public virtual string BranchName { get; set; }
         public virtual string BranchCat { get; set; }
-        public virtual uint ApplNo { get; set; }
+        public virtual string ApplNo { get; set; }
         public virtual string Loancode { get; set; }
         public virtual uint SalesRefNo { get; set; }
         public virtual string Name { get; set; }
@@ -90,5 +90,6 @@ namespace ColloSys.DataLayer.ClientData
         public virtual bool IsExcluded { get; set; }
         public virtual string ExcludeReason { get; set; }
         public virtual uint DisbMonth { get; set; }
+        public virtual decimal ProcFee { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using NHibernate;
 
 #endregion
 
-namespace ColloSys.QueryBuilder.Test.Billing
+namespace BillingService2.Calculation
 {
     public class BillingDataMassager
     {

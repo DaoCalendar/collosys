@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BillingService.cs" />
+    <Compile Include="Calculation\BillingDataMassager.cs" />
+    <Compile Include="Calculation\BillingInfoManager.cs" />
     <Compile Include="Calculation\Payouts.cs" />
     <Compile Include="DBLayer\BillAdhocDbLayer.cs" />
     <Compile Include="DBLayer\BillDetailDbLayer.cs" />

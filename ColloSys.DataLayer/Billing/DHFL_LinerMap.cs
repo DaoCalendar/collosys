@@ -61,7 +61,8 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x => x.IsExcluded);
             Property(x => x.ExcludeReason);
-            Property( x=> x.DisbMonth);
+            Property(x => x.DisbMonth);
+            Property(x => x.ProcFee);
         }
 
     }
