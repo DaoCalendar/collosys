@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using ColloSys.DataLayer.BaseEntity;
 
-namespace ColloSys.FileUploadService.Interfaces
+namespace FileUploaderService.Interfaces
 {
     interface IExcelFile<TEntity> where TEntity : Entity
     {
