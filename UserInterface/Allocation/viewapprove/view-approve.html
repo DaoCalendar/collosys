@@ -13,7 +13,7 @@
                     <cs-field field="ViewApprovePolicy.Fromdate" data-ng-model="allocData.fromDate" ng-required="true"></cs-field>
                     <cs-field field="ViewApprovePolicy.Todate" data-ng-model="allocData.toDate" ng-required="true" ui-validate=" '$value >  allocData.fromDate'"></cs-field>
 
-                    <cs-button type="save" text="OK" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)"></cs-button>
+                    <cs-button type="ok" data-ng-disabled="!(formDateFilter.$valid && formviewalloc.$valid)" data-ng-click="getPagedData(allocData)"></cs-button>
                 </div>
             </form>
         </cs-form>
