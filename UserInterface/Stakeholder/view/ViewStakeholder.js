@@ -166,6 +166,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.showDiv = false;
             $scope.stakeholder.Designation = "";
             $scope.product = "";
+            $scope.Designation = [];
 
             $scope.hierarchyDesignation = _.sortBy($scope.hierarchyDesignation, 'PositionLevel');
             if (($scope.stakeholder.Hierarchy !== 'External')) {
@@ -174,15 +175,21 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 });
             } else {
 
-                $scope.Designation = _.filter($scope.hierarchyDesignation, function (data) {
+               
+                var hierarchydesig = _.filter($scope.hierarchyDesignation, function (data) {
                     if (data.Hierarchy === $scope.stakeholder.Hierarchy) return data;
                 });
 
-                _.forEach($scope.Designation, function (item) {
-                    var reportTo = _.find($scope.hierarchyDesignation, { 'Id': $scope.stakeholder.Hierarchy.ReportsTo });
-                    $scope.Designation = item.Designation + ' (' + reportTo.Designation + ')';
+                _.forEach(hierarchydesig, function (item) {
+                    var reportTo = _.find($scope.hierarchyDesignation, { 'Id': item.ReportsTo });
+                    var desig = {
+                        Designation: item.Designation + '(' + reportTo.Designation + ')',
+                        Id: item.Id
+                    };
+                    $scope.Designation.push(desig);
                 });
             }
+            return '';
         };
 
        
