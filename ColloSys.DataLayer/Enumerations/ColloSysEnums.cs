@@ -103,6 +103,7 @@ namespace ColloSys.DataLayer.Enumerations
         public enum FileAliasName
         {
             CACS_ACTIVITY,
+            DHFL_LINER,
             C_LINER_COLLAGE,
             C_LINER_UNBILLED,
             C_PAYMENT_LIT,

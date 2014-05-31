@@ -55,6 +55,7 @@ namespace ColloSys.DataLayer.Enumerations
             CWriteoff,
             CacsActivity,
             Info,
+            DHFL_Liner
             //RInfo,
             //CInfo,
             //EInfo

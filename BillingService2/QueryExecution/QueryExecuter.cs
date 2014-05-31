@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
+using BillingService2.DBLayer;
 using BillingService2.ViewModel;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
@@ -19,16 +20,16 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
     {
         #region ctor
         private readonly IList<BillTokens> _billTokenses;
-        private readonly QueryGenerator _stringQueryBuilder;
-        private readonly IList<BillingSubpolicy> _formulaList;
+        private readonly QueryGenerator<T> _stringQueryBuilder;
+        private readonly List<BillingSubpolicy> _formulaList;
         private readonly IList<BMatrix> _bMatrices;
 
-        public QueryExecuter(IList<BillTokens> billTokenses, IList<BillingSubpolicy> formulaList = null, IList<BMatrix> bMatrices = null)
+        public QueryExecuter(IList<BillTokens> billTokenses, List<BillingSubpolicy> formulaList = null, IList<BMatrix> bMatrices = null)
         {
             _billTokenses = billTokenses;
-            _stringQueryBuilder = new QueryGenerator();
             _formulaList = formulaList ?? new List<BillingSubpolicy>();
             _bMatrices = bMatrices ?? new List<BMatrix>();
+            _stringQueryBuilder = new QueryGenerator<T>(_formulaList);
         }
         #endregion
 
@@ -52,8 +53,9 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             if (conditionToken.Count <= 0)
                 return dataList;
-
-            var stringConditionQuery = _stringQueryBuilder.GenerateAndOrQuery(conditionToken);
+            
+            _stringQueryBuilder.DataList = dataList;
+            var stringConditionQuery = _stringQueryBuilder.GenerateQuery(conditionToken);
 
             var conditionExpression = DynamicExpression.ParseLambda<T, bool>(stringConditionQuery);
             var resultData = dataList.Where(x => conditionExpression.Compile().Invoke(x)).ToList();
@@ -77,9 +79,10 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             if (outPutToken[0].Type == "Matrix")
             {
-                MatrixExecuter(dataList);
+               return MatrixExecuter(outPutToken[0].Value, dataList);
             }
 
+            _stringQueryBuilder.DataList = dataList;
             var stringOutputQuery = _stringQueryBuilder.GenerateOutputQuery(outPutToken);
             var outputExpression = DynamicExpression.ParseLambda<T, decimal>(stringOutputQuery);
             //dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
@@ -105,7 +108,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
                 var groupId = groupIds[i];
                 var tokens = formulaTokens.Where(x => x.GroupId == groupId).ToList();
 
-                var queryExecuter = new QueryExecuter<T>(tokens)
+                var queryExecuter = new QueryExecuter<T>(tokens, _formulaList, _bMatrices)
                 {
                     ForEachFuction = ForEachFuction
                 };
@@ -115,19 +118,30 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             return dataList;
         }
 
-        private List<T> MatrixExecuter(List<T> dataList)
+        private List<T> MatrixExecuter(string matrixId, List<T> dataList)
         {
-            var bMatrix = new BMatrix();
+            var bMatrix = _bMatrices.SingleOrDefault(x => x.Id == Guid.Parse(matrixId));
 
-            var tokens = MatrixCalulater.GetBConditionsForMatrix(bMatrix);
+            if (bMatrix == null)
+                throw new ArgumentNullException(string.Format("matrixName : {0} not exist", matrixId));
 
-            var queryExecuter = new QueryExecuter<T>(tokens)
+            var matrixTokens = MatrixCalulater.GetBConditionsForMatrix(bMatrix);
+
+            var groupIds = matrixTokens.Select(x => x.GroupId).Distinct().OrderBy(x => x).ToList();
+
+            for (int i = 0; i < groupIds.Count; i++)
             {
-                ForEachFuction = ForEachFuction
-            };
-            queryExecuter.ExeculteOnList(dataList);
+                var groupId = groupIds[i];
+                var tokens = matrixTokens.Where(x => x.GroupId == groupId).ToList();
 
-            return new List<T>();
+                var queryExecuter = new QueryExecuter<T>(tokens, _formulaList, _bMatrices)
+                {
+                    ForEachFuction = ForEachFuction
+                };
+                queryExecuter.ExeculteOnList(dataList);
+            }
+
+            return dataList;
         }
         #endregion
     }

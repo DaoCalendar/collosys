@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Billing\BillingData.cs" />
+    <Compile Include="Billing\BillingService2Tests.cs" />
     <Compile Include="FileUploader\FileSchedulerTests.cs" />
     <Compile Include="GenerateDb\CreateDatabase.cs" />
     <Compile Include="GenerateDb\PermissionTest.cs" />

@@ -47,12 +47,12 @@ namespace FileUploaderService
             {
                 #region RlsPayment
 
-                //case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
-                //    IFileReader<Payment> paymentLiner = new RlsPaymentLinerFileReader(scheduler);
-                //    paymentLiner.ProcessFile();
-                //    break;
-
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
+                    IFileReader<Payment> paymentLiner = new RlsPaymentLinerFileReader(scheduler);
+                    paymentLiner.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.DHFL_LINER:
                     var paymentLinera = new RlsDhflReader(scheduler);
                     paymentLinera.ProcessFile();
                     break;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ColloSys.DataLayer.Domain;
@@ -24,7 +23,9 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                            .Where(x => x.PolicyType == policyType && x.PolicyForId == stakeholders.Id)
+                                            .Where(x => x.PolicyType == policyType 
+                                                && x.PolicyForId == stakeholders.Id
+                                                && x.PolicyFor == ColloSysEnums.PolicyOn.Stakeholder)
                                             .SingleOrDefault();
                 return billingPolicy;
             }
@@ -43,7 +44,9 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                              .Where(x => x.PolicyType == policyType && x.PolicyForId == stkhHierarchy.Id)
+                                              .Where(x => x.PolicyType == policyType 
+                                                  && x.PolicyForId == stkhHierarchy.Id
+                                                  && x.PolicyFor == ColloSysEnums.PolicyOn.Hierarchy)
                                               .SingleOrDefault();
                 return billingPolicy;
             }
@@ -62,7 +65,9 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var billingPolicy = session.QueryOver<BillingPolicy>()
-                                              .Where(x => x.PolicyType == policyType && x.Products == products)
+                                              .Where(x => x.PolicyType == policyType 
+                                                        && x.Products == products 
+                                                        && x.PolicyFor==ColloSysEnums.PolicyOn.Product)
                                               .SingleOrDefault();
                 return billingPolicy;
             }
