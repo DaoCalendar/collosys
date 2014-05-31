@@ -460,10 +460,7 @@ csapp.controller("menuController", ["$scope", "menuFactory", "rootDatalayer", "$
         }, function (newval) {
             if (!$csfactory.isNullOrEmptyString(newval)) {
                 datalayer.getPermission($csAuthFactory.getUsername()).then(function (data) {
-                    console.log("Permission: ", data);
-                    //$scope.menus = menuFactory.initMenu(data);
-                    console.log("menu: ", data);
-                    $scope.menus = data;
+                    $scope.menus = data.menus;
                 });
             }
         });

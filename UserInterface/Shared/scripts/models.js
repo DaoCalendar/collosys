@@ -1,8 +1,12 @@
 ﻿
 csapp.factory("$csShared", function () {
     var enums = {};
+    var permissions = {};
+    var menus = {};
     return {
         enums: enums,
+        permissions: permissions,
+        menus:menus
     };
 });
 

@@ -106,9 +106,6 @@ namespace AngularUI.Stakeholder.view
             {
                 completeData = GetAllStakeHolders(),
                 hierarchyDesignation = GetStakeHierarchy(),
-                currUserData = AuthService.GetPremissionsForCurrentUser(currUser)
-                .SingleOrDefault(x => x.Activity == ColloSysEnums.Activities.Stakeholder),
-                products = Enum.GetNames(typeof(ScbEnums.Products)).Where(x => x != ScbEnums.Products.UNKNOWN.ToString()).ToList()
             };
 
             //foreach (var stkh in allLists.completeData)

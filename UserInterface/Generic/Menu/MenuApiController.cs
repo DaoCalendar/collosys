@@ -37,7 +37,14 @@ namespace AngularUI.Generic.Menu
 
             MenuManager.CreateAutherizedMenu(permission, menu);
 
-            return Request.CreateResponse(HttpStatusCode.OK, menu);
+            var menuPermData =
+               new
+               {
+                   menus = menu,
+                   permissions = permission
+               };
+
+            return Request.CreateResponse(HttpStatusCode.OK, menuPermData);
 
 
         }
