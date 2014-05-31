@@ -70,10 +70,10 @@
         <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">
             <!--TODO remove true from data-ng-show-->
             <div class="row">
-                <button class="btn  btn-success" data-ng-hide="true">Edit Selected </button>
-                <button class="btn  btn-success" data-ng-show="canApprove || true" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()">Approve</button>
-                <button class="btn  btn-success" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()">Reject</button>
-                <button class="btn  btn-success" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()">Leave/Exit</button>
+                <cs-button type="edit" text="Edit Selected" class="btn  btn-success" data-ng-hide="true"></cs-button>
+                <cs-button type="save" text="Approve" data-ng-show="canApprove || true" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()"></cs-button>
+                <cs-button type="delete" text="Reject" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()"></cs-button>
+                <cs-button type="close" text="Leave/Exit" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()"></cs-button>
             </div>
             <div data-ng-if="stakeholder.filter!=='SearchById'">
                 <cspagination

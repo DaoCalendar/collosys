@@ -42,9 +42,9 @@
             </div>
         </div>
     </div>
-    <div class="panel-footer text-right">
-        <cs-button class="btn btn-default" data-dismiss="modal" data-ng-click="closeModel()">Close</cs-button>
-        <cs-button class="btn btn-success" data-ng-disabled="!description" data-ng-click="rejectedSelected(description)">Reject</cs-button>
+    <div class="text-right">
+        <cs-button type="close" data-dismiss="modal" data-ng-click="closeModel()"></cs-button>
+        <cs-button type="delete" text="Reject" data-ng-disabled="!description" data-ng-click="rejectedSelected(description)"></cs-button>
     </div>
 </form>
 
