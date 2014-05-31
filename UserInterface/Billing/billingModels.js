@@ -81,7 +81,6 @@
     };
 
     var billingSubpolicy = function () {
-        console.log("enums: ",$csShared.enums);
 
         return {
             Name: { label: "Name", type: "text", required: true },

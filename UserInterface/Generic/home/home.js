@@ -5,7 +5,6 @@
 
         $scope.changeFunc = function (data) {
             $scope.clicked++;
-            console.log(data);
             $scope.pqr = data;
         };
 

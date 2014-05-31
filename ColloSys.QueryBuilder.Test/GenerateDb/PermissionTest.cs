@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using AngularUI.Generic.Menu;
+﻿using AngularUI.Generic.Menu;
+using AngularUI.Generic.permissions;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using NUnit.Framework;
 
@@ -54,7 +53,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 var menu = new MenuManager();
                 var ma = menu.CreateMenu();
                 ma = MenuManager.CreateAutherizedMenu(root[0], ma);
-
+                Assert.IsTrue( ma.Childrens.Count != 0);
                 rx.Rollback();
             }
         }
@@ -83,6 +82,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 {
                     ma = MenuManager.DefaultMenu(ma);
                 }
+                Assert.IsTrue( ma.Childrens.Count != 0);
 
                 sx.Rollback();
             }
@@ -130,10 +130,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 var root = session.QueryOver<GPermission>()
                     .Where(x => x.Role.Id == hierarchy.Id)
                     .And(x => x.Parent == null)
-                    //.TransformUsing(Transformers.DistinctRootEntity)
                     .List<GPermission>();
 
-
+                Assert.IsTrue(root.Count != 0);
 
                 rx.Rollback();
             }

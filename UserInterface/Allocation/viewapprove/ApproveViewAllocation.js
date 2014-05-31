@@ -206,7 +206,6 @@ csapp.factory('approveViewDataLayer', ['Restangular', '$csnotify', '$csGrid', '$
             };
 
             return restApi.customPOST(dldata.ChangeAllocationModel, "ChangeAllocations").then(function (data) {
-                console.log(data);
                 $csnotify.success("Allocations Changed");
                 dldata.selectedAllocations = [];
                 dldata.gridOptions.$gridScope.selectedItems = [];

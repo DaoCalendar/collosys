@@ -1,14 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using Glimpse.AspNet.Tab;
-using Microsoft.Ajax.Utilities;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
-namespace ColloSys.QueryBuilder.Test.GenerateDb
+namespace AngularUI.Generic.permissions
 {
     public static class PermissionManager
     {

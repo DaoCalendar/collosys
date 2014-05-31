@@ -139,7 +139,6 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
                 file.IsUploading = false;
                 $scope.uploadCount--;
             });
-            console.log($scope.upload.length);
         };
 
         $scope.scheduleFiles = function () {

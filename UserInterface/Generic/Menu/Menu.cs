@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
+using AngularUI.Generic.permissions;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.QueryBuilder.Test.GenerateDb;
 
 namespace AngularUI.Generic.Menu
 {

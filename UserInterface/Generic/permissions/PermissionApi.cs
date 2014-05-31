@@ -6,12 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using ColloSys.QueryBuilder.TransAttributes;
-using ColloSys.UserInterface.Areas.Generic.apiController;
-using NHibernate.SqlCommand;
 using NHibernate.Transform;
 using Newtonsoft.Json.Linq;
 
@@ -20,7 +16,6 @@ namespace AngularUI.Generic.permissions
     public class PermissionApiController : BaseApiController<GPermission>
     {
 
-        private static readonly GUsersRepository GUserQueryBuilder = new GUsersRepository();
         private static readonly GPermissionBuilder PermQuery = new GPermissionBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 
@@ -34,11 +29,6 @@ namespace AngularUI.Generic.permissions
         [HttpGet]
         public HttpResponseMessage GetPermission(Guid id)
         {
-
-            GPermission parent = null;
-            GPermission childern = null;
-            GPermission grandChildren = null;
-
             var permData = Session.QueryOver<GPermission>()
                     .Where(x => x.Role.Id == id)
                     .And(x => x.Parent == null)
@@ -47,26 +37,23 @@ namespace AngularUI.Generic.permissions
                     .TransformUsing(Transformers.DistinctRootEntity)
                     .List<GPermission>();
 
-            if (permData == null || permData.Count == 0)
-            {
-                var hierarchy = Session.QueryOver<StkhHierarchy>()
-                    .Where(x => x.Designation == "Developer")
-                    .And(x => x.Hierarchy == "Developer")
-                    .SingleOrDefault();
+            if (permData != null && permData.Count != 0) 
+                return Request.CreateResponse(HttpStatusCode.OK, permData);
 
-                permData = Session.QueryOver<GPermission>()
-                    .Where(x => x.Role.Id == hierarchy.Id)
-                    .And(x => x.Parent == null)
-                    .Fetch(x => x.Role).Eager
-                    .Fetch(x => x.Parent).Eager
-                    .TransformUsing(Transformers.DistinctRootEntity)
-                    .List<GPermission>();
-            }
+            var hierarchy = Session.QueryOver<StkhHierarchy>()
+                .Where(x => x.Designation == "Developer")
+                .And(x => x.Hierarchy == "Developer")
+                .SingleOrDefault();
 
+            permData = Session.QueryOver<GPermission>()
+                .Where(x => x.Role.Id == hierarchy.Id)
+                .And(x => x.Parent == null)
+                .Fetch(x => x.Role).Eager
+                .Fetch(x => x.Parent).Eager
+                .TransformUsing(Transformers.DistinctRootEntity)
+                .List<GPermission>();
 
             return Request.CreateResponse(HttpStatusCode.OK, permData);
-
-
         }
 
 
