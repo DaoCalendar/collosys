@@ -9,13 +9,13 @@ namespace ColloSys.DataLayer.Billing
 {
     class DHFL_Info:Entity
     {
-        public virtual uint LoanNo { get; set; }
+        public virtual uint ApplNo { get; set; }
         public virtual ulong SanctionAmt { get; set; }
-        public virtual DateTime Month { get; set; }
+        public virtual uint UpdateMonth { get; set; }
         public virtual ulong TotalDisbAmt { get; set; }
-        public virtual ulong? TotalProcFee { get; set; }
-        public virtual ulong? TotalPayout { get; set; }
-        public virtual ulong? DeductCap { get; set; }
-        public virtual ulong? DeductPF { get; set; }
+        public virtual ulong TotalProcFee { get; set; }
+        public virtual ulong TotalPayout { get; set; }
+        public virtual ulong DeductCap { get; set; }
+        public virtual ulong DeductPf { get; set; }
     }
 }
