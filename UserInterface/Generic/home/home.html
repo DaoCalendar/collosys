@@ -1,6 +1,37 @@
 ﻿<div data-ng-if="false">
     <form name="demo">
-        <input name="masked" ui-mask="{{mask}}" ng-model="x"  >{{x}}
+        <input name="masked" ui-mask="{{mask}}" ng-model="x">{{x}}
+        <div class="row">
+            <div class="col-md-3">
+                <multiselect
+                    ng-model="selectedCar"
+                    multiple="true"
+                    header="header"
+                    options="c.name for c in cars"
+                    change="selected()"></multiselect>
+            </div>
+            <div class="col-md-3">
+                <multiselect
+                    ng-model="selectedCar"
+                    header="header"
+                    options="c.name for c in cars"
+                    change="selected()"></multiselect>
+            </div>
+            <div class="col-md-3">
+                <multiselect
+                    ng-model="selectedCar"
+                    header="header"
+                    options="c.name for c in cars"
+                    change="selected()"></multiselect>
+            </div>
+            <div class="col-md-3">
+                <multiselect
+                    ng-model="selectedCar"
+                    header="header"
+                    options="c.name for c in cars"
+                    change="selected()"></multiselect>
+            </div>
+        </div>
         <cs-form>
            
             <div ng-controller="HomeCtrl">

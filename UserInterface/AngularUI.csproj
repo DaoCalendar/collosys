@@ -562,6 +562,7 @@
     <Content Include="Generic\login\login.js" />
     <Content Include="Shared\scripts\condition-directive.js" />
     <Content Include="Shared\scripts\controllers.js" />
+    <Content Include="Shared\scripts\multiselect.tmpl.html" />
     <Content Include="Shared\scripts\models.js" />
     <Content Include="Shared\scripts\directives.js" />
     <Content Include="Shared\scripts\factories.js" />

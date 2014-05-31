@@ -7,23 +7,12 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
         var dldata = {};
         var $log = logManager.getInstance("rootDatalayer");
 
-        //var getPermission = function (user) {
-        //    return menuApi.customGET("GetPermission", { 'user': user })
-        //        .then(function (data) {
-        //            if ($csfactory.isNullOrEmptyArray(data)) {
-        //                $csnotify.error('Hierarchy not found');
-        //                return;
-        //            }
-        //            dldata.userHierarchy = data;
-        //            dldata.permissions = JSON.parse(data.Permissions);
-        //            return;
-        //        });
-        //};
-
         var getPermission = function (user) {
             return menuApi.customGET("GetPermission", { 'user': user })
                     .then(function (data) {
-                        console.log("permission: ", data);
+                        $csShared.menus = data.menus;
+                        $csShared.Permissions = data.permissions;
+                        console.log("$csShared: ", $csShared);
                         return data;
                     });
         };
@@ -125,16 +114,3 @@ csapp.controller('RootCtrl', ["$scope", "$csAuthFactory", "routeManagerFactory",
 ]);
 
 
-//$scope.$watch(function () {
-//    return $csAuthFactory.getUsername();
-//}, function (newval) {
-//    console.log(newval);
-
-//    if (!$csfactory.isNullOrEmptyString(newval)) {
-//        datalayer.getPermission($csAuthFactory.getUsername()).then(function () {
-//            console.log('creating menu by permission');
-//            //menuFactory.initMenu(datalayer.dldata.permissions);
-//        });
-//    }
-
-//});
