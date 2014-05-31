@@ -89,5 +89,6 @@ namespace ColloSys.DataLayer.ClientData
 
         public virtual bool IsExcluded { get; set; }
         public virtual string ExcludeReason { get; set; }
+        public virtual uint DisbMonth { get; set; }
     }
 }

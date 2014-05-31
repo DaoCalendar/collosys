@@ -1,4 +1,6 @@
-﻿using System;
+#region references
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,31 +9,11 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
-using NUnit.Framework;
+
+#endregion
 
 namespace ColloSys.QueryBuilder.Test.Billing
 {
-    [TestFixture]
-    public class BillingData
-    {
-        [Test]
-        public void TestDbData()
-        {
-            var session = SessionManager.GetCurrentSession();
-            var list = session.QueryOver<DHFL_Liner>().RowCount();
-            Assert.Greater(list, 0);
-        }
-
-        [Test]
-        public void BillDataMassage()
-        {
-            var dataManager = new BillingDataMassager(201401, ScbEnums.Products.HL);
-            dataManager.ProcessCurrentMonth();
-            dataManager.ProcessHistoricalData();
-            dataManager.SaveData();
-        }
-    }
-
     public class BillingDataMassager
     {
         #region constructor
@@ -115,7 +97,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
             {
                 var param = entry.Split('@');
                 var stkh = GetStakeholder(param[0]);
-                //var month = Convert.ToUInt32(param[1]);
+                var month = Convert.ToUInt32(param[1]);
 
                 var billStatus = new BillStatus
                 {
@@ -124,6 +106,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
                     Products = _product,
                     Stakeholder = stkh,
                     Status = ColloSysEnums.BillingStatus.Pending,
+                    OriginMonth = month
                 };
                 statusList.Add(billStatus);
             }
@@ -150,6 +133,8 @@ namespace ColloSys.QueryBuilder.Test.Billing
             {
                 liner.IsExcluded = true;
                 liner.ExcludeReason = "Reversal Case";
+                liner.DisbMonth = Convert.ToUInt32(liner.DisbursementDt.ToString("yyyyMM"));
+                liner.BillStatus = ColloSysEnums.BillStatus.Unbilled;
             }
         }
 
@@ -189,13 +174,14 @@ namespace ColloSys.QueryBuilder.Test.Billing
             {
                 var liner1 = liner;
                 var oldLiner = _historyData.FirstOrDefault(x => x.AgentId == liner1.AgentId &&
-                                                               x.ApplNo == liner1.ApplNo &&
-                                                               x.DisbursementAmt == (-1 * liner1.DisbursementAmt));
+                                                                x.ApplNo == liner1.ApplNo &&
+                                                                x.DisbursementAmt == (-1 * liner1.DisbursementAmt));
                 if (oldLiner == null)
                 {
-                    liner1.ExcludeReason += ", no history";
+                    liner1.ExcludeReason += ", No History";
                     continue;
                 }
+
                 DupliateDataForBilling(oldLiner);
                 ExcludeEntryFromBilling(oldLiner);
             }
@@ -208,23 +194,31 @@ namespace ColloSys.QueryBuilder.Test.Billing
                                                          x.DisbursementAmt == oldLiner.DisbursementAmt);
             if (row == null) return;
             row.IsExcluded = true;
-            row.ExcludeReason = "disb cancelled";
+            row.ExcludeReason = "Rebill, Disb Cancelled";
+        }
+
+        private void MarkStakeholderForRebilling(DHFL_Liner liner)
+        {
+            _stkhMonth.Add(string.Format("{0}@{1}", liner.AgentId, Convert.ToUInt32(liner.DisbursementDt.ToString("yyyyMM"))));
         }
 
         private void DupliateDataForBilling(DHFL_Liner oldLiner)
         {
             if (IsStakeholderAdded(oldLiner)) return;
-            MarkStakeholderForBilling(oldLiner);
+            MarkStakeholderForRebilling(oldLiner);
 
             var data = _historyData.Where(x => x.AgentId == oldLiner.AgentId
-                && x.BillMonth == oldLiner.BillMonth).ToList();
-            if (data.Count != 0) return;
+                                               && x.BillMonth == oldLiner.BillMonth).ToList();
+            if (data.Count == 0) return;
 
             foreach (var liner in data)
             {
+                _session.Evict(liner);
                 liner.ResetUniqueProperties();
                 liner.BillMonth = _billMonth;
-                liner.ExcludeReason = "rebill";
+                liner.ExcludeReason = "Rebill";
+                liner.BillStatus = ColloSysEnums.BillStatus.Unbilled;
+                liner.DisbMonth = Convert.ToUInt32(liner.DisbursementDt.ToString("yyyyMM"));
             }
             _recomputeData.AddRange(data);
         }
