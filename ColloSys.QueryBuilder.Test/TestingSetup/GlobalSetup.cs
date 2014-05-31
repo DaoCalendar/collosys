@@ -44,7 +44,6 @@ namespace ColloSys.QueryBuilder.Test
             var obj = new NhInitParams { ConnectionString = _connectionString, DbType = _dbType, IsWeb = false };
 
             SessionManager.InitNhibernate(obj);
-            HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
             SessionManager.BindNewSession();
         }
 

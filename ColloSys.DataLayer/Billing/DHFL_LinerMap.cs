@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.BaseEntity;
+﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
-using NHibernate.Hql.Ast.ANTLR;
 
 namespace ColloSys.DataLayer.Mapping
 {
-    class DHFL_LinerMap:EntityMap<DHFL_Liner>
+    class DHFL_LinerMap : EntityMap<DHFL_Liner>
     {
         public DHFL_LinerMap()
         {
             #region demo DHFL
-           
+
             Property(x => x.TotalDisbAmt);
             Property(x => x.TotalProcFee);
             Property(x => x.Payout);
@@ -50,20 +44,23 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.SchemeGroupName);
             Property(x => x.M_Schname);
             Property(x => x.Premium);
-            Property(x=>x.DisbNo);
-            Property(x=>x.Subvention);
-            Property(x=>x.Product);
-            Property(x=>x.OrignateByFinal);
-            Property(x=>x.AgentId);
-            Property(x=>x.Corporate);
+            Property(x => x.DisbNo);
+            Property(x => x.Subvention);
+            Property(x => x.Product);
+            Property(x => x.OrignateByFinal);
+            Property(x => x.AgentId);
+            Property(x => x.Corporate);
 
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(false));
             ManyToOne(x => x.BillDetail, map => map.NotNullable(false));
-            Property(x=>x.BillMonth);
-            Property(x=>x.BillStatus);
+            Property(x => x.BillMonth);
+            Property(x => x.BillStatus);
             Property(x => x.FileDate);
             Property(x => x.FileRowNo);
             #endregion
+
+            Property(x => x.IsExcluded);
+            Property(x => x.ExcludeReason);
         }
 
     }

@@ -159,12 +159,7 @@
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DbLayerTest\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
