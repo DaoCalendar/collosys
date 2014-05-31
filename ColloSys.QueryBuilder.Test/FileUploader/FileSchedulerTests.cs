@@ -13,7 +13,6 @@ namespace ColloSys.QueryBuilder.Test.FileUploader
     {
          [Test]
         public void UploadFiles()
-        
          {
             FileUploaderService.UploadFiles();
         }

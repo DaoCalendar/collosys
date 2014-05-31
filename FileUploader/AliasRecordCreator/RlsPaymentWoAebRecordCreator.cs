@@ -16,7 +16,8 @@ namespace ColloSys.FileUploader.AliasReader
         private const uint AccountPosition = 1;
         private const uint AccountLength = 8;
 
-        public RlsPaymentWoAebRecordCreator(FileScheduler fileShedular):base(fileShedular,AccountPosition,AccountLength)
+        public RlsPaymentWoAebRecordCreator(FileScheduler fileShedular)
+            :base(fileShedular,AccountPosition,AccountLength)
         {
            
         }

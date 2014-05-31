@@ -65,7 +65,10 @@ namespace FileUploaderService
         private static bool _fileUploading;
 
         public static void UploadFiles()
-        {
+            {
+
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
             #region 
 
             //CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
@@ -81,6 +84,7 @@ namespace FileUploaderService
             // get next file for uploading
 
             #endregion
+           
 
             ColloSys.FileUploader.DbLayer.IDbLayer dbLayer = new ColloSys.FileUploader.DbLayer.DbLayer();
             var file = dbLayer.GetNextFileForSchedule();
