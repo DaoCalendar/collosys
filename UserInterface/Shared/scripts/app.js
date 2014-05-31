@@ -203,6 +203,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/product', {
                 templateUrl: baseUrl + 'Generic/product/product.html',
                 controller: 'ProductConfigController'
+            }).when('/generic/product/addedit/:mode/:id', {
+                templateUrl: baseUrl + 'Generic/product/updateViewConfiguration.html',
+                controller: 'updateViewController'
             }).when('/generic/keyvalue', {
                 templateUrl: baseUrl + 'Generic/keyvalue/keyvalue.html',
                 controller: 'keyValueCtrl'
