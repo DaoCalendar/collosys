@@ -82,6 +82,7 @@ namespace BillingService2.ViewModel
                 GroupType = "Condition",
                 Priority = 1,
                 Type = "Operator",
+                DataType = "conditional",
                 Value = matrixValueRowHeader.RowOperator.ToString(),
             };
 
@@ -91,6 +92,7 @@ namespace BillingService2.ViewModel
                 GroupType = "Condition",
                 Priority = 2,
                 Type = "Value",
+                DataType = "string",
                 Value = matrixValueRowHeader.Value,
             };
 
@@ -121,8 +123,9 @@ namespace BillingService2.ViewModel
                 GroupId = groupid,
                 GroupType = "Condition",
                 Priority = 3,
-                Type = bMatrix.Row1DType.ToString(),
-                Value = bMatrix.Row1DTypeName,
+                Type = "Operator",
+                DataType = "relational",
+                Value = "And",
             };
 
             var token5 = new BillTokens()
@@ -130,8 +133,8 @@ namespace BillingService2.ViewModel
                 GroupId = groupid,
                 GroupType = "Condition",
                 Priority = 4,
-                Type = "Operator",
-                Value = nextOperator.ToString(),
+                Type = bMatrix.Row1DType.ToString(),
+                Value = bMatrix.Row1DTypeName,
             };
 
             var token6 = new BillTokens()
@@ -139,7 +142,18 @@ namespace BillingService2.ViewModel
                 GroupId = groupid,
                 GroupType = "Condition",
                 Priority = 5,
+                Type = "Operator",
+                DataType = "conditional",
+                Value = nextOperator.ToString(),
+            };
+
+            var token7 = new BillTokens()
+            {
+                GroupId = groupid,
+                GroupType = "Condition",
+                Priority = 6,
                 Type = "Value",
+                DataType = "string",
                 Value = matrixValuePriviousRowHeader.Value,
             };
 
@@ -154,7 +168,7 @@ namespace BillingService2.ViewModel
             //    Rvalue = matrixValuePriviousRowHeader.Value,
             //};
 
-            return new List<BillTokens>() { token1, token2, token3, token4, token5, token6 };
+            return new List<BillTokens>() { token1, token2, token3, token4, token5, token6, token7 };
         }
 
         private static List<BillTokens> GetColumnCondition(BMatrix bMatrix, int colIndex, int groupId)
@@ -164,11 +178,21 @@ namespace BillingService2.ViewModel
                                                                                   && x.RowNo3D == 0
                                                                                   && x.ColumnNo4D == 0);
 
+            var token0 = new BillTokens()
+            {
+                GroupId = groupId,
+                GroupType = "Condition",
+                Priority = 7,
+                Type = "Operator",
+                DataType = "relational",
+                Value = "And"
+            };
+
             var token1 = new BillTokens()
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 6,
+                Priority = 8,
                 Type = bMatrix.Column2DType.ToString(),
                 Value = bMatrix.Column2DTypeName,
             };
@@ -177,8 +201,9 @@ namespace BillingService2.ViewModel
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 7,
+                Priority = 9,
                 Type = "Operator",
+                DataType = "conditional",
                 Value = matrixValueColHeader.ColumnOperator.ToString(),
             };
 
@@ -186,8 +211,9 @@ namespace BillingService2.ViewModel
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 8,
+                Priority = 10,
                 Type = "Value",
+                DataType = "string",
                 Value = matrixValueColHeader.Value,
             };
 
@@ -203,7 +229,7 @@ namespace BillingService2.ViewModel
             //};
 
             if (colIndex == 1 || bMatrix.Column2DCount == colIndex || matrixValueColHeader.ColumnOperator == ColloSysEnums.Operators.EqualTo)
-                return new List<BillTokens>() { token1, token2, token3 };
+                return new List<BillTokens>() { token0, token1, token2, token3 };
 
 
             var matrixValuePriviousColHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == 0
@@ -219,26 +245,39 @@ namespace BillingService2.ViewModel
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 9,
-                Type = bMatrix.Row1DType.ToString(),
-                Value = bMatrix.Row1DTypeName,
+                Priority = 11,
+                Type = "Operator",
+                DataType = "relational",
+                Value = "And"
             };
 
             var token5 = new BillTokens()
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 10,
-                Type = "Operator",
-                Value = nextOperator.ToString(),
+                Priority = 12,
+                Type = bMatrix.Row1DType.ToString(),
+                DataType = "number",
+                Value = bMatrix.Row1DTypeName,
             };
 
             var token6 = new BillTokens()
             {
                 GroupId = groupId,
                 GroupType = "Condition",
-                Priority = 11,
+                Priority = 13,
+                Type = "Operator",
+                DataType = "conditional",
+                Value = nextOperator.ToString(),
+            };
+
+            var token7 = new BillTokens()
+            {
+                GroupId = groupId,
+                GroupType = "Condition",
+                Priority = 14,
                 Type = "Value",
+                DataType = "string",
                 Value = matrixValuePriviousColHeader.Value,
             };
 
@@ -253,7 +292,7 @@ namespace BillingService2.ViewModel
             //    Rvalue = matrixValuePriviousColHeader.Value,
             //};
 
-            return new List<BillTokens>() { token1, token2, token3, token4, token5, token6 };
+            return new List<BillTokens>() { token0, token1, token2, token3, token4, token5, token6, token7 };
         }
 
 
@@ -271,6 +310,7 @@ namespace BillingService2.ViewModel
                 GroupType = "Output",
                 Priority = 12,
                 Type = "Value",
+                DataType = "number",
                 Value = matrixValue.Value,
             };
 
@@ -280,6 +320,7 @@ namespace BillingService2.ViewModel
                 GroupType = "Output",
                 Priority = 13,
                 Type = "Operator",
+                DataType = "number",
                 Value = "Multiply",
             };
 

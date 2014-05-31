@@ -19,10 +19,14 @@ namespace BillingService2.Calculation
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly BillStatus _billStatus;
+        private readonly List<BillingSubpolicy> _formulaList;
+        private readonly List<BMatrix> _bMatrices;
 
         public Payouts(BillStatus billStatus)
         {
             _billStatus = billStatus;
+            _formulaList=BillingSubpolicyDbLayer.GetFormulas(billStatus.Products);
+            _bMatrices = BMatrixDbLayer.GetMatrices(billStatus.Products);
         }
 
         #region Payout
@@ -67,7 +71,7 @@ namespace BillingService2.Calculation
             };
 
             List<DHFL_Liner> dhflLinersBillDeatail;
-            var queryExecuter = new QueryExecuter<DHFL_Liner>(billingSubpolicy.BillTokens);
+            var queryExecuter = new QueryExecuter<DHFL_Liner>(billingSubpolicy.BillTokens, _formulaList, _bMatrices);
 
             switch (billingPolicy.PolicyType)
             {
@@ -93,7 +97,7 @@ namespace BillingService2.Calculation
                     throw new ArgumentOutOfRangeException(billingPolicy.PolicyType.ToString());
             }
 
-            queryExecuter.ExeculteOnList(dhflLinersBillDeatail);
+            queryExecuter.ExeculteOnList(dhflLinersBillDeatail); 
 
             if (billingPolicy.PolicyType == ColloSysEnums.PolicyType.Payout)
                 dhflLinersBillDeatail.ForEach(x => x.BillDetail = billDetail);
@@ -102,6 +106,8 @@ namespace BillingService2.Calculation
                                            "and month : {3} has Amount : {4}", _billStatus.Stakeholder.Name,
                                           _billStatus.Products, billingSubpolicy.Name, _billStatus.BillMonth,
                                           billDetail.Amount));
+
+            billDetail.Amount = dhflLiners.Sum(x => x.Payout);
 
             return billDetail;
         }

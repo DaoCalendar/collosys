@@ -4,14 +4,23 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Dynamic;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.Domain;
 
 #endregion
 
 namespace ColloSys.QueryBuilder.Test.QueryExecution
 {
-    public class QueryGenerator
+    public class QueryGenerator<T>
     {
+        private readonly List<BillingSubpolicy> _formulaList;
+        //private readonly List<T> _dataList; 
+        public QueryGenerator(List<BillingSubpolicy> formulaList = null)
+        {
+            _formulaList = formulaList;
+        }
+
         #region combine tokens
         public string GenerateOutputQuery(IEnumerable<BillTokens> tokensList)
         {
@@ -91,9 +100,38 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             return query;
         }
+
+        public string GenerateQuery(List<BillTokens> tokensList)
+        {
+            if (tokensList[0].Type.ToLower() == "sql")
+            {
+                return ProcessSqlFunctions(tokensList);
+            }
+
+            return GenerateAndOrQuery(tokensList);
+        }
         #endregion
 
+        public List<T> DataList { get; set; }  
+
         #region operator tokens
+        public string ProcessSqlFunctions(List<BillTokens> tokensList)
+        {
+            if (DataList == null || DataList.Count <= 0)
+                return "0";
+
+            var conditionExpression = DynamicExpression.ParseLambda<T, decimal>(ProcessTableColumn(tokensList[1]));
+
+            switch (tokensList[0].Value.ToLower())
+            {
+                case "sum":
+                    return DataList.Sum(x => conditionExpression.Compile().Invoke(x))
+                                    .ToString(CultureInfo.InvariantCulture);
+                default:
+                    throw new ArgumentOutOfRangeException(tokensList[0].Value);
+            }
+        }
+
         private string ProcessOperators(BillTokens token)
         {
             switch (token.DataType)
@@ -128,11 +166,11 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private string ProcessRelationalOperators(BillTokens token)
         {
-            switch (token.Value)
+            switch (token.Value.ToLower())
             {
-                case "And":
+                case "and":
                     return "&&";
-                case "Or":
+                case "or":
                     return "||";
                 default:
                     throw new ArgumentOutOfRangeException(token.Value);
@@ -170,7 +208,18 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         //TODO: fix formula
         private string ProcessFormula(BillTokens token)
         {
-            return token.Value;
+            var formula = _formulaList.SingleOrDefault(x => x.Name == token.Value);
+
+            if (formula == null)
+                throw new ArgumentNullException(string.Format("Formula Name : {0} not found", token.Value));
+
+            var tokens = formula.BillTokens.OrderBy(x=>x.Priority).ToList();
+            var queryGenerator = new QueryGenerator<T>(_formulaList);
+            queryGenerator.DataList = DataList;
+            var formulaString = queryGenerator.GenerateQuery(tokens);
+
+
+            return formulaString;
         }
 
         private string ProcessValue(BillTokens token)
