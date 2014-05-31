@@ -57,7 +57,9 @@
     <Compile Include="DBLayer\BillAdhocDbLayer.cs" />
     <Compile Include="DBLayer\BillDetailDbLayer.cs" />
     <Compile Include="DBLayer\BillingPolicyDbLayer.cs" />
+    <Compile Include="DBLayer\BillingSubpolicyDbLayer.cs" />
     <Compile Include="DBLayer\BillStatusDbLayer.cs" />
+    <Compile Include="DBLayer\BMatrixDbLayer.cs" />
     <Compile Include="DBLayer\CustBillViewModelDbLayer.cs" />
     <Compile Include="DBLayer\DhflLinerDbLayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
