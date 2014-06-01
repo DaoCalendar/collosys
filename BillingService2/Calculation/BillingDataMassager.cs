@@ -106,7 +106,8 @@ namespace BillingService2.Calculation
                     Products = _product,
                     Stakeholder = stkh,
                     Status = ColloSysEnums.BillingStatus.Pending,
-                    OriginMonth = month
+                    OriginMonth = month,
+                    ExternalId = param[0]
                 };
                 statusList.Add(billStatus);
             }

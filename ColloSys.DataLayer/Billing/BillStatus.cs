@@ -23,6 +23,8 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.BillingStatus Status { get; set; }
 
         public virtual ScbEnums.Products Products { get; set; }
+
+        public virtual string ExternalId { get; set; }
         #endregion
 
         //#region Relationship None
