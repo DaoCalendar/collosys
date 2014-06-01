@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
+using BillingService2.Calculation;
 using BillingService2.DBLayer;
 using BillingService2.ViewModel;
 using ColloSys.DataLayer.Billing;
@@ -23,6 +24,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         private readonly QueryGenerator<T> _stringQueryBuilder;
         private readonly List<BillingSubpolicy> _formulaList;
         private readonly IList<BMatrix> _bMatrices;
+        private readonly BillingInfoManager _billingInfoManager;
 
         public QueryExecuter(IList<BillTokens> billTokenses, List<BillingSubpolicy> formulaList = null, IList<BMatrix> bMatrices = null)
         {
@@ -30,12 +32,13 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             _formulaList = formulaList ?? new List<BillingSubpolicy>();
             _bMatrices = bMatrices ?? new List<BMatrix>();
             _stringQueryBuilder = new QueryGenerator<T>(_formulaList);
+            _billingInfoManager = new BillingInfoManager();
         }
         #endregion
 
         #region executer
 
-        public delegate void ForEachFuc(T obj, decimal value);
+        public delegate void ForEachFuc(T obj, decimal value, BillingInfoManager billingInfoManager);
 
         public ForEachFuc ForEachFuction { get; set; }
 
@@ -53,7 +56,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             if (conditionToken.Count <= 0)
                 return dataList;
-            
+
             _stringQueryBuilder.DataList = dataList;
             var stringConditionQuery = _stringQueryBuilder.GenerateQuery(conditionToken);
 
@@ -79,7 +82,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
             if (outPutToken[0].Type == "Matrix")
             {
-               return MatrixExecuter(outPutToken[0].Value, dataList);
+                return MatrixExecuter(outPutToken[0].Value, dataList);
             }
 
             _stringQueryBuilder.DataList = dataList;
@@ -87,7 +90,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             var outputExpression = DynamicExpression.ParseLambda<T, decimal>(stringOutputQuery);
             //dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
 
-            dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x)));
+            dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x),_billingInfoManager));
 
             return dataList;
         }

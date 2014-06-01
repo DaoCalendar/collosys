@@ -1,10 +1,12 @@
 #region references
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
+using BillingService2.Calculation;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 
@@ -112,7 +114,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         }
         #endregion
 
-        public List<T> DataList { get; set; }  
+        public List<T> DataList { get; set; }
 
         #region operator tokens
         public string ProcessSqlFunctions(List<BillTokens> tokensList)
@@ -213,7 +215,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             if (formula == null)
                 throw new ArgumentNullException(string.Format("Formula Name : {0} not found", token.Value));
 
-            var tokens = formula.BillTokens.OrderBy(x=>x.Priority).ToList();
+            var tokens = formula.BillTokens.OrderBy(x => x.Priority).ToList();
             var queryGenerator = new QueryGenerator<T>(_formulaList);
             queryGenerator.DataList = DataList;
             var formulaString = queryGenerator.GenerateQuery(tokens);

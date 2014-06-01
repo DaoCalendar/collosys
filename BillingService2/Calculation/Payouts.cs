@@ -90,7 +90,8 @@ namespace BillingService2.Calculation
                 case ColloSysEnums.PolicyType.PF:
                     queryExecuter.ForEachFuction = ForEachFuctionPf;
                     dhflLinersBillDeatail = dhflLiners
-                                               .Where(x => x.BillStatus == ColloSysEnums.BillStatus.PayoutApply)
+                                               .Where(x => x.BillStatus == ColloSysEnums.BillStatus.CappingApply
+                                                   && x.TotalDisbAmt == x.DisbursementAmt)
                                                .ToList();
                     break;
                 default:
@@ -117,19 +118,28 @@ namespace BillingService2.Calculation
             return billDetail;
         }
 
-        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue)
+        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
         {
             dhtfLiner.Payout = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PayoutApply;
         }
 
-        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
+        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
         {
+            var oldPayout = dhtfLiner.Payout;
+
+            billingInfoManager.ManageInfo(dhtfLiner);
+
             dhtfLiner.Payout = outputValue;
+
+            billingInfoManager.ManageInfo(dhtfLiner);
+
+            dhtfLiner.DeductCap = oldPayout - dhtfLiner.Payout;
+
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
         }
 
-        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue)
+        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
         {
             dhtfLiner.DeductPf = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PfApply;
