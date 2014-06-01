@@ -15,8 +15,9 @@ namespace BillingService2.DBLayer
             //ScbEnums.Products products, uint billMonth
             var session = SessionManager.GetCurrentSession();
             var dhflLiners = session.QueryOver<DHFL_Liner>()
-                                    .Where(x => x.Product == billStatus.Products
-                                                && x.BillMonth == billStatus.BillMonth
+                                    .Where(x =>
+                                        //x.Product == billStatus.Products && 
+                                        x.BillMonth == billStatus.BillMonth
                                                 && x.AgentId == billStatus.Stakeholder.ExternalId)
                                     .List<DHFL_Liner>();
 

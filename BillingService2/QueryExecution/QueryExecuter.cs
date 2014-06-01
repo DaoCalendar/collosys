@@ -24,7 +24,6 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         private readonly QueryGenerator<T> _stringQueryBuilder;
         private readonly List<BillingSubpolicy> _formulaList;
         private readonly IList<BMatrix> _bMatrices;
-        private readonly BillingInfoManager _billingInfoManager;
 
         public QueryExecuter(IList<BillTokens> billTokenses, List<BillingSubpolicy> formulaList = null, IList<BMatrix> bMatrices = null)
         {
@@ -32,13 +31,12 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             _formulaList = formulaList ?? new List<BillingSubpolicy>();
             _bMatrices = bMatrices ?? new List<BMatrix>();
             _stringQueryBuilder = new QueryGenerator<T>(_formulaList);
-            _billingInfoManager = new BillingInfoManager();
         }
         #endregion
 
         #region executer
 
-        public delegate void ForEachFuc(T obj, decimal value, BillingInfoManager billingInfoManager);
+        public delegate void ForEachFuc(T obj, decimal value);
 
         public ForEachFuc ForEachFuction { get; set; }
 
@@ -90,7 +88,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
             var outputExpression = DynamicExpression.ParseLambda<T, decimal>(stringOutputQuery);
             //dataList.ForEach(x => x.Bucket = outputExpression.Compile().Invoke(x));
 
-            dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x),_billingInfoManager));
+            dataList.ForEach(x => ForEachFuction(x, outputExpression.Compile().Invoke(x)));
 
             return dataList;
         }
@@ -123,6 +121,9 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private List<T> MatrixExecuter(string matrixId, List<T> dataList)
         {
+            if (dataList.Count <= 0)
+                return dataList;
+
             var bMatrix = _bMatrices.SingleOrDefault(x => x.Id == Guid.Parse(matrixId));
 
             if (bMatrix == null)

@@ -10,6 +10,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.QueryExecution;
+using NHibernate.Linq;
 using NLog;
 
 namespace BillingService2.Calculation
@@ -21,12 +22,15 @@ namespace BillingService2.Calculation
         private readonly BillStatus _billStatus;
         private readonly List<BillingSubpolicy> _formulaList;
         private readonly List<BMatrix> _bMatrices;
+        private readonly BillingInfoManager _billingInfoManager;
 
         public Payouts(BillStatus billStatus)
         {
             _billStatus = billStatus;
             _formulaList = BillingSubpolicyDbLayer.GetFormulas(billStatus.Products);
             _bMatrices = BMatrixDbLayer.GetMatrices(billStatus.Products);
+            _billingInfoManager = new BillingInfoManager();
+
         }
 
         #region Payout
@@ -56,6 +60,11 @@ namespace BillingService2.Calculation
             return billDetails;
         }
 
+        public List<DHFL_Info> GetDhflInfos()
+        {
+            return _billingInfoManager.InfoList.Select(x => x.Value).ToList();
+        }
+
         private BillDetail GetBillDetail(BillingPolicy billingPolicy, BillingSubpolicy billingSubpolicy, List<DHFL_Liner> dhflLiners)
         {
             var billDetail = new BillDetail
@@ -78,7 +87,7 @@ namespace BillingService2.Calculation
                 case ColloSysEnums.PolicyType.Payout:
                     queryExecuter.ForEachFuction = ForEachFuctionPayout;
                     dhflLinersBillDeatail = dhflLiners
-                                                .Where(x => x.BillStatus == ColloSysEnums.BillStatus.Unbilled && x.BillDetail == null)
+                                                .Where(x => x.BillStatus == ColloSysEnums.BillStatus.Unbilled && x.BillDetail == null && !x.IsExcluded)
                                                 .ToList();
                     break;
                 case ColloSysEnums.PolicyType.Capping:
@@ -118,28 +127,29 @@ namespace BillingService2.Calculation
             return billDetail;
         }
 
-        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
+        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue)
         {
+            _billingInfoManager.ManageInfoBeforePayout(dhtfLiner);
+
             dhtfLiner.Payout = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PayoutApply;
+
+            _billingInfoManager.ManageInfoAfterPayout(dhtfLiner);
         }
 
-        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
+        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
         {
-            var oldPayout = dhtfLiner.Payout;
-
-            billingInfoManager.ManageInfo(dhtfLiner);
+            var actualPayout = dhtfLiner.Payout;
 
             dhtfLiner.Payout = outputValue;
+            dhtfLiner.DeductCap = dhtfLiner.DeductCap + (actualPayout - dhtfLiner.Payout);
 
-            billingInfoManager.ManageInfo(dhtfLiner);
-
-            dhtfLiner.DeductCap = oldPayout - dhtfLiner.Payout;
+            _billingInfoManager.ManageInfoAfterCapping(dhtfLiner, actualPayout);
 
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
         }
 
-        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue, BillingInfoManager billingInfoManager)
+        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue)
         {
             dhtfLiner.DeductPf = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PfApply;

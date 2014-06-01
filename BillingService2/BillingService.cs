@@ -84,7 +84,7 @@ namespace BillingService2
             }
         }
 
-        private void BillingForBillStatus(BillStatus billStatus)
+        public void BillingForBillStatus(BillStatus billStatus)
         {
             Logger.Info(string.Format("biling start for month : {0}, and product : {1}", billStatus.BillMonth,
                                       billStatus.Products));
@@ -114,8 +114,8 @@ namespace BillingService2
 
             var dhflLinersWithBillDetail = dhflLiners.Where(x => x.BillDetail != null).ToList();
             billStatus.Status = ColloSysEnums.BillingStatus.Done;
-            //var dhflInfos = UpdateDhflInfos(dhflLinersWithBillDetail);
-            BillDetailDbLayer.SaveBillDetailsBillAmount(billStatus, billDetails, billAmount, dhflLinersWithBillDetail);
+            var dhflInfos = payouts.GetDhflInfos();
+            BillDetailDbLayer.SaveBillDetailsBillAmount(billStatus, billDetails, billAmount, dhflLinersWithBillDetail,dhflInfos);
         }
 
         private BillAmount GetBillAmountForStkholder(BillStatus billStatus, List<BillDetail> billDetails)

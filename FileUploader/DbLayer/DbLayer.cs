@@ -28,13 +28,13 @@ namespace ColloSys.FileUploader.DbLayer
                 {
                     FileScheduler fs = null;
                     FileDetail fd = null;
-                    var enddatetime = DateTime.Now.AddDays(-40);
+                    //var enddatetime = DateTime.Now.AddDays(-40);
                     var obj = session.QueryOver(() => fs)
                                      .JoinAlias(() => fs.FileDetail, () => fd)
                                      .Where(c => (c.UploadStatus == ColloSysEnums.UploadStatus.UploadRequest
                                                   || c.UploadStatus == ColloSysEnums.UploadStatus.RetryUpload))
                                      .And(c => c.IsImmediate || c.StartDateTime <= DateTime.Now)
-                                     .And(c => c.CreatedOn > enddatetime)
+                                     //.And(c => c.CreatedOn > enddatetime)
                                      .Fetch(x => x.FileDetail).Eager
                                      .Fetch(x => x.FileStatuss).Eager
                                      .Fetch(x => x.FileDetail.FileColumns).Eager

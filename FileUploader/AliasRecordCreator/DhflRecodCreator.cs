@@ -11,7 +11,7 @@ namespace ColloSys.FileUploader.AliasRecordCreator
 {
     class DhflRecodCreator : AliasDHFLrecordCreator
     {
-        private const uint AccountPosition=4;
+        private const uint AccountPosition=2;
         private const uint AccountLength = 8;
         private readonly IList<int> _paymentcodes;
 

@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using BillingService2.Calculation;
 using ColloSys.DataLayer.Billing;
 using ColloSys.QueryBuilder.Test.DataGeneration;
 using ColloSys.QueryBuilder.Test.QueryExecution;
@@ -31,7 +32,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         }
         #endregion
 
-        private void ForEachFunction(CustBillViewModel cust, decimal value)
+        private void ForEachFunction(CustBillViewModel cust, decimal value,BillingInfoManager billingInfoManager)
         {
             cust.TotalAmountRecovered = value;
         }
