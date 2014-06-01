@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 
 namespace BillingService2.DBLayer
 {
@@ -28,6 +29,7 @@ namespace BillingService2.DBLayer
 
                 foreach (var entity in dhflLiners)
                 {
+                    dhflLiners.Where(x=>x.Payout==0).ForEach(x=>x.BillDetail=null);
                     session.SaveOrUpdate(entity);
                 }
 
