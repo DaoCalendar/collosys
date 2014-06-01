@@ -14,6 +14,7 @@ namespace BillingService2.Calculation
     {
         #region constructor
         public readonly Dictionary<string, DHFL_Info> InfoList;
+        private readonly ISession _session = SessionManager.GetCurrentSession();
 
         public BillingInfoManager()
         {
@@ -33,23 +34,19 @@ namespace BillingService2.Calculation
         #endregion
 
         #region info logic
-        public void ManageInfo(DHFL_Liner liner)
+
+        public void ManageInfoBeforePayout(DHFL_Liner liner)
         {
-            if (InfoList.ContainsKey(liner.ApplNo))
+            if (!InfoList.ContainsKey(liner.ApplNo))
             {
-                var info = InfoList[liner.ApplNo];
-                if (info.UpdateMonth > liner.DisbMonth)
-                {
-                    UpdateInfoFromLiner(info, liner);
-                }
-                else
-                {
-                    SyncInfoNLiner(info, liner);
-                }
+                CreateInfo(liner);
             }
             else
             {
-                CreateInfo(liner);
+                var info = InfoList[liner.ApplNo];
+                liner.TotalPayout = info.TotalPayout;
+                liner.TotalDisbAmt = info.TotalDisbAmt;
+                liner.TotalProcFee = info.TotalProcFee;
             }
         }
 
@@ -59,51 +56,48 @@ namespace BillingService2.Calculation
             {
                 ApplNo = liner.ApplNo,
                 SanctionAmt = liner.SanAmt,
-                TotalDisbAmt = liner.DisbursementAmt,
                 UpdateMonth = liner.DisbMonth,
             };
             InfoList.Add(info.ApplNo, info);
         }
 
-        private void UpdateInfoFromLiner(DHFL_Info info, DHFL_Liner liner)
+        public void ManageInfoAfterPayout(DHFL_Liner liner)
         {
-            info.UpdateMonth = liner.DisbMonth;
-            info.TotalDisbAmt = liner.TotalDisbAmt;
-            info.DeductCap = liner.DeductCap;
-            info.DeductPf = liner.DeductPf;
-            info.TotalPayout = liner.TotalPayout;
-            info.TotalProcFee = liner.TotalProcFee;
+            var info = InfoList[liner.ApplNo];
+            info.TotalPayout = liner.Payout + liner.TotalPayout;
         }
 
-        private void SyncInfoNLiner(DHFL_Info info, DHFL_Liner liner)
+        public void ManageInfoAfterCapping(DHFL_Liner liner, decimal actualPayout)
         {
-            info.UpdateMonth = liner.DisbMonth;
-            info.TotalDisbAmt = liner.DisbursementAmt + info.TotalDisbAmt;
-            info.DeductCap = liner.DeductCap + info.DeductCap;
-            info.DeductPf = liner.DeductPf + info.DeductPf;
-            info.TotalPayout = liner.Payout +  info.TotalPayout;
-            info.TotalProcFee = liner.ProcFee;
+            var info = InfoList[liner.ApplNo];
+            //info.DeductCap
         }
+
+        public void ManageInfoAfterProcFee(DHFL_Liner liner)
+        {
+            var info = InfoList[liner.ApplNo];
+            //info.DeductPf
+        }
+
         #endregion
 
-        #region queries
-        private readonly ISession _session = SessionManager.GetCurrentSession();
+        //#region queries
 
-        public void SaveData(IEnumerable<DHFL_Liner> linerList )
-        {
-            using (var tx = _session.BeginTransaction())
-            {
-                foreach (KeyValuePair<string, DHFL_Info> entry in InfoList)
-                {
-                    _session.SaveOrUpdate(entry.Value);
-                }
-                foreach (var liner in linerList)
-                {
-                    _session.SaveOrUpdate(liner);
-                }
-                tx.Commit();
-            }
-        }
-        #endregion
+        //public void SaveData(IEnumerable<DHFL_Liner> linerList )
+        //{
+        //    using (var tx = _session.BeginTransaction())
+        //    {
+        //        foreach (KeyValuePair<string, DHFL_Info> entry in InfoList)
+        //        {
+        //            _session.SaveOrUpdate(entry.Value);
+        //        }
+        //        foreach (var liner in linerList)
+        //        {
+        //            _session.SaveOrUpdate(liner);
+        //        }
+        //        tx.Commit();
+        //    }
+        //}
+        //#endregion
     }
 }
