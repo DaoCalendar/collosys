@@ -7,7 +7,8 @@ namespace ColloSys.DataLayer.Billing
         public DHFL_InfoMap()
         {
             Property(x=>x.ApplNo);
-            Property(x=>x.UpdateMonth);
+            Property(x=>x.AgentId);
+            Property(x=>x.OriginMonth);
             Property(x=>x.SanctionAmt);
             Property(x=>x.TotalDisbAmt);
             Property(x=>x.TotalPayout);

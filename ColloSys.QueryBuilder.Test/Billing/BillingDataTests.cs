@@ -1,13 +1,14 @@
 ﻿#region references
 
 using System;
-using BillingService2;
+using System.Linq;
 using BillingService2.Calculation;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 using NUnit.Framework;
 
 #endregion
@@ -18,33 +19,24 @@ namespace ColloSys.QueryBuilder.Test.Billing
     public class BillingDataTests
     {
         [Test]
-        public void TestDbData()
+        public void TestFileUploadDataPresent()
         {
             var session = SessionManager.GetCurrentSession();
             var list = session.QueryOver<DHFL_Liner>().RowCount();
             Assert.Greater(list, 0);
         }
 
-        [TestCase(201401)]
-        [TestCase(201402)]
-        [TestCase(201403)]
-        public void BillDataMassageJan(int month)
-        {
-            var dataManager = new BillingDataMassager(Convert.ToUInt32(month), ScbEnums.Products.HL);
-            dataManager.ProcessCurrentMonth();
-            dataManager.ProcessHistoricalData();
-            dataManager.SaveData();
-        }
-
         [Test]
-        public void CleanUpData()
+        public void FileUploadDataCleanup()
         {
             var session = SessionManager.GetCurrentSession();
 
             using (var tx = session.BeginTransaction())
             {
+                string[] valuesList = { "Rebill", "Rebill, Disb Cancelled" };
                 var dhflLiners = session.QueryOver<DHFL_Liner>().AndRestrictionOn(x => x.ExcludeReason)
-                          .IsIn(new[] { "Rebill", "Rebill, Disb Cancelled" }).List<DHFL_Liner>();
+                    // ReSharper disable once CoVariantArrayConversion
+                          .IsIn(valuesList).List<DHFL_Liner>();
 
                 foreach (var dhflLiner in dhflLiners)
                 {
@@ -61,8 +53,19 @@ namespace ColloSys.QueryBuilder.Test.Billing
             }
         }
 
+        [TestCase(201401)]
+        [TestCase(201402)]
+        [TestCase(201403)]
+        public void FileUpload2Ready4Billing(int month)
+        {
+            var dataManager = new BillingDataMassager(Convert.ToUInt32(month), ScbEnums.Products.HL);
+            dataManager.ProcessCurrentMonth();
+            dataManager.ProcessHistoricalData();
+            dataManager.SaveData();
+        }
+
         [Test]
-        public void Reset()
+        public void PreBillingDataCleanup()
         {
             var session = SessionManager.GetCurrentSession();
 
@@ -114,61 +117,68 @@ namespace ColloSys.QueryBuilder.Test.Billing
             }
         }
 
-        [TestCase(201401, "010366", 0)]
-        [TestCase(201401, "009275", 0)]
-        [TestCase(201401, "008325", 0)]
-        [TestCase(201401, "008012", 0)]
-        [TestCase(201401, "009077", 0)]
-        [TestCase(201401, "009057", 0)]
-        public void RunBillingForBillStatus01Jan(int billMonth, string agentId, int originMonth)
+        [TestCase(201401, "009057", 201401)]
+        [TestCase(201402, "009057", 201401)]
+        [TestCase(201402, "009057", 201402)]
+        public void AgentMonthDataCleanup(int billingMonth, string agentId, int disbMonth)
         {
-            RunBillingForBillStatus(billMonth, agentId, originMonth);
-        }
-
-        [TestCase(201402, "008012", 201401)]
-        public void RunBillingForBillStatus02JanFeb(int billMonth, string agentId, int originMonth)
-        {
-            RunBillingForBillStatus(billMonth, agentId, originMonth);
-        }
-
-        [TestCase(201402, "008471", 0)]
-        [TestCase(201402, "008844", 0)]
-        [TestCase(201402, "011762", 0)]
-        [TestCase(201402, "003419", 0)]
-        [TestCase(201402, "011952", 0)]
-        [TestCase(201402, "008012", 201402)]
-        public void RunBillingForBillStatus03Feb(int billMonth, string agentId, int originMonth)
-        {
-            RunBillingForBillStatus(billMonth, agentId, originMonth);
-        }
-       
-
-
-        private void RunBillingForBillStatus(int billMonth, string agentId, int originMonth)
-        {
-            if (originMonth == 0)
-                originMonth = billMonth;
+            if (disbMonth == 0) disbMonth = billingMonth;
 
             var session = SessionManager.GetCurrentSession();
+            using (var tx = session.BeginTransaction())
+            {
+                var dhflLiners = session.QueryOver<DHFL_Liner>()
+                    .Where(x => x.BillMonth == billingMonth && x.DisbMonth == disbMonth)
+                    .And(x => x.AgentId == agentId)
+                    .List<DHFL_Liner>();
 
-            var billStatus = session.QueryOver<BillStatus>().Where(x => x.BillMonth == Convert.ToUInt32(billMonth)
-                                                                        && x.OriginMonth == Convert.ToUInt32(originMonth)
-                                                                        && x.ExternalId == agentId)
-                                                                        .SingleOrDefault<BillStatus>();
-            if (billStatus == null)
-                Assert.Fail();
+                foreach (var dhflLiner in dhflLiners)
+                {
+                    dhflLiner.BillStatus = ColloSysEnums.BillStatus.Unbilled;
+                    dhflLiner.BillDetail = null;
+                    dhflLiner.Payout = 0;
+                    dhflLiner.DeductCap = 0;
+                    dhflLiner.DeductPf = 0;
+                    session.SaveOrUpdate(dhflLiner);
+                }
 
-            var billingService = new BillingServices();
-            billingService.BillingForBillStatus(billStatus);
+                var billStatuses = session.QueryOver<BillStatus>()
+                    .Where(x => x.BillMonth == billingMonth && x.OriginMonth == disbMonth)
+                    .And(x => x.ExternalId == agentId)
+                    .SingleOrDefault();
+                if (billStatuses == null) return;
+                billStatuses.Status = ColloSysEnums.BillingStatus.Pending;
+                session.SaveOrUpdate(billStatuses);
+
+                var billDetails = session.Query<BillDetail>()
+                    .Fetch(x => x.Stakeholder)
+                    .Where(x => x.BillMonth == billingMonth && x.Stakeholder.ExternalId == agentId && x.OriginMonth == disbMonth)
+                    .ToList();
+                foreach (var billDetail in billDetails)
+                {
+                    session.Delete(billDetail);
+                }
+
+                var billAmounts = session.Query<BillAmount>()
+                    .Fetch(x => x.Stakeholder)
+                    .Where(x => x.BillMonth == billingMonth && x.Stakeholder.ExternalId == agentId)
+                    .ToList();
+                foreach (var billAmount in billAmounts)
+                {
+                    session.Delete(billAmount);
+                }
+
+                var infos = session.Query<DHFL_Info>()
+                    .Where(x => x.AgentId == agentId)
+                    .ToList();
+                foreach (var info in infos)
+                {
+                    session.Delete(info);
+                }
+
+                tx.Commit();
+            }
         }
-
-
-
-
-
-
-
-
     }
 
 }

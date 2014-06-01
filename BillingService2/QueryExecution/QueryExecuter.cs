@@ -1,21 +1,17 @@
 #region references
 
 using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic;
-using BillingService2.Calculation;
-using BillingService2.DBLayer;
 using BillingService2.ViewModel;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
+using ColloSys.QueryBuilder.Test.QueryExecution;
 
 #endregion
 
-namespace ColloSys.QueryBuilder.Test.QueryExecution
+namespace BillingService2.QueryExecution
 {
     public class QueryExecuter<T> where T : class
     {

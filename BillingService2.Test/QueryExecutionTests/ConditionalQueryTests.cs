@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using BillingService2.QueryExecution;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.Test.DataGeneration;

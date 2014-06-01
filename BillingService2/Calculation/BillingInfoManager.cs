@@ -49,7 +49,6 @@ namespace BillingService2.Calculation
                     liner.TotalPayout = info.TotalPayout;
                     liner.TotalDisbAmt = info.TotalDisbAmt;
                     liner.TotalProcFee = info.TotalProcFee;
-                    liner.TotalDeductCap = info.TotalDeductCap;
                 }
             }
         }
@@ -59,8 +58,9 @@ namespace BillingService2.Calculation
             var info = new DHFL_Info
             {
                 ApplNo = liner.ApplNo,
+                AgentId = liner.AgentId,
                 SanctionAmt = liner.SanAmt,
-                UpdateMonth = liner.DisbMonth,
+                OriginMonth = liner.DisbMonth,
             };
             InfoList.Add(info.ApplNo, info);
         }
@@ -72,37 +72,26 @@ namespace BillingService2.Calculation
             info.TotalDisbAmt = liner.DisbursementAmt + liner.TotalDisbAmt;
         }
 
-        public void ManageInfoAfterCapping(DHFL_Liner liner, decimal actualPayout)
+        public void ManageInfoBeforeCapping(DHFL_Liner liner)
         {
             var info = InfoList[liner.ApplNo];
+            liner.TotalDeductCap = info.TotalDeductCap;
+        }
+
+        public void ManageInfoAfterCapping(DHFL_Liner liner)
+        {
+            var info = InfoList[liner.ApplNo];
+            liner.TotalPayout = liner.TotalPayout + liner.TotalDeductCap;
             info.TotalDeductCap = liner.TotalDeductCap + liner.DeductCap;
+            info.TotalPayout = info.TotalPayout + liner.DeductCap;
         }
 
         public void ManageInfoAfterProcFee(DHFL_Liner liner)
         {
             var info = InfoList[liner.ApplNo];
-            //info.DeductPf
+            info.TotalDeductCap = liner.TotalProcFee + liner.ProcFee;
         }
 
         #endregion
-
-        //#region queries
-
-        //public void SaveData(IEnumerable<DHFL_Liner> linerList )
-        //{
-        //    using (var tx = _session.BeginTransaction())
-        //    {
-        //        foreach (KeyValuePair<string, DHFL_Info> entry in InfoList)
-        //        {
-        //            _session.SaveOrUpdate(entry.Value);
-        //        }
-        //        foreach (var liner in linerList)
-        //        {
-        //            _session.SaveOrUpdate(liner);
-        //        }
-        //        tx.Commit();
-        //    }
-        //}
-        //#endregion
     }
 }

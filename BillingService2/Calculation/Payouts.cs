@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BillingService2.DBLayer;
+using BillingService2.QueryExecution;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
@@ -127,9 +128,6 @@ namespace BillingService2.Calculation
                                           _billStatus.Products, billingSubpolicy.Name, _billStatus.BillMonth,
                                           billDetail.Amount));
 
-
-
-
             billDetail.PolicyType = billingPolicy.PolicyType;
             billDetail.OriginMonth = _billStatus.OriginMonth;
             return billDetail;
@@ -138,21 +136,18 @@ namespace BillingService2.Calculation
         private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue)
         {
             _billingInfoManager.ManageInfoBeforePayout(dhtfLiner);
-
             dhtfLiner.Payout = outputValue;
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PayoutApply;
-
             _billingInfoManager.ManageInfoAfterPayout(dhtfLiner);
         }
 
         private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
         {
+            _billingInfoManager.ManageInfoBeforeCapping(dhtfLiner);
             var actualPayout = dhtfLiner.Payout;
-
-            dhtfLiner.Payout = outputValue;
+            dhtfLiner.Payout = outputValue < 0 ? 0 : outputValue;
             dhtfLiner.DeductCap = dhtfLiner.Payout - actualPayout;
-
-            _billingInfoManager.ManageInfoAfterCapping(dhtfLiner, actualPayout);
+            _billingInfoManager.ManageInfoAfterCapping(dhtfLiner);
 
             dhtfLiner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
         }

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.DbLayer;
 using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
@@ -14,17 +10,17 @@ namespace ColloSys.FileUploader.AliasRecordCreator
 {
     abstract class AliasDHFLrecordCreator :IAliasRecordCreator<DHFL_Liner>
     {
-        public readonly IDbLayer Reader;
         private readonly uint _accountPosition;
         private readonly uint _accountLength;
-        public FileScheduler FileScheduler { get; protected set; }
-        public AliasDHFLrecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
+        public FileScheduler FileScheduler { get; private set; }
+
+        protected AliasDHFLrecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
         {
-            Reader=new DbLayer.DbLayer();
             FileScheduler = scheduler;
             _accountLength = accountLength;
             _accountPosition = accountPosition;
         }
+
         public bool ComputedSetter(DHFL_Liner obj, IExcelReader reader, ICounter counter)
         {
             try
@@ -32,6 +28,7 @@ namespace ColloSys.FileUploader.AliasRecordCreator
                 obj.FileDate = FileScheduler.FileDate.Date;
                 obj.AgentId = reader.GetValue(33).Substring(0, 6);
                 obj.BillMonth = Convert.ToUInt32(FileScheduler.FileDate.ToString("yyyyMM"));
+                obj.DisbMonth = obj.BillMonth;
                 obj.Loancode = uint.Parse(reader.GetValue(_accountPosition)).ToString("D" + _accountLength.ToString(CultureInfo.InvariantCulture));
                 
                 GetComputations(obj, reader);
