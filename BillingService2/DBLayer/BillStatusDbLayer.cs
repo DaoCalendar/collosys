@@ -48,7 +48,7 @@ namespace BillingService2.DBLayer
             var session = SessionManager.GetCurrentSession();
             var billStatus = session.QueryOver<BillStatus>()
                  .Where(x => x.Status == ColloSysEnums.BillingStatus.Pending)
-                 .OrderBy(x => x.BillMonth).Asc.List();
+                 .OrderBy(x => x.BillMonth).Asc.OrderBy(x=>x.OriginMonth).Asc.List();
 
             return billStatus;
         }

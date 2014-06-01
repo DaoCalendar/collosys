@@ -182,9 +182,9 @@ namespace ColloSys.BillingService
 
             billAmount.Stakeholder = stakeholders;
             billAmount.Products = billStatus.Products;
-            billAmount.Month = billStatus.BillMonth;
+            billAmount.BillMonth = billStatus.BillMonth;
             billAmount.Cycle = 0;
-            billAmount.StartDate = DateTime.ParseExact(string.Format("{0}01", billAmount.Month), "yyyyMMdd",
+            billAmount.StartDate = DateTime.ParseExact(string.Format("{0}01", billAmount.BillMonth), "yyyyMMdd",
                                                 CultureInfo.InvariantCulture);
             billAmount.EndDate = billAmount.StartDate.AddMonths(1).AddDays(-1);
             billAmount.Status = ColloSysEnums.ApproveStatus.Submitted;

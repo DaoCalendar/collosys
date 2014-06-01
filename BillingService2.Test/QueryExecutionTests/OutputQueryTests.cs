@@ -32,7 +32,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         }
         #endregion
 
-        private void ForEachFunction(CustBillViewModel cust, decimal value,BillingInfoManager billingInfoManager)
+        private void ForEachFunction(CustBillViewModel cust, decimal value)
         {
             cust.TotalAmountRecovered = value;
         }

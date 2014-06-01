@@ -17,7 +17,7 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual ScbEnums.Products Products { get; set; }
 
-        public virtual uint Month { get; set; }
+        public virtual uint BillMonth { get; set; }
 
         public virtual uint Cycle { get; set; }
 
@@ -41,6 +41,8 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual decimal TotalAmount { get; set; }
 
+      
+
         #region DateRange
         [Required]
         [DataType(DataType.Date)]
@@ -63,5 +65,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual RowStatus RowStatus { get; set; }
 
         #endregion
+
+        public virtual uint OriginMonth { get; set; }
     }
 }

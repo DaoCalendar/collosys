@@ -63,6 +63,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.ExcludeReason);
             Property(x => x.DisbMonth);
             Property(x => x.ProcFee);
+            Property(x => x.TotalDeductCap);
         }
 
     }

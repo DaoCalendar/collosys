@@ -37,9 +37,12 @@ namespace ColloSys.DataLayer.Mapping
             ManyToOne(x => x.BillingPolicy, map => map.NotNullable(false));
             ManyToOne(x => x.BillingSubpolicy, map => map.NotNullable(false));
             ManyToOne(x => x.BillAdhoc, map => map.NotNullable(false));
-           #endregion
+            #endregion
 
             Bag(x => x.CustBillViewModels, colmap => { }, map => map.OneToMany(x => { }));
+
+            Property(x => x.PolicyType);
+            Property(x => x.OriginMonth);
         }
     }
 }

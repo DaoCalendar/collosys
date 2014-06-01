@@ -44,10 +44,13 @@ namespace BillingService2.Calculation
             else
             {
                 var info = InfoList[liner.ApplNo];
-                liner.TotalPayout = info.TotalPayout;
-                liner.TotalDisbAmt = info.TotalDisbAmt;
-                liner.TotalProcFee = info.TotalProcFee;
-                liner.DeductCap = info.DeductCap;
+                if (liner.DisbMonth == liner.BillMonth)
+                {
+                    liner.TotalPayout = info.TotalPayout;
+                    liner.TotalDisbAmt = info.TotalDisbAmt;
+                    liner.TotalProcFee = info.TotalProcFee;
+                    liner.TotalDeductCap = info.TotalDeductCap;
+                }
             }
         }
 
@@ -72,8 +75,7 @@ namespace BillingService2.Calculation
         public void ManageInfoAfterCapping(DHFL_Liner liner, decimal actualPayout)
         {
             var info = InfoList[liner.ApplNo];
-            info.DeductCap = liner.DeductCap;
-
+            info.TotalDeductCap = liner.TotalDeductCap + liner.DeductCap;
         }
 
         public void ManageInfoAfterProcFee(DHFL_Liner liner)

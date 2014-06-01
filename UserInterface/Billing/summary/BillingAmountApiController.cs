@@ -134,7 +134,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             var billAmount = Session.QueryOver<BillAmount>()
                .Where(x => x.Stakeholder.Id == stakeId)
                .And(x => x.Products == products)
-               .And(x => x.Month == month)
+               .And(x => x.BillMonth == month)
                .SingleOrDefault();
 
             var billDetails = Session.QueryOver<BillDetail>()
@@ -190,7 +190,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
             // Month
             ws.Cells[excelRowCounter, 2].Value = "Month";
-            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.Month / 100, (int)billAmount.Month % 100, 1).ToString("MMM-yyyy");
+            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.BillMonth / 100, (int)billAmount.BillMonth % 100, 1).ToString("MMM-yyyy");
             excelRowCounter++;
 
             // Product

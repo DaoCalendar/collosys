@@ -15,7 +15,7 @@ namespace ColloSys.DataLayer.Mapping
 
             #region property
             Property(x => x.Products, map => map.UniqueKey("UQ_BILLING_AMOUNT"));
-            Property(x => x.Month, map => map.UniqueKey("UQ_BILLING_AMOUNT"));
+            Property(x => x.BillMonth, map => map.UniqueKey("UQ_BILLING_AMOUNT"));
             Property(x => x.Cycle, map => map.UniqueKey("UQ_BILLING_AMOUNT"));
             Property(x => x.FixedAmount);
             Property(x => x.VariableAmount);
@@ -56,6 +56,8 @@ namespace ColloSys.DataLayer.Mapping
                 });
 
             #endregion
+
+            Property(x => x.OriginMonth, map => map.UniqueKey("UQ_BILLING_AMOUNT"));
         }
     }
 }

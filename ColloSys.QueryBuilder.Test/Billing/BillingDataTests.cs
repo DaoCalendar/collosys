@@ -77,6 +77,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
                     dhflLiner.BillDetail = null;
                     dhflLiner.TotalDisbAmt = 0;
                     dhflLiner.DeductCap = 0;
+                    dhflLiner.TotalDeductCap = 0;
                     dhflLiner.DeductPf = 0;
                     dhflLiner.TotalPayout = 0;
                     dhflLiner.TotalProcFee = 0;
@@ -113,17 +114,45 @@ namespace ColloSys.QueryBuilder.Test.Billing
             }
         }
 
-        [TestCase(201401, "010366")]
-        [TestCase(201401, "009275")]
-        [TestCase(201401, "008325")]
-        [TestCase(201401, "008012")]
-        [TestCase(201401, "009077")]
-        [TestCase(201401, "009057")]
-        public void RunBillingForBillStatus(int billMonth, string agentId)
+        [TestCase(201401, "010366", 0)]
+        [TestCase(201401, "009275", 0)]
+        [TestCase(201401, "008325", 0)]
+        [TestCase(201401, "008012", 0)]
+        [TestCase(201401, "009077", 0)]
+        [TestCase(201401, "009057", 0)]
+        public void RunBillingForBillStatus01Jan(int billMonth, string agentId, int originMonth)
         {
+            RunBillingForBillStatus(billMonth, agentId, originMonth);
+        }
+
+        [TestCase(201402, "008012", 201401)]
+        public void RunBillingForBillStatus02JanFeb(int billMonth, string agentId, int originMonth)
+        {
+            RunBillingForBillStatus(billMonth, agentId, originMonth);
+        }
+
+        [TestCase(201402, "008471", 0)]
+        [TestCase(201402, "008844", 0)]
+        [TestCase(201402, "011762", 0)]
+        [TestCase(201402, "003419", 0)]
+        [TestCase(201402, "011952", 0)]
+        [TestCase(201402, "008012", 201402)]
+        public void RunBillingForBillStatus03Feb(int billMonth, string agentId, int originMonth)
+        {
+            RunBillingForBillStatus(billMonth, agentId, originMonth);
+        }
+       
+
+
+        private void RunBillingForBillStatus(int billMonth, string agentId, int originMonth)
+        {
+            if (originMonth == 0)
+                originMonth = billMonth;
+
             var session = SessionManager.GetCurrentSession();
 
             var billStatus = session.QueryOver<BillStatus>().Where(x => x.BillMonth == Convert.ToUInt32(billMonth)
+                                                                        && x.OriginMonth == Convert.ToUInt32(originMonth)
                                                                         && x.ExternalId == agentId)
                                                                         .SingleOrDefault<BillStatus>();
             if (billStatus == null)
@@ -132,6 +161,14 @@ namespace ColloSys.QueryBuilder.Test.Billing
             var billingService = new BillingServices();
             billingService.BillingForBillStatus(billStatus);
         }
+
+
+
+
+
+
+
+
     }
 
 }

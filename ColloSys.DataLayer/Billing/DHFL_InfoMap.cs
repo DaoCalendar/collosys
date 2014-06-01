@@ -12,8 +12,8 @@ namespace ColloSys.DataLayer.Billing
             Property(x=>x.TotalDisbAmt);
             Property(x=>x.TotalPayout);
             Property(x=>x.TotalProcFee);
-            Property(x=>x.DeductCap);
-            Property(x=>x.DeductPf);
+            Property(x => x.DeductPf);
+            Property(x => x.TotalDeductCap);
         }
     }
 }

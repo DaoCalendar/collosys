@@ -99,7 +99,7 @@ namespace BillingService2.Calculation
                 case ColloSysEnums.PolicyType.PF:
                     queryExecuter.ForEachFuction = ForEachFuctionPf;
                     dhflLinersBillDeatail = dhflLiners
-                                               .Where(x => x.BillStatus == ColloSysEnums.BillStatus.CappingApply
+                                               .Where(x => (x.BillStatus == ColloSysEnums.BillStatus.CappingApply)
                                                    && x.TotalDisbAmt == x.DisbursementAmt)
                                                .ToList();
                     break;
@@ -115,6 +115,11 @@ namespace BillingService2.Calculation
                     (x.BillStatus == ColloSysEnums.BillStatus.PayoutApply)
                         ? billDetail
                         : null);
+                billDetail.Amount = dhflLinersBillDeatail.Sum(x => x.Payout);
+            }
+            else if (billingPolicy.PolicyType == ColloSysEnums.PolicyType.Capping)
+            {
+                billDetail.Amount = dhflLinersBillDeatail.Sum(x => x.DeductCap);
             }
 
             Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
@@ -122,8 +127,11 @@ namespace BillingService2.Calculation
                                           _billStatus.Products, billingSubpolicy.Name, _billStatus.BillMonth,
                                           billDetail.Amount));
 
-            billDetail.Amount = dhflLiners.Sum(x => x.Payout);
 
+
+
+            billDetail.PolicyType = billingPolicy.PolicyType;
+            billDetail.OriginMonth = _billStatus.OriginMonth;
             return billDetail;
         }
 
@@ -142,7 +150,7 @@ namespace BillingService2.Calculation
             var actualPayout = dhtfLiner.Payout;
 
             dhtfLiner.Payout = outputValue;
-            dhtfLiner.DeductCap = dhtfLiner.DeductCap + (actualPayout - dhtfLiner.Payout);
+            dhtfLiner.DeductCap = dhtfLiner.Payout - actualPayout;
 
             _billingInfoManager.ManageInfoAfterCapping(dhtfLiner, actualPayout);
 

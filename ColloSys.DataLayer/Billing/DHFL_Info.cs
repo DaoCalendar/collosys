@@ -10,7 +10,7 @@ namespace ColloSys.DataLayer.Billing
         public virtual decimal TotalDisbAmt { get; set; }
         public virtual decimal TotalProcFee { get; set; }
         public virtual decimal TotalPayout { get; set; }
-        public virtual decimal DeductCap { get; set; }
+        public virtual decimal TotalDeductCap { get; set; }
         public virtual decimal DeductPf { get; set; }
     }
 }

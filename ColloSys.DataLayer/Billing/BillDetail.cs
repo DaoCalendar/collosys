@@ -19,6 +19,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual BillAdhoc BillAdhoc { get; set; }
 
         public virtual uint BillMonth { get; set; }
+        public virtual uint OriginMonth { get; set; }
 
         public virtual uint BillCycle { get; set; }
 
@@ -29,5 +30,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.PaymentSource PaymentSource { get; set; }
 
         public virtual string TraceLog { get; set; }
+
+        public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
     }
 }
