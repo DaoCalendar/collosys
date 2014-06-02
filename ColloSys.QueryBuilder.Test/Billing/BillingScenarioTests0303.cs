@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.Billing
 {
     [TestFixture]
-    public class BillingScenarioTest0303 : BillingScenarioTestBase
+    public class BillingScenarioTests0303 : BillingScenarioTestBase
     {
         [Test]
         public void _01_E_Category_Cases()

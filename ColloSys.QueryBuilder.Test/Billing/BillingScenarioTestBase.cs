@@ -1,6 +1,7 @@
 using System;
 using BillingService2;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using NUnit.Framework;
 
@@ -18,7 +19,8 @@ namespace ColloSys.QueryBuilder.Test.Billing
             var billStatus = session.QueryOver<BillStatus>()
                 .Where(x => x.BillMonth == Convert.ToUInt32(billMonth)
                             && x.OriginMonth == Convert.ToUInt32(originMonth)
-                            && x.ExternalId == agentId)
+                            && x.ExternalId == agentId
+                            && x.Status == ColloSysEnums.BillingStatus.Pending)
                 .SingleOrDefault<BillStatus>();
             if (billStatus == null) Assert.Fail();
 
