@@ -27,9 +27,6 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x => x.PolicyType);
 
-            Property(x => x.ApplyTo);
-
-            Property(x => x.ApplyOn);
 
             #endregion
 

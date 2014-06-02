@@ -9,16 +9,16 @@
                     
                       field="BillingPolicy.PolicyType" ></cs-field>
             
-            <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.ApplyTo"
-                      field="BillingPolicy.ApplyTo" data-ng-change="getApplyToData(dldata.payoutPolicy.ApplyTo)"></cs-field>
+            <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyFor"
+                      field="BillingPolicy.ApplyTo" data-ng-change="getApplyToData(dldata.payoutPolicy.PolicyFor)"></cs-field>
             
-            <div data-ng-if="dldata.payoutPolicy.ApplyTo != 'Product' && dldata.payoutPolicy.Products">
-                <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.ApplyOn" data-ng-change="getSubpolicy()"
+            <div data-ng-if="dldata.payoutPolicy.PolicyFor != 'Product' && dldata.payoutPolicy.Products">
+                <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.PolicyForId" data-ng-change="getSubpolicy()"
                           field="BillingPolicy.ApplyOn" value-list="applyOnArray"></cs-field>
             </div>
 
-            <div  data-ng-if="dldata.payoutPolicy.ApplyTo == 'Product'"  data-ng-init="dldata.payoutPolicy.ApplyOn = dldata.payoutPolicy.Products">
-                <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.ApplyOn"
+            <div data-ng-if="dldata.payoutPolicy.PolicyFor == 'Product'" data-ng-init="dldata.payoutPolicy.PolicyForId = dldata.payoutPolicy.Products">
+                <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.PolicyForId"
                           field="BillingPolicy.ApplyOnText" data-ng-disabled="true" data-ng-change="getSubpolicy()"></cs-field>
             </div>
         </div>

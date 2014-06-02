@@ -167,6 +167,11 @@ csapp.factory('payoutPolicyFactory', [
 csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory', function (rest, $csnotify, $csfactory) {
     var restApi = rest.all("PayoutPolicyApi");
     var dldata = {};
+    dldata.expiredPlist = [];
+    dldata.subpolicylist = [];
+    dldata.ExpiredAndSubpolicy = [];
+    dldata.ExpiredAndSubpolicy = [];
+   
 
     dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
 
@@ -185,13 +190,48 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
             restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
                 dldata.payoutPolicy = data.PayoutPolicy;
                 dldata.payoutPolicy.PolicyType = policyType;
-                dldata.payoutPolicy.ApplyTo = payoutPolicy.ApplyTo;
-                dldata.payoutPolicy.ApplyOn = payoutPolicy.ApplyOn;
+                dldata.payoutPolicy.PolicyFor = payoutPolicy.PolicyFor;
+                dldata.payoutPolicy.PolicyForId = payoutPolicy.PolicyForId;
                 dldata.subPolicyList = data.UnUsedSubpolicies;
+                dldata.expiredPlist = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
+                    return filterRelation(item, false, '');
+                });
+                dldata.expiredsubpolicy = _.forEach(dldata.expiredPlist, function (row) {
+                    dldata.Payoutsubpolicy = {
+                        Name: row.BillingSubpolicy.Name,
+                        type: row.Status,
+                        Priority: row.Priority,
+                        BillingRelations: row,
+                        subpolicy: row.BillingSubpolicy
+                    };
+                });
+                dldata.PayoutSubpolicyList = _.forEach(data.UnUsedSubpolicies, function (row) {
+                    dldata.Payoutsubpolicy = {
+                        Name: row.Name,
+                        type: "",
+                        BillingRelations: {},
+                        subpolicy: row
+                    };
+                });
+                dldata.ExpiredAndSubpolicy = _.union(dldata.expiredsubpolicy, dldata.PayoutSubpolicyList);
+               
             }, function (data) {
                 $csnotify.error(data);
             });
         }
+    };
+
+    var filterRelation = function (relation, todayActive, status) {
+        var today = moment();
+        var endDate = relation.EndDate ? moment(relation.EndDate) : moment();
+        var diff = endDate.diff(today, 'days');
+        var dateFilter = ((diff >= 0) === todayActive);
+        var statusfilter = true;
+        if (status != '') {
+            statusfilter = relation.Status == status;
+        }
+        return (dateFilter && statusfilter);
+
     };
 
     var getStakeHier = function () {
