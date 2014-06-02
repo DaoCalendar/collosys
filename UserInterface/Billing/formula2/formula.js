@@ -136,7 +136,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
             $scope.formula = {};
             $scope.selected = [];
             $scope.formula.Products = product;
-            form.$setPristine();
+            if (angular.isDefined(form)) {
+                form.$setPristine();
+            }
         };
 
         $scope.saveFormula = function (formula, groupTokens) {

@@ -35,6 +35,17 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
+        public IList<BillingPolicy> OnProductCategoryWIthTokens(ScbEnums.Products products, ScbEnums.Category category)
+        {
+            return SessionManager.GetCurrentSession().Query<BillingPolicy>()
+                .Where(x => x.Products == products && x.Category == category)
+                .FetchMany(x => x.BillingRelations)
+                .ThenFetch(r => r.BillingSubpolicy)
+                .ThenFetch(s => s.BillTokens)
+                .ToList();
+        }
+
+        [Transaction]
         public IEnumerable<BillingPolicy> LinePolicies(ScbEnums.Products products)
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingPolicy>()
