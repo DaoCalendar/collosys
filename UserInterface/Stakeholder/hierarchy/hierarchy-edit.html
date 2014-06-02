@@ -63,15 +63,14 @@
                     </span>
 
 
-                    <div data-ng-show="!hierarchy.Individual">
+                    <div data-ng-show="!hierarchy.IsIndividual">
                         <cs-field data-ng-model="hierarchy.HasRegistration" field="hierarchyfield.HasRegistration"></cs-field>
                         <span class="col-md-5">
                             <span>Is {{hierarchy.Designation}} needs Registration</span>
                         </span>
                     </div>
 
-
-                    <div data-ng-show="hierarchy.Individual">
+                    <div data-ng-show="hierarchy.IsIndividual">
                         <cs-field data-ng-model="hierarchy.IsEmployee" 
                                   field="hierarchyfield.IsEmployee"></cs-field>
                         <span class="col-md-5">
