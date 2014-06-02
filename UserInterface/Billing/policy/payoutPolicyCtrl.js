@@ -171,7 +171,11 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
     dldata.subpolicylist = [];
     dldata.ExpiredAndSubpolicy = [];
     dldata.ExpiredAndSubpolicy = [];
-   
+    dldata.unapprovedlist = [];
+    dldata.UnApprovedpayoutList = [];
+    dldata.approvelist = [];
+    dldata.ApprovedpayoutList = [];
+    dldata.ApproveUnapproved = [];
 
     dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
 
@@ -214,7 +218,33 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                     };
                 });
                 dldata.ExpiredAndSubpolicy = _.union(dldata.expiredsubpolicy, dldata.PayoutSubpolicyList);
-               
+
+                dldata.unapprovedlist = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
+                    return filterRelation(item, true, 'Submitted');
+                });
+                dldata.UnApprovedpayoutList = _.forEach(dldata.unapprovedlist, function (row) {
+                    dldata.Payoutsubpolicy = {
+                        Name: row.BillingSubpolicy.Name,
+                        type: row.Status,
+                        Priority: row.Priority,
+                        BillingRelations: row,
+                        subpolicy: row.BillingSubpolicy
+                    };
+                });
+                dldata.approvelist = _.filter(dldata.payoutPolicy.BillingRelations, function(item) {
+                    return filterRelation(item, true, 'Approved');
+                });
+                dldata.ApprovedpayoutList = _.forEach(dldata.approvelist, function(row) {
+                    dldata.Payoutsubpolicy = {
+                        Name: row.BillingSubpolicy.Name,
+                        type: row.Status,
+                        Priority: row.Priority,
+                        BillingRelations: row,
+                        subpolicy: row.BillingSubpolicy
+                    };
+                });
+                dldata.ApproveUnapproved = _.union(dldata.UnApprovedpayoutList,dldata.ApproveUnapproved);
+
             }, function (data) {
                 $csnotify.error(data);
             });
