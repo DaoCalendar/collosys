@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="text-right" data-ng-show="hasUnscheduledFiles">
-        <cs-button type="save" text="Schedule" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()"></cs-button>
+        <cs-button type="save" permission ="FileUploader,ScheduleFile,Schedule" text="Schedule" data-ng-disabled="!(immediateReasonForm.$valid && uploadCount == 0 && (upload.length > 0))" data-ng-click="scheduleFiles()"></cs-button>
     </div>
 </form>
 
