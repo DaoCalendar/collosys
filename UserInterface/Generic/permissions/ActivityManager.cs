@@ -44,7 +44,11 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             {
                 var perm = permission.Childrens.FirstOrDefault(x => x.Activity == list.ElementAt(i));
                 if (perm == null || perm.HasAccess == false) return false;
-                if (perm.Childrens == null || perm.Childrens.Count == 0) return false;
+                if (perm.Childrens == null || perm.Childrens.Count == 0)
+                {
+                    if (i == list.Count-1) return perm.HasAccess;
+                    return false;
+                }
                 permission = perm;
             }
             return permission.HasAccess;

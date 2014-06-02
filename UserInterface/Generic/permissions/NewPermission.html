@@ -26,27 +26,25 @@
     </div>
 
     <div data-ng-show="perm.designation">
-        <div data-ng-repeat="(key,module) in currPermData.Childrens track by key">
-            <div class="panel">
-                <div class="panel-heading"><b>{{module.Activity}}</b></div>
-                <div class="panel-body">
-                    <div data-ng-repeat="(key,children) in module.Childrens">
+        <tabset>
+            <tab heading=" {{module.Activity}}" data-ng-repeat="(key,module) in currPermData.Childrens track by key">
+                <div data-ng-repeat="(key,children) in module.Childrens">
+                    <div class="clearfix"></div><hr/>
+                    <div class="col-md-5">
+                        <input type="checkbox" data-ng-model="children.HasAccess" data-ng-click="uncheckChildren(children)">
+                        <b>{{children.Activity}}</b>
+                        <div><sub>{{children.Description}}</sub></div>
+                    </div>
+                    <div data-ng-show="children.HasAccess" data-ng-repeat="(key,grandChildren) in children.Childrens">
                         <div class="col-md-5">
-                            <input type="checkbox" data-ng-model="children.HasAccess" data-ng-click="uncheckChildren(children)">
-                            <b>{{children.Activity}}</b>
-                            <div><sub>{{children.Description}}</sub></div>
-                        </div>
-                        <div data-ng-show="children.HasAccess" data-ng-repeat="(key,grandChildren) in children.Childrens">
-                            <div class="col-md-5">
-                                <input type="checkbox" data-ng-model="grandChildren.HasAccess" data-ng-click="uncheckChildren(grandChildren)">
-                                <b>{{grandChildren.Activity}}</b>
-                                <div><sub>{{grandChildren.Description}}</sub></div>
-                            </div>
+                            <input type="checkbox" data-ng-model="grandChildren.HasAccess" data-ng-click="uncheckChildren(grandChildren)">
+                            <b>{{grandChildren.Activity}}</b>
+                            <div><sub>{{grandChildren.Description}}</sub></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </tab>
+        </tabset>
 
         <div class="text-right">
             <cs-button type="save" permission="All" data-ng-click="save(currPermData,perm.designation)"></cs-button>

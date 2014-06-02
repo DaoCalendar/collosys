@@ -125,9 +125,9 @@
 
     <!--TODO : remove true from data-ng-show-->
     <div class="row col-md-12" style="text-align: center">
-        <button class="btn btn-link" data-ng-show="canModify || true" data-ng-click="editStakeholder(data)">Edit</button>
-        <button class="btn btn-link" data-ng-show="canApprove || true" data-ng-click="approve(data)" data-ng-disabled="data.Status === 'Approved'">Approve</button>
-        <button class="btn btn-link" data-ng-show="canApprove || true" data-ng-disabled="data.Status === 'Rejected'||data.Status === 'Approved'" data-ng-click="seeMoreDetail($index,'Description')">Reject</button>
+        <button class="btn btn-link" data-ng-show="canModify" data-ng-click="editStakeholder(data)">Edit</button>
+        <button class="btn btn-link" data-ng-show="canApprove" data-ng-click="approve(data)" data-ng-disabled="data.Status === 'Approved'">Approve</button>
+        <button class="btn btn-link" data-ng-show="canApprove" data-ng-disabled="data.Status === 'Rejected'||data.Status === 'Approved'" data-ng-click="seeMoreDetail($index,'Description')">Reject</button>
         <button class="btn btn-link" data-ng-click="seeMoreDetail( $index, 'MoreDetails' )">View More Details</button>
         <button class="btn btn-link" data-ng-click="seeMoreDetail( $index, 'AddressDetails')" data-ng-disabled="!data.Hierarchy.HasAddress">View Address</button>
         <button class="btn btn-link" data-ng-click="seeMoreDetail($index,'PaymentDetails')" data-ng-disabled="data.StkhPayments.length==0">View Payment</button>

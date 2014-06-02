@@ -53,14 +53,17 @@
             <div data-ng-show="WizardData.FinalPostModel.SelHierarchy.Designation||WizardData.IsEditMode()">
                 <div class="text-right">
                     <cs-button type="save"
-                               data-ng-show="!indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment"
-                               data-ng-disabled="basicInfoForm.$invalid "
-                               data-ng-click="SaveData()"></cs-button>
+                        permission="Stakeholder,Stakeholder,AddEdit"
+                        data-ng-show="!indexData.Hierarchy.HasWorking && !indexData.Hierarchy.HasPayment"
+                        data-ng-disabled="basicInfoForm.$invalid "
+                        data-ng-click="SaveData()"></cs-button>
                     <cs-button type="add" text="Next" class="btn btn-success" data-ng-show="indexData.Hierarchy.HasWorking || indexData.Hierarchy.HasPayment"
-                               data-ng-disabled="basicInfoForm.$invalid"
-                               data-ng-click="showWorkingScreen()">
+                        permission="Stakeholder,Stakeholder,AddEdit"
+                        data-ng-disabled="basicInfoForm.$invalid"
+                        data-ng-click="showWorkingScreen()">
                         <i class="glyphicon glyphicon-arrow-right"></i></cs-button>
-                    <cs-button type="close" data-ng-click="StepManager.Cancel()"></cs-button>
+
+                    <cs-button permission="Stakeholder,Stakeholder,AddEdit" type="close" data-ng-click="StepManager.Cancel()"></cs-button>
                 </div>
             </div>
         </div>
@@ -89,10 +92,10 @@
                             <br />
                             <div class="row text-center">
                                 <cs-button type="add" text="Add To List"
-                                           data-ng-show="indexData.Hierarchy.HasPayment"
-                                           class="btn btn-success"
-                                           data-ng-disabled="enableAddToList(paymentForm.$invalid)"
-                                           data-ng-click="addAnotherWorking()"></cs-button>
+                                    data-ng-show="indexData.Hierarchy.HasPayment"
+                                    class="btn btn-success"
+                                    data-ng-disabled="enableAddToList(paymentForm.$invalid)"
+                                    data-ng-click="addAnotherWorking()"></cs-button>
                             </div>
                         </div>
                     </div>
@@ -110,9 +113,9 @@
                 </div>
             </div>
             <div class="pull-right">
-                <cs-button type="save" data-ng-disabled="enableSave(indexData)" data-ng-click="SaveData()"></cs-button>
-                <cs-button type="submit" text="Prev" data-ng-click="showBasicInfoScreen()"><i class="glyphicon glyphicon-arrow-left"></i></cs-button>
-                <cs-button type="close" data-ng-click="StepManager.Cancel()"></cs-button>
+                <cs-button type="save" permission="Stakeholder,Stakeholder,AddEdit" data-ng-disabled="enableSave(indexData)" data-ng-click="SaveData()"></cs-button>
+                <cs-button type="submit" permission="Stakeholder,Stakeholder,AddEdit" text="Prev" data-ng-click="showBasicInfoScreen()"><i class="glyphicon glyphicon-arrow-left"></i></cs-button>
+                <cs-button type="close" permission="Stakeholder,Stakeholder,AddEdit" data-ng-click="StepManager.Cancel()"></cs-button>
             </div>
         </div>
     </form>

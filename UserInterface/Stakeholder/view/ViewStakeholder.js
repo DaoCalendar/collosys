@@ -1,6 +1,6 @@
 ﻿
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams) {
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams', '$csShared',
+    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams, $csShared) {
 
 
         var restApi = rest.all('ViewStakeApi');
@@ -114,7 +114,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         //index in list
         var getAllData = function () {
-            restApi.customGET("AllData", { currUser: $csfactory.getCurrentUserName() }).then(function(data) {
+            restApi.customGET("AllData", { currUser: $csfactory.getCurrentUserName() }).then(function (data) {
                 $scope.completeData = data.completeData;
                 $scope.hierarchyDesignation = data.hierarchyDesignation;
                 $scope.HierarchyData = _.uniq(_.pluck(data.hierarchyDesignation, 'Hierarchy'));
@@ -127,21 +127,35 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
 
         // harish - fix access level
         var showButton = function () {
-            if ($csfactory.isEmptyObject($scope.CurrUserInfo)) {
+            if ($csfactory.isEmptyObject($csShared.Permissions)) {
                 return;
             }
-            if ($scope.CurrUserInfo.Permission === "Approve") {
-                $scope.canModify = true;
-                $scope.canApprove = true;
-            }
-            if ($scope.CurrUserInfo.Permission === "View") {
-                $scope.canModify = false;
-                $scope.canApprove = false;
-            }
-            if ($scope.CurrUserInfo.Permission === "Modify") {
-                $scope.canModify = true;
-                $scope.canApprove = false;
-            }
+
+            var stakePerm = _.find($csShared.Permissions.Childrens, function (item) {
+                if (item.Activity === "Stakeholder") return item;
+            });
+
+            var stakeActivity = _.find(stakePerm.Childrens, function (item) {
+                if (item.Activity === "Stakeholder") return item;
+            });
+
+            _.forEach(stakeActivity.Childrens, function (child) {
+                if (child.Activity === "AddEdit") $scope.canModify = child.HasAccess;
+                if (child.Activity === "Approve") $scope.canApprove = child.HasAccess;
+            });
+
+            //if ($scope.CurrUserInfo.Permission === "Approve") {
+            //    $scope.canModify = true;
+            //    $scope.canApprove = true;
+            //}
+            //if ($scope.CurrUserInfo.Permission === "View") {
+            //    $scope.canModify = false;
+            //    $scope.canApprove = false;
+            //}
+            //if ($scope.CurrUserInfo.Permission === "Modify") {
+            //    $scope.canModify = true;
+            //    $scope.canApprove = false;
+            //}
 
         };
 
@@ -175,7 +189,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 });
             } else {
 
-               
+
                 var hierarchydesig = _.filter($scope.hierarchyDesignation, function (data) {
                     if (data.Hierarchy === $scope.stakeholder.Hierarchy) return data;
                 });
@@ -192,7 +206,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             return '';
         };
 
-       
+
         $scope.setHierarchy = function (data) {
             $scope.hierarchyId = data;
         };
@@ -320,7 +334,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
         };
 
         $scope.getStakeById = function (id) {
-            if (id.length < 7 || id.length>7) {
+            if (id.length < 7 || id.length > 7) {
                 $scope.stakeholderData = [];
                 $scope.showDiv = false;
                 return;
@@ -877,11 +891,11 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             $scope.pagenum = 1;
             $scope.viewModels = {
                 View: { label: "View", type: "enum" },
-                Hierarchy: { label: "Hierarchy", type: "enum"},
+                Hierarchy: { label: "Hierarchy", type: "enum" },
                 Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
                 Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
                 Products: { label: "Products", type: "enum" },
-                SearchByName: { label:'ID',placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
+                SearchByName: { label: 'ID', placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
             };
             $scope.currUser = $csfactory.getCurrentUserName();
 

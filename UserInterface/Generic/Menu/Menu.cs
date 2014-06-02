@@ -69,8 +69,8 @@ namespace AngularUI.Generic.Menu
 
 
             var stakeholder = home.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
-            stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
-            stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
+            stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
+            stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
 
             var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
             allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");

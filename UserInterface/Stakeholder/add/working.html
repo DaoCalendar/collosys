@@ -466,7 +466,10 @@
                     </div>
                     <!--Add Button-->
                     <div class="pull-right row" style="margin-bottom: 5px" data-ng-show="StakeWork.ReportsTo">
-                        <cs-button data-ng-disabled="validationForm.$invalid || WorkingData.LocationLevel==''||enableAddButton()" type="add" data-ng-click="addTable(StakeWork)"></cs-button>
+                        <cs-button 
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-ng-disabled="validationForm.$invalid || WorkingData.LocationLevel==''||enableAddButton()" 
+                            type="add" data-ng-click="addTable(StakeWork)"></cs-button>
                     </div>
                 </form>
                 <!--Show Added product in Table-->
