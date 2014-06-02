@@ -179,7 +179,9 @@ namespace BillingService2
                 billAmount.ProcFeeDeduction = (percent < (decimal)1.0) ? Math.Round((percent - 1) * subTotal, 3) : 0;
             }
 
-            billAmount.TotalAmount = Math.Round(subTotal + billAmount.ProcFeeDeduction, 2);
+            var reversalAmount =
+                billDetails.Where(x => x.PaymentSource == ColloSysEnums.PaymentSource.Reversal).Sum(x => x.Amount);
+            billAmount.TotalAmount = Math.Round(subTotal + reversalAmount + billAmount.ProcFeeDeduction, 2);
             billAmount.PayStatus = ColloSysEnums.BillPaymentStatus.BillingDone;
             billAmount.PayStatusDate = DateTime.Now;
             billAmount.PayStatusHistory = string.Format("{{ PayStatus: {0}, Date: {1} }}", billAmount.PayStatus, billAmount.PayStatusDate);
