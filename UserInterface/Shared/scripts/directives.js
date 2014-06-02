@@ -163,7 +163,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
-csapp.factory('buttonFactory', ['Logger', function (logManager) {
+csapp.factory('buttonFactory', ['Logger', 'PermissionFactory', function (logManager, permFactory) {
 
     var $log = logManager.getInstance('buttonFactory');
     var getTemplateParams = function (type, text) {
@@ -220,7 +220,9 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
 
     var generateTemplate = function (templateParams, attrs) {
 
-        var html = '<input';
+
+        var html = '<span data-ng-show="' + permFactory.HasPermission(attrs.permission) + '">';
+        html += '<input';
         html += ' class=" btn ' + templateParams.className + '"';
         html += ' type="' + templateParams.type + '"';
         html += ' value="' + templateParams.text + '"';
@@ -229,6 +231,7 @@ csapp.factory('buttonFactory', ['Logger', function (logManager) {
         html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
         html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : '');
         html += '/>';
+        html += '</span>';
 
         return html;
     };
@@ -523,68 +526,68 @@ csapp.directive('cspagination', function () {
     };
 });
 
-csapp.directive('iconBtn', function () {
+csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
 
     var templateFn = function (element, attrs) {
         switch (attrs.type) {
             case 'add':
                 return '<button type="button"' +
-                    'data-toggle="tooltip" data-placement="top" title="Add">' +
+                    'data-toggle="tooltip" data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Add">' +
                     '<span class="glyphicon glyphicon-plus"></span>' +
                     '</button>';
             case 'edit':
                 return '<button type="button"' +
-                    'data-toggle="tooltip" data-placement="top" title="Edit">' +
+                    'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '"  data-placement="top" title="Edit">' +
                     '<span class="glyphicon glyphicon-edit"></span>' +
                     '</button>';
             case 'view':
                 return '<button type="button"' +
-                    'data-toggle="tooltip" data-placement="top" title="View">' +
+                    ' data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-toggle="tooltip" data-placement="top" title="View">' +
                     '<span class="glyphicon glyphicon-zoom-in"></span>' +
                     '</button>';
             case 'delete':
                 return '<button type="button"' +
-                    'data-toggle="tooltip" data-placement="top" title="Delete">' +
+                    'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Delete">' +
                     '<span class="glyphicon glyphicon-trash"></span>' +
                     '</button>';
             case 'up-arrow':
                 return '<button type="button"' +
-                    'data-toggle="tooltip" data-placement="top" title="Arrow-up">' +
+                    'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Arrow-up">' +
                     '<span class="glyphicon glyphicon-arrow-up"></span>' +
                     '</button>';
             case 'down-arrow':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Arrow-down">' +
+                     'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Arrow-down">' +
                      '<span class="glyphicon glyphicon-arrow-down"></span>' +
                      '</button>';
             case 'remove':
                 return '<button type="button"' +
-                      'data-toggle="tooltip" data-placement="top" title="Remove">' +
+                      'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Remove">' +
                       '<span class="glyphicon glyphicon-remove"></span>' +
                       '</button>';
             case 'save':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Save">' +
+                     'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '" data-placement="top" title="Save">' +
                      '<span class="glyphicon glyphicon-floppy-save"></span>' +
                      '</button>';
             case 'download':
                 return '<button type="button"' +
-                      '<data-toggle="tooltip" data-placement="top" title="Download">' +
+                      '<data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '"  data-placement="top" title="Download">' +
                       '<span class="glyphicon glyphicon-download-alt"></span>' +
                       '</button>';
             case 'status':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Status">' +
+                     'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '"  data-placement="top" title="Status">' +
                      '<span class="glyphicon glyphicon-zoom-in"></span>' +
                      '</button>';
             case 'retry':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Retry">' +
+                     'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '"  data-placement="top" title="Retry">' +
                      '<span class="glyphicon glyphicon-repeat"></span>' +
                      '</button>';
             case 'forward':
                 return '<button type="button"' +
-                     'data-toggle="tooltip" data-placement="top" title="Immediate">' +
+                     'data-toggle="tooltip"  data-ng-show = "' + permFactory.HasPermission(attrs.permission) + '"  data-placement="top" title="Immediate">' +
                      '<span class="glyphicon glyphicon-forward"></span>' +
                      '</button>';
             case 'calendar':
@@ -599,7 +602,7 @@ csapp.directive('iconBtn', function () {
         restrict: 'E',
         template: templateFn
     };
-});
+}]);
 
 csapp.directive('csList2', function () {
 

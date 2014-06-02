@@ -521,7 +521,7 @@ csapp.factory('$permissionFactory', [function () {
         };
     };
     //#endregion
-    
+
     //#region stakeholder activities
     var addStakeholderActivity = function () {
         return {
@@ -609,7 +609,7 @@ csapp.factory('$permissionFactory', [function () {
         };
     };
     //#endregion
-    
+
     //#region allocation activities
     var definePolicyActivity = function () {
         return {
@@ -912,7 +912,7 @@ csapp.factory('$permissionFactory', [function () {
         };
     };
     //#endregion
-    
+
     //#region config
     var permissionActivity = function () {
         return {
@@ -1083,7 +1083,7 @@ csapp.factory('$permissionFactory', [function () {
         };
     };
     //#endregion
-    
+
     var permission = {
 
         FileUpload: {
@@ -1237,6 +1237,37 @@ csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logge
         };
     }
 ]);
+
+csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShared, $csfactory) {
+
+
+    var checkAccess = function (perm, root) {
+
+        var permission = root;
+        for (var i = 0; i < perm.length; i++) {
+            var permData = _.find(permission.Childrens, function (item) {
+                if (item.Activity.toUpperCase() === perm[i].toUpperCase()) return item;
+            });
+            if ($csfactory.isEmptyObject(permData)) return false;
+            if (permData.HasAccess === false) return false;
+            permission = permData;
+        }
+
+        return permission.HasAccess;
+    };
+
+    var hasPermission = function (perm) {
+        if ($csfactory.isNullOrEmptyString(perm)) throw "permission is undefined";
+        if (perm === "All") return true;
+        perm = perm.split(',');
+        var currentPerm = $csShared.Permissions;
+        return checkAccess(perm, currentPerm);
+    };
+
+    return {
+        HasPermission: hasPermission
+    };
+}]);
 
 
 
