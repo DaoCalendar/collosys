@@ -33,8 +33,7 @@ namespace BillingService2.Calculation
 
         #endregion
 
-        #region info logic
-
+        #region payout
         public void ManageInfoBeforePayout(DHFL_Liner liner)
         {
             if (!InfoList.ContainsKey(liner.ApplNo))
@@ -44,18 +43,10 @@ namespace BillingService2.Calculation
             else
             {
                 var info = InfoList[liner.ApplNo];
-                if (liner.DisbMonth == liner.BillMonth)
-                {
-                    liner.TotalPayout = info.TotalPayout;
-                    liner.TotalDisbAmt = info.TotalDisbAmt;
-                    liner.TotalProcFee = info.TotalProcFee;
-                }
-                //else
-                //{
-                //    info.TotalPayout = liner.TotalPayout;
-                //    info.TotalDisbAmt = liner.TotalDisbAmt;
-                //    info.TotalProcFee = liner.TotalProcFee;
-                //}
+                if (liner.DisbMonth != liner.BillMonth) return;
+                liner.TotalPayout = info.TotalPayout;
+                liner.TotalDisbAmt = info.TotalDisbAmt;
+                liner.TotalProcFee = info.TotalProcFee;
             }
         }
 
@@ -77,18 +68,14 @@ namespace BillingService2.Calculation
             info.TotalPayout = liner.Payout + liner.TotalPayout;
             info.TotalDisbAmt = liner.DisbursementAmt + liner.TotalDisbAmt;
         }
+        #endregion
 
+        #region capping
         public void ManageInfoBeforeCapping(DHFL_Liner liner)
         {
             var info = InfoList[liner.ApplNo];
-            if (liner.DisbMonth == liner.BillMonth)
-            {
-                liner.TotalDeductCap = info.TotalDeductCap;
-            }
-            //else
-            //{
-            //    info.TotalDeductCap = liner.TotalDeductCap;
-            //}
+            if (liner.DisbMonth != liner.BillMonth) return;
+            liner.TotalDeductCap = info.TotalDeductCap;
         }
 
         public void ManageInfoAfterCapping(DHFL_Liner liner)
@@ -98,13 +85,21 @@ namespace BillingService2.Calculation
             info.TotalDeductCap = liner.TotalDeductCap + liner.DeductCap;
             info.TotalPayout = info.TotalPayout + liner.DeductCap;
         }
+        #endregion
 
+        #region proc fee
         public void ManageInfoAfterProcFee(DHFL_Liner liner)
         {
             var info = InfoList[liner.ApplNo];
-            info.TotalDeductCap = liner.TotalProcFee + liner.ProcFee;
+            if (liner.DisbMonth != liner.BillMonth) return;
+            liner.TotalProcFee = liner.FeeReceived;
         }
 
+        public void ManageInfoBeforeProcFee(DHFL_Liner liner)
+        {
+            var info = InfoList[liner.ApplNo];
+            info.TotalProcFee = liner.FeeReceived;
+        }
         #endregion
     }
 }

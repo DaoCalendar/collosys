@@ -24,7 +24,7 @@ namespace ColloSys.DataLayer.ClientData
         public virtual decimal TotalPayout { get; set; }
         public virtual decimal DeductCap { get; set; }
         public virtual decimal TotalDeductCap { get; set; }
-        public virtual decimal DeductPf { get; set; }
+        public virtual decimal ProratedProcFee { get; set; }
         public virtual decimal FinalPayout { get; set; }
         
         #endregion
@@ -91,6 +91,6 @@ namespace ColloSys.DataLayer.ClientData
         public virtual bool IsExcluded { get; set; }
         public virtual string ExcludeReason { get; set; }
         public virtual uint DisbMonth { get; set; }
-        public virtual decimal ProcFee { get; set; }
+        public virtual decimal ExpectedProcFee { get; set; }
     }
 }

@@ -1,23 +1,23 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BillingService2.DBLayer;
 using BillingService2.QueryExecution;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.QueryBuilder.Test.QueryExecution;
-using NHibernate.Linq;
 using NLog;
+
+#endregion
 
 namespace BillingService2.Calculation
 {
     public class Payouts
     {
+        #region ctor
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly BillStatus _billStatus;
@@ -33,10 +33,11 @@ namespace BillingService2.Calculation
             _billingInfoManager = new BillingInfoManager();
 
         }
+        #endregion
 
         #region Payout
 
-        public IList<BillDetail> ExecutePolicyOnLiner(List<DHFL_Liner> dhflLiners, ColloSysEnums.PolicyType policyType)
+        public IEnumerable<BillDetail> ExecutePolicyOnLiner(List<DHFL_Liner> dhflLiners, ColloSysEnums.PolicyType policyType)
         {
             var billDetails = new List<BillDetail>();
 
@@ -88,7 +89,8 @@ namespace BillingService2.Calculation
                 case ColloSysEnums.PolicyType.Payout:
                     queryExecuter.ForEachFuction = ForEachFuctionPayout;
                     dhflLinersBillDeatail = dhflLiners
-                                                .Where(x => x.BillStatus == ColloSysEnums.BillStatus.Unbilled && x.BillDetail == null && !x.IsExcluded)
+                                                .Where(x => x.BillStatus == ColloSysEnums.BillStatus.Unbilled 
+                                                    && x.BillDetail == null && !x.IsExcluded)
                                                 .ToList();
                     break;
                 case ColloSysEnums.PolicyType.Capping:
@@ -100,8 +102,8 @@ namespace BillingService2.Calculation
                 case ColloSysEnums.PolicyType.PF:
                     queryExecuter.ForEachFuction = ForEachFuctionPf;
                     dhflLinersBillDeatail = dhflLiners
-                                               .Where(x => (x.BillStatus == ColloSysEnums.BillStatus.CappingApply)
-                                                   && x.TotalDisbAmt == x.DisbursementAmt)
+                                               .Where(x => x.BillStatus == ColloSysEnums.BillStatus.CappingApply
+                                               && !x.IsExcluded)
                                                .ToList();
                     break;
                 default:
@@ -122,6 +124,11 @@ namespace BillingService2.Calculation
             {
                 billDetail.Amount = dhflLinersBillDeatail.Sum(x => x.DeductCap);
             }
+            else if (billingPolicy.PolicyType == ColloSysEnums.PolicyType.PF)
+            {
+                billDetail.BaseAmount = dhflLinersBillDeatail.Where(x => x.ProratedProcFee > 0).Sum(x => x.SanAmt);
+                billDetail.Amount = dhflLinersBillDeatail.Sum(x => x.ProratedProcFee);
+            }
 
             Logger.Info(string.Format("variable biling for stakeholder : {0}, product : {1}, subpolicy : {2} " +
                                            "and month : {3} has Amount : {4}", _billStatus.Stakeholder.Name,
@@ -132,137 +139,188 @@ namespace BillingService2.Calculation
             billDetail.OriginMonth = _billStatus.OriginMonth;
             return billDetail;
         }
-
-        private void ForEachFuctionPayout(DHFL_Liner dhtfLiner, decimal outputValue)
-        {
-            _billingInfoManager.ManageInfoBeforePayout(dhtfLiner);
-            dhtfLiner.Payout = outputValue;
-            dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PayoutApply;
-            _billingInfoManager.ManageInfoAfterPayout(dhtfLiner);
-        }
-
-        private void ForEachFuctionCapping(DHFL_Liner dhtfLiner, decimal outputValue)
-        {
-            _billingInfoManager.ManageInfoBeforeCapping(dhtfLiner);
-            var actualPayout = dhtfLiner.Payout;
-            dhtfLiner.Payout = outputValue < 0 ? 0 : outputValue;
-            dhtfLiner.DeductCap = dhtfLiner.Payout - actualPayout;
-            _billingInfoManager.ManageInfoAfterCapping(dhtfLiner);
-
-            dhtfLiner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
-        }
-
-        private void ForEachFuctionPf(DHFL_Liner dhtfLiner, decimal outputValue)
-        {
-            dhtfLiner.DeductPf = outputValue;
-            dhtfLiner.BillStatus = ColloSysEnums.BillStatus.PfApply;
-        }
-
         #endregion
 
+        #region for each
+        private void ForEachFuctionPayout(DHFL_Liner liner, decimal outputValue)
+        {
+            _billingInfoManager.ManageInfoBeforePayout(liner);
 
+            liner.Payout = outputValue;
+            liner.BillStatus = ColloSysEnums.BillStatus.PayoutApply;
 
-        //public IList<BillDetail> GetAdhocPayout()
-        //{
-        //    var billDetails = new List<BillDetail>();
+            _billingInfoManager.ManageInfoAfterPayout(liner);
+        }
 
-        //    var adhocPayments = BillAdhocDbLayer.GetBillAdhocForStkholder(_stakeholder, _billStatus.Products,
-        //                                                                  _billStatus.BillMonth);
-        //    for (var i = 0; i < adhocPayments.Count; i++)
-        //    {
-        //        var adhocPayment = adhocPayments[i];
+        private void ForEachFuctionCapping(DHFL_Liner liner, decimal outputValue)
+        {
+            _billingInfoManager.ManageInfoBeforeCapping(liner);
 
-        //        var billDetail = new BillDetail
-        //        {
-        //            Stakeholder = _stakeholder,
-        //            BillMonth = _billStatus.BillMonth,
-        //            BillCycle = _billStatus.BillCycle,
-        //            Products = _billStatus.Products,
-        //            PaymentSource = ColloSysEnums.PaymentSource.Adhoc,
-        //            BillingPolicy = null,
-        //            BillingSubpolicy = null,
-        //            BillAdhoc = adhocPayment,
-        //            Amount = (adhocPayment.IsCredit) ? (adhocPayment.TotalAmount / adhocPayment.Tenure) : (-1) * adhocPayment.TotalAmount
-        //        };
+            var actualPayout = liner.Payout;
+            liner.Payout = outputValue < 0 ? 0 : outputValue;
+            liner.DeductCap = liner.Payout - actualPayout;
+            liner.BillStatus = ColloSysEnums.BillStatus.CappingApply;
 
-        //        adhocPayment.RemainingAmount -= (adhocPayment.TotalAmount / adhocPayment.Tenure);
-        //        billDetails.Add(billDetail);
-        //    }
+            _billingInfoManager.ManageInfoAfterCapping(liner);
+        }
 
-        //    BillAdhocDbLayer.SaveBillAdhoc(adhocPayments);
+        private void ForEachFuctionPf(DHFL_Liner liner, decimal outputValue)
+        {
+            _billingInfoManager.ManageInfoBeforeProcFee(liner);
 
-        //    return billDetails;
-        //}
+            var isSubventionCase = liner.Subvention.Trim().ToUpperInvariant() == "Y";
+            var isNotFirstDisbursement = liner.TotalDisbAmt != 0;
+            liner.ExpectedProcFee = outputValue;
+            var percent = Decimal.Round((liner.ExpectedProcFee / (liner.SanAmt / 100)), 4);
+            liner.ProratedProcFee = (isSubventionCase || isNotFirstDisbursement)
+                ? 0 : Decimal.Round(liner.FeeReceived / percent, 2);
 
-        //public BillDetail GetFixedPayout(StkhPayment stkhPayment)
-        //{
-        //    var billDetail = new BillDetail
-        //    {
-        //        Stakeholder = _stakeholder,
-        //        BillMonth = _billStatus.BillMonth,
-        //        BillCycle = _billStatus.BillCycle,
-        //        Products = _billStatus.Products,
-        //        Amount = stkhPayment.FixpayTotal + stkhPayment.MobileElig + stkhPayment.TravelElig,
-        //        PaymentSource = ColloSysEnums.PaymentSource.Fixed,
-        //        BillingPolicy = null,
-        //        BillingSubpolicy = null
-        //    };
-
-        //    Logger.Info(string.Format("fixed biling for stakeholder : {0}, " +
-        //                        "and product : {1}, and month {2} has amount : {3}",
-        //                        _stakeholder.Name, _billStatus.Products,
-        //                        _billStatus.BillMonth, billDetail.Amount));
-
-        //    return billDetail;
-        //}
-
-
-
-
-
-
-        //#region Calculate Bill Amount
-
-        //public static void GetBillingSubpolicyAmount<T>(BillDetail billDetail, List<BillTokens> billTokenses, List<T> custBillViewModels)
-        //{
-        //    var conditions = billTokenses.Where(x => x.GroupId == "0.Condition")
-        //                                .OrderBy(x => x.Priority);
-        //    var output = billTokenses.Where(x => x.GroupId == "0.Output")
-        //                            .OrderBy(x => x.Priority);
-
-        //    var expCondition = ExpressionBuilder.GetConditionExpression<T>(billDetail, conditions.ToList(), custBillViewModels, traceLogs);
-
-        //    var filterData = custBillViewModels.Where(expCondition.Compile()).ToList();
-
-        //    if (filterData.Count <= 0)
-        //        return;
-
-        //    var result = ExpressionBuilder.GetOutputExpression(billDetail, output.ToList(), filterData, traceLogs);
-
-        //    foreach (var data in filterData)
-        //    {
-        //        traceLogs.AddCondition(expCondition.ToString());
-
-        //        var conditionSatify = data.GetType().GetProperty("ConditionSatisfy");
-        //        var oldValue = conditionSatify.GetValue(data);
-        //        conditionSatify.SetValue(data, traceLogs.GetConditionMatrixFormulaLog());
-
-
-        //        var billDetailPro = data.GetType().GetProperty("BillDetail");
-        //        billDetailPro.SetValue(data, billDetail);
-        //    }
-
-        //    var log = string.Format("Product : {0},Condition : {1} give value : {2}", billDetail.Products,
-        //                            expCondition.Body, result);
-        //    //traceLogs.SetLog(log);
-
-        //    Logger.Info(log);
-
-        //    //return Math.Round(result, 4);
-        //}
-
-
-        //#endregion
-
+            liner.BillStatus = ColloSysEnums.BillStatus.PfApply;
+            _billingInfoManager.ManageInfoAfterProcFee(liner);
+        }
+        #endregion
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//public IList<BillDetail> GetAdhocPayout()
+//{
+//    var billDetails = new List<BillDetail>();
+
+//    var adhocPayments = BillAdhocDbLayer.GetBillAdhocForStkholder(_stakeholder, _billStatus.Products,
+//                                                                  _billStatus.BillMonth);
+//    for (var i = 0; i < adhocPayments.Count; i++)
+//    {
+//        var adhocPayment = adhocPayments[i];
+
+//        var billDetail = new BillDetail
+//        {
+//            Stakeholder = _stakeholder,
+//            BillMonth = _billStatus.BillMonth,
+//            BillCycle = _billStatus.BillCycle,
+//            Products = _billStatus.Products,
+//            PaymentSource = ColloSysEnums.PaymentSource.Adhoc,
+//            BillingPolicy = null,
+//            BillingSubpolicy = null,
+//            BillAdhoc = adhocPayment,
+//            Amount = (adhocPayment.IsCredit) ? (adhocPayment.TotalAmount / adhocPayment.Tenure) : (-1) * adhocPayment.TotalAmount
+//        };
+
+//        adhocPayment.RemainingAmount -= (adhocPayment.TotalAmount / adhocPayment.Tenure);
+//        billDetails.Add(billDetail);
+//    }
+
+//    BillAdhocDbLayer.SaveBillAdhoc(adhocPayments);
+
+//    return billDetails;
+//}
+
+//public BillDetail GetFixedPayout(StkhPayment stkhPayment)
+//{
+//    var billDetail = new BillDetail
+//    {
+//        Stakeholder = _stakeholder,
+//        BillMonth = _billStatus.BillMonth,
+//        BillCycle = _billStatus.BillCycle,
+//        Products = _billStatus.Products,
+//        Amount = stkhPayment.FixpayTotal + stkhPayment.MobileElig + stkhPayment.TravelElig,
+//        PaymentSource = ColloSysEnums.PaymentSource.Fixed,
+//        BillingPolicy = null,
+//        BillingSubpolicy = null
+//    };
+
+//    Logger.Info(string.Format("fixed biling for stakeholder : {0}, " +
+//                        "and product : {1}, and month {2} has amount : {3}",
+//                        _stakeholder.Name, _billStatus.Products,
+//                        _billStatus.BillMonth, billDetail.Amount));
+
+//    return billDetail;
+//}
+
+
+
+
+
+
+//#region Calculate Bill Amount
+
+//public static void GetBillingSubpolicyAmount<T>(BillDetail billDetail, List<BillTokens> billTokenses, List<T> custBillViewModels)
+//{
+//    var conditions = billTokenses.Where(x => x.GroupId == "0.Condition")
+//                                .OrderBy(x => x.Priority);
+//    var output = billTokenses.Where(x => x.GroupId == "0.Output")
+//                            .OrderBy(x => x.Priority);
+
+//    var expCondition = ExpressionBuilder.GetConditionExpression<T>(billDetail, conditions.ToList(), custBillViewModels, traceLogs);
+
+//    var filterData = custBillViewModels.Where(expCondition.Compile()).ToList();
+
+//    if (filterData.Count <= 0)
+//        return;
+
+//    var result = ExpressionBuilder.GetOutputExpression(billDetail, output.ToList(), filterData, traceLogs);
+
+//    foreach (var data in filterData)
+//    {
+//        traceLogs.AddCondition(expCondition.ToString());
+
+//        var conditionSatify = data.GetType().GetProperty("ConditionSatisfy");
+//        var oldValue = conditionSatify.GetValue(data);
+//        conditionSatify.SetValue(data, traceLogs.GetConditionMatrixFormulaLog());
+
+
+//        var billDetailPro = data.GetType().GetProperty("BillDetail");
+//        billDetailPro.SetValue(data, billDetail);
+//    }
+
+//    var log = string.Format("Product : {0},Condition : {1} give value : {2}", billDetail.Products,
+//                            expCondition.Body, result);
+//    //traceLogs.SetLog(log);
+
+//    Logger.Info(log);
+
+//    //return Math.Round(result, 4);
+//}
+
+
+//#endregion

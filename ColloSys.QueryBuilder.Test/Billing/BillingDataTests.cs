@@ -81,7 +81,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
                     dhflLiner.TotalDisbAmt = 0;
                     dhflLiner.DeductCap = 0;
                     dhflLiner.TotalDeductCap = 0;
-                    dhflLiner.DeductPf = 0;
+                    dhflLiner.ProratedProcFee = 0;
                     dhflLiner.TotalPayout = 0;
                     dhflLiner.TotalProcFee = 0;
 
@@ -138,7 +138,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
                     dhflLiner.BillDetail = null;
                     dhflLiner.Payout = 0;
                     dhflLiner.DeductCap = 0;
-                    dhflLiner.DeductPf = 0;
+                    dhflLiner.ProratedProcFee = 0;
                     session.SaveOrUpdate(dhflLiner);
                 }
 

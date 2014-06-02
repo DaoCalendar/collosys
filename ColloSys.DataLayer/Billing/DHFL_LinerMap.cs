@@ -14,7 +14,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Payout);
             Property(x => x.TotalPayout);
             Property(x => x.DeductCap);
-            Property(x => x.DeductPf);
+            Property(x => x.ProratedProcFee);
             Property(x => x.FinalPayout);
             Property(x => x.BranchName);
             Property(x => x.BranchCat);
@@ -62,7 +62,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.IsExcluded);
             Property(x => x.ExcludeReason);
             Property(x => x.DisbMonth);
-            Property(x => x.ProcFee);
+            Property(x => x.ExpectedProcFee);
             Property(x => x.TotalDeductCap);
         }
 

@@ -43,6 +43,7 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x => x.PolicyType);
             Property(x => x.OriginMonth);
+            Property(x => x.BaseAmount);
         }
     }
 }
