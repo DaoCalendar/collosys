@@ -42,12 +42,12 @@
         (function () {
             //$scope.myModel = 1;
             $scope.fields = [
+               { name: 'DOB', label: 'DOB', minDate: "2014-06-22", editable: false, required: true, type: 'date', min: 10, max: 100 },
                { name: 'Name', editable: true, required: true, type: 'password' },
                { name: 'select', label: 'select', textField: 'display', useRepeat: true, valueField: 'value', editable: false, required: true, type: 'select', min: 10, max: 100 },
                { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
                { type: 'btn-radio', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
                { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
-               { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
                { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },
                { name: 'Radio', label: 'Radio', editable: false, required: true, type: 'int' }
             ];

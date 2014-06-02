@@ -970,12 +970,12 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
 
-        //TODO mode,min max date
+        //TODO mode ,hide weeks
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control"';
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';
-            html += 'is-open="field.opened"';
+            html += 'is-open="field.opened" show-button-bar="false"  datepicker-options="field.dateOptions"';
             html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
             html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
@@ -1044,22 +1044,29 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var manageViewMode = function (field) {
+            field.dateOptions = {
+                showWeeks: false,
+                showButtonBar: false,
 
+            };
             if ($csfactory.isNullOrEmptyString(field.minViewMode))
                 field.minViewMode = '';
             switch (field.minViewMode.toUpperCase()) {
                 case "MONTHS":
-                    field.format = "M-yyyy";
+                    field.dateOptions.format = "M-yyyy";
+                    //field.dateOptions.datepickerMode = "month";
                     field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan';
                     field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec';
                     break;
                 case "YEAR":
-                    field.format = ".yyyy";
+                    field.dateOptions.dateOptions.format = ".yyyy";
+                    //field.dateOptions.datepickerMode = "year";
                     field.minDate = angular.isDefined(field.minDate) ? field.minDate : '.1800';
                     field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '.2400';
                     break;
                 default:
-                    field.format = "dd-MMMM-yyyy";
+                    field.dateOptions.format = "dd-MMMM-yyyy";
+                    //field.dateOptions.datepickerMode = "day";
                     field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan-01';
                     field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec-31';
             }
@@ -1628,7 +1635,7 @@ angular.module('ui.multiselect', [])
           restrict: 'E',
           scope: false,
           replace: true,
-          templateUrl: baseUrl+'Shared/scripts/multiselect.tmpl.html',
+          templateUrl: baseUrl + 'Shared/scripts/multiselect.tmpl.html',
           link: function (scope, element, attrs) {
 
               scope.isVisible = false;
