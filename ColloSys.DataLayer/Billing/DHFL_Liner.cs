@@ -26,6 +26,8 @@ namespace ColloSys.DataLayer.ClientData
         public virtual decimal TotalDeductCap { get; set; }
         public virtual decimal ProratedProcFee { get; set; }
         public virtual decimal FinalPayout { get; set; }
+
+        public virtual string IsProfessional { get; set; }
         
         #endregion
 

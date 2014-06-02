@@ -64,6 +64,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.DisbMonth);
             Property(x => x.ExpectedProcFee);
             Property(x => x.TotalDeductCap);
+            Property(x=>x.IsProfessional);
         }
 
     }

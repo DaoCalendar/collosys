@@ -27,9 +27,9 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
             modalData.payoutRelation.StartDate = modalData.startDate;
             modalData.payoutRelation.EndDate = modalData.endDate;
             $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
-            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
-                $modalInstance.close();
-            });
+            //datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
+            //    $modalInstance.close();
+            //});
         };
 
         $scope.modelDateValidation = function (startDate, endDate) {
@@ -185,6 +185,8 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
             restApi.customGET("GetPayoutPolicy", { products: payoutPolicy.Products, category: payoutPolicy.Category }).then(function (data) {
                 dldata.payoutPolicy = data.PayoutPolicy;
                 dldata.payoutPolicy.PolicyType = policyType;
+                dldata.payoutPolicy.ApplyTo = payoutPolicy.ApplyTo;
+                dldata.payoutPolicy.ApplyOn = payoutPolicy.ApplyOn;
                 dldata.subPolicyList = data.UnUsedSubpolicies;
             }, function (data) {
                 $csnotify.error(data);
@@ -284,6 +286,9 @@ csapp.controller('payoutPolicyCtrl', [
                     break;
 
             }
+            if (applyTo === 'Product') {
+                $scope.getSubpolicy();
+            }
         };
 
         $scope.setButtonStatus = function (status) {
@@ -333,6 +338,11 @@ csapp.controller('payoutPolicyCtrl', [
                     }
                 }
             });
+        };
+
+        $scope.getSubpolicy = function () {
+            console.log("function called");
+           datalayer.changeProductCategory();
         };
 
         $scope.openModelNewSubPolicy = function (subPolicy) {

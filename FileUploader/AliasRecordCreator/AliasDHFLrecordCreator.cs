@@ -30,7 +30,10 @@ namespace ColloSys.FileUploader.AliasRecordCreator
                 obj.BillMonth = Convert.ToUInt32(FileScheduler.FileDate.ToString("yyyyMM"));
                 obj.DisbMonth = obj.BillMonth;
                 obj.Loancode = uint.Parse(reader.GetValue(_accountPosition)).ToString("D" + _accountLength.ToString(CultureInfo.InvariantCulture));
-                
+                if (obj.Occupcategory.ToUpper() == "SALARIED" || obj.Occupcategory.ToUpper() == "SELF EMPLOYED PROFESSIONAL")
+                    obj.IsProfessional = "Y";
+                else
+                    obj.IsProfessional = "N";
                 GetComputations(obj, reader);
                 return true;
             }

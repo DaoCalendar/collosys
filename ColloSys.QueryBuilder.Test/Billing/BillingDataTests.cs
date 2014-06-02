@@ -179,6 +179,25 @@ namespace ColloSys.QueryBuilder.Test.Billing
                 tx.Commit();
             }
         }
+
+        [Test]
+        public void UpdateIsProfessional()
+        {
+            var session = SessionManager.GetCurrentSession();
+            var linerList = session.QueryOver<DHFL_Liner>().List();
+            using (var trans=session.BeginTransaction())
+            {
+                foreach (var dhflLiner in linerList)
+                {
+                    if (dhflLiner.Occupcategory.ToUpper() == "SALARIED" || dhflLiner.Occupcategory.ToUpper() == "SELF EMPLOYED PROFESSIONAL")
+                        dhflLiner.IsProfessional = "Y";
+                    else
+                        dhflLiner.IsProfessional = "N";
+                    session.SaveOrUpdate(dhflLiner);
+                }    
+                trans.Commit();
+            }
+        }
     }
 
 }

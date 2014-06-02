@@ -21,11 +21,15 @@ namespace ColloSys.DataLayer.Mapping
 
             Property(x => x.Category);
 
-            Property(x=>x.PolicyFor);
+            Property(x => x.PolicyFor);
 
-            Property(x=>x.PolicyForId);
+            Property(x => x.PolicyForId);
 
-            Property(x=>x.PolicyType);
+            Property(x => x.PolicyType);
+
+            Property(x => x.ApplyTo);
+
+            Property(x => x.ApplyOn);
 
             #endregion
 
