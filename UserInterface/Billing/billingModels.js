@@ -37,6 +37,8 @@
             Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category },
             Output: { label: "Output", type: "textarea" },
             Condition: { label: "Condition", type: "textarea" },
+            startdate: { label: "StartDate:", type: 'date' },
+            enddate: { label: "EndDate:", type: 'date' },
 
         };
     };

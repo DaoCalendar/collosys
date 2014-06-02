@@ -1,9 +1,9 @@
 ﻿
-csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer',
-    function ($scope, modaldata, $modalInstance, factory, datalayer) {
+csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payoutPolicyFactory', 'payoutPolicyDataLayer', '$csModels',
+    function ($scope, modaldata, $modalInstance, factory, datalayer, $csModels) {
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
-
+        $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
 
         $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
@@ -314,6 +314,8 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.BillingPolicy.ApplyTo = { label: "Apply To", type: "enum", valueList: ["Stakeholder", "Hierarchy", "Product"] };
             $scope.BillingPolicy.ApplyOn = { label: "Apply On", type: "enum" };
             $scope.BillingPolicy.ApplyOnText = { label: "Apply On", type: "text" };
+            $scope.BillingPolicy.startdate = { label: "StartDate:", type: 'date' };
+            $scope.BillingPolicy.enddate = { label: "EndDate:", type: 'date' };
             datalayer.reset();
             $scope.modalData = {
                 BillingRelation: {},
@@ -342,7 +344,7 @@ csapp.controller('payoutPolicyCtrl', [
 
         $scope.getSubpolicy = function () {
             console.log("function called");
-           datalayer.changeProductCategory();
+            datalayer.changeProductCategory();
         };
 
         $scope.openModelNewSubPolicy = function (subPolicy) {

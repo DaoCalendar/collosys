@@ -2,9 +2,15 @@
     <div class="modal-header">
         <h3 class="modal-title">{{modelData.payoutRelation.BillingSubpolicy.Name}}</h3>
     </div>
-    <div class="modal-body" style="margin-bottom: 10px">
-        <div data-ng-form="payoutpolicyDateRangeForm">
-            <div class="row">
+    <div class="modal-body" style="margin-bottom: 10px" >
+        <form data-ng-form="payoutpolicyDateRangeForm">
+            <cs-form layout="8.4.8">
+                <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" ng-required="true" field="BillingPolicy.startdate"
+                          data-ng-change="modelData.endDate=null;modelDateValidation(modelData.startDate,modelData.endDate)"></cs-field>
+                <cs-field data-ng-model="modalData.endDate" field="BillingPolicy.enddate" data-ng-change="modelDateValidation(modelData.startDate,modelData.endDate)"
+                          data-bs-datepicker="today"></cs-field>
+            </cs-form>
+            <!--<div class="row">
                 <div class="col-md-6" style="margin-bottom: 5px">
                     <label class="col-md-4 control-label">Start Date</label>
                     <div class="col-md-8">
@@ -14,7 +20,7 @@
                                    data-date-start-date="+1d"
                                    data-ng-readonly="true"
                                    data-bs-datepicker=""
-                                   data-ng-change="modelData.endDate=null;modelDateValidation(modelData.startDate,modelData.endDate)">
+                                   data-ng-change="modelDateValidation(modelData.startDate,modelData.endDate)">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
@@ -37,19 +43,19 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
+        </form>
+    </div>
+   <div class="modal-footer" style="margin-top: 10px" data-ng-form="buttonform">
+            <cs-button type="delete" text=" Deactivate" data-ng-show="!modelData.forActivate"
+                       data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
+                       data-ng-click="deactivateSubPoicy(modelData)"></cs-button>
+            <cs-button type="save" text="Activate"
+                       data-ng-show="modelData.forActivate"
+                       data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid)"
+                       data-ng-click="activateSubPoicy(modelData)"></cs-button>
+            <cs-button type="close" data-ng-click="closeModal()"></cs-button>
         </div>
-    </div>
-    <div class="modal-footer" style="margin-top: 10px">
-        <cs-button type="delete" text=" Deactivate" data-ng-show="!modelData.forActivate"
-                   data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
-                   data-ng-click="deactivateSubPoicy(modelData)"></cs-button>
-        <cs-button type="save" text="Activate"
-                   data-ng-show="modelData.forActivate"
-                   data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid)"
-                   data-ng-click="activateSubPoicy(modelData)"></cs-button>
-        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
-    </div>
-</form>
+  </form>
 
 
