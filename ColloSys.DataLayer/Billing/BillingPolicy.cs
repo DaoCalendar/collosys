@@ -36,6 +36,9 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual ColloSysEnums.PolicyOn PolicyFor { get; set; }
 
+        public virtual string ApplyTo { get; set; }
+
+        public virtual string ApplyOn { get; set; }
         public virtual Guid? PolicyForId { get; set; }
 
         #endregion
