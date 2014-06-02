@@ -15,13 +15,13 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
         {
             DisplayManager = new DisplayManager();
             SelectedPincodeData = new PincodeData();
-            ListOfAreas=new List<string>();
-            ListOfCities=new List<string>();
-            ListOfClusters=new List<string>();
-            ListOfDistricts=new List<string>();
-            ListOfRegions=new List<string>();
-            ListOfStates=new List<string>();
-            MultiSelectValues=new List<string>();
+            ListOfAreas = new List<string>();
+            ListOfCities = new List<string>();
+            ListOfClusters = new List<string>();
+            ListOfDistricts = new List<string>();
+            ListOfRegions = new List<string>();
+            ListOfStates = new List<string>();
+            MultiSelectValues = new List<string>();
         }
 
         public DisplayManager DisplayManager { get; set; }
@@ -46,7 +46,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
         {
             var session = SessionManager.GetCurrentSession();
             var query = session.QueryOver<GPincode>()
-                               .Where(x => x.Country == "India");
+                               .Where(x => x.Country == "India" && x.IsInUse);
 
             if (workingModel.DisplayManager.ShowRegion && !string.IsNullOrEmpty(workingModel.SelectedPincodeData.Region))
                 query.And(x => x.Region == workingModel.SelectedPincodeData.Region);
