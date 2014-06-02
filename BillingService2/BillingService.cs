@@ -150,7 +150,8 @@ namespace BillingService2
             billAmount.FixedAmount = Math.Round(billDetails.Where(x => x.BillingPolicy == null
                                                             && x.BillingSubpolicy == null
                                                             && x.BillAdhoc == null
-                                                            && x.PolicyType == ColloSysEnums.PolicyType.Payout)
+                                                            && x.PolicyType == ColloSysEnums.PolicyType.Payout
+                                                             && x.PaymentSource != ColloSysEnums.PaymentSource.Reversal)
                                                 .Sum(x => x.Amount), 3);
 
             billAmount.VariableAmount = Math.Round(billDetails.Where(x => x.BillingPolicy != null

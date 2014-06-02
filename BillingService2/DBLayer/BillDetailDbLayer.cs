@@ -50,7 +50,7 @@ namespace BillingService2.DBLayer
         {
             var session = SessionManager.GetCurrentSession();
             var lastbillmonth = session.Query<BillAmount>()
-                .Fetch( x=> x.Stakeholder)
+                .Fetch(x => x.Stakeholder)
                 .Where(x => x.OriginMonth == originMonth && x.Stakeholder.Id == id)
                 .OrderByDescending(x => x.BillMonth)
                 .FirstOrDefault();
@@ -58,14 +58,14 @@ namespace BillingService2.DBLayer
 
             var newBillDetail = new BillDetail
             {
-                Amount = lastbillmonth.TotalAmount*-1,
+                Amount = lastbillmonth.TotalAmount * -1,
                 BillAdhoc = null,
                 BillCycle = 0,
                 BillMonth = 0,
                 BillingPolicy = null,
                 BillingSubpolicy = null,
                 OriginMonth = originMonth,
-                PaymentSource = ColloSysEnums.PaymentSource.Adhoc,
+                PaymentSource = ColloSysEnums.PaymentSource.Reversal,
                 PolicyType = ColloSysEnums.PolicyType.Payout,
                 CustBillViewModels = null,
                 BaseAmount = 0,

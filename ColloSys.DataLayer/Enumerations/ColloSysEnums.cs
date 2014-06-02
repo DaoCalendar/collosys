@@ -310,7 +310,8 @@ namespace ColloSys.DataLayer.Enumerations
         {
             Fixed,
             Variable,
-            Adhoc
+            Adhoc,
+            Reversal
         }
 
         [Serializable]
