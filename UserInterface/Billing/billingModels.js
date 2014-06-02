@@ -85,7 +85,7 @@
         return {
             Name: { label: "Name", type: "text", required: true },
             Productname: { type: "text", label: "Product", required: true },
-            Products: { label: "Product", required: true, type: "enum", valueList: $csShared.enums.Products },
+            Products: { label: "Product", required: true, type: "enum", valueList: [] },
             Category: { label: "Category", required: true, type: "enum", valueList: $csShared.enums.Category },
             LtypeName: { type: "select", textField: "displayName", valueField: "field" },
             typeSelect: { type: "select", textField: "displayName", valueField: "field" },

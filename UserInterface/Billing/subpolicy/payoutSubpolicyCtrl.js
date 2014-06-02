@@ -128,7 +128,9 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             $scope.GPincode = $csModels.getColumns("Pincode");
             $scope.payoutSubpolicy = $csModels.getColumns("BillingSubpolicy");
             $scope.payoutSubpolicy.PolicyTypeText = { type: "text", label: "Policy Type" };
-
+            $scope.payoutSubpolicy.Products.valueList = _.reject($csShared.enums.Products, function (item) {
+                return (item === "UNKNOWN" || item === "ALL");
+            });
             init();
         })();
     }]);
