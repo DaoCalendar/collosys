@@ -35,9 +35,9 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual string PayStatusHistory { get; set; }
 
-        public virtual decimal HoldAmount { get; set; }
+        public virtual decimal CappingDeduction { get; set; }
 
-        public virtual decimal HoldRepayment { get; set; }
+        public virtual decimal ProcFeeDeduction { get; set; }
 
         public virtual decimal TotalAmount { get; set; }
 

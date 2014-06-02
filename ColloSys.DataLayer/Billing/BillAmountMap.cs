@@ -24,8 +24,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.PayStatus);
             Property(x=>x.PayStatusDate);
             Property(x=>x.PayStatusHistory);
-            Property(x=>x.HoldAmount);
-            Property(x=>x.HoldRepayment);
+            Property(x=>x.CappingDeduction);
+            Property(x=>x.ProcFeeDeduction);
             Property(x=>x.TotalAmount);
             #endregion
 

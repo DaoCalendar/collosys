@@ -215,12 +215,12 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
             // Holding Payment
             ws.Cells[excelRowCounter, 2].Value = "Holding Payment";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldAmount;
+            ws.Cells[excelRowCounter, 3].Value = billAmount.CappingDeduction;
             excelRowCounter++;
 
             // Hol Release
             ws.Cells[excelRowCounter, 2].Value = "Hold Release";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldRepayment;
+            ws.Cells[excelRowCounter, 3].Value = billAmount.ProcFeeDeduction;
             excelRowCounter++;
 
             // Variable Pay

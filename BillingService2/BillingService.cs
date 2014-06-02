@@ -106,7 +106,6 @@ namespace BillingService2
 
             billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.PF));
 
-
             if (billStatus.OriginMonth != billStatus.BillMonth)
             {
                 var reversalbillDetail = BillDetailDbLayer.GetOlderBillDetails(billStatus.Stakeholder.Id,
@@ -134,41 +133,52 @@ namespace BillingService2
 
         private BillAmount GetBillAmountForStkholder(BillStatus billStatus, List<BillDetail> billDetails)
         {
-            var billAmount = new BillAmount();
+            var billAmount = new BillAmount
+            {
+                Stakeholder = billStatus.Stakeholder,
+                Products = billStatus.Products,
+                BillMonth = billStatus.BillMonth,
+                OriginMonth = billStatus.OriginMonth,
+                Cycle = 0
+            };
 
-            billAmount.Stakeholder = billStatus.Stakeholder;
-            billAmount.Products = billStatus.Products;
-            billAmount.BillMonth = billStatus.BillMonth;
-            billAmount.OriginMonth = billStatus.OriginMonth;
-            billAmount.Cycle = 0;
             billAmount.StartDate = DateTime.ParseExact(string.Format("{0}01", billAmount.BillMonth), "yyyyMMdd",
                                                 CultureInfo.InvariantCulture);
             billAmount.EndDate = billAmount.StartDate.AddMonths(1).AddDays(-1);
             billAmount.Status = ColloSysEnums.ApproveStatus.Submitted;
 
-            billAmount.FixedAmount = billDetails.Where(x => x.BillingPolicy == null
+            billAmount.FixedAmount = Math.Round(billDetails.Where(x => x.BillingPolicy == null
                                                             && x.BillingSubpolicy == null
-                                                            && x.BillAdhoc == null)
-                                                .Sum(x => x.Amount);
+                                                            && x.BillAdhoc == null
+                                                            && x.PolicyType == ColloSysEnums.PolicyType.Payout)
+                                                .Sum(x => x.Amount), 3);
 
             billAmount.VariableAmount = Math.Round(billDetails.Where(x => x.BillingPolicy != null
                                                                && x.BillingSubpolicy != null
-                                                               && x.BillAdhoc == null)
-                                                   .Sum(x => x.Amount), 2);
+                                                               && x.BillAdhoc == null
+                                                            && x.PolicyType == ColloSysEnums.PolicyType.Payout)
+                                                   .Sum(x => x.Amount), 3);
 
             billAmount.Deductions = Math.Round(billDetails.Where(x => x.BillingPolicy == null
                                                            && x.BillingSubpolicy == null
-                                                           && x.BillAdhoc != null)
-                                               .Sum(x => x.Amount), 2);
+                                                           && x.BillAdhoc != null
+                                                            && x.PolicyType == ColloSysEnums.PolicyType.Payout)
+                                               .Sum(x => x.Amount), 3);
 
-            //ToDO:Done Please check 1 line
             var subTotal = billAmount.FixedAmount + billAmount.VariableAmount + billAmount.Deductions;
 
-            // TODO: ICICI demo
-            //billAmount.HoldAmount = Math.Round(subTotal * Convert.ToDecimal(0.10));
-            //billAmount.HoldRepayment = 1000;
-            billAmount.TotalAmount = (subTotal - billAmount.HoldAmount) + billAmount.HoldRepayment;
+            billAmount.CappingDeduction = Math.Round(billDetails.Where(x => x.PolicyType == ColloSysEnums.PolicyType.Capping).Sum(x => x.Amount), 3);
+            subTotal = subTotal + billAmount.CappingDeduction;
+            var totalSanction = billDetails.Where(x => x.PolicyType == ColloSysEnums.PolicyType.PF).Sum(x => x.BaseAmount);
+            if (totalSanction != 0)
+            {
+                var totalProcFee = billDetails.Where(x => x.PolicyType == ColloSysEnums.PolicyType.PF)
+                    .Sum(x => x.Amount);
+                var percent = (totalProcFee * 100) / totalSanction;
+                billAmount.ProcFeeDeduction = (percent < (decimal)1.0) ? Math.Round((percent - 1) * subTotal, 3) : 0;
+            }
 
+            billAmount.TotalAmount = Math.Round(subTotal + billAmount.ProcFeeDeduction, 2);
             billAmount.PayStatus = ColloSysEnums.BillPaymentStatus.BillingDone;
             billAmount.PayStatusDate = DateTime.Now;
             billAmount.PayStatusHistory = string.Format("{{ PayStatus: {0}, Date: {1} }}", billAmount.PayStatus, billAmount.PayStatusDate);
