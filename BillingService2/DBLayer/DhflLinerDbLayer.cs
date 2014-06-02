@@ -18,6 +18,7 @@ namespace BillingService2.DBLayer
                                     .Where(x =>
                                         //x.Product == billStatus.Products && 
                                         x.BillMonth == billStatus.BillMonth
+                                        && x.DisbMonth == billStatus.OriginMonth
                                                 && x.AgentId == billStatus.Stakeholder.ExternalId)
                                     .List<DHFL_Liner>();
 
