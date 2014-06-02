@@ -9,8 +9,8 @@
         $scope.generateDB = function () {
 
                 var modalOptions = {
+                    actionButtonText: 'Yes',
                     closeButtonText: 'Cancel',
-                    actionButtonText: 'Ok',
                     headerText:'Proceed' ,
                     bodyText: 'Are you sure you want to Generate DB?'
                 };

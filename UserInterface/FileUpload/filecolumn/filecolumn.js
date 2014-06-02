@@ -276,8 +276,8 @@ csapp.controller("fileColumnController", ['$scope', "$csnotify", "$csfactory", "
 
         $scope.showDeleteModal = function (fileColumn, index) {
             var modalOptions = {
+                actionButtonText: 'Yes',
                 closeButtonText: 'Cancel',
-                actionButtonText: 'Delete Column',
                 headerText: "Delete '" + fileColumn.FileColumnName + "' ?",
                 bodyText: 'Are you sure you want to delete this column?'
             };

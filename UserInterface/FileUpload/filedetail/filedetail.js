@@ -181,8 +181,8 @@ csapp.controller("fileDetailsController", ['$scope', "modalService", "$location"
 
         $scope.showDeleteModelPopup = function (fileDetail) {
             var modalOptions = {
+                actionButtonText: 'Yes',
                 closeButtonText: 'Cancel',
-                actionButtonText: 'Delete File',
                 headerText: 'Delete ' + fileDetail.AliasName + '?',
                 bodyText: 'Are you sure you want to delete this file?'
             };
