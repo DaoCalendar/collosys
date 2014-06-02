@@ -7,6 +7,9 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
     var dldata = {};
     dldata.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
 
+    dldata.AllocationStrategy = [{ display: 'Has Month End Reset', value: 'Monthly' }, { display: 'Has Cycle Wise Reset', value: 'Cyclewise' }];
+
+    dldata.BillingStrategy = [{ display: 'Cycle End', value: 'Cyclewise' }, { display: 'Month End(Open And Close Cycle)', value: 'Monthly' }, { display: 'Month End(Close Cycle Only)', value: 'MonthlyConfirmed' }];
     var getAll = function () {
         reatApi.customGETLIST('Get').then(function (data) {
             dldata.productList = data;
@@ -133,7 +136,8 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
     "$csModels", "$routeParams", "$location",
     function ($scope, datalayer, factory, $csModels, $routeParams, $location) {
     
-    (function() {
+        (function () {
+            $scope.datalayer = datalayer.dldata;
         $scope.dldata = datalayer.dldata;
         $scope.factory = factory;
         if (angular.isDefined($routeParams.id)) {
@@ -142,7 +146,8 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
             });
         }
         $scope.Products = $csModels.getColumns("Product");
-    })();
+        })();
+        
     
     $scope.isSelected = function (item, val) {
         if (item === val) {
@@ -151,8 +156,8 @@ csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "Produc
             return "btn btn-small btn-info";
         }
     };
-    $scope.Products.AllocationResetStrategy = [{ value: 'Has Month End Reset', key: 'Monthly' },
-                                                           { value: 'Has Cycle Wise Reset', key: 'Cyclewise' }];
+
+   //$scope.dldata.productconfig.AllocationResetStrategy.valueList = datalayer.dldata.AllocationResetStrategy;
     
     $scope.closeModel = function () {
         $location.path("/generic/product");
