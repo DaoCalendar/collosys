@@ -6,7 +6,7 @@
                 <div class="panel-body">
                     <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
                               field="allocSubpolicy.Products" ng-required="true"></cs-field>
-                    <cs-button type="add" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
+                    <cs-button type="add" permission ="Allocation,AllocationSubpolicy,AddEdit" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
                                data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
                     </cs-button>
                 </div>
@@ -98,7 +98,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <icon-btn type="add" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
+                                            <icon-btn type="add" permission ="Allocation,AllocationSubpolicy,AddEdit" data-ng-disabled="!(newConditionForm.$valid) || dldata.policyapproved" data-ng-click="factory.addNewCondition(dldata.newCondition,newConditionForm);"></icon-btn>
                                         </td>
                                     </tr>
                                     <tr data-ng-repeat="condition in dldata.allocSubpolicy.Conditions | orderBy: 'Priority'">
@@ -112,7 +112,7 @@
                                             <input type="text" class="form-control" readonly="readonly" value="{{  condition.RtypeName + ((condition.dateValueEnum==='Absolute_Date')? ( condition.Value | date:'dd-MM-yyyy' ) : condition.Value )}}" />
                                         </td>
                                         <td>
-                                            <icon-btn type="remove" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
+                                            <icon-btn type="remove" permission ="Allocation,AllocationSubpolicy,AddEdit" data-ng-disabled="PolicyApproved()" data-ng-hide="dldata.policyapproved" data-ng-click="factory.deleteCondition(condition,$index)"></icon-btn>
                                         </td>
                                     </tr>
                                 </thead>
@@ -122,9 +122,9 @@
                 </div>
 
                 <div class="text-right">
-                    <cs-button type="save" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)"></cs-button>
-                    <cs-button type="save" text="Activate" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()"></cs-button>
-                    <cs-button type="reset" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)"></cs-button>
+                    <cs-button type="save" permission ="Allocation,AllocationSubpolicy,AddEdit" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)"></cs-button>
+                    <cs-button type="save" permission ="Allocation,AllocationSubpolicy,AddEdit" text="Activate" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()"></cs-button>
+                    <cs-button type="reset" permission ="Allocation,AllocationSubpolicy,AddEdit" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)"></cs-button>
                 </div>
             </div>
         </cs-form>

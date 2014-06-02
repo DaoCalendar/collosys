@@ -72,8 +72,8 @@
                     </div>
                     <div class="form-group somemargin">
                         <div class="controls">
-                            <cs-button type="close" data-ng-click="toggleForgotPassword()">Cancel</cs-button>
-                            <cs-button type="reset" text="Reset Password" data-ng-disabled="!forgot.isUserValid"
+                            <cs-button type="close" permission="All" data-ng-click="toggleForgotPassword()">Cancel</cs-button>
+                            <cs-button type="reset" permission="All" text="Reset Password" data-ng-disabled="!forgot.isUserValid"
                                        data-ng-click="resetPassword(forgot)"></cs-button>
                         </div>
                     </div>

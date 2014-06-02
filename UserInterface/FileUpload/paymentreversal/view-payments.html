@@ -2,15 +2,14 @@
     <div class="row">
         <div class="form-group col-md-4">
             <label class="col-md-4 control-label">System</label>
-            <select data-ng-model="selectedSystem" class="col-md-8" data-ng-change="getData(selectedSystem)" 
-                    data-ui-select2="">
+            <select data-ng-model="selectedSystem" class="col-md-8" data-ng-change="getData(selectedSystem)">
                 <option value=""></option>
                 <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
             </select>
         </div>
         <div class="col-md-4">
-            <cs-button type="add" text="Exclude Case" data-ng-show="gridOptions.showGrid == true" class="btn btn-warning" data-ng-click="excludePayment()"></cs-button>
-            <cs-button type="add" text="Add Case" data-ng-show="selectedSystem" class="btn btn-info" data-ng-click="OpenAddPaymentModal()"></cs-button>
+            <cs-button type="add" text="Exclude Case" data-ng-show="gridOptions.showGrid == true" data-ng-click="excludePayment()"></cs-button>
+            <cs-button type="add" text="Add Case" data-ng-show="selectedSystem" data-ng-click="OpenAddPaymentModal()"></cs-button>
         </div>
     </div>
 

@@ -14,12 +14,18 @@
         </div>
 
         <div class="modal-footer">
-            <cs-button type="delete" text="Deactivate" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
-            <cs-button type="save" text="Activate" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
-            <cs-button type="close" data-ng-click="closeModel()"></cs-button>
+            <cs-button type="delete" text="Deactivate" data-ng-disabled="!isModalDateValid" 
+                       permission ="Allocation,AllocationPolicy,AddEdit"
+                       data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
+            <cs-button type="save" text="Activate"  permission ="Allocation,AllocationPolicy,AddEdit"
+                       data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" 
+                       data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
+            <cs-button type="close"  permission ="Allocation,AllocationPolicy,AddEdit" 
+                       data-ng-click="closeModel()"></cs-button>
         </div>
     </div>
 </form>
+
 
 
 

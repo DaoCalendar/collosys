@@ -173,6 +173,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var createfile = AddActivity(fileUpload, ColloSysEnums.Activities.CreateFile);
             AddActivity(createfile, ColloSysEnums.Activities.View);
             AddActivity(createfile, ColloSysEnums.Activities.AddEdit);
+            AddActivity(createfile, ColloSysEnums.Activities.Delete);
             AddActivity(createfile, ColloSysEnums.Activities.Approve);
 
             var schedule = AddActivity(fileUpload, ColloSysEnums.Activities.ScheduleFile);

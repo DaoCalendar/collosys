@@ -33,22 +33,28 @@
                     <div class="row">
                         <p class="col-md-2">{{disSubPolicy.Name}} :({{dldata.buttonStatus}})</p>
                         <div class="pull-right" style="margin-right:5px">
-                            <cs-button type="delete" text="Deactivate"
+                            <cs-button type="delete" text="Deactivate" 
+                                       permission ="Allocation,AllocationPolicy,AddEdit"
                                        data-ng-show="dldata.buttonStatus==='Approved'"
                                        data-ng-click="openModelDeactivateSubPolicy(policy.allocRelation);"></cs-button>
+                            
                             <cs-button type="save" text="Activate"
+                                       permission ="Allocation,AllocationPolicy,AddEdit"
                                        data-ng-show="dldata.buttonStatus=='Draft'"
                                        data-ng-click="openModelNewSubPolicy(policy,$index);"></cs-button>
 
                             <cs-button type="add" text="Reactivate"
+                                       permission ="Allocation,AllocationPolicy,AddEdit"
                                        data-ng-show="dldata.buttonStatus=='Expired'"
                                        data-ng-click="openModelReactivateSubPolicy(policy.allocRelation);"></cs-button>
 
                             <cs-button type="save" text="Approve"
+                                       permission ="Allocation,AllocationPolicy,Approve"
                                        data-ng-show="dldata.buttonStatus=='UnApproved'"
                                        data-ng-click="approve(policy)"></cs-button>
 
                             <cs-button type="delete" text="Reject"
+                                       permission ="Allocation,AllocationPolicy,Approve"
                                        data-ng-show="dldata.buttonStatus=='UnApproved'"
                                        data-ng-click="reject(policy)">
                             </cs-button>
