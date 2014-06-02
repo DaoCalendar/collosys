@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Billing\BillingDataTests.cs" />
-    <Compile Include="Billing\BillingScenarioTest0303.cs" />
+    <Compile Include="Billing\BillingScenarioTests0302.cs" />
+    <Compile Include="Billing\BillingScenarioTests0303.cs" />
     <Compile Include="Billing\BillingScenarioTestBase.cs" />
     <Compile Include="Billing\BillingScenarioTests0202.cs" />
     <Compile Include="Billing\BillingScenarioTests0201.cs" />
