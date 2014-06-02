@@ -110,7 +110,7 @@
     var excludeCase = function () {
         return {
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
-            AccountNo: { label: "AccountNo", type: "text", required: true, pattern: "/^[0-9]+$/" },
+            AccountNo: { label: "AccountNo", type: "text", required: true, pattern: "/^[0-9]+$/",patternMessage:'Only digits Required' },
             customerName: { label: "customerName", type: "text", required: "true" },
             TransCode: { label: "Transaction Code", type: "text", pattern: "/^[0-9]+$/", required: 'true' },
             TransDate: { label: "TransDate", type: "date", required: "true" },

@@ -1,17 +1,16 @@
 ﻿<div data-ng-form="formMultipleColumns">
-    <div class="panel panel-default">
-        <div class="panel-heading">Add Multiple Columns</div>
+    <div class="modal-header">Add Multiple Columns</div>
 
-        <div class="panel-body">
-            <textarea class="noResize" style="width: 100%" rows="5" cols="50" placeholder="Copy/Paste the excel headers into this text area"
-                      data-ng-model="excelData" data-ng-required="true"></textarea>
-        </div>
+    <div class="modal-body">
+        <textarea class="noResize" style="width: 100%" rows="5" cols="50" placeholder="Copy/Paste the excel headers into this text area"
+                  data-ng-model="excelData" data-ng-required="true"></textarea>
+    </div>
 
 
-        <div class="panel-footer text-right">
-            <cs-button type="add" data-ng-click="add(excelData)" data-ng-disabled="!formMultipleColumns.$valid"></cs-button>
-            <cs-button type="close" data-ng-click="close()"></cs-button>
-        </div>
+    <div class="modal-footer">
+        <cs-button type="add" permission ="FileUploader,CreateFile,AddEdit" data-ng-click="add(excelData)" data-ng-disabled="!formMultipleColumns.$valid"></cs-button>
+        <cs-button type="close" permission ="FileUploader,CreateFile,AddEdit" data-ng-click="close()"></cs-button>
     </div>
 </div>
+
 

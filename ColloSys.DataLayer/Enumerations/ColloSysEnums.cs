@@ -190,6 +190,7 @@ namespace ColloSys.DataLayer.Enumerations
         {
             AddEdit,
             View,
+            Delete,
             Approve,
             FileUploader,
             CreateFile,
