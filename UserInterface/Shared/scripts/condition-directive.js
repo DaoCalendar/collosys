@@ -259,7 +259,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.setValidation = function () {
             if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
-                return 'bg-info';
+                return 'bg-success';
             }
             return 'bg-danger';
         };
