@@ -72,11 +72,11 @@
                 changeCount: 0
             };
 
-            //restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
-            //    $scope.datalist = data;
-            //}, function (data) {
-            //    $csnotify.error(data.data.Message);
-            //});
+            restApi.customGET("GetData", { 'currentUser': $csfactory.getCurrentUserName() }).then(function (data) {
+                $scope.datalist = data;
+            }, function (data) {
+                $csnotify.error(data.data.Message);
+            });
 
         })();
 

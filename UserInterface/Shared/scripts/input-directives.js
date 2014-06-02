@@ -416,7 +416,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.mask = "(999) 999-9999";
                     break;
                 case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.pattern = "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/";
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
                     break;
                 case "user":
