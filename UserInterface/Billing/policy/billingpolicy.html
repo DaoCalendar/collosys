@@ -22,7 +22,7 @@
                           field="BillingPolicy.ApplyOnText" data-ng-disabled="true" data-ng-change="getSubpolicy()"></cs-field>
             </div>
         </div>
-            <div class="row" data-ng-if="false">
+            <!--<div class="row" data-ng-if="false">
                 <div class="form-group col-md-6">
                     <label class="col-md-4">Name</label>
                     <div class="col-md-8">
@@ -30,10 +30,21 @@
                                data-ng-pattern="/^\w*$/" readonly="readonly" required />
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
    
-    <div class="row">
+    <div class="col-md-9">
+        <div class="col-md-5">
+            <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, BillingRelations); setButtonStatus(policy)"></cs-list>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <cs-list list-heading="Approved/UnApproved SubPolicy" value-list="dldata.ApproveUnapproved" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, BillingRelations); setButtonStatus(policy)"></cs-list>
+        </div>
+    </div>
+    <div class="row" data-ng-show="false">
         <div class="col-md-1">
         </div>
         <div class="col-md-4">
