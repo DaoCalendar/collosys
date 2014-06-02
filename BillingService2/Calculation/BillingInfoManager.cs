@@ -50,6 +50,12 @@ namespace BillingService2.Calculation
                     liner.TotalDisbAmt = info.TotalDisbAmt;
                     liner.TotalProcFee = info.TotalProcFee;
                 }
+                //else
+                //{
+                //    info.TotalPayout = liner.TotalPayout;
+                //    info.TotalDisbAmt = liner.TotalDisbAmt;
+                //    info.TotalProcFee = liner.TotalProcFee;
+                //}
             }
         }
 
@@ -75,7 +81,14 @@ namespace BillingService2.Calculation
         public void ManageInfoBeforeCapping(DHFL_Liner liner)
         {
             var info = InfoList[liner.ApplNo];
-            liner.TotalDeductCap = info.TotalDeductCap;
+            if (liner.DisbMonth == liner.BillMonth)
+            {
+                liner.TotalDeductCap = info.TotalDeductCap;
+            }
+            //else
+            //{
+            //    info.TotalDeductCap = liner.TotalDeductCap;
+            //}
         }
 
         public void ManageInfoAfterCapping(DHFL_Liner liner)
