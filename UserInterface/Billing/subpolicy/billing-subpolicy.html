@@ -67,7 +67,7 @@
             <!--Button-->
             <div class="row text-right" id="subpolicy-buttons">
                 <cs-button type="save"
-                           data-ng-disabled="payoutSubpolicyForm.$invalid "
+                           data-ng-disabled="(payoutSubpolicyForm.$invalid || (selectedTokens.conditionTokens.length < 3 ||selectedTokens.ifOutputTokens.length < 3))"
                            data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
                 </cs-button>
 
