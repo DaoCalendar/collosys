@@ -639,10 +639,6 @@
     <None Include="Properties\PublishProfiles\webapitest.pubxml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
-      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
-      <Name>Collosys.BillingService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ColloSys.DataLayer.Migrate\ColloSys.DataLayer.Migrate.csproj">
       <Project>{808ccb95-8534-4ec4-b3b9-5bec22119be5}</Project>
       <Name>ColloSys.DataLayer.Migrate</Name>

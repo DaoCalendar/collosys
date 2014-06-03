@@ -12,7 +12,8 @@ csapp.directive("csOutput", function () {
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 
@@ -148,7 +149,8 @@ csapp.directive("csCondition", function () {
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 
@@ -284,7 +286,8 @@ csapp.directive('csIfElse', function () {
             formulaList: '=',
             groupId: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 });
@@ -306,7 +309,8 @@ csapp.directive('csMultiIfElse', function () {
             formulaList: '=',
             matrixList: '=',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 });

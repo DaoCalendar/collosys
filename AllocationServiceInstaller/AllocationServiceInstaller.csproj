@@ -108,10 +108,6 @@
       <Project>{65ca14cb-44d0-42c2-9945-cad72fa1519a}</Project>
       <Name>AllocationService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
-      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
-      <Name>Collosys.BillingService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
       <Name>ColloSys.Shared</Name>

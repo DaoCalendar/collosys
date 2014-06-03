@@ -27,9 +27,9 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
             modalData.payoutRelation.StartDate = modalData.startDate;
             modalData.payoutRelation.EndDate = modalData.endDate;
             $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
-            //datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
-            //    $modalInstance.close();
-            //});
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
+                $modalInstance.close();
+            });
         };
 
         $scope.modelDateValidation = function (startDate, endDate) {
@@ -167,16 +167,21 @@ csapp.factory('payoutPolicyFactory', [
 csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory', function (rest, $csnotify, $csfactory) {
     var restApi = rest.all("PayoutPolicyApi");
     var dldata = {};
-    dldata.expiredPlist = [];
     dldata.subpolicylist = [];
     dldata.ExpiredAndSubpolicy = [];
-    dldata.ExpiredAndSubpolicy = [];
-    dldata.unapprovedlist = [];
-    dldata.UnApprovedpayoutList = [];
-    dldata.approvelist = [];
-    dldata.ApprovedpayoutList = [];
     dldata.ApproveUnapproved = [];
-
+    dldata.buttonStatus = "";
+    dldata.Payoutsubpolicy = {
+        Name: "",
+        type: "",
+        Priority: "",
+        BillingRelations: {},
+        subpolicy: {}
+    };
+    dldata.listOne = [];
+    dldata.listTwo = [];
+    dldata.listThree = [];
+    dldata.listFour = [];
     dldata.categorySwitch = [{ Name: 'Collection', Value: 'Liner' }, { Name: 'Recovery', Value: 'WriteOff' }];
 
     var reset = function () {
@@ -197,10 +202,10 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                 dldata.payoutPolicy.PolicyFor = payoutPolicy.PolicyFor;
                 dldata.payoutPolicy.PolicyForId = payoutPolicy.PolicyForId;
                 dldata.subPolicyList = data.UnUsedSubpolicies;
-                dldata.expiredPlist = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
+                dldata.listOne = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
                     return filterRelation(item, false, '');
                 });
-                dldata.expiredsubpolicy = _.forEach(dldata.expiredPlist, function (row) {
+                _.forEach(dldata.listOne, function (row) {
                     dldata.Payoutsubpolicy = {
                         Name: row.BillingSubpolicy.Name,
                         type: row.Status,
@@ -208,21 +213,25 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                         BillingRelations: row,
                         subpolicy: row.BillingSubpolicy
                     };
+                    dldata.listTwo.push(dldata.Payoutsubpolicy);
                 });
-                dldata.PayoutSubpolicyList = _.forEach(data.UnUsedSubpolicies, function (row) {
+                _.forEach(data.UnUsedSubpolicies, function (row) {
                     dldata.Payoutsubpolicy = {
                         Name: row.Name,
                         type: "",
                         BillingRelations: {},
                         subpolicy: row
                     };
+                    dldata.listThree.push(dldata.Payoutsubpolicy);
                 });
-                dldata.ExpiredAndSubpolicy = _.union(dldata.expiredsubpolicy, dldata.PayoutSubpolicyList);
-
-                dldata.unapprovedlist = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
+                dldata.ExpiredAndSubpolicy = _.union(dldata.listTwo, dldata.listThree);
+                dldata.listOne = [];
+                dldata.listTwo = [];
+                dldata.listThree = [];
+                dldata.listOne = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
                     return filterRelation(item, true, 'Submitted');
                 });
-                dldata.UnApprovedpayoutList = _.forEach(dldata.unapprovedlist, function (row) {
+                _.forEach(dldata.listOne, function (row) {
                     dldata.Payoutsubpolicy = {
                         Name: row.BillingSubpolicy.Name,
                         type: row.Status,
@@ -230,11 +239,12 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                         BillingRelations: row,
                         subpolicy: row.BillingSubpolicy
                     };
+                    dldata.listTwo.push(dldata.Payoutsubpolicy);
                 });
-                dldata.approvelist = _.filter(dldata.payoutPolicy.BillingRelations, function(item) {
+                dldata.listThree = _.filter(dldata.payoutPolicy.BillingRelations, function (item) {
                     return filterRelation(item, true, 'Approved');
                 });
-                dldata.ApprovedpayoutList = _.forEach(dldata.approvelist, function(row) {
+                _.forEach(dldata.listThree, function (row) {
                     dldata.Payoutsubpolicy = {
                         Name: row.BillingSubpolicy.Name,
                         type: row.Status,
@@ -242,8 +252,9 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
                         BillingRelations: row,
                         subpolicy: row.BillingSubpolicy
                     };
+                    dldata.listFour.push(dldata.Payoutsubpolicy);
                 });
-                dldata.ApproveUnapproved = _.union(dldata.UnApprovedpayoutList,dldata.ApproveUnapproved);
+                dldata.ApproveUnapproved = _.union(dldata.listTwo, dldata.listFour);
 
             }, function (data) {
                 $csnotify.error(data);
@@ -262,6 +273,17 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         }
         return (dateFilter && statusfilter);
 
+    };
+
+    var resetList = function () {
+        dldata.subpolicylist = [];
+        dldata.ExpiredAndSubpolicy = [];
+        dldata.ApproveUnapproved = [];
+        dldata.buttonStatus = "";
+        dldata.listOne = [];
+        dldata.listTwo = [];
+        dldata.listThree = [];
+        dldata.listFour = [];
     };
 
     var getStakeHier = function () {
@@ -325,13 +347,14 @@ csapp.factory('payoutPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory'
         savePayoutPolicy: savePayoutPolicy,
         approveRelation: approveRelation,
         reset: reset,
+        resetList: resetList,
         GetStakeHier: getStakeHier
     };
 }]);
 
 csapp.controller('payoutPolicyCtrl', [
-    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal', '$csModels',
-    function ($scope, datalayer, factory, $modal, $csModels) {
+    '$scope', 'payoutPolicyDataLayer', 'payoutPolicyFactory', '$modal', '$csModels','$csfactory',
+    function ($scope, datalayer, factory, $modal, $csModels, $csfactory) {
 
         var findIndex = function (list, value) {
             var index = -1;
@@ -354,19 +377,36 @@ csapp.controller('payoutPolicyCtrl', [
                 case "Product":
                     $scope.applyOnArray = [$scope.dldata.payoutPolicy.Products];
                     break;
-
             }
             if (applyTo === 'Product') {
                 $scope.getSubpolicy();
             }
         };
 
-        $scope.setButtonStatus = function (status) {
-            $scope.buttonStatus = status;
+        $scope.setButtonStatus = function (policy) {
+            // $scope.buttonStatus = status;
+            if (policy.type === '') {
+                $scope.buttonStatus = 'Draft';
+            }
+            if (policy.type === 'Approved') {
+                $scope.buttonStatus = 'Approved';
+            }
+        };
+
+        var setButtonStatus = function (policy) {
+            //dldata.buttonStatus = status;
+            if (policy.Status === '') {
+                dldata.buttonStatus = 'Draft';
+            }
+            if (policy.Status === 'Approved') {
+                dldata.buttonStatus = 'Approved';
+            }
+            var date = moment.Date;
+
         };
 
         $scope.setDisplaySubpolicy = function (subpolicy, relation) {
-            if (angular.isUndefined(relation)) {
+            if (angular.isUndefined(relation) || $csfactory.isEmptyObject(relation)) {
                 $scope.billingRelation = subpolicy;
             } else {
                 $scope.billingRelation = relation;
@@ -414,6 +454,7 @@ csapp.controller('payoutPolicyCtrl', [
 
         $scope.getSubpolicy = function () {
             console.log("function called");
+            datalayer.resetList();
             datalayer.changeProductCategory();
         };
 

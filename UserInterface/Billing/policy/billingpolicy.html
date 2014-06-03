@@ -1,17 +1,16 @@
 ﻿<cs-form layout="6.4.8">
-    <div data-ng-form="payoutPolicyForm" >
+    <div data-ng-form="payoutPolicyForm">
         <div class="row">
-            
-            <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.Products" 
+
+            <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.Products"
                       field="BillingPolicy.Products"></cs-field>
-            
+
             <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyType"
-                    
-                      field="BillingPolicy.PolicyType" ></cs-field>
-            
+                      field="BillingPolicy.PolicyType"></cs-field>
+
             <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyFor"
                       field="BillingPolicy.ApplyTo" data-ng-change="getApplyToData(dldata.payoutPolicy.PolicyFor)"></cs-field>
-            
+
             <div data-ng-if="dldata.payoutPolicy.PolicyFor != 'Product' && dldata.payoutPolicy.Products">
                 <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.PolicyForId" data-ng-change="getSubpolicy()"
                           field="BillingPolicy.ApplyOn" value-list="applyOnArray"></cs-field>
@@ -22,26 +21,26 @@
                           field="BillingPolicy.ApplyOnText" data-ng-disabled="true" data-ng-change="getSubpolicy()"></cs-field>
             </div>
         </div>
-            <!--<div class="row" data-ng-if="false">
-                <div class="form-group col-md-6">
-                    <label class="col-md-4">Name</label>
-                    <div class="col-md-8">
-                        <input type="text" data-ng-model="dldata.payoutPolicy.Name"
-                               data-ng-pattern="/^\w*$/" readonly="readonly" required />
-                    </div>
+        <!--<div class="row" data-ng-if="false">
+            <div class="form-group col-md-6">
+                <label class="col-md-4">Name</label>
+                <div class="col-md-8">
+                    <input type="text" data-ng-model="dldata.payoutPolicy.Name"
+                           data-ng-pattern="/^\w*$/" readonly="readonly" required />
                 </div>
-            </div>-->
-        </div>
-   
-    <div class="col-md-9">
+            </div>
+        </div>-->
+    </div>
+
+    <div class="col-md-9" >
         <div class="col-md-5">
-            <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, BillingRelations); setButtonStatus(policy)"></cs-list>
+            <cs-list2 list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
-            <cs-list list-heading="Approved/UnApproved SubPolicy" value-list="dldata.ApproveUnapproved" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, BillingRelations); setButtonStatus(policy)"></cs-list>
+            <cs-list2 list-heading="Approved/UnApproved SubPolicy" value-list="dldata.ApproveUnapproved" text-field="Name"
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
         </div>
     </div>
     <div class="row" data-ng-show="false">
@@ -52,17 +51,17 @@
             <div class="box">
                 <!--Expired-->
                 <div class="policy-name-box"
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
+                         data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--Draft-->
                 <div class="policy-name-box"
-                    data-ng-repeat="subPolicy in dldata.subPolicyList">
+                     data-ng-repeat="subPolicy in dldata.subPolicyList">
                     <div class="clickableName"
-                        data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
+                         data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
                         {{subPolicy.Name}}
                     </div>
                 </div>
@@ -74,17 +73,17 @@
             <div class="box">
                 <!--Approved-->
                 <div class="policy-name-box"
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
                     <div class="clickableName"
-                        data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                         data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
                 <!--UnApproved-->
                 <div class="policy-name-box alert-error"
-                    data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
+                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
                     <div class="clickableName"
-                        data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                         data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
                         {{billingRelation.BillingSubpolicy.Name}}
                     </div>
                 </div>
@@ -107,27 +106,27 @@
                                     <!--<div class="form-group">
                                         <div class="controls">-->
                                     <cs-button type="delete" text="Deactivate"
-                                        data-ng-show="buttonStatus=='Approved'"
-                                        data-ng-click="openModelDeactivateSubPolicy(billingRelation);"></cs-button>
+                                               data-ng-show="buttonStatus=='Approved'"
+                                               data-ng-click="openModelDeactivateSubPolicy(policy.BillingRelations);"></cs-button>
                                     <!--for draft-->
                                     <cs-button type="save" text="Activate"
-                                        data-ng-show="buttonStatus=='Draft'"
-                                        data-ng-click="openModelNewSubPolicy(billingRelation,$index);"></cs-button>
+                                               data-ng-show="buttonStatus=='Draft'"
+                                               data-ng-click="openModelNewSubPolicy(policy.subpolicy,$index);"></cs-button>
 
                                     <!--for Expired-->
                                     <cs-button type="add" text="Reactivate"
-                                        data-ng-show="buttonStatus=='Expired'"
-                                        data-ng-click="openModelReactivateSubPolicy(billingRelation);">
+                                               data-ng-show="buttonStatus=='Expired'"
+                                               data-ng-click="openModelReactivateSubPolicy(policy);">
                                     </cs-button>
 
                                     <cs-button type="save" text="Approve"
                                                data-ng-show="buttonStatus=='UnApproved'"
-                                               data-ng-click="approve(billingRelation)">
+                                               data-ng-click="approve(policy.BillingRelations)">
                                     </cs-button>
 
                                     <cs-button type="save" text="Reject"
                                                data-ng-show="buttonStatus=='UnApproved'"
-                                               data-ng-click="reject(billingRelation)">
+                                               data-ng-click="reject(policy.BillingRelations)">
                                     </cs-button>
 
                                     <!--   </div>
@@ -140,41 +139,60 @@
                             <!--Name & Policy-->
                             <div class="row">
                                 <!--Name-->
-                                
-                                    <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
-                                        field="BillingPolicy.Name"></cs-field>
+
+                                <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
+                                          field="BillingPolicy.Name"></cs-field>
                             </div>
                             <!--Output & Condition-->
                             <div class="row" style="margin-bottom: 5px">
                                 <!--Output-->
-                                        <!-- <cs-field data-ng-model="disSubPolicy.Output" data-ng-disabled="true"
-                                                   field="BillingPolicy.Output"></cs-field>-->
-                                        <label class="col-md-4 control-label">Output</label>
-                                        <div class="col-md-8">
-                                            <textarea class="noResize form-control"
-                                                      style="height: 150px"
-                                                      data-ng-model="disSubPolicy.Output"></textarea>
+                                <!-- <cs-field data-ng-model="disSubPolicy.Output" data-ng-disabled="true"
+                                           field="BillingPolicy.Output"></cs-field>-->
+                                <!--<label class="col-md-4 control-label">Output</label>
+                                    <div class="col-md-8">
+                                        <textarea class="noResize form-control"
+                                                  style="height: 150px"
+                                                  data-ng-model="disSubPolicy.Output"></textarea>
+                                    </div>-->
+                               <!--Output -->
+                                <div>
+                                    <cs-output table-name="DhflLiner"
+                                               selected="selParams"
+                                               formula-list="formulaList"
+                                               matrix-list="matrixList"
+                                               tokens-list="selectedTokens.ifOutputTokens"
+                                               group-type="Output"
+                                               group-id="1.Output" edit="false"></cs-output>
                                 </div>
                                 <!--Condition-->
-                                        <!--   <cs-field data-ng-model="disSubPolicy.Condition" data-ng-disabled="true"
-                                                     field="BillingPolicy.Condition"></cs-field>-->
-                                        <label class="col-md-4 control-label">Condition</label>
-                                        <div class="col-md-8">
-                                            <textarea class="noResize form-control"
-                                                style="height: 150px"
-                                                data-ng-model="disSubPolicy.Condition"
-                                                cols="25" data-ng-disabled="true"></textarea>
-                                        </div>
+                                <!--   <cs-field data-ng-model="disSubPolicy.Condition" data-ng-disabled="true"
+                                                 field="BillingPolicy.Condition"></cs-field>-->
+                                <div>
+                                    <cs-condition table-name="DhflLiner"
+                                                  selected="selParams"
+                                                  formula-list="formulaList"
+                                                  tokens-list="selectedTokens.conditionTokens"
+                                                  group-id="0.Condition"
+                                                  group-type="Condition"
+                                                  debug="false" edit="false"></cs-condition>
                                 </div>
-                           
+                                <!--<label class="col-md-4 control-label">Condition</label>
+                                <div class="col-md-8">
+                                    <textarea class="noResize form-control"
+                                              style="height: 150px"
+                                              data-ng-model="disSubPolicy.Condition"
+                                              cols="25" data-ng-disabled="true"></textarea>
+                                </div>-->
+                            </div>
+
                             <!--StartDate & EndDate-->
-                            <div class="row">
+                            <div class="row" data-ng-show="buttonStatus!=='Draft'">
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <label class="col-md-4 control-label">Start Date</label>
                                         <div class="col-md-8">
                                             <input type="text" class="form-control" readonly
-                                                value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
+                                                   value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                 </div>
