@@ -24,9 +24,9 @@
     </div>
 
     <div class="panel-footer text-right">
-        <cs-button type="add" text="Approve" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)"></cs-button>
-        <cs-button type="close" data-ng-click="CloseAdhocPayoutManager()"></cs-button>
-        <cs-button type="reset" data-ng-click="resetadhocPayout()"></cs-button>
+        <cs-button type="save" permission="Billing,AdhocPayout,AddEdit" data-ng-disabled="!(adhocPayoutform.$valid) || (dldata.isBilled == 'true')" data-ng-click="saveData(adhocPayout)"></cs-button>
+        <cs-button type="close" permission="Billing,AdhocPayout,AddEdit" data-ng-click="CloseAdhocPayoutManager()"></cs-button>
+        <cs-button type="reset" permission="Billing,AdhocPayout,AddEdit" data-ng-click="resetadhocPayout()"></cs-button>
     </div>
 </form>
 

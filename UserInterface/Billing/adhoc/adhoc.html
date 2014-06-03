@@ -16,14 +16,14 @@
                               ng-required="true" value-list="dldata.stakeholderList"></cs-field>
                 </div> 
                 <div data-ng-show="dldata.selectedProduct && dldata.selectedStkholderId">
-                    <cs-button type="add" data-ng-click="openmodal('add')"></cs-button>
+                    <cs-button type="add" permission="Billing,AdhocPayout,AddEdit" data-ng-click="openmodal('add')"></cs-button>
                 </div>
             </cs-form>
         </div>
     </div>
 
     <!--Table showing details-->
-    <div class="row" style="width: 100%" data-ng-show="dldata.adhocPayoutList.length>0">
+    <div style="width: 100%" data-ng-show="dldata.adhocPayoutList.length>0">
         <table class="table table-bordered" style="overflow: auto">
             <thead>
                 <tr>
