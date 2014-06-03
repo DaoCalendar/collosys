@@ -92,7 +92,7 @@
         <div class="col-md-1"></div>
     </div>
 
-    <div class="margin-box container-fluid" data-ng-show="buttonStatus" data-ng-form="policyForm">
+    <div class="margin-box container-fluid" data-ng-show="dldata.buttonStatus" data-ng-form="policyForm">
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-9">
@@ -100,32 +100,32 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <b class="col-md-2">{{disSubPolicy.Name}} :({{buttonStatus}})</b>
+                                <b class="col-md-2">{{disSubPolicy.Name}} :({{dldata.buttonStatus}})</b>
                                 <!--Deactivate,Approv, Reject Buttons-->
                                 <div class="pull-right" style="margin-right: 5px">
                                     <!--<div class="form-group">
                                         <div class="controls">-->
                                     <cs-button type="delete" text="Deactivate"
-                                               data-ng-show="buttonStatus=='Approved'"
+                                               data-ng-show="dldata.buttonStatus=='Approved'"
                                                data-ng-click="openModelDeactivateSubPolicy(policy.BillingRelations);"></cs-button>
                                     <!--for draft-->
                                     <cs-button type="save" text="Activate"
-                                               data-ng-show="buttonStatus=='Draft'"
+                                               data-ng-show="dldata.buttonStatus=='Draft'"
                                                data-ng-click="openModelNewSubPolicy(policy.subpolicy,$index);"></cs-button>
 
                                     <!--for Expired-->
                                     <cs-button type="add" text="Reactivate"
-                                               data-ng-show="buttonStatus=='Expired'"
+                                               data-ng-show="dldata.buttonStatus=='Expired'"
                                                data-ng-click="openModelReactivateSubPolicy(policy);">
                                     </cs-button>
 
                                     <cs-button type="save" text="Approve"
-                                               data-ng-show="buttonStatus=='UnApproved'"
+                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
                                                data-ng-click="approve(policy.BillingRelations)">
                                     </cs-button>
 
                                     <cs-button type="save" text="Reject"
-                                               data-ng-show="buttonStatus=='UnApproved'"
+                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
                                                data-ng-click="reject(policy.BillingRelations)">
                                     </cs-button>
 
@@ -186,7 +186,7 @@
                             </div>
 
                             <!--StartDate & EndDate-->
-                            <div class="row" data-ng-show="buttonStatus!=='Draft'">
+                            <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'">
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <label class="col-md-4 control-label">Start Date</label>

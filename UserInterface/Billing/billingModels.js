@@ -33,7 +33,7 @@
     var billingPolicy = function () {
         return {
             Name: { label: 'Name', type: 'text' },
-            Products: { label: 'Product', type: 'enum', valueList: $csShared.enums.Products },
+            Products: { label: 'Product', type: 'enum', valueList:[] },
             Category: { label: 'Category', type: 'enum', valueList: $csShared.enums.Category },
             Output: { label: "Output", type: "textarea" },
             Condition: { label: "Condition", type: "textarea" },
