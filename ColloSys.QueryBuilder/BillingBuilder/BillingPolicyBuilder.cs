@@ -27,11 +27,18 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         public BillingPolicy OnProductCategory(ScbEnums.Products products, ScbEnums.Category category)
         {
             return SessionManager.GetCurrentSession().Query<BillingPolicy>()
-                                 .Where(x => x.Products == products && x.Category == category)
-                                 .FetchMany(x => x.BillingRelations)
-                                 .ThenFetch(r => r.BillingSubpolicy)
-                                 .ThenFetch(s => s.BConditions)
-                                 .SingleOrDefault();
+              .Where(x => x.Products == products && x.Category == category)
+              .FetchMany(x => x.BillingRelations)
+              .ThenFetch(r => r.BillingSubpolicy)
+              .ThenFetch(s => s.BillTokens)
+              .SingleOrDefault();
+            //return SessionManager.GetCurrentSession().Query<BillingPolicy>()
+            //                     .Where(x => x.Products == products && x.Category == category)
+            //                   .FetchMany(x => x.BillingRelations)
+            //                     .ThenFetch(r => r.BillingSubpolicy)
+            //                     .ThenFetch(s=>s.BillTokens)
+            //                     //.ThenFetch(s => s.BConditions)
+            //                     .SingleOrDefault();
         }
 
         [Transaction]

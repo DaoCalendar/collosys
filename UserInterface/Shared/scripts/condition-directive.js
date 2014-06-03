@@ -122,6 +122,9 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         };
 
         $scope.setValidation = function () {
+            if (angular.isUndefined($scope.tokensList)) {
+                return;
+            }
             if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
                 return 'bg-danger';
             }

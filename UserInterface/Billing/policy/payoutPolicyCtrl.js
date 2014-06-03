@@ -56,8 +56,11 @@ csapp.factory('payoutPolicyFactory', [
         var getDisplaySubPolicy = function (subPolicy) {
             var displaySubPolicy = {};
             displaySubPolicy.Name = subPolicy.Name;
-            displaySubPolicy.Condition = getOuputConditionString(subPolicy, 'Condition');
-            displaySubPolicy.Output = getOuputConditionString(subPolicy, 'Output');
+            displaySubPolicy.conditionTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'Condition' });
+            displaySubPolicy.ifOutputTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'Output' });
+            displaySubPolicy.ElseOutputTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'ElseOutput' });
+            //displaySubPolicy.Condition = getOuputConditionString(subPolicy, 'Condition');
+            //displaySubPolicy.Output = getOuputConditionString(subPolicy, 'Output');
             return displaySubPolicy;
         };
 
@@ -434,10 +437,24 @@ csapp.controller('payoutPolicyCtrl', [
                 subPolicyIndex: -1,
                 forActivate: true
             };
+            datalayer.resetList();
             datalayer.GetStakeHier().then(function (data) {
                 $scope.stakeHierarchy = data;
             });
         })();
+        $scope.onProductChange = function() {
+            datalayer.resetList();
+            $scope.buttonStatus = "";
+            $scope.dldata.payoutPolicy.PolicyType = "";
+            $scope.dldata.payoutPolicy.PolicyFor = "";
+            $scope.dldata.payoutPolicy.PolicyForId = "";
+        };
+        $scope.onPolicyTypeChange = function() {
+            datalayer.resetList();
+            $scope.buttonStatus = "";
+            $scope.dldata.payoutPolicy.PolicyFor = "";
+            $scope.dldata.payoutPolicy.PolicyForId = "";
+        };
 
         var openmodal = function (modaldata) {
             $modal.open({

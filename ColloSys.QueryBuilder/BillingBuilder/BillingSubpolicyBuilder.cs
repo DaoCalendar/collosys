@@ -74,6 +74,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                              && x.Products == products && x.Category == category)
                                  .WhereRestrictionOn(x => x.Id)
                                  .Not.IsIn(savedSubnpoliciesIds)
+                                 .Fetch(x=>x.BillTokens).Eager
                                  .Fetch(x => x.BConditions).Eager
                                  .Fetch(x => x.BillingRelations).Eager
                                  .TransformUsing(Transformers.DistinctRootEntity)

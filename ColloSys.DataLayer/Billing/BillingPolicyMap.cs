@@ -3,6 +3,8 @@
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using NHibernate;
+using NHibernate.Mapping;
+
 #endregion
 
 namespace ColloSys.DataLayer.Mapping
@@ -48,6 +50,7 @@ namespace ColloSys.DataLayer.Mapping
             Set(x => x.BillingRelations, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.CollectionStkhPayments, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.RecoveryStkhPayments, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.StkhPayments, colmap => { }, map => map.OneToMany(x => { }));
             Set(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
             #endregion

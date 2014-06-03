@@ -2,11 +2,11 @@
     <div data-ng-form="payoutPolicyForm">
         <div class="row">
 
-            <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.Products"
+            <cs-field layout="3.4.8" data-ng-model="dldata.payoutPolicy.Products" data-ng-change="onProductChange()"
                       field="BillingPolicy.Products"></cs-field>
 
             <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyType"
-                      field="BillingPolicy.PolicyType"></cs-field>
+                      data-ng-change="onPolicyTypeChange()" field="BillingPolicy.PolicyType"></cs-field>
 
             <cs-field layout="3.4.8" data-ng-show="dldata.payoutPolicy.Products" data-ng-model="dldata.payoutPolicy.PolicyFor"
                       field="BillingPolicy.ApplyTo" data-ng-change="getApplyToData(dldata.payoutPolicy.PolicyFor)"></cs-field>
@@ -32,15 +32,15 @@
         </div>-->
     </div>
 
-    <div class="col-md-9" >
+    <div class="col-md-9" data-ng-show="dldata.payoutPolicy.Products">
         <div class="col-md-5">
             <cs-list2 list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
+                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
             <cs-list2 list-heading="Approved/UnApproved SubPolicy" value-list="dldata.ApproveUnapproved" text-field="Name"
-                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
+                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
         </div>
     </div>
     <div class="row" data-ng-show="false">
@@ -137,7 +137,7 @@
                         <div class="panel-body">
 
                             <!--Name & Policy-->
-                            <div class="row">
+                            <div class="col-md-5">
                                 <!--Name-->
 
                                 <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
@@ -160,7 +160,7 @@
                                                selected="selParams"
                                                formula-list="formulaList"
                                                matrix-list="matrixList"
-                                               tokens-list="selectedTokens.ifOutputTokens"
+                                               tokens-list="disSubPolicy.ifOutputTokens"
                                                group-type="Output"
                                                group-id="1.Output" edit="false"></cs-output>
                                 </div>
@@ -171,7 +171,7 @@
                                     <cs-condition table-name="DhflLiner"
                                                   selected="selParams"
                                                   formula-list="formulaList"
-                                                  tokens-list="selectedTokens.conditionTokens"
+                                                  tokens-list="disSubPolicy.conditionTokens"
                                                   group-id="0.Condition"
                                                   group-type="Condition"
                                                   debug="false" edit="false"></cs-condition>

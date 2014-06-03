@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using NHibernate;
@@ -18,6 +19,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual Iesi.Collections.Generic.ISet<BillingRelation> BillingRelations { get; set; }
         public virtual IList<StkhPayment> CollectionStkhPayments { get; set; }
         public virtual IList<StkhPayment> RecoveryStkhPayments { get; set; }
+        public virtual IList<BillTokens> BillTokens { get; set; }
 
         public virtual Iesi.Collections.Generic.ISet<StkhPayment> StkhPayments { get; set; }
         public virtual Iesi.Collections.Generic.ISet<BillDetail> BillDetails { get; set; }
