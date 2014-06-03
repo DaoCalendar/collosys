@@ -530,4 +530,6 @@ multiselect {
 
 .rectangle {
     border: 1px solid #dddddd;
+    margin: 3px;
+    padding: 3px;
 }
