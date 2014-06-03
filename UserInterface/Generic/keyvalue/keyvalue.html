@@ -25,13 +25,13 @@
                         <thead>
                             <tr>
                                 <th>
-                                    <icon-btn type="add" data-ng-show="showAddButton" data-ng-click="addNew=true"></icon-btn>
+                                    <icon-btn type="add" permission="Config,KeyValue,AddEdit" data-ng-show="showAddButton" data-ng-click="addNew=true"></icon-btn>
                                 </th>
                                 <th>Values</th>
                             </tr>
                             <tr data-ng-show="showAddButton && addNew" data-ng-form="addNewValueForm">
                                 <td>
-                                    <icon-btn type="save" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></icon-btn>
+                                    <icon-btn type="save" permission="Config,KeyValue,AddEdit" data-ng-show="addNewValueForm.$valid" data-ng-click="saveKeyValue(gKeyValue,dldata.gKeyValue.ValueType);addNew=false"></icon-btn>
                                 </td>
                                 <td>
                                     <div data-ng-switch on="dldata.gKeyValue.ValueType">
@@ -63,8 +63,8 @@
                             <tr data-ng-repeat="v in dldata.Values | orderBy : 'Value'">
                                 <td>
                                     <div class="btn-group">
-                                        <icon-btn type="edit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></icon-btn>
-                                        <icon-btn type="save" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></icon-btn>
+                                        <icon-btn type="edit" permission="Config,KeyValue,AddEdit" data-ng-show="!isEdit" data-ng-click="isEdit=true"></icon-btn>
+                                        <icon-btn type="save" permission="Config,KeyValue,AddEdit" data-ng-show="isEdit" data-ng-click="saveKeyValue(v,dldata.gKeyValue.ValueType);isEdit=false"></icon-btn>
                                     </div>
                                 </td>
                                 <td>

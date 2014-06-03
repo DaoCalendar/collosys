@@ -16,7 +16,7 @@
 
                 <tr>
                     <th class="text-center">
-                        <icon-btn type="add" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                        <icon-btn type="add" permission="Config,Taxmaster,AddEdit" data-ng-click="showAddEditPopup('add')"></icon-btn>
                     </th>
                     <th>
                         <input type="text" class="form-control" data-ng-model="search.GTaxesList.TaxName" /></th>
@@ -36,8 +36,8 @@
                 <tr data-ng-repeat="tax in taxMasterList | filter: search">
                     <td>
                         <div class="btn-group" style="width: 70px">
-                            <icon-btn type="view" data-ng-click="showAddEditPopup('view', tax)"></icon-btn>
-                            <icon-btn type="edit" data-ng-click="showAddEditPopup('edit', tax)"></icon-btn>
+                            <icon-btn type="view" permission="Config,Taxmaster,View" data-ng-click="showAddEditPopup('view', tax)"></icon-btn>
+                            <icon-btn type="edit" permission="Config,Taxmaster,AddEdit" data-ng-click="showAddEditPopup('edit', tax)"></icon-btn>
                         </div>
                     </td>
                     <td>{{tax.GTaxesList.TaxName}}</td>
