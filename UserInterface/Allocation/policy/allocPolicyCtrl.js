@@ -294,12 +294,7 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
         var dldata = {};
         var api = rest.all('AllocationPolicyApi');
 
-        dldata.expiredPolicyList = [];
-        dldata.expiredPolicyUniqList = [];
-        dldata.approvedPolicyList = [];
         dldata.ApproveUnapp = [];
-        dldata.approvedPolicyUniqList = [];
-        dldata.unapprovedPolicyUniqList = [];
         dldata.draftAndExpired = [];
         dldata.subpolicyList = [];
         dldata.subpolicyObj = {
@@ -309,6 +304,10 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             subpolicy: {}
         };
         dldata.buttonStatus = "";
+        dldata.listOne = [];
+        dldata.listTwo = [];
+        dldata.listThree = [];
+        dldata.listFour = [];
         var getProducts = function () {
             dldata.productsList = [];
             api.customGET("GetProducts").then(function (data) {
@@ -332,18 +331,18 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                     dldata.buttonStatus = "";
                     dldata.allocPolicy = data.AllocPolicy;
                     dldata.subPolicyList = data.UnUsedSubpolicies;
-                    dldata.expiredPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    dldata.listOne = _.filter(data.AllocPolicy.AllocRelations, function (row) {
                         return frelation(row, false, '');
                     });
                     //  "Expired/Draft"
-                    _.forEach(dldata.expiredPolicyList, function (row) {
+                    _.forEach(dldata.listOne, function (row) {
                         dldata.subpolicyObj = {
                             Name: row.AllocSubpolicy.Name,
                             type: row.Status,
                             allocRelation: row,
                             subpolicy: row.AllocSubpolicy
                         };
-                        dldata.expiredPolicyUniqList.push(dldata.subpolicyObj);
+                        dldata.listTwo.push(dldata.subpolicyObj);
                     });
                     _.forEach(data.UnUsedSubpolicies, function (row) {
                         dldata.subpolicyObj = {
@@ -354,12 +353,14 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                         };
                         dldata.subpolicyList.push(dldata.subpolicyObj);
                     });
-                    dldata.draftAndExpired = _.union(dldata.expiredPolicyUniqList, dldata.subpolicyList);
+                    dldata.draftAndExpired = _.union(dldata.listTwo, dldata.subpolicyList);
+                    dldata.listTwo = [];
+                    dldata.listOne = [];
                     // Approved/Unapproved
-                    dldata.approvedPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    dldata.listOne = _.filter(data.AllocPolicy.AllocRelations, function (row) {
                         return frelation(row, true, 'Approved');
                     });
-                    _.forEach(dldata.approvedPolicyList, function (row) {
+                    _.forEach(dldata.listOne, function (row) {
                         dldata.subpolicyObj = {
                             Name: row.AllocSubpolicy.Name,
                             type: row.Status,
@@ -367,12 +368,12 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                             allocRelation: row,
                             subpolicy: row.AllocSubpolicy
                         };
-                        dldata.approvedPolicyUniqList.push(dldata.subpolicyObj);
+                        dldata.listTwo.push(dldata.subpolicyObj);
                     });
-                    dldata.unapprovedPolicyList = _.filter(data.AllocPolicy.AllocRelations, function (row) {
+                    dldata.listThree = _.filter(data.AllocPolicy.AllocRelations, function (row) {
                         return frelation(row, true, 'Submitted');
                     });
-                    _.forEach(dldata.unapprovedPolicyList, function (row) {
+                    _.forEach(dldata.listThree, function (row) {
                         dldata.subpolicyObj = {
                             Name: row.AllocSubpolicy.Name,
                             type: row.Status,
@@ -380,10 +381,9 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
                             allocRelation: row,
                             subpolicy: row.AllocSubpolicy
                         };
-                        dldata.unapprovedPolicyUniqList.push(dldata.subpolicyObj);
-                        console.log(dldata.unapprovedPolicyUniqList);
+                        dldata.listFour.push(dldata.subpolicyObj);
                     });
-                    dldata.ApproveUnapp = _.union(dldata.approvedPolicyUniqList, dldata.unapprovedPolicyUniqList);
+                    dldata.ApproveUnapp = _.union(dldata.listTwo, dldata.listFour);
                 });
             }
         };
@@ -453,14 +453,13 @@ csapp.factory('allocPolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
             dldata.subPolicyList = {};
         };
         var resetList = function () {
-            dldata.expiredPolicyList = [];
-            dldata.expiredPolicyUniqList = [];
-            dldata.approvedPolicyList = [];
             dldata.ApproveUnapp = [];
-            dldata.approvedPolicyUniqList = [];
-            dldata.unapprovedPolicyUniqList = [];
             dldata.draftAndExpired = [];
             dldata.subpolicyList = [];
+            dldata.listOne = [];
+            dldata.listTwo = [];
+            dldata.listThree = [];
+            dldata.listFour = [];
         };
 
         return {
