@@ -527,3 +527,7 @@ multiselect {
             padding: 3px 10px;
             cursor: pointer;
         }
+
+.rectangle {
+    border: 1px solid #dddddd;
+}

@@ -7,11 +7,14 @@
     </div>
     <div class="modal-footer">
         <cs-button type="ok" text="{{modalOptions.actionButtonText}}"
+                   permission="All"
                    data-ng-click="modalOptions.ok();">
             {{modalOptions.actionButtonText}}</cs-button>
         <cs-button type="cancel" text="{{modalOptions.closeButtonText}}"
+                   permission="All"
                    data-ng-click="modalOptions.close()">
             {{modalOptions.closeButtonText}}</cs-button>
     </div>
 </form>
+
 

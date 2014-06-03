@@ -178,7 +178,11 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
             var schedule = AddActivity(fileUpload, ColloSysEnums.Activities.ScheduleFile);
             AddActivity(schedule, ColloSysEnums.Activities.Schedule);
-            AddActivity(schedule, ColloSysEnums.Activities.Status);
+
+            var status = AddActivity(fileUpload, ColloSysEnums.Activities.Status);
+            AddActivity(status, ColloSysEnums.Activities.AddEdit);
+            AddActivity(status, ColloSysEnums.Activities.Delete);
+            AddActivity(status, ColloSysEnums.Activities.View);
 
             var customerData = AddActivity(fileUpload, ColloSysEnums.Activities.CustomerData);
             AddActivity(customerData, ColloSysEnums.Activities.View);
