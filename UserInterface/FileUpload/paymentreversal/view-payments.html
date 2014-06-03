@@ -1,15 +1,17 @@
 ﻿<form name="viewPayment">
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label class="col-md-4 control-label">System</label>
-            <select data-ng-model="selectedSystem" class="col-md-8" data-ng-change="getData(selectedSystem)">
-                <option value=""></option>
-                <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
-            </select>
+    <div class="row" style="margin-bottom: 7px">
+        <div class="col-md-5">
+            <label class="col-md-4">System</label>
+            <div class="col-md-8">
+                <select data-ng-model="selectedSystem" class="form-control" data-ng-change="getData(selectedSystem)">
+                    <option value=""></option>
+                    <option data-ng-repeat="s in dldata.scbSystems | orderBy: 'toString()'">{{s}}</option>
+                </select>
+            </div>
         </div>
         <div class="col-md-4">
-            <cs-button type="add" text="Exclude Case" data-ng-show="gridOptions.showGrid == true" data-ng-click="excludePayment()"></cs-button>
-            <cs-button type="add" text="Add Case" data-ng-show="selectedSystem" data-ng-click="OpenAddPaymentModal()"></cs-button>
+            <cs-button type="add" text="Exclude Case" permission="Billing,ModifyPayment,AddEdit" data-ng-show="gridOptions.showGrid == true" data-ng-click="excludePayment()"></cs-button>
+            <cs-button type="add" text="Add Case" permission="Billing,ModifyPayment,AddEdit" data-ng-show="selectedSystem" data-ng-click="OpenAddPaymentModal()"></cs-button>
         </div>
     </div>
 
@@ -18,3 +20,4 @@
         <div style="height: 500px" data-ng-grid="gridOptions"></div>
     </div>
 </form>
+

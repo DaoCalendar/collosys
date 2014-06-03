@@ -27,9 +27,9 @@
     </div>
 
     <div class="modal-footer">
-        <cs-button type="save" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)"></cs-button>
-        <cs-button type="close" data-ng-click="close()"></cs-button>
-        <cs-button type="reset" data-ng-click="reset()"></cs-button>
+        <cs-button type="save" permission="Billing,ModifyPayment,AddEdit" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)"></cs-button>
+        <cs-button type="close" permission="Billing,ModifyPayment,AddEdit" data-ng-click="close()"></cs-button>
+        <cs-button type="reset"  permission="Billing,ModifyPayment,AddEdit" data-ng-click="reset()"></cs-button>
     </div>
 </form>
 

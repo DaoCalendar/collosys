@@ -264,7 +264,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var manageHoldingActivity = AddActivity(billing, ColloSysEnums.Activities.ManageHolidng, desciption: "Manage Holding");
             AddActivity(manageHoldingActivity, ColloSysEnums.Activities.View);
             AddActivity(manageHoldingActivity, ColloSysEnums.Activities.AddEdit);
-            AddActivity(manageHoldingActivity, ColloSysEnums.Activities.Approve);
+            AddActivity(manageHoldingActivity, ColloSysEnums.Activities.Delete);
 
             var modifyPayment = AddActivity(billing, ColloSysEnums.Activities.ModifyPayment);
             AddActivity(modifyPayment, ColloSysEnums.Activities.View);

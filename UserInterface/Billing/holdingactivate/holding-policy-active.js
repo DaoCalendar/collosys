@@ -7,6 +7,7 @@ csapp.factory('holdingactiveDatalayer',
 
             var pageData = function (products) {
                 return restApi.customGET('GetPageData', { products: products }).then(function (data) {
+                    dldata.activelist = data;
                     return data;
                 });
             };
@@ -28,13 +29,23 @@ csapp.factory('holdingactiveDatalayer',
                     return data;
                 });
             };
+            
+            var getPolicy= function (detailsid) {
+                return restApi.customGET('GetData', { id: detailsid })
+                    .then(function(data) {
+                        return data;
+                    }, function() {
+                        $csnotify.error("Policy Not Saved");
+                    });
+            };
 
             return {
                 dldata: dldata,
                 pageData: pageData,
                 create: create,
                 getList: getList,
-                deleteData: deleteData
+                deleteData: deleteData,
+                Get: getPolicy
             };
         }]);
 
@@ -63,8 +74,13 @@ csapp.controller('holdingactiveCtrl', [
             });
         })();
 
-        $scope.showAddEditPopup = function (mode) {
+        $scope.showAddEditPopup = function (mode, policy) {
+            if (mode === 'edit' || mode === 'view') {
+                $location.path("/billing/holdingactive/addedit/" + mode + "/" + policy.Id);
+            }
+            else{
                 $location.path("/billing/holdingactive/addedit/" + mode);
+            }
         };
     }]);
 
@@ -112,13 +128,20 @@ csapp.controller('holdingactiveAddEditCtrl', [
                 $scope.ActPolicy.HoldingPolicy.valueList = data.HoldingPolicies;
             });
         };
-        
+         
         $scope.close = function () {
             $location.path("/billing/holdingactive");
         };
 
         (function () {
             $scope.active = {};
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function (data) {
+                    $scope.active = data;
+                });
+            } else {
+                $scope.active = {};
+            }
             $scope.ActPolicy = $csModels.getColumns("ActivateHoldingPolicy");
             calculateMonthList();
             initlocals();
@@ -131,6 +154,12 @@ csapp.controller('holdingactiveAddEditCtrl', [
             switch (mode) {
                 case "add":
                     $scope.modelTitle = "Add Holding Policy";
+                    break;
+                case "view":
+                    $scope.modelTitle = "View Holding Policy";
+                    break;
+                case "edit":
+                    $scope.modelTitle = "Update Holding Policy";
                     break;
                 default:
                     throw ("Invalid display mode : " + JSON.stringify(policy));

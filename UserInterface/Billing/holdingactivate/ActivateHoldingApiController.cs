@@ -47,5 +47,16 @@ namespace AngularUI.Billing.holdingpolicy
             var data = ActivateHoldingPolicyBuilder.GetAllActivateHoldingPolicies();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+
+
+        [HttpGet]
+        public HttpResponseMessage GetData()
+        {
+            var data = Session.QueryOver<ActivateHoldingPolicy>().Fetch(x => x.HoldingPolicy).Eager
+                              .Fetch(x => x.Stakeholder).Eager
+                              .SingleOrDefault();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
     }
 }
