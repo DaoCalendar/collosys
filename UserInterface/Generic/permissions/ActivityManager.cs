@@ -207,11 +207,6 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             //AddActivity(viewStakeholder, ColloSysEnums.Activities.View);
             //AddActivity(viewStakeholder, ColloSysEnums.Activities.Approve);
 
-            var addHierarchy = AddActivity(stakeholder, ColloSysEnums.Activities.Hierarchy);
-            AddActivity(addHierarchy, ColloSysEnums.Activities.View);
-            AddActivity(addHierarchy, ColloSysEnums.Activities.AddEdit);
-
-
             //var viewHierarchy = AddActivity(stakeholder, ColloSysEnums.Activities.ViewHierarchy);
             //AddActivity(viewHierarchy, ColloSysEnums.Activities.Update);
             //AddActivity(viewHierarchy, ColloSysEnums.Activities.View);
@@ -293,6 +288,10 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(permissionActivity, ColloSysEnums.Activities.View);
             AddActivity(permissionActivity, ColloSysEnums.Activities.Approve);
             AddActivity(permissionActivity, ColloSysEnums.Activities.AddEdit);
+
+            var HierarchyActivity = AddActivity(config, ColloSysEnums.Activities.Hierarchy);
+            AddActivity(HierarchyActivity, ColloSysEnums.Activities.View);
+            AddActivity(HierarchyActivity, ColloSysEnums.Activities.AddEdit);
 
             var productActivity = AddActivity(config, ColloSysEnums.Activities.Product, desciption: "Config");
             AddActivity(productActivity, ColloSysEnums.Activities.View);

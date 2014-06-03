@@ -101,18 +101,18 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         dldata.HierarchyList = _.sortBy(dldata.HierarchyList, 'PositionLevel');
         if (!$csfactory.isNullOrEmptyArray(dldata.HierarchyList)) {
             if ((stakeholder.Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
-                _.forEach(dldata.HierarchyList, function (item) {
-                    dldata.Designation.push(item);
+                dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
+                    if (data.Hierarchy === stakeholder.Hierarchy) return data;
                 });
                 //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
 
             } else {
 
-                dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
+                var design = _.filter(dldata.HierarchyList, function (data) {
                     return (data.Hierarchy === stakeholder.Hierarchy);
                 });
 
-                _.forEach(dldata.Designation, function (item) {
+                _.forEach(design, function (item) {
                     var reportTo = _.find(dldata.HierarchyList, { 'Id': item.ReportsTo });
                     var desig = {
                         Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
