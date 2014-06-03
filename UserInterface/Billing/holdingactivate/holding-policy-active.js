@@ -64,7 +64,6 @@ csapp.controller('holdingactiveCtrl', [
             datalayer.deleteData(policy).then(function () {
                 $scope.policyList.splice(index, 1);
             });
-
         };
 
         (function () {

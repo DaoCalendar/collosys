@@ -6,8 +6,12 @@
                 <cs-form layout="7.3.9" class="">
                     <cs-field data-ng-model="active.Products" field="ActPolicy.Products"
                               data-ng-change="pageData(active.Products)"></cs-field>
+                    
+                    <cs-field data-ng-model="active.HoldingPolicy" field="ActPolicy.HoldingPolicy"
+                              data-ng-change="pageData(active.Products)"></cs-field>
 
-                       
+                     <cs-field data-ng-model="active.Stakeholder" field="ActPolicy.Stakeholder"
+                              data-ng-change="pageData(active.Products)"></cs-field>
 
                     <cs-field data-ng-model="active.StartMonth" use-repeat="true" 
                               field="ActPolicy.StartMonth"></cs-field>
