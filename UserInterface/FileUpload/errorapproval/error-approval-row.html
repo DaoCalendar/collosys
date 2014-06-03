@@ -1,27 +1,29 @@
-﻿<div modal="showModel" close="closeModel()" options="modelOption">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3>Approve Error Modification</h3>
-        </div>
-        <div ng-form="errorform" class="form-horizontal">
-            <div class="panel-body">
-                <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
-                    <div class="form-group row">
-                        <label class="control-label">{{c.displayName}}</label>
-                        <div class="controls">
-                            <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+﻿<form name="errorform">
+    <div modal="showModel" close="closeModel()" options="modelOption">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Approve Error Modification</h3>
+            </div>
+            <div class="form-horizontal">
+                <div class="panel-body">
+                    <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
+                        <div class="form-group row">
+                            <label class="control-label">{{c.displayName}}</label>
+                            <div class="controls">
+                                <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="panel-footer">
-                <label class="error">{{errorMessage}}</label>
-                <button class="btn btn-success" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"><i class="glyphicon glyphicon-save" style="color: blue"></i>Previous</button>
-                <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"><i class="glyphicon glyphicon-save" style="color: blue"></i>Approve</button>
-                <button class="btn btn-success" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"><i class="glyphicon glyphicon-save" style="color: blue"></i>Approve & Next</button>
-                <button class="btn btn-warning" ng-click="closeModel()"><i class="glyphicon glyphicon-off" style="color: red"></i>Close</button>
+                <div class="text-right">
+                    <label class="error">{{errorMessage}}</label>
+                    <cs-button type="submit" text="Prev" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="changeSelectedRow(selectedRowIndex-1)" data-ng-disabled="selectedRowIndex===0"></cs-button>
+                    <cs-button type="save" text="Approve" permission="FileUploader,ErrorCorrection,Approve" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,false)"></cs-button>
+                    <cs-button type="Approve & Next" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="approveRejectErrorData(selectedRow,true,selectedRowIndex,true)" data-ng-disabled="serverNgGridOptions.data.length === selectedRowIndex+1"></cs-button>
+                    <cs-button type="close" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="closeModel()"></cs-button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>

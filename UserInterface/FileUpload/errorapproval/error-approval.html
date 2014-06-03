@@ -1,5 +1,5 @@
 ﻿<div>
-    <div ng-form="approveErrorform">
+    <form name="approveErrorform">
         <div class="form-horizontal">
             <div class="form-group row">
                 <label>File Name</label>
@@ -9,15 +9,17 @@
         </div>
         <div data-ng-if="gridReady">
             <div class="btn-toolbar table-bordered">
-                <button class="btn btn-success" data-ng-disabled="!gridOptions.selectedItems.length"
-                    data-ng-click="approveRejectAll(gridOptions.selectedItems,true)">
-                    Approve</button>
-                <button class="btn btn-danger" data-ng-disabled="!gridOptions.selectedItems.length"
-                    data-ng-click="approveRejectAll(gridOptions.selectedItems,false)">
-                    Reject</button>
+                <cs-button type="save" text="Approve" permission="FileUploader,ErrorCorrection,Approve"
+                           data-ng-disabled="!gridOptions.selectedItems.length"
+                           data-ng-click="approveRejectAll(gridOptions.selectedItems,true)"></cs-button>
+
+                <cs-button type="delete" text="Reject" data-ng-disabled="!gridOptions.selectedItems.length"
+                           permission="FileUploader,ErrorCorrection,AddEdit"
+                           data-ng-click="approveRejectAll(gridOptions.selectedItems,false)"></cs-button>
             </div>
 
             <div style="height: 450px" data-ng-grid="gridOptions"></div>
         </div>
-    </div>
+    </form>
 </div>
+

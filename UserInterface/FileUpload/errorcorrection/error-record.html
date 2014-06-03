@@ -1,28 +1,30 @@
-﻿<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3>Error Modification</h3>
-    </div>
-    <div ng-form="errorform">
-        <div class="panel-body form-horizontal">
-            <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
-                <div class="form-group row">
-                    <label class="control-label">{{c.displayName}}</label>
-                    <div class="controls">
-                        <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+﻿<form name="errorrecordform">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Error Modification</h3>
+        </div>
+        <div ng-form="errorform">
+            <div class="panel-body form-horizontal">
+                <div data-ng-repeat="c in serverNgGridOptions.columnDefs">
+                    <div class="form-group row">
+                        <label class="control-label">{{c.displayName}}</label>
+                        <div class="controls">
+                            <input type="text" data-ng-readonly="c.readOnly" data-ng-model="selectedRow[c.field]" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="panel-footer">
-            <label class="text-danger">{{errorMessage}}</label>
-            <button class="btn btn-success" ng-click="save(true)"
-                ng-disabled="!errorform.$valid">
-                Validate & Save</button>
-            <button class="btn btn-success" ng-click="save(false)"
-                ng-disabled="!errorform.$valid">
-                Save Invalid</button>
-            <button class="btn btn-warning" ng-click="closeModel()">Cancel</button>
+            <div class="text-right">
+                <label class="text-danger">{{errorMessage}}</label>
+                <cs-button type="save" text="Validate & Save" permission="FileUploader,ErrorCorrection,Approve" ng-click="save(true)"
+                           ng-disabled="!errorform.$valid"></cs-button>
+
+                <cs-button type="save" text="Save Invalid" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="save(false)"
+                           ng-disabled="!errorform.$valid"></cs-button>
+
+                <cs-button type="cancel" permission="FileUploader,ErrorCorrection,AddEdit" ng-click="closeModel()"></cs-button>
+            </div>
         </div>
     </div>
-</div>
+</form>
