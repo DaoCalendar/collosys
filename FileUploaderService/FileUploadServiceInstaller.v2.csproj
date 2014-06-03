@@ -7,8 +7,8 @@
     <ProjectGuid>{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileUploaderService</RootNamespace>
-    <AssemblyName>FileUploaderService</AssemblyName>
+    <RootNamespace>ColloSys.FileUploaderServiceInstaller</RootNamespace>
+    <AssemblyName>ColloSys.FileUploaderServiceInstaller.v2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -136,9 +136,9 @@
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileUploader\FileUploader.csproj">
+    <ProjectReference Include="..\FileUploader\FileUploadService.v2.csproj">
       <Project>{12419049-4f49-4557-91cd-188d60e0c565}</Project>
-      <Name>FileUploader</Name>
+      <Name>FileUploadService.v2</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

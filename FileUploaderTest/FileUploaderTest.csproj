@@ -137,13 +137,13 @@
       <Project>{670A58BA-000B-41A5-B5AF-F862EF3870A1}</Project>
       <Name>ColloSys.Shared</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileUploaderService\FileUploadServiceV2.csproj">
+    <ProjectReference Include="..\FileUploaderService\FileUploadServiceInstaller.v2.csproj">
       <Project>{7059a372-4fb6-4cff-9d11-7bf707ef4bf8}</Project>
-      <Name>FileUploadServiceV2</Name>
+      <Name>FileUploadServiceInstaller.v2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileUploader\FileUploader.csproj">
+    <ProjectReference Include="..\FileUploader\FileUploadService.v2.csproj">
       <Project>{12419049-4F49-4557-91CD-188D60E0C565}</Project>
-      <Name>FileUploader</Name>
+      <Name>FileUploadService.v2</Name>
     </ProjectReference>
     <ProjectReference Include="..\FileUploadService\FileUploadService.csproj">
       <Project>{0BC673FC-EB6C-4D50-8001-56273F9530A2}</Project>

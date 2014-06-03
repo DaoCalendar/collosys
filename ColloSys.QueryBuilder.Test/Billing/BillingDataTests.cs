@@ -189,7 +189,8 @@ namespace ColloSys.QueryBuilder.Test.Billing
             {
                 foreach (var dhflLiner in linerList)
                 {
-                    if (dhflLiner.Occupcategory.ToUpper() == "SALARIED" || dhflLiner.Occupcategory.ToUpper() == "SELF EMPLOYED PROFESSIONAL")
+                    if (dhflLiner.Occupcategory.ToUpper() == "SALARIED" 
+                        || dhflLiner.Occupcategory.ToUpper() == "SELF EMPLOYED PROFESSIONAL")
                         dhflLiner.IsProfessional = "Y";
                     else
                         dhflLiner.IsProfessional = "N";

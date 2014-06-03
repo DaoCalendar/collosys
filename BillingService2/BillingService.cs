@@ -94,16 +94,11 @@ namespace BillingService2
             Logger.Info(string.Format("Total {0} dhflLiners available for product : {1}, month : {2}, stakeholder : {3}", dhflLiners.Count(),
                                       billStatus.Products, billStatus.BillMonth, billStatus.Stakeholder.Name));
 
-
-
             var billDetails = new List<BillDetail>();
             var payouts = new Payouts(billStatus);
 
-
             billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.Payout));
-
             billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.Capping));
-
             billDetails.AddRange(payouts.ExecutePolicyOnLiner(dhflLiners, ColloSysEnums.PolicyType.PF));
 
             if (billStatus.OriginMonth != billStatus.BillMonth)

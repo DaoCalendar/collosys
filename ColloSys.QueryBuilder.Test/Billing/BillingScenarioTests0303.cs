@@ -36,7 +36,7 @@ namespace ColloSys.QueryBuilder.Test.Billing
         }
 
         [Test]
-        public void _06_Part_Disb_Capping_HL()
+        public void _06_Part_Disb_Capping_HL_008012()
         {
             RunBillingForBillStatus(201403, "008012");   
         }
