@@ -1,9 +1,9 @@
-﻿<div class="form-horizontal">
-    <div class="panel panel-default">
-        <div class="panel-heading" style="text-align: center">
+﻿<form name="churnAllocform">
+    <div>
+        <div class="modal-header" style="text-align: center">
             <h3>Churn Alocation</h3>
         </div>
-        <div class="panel-body" style="text-align: center">
+        <div class="modal-body" style="text-align: center">
             <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -23,11 +23,14 @@
                 </tbody>
             </table>
         </div>
+   
+        <div class="modal-footer">
+            <cs-button type="save" permission="Allocation,CheckAllocation,AddEdit"></cs-button>
+            <cs-button type="close" permission="Allocation,CheckAllocation,AddEdit" data-ng-click="closeModel()"></cs-button>
+        </div>
     </div>
-    <div class="panel-footer">
-        <button class="btn btn-info">Churn</button>
-        <button class="btn btn-info" data-ng-click="closeModel()">Close</button>
-    </div>
-</div>
+</form>
+
+
 
 
