@@ -3,7 +3,7 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
         var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
-        noBootstrapDiv += 'class="' + field.layoutClass.div + '"';
+        noBootstrapDiv += 'class="' + field.layoutClass.div + ' "';
         noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
         noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
         noBootstrapDiv += '>';
@@ -29,7 +29,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + '"';
+        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + ' "';
         html += '">';
         return html;
     };
@@ -364,6 +364,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         return html;
     };
 
+
+
     var configureTypeahead = function (field, attrs) {
         if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
@@ -378,6 +380,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             valtemplate.before(field),
             prefix(field),
             input(field, attrs),
+            //valdationsIcons(),
             suffix(field),
             valtemplate.after(attrs.field, field),
             bstemplate.after(noBootstrap)
@@ -972,8 +975,12 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control"';
+
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
+            html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
+            html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
+            html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             //html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
             //html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
@@ -1465,7 +1472,6 @@ csapp.directive('csForm', function () {
         require: '^form'
     };
 });
-
 
 angular.module('ui.multiselect', [])
 
