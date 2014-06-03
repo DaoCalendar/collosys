@@ -413,6 +413,30 @@ csapp.controller('payoutPolicyCtrl', [
             }
 
             $scope.disSubPolicy = factory.getDisplaySubPolicy(subpolicy);
+            var isinlist = _.find($scope.dldata.ApproveUnapproved, function (item) {
+                if (item.BillingRelations.Id === relation.Id) {
+                    $scope.direction = {
+                        up: false,
+                        down: false
+                    };
+                    return item;
+                }
+
+            });
+            if (angular.isUndefined(isinlist)) {
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            } else {
+                if (index === 0) {
+                    $scope.direction.up = true;
+                }
+                var maxindex = ($scope.dldata.ApproveUnapproved.length) - 1;
+                if (maxindex === index) {
+                    $scope.direction.down = true;
+                }
+            }
         };
 
         (function () {
@@ -437,6 +461,10 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.BillingPolicy.Products.valueList = _.reject($csShared.enums.Products, function (item) {
                 return (item === "UNKNOWN" || item === "ALL");
             });
+            $scope.direction = {
+                up: true,
+                down: true
+            };
             datalayer.resetList();
             datalayer.GetStakeHier().then(function (data) {
                 $scope.stakeHierarchy = data;
@@ -454,6 +482,12 @@ csapp.controller('payoutPolicyCtrl', [
             //$scope.buttonStatus = "";
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
+        };
+        $scope.moveUp = function() {
+            
+        };
+        $scope.moveDown = function() {
+            
         };
 
         var openmodal = function (modaldata) {
