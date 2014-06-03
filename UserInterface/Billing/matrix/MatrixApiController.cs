@@ -65,7 +65,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpGet] // action does not required DB Transaction
         public HttpResponseMessage GetColumnNames()
         {
-            var data = SharedViewModel.BillingServiceConditionColumns();//.Select(x=>x.field);  //SharedViewModel.ConditionColumns(product, category).Select(c => c.field);
+            var data = SharedViewModel.DhflDemoColumns();//.Select(x=>x.field);  //SharedViewModel.ConditionColumns(product, category).Select(c => c.field);
             //.Where(c => c.InputType == ColloSysEnums.HtmlInputType.number).Select(c => c.field);
             return Request.CreateResponse(HttpStatusCode.OK, data);
 

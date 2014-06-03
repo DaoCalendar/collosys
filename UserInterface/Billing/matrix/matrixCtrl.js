@@ -4,7 +4,7 @@
         var dldata = {};
         dldata.columnDef = [];
 
-        dldata.custInfoData = $csModels.getColumns("CustomerInfo"); //customerInfo from model.js
+        dldata.custInfoData = $csModels.getColumns("DhflLiner"); //customerInfo from model.js
 
         var getProducts = function () {
             restApi.customGET("GetProducts").then(function (data) {

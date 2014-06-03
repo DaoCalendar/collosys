@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
+using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
@@ -35,12 +36,12 @@ namespace ColloSys.UserInterface.Shared
             gpincodeprops.ForEach(c => columns.Add(new ColumnDef
             {
                 field = "GPincode." + c.Name,
-                displayName = "Pincode"+c.Name,
+                displayName = "Pincode" + c.Name,
                 InputType = GetHtmlInputType(c.PropertyType),
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
 
-            return columns.OrderBy(x=>x.displayName).ToList();
+            return columns.OrderBy(x => x.displayName).ToList();
         }
 
         public static IEnumerable<ColumnDef> BillingServiceConditionColumns()
@@ -80,7 +81,25 @@ namespace ColloSys.UserInterface.Shared
             //    dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             //}));
 
-            return columns.OrderBy(x=>x.displayName).ToList();
+            return columns.OrderBy(x => x.displayName).ToList();
+        }
+
+        public static IEnumerable<ColumnDef> DhflDemoColumns()
+        {
+            IList<ColumnDef> columns = new List<ColumnDef>();
+
+            var propertyList = new List<PropertyInfo>();
+            var custBillType = typeof(DHFL_Liner);
+            propertyList.AddRange(GetPropertyList(custBillType));
+            propertyList.ForEach(c => columns.Add(new ColumnDef
+            {
+                field = "DhflLiner" + "." + c.Name,
+                displayName = c.Name,
+                InputType = GetHtmlInputType(c.PropertyType),
+                dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
+            }));
+
+            return columns.OrderBy(x => x.displayName).ToList();
         }
 
         private static ColloSysEnums.HtmlInputType GetHtmlInputType(Type type)

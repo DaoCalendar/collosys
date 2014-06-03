@@ -62,6 +62,12 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
 
         private string GenerateConditionalQuery(List<BillTokens> tokensList)
         {
+            if (tokensList.Count <= 0) throw new ArgumentException("atleast one token needed");
+            if (tokensList.Count == 1 && tokensList[0].Type == "Formula")
+            {
+                return ProcessFormula(tokensList[0]);
+            }
+
             var conditionToken = tokensList.First(x => x.Type == "Operator" && x.DataType == "conditional");
             var index = tokensList.IndexOf(conditionToken);
             var lhsList = tokensList.Skip(0).Take(index).ToList();
@@ -210,7 +216,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecution
         //TODO: fix formula
         private string ProcessFormula(BillTokens token)
         {
-            var formula = _formulaList.SingleOrDefault(x => x.Name == token.Value);
+            var formula = _formulaList.SingleOrDefault(x => x.Id == Guid.Parse(token.Value));
 
             if (formula == null)
                 throw new ArgumentNullException(string.Format("Formula Name : {0} not found", token.Value));

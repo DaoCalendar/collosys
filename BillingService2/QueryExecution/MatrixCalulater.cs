@@ -46,7 +46,8 @@ namespace BillingService2.ViewModel
                     valueBTokens.AddRange(GetRowCondition(bMatrix, i, groupId));
 
                     // add col conditions
-                    valueBTokens.AddRange(GetColumnCondition(bMatrix, j, groupId));
+                    if(bMatrix.Dimension > 1)
+                        valueBTokens.AddRange(GetColumnCondition(bMatrix, j, groupId));
 
                     // add value output
                     valueBTokens.AddRange(GetValueOutput(bMatrix, i, j, groupId));
