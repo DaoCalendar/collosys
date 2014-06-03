@@ -955,6 +955,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+//{ label: 'Datepicker',  startDate:"+2d",template:"MonthPicker" endDate: "1y", defaultDate: "+10d",  type: 'date'},
 csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
         var openDatePicker = function ($event, field) {
@@ -964,20 +965,17 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var disableDate = function (date, field) {
-
-
-
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
 
-        //TODO mode ,hide weeks
+        //TODO default date
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control"';
-            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';
-            html += 'is-open="field.opened" show-button-bar="false"  datepicker-options="field.dateOptions"';
-            html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
-            html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
+            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
+            html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
+            //html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
+            //html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
             html += '/>';
@@ -1012,33 +1010,30 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                 if (template.length < 1) return;
                 switch (template) {
                     case "MonthPicker":
-                        field.minViewMode = "months";
+                        field.minViewMode = "month";
                         break;
                     case "YearPicker":
-                        field.minViewMode = "years";
+                        field.minViewMode = "year";
                         break;
                     case "future":
-                        field.startDate = "+0";
+                        field.startDate = "tomorrow";
+                        if (field.minViewMode === "month")
+                            field.startDate = "next-month";
+                        if (field.minViewMode === "year")
+                            field.startDate = "next-year";
                         break;
                     case "past":
-                        field.endDate = "+0";
+                        field.endDate = "yesterday";
+                        if (field.minViewMode === "month")
+                            field.startDate = "prev-month";
+                        if (field.minViewMode === "year")
+                            field.startDate = "prev-year";
                         break;
-                    case "Daily":
-                        field.startDate = "-15d";
-                        field.endDate = "+5d";
-                        break;
-                    case "Weekly":
-                        field.startDate = "-30d";
-                        field.endDate = "+15d";
-                        break;
-                    case "Monthly":
-                        field.minViewMode = "months";
-                        field.startDate = "-80d";
-                        field.endDate = "+30d";
-                        break;
+
                     default:
                         $log.error(template + " is not defined.");
                 }
+
                 return;
             });
         };
@@ -1046,41 +1041,106 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         var manageViewMode = function (field) {
             field.dateOptions = {
                 showWeeks: false,
-                showButtonBar: false,
-
             };
             if ($csfactory.isNullOrEmptyString(field.minViewMode))
                 field.minViewMode = '';
             switch (field.minViewMode.toUpperCase()) {
-                case "MONTHS":
-                    field.dateOptions.format = "M-yyyy";
-                    //field.dateOptions.datepickerMode = "month";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec';
+                case "MONTH":
+                    field.format = "yyyy-MM";
+                    field.showButtons = false;
+                    field.dateOptions.datepickerMode = "'month'";
+                    field.dateOptions.minMode = 'month';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12'";
                     break;
                 case "YEAR":
-                    field.dateOptions.dateOptions.format = ".yyyy";
-                    //field.dateOptions.datepickerMode = "year";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '.1800';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '.2400';
+                    field.format = "yyyy";
+                    field.showButtons = false;
+                    field.dateOptions.datepickerMode = "'year'";
+                    field.dateOptions.minMode = 'year';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200'";
                     break;
                 default:
-                    field.dateOptions.format = "dd-MMMM-yyyy";
-                    //field.dateOptions.datepickerMode = "day";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan-01';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec-31';
+                    field.minViewMode = 'DAY';
+                    field.format = "yyyy-MM-dd";
+                    field.showButtons = true;
+                    field.dateOptions.datepickerMode = "'day'";
+                    field.dateOptions.minMode = 'day';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01-01'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12-31'";
             }
+            console.log("datepicker options: ", field.dateOptions);
+        };
 
+        var parseLogicalDate = function (dateParams) {
+            var newDateParams = dateParams.match(/[a-zA-Z]+|[-+0-9]+/g);
+            console.log("dateParams: ", dateParams);
+            var addBy = parseInt(newDateParams[0]);
+            if (isNaN(addBy)) throw "date param is not valid :" + dateParams;
 
+            var addParam = newDateParams[1];
+            if (!isNaN(addParam)) throw "date param is not valid :" + dateParams;
 
+            switch (addParam) {
+                case 'd':
+                case 'day':
+                case 'days':
+                    return moment().add('d', addBy).format("YYYY-MM-DD");
+                case 'm':
+                case 'month':
+                case 'months':
+                    return moment().add('M', addBy).format("YYYY-MM-DD");
+                case 'y':
+                case 'year':
+                case 'years':
+                    return moment().add('y', addBy).format("YYYY-MM-DD");
+                default:
+                    throw "date param is not valid :" + dateParams;
+            }
+        };
+
+        var parseDate = function (dateParams) {
+
+            switch (dateParams) {
+                case "today":
+                    return moment().format("YYYY-MM-DD");
+                case "tomorrow":
+                    return moment().add('days', 1).format("YYYY-MM-DD");
+                case "yesterday":
+                    return moment().subtract('days', 1).format("YYYY-MM-DD");
+                case "next-month":
+                    return moment().add('months', 1).format("YYYY-MM");
+                case "prev-month":
+                    return moment().subtract('months', 1).format("YYYY-MM");
+                case "next-year":
+                    return moment().add('years', 1).format("YYYY");
+                case "prev-year":
+                    return moment().subtract('years', 1).format("YYYY");
+                default:
+                    return parseLogicalDate(dateParams);
+            }
+        };
+
+        var validateDate = function (startDate, endDate) {
+            if (!moment(startDate).isBefore(endDate)) throw "start date: " + startDate + " is greater than end date" + endDate;
+        };
+
+        var parseDates = function (field) {
+            if (!$csfactory.isNullOrEmptyString(field.startDate)) field.dateOptions.minDate = "'" + parseDate(field.startDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.endDate)) field.dateOptions.maxDate = "'" + parseDate(field.endDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
+            validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
 
         var validateOptions = function (field) {
             applyTemplate(field);
             manageViewMode(field);
+            parseDates(field);
+
             field.opened = false;
             field.open = openDatePicker;
-            field.disableDate = disableDate;
+            field.disableDate = disableDate; //fn ptr
 
             if ($csfactory.isNullOrEmptyString(field.label)) {
                 field.label = "Date";
@@ -1265,7 +1325,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case "enum":
                     return enumFactory;
                 case 'date':
-                    return dateFactory;
+                    return dateFactory2;
                 case 'password':
                     return passwordFactory;
                 case 'btn-radio':
@@ -1418,7 +1478,7 @@ angular.module('ui.multiselect', [])
       return {
           parse: function (input) {
 
-              var match = input.match(TYPEAHEAD_REGEXP), modelMapper, viewMapper, source;
+              var match = input.match(TYPEAHEAD_REGEXP);
               if (!match) {
                   throw new Error(
                     "Expected typeahead specification in form of '_modelValue_ (as _label_)? for _item_ in _collection_'" +
@@ -1448,7 +1508,7 @@ angular.module('ui.multiselect', [])
                   isMultiple = attrs.multiple ? true : false,
                   required = false,
                   scope = originalScope.$new(),
-                  changeHandler = attrs.change || anguler.noop;
+                  changeHandler = attrs.change || angular.noop;
 
                 scope.items = [];
                 scope.header = 'Select';
@@ -1636,7 +1696,7 @@ angular.module('ui.multiselect', [])
           scope: false,
           replace: true,
           templateUrl: baseUrl + 'Shared/scripts/multiselect.tmpl.html',
-          link: function (scope, element, attrs) {
+          link: function (scope, element) {
 
               scope.isVisible = false;
 
@@ -1659,17 +1719,32 @@ angular.module('ui.multiselect', [])
                   scope.$apply();
               }
 
-              scope.focus = function focus() {
+              scope.focus = function () {
                   var searchBox = element.find('input')[0];
                   searchBox.focus();
-              }
+              };
 
-              var elementMatchesAnyInArray = function (element, elementArray) {
+              var elementMatchesAnyInArray = function (el, elementArray) {
                   for (var i = 0; i < elementArray.length; i++)
-                      if (element == elementArray[i])
+                      if (el == elementArray[i])
                           return true;
                   return false;
-              }
+              };
           }
-      }
+      };
   }]);
+
+
+//case "Daily":
+//    field.startDate = "-15d";
+//    field.endDate = "+5d";
+//    break;
+//case "Weekly":
+//    field.startDate = "-30d";
+//    field.endDate = "+15d";
+//    break;
+//case "Monthly":
+//    field.minViewMode = "months";
+//    field.startDate = "-80d";
+//    field.endDate = "+30d";
+//    break;
