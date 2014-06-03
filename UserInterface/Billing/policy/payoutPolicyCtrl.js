@@ -153,8 +153,6 @@ csapp.factory('payoutPolicyFactory', [
             dldata.payoutPolicy = {};
             dldata.payoutPolicy.Category = "Liner";
         };
-
-
         return {
             getDisplaySubPolicy: getDisplaySubPolicy,
             filterRelation: filterRelation,
@@ -483,11 +481,65 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
         };
-        $scope.moveUp = function() {
-            
+        $scope.moveUp = function(policy) {
+            var test = [];
+            _.forEach($scope.dldata.ApproveUnapproved, function (item) {
+                _.forEach($scope.dldata.payoutPolicy.BillingRelations, function (rel) {
+                    if (angular.isDefined(rel)) {
+                        if (item.allocRelation.Id === rel.Id) {
+                            $scope.dldata.payoutPolicy.BillingRelations.splice($scope.dldata.payoutPolicy.BillingRelations.indexOf(rel), 1);
+                            test.push(rel);
+                        }
+                    }
+                });
+            });
+
+            var relations = _.sortBy(test, 'Priority');
+            console.log(relations);
+            var index = relations.indexOf(policy.BillingRelations);
+            var tempPriority = relations[index].Priority;
+            relations[index].Priority = relations[index - 1].Priority;
+            relations[index - 1].Priority = tempPriority;
+            _.forEach(relations, function (item) {
+                $scope.dldata.payoutPolicy.BillingRelations.push(item);
+            });
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
+                $scope.getSubpolicy();
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            });
         };
-        $scope.moveDown = function() {
-            
+        $scope.moveDown = function(policy) {
+            var test = [];
+            _.forEach($scope.dldata.ApproveUnapproved, function (item) {
+                _.forEach($scope.dldata.payoutPolicy.BillingRelations, function (rel) {
+                    if (angular.isDefined(rel)) {
+                        if (item.BillingRelations.Id === rel.Id) {
+                            $scope.dldata.payoutPolicy.BillingRelations.splice($scope.dldata.payoutPolicy.BillingRelations.indexOf(rel), 1);
+                            test.push(rel);
+                        }
+                    }
+                });
+            });
+
+            var relations = _.sortBy(test, 'Priority');
+            console.log(relations);
+            var index = relations.indexOf(policy.BillingRelations);
+            var tempPriority = relations[index].Priority;
+            relations[index].Priority = relations[index + 1].Priority;
+            relations[index + 1].Priority = tempPriority;
+            _.forEach(relations, function (item) {
+                $scope.dldata.payoutPolicy.BillingRelations.push(item);
+            });
+            datalayer.savePayoutPolicy($scope.dldata.BillingRelations).then(function () {
+                $scope.getSubpolicy();
+                $scope.direction = {
+                    up: true,
+                    down: true
+                };
+            });
         };
 
         var openmodal = function (modaldata) {
