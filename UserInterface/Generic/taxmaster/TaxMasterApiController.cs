@@ -36,5 +36,16 @@ namespace AngularUI.Generic.taxmaster
             var data = GTaxDetailsBuilder.GetAllWithRef();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+        
+        [HttpGet]
+        public HttpResponseMessage GetData(Guid id)
+        {
+            var data = Session.QueryOver<GTaxDetail>()
+                              .Where(x => x.Id == id)
+                              .Fetch(x => x.GTaxesList).Eager
+                              .SingleOrDefault();
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
     }
 }
+
