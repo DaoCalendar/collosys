@@ -4,9 +4,9 @@ csapp.controller('policymodal', ['$scope', 'pageData', '$modalInstance', 'payout
         $scope.pageData = pagedata;
         $scope.dldata = datalayer.dldata;
         $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
-       $scope.dldata.isModalDateValid = false;
+        $scope.dldata.isModalDateValid = false;
 
-       $scope.activateSubPoicy = function (modalpopUp) {
+        $scope.activateSubPoicy = function (modalpopUp) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
             $scope.pageData.BillingRelations.Priority = maxPriorityPolicy.Priority + 1;
             $scope.pageData.BillingRelations.StartDate = modalpopUp.StartDate;
@@ -19,16 +19,20 @@ csapp.controller('policymodal', ['$scope', 'pageData', '$modalInstance', 'payout
             }
             datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
             (function () {
+                datalayer.resetList();
+                datalayer.changeProductCategory();
                 $modalInstance.close();
             });
 
         };
 
-       $scope.deactivateSubPoicy = function (modalpopUp) {
-           $scope.pageData.BillingRelations.StartDate = modalpopUp.StartDate;
-           $scope.pageData.BillingRelations.EndDate = modalpopUp.endDate;
+        $scope.deactivateSubPoicy = function (modalpopUp) {
+            $scope.pageData.BillingRelations.StartDate = modalpopUp.StartDate;
+            $scope.pageData.BillingRelations.EndDate = modalpopUp.endDate;
             $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify($scope.pageData.BillingRelations)));
             datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
+                datalayer.resetList();
+                datalayer.changeProductCategory();
                 $modalInstance.close();
             });
         };
@@ -64,8 +68,6 @@ csapp.factory('payoutPolicyFactory', [
             displaySubPolicy.conditionTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'Condition' });
             displaySubPolicy.ifOutputTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'Output' });
             displaySubPolicy.ElseOutputTokens = _.filter(subPolicy.BillTokens, { 'GroupType': 'ElseOutput' });
-            //displaySubPolicy.Condition = getOuputConditionString(subPolicy, 'Condition');
-            //displaySubPolicy.Output = getOuputConditionString(subPolicy, 'Output');
             return displaySubPolicy;
         };
 
@@ -408,7 +410,7 @@ csapp.controller('payoutPolicyCtrl', [
             }
         };
 
-      $scope.setDisplaySubpolicy = function (subpolicy, relation,index) {
+        $scope.setDisplaySubpolicy = function (subpolicy, relation, index) {
             if (angular.isUndefined(relation) || $csfactory.isEmptyObject(relation)) {
                 $scope.billingRelation = subpolicy;
             } else {
@@ -473,20 +475,20 @@ csapp.controller('payoutPolicyCtrl', [
                 $scope.stakeHierarchy = data;
             });
         })();
-        $scope.onProductChange = function() {
+        $scope.onProductChange = function () {
             datalayer.resetList();
-           // $scope.buttonStatus = "";
+            // $scope.buttonStatus = "";
             $scope.dldata.payoutPolicy.PolicyType = "";
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
         };
-        $scope.onPolicyTypeChange = function() {
+        $scope.onPolicyTypeChange = function () {
             datalayer.resetList();
             //$scope.buttonStatus = "";
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
         };
-        $scope.moveUp = function(policy) {
+        $scope.moveUp = function (policy) {
             var test = [];
             _.forEach($scope.dldata.ApproveUnapproved, function (item) {
                 _.forEach($scope.dldata.payoutPolicy.BillingRelations, function (rel) {
@@ -516,7 +518,7 @@ csapp.controller('payoutPolicyCtrl', [
                 };
             });
         };
-        $scope.moveDown = function(policy) {
+        $scope.moveDown = function (policy) {
             var test = [];
             _.forEach($scope.dldata.ApproveUnapproved, function (item) {
                 _.forEach($scope.dldata.payoutPolicy.BillingRelations, function (rel) {
@@ -561,7 +563,6 @@ csapp.controller('payoutPolicyCtrl', [
         };
 
         $scope.getSubpolicy = function () {
-            console.log("function called");
             datalayer.resetList();
             datalayer.changeProductCategory();
         };
@@ -611,6 +612,7 @@ csapp.controller('payoutPolicyCtrl', [
             datalayer.approveRelation(relation).then(function () {
                 relation.Status = 'Approved';
                 $scope.dldata.buttonStatus = null;
+                $scope.getSubpolicy();
             });
         };
 
@@ -618,6 +620,7 @@ csapp.controller('payoutPolicyCtrl', [
             datalayer.RejectSubPolicy(relation).then(function () {
                 $scope.dldata.buttonStatus = null;
                 relation.Status = 'Rejected';
+                $scope.getSubpolicy();
             });
         };
 
