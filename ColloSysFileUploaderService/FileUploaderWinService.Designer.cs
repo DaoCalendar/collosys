@@ -1,4 +1,4 @@
-﻿namespace FileUploaderService
+﻿namespace ColloSys.FileUploaderServiceInstaller
 {
     partial class FileUploaderWinService
     {

@@ -4,7 +4,9 @@
             <cs-field data-ng-model="sele.Products"
                       data-ng-change="getSubpolicyList(sele.Products)"
                       field="payoutSubpolicy.Products" ng-required="true"></cs-field>
-            <cs-button type="add" text="Add Subpolicy" data-ng-show="sele.Products" 
+            <cs-button type="add" text="Add Subpolicy"
+                       permission="Billing,BillingSubpolicy,AddEdit"          
+                       data-ng-show="sele.Products" 
                        data-ng-click="addSubPolicy(sele.Products,subpolicyForm)">
             </cs-button>
         </cs-form>
@@ -105,12 +107,12 @@
 
             <!--Button-->
             <div class="row text-right" id="subpolicy-buttons">
-                <cs-button type="save"
+                <cs-button type="save" permission="Billing,BillingSubpolicy,AddEdit"
                     data-ng-disabled="payoutSubpolicyForm.$invalid "
                     data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
                 </cs-button>
 
-                <cs-button type="reset"
+                <cs-button type="reset" permission="Billing,BillingSubpolicy,AddEdit"
                     data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button>
             </div>
         </div>

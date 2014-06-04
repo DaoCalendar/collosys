@@ -29,7 +29,7 @@
         };
         
         var gettaxDetails = function (detailsid) {
-            return api.customGET('Get', { id: detailsid })
+            return api.customGET('GetData', { id: detailsid })
                 .then(function (data) {
                     return data;
                 }, function () {

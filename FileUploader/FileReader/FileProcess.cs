@@ -4,6 +4,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.RowCounter;
+using NHibernate;
 using NLog;
 
 namespace ColloSys.FileUploader.FileReader
@@ -101,6 +102,40 @@ namespace ColloSys.FileUploader.FileReader
         public virtual bool PostProcesing()
         {
             return true;
+        }
+
+        public void ResetFileStatus()
+        {
+            try
+            {
+                using (var session = SessionManager.GetNewSession())
+                {
+                    using (var tx = session.BeginTransaction())
+                    {
+                        var fileSchedulerList = session.QueryOver<FileScheduler>()
+                                                       .Where(c => c.StartDateTime <= DateTime.Now)
+                                                       .And(c => (c.UploadStatus != ColloSysEnums.UploadStatus.Done) &&
+                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.DoneWithError) &&
+                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.Error) &&
+                                                           (c.UploadStatus != ColloSysEnums.UploadStatus.UploadRequest))
+                                                       .List();
+
+                        foreach (var fileScheduler in fileSchedulerList)
+                        {
+                            fileScheduler.UploadStatus = ColloSysEnums.UploadStatus.UploadRequest;
+                            session.SaveOrUpdate(fileScheduler);
+                        }
+
+                        _log.Fatal(string.Format("DB Layer - ResetStatus: Resetting status of {0} files.",
+                                                  fileSchedulerList.Count));
+                        tx.Commit();
+                    }
+                }
+            }
+            catch (HibernateException e)
+            {
+                _log.Error("ChangeStatus Exception : " + e);
+            }
         }
     }
 }

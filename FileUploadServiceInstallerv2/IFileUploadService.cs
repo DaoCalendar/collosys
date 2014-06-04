@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 
-namespace FileUploaderService
+namespace ColloSys.FileUploadServiceInstaller
 {
     [ServiceContract]
     public interface IFileUploadService

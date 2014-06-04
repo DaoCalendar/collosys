@@ -176,6 +176,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/summary', {
                 templateUrl: baseUrl + 'Billing/summary/summary.html',
                 controller: 'BillAmountCntrl'
+            }).when('/billing/summary/addedit/:mode', {
+                templateUrl: baseUrl + 'Billing/summary/add-billamount-modal.html',
+                controller: 'billAmountAddModal'
             }).when('/billing/billstatus', {
                 templateUrl: baseUrl + 'Billing/billstatus/billstatus.html',
                 controller: 'billStatusController'

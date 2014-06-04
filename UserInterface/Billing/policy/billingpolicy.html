@@ -77,29 +77,37 @@
                                     <!--<div class="form-group">
                                         <div class="controls">-->
                                     <cs-button type="delete" text="Deactivate"
-                                        data-ng-show="buttonStatus=='Approved'"
-                                        data-ng-click="openModelDeactivateSubPolicy(billingRelation);"></cs-button>
-                                    <!--for draft-->
-                                    <cs-button type="save" text="Activate"
-                                        data-ng-show="buttonStatus=='Draft'"
-                                        data-ng-click="openModelNewSubPolicy(billingRelation,$index);"></cs-button>
-
-                                    <!--for Expired-->
-                                    <cs-button type="add" text="Reactivate"
-                                        data-ng-show="buttonStatus=='Expired'"
-                                        data-ng-click="openModelReactivateSubPolicy(billingRelation);">
+                                               permission="Billing,Billingpolicy,AddEdit"
+                                               data-ng-show="buttonStatus=='Approved'"
+                                               data-ng-click="openModelDeactivateSubPolicy(billingRelation);">
                                     </cs-button>
 
+                                    <!--for draft-->
+                                    <cs-button type="save" text="Activate"
+                                               permission="Billing,Billingpolicy,AddEdit"
+                                               data-ng-show="buttonStatus=='Draft'"
+                                               data-ng-click="openModelNewSubPolicy(billingRelation,$index);">
+                                    </cs-button>
+                                    
+                                    <!--for Expired-->
+                                    <cs-button type="add" text="Reactivate"
+                                               permission="Billing,Billingpolicy,AddEdit"
+                                               data-ng-show="buttonStatus=='Expired'"
+                                               data-ng-click="openModelReactivateSubPolicy(billingRelation);">
+                                    </cs-button>
+                                    
                                     <cs-button type="save" text="Approve"
+                                               permission="Billing,Billingpolicy,Approve"
                                                data-ng-show="buttonStatus=='UnApproved'"
                                                data-ng-click="approve(billingRelation)">
                                     </cs-button>
 
                                     <cs-button type="delete" text="Reject"
+                                               permission="Billing,Billingpolicy,Approve"
                                                data-ng-show="buttonStatus=='UnApproved'"
                                                data-ng-click="reject(billingRelation)">
                                     </cs-button>
-
+                                    
                                     <!--   </div>
                                     </div>-->
                                 </div>

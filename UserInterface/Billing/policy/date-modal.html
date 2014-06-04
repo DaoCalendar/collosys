@@ -41,10 +41,13 @@
         </div>
     </div>
     <div class="modal-footer" style="margin-top: 10px">
-        <cs-button type="delete" text="Deactivate" data-ng-show="!modelData.forActivate"
+        <cs-button type="delete" text="Deactivate" 
+                   permission="Billing,Billingpolicy,AddEdit"
+                   data-ng-show="!modelData.forActivate"
                    data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
                    data-ng-click="deactivateSubPoicy(modelData)"></cs-button>
         <cs-button type="save" text="Activate"
+                   permission="Billing,Billingpolicy,AddEdit"
                    data-ng-show="modelData.forActivate"
                    data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid)"
                    data-ng-click="activateSubPoicy(modelData)"></cs-button>

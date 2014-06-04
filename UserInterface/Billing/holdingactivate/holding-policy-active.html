@@ -3,18 +3,23 @@
         <div class="panel panel-default">
             <div class="panel-heading">Active Holding Policy Details</div>
             <div class="panel-body">
-                <cs-form layout="7.3.9" class="">
+                <cs-form layout="7.3.9" class="" mode="mode">
                     <cs-field data-ng-model="active.Products" field="ActPolicy.Products"
                               data-ng-change="pageData(active.Products)"></cs-field>
                     
-                    <cs-field data-ng-model="active.HoldingPolicy" field="ActPolicy.HoldingPolicy"
-                              data-ng-change="pageData(active.Products)"></cs-field>
+                     <cs-field data-ng-model="active.HoldingPolicy" track-by="id" field="ActPolicy.HoldingPolicy"></cs-field>
 
-                     <cs-field data-ng-model="active.Stakeholder" field="ActPolicy.Stakeholder"
-                              data-ng-change="pageData(active.Products)"></cs-field>
-
-                    <cs-field data-ng-model="active.StartMonth" use-repeat="true" 
-                              field="ActPolicy.StartMonth"></cs-field>
+                     <cs-field data-ng-model="active.Stakeholder" field="ActPolicy.Stakeholder"></cs-field>
+               
+                     <div data-ng-show="mode ==='add'">
+                        <cs-field data-ng-model="active.StartMonth" use-repeat="true" 
+                                  field="ActPolicy.StartMonth"></cs-field>
+                    </div>
+                    <div data-ng-show="mode ==='view' || mode ==='edit'">
+                        <cs-field data-ng-model="active.StartMonth" track-by="Id" use-repeat="true" 
+                                  field="ActPolicy.StartMonth"></cs-field>
+                    </div>
+                    
                 </cs-form>
             </div>
         </div>

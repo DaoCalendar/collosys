@@ -2,32 +2,28 @@
 using System.Configuration;
 using System.Configuration.Install;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.ServiceModel;
-using System.Timers;
 using System.ServiceProcess;
-using ColloSys.DataLayer.NhSetup;
-using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploadService.Logging;
+using System.Timers;
+using ColloSys.FileUploaderService.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 
-namespace FileUploaderService
+namespace ColloSys.FileUploaderServiceInstaller
 {
     public partial class FileUploaderWinService : ServiceBase
     {
         readonly Timer _timer = new Timer();
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly ConnectionStringSettings ConnString;
-       
+
         private ServiceHost _serviceHost;
 
         private FileUploaderWinService()
         {
-            ConnString = ColloSysParam.WebParams.ConnectionString;
+            ConnectionStringSettings connString = ColloSysParam.WebParams.ConnectionString;
             ServiceName = ProjectInstaller.ColloSysServiceName;
-            _log.Info(string.Format("Allocation Service: Connection String : {0}", ConnString.ConnectionString));
+            _log.Info(string.Format("Allocation Service: Connection String : {0}", connString.ConnectionString));
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();
            
             NLogConfig.InitConFig(ColloSysParam.WebParams.LogPath, ColloSysParam.WebParams.LogLevel);
@@ -93,11 +89,13 @@ namespace FileUploaderService
         }
 
         private static bool HasRunBefore { get; set; }
-        public void OnEventTime(object source, ElapsedEventArgs e)
+
+        private void OnEventTime(object source, ElapsedEventArgs e)
         {
             _log.Debug("Service: in timer event");
 
-            IFileUploadService fileUpload = new FileUploadService();
+            IFileUploadService fileUpload=new FileUploadService();
+            
             if (!HasRunBefore)
             {
                 fileUpload.ResetFiles();

@@ -2,7 +2,7 @@
     <form name="downloadtablesform">
         <div class="row form-horizontal">
             <div>
-                <cs-button type="save" text="Download" data-ng-click="downloadTables()"></cs-button>
+                <cs-button type="save" text="Download" permission="Developer,DbTables" data-ng-click="downloadTables()"></cs-button>
                 <ul style="height: 200px">
                     <li data-ng-repeat="table in ckbTables">
                         <label>

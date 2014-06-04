@@ -9,14 +9,14 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.FileUploader.DbLayer;
 using NHibernate.Transform;
 
 #endregion
 
 
-namespace ColloSys.FileUploader.DbLayer
+namespace ColloSys.FileUploaderService.v2.DbLayer
 {
   public  class DbLayer: IDbLayer
     {

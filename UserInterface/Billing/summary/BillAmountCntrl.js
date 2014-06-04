@@ -1,6 +1,7 @@
 ﻿
-csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory', '$modal', '$csModels', '$csfactory', '$timeout',
-    function ($scope, datalayer, factory, $modal, $csModels, $csfactory, $timeout) {
+csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmountFactory',
+    '$location', '$csModels', '$csfactory', '$timeout','$modal',
+    function ($scope, datalayer, factory, $location, $csModels, $csfactory, $timeout, $modal) {
         (function () {
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
@@ -31,13 +32,18 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             });
         };
 
-        $scope.openAddModal = function () {
-            $scope.changeCredit();
-            $modal.open({
-                templateUrl: baseUrl + 'Billing/summary/add-billamount-modal.html',
-                controller: 'billAmountAddModal',
-            });
+        $scope.openAddModal = function (mode,t) {
+            $location.path("/billing/summary/addedit/" + mode);
         };
+
+        //$scope.openAddModal = function () {
+        //    $scope.changeCredit();
+        //    $modal.open({
+        //        templateUrl: baseUrl + 'Billing/summary/add-billamount-modal.html',
+        //        controller: 'billAmountAddModal',
+        //        windowClass: 'modal-large',
+        //    });
+        //};
 
         // TODO: ICICI demo
         $scope.downloadBillSummaryExcel = function (product, stakeholderId, month) {
@@ -203,12 +209,16 @@ csapp.controller('billAmountViewModal', ['$scope', 'billAmountDataLayer', 'billA
     }]);
 
 csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAmountFactory',
-    '$modalInstance', '$csModels',
-    function ($scope, datalayer, factory, $modalInstance, $csModels) {
+    '$routeParams', '$csModels','$location',
+    function ($scope, datalayer, factory, $routeParams, $csModels, $location) {
         (function () {
+            if (angular.isUndefined($routeParams.id)) {
+                $scope.adhocPayout = {};
+            }
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.adhocPayout = {};
             $scope.adhocPayoutbill = $csModels.getColumns("Summary");
         })();
 
@@ -218,12 +228,23 @@ csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAm
         };
 
         $scope.closeModal = function () {
-            $modalInstance.dismiss();
+            $location.path("/billing/summary");
         };
 
         $scope.addAdhocPayout = function (adhocPayout, billingData) {
             datalayer.addAdhocPayout(adhocPayout, billingData).then(function (data) {
-                $modalInstance.close(data);
+                $location.path("/billing/summary");
             });
         };
+        
+        (function (mode) {
+            switch (mode) {
+                case "add":
+                    $scope.modelTitle = "Add Adhoc Payouts";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(t));
+            }
+            $scope.mode = mode;
+        })($routeParams.mode);
     }]);

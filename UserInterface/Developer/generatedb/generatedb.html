@@ -5,7 +5,7 @@
                 Generate DB
             </div>
             <div class="panel-body text-center">
-                <cs-button type="save" text="Generate DB" data-ng-click="generateDB()"></cs-button>
+                <cs-button type="save" text="Generate DB" permission="Developer,GenerateDb" data-ng-click="generateDB()"></cs-button>
             </div>
         </div>
     </div>
@@ -26,8 +26,8 @@
                     </div>
                 </div>
                 <div>
-                    <cs-button type="add" text="Encrypt Section" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
-                    <cs-button type="add" text="Decrypt Section" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
+                    <cs-button type="add" text="Encrypt Section" permission="Developer,GenerateDb" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
+                    <cs-button type="add" text="Decrypt Section" permission="Developer,GenerateDb" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
                 </div>
             </div>
         </div>

@@ -1,35 +1,40 @@
 ﻿<div>
-    <div class="panel panel-default" style="height: 350px; width: 900px">
-        <div class="panel-heading">
-            Payout Details
-        </div>
-        <div class="panel-body">
-            <cs-form layout="6.4.8">
-                <form name="adhocPayoutform">
-                    <div class="row">
-                        <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
-                        <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
-                                  data-ng-change="changeCredit(adhocPayout.IsCredit)"></cs-field>
-                    </div>
+    <form name="adhocPayoutform">
+        <div class="modal-header">Payout Details</div>
+        <div class="modal-body">
+            <cs-form layout="7.4.8" mode="mode">
+                
+                <div class="row">
+                    <cs-field data-ng-model="adhocPayout.TotalAmount" field="adhocPayoutbill.TotalAmount"></cs-field>
+                    <cs-field data-ng-model="adhocPayout.IsCredit" field="adhocPayoutbill.IsCredit"
+                              data-ng-change="changeCredit(adhocPayout.IsCredit)"
+                              value-List="datalayer.dldata.transcationtypes;"></cs-field>
+                </div>
 
-                    <div class="row">
-                        <cs-field data-ng-model="adhocPayout.IsPretax" field="adhocPayoutbill.IsPretax"></cs-field>
-                        <cs-field data-ng-model="adhocPayout.ReasonCode" field="adhocPayoutbill.ReasonCode"></cs-field>
-                    </div>
-                    <div class="row ">
-                        <cs-field data-ng-model="adhocPayout.Description" field="adhocPayoutbill.Description"></cs-field>
-                    </div>
-                </form>
+                <div class="row">
+                    <cs-field data-ng-model="adhocPayout.IsPretax" field="adhocPayoutbill.IsPretax"
+                              value-List="datalayer.dldata.taxtype"></cs-field>
+                    <cs-field data-ng-model="adhocPayout.ReasonCode" field="adhocPayoutbill.ReasonCode"></cs-field>
+                </div>
+
+                <div class="row ">
+                    <cs-field data-ng-model="adhocPayout.Description" field="adhocPayoutbill.Description"></cs-field>
+                </div>
+                
             </cs-form>
         </div>
-    </div>
-    <div class="text-right">
-        <cs-button type="add"
-            data-ng-disabled="!(adhocPayoutform.$valid)"
-            data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false"></cs-button>
-        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
-    </div>
+        <div class="modal-footer">
+            <cs-button type="add" permission="Billing,PayoutStatus,AddEdit"
+                data-ng-disabled="!(adhocPayoutform.$valid)"
+                data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false"></cs-button>
+            <cs-button type="close" permission="Billing,PayoutStatus,AddEdit" data-ng-click="closeModal()"></cs-button>
+        </div>
+    </form>
 </div>
+
+
+
+
 
 
 
