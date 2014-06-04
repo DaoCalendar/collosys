@@ -7,18 +7,17 @@ using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
 using ColloSys.Shared.ErrorTables;
+using Newtonsoft.Json.Linq;
 using NHibernate.Transform;
 using NLog;
-using Newtonsoft.Json.Linq;
 using UserInterfaceAngular.NgGrid;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.ErrorCorrection.ViewModels
+namespace AngularUI.FileUpload.errorcorrection
 {
     public static class ErrorViewModel
     {

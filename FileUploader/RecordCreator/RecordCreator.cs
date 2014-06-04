@@ -14,6 +14,7 @@ using ColloSys.FileUploadService.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 using ReflectionExtension.ExcelReader;
+using NLogConfig = ColloSys.FileUploaderService.Logging.NLogConfig;
 
 #endregion
 

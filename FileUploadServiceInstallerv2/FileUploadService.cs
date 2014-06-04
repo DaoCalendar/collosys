@@ -1,4 +1,7 @@
-﻿namespace FileUploaderService
+﻿using ColloSys.FileUploadServiceInstaller;
+using ColloSys.FileUploaderService;
+
+namespace FileUploadServiceInstallerv2
 {
     public class FileUploadService : IFileUploadService
     {

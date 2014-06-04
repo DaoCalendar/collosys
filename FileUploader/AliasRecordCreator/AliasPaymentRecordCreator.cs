@@ -17,7 +17,7 @@ namespace ColloSys.FileUploader.AliasRecordCreator
         public FileScheduler FileScheduler { get; protected set; }
         public AliasPaymentRecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
         {
-            Reader=new DbLayer.DbLayer();
+            Reader=new FileUploaderService.v2.DbLayer.DbLayer();
             FileScheduler = scheduler;
             _accountLength = accountLength;
             _accountPosition = accountPosition;

@@ -57,15 +57,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploader", "FileUploader\FileUploader.csproj", "{12419049-4F49-4557-91CD-188D60E0C565}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderServicev2", "FileUploader\FileUploaderServicev2.csproj", "{12419049-4F49-4557-91CD-188D60E0C565}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderTest", "FileUploaderTest\FileUploaderTest.csproj", "{96025A22-841E-446E-A7D8-EAB18257D6E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploadServiceV2", "FileUploaderService\FileUploadServiceV2.csproj", "{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploaderServiceInstallerV2", "FileUploaderService\FileUploaderServiceInstallerV2.csproj", "{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2", "BillingService2\BillingService2.csproj", "{EBEB1FA6-41D8-485A-9E33-59FB776ECEF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingService2.Test", "BillingService2.Test\BillingService2.Test.csproj", "{A4BFBB11-34B5-4EFA-B888-D39EF353953F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUploadServiceInstallerv2", "FileUploadServiceInstallerv2\FileUploadServiceInstallerv2.csproj", "{84915569-2BC1-498D-8CC6-899623D673EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -206,6 +208,12 @@ Global
 		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.ActiveCfg = Release|Any CPU
 		{A4BFBB11-34B5-4EFA-B888-D39EF353953F}.Testing|Any CPU.Build.0 = Release|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Testing|Any CPU.ActiveCfg = Release|Any CPU
+		{84915569-2BC1-498D-8CC6-899623D673EC}.Testing|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -225,6 +233,7 @@ Global
 		{12419049-4F49-4557-91CD-188D60E0C565} = {9B6AF093-7F2C-442A-ADB2-40FDB81C21EF}
 		{96025A22-841E-446E-A7D8-EAB18257D6E2} = {9B6AF093-7F2C-442A-ADB2-40FDB81C21EF}
 		{7059A372-4FB6-4CFF-9D11-7BF707EF4BF8} = {9B6AF093-7F2C-442A-ADB2-40FDB81C21EF}
+		{84915569-2BC1-498D-8CC6-899623D673EC} = {9B6AF093-7F2C-442A-ADB2-40FDB81C21EF}
 		{9A18FA10-5358-4202-AE4E-54515B23E363} = {7A956C47-DAFA-464E-9AFB-43F8DD74C5B8}
 		{BE92345F-83EA-41BC-A597-2B1DE0903168} = {7A956C47-DAFA-464E-9AFB-43F8DD74C5B8}
 		{B918CD29-F06C-426B-AFD6-ED92D230D30E} = {7A6B8A62-8669-4FFA-8B30-33A5602E0A0C}

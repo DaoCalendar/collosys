@@ -80,7 +80,7 @@ namespace ReflectionExtension.Tests.DummyTest
         public void Test()
         {
             
-            FileUploaderService.FileUploaderService.UploadFiles();
+            //ColloSys.FileUploaderServiceInstaller.FileUploaderService.UploadFiles();
         }
     }
 }
