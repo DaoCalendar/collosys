@@ -1,31 +1,30 @@
 ﻿<div>
     <form name="viewbillamountform">
-        <div class="panel panel-default">
-            <div class="panel-heading">Details</div>
-            <div class="panel-body">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Billing Policy</th>
-                            <th>Billing Subpolicy</th>
-                            <th>Amount</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="data in dldata.moreDetails">
-                            <td>{{data.BillingPolicy.Name}}</td>
-                            <td>{{data.BillingSubpolicy.Name}}</td>
-                            <td>{{data.Amount}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="modal-header">Details</div>
+        <div class="modal-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Billing Policy</th>
+                        <th>Billing Subpolicy</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="data in dldata.moreDetails">
+                        <td>{{data.BillingPolicy.Name}}</td>
+                        <td>{{data.BillingSubpolicy.Name}}</td>
+                        <td>{{data.Amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="text-right">
-            <cs-button type="close" data-ng-click="closeModal()"></cs-button>
+        <div class="modal-footer">
+            <cs-button type="close" permission="Billing,PayoutStatus,View" data-ng-click="closeModal()"></cs-button>
         </div>
     </form>
 </div>
+
 
 
 

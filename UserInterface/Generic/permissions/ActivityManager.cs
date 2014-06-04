@@ -277,6 +277,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(readyForBilling, ColloSysEnums.Activities.Approve);
 
             var payoutStatusActivity = AddActivity(billing, ColloSysEnums.Activities.PayoutStatus, desciption: "Billing Status");
+            AddActivity(payoutStatusActivity, ColloSysEnums.Activities.AddEdit);
+            AddActivity(payoutStatusActivity, ColloSysEnums.Activities.Approve);
             AddActivity(payoutStatusActivity, ColloSysEnums.Activities.View);
 
 

@@ -36,6 +36,7 @@ csapp.controller('BillAmountCntrl', ['$scope', 'billAmountDataLayer', 'billAmoun
             $modal.open({
                 templateUrl: baseUrl + 'Billing/summary/add-billamount-modal.html',
                 controller: 'billAmountAddModal',
+                windowClass: 'modal-large',
             });
         };
 
@@ -209,6 +210,7 @@ csapp.controller('billAmountAddModal', ['$scope', 'billAmountDataLayer', 'billAm
             $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.adhocPayout = {};
             $scope.adhocPayoutbill = $csModels.getColumns("Summary");
         })();
 
