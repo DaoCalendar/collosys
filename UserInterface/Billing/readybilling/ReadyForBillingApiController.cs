@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using BillingService.CustBillView;
+//using BillingService.CustBillView;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
@@ -24,7 +24,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         
         public HttpResponseMessage FetchPageData(ScbEnums.Products products, uint month)
         {
-            var data = ProcessCustBillView.GetBillingServiceData(products, month);
+           // var data = ProcessCustBillView.GetBillingServiceData(products, month);
             return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 

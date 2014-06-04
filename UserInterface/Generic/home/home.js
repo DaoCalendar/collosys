@@ -63,7 +63,7 @@
                  { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
                  { type: 'btn-radio', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },
                  { name: 'Age', label: 'Age', editable: false, required: true, type: 'text', template: 'percentage' },
-                 { name: 'DOB', label: 'DOB', editable: false, required: true, type: 'int', min: 10, max: 100 },
+                  { name: 'DOB', label: 'DOB', endDate: "1y", defaultDate: "+10d", editable: false, required: true, type: 'date', min: 10, max: 100 },
 
 
                  { name: 'Mobile', label: 'Mobile', template: 'phone', editable: false, required: true, type: 'text', min: 10, max: 100 },

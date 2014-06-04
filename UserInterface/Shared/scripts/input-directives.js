@@ -3,7 +3,7 @@
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
         var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
-        noBootstrapDiv += 'class="' + field.layoutClass.div + '"';
+        noBootstrapDiv += 'class="' + field.layoutClass.div + ' "';
         noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
         noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
         noBootstrapDiv += '>';
@@ -29,7 +29,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + '"';
+        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + ' "';
         html += '">';
         return html;
     };
@@ -364,6 +364,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         return html;
     };
 
+
+
     var configureTypeahead = function (field, attrs) {
         if (angular.isUndefined(attrs.typeahead)) return;
         field.typeaheadMinLength = field.typeaheadMinLength || 3;
@@ -378,6 +380,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
             valtemplate.before(field),
             prefix(field),
             input(field, attrs),
+            //valdationsIcons(),
             suffix(field),
             valtemplate.after(attrs.field, field),
             bstemplate.after(noBootstrap)
@@ -416,12 +419,12 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.mask = "(999) 999-9999";
                     break;
                 case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.pattern = "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/";
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
                     break;
                 case "user":
-                    options.pattern = "/^[0-9]{6}$/";
-                    options.patternMessage = "UserId must be a 6 digit number";
+                    options.pattern = "/^[0-9]{7}$/";
+                    options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 case "percentage":
                     options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
@@ -524,44 +527,44 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
     //#endregion
 
     //#region validations
-    var applyTemplates = function(options) {
+    var applyTemplates = function (options) {
         if (angular.isUndefined(options.template) || options.template === null) {
             return;
         }
 
-        var tmpl = options.template.split(",").filter(function(str) { return str !== ''; });
-        angular.forEach(tmpl, function(template) {
+        var tmpl = options.template.split(",").filter(function (str) { return str !== ''; });
+        angular.forEach(tmpl, function (template) {
             if (template.length < 1) return;
 
             switch (template) {
-            case "alphanum":
-                options.pattern = "/^[a-zA-Z0-9 ]*$/";
-                options.patternMessage = "Value contains non-numeric character/s.";
-                break;
-            case "alphabates":
-                options.pattern = "/^[a-zA-Z ]*$/";
-                options.patternMessage = "Value contains non-alphabtical character/s.";
-                break;
-            case "numeric":
-                options.pattern = "/^[0-9]*$/";
-                options.patternMessage = "Value contains non-numeric character/s.";
-                break;
-            case "phone":
-                options.length = 10;
-                options.pattern = "/^[0-9]{10}$/";
-                options.patternMessage = "Phone number must contain 10 digits.";
-                options.mask = "(999) 999-9999";
-                break;
-            case "pan":
-                options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                break;
-            case "user":
-                options.pattern = "/^[0-9]{7}$/";
-                options.patternMessage = "UserId must be a 7 digit number";
-                break;
-            default:
-                $log.error(template + " is not defined");
+                case "alphanum":
+                    options.pattern = "/^[a-zA-Z0-9 ]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "alphabates":
+                    options.pattern = "/^[a-zA-Z ]*$/";
+                    options.patternMessage = "Value contains non-alphabtical character/s.";
+                    break;
+                case "numeric":
+                    options.pattern = "/^[0-9]*$/";
+                    options.patternMessage = "Value contains non-numeric character/s.";
+                    break;
+                case "phone":
+                    options.length = 10;
+                    options.pattern = "/^[0-9]{10}$/";
+                    options.patternMessage = "Phone number must contain 10 digits.";
+                    options.mask = "(999) 999-9999";
+                    break;
+                case "pan":
+                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
+                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
+                    break;
+                case "user":
+                    options.pattern = "/^[0-9]{7}$/";
+                    options.patternMessage = "UserId must be a 7 digit number";
+                    break;
+                default:
+                    $log.error(template + " is not defined");
             }
         });
     };
@@ -784,7 +787,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row">';
-            html += '<div class="col-md-5 cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
+            html += '<div class="col-md-6 text-right cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += ' style="margin-left: 0"';
@@ -955,6 +958,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+//{ label: 'Datepicker',  startDate:"+2d",template:"MonthPicker" endDate: "1y", defaultDate: "+10d",  type: 'date'},
 csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
         var openDatePicker = function ($event, field) {
@@ -964,20 +968,21 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var disableDate = function (date, field) {
-
-
-
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
 
-        //TODO mode,min max date
+        //TODO default date
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control"';
-            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';
-            html += 'is-open="field.opened"';
-            html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
-            html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
+
+            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
+            html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
+            html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
+            html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
+            html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
+            //html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
+            //html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
             html += '/>';
@@ -1012,68 +1017,137 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                 if (template.length < 1) return;
                 switch (template) {
                     case "MonthPicker":
-                        field.minViewMode = "months";
+                        field.minViewMode = "month";
                         break;
                     case "YearPicker":
-                        field.minViewMode = "years";
+                        field.minViewMode = "year";
                         break;
                     case "future":
-                        field.startDate = "+0";
+                        field.startDate = "tomorrow";
+                        if (field.minViewMode === "month")
+                            field.startDate = "next-month";
+                        if (field.minViewMode === "year")
+                            field.startDate = "next-year";
                         break;
                     case "past":
-                        field.endDate = "+0";
+                        field.endDate = "yesterday";
+                        if (field.minViewMode === "month")
+                            field.startDate = "prev-month";
+                        if (field.minViewMode === "year")
+                            field.startDate = "prev-year";
                         break;
-                    case "Daily":
-                        field.startDate = "-15d";
-                        field.endDate = "+5d";
-                        break;
-                    case "Weekly":
-                        field.startDate = "-30d";
-                        field.endDate = "+15d";
-                        break;
-                    case "Monthly":
-                        field.minViewMode = "months";
-                        field.startDate = "-80d";
-                        field.endDate = "+30d";
-                        break;
+
                     default:
                         $log.error(template + " is not defined.");
                 }
+
                 return;
             });
         };
 
         var manageViewMode = function (field) {
-
+            field.dateOptions = {
+                showWeeks: false,
+            };
             if ($csfactory.isNullOrEmptyString(field.minViewMode))
                 field.minViewMode = '';
             switch (field.minViewMode.toUpperCase()) {
-                case "MONTHS":
-                    field.format = "M-yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec';
+                case "MONTH":
+                    field.format = "yyyy-MM";
+                    field.showButtons = false;
+                    field.dateOptions.datepickerMode = "'month'";
+                    field.dateOptions.minMode = 'month';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12'";
                     break;
                 case "YEAR":
-                    field.format = ".yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '.1800';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '.2400';
+                    field.format = "yyyy";
+                    field.showButtons = false;
+                    field.dateOptions.datepickerMode = "'year'";
+                    field.dateOptions.minMode = 'year';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200'";
                     break;
                 default:
-                    field.format = "dd-MMMM-yyyy";
-                    field.minDate = angular.isDefined(field.minDate) ? field.minDate : '1800-Jan-01';
-                    field.maxDate = angular.isDefined(field.maxDate) ? field.maxDate : '2400-Dec-31';
+                    field.minViewMode = 'DAY';
+                    field.format = "yyyy-MM-dd";
+                    field.showButtons = true;
+                    field.dateOptions.datepickerMode = "'day'";
+                    field.dateOptions.minMode = 'day';
+                    field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01-01'";
+                    field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12-31'";
             }
+            console.log("datepicker options: ", field.dateOptions);
+        };
 
+        var parseLogicalDate = function (dateParams) {
+            var newDateParams = dateParams.match(/[a-zA-Z]+|[-+0-9]+/g);
+            console.log("dateParams: ", dateParams);
+            var addBy = parseInt(newDateParams[0]);
+            if (isNaN(addBy)) throw "date param is not valid :" + dateParams;
 
+            var addParam = newDateParams[1];
+            if (!isNaN(addParam)) throw "date param is not valid :" + dateParams;
 
+            switch (addParam) {
+                case 'd':
+                case 'day':
+                case 'days':
+                    return moment().add('d', addBy).format("YYYY-MM-DD");
+                case 'm':
+                case 'month':
+                case 'months':
+                    return moment().add('M', addBy).format("YYYY-MM-DD");
+                case 'y':
+                case 'year':
+                case 'years':
+                    return moment().add('y', addBy).format("YYYY-MM-DD");
+                default:
+                    throw "date param is not valid :" + dateParams;
+            }
+        };
+
+        var parseDate = function (dateParams) {
+
+            switch (dateParams) {
+                case "today":
+                    return moment().format("YYYY-MM-DD");
+                case "tomorrow":
+                    return moment().add('days', 1).format("YYYY-MM-DD");
+                case "yesterday":
+                    return moment().subtract('days', 1).format("YYYY-MM-DD");
+                case "next-month":
+                    return moment().add('months', 1).format("YYYY-MM");
+                case "prev-month":
+                    return moment().subtract('months', 1).format("YYYY-MM");
+                case "next-year":
+                    return moment().add('years', 1).format("YYYY");
+                case "prev-year":
+                    return moment().subtract('years', 1).format("YYYY");
+                default:
+                    return parseLogicalDate(dateParams);
+            }
+        };
+
+        var validateDate = function (startDate, endDate) {
+            if (!moment(startDate).isBefore(endDate)) throw "start date: " + startDate + " is greater than end date" + endDate;
+        };
+
+        var parseDates = function (field) {
+            if (!$csfactory.isNullOrEmptyString(field.startDate)) field.dateOptions.minDate = "'" + parseDate(field.startDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.endDate)) field.dateOptions.maxDate = "'" + parseDate(field.endDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
+            validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
 
         var validateOptions = function (field) {
             applyTemplate(field);
             manageViewMode(field);
+            parseDates(field);
+
             field.opened = false;
             field.open = openDatePicker;
-            field.disableDate = disableDate;
+            field.disableDate = disableDate; //fn ptr
 
             if ($csfactory.isNullOrEmptyString(field.label)) {
                 field.label = "Date";
@@ -1099,9 +1173,9 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
         var input = function (field, attr) {
             var html = '<div class="input-group">';
-            html += '<input type="text" name="myfield" class="form-control" ng-readonly="true"';
+            html += '<input type="text" name="myfield" class="form-control" readonly="readonly"';
             html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
+            html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += (angular.isDefined(field.minViewMode) ? ' data-date-min-view-mode="' + field.minViewMode + '"' : '');
@@ -1152,6 +1226,19 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
                         break;
                     case "past":
                         field.endDate = "+0";
+                        break;
+                    case "Daily":
+                        field.startDate = "-15d";
+                        field.endDate = "+5d";
+                        break;
+                    case "Weekly":
+                        field.startDate = "-30d";
+                        field.endDate = "+15d";
+                        break;
+                    case "Monthly":
+                        field.minViewMode = "months";
+                        field.startDate = "-80d";
+                        field.endDate = "+30d";
                         break;
                     default:
                         $log.error(template + " is not defined.");
@@ -1245,7 +1332,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case "enum":
                     return enumFactory;
                 case 'date':
-                    return dateFactory;
+                    return dateFactory2;
                 case 'password':
                     return passwordFactory;
                 case 'btn-radio':
@@ -1385,3 +1472,285 @@ csapp.directive('csForm', function () {
         require: '^form'
     };
 });
+
+angular.module('ui.multiselect', [])
+
+  //from bootstrap-ui typeahead parser
+  .factory('optionParser', ['$parse', function ($parse) {
+
+      //                      00000111000000000000022200000000000000003333333333333330000000000044000
+      var TYPEAHEAD_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+(.*)$/;
+
+      return {
+          parse: function (input) {
+
+              var match = input.match(TYPEAHEAD_REGEXP);
+              if (!match) {
+                  throw new Error(
+                    "Expected typeahead specification in form of '_modelValue_ (as _label_)? for _item_ in _collection_'" +
+                      " but got '" + input + "'.");
+              }
+
+              return {
+                  itemName: match[3],
+                  source: $parse(match[4]),
+                  viewMapper: $parse(match[2] || match[1]),
+                  modelMapper: $parse(match[1])
+              };
+          }
+      };
+  }])
+
+  .directive('multiselect', ['$parse', '$document', '$compile', 'optionParser',
+
+    function ($parse, $document, $compile, optionParser) {
+        return {
+            restrict: 'E',
+            require: 'ngModel',
+            link: function (originalScope, element, attrs, modelCtrl) {
+
+                var exp = attrs.options,
+                  parsedResult = optionParser.parse(exp),
+                  isMultiple = attrs.multiple ? true : false,
+                  required = false,
+                  scope = originalScope.$new(),
+                  changeHandler = attrs.change || angular.noop;
+
+                scope.items = [];
+                scope.header = 'Select';
+                scope.multiple = isMultiple;
+                scope.disabled = false;
+
+                originalScope.$on('$destroy', function () {
+                    scope.$destroy();
+                });
+
+                var popUpEl = angular.element('<multiselect-popup></multiselect-popup>');
+
+                //required validator
+                if (attrs.required || attrs.ngRequired) {
+                    required = true;
+                }
+                attrs.$observe('required', function (newVal) {
+                    required = newVal;
+                });
+
+                //watch disabled state
+                scope.$watch(function () {
+                    return $parse(attrs.disabled)(originalScope);
+                }, function (newVal) {
+                    scope.disabled = newVal;
+                });
+
+                //watch single/multiple state for dynamically change single to multiple
+                scope.$watch(function () {
+                    return $parse(attrs.multiple)(originalScope);
+                }, function (newVal) {
+                    isMultiple = newVal || false;
+                });
+
+                //watch option changes for options that are populated dynamically
+                scope.$watch(function () {
+                    return parsedResult.source(originalScope);
+                }, function (newVal) {
+                    if (angular.isDefined(newVal))
+                        parseModel();
+                }, true);
+
+                //watch model change
+                scope.$watch(function () {
+                    return modelCtrl.$modelValue;
+                }, function (newVal, oldVal) {
+                    //when directive initialize, newVal usually undefined. Also, if model value already set in the controller
+                    //for preselected list then we need to mark checked in our scope item. But we don't want to do this every time
+                    //model changes. We need to do this only if it is done outside directive scope, from controller, for example.
+                    if (angular.isDefined(newVal)) {
+                        markChecked(newVal);
+                        scope.$eval(changeHandler);
+                    }
+                    getHeaderText();
+                    modelCtrl.$setValidity('required', scope.valid());
+                }, true);
+
+                function parseModel() {
+                    scope.items.length = 0;
+                    var model = parsedResult.source(originalScope);
+                    if (!angular.isDefined(model)) return;
+                    for (var i = 0; i < model.length; i++) {
+                        var local = {};
+                        local[parsedResult.itemName] = model[i];
+                        scope.items.push({
+                            label: parsedResult.viewMapper(local),
+                            model: model[i],
+                            checked: false
+                        });
+                    }
+                }
+
+                parseModel();
+
+                element.append($compile(popUpEl)(scope));
+
+                function getHeaderText() {
+                    if (is_empty(modelCtrl.$modelValue)) return scope.header = 'Select';
+                    if (isMultiple) {
+                        scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+                    } else {
+                        var local = {};
+                        local[parsedResult.itemName] = modelCtrl.$modelValue;
+
+                        scope.header = parsedResult.viewMapper(local);
+                    }
+                }
+
+                function is_empty(obj) {
+                    if (!obj) return true;
+                    if (obj.length && obj.length > 0) return false;
+                    for (var prop in obj) if (obj[prop]) return false;
+                    return true;
+                };
+
+                scope.valid = function validModel() {
+                    if (!required) return true;
+                    var value = modelCtrl.$modelValue;
+                    return (angular.isArray(value) && value.length > 0) || (!angular.isArray(value) && value != null);
+                };
+
+                function selectSingle(item) {
+                    if (item.checked) {
+                        scope.uncheckAll();
+                    } else {
+                        scope.uncheckAll();
+                        item.checked = !item.checked;
+                    }
+                    setModelValue(false);
+                }
+
+                function selectMultiple(item) {
+                    item.checked = !item.checked;
+                    setModelValue(true);
+                }
+
+                function setModelValue(isMultiple) {
+                    var value;
+
+                    if (isMultiple) {
+                        value = [];
+                        angular.forEach(scope.items, function (item) {
+                            if (item.checked) value.push(item.model);
+                        })
+                    } else {
+                        angular.forEach(scope.items, function (item) {
+                            if (item.checked) {
+                                value = item.model;
+                                return false;
+                            }
+                        })
+                    }
+                    modelCtrl.$setViewValue(value);
+                }
+
+                function markChecked(newVal) {
+                    if (!angular.isArray(newVal)) {
+                        angular.forEach(scope.items, function (item) {
+                            if (angular.equals(item.model, newVal)) {
+                                item.checked = true;
+                                return false;
+                            }
+                        });
+                    } else {
+                        angular.forEach(newVal, function (i) {
+                            angular.forEach(scope.items, function (item) {
+                                if (angular.equals(item.model, i)) {
+                                    item.checked = true;
+                                }
+                            });
+                        });
+                    }
+                }
+
+                scope.checkAll = function () {
+                    if (!isMultiple) return;
+                    angular.forEach(scope.items, function (item) {
+                        item.checked = true;
+                    });
+                    setModelValue(true);
+                };
+
+                scope.uncheckAll = function () {
+                    angular.forEach(scope.items, function (item) {
+                        item.checked = false;
+                    });
+                    setModelValue(true);
+                };
+
+                scope.select = function (item) {
+                    if (isMultiple === false) {
+                        selectSingle(item);
+                        scope.toggleSelect();
+                    } else {
+                        selectMultiple(item);
+                    }
+                }
+            }
+        };
+    }])
+
+  .directive('multiselectPopup', ['$document', function ($document) {
+      return {
+          restrict: 'E',
+          scope: false,
+          replace: true,
+          templateUrl: baseUrl + 'Shared/scripts/multiselect.tmpl.html',
+          link: function (scope, element) {
+
+              scope.isVisible = false;
+
+              scope.toggleSelect = function () {
+                  if (element.hasClass('open')) {
+                      element.removeClass('open');
+                      $document.unbind('click', clickHandler);
+                  } else {
+                      element.addClass('open');
+                      $document.bind('click', clickHandler);
+                      scope.focus();
+                  }
+              };
+
+              function clickHandler(event) {
+                  if (elementMatchesAnyInArray(event.target, element.find(event.target.tagName)))
+                      return;
+                  element.removeClass('open');
+                  $document.unbind('click', clickHandler);
+                  scope.$apply();
+              }
+
+              scope.focus = function () {
+                  var searchBox = element.find('input')[0];
+                  searchBox.focus();
+              };
+
+              var elementMatchesAnyInArray = function (el, elementArray) {
+                  for (var i = 0; i < elementArray.length; i++)
+                      if (el == elementArray[i])
+                          return true;
+                  return false;
+              };
+          }
+      };
+  }]);
+
+
+//case "Daily":
+//    field.startDate = "-15d";
+//    field.endDate = "+5d";
+//    break;
+//case "Weekly":
+//    field.startDate = "-30d";
+//    field.endDate = "+15d";
+//    break;
+//case "Monthly":
+//    field.minViewMode = "months";
+//    field.startDate = "-80d";
+//    field.endDate = "+30d";
+//    break;

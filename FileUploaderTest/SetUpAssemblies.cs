@@ -12,7 +12,7 @@ using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 using NUnit.Framework;
-using ReflectionExtension.Tests.FileReaderTest;
+//using ReflectionExtension.Tests.FileReaderTest;
 
 namespace ReflectionExtension.Tests
 {
