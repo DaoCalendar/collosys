@@ -538,7 +538,7 @@ csapp.controller('payoutPolicyCtrl', [
             _.forEach(relations, function (item) {
                 $scope.dldata.payoutPolicy.BillingRelations.push(item);
             });
-            datalayer.savePayoutPolicy($scope.dldata.BillingRelations).then(function () {
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
                 $scope.getSubpolicy();
                 $scope.direction = {
                     up: true,
