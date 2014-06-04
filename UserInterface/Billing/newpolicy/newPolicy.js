@@ -11,9 +11,16 @@ csapp.factory("newpolicyDatalayer", ['Restangular', function (rest) {
         });
     };
 
+    var getPolicyList = function() {
+        return restApi.customGET("GetBillingPolicyList").then(function(data) {
+            return data;
+        });
+    };
+
     return {
         dldata: dldata,
-        getStakeholderOrHier: getStakeholderOrHier
+        getStakeholderOrHier: getStakeholderOrHier,
+        getPolicyList: getPolicyList
     };
 
 }]);
@@ -51,6 +58,10 @@ csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "ne
     };
 
     $scope.getSubpolicyList = function () {
+
+        datalayer.getPolicyList().then(function (data) {
+            
+        });
     };
 
     $scope.displaySubpolicyDetails = function (policy) {
@@ -63,4 +74,5 @@ csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "ne
     $scope.moveDown = function () {
 
     };
+  
 }]);

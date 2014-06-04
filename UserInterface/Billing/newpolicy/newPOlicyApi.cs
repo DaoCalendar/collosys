@@ -37,5 +37,13 @@ namespace AngularUI.Billing.newpolicy
             }
            
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetBillingPolicyList()
+        {
+            //var data = "";
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+            ;
+        }
     }
 }
