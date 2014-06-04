@@ -1038,7 +1038,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                         break;
 
                     default:
-                        $log.error(template + " is not defined.");
+                        console.error(template + " is not defined.");
                 }
 
                 return;
