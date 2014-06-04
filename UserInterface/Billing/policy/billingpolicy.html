@@ -26,12 +26,12 @@
     <div class="col-md-9" data-ng-show="dldata.payoutPolicy.Products">
         <div class="col-md-5">
             <cs-list2 list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
-                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
+                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations, $index); setButtonStatus(policy)"></cs-list2>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
             <cs-list2 list-heading="Approved/UnApproved SubPolicy" value-list="dldata.ApproveUnapproved" text-field="Name"
-                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations); setButtonStatus(policy)"></cs-list2>
+                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations, $index); setButtonStatus(policy)"></cs-list2>
         </div>
         <div class="col-md-1">
             <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(policy)"><i class="glyphicon glyphicon-arrow-up"></i></button>

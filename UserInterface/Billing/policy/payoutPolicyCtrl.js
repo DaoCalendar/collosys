@@ -4,12 +4,12 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
         $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
-       // $scope.dldata.isModalDateValid = false;
+       $scope.dldata.isModalDateValid = false;
 
-        $scope.activateSubPoicy = function (modalData) {
+       $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
             modalData.BillingRelations.Priority = maxPriorityPolicy.Priority + 1;
-            modalData.BillingRelations.StartDate = modalData.startDate;
+            modalData.BillingRelations.StartDate = modalData.StartDate;
             modalData.BillingRelations.EndDate = modalData.endDate;
             modalData.BillingRelations.Status = "Submitted";
 
@@ -17,15 +17,15 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
                 $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
                 $scope.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
-            //datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
-            //(function () {
-            //    $modalInstance.close();
-            //});
+            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
+            (function () {
+                $modalInstance.close();
+            });
 
         };
 
         $scope.deactivateSubPoicy = function (modalData) {
-            modalData.payoutRelation.StartDate = modalData.startDate;
+            modalData.payoutRelation.StartDate = modalData.StartDate;
             modalData.payoutRelation.EndDate = modalData.endDate;
             $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.payoutRelation)));
             datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then(function () {
@@ -36,12 +36,16 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
                 $scope.dldata.isModalDateValid = true;
+                console.log(startDate);
+                console.log(endDate);
                 return;
             }
 
             startDate = moment(startDate);
             endDate = moment(endDate);
             $scope.dldata.isModalDateValid = (endDate >= startDate);
+            console.log(startDate);
+            console.log(endDate);
         };
 
         $scope.closeModal = function () {
@@ -404,7 +408,7 @@ csapp.controller('payoutPolicyCtrl', [
             }
         };
 
-      $scope.setDisplaySubpolicy = function (subpolicy, relation) {
+      $scope.setDisplaySubpolicy = function (subpolicy, relation,index) {
             if (angular.isUndefined(relation) || $csfactory.isEmptyObject(relation)) {
                 $scope.billingRelation = subpolicy;
             } else {
