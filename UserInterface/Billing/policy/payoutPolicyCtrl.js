@@ -477,14 +477,12 @@ csapp.controller('payoutPolicyCtrl', [
         })();
         $scope.onProductChange = function () {
             datalayer.resetList();
-            // $scope.buttonStatus = "";
             $scope.dldata.payoutPolicy.PolicyType = "";
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
         };
         $scope.onPolicyTypeChange = function () {
             datalayer.resetList();
-            //$scope.buttonStatus = "";
             $scope.dldata.payoutPolicy.PolicyFor = "";
             $scope.dldata.payoutPolicy.PolicyForId = "";
         };
@@ -493,7 +491,7 @@ csapp.controller('payoutPolicyCtrl', [
             _.forEach($scope.dldata.ApproveUnapproved, function (item) {
                 _.forEach($scope.dldata.payoutPolicy.BillingRelations, function (rel) {
                     if (angular.isDefined(rel)) {
-                        if (item.allocRelation.Id === rel.Id) {
+                        if (item.BillingRelations.Id === rel.Id) {
                             $scope.dldata.payoutPolicy.BillingRelations.splice($scope.dldata.payoutPolicy.BillingRelations.indexOf(rel), 1);
                             test.push(rel);
                         }
