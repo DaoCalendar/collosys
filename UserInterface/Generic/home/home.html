@@ -1,12 +1,9 @@
-﻿<div data-ng-if="false">
-    <form name="demo">
-        <input name="masked" ui-mask="{{mask}}" ng-model="x">{{x}}
-        <cs-form>
-            <div ng-controller="HomeCtrl">
-                <cs-field data-ng-model="date.pw" field="fields[0]" ></cs-field>{{date.pw}}
-            </div>
-        </cs-form>
-    </form>
+﻿<div data-ng-if="true">
+    <div class="form-group has-success has-feedback">
+        <label class="control-label" >Input with success</label>
+        <input type="text" class="form-control" >
+        <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+    </div>
 </div>
 <div
     data-ng-show="showPendingOptions()"

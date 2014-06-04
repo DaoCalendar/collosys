@@ -2,18 +2,18 @@
 
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
-        var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
-        noBootstrapDiv += 'class="' + field.layoutClass.div + ' "';
-        noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
-        noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
-        noBootstrapDiv += '>';
+        var noLabel = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+        noLabel += 'class="cs-fields ' + field.layoutClass.div + '"';
+        noLabel += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
+        noLabel += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
+        noLabel += '>';
 
-        var html = noBootstrapDiv;
-        html += '<div data-ng-hide="field.size.nolabel">' +
-            '<label class="cs-field-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
+        var withLabel = noLabel;
+        withLabel += '<div data-ng-hide="field.size.nolabel">' +
+            '<label class="cs-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
                 '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>' +
             '</div>';
-        return (noBootstrap || field.size.label === 0 ? noBootstrapDiv : html);
+        return (noBootstrap || field.size.label === 0 ? noLabel : withLabel);
     };
 
     var bsTemplateAfter = function () {
@@ -29,7 +29,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + ' "';
+        var html = '<div ng-form="myform" role="form" class="form-group has-feedback ' + field.layoutClass.control + ' "';
         html += '">';
         return html;
     };
@@ -48,15 +48,18 @@ csapp.factory("csValidationInputTemplate", function () {
 
     var after = function (fieldname, field) {
         getmessages(fieldname, field);
-        var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
-            '</div>';
+
+        var html = '<span data-ng-if="!field.noValidate" data-ng-show=" myform.myfield.$dirty" ng-class="{ ' + "'" + 'has-success' + "'" + ' : myform.myfield.$valid, ' + "'" + 'has-error' + "'" + ' : myform.myfield.$invalid }">';
+        html += '<span class=" form-control-feedback validation-icon" ng-class="{ ' + "'" + 'glyphicon glyphicon-ok' + "'" + ' : myform.myfield.$valid, ' + "'" + 'glyphicon glyphicon-remove' + "'" + ' : myform.myfield.$invalid }"></span>';
+        html += '<div data-ng-if="!field.noValidate"  data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
+           '</div>';
         html += '</div>'; //ng-form; 
         return html;
     };
@@ -787,7 +790,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row">';
-            html += '<div class="col-md-6 text-right cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
+            html += '<div class="col-md-6 text-right radio-margin" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += ' style="margin-left: 0"';
@@ -974,7 +977,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         //TODO default date
         var input = function (field, attr) {
             var html = '<p class="input-group">';
-            html += '<input type="text" class="form-control"';
+            html += '<input type="text" class="form-control" disabled="disabled"';
 
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
@@ -1396,6 +1399,17 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
+        var setValidation = function (field) {
+            if (field.noValidate) {
+                field.minlength = null;
+                field.maxlength = null;
+                field.pattern = null;
+                field.required = null;
+                field.min = null;
+                field.max = null;
+            }
+        };
+
         var linkFunction = function (scope, element, attrs, ctrl) {
             var controllers = {
                 ngModelCtrl: ctrl[0],
@@ -1411,8 +1425,10 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             }
 
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
+            scope.field.noValidate = attrs.noValidate ? (attrs.noValidate == 'true') : controllers.csFormCtrl.noValidate;
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setClasses(scope.field);
+            setValidation(scope.field);
 
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
@@ -1434,7 +1450,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
 csapp.directive('csForm', function () {
 
-    var cntrlFn = function ($scope) {
+    var cntrlFn = function ($scope, $element, $attrs) {
 
         $scope.layout = angular.isDefined($scope.layout) ? $scope.layout.split(".") : [6, 4, 8];
 
@@ -1449,7 +1465,7 @@ csapp.directive('csForm', function () {
         size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
         this.mode = $scope.mode;
-
+        this.noValidate = angular.isDefined($attrs.$attr.noValidate);
         this.getSize = function () {
             return angular.copy(size);
         };

@@ -196,7 +196,7 @@ h3.somemarginH {
     background: #fff url(images/validation/red_asterisk.png) no-repeat 98% center;
 }*/
 
-input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty select.ng-invalid.ng-dirty {
+/*input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty select.ng-invalid.ng-dirty {
     background: #fff url(images/validation/invalid.png) no-repeat 98% center;
     -webkit-box-shadow: 0 0 5px #d45252;
     -ms-box-shadow: 0 0 5px #d45252;
@@ -210,7 +210,7 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
     -ms-box-shadow: 0 0 5px #5cd053;
     box-shadow: 0 0 5px #5cd053;
     border-color: #28921f;
-}
+}*/
 
 /* ReSharper disable UnknownHtmlAttribute */
 /* ReSharper disable Html.AttributeNotResolved */
@@ -481,21 +481,10 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     
 }*/
 
-.cs-field-label {
-    margin-top: 7px;
-    white-space: nowrap;
-    padding-right: 0;
-}
-
 .text-shadow {
     -ms-text-shadow: black 5px 3px 3px;
     text-shadow: black 5px 3px 3px;
 }
-
-.cs-field-radio-margin {
-    margin: 7px 0 0 0;
-}
-
 
 
 multiselect {
@@ -533,3 +522,24 @@ multiselect {
     margin: 3px;
     padding: 3px;
 }
+
+.cs-fields {
+    margin-bottom: 5px;
+}
+
+    .cs-fields .validation-icon {
+        top: 0 !important;
+        margin-right: 10px;
+    }
+
+
+    .cs-fields .radio-margin {
+        margin: 7px 0 0 0;
+    }
+
+
+    .cs-fields .cs-label {
+        margin-top: 7px;
+        white-space: nowrap;
+        padding-right: 0;
+    }
