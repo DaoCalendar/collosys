@@ -93,7 +93,7 @@ csapp.controller('holdingactiveAddEditCtrl', [
             for (var j = i; j < 6; j++) {
                 var data = {
                     valuefield: moment().add('month', j).format('YYYYMM'),
-                    display: moment().add('month', j).format("MMM-YYYY")
+                    display: moment().add('month', j).format("MMM-YYYY"),
                 };
                 $scope.monthList.push(data);
             }
