@@ -26,7 +26,7 @@
     <div class="col-md-9" data-ng-show="dldata.payoutPolicy.Products">
         <div class="col-md-5">
             <cs-list list-heading="Draft/Expired SubPolicy" value-list="dldata.ExpiredAndSubpolicy" text-field="Name"
-                      data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations, $index); setButtonStatus(policy)"></cs-list>
+                     data-ng-model="policy" on-click="setDisplaySubpolicy(policy.subpolicy, policy.BillingRelations, $index); setButtonStatus(policy)"></cs-list>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5">
@@ -38,50 +38,7 @@
             <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(policy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
         </div>
     </div>
-    <div class="row" data-ng-show="false">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-4">
-            <label class="heading-for-box">Expired/Draft</label>
-            <div class="box">
-                <div class="policy-name-box"
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
-                    <div class="clickableName"
-                         data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
-                        {{billingRelation.BillingSubpolicy.Name}}
-                    </div>
-                </div>
-                <div class="policy-name-box"
-                     data-ng-repeat="subPolicy in dldata.subPolicyList">
-                    <div class="clickableName"
-                         data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
-                        {{subPolicy.Name}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-4">
-            <label class="heading-for-box">Approved/UnApproved</label>
-            <div class="box">
-                <div class="policy-name-box"
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
-                    <div class="clickableName"
-                         data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
-                        {{billingRelation.BillingSubpolicy.Name}}
-                    </div>
-                </div>
-                <div class="policy-name-box alert-error"
-                     data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
-                    <div class="clickableName"
-                         data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
-                        {{billingRelation.BillingSubpolicy.Name}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1"></div>
-    </div>
+
 
     <div class="margin-box container-fluid" data-ng-show="dldata.buttonStatus" data-ng-form="policyForm">
         <div class="row">
@@ -120,17 +77,20 @@
                             </div>
                         </div>
                         <div class="panel-body">
-
-                            <div class="row">
-
-                                <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
-                                          field="BillingPolicy.Name"></cs-field>
+                            <div class="row" style="margin-bottom: 5px">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" readonly
+                                               value="{{disSubPolicy.Name}}">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'">
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <label class="col-md-4 control-label">Start Date</label>
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <input type="text" class="form-control" readonly
                                                    value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
                                         </div>
@@ -139,14 +99,14 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <label class="col-md-4 control-label">End Date</label>
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <input type="text" class="form-control" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom: 5px">
-                                <div>
+                                <div class="col-md-6">
                                     <cs-output table-name="DhflLiner"
                                                selected="selParams"
                                                formula-list="formulaList"
@@ -155,7 +115,7 @@
                                                group-type="Output"
                                                group-id="1.Output" edit="false"></cs-output>
                                 </div>
-                                <div>
+                                <div class="col-md-6">
                                     <cs-condition table-name="DhflLiner"
                                                   selected="selParams"
                                                   formula-list="formulaList"
@@ -165,7 +125,7 @@
                                                   debug="false" edit="false"></cs-condition>
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -173,3 +133,48 @@
         </div>
     </div>
 </cs-form>
+
+<!--<div class="row" data-ng-show="false">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-4">
+        <label class="heading-for-box">Expired/Draft</label>
+        <div class="box">
+            <div class="policy-name-box"
+                 data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(false,'')">
+                <div class="clickableName"
+                     data-ng-click="setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation);setButtonStatus('Expired')">
+                    {{billingRelation.BillingSubpolicy.Name}}
+                </div>
+            </div>
+            <div class="policy-name-box"
+                 data-ng-repeat="subPolicy in dldata.subPolicyList">
+                <div class="clickableName"
+                     data-ng-click="setDisplaySubpolicy(subPolicy);setButtonStatus('Draft')">
+                    {{subPolicy.Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <label class="heading-for-box">Approved/UnApproved</label>
+        <div class="box">
+            <div class="policy-name-box"
+                 data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Approved') | orderBy: 'Priority'">
+                <div class="clickableName"
+                     data-ng-click="setButtonStatus('Approved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                    {{billingRelation.BillingSubpolicy.Name}}
+                </div>
+            </div>
+            <div class="policy-name-box alert-error"
+                 data-ng-repeat="billingRelation in dldata.payoutPolicy.BillingRelations | filter:factory.filterRelation(true,'Submitted') | orderBy: 'Priority'">
+                <div class="clickableName"
+                     data-ng-click="setButtonStatus('UnApproved');setDisplaySubpolicy(billingRelation.BillingSubpolicy,billingRelation)">
+                    {{billingRelation.BillingSubpolicy.Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>-->

@@ -457,7 +457,7 @@ csapp.controller('payoutPolicyCtrl', [
             $scope.BillingPolicy.enddate = { label: "EndDate:", type: 'date' };
             datalayer.reset();
             $scope.pageData = {
-                BillingRelation: {},
+                BillingRelations: {},
                 StartDate: null,
                 endDate: null,
                 subPolicyIndex: -1,
@@ -578,10 +578,10 @@ csapp.controller('payoutPolicyCtrl', [
 
         $scope.openModelDeactivateSubPolicy = function (relation) {
             $scope.dldata.buttonStatus = null;
-            $scope.pageData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
-            $scope.pageData.payoutRelation.Status = "Submitted";
+            $scope.pageData.BillingRelations = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
+            $scope.pageData.BillingRelations.Status = "Submitted";
             $scope.pageData.subPolicyIndex = -1;
-            $scope.pageData.startDate = relation.StartDate;
+            $scope.pageData.StartDate = relation.StartDate;
             $scope.pageData.endDate = null;
             $scope.pageData.forActivate = false;
             openmodal($scope.pageData);
@@ -589,8 +589,8 @@ csapp.controller('payoutPolicyCtrl', [
 
         $scope.openModelReactivateSubPolicy = function (relation) {
             $scope.dldata.buttonStatus = null;
-            $scope.pageData.payoutRelation = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
-            $scope.pageData.payoutRelation.Status = "Submitted";
+            $scope.pageData.BillingRelations = { BillingSubpolicy: relation.BillingSubpolicy, OrigEntityId: relation.Id };
+            $scope.pageData.BillingRelations.Status = "Submitted";
             $scope.pageData.subPolicyIndex = -1;
             $scope.pageData.startDate = null;
             $scope.pageData.endDate = null;
