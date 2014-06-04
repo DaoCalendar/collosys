@@ -80,6 +80,7 @@ namespace AngularUI.Generic.Menu
             billing.AddChild("Execution Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/status");
             billing.AddChild("Bill Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/summary");
             billing.AddChild("Pay Clearance Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/billstatus");
+            billing.AddChild("Payout 2", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/newpolicy");
 
             var billingExtension = home.AddChild("Billing Extension", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billingExtension.AddChild("Adhoc", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhoc");

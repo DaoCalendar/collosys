@@ -39,7 +39,10 @@
             Condition: { label: "Condition", type: "textarea" },
             startdate: { label: "StartDate:", type: 'date' },
             enddate: { label: "EndDate:", type: 'date' },
-
+            PolicyFor: { label: "Policy For", type: "enum", valueList: ["Stakeholder", "Hierarchy", "Product"] },
+            PolicyForProduct: { label: "Product", type: "text" },
+            PolicyForGuid: { label: "ResetLabel", type: "select" },
+            PolicyType : { label: "PolicyType", type: "enum", valueList: ["Payout", "Capping", "PF"] },
         };
     };
 

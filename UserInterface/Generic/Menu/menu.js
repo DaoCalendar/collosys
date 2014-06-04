@@ -272,6 +272,11 @@ csapp.factory("menuFactory", [function () {
                         Title: "Pay Clearance Status",
                         url: "#/billing/billstatus",
                         //display: getperm([permissions.Billing.childrens.PayoutStatus.childrens.View.access]),
+                    },
+                    {
+                        Title: "NewPolicy",
+                        url: "#/billing/newpolicy",
+                        display: true
                     }
                 ]
             },

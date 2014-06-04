@@ -122,6 +122,7 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
+    <Compile Include="Billing\newpolicy\newPOlicyApi.cs" />
     <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
@@ -237,6 +238,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\allocationModels.js" />
+    <Content Include="Billing\newpolicy\newPolicy.html" />
+    <Content Include="Billing\newpolicy\newPolicy.js" />
     <Content Include="Allocation\policy\allocation-policy-specs.js" />
     <Content Include="Allocation\policy\allocPolicyCtrl.js" />
     <Content Include="Allocation\policy\allocpolicy.html" />
@@ -536,6 +539,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\angularjs\angular-locale_en-in.js" />
@@ -582,7 +586,6 @@
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Shared\templates\if-else-directive.html" />
     <Content Include="Shared\templates\loading-element.html" />
-    <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\multi-if-else-directive.html" />
     <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\add\address.html" />

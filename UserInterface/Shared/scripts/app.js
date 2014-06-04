@@ -194,6 +194,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/billing/holdingactive/addedit/:mode', {
                 templateUrl: baseUrl + 'Billing/holdingactivate/holding-policy-active.html',
                 controller: 'holdingactiveAddEditCtrl'
+            }).when('/billing/newpolicy', {
+                templateUrl: baseUrl + 'Billing/newpolicy/newPolicy.html',
+                controller: 'newpolicyController'
             })
 
             //generic
