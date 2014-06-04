@@ -1,25 +1,25 @@
 ﻿<div data-ng-form="payoutpolicyDateRangeForm">
     <div class="modal-header">
-        <h3 class="modal-title">{{modelData.payoutRelation.BillingSubpolicy.Name}}</h3>
+        <h3 class="modal-title">{{pageData.BillingRelations.BillingSubpolicy.Name}}</h3>
     </div>
     <cs-form layout="8.4.8">
         <div class="modal-body" style="margin-bottom: 10px">
             <div>
-                <cs-field data-ng-disabled="!modelData.forActivate" data-ng-model="modelData.StartDate" ng-required="true" field="BillingPolicy.startdate"
-                          data-ng-change="modelData.endDate=null;modelDateValidation(modelData.StartDate,modelData.endDate)"></cs-field>
-                <cs-field field="BillingPolicy.enddate" data-ng-model="modelData.endDate"
-                          data-ng-change="modelDateValidation(modelData.StartDate,modelData.endDate)"></cs-field>
+                <cs-field data-ng-disabled="!pageData.forActivate" data-ng-model="modalpopUp.StartDate" ng-required="true" field="BillingPolicy.startdate"
+                          data-ng-change="modalpopUp.endDate=null;modelDateValidation(modalpopUp.StartDate,modalpopUp.endDate)"></cs-field>
+                <cs-field field="BillingPolicy.enddate" data-ng-model="modalpopUp.endDate"
+                          data-ng-change="modelDateValidation(modalpopUp.StartDate,modalpopUp.endDate)"></cs-field>
                 
             </div>
         </div>
         <div class="modal-footer" style="margin-top: 10px">
-            <cs-button type="delete" text=" Deactivate" data-ng-show="!modelData.forActivate"
+            <cs-button type="delete" text=" Deactivate" data-ng-show="!pageData.forActivate"
                        data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
-                       data-ng-click="deactivateSubPoicy(modelData)"></cs-button>
+                       data-ng-click="deactivateSubPoicy(modalpopUp)"></cs-button>
             <cs-button type="save" text="Activate"
-                       data-ng-show="modelData.forActivate"
+                       data-ng-show="pageData.forActivate"
                        data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid) "
-                       data-ng-click="activateSubPoicy(modelData)"></cs-button>
+                       data-ng-click="activateSubPoicy(modalpopUp)"></cs-button>
             <cs-button type="close" data-ng-click="closeModal()"></cs-button>
         </div>
     </cs-form>

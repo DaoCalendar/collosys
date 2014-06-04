@@ -121,10 +121,29 @@
                         </div>
                         <div class="panel-body">
 
-                            <div class="col-md-5">
+                            <div class="row">
 
                                 <cs-field data-ng-model="disSubPolicy.Name" data-ng-disabled="true"
                                           field="BillingPolicy.Name"></cs-field>
+                            </div>
+                            <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'">
+                                <div class="form-group col-md-6">
+                                    <div class="row">
+                                        <label class="col-md-4 control-label">Start Date</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" readonly
+                                                   value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <label class="col-md-4 control-label">End Date</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row" style="margin-bottom: 5px">
                                 <div>
@@ -146,26 +165,7 @@
                                                   debug="false" edit="false"></cs-condition>
                                 </div>
                             </div>
-
-                            <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'">
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label class="col-md-4 control-label">Start Date</label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" readonly
-                                                   value="{{billingRelation.StartDate|date:'dd-MM-yyyy'}}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <label class="col-md-4 control-label">End Date</label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="form-control" readonly value="{{billingRelation.EndDate|date:'dd-MM-yyyy'}}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                         </div>
                     </div>
                 </div>
