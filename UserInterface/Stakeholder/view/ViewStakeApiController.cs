@@ -2,18 +2,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration.Provider;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
-using System.Web.Security;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
@@ -316,8 +312,6 @@ namespace AngularUI.Stakeholder.view
         {
             var query = StakeQuery.ApplyRelations();
             var workingQuery = WorkingQueryBuilder.ApplyRelations();
-            StkhWorking workings = null;
-            Stakeholders stake = null;
 
             if (filterView == "PendingForAll")
             {
@@ -421,7 +415,6 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-
         public HttpResponseMessage GetStkhDataByStakeHolder(Guid Id, int start, int size)
         {
             var stkhData = (List<Stakeholders>)GetReportees(Id, start, size);
@@ -665,8 +658,8 @@ namespace AngularUI.Stakeholder.view
                 SaveApprovedAndRejectUser(stake);
             }
         }
-        [HttpPost]
 
+        [HttpPost]
         public void SavePushToHigher(Stakeholders data)
         {
             if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)

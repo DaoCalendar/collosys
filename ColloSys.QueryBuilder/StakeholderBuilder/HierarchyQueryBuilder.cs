@@ -23,7 +23,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IEnumerable<StkhHierarchy> OnDesignationHierarchy(string designation, string hierarchy)
+        public IList<StkhHierarchy> OnDesignationHierarchy(string designation, string hierarchy)
         {
             var session = SessionManager.GetCurrentSession();
 

@@ -153,7 +153,7 @@ namespace AngularUI.Billing.subpolicy
         }
         #endregion
 
-        #region "Post Method"
+        #region Post Method
         [HttpPost]
         public BillingRelation GetRelations(BillingSubpolicy subpolicy)
         {

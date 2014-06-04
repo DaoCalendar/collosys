@@ -40,7 +40,8 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
 
         $scope.getSubpolicyList = function (selectedParams) {
 
-            if ($csfactory.isNullOrEmptyString(selectedParams.Products) || $csfactory.isNullOrEmptyString(selectedParams.PolicyType))
+            if ($csfactory.isNullOrEmptyString(selectedParams.Products)
+                || $csfactory.isNullOrEmptyString(selectedParams.PolicyType))
                 return;
 
             datalayer.getSubpolicyList(selectedParams).then(function (data) {
@@ -84,16 +85,17 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             });
         };
 
-        $scope.resetSubPolicy = function (products, form) {
-            $scope.subpolicy = {};
-            $scope.subpolicy.Products = products;
+        $scope.resetSubPolicy = function (products) {
+            $scope.subpolicy = {
+                Products : products
+            };
             $scope.selected = [];
             $scope.selectedTokens = {
                 conditionTokens: [],
                 ifOutputTokens: [],
                 ElseOutputTokens: []
             };
-            form.$setPristine();
+            $scope.subpolicyForm.$setPristine();
         };
 
         $scope.selectSubpolicy = function (subpolicy) {

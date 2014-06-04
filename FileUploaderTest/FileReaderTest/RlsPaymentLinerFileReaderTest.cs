@@ -12,14 +12,10 @@ namespace ReflectionExtension.Tests.FileReaderTest
     class RlsPaymentLinerFileReaderTest 
     {
         private IFileReader<Payment> _fileReader;
-        private FileScheduler _uploadedFile;
-        private FileMappingData _data;
 
         [SetUp]
         public void Init()
         {
-            _data=new FileMappingData();
-           // _uploadedFile = _data.GetUploadedFile();
             _fileReader = new RlsPaymentLinerFileReader(_uploadedFile);
             
             HibernatingRhinos.Profiler.Appender.NHibernate.NHibernateProfiler.Initialize();

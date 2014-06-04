@@ -1,18 +1,19 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Configuration;
 using System.IO;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using ColloSys.Shared.ConfigSectionReader;
-using NHibernate;
-using NHibernate.Context;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 using NUnit.Framework;
-using ReflectionExtension.Tests.FileReaderTest;
+
+#endregion
 
 namespace ReflectionExtension.Tests
 {
@@ -33,13 +34,14 @@ namespace ReflectionExtension.Tests
         private void InitNhibernate()
         {
             var connectionString = new ConnectionStringSettings("sqlte", 
-                string.Format("Data Source='{0}';Version=3;", ":memory:"));
+                @"Data Source=localhost\SQLEXPRESS;Initial Catalog=collosys.dhfl;Persist Security Info=True;User ID=sa;Password=p@55w0rld");
             var obj = new NhInitParams { ConnectionString = connectionString, 
-                DbType = ConfiguredDbTypes.SqLite, 
+                DbType = ConfiguredDbTypes.MsSql, 
                 IsWeb = false };
 
             SessionManager.InitNhibernate(obj);
         }
+
         public static class NLogConfig
         {
             private static bool _hasInitialized;

@@ -1,4 +1,4 @@
-﻿using ColloSys.BillingService;
+﻿using BillingService2;
 using NLog;
 
 namespace ColloSys.BillingServiceInstaller
@@ -7,25 +7,25 @@ namespace ColloSys.BillingServiceInstaller
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private static bool billingInProcess;
+        private static bool _billingInProcess;
 
         static BillingStart()
         {
-            billingInProcess = false;
+            _billingInProcess = false;
         }
 
         public void StartBillingProcess()
         {
-            if (billingInProcess)
+            if (_billingInProcess)
             {
                 Logger.Info("Waiting for another allocation to complete.");
                 return;
             }
 
-            billingInProcess = true;
+            _billingInProcess = true;
             var billingService = new BillingServices();
             billingService.StartBillingService();
-            billingInProcess = false;
+            _billingInProcess = false;
         }
     }
 }

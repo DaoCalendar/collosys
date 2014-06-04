@@ -7,7 +7,7 @@ using System.Reflection;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Timers;
-using ColloSys.BillingService.Logging;
+using BillingService2.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 

@@ -42,6 +42,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BillingService, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BillingService\bin\Debug\BillingService.dll</HintPath>
+    </Reference>
     <Reference Include="EPPlus, Version=3.1.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\SharedLib\EPPlus.dll</HintPath>
@@ -212,11 +216,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Generic\csgrid\GridApiController.cs" />
+    <Compile Include="Shared\webapis\BaseApiController.cs" />
     <Compile Include="Shared\webapis\CamelCasedApiControllerAttribute.cs" />
     <Compile Include="Shared\webapis\CamelCasedApiMethodAttribute.cs" />
     <Compile Include="Shared\webapis\EnumList.cs" />
-    <Compile Include="Shared\webapis\BaseApiController.cs" />
-    <Compile Include="Generic\csgrid\GridApiController.cs" />
     <Compile Include="Shared\webapis\FetchEnums.cs" />
     <Compile Include="Shared\webapis\HttpSessionAttribute.cs" />
     <Compile Include="Shared\webapis\HttpTransactionAttribute.cs" />
@@ -470,7 +474,6 @@
     <Content Include="Scripts\ngupload\ng-upload.min.js" />
     <Content Include="Scripts\restangular\restangular.js" />
     <Content Include="Scripts\restangular\restangular.min.js" />
-    <Content Include="Shared\scripts\app.js" />
     <Content Include="Content\favicon.ico" />
     <Content Include="Content\bootstrap3.1\images\glyphicons-halflings-white.png" />
     <Content Include="Content\bootstrap3.1\images\glyphicons-halflings.png" />
@@ -566,22 +569,24 @@
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
-    <Content Include="Shared\scripts\condition-directive.js" />
-    <Content Include="Shared\scripts\controllers.js" />
-    <Content Include="Shared\scripts\models.js" />
-    <Content Include="Shared\scripts\directives.js" />
-    <Content Include="Shared\scripts\factories.js" />
     <Content Include="Generic\csgrid\grid-buttons.html" />
     <Content Include="Generic\csgrid\grid-settings.html" />
     <Content Include="Generic\csgrid\grid-stakeholder.html" />
-    <Content Include="Shared\scripts\input-directives.js" />
-    <Content Include="Shared\templates\condition-directive.html" />
-    <Content Include="Shared\templates\if-else-directive.html" />
-    <Content Include="Shared\templates\loading-element.html" />
     <Content Include="Generic\login\login-holder.html" />
     <Content Include="Generic\login\login.html" />
     <Content Include="Generic\home\home.html" />
+    <Content Include="Shared\scripts\app.js" />
+    <Content Include="Shared\scripts\condition-directive.js" />
+    <Content Include="Shared\scripts\controllers.js" />
+    <Content Include="Shared\scripts\directives.js" />
+    <Content Include="Shared\scripts\factories.js" />
+    <Content Include="Shared\scripts\input-directives.js" />
+    <Content Include="Shared\scripts\models.js" />
+    <Content Include="Shared\templates\condition-directive.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
+    <Content Include="Shared\templates\if-else-directive.html" />
+    <Content Include="Shared\templates\loading-element.html" />
+    <Content Include="Shared\templates\menu.html" />
     <Content Include="Shared\templates\multi-if-else-directive.html" />
     <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\add\address.html" />

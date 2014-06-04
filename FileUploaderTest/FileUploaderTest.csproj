@@ -87,14 +87,6 @@
     <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
     <Compile Include="ExcelReader.Test\FileShedulerForTest.cs" />
     <Compile Include="FileMappings.Test\ColumnMappingTest.cs" />
-    <Compile Include="FileReaderTest\EbbsPaymentLinerFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\EbbsPaymentWoAutoFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\EbbsPaymentWoSmcFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\FileProcessesTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentLinerFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentManualReversalFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentWoAebFileReaderTest.cs" />
-    <Compile Include="FileReaderTest\RlsPaymentWoPlpcFileReaderTest.cs" />
     <Compile Include="FileUploadServiceV2Test\FileUploadServiceV2Test.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
