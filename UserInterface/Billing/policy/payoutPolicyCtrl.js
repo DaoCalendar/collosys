@@ -4,6 +4,7 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
         $scope.modelData = modaldata;
         $scope.dldata = datalayer.dldata;
         $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
+       // $scope.dldata.isModalDateValid = false;
 
         $scope.activateSubPoicy = function (modalData) {
             var maxPriorityPolicy = _.max($scope.dldata.payoutPolicy.BillingRelations, 'Priority');
@@ -16,10 +17,10 @@ csapp.controller('policymodal', ['$scope', 'modaldata', '$modalInstance', 'payou
                 $scope.dldata.payoutPolicy.BillingRelations.push(JSON.parse(JSON.stringify(modalData.BillingRelations)));
                 $scope.dldata.subPolicyList.splice(modalData.subPolicyIndex, 1);
             }
-            datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
-            (function () {
-                $modalInstance.close();
-            });
+            //datalayer.savePayoutPolicy($scope.dldata.payoutPolicy).then
+            //(function () {
+            //    $modalInstance.close();
+            //});
 
         };
 
