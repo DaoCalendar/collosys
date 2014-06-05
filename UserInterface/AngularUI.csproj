@@ -261,7 +261,6 @@
     <Content Include="Billing\formula2\formula-details.html" />
     <Content Include="Billing\formula2\formula.html" />
     <Content Include="Billing\formula2\formula.js" />
-    <Content Include="Billing\formula2\if-else.html" />
     <Content Include="Billing\formula2\multi-if-else.html" />
     <Content Include="Billing\formula2\output.html" />
     <Content Include="Billing\formula\formula-condition.html" />
