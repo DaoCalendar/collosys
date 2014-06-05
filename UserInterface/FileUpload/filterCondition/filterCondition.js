@@ -166,7 +166,6 @@ csapp.controller("filterConditionController", ["$scope", "filterConditionDatalay
 
         $scope.manageOperatorField = function (condition) {
             var obj = JSON.parse(condition.ColumnName);
-            console.log(obj);
             $scope.InputType = obj.ColumnDataType;
             if ($scope.InputType === "String") {
                 condition.Operator = "";

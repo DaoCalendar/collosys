@@ -20,7 +20,6 @@ csapp.controller('StakeHierarchy', ['$scope', '$http', 'Restangular', '$csfactor
                         }
                     });
                     $scope.$parent.stakeholderModels.hierarchy.valueList = hierarchyArray;
-                    console.log($scope.$parent.stakeholderModels.hierarchy);
                     $scope.hierarchy = true;
                 }, function () {
                     $csnotify.error('Error loading hierarchies');

@@ -118,7 +118,6 @@ csapp.factory("pincodeDataLayer", ["Restangular", "$csnotify", "$csfactory",
             var gPincodedata = dldata.GPincodedata;
 
             return pincodeApi.customPOST(gPincodedata, "GetWholedata").then(function (data2) {
-                console.log(data2.length);
                 if (angular.isUndefined(gPincodedata.Region) || gPincodedata.Region == "") {
                     dldata.RegionList = _.uniq(data2);
                     return;
