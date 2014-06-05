@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
 
@@ -30,7 +31,6 @@ namespace BillingService2.Calculation
                 InfoList.Add(info.ApplNo, info);
             }
         }
-
         #endregion
 
         #region payout
@@ -99,6 +99,18 @@ namespace BillingService2.Calculation
         {
             var info = InfoList[liner.ApplNo];
             info.TotalProcFee = liner.FeeReceived;
+        }
+        #endregion
+
+        #region post status
+        public void ManageInfo(BillStatus status, IEnumerable<DHFL_Liner> liners)
+        {
+            if (status.BillMonth != status.OriginMonth) return;
+            foreach (var liner in liners)
+            {
+                var info = InfoList[liner.ApplNo];
+                info.OriginMonth = liner.BillMonth;
+            }
         }
         #endregion
     }

@@ -3,8 +3,8 @@ using System.Linq;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 
 namespace BillingService2.DBLayer
 {
@@ -14,27 +14,25 @@ namespace BillingService2.DBLayer
         {
             //ScbEnums.Products products, uint billMonth
             var session = SessionManager.GetCurrentSession();
-            var dhflLiners = session.QueryOver<DHFL_Liner>()
-                                    .Where(x =>
-                                        //x.Product == billStatus.Products && 
-                                        x.BillMonth == billStatus.BillMonth
-                                        && x.DisbMonth == billStatus.OriginMonth
-                                                && x.AgentId == billStatus.Stakeholder.ExternalId)
-                                    .List<DHFL_Liner>();
+            var dhflLiners = session.Query<DHFL_Liner>()
+                .Where(x => x.BillMonth == billStatus.BillMonth
+                            && x.DisbMonth == billStatus.OriginMonth
+                            && x.AgentId == billStatus.Stakeholder.ExternalId)
+                .ToList();
 
-            return dhflLiners.ToList();
+            return dhflLiners;
         }
     }
 
 
     internal static class DhflInfoDbLayer
     {
-        public static List<DHFL_Info> GetDhflInfo(List<uint> AppNos)
+        public static List<DHFL_Info> GetDhflInfo(List<uint> appNos)
         {
             //ScbEnums.Products products, uint billMonth
             var session = SessionManager.GetCurrentSession();
             var dhflInfos = session.QueryOver<DHFL_Info>()
-                                    .AndRestrictionOn(x => x.ApplNo).IsIn(AppNos)
+                                    .AndRestrictionOn(x => x.ApplNo).IsIn(appNos)
                                     .List<DHFL_Info>();
 
             return dhflInfos.ToList();
@@ -47,7 +45,7 @@ namespace BillingService2.DBLayer
         {
             var session = SessionManager.GetCurrentSession();
             var stakeholdersList = session.QueryOver<Stakeholders>()
-                .Where(x => userIds.Contains(x.ExternalId)).List(); ;
+                .Where(x => userIds.Contains(x.ExternalId)).List();
 
             return stakeholdersList.ToList();
         }

@@ -625,7 +625,7 @@ csapp.directive('csList2', function () {
     return {
         restrict: 'E',
         replace: true,
-        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&' }, //textField
+        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&', selectedIndex: '=' }, //textField
         template: templateFn,
         link: linkFn,
         require: 'ngModel'

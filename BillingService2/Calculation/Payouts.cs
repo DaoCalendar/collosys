@@ -67,7 +67,7 @@ namespace BillingService2.Calculation
             return _billingInfoManager.InfoList.Select(x => x.Value).ToList();
         }
 
-        private BillDetail GetBillDetail(BillingPolicy billingPolicy, BillingSubpolicy billingSubpolicy, List<DHFL_Liner> dhflLiners)
+        private BillDetail GetBillDetail(BillingPolicy billingPolicy, BillingSubpolicy billingSubpolicy, IEnumerable<DHFL_Liner> dhflLiners)
         {
             var billDetail = new BillDetail
             {

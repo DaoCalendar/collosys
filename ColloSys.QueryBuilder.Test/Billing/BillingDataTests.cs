@@ -62,6 +62,10 @@ namespace ColloSys.QueryBuilder.Test.Billing
             dataManager.ProcessCurrentMonth();
             dataManager.ProcessHistoricalData();
             dataManager.SaveData();
+
+            var session = SessionManager.GetCurrentSession();
+            var invaliddata = session.QueryOver<BillStatus>().Where(x => x.Stakeholder == null).RowCount();
+            Assert.AreEqual(0, invaliddata);
         }
 
         [Test]
