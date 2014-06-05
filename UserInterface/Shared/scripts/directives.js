@@ -506,11 +506,11 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
     var templateFunction = function (element, attrs) {
 
         var lhsTemplate = '<div class="col-md-5">';
-        lhsTemplate += '<div class="panel panel-default" style="overflow: auto">';
+        lhsTemplate += '<div class="panel panel-default" style="height: 100%, overflow: auto">';
         lhsTemplate += '<div class="panel-heading">{{config.lhsHeading}}</div>';
         lhsTemplate += '<ul class="list-group">';
         lhsTemplate += '<li class="list-group-item" ng-repeat="row in config.lhsValueList"';
-        lhsTemplate += ' ng-click="clicked.left(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
+        lhsTemplate += ' ng-click="clicked.left(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
         lhsTemplate += ' ng-class="{active : isSelected($index, "lhs") }"';
         lhsTemplate += ' value="row">{{config.lhsTextField}}</li>';
         lhsTemplate += '</ul>';
@@ -518,25 +518,29 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         lhsTemplate += '</div>';
 
         var rhsTemplate = '<div class="col-md-5">';
-        rhsTemplate += '<div class="panel panel-default" style="overflow: auto">';
+        rhsTemplate += '<div class="panel panel-default" style="height: 100%, overflow: auto">';
         rhsTemplate += '<div class="panel-heading">{{config.rhsHeading}}</div>';
         rhsTemplate += '<ul class="list-group">';
         rhsTemplate += '<li class="list-group-item" ng-repeat="row in config.rhsValueList"';
-        rhsTemplate += ' ng-click="clicked.right(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
-        rhsTemplate += ' ng-class="{active : isSelected($index, "lhs") }"';
+        rhsTemplate += ' ng-click="clicked.right(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
+        rhsTemplate += ' ng-class="{active : isSelected($index, "rhs") }"';
         rhsTemplate += ' value="row">{{config.rhsTextField}}</li>';
         rhsTemplate += '</ul>';
         rhsTemplate += '</div>';
         rhsTemplate += '</div>';
 
         var rightLeftButtonTemplate = '<div ng-show="config.showRightLeftButtons" class="col-md-1">';
-        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.left(selectedItem)" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
-        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.right(selectedItem)" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.left()" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.right()" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
         rightLeftButtonTemplate += '</div>';
 
         var upDownButtonTemplate = '<div ng-show="config.showUpDownButtons" class="col-md-1">';
-        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.up(selectedItem,selectedIndex)" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
-        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
+        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.up()'
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + '" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
+        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.down()'
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + '" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         upDownButtonTemplate += '</div>';
 
         var html = '<div class="row" style="height: 300px">';
@@ -548,95 +552,76 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         return html;
     };
 
-    var linkFunction = function (scope, el, attrs) {
+    var linkFunction = function(scope) {
         scope.direction = { left: true, right: true, up: true, down: true };
         scope.params = {};
 
-        scope.isSelected = function (index, dir) {
+        scope.isSelected = function(index, dir) {
             return ((dir === scope.params.selectedSide) && (index === scope.params.selectedItemIndex));
         };
 
-        scope.manageDirections = function(direction, item) {
-            switch(direction) {
-                case "right":
-                    scope.direction.right = false;
-                    scope.selectedItemIndex = scope.config.rhsValueList.indexOf(item);
-                    scope.direction.up = scope.params.selectedItemIndex === 0;
-                    scope.direction.down = scope.config.rhsValueList.length === $index + 1;
-                    break;
-                case "left":
-                    break;
-                case "up":
-                    break;
-                case "down":
-                    break;
-                default:
-                    scope.selectedItemIndex = -1;
-                    scope.direction = { left: true, right: true, up: true, down: true };
-                    break;
-            }
+        scope.manageDirections = function() {
+            scope.direction = { left: true, right: true, up: true, down: true };
+            scope.direction.left = scope.params.selectedSide !== "lhs";
+            scope.direction.right = scope.params.selectedSide !== "rhs";
+            scope.direction.up = scope.direction.left || scope.params.selectedItemIndex === 0;
+            scope.direction.down = scope.direction.left || scope.config.rhsValueList.length === $index + 1;
         };
 
         scope.clicked = {
-            left: function (selected, index) {
-                if (angular.isUndefined(index)) return;
-                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
-                    return;
-                }
-                scope.direction = { left: true, right: false, up: true, down: true };
+            left: function(selected) {
                 scope.params.selectedItem = selected;
-                scope.params.selectedItemIndex = index;
+                scope.params.selectedItemIndex = scope.config.lhsValueList.indexOf(selected);
                 scope.params.selectedSide = "lhs";
+                scope.params.moveDir = undefined;
+                scope.manageDirections();
             },
-            right: function (selected, index) {
-                if (angular.isUndefined(index)) return;
-                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
-                    return;
-                }
-                scope.direction = { left: false, right: true, up: true, down: true };
+            right: function(selected) {
                 scope.params.selectedItem = selected;
-                scope.params.selectedItemIndex = index;
-                scope.params.selectedSide = "lhs";
-                scope.direction.up = scope.params.selectedItemIndex == 0;
-                scope.direction.down = scope.config.rhsValueList.length == $index + 1;
+                scope.params.selectedItemIndex = scope.config.rhsValueList.indexOf(selected);
+                scope.params.selectedSide = "rhs";
+                scope.params.moveDir = undefined;
+                scope.manageDirections();
             },
         };
 
         scope.move = {
-            left: function () {
+            left: function() {
+                var rhsIndex = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                scope.config.rhsValueList.splice(rhsIndex, 1);
                 scope.config.lhsValueList.push(scope.params.selectedItem);
-                scope.config.rhsValueList.splice(scope.config.rhsValueList.indexOf(scope.params.selectedItem), 1);
-                scope.direction = { right: false, left: true, up: true, down: true };
-                scope.params.selectedSide = "lhs";
-                scope.params.selectedItemIndex = scope.config.lhsValueList.indexOf(scope.params.selectedItem);
+                scope.clicked.left(scope.params.selectedItem);
+                scope.params.moveDir = "left";
             },
-            right: function () {
+            right: function() {
+                var lhsIndex = scope.config.lhsValueList.indexOf(scope.params.selectedItem);
+                scope.config.lhsValueList.splice(lhsIndex, 1);
                 scope.config.rhsValueList.push(scope.params.selectedItem);
-                scope.config.lhsValueList.splice(scope.config.lhsValueList.indexOf(scope.params.selectedItem), 1);
-                scope.direction = { right: true, left: false, up: true, down: true };
-                scope.params.selectedSide = "rhs";
-                scope.params.selectedItemIndex = scope.config.lhsValueList.indexOf(selected);
-                scope.direction.up = scope.params.selectedItemIndex === 0;
-                scope.direction.down = scope.config.rhsValueList.length === $index + 1;
+                scope.clicked.right(scope.params.selectedItem);
+                scope.params.moveDir = "right";
             },
-            up: function () {
-                var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                var temp = rhslist[index];
-                rhslist[index] = rhslist[index - 1];
-                rhslist[index - 1] = temp;
+            up: function() {
+                var index = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                var temp = scope.config.rhsValueList[index];
+                scope.config.rhsValueList[index] = scope.config.rhsValueList[index - 1];
+                scope.config.rhsValueList[index - 1] = temp;
+                scope.clicked.right(temp);
+                scope.params.moveDir = "up";
             },
-            down: function () {
-                var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                var temp = rhslist[index];
-                rhslist[index] = rhslist[index + 1];
-                rhslist[index + 1] = temp;
-            },
+            down: function() {
+                var index = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                var temp = scope.config.rhsValueList[index];
+                scope.config.rhsValueList[index] = scope.config.rhsValueList[index + 1];
+                scope.config.rhsValueList[index + 1] = temp;
+                scope.clicked.right(temp);
+                scope.params.moveDir = "down";
+            }
         };
     };
 
     return {
         restrict: 'E',
-        scope: true,
+        scope: {config : '=', params: '=', onClick: '&', onMove: '&'},
         template: templateFunction,
         link: linkFunction
     };
