@@ -174,7 +174,7 @@ csapp.factory('buttonFactory', ['Logger', 'PermissionFactory', function (logMana
 
         switch (type) {
             case 'submit':
-                //templateParams.type = 'submit';
+                templateParams.type = 'submit';
                 templateParams.text = text || 'Submit';
                 break;
             case 'delete':
