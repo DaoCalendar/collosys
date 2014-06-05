@@ -1,0 +1,31 @@
+﻿<form name="multiselectform">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>Select</strong>
+        </div>
+        <div class="panel-body">
+            Search:
+            <input type="text" data-ng-model="search"><br>
+                                                      <div>
+                                                          <input type="checkbox"
+                                                                 data-ng-model="selAll"
+                                                                 data-ng-checked="modalData.array.length===checkLength(modalData.LocationLevel)"
+                                                                 data-ng-click="selectAll(selAll)">
+                                                          SELECT ALL
+                                                      </div>
+                                                      <br>
+                                                      <div data-ng-repeat="data in modalData.array|orderBy|filter:search">
+                                                          <input type="checkbox" data-ng-model="selected"
+                                                                 data-ng-checked="ticks(data)"
+                                                                 data-ng-click="chooseMultiple(data,selected,modalData.LocationLevel)" />
+                                                          {{data}}
+                                                      </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <cs-button type="ok" data-ng-click="multipleModalOk(modalData.LocationLevel)"></cs-button>
+        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
+    </div>
+</form>
+
+

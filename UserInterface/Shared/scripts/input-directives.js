@@ -29,8 +29,7 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        if (!field.validate) return '<div class="' + field.layoutClass.control + '"">';
-
+        if (!field.validate) return '<div class="' + field.layoutClass.control + '">';
         var html = '<div ng-form="myform" role="form" class="form-group has-feedback ' + field.layoutClass.control + '">';
         return html;
     };
@@ -1404,28 +1403,30 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
-        var setValidation = function (field, attrs, valParamCsform) {
 
-            var validateParam = $csfactory.isNullOrEmptyString(attrs.validation) ? valParamCsform : attrs.validation;
+        var setValidateParam = function (validateParam) {
 
             switch (validateParam) {
                 case 'on':
                 case 'enable':
                 case 'true':
-                    field.validate = true;
-                    break;
+                    return true;
+
                 case 'off':
                 case 'disable':
                 case 'false':
-                    field.validate = false;
-                    break;
+                    return false;
 
                 default:
-                    field.validate = true;
-                    break;
+                    return true;
             }
 
+        };
 
+        var setValidation = function (field, attrs, csFormCntrl) {
+
+            var validateParam = $csfactory.isNullOrEmptyString(attrs.validation) ? csFormCntrl.validation : attrs.validation;
+            field.validate = csFormCntrl.mode == 'view' ? false : setValidateParam(validateParam);
             if (!field.validate) {
                 field.minlength = undefined;
                 field.maxlength = undefined;
@@ -1454,7 +1455,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setClasses(scope.field);
-            setValidation(scope.field, attrs, controllers.csFormCtrl.validation);
+            setValidation(scope.field, attrs, controllers.csFormCtrl);
 
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
