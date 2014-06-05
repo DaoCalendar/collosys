@@ -80,6 +80,3 @@ namespace ColloSys.DataLayer.NhSetup
 
 }
 
-
-//            configuration.SetProperty("use_sql_comments", "false");
-
