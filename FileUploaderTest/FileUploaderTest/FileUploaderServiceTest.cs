@@ -18,7 +18,7 @@ namespace ReflectionExtension.Tests.FileUploaderTest
         public void Test()
         {
 
-            FileUploaderService.UploadFiles();
+            FileUploaderService1.UploadFiles();
         }
     }
 }

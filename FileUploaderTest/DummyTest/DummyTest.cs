@@ -81,7 +81,7 @@ namespace ReflectionExtension.Tests.DummyTest
         public void Test()
         {
             
-           FileUploaderService.UploadFiles();
+           FileUploaderService1.UploadFiles();
         }
     }
 }

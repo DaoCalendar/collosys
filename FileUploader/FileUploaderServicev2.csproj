@@ -92,7 +92,7 @@
     <Compile Include="AliasRecordCreator\RlsWriteOffPlLordsRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsWriteOffSmeRecordCreator.cs" />
     <Compile Include="AllFileUploader.cs" />
-    <Compile Include="FileUploaderService.cs" />
+    <Compile Include="FileUploaderService1.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
     <Compile Include="DbLayer\IDbLayer.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
