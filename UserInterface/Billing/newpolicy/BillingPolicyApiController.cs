@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using NHibernate.Linq;
@@ -50,6 +51,7 @@ namespace AngularUI.Billing.newpolicy
                 .Fetch(x => x.BillingRelations)
                 .ToList();
 
+
             var list = new SubpolicyList();
 
             foreach (var subpolicy in billingSubpolicies)
@@ -90,6 +92,13 @@ namespace AngularUI.Billing.newpolicy
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetBillingTokens(Guid id)
+        {
+            var billingTokens = Session.Query<BillTokens>()
+                .Where(x => x.BillingSubpolicy.Id == id).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, billingTokens);
+        }
 
         public HttpResponseMessage SaveSubpolicy(SubpolicyRelationManager subpolicy)
         {

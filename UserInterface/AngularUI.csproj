@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\allocationModels.js" />
+    <Content Include="Billing\newpolicy\date-modalPopUp.html" />
     <Content Include="Billing\newpolicy\newPolicy.html" />
     <Content Include="Billing\newpolicy\newPolicy.js" />
     <Content Include="Allocation\policy\allocation-policy-specs.js" />
