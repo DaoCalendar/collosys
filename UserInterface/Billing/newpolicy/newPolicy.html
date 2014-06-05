@@ -1,23 +1,23 @@
-﻿<cs-form>
+﻿<cs-form layout="3.4.8">
     <div data-ng-form="payoutTwoPolicyForm">
         <div class="row">
 
-            <cs-field layout="3.4.8" data-ng-model="billingpolicy.Products" data-ng-change="onProductChange()"
+            <cs-field data-ng-model="billingpolicy.Products" data-ng-change="onProductChange()"
                       field="BillingPolicyModel.Products"></cs-field>
 
-            <cs-field layout="3.4.8" data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyType"
+            <cs-field data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyType"
                       data-ng-change="onPolicyTypeChange()" field="BillingPolicyModel.PolicyType"></cs-field>
 
-            <cs-field layout="3.4.8" data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyFor"
+            <cs-field data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyFor"
                       field="BillingPolicyModel.PolicyFor" data-ng-change="getStakeholderOrHierarchy(billingpolicy.PolicyFor)"></cs-field>
 
             <div data-ng-if="billingpolicy.PolicyFor != 'Product' && billingpolicy.Products">
-                <cs-field layout="3.4.8" data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList()"
+                <cs-field data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList()"
                           field="BillingPolicyModel.PolicyForGuid" value-list="policyForList"></cs-field>
             </div>
 
             <div data-ng-if="billingpolicy.PolicyFor == 'Product'" data-ng-init="billingpolicy.PolicyForId = billingpolicy.Products">
-                <cs-field layout="3.4.8" data-ng-model="billingpolicy.PolicyForId"
+                <cs-field data-ng-model="billingpolicy.PolicyForId"
                           field="BillingPolicyModel.PolicyForProduct" data-ng-disabled="true" data-ng-change="getSubpolicyList()"></cs-field>
             </div>
         </div>

@@ -1,7 +1,7 @@
 ﻿
 csapp.factory("newpolicyDatalayer", ['Restangular', function (rest) {
 
-    var restApi = rest.all("NewpolicyApi");
+    var restApi = rest.all("BillingPolicyApi");
     var dldata = {};
 
     var getStakeholderOrHier = function (policyfor) {

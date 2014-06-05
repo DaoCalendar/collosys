@@ -122,7 +122,8 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
-    <Compile Include="Billing\newpolicy\newPOlicyApi.cs" />
+    <Compile Include="Billing\newpolicy\BillingPolicyApiController.cs" />
+    <Compile Include="Billing\newpolicy\SubpolicyRelationManager.cs" />
     <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
@@ -539,7 +540,6 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
-    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\angularjs\angular-locale_en-in.js" />
