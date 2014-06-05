@@ -579,10 +579,14 @@
     <Content Include="Shared\templates\confirm-modal.html" />
     <Content Include="Shared\templates\multi-if-else-directive.html" />
     <Content Include="Shared\templates\output-directive.html" />
+    <Content Include="Stakeholder\AddEdit2\AddBasicIndex.html" />
     <Content Include="Stakeholder\AddEdit2\Address\address.html" />
     <Content Include="Stakeholder\AddEdit2\Address\AddressInfo.js" />
+    <Content Include="Stakeholder\AddEdit2\AddStakeholder.js" />
     <Content Include="Stakeholder\AddEdit2\BasicInfo\basic.html" />
     <Content Include="Stakeholder\AddEdit2\BasicInfo\BasicInfoScript.js" />
+    <Content Include="Stakeholder\AddEdit2\Hierarchy\hierarchy.html" />
+    <Content Include="Stakeholder\AddEdit2\Hierarchy\HierarchyModel.js" />
     <Content Include="Stakeholder\AddEdit2\Registration\registration.html" />
     <Content Include="Stakeholder\AddEdit2\Registration\RegistrationDetails.js" />
     <Content Include="Stakeholder\AddEdit2\show-working-payment.html" />

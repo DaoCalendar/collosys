@@ -1,6 +1,6 @@
 ﻿(
-csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$log',
-    function ($scope, $http, rest, $csfactory, $csnotify, $log) {
+csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$log', '$csModels', 
+    function ($scope, $http, rest, $csfactory, $csnotify, $log, $csmodel) {
         'use strict';
 
         var apistake = rest.all('StakeholderApi');
@@ -65,27 +65,24 @@ csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csf
         };
 
 
-        $scope.$watch("$parent.WizardData.FinalPostModel.SelHierarchy.Designation", function () {
-            init();
+        //$scope.$watch("$parent.WizardData.FinalPostModel.SelHierarchy.Designation", function () {
+        //    init();
 
-        });
+        //});
 
-        var init = function () {
+        (function () {
             $log.info("Initializing BasicInfo.");
             $scope.duplicateUserId = false;
-
+            $scope.stakeholderModels = $csmodel.getColumns("Stakeholder");
             $scope.UserIdList = [];
-            $scope.basicInfoData = {
-                Hierarchy: $scope.$parent.WizardData.GetHierarchy(),
-                isEditMode: $scope.$parent.WizardData.IsEditMode(),
-                ReportsToList: $scope.WizardData.FinalPostModel.ReportsToList,
-            };
-            if ($scope.$parent.WizardData.IsEditMode() === true) {
-                getEmailForEditMode($scope.$parent.WizardData.FinalPostModel.EmailId);
-            }
+            //TODO get basic info data
+            console.log('current hierarchy: ', $scope.$parent);
 
-            $log.info($scope.basicInfoData);
-        };
+            //if ($scope.$parent.WizardData.IsEditMode() === true) {
+            //    getEmailForEditMode($scope.$parent.WizardData.FinalPostModel.EmailId);
+            //}
+
+        })();
 
     }])
 );
