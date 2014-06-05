@@ -12,7 +12,6 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
                     .then(function (data) {
                         $csShared.menus = data.menus;
                         $csShared.Permissions = data.permissions;
-                        console.log("$csShared: ", $csShared);
                         return data;
                     });
         };

@@ -163,92 +163,85 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
-csapp.factory('buttonFactory', ['Logger', 'PermissionFactory', function (logManager, permFactory) {
+csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger',
+    function ($parse, $compile, permFactory, logManager) {
 
-    var $log = logManager.getInstance('buttonFactory');
-    var getTemplateParams = function (type, text) {
-        var templateParams = {
-            type: 'button',
-            className: ' btn-default'
+        var $log = logManager.getInstance('buttonFactory');
+        var getTemplateParams = function (type, text) {
+            var templateParams = {
+                type: 'button',
+                className: ' btn-default'
+            };
+
+            switch (type) {
+                case 'submit':
+                    templateParams.type = 'submit';
+                    templateParams.text = text || 'Submit';
+                    break;
+                case 'delete':
+                    //templateParams.className = 'btn-danger';
+                    templateParams.text = text || 'Delete';
+                    break;
+                case 'save':
+                    //templateParams.className = 'btn-success';
+                    templateParams.text = text || 'Save';
+                    break;
+                case 'reset':
+                    //templateParams.className = 'btn-info';
+                    templateParams.text = text || 'Reset';
+                    break;
+                case 'close':
+                    //templateParams.className = 'btn-warning';
+                    templateParams.text = text || 'Close';
+                    break;
+                case 'ok':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'OK';
+                    break;
+                case 'cancel':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'Cancel';
+                    break;
+                case 'add':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'Add';
+                    break;
+                case 'edit':
+                    templateParams.text = text || 'Edit';
+                    break;
+                case 'view':
+                    templateParams.text = text || 'View';
+                    break;
+                default:
+                    $log.error('invalid button type: ' + type);
+            }
+
+            return templateParams;
         };
 
-        switch (type) {
-            case 'submit':
-                //templateParams.type = 'submit';
-                templateParams.text = text || 'Submit';
-                break;
-            case 'delete':
-                //templateParams.className = 'btn-danger';
-                templateParams.text = text || 'Delete';
-                break;
-            case 'save':
-                //templateParams.className = 'btn-success';
-                templateParams.text = text || 'Save';
-                break;
-            case 'reset':
-                //templateParams.className = 'btn-info';
-                templateParams.text = text || 'Reset';
-                break;
-            case 'close':
-                //templateParams.className = 'btn-warning';
-                templateParams.text = text || 'Close';
-                break;
-            case 'ok':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'OK';
-                break;
-            case 'cancel':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'Cancel';
-                break;
-            case 'add':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'Add';
-                break;
-            case 'edit':
-                templateParams.text = text || 'Edit';
-                break;
-            case 'view':
-                templateParams.text = text || 'View';
-                break;
-            default:
-                $log.error('invalid button type: ' + type);
-        }
+        var generateTemplate = function (templateParams, attrs) {
+            var permission = attrs.permission;
+            if (angular.isUndefined(permission)) permission = "all";
 
-        return templateParams;
-    };
+            var html = '<span data-ng-show="' + permFactory.HasPermission(permission) + '">';
+            html += '<input';
+            html += ' class=" btn ' + templateParams.className + '"';
+            html += ' type="' + templateParams.type + '"';
+            html += ' value="' + templateParams.text + '"';
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : '');
+            html += '/>';
+            html += '</span>';
 
-    var generateTemplate = function (templateParams, attrs) {
-
-
-        var html = '<span data-ng-show="' + permFactory.HasPermission(attrs.permission) + '">';
-        html += '<input';
-        html += ' class=" btn ' + templateParams.className + '"';
-        html += ' type="' + templateParams.type + '"';
-        html += ' value="' + templateParams.text + '"';
-        html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
-        html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
-        html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
-        html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : '');
-        html += '/>';
-        html += '</span>';
-
-        return html;
-    };
-
-    return {
-        getTemplateParams: getTemplateParams,
-        generateTemplate: generateTemplate
-    };
-}]);
-
-csapp.directive('csButton', ['$parse', '$compile', 'buttonFactory',
-    function ($parse, $compile, buttonFactory) {
+            return html;
+        };
 
         var linkFunction = function (scope, element, attrs) {
             var buttonType = attrs.type;
-            var templateParams = buttonFactory.getTemplateParams(buttonType, attrs.text);
-            var template = buttonFactory.generateTemplate(templateParams, attrs);
+            var templateParams = getTemplateParams(buttonType, attrs.text);
+            var template = generateTemplate(templateParams, attrs);
 
             var newElem = angular.element(template);
             element.replaceWith(newElem);
@@ -345,144 +338,6 @@ csapp.directive("csswitch", function () {
     };
 });
 //#endregion
-
-csapp.directive('bsDatepicker', function () {
-    var isAppleTouch = /(iP(a|o)d|iPhone)/g.test(navigator.userAgent);
-    var regexpMap = function (language) {
-        language = language || 'en';
-        return {
-            '/': '[\\/]',
-            '-': '[-]',
-            '.': '[.]',
-            ' ': '[\\s]',
-            'dd': '(?:(?:[0-2]?[0-9]{1})|(?:[3][01]{1}))',
-            'd': '(?:(?:[0-2]?[0-9]{1})|(?:[3][01]{1}))',
-            'mm': '(?:[0]?[1-9]|[1][012])',
-            'm': '(?:[0]?[1-9]|[1][012])',
-            'DD': '(?:' + $.fn.datepicker.dates[language].days.join('|') + ')',
-            'D': '(?:' + $.fn.datepicker.dates[language].daysShort.join('|') + ')',
-            'MM': '(?:' + $.fn.datepicker.dates[language].months.join('|') + ')',
-            'M': '(?:' + $.fn.datepicker.dates[language].monthsShort.join('|') + ')',
-            'yyyy': '(?:(?:[1]{1}[0-9]{1}[0-9]{1}[0-9]{1})|(?:[2]{1}[0-9]{3}))(?![[0-9]])',
-            'yy': '(?:(?:[0-9]{1}[0-9]{1}))(?![[0-9]])'
-        };
-    };
-    var regexpForDateFormat = function (format, language) {
-        var re = format, map = regexpMap(language), i;
-        i = 0;
-        angular.forEach(map, function (v, k) {
-            re = re.split(k).join('${' + i + '}');
-            i++;
-        });
-        i = 0;
-        angular.forEach(map, function (v) {
-            re = re.split('${' + i + '}').join(v);
-            i++;
-        });
-        return new RegExp('^' + re + '$', ['i']);
-    };
-    return {
-        restrict: 'A',
-        require: '?ngModel',
-        link: function (scope, element, attrs, controller) {
-            var options = angular.extend({ autoclose: true, todayBtn: true, todayHighlight: true, clearBtn: false }), type = attrs.dateType || options.type || 'date';
-            angular.forEach([
-                    'format',
-                    'weekStart',
-                    'calendarWeeks',
-                    'startDate',
-                    'endDate',
-                    'daysOfWeekDisabled',
-                    'autoclose',
-                    'startView',
-                    'minViewMode',
-                    'todayBtn',
-                    'todayHighlight',
-                    'keyboardNavigation',
-                    'language',
-                    'forceParse'
-            ], function (key) {
-                if (angular.isDefined(attrs[key]))
-                    options[key] = attrs[key];
-            });
-            var language = 'en', readFormat = attrs.dateFormat || options.format || 'dd-M-yyyy', format = readFormat, dateFormatRegexp = regexpForDateFormat(format, language);
-            //attrs.dateFormat || options.format || $.fn.datepicker.dates[language] && $.fn.datepicker.dates[language].format ||
-            if (controller) {
-                controller.$formatters.unshift(function (modelValue) {
-                    if (type !== 'date') return modelValue;
-                    if (!angular.isString(modelValue)) return modelValue;
-                    if (modelValue === '') return modelValue;
-                    if (moment(modelValue).isValid()) {
-                        if (modelValue.match('Z$')) {
-                            return moment(modelValue).utc().format('DD-MMM-YYYY');
-                        } else {
-                            return moment(modelValue).format('DD-MMM-YYYY');
-                        }
-
-                    }
-                    return $.fn.datepicker.DPGlobal.parseDate(modelValue, $.fn.datepicker.DPGlobal.parseFormat(readFormat), language);
-                });
-                controller.$parsers.unshift(function (viewValue) {
-                    if (!viewValue) {
-                        controller.$setValidity('date', true);
-                        return null;
-                    } else if (type === 'date' && angular.isDate(viewValue)) {
-                        controller.$setValidity('date', true);
-                        return viewValue;
-                    } else if (angular.isString(viewValue) && dateFormatRegexp.test(viewValue)) {
-                        controller.$setValidity('date', true);
-                        if (isAppleTouch)
-                            return new Date(viewValue);
-                        return type === 'string' ? viewValue : $.fn.datepicker.DPGlobal.parseDate(viewValue, $.fn.datepicker.DPGlobal.parseFormat(format), language);
-                    } else {
-                        controller.$setValidity('date', false);
-                        return undefined;
-                    }
-                });
-                controller.$render = function () {
-                    if (isAppleTouch) {
-                        var date = controller.$viewValue ? $.fn.datepicker.DPGlobal.formatDate(controller.$viewValue, $.fn.datepicker.DPGlobal.parseFormat(format), language) : '';
-                        element.val(date);
-                        return date;
-                    }
-                    if (!controller.$viewValue)
-                        element.val('');
-                    return element.datepicker('update', controller.$viewValue);
-                };
-            }
-            if (isAppleTouch) {
-                element.prop('type', 'date').css('-webkit-appearance', 'textfield');
-            } else {
-                if (controller) {
-                    element.on('changeDate', function (ev) {
-                        scope.$apply(function () {
-                            controller.$setViewValue(type === 'string'
-                                ? element.val()
-                                : new Date(moment(ev.date.valueOf()).utc().subtract('m', moment().zone()).valueOf()));
-                        });
-                    });
-                }
-                element.datepicker(angular.extend(options, {
-                    format: format,
-                    language: language
-                }));
-                scope.$on('$destroy', function () {
-                    var datepicker = element.data('datepicker');
-                    if (datepicker) {
-                        datepicker.picker.remove();
-                        element.data('datepicker', null);
-                    }
-                });
-            }
-            var component = element.siblings('[data-toggle="datepicker"]');
-            if (component.length) {
-                component.on('click', function () {
-                    element.trigger('focus');
-                });
-            }
-        }
-    };
-});
 
 csapp.directive('cspagination', function () {
 
@@ -594,6 +449,9 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
                 return '<span class="glyphicon glyphicon-calendar"></span>';
             default:
         }
+
+
+
         return type;
     };
 
@@ -711,7 +569,6 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         html += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         html += '</div>';
         html += '</div>';
-        console.log(html);
         return html;
 
     };

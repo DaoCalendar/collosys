@@ -92,6 +92,7 @@
     <Compile Include="AliasRecordCreator\RlsWriteOffPlLordsRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsWriteOffSmeRecordCreator.cs" />
     <Compile Include="AllFileUploader.cs" />
+    <Compile Include="FileUploaderService1.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
     <Compile Include="DbLayer\IDbLayer.cs" />
     <Compile Include="ExcelReader\ConvertExcelToList.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="FileReader\FileReader.cs" />
     <Compile Include="FileReader\IfileReader.cs" />
     <Compile Include="AliasFileReader\RlsPaymentLinerFileReader.cs" />
-    <Compile Include="FileUploaderService.cs" />
     <Compile Include="Logging\NLogSetup.cs" />
     <Compile Include="RecordCreator\IRecord.cs" />
     <Compile Include="RecordCreator\RecordCreator.cs" />

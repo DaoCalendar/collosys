@@ -2,18 +2,18 @@
 
     var bsTemplateBefore = function (field, noBootstrap, attr) {
 
-        var noBootstrapDiv = '<div style="margin-bottom: 5px"' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
-        noBootstrapDiv += 'class="' + field.layoutClass.div + ' "';
-        noBootstrapDiv += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
-        noBootstrapDiv += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
-        noBootstrapDiv += '>';
+        var noLabel = '<div ' + (attr.ngShow ? ' ng-show="' + attr.ngShow + '"' : '');
+        noLabel += 'class="cs-fields ' + field.layoutClass.div + '"';
+        noLabel += (attr.ngHide ? ' ng-hide="' + attr.ngHide + '"' : '');
+        noLabel += (attr.ngIf ? ' ng-if="' + attr.ngIf + '"' : '');
+        noLabel += '>';
 
-        var html = noBootstrapDiv;
-        html += '<div data-ng-hide="field.size.nolabel">' +
-            '<label class="cs-field-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
+        var withLabel = noLabel;
+        withLabel += '<div data-ng-hide="field.size.nolabel">' +
+            '<label class="cs-label ' + field.layoutClass.label + '">{{' + attr.field + '.label}}' +
                 '<span class="text-danger">{{' + attr.field + '.required ? " *":""}}</span></label>' +
             '</div>';
-        return (noBootstrap || field.size.label === 0 ? noBootstrapDiv : html);
+        return (noBootstrap || field.size.label === 0 ? noLabel : withLabel);
     };
 
     var bsTemplateAfter = function () {
@@ -29,8 +29,8 @@
 csapp.factory("csValidationInputTemplate", function () {
 
     var before = function (field) {
-        var html = '<div ng-form="myform" role="form" class="' + field.layoutClass.control + ' "';
-        html += '">';
+        if (!field.validate) return '<div class="' + field.layoutClass.control + '">';
+        var html = '<div ng-form="myform" role="form" class="form-group has-feedback ' + field.layoutClass.control + '">';
         return html;
     };
 
@@ -47,16 +47,23 @@ csapp.factory("csValidationInputTemplate", function () {
     };
 
     var after = function (fieldname, field) {
+
+        if (!field.validate) return "</div>";
+
         getmessages(fieldname, field);
-        var html = '<div data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
-            '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
-            '</div>';
+
+        var html = '<span data-ng-show=" myform.myfield.$dirty" ng-class="{  \'has-success\'   : myform.myfield.$valid, \'has-error\' : myform.myfield.$invalid }">';
+        html += '<span class=" form-control-feedback validation-icon" ng-class="{ \'glyphicon glyphicon-ok\' : myform.myfield.$valid, \'glyphicon glyphicon-remove\' : myform.myfield.$invalid }"></span>' +
+                '</span>';
+        html += '<div  data-ng-show="myform.myfield.$invalid && myform.myfield.$dirty"> ' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.required">' + field.messages.required + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.pattern">' + field.messages.pattern + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.minlength">' + field.messages.minlength + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.maxlength">' + field.messages.maxlength + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
+           '</div>';
         html += '</div>'; //ng-form; 
         return html;
     };
@@ -787,7 +794,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var input = function (field, attrs) {
 
             var html = '<div class="row">';
-            html += '<div class="col-md-6 text-right cs-field-radio-margin" ng-repeat="(key, record) in  field.options ">';
+            html += '<div class="col-md-6 text-right radio-margin" ng-repeat="(key, record) in  field.options ">';
             html += '<label><input name="myfield" type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += ' style="margin-left: 0"';
@@ -974,7 +981,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         //TODO default date
         var input = function (field, attr) {
             var html = '<p class="input-group">';
-            html += '<input type="text" class="form-control"';
+            html += '<input type="text" class="form-control" disabled="disabled"';
 
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
@@ -1025,16 +1032,16 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                     case "future":
                         field.startDate = "tomorrow";
                         if (field.minViewMode === "month")
-                            field.startDate = "next-month";
+                            field.min = "next-month";
                         if (field.minViewMode === "year")
-                            field.startDate = "next-year";
+                            field.max = "next-year";
                         break;
                     case "past":
                         field.endDate = "yesterday";
                         if (field.minViewMode === "month")
-                            field.startDate = "prev-month";
+                            field.min = "prev-month";
                         if (field.minViewMode === "year")
-                            field.startDate = "prev-year";
+                            field.max = "prev-year";
                         break;
 
                     default:
@@ -1077,12 +1084,10 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                     field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01-01'";
                     field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12-31'";
             }
-            console.log("datepicker options: ", field.dateOptions);
         };
 
         var parseLogicalDate = function (dateParams) {
             var newDateParams = dateParams.match(/[a-zA-Z]+|[-+0-9]+/g);
-            console.log("dateParams: ", dateParams);
             var addBy = parseInt(newDateParams[0]);
             if (isNaN(addBy)) throw "date param is not valid :" + dateParams;
 
@@ -1134,8 +1139,8 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var parseDates = function (field) {
-            if (!$csfactory.isNullOrEmptyString(field.startDate)) field.dateOptions.minDate = "'" + parseDate(field.startDate) + "'";
-            if (!$csfactory.isNullOrEmptyString(field.endDate)) field.dateOptions.maxDate = "'" + parseDate(field.endDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
             if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
             validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
@@ -1310,8 +1315,8 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2, passwordFactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory", "$csfactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2, passwordFactory, $csfactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -1396,6 +1401,41 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             };
         };
 
+
+        var setValidateParam = function (validateParam) {
+
+            switch (validateParam) {
+                case 'on':
+                case 'enable':
+                case 'true':
+                    return true;
+
+                case 'off':
+                case 'disable':
+                case 'false':
+                    return false;
+
+                default:
+                    return true;
+            }
+
+        };
+
+        var setValidation = function (field, attrs, csFormCntrl) {
+
+            var validateParam = $csfactory.isNullOrEmptyString(attrs.validation) ? csFormCntrl.validation : attrs.validation;
+            field.validate = csFormCntrl.mode == 'view' ? false : setValidateParam(validateParam);
+            if (!field.validate) {
+                field.minlength = undefined;
+                field.maxlength = undefined;
+                field.pattern = undefined;
+                field.required = false;
+                attrs.required = false;
+                field.min = undefined;
+                field.max = undefined;
+            }
+        };
+
         var linkFunction = function (scope, element, attrs, ctrl) {
             var controllers = {
                 ngModelCtrl: ctrl[0],
@@ -1413,6 +1453,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setClasses(scope.field);
+            setValidation(scope.field, attrs, controllers.csFormCtrl);
 
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
@@ -1432,9 +1473,9 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
     }]);
 
-csapp.directive('csForm', function () {
+csapp.directive('csForm', ["$parse", function ($parse) {
 
-    var cntrlFn = function ($scope) {
+    var cntrlFn = function ($scope, $element, $attrs) {
 
         $scope.layout = angular.isDefined($scope.layout) ? $scope.layout.split(".") : [6, 4, 8];
 
@@ -1449,7 +1490,7 @@ csapp.directive('csForm', function () {
         size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? 8 : size.control;
 
         this.mode = $scope.mode;
-
+        this.validation = $attrs.validation;
         this.getSize = function () {
             return angular.copy(size);
         };
@@ -1471,7 +1512,7 @@ csapp.directive('csForm', function () {
         controller: cntrlFn,
         require: '^form'
     };
-});
+}]);
 
 angular.module('ui.multiselect', [])
 

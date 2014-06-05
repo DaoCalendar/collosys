@@ -7,12 +7,12 @@ namespace FileUploadServiceInstallerv2
     {
         public void UploadFiles()
         {
-            FileUploaderService.UploadFiles();
+            FileUploaderService1.UploadFiles();
         }
 
         public void ResetFiles()
         {
-            FileUploaderService.ResetFiles();
+            FileUploaderService1.ResetFiles();
         }
     }
 }

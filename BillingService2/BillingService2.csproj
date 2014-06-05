@@ -58,6 +58,7 @@
     <Compile Include="DBLayer\BillingPolicyDbLayer.cs" />
     <Compile Include="DBLayer\BillStatusDbLayer.cs" />
     <Compile Include="DBLayer\CustBillViewModelDbLayer.cs" />
+    <Compile Include="Logging\NLogSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryExecution\MatrixCalulater.cs" />
     <Compile Include="QueryExecution\QueryExecuter.cs" />

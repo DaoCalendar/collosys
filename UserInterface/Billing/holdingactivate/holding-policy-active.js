@@ -12,6 +12,20 @@ csapp.factory('holdingactiveDatalayer',
                 });
             };
 
+            var stakeholder = function () {
+                return restApi.customGET('GetStakeholders').then(function (data) {
+                    dldata.Stakeholders = data;
+                    return data;
+                });
+            };
+
+            var holdingPolicy = function () {
+                return restApi.customGET('GetHoldingPolicies').then(function (data) {
+                    dldata.HoldingPolicies = data;
+                    return data;
+                });
+            };
+
             var create = function (policy) {
                 return restApi.post(policy).then(function (data) {
                     $csnotify.success('data saved');
@@ -42,6 +56,8 @@ csapp.factory('holdingactiveDatalayer',
             return {
                 dldata: dldata,
                 pageData: pageData,
+                stakeholder: stakeholder,
+                holdingPolicy:holdingPolicy,
                 create: create,
                 getList: getList,
                 deleteData: deleteData,
@@ -68,6 +84,12 @@ csapp.controller('holdingactiveCtrl', [
 
         (function () {
             initlocals();
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
+            datalayer.stakeholder();
+            datalayer.holdingPolicy();
+            $scope.dldata.Stakeholders = [];
+            $scope.dldata.HoldingPolicies = [];
             datalayer.getList().then(function (data) {
                 $scope.policyList = data;
             });
@@ -133,6 +155,8 @@ csapp.controller('holdingactiveAddEditCtrl', [
         };
 
         (function () {
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
             $scope.active = {};
             if (angular.isDefined($routeParams.id)) {
                 datalayer.Get($routeParams.id).then(function (data) {
@@ -144,9 +168,8 @@ csapp.controller('holdingactiveAddEditCtrl', [
             $scope.ActPolicy = $csModels.getColumns("ActivateHoldingPolicy");
             calculateMonthList();
             initlocals();
-            //datalayer.getList().then(function (data) {
-            //    $scope.policyList = data;
-            //});
+            $scope.ActPolicy.Stakeholder.valueList = datalayer.dldata.Stakeholders;
+            $scope.ActPolicy.HoldingPolicy.valueList = datalayer.dldata.HoldingPolicies;
         })();
         
         (function (mode) {

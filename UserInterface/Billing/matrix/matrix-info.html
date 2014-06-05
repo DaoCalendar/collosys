@@ -13,12 +13,14 @@
                     <div data-ng-switch-when="Table">
                         <cs-field layout="5.5.7" data-ng-model="dldata.matrix.MatrixPerTypeName" ng-required="true"
                                   data-ng-disabled="dldata.isMatrixCreated" field="Matrix.MatrixPerTypeName"
-                                  data-ng-required="!dldata.isMatrixCreated" value-list="dldata.columnNames | custBillSubString"></cs-field>
+                                  data-ng-required="!dldata.isMatrixCreated" value-list="dldata.columnNames"></cs-field>
                     </div>
                     <div data-ng-switch-when="Formula">
-                        <cs-field layout="5.5.7" field="Matrix.MatrixPerTypeName" value-list="dldata.formulaNames"
+                        <cs-field layout="5.5.7" field="Matrix.MatrixPerTypeName" 
+                                  value-list="dldata.formulaNames"
                                   data-ng-model="dldata.matrix.MatrixPerTypeName"
                                   data-ng-disabled="dldata.isMatrixCreated" ng-required="true"></cs-field>
+                        {{dldata.matrix.MatrixPerTypeName}}
                     </div>
                 </div>
 

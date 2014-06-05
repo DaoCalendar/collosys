@@ -104,9 +104,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BillingService\Collosys.BillingService.csproj">
-      <Project>{b918cd29-f06c-426b-afd6-ed92d230d30e}</Project>
-      <Name>Collosys.BillingService</Name>
+    <ProjectReference Include="..\BillingService2\BillingService2.csproj">
+      <Project>{ebeb1fa6-41d8-485a-9e33-59fb776ecef1}</Project>
+      <Name>BillingService2</Name>
     </ProjectReference>
     <ProjectReference Include="..\ColloSys.Shared\ColloSys.Shared.csproj">
       <Project>{670a58ba-000b-41a5-b5af-f862ef3870a1}</Project>

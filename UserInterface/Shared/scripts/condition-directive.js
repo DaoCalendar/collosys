@@ -12,7 +12,8 @@ csapp.directive("csOutput", function () {
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 
@@ -121,10 +122,13 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
         };
 
         $scope.setValidation = function () {
-            if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
-                return 'alert-danger';
+            if (angular.isUndefined($scope.tokensList)) {
+                return;
             }
-            return 'alert-info';
+            if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
+                return 'bg-danger';
+            }
+            return 'bg-info';
         };
 
         $scope.reset = function () {
@@ -148,7 +152,8 @@ csapp.directive("csCondition", function () {
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 
@@ -259,9 +264,9 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.setValidation = function () {
             if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
-                return 'alert-info';
+                return 'bg-success';
             }
-            return 'alert-danger';
+            return 'bg-danger';
         };
 
         $scope.reset = function () {
@@ -284,7 +289,8 @@ csapp.directive('csIfElse', function () {
             formulaList: '=',
             groupId: '@',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 });
@@ -306,7 +312,8 @@ csapp.directive('csMultiIfElse', function () {
             formulaList: '=',
             matrixList: '=',
             tokensList: '=',
-            debug: '@'
+            debug: '@',
+            edit:'@'
         }
     };
 });
@@ -531,13 +538,13 @@ csapp.factory('operatorsFactory', function () {
 
     operators.stringOperators = function () {
         return [
-             {
-                 'Type': 'Operator',
-                 'Text': 'Opr:=',
-                 'Value': 'EqualTo',
-                 'DataType': 'Text',
-                 'valuelist': []
-             },
+             //{
+             //    'Type': 'Operator',
+             //    'Text': 'Opr:=',
+             //    'Value': 'EqualTo',
+             //    'DataType': 'Text',
+             //    'valuelist': []
+             //},
              {
                  'Type': 'Operator',
                  'Text': 'Opr:!=',

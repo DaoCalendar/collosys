@@ -148,24 +148,6 @@ label {
         box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(250, 250, 250, 0.5);
     }
 
-    .loginform input[type=submit] {
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        background: #64c8ef; /* Old browsers */
-        background: -moz-linear-gradient(top, #64c8ef 0%, #00a2e2 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#64c8ef), color-stop(100%,#00a2e2)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top, #64c8ef 0%,#00a2e2 100%); /* IE10+ */
-        background: linear-gradient(to bottom, #64c8ef 0%,#00a2e2 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#64c8ef', endColorstr='#00a2e2',GradientType=0 ); /* IE6-9 */
-        color: #fff;
-        padding: 5px 15px;
-        margin-right: 0;
-        margin-top: 15px;
-        border-radius: 3px;
-        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3);
-    }
-
 .forgotPassword {
     cursor: pointer;
     color: blue;
@@ -196,7 +178,7 @@ h3.somemarginH {
     background: #fff url(images/validation/red_asterisk.png) no-repeat 98% center;
 }*/
 
-input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty select.ng-invalid.ng-dirty {
+/*input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty select.ng-invalid.ng-dirty {
     background: #fff url(images/validation/invalid.png) no-repeat 98% center;
     -webkit-box-shadow: 0 0 5px #d45252;
     -ms-box-shadow: 0 0 5px #d45252;
@@ -210,7 +192,7 @@ input.ng-valid.ng-dirty, textarea.ng-valid.ng-dirty {
     -ms-box-shadow: 0 0 5px #5cd053;
     box-shadow: 0 0 5px #5cd053;
     border-color: #28921f;
-}
+}*/
 
 /* ReSharper disable UnknownHtmlAttribute */
 /* ReSharper disable Html.AttributeNotResolved */
@@ -332,132 +314,6 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     padding: 0;
 }
 
-/* styles for taxlist */
-/*.tax-list-heading {
-    line-height: 15px;
-    font-size: 15px;
-}
-
-.tax-list-box {
-    height: 250px;
-    min-height: 250px;
-    border: solid 1px #008080;
-    overflow-y: scroll;
-    margin-bottom: 5px;
-}
-
-    .tax-list-box .tax-list-box-no-data {
-        min-height: 250px;
-    }
-
-        .tax-list-box .tax-list-box-no-data label {
-            line-height: 250px;
-        }*/
-
-/*policy pages style*/
-/*.box {
-    min-height: 250px;
-    overflow-y: auto;
-    border: solid 1px #bce8f1;
-    background: white;
-}
-
-    .box div.policy-name-box {
-        margin-top: 2px;
-        height: 30px;
-        padding-left: 4px;
-        padding-top: 2px;
-    }
-
-    .box div.expired {
-        border: solid 1px #1148AD;
-        background: #718FC7;
-        color: black;
-    }
-
-    .box div.draft {
-        border: solid 1px #AD8C09;
-        background: #DBBA35;
-    }
-
-    .box div.approved {
-        border: solid 1px #52BA0D;
-        background: #9BF062;
-    }
-
-    .box div.unapproved {
-        border: solid 1px #000000;
-        background: #808080;
-    }
-
-    .box .clickableName {
-        font-size: 15px;
-        font-style: normal;
-        cursor: pointer;
-        font-family: Georgia;
-    }
-
-.margin-box {
-    margin-top: 5px;
-}*/
-
-/* subpolicy screens styles*/
-/*.box-sub {
-    width: 100%;
-    border: solid 1px #bce8f1;
-    background: white;
-    height: 450px;
-}
-
-    .box-sub div.box-heading {
-        font-weight: bold;
-        font-size: 14px;
-        font-family: verdana;
-        line-height: 40px;
-        color: #31708f;
-        background-color: #f5f5f5;
-        border-color: #dddddd;
-        padding-left: 7px;
-        height: 40px;
-    }
-
-    .box-sub div.box-body {
-        height: 410px;
-        overflow-y: scroll;
-    }
-
-        .box-sub div.box-body div.sub-name {
-            margin-top: 5px;
-            width: 100%;
-            background: white;
-        }
-
-            .box-sub div.box-body div.sub-name a {
-                line-height: 35px;
-                padding: 8px;
-                color: black;
-                text-decoration: none;
-                background: white;
-                width: 100%;
-            }
-
-            .box-sub div.box-body div.sub-name:hover,
-            .box-sub div.box-body div.sub-name:hover a,
-            .box-sub div.box-body div.sub-name:hover a:hover {
-                text-decoration: underline;
-                color: #a94442;
-                background-color: #f2dede;
-            }
-
-#subpolicy-conditions,
-#subpolicy-display,
-#subpolicy-groupby,
-#subpolicy-output,
-#subpolicy-buttons {
-    margin-bottom: 10px;
-}*/
-
-
 /*typeahed */
 .typeahead-lg + ul.dropdown-menu {
     width: 500px !important;
@@ -476,27 +332,6 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     height: 250px;
     overflow: scroll;
 }
-
-/*.cs-field label {
-    
-}*/
-
-.cs-field-label {
-    margin-top: 7px;
-    white-space: nowrap;
-    padding-right: 0;
-}
-
-.text-shadow {
-    -ms-text-shadow: black 5px 3px 3px;
-    text-shadow: black 5px 3px 3px;
-}
-
-.cs-field-radio-margin {
-    margin: 7px 0 0 0;
-}
-
-
 
 multiselect {
     display: block;
@@ -533,3 +368,24 @@ multiselect {
     margin: 3px;
     padding: 3px;
 }
+
+.cs-fields {
+    margin-bottom: 5px;
+}
+
+    .cs-fields .validation-icon {
+        top: 0 !important;
+        margin-right: 10px;
+    }
+
+
+    .cs-fields .radio-margin {
+        margin: 7px 0 0 0;
+    }
+
+
+    .cs-fields .cs-label {
+        margin-top: 7px;
+        white-space: nowrap;
+        padding-right: 0;
+    }
