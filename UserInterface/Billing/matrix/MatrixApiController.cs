@@ -39,7 +39,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         public HttpResponseMessage GetFormulaNames(ScbEnums.Products product)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product)
-                                              .Select(x => x.Name).ToList();
+                                              .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);
 
         }
