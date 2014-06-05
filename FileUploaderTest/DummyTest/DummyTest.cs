@@ -1,5 +1,6 @@
 ﻿using ColloSys.DataLayer.ClientData;
 using ColloSys.FileUploader.AliasFileReader;
+using ColloSys.FileUploaderService;
 using NUnit.Framework;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
@@ -80,7 +81,7 @@ namespace ReflectionExtension.Tests.DummyTest
         public void Test()
         {
             
-            //ColloSys.FileUploaderServiceInstaller.FileUploaderService.UploadFiles();
+           FileUploaderService.UploadFiles();
         }
     }
 }
