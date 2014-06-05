@@ -16,7 +16,7 @@ using NHibernate.Transform;
 #endregion
 
 
-namespace ColloSys.FileUploaderService.v2.DbLayer
+namespace ColloSys.FileUploaderService.DbLayer
 {
   public  class DbLayer: IDbLayer
     {
