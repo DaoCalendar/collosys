@@ -130,7 +130,7 @@
             DisbNo: { label: "DisbNo", type: "text" },
             Subvention: { label: "Subvention", type: "text" },
             Corporate: { label: "Corporate", type: "text" },
-            Product: { label: "Product", type: "text" },
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products },
             AgentId: { label: "AgentId", type: "text" },
         };
     };
