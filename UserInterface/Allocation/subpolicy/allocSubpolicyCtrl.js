@@ -29,8 +29,8 @@ csapp.controller('allocSubpolicyCtrl', ['$scope', 'subpolicyDataLayer', 'subpoli
         })();
 
         $scope.clickMe = function (obj) {
-            console.log(obj + " Click Function also called");
         };
+        
         $scope.openmodal = function () {
             $scope.modalData = $scope.dldata.allocSubpolicy;
             $scope.modalData.forActivate = true;

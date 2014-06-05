@@ -1085,12 +1085,10 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                     field.dateOptions.minDate = angular.isDefined(field.minDate) ? "'" + field.minDate + "'" : "'1900-01-01'";
                     field.dateOptions.maxDate = angular.isDefined(field.maxDate) ? "'" + field.maxDate + "'" : "'2200-12-31'";
             }
-            console.log("datepicker options: ", field.dateOptions);
         };
 
         var parseLogicalDate = function (dateParams) {
             var newDateParams = dateParams.match(/[a-zA-Z]+|[-+0-9]+/g);
-            console.log("dateParams: ", dateParams);
             var addBy = parseInt(newDateParams[0]);
             if (isNaN(addBy)) throw "date param is not valid :" + dateParams;
 

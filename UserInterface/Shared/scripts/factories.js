@@ -1207,7 +1207,6 @@ csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logge
             if (rejection.config.url.indexOf("/api/") !== -1) {
                 loadingWidget.requestEnded();
                 $log.info("RequestError : " + rejection.config.url);
-                console.log(rejection);
             }
             return $q.reject(rejection);
         };
@@ -1224,7 +1223,6 @@ csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logge
             if (rejection.config.url.indexOf("/api/") !== -1) {
                 loadingWidget.requestEnded();
                 $log.info("ResponseError : " + rejection.config.url);
-                console.log(rejection);
             }
             return $q.reject(rejection);
         };

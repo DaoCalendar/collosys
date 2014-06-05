@@ -63,7 +63,6 @@ csapp.factory("menuFactory", [function () {
             }
 
         });
-        console.log("permissionObj: ", permObj);
         return permObj;
     };
 
@@ -441,7 +440,6 @@ csapp.factory("menuFactory", [function () {
                 menu.push(menuObj);
             }
         });
-        console.log(menu);
         //return menu;
     };
 
