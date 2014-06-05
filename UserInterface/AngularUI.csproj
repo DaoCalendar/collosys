@@ -146,8 +146,8 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
-    <Compile Include="Generic\Menu\Menu.cs" />
-    <Compile Include="Generic\Menu\MenuApiController.cs" />
+    <Compile Include="Generic\menus\Menu.cs" />
+    <Compile Include="Generic\menus\MenuApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -261,7 +261,6 @@
     <Content Include="Billing\formula2\formula-details.html" />
     <Content Include="Billing\formula2\formula.html" />
     <Content Include="Billing\formula2\formula.js" />
-    <Content Include="Billing\formula2\if-else.html" />
     <Content Include="Billing\formula2\multi-if-else.html" />
     <Content Include="Billing\formula2\output.html" />
     <Content Include="Billing\formula\formula-condition.html" />
@@ -319,7 +318,7 @@
     <Content Include="FileUpload\filterCondition\filterCondition.html" />
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
-    <Content Include="Generic\Menu\menu-vertical.html" />
+    <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
@@ -349,9 +348,6 @@
     <Content Include="Content\angularui\angular-ui.css" />
     <Content Include="Content\angularui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />
-    <Content Include="Content\bootstrap-datepicker\bootstrap-datepicker.css" />
-    <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.css" />
-    <Content Include="Content\bootstrap-datepicker\bootstrap-fileupload.min.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap2.3.2\bootstrap.css" />
@@ -412,8 +408,8 @@
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
-    <Content Include="Generic\menu\menu.html" />
-    <Content Include="Generic\menu\menu.js" />
+    <Content Include="Generic\menus\menu.html" />
+    <Content Include="Generic\menus\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
@@ -438,9 +434,6 @@
     <Content Include="Scripts\file-upload\angular-file-upload-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload.js" />
     <Content Include="Scripts\file-upload\angular-file-upload.min.js" />
-    <Content Include="Scripts\bootstrap-datepicker\bootstrap-datepicker.js" />
-    <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.js" />
-    <Content Include="Scripts\bootstrap-datepicker\bootstrap-fileupload.min.js" />
     <Content Include="Scripts\file-upload\FileAPI.flash.swf" />
     <Content Include="Scripts\file-upload\FileAPI.min.js" />
     <Content Include="Scripts\html5shiv\html5shiv.js" />
@@ -590,7 +583,6 @@
     <Content Include="Stakeholder\AddEdit2\Registration\registration.html" />
     <Content Include="Stakeholder\AddEdit2\Registration\RegistrationDetails.js" />
     <Content Include="Stakeholder\AddEdit2\show-working-payment.html" />
-    <Content Include="Stakeholder\index2.html" />
     <Content Include="Stakeholder\AddEdit2\Stake_Payment\payment.html" />
     <Content Include="Stakeholder\AddEdit2\Stake_Payment\Payments.js" />
     <Content Include="Stakeholder\AddEdit2\Stake_Working\DeleteWorkingPopUp.html" />

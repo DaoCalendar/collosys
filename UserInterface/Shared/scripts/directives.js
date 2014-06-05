@@ -163,92 +163,85 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
-csapp.factory('buttonFactory', ['Logger', 'PermissionFactory', function (logManager, permFactory) {
+csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger',
+    function ($parse, $compile, permFactory, logManager) {
 
-    var $log = logManager.getInstance('buttonFactory');
-    var getTemplateParams = function (type, text) {
-        var templateParams = {
-            type: 'button',
-            className: ' btn-default'
+        var $log = logManager.getInstance('buttonFactory');
+        var getTemplateParams = function (type, text) {
+            var templateParams = {
+                type: 'button',
+                className: ' btn-default'
+            };
+
+            switch (type) {
+                case 'submit':
+                    templateParams.type = 'submit';
+                    templateParams.text = text || 'Submit';
+                    break;
+                case 'delete':
+                    //templateParams.className = 'btn-danger';
+                    templateParams.text = text || 'Delete';
+                    break;
+                case 'save':
+                    //templateParams.className = 'btn-success';
+                    templateParams.text = text || 'Save';
+                    break;
+                case 'reset':
+                    //templateParams.className = 'btn-info';
+                    templateParams.text = text || 'Reset';
+                    break;
+                case 'close':
+                    //templateParams.className = 'btn-warning';
+                    templateParams.text = text || 'Close';
+                    break;
+                case 'ok':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'OK';
+                    break;
+                case 'cancel':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'Cancel';
+                    break;
+                case 'add':
+                    //templateParams.className = 'btn-primary';
+                    templateParams.text = text || 'Add';
+                    break;
+                case 'edit':
+                    templateParams.text = text || 'Edit';
+                    break;
+                case 'view':
+                    templateParams.text = text || 'View';
+                    break;
+                default:
+                    $log.error('invalid button type: ' + type);
+            }
+
+            return templateParams;
         };
 
-        switch (type) {
-            case 'submit':
-                templateParams.type = 'submit';
-                templateParams.text = text || 'Submit';
-                break;
-            case 'delete':
-                //templateParams.className = 'btn-danger';
-                templateParams.text = text || 'Delete';
-                break;
-            case 'save':
-                //templateParams.className = 'btn-success';
-                templateParams.text = text || 'Save';
-                break;
-            case 'reset':
-                //templateParams.className = 'btn-info';
-                templateParams.text = text || 'Reset';
-                break;
-            case 'close':
-                //templateParams.className = 'btn-warning';
-                templateParams.text = text || 'Close';
-                break;
-            case 'ok':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'OK';
-                break;
-            case 'cancel':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'Cancel';
-                break;
-            case 'add':
-                //templateParams.className = 'btn-primary';
-                templateParams.text = text || 'Add';
-                break;
-            case 'edit':
-                templateParams.text = text || 'Edit';
-                break;
-            case 'view':
-                templateParams.text = text || 'View';
-                break;
-            default:
-                $log.error('invalid button type: ' + type);
-        }
+        var generateTemplate = function (templateParams, attrs) {
+            var permission = attrs.permission;
+            if (angular.isUndefined(permission)) permission = "all";
 
-        return templateParams;
-    };
+            var html = '<span data-ng-show="' + permFactory.HasPermission(permission) + '">';
+            html += '<input';
+            html += ' class=" btn ' + templateParams.className + '"';
+            html += ' type="' + templateParams.type + '"';
+            html += ' value="' + templateParams.text + '"';
+            html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
+            html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : '');
+            html += '/>';
+            html += '</span>';
 
-    var generateTemplate = function (templateParams, attrs) {
-
-
-        var html = '<span data-ng-show="' + permFactory.HasPermission(attrs.permission) + '">';
-        html += '<input';
-        html += ' class=" btn ' + templateParams.className + '"';
-        html += ' type="' + templateParams.type + '"';
-        html += ' value="' + templateParams.text + '"';
-        html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
-        html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
-        html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
-        html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : '');
-        html += '/>';
-        html += '</span>';
-
-        return html;
-    };
-
-    return {
-        getTemplateParams: getTemplateParams,
-        generateTemplate: generateTemplate
-    };
-}]);
-
-csapp.directive('csButton', ['$parse', '$compile', 'buttonFactory',
-    function ($parse, $compile, buttonFactory) {
+            return html;
+        };
 
         var linkFunction = function (scope, element, attrs) {
             var buttonType = attrs.type;
-            var templateParams = buttonFactory.getTemplateParams(buttonType, attrs.text);
-            var template = buttonFactory.generateTemplate(templateParams, attrs);
+            var templateParams = getTemplateParams(buttonType, attrs.text);
+            var template = generateTemplate(templateParams, attrs);
 
             var newElem = angular.element(template);
             element.replaceWith(newElem);
@@ -345,144 +338,6 @@ csapp.directive("csswitch", function () {
     };
 });
 //#endregion
-
-csapp.directive('bsDatepicker', function () {
-    var isAppleTouch = /(iP(a|o)d|iPhone)/g.test(navigator.userAgent);
-    var regexpMap = function (language) {
-        language = language || 'en';
-        return {
-            '/': '[\\/]',
-            '-': '[-]',
-            '.': '[.]',
-            ' ': '[\\s]',
-            'dd': '(?:(?:[0-2]?[0-9]{1})|(?:[3][01]{1}))',
-            'd': '(?:(?:[0-2]?[0-9]{1})|(?:[3][01]{1}))',
-            'mm': '(?:[0]?[1-9]|[1][012])',
-            'm': '(?:[0]?[1-9]|[1][012])',
-            'DD': '(?:' + $.fn.datepicker.dates[language].days.join('|') + ')',
-            'D': '(?:' + $.fn.datepicker.dates[language].daysShort.join('|') + ')',
-            'MM': '(?:' + $.fn.datepicker.dates[language].months.join('|') + ')',
-            'M': '(?:' + $.fn.datepicker.dates[language].monthsShort.join('|') + ')',
-            'yyyy': '(?:(?:[1]{1}[0-9]{1}[0-9]{1}[0-9]{1})|(?:[2]{1}[0-9]{3}))(?![[0-9]])',
-            'yy': '(?:(?:[0-9]{1}[0-9]{1}))(?![[0-9]])'
-        };
-    };
-    var regexpForDateFormat = function (format, language) {
-        var re = format, map = regexpMap(language), i;
-        i = 0;
-        angular.forEach(map, function (v, k) {
-            re = re.split(k).join('${' + i + '}');
-            i++;
-        });
-        i = 0;
-        angular.forEach(map, function (v) {
-            re = re.split('${' + i + '}').join(v);
-            i++;
-        });
-        return new RegExp('^' + re + '$', ['i']);
-    };
-    return {
-        restrict: 'A',
-        require: '?ngModel',
-        link: function (scope, element, attrs, controller) {
-            var options = angular.extend({ autoclose: true, todayBtn: true, todayHighlight: true, clearBtn: false }), type = attrs.dateType || options.type || 'date';
-            angular.forEach([
-                    'format',
-                    'weekStart',
-                    'calendarWeeks',
-                    'startDate',
-                    'endDate',
-                    'daysOfWeekDisabled',
-                    'autoclose',
-                    'startView',
-                    'minViewMode',
-                    'todayBtn',
-                    'todayHighlight',
-                    'keyboardNavigation',
-                    'language',
-                    'forceParse'
-            ], function (key) {
-                if (angular.isDefined(attrs[key]))
-                    options[key] = attrs[key];
-            });
-            var language = 'en', readFormat = attrs.dateFormat || options.format || 'dd-M-yyyy', format = readFormat, dateFormatRegexp = regexpForDateFormat(format, language);
-            //attrs.dateFormat || options.format || $.fn.datepicker.dates[language] && $.fn.datepicker.dates[language].format ||
-            if (controller) {
-                controller.$formatters.unshift(function (modelValue) {
-                    if (type !== 'date') return modelValue;
-                    if (!angular.isString(modelValue)) return modelValue;
-                    if (modelValue === '') return modelValue;
-                    if (moment(modelValue).isValid()) {
-                        if (modelValue.match('Z$')) {
-                            return moment(modelValue).utc().format('DD-MMM-YYYY');
-                        } else {
-                            return moment(modelValue).format('DD-MMM-YYYY');
-                        }
-
-                    }
-                    return $.fn.datepicker.DPGlobal.parseDate(modelValue, $.fn.datepicker.DPGlobal.parseFormat(readFormat), language);
-                });
-                controller.$parsers.unshift(function (viewValue) {
-                    if (!viewValue) {
-                        controller.$setValidity('date', true);
-                        return null;
-                    } else if (type === 'date' && angular.isDate(viewValue)) {
-                        controller.$setValidity('date', true);
-                        return viewValue;
-                    } else if (angular.isString(viewValue) && dateFormatRegexp.test(viewValue)) {
-                        controller.$setValidity('date', true);
-                        if (isAppleTouch)
-                            return new Date(viewValue);
-                        return type === 'string' ? viewValue : $.fn.datepicker.DPGlobal.parseDate(viewValue, $.fn.datepicker.DPGlobal.parseFormat(format), language);
-                    } else {
-                        controller.$setValidity('date', false);
-                        return undefined;
-                    }
-                });
-                controller.$render = function () {
-                    if (isAppleTouch) {
-                        var date = controller.$viewValue ? $.fn.datepicker.DPGlobal.formatDate(controller.$viewValue, $.fn.datepicker.DPGlobal.parseFormat(format), language) : '';
-                        element.val(date);
-                        return date;
-                    }
-                    if (!controller.$viewValue)
-                        element.val('');
-                    return element.datepicker('update', controller.$viewValue);
-                };
-            }
-            if (isAppleTouch) {
-                element.prop('type', 'date').css('-webkit-appearance', 'textfield');
-            } else {
-                if (controller) {
-                    element.on('changeDate', function (ev) {
-                        scope.$apply(function () {
-                            controller.$setViewValue(type === 'string'
-                                ? element.val()
-                                : new Date(moment(ev.date.valueOf()).utc().subtract('m', moment().zone()).valueOf()));
-                        });
-                    });
-                }
-                element.datepicker(angular.extend(options, {
-                    format: format,
-                    language: language
-                }));
-                scope.$on('$destroy', function () {
-                    var datepicker = element.data('datepicker');
-                    if (datepicker) {
-                        datepicker.picker.remove();
-                        element.data('datepicker', null);
-                    }
-                });
-            }
-            var component = element.siblings('[data-toggle="datepicker"]');
-            if (component.length) {
-                component.on('click', function () {
-                    element.trigger('focus');
-                });
-            }
-        }
-    };
-});
 
 csapp.directive('cspagination', function () {
 
@@ -594,6 +449,9 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
                 return '<span class="glyphicon glyphicon-calendar"></span>';
             default:
         }
+
+
+
         return type;
     };
 
@@ -604,7 +462,7 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
     };
 }]);
 
-csapp.directive('csList2', function () {
+csapp.directive('csList', function () {
 
     var templateFn = function (element, attrs) {
         var template = '<div class="row">';
@@ -636,180 +494,134 @@ csapp.directive('csList2', function () {
     return {
         restrict: 'E',
         replace: true,
-        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&' }, //textField
+        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&', selectedIndex: '=' },
         template: templateFn,
         link: linkFn,
         require: 'ngModel'
     };
 });
-csapp.directive('csList', function () {
 
-    var templateFn = function (element, attrs) {
-        var template = '<div class="row">';
-        template += '<div class="panel panel-default" style="height:400px;overflow: auto">';
-        template += '<div class="panel-heading">' + attrs.listHeading + ' </div>';
-        template += '<ul class="list-group">';
-        template += '<li class="list-group-item" ng-repeat="row in ' + attrs.valueList + '"';
-        template += ' ng-click="onClick(row, $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"';
-        template += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
-        template += angular.isDefined(attrs.ngClass) ? attrs.ngClass : ' ng-class="{active : isSelected($index) }"';
-        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
-        template += '</ul>';
-        template += '</div>';
-        template += '</div>';
-        return template;
-    };
-
-    var linkFn = function (scope, element, attrs) {
-        scope.onClick = function (row, index) {
-            if (angular.isUndefined(row)) return;
-            scope.$parent[attrs.ngModel] = row;
-            scope.selectedIndex = index;
-        };
-
-        scope.isSelected = function (index) {
-            var result = scope.selectedIndex === index;
-            if (result === false) return false;
-            if (angular.isDefined(scope.$parent.isSelected)) {
-                return scope.$parent.isSelected(attrs.dir);
-            }
-            return false;
-        };
-    };
-
-    return {
-        restrict: 'E',
-        replace: true,
-        scope: true,
-        template: templateFn,
-        link: linkFn
-    };
-});
 
 csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
     var templateFunction = function (element, attrs) {
-        var html = '<div class="row">';
-        html += '<div class="col-md-5">';
-        html += '<cs-list list-heading="' + attrs.lhsHeading + '" value-list="' + attrs.lhsValueList + '"  text-field="' + attrs.textField + '" ';
-        html += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
-        html += ' dir = "lhs"';
-        html += ' on-click="clicked.left(' + attrs.ngModel + ', $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '">';
-        html += '</cs-list>';
-        html += '</div>';
-        html += '<div class="col-md-1">';
-        html += '<button class="btn btn-success" ng-click="move.left(selectedItem)" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
-        html += '<button class="btn btn-success" ng-click="move.right(selectedItem)" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
-        html += '</div>';
-        html += '<div class="col-md-5">';
-        html += '<cs-list list-heading="' + attrs.rhsHeading + '" value-list="' + attrs.rhsValueList + '"  text-field="' + attrs.textField + '" ';
-        html += attrs.ngModel ? ' ng-model="' + attrs.ngModel + '"' : ' ';
-        html += ' dir = "rhs"';
-        html += 'on-click="clicked.right(' + attrs.ngModel + ', $index)' + (angular.isDefined(attrs.onClick) ? ';' + attrs.onClick : '') + '"></cs-list>';
-        html += '</div>';
-        html += '<div class="col-md-1">';
-        html += '<button class="btn btn-success" ng-click="move.up(selectedItem,selectedIndex)" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
-        html += '<button class="btn btn-success" ng-click="move.down(selectedItem,selectedIndex)" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
-        html += '</div>';
+
+        var lhsTemplate = '<div class="col-md-5">';
+        lhsTemplate += '<div class="panel panel-default" style="height: 100%, overflow: auto">';
+        lhsTemplate += '<div class="panel-heading">{{config.lhsHeading}}</div>';
+        lhsTemplate += '<ul class="list-group">';
+        lhsTemplate += '<li class="list-group-item" ng-repeat="row in config.lhsValueList"';
+        lhsTemplate += ' ng-click="clicked.left(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
+        lhsTemplate += ' ng-class="{active : isSelected($index, "lhs") }"';
+        lhsTemplate += ' value="row">{{config.lhsTextField}}</li>';
+        lhsTemplate += '</ul>';
+        lhsTemplate += '</div>';
+        lhsTemplate += '</div>';
+
+        var rhsTemplate = '<div class="col-md-5">';
+        rhsTemplate += '<div class="panel panel-default" style="height: 100%, overflow: auto">';
+        rhsTemplate += '<div class="panel-heading">{{config.rhsHeading}}</div>';
+        rhsTemplate += '<ul class="list-group">';
+        rhsTemplate += '<li class="list-group-item" ng-repeat="row in config.rhsValueList"';
+        rhsTemplate += ' ng-click="clicked.right(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
+        rhsTemplate += ' ng-class="{active : isSelected($index, "rhs") }"';
+        rhsTemplate += ' value="row">{{config.rhsTextField}}</li>';
+        rhsTemplate += '</ul>';
+        rhsTemplate += '</div>';
+        rhsTemplate += '</div>';
+
+        var rightLeftButtonTemplate = '<div ng-show="config.showRightLeftButtons" class="col-md-1">';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.left()" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.right()" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
+        rightLeftButtonTemplate += '</div>';
+
+        var upDownButtonTemplate = '<div ng-show="config.showUpDownButtons" class="col-md-1">';
+        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.up()'
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + '" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
+        upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.down()'
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + '" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
+        upDownButtonTemplate += '</div>';
+
+        var html = '<div class="row" style="height: 300px">';
+        html += lhsTemplate;
+        html += rightLeftButtonTemplate;
+        html += rhsTemplate;
+        html += upDownButtonTemplate;
         html += '</div>';
         return html;
-
     };
 
-    var linkFunction = function (scope, el, attrs) {
-        scope.direction = {
-            left: true,
-            right: true,
-            up: true,
-            down: true
+    var linkFunction = function(scope) {
+        scope.direction = { left: true, right: true, up: true, down: true };
+        scope.params = {};
+
+        scope.isSelected = function(index, dir) {
+            return ((dir === scope.params.selectedSide) && (index === scope.params.selectedItemIndex));
         };
 
-        scope.isSelected = function (dir) {
-            return (dir === scope.selectedDir);
+        scope.manageDirections = function() {
+            scope.direction = { left: true, right: true, up: true, down: true };
+            scope.direction.left = scope.params.selectedSide !== "lhs";
+            scope.direction.right = scope.params.selectedSide !== "rhs";
+            scope.direction.up = scope.direction.left || scope.params.selectedItemIndex === 0;
+            scope.direction.down = scope.direction.left || scope.config.rhsValueList.length === $index + 1;
         };
 
         scope.clicked = {
-            left: function (selected, index) {
-                if (angular.isUndefined(index)) return;
-                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
-                    return;
-                }
-                scope.direction = {
-                    left: true,
-                    right: false,
-                    up: true,
-                    down: true
-                };
-                scope.selectedItem = selected;
-                scope.selectedIndex = index;
-                scope.selectedDir = "lhs";
+            left: function(selected) {
+                scope.params.selectedItem = selected;
+                scope.params.selectedItemIndex = scope.config.lhsValueList.indexOf(selected);
+                scope.params.selectedSide = "lhs";
+                scope.params.moveDir = undefined;
+                scope.manageDirections();
             },
-            right: function (selected, index) {
-                if (angular.isUndefined(index)) return;
-                if (angular.isUndefined(selected) || $csfactory.isEmptyObject(selected) || selected === null) {
-                    return;
-                }
-                scope.direction = {
-                    left: false,
-                    right: true,
-                    up: true,
-                    down: true
-                };
-                if (index !== 0) {
-                    scope.direction.up = false;
-                }
-                var maxindex = ($csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList).length) - 1;
-                if (maxindex !== index) {
-                    scope.direction.down = false;
-                }
-                scope.selectedItem = selected;
-                scope.selectedIndex = index;
-                scope.selectedDir = "rhs";
+            right: function(selected) {
+                scope.params.selectedItem = selected;
+                scope.params.selectedItemIndex = scope.config.rhsValueList.indexOf(selected);
+                scope.params.selectedSide = "rhs";
+                scope.params.moveDir = undefined;
+                scope.manageDirections();
             },
-        },
+        };
 
-           scope.move = {
-               left: function (selected) {
-                   var lhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.lhsValueList);
-                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                   lhslist.push(selected);
-                   rhslist.splice(rhslist.indexOf(selected), 1);
-                   scope.selectedItem = {};
-                   scope.$parent[attrs.ngModel] = null;
-                   scope.direction = {
-                       right: true,
-                       left: true,
-                       up: true,
-                       down: true
-                   };
-
-               },
-               right: function (selected) {
-                   var lhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.lhsValueList);
-                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                   rhslist.push(selected);
-                   lhslist.splice(lhslist.indexOf(selected), 1);
-                   scope.direction.right = true;
-                   scope.selectedItem = {};
-                   scope.$parent[attrs.ngModel] = null;
-               },
-               up: function (selected, index) {
-                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                   var temp = rhslist[index];
-                   rhslist[index] = rhslist[index - 1];
-                   rhslist[index - 1] = temp;
-               },
-               down: function (selected, index) {
-                   var rhslist = $csfactory.getPropertyValue(scope.$parent.$parent, attrs.rhsValueList);
-                   var temp = rhslist[index];
-                   rhslist[index] = rhslist[index + 1];
-                   rhslist[index + 1] = temp;
-               },
-           };
+        scope.move = {
+            left: function() {
+                var rhsIndex = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                scope.config.rhsValueList.splice(rhsIndex, 1);
+                scope.config.lhsValueList.push(scope.params.selectedItem);
+                scope.clicked.left(scope.params.selectedItem);
+                scope.params.moveDir = "left";
+            },
+            right: function() {
+                var lhsIndex = scope.config.lhsValueList.indexOf(scope.params.selectedItem);
+                scope.config.lhsValueList.splice(lhsIndex, 1);
+                scope.config.rhsValueList.push(scope.params.selectedItem);
+                scope.clicked.right(scope.params.selectedItem);
+                scope.params.moveDir = "right";
+            },
+            up: function() {
+                var index = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                var temp = scope.config.rhsValueList[index];
+                scope.config.rhsValueList[index] = scope.config.rhsValueList[index - 1];
+                scope.config.rhsValueList[index - 1] = temp;
+                scope.clicked.right(temp);
+                scope.params.moveDir = "up";
+            },
+            down: function() {
+                var index = scope.config.rhsValueList.indexOf(scope.params.selectedItem);
+                var temp = scope.config.rhsValueList[index];
+                scope.config.rhsValueList[index] = scope.config.rhsValueList[index + 1];
+                scope.config.rhsValueList[index + 1] = temp;
+                scope.clicked.right(temp);
+                scope.params.moveDir = "down";
+            }
+        };
     };
 
     return {
         restrict: 'E',
-        scope: true,
+        scope: {config : '=', params: '=', onClick: '&', onMove: '&'},
         template: templateFunction,
         link: linkFunction
     };
