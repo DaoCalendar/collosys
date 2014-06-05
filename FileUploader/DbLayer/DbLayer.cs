@@ -10,7 +10,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.DbLayer;
 using NHibernate.Transform;
 
 #endregion
