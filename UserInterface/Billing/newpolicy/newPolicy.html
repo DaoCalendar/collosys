@@ -11,14 +11,18 @@
             <cs-field data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyFor"
                       field="BillingPolicyModel.PolicyFor" data-ng-change="getStakeholderOrHierarchy(billingpolicy.PolicyFor)"></cs-field>
 
-            <div data-ng-if="billingpolicy.PolicyFor != 'Product' && billingpolicy.Products">
-                <cs-field data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList()"
-                          field="BillingPolicyModel.PolicyForGuid" value-list="policyForList"></cs-field>
+            <div data-ng-if="billingpolicy.PolicyFor == 'Stakeholder' && billingpolicy.Products">
+                <cs-field data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList(billingpolicy.Products)"
+                          field="BillingPolicyModel.PolicyForStatkeholder" value-list="policyForList"></cs-field>
+            </div>
+            <div data-ng-if="billingpolicy.PolicyFor == 'Hierarchy' && billingpolicy.Products">
+                <cs-field data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList(billingpolicy.Products)"
+                          field="BillingPolicyModel.PolicyForHierarchy" value-list="policyForList"></cs-field>
             </div>
 
             <div data-ng-if="billingpolicy.PolicyFor == 'Product'" data-ng-init="billingpolicy.PolicyForId = billingpolicy.Products">
                 <cs-field data-ng-model="billingpolicy.PolicyForId"
-                          field="BillingPolicyModel.PolicyForProduct" data-ng-disabled="true" data-ng-change="getSubpolicyList()"></cs-field>
+                          field="BillingPolicyModel.PolicyForProduct" data-ng-disabled="true" data-ng-change="getSubpolicyList(billingpolicy.Products)"></cs-field>
             </div>
         </div>
         <!--List-->

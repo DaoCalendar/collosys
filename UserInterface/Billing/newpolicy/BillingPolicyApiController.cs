@@ -31,7 +31,7 @@ namespace AngularUI.Billing.newpolicy
             {
                 var data = Session.QueryOver<StkhHierarchy>()
                     .Where(x => x.Hierarchy != "Developer")
-                    .List<StkhHierarchy>();
+                    .List<StkhHierarchy>().Distinct();
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
         }
@@ -43,9 +43,10 @@ namespace AngularUI.Billing.newpolicy
         }
 
         [HttpGet]
-        public HttpResponseMessage GetBillingSubpolicyList()
+        public HttpResponseMessage GetBillingSubpolicyList(ScbEnums.Products product)
         {
             var billingSubpolicies = Session.Query<BillingSubpolicy>()
+                .Where(x => x.Products == product)
                 .Fetch(x => x.BillingRelations)
                 .ToList();
 

@@ -41,7 +41,8 @@
             enddate: { label: "EndDate:", type: 'date' },
             PolicyFor: { label: "Policy For", type: "enum", valueList: ["Stakeholder", "Hierarchy", "Product"] },
             PolicyForProduct: { label: "Product", type: "text" },
-            PolicyForGuid: { label: "ResetLabel", type: "select" },
+            PolicyForStatkeholder: { label: "Stakeholder", type: "select", textField:"Name", valueField: "row" },
+            PolicyForHierarchy: { label: "Hierarchy", type: "select", textField:"Hierarchy", valueField: "row" },
             PolicyType : { label: "PolicyType", type: "enum", valueList: ["Payout", "Capping", "PF"] },
         };
     };

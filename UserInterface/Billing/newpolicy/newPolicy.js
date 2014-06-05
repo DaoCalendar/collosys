@@ -1,5 +1,5 @@
 ﻿
-csapp.factory("newpolicyDatalayer", ['Restangular', function (rest) {
+csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest, $csnotify) {
 
     var restApi = rest.all("BillingPolicyApi");
     var dldata = {};
@@ -11,8 +11,11 @@ csapp.factory("newpolicyDatalayer", ['Restangular', function (rest) {
         });
     };
 
-    var getPolicyList = function() {
-        return restApi.customGET("GetBillingPolicyList").then(function(data) {
+    var getPolicyList = function(product) {
+        return restApi.customGET("GetBillingSubpolicyList", { 'product': product }).then(function (data) {
+            if (data.IsInUseSubpolices.length === 0 && data.NotInUseSubpolices.length === 0) {
+                $csnotify.success("SubPolices are not available");
+            }
             return data;
         });
     };
@@ -25,11 +28,12 @@ csapp.factory("newpolicyDatalayer", ['Restangular', function (rest) {
 
 }]);
 
-csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "newpolicyDatalayer", function ($scope, $csModels, $csShared, datalayer) {
+csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", function ($scope, $csModels, $csShared, datalayer, $csnotify) {
 
     (function () {
         $scope.datalayer = datalayer;
         $scope.dldata = datalayer.dldata;
+        $scope.policyForList = [];
         $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
         $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
             return (item === "UNKNOWN" || item === "ALL");
@@ -46,21 +50,29 @@ csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "ne
         if (policyfor === 'Product') {
             return;
         }
-        if (policyfor === "Stakeholder") {
-            $scope.BillingPolicyModel.PolicyForGuid.label = "Stakeholder";
-        } else {
-            $scope.BillingPolicyModel.PolicyForGuid.label = "Hierarchy";
-        }
-
+      
         datalayer.getStakeholderOrHier(policyfor).then(function (data) {
-            $scope.policyForList = data;
+            if (policyfor === 'Stakeholder') {
+                $scope.policyForList = data;
+            } else {
+                $scope.policyForList = [];
+                _.forEach(data, function (item) {
+                    var obj = {
+                        Hierarchy: item.Hierarchy + '(' + item.Designation + ')',
+                        row: item
+                    };
+                    $scope.policyForList.push(obj);
+                });
+            }
         });
     };
 
-    $scope.getSubpolicyList = function () {
+    $scope.getSubpolicyList = function (product) {
 
-        datalayer.getPolicyList().then(function (data) {
-            
+        datalayer.getPolicyList(product).then(function (data) {
+          
+            $scope.ExpiredAndSubpolicy = data.NotInUseSubpolices;
+            $scope.ApproveUnapproved = data.IsInUseSubpolices;
         });
     };
 
