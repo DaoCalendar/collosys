@@ -538,13 +538,13 @@ csapp.factory('operatorsFactory', function () {
 
     operators.stringOperators = function () {
         return [
-             {
-                 'Type': 'Operator',
-                 'Text': 'Opr:=',
-                 'Value': 'EqualTo',
-                 'DataType': 'Text',
-                 'valuelist': []
-             },
+             //{
+             //    'Type': 'Operator',
+             //    'Text': 'Opr:=',
+             //    'Value': 'EqualTo',
+             //    'DataType': 'Text',
+             //    'valuelist': []
+             //},
              {
                  'Type': 'Operator',
                  'Text': 'Opr:!=',
