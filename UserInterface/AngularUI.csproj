@@ -146,8 +146,8 @@
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />
-    <Compile Include="Generic\Menu\Menu.cs" />
-    <Compile Include="Generic\Menu\MenuApiController.cs" />
+    <Compile Include="Generic\menus\Menu.cs" />
+    <Compile Include="Generic\menus\MenuApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -319,7 +319,7 @@
     <Content Include="FileUpload\filterCondition\filterCondition.html" />
     <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
-    <Content Include="Generic\Menu\menu-vertical.html" />
+    <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
@@ -409,8 +409,8 @@
     <Content Include="Generic\home\home.js" />
     <Content Include="Generic\keyvalue\keyvalue.html" />
     <Content Include="Generic\keyvalue\keyValueCtrl.js" />
-    <Content Include="Generic\menu\menu.html" />
-    <Content Include="Generic\menu\menu.js" />
+    <Content Include="Generic\menus\menu.html" />
+    <Content Include="Generic\menus\menu.js" />
     <Content Include="Generic\permissions\NewPermission.html" />
     <Content Include="Generic\permissions\PermissionScript.js" />
     <Content Include="Generic\pincode\editPincode-modal.html" />
