@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Mapping;
 using ColloSys.QueryBuilder.BillingBuilder;
@@ -16,16 +17,16 @@ namespace AngularUI.Billing.holdingpolicy
         private static readonly ActivateHoldingPolicyBuilder ActivateHoldingPolicyBuilder=new ActivateHoldingPolicyBuilder();
 
         [HttpGet]
-        public HttpResponseMessage GetStakeholders(ScbEnums.Products products)
+        public HttpResponseMessage GetStakeholders()
         {
-            var data = StakeQuery.OnProduct(products);
+            var data = Session.QueryOver<Stakeholders>().List();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        public HttpResponseMessage GetHoldingPolicies(ScbEnums.Products products)
+        public HttpResponseMessage GetHoldingPolicies()
         {
-            var data = HoldingPolicyBuilder.OnProduct(products);
+            var data = Session.QueryOver<HoldingPolicy>().List();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
@@ -60,3 +61,18 @@ namespace AngularUI.Billing.holdingpolicy
 
     }
 }
+
+
+//[HttpGet]
+//public HttpResponseMessage GetStakeholders(ScbEnums.Products products)
+//{
+//    var data = StakeQuery.OnProduct(products);
+//    return Request.CreateResponse(HttpStatusCode.OK, data);
+//}
+
+//[HttpGet]
+//public HttpResponseMessage GetHoldingPolicies(ScbEnums.Products products)
+//{
+//    var data = HoldingPolicyBuilder.OnProduct(products);
+//    return Request.CreateResponse(HttpStatusCode.OK, data);
+//}
