@@ -466,13 +466,11 @@ csapp.factory('MyHttpInterceptor', ["$q", "$rootScope", '$csAuthFactory', "Logge
 
 csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShared, $csfactory) {
 
-
     var checkAccess = function (perm, root) {
-
         var permission = root;
         for (var i = 0; i < perm.length; i++) {
             var permData = _.find(permission.Childrens, function (item) {
-                if (item.Activity.toUpperCase() === perm[i].toUpperCase()) return item;
+                if (item.Activity.trim().toUpperCase() === perm[i].trim().toUpperCase()) return item;
             });
             if ($csfactory.isEmptyObject(permData)) return false;
             if (permData.HasAccess === false) return false;
@@ -484,7 +482,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
 
     var hasPermission2 = function (perm) {
         if ($csfactory.isNullOrEmptyString(perm)) throw "permission is undefined";
-        if (perm === "All") return true;
+        if (perm.trim().toUpperCase() === "ALL") return true;
 
         switch (perm) {
             case "createfile":
