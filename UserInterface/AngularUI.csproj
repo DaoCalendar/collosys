@@ -267,14 +267,6 @@
     <Content Include="Billing\formula2\if-else.html" />
     <Content Include="Billing\formula2\multi-if-else.html" />
     <Content Include="Billing\formula2\output.html" />
-    <Content Include="Billing\formula\formula-condition.html" />
-    <Content Include="Billing\formula\formula-details.html" />
-    <Content Include="Billing\formula\formula-group-by.html" />
-    <Content Include="Billing\formula\formula-output.html" />
-    <Content Include="Billing\formula\formula-output2.html" />
-    <Content Include="Billing\formula\formula.html" />
-    <Content Include="Billing\formula\formula.js" />
-    <Content Include="Billing\formula\temp.html" />
     <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.js" />
@@ -539,7 +531,6 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
-    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\angularjs\angular-locale_en-in.js" />

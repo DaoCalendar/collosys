@@ -96,8 +96,17 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         var combineTokens = function (groupTokens) {
             var list = [];
             _.forEach(groupTokens, function (item) {
-                list = _.union(list, item.Condition,
-                    item.IfOutput, item.ElseOutput);
+                _.forEach(item.Condition, function(condi) {
+                    list.push(condi);
+                });
+                _.forEach(item.IfOutput, function (condi) {
+                    list.push(condi);
+                });
+                _.forEach(item.ElseOutput, function (condi) {
+                    list.push(condi);
+                });
+                //list = _.union(item.Condition,
+                  //  item.IfOutput, item.ElseOutput);
             });
             return list;
         };
