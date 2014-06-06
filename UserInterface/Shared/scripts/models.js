@@ -10,8 +10,8 @@ csapp.factory("$csShared", function () {
     };
 });
 
-csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels', '$csGenericModels',
-    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels, $csGenericModels) {
+csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csAllocationModels", '$csBillingModels', '$csGenericModels', '$csLegalModels',
+    function ($csFileUploadModels, $csStakeholderModels, $csAllocationModels, $csBillingModels, $csGenericModels, $csLegalModels) {
 
         var models = {};
 
@@ -21,6 +21,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
             models.Allocation = $csAllocationModels.init();
             models.Billing = $csBillingModels.init();
             models.Generic = $csGenericModels.init();
+            models.Legal = $csLegalModels.init();
             return;
         };
 
@@ -133,7 +134,10 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
 
                 case "Product":
                     return angular.copy(models.Generic.Product);
-
+                    
+                case "RequisitionPreparation":
+                    return angular.copy(models.Legal.RequisitionPreparation);
+               
                 case "Grid":
                     return angular.copy(models.Generic.Grid);
 
