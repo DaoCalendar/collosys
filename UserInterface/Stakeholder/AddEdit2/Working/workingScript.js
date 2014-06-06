@@ -1,28 +1,28 @@
 ﻿
 csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($csnotify, rest) {
 
-
     var restApi = rest.all('WorkingApi');
 
-    var getHierarchyById = function (id) {
-        return restApi.customGET('Get', { 'id': id }).then(function (data) {
-            return data;
-        });
+    var getWorkingData = function (stakeId) {
+        return restApi.customGET('GetStakeWorkingData', { stakeholderId: stakeId })
+            .then(function (data) {
+                return data;
+            });
     };
 
     return {
-        GetHierarchyById: getHierarchyById
+        GetWorkingData: getWorkingData
     };
 }]);
 
-csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", function ($scope, $routeParams, datalayer) {
+csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", function ($scope, $routeParams, datalayer, $csModels) {
 
     (function () {
-        console.log('hierarchy ID: ', $routeParams.hierarchy);
-        datalayer.GetHierarchyById($routeParams.hierarchy).then(function (data) {
-            $scope.selectedHierarchy = data;
-            console.log("current hierarchy: ", data);
+        datalayer.GetWorkingData($routeParams.stakeId).then(function (data) {
+            console.log("WorkingData: ", data);
         });
+
+        $scope.workingModel = $csModels.getColumns("StkhWorking");
     })();
 
 }]);
