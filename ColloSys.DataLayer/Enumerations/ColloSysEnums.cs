@@ -9,6 +9,22 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum PolicyOn
+        {
+            Stakeholder,
+            Hierarchy,
+            Product
+        }
+
+        [Serializable]
+        public enum PolicyType
+        {
+            Payout,
+            Capping,
+            PF
+        }
+
+        [Serializable]
         public enum RuleForHolding
         {
             Value,

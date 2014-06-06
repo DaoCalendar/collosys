@@ -19,6 +19,9 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.BillCycle);
             Property(x => x.Status);
 
+            ManyToOne(x => x.Stakeholder);
+            Property(x => x.OriginMonth);
+            Property(x => x.ExternalId);
             #endregion
         }
     }
