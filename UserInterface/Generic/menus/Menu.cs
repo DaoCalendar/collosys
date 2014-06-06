@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ColloSys.DataLayer.Domain;
+﻿using System.Collections.Generic;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.QueryBuilder.Test.GenerateDb;
