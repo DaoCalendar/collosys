@@ -9,7 +9,7 @@ namespace ColloSys.DataLayer.ClientData
         {
             ManyToOne(x => x.FileDetail, map => map.NotNullable(true));
             Property(x => x.AliasConditionName, map => map.NotNullable(true));
-            Bag(x => x.Fconditions, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));
 
         }
     }

@@ -12,8 +12,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public RWriteoffMap()
         {
-            Table("R_WRITEOFF");
-
             #region Relationship Mapping
 
             Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));

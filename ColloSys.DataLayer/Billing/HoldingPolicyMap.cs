@@ -1,6 +1,6 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
 
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Billing
 {
     public class HoldingPolicyMap : EntityMap<HoldingPolicy>
     {
@@ -18,8 +18,7 @@ namespace ColloSys.DataLayer.Mapping
             
             Property(x=>x.Tenure);
 
-            Bag(x => x.ActivateHoldingPolicies,
-                colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.ActivateHoldingPolicies, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
 }

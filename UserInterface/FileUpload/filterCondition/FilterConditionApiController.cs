@@ -43,9 +43,9 @@ namespace AngularUI.FileUpload.clientData
         [HttpPost]
         protected override FilterCondition BasePost(FilterCondition obj)
         {
-            foreach (var fcondition in obj.Fconditions)
+            foreach (var fcondition in obj.BillTokens)
             {
-                fcondition.FilterCondition = obj;
+                fcondition.BillingSubpolicy = obj;
             }
             FilterConditionBuilder.Save(obj);
             return obj;

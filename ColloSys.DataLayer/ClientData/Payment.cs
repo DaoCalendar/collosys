@@ -11,7 +11,7 @@ using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.ClientData
 {
-    public class Payment : UploadableEntity, ITransactionComponent, IUniqueKey
+    public class Payment : UploadableEntity, IUniqueKey
     {
         #region Properties
         public virtual string AccountNo { get; set; }

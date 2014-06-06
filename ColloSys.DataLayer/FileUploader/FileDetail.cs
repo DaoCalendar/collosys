@@ -12,7 +12,7 @@ namespace ColloSys.DataLayer.FileUploader
         public virtual IList<FileColumn> FileColumns { get; set; }
         public virtual IList<FileMapping> FileMappings { get; set; }
         public virtual IList<FileScheduler> FileSchedulers { get; set; }
-        public virtual IList<FilterCondition> FilterConditions { get; set; }
+        //public virtual IList<FilterCondition> FilterConditions { get; set; }
 
         public virtual ColloSysEnums.FileAliasName AliasName { get; set; }
         public virtual string AliasDescription { get; set; }

@@ -63,9 +63,7 @@ namespace BillingService2.ViewModel
         private static List<BillTokens> GetRowCondition(BMatrix bMatrix, int rowIndex,int groupid)
         {
             var matrixValueRowHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == rowIndex
-                                                                           && x.ColumnNo2D == 0
-                                                                           && x.RowNo3D == 0
-                                                                           && x.ColumnNo4D == 0);
+                                                                           && x.ColumnNo2D == 0);
 
             var token1 = new BillTokens()
             {
@@ -108,9 +106,7 @@ namespace BillingService2.ViewModel
 
 
             var matrixValuePriviousRowHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == rowIndex - 1
-                                                                           && x.ColumnNo2D == 0
-                                                                           && x.RowNo3D == 0
-                                                                           && x.ColumnNo4D == 0);
+                                                                           && x.ColumnNo2D == 0);
 
             var nextOperator = (matrixValueRowHeader.RowOperator == ColloSysEnums.Operators.LessThan)
                               ? ColloSysEnums.Operators.GreaterThanEqualTo
@@ -160,9 +156,7 @@ namespace BillingService2.ViewModel
         private static List<BillTokens> GetColumnCondition(BMatrix bMatrix, int colIndex,int groupId)
         {
             var matrixValueColHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == 0
-                                                                                  && x.ColumnNo2D == colIndex
-                                                                                  && x.RowNo3D == 0
-                                                                                  && x.ColumnNo4D == 0);
+                                                                                  && x.ColumnNo2D == colIndex);
 
             var token1 = new BillTokens()
             {
@@ -207,9 +201,7 @@ namespace BillingService2.ViewModel
 
 
             var matrixValuePriviousColHeader = bMatrix.BMatricesValues.Single(x => x.RowNo1D == 0
-                                                                           && x.ColumnNo2D == colIndex - 1
-                                                                           && x.RowNo3D == 0
-                                                                           && x.ColumnNo4D == 0);
+                                                                           && x.ColumnNo2D == colIndex - 1);
 
             var nextOperator = (matrixValueColHeader.ColumnOperator == ColloSysEnums.Operators.LessThan)
                               ? ColloSysEnums.Operators.GreaterThanEqualTo
@@ -260,9 +252,7 @@ namespace BillingService2.ViewModel
         private static List<BillTokens> GetValueOutput(BMatrix bMatrix, int rowIndex, int colIndex,int groupId)
         {
             var matrixValue = bMatrix.BMatricesValues.Single(x => x.RowNo1D == rowIndex
-                                                                         && x.ColumnNo2D == colIndex
-                                                                         && x.RowNo3D == 0
-                                                                         && x.ColumnNo4D == 0);
+                                                                         && x.ColumnNo2D == colIndex);
 
 
             var token1 = new BillTokens()

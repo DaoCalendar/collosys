@@ -12,7 +12,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public CWriteoffMap()
         {
-            Table("C_WRITEOFF");
             Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(true));
 

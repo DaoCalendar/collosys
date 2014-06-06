@@ -21,7 +21,7 @@ namespace ColloSys.QueryBuilder.ClientDataBuilder
        {
            return SessionManager.GetCurrentSession()
                .QueryOver<FilterCondition>()
-               .Fetch(x => x.Fconditions).Eager
+               .Fetch(x => x.BillTokens).Eager
                .Fetch(x => x.AliasConditionName).Eager
                .Where(x => x.FileDetail.Id == fileDetail)
                .TransformUsing(Transformers.DistinctRootEntity)
