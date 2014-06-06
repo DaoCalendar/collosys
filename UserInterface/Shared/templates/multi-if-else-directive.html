@@ -11,7 +11,8 @@
                                       group-id="{{$index}}"
                                       group-type="Condition"
                                       tokens-list="tokensList[$index].Condition"
-                                      debug="{{debug}}"></cs-condition>
+                                      debug="{{debug}}"
+                                      edit="{{edit}}"></cs-condition>
                     </div>
                 </div>
                 <div>
@@ -23,7 +24,8 @@
                                    group-id="{{$index}}"
                                    group-type="Output"
                                    tokens-list="tokensList[$index].IfOutput"
-                                   debug="{{debug}}"></cs-output>
+                                   debug="{{debug}}"
+                                   edit="{{edit}}"></cs-output>
                     </div>
                 </div>
 
@@ -51,7 +53,8 @@
                                group-id="{{noOfIf.length}}"
                                group-type="ElseOutput"
                                tokens-list="tokensList[0].ElseOutput"
-                               debug="{{debug}}"></cs-output>
+                               debug="{{debug}}"
+                               edit="{{edit}}"></cs-output>
                 </div>
             </td>
             <td></td>
