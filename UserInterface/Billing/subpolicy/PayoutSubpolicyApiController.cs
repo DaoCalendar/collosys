@@ -31,7 +31,7 @@ namespace AngularUI.Billing.subpolicy
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
         private static readonly BMatrixBuilder BMatrixBuilder = new BMatrixBuilder();
-        //private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();
+        // private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();  **commented by SONU  (as per mahendra told)
         private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
         private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
         private static readonly BillTokenBuilder BillTokenBuilder = new BillTokenBuilder();
@@ -89,19 +89,19 @@ namespace AngularUI.Billing.subpolicy
 
         [HttpGet]
 
-        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product)
+        public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ColloSysEnums.PolicyType policyType)
         {
-            var data = BillingSubpolicyBuilder.OnProductCategory(product);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            //  var data = BillingSubpolicyBuilder.OnProductCategory(product, policyType);  **commmented By SONu (as per mahendra told)
+            return Request.CreateResponse(HttpStatusCode.OK, "");
         }
 
-        //[HttpGet]
+        [HttpGet]
 
-        //public HttpResponseMessage GetBConditions(Guid parentId)
-        //{
-        //    var data = BConditionBuilder.OnSubpolicyId(parentId);
-        //    return Request.CreateResponse(HttpStatusCode.OK, data);
-        //}
+        public HttpResponseMessage GetBConditions(Guid parentId)
+        {
+            //  var data = BConditionBuilder.OnSubpolicyId(parentId);  ** commented by SONU (as per mahendra told)
+            return Request.CreateResponse(HttpStatusCode.OK, "");
+        }
 
         //[CamelCasedApiMethod]
         [HttpGet]
@@ -109,8 +109,8 @@ namespace AngularUI.Billing.subpolicy
         public HttpResponseMessage GetFormulas(ScbEnums.Products product)
         {
             var data = BillingSubpolicyBuilder.FormulaOnProductCategory(product);
-            
-          return Request.CreateResponse(HttpStatusCode.OK, data);
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
@@ -153,7 +153,7 @@ namespace AngularUI.Billing.subpolicy
         }
         #endregion
 
-        #region "Post Method"
+        #region Post Method
         [HttpPost]
         public BillingRelation GetRelations(BillingSubpolicy subpolicy)
         {
@@ -221,7 +221,7 @@ namespace AngularUI.Billing.subpolicy
 
         protected override BillingSubpolicy BasePut(Guid id, BillingSubpolicy obj)
         {
-            //foreach (var bcondition in obj.BConditions)
+            //foreach (var bcondition in obj.BConditions)  **commented by SONU (as per mahendra told)
             //{
             //    bcondition.BillingSubpolicy = obj;
             //}
