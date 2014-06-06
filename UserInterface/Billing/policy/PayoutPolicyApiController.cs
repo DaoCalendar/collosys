@@ -5,177 +5,127 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
+using AngularUI.Billing.policy;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.QueryBuilder.BillingBuilder;
-using ColloSys.QueryBuilder.GenericBuilder;
+using NHibernate.Linq;
 
 #endregion
 
 
 namespace ColloSys.UserInterface.Areas.Billing.apiController
 {
-    public class PayoutPolicyVm
-    {
-        public BillingPolicy PayoutPolicy { get; set; }
-
-        public IList<BillingSubpolicy> UnUsedSubpolicies { get; set; }
-    }
-
+    
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
-        private static readonly ProductConfigBuilder ProductConfigBuilder = new ProductConfigBuilder();
-        private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
-        private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
-        private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
-
-        #region Get
-
         [HttpGet]
-
-        public HttpResponseMessage GetProducts()
+        public HttpResponseMessage GetStakeholerOrHier(string policyfor)
         {
-            var data = ProductConfigBuilder.GetProducts();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-        }
-
-        [HttpGet]
-
-        public HttpResponseMessage GetPayoutPolicy(ScbEnums.Products products, ScbEnums.Category category)
-        {
-            var payoutPolicy = BillingPolicyBuilder.OnProductCategory(products, category);
-
-            // create new alloc policy
-            var savedPayoutSubpolicyIds = new List<Guid>();
-            if (payoutPolicy == null)
+            if (policyfor == "Stakeholder")
             {
-                payoutPolicy = new BillingPolicy() { Name = products + "_" + category, Products = products, Category = category };
+                var data = Session.QueryOver<Stakeholders>()
+                    .Where(x => x.LeavingDate == null || x.LeavingDate >= DateTime.Today)
+                    .List<Stakeholders>();
+                return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             else
             {
-                // make alloc subpolicy empty, json serialization hack
-                foreach (var relation in payoutPolicy.BillingRelations)
+                var data = Session.QueryOver<StkhHierarchy>()
+                    .Where(x => x.Hierarchy != "Developer")
+                    .List<StkhHierarchy>().Distinct();
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+        }
+
+        public class SubpolicyList
+        {
+            public List<BillingSubpolicy> IsInUseSubpolices = new List<BillingSubpolicy>();
+            public List<BillingSubpolicy> NotInUseSubpolices = new List<BillingSubpolicy>();
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetBillingSubpolicyList(ScbEnums.Products product)
+        {
+            var billingSubpolicies = Session.Query<BillingSubpolicy>()
+                .Where(x => x.Products == product)
+                .Fetch(x => x.BillingRelations)
+                .ToList();
+
+
+            var list = new SubpolicyList();
+
+            foreach (var subpolicy in billingSubpolicies)
+            {
+                if (subpolicy.BillingRelations.Count == 0 || subpolicy.BillingRelations == null)
                 {
-                    relation.BillingSubpolicy.MakeEmpty();
-                    savedPayoutSubpolicyIds.Add(relation.BillingSubpolicy.Id);
+                    list.NotInUseSubpolices.Add(subpolicy);
+                    continue;
                 }
+
+                if (subpolicy.BillingRelations.Count(x => x.EndDate == null) > 0)
+                {
+                    list.IsInUseSubpolices.Add(subpolicy);
+                    continue;
+                }
+
+                var relations = subpolicy.BillingRelations.OrderByDescending(x => x.StartDate).First();
+                if (relations.EndDate < DateTime.Today)
+                {
+                    list.NotInUseSubpolices.Add(subpolicy);
+                    continue;
+                }
+
+                // end is future or null (active)
+                list.IsInUseSubpolices.Add(subpolicy);
             }
 
-            var payoutSubpolicies = BillingSubpolicyBuilder.SubPoliciesInDb(products, category, savedPayoutSubpolicyIds).ToList();
-
-            var payoutPolicyVm = new PayoutPolicyVm() { PayoutPolicy = payoutPolicy, UnUsedSubpolicies = payoutSubpolicies };
-
-            return Request.CreateResponse(HttpStatusCode.OK, payoutPolicyVm);
-        }
-
-        #endregion
-
-        #region override Methods
-
-        protected override BillingPolicy BasePost(BillingPolicy obj)
-        {
-            // murge BillingRelation into added BillingPolicy
-            foreach (var billingRelation in obj.BillingRelations)
+            foreach (var subpolicy in billingSubpolicies)
             {
-                billingRelation.BillingSubpolicy = Session.Get<BillingSubpolicy>(billingRelation.BillingSubpolicy.Id);
-                billingRelation.BillingPolicy = obj;
+                if (subpolicy.BillingRelations.Count <= 1 || subpolicy.BillingRelations == null)
+                {
+                    continue;
+                }
+                var firstRelation = subpolicy.BillingRelations.OrderByDescending(x => x.StartDate).First();
+                subpolicy.BillingRelations = new List<BillingRelation> { firstRelation };
             }
-            BillingPolicyBuilder.Save(obj);
-            return obj;
-        }
 
-        protected override BillingPolicy BasePut(Guid id, BillingPolicy obj)
-        {
-            //set empty StkhPayments 
-            //obj.StkhPayments = null;
-            //obj.BillDetails = null;
-            //obj.CollectionStkhPayments = null;
-            //obj.RecoveryStkhPayments = null;
-            // murge BillingRelation into added BillingPolicy
-
-            foreach (var billingRelation in obj.BillingRelations)
-            {
-                billingRelation.BillingPolicy = obj;
-                billingRelation.BillingSubpolicy = BillingSubpolicyBuilder.Get(billingRelation.BillingSubpolicy.Id);
-                //billingRelation.BillingSubpolicy.BConditions = null;
-                billingRelation.BillingSubpolicy.BillDetails = null;
-                billingRelation.BillingSubpolicy.BillingRelations = null;
-               
-                //if (billingRelation.Id == Guid.Empty)
-                //{
-                //    Session.SaveOrUpdate(billingRelation);
-                //}
-            }
-            BillingRelationBuilder.Save(obj.BillingRelations);
-            //BillingPolicyBuilder.Save(obj);
-            return obj;
-        }
-
-        #endregion
-
-        #region approve and reject relation
-
-        [HttpGet]
-        public HttpResponseMessage RejectRelation(Guid relationId)
-        {
-            var relation = BillingRelationBuilder.Get(relationId);
-            BillingRelationBuilder.Delete(relation);
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
         [HttpGet]
-        public HttpResponseMessage ApproveRelation(Guid relationId)
+        public HttpResponseMessage GetBillingTokens(Guid id)
         {
-            var relation = BillingRelationBuilder.Get(relationId);
-            relation.Status = ColloSysEnums.ApproveStatus.Approved;
-            if (relation.OrigEntityId != Guid.Empty)
-            {
-                var origRelation = BillingRelationBuilder.Get(relation.OrigEntityId);
-                BillingRelationBuilder.Delete(origRelation);
-            }
-            relation.OrigEntityId = Guid.Empty;
-            BillingRelationBuilder.Save(relation);
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            var billingTokens = Session.Query<BillTokens>()
+                .Where(x => x.BillingSubpolicy.Id == id).ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, billingTokens);
         }
-        #endregion
+
+        public HttpResponseMessage SaveSubpolicy(SubpolicyRelationManager subpolicy)
+        {
+            subpolicy.Username = GetUsername();
+            subpolicy.Session = Session;
+
+            switch (subpolicy.Activity)
+            {
+                case "activate":
+                    subpolicy.ActivateSubpolicy();
+                    break;
+                case "deactivate":
+                    subpolicy.DeactivateSubpolicy();
+                    break;
+                case "approve":
+                    subpolicy.ApproveSubpolicy();
+                    break;
+                case "reject":
+                    subpolicy.RejectSubpolicy();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("subpolicy");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "success");
+        }
     }
 }
-
-
-//[HttpGet]
-//
-//public BillingPolicy GetPayoutPolicy(ScbEnums.Products product, ScbEnums.Category category)
-//{
-//    var billingPolicy = Session.QueryOver<BillingPolicy>().Where(x => x.Products == product && x.Category == category)
-//                                                          .Fetch(x => x.BillingRelations).Eager
-//                                                          .TransformUsing(Transformers.DistinctRootEntity)
-//                                                          .SingleOrDefault()
-//                     ?? new BillingPolicy() { Name = product + "_" + category, Products = product, Category = category };
-//    return billingPolicy;
-//}
-
-//[HttpGet]
-//
-//public IEnumerable<BillingSubpolicy> GetPayoutSubpolicy(ScbEnums.Products product, ScbEnums.Category category)
-//{
-//    return Session.QueryOver<BillingSubpolicy>()
-//                    .Where(c => c.Products == product && c.Category == category
-//                        && c.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy)
-//                        .List();
-//}
-
-//[HttpGet]
-//
-//public IEnumerable<BCondition> GetBConditions(ScbEnums.Products product, ScbEnums.Category category)
-//{
-//    BCondition bc = null;
-//    BillingSubpolicy bsp = null;
-//    return Session.QueryOver<BCondition>(() => bc)
-//                        .JoinAlias(() => bc.BillingSubpolicy, () => bsp)
-//                        .Where(() => bsp.Products == product && bsp.Category == category
-//                            && bsp.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy)
-//                        .List<BCondition>();
-//}
