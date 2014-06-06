@@ -22,15 +22,15 @@
     //];
     $scope.requisitionIntiation = function () {
         return {
-           Function: { label: 'Function', type: 'radio', options: [{ value: 'Intiate', display: 'Intiate' }, { value: 'Intiated', display: 'Intiated' }], textField: 'display', valueField: 'value' },
-          Location: { label: "Location", type: "select", textField: "state", valueField: "District", required: "true", valueList: $scope.location },
-          Division: { label: "Division", type: "select", textField: "District", valueField: "District", required: "true", valueList: $scope.location },
-          LoanNo: { label: "Loan No", type: "text", required: true },
-          DateFrom: { label: "Loan Date From", type: "text", required: true },
-          DateTo: { label: "Loan Date To", type: "text", required: true },
-          RequsitionNo: { label: "Requsition No", type: "text", required: true },
-          RequsitionDateFrom: { label: "Requsition Date From", type: "text", required: true },
-          RequsitionDateTo: { label: "Requsition Date To", type: "text", required: true },
+           Function: { label: 'Function', type: 'radio'},
+          Location: { label: "Location", type: "select", textField: "state", valueField: "District", valueList: $scope.location },
+          Division: { label: "Division", type: "select", textField: "District", valueField: "District", valueList: $scope.location },
+          LoanNo: { label: "Loan No", type: "text"},
+          DateFrom: { label: "Loan Date From", type: "text"},
+          DateTo: { label: "Loan Date To", type: "text"},
+          RequsitionNo: { label: "Requsition No", type: "text" },
+          RequsitionDateFrom: { label: "Requsition Date From", type: "text"},
+          RequsitionDateTo: { label: "Requsition Date To", type: "text"},
 
         };
     };
