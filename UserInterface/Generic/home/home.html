@@ -1,14 +1,4 @@
-﻿<div data-ng-if="true">
-    <div class="form-group has-success has-feedback">
-        <label class="control-label" >Input with success</label>
-        <input type="text" class="form-control" >
-        <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-    </div>
-</div>
-<div
-    data-ng-show="showPendingOptions()"
-    data-ng-cloack="">
-
+﻿<div data-ng-show="showPendingOptions()" data-ng-cloak="">
     <div class="panel panel-default">
         <div class="panel-heading">Pending Approvals</div>
         <ul>
@@ -30,34 +20,3 @@
         </ul>
     </div>
 </div>
-<!--<div class="row">
-            <div class="col-md-3">
-                <multiselect
-                    ng-model="selectedCar"
-                    multiple="true"
-                    header="header"
-                    options="c.name for c in cars"
-                    change="selected()"></multiselect>
-            </div>
-            <div class="col-md-3">
-                <multiselect
-                    ng-model="selectedCar"
-                    header="header"
-                    options="c.name for c in cars"
-                    change="selected()"></multiselect>
-            </div>
-            <div class="col-md-3">
-                <multiselect
-                    ng-model="selectedCar"
-                    header="header"
-                    options="c.name for c in cars"
-                    change="selected()"></multiselect>
-            </div>
-            <div class="col-md-3">
-                <multiselect
-                    ng-model="selectedCar"
-                    header="header"
-                    options="c.name for c in cars"
-                    change="selected()"></multiselect>
-            </div>
-        </div>-->

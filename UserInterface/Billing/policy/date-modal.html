@@ -5,7 +5,8 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <cs-field data-ng-disabled="pageData.Activity==='Deactivate'" data-ng-model="params.StartDate" ng-required="true" field="BillingPolicy.startdate"
+                <cs-field data-ng-disabled="pageData.Activity==='Deactivate'" 
+                          data-ng-model="params.StartDate" ng-required="true" field="BillingPolicy.startdate"
                           data-ng-change="pageData.endDate=null;modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
                 <cs-field field="BillingPolicy.enddate" data-ng-model="params.endDate"
                           data-ng-change="modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>

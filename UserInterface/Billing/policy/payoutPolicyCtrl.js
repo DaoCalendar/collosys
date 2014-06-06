@@ -46,10 +46,6 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
 
 }]);
 
-csapp.factory("newpolicyFactory", function () {
-
-});
-
 csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", "$modal", "modalService",
     function ($scope, $csfactory, $csModels, $csShared, datalayer, $csnotify, $modal, modalService) {
 
@@ -61,7 +57,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             $scope.BillingPolicyModel.startDateText = { label: "Start date", type: "text" };
             $scope.BillingPolicyModel.endDateText = { label: "End date", type: "text" };
             $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
-                return (item === "UNKNOWN" || item === "ALL");
+                return (item.toUpperCase() === "UNKNOWN" || item.toUpperCase() === "ALL");
             });
             $scope.displaySubPolicy = {
                 conditionTokens: [],
@@ -121,8 +117,8 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             });
         };
 
-        $scope.displaySubpolicyDetails = function (selected) {
-            datalayer.displaySubpolicyDetails(selected.selectedItem).then(function (data) {
+        $scope.displaySubpolicyDetails = function () {
+            datalayer.displaySubpolicyDetails($scope.selected.selectedItem).then(function (data) {
                 $scope.billingpolicy.BillTokens = data;
                 $scope.displaySubPolicy = {
                     conditionTokens: _.filter(data, { 'GroupType': 'Condition' }),
@@ -130,10 +126,11 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 };
             });
 
-            $scope.setButtonStatus(selected.selectedItem.BillingRelations[0]);
+            $scope.setButtonStatus();
         };
 
-        $scope.setButtonStatus = function (relation) {
+        $scope.setButtonStatus = function () {
+            var relation = $scope.selected.selectedItem.BillingRelations[0];
             if (angular.isUndefined(relation)) {
                 $scope.buttonStatus = 'Draft';
                 return;

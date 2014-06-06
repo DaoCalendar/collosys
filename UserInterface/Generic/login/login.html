@@ -4,7 +4,7 @@
     }
 </style>
 <div class="row" style="margin-top: 200px">
-    <form name="loginform">
+    <form name="loginform" data-ng-hide="hasLoggedIn">
         <div class="col-md-offset-4">
             <section class="loginform cf" data-ng-show="hasForgotPassword != true">
                 <div class="text-center">
@@ -12,18 +12,12 @@
                 </div>
                 <form>
                     <div class="form-group somemargin">
-                        <!--<div class="control-label">
-                                Username
-                            </div>-->
                         <div class="controls">
-                            <input type="text" placeholder="User Name" autofocus="autofocus" 
+                            <input type="text" placeholder="User Name" autofocus="autofocus"
                                    data-ng-model="login.username" ng-focus="true">
                         </div>
                     </div>
                     <div class="form-group somemargin">
-                        <!--<div class="control-label">
-                                Password
-                            </div>-->
                         <div class="controls">
                             <input type="password" placeholder="Password" data-ng-model="login.password">
                         </div>
@@ -33,11 +27,6 @@
                             <span class="alert alert-error" data-ng-show="login.error">{{loginErrorMessage}}</span>
                         </div>
                     </div>
-                    <!--<div class="form-group somemargin">
-                            <div class="controls">
-                                <a style="color: blue" data-ng-click="toggleForgotPassword()">Forgot Password</a>
-                            </div>
-                        </div>-->
                     <div class="form-group somemargin">
                         <div class="controls">
                             <cs-button type="submit" text="Log In" data-ng-click="loginUser()" permission="All"></cs-button>

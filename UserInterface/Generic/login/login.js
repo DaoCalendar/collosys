@@ -101,6 +101,8 @@ csapp.controller("loginController",
         };
         $csAuthFactory.logoutUser();
 
+        $scope.hasLoggedIn = false;
+
         $scope.loginUser = function () {
             $('input').checkAndTriggerAutoFillEvent();
 
@@ -109,6 +111,7 @@ csapp.controller("loginController",
 
             datalayer.authenticate($scope.login).then(function (data) {
                 if (data === "true") {
+                    $scope.hasLoggedIn = true;
                     $csAuthFactory.loginUser($scope.login.username);
                     $location.path("/home");
                 } else {

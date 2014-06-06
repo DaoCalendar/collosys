@@ -28,59 +28,44 @@
 
     <div class="col-md-9" data-ng-show=" billingpolicy.PolicyForId">
         <cs-dual-list config="config" selected="selected"
-                      on-click="displaySubpolicyDetails(selected)"
+                      on-click="displaySubpolicyDetails()"
                       on-move="moveSubpolicy()"></cs-dual-list>
     </div>
-
-    <div class="row" data-ng-form="policyForm" data-ng-show="buttonStatus!==''">
-        <div class="col-md-offset-1 col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="row">
-                        <b class="col-md-2">{{selected.selectedItem.Name}} :({{buttonStatus}})</b>
-                        <div class="pull-right" style="margin-right: 5px">
-
-                            <cs-button type="delete" text="Deactivate"
-                                       data-ng-show="buttonStatus=='Approved'"
-                                       data-ng-click="openModelforSubPolicy('Deactivate',selected);"></cs-button>
-                            <cs-button type="save" text="Activate"
-                                       data-ng-show="buttonStatus=='Draft'"
-                                       data-ng-click="openModelforSubPolicy('Activate',selected);"></cs-button>
-
-                            <cs-button type="add" text="Reactivate"
-                                       data-ng-show="buttonStatus=='Expired'"
-                                       data-ng-click="openModelforSubPolicy('Reactivate',selected);">
-                            </cs-button>
-
-                            <cs-button type="save" text="Approve"
-                                       data-ng-show="buttonStatus=='UnApproved'"
-                                       data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])">
-                            </cs-button>
-
-                            <cs-button type="save" text="Reject"
-                                       data-ng-show="buttonStatus=='UnApproved'"
-                                       data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])">
-                            </cs-button>
-                        </div>
+    <div class="row" data-ng-form="policyForm" data-ng-show="selected.selectedItem.Id">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <b class="col-md-2">{{selected.selectedItem.Name}} - {{buttonStatus}}</b>
+                    <div class="pull-right" style="margin-right: 5px">
+                        <cs-button type="cancel" text="Deactivate" data-ng-show="buttonStatus=='Approved'"
+                                   data-ng-click="openModelforSubPolicy('Deactivate',selected);"></cs-button>
+                        <cs-button type="ok" text="Activate" data-ng-show="buttonStatus=='Draft'"
+                                   data-ng-click="openModelforSubPolicy('Activate',selected);"></cs-button>
+                        <cs-button type="ok" text="Reactivate" data-ng-show="buttonStatus=='Expired'"
+                                   data-ng-click="openModelforSubPolicy('Reactivate',selected);"></cs-button>
+                        <cs-button type="ok" text="Approve" data-ng-show="buttonStatus=='UnApproved'"
+                                   data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])"></cs-button>
+                        <cs-button type="cancel" text="Reject" data-ng-show="buttonStatus=='UnApproved'"
+                                   data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])"></cs-button>
                     </div>
                 </div>
-                <div class="panel-body">
-                    <cs-forKDm layout="6.4.6">
-                        <cs-field field="BillingPolicyModel.Name" ng-model="selected.selectedItem.Name" ng-disabled="true"></cs-field>
-                        <div data-ng-show="buttonStatus!=='Draft'">
-                            <cs-field field="BillingPolicyModel.startDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].StartDate"></cs-field>
-                            <cs-field field="BillingPolicyModel.endDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].EndDate"></cs-field>
-                        </div>
-                        <div class="row">
-                            <cs-output table-name="BillingSubpolicy"
-                                       tokens-list="displaySubPolicy.outputTokens"></cs-output>
-                        </div>
-                        <div class="row">
-                            <cs-condition table-name="BillingSubpolicy"
-                                          tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
-                        </div>
-                    </cs-forKDm>
-                </div>
+            </div>
+            <div class="panel-body">
+                <cs-form layout="6.4.6">
+                    <cs-field field="BillingPolicyModel.Name" ng-model="selected.selectedItem.Name" ng-disabled="true"></cs-field>
+                    <div data-ng-show="buttonStatus!=='Draft'">
+                        <cs-field field="BillingPolicyModel.startDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].StartDate"></cs-field>
+                        <cs-field field="BillingPolicyModel.endDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].EndDate"></cs-field>
+                    </div>
+                    <div class="row">
+                        <cs-output table-name="BillingSubpolicy"
+                                   tokens-list="displaySubPolicy.outputTokens"></cs-output>
+                    </div>
+                    <div class="row">
+                        <cs-condition table-name="BillingSubpolicy"
+                                      tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
+                    </div>
+                </cs-form>
             </div>
         </div>
     </div>

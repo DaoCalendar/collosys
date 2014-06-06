@@ -16,7 +16,6 @@ csapp.directive("csOutput", function () {
             edit: '@'
         }
     };
-
 });
 
 csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'tokenValidations', 'queryGenHelpers', 'tokenHelpers',
