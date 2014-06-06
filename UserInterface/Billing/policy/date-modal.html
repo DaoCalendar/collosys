@@ -1,58 +1,29 @@
-﻿<div>
-    <div class="modal-header">
-        <h3 class="modal-title">{{modelData.payoutRelation.BillingSubpolicy.Name}}</h3>
-    </div>
-    <div class="modal-body" style="margin-bottom: 10px">
-        <div data-ng-form="payoutpolicyDateRangeForm">
+﻿<div data-ng-form="billingpolicyDateRangeForm">
+    <cs-form layout="8.4.8">
+        <div class="modal-header">
+            <h3 class="modal-title">{{pageData.Name}}</h3>
+        </div>
+        <div class="modal-body">
             <div class="row">
-                <div class="col-md-6" style="margin-bottom: 5px">
-                    <label class="col-md-4 control-label">Start Date</label>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input class="form-control" data-ng-disabled="!modelData.forActivate" type="text" name="ScheduleDate"
-                                   data-ng-model="modelData.startDate" required
-                                   data-date-start-date="+1d"
-                                   data-ng-readonly="true"
-                                   data-bs-datepicker=""
-                                   data-ng-change="modelData.endDate=null;modelDateValidation(modelData.startDate,modelData.endDate)">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" style="margin-bottom: 5px">
-                    <label class="col-md-4 control-label">End Date</label>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input class="form-control" type="text" name="ScheduleDate"
-                                   data-ng-model="modelData.endDate"
-                                   data-ng-change="modelDateValidation(modelData.startDate,modelData.endDate)"
-                                   data-date-start-date="+1d"
-                                   data-ng-readonly="true"
-                                   data-bs-datepicker="">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <cs-field data-ng-disabled="!pageData.ForActive" data-ng-model="pageData.StartDate" ng-required="true" field="BillingPolicy.startdate"
+                          data-ng-change="pageData.endDate=null;modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
+                <cs-field field="BillingPolicy.enddate" data-ng-model="pageData.endDate"
+                          data-ng-change="modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
+
             </div>
         </div>
-    </div>
-    <div class="modal-footer" style="margin-top: 10px">
-        <cs-button type="delete" text="Deactivate" 
-                   permission="Billing,Billingpolicy,AddEdit"
-                   data-ng-show="!modelData.forActivate"
-                   data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
-                   data-ng-click="deactivateSubPoicy(modelData)"></cs-button>
-        <cs-button type="save" text="Activate"
-                   permission="Billing,Billingpolicy,AddEdit"
-                   data-ng-show="modelData.forActivate"
-                   data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid)"
-                   data-ng-click="activateSubPoicy(modelData)"></cs-button>
-        <cs-button type="close" data-ng-click="closeModal()"></cs-button>
-    </div>
+        <div class="modal-footer text-right" style="margin-top: 10px">
+            <cs-button type="delete" text=" Deactivate" data-ng-show="!pageData.ForActive"
+                       data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
+                       data-ng-click="deactivateSubPoicy(pageData)"></cs-button>
+            <cs-button type="save" text="Activate"
+                       data-ng-show="pageData.ForActive"
+                       data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid) "
+                       data-ng-click="activateSubPoicy(pageData)"></cs-button>
+            <cs-button type="close" data-ng-click="closeModal()"></cs-button>
+        </div>
+    </cs-form>
 </div>
+
 
 

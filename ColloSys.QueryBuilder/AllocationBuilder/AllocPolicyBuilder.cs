@@ -45,7 +45,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .JoinAlias(() => relation.AllocSubpolicy, () => subpolicy, JoinType.LeftOuterJoin)
                                  .JoinAlias(() => subpolicy.Conditions, () => condition, JoinType.LeftOuterJoin)
                                  .JoinAlias(() => subpolicy.Stakeholder, () => stakeholder, JoinType.LeftOuterJoin)
-                                 .Where(() => policy.Products == products && policy.Category == category)
+                                 .Where(() => policy.Products == products)
                                  .And(() => relation.Status == ColloSysEnums.ApproveStatus.Approved)
                                  .And(() => relation.StartDate <= Util.GetTodayDate() &&
                                             (relation.EndDate == null ||
@@ -61,7 +61,7 @@ namespace ColloSys.QueryBuilder.AllocationBuilder
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Conditions).Eager
                                  .Fetch(x => x.AllocRelations.First().AllocSubpolicy.Stakeholder).Eager
-                                 .Where(x => x.Products == products && x.Category == category)
+                                 .Where(x => x.Products == products)
                                  .TransformUsing(Transformers.DistinctRootEntity)
                                  .SingleOrDefault();
         }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 //using BillingService.CustBillView;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;

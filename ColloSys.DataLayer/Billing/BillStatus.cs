@@ -1,30 +1,18 @@
-﻿#region References
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
-#endregion
-
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Billing
 {
     public class BillStatus : Entity
     {
-        #region Property
+        public virtual Stakeholders Stakeholder { get; set; }
         public virtual UInt32 BillMonth { get; set; }
-
+        public virtual UInt32 OriginMonth { get; set; }
         public virtual UInt32 BillCycle { get; set; }
-
         public virtual ColloSysEnums.BillingStatus Status { get; set; }
-
         public virtual ScbEnums.Products Products { get; set; }
-        #endregion
-
-        //#region Relationship None
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    return;
-        //}
-        //#endregion
+        public virtual string ExternalId { get; set; }
     }
 }

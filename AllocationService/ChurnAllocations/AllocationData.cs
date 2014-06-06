@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System.Collections.Generic;
+using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.SharedDomain;
 

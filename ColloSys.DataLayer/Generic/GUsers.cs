@@ -7,7 +7,7 @@ using ColloSys.DataLayer.BaseEntity;
 
 namespace ColloSys.DataLayer.Domain
 {
-    public class Users : Entity
+    public class GUsers : Entity
     {
         #region Properties
         public virtual string Username { get; set; }
@@ -40,7 +40,7 @@ namespace ColloSys.DataLayer.Domain
         #endregion
 
         #region Constructor
-        public Users()
+        public GUsers()
         {
             // ReSharper disable DoNotCallOverridableMethodsInConstructor
             LastPasswordChangedDate = Convert.ToDateTime("01/01/1999");

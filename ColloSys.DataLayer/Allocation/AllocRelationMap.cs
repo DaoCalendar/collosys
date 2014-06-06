@@ -7,8 +7,8 @@ namespace ColloSys.DataLayer.Mapping
     {
         public AllocRelationMap()
         {
-            Property(x => x.Priority, map => map.NotNullable(true));
-            Property(x => x.StartDate, map => map.NotNullable(true));
+            Property(x => x.Priority);
+            Property(x => x.StartDate);
             Property(x => x.EndDate);
 
             Property(p => p.Status);

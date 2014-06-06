@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.Allocation
 {
-    public class AllocSubpolicy : Entity, IPolicyStatusComponent
+    public class AllocSubpolicy : Entity
     {
         public virtual Stakeholders Stakeholder { get; set; }
 

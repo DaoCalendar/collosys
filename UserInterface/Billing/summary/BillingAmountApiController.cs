@@ -3,6 +3,7 @@ using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.Shared.SharedUtils;
 using NHibernate.Linq;
@@ -76,7 +77,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
         [HttpGet]
         
-        public BillAmount GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
+        public BillSummary GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
         {
             var data= BillAmountBuilder.OnStakeProductMonth(products, stakeId, month);
             return data;
@@ -84,7 +85,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
         [HttpPost]
         
-        public BillAmount ApproveBillingAmount(BillAmount billAmount)
+        public BillSummary ApproveBillingAmount(BillSummary billAmount)
         {
             BillAmountBuilder.Save(billAmount);
             return billAmount;
@@ -131,10 +132,10 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction2]
         public string ExcelForBillSammary(ScbEnums.Products products, Guid stakeId, int month)
         {
-            var billAmount = Session.QueryOver<BillAmount>()
+            var billAmount = Session.QueryOver<BillSummary>()
                .Where(x => x.Stakeholder.Id == stakeId)
                .And(x => x.Products == products)
-               .And(x => x.Month == month)
+               .And(x => x.BillMonth == month)
                .SingleOrDefault();
 
             var billDetails = Session.QueryOver<BillDetail>()
@@ -176,7 +177,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             return file.FullName;
         }
 
-        private void WriteBillSammary(BillAmount billAmount, ExcelWorksheet ws, ref int excelRowCounter)
+        private void WriteBillSammary(BillSummary billAmount, ExcelWorksheet ws, ref int excelRowCounter)
         {
             excelRowCounter++;
 
@@ -190,7 +191,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
             // Month
             ws.Cells[excelRowCounter, 2].Value = "Month";
-            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.Month / 100, (int)billAmount.Month % 100, 1).ToString("MMM-yyyy");
+            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.BillMonth / 100, (int)billAmount.BillMonth % 100, 1).ToString("MMM-yyyy");
             excelRowCounter++;
 
             // Product
@@ -214,14 +215,14 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             excelRowCounter++;
 
             // Holding Payment
-            ws.Cells[excelRowCounter, 2].Value = "Holding Payment";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldAmount;
-            excelRowCounter++;
+            //ws.Cells[excelRowCounter, 2].Value = "Holding Payment";
+            //ws.Cells[excelRowCounter, 3].Value = billAmount.HoldAmount;
+            //excelRowCounter++;
 
-            // Hol Release
-            ws.Cells[excelRowCounter, 2].Value = "Hold Release";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldRepayment;
-            excelRowCounter++;
+            //// Hol Release
+            //ws.Cells[excelRowCounter, 2].Value = "Hold Release";
+            //ws.Cells[excelRowCounter, 3].Value = billAmount.HoldRepayment;
+            //excelRowCounter++;
 
             // Variable Pay
             ws.Cells[excelRowCounter, 2].Value = "Total Payout";

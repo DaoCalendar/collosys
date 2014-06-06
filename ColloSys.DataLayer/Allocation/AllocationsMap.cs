@@ -1,7 +1,6 @@
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.SharedDomain;
 
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Allocation
 {
     public class AllocationsMap : EntityMap<Allocations>
     {

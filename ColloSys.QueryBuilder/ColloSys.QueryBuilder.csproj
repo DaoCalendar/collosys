@@ -63,7 +63,6 @@
     <Compile Include="BaseTypes\IRepository.cs" />
     <Compile Include="BaseTypes\Repository.cs" />
     <Compile Include="BillingBuilder\ActivateHoldingPolicyBuilder.cs" />
-    <Compile Include="BillingBuilder\BConditionBuilder.cs" />
     <Compile Include="BillingBuilder\BillAdhocBuilder.cs" />
     <Compile Include="BillingBuilder\BillAmountBuilder.cs" />
     <Compile Include="BillingBuilder\BillDetailBuilder.cs" />
@@ -81,7 +80,6 @@
     <Compile Include="ClientDataBuilder\CWriteoffBuilder.cs" />
     <Compile Include="ClientDataBuilder\ELinerBuilder.cs" />
     <Compile Include="ClientDataBuilder\EWriteoffBuilder.cs" />
-    <Compile Include="ClientDataBuilder\FilterConditionBuilder.cs" />
     <Compile Include="ClientDataBuilder\InfoBuilder.cs" />
     <Compile Include="ClientDataBuilder\PaymentBuilder.cs" />
     <Compile Include="ClientDataBuilder\RLinerBuilder.cs" />

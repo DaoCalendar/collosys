@@ -78,7 +78,7 @@ namespace ColloSys.DataLayer.Services.Shared
         public static string GetUserEmail(string username)
         {
             var session = SessionManager.GetCurrentSession();
-            var emailId = session.QueryOver<Users>()
+            var emailId = session.QueryOver<GUsers>()
                 .Where(x => x.Username == username)
                 .Select(x => x.Email).SingleOrDefault<string>();
             return emailId ?? string.Empty;

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -35,7 +36,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
 
             return SessionManager.GetCurrentSession().QueryOver<BillingRelation>()
                                  .Fetch(x => x.BillingSubpolicy).Eager
-                                 .Fetch(x => x.BillingSubpolicy.BConditions).Eager
+                                 //.Fetch(x => x.BillingSubpolicy.BConditions).Eager
                                  .Where(x => x.BillingPolicy.Id == billingPolicy.Id)
                                  .And(x => (x.EndDate == null || x.EndDate >= startDate))
                                  .Select(x => x.BillingSubpolicy)
@@ -60,7 +61,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
 
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
-                                 .Fetch(x => x.BConditions).Eager
+                                 //.Fetch(x => x.BConditions).Eager
                                  .Where(x => x.Products == products
                                              && x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
                                  .And(x => x.Name == formulaName)
@@ -72,10 +73,10 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
                                  .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy
-                                             && x.Products == products && x.Category == category)
+                                             && x.Products == products)
                                  .WhereRestrictionOn(x => x.Id)
                                  .Not.IsIn(savedSubnpoliciesIds)
-                                 .Fetch(x => x.BConditions).Eager
+                                 //.Fetch(x => x.BConditions).Eager
                                  .Fetch(x => x.BillingRelations).Eager
                                  .TransformUsing(Transformers.DistinctRootEntity)
                                  .List();

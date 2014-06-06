@@ -170,17 +170,14 @@ namespace BillingService2
             return billDetails;
         }
 
-        private BillAmount GetBillAmountForStkholder(Stakeholders stakeholders, BillStatus billStatus, List<BillDetail> billDetails)
+        private BillSummary GetBillAmountForStkholder(Stakeholders stakeholders, BillStatus billStatus, List<BillDetail> billDetails)
         {
-            var billAmount = new BillAmount();
+            var billAmount = new BillSummary();
 
             billAmount.Stakeholder = stakeholders;
             billAmount.Products = billStatus.Products;
-            billAmount.Month = billStatus.BillMonth;
+            billAmount.BillMonth = billStatus.BillMonth;
             billAmount.Cycle = 0;
-            billAmount.StartDate = DateTime.ParseExact(string.Format("{0}01", billAmount.Month), "yyyyMMdd",
-                                                CultureInfo.InvariantCulture);
-            billAmount.EndDate = billAmount.StartDate.AddMonths(1).AddDays(-1);
             billAmount.Status = ColloSysEnums.ApproveStatus.Submitted;
 
             billAmount.FixedAmount = billDetails.Where(x => x.BillingPolicy == null
@@ -202,9 +199,9 @@ namespace BillingService2
             var subTotal = billAmount.FixedAmount + billAmount.VariableAmount + billAmount.Deductions;
 
             // TODO: ICICI demo
-            billAmount.HoldAmount = Math.Round(subTotal * Convert.ToDecimal(0.10));
-            billAmount.HoldRepayment = 1000;
-            billAmount.TotalAmount = (subTotal - billAmount.HoldAmount) + billAmount.HoldRepayment;
+            //billAmount.HoldAmount = Math.Round(subTotal * Convert.ToDecimal(0.10));
+            //billAmount.HoldRepayment = 1000;
+            //billAmount.TotalAmount = (subTotal - billAmount.HoldAmount) + billAmount.HoldRepayment;
 
             billAmount.PayStatus = ColloSysEnums.BillPaymentStatus.BillingDone;
             billAmount.PayStatusDate = DateTime.Now;

@@ -1,15 +1,15 @@
 ﻿#region references
 
 using System;
-using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 
-namespace ColloSys.DataLayer.SharedDomain
+namespace ColloSys.DataLayer.Allocation
 {
     public class Allocations : Entity, IApproverComponent
     {

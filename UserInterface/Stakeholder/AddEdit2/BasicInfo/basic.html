@@ -1,7 +1,14 @@
 ﻿<cs-form>
     <div class="clearfix">
         <h5 class="modal-header">Personal Information</h5>
-        <cs-field data-ng-model="Stakeholder.Name" 
+              field="stakeholderModels.Hierarchy"></cs-field>
+    <cs-field data-ng-if="Selected.Hierarchy"
+              data-ng-model="Selected.Designation"
+              value-list="params.DesignationList"
+              data-ng-change="assignSelectedHier(hierarchy.Designation)"
+              field="models.Stakeholder.Designation"></cs-field>
+
+    <cs-field data-ng-model="Stakeholder.Name" 
                   field="stakeholderModels.stakeholder.Name"></cs-field>
         <cs-field data-ng-if="selectedHierarchy.IsUser"
                   data-ng-model="Stakeholder.ExternalId"

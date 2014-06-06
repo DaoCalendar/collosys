@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -15,30 +16,30 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.BillingBuilder
 {
-    public class BillAmountBuilder : Repository<BillAmount>
+    public class BillAmountBuilder : Repository<BillSummary>
     {
-        public override QueryOver<BillAmount, BillAmount> ApplyRelations()
+        public override QueryOver<BillSummary, BillSummary> ApplyRelations()
         {
-            return QueryOver.Of<BillAmount>();
+            return QueryOver.Of<BillSummary>();
         }
         [Transaction]
-        public BillAmount OnStakeProductMonth(ScbEnums.Products products, Guid stakeId, int month)
+        public BillSummary OnStakeProductMonth(ScbEnums.Products products, Guid stakeId, int month)
         {
-           var data= SessionManager.GetCurrentSession().QueryOver<BillAmount>()
+           var data= SessionManager.GetCurrentSession().QueryOver<BillSummary>()
                                  .Where(x => x.Stakeholder.Id == stakeId)
                                  .And(x => x.Products == products)
-                                 .And(x => x.Month == month)
+                                 .And(x => x.BillMonth == month)
                                  .SingleOrDefault();
             return data;
         }
 
         [Transaction]
-        public IEnumerable<BillAmount> OnProductMonth(ScbEnums.Products products, uint month)
+        public IEnumerable<BillSummary> OnProductMonth(ScbEnums.Products products, uint month)
         {
-            return SessionManager.GetCurrentSession().QueryOver<BillAmount>()
+            return SessionManager.GetCurrentSession().QueryOver<BillSummary>()
                                  .Fetch(x => x.Stakeholder).Eager
                                  .Where(x => x.Products == products)
-                                 .And(x => x.Month == month)
+                                 .And(x => x.BillMonth == month)
                                  .List();
         }
     }

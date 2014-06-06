@@ -76,21 +76,21 @@
     <Compile Include="Allocation\AllocSubpolicy.cs" />
     <Compile Include="Allocation\AllocSubpolicyMap.cs" />
     <Compile Include="Allocation\AllocationsMap.cs" />
-    <Compile Include="Billing\ActivateHoldingPolicy.cs" />
-    <Compile Include="Billing\ActivateHoldingPolicyMap.cs" />
-    <Compile Include="Billing\BCondition.cs" />
-    <Compile Include="Billing\BConditionMap.cs" />
+    <Compile Include="Billing\BillingSubpolicy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Billing\StkhHoldingPolicy.cs" />
+    <Compile Include="Billing\StkhHoldingPolicyMap.cs" />
     <Compile Include="Billing\BillAdhoc.cs" />
     <Compile Include="Billing\BillAdhocMap.cs" />
-    <Compile Include="Billing\BillAmount.cs" />
-    <Compile Include="Billing\BillAmountMap.cs" />
+    <Compile Include="Billing\BillSummary.cs" />
+    <Compile Include="Billing\BillSummaryMap.cs" />
     <Compile Include="Billing\BillDetail.cs" />
     <Compile Include="Billing\BillDetailMap.cs" />
     <Compile Include="Billing\BillingPolicy.cs" />
     <Compile Include="Billing\BillingPolicyMap.cs" />
     <Compile Include="Billing\BillingRelation.cs" />
     <Compile Include="Billing\BillingRelationMap.cs" />
-    <Compile Include="Billing\BillingSubpolicy.cs" />
     <Compile Include="Billing\BillingSubpolicyMap.cs" />
     <Compile Include="Billing\BillStatus.cs" />
     <Compile Include="Billing\BillStatusMap.cs" />
@@ -109,10 +109,6 @@
     <Compile Include="ClientData\CustomerInfoMap.cs" />
     <Compile Include="ClientData\CLiner.cs" />
     <Compile Include="ClientData\CLinerMap.cs" />
-    <Compile Include="ClientData\Fcondition.cs" />
-    <Compile Include="ClientData\FconditionMap.cs" />
-    <Compile Include="ClientData\FilterCondition.cs" />
-    <Compile Include="ClientData\FilterConditionMap.cs" />
     <Compile Include="ClientData\IDeliquent.cs" />
     <Compile Include="ClientData\IHardDelq.cs" />
     <Compile Include="ClientData\PaymentMap.cs" />
@@ -166,13 +162,13 @@
     <Compile Include="Components\IApproverComponent.cs" />
     <Compile Include="Components\IBillComponent.cs" />
     <Compile Include="Components\IFileUploadable.cs" />
-    <Compile Include="Components\IPolicyStatusComponent.cs" />
-    <Compile Include="Components\ITransactionComponent.cs" />
     <Compile Include="Generic\ProductConfigMap.cs" />
-    <Compile Include="LogSupport\Users.cs" />
-    <Compile Include="LogSupport\UsersMap.cs" />
     <Compile Include="JsonSerialization\DynamicProxyJsonConverter.cs" />
     <Compile Include="JsonSerialization\NHibernateContractResolver.cs" />
+    <Compile Include="Generic\GUsers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generic\GUsersMap.cs" />
     <Compile Include="NhSetup\AuditEventListener.cs" />
     <Compile Include="NhSetup\AudtingExtended.cs" />
     <Compile Include="NhSetup\AudtingSetup.cs" />
@@ -187,8 +183,6 @@
     <Compile Include="NhSetup\SessionExtension.cs" />
     <Compile Include="NhSetup\SessionFactoryManager.cs" />
     <Compile Include="NhSetup\ValidationSetup.cs" />
-    <Compile Include="Reporting\Reports.cs" />
-    <Compile Include="Reporting\ReportsMap.cs" />
     <Compile Include="SessionMgr\NhRepository.cs" />
     <Compile Include="SessionMgr\SessionManager.cs" />
     <Compile Include="SessionMgr\UnitOfWork.cs" />
@@ -202,8 +196,8 @@
     <Compile Include="ClientData\Payment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Stakeholder\StakeHierarchy.cs" />
-    <Compile Include="Stakeholder\StakeHierarchyMap.cs" />
+    <Compile Include="Stakeholder\StkhHierarchy.cs" />
+    <Compile Include="Stakeholder\StkhHierarchyMap.cs" />
     <Compile Include="Stakeholder\Stakeholders.cs" />
     <Compile Include="Stakeholder\StakeholdersMap.cs" />
     <Compile Include="Stakeholder\StkhPayment.cs" />
