@@ -1,21 +1,15 @@
-﻿<div>
-    <cs-form layout="6.4.8">
-        <div>
-            <cs-field data-ng-model="hierarchy.Hierarchy"
-                      data-ng-change="changeInHierarchy(hierarchy.Hierarchy)"
-                      value-list="hierarchyDisplayList"
-                      field="stakeholderModels.hierarchy"></cs-field>
-
-            <div data-ng-if="Designation">
-                <cs-field data-ng-model="hierarchy.Designation"
-                          value-list="Designation"
-                          data-ng-change="assignSelectedHier(hierarchy.Designation)"
-                          field="stakeholderModels.designation"></cs-field>
-            </div>
-        </div>
-    </cs-form>
-</div>
-
+﻿<cs-form layout="6.4.8">
+    <cs-field data-ng-model="Stakeholder.Hierarchy"
+              data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
+              value-list="hierarchyDisplayList"
+              field="stakeholderModels.stakeholder.hierarchy"></cs-field>
+    <div data-ng-if="Designation">
+        <cs-field data-ng-model="Stakeholder.Designation"
+                  value-list="Designation"
+                  data-ng-change="assignSelectedHier(Stakeholder.Designation)"
+                  field="stakeholderModels.stakeholder.designation"></cs-field>
+    </div>
+</cs-form>
 
 <!-- <div class="form-group ">
                      <label class="control-label">Designation <label style="font-size:large; color:red">*</label></label>

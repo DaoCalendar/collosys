@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using AngularUI.Stakeholder.AddEdit2.BasicInfo;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.GenericBuilder;
@@ -36,7 +37,7 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
         private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
 
         [HttpGet]
-        
+
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
             return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
@@ -65,7 +66,6 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
             var idExists = StakeQuery.FilterBy(x => x.ExternalId == id);
             return (idExists.Count > 0);
         }
-
 
         [HttpGet]
         
@@ -187,6 +187,15 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.api
                 return Request.
                     CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
+        }
+
+
+        [HttpPost]
+        public HttpResponseMessage SaveStake(Stakeholders data)
+        {
+            AddEditStakeholder.SetStakeholderObj(data);
+            StakeQuery.Save(data);
+            return Request.CreateResponse(HttpStatusCode.Created, data);
         }
 
         [HttpPost]

@@ -225,6 +225,7 @@
     <Compile Include="Shared\webapis\Utilities.cs" />
     <Compile Include="Stakeholder\AddEdit2\AddStakeHolderApiController.cs" />
     <Compile Include="Stakeholder\AddEdit2\AddStakeholderModel.cs" />
+    <Compile Include="Stakeholder\AddEdit2\BasicInfo\AddEditStakeholder.cs" />
     <Compile Include="Stakeholder\AddEdit2\BasicInfo\StakeholderApiController.cs" />
     <Compile Include="Stakeholder\AddEdit2\FinalPostModel.cs" />
     <Compile Include="Stakeholder\AddEdit2\ListValue.cs" />
