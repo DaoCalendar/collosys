@@ -1,5 +1,4 @@
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
 
 namespace ColloSys.DataLayer.Billing
 {

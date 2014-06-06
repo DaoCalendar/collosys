@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Billing
 {
     public class BillDetail : Entity
     {

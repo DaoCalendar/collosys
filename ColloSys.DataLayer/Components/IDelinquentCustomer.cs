@@ -1,6 +1,6 @@
 ﻿using System;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 
 namespace ColloSys.DataLayer.Components
 {

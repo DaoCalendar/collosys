@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using ColloSys.FileUploader.Reflection;
+﻿using ColloSys.FileUploader.Reflection;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
 

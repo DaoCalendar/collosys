@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Stakeholder
 {
     public class StkhHierarchy : Entity
     {

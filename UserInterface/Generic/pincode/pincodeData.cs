@@ -1,7 +1,4 @@
-﻿using ColloSys.DataLayer.Enumerations;
-
-
-namespace ColloSys.UserInterface.Areas.Generic.ViewModels
+﻿namespace ColloSys.UserInterface.Areas.Generic.ViewModels
 {
     public class PincodeData
     {
@@ -21,7 +18,7 @@ namespace ColloSys.UserInterface.Areas.Generic.ViewModels
 
         public virtual uint Pincode { get; set; }
 
-        public virtual ColloSysEnums.CityCategory CityCategory { get; set; }
+        public virtual string CityCategory { get; set; }
 
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.FileReader;
@@ -11,14 +9,9 @@ using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using NHibernate.Tool.hbm2ddl;
-using NLog;
-using NLog.Config;
-using NLog.Layouts;
-using NLog.Targets;
 using NUnit.Framework;
 
 using ReflectionExtension.ExcelReader;
-using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests.FileReaderTest
 {

@@ -1,19 +1,12 @@
-﻿#region references
+﻿using ColloSys.DataLayer.BaseEntity;
 
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
-
-#endregion
-
-namespace ColloSys.DataLayer.LogSupport
+namespace ColloSys.DataLayer.Generic
 {
-    public class GUsersMap :EntityMap<GUsers>
+    public class GUsersMap : EntityMap<GUsers>
     {
         public GUsersMap()
         {
-            #region properties
-
-            Property(x => x.Username, map=> map.UniqueKey("GUSERS_USERNAME"));
+            Property(x => x.Username, map => map.UniqueKey("GUSERS_USERNAME"));
             Property(x => x.ApplicationName);
             Property(x => x.Comment, map => map.NotNullable(false));
             Property(x => x.Email);
@@ -32,13 +25,7 @@ namespace ColloSys.DataLayer.LogSupport
             Property(x => x.PasswordAnswer);
             Property(x => x.PasswordQuestion);
 
-            #endregion
-            
-            #region Relationship
-
-              ManyToOne(x=>x.Role,map=>map.NotNullable(true));
-
-            #endregion
+            ManyToOne(x => x.Role, map => map.NotNullable(true));
         }
     }
 }

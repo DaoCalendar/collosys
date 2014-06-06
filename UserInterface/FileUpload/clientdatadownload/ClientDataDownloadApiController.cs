@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.DataLayer.SessionMgr;
 

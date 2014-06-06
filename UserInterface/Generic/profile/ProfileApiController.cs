@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 
 #endregion

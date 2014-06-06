@@ -5,14 +5,11 @@ using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using ColloSys.Shared.ConfigSectionReader;
-using NHibernate;
-using NHibernate.Context;
 using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
 using NUnit.Framework;
-using ReflectionExtension.Tests.FileReaderTest;
 
 namespace ReflectionExtension.Tests
 {

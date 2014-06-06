@@ -1,5 +1,5 @@
 ﻿using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Generic;
 
 namespace UserInterfaceAngular.app
 {

@@ -1,17 +1,13 @@
 ﻿#region references
 
-using System;
 using System.Linq;
 using AngularUI.Developer.generatedb;
 using ColloSys.AllocationService.AllocationLayer;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
-using NHibernate.Transform;
 using NUnit.Framework;
 
 #endregion

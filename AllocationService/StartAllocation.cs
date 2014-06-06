@@ -11,7 +11,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using System.Configuration;
 using ColloSys.DataLayer.NhSetup;
 

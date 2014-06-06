@@ -1,12 +1,6 @@
-﻿#region References
+﻿using ColloSys.DataLayer.BaseEntity;
 
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
-using NHibernate;
-using NHibernate.Mapping.ByCode;
-#endregion
-
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Stakeholder
 {
     public class StakeholdersMap : EntityMap<Stakeholders>
     {

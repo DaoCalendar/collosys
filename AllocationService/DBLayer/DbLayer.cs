@@ -1,22 +1,15 @@
-﻿#region references
+﻿using ColloSys.DataLayer.Generic;
+using ColloSys.DataLayer.Stakeholder;
 
-using System.Collections;
+#region references
+
 using System.Collections.Generic;
 using System.Linq;
-using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.Linq;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
 #endregion
 

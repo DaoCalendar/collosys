@@ -3,13 +3,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 //using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Components;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 

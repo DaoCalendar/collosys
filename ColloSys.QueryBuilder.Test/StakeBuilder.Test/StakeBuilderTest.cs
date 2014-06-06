@@ -1,7 +1,4 @@
-﻿using System;
-using ColloSys.DataLayer.Domain;
-using ColloSys.QueryBuilder.BaseTypes;
-using ColloSys.QueryBuilder.StakeholderBuilder;
+﻿using ColloSys.QueryBuilder.StakeholderBuilder;
 using NUnit.Framework;
 using System.Linq;
 

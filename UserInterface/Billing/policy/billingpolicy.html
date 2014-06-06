@@ -1,6 +1,6 @@
-﻿<cs-form layout="3.4.8">
-    <div data-ng-form="payoutTwoPolicyForm">
-        <div class="row">
+﻿<div data-ng-form="payoutTwoPolicyForm">
+    <div class="row">
+        <cs-form layout="3.4.8">
             <cs-field data-ng-model="billingpolicy.Products" data-ng-change="onParamChange('product')"
                       field="BillingPolicyModel.Products"></cs-field>
 
@@ -23,99 +23,65 @@
                 <cs-field data-ng-model="billingpolicy.PolicyForId"
                           field="BillingPolicyModel.PolicyForProduct" data-ng-disabled="true" data-ng-change="getSubpolicyList(billingpolicy.Products)"></cs-field>
             </div>
-        </div>
+        </cs-form>
+    </div>
 
-        <div class="col-md-9" data-ng-show="billingpolicy.Products">
-            <cs-dual-list config="config" selected="selected"
-                          on-click="displaySubpolicyDetails()"
-                          on-move="moveSubpolicy()"></cs-dual-list>
-        </div>
-        
-        <!--<div class="col-md-5">
-            <cs-list value-list="ExpiredAndSubpolicy" text-field="Name"
-                     on-click="displaySubpolicyDetails(billingpolicy.subpolicy, $index)"></cs-list>
-        </div>
-        <div class="col-md-1"></div>
-        <div class="col-md-5">
-            <cs-list value-list="ApproveUnapproved" text-field="Name"
-                     on-click="displaySubpolicyDetails(billingpolicy.subpolicy, $index)"></cs-list>
-        </div>
-        <div class="col-md-1">
-            <div style="height: 150px"></div>
-            <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(billingpolicy.subpolicy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
-            <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(billingpolicy.subpolicy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
-        </div>-->
+    <div class="col-md-9" data-ng-show=" billingpolicy.PolicyForId">
+        <cs-dual-list config="config" selected="selected"
+                      on-click="displaySubpolicyDetails(selected)"
+                      on-move="moveSubpolicy()"></cs-dual-list>
+    </div>
 
-        <div class="row" data-ng-form="policyForm" data-ng-show="dldata.buttonStatus!==''">
-            <div class="col-md-1"></div>
-            <div class="col-md-9">
-                <div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <b class="col-md-2">{{subpolicy.Name}} :({{dldata.buttonStatus}})</b>
-                                <div class="pull-right" style="margin-right: 5px">
+    <div class="row" data-ng-form="policyForm" data-ng-show="buttonStatus!==''">
+        <div class="col-md-offset-1 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <b class="col-md-2">{{selected.selectedItem.Name}} :({{buttonStatus}})</b>
+                        <div class="pull-right" style="margin-right: 5px">
 
-                                    <cs-button type="delete" text="Deactivate"
-                                               data-ng-show="dldata.buttonStatus=='Approved'"
-                                               data-ng-click="openModelDeactivateSubPolicy(subpolicy);"></cs-button>
-                                    <cs-button type="save" text="Activate"
-                                               data-ng-show="dldata.buttonStatus=='Draft'"
-                                               data-ng-click="openModelforDraftSubPolicy(subpolicy,$index);"></cs-button>
+                            <cs-button type="delete" text="Deactivate"
+                                       data-ng-show="buttonStatus=='Approved'"
+                                       data-ng-click="openModelforSubPolicy('Deactivate',selected);"></cs-button>
+                            <cs-button type="save" text="Activate"
+                                       data-ng-show="buttonStatus=='Draft'"
+                                       data-ng-click="openModelforSubPolicy('Activate',selected);"></cs-button>
 
-                                    <cs-button type="add" text="Reactivate"
-                                               data-ng-show="dldata.buttonStatus=='Expired'"
-                                               data-ng-click="openModelReactivateSubPolicy(subpolicy);">
-                                    </cs-button>
+                            <cs-button type="add" text="Reactivate"
+                                       data-ng-show="buttonStatus=='Expired'"
+                                       data-ng-click="openModelforSubPolicy('Reactivate',selected);">
+                            </cs-button>
 
-                                    <cs-button type="save" text="Approve"
-                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                               data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])">
-                                    </cs-button>
+                            <cs-button type="save" text="Approve"
+                                       data-ng-show="buttonStatus=='UnApproved'"
+                                       data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])">
+                            </cs-button>
 
-                                    <cs-button type="save" text="Reject"
-                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                               data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])">
-                                    </cs-button>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row" style="margin-bottom: 5px">
-                                <div class="col-md-6">
-                                    <label class="col-md-4 control-label">Name</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" readonly
-                                               value="{{subpolicy.Name}}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'" style="margin-bottom: 5px">
-                                <div class="col-md-6">
-                                    <label class="col-md-4 control-label">Start Date</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" readonly
-                                               value="{{subpolicy.BillingRelations[0].StartDate|date:'dd-MM-yyyy'}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="col-md-4 control-label">End Date</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" readonly value="{{subpolicy.BillingRelations[0].EndDate|date:'dd-MM-yyyy'}}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" ng-if="false">
-                                <cs-output tokens-list="displaySubPolicy.outputTokens"></cs-output>
-                            </div>
-                            <div class="row" ng-if="false">
-                                <cs-condition tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
-                            </div>
+                            <cs-button type="save" text="Reject"
+                                       data-ng-show="buttonStatus=='UnApproved'"
+                                       data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])">
+                            </cs-button>
                         </div>
                     </div>
+                </div>
+                <div class="panel-body">
+                    <cs-forKDm layout="6.4.6">
+                        <cs-field field="BillingPolicyModel.Name" ng-model="selected.selectedItem.Name" ng-disabled="true"></cs-field>
+                        <div data-ng-show="buttonStatus!=='Draft'">
+                            <cs-field field="BillingPolicyModel.startDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].StartDate"></cs-field>
+                            <cs-field field="BillingPolicyModel.endDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].EndDate"></cs-field>
+                        </div>
+                        <div class="row">
+                            <cs-output table-name="BillingSubpolicy"
+                                       tokens-list="displaySubPolicy.outputTokens"></cs-output>
+                        </div>
+                        <div class="row">
+                            <cs-condition table-name="BillingSubpolicy"
+                                          tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
+                        </div>
+                    </cs-forKDm>
                 </div>
             </div>
         </div>
     </div>
-</cs-form>
+</div>

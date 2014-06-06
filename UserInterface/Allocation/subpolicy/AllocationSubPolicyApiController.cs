@@ -51,7 +51,7 @@ namespace UserInterfaceAngular.app
             var data =
                 GKeyValueBuilder.GetAll()
                                 .Where(
-                                    x => x.Area == ColloSysEnums.Activities.Allocation && x.Key == "DoNotAllocateReason")
+                                    x => x.Area == ColloSysEnums.Activities.Allocation && x.ParamName == "DoNotAllocateReason")
                                 .Select(x => x.Value)
                                 .ToList();
             return Request.CreateResponse(HttpStatusCode.OK, data);

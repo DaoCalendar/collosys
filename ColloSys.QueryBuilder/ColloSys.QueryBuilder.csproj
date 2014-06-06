@@ -89,7 +89,6 @@
     <Compile Include="FileUploadBuilder\FileSchedulerBuilder.cs" />
     <Compile Include="FileUploadBuilder\FileStatusBuilder.cs" />
     <Compile Include="FileUploadBuilder\FileValueMappingBuilder.cs" />
-    <Compile Include="GenericBuilder\GConfigBuilder.cs" />
     <Compile Include="GenericBuilder\GKeyValueBuilder.cs" />
     <Compile Include="GenericBuilder\GPermissionBuilder.cs" />
     <Compile Include="GenericBuilder\GPincodeBuilder.cs" />

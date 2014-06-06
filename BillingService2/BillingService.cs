@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BillingService2.Calculation;
 using BillingService2.DBLayer;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 

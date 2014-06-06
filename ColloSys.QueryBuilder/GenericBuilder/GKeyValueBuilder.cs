@@ -3,7 +3,6 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.TransAttributes;
@@ -33,7 +32,7 @@ namespace ColloSys.QueryBuilder.GenericBuilder
         public IEnumerable<string> ValueListOnAreaKey(ColloSysEnums.Activities activities,string key)
         {
             return SessionManager.GetCurrentSession().QueryOver<GKeyValue>()
-                                 .Where(x => x.Area == activities && x.Key == key)
+                                 .Where(x => x.Area == activities && x.ParamName == key)
                                  .Select(x => x.Value)
                                  .List<string>();
         }

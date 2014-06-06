@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Win32.SafeHandles;
 using NUnit.Framework;
 using FileUploader.ValueSetters;
 
