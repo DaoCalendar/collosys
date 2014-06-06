@@ -128,6 +128,18 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy/addedit/:mode', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
+            }).when('/Legal/RequisitionPreparation', {
+                templateUrl: baseUrl + 'Legal/RequisitionPreparation/RequisitionPreparation.html',
+                controller: 'RequisitionCtrl'
+            }).when('/Legal/RequsitionIntiation', {
+                templateUrl: baseUrl + 'Legal/RequsitionIntiation/RequsitionIntiation.html',
+                controller: 'RequsitionIntiationCtrl'
+            }).when('/Legal/LegalCaseexecution', {
+                templateUrl: baseUrl + 'Legal/LegalCaseexecution/LegalCaseexecution.html',
+                controller: 'LegalCaseexecutionCtrl'
+            }).when('/Legal/FollowUp', {
+                templateUrl: baseUrl + 'Legal/FollowUp/FollowUp.html',
+                controller: 'FollowUpCtrl'
             })
 
             //allocation

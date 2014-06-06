@@ -313,6 +313,15 @@
     <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
+    <Content Include="Legal\Follow-Up\Follow-Up.html" />
+    <Content Include="Legal\Follow-Up\Follow-Up.js" />
+    <Content Include="Legal\Legal.js" />
+    <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.html" />
+    <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.js" />
+    <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.html" />
+    <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.js" />
+    <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.html" />
+    <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.js" />
