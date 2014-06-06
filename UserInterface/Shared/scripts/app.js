@@ -145,7 +145,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             //billing
             .when('/billing/policy', {
                 templateUrl: baseUrl + 'Billing/policy/billingpolicy.html',
-                controller: 'payoutPolicyCtrl'
+                controller: 'newpolicyController'
             }).when('/billing/subpolicy', {
                 templateUrl: baseUrl + 'Billing/subpolicy/billing-subpolicy.html',
                 controller: 'payoutSubpolicyCtrl'
