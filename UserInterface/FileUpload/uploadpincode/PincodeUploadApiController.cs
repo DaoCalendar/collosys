@@ -10,7 +10,6 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Web.Http;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.ExcelWriter;

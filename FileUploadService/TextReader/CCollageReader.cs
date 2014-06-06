@@ -4,13 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.SharedUtils;
-using NHibernate.Linq;
 using NLog;
 using ColloSys.DataLayer.Services.Extensions;
 

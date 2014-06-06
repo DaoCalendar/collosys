@@ -1,6 +1,4 @@
 ﻿
-using ReflectionExtension.ExcelReader;
-
 namespace ColloSys.FileUploader.RowCounter
 {
     public class ExcelRecordCounter : ICounter

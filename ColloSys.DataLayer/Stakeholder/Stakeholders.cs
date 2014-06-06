@@ -1,18 +1,11 @@
-﻿#region references
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Mapping;
-using ColloSys.DataLayer.SharedDomain;
-using ColloSys.DataLayer.Stakeholder;
 
-#endregion
-
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Stakeholder
 {
     public class Stakeholders : Entity
     {

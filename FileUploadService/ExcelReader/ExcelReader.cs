@@ -8,7 +8,6 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.BaseReader;
 using ColloSys.FileUploadService.Excel2DT;

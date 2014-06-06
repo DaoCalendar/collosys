@@ -58,14 +58,14 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             $scope.billingpolicy = {};
             $scope.buttonStatus = "";
             $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
-            $scope.BillingPolicyModel.startDateText = {label:"Start date",type:"text"};
-            $scope.BillingPolicyModel.endDateText = {label:"End date",type:"text"};
+            $scope.BillingPolicyModel.startDateText = { label: "Start date", type: "text" };
+            $scope.BillingPolicyModel.endDateText = { label: "End date", type: "text" };
             $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
                 return (item === "UNKNOWN" || item === "ALL");
             });
             $scope.displaySubPolicy = {
                 conditionTokens: [],
-                outputTokens:[]
+                outputTokens: []
             };
             $scope.config = {};
             $scope.selected = {};
@@ -74,11 +74,13 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
         $scope.onParamChange = function (changed) {
             switch (changed) {
                 case "product":
-                    $scope.billingpolicy.PolicyType = "";
+                    $scope.billingpolicy.PolicyType = undefined;
                 case "policy":
-                    $scope.billingpolicy.PolicyFor = "";
-                    $scope.billingpolicy.PolicyForId = "";
-                    $scope.buttonStatus = "";
+                    $scope.billingpolicy.PolicyFor = undefined;
+                    $scope.billingpolicy.PolicyForId = undefined;
+                    $scope.buttonStatus = undefined;
+                    break;
+                default:
                     break;
             }
         };
@@ -150,25 +152,6 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             }
         };
 
-        $scope.manageUpDownArrow = function (relation, index) {
-            if (angular.isUndefined(relation)) {
-                $scope.direction = { up: true, down: true };
-                return;
-            };
-
-            var isinlist = _.find($scope.ApproveUnapproved, function (item) {
-                return (item.BillingRelations[0].Id === relation.Id);
-            });
-
-            if (angular.isUndefined(isinlist)) {
-                $scope.direction = { up: true, down: true };
-                return;
-            }
-
-            $scope.direction.up = index === 0;
-            $scope.direction.down = $scope.ApproveUnapproved.length === (index + 1);
-        };
-
         $scope.moveUp = function (subpolicy) {
             var index = $scope.ApproveUnapproved.indexOf(subpolicy);
             var tempPriority = $scope.ApproveUnapproved[index].BillingRelations[0].Priority;
@@ -200,15 +183,18 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 bodyText: 'Are you sure you want to ' + activity + ' Subpolicy : ' + subpolicy + '?'
             };
             modalService.showModal({}, modalOptions).then(function () {
-                datalayer.save({
+                $scope.BillingSubpolicyForsave = {
                     Activity: activity,
                     Subpolicy: subpolicy,
                     Policy: $scope.billingpolicy.policy
+                };
+                datalayer.saveSubpolicylist($scope.BillingSubpolicyForsave).then(function () {
+                    $csnotify.success("Subpolicy saved");
                 });
             });
         };
 
-        $scope.openModelforSubPolicy = function (activity, subpolicy) {
+        $scope.openModelforSubPolicy = function (activity, selected) {
             var modalInstance = $modal.open({
                 templateUrl: baseUrl + 'Billing/policy/date-modal.html',
                 controller: 'billingPolicymodal',
@@ -217,27 +203,30 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                     pageData: function () {
                         return {
                             Activity: activity,
-                            Subpolicy: subpolicy
+                            Subpolicy: selected.selectedItem
                         };
                     }
                 }
             });
 
             modalInstance.result.then(function (data) {
-                datalayer.save({
+                $scope.BillingSubpolicyForsave = {
                     Activity: activity,
                     Subpolicy: subpolicy,
                     Policy: $scope.billingpolicy.policy,
                     StartDate: data.startDate,
                     EndDate: data.endDate
+                };
+                datalayer.saveSubpolicylist($scope.BillingSubpolicyForsave).then(function () {
+                    $csnotify.success("Subpolicy saved");
                 });
             });
 
         };
     }]);
 
-csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', '$csModels',
-    function ($scope, pageData, $modalInstance, $csModels) {
+csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', '$csModels', '$csnotify',
+    function ($scope, pageData, $modalInstance, $csModels, $csnotify) {
 
         (function () {
             $scope.pageData = pageData;
@@ -246,8 +235,14 @@ csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', 
 
         $scope.modelDateValidation = function (startDate, endDate) {
             if (angular.isUndefined(endDate) || endDate == null) {
-                $scope.dldata.isModalDateValid = true;
+                $scope.isModalDateValid = true;
                 return;
+            }
+            startDate = moment(startDate);
+            endDate = moment(endDate);
+            $scope.isModalDateValid = (endDate > startDate);
+            if ($scope.isModalDateValid === false) {
+                $csnotify.success("EndDate should be Greater Than StartDate");
             }
         };
 

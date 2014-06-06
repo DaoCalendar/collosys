@@ -1,65 +1,29 @@
-﻿#region references
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.SharedDomain;
-using Iesi.Collections.Generic;
-using NHibernate;
 
-#endregion
-
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Generic
 {
     public class GPincode : Entity
     {
+        public virtual IList<CLiner> CLiners { get; set; }
+        public virtual IList<CWriteoff> CWriteoffs { get; set; }
+        public virtual IList<CustomerInfo> Infos { get; set; }
+        public virtual IList<RLiner> RLiners { get; set; }
+        public virtual IList<RWriteoff> RWriteoffs { get; set; }
+        public virtual IList<ELiner> ELiners { get; set; }
+        public virtual IList<EWriteoff> EWriteoffs { get; set; }
 
-        #region relationships
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    if (!NHibernateUtil.IsInitialized(CLiners) || forceEmpty) CLiners = null;
-        //    if (!NHibernateUtil.IsInitialized(CWriteoffs) || forceEmpty) CWriteoffs = null;
-        //    if (!NHibernateUtil.IsInitialized(RLiners) || forceEmpty) RLiners = null;
-        //    if (!NHibernateUtil.IsInitialized(RWriteoffs) || forceEmpty) RWriteoffs = null;
-        //    if (!NHibernateUtil.IsInitialized(ELiners) || forceEmpty) ELiners = null;
-        //    if (!NHibernateUtil.IsInitialized(EWriteoffs) || forceEmpty) EWriteoffs = null;
-        //}
-
-        public virtual ISet<CLiner> CLiners { get; set; }
-        public virtual ISet<CWriteoff> CWriteoffs { get; set; }
-        public virtual ISet<CustomerInfo> Infos { get; set; }
-        public virtual ISet<RLiner> RLiners { get; set; }
-        public virtual ISet<RWriteoff> RWriteoffs { get; set; }
-        public virtual ISet<ELiner> ELiners { get; set; }
-        public virtual ISet<EWriteoff> EWriteoffs { get; set; }
-
-        #endregion
-
-        #region Properties
         public virtual string Country { get; set; }
-
         public virtual uint Pincode { get; set; }
-
         public virtual string Area { get; set; }
-
         public virtual string City { get; set; }
-
         public virtual string District { get; set; }
-
         public virtual string Cluster { get; set; }
-
         public virtual string State { get; set; }
-
         public virtual string Region { get; set; }
-
         public virtual bool IsInUse { get; set; }
-
-        public virtual ColloSysEnums.CityCategory CityCategory { get; set; }
-
-      //  public virtual StakeAddress StakeAddress { get; set; }
-        #endregion
-
-       
+        public virtual string CityCategory { get; set; }
     }
 }

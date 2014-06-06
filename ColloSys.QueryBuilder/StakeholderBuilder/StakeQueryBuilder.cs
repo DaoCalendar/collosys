@@ -3,15 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;

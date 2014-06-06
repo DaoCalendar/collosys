@@ -1,5 +1,4 @@
 ﻿using ColloSys.DataLayer.ClientData;
-using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploaderService;
 using NUnit.Framework;
 using ReflectionExtension.Tests.DataCreator.FileUploader;

@@ -3,8 +3,6 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
 using System.Linq;
-using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.FileUploadBuilder;

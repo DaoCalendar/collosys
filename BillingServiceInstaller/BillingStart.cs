@@ -1,5 +1,4 @@
 ﻿using BillingService2;
-using ColloSys.BillingService;
 using NLog;
 
 namespace ColloSys.BillingServiceInstaller

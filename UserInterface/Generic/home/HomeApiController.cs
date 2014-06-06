@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using System.Net;
 using System.Linq;
 using System.Net.Http;

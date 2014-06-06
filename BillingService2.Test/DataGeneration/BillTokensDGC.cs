@@ -1,9 +1,8 @@
 ﻿#region references
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 
 #endregion
@@ -521,7 +520,7 @@ namespace ColloSys.QueryBuilder.Test.DataGeneration
                     TotalAmountRecovered = j * 10000,
                     TotalDueOnAllocation = j * 15000,
                     Product = ScbEnums.Products.PL,
-                    CityCategory = ColloSysEnums.CityCategory.Tier1,
+                    CityCategory = "Tier1",
                     City = "pune",
                     Flag = ColloSysEnums.DelqFlag.O
                 });

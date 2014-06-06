@@ -1,5 +1,4 @@
 ﻿using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 
 namespace ColloSys.UserInterface.Areas.Billing.ViewModels
 {

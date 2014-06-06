@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ColloSys.AllocationService.Generic;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
-using ColloSys.Shared.Types4Product;
 
 #endregion
 

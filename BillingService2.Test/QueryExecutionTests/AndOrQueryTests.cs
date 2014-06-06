@@ -237,7 +237,7 @@ namespace ColloSys.QueryBuilder.Test.QueryExecutionTests
         {
             // condition : City = "Pune" &&  CityCategory = "Tier1" && Flag = "O" && Product = "PL"
             var actualDataList = _testingBillTokens.GenerateData();
-            var actual = actualDataList.Where(x => x.City == "Pune" && x.CityCategory == ColloSysEnums.CityCategory.Tier1
+            var actual = actualDataList.Where(x => x.City == "Pune" && x.CityCategory == "Tier1"
                                 && x.Flag == ColloSysEnums.DelqFlag.O && x.Product == ScbEnums.Products.PL).ToList();
 
             var tokens = _testingBillTokens.City_CityCategory_Flag_Product_Tokens();

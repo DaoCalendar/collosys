@@ -1,7 +1,7 @@
 ﻿using System;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace ColloSys.DataLayer.Billing
 {

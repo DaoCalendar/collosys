@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 
 namespace AngularUI.Shared.webapis

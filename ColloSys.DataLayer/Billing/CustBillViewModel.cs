@@ -1,7 +1,8 @@
 ﻿using System;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace ColloSys.DataLayer.Billing
 {
@@ -27,7 +28,7 @@ namespace ColloSys.DataLayer.Billing
 
         public virtual uint Vintage { get; set; }
 
-        public virtual ColloSysEnums.CityCategory CityCategory { get; set; }
+        public virtual string CityCategory { get; set; }
 
         public virtual string City { get; set; }
 

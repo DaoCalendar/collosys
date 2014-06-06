@@ -1,17 +1,11 @@
-﻿#region References
+﻿using ColloSys.DataLayer.BaseEntity;
 
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
-
-#endregion
-
-namespace ColloSys.DataLayer.Infra.Mapping
+namespace ColloSys.DataLayer.Generic
 {
     public class ProductConfigMap : EntityMap<ProductConfig>
     {
         public ProductConfigMap()
         {
-            Table("G_PRODUCTCONFIG");
             Property(x => x.Product, map => map.UniqueKey("UK_PRODUCT_PRODUCTNAME"));
             Property(x => x.ProductGroup);
             Property(x => x.AllocationResetStrategy);

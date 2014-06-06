@@ -1,19 +1,16 @@
 ﻿#region references
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.ClientDataBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
-using ColloSys.DataLayer.Enumerations;
 
 #endregion
 
@@ -22,8 +19,8 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
 {
     public class PincodeApiController : BaseApiController<GPincode>
     {
-        private static readonly GPincodeBuilder GPincodeBuilder=new GPincodeBuilder();
-        private static readonly InfoBuilder InfoBuilder=new InfoBuilder();
+        private static readonly GPincodeBuilder GPincodeBuilder = new GPincodeBuilder();
+        private static readonly InfoBuilder InfoBuilder = new InfoBuilder();
 
         [HttpGet]
         public HttpResponseMessage GetStates()
@@ -93,7 +90,7 @@ namespace ColloSys.UserInterface.Areas.Generic.apiController
         [HttpGet]
         public IEnumerable<string> GetCityCategory()
         {
-           return Enum.GetNames(typeof (ColloSysEnums.CityCategory));
+            return new[] { "Tier1", "Tier2" };
         }
 
         [HttpPost]

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.AliasRecordCreator;

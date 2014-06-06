@@ -8,6 +8,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.Shared.DbLayer;
 

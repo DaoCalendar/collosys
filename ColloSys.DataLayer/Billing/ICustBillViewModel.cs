@@ -25,7 +25,7 @@ namespace ColloSys.DataLayer.Billing
 
         uint Vintage { get; set; }
 
-        ColloSysEnums.CityCategory CityCategory { get; set; }
+        string CityCategory { get; set; }
 
         string City { get; set; }
 

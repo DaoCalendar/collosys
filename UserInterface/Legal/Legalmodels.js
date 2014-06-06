@@ -2,7 +2,12 @@
 
     var requisitionPreparation = function () {
         return {
-            Requis: { label: 'Select', type: 'radio', options: [{ value: 'Add', display: 'Add' }, { value: 'Edit', display: 'Edit' }, { value: 'Approve', display: 'Approve' }], textField: 'display', valueField: 'value' },
+            Prepare: { label: 'Select options', type: 'radio', options: [{ value: 'Add', display: 'Add' }, { value: 'Edit', display: 'Edit' }, { value: 'Approve', display: 'Approve' }], textField: 'display', valueField: 'value' },
+            City: { label: 'City', type: 'select' },
+            Products:{label: 'Products', type: 'select'},
+            LoanNo: { label: 'Loan No', type: 'text' },
+            LoanStatus: { label: 'Loan Status', type: 'select' },
+            CaseStatus: { label: 'Case Status', type: 'select' },
         };
     };
 
@@ -17,48 +22,19 @@
     //];
     $scope.requisitionIntiation = function () {
         return {
-           Function: { label: 'Function', type: 'radio', options: [{ value: 'Intiate', display: 'Intiate' }, { value: 'Intiated', display: 'Intiated' }], textField: 'display', valueField: 'value' },
-          Location: { label: "Location", type: "select", textField: "state", valueField: "row"},
-          Division: { label: "Division", type: "select", textField: "District", valueField: "row"},
+           Function: { label: 'Function', type: 'radio'},
+          Location: { label: "Location", type: "select", textField: "state", valueField: "District", valueList: $scope.location },
+          Division: { label: "Division", type: "select", textField: "District", valueField: "District", valueList: $scope.location },
           LoanNo: { label: "Loan No", type: "text"},
           DateFrom: { label: "Loan Date From", type: "text"},
           DateTo: { label: "Loan Date To", type: "text"},
-          RequsitionNo: { label: "Requsition No", type: "text"},
+          RequsitionNo: { label: "Requsition No", type: "text" },
           RequsitionDateFrom: { label: "Requsition Date From", type: "text"},
-          RequsitionDateTo: { label: "Requsition Date To", type: "text" },
+          RequsitionDateTo: { label: "Requsition Date To", type: "text"},
 
         };
     };
 
-   var legalCaseexecution = function() {
-        return {
-            withDraw: { type: 'radio' },
-            Location: { label: "Location", type: "select", textField: "state", valueField: "row" },
-            Division: { label: "Division", type: "select", textField: "District", valueField: "row" },
-            LoanNo: { label: "Loan No", type: "text" },
-            PartyName: { label: "Party Name", type: "text" },
-            AdvocateName: { label: "Advocate Name", type: "text" },
-            LoanStatus: { label: "Loan Status", type: "select", textField: "Name", valueField: "row" },
-            LoanClosestatus: { label: "Loan close status", type: "select", textField: "Name", valueField: "row" },
-        };
-    };
-
-    var followUp = function() {
-        return {
-            withDraw: { type: 'radio' },
-            Location: { label: "Location", type: "select", textField: "state", valueField: "row" },
-            Division: { label: "Division", type: "select", textField: "District", valueField: "row" },
-            LoanNo: { label: "Loan No", type: "text" },
-            DateFrom: { label: "Loan Date From", type: "text" },
-            DateTo: { label: "Loan Date To", type: "text" },
-            RequsitionNo: { label: "Requsition No", type: "text" },
-            RequsitionDateFrom: { label: "Requsition Date From", type: "text" },
-            RequsitionDateTo: { label: "Requsition Date To", type: "text" },
-            AdvocateName: { label: "Advocate Name", type: "text" }
-        };
-    };
-
-    
 
     var init = function () {
         var models = {};
@@ -72,17 +48,6 @@
             Table: "RequsitionIntiation",
             Columns: requisitionIntiation(),
         };
-
-
-        models.LegalCaseexecution = {
-            Table: "LegalCaseexecution",
-            Columns: legalCaseexecution(),
-        };
-        models.FollowUp = {
-            Table: "FollowUp",
-            Columns: followUp(),
-        };
-       
         return models;
     };
 

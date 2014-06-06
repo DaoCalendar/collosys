@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using NHibernate;
 
 #endregion
