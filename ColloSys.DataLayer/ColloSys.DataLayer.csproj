@@ -131,10 +131,6 @@
     <Compile Include="Components\IDelinquentCustomer.cs" />
     <Compile Include="BaseEntity\EntityMap.cs" />
     <Compile Include="Components\IUniqueKey.cs" />
-    <Compile Include="Dhfl\DHFL_Info.cs" />
-    <Compile Include="Dhfl\DHFL_InfoMap.cs" />
-    <Compile Include="Dhfl\DHFL_Liner.cs" />
-    <Compile Include="Dhfl\DHFL_LinerMap.cs" />
     <Compile Include="Enumerations\ScbEnums.cs" />
     <Compile Include="Generic\GTaxDetail.cs" />
     <Compile Include="Generic\GTaxDetailMap.cs" />
