@@ -223,17 +223,8 @@
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
     <Compile Include="Shared\webapis\SharedEnumsApiController.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
-    <Compile Include="Stakeholder\AddEdit2\AddStakeHolderApiController.cs" />
-    <Compile Include="Stakeholder\AddEdit2\AddStakeholderModel.cs" />
-    <Compile Include="Stakeholder\AddEdit2\BasicInfo\StakeholderApiController.cs" />
-    <Compile Include="Stakeholder\AddEdit2\FinalPostModel.cs" />
-    <Compile Include="Stakeholder\AddEdit2\ListValue.cs" />
-    <Compile Include="Stakeholder\AddEdit2\Stake_Payment\PaymentDetailsApiController.cs" />
-    <Compile Include="Stakeholder\AddEdit2\Stake_Working\ManageWorkingModel.cs" />
-    <Compile Include="Stakeholder\AddEdit2\Stake_Working\WorkingModel.cs" />
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\view\StakeholderApproveEmail.cs" />
-    <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\allocationModels.js" />
@@ -573,22 +564,9 @@
     <Content Include="Shared\templates\multi-if-else-directive.html" />
     <Content Include="Shared\templates\output-directive.html" />
     <Content Include="Stakeholder\AddEdit2\AddBasicIndex.html" />
-    <Content Include="Stakeholder\AddEdit2\Address\address.html" />
-    <Content Include="Stakeholder\AddEdit2\Address\AddressInfo.js" />
     <Content Include="Stakeholder\AddEdit2\AddStakeholder.js" />
     <Content Include="Stakeholder\AddEdit2\BasicInfo\basic.html" />
     <Content Include="Stakeholder\AddEdit2\BasicInfo\BasicInfoScript.js" />
-    <Content Include="Stakeholder\AddEdit2\Hierarchy\hierarchy.html" />
-    <Content Include="Stakeholder\AddEdit2\Hierarchy\HierarchyModel.js" />
-    <Content Include="Stakeholder\AddEdit2\Registration\registration.html" />
-    <Content Include="Stakeholder\AddEdit2\Registration\RegistrationDetails.js" />
-    <Content Include="Stakeholder\AddEdit2\show-working-payment.html" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Payment\payment.html" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Payment\Payments.js" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Working\DeleteWorkingPopUp.html" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Working\multiselectPopUp.html" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Working\working.html" />
-    <Content Include="Stakeholder\AddEdit2\Stake_Working\WorkingScript.js" />
     <Content Include="Stakeholder\hierarchy\hierarchy-add.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy-edit.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy-grid.html" />

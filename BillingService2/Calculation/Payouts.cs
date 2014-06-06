@@ -7,6 +7,7 @@ using BillingService2.DBLayer;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.Test.QueryExecution;
 using NLog;
 

@@ -311,6 +311,7 @@ namespace ColloSys.DataLayer.Enumerations
         {
             OneLevelUp,
             TwoLevelUp,
+            ThreeLevelUp,
             AllLevels
         }
 

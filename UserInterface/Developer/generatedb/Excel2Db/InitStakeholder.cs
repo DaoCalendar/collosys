@@ -5,6 +5,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
 {
@@ -100,9 +101,6 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
         {
             var payment = new StkhPayment
                 {
-                    BankAccName = "State bank of India",
-                    BankAccNo = "12365478911",
-                    BankIfscCode = "",
                     EndDate = DateTime.Now.AddMonths(6),
                     FixpayBasic = 1000,
                     FixpayHra = 2000,

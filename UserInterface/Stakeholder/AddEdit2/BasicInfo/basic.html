@@ -1,43 +1,42 @@
 ﻿<cs-form>
-
     <cs-field data-ng-model="Selected.Hierarchy"
               data-ng-change="changeInHierarchy(Selected.Hierarchy)"
               value-list="params.HierarchyList"
-              field="stakeholderModels.Hierarchy"></cs-field>
+              field="models.Stakeholder.Hierarchy"></cs-field>
     <cs-field data-ng-if="Selected.Hierarchy"
               data-ng-model="Selected.Designation"
               value-list="params.DesignationList"
               data-ng-change="assignSelectedHier(hierarchy.Designation)"
-              field="stakeholderModels.Designation"></cs-field>
+              field="models.Stakeholder.Designation"></cs-field>
 
-    <cs-field data-ng-model="Stakeholder.Name" 
-              field="stakeholderModels.Name"></cs-field>
+    <cs-field data-ng-model="Stakeholder.Name"
+              field="models.Stakeholder.Name"></cs-field>
     <cs-field data-ng-if="basicInfoData.Hierarchy.IsUser"
               data-ng-model="Stakeholder.ExternalId"
               data-ng-change="checkUser(Stakeholder.ExternalId)"
-              field="stakeholderModels.userId"></cs-field>
+              field="models.Stakeholder.userId"></cs-field>
     <cs-field data-ng-model="Stakeholder.MobileNo"
-              field="stakeholderModels.mobile"></cs-field>
+              field="models.Stakeholder.mobile"></cs-field>
     <cs-field data-ng-model="Stakeholder.EmailId"
-              field="stakeholderModels.email"></cs-field>
+              field="models.Stakeholder.email"></cs-field>
     <cs-field data-ng-if="SelectedHierarchy.ManageReportsTo"
               value-list="ReportsToList"
               data-ng-model="Stakeholder.ReportingManager"
-              field="stakeholderModels.manager"></cs-field>
+              field="models.Stakeholder.manager"></cs-field>
     <cs-field data-ng-model="Stakeholder.JoiningDate"
-              field="stakeholderModels.date"></cs-field>
+              field="models.Stakeholder.date"></cs-field>
 
     <div data-ng-if="SelectedHierarchy.HasAddress">
         <cs-field data-ng-model="Stakeholder.GAddress[0].Line1"
-                  field="stakeholderModels.line1"></cs-field>
+                  field="models.StkhAddress.Line1"></cs-field>
         <cs-field data-ng-model="Stakeholder.GAddress[0].Line2"
-                  field="stakeholderModels.line2"></cs-field>
+                  field="models.StkhAddress.line2"></cs-field>
         <cs-field data-ng-model="Stakeholder.GAddress[0].Line3"
-                  field="stakeholderModels.line3"></cs-field>
+                  field="models.StkhAddress.line3"></cs-field>
         <cs-field data-ng-model="Stakeholder.GAddress[0].LandlineNo"
-                  field="stakeholderModels.landline"></cs-field>
+                  field="models.StkhAddress.landline"></cs-field>
         <cs-field data-ng-model="addData.Pincode"
-                  field="stakeholderModels.pincode"
+                  field="models.StkhAddress.pincode"
                   typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
                   typeahead-min-length="3"
                   typeahead-wait-ms="400"></cs-field>
