@@ -53,14 +53,14 @@
     <div class="container-fluid" ng-init="verticalMenu = true">
         <div ng-if="verticalMenu">
             <div class="col-md-1" style="padding: 0">
-                <div data-ng-include="baseUrl +'Generic/Menu/menu-vertical.html'" data-ng-controller="menuController"></div>
+                <div data-ng-include="baseUrl +'Generic/menus/menu-vertical.html'" data-ng-controller="menuController"></div>
             </div>
             <div class="col-md-11 vertical-menu-body">
                 <div data-ng-view=""></div>
             </div>
         </div>
         <div ng-if="!verticalMenu">
-            <div data-ng-include="baseUrl +'Generic/Menu/menu.html'" data-ng-controller="menuController"></div>
+            <div data-ng-include="baseUrl +'Generic/menus/menu.html'" data-ng-controller="menuController"></div>
             <div class="top-menu-body">
                 <div data-ng-view=""></div>
             </div>
