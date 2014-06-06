@@ -26,21 +26,25 @@
         </div>
 
         <div class="col-md-9" data-ng-show="billingpolicy.Products">
-            <div class="col-md-5">
-                <cs-list list-heading="Draft/Expired SubPolicy" value-list="ExpiredAndSubpolicy" text-field="Name"
-                         data-ng-model="billingpolicy.subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <cs-list list-heading="Approved/UnApproved SubPolicy" value-list="ApproveUnapproved" text-field="Name"
-                         data-ng-model="billingpolicy.subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
-            </div>
-            <div class="col-md-1">
-                <div style="height: 100px"></div>
-                <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(subpolicy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
-                <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(subpolicy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
-            </div>
+            <cs-dual-list config="config" selected="selected"
+                          on-click="displaySubpolicyDetails()"
+                          on-move="moveSubpolicy()"></cs-dual-list>
         </div>
+        
+        <!--<div class="col-md-5">
+            <cs-list value-list="ExpiredAndSubpolicy" text-field="Name"
+                     on-click="displaySubpolicyDetails(billingpolicy.subpolicy, $index)"></cs-list>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+            <cs-list value-list="ApproveUnapproved" text-field="Name"
+                     on-click="displaySubpolicyDetails(billingpolicy.subpolicy, $index)"></cs-list>
+        </div>
+        <div class="col-md-1">
+            <div style="height: 150px"></div>
+            <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(billingpolicy.subpolicy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
+            <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(billingpolicy.subpolicy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
+        </div>-->
 
         <div class="row" data-ng-form="policyForm" data-ng-show="dldata.buttonStatus!==''">
             <div class="col-md-1"></div>
@@ -102,10 +106,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" ng-if="false">
                                 <cs-output tokens-list="displaySubPolicy.outputTokens"></cs-output>
                             </div>
-                            <div class="row">
+                            <div class="row" ng-if="false">
                                 <cs-condition tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
                             </div>
                         </div>
