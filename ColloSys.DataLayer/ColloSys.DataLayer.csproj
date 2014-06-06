@@ -200,8 +200,8 @@
     <Compile Include="ClientData\Payment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Stakeholder\StakeHierarchy.cs" />
-    <Compile Include="Stakeholder\StakeHierarchyMap.cs" />
+    <Compile Include="Stakeholder\StkhHierarchy.cs" />
+    <Compile Include="Stakeholder\StkhHierarchyMap.cs" />
     <Compile Include="Stakeholder\Stakeholders.cs" />
     <Compile Include="Stakeholder\StakeholdersMap.cs" />
     <Compile Include="Stakeholder\StkhPayment.cs" />

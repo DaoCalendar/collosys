@@ -6,6 +6,7 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 using NHibernate;
 
 #endregion

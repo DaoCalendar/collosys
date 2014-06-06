@@ -3,6 +3,7 @@ using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.Shared.SharedUtils;
 using NHibernate.Linq;

@@ -1,4 +1,6 @@
-﻿#region references
+﻿using ColloSys.DataLayer.Stakeholder;
+
+#region references
 
 using System;
 using System.Collections.Generic;
@@ -647,10 +649,15 @@ namespace AngularUI.Stakeholder.view
             _log.Info("Stakeholders Workings Rejected");
         }
 
+        private static void SetApproveRejectStatus(Stakeholders approved, ColloSysEnums.ApproveStatus status)
+        {
+            approved.Status = status;
+            approved.ApprovedOn = DateTime.Now;
+        }
+
         private static void SetApproveRejectStatus(IApproverComponent approved, ColloSysEnums.ApproveStatus status)
         {
             approved.Status = status;
-            // approved.ApprovedBy = AuthService.CurrentUser;
             approved.ApprovedOn = DateTime.Now;
         }
 
@@ -800,7 +807,6 @@ namespace AngularUI.Stakeholder.view
                 foreach (var stkhRegistration in stakeholders.StkhRegistrations)
                 {
                     stkhRegistration.Stakeholder = stakeholders;
-                    stkhRegistration.Description = stakeholders.Description;
                 }
             }
         }
@@ -812,7 +818,6 @@ namespace AngularUI.Stakeholder.view
                 foreach (var stkhPayment in stakeholders.StkhPayments)
                 {
                     stkhPayment.Stakeholder = stakeholders;
-                    stkhPayment.Description = stakeholders.Description;
                 }
             }
         }
@@ -835,7 +840,6 @@ namespace AngularUI.Stakeholder.view
                 foreach (var gWorking in stakeholders.StkhWorkings)
                 {
                     gWorking.Stakeholder = stakeholders;
-                    gWorking.Description = stakeholders.Description;
                 }
             }
         }
