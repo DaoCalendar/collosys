@@ -53,22 +53,15 @@ namespace AngularUI.Allocation.policy
 
             // create new alloc policy
             var savedAllocSubpolicyIds = new List<Guid>();
-            if (allocPolicy == null)
+            // make alloc subpolicy empty, json serialization hack
+            foreach (var relations in allocPolicy.AllocRelations)
             {
-                allocPolicy = new AllocPolicy() { Name = products + "_" + category, Products = products, Category = category };
-            }
-            else
-            {
-                // make alloc subpolicy empty, json serialization hack
-                foreach (var relations in allocPolicy.AllocRelations)
-                {
-                    relations.AllocSubpolicy.MakeEmpty();
+                relations.AllocSubpolicy.MakeEmpty();
 
-                    if (relations.AllocSubpolicy.Stakeholder != null)
-                        relations.AllocSubpolicy.Stakeholder.MakeEmpty();
+                if (relations.AllocSubpolicy.Stakeholder != null)
+                    relations.AllocSubpolicy.Stakeholder.MakeEmpty();
 
-                    savedAllocSubpolicyIds.Add(relations.AllocSubpolicy.Id);
-                }
+                savedAllocSubpolicyIds.Add(relations.AllocSubpolicy.Id);
             }
 
             var allocSubpolicies = AllocSubpolicyBuilder.OnProductCategorySubPolicyGuids(products, category,

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Mapping;
@@ -10,7 +11,7 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 
 namespace AngularUI.Billing.holdingpolicy
 {
-    public class ActivateHoldingApiController : BaseApiController<ActivateHoldingPolicy>
+    public class ActivateHoldingApiController : BaseApiController<StkhHoldingPolicy>
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HoldingPolicyBuilder HoldingPolicyBuilder = new HoldingPolicyBuilder();
@@ -53,7 +54,7 @@ namespace AngularUI.Billing.holdingpolicy
         [HttpGet]
         public HttpResponseMessage GetData()
         {
-            var data = Session.QueryOver<ActivateHoldingPolicy>().Fetch(x => x.HoldingPolicy).Eager
+            var data = Session.QueryOver<StkhHoldingPolicy>().Fetch(x => x.HoldingPolicy).Eager
                               .Fetch(x => x.Stakeholder).Eager
                               .SingleOrDefault();
             return Request.CreateResponse(HttpStatusCode.OK, data);

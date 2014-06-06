@@ -1,4 +1,6 @@
-﻿#region references
+﻿using ColloSys.DataLayer.Allocation;
+
+#region references
 
 using System;
 using System.Collections.Generic;

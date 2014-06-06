@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.Mapping
@@ -19,6 +20,6 @@ namespace ColloSys.DataLayer.Mapping
         
         public virtual int Tenure { get; set; }
 
-        public virtual IList<ActivateHoldingPolicy> ActivateHoldingPolicies { get; set; } 
+        public virtual IList<StkhHoldingPolicy> ActivateHoldingPolicies { get; set; } 
     }
 }

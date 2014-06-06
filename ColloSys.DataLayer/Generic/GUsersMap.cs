@@ -5,14 +5,12 @@ using ColloSys.DataLayer.Domain;
 
 #endregion
 
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.LogSupport
 {
-    public class UsersMap :EntityMap<Users>
+    public class GUsersMap :EntityMap<GUsers>
     {
-        public UsersMap()
+        public GUsersMap()
         {
-            Table("G_USERS");
-
             #region properties
 
             Property(x => x.Username, map=> map.UniqueKey("GUSERS_USERNAME"));

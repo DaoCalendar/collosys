@@ -41,7 +41,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual bool HasRegistration { get; set; }
 
         public virtual IList<GPermission> GPermissions { get; set; }
-        public virtual IList<Users> UsersInRole { get; set; }
+        public virtual IList<GUsers> UsersInRole { get; set; }
         public virtual IList<Stakeholders> Stakeholders { get; set; }
     }
 

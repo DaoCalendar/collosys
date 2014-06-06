@@ -234,8 +234,7 @@ namespace UserInterfaceAngular.app
                 allocPolicy = new AllocPolicy()
                     {
                         Name = products + "_" + category,
-                        Products = products,
-                        Category = category
+                        Products = products
                     };
 
                 var subpolicyRelation = new AllocRelation() { AllocSubpolicy = allocSubpolicy, AllocPolicy = allocPolicy };

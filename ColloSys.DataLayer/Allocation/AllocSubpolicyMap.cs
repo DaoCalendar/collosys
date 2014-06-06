@@ -14,11 +14,11 @@ namespace ColloSys.DataLayer.Mapping
         {
             Property(x => x.Name, map => { map.NotNullable(true); map.UniqueKey("UK_ALLOC_SUBPOLICY"); });
             Property(x => x.Products, map => { map.NotNullable(true); map.UniqueKey("UK_ALLOC_SUBPOLICY"); });
+            Property(x => x.Category, map => map.UniqueKey("UK_ALLOC_SUBPOLICY"));
 
             Property(x => x.AllocateType);
-            Property(x => x.Category, map => map.UniqueKey("UK_ALLOC_SUBPOLICY"));
             Property(x => x.ReasonNotAllocate, map => map.NotNullable(false));
-            Property(x => x.NoAllocMonth, map => map.NotNullable(true));
+            Property(x => x.NoAllocMonth);
             Property(x => x.IsActive);
             Property(x => x.IsInUse);
 

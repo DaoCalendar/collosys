@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Mapping;
 using ColloSys.DataLayer.SharedDomain;
@@ -16,10 +17,10 @@ namespace ColloSys.DataLayer.Domain
     public class Stakeholders : Entity
     {
         public virtual IList<BillAdhoc> BillAdhocs { get; set; }
-        public virtual IList<BillAmount> BillAmounts { get; set; }
+        public virtual IList<BillSummary> BillAmounts { get; set; }
         public virtual IList<BillDetail> BillDetails { get; set; }
         public virtual IList<Allocations> Allocs { get; set; }
-        public virtual IList<ActivateHoldingPolicy> ActivateHoldingPolicies { get; set; }
+        public virtual IList<StkhHoldingPolicy> ActivateHoldingPolicies { get; set; }
         public virtual IList<StkhPayment> StkhPayments { get; set; }
         public virtual IList<StkhRegistration> StkhRegistrations { get; set; }
         public virtual IList<StkhWorking> StkhWorkings { get; set; }

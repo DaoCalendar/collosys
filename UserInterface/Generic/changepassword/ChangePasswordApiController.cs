@@ -15,9 +15,9 @@ using Glimpse.AspNet.Tab;
 
 namespace AngularUI.Generic.changepassword
 {
-    public class ChangePasswordApiController : BaseApiController<Users>
+    public class ChangePasswordApiController : BaseApiController<GUsers>
     {
-        private readonly IRepository<Users> _usersRepo = new GUsersRepository();
+        private readonly IRepository<GUsers> _usersRepo = new GUsersRepository();
 
         [HttpPost]
         public HttpResponseMessage ChangedPassword(ChangePasswordModel changedpassword)

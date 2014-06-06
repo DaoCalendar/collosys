@@ -76,12 +76,12 @@
     <Compile Include="Allocation\AllocSubpolicy.cs" />
     <Compile Include="Allocation\AllocSubpolicyMap.cs" />
     <Compile Include="Allocation\AllocationsMap.cs" />
-    <Compile Include="Billing\ActivateHoldingPolicy.cs" />
-    <Compile Include="Billing\ActivateHoldingPolicyMap.cs" />
+    <Compile Include="Billing\StkhHoldingPolicy.cs" />
+    <Compile Include="Billing\StkhHoldingPolicyMap.cs" />
     <Compile Include="Billing\BillAdhoc.cs" />
     <Compile Include="Billing\BillAdhocMap.cs" />
-    <Compile Include="Billing\BillAmount.cs" />
-    <Compile Include="Billing\BillAmountMap.cs" />
+    <Compile Include="Billing\BillSummary.cs" />
+    <Compile Include="Billing\BillSummaryMap.cs" />
     <Compile Include="Billing\BillDetail.cs" />
     <Compile Include="Billing\BillDetailMap.cs" />
     <Compile Include="Billing\BillingPolicy.cs" />
@@ -167,10 +167,12 @@
     <Compile Include="Components\IPolicyStatusComponent.cs" />
     <Compile Include="Components\ITransactionComponent.cs" />
     <Compile Include="Generic\ProductConfigMap.cs" />
-    <Compile Include="LogSupport\Users.cs" />
-    <Compile Include="LogSupport\UsersMap.cs" />
     <Compile Include="JsonSerialization\DynamicProxyJsonConverter.cs" />
     <Compile Include="JsonSerialization\NHibernateContractResolver.cs" />
+    <Compile Include="Generic\GUsers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Generic\GUsersMap.cs" />
     <Compile Include="NhSetup\AuditEventListener.cs" />
     <Compile Include="NhSetup\AudtingExtended.cs" />
     <Compile Include="NhSetup\AudtingSetup.cs" />

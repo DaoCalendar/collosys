@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
@@ -22,7 +23,7 @@ namespace AngularUI.Billing.billstatus
         }
 
         [HttpPost]
-        public HttpResponseMessage SaveBillStatus(BillAmount amount)
+        public HttpResponseMessage SaveBillStatus(BillSummary amount)
         {
             BillAmountBuilder.Save(amount);
             return Request.CreateResponse(HttpStatusCode.OK);

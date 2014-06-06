@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -24,13 +25,22 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
+        public BillingPolicy OnProductCategory(ScbEnums.Products products)
+        {
+            return SessionManager.GetCurrentSession().Query<BillingPolicy>()
+                                 .Where(x => x.Products == products)
+                                 .FetchMany(x => x.BillingRelations)
+                                 .ThenFetch(r => r.BillingSubpolicy)
+                                 .SingleOrDefault();
+        }
+
+        [Transaction]
         public BillingPolicy OnProductCategory(ScbEnums.Products products, ScbEnums.Category category)
         {
             return SessionManager.GetCurrentSession().Query<BillingPolicy>()
                                  .Where(x => x.Products == products && x.Category == category)
                                  .FetchMany(x => x.BillingRelations)
                                  .ThenFetch(r => r.BillingSubpolicy)
-                                 //.ThenFetch(s => s.BConditions)
                                  .SingleOrDefault();
         }
 
