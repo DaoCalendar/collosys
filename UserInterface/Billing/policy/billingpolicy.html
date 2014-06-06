@@ -67,12 +67,12 @@
 
                                         <cs-button type="save" text="Approve"
                                                    data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                                   data-ng-click="approve(subpolicy.BillingRelations[0])">
+                                                   data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])">
                                         </cs-button>
 
                                         <cs-button type="save" text="Reject"
                                                    data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                                   data-ng-click="reject(subpolicy.BillingRelations[0])">
+                                                   data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])">
                                         </cs-button>
 
                                     </div>

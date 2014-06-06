@@ -43,7 +43,8 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
 
 }]);
 
-csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", "$modal", function ($scope, $csModels, $csShared, datalayer, $csnotify, $modal) {
+csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", "$modal", "modalService",
+    function ($scope, $csfactory, $csModels, $csShared, datalayer, $csnotify, $modal, modalService) {
 
     (function () {
         $scope.datalayer = datalayer;
@@ -211,13 +212,21 @@ csapp.controller("newpolicyController", ["$scope", "$csModels", "$csShared", "ne
         });
     };
 
-    $scope.approve = function (relation) {
-
+    $scope.approveORreject = function (string) {
+        var modalOptions = {
+            actionButtonText: 'Yes',
+            closeButtonText: 'Cancel',
+            headerText: 'Proceed',
+            bodyText: 'Are you sure you want to'  + string +' Subpolicy?'
+        };
+        modalService.showModal({}, modalOptions).then(function () {
+            //save operation perform
+            $csfactory.enableSpinner();
+        }, function() {
+            $csnotify.error("operation failed.....!!");
+        });
     };
-    $scope.reject = function (relation) {
-
-    };
-
+   
     $scope.openModelforDraftSubPolicy = function (subpolicy) {
         $scope.dldata.buttonStatus = null;
         $scope.pageData.Subpolicy = subpolicy;
