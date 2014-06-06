@@ -1,251 +1,46 @@
-﻿<div data-ng-cloak="" data-ng-controller="basicInfoController">
-    <!--Name and UserID-->
-    <cs-form layout="6.4.8">
-        <div class="row">
-            <!--Name-->
-            <cs-field  data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name" field="stakeholderModels.Name"></cs-field>
- 
-            <!--UserId-->
-            <div  data-ng-if="basicInfoData.Hierarchy.IsUser">
-                <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId"
-                          data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)"
-                          field="stakeholderModels.userId"></cs-field>
-            </div>
-        </div>
-        <div class="row">
-            <!--MobileNo and EmailId-->
-            <cs-field data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"
-                      field="stakeholderModels.mobile"></cs-field>           
-             <!--EmailId code-->
-            <cs-field
-                data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"
-                field="stakeholderModels.email"></cs-field>
-        </div>
-        <div class="row">
-            <!--Reporting to manager-->
-            <div data-ng-if="basicInfoData.Hierarchy.ManageReportsTo">
-                <cs-field
-                    value-list="$parent.WizardData.FinalPostModel.ReportsToList"
-                    data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
-                    field="stakeholderModels.manager"></cs-field>
-            </div>
-            <!--Date of Starting-->
-  
-                <cs-field
-                    data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
-                    field="stakeholderModels.date"></cs-field>
-        </div>
-    </cs-form>
-</div>
+﻿<cs-form>
 
+    <cs-field data-ng-model="Selected.Hierarchy"
+              data-ng-change="changeInHierarchy(Selected.Hierarchy)"
+              value-list="params.HierarchyList"
+              field="stakeholderModels.Hierarchy"></cs-field>
+    <cs-field data-ng-if="Selected.Hierarchy"
+              data-ng-model="Selected.Designation"
+              value-list="params.DesignationList"
+              data-ng-change="assignSelectedHier(hierarchy.Designation)"
+              field="stakeholderModels.Designation"></cs-field>
 
+    <cs-field data-ng-model="Stakeholder.Name" 
+              field="stakeholderModels.Name"></cs-field>
+    <cs-field data-ng-if="basicInfoData.Hierarchy.IsUser"
+              data-ng-model="Stakeholder.ExternalId"
+              data-ng-change="checkUser(Stakeholder.ExternalId)"
+              field="stakeholderModels.userId"></cs-field>
+    <cs-field data-ng-model="Stakeholder.MobileNo"
+              field="stakeholderModels.mobile"></cs-field>
+    <cs-field data-ng-model="Stakeholder.EmailId"
+              field="stakeholderModels.email"></cs-field>
+    <cs-field data-ng-if="SelectedHierarchy.ManageReportsTo"
+              value-list="ReportsToList"
+              data-ng-model="Stakeholder.ReportingManager"
+              field="stakeholderModels.manager"></cs-field>
+    <cs-field data-ng-model="Stakeholder.JoiningDate"
+              field="stakeholderModels.date"></cs-field>
 
-
-
-<!-- <div class="col-md-5 form-group" data-ng-show="basicInfoData.Hierarchy.ManageReportsTo">
-
-            <label class="control-label"
-                   data-ng-show="basicInfoData.Hierarchy.Hierarchy!='External'">
-                Line Manager 
-                <label style="font-size: large; color: red">*</label>
-            </label>
-            <label class="control-label"
-                   data-ng-show="basicInfoData.Hierarchy.Hierarchy=='External' &&
-                !(basicInfoData.Hierarchy.Designation=='ExternalAgency' || 
-                basicInfoData.Hierarchy.Designation =='ManpowerAgency')">
-                Agency Name 
-                <label style="font-size: large; color: red">*</label>
-
-            </label>
-
-            <label class="control-label" data-ng-show="basicInfoData.Hierarchy.Designation=='ExternalAgency' ||
-                basicInfoData.Hierarchy.Designation=='ManpowerAgency'">
-                Agency Supervisor
-                <label style="font-size: large; color: red">*</label>
-            </label>
-
-            <div class="controls">
-                <select
-                    class="input-medium"
-                    ui-select2=""
-                    data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ReportingManager"
-                    data-ng-required="basicInfoData.Hierarchy.ManageReportsTo">
-                    <option></option>
-                    <option
-                        data-ng-repeat="managers in $parent.WizardData.FinalPostModel.ReportsToList"
-                        value="{{managers.Id}}">{{managers.Name}}</option>
-                </select>
-            </div>
-        </div>-->
-<!--  <div class="col-md-5 form-group">
-            <label class="control-label" data-ng-hide="basicInfoData.Hierarchy.IsEmployee">
-                Date Of Starting
-                <label style="font-size: large; color: red">*</label></label>
-            <label class="control-label" data-ng-show="basicInfoData.Hierarchy.IsEmployee">
-                Date Of Joining
-                <label style="font-size: large; color: red">*</label></label>
-            <div class="controls">
-                <div class="input-append">
-                    <input readonly
-                           name="joiningDate"
-                           type="text"
-                           class="input-medium"
-                           data-date-start-date="-1y"
-                           data-date-end-date="+1y"
-                           data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.JoiningDate"
-                           bs-datepicker required>
-                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                </div>
-                <!--Date of joining validation-->
-<!-- <div data-ng-show="basicInfoForm.joiningDate.$dirty">
-                    <span class="field-validation-error" data-ng-show="basicInfoForm.joiningDate.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>-->
-<!-- <div class="col-md-5 form-group">
-            <label class="control-label">
-                Email Id
-                <label style="font-size: large; color: red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
-            <div class="controls">
-                <div class="input-prepend input-append">
-                    <!--EmailId-->
-<!--<div data-ng-if="basicInfoData.Hierarchy.Hierarchy == 'External'">
-                        <span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input type="email"
-                            class="input-large"
-                            data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.EmailId"
-                            name="email"
-                            data-ng-required="basicInfoData.Hierarchy.IsUser" />
-                    </div>-->
-<!--EmailId for scEmail-->
-<!--<div data-ng-if="basicInfoData.Hierarchy.Hierarchy != 'External'">
-                        <span class="add-on"><i class="glyphicon glyphicon-envelope"></i></span>
-                        <input type="text"
-                            data-ng-pattern="/^[a-zA-Z0-9.]+$/"
-                            class="input-medium"
-                            name="scEmail"
-                            data-ng-model="$parent.WizardData.FinalPostModel.EmailId"
-                            data-ng-required="basicInfoData.Hierarchy.IsUser" />
-                        <span class="add-on">@sc.com</span>
-                    </div>-->
-<!--</div>-->
-<!--email validation-->
-<!--<div data-ng-show="basicInfoForm.email.$dirty">
-                    <span class="field-validation-error" data-ng-show="basicInfoForm.email.$error.required">{{val.Required()}}</span>
-                </div>-->
-<!--ScEmail Validation-->
-<!--  <div data-ng-show="basicInfoForm.scEmail.$dirty ">
-                    <span class="field-validation-error" data-ng-show="basicInfoForm.scEmail.$error.required ">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>-->
-<!-- <div class="col-md-5 form-group">
-            <label class="control-label">
-                Mobile No
-                <label style="font-size: large; color: red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
-            <div class="controls">
-                <div class="input-prepend ">
-                    <span class=" add-on"><i class="glyphicon glyphicon-phone"></i></span>
-                    <span class="add-on">+91</span>
-                    <input type="text"
-                           class="input-medium"
-                           name="mob"
-                           maxlength="10"
-                           data-ng-pattern="/^[0-9]{10}$/"
-                           data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.MobileNo"
-                           data-ng-required="basicInfoData.Hierarchy.IsUser" />
-                </div>
-
-
-                <div data-ng-show=" basicInfoForm.mob.$dirty ">
-                    <span class="field-validation-error" data-ng-show="basicInfoForm.mob.$invalid && basicInfoForm.mob.$error.pattern">{{val.Mobile()}}</span>
-                </div>
-            </div>
-        </div>-->
-<!--<div class="form-group col-md-5" data-ng-show="basicInfoData.Hierarchy.IsUser">
-                <label class="control-label">
-                    User Id
-                    <label style="font-size: large; color: red">*</label></label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text"
-                               id="UserIdBox"
-                               maxlength="7"
-                               data-ng-pattern="/^[0-9]{7}$/"
-                               data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId "
-                               name="UserIdBox"
-                               data-ng-required="basicInfoData.Hierarchy.IsUser"
-                               data-ng-change="checkUser($parent.WizardData.FinalPostModel.Stakeholder.ExternalId)">
-                    </div>
-                    <div data-ng-show="basicInfoForm.UserIdBox.$dirty">
-                        <div class="field-validation-error" data-ng-show="basicInfoForm.UserIdBox.$error.required">{{val.Required()}}</div>
-                        <div class="field-validation-error" data-ng-show="basicInfoForm.UserIdBox.$error.pattern">{{val.Pattern(7)}}</div>
-                        <div class="field-validation-error" data-ng-show="$parent.WizardData.FinalPostModel.Stakeholder.ExternalId.length==7 && $parent.WizardData.userExists">{{val.AlreadyExist('UserId')}}</div>
-                        <span style="color: grey">(Ex.0000000)</span>
-                    </div>
-                </div>
-            </div>-->
-<!--<div class="col-md-5 form-group">
-                <label class="control-label">Name
-                    <label style="font-size: large; color: red">*</label></label>
-                <div class="controls">
-                    <input type="text"
-                           class="input-large"
-                           data-ng-pattern="/^[a-zA-Z ]{1,100}$/"
-                           name="Name"
-                           data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Name"
-                           data-ng-readonly="basicInfoData.isEditMode"
-                           required />
-
-                    <div data-ng-show="basicInfoForm.Name.$dirty">
-                        <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.required">{{val.Required()}}</span>
-                        <span class="field-validation-error" data-ng-show="basicInfoForm.Name.$error.pattern">{{val.OnlyText()}}</span>
-                    </div>
-                </div>
-            </div>-->
-
-
-
-
-<!--Gender and Date of birth-->
-<!--<div class="row" data-ng-show="false">
-        <div class="col-md-5 form-group">
-            <label class="control-label">Gender</label>
-            <div class="controls">
-                <div class="input-prepend" data-ng-show="!basicInfoData.isEditMode">
-                    <span class="add-on">
-                        <input type="radio" data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Gender" checked="checked" value="0"><label>Male</label>
-                        <input type="radio" data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.Gender" value="1"><label>Female</label>
-                    </span>
-                </div>
-
-                <div data-ng-show="basicInfoData.isEditMode">
-                    {{$parent.WizardData.FinalPostModel.Stakeholder.Gender}}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5 form-group">
-            <label class="control-label">Date of Birth <label style="font-size:large; color:red" data-ng-show="basicInfoData.Hierarchy.IsUser">*</label></label>
-            <div class="controls">
-                <div class="input-append">
-                    <input readonly
-                        type="text"
-                        name="birthDate"
-                        class="input-medium"
-                        data-ng-required="basicInfoData.Hierarchy.IsIndividual && basicInfoData.Hierarchy.IsUser"
-                        data-ng-model="$parent.WizardData.FinalPostModel.Stakeholder.BirthDate"
-                        data-date-end-date="-18y"
-                        bs-datepicker>
-                    <button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
-                </div>
-
-               
-                <div data-ng-show="basicInfoForm.birthDate.$dirty ">
-                    <span class="field-validation-error" data-ng-show="basicInfoForm.birthDate.$error.required">{{val.Required()}}</span>
-                </div>
-            </div>
-        </div>
-    </div>-->
-
+    <div data-ng-if="SelectedHierarchy.HasAddress">
+        <cs-field data-ng-model="Stakeholder.GAddress[0].Line1"
+                  field="stakeholderModels.line1"></cs-field>
+        <cs-field data-ng-model="Stakeholder.GAddress[0].Line2"
+                  field="stakeholderModels.line2"></cs-field>
+        <cs-field data-ng-model="Stakeholder.GAddress[0].Line3"
+                  field="stakeholderModels.line3"></cs-field>
+        <cs-field data-ng-model="Stakeholder.GAddress[0].LandlineNo"
+                  field="stakeholderModels.landline"></cs-field>
+        <cs-field data-ng-model="addData.Pincode"
+                  field="stakeholderModels.pincode"
+                  typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
+                  typeahead-min-length="3"
+                  typeahead-wait-ms="400"></cs-field>
+    </div>
+</cs-form>
 
