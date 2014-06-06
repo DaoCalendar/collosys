@@ -6,6 +6,7 @@ namespace ColloSys.DataLayer.Billing
     {
         public BMatrixMap()
         {
+            Table("BMatrix");
             Property(x => x.Products, map => map.UniqueKey("UQ_MATRIX_NAME"));
             Property(x => x.Name, map => map.UniqueKey("UQ_MATRIX_NAME"));
             Property(x => x.Dimension);
