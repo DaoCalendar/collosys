@@ -40,8 +40,8 @@ namespace ColloSys.DataLayer.Mapping
 
             Bag(x => x.BillingRelations,
                 colmap => { }, map => map.OneToMany(x => { }));
-            Bag(x => x.BConditions,
-                colmap => { }, map => map.OneToMany(x => { }));
+            //Bag(x => x.BConditions,
+            //    colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
 
             Bag(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));

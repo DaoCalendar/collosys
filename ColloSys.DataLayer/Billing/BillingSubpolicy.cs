@@ -22,7 +22,7 @@ namespace ColloSys.DataLayer.Domain
         //}
         //// list
         public virtual IList<BillingRelation> BillingRelations { get; set; }
-        public virtual IList<BCondition> BConditions { get; set; }
+        //public virtual IList<BCondition> BConditions { get; set; }
         public virtual IList<BillDetail> BillDetails { get; set; }
         public virtual IList<BillTokens> BillTokens { get; set; } 
 
