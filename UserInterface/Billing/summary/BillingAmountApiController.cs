@@ -134,7 +134,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             var billAmount = Session.QueryOver<BillAmount>()
                .Where(x => x.Stakeholder.Id == stakeId)
                .And(x => x.Products == products)
-               .And(x => x.Month == month)
+               .And(x => x.BillMonth == month)
                .SingleOrDefault();
 
             var billDetails = Session.QueryOver<BillDetail>()
@@ -190,7 +190,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
             // Month
             ws.Cells[excelRowCounter, 2].Value = "Month";
-            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.Month / 100, (int)billAmount.Month % 100, 1).ToString("MMM-yyyy");
+            ws.Cells[excelRowCounter, 3].Value = new DateTime((int)billAmount.BillMonth / 100, (int)billAmount.BillMonth % 100, 1).ToString("MMM-yyyy");
             excelRowCounter++;
 
             // Product
@@ -214,14 +214,14 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             excelRowCounter++;
 
             // Holding Payment
-            ws.Cells[excelRowCounter, 2].Value = "Holding Payment";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldAmount;
-            excelRowCounter++;
+            //ws.Cells[excelRowCounter, 2].Value = "Holding Payment";
+            //ws.Cells[excelRowCounter, 3].Value = billAmount.HoldAmount;
+            //excelRowCounter++;
 
-            // Hol Release
-            ws.Cells[excelRowCounter, 2].Value = "Hold Release";
-            ws.Cells[excelRowCounter, 3].Value = billAmount.HoldRepayment;
-            excelRowCounter++;
+            //// Hol Release
+            //ws.Cells[excelRowCounter, 2].Value = "Hold Release";
+            //ws.Cells[excelRowCounter, 3].Value = billAmount.HoldRepayment;
+            //excelRowCounter++;
 
             // Variable Pay
             ws.Cells[excelRowCounter, 2].Value = "Total Payout";

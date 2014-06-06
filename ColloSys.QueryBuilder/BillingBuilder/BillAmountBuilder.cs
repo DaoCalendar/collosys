@@ -27,7 +27,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
            var data= SessionManager.GetCurrentSession().QueryOver<BillAmount>()
                                  .Where(x => x.Stakeholder.Id == stakeId)
                                  .And(x => x.Products == products)
-                                 .And(x => x.Month == month)
+                                 .And(x => x.BillMonth == month)
                                  .SingleOrDefault();
             return data;
         }
@@ -38,7 +38,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
             return SessionManager.GetCurrentSession().QueryOver<BillAmount>()
                                  .Fetch(x => x.Stakeholder).Eager
                                  .Where(x => x.Products == products)
-                                 .And(x => x.Month == month)
+                                 .And(x => x.BillMonth == month)
                                  .List();
         }
     }
