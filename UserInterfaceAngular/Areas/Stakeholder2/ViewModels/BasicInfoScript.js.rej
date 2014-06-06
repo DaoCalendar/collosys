@@ -1,6 +1,0 @@
-diff a/UserInterfaceAngular/Areas/Stakeholder2/ViewModels/BasicInfoScript.js b/UserInterfaceAngular/Areas/Stakeholder2/ViewModels/BasicInfoScript.js	(rejected hunks)
-@@ -1,3 +1,3 @@
- ï»¿csapp.controller('basicInfoController', ['$scope', '$http', 'Restangular', '$csfactory', '$csnotify', '$Validations', '$log',
--    function($scope, $http, rest, $csfactory, $csnotify, $val, $log) {
-+    function ($scope, $http, rest, $csfactory, $csnotify, $val, $log) {
-         'use strict';
