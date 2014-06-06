@@ -5,9 +5,9 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <cs-field data-ng-disabled="!pageData.ForActive" data-ng-model="pageData.StartDate" ng-required="true" field="BillingPolicy.startdate"
+                <cs-field data-ng-disabled="!pageData.ForActive" data-ng-model="params.StartDate" ng-required="true" field="BillingPolicy.startdate"
                           data-ng-change="pageData.endDate=null;modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
-                <cs-field field="BillingPolicy.enddate" data-ng-model="pageData.endDate"
+                <cs-field field="BillingPolicy.enddate" data-ng-model="params.endDate"
                           data-ng-change="modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
 
             </div>
@@ -15,12 +15,12 @@
         <div class="modal-footer text-right" style="margin-top: 10px">
             <cs-button type="delete" text=" Deactivate" data-ng-show="!pageData.ForActive"
                        data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
-                       data-ng-click="deactivateSubPoicy(pageData)"></cs-button>
+                       data-ng-click="closeModal(params)"></cs-button>
             <cs-button type="save" text="Activate"
                        data-ng-show="pageData.ForActive"
                        data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid) "
                        data-ng-click="activateSubPoicy(pageData)"></cs-button>
-            <cs-button type="close" data-ng-click="closeModal()"></cs-button>
+            <cs-button type="close" data-ng-click="dismissModal()"></cs-button>
         </div>
     </cs-form>
 </div>
