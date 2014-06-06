@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
@@ -19,6 +20,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual Iesi.Collections.Generic.ISet<BillingRelation> BillingRelations { get; set; }
         public virtual IList<StkhPayment> CollectionStkhPayments { get; set; }
         public virtual IList<StkhPayment> RecoveryStkhPayments { get; set; }
+        public virtual IList<BillTokens> BillTokens { get; set; }
 
         public virtual Iesi.Collections.Generic.ISet<StkhPayment> StkhPayments { get; set; }
         public virtual Iesi.Collections.Generic.ISet<BillDetail> BillDetails { get; set; }
@@ -32,6 +34,12 @@ namespace ColloSys.DataLayer.Domain
         public virtual ScbEnums.Products Products { get; set; }
 
         public virtual ScbEnums.Category Category { get; set; }
+
+        public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
+
+        public virtual ColloSysEnums.PolicyOn PolicyFor { get; set; }
+
+       public virtual Guid? PolicyForId { get; set; }
 
         #endregion
 

@@ -31,7 +31,7 @@ namespace AngularUI.Billing.subpolicy
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
         private static readonly BMatrixBuilder BMatrixBuilder = new BMatrixBuilder();
-        private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();
+        //private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();
         private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
         private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
         private static readonly BillTokenBuilder BillTokenBuilder = new BillTokenBuilder();
@@ -95,13 +95,13 @@ namespace AngularUI.Billing.subpolicy
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
-        [HttpGet]
+        //[HttpGet]
 
-        public HttpResponseMessage GetBConditions(Guid parentId)
-        {
-            var data = BConditionBuilder.OnSubpolicyId(parentId);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
-        }
+        //public HttpResponseMessage GetBConditions(Guid parentId)
+        //{
+        //    var data = BConditionBuilder.OnSubpolicyId(parentId);
+        //    return Request.CreateResponse(HttpStatusCode.OK, data);
+        //}
 
         //[CamelCasedApiMethod]
         [HttpGet]
@@ -221,10 +221,10 @@ namespace AngularUI.Billing.subpolicy
 
         protected override BillingSubpolicy BasePut(Guid id, BillingSubpolicy obj)
         {
-            foreach (var bcondition in obj.BConditions)
-            {
-                bcondition.BillingSubpolicy = obj;
-            }
+            //foreach (var bcondition in obj.BConditions)
+            //{
+            //    bcondition.BillingSubpolicy = obj;
+            //}
 
             BillingSubpolicyBuilder.Merge(obj);
             return obj;

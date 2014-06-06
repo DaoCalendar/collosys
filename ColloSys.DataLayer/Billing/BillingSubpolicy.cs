@@ -22,7 +22,7 @@ namespace ColloSys.DataLayer.Domain
         //}
         //// list
         public virtual IList<BillingRelation> BillingRelations { get; set; }
-        public virtual IList<BCondition> BConditions { get; set; }
+        //public virtual IList<BCondition> BConditions { get; set; }
         public virtual IList<BillDetail> BillDetails { get; set; }
         public virtual IList<BillTokens> BillTokens { get; set; } 
 
@@ -45,9 +45,8 @@ namespace ColloSys.DataLayer.Domain
 
         public virtual string Description { get; set; }
 
-        public virtual Guid? ProcessingFee { get; set; }
-        
-        public virtual Guid? PayoutCapping { get; set; }
+      
+        public virtual ColloSysEnums.PolicyType PolicyType { get; set; }
 
         #endregion
 

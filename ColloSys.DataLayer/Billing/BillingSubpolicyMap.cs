@@ -31,8 +31,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.GroupBy, map => map.NotNullable(false));
             Property(x => x.Description, map => map.NotNullable(false));
 
-            Property(x => x.ProcessingFee);
-            Property(x => x.PayoutCapping);
+            Property(x => x.PolicyType);
+        
             #endregion
 
             #region Bags-relationship
@@ -40,8 +40,8 @@ namespace ColloSys.DataLayer.Mapping
 
             Bag(x => x.BillingRelations,
                 colmap => { }, map => map.OneToMany(x => { }));
-            Bag(x => x.BConditions,
-                colmap => { }, map => map.OneToMany(x => { }));
+            //Bag(x => x.BConditions,
+            //    colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.BillDetails, colmap => { }, map => map.OneToMany(x => { }));
 
             Bag(x => x.BillTokens, colmap => { }, map => map.OneToMany(x => { }));

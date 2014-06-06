@@ -30,7 +30,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
                                  .Where(x => x.Products == products && x.Category == category)
                                  .FetchMany(x => x.BillingRelations)
                                  .ThenFetch(r => r.BillingSubpolicy)
-                                 .ThenFetch(s => s.BConditions)
+                                 //.ThenFetch(s => s.BConditions)
                                  .SingleOrDefault();
         }
 

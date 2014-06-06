@@ -78,8 +78,6 @@
     <Compile Include="Allocation\AllocationsMap.cs" />
     <Compile Include="Billing\ActivateHoldingPolicy.cs" />
     <Compile Include="Billing\ActivateHoldingPolicyMap.cs" />
-    <Compile Include="Billing\BCondition.cs" />
-    <Compile Include="Billing\BConditionMap.cs" />
     <Compile Include="Billing\BillAdhoc.cs" />
     <Compile Include="Billing\BillAdhocMap.cs" />
     <Compile Include="Billing\BillAmount.cs" />

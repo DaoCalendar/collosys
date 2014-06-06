@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using NLog;
 
@@ -53,7 +49,7 @@ namespace BillingService2.DBLayer
 
                 var billingSubpolicy = session.QueryOver<BillingRelation>()
                                               .Fetch(x => x.BillingSubpolicy).Eager
-                                              .Fetch(x => x.BillingSubpolicy.BConditions).Eager
+                                              //.Fetch(x => x.BillingSubpolicy.BConditions).Eager
                                               .Where(x => x.BillingPolicy.Id == billingPolicy.Id)
                                               .And(x => (x.EndDate == null || x.EndDate >= startDate))
                                               .Select(x => x.BillingSubpolicy)
@@ -77,7 +73,7 @@ namespace BillingService2.DBLayer
                 var session = SessionManager.GetCurrentSession();
 
                 var formula = session.QueryOver<BillingSubpolicy>()
-                                     .Fetch(x => x.BConditions).Eager
+                                     //.Fetch(x => x.BConditions).Eager
                                      .Where(x => x.Products == products
                                          && x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Formula)
                                      .And(x => x.Name == formulaName)
