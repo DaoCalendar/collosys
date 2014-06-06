@@ -110,6 +110,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             .when('/stakeholder/add', {
                 templateUrl: baseUrl + 'Stakeholder/AddEdit2/AddBasicIndex.html',
                 controller: 'AddStakeHolderCtrl'
+            }).when('/stakeholder/working/:hierarchy', {
+                templateUrl: baseUrl + 'Stakeholder/AddEdit2/Working/Working.html',
+                controller: 'StakeWorkingCntrl'
             }).when('/stakeholder/edit/:data', {
                 templateUrl: baseUrl + 'Stakeholder/add/index2.html',
                 controller: 'AddStakeHolderCtrl'
@@ -128,7 +131,11 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/hierarchy/addedit/:mode', {
                 templateUrl: baseUrl + 'Stakeholder/hierarchy/hierarchy-edit.html',
                 controller: 'hierarchyEditController',
-            }).when('/Legal/RequisitionPreparation', {
+            })
+
+
+            //legal
+            .when('/Legal/RequisitionPreparation', {
                 templateUrl: baseUrl + 'Legal/RequisitionPreparation/RequisitionPreparation.html',
                 controller: 'RequisitionCtrl'
             }).when('/Legal/RequsitionIntiation', {

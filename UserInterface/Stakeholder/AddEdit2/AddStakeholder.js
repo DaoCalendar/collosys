@@ -158,7 +158,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
         $scope.saveData = function (data) {
             setStakeObject(data);
             datalayer.Save(data).then(function () {
-                //redirect to working page
+                $location.path('/stakeholder/working/'+$scope.selectedHierarchy.Id);
             });
         };
 
