@@ -12,8 +12,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public CacsActivityMap()
         {
-            Table("CACS_ACTIVITY");
-
             Property(x => x.TelecallerId, map =>
             {
                 //map.UniqueKey("UK_CACS_ACTIVITY");

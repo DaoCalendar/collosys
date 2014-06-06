@@ -11,8 +11,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public RLinerMap()
         {
-            Table("R_LINER");
-
             #region Relationship Mapping
 
             Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));

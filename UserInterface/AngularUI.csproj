@@ -123,7 +123,6 @@
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
     <Compile Include="Billing\policy\SubpolicyRelationManager.cs" />
-    <Compile Include="FileUpload\filterCondition\FilterConditionApiController.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />
@@ -224,6 +223,7 @@
     <Compile Include="Shared\webapis\SessionPerRequest.cs" />
     <Compile Include="Shared\webapis\SharedEnumsApiController.cs" />
     <Compile Include="Shared\webapis\Utilities.cs" />
+    <Compile Include="Stakeholder\AddEdit2\BasicInfo\AddEditStakeholder.cs" />
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\view\StakeholderApproveEmail.cs" />
   </ItemGroup>
@@ -307,8 +307,6 @@
     <Content Include="Content\loading-bar\loading-bar.css" />
     <Content Include="Content\select2\css\select2.css" />
     <Content Include="Content\select2\select2-bootstrap.css" />
-    <Content Include="FileUpload\filterCondition\filterCondition.html" />
-    <Content Include="FileUpload\filterCondition\filterCondition.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />

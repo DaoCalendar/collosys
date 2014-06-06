@@ -1,45 +1,76 @@
 ﻿<cs-form>
-    <cs-field data-ng-model="Selected.Hierarchy"
-              data-ng-change="changeInHierarchy(Selected.Hierarchy)"
-              value-list="params.HierarchyList"
-              field="models.Stakeholder.Hierarchy"></cs-field>
+    <div class="clearfix">
+        <h5 class="modal-header">Personal Information</h5>
+              field="stakeholderModels.Hierarchy"></cs-field>
     <cs-field data-ng-if="Selected.Hierarchy"
               data-ng-model="Selected.Designation"
               value-list="params.DesignationList"
               data-ng-change="assignSelectedHier(hierarchy.Designation)"
               field="models.Stakeholder.Designation"></cs-field>
 
-    <cs-field data-ng-model="Stakeholder.Name"
-              field="models.Stakeholder.Name"></cs-field>
-    <cs-field data-ng-if="basicInfoData.Hierarchy.IsUser"
-              data-ng-model="Stakeholder.ExternalId"
-              data-ng-change="checkUser(Stakeholder.ExternalId)"
-              field="models.Stakeholder.userId"></cs-field>
-    <cs-field data-ng-model="Stakeholder.MobileNo"
-              field="models.Stakeholder.mobile"></cs-field>
-    <cs-field data-ng-model="Stakeholder.EmailId"
-              field="models.Stakeholder.email"></cs-field>
-    <cs-field data-ng-if="SelectedHierarchy.ManageReportsTo"
-              value-list="ReportsToList"
-              data-ng-model="Stakeholder.ReportingManager"
-              field="models.Stakeholder.manager"></cs-field>
-    <cs-field data-ng-model="Stakeholder.JoiningDate"
-              field="models.Stakeholder.date"></cs-field>
-
-    <div data-ng-if="SelectedHierarchy.HasAddress">
-        <cs-field data-ng-model="Stakeholder.GAddress[0].Line1"
-                  field="models.StkhAddress.Line1"></cs-field>
-        <cs-field data-ng-model="Stakeholder.GAddress[0].Line2"
-                  field="models.StkhAddress.line2"></cs-field>
-        <cs-field data-ng-model="Stakeholder.GAddress[0].Line3"
-                  field="models.StkhAddress.line3"></cs-field>
-        <cs-field data-ng-model="Stakeholder.GAddress[0].LandlineNo"
-                  field="models.StkhAddress.landline"></cs-field>
-        <cs-field data-ng-model="addData.Pincode"
-                  field="models.StkhAddress.pincode"
-                  typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
-                  typeahead-min-length="3"
-                  typeahead-wait-ms="400"></cs-field>
+    <cs-field data-ng-model="Stakeholder.Name" 
+                  field="stakeholderModels.stakeholder.Name"></cs-field>
+        <cs-field data-ng-if="selectedHierarchy.IsUser"
+                  data-ng-model="Stakeholder.ExternalId"
+                  data-ng-change="checkUser(Stakeholder.ExternalId)"
+                  field="stakeholderModels.stakeholder.ExternalId"></cs-field>
+        <cs-field data-ng-model="Stakeholder.MobileNo"
+                  field="stakeholderModels.stakeholder.MobileNo"></cs-field>
+        <cs-field data-ng-model="Stakeholder.EmailId"
+                  field="stakeholderModels.stakeholder.EmailId"></cs-field>
+        <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
+                  value-list="ReportsToList"
+                  data-ng-model="Stakeholder.ReportingManager"
+                  field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
+        <cs-field data-ng-model="Stakeholder.JoiningDate"
+                  field="stakeholderModels.stakeholder.JoiningDate"></cs-field>
+    
     </div>
+
+    <div  data-ng-if="selectedHierarchy.HasAddress || true">
+        <div class="clearfix">
+            <h5 class="modal-header">Address Details</h5>
+            <cs-field data-ng-model="Stakeholder.Address.Line1"
+                      field="stakeholderModels.address.Line1"></cs-field>
+            <cs-field data-ng-model="Stakeholder.Address.Line2"
+                      field="stakeholderModels.address.Line2"></cs-field>
+            <cs-field data-ng-model="Stakeholder.Address.Line3"
+                      field="stakeholderModels.address.Line3"></cs-field>
+            <cs-field data-ng-model="Stakeholder.Address.LandlineNo"
+                      field="stakeholderModels.address.LandlineNo"></cs-field>
+            <cs-field data-ng-model="Stakeholder.Address.Pincode"
+                      field="stakeholderModels.address.Pincode"
+                      typeahead="c.Area for c in Pincodes($viewValue, 'Area')"
+                      typeahead-min-length="3"
+                      typeahead-wait-ms="400"></cs-field>
+        </div>
+    </div>
+
+    <div  data-ng-if="selectedHierarchy.HasRegistration || true">
+        <div class="clearfix">
+            <h5 class="modal-header">Registration Details</h5>
+            <cs-field data-ng-model="Stakeholder.Regis.TanNo"
+                      field="stakeholderModels.registration.TanNo"></cs-field>
+       
+            <cs-field data-ng-model="Stakeholder.Regis.PanNo"
+                      field="stakeholderModels.registration.PanNo"></cs-field>
+      
+            <cs-field data-ng-model="Stakeholder.Regis.RegistrationNo"
+                      field="stakeholderModels.registration.RegistrationNo"></cs-field>
+      
+            <cs-field data-ng-model="Stakeholder.Registration.ServiceTaxno"
+                      field="stakeholderModels.registration.ServiceTaxNo"></cs-field>
+            <hr/>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <cs-button 
+            type="save"
+            permission="Stakeholder,Stakeholder,AddEdit"
+            data-ng-disabled="basicInfoForm.$invalid "
+            data-ng-click="saveData(Stakeholder)"></cs-button>
+    </div>
+
 </cs-form>
 

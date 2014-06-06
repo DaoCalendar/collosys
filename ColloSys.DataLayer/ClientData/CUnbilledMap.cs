@@ -11,8 +11,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public CUnbilledMap()
         {
-            Table("C_UNBILLED");
-
             #region unique key - none
 
             Property(x => x.AccountNo, map => map.Index("CCMS_IX_UNBILL"));

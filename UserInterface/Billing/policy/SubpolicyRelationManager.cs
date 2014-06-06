@@ -1,35 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using NHibernate;
 
 namespace AngularUI.Billing.policy
 {
-    public class SubpolicyRelationManager
+    public class SubpolicyList
+    {
+        public List<BillingSubpolicy> IsInUseSubpolices = new List<BillingSubpolicy>();
+        public List<BillingSubpolicy> NotInUseSubpolices = new List<BillingSubpolicy>();
+    }
+
+    public class SubpolicySaveParams
     {
         public string Activity { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public BillingSubpolicy Subpolicy { get; set; }
         public BillingPolicy Policy { get; set; }
-        public BillingRelation Relation { get; set; }
-        public string Username { get; set; }
-        public ISession Session { get; set; }
+    }
 
-        public void ApproveSubpolicy()
+    public class SubpolicyRelationManager
+    {
+        private SubpolicySaveParams Params { get; set; }
+        private string Username { get; set; }
+        private ISession Session { get; set; }
+
+        public SubpolicyRelationManager(string username, ISession session, SubpolicySaveParams param)
         {
-            Relation.Status = ColloSysEnums.ApproveStatus.Approved;
-            Relation.ApprovedOn = DateTime.Now;
-            Relation.ApprovedBy = Username;
+            Username = username;
+            Session = session;
+            Params = param;
         }
 
-        public void RejectSubpolicy()
+        public void ApproveSubpolicy(ColloSysEnums.ApproveStatus status)
         {
-            Relation.Status = ColloSysEnums.ApproveStatus.Rejected;
-            Relation.ApprovedOn = DateTime.Now;
-            Relation.ApprovedBy = Username;
+            if (Params.Subpolicy.BillingRelations == null || Params.Subpolicy.BillingRelations.Count != 0)
+            {
+                throw new NullReferenceException("Billing Relation cannot be null");
+            }
+            var relation = Params.Subpolicy.BillingRelations[0];
+            relation.Status = status;
+            relation.ApprovedOn = DateTime.Now;
+            relation.ApprovedBy = Username;
+            using (var tx = Session.BeginTransaction())
+            {
+                Session.SaveOrUpdate(relation);
+                tx.Commit();                
+            }
         }
 
         public BillingRelation CreateRelation()
@@ -56,6 +75,11 @@ namespace AngularUI.Billing.policy
         public void ActivateSubpolicy()
         {
 
+        }
+
+        public void ReactivateSubpolicy()
+        {
+            
         }
     }
 }

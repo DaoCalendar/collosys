@@ -11,7 +11,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public ELinerMap()
         {
-            Table("E_LINER");
 
             #region Relationship Mapping
 

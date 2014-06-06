@@ -1,67 +1,176 @@
-﻿csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', 'Restangular', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels",
-function ($routeParams, $scope, rest, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels) {
+﻿
+csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restangular", function ($csfactory, $csnotify, rest) {
 
-    var apiCalls = rest.all('HierarchyApi');
+    var apistake = rest.all('StakeholderApi');
+
+    var getPincode = function (pincode, level) {
+        return apistake.customGET('GetPincodes', { pincode: pincode, level: level }).then(function (data) {
+            return data;
+        });
+    };
 
     var getHierarchies = function () {
-       
-            apiCalls.customGET('GetAllHierarchies').then(function (data) {
+        return apistake.customGET('GetAllHierarchies').then(function (data) {
+            return data;
+        }, function () {
+            $csnotify.error('Error loading hierarchies');
+        });
+
+    };
+
+    var save = function (data) {
+        return apistake.customPOST(data, 'SaveStake').then(function (afterPostData) {
+            return afterPostData;
+        });
+    };
+
+    var checkUser = function (userId) {
+        return apistake.customGET('CheckUserId', { id: userId }).then(function (data) {
+            return data;
+        });
+    };
+
+    return {
+        CheckUser: checkUser,
+        GetHierarchies: getHierarchies,
+        GetPincode: getPincode,
+        Save: save
+    };
+}]);
+
+csapp.factory("AddEditStakeholderFactory", ["$csfactory", function ($csfactory) {
+
+    var setHierarchyModel = function (hierarchy, model) {
+        if (hierarchy.IsUser) {
+            model.stakeholder.MobileNo.required = true;
+            model.stakeholder.ExternalId.required = true;
+            model.stakeholder.EmailId.required = true;
+            model.stakeholder.EmailId.suffix = '@scb.com';
+        }
+
+        if (hierarchy.IsEmployee)
+            model.stakeholder.JoiningDate.label = "Date of Joining";
+        else model.stakeholder.JoiningDate.label = "Date of Starting";
+
+
+        if (hierarchy.ManageReportsTo) {
+            if (hierarchy.Hierarchy != 'External') {
+                model.stakeholder.ReportingManager.label = "Line Manager";
+
+            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
+                model.stakeholder.ReportingManager.label = "Agency Name";
+
+            } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
+                model.stakeholder.ReportingManager.label = "Agency Supervisor";
+
+            }
+            model.stakeholder.ReportingManager.required = true;
+        }
+
+
+    };
+
+
+
+    return {
+        SetHierarchyModel: setHierarchyModel
+    };
+}]);
+
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory",
+    function ($routeParams, $scope, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels, datalayer, factory) {
+
+        (function () {
+
+            $scope.Stakeholder = {
+                GAddress: [],
+                StkhRegistrations: []
+            };
+
+            $scope.stakeholderModels = {
+                stakeholder: $csModels.getColumns("Stakeholder"),
+                address: $csModels.getColumns("StakeAddress"),
+                registration: $csModels.getColumns("StkhRegistration")
+            };
+
+            datalayer.GetHierarchies().then(function (data) {
                 $scope.HierarchyList = data;
                 $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
-            }, function () {
-                $csnotify.error('Error loading hierarchies');
             });
-       
-    };
+        })();
 
-    $scope.changeInHierarchy = function (hierarchy) {
-        $scope.showBasicInfo = false;
-        $scope.Designation = [];
-        var hierarchies = _.filter($scope.HierarchyList, function (item) {
-            if (item.Hierarchy === hierarchy)
-                return item;
-        });
-        getHierarchyDisplayName(hierarchies);
-    };
 
-    var getHierarchyDisplayName = function (hierarchy) {
-        $scope.Designation = [];
-        hierarchy = _.sortBy(hierarchy, 'PositionLevel');
-        if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
-            if ((hierarchy[0].Hierarchy !== 'External')) {
-                _.forEach(hierarchy, function (item) {
-                    $scope.Designation.push(item);
-                });
-            } else {
-                _.forEach(hierarchy, function (item) {
-                    var reportTo = _.find($scope.HierarchyList, { 'Id': item.ReportsTo });
-                    var desig = {
-                        Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
-                        Id: item.Id
-                    };
-                    $scope.Designation.push(desig);
+        $scope.Pincodes = function (pincode, level) {
+            if ($csfactory.isNullOrEmptyString(pincode)) return [];
+            if (pincode.length < 3) return [];
+            return datalayer.GetPincode(pincode, level).then(function (data) {
+                return data;
+            });
+
+        };
+
+        $scope.checkUser = function (userId) {
+            if (angular.isDefined(userId) && userId.length === 7) {
+                datalayer.CheckUser(userId).then(function (exist) {
+                    $scope.userExists = exist === "true" ? true : false;
                 });
             }
-        }
-        return '';
-    };
+        };
 
-    $scope.assignSelectedHier = function (designation) {
-        if ($csfactory.isNullOrEmptyArray(designation)) return;
-        $scope.hierarchy = _.find($scope.HierarchyList, { 'Id': designation });
-        $scope.$parent.currentHierarchy = $scope.hierarchy;
-        $scope.showBasicInfo = true;
-    };
+        $scope.changeInHierarchy = function (hierarchy) {
+            $scope.showBasicInfo = false;
+            var hierarchies = _.filter($scope.HierarchyList, function (item) {
+                if (item.Hierarchy === hierarchy)
+                    return item;
+            });
+            getHierarchyDisplayName(hierarchies);
+        };
 
-    (function () {
-        $scope.stakeholderModels = $csModels.getColumns("Stakeholder");
-        $scope.HierarchyList = [];
-        $scope.hierarchyDisplayList = [];
-        $scope.Designation = [];
-        getHierarchies();
-    })();
+        var getHierarchyDisplayName = function (hierarchy) {
+            $scope.Designation = [];
+            hierarchy = _.sortBy(hierarchy, 'PositionLevel');
+            if (!$csfactory.isNullOrEmptyArray(hierarchy)) {
+                if ((hierarchy[0].Hierarchy !== 'External')) {
+                    _.forEach(hierarchy, function (item) {
+                        $scope.Designation.push(item);
+                    });
+                } else {
+                    _.forEach(hierarchy, function (item) {
+                        var reportTo = _.find($scope.HierarchyList, { 'Id': item.ReportsTo });
+                        var desig = {
+                            Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
+                            Id: item.Id
+                        };
+                        $scope.Designation.push(desig);
+                    });
+                }
+            }
+            return '';
+        };
 
-}])
+        $scope.assignSelectedHier = function (designation) {
+            if ($csfactory.isNullOrEmptyArray(designation)) return;
+            $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
+            factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
+            $scope.showBasicInfo = true;
+        };
+
+        $scope.saveData = function (data) {
+            setStakeObject(data);
+            datalayer.Save(data).then(function () {
+                //redirect to working page
+            });
+        };
+
+        var setStakeObject = function (data) {
+            data.GAddress = [];
+            data.Registration = [];
+            data.Hierarchy = $scope.selectedHierarchy;//set hierarchy
+            if (!$csfactory.isEmptyObject(data.Address)) data.GAddress.push(angular.copy(data.Address));//set GAddress if exists
+            if (!$csfactory.isEmptyObject(data.Regis)) data.StkhRegistrations.push(angular.copy(data.Regis));//set StkhRegistration if exists
+        };
+
+    }]);
 
 
 

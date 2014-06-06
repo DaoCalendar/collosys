@@ -1,7 +1,6 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Billing;
 
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Billing
 {
     class CustBillViewModelMap : EntityMap<CustBillViewModel>
     {

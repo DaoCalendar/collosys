@@ -13,7 +13,6 @@ namespace ColloSys.DataLayer.Mapping
     {
         public CLinerMap()
         {
-            Table("C_LINER");
             Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(true));
 

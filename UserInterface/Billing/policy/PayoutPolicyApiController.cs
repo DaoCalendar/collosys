@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AngularUI.Billing.policy;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
@@ -16,9 +15,8 @@ using NHibernate.Linq;
 #endregion
 
 
-namespace ColloSys.UserInterface.Areas.Billing.apiController
+namespace AngularUI.Billing.policy
 {
-    
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
         [HttpGet]
@@ -38,12 +36,6 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
                     .List<StkhHierarchy>().Distinct();
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
-        }
-
-        public class SubpolicyList
-        {
-            public List<BillingSubpolicy> IsInUseSubpolices = new List<BillingSubpolicy>();
-            public List<BillingSubpolicy> NotInUseSubpolices = new List<BillingSubpolicy>();
         }
 
         [HttpGet]
@@ -103,24 +95,27 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             return Request.CreateResponse(HttpStatusCode.OK, billingTokens);
         }
 
-        public HttpResponseMessage SaveSubpolicy(SubpolicyRelationManager subpolicy)
+        [HttpPost]
+        public HttpResponseMessage SaveSubpolicy(SubpolicySaveParams param)
         {
-            subpolicy.Username = GetUsername();
-            subpolicy.Session = Session;
+            var manager = new SubpolicyRelationManager(GetUsername(), Session, param);
 
-            switch (subpolicy.Activity)
+            switch (param.Activity.Trim().ToLowerInvariant())
             {
                 case "activate":
-                    subpolicy.ActivateSubpolicy();
+                    manager.ActivateSubpolicy();
+                    break;
+                case "reactivate":
+                    manager.ReactivateSubpolicy();
                     break;
                 case "deactivate":
-                    subpolicy.DeactivateSubpolicy();
+                    manager.DeactivateSubpolicy();
                     break;
                 case "approve":
-                    subpolicy.ApproveSubpolicy();
+                    manager.ApproveSubpolicy(ColloSysEnums.ApproveStatus.Approved);
                     break;
                 case "reject":
-                    subpolicy.RejectSubpolicy();
+                    manager.ApproveSubpolicy(ColloSysEnums.ApproveStatus.Rejected);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("subpolicy");

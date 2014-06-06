@@ -6,22 +6,11 @@
             hierarchy: { label: 'Hierarchy', type: 'select' },
             designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select' },
             Name: { placeholder: 'enter name', label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', required: true, patternMessage: 'Invalid Name' },
-            userId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{7}$/', patternMessage: 'Invalid ID' },
-            mobile: { label: "Mobile No", type: 'text', template: 'phone' },
-            email: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
-            date: { type: 'date', required: true },
-            manager: { type: 'select', valueField: 'Id', textField: 'Name' },
-
-            PAN: { label: 'PAN', type: 'text', template: 'pan' },
-            TAN: { label: 'TAN', type: 'text', patternMessage: 'accepts only xxxxxxxx' },
-            Registration: { label: 'Registration', pattern: '/^[a-zA-Z]*$/', type: 'text', patternMessage: 'special characters not allowed' },
-            ServiceTaxNo: { label: 'ServiceTaxNo', pattern: '/^[a-zA-Z]*$/', type: 'text', patternMessage: 'special characters not allowed' },
-
-            line1: { label: "Line1", type: 'text', required: true },
-            line2: { label: "Line2", type: 'text', required: true },
-            line3: { label: "Line3", type: 'text' },
-            pincode: { label: "Pincode", type: "text" },
-            landline: { label: "Landline", type: 'text', template: 'phone', patternMessage: "Invalid Number" }
+            ExternalId: { label: "UserId", editable: false, template: 'user', required: true, type: "text", pattern: '/^[0-9]{7}$/', patternMessage: 'Invalid ID' },
+            MobileNo: { label: "Mobile No", type: 'text', template: 'phone' },
+            EmailId: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
+            JoiningDate: { type: 'date', required: true },
+            ReportingManager: { type: 'select', valueField: 'Id', textField: 'Name' },
         };
     };
 
@@ -103,9 +92,9 @@
             Stakeholder: { label: 'Stakeholder' },
             HasCollector: { label: 'HasCollector', type: 'checkbox' },
             RegistrationNo: { label: 'RegistrationNo', type: 'text' },
-            PanNo: { label: 'PanNo', type: 'text' },
+            PanNo: { label: 'PanNo', type: 'text',template:'pan' },
             TanNo: { label: 'TanNo', type: 'text' },
-            ServiceTaxno: { label: 'ServiceTaxno', type: 'text' },
+            ServiceTaxNo: { label: 'ServiceTaxno', type: 'text' },
         };
     };
 
@@ -114,8 +103,8 @@
             Line1: { label: 'Line1', type: 'text' },
             Line2: { label: 'Line2', type: 'text' },
             Line3: { label: 'Line3', type: 'text' },
-            LandlineNo: { label: 'LandlineNo', type: 'text' },
-            Pincode: { label: 'Pincode', type: 'number', template: 'uint' },
+            LandlineNo: { label: 'LandlineNo', type: 'text' ,template:'phone'},
+            Pincode: { label: 'Pincode', type: 'text'},
             Country: { label: 'Country', type: 'text' },
             StateCity: { label: 'StateCity', type: 'text' },
         };

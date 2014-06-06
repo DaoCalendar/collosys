@@ -1,12 +1,11 @@
 ﻿<cs-form layout="3.4.8">
     <div data-ng-form="payoutTwoPolicyForm">
         <div class="row">
-
-            <cs-field data-ng-model="billingpolicy.Products" data-ng-change="onProductChange()"
+            <cs-field data-ng-model="billingpolicy.Products" data-ng-change="onParamChange('product')"
                       field="BillingPolicyModel.Products"></cs-field>
 
             <cs-field data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyType"
-                      data-ng-change="onPolicyTypeChange()" field="BillingPolicyModel.PolicyType"></cs-field>
+                      data-ng-change="onParamChange('policy')" field="BillingPolicyModel.PolicyType"></cs-field>
 
             <cs-field data-ng-show="billingpolicy.Products" data-ng-model="billingpolicy.PolicyFor"
                       field="BillingPolicyModel.PolicyFor" data-ng-change="getStakeholderOrHierarchy(billingpolicy.PolicyFor)"></cs-field>
@@ -25,104 +24,89 @@
                           field="BillingPolicyModel.PolicyForProduct" data-ng-disabled="true" data-ng-change="getSubpolicyList(billingpolicy.Products)"></cs-field>
             </div>
         </div>
-        <!--List-->
+
         <div class="col-md-9" data-ng-show="billingpolicy.Products">
             <div class="col-md-5">
                 <cs-list list-heading="Draft/Expired SubPolicy" value-list="ExpiredAndSubpolicy" text-field="Name"
-                         data-ng-model="subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
+                         data-ng-model="billingpolicy.subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <cs-list list-heading="Approved/UnApproved SubPolicy" value-list="ApproveUnapproved" text-field="Name"
-                         data-ng-model="subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
+                         data-ng-model="billingpolicy.subpolicy" on-click="displaySubpolicyDetails(subpolicy,$index)"></cs-list>
             </div>
             <div class="col-md-1">
+                <div style="height: 100px"></div>
                 <button class="btn btn-success" data-ng-disabled="direction.up" data-ng-click="moveUp(subpolicy)"><i class="glyphicon glyphicon-arrow-up"></i></button>
                 <button class="btn btn-success" data-ng-disabled="direction.down" data-ng-click="moveDown(subpolicy)"><i class="glyphicon glyphicon-arrow-down"></i></button>
             </div>
         </div>
 
-        <div class="margin-box container-fluid" data-ng-form="policyForm" data-ng-show="dldata.buttonStatus!==''">
-            <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-9">
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <b class="col-md-2">{{subpolicy.Name}} :({{dldata.buttonStatus}})</b>
-                                    <div class="pull-right" style="margin-right: 5px">
+        <div class="row" data-ng-form="policyForm" data-ng-show="dldata.buttonStatus!==''">
+            <div class="col-md-1"></div>
+            <div class="col-md-9">
+                <div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <b class="col-md-2">{{subpolicy.Name}} :({{dldata.buttonStatus}})</b>
+                                <div class="pull-right" style="margin-right: 5px">
 
-                                        <cs-button type="delete" text="Deactivate"
-                                                   data-ng-show="dldata.buttonStatus=='Approved'"
-                                                   data-ng-click="openModelDeactivateSubPolicy(subpolicy);"></cs-button>
-                                        <cs-button type="save" text="Activate"
-                                                   data-ng-show="dldata.buttonStatus=='Draft'"
-                                                   data-ng-click="openModelforDraftSubPolicy(subpolicy,$index);"></cs-button>
+                                    <cs-button type="delete" text="Deactivate"
+                                               data-ng-show="dldata.buttonStatus=='Approved'"
+                                               data-ng-click="openModelDeactivateSubPolicy(subpolicy);"></cs-button>
+                                    <cs-button type="save" text="Activate"
+                                               data-ng-show="dldata.buttonStatus=='Draft'"
+                                               data-ng-click="openModelforDraftSubPolicy(subpolicy,$index);"></cs-button>
 
-                                        <cs-button type="add" text="Reactivate"
-                                                   data-ng-show="dldata.buttonStatus=='Expired'"
-                                                   data-ng-click="openModelReactivateSubPolicy(subpolicy);">
-                                        </cs-button>
+                                    <cs-button type="add" text="Reactivate"
+                                               data-ng-show="dldata.buttonStatus=='Expired'"
+                                               data-ng-click="openModelReactivateSubPolicy(subpolicy);">
+                                    </cs-button>
 
-                                        <cs-button type="save" text="Approve"
-                                                   data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                                   data-ng-click="approve(subpolicy.BillingRelations[0])">
-                                        </cs-button>
+                                    <cs-button type="save" text="Approve"
+                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
+                                               data-ng-click="approveORreject('Approve',subpolicy.BillingRelations[0])">
+                                    </cs-button>
 
-                                        <cs-button type="save" text="Reject"
-                                                   data-ng-show="dldata.buttonStatus=='UnApproved'"
-                                                   data-ng-click="reject(subpolicy.BillingRelations[0])">
-                                        </cs-button>
+                                    <cs-button type="save" text="Reject"
+                                               data-ng-show="dldata.buttonStatus=='UnApproved'"
+                                               data-ng-click="approveORreject('Reject',subpolicy.BillingRelations[0])">
+                                    </cs-button>
 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" style="margin-bottom: 5px">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Name</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" readonly
+                                               value="{{subpolicy.Name}}">
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel-body">
-                                <div class="row" style="margin-bottom: 5px">
+                            <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'" style="margin-bottom: 5px">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">Start Date</label>
                                     <div class="col-md-6">
-                                        <label class="col-md-4 control-label">Name</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" readonly
-                                                   value="{{subpolicy.Name}}">
-                                        </div>
+                                        <input type="text" class="form-control" readonly
+                                               value="{{subpolicy.BillingRelations[0].StartDate|date:'dd-MM-yyyy'}}">
                                     </div>
                                 </div>
-                                <div class="row" data-ng-show="dldata.buttonStatus!=='Draft'" style="margin-bottom: 5px">
+                                <div class="col-md-6">
+                                    <label class="col-md-4 control-label">End Date</label>
                                     <div class="col-md-6">
-                                        <label class="col-md-4 control-label">Start Date</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" readonly
-                                                   value="{{subpolicy.BillingRelations[0].StartDate|date:'dd-MM-yyyy'}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="col-md-4 control-label">End Date</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" readonly value="{{subpolicy.BillingRelations[0].EndDate|date:'dd-MM-yyyy'}}">
-                                        </div>
+                                        <input type="text" class="form-control" readonly value="{{subpolicy.BillingRelations[0].EndDate|date:'dd-MM-yyyy'}}">
                                     </div>
                                 </div>
-                                <div class="row" style="margin-bottom: 5px">
-                                    <div class="col-md-6">
-                                        <cs-output table-name="DhflLiner"
-                                                   selected="selParams"
-                                                   formula-list="formulaList"
-                                                   matrix-list="matrixList"
-                                                   tokens-list="displaySubPolicy.ifOutputTokens"
-                                                   group-type="Output"
-                                                   group-id="1.Output" edit="false"></cs-output>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <cs-condition table-name="DhflLiner"
-                                                      selected="selParams"
-                                                      formula-list="formulaList"
-                                                      tokens-list="displaySubPolicy.conditionTokens"
-                                                      group-id="0.Condition"
-                                                      group-type="Condition"
-                                                      debug="false" edit="false"></cs-condition>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="row">
+                                <cs-output tokens-list="displaySubPolicy.outputTokens"></cs-output>
+                            </div>
+                            <div class="row">
+                                <cs-condition tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
                             </div>
                         </div>
                     </div>
