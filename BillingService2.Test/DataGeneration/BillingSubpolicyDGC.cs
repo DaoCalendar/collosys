@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System.Collections.Generic;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 

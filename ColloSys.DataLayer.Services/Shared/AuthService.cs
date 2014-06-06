@@ -30,7 +30,7 @@ namespace ColloSys.DataLayer.Services.Shared
         public static IEnumerable<GPermission> GetPremissionsForCurrentUser()
         {
             var session = SessionManager.GetCurrentSession();
-            var currUserInfo = session.QueryOver<Users>()
+            var currUserInfo = session.QueryOver<GUsers>()
                                       .Where(x => x.Username == CurrentUser)
                                       .Select(x => x.Role)
                                       .SingleOrDefault<StkhHierarchy>();
@@ -43,7 +43,7 @@ namespace ColloSys.DataLayer.Services.Shared
         public static IEnumerable<GPermission> GetPremissionsForCurrentUser(string username)
         {
             var session = SessionManager.GetCurrentSession();
-            var currUserInfo = session.QueryOver<Users>()
+            var currUserInfo = session.QueryOver<GUsers>()
                                       .Where(x => x.Username == username)
                                       .Select(x => x.Role)
                                       .SingleOrDefault<StkhHierarchy>();

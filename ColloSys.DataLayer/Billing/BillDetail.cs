@@ -1,12 +1,7 @@
-﻿#region References
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
-
-#endregion
 
 namespace ColloSys.DataLayer.Domain
 {

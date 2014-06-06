@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -72,7 +73,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         {
             return SessionManager.GetCurrentSession().QueryOver<BillingSubpolicy>()
                                  .Where(x => x.PayoutSubpolicyType == ColloSysEnums.PayoutSubpolicyType.Subpolicy
-                                             && x.Products == products && x.Category == category)
+                                             && x.Products == products)
                                  .WhereRestrictionOn(x => x.Id)
                                  .Not.IsIn(savedSubnpoliciesIds)
                                  //.Fetch(x => x.BConditions).Eager

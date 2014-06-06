@@ -1,14 +1,12 @@
 ﻿#region references
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -16,10 +14,7 @@ using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.UserInterface.Shared;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NHibernate.Criterion;
-using WebGrease.Css.Extensions;
 
 #endregion
 
@@ -31,10 +26,8 @@ namespace AngularUI.Billing.subpolicy
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly BillingSubpolicyBuilder BillingSubpolicyBuilder = new BillingSubpolicyBuilder();
         private static readonly BMatrixBuilder BMatrixBuilder = new BMatrixBuilder();
-        // private static readonly BConditionBuilder BConditionBuilder = new BConditionBuilder();  **commented by SONU  (as per mahendra told)
         private static readonly BillingRelationBuilder BillingRelationBuilder = new BillingRelationBuilder();
         private static readonly BillingPolicyBuilder BillingPolicyBuilder = new BillingPolicyBuilder();
-        private static readonly BillTokenBuilder BillTokenBuilder = new BillTokenBuilder();
 
         #region Get
 
@@ -160,12 +153,9 @@ namespace AngularUI.Billing.subpolicy
             var relation = BillingRelationBuilder.OnSubpolicyId(subpolicy.Id);
             if (relation == null)
             {
-                var policy = BillingPolicyBuilder.OnProductCategory(subpolicy.Products, subpolicy.Category);
+                var policy = BillingPolicyBuilder.OnProductCategory(subpolicy.Products);
                 policy.BillDetails = null;
                 policy.BillingRelations = null;
-                policy.CollectionStkhPayments = null;
-                policy.RecoveryStkhPayments = null;
-                policy.StkhPayments = null;
                 relation = new BillingRelation
                 {
                     BillingPolicy = policy,
@@ -183,7 +173,7 @@ namespace AngularUI.Billing.subpolicy
             SetApproverId(relation);
             relation.Status = ColloSysEnums.ApproveStatus.Submitted;
             var maxpriority = GetMaxPriority();
-            relation.Priority = (uint)maxpriority + 1;
+            relation.Priority = maxpriority + 1;
             BillingRelationBuilder.Save(relation);
             return relation;
         }

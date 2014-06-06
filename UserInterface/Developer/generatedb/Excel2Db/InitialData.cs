@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using ColloSys.DataLayer.Allocation;
+using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Infra.SessionMgr;
@@ -40,8 +41,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                                      select new AllocPolicy
                                      {
                                          Name = product,
-                                         Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product),
-                                         Category = ScbEnums.Category.Liner
+                                         Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product)
                                      }).ToList();
                 using (var tx = session.BeginTransaction())
                 {
@@ -346,7 +346,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                                .Where(x => x.Designation == "Developer")
                                .SingleOrDefault();
 
-            var user1 = new Users
+            var user1 = new GUsers
                 {
                     Role = role4,
                     ApplicationName = "ColloSys",
@@ -365,7 +365,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     Username = "devadmin",
                 };
 
-            var user2 = new Users
+            var user2 = new GUsers
                 {
                     Role = role2,
                     ApplicationName = "ColloSys",

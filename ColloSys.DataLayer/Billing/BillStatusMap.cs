@@ -1,28 +1,18 @@
-#region References
-
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
 
-#endregion
-
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Billing
 {
     public class BillStatusMap : EntityMap<BillStatus>
     {
         public BillStatusMap()
         {
-            Table("BILL_STATUS");
-
-            #region Property
-            Property(x => x.Products);
+            Property(x => x.ExternalId);
             Property(x => x.BillMonth);
+            Property(x => x.OriginMonth);
+            ManyToOne(x => x.Stakeholder);
+            Property(x => x.Products);
             Property(x => x.BillCycle);
             Property(x => x.Status);
-
-            ManyToOne(x => x.Stakeholder);
-            Property(x => x.OriginMonth);
-            Property(x => x.ExternalId);
-            #endregion
         }
     }
 }

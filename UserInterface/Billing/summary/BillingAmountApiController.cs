@@ -77,7 +77,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
         [HttpGet]
         
-        public BillAmount GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
+        public BillSummary GetBillingData(ScbEnums.Products products, Guid stakeId, int month)
         {
             var data= BillAmountBuilder.OnStakeProductMonth(products, stakeId, month);
             return data;
@@ -85,7 +85,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
 
         [HttpPost]
         
-        public BillAmount ApproveBillingAmount(BillAmount billAmount)
+        public BillSummary ApproveBillingAmount(BillSummary billAmount)
         {
             BillAmountBuilder.Save(billAmount);
             return billAmount;
@@ -132,7 +132,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
         [HttpTransaction2]
         public string ExcelForBillSammary(ScbEnums.Products products, Guid stakeId, int month)
         {
-            var billAmount = Session.QueryOver<BillAmount>()
+            var billAmount = Session.QueryOver<BillSummary>()
                .Where(x => x.Stakeholder.Id == stakeId)
                .And(x => x.Products == products)
                .And(x => x.BillMonth == month)
@@ -177,7 +177,7 @@ namespace ColloSys.UserInterface.Areas.Billing.apiController
             return file.FullName;
         }
 
-        private void WriteBillSammary(BillAmount billAmount, ExcelWorksheet ws, ref int excelRowCounter)
+        private void WriteBillSammary(BillSummary billAmount, ExcelWorksheet ws, ref int excelRowCounter)
         {
             excelRowCounter++;
 

@@ -17,7 +17,7 @@ namespace AngularUI.Generic.login
 {
     public class AutheticationApiController : ApiController
     {
-        private readonly IRepository<Users> _usersRepo = new GUsersRepository();
+        private readonly IRepository<GUsers> _usersRepo = new GUsersRepository();
 
         [HttpPost]
         public HttpResponseMessage AutheticateUser(LoginModel loginInfo)

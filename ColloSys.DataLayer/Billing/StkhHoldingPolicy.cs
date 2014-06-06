@@ -1,10 +1,11 @@
 ﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Mapping;
 
-namespace ColloSys.DataLayer.Mapping
+namespace ColloSys.DataLayer.Billing
 {
-    public class ActivateHoldingPolicy : Entity
+    public class StkhHoldingPolicy : Entity
     {
         public virtual HoldingPolicy HoldingPolicy { get; set; }
         public virtual Stakeholders Stakeholder { get; set; }
