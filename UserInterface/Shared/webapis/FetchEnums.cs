@@ -106,7 +106,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.PayoutLRType));
             list.AddToList(typeof(ColloSysEnums.Lsqlfunction));
             list.AddToList(typeof(ColloSysEnums.OutputType));
-            list.AddToList(typeof(ColloSysEnums.CityCategory));
+            //list.AddToList(typeof(ColloSysEnums.CityCategory));
             list.AddToList(typeof(ColloSysEnums.BillPaymentStatus));
             list.AddToList(typeof(ColloSysEnums.TaxApplicableTo));
             list.AddToList(typeof(ColloSysEnums.TaxType));

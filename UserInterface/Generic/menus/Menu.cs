@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 using ColloSys.QueryBuilder.Test.GenerateDb;
 
 namespace AngularUI.Generic.Menu

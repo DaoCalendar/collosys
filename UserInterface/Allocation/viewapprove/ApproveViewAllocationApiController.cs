@@ -1,4 +1,6 @@
-﻿#region references
+﻿using ColloSys.DataLayer.Stakeholder;
+
+#region references
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,6 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;

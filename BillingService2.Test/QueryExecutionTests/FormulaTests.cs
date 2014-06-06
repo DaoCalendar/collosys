@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ColloSys.DataLayer.Billing;
 using ColloSys.QueryBuilder.Test.DataGeneration;
 using ColloSys.QueryBuilder.Test.QueryExecution;

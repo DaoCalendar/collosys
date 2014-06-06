@@ -6,7 +6,6 @@ using System.Configuration;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.Services.Generic;
 using ColloSys.DataLayer.Services.Shared;

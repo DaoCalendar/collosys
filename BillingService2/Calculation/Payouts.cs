@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BillingService2.DBLayer;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.Test.QueryExecution;

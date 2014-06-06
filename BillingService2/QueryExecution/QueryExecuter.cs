@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Dynamic;
 using BillingService2.ViewModel;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 
 #endregion
 

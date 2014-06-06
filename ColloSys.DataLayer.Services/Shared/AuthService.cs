@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace ColloSys.DataLayer.Services.Shared
 {

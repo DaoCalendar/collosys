@@ -7,12 +7,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Interfaces;
-using ColloSys.FileUploadService.UtilityClasses;
 using ColloSys.FileUploadService.BaseReader;
 using NLog;
 

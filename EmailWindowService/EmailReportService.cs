@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration.Install;
-using System.Data;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
 using System.ServiceProcess;
-using System.Text;
 using System.Timers;
 using ColloSys.EMailServices;
 using ColloSys.EMailServices.Logging;

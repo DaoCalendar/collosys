@@ -1,9 +1,7 @@
 ﻿using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using NUnit.Framework;
 using FileUploader.ExcelReader;
 using ReflectionExtension.ExcelReader;
-using ReflectionExtension.Tests;
 
 
 namespace ReflectionExtension.Tests.ExcelReader.Test

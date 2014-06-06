@@ -2,7 +2,6 @@
 
 using System;
 using System.Globalization;
-using NHibernate;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 

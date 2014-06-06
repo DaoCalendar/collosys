@@ -2,7 +2,6 @@
 
 using System.Collections;
 using ColloSys.Shared.NgGrid;
-using NHibernate;
 using NHibernate.Criterion;
 
 #endregion

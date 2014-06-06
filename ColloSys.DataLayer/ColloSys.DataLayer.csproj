@@ -130,6 +130,8 @@
     <Compile Include="BaseEntity\EntityMap.cs" />
     <Compile Include="Components\IUniqueKey.cs" />
     <Compile Include="Enumerations\ScbEnums.cs" />
+    <Compile Include="Generic\GKeyValue.cs" />
+    <Compile Include="Generic\GKeyValueMap.cs" />
     <Compile Include="Generic\GTaxDetail.cs" />
     <Compile Include="Generic\GTaxDetailMap.cs" />
     <Compile Include="Generic\GTaxesList.cs" />
@@ -143,12 +145,8 @@
     <Compile Include="FileUploader\FileValueMappingMap.cs" />
     <Compile Include="Generic\GReports.cs" />
     <Compile Include="Generic\GReportsMap.cs" />
-    <Compile Include="Generic\StakeAddress.cs" />
-    <Compile Include="Generic\StakeAddressMap.cs" />
-    <Compile Include="Generic\GConfig.cs" />
-    <Compile Include="Generic\GConfigMap.cs" />
-    <Compile Include="Generic\GKeyValue.cs" />
-    <Compile Include="Generic\GKeyValueMap.cs" />
+    <Compile Include="Stakeholder\StakeAddress.cs" />
+    <Compile Include="Stakeholder\StakeAddressMap.cs" />
     <Compile Include="Generic\GPermission.cs" />
     <Compile Include="Generic\GPermissionMap.cs" />
     <Compile Include="Generic\GPincode.cs" />

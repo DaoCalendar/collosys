@@ -108,7 +108,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                 using (var tx = session.BeginTransaction())
                 {
                     var data = session.QueryOver<GKeyValue>()
-                                      .Where(x => x.Area == area && x.Key == key)
+                                      .Where(x => x.Area == area && x.ParamName == key)
                                       .Select(x => x.Value)
                                       .List<string>();
                     tx.Rollback();

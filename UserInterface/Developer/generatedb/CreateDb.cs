@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using AngularUI.Developer.queryexecuter;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Migrate;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;

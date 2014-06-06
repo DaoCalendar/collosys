@@ -2,7 +2,6 @@
 
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
-using NHibernate;
 
 #endregion
 

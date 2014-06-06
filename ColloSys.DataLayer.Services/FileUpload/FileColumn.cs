@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ExcelWriter;
 

@@ -1,4 +1,5 @@
 ﻿using ColloSys.DataLayer.Allocation;
+using ColloSys.DataLayer.Stakeholder;
 
 #region references
 
@@ -6,18 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.Shared;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.ExcelWriter;
-using ColloSys.Shared.Types4Product;
-using NHibernate;
-using NHibernate.Criterion;
-using NHibernate.SqlCommand;
 using NLog;
 
 #endregion

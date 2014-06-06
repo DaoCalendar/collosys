@@ -1,5 +1,4 @@
 ﻿using System;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
 using PostSharp.Aspects;

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 

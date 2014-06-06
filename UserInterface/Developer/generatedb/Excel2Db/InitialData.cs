@@ -6,10 +6,10 @@ using System.Data.SqlTypes;
 using System.Linq;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using ColloSys.Shared.Encryption;
 
 #endregion

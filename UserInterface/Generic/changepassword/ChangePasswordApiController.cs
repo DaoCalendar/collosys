@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Generic;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;
-using ColloSys.Shared.SharedUtils;
-using Glimpse.AspNet.Tab;
 
 namespace AngularUI.Generic.changepassword
 {

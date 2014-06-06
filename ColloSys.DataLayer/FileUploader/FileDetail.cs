@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 

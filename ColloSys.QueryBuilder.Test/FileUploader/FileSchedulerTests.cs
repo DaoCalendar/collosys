@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.FileUploadService;
+﻿using ColloSys.FileUploadService;
 using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.FileUploader

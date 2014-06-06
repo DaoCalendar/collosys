@@ -5,7 +5,6 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using System;
 using System.Globalization;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.SharedUtils;
 using NLog;

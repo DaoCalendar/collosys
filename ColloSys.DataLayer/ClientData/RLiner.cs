@@ -1,4 +1,6 @@
-﻿#region References
+﻿using ColloSys.DataLayer.Generic;
+
+#region References
 
 using System;
 using System.Collections.Generic;
@@ -7,8 +9,6 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
-using Iesi.Collections.Generic;
-using NHibernate;
 
 #endregion
 

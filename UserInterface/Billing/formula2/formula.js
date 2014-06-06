@@ -1,8 +1,7 @@
 ﻿
-csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
-    function (rest, $csnotify, $csfactory) {
+csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', 
+    function (rest, $csnotify) {
 
-        var dldata = {};
         var restApi = rest.all("PayoutSubpolicyApi");
 
         var getFormulaList = function (product) {
@@ -22,15 +21,6 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
             });
         };
 
-        var getBConditions = function (formulaId) {
-            if ($csfactory.isNullOrEmptyGuid(formulaId)) {
-                return [];
-            }
-            return restApi.customGET("GetBConditions", { parentId: formulaId }).then(function (data) {
-                return data;
-            });
-        };
-
         var saveFormula = function (formula) {
             return restApi.customPOST(formula, 'Post').then(function (data) {
                 return data;
@@ -38,10 +28,8 @@ csapp.factory('formulaDataLayer', ['Restangular', '$csnotify', '$csfactory',
         };
 
         return {
-            dldata: dldata,
             getFormulaList: getFormulaList,
             getColumnNames: getColumnNames,
-            getBConditions: getBConditions,
             saveFormula: saveFormula,
         };
     }]);
@@ -105,8 +93,6 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
                 _.forEach(item.ElseOutput, function (condi) {
                     list.push(condi);
                 });
-                //list = _.union(item.Condition,
-                  //  item.IfOutput, item.ElseOutput);
             });
             return list;
         };
@@ -159,13 +145,9 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
         };
 
         (function () {
-            $scope.dldata = datalayer.dldata;
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             $scope.Formula = $csModels.getColumns("Formula");
-
             initPageData();
         })();
-
-
     }]);

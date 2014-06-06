@@ -83,7 +83,7 @@ namespace ColloSys.QueryBuilder.BillingBuilder
         }
 
         [Transaction]
-        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product)
+        public IEnumerable<BillingSubpolicy> OnProductCategory(ScbEnums.Products product,ColloSysEnums.PolicyType policyType)
         {
             return SessionManager.GetCurrentSession()
                                  .QueryOver<BillingSubpolicy>()

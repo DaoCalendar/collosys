@@ -11,7 +11,6 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.UserInterface.Areas.FileUploader.Models;
 using NHibernate;

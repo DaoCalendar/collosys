@@ -13,7 +13,7 @@ csapp.directive("csOutput", function () {
             groupType: '@',
             tokensList: '=',
             debug: '@',
-            edit:'@'
+            edit: '@'
         }
     };
 
@@ -43,6 +43,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 },
                 filterString: ''
             };
+            $scope.tokensList = [];
             //$scope.tokensList = $scope.tokens.selected;
         };
 
@@ -123,12 +124,12 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         $scope.setValidation = function () {
             if (angular.isUndefined($scope.tokensList)) {
-                return;
+                return '';
             }
             if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
-                return 'bg-danger';
+                return 'alert-danger';
             }
-            return 'bg-info';
+            return 'alert-info';
         };
 
         $scope.reset = function () {
@@ -153,7 +154,7 @@ csapp.directive("csCondition", function () {
             groupType: '@',
             tokensList: '=',
             debug: '@',
-            edit:'@'
+            edit: '@'
         }
     };
 
@@ -184,6 +185,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
                 hasConditional: false
             };
             //$scope.tokensList = $scope.tokens.selected;
+            $scope.tokensList = [];
         };
 
         var initFirstTokens = function () {
@@ -264,9 +266,9 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.setValidation = function () {
             if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
-                return 'bg-success';
+                return 'alert-info';
             }
-            return 'bg-danger';
+            return 'alert-danger';
         };
 
         $scope.reset = function () {
@@ -290,7 +292,7 @@ csapp.directive('csIfElse', function () {
             groupId: '@',
             tokensList: '=',
             debug: '@',
-            edit:'@'
+            edit: '@'
         }
     };
 });
@@ -313,7 +315,7 @@ csapp.directive('csMultiIfElse', function () {
             matrixList: '=',
             tokensList: '=',
             debug: '@',
-            edit:'@'
+            edit: '@'
         }
     };
 });
