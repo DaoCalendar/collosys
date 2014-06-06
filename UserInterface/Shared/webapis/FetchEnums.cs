@@ -114,6 +114,8 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.ApplyOn));
             list.AddToList(typeof(ColloSysEnums.RuleForHolding));
             list.AddToList(typeof(ColloSysEnums.Activities));
+            list.AddToList(typeof(ColloSysEnums.PolicyType));
+            list.AddToList(typeof(ColloSysEnums.PolicyOn));
 
         }
     }

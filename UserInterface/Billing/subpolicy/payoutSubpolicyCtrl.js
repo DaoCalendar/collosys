@@ -1,6 +1,6 @@
 ﻿
-csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify', '$csfactory',
-    function (rest, $csnotify, $csfactory) {
+csapp.factory('payoutSubpolicyDataLayer', ['Restangular', '$csnotify',
+    function (rest, $csnotify) {
         var restApi = rest.all("PayoutSubpolicyApi");
 
         var getSubpolicyList = function (selectedParams) {

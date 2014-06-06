@@ -20,8 +20,11 @@
 
     <div>
         <div class="col-md-3" data-ng-show="sele.Products">
-            <cs-list2 list-heading="Subpolicy List" value-list="subpolicyList" text-field="Name"
-                      data-ng-model="spayoutSubpolicy" data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list2>
+            <cs-list2 list-heading="Subpolicy List" 
+                      value-list="subpolicyList" 
+                      text-field="Name"
+                      data-ng-model="spayoutSubpolicy" 
+                      data-ng-click="selectSubpolicy(spayoutSubpolicy)"></cs-list2>
         </div>
 
         <div class="col-md-9" data-ng-if="showDiv">
@@ -44,24 +47,26 @@
 
             <!--Conditions-->
             <div>
-                <cs-condition table-name="DhflLiner"
+                <cs-condition table-name="CustomerInfo"
                               selected="selParams"
                               formula-list="formulaList"
                               tokens-list="selectedTokens.conditionTokens"
                               group-id="0.Condition"
                               group-type="Condition"
-                              debug="false" edit="true"></cs-condition>
+                              debug="false"
+                              edit="true"></cs-condition>
             </div>
 
             <!--Output -->
             <div>
-                <cs-output table-name="DhflLiner"
+                <cs-output table-name="CustomerInfo"
                            selected="selParams"
                            formula-list="formulaList"
                            matrix-list="matrixList"
                            tokens-list="selectedTokens.ifOutputTokens"
                            group-type="Output"
-                           group-id="1.Output" edit="true"></cs-output>
+                           group-id="1.Output"
+                           edit="true"></cs-output>
             </div>
 
             <!--Button-->
