@@ -2,9 +2,6 @@
 
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.ClientData;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 
 #endregion
 

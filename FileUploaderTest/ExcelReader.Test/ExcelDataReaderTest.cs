@@ -1,5 +1,4 @@
-﻿using FileUploader.ExcelReader;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test

@@ -4,7 +4,6 @@ using System;
 using System.Configuration;
 using System.Globalization;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Implementers;

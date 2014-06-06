@@ -1,6 +1,5 @@
 ﻿#region references
 
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Migrate;
 using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;

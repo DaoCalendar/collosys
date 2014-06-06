@@ -1,6 +1,5 @@
 ﻿#region references
 
-using System.Collections.Generic;
 using System.Globalization;
 using ColloSys.DataLayer.Domain;
 using System;

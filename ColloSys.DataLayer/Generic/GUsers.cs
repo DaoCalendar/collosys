@@ -1,15 +1,11 @@
-﻿#region references
-
-using System;
+﻿using System;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Stakeholder;
 
-#endregion
-
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Generic
 {
     public class GUsers : Entity
     {
-        #region Properties
         public virtual string Username { get; set; }
         public virtual string ApplicationName { get; set; }
         public virtual string Email { get; set; }
@@ -37,43 +33,21 @@ namespace ColloSys.DataLayer.Domain
         public virtual DateTime FailedPasswordAnswerAttemptWindowStart { get; set; }
 
         public virtual StkhHierarchy Role { get; set; }
-        #endregion
-
-        #region Constructor
-        public GUsers()
-        {
-            // ReSharper disable DoNotCallOverridableMethodsInConstructor
-            LastPasswordChangedDate = Convert.ToDateTime("01/01/1999");
-            LastActivityDate = Convert.ToDateTime("01/01/1999");
-            LastLockedOutDate = Convert.ToDateTime("01/01/1999");
-            FailedPasswordAnswerAttemptWindowStart = Convert.ToDateTime("01/01/1999");
-            FailedPasswordAttemptWindowStart = Convert.ToDateTime("01/01/1999");
-            LastLoginDate = Convert.ToDateTime("01/01/1999");
-            // ReSharper restore DoNotCallOverridableMethodsInConstructor
-        }
-        #endregion
-
-        #region Methods
-
-        public virtual void AddRole(StkhHierarchy role)
-        {
-            role.UsersInRole.Add(this);
-            Role = role;
-        }
-
-        public virtual void RemoveRole(StkhHierarchy role)
-        {
-            role.UsersInRole.Remove(this);
-            Role = null;
-        }
-
-        #endregion
-
-        //#region Relationship None
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    return;
-        //}
-        //#endregion
     }
 }
+
+        //#endregion
+
+        //#region Constructor
+        //public GUsers()
+        //{
+        //    // ReSharper disable DoNotCallOverridableMethodsInConstructor
+        //    LastPasswordChangedDate = Convert.ToDateTime("01/01/1999");
+        //    LastActivityDate = Convert.ToDateTime("01/01/1999");
+        //    LastLockedOutDate = Convert.ToDateTime("01/01/1999");
+        //    FailedPasswordAnswerAttemptWindowStart = Convert.ToDateTime("01/01/1999");
+        //    FailedPasswordAttemptWindowStart = Convert.ToDateTime("01/01/1999");
+        //    LastLoginDate = Convert.ToDateTime("01/01/1999");
+        //    // ReSharper restore DoNotCallOverridableMethodsInConstructor
+        //}
+

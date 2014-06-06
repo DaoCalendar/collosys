@@ -11,7 +11,6 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.Services.FileUpload;
 using ColloSys.DataLayer.Services.Shared;
 using ColloSys.DataLayer.SessionMgr;

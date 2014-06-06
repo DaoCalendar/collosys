@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Generic;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.Shared.Encryption;

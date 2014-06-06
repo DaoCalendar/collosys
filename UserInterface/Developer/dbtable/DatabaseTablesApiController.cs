@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Web.Http;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ExcelWriter;
 using ColloSys.Shared.NgGrid;

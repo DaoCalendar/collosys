@@ -1,6 +1,5 @@
 ﻿using System;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.NgGrid;
 using Newtonsoft.Json;

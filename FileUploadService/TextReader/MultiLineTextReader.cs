@@ -6,7 +6,6 @@ using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploadService.Interfaces;
-using ColloSys.FileUploadService.UtilityClasses;
 using NLog;
 
 #endregion

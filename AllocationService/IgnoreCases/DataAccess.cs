@@ -1,11 +1,9 @@
 ﻿#region references
 
 using System.Collections.Generic;
-using System.Linq;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.ClientDataBuilder;

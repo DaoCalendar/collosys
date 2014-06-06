@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using AngularUI.Generic.Menu;
-using ColloSys.DataLayer.Domain;
-using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.JsonSerialization;
 using ColloSys.DataLayer.SessionMgr;
+using ColloSys.DataLayer.Stakeholder;
 using NHibernate.Linq;
 using NUnit.Framework;
 using Newtonsoft.Json;

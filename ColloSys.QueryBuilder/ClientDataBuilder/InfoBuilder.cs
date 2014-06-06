@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.BaseTypes;

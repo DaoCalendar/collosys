@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
-using Glimpse.AspNet.Tab;
-using Microsoft.Ajax.Utilities;
+using ColloSys.DataLayer.Stakeholder;
 using NHibernate.Linq;
-using NHibernate.SqlCommand;
-using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.Test.GenerateDb
 {

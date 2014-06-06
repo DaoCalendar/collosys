@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.BaseEntity;
 
 namespace ColloSys.DataLayer.Generic
 {
@@ -12,20 +6,13 @@ namespace ColloSys.DataLayer.Generic
     {
         public GKeyValueMap()
         {
-            Table("G_KeyValue");
-
-            #region Property
-
-            Property(x => x.Key);
-
-            Property(x => x.Value);
-
-            Property(x => x.ValueType);
-
             Property(x => x.Area);
-
-            #endregion
+            Property(x => x.ParamName);
+            Property(x => x.Value);
+            Property(x => x.ValueType);
+            Property(x => x.ApprovedBy, map => map.NotNullable(false));
+            Property(x => x.Status);
+            Property(x => x.ApprovedOn);
         }
-
     }
 }

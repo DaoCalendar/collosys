@@ -1,4 +1,4 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.Stakeholder;
 
 namespace ColloSys.AllocationService.EmailAllocations
 {

@@ -1,10 +1,8 @@
 ﻿using System.IO;
 using AngularUI.Shared.webapis;
 using ColloSys.DataLayer.Billing;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
-using ColloSys.QueryBuilder.Generic;
 using ColloSys.Shared.SharedUtils;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
@@ -18,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.BillingBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;

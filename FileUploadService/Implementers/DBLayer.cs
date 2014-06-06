@@ -9,10 +9,8 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService.Interfaces;
-using Excel.Log;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
@@ -360,7 +358,7 @@ namespace ColloSys.FileUploadService.Implementers
                 using (var tx = session.BeginTransaction())
                 {
                     var data = session.QueryOver<GKeyValue>()
-                                      .Where(x => x.Area == area && x.Key == key)
+                                      .Where(x => x.Area == area && x.ParamName == key)
                                       .Select(x => x.Value)
                                       .List<string>();
                     tx.Rollback();

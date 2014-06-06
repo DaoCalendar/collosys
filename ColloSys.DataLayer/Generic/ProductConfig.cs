@@ -1,16 +1,10 @@
-﻿#region References
-using System.ComponentModel.DataAnnotations;
-using ColloSys.DataLayer.BaseEntity;
-using ColloSys.DataLayer.Components;
+﻿using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 
-#endregion
-
-namespace ColloSys.DataLayer.Domain
+namespace ColloSys.DataLayer.Generic
 {
     public class ProductConfig : Entity
     {
-        #region Properties
         public virtual ScbEnums.Products Product { get; set; }
 
         public virtual ScbEnums.ScbSystems ProductGroup { get; set; }
@@ -34,13 +28,5 @@ namespace ColloSys.DataLayer.Domain
         public virtual ScbEnums.ClientDataTables? WriteoffTable { get; set; }
 
         public virtual ScbEnums.ClientDataTables PaymentTable { get; set; }
-        #endregion
-
-        //#region Relationship None
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    return;
-        //}
-        //#endregion
     }
 }

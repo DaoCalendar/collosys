@@ -1,8 +1,9 @@
-﻿#region references
+﻿using ColloSys.DataLayer.Stakeholder;
+
+#region references
 
 using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SharedDomain;
 using ColloSys.QueryBuilder.AllocationBuilder;

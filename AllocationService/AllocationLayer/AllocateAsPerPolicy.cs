@@ -6,10 +6,10 @@ using System.Linq;
 using ColloSys.AllocationService.Generic;
 using ColloSys.AllocationService.Models;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SharedDomain;
-using ColloSys.Shared.Types4Product;
+using ColloSys.DataLayer.Stakeholder;
 
 #endregion
 

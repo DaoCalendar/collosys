@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace AngularUI.Generic.changepassword
+﻿namespace AngularUI.Generic.changepassword
 {
     public class ChangePasswordModel
     {

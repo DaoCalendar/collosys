@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Runtime.Remoting.Contexts;
-using System.Runtime.Remoting.Messaging;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
 using PostSharp.Aspects;

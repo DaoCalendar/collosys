@@ -2,9 +2,7 @@
 using System.Data;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploadService.BaseReader;
 using ColloSys.FileUploadService.ExcelReader;
 using ColloSys.Shared.ErrorTables;
 using NHibernate.Transform;

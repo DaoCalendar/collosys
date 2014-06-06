@@ -8,7 +8,6 @@ using System.Linq;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.SharedDomain;
 using ColloSys.FileUploadService.Interfaces;
 using ColloSys.Shared.SharedUtils;
 using NLog;

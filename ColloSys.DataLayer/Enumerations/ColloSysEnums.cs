@@ -519,20 +519,6 @@ namespace ColloSys.DataLayer.Enumerations
             IfElse
         }
 
-        [Serializable]
-        public enum CityCategory
-        {
-            Tier1,
-            Tier2,
-            Metro, 
-            A,
-            B
-        }
-
         #endregion
-
-
-
-       
     }
 }

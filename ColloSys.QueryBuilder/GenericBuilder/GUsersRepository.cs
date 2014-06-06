@@ -1,4 +1,4 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.Generic;
 using ColloSys.QueryBuilder.BaseTypes;
 using NHibernate.Criterion;
 
