@@ -1,7 +1,85 @@
 ﻿<form name="Requisitionpreparationform">
-    <cs-form>
-        <cs-field data-ng-model="legal.Requis" field="legalpre.Requis"></cs-field>
+    <cs-form layout="6.3.9">
+        <cs-field data-ng-model="legal.Requisition" field="legalprepare.Prepare"></cs-field>
     </cs-form>
+    
+    <div>
+        <div data-ng-show="legal.Requisition" class="well">
+            <cs-form layout="6.3.5">
+                <cs-field data-ng-model="legal.City" field="legalprepare.City"
+                          value-List="dldata.City"></cs-field>
+
+                <cs-field data-ng-model="legal.Products" field="legalprepare.Products"
+                          value-List="dldata.Products"></cs-field>
+
+                <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
+
+                <cs-field data-ng-model="legal.LoanStatus" field="legalprepare.LoanStatus"
+                          value-List="dldata.loanstatus"></cs-field>
+
+                <cs-field data-ng-model="legal.CaseStatus" field="legalprepare.CaseStatus"
+                          value-List="dldata.casestatus"></cs-field>
+            </cs-form>
+            
+            <div class="text-right">
+                <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
+                <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
+            </div> 
+
+           
+            <div class="well">
+                <div class="row" style="height: 550px; overflow: auto;">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>Requsition No</th>
+                    <th>Req Date</th>
+                    <th>Case Status</th>
+                    <th>Loan No</th>
+                    <th>Party Name</th>
+                    <th>Case Status</th>
+                    <th>OS amount</th>
+                    <th>Future Reciavable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
+                    <td>
+                        <div class="btn-group" style="width: 120px">
+                            <icon-btn permission = "FileUploader,CreateFile,AddEdit" type="edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></icon-btn>
+                            <icon-btn permission = "FileUploader,CreateFile,Delete" type="delete" data-ng-click="showDeleteModelPopup(fileDetail)"></icon-btn>
+                        </div>
+
+                    </td>
+                    <td>{{fileDetail.AliasName}}
+                    </td>
+                    <td>{{fileDetail.ScbSystems}}
+                    </td>
+                    <td>{{fileDetail.Frequency}}
+                    </td>
+                    <td>{{fileDetail.DependsOnAlias }}
+                    </td>
+                    <td>{{fileDetail.Category}}
+                    </td>
+                    <td>{{fileDetail.FileType}}
+                    </td>
+                    <td>{{fileDetail.FileName}}
+                    </td>
+                    <td>{{fileDetail.FileCount}}
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+            </div>
+
+        </div>
+    </div>
 </form>
 
 
