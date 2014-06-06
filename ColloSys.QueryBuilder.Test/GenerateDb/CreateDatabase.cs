@@ -29,7 +29,6 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             FileUploaderService.UploadFiles();
         }
 
-       
         [Test]
         public void UpdateScbuserPassword()
         {

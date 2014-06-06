@@ -363,6 +363,8 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     PasswordAnswer = "20100101",
                     PasswordQuestion = "Joining Date?",
                     Username = "devadmin",
+                    LastLoginDate = DateTime.Now,
+                    LastPasswordChangedDate = DateTime.Now
                 };
 
             var user2 = new GUsers
@@ -382,6 +384,8 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     PasswordAnswer = "20100101",
                     PasswordQuestion = "Joining Date?",
                     Username = "scbuser",
+                    LastLoginDate = DateTime.Now,
+                    LastPasswordChangedDate = DateTime.Now
                 };
 
             var user2Stkh = new Stakeholders
@@ -391,9 +395,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                 ApprovedOn = DateTime.Now,
                 ExternalId = "devadmin",
                 Password = PasswordUtility.EncryptText("p@55w0rld"),
-                //BirthDate = DateTime.Today.AddYears(-20),
                 EmailId = "collosys@sc.com",
-                //Gender = ColloSysEnums.Gender.Male,
                 JoiningDate = DateTime.Today,
                 MobileNo = "9999999999",
                 Name = "Developer",
