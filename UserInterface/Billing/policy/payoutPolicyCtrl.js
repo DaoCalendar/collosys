@@ -56,10 +56,17 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
         (function () {
             $scope.direction = { up: true, down: true };
             $scope.billingpolicy = {};
+            $scope.buttonStatus = "";
             $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
+            $scope.BillingPolicyModel.startDateText = {label:"Start date",type:"text"};
+            $scope.BillingPolicyModel.endDateText = {label:"End date",type:"text"};
             $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
                 return (item === "UNKNOWN" || item === "ALL");
             });
+            $scope.displaySubPolicy = {
+                conditionTokens: [],
+                outputTokens:[]
+            };
             $scope.config = {};
             $scope.selected = {};
         })();
@@ -71,7 +78,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 case "policy":
                     $scope.billingpolicy.PolicyFor = "";
                     $scope.billingpolicy.PolicyForId = "";
-                    $scope.dldata.buttonStatus = "";
+                    $scope.buttonStatus = "";
                     break;
             }
         };
@@ -112,9 +119,8 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             });
         };
 
-        $scope.displaySubpolicyDetails = function () {
-            console.log($scope.selected);
-            datalayer.displaySubpolicyDetails($scope.selected.selectedItem).then(function (data) {
+        $scope.displaySubpolicyDetails = function (selected) {
+            datalayer.displaySubpolicyDetails(selected.selectedItem).then(function (data) {
                 $scope.billingpolicy.BillTokens = data;
                 $scope.displaySubPolicy = {
                     conditionTokens: _.filter(data, { 'GroupType': 'Condition' }),
@@ -122,25 +128,25 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 };
             });
 
-            $scope.setButtonStatus($scope.selected.selectedItem.BillingRelations[0]);
+            $scope.setButtonStatus(selected.selectedItem.BillingRelations[0]);
         };
 
         $scope.setButtonStatus = function (relation) {
             if (angular.isUndefined(relation)) {
-                $scope.dldata.buttonStatus = 'Draft';
+                $scope.buttonStatus = 'Draft';
                 return;
             }
             if (relation.Status === 'Approved') {
-                $scope.dldata.buttonStatus = relation.Status;
+                $scope.buttonStatus = relation.Status;
             }
             var today = moment();
             var endDate = moment(relation.EndDate);
             var diff = endDate.diff(today, 'days');
             if ((diff < 0)) {
-                $scope.dldata.buttonStatus = 'Expired';
+                $scope.buttonStatus = 'Expired';
             }
             if ((relation.Status === 'Submitted') && (diff >= 0)) {
-                $scope.dldata.buttonStatus = 'UnApproved';
+                $scope.buttonStatus = 'UnApproved';
             }
         };
 
