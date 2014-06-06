@@ -71,10 +71,10 @@ namespace AngularUI.Generic.Menu
             var stakeholder = home.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
             stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
             stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
-            stakeholder.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation/RequisitionPreparation");
-            stakeholder.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation/RequsitionIntiation");
-            stakeholder.AddChild("Follow-Up", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation/Follow-Up");
-            stakeholder.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation/LegalCaseexecution");
+            stakeholder.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation");
+            stakeholder.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequsitionIntiation");
+            stakeholder.AddChild("Follow-Up", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/Follow-Up");
+            stakeholder.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/LegalCaseexecution");
 
             var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
             allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");

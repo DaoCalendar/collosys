@@ -84,16 +84,8 @@ namespace AngularUI.Billing.subpolicy
 
         public HttpResponseMessage GetPayoutSubpolicy(ScbEnums.Products product, ColloSysEnums.PolicyType policyType)
         {
-            //  var data = BillingSubpolicyBuilder.OnProductCategory(product, policyType);  **commmented By SONu (as per mahendra told)
-            return Request.CreateResponse(HttpStatusCode.OK, "");
-        }
-
-        [HttpGet]
-
-        public HttpResponseMessage GetBConditions(Guid parentId)
-        {
-            //  var data = BConditionBuilder.OnSubpolicyId(parentId);  ** commented by SONU (as per mahendra told)
-            return Request.CreateResponse(HttpStatusCode.OK, "");
+            var data = BillingSubpolicyBuilder.OnProductCategory(product, policyType);
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         //[CamelCasedApiMethod]

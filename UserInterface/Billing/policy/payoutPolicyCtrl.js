@@ -55,10 +55,13 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
 
         (function () {
             $scope.direction = { up: true, down: true };
+            $scope.billingpolicy = {};
             $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
             $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
                 return (item === "UNKNOWN" || item === "ALL");
             });
+            $scope.config = {};
+            $scope.selected = {};
         })();
 
         $scope.onParamChange = function (changed) {
@@ -98,11 +101,20 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             datalayer.getPolicyList(product).then(function (data) {
                 $scope.ExpiredAndSubpolicy = data.NotInUseSubpolices;
                 $scope.ApproveUnapproved = data.IsInUseSubpolices;
+
+                $scope.config.lhsValueList = data.NotInUseSubpolices;
+                $scope.config.rhsValueList = data.IsInUseSubpolices;
+                $scope.config.lhsHeading = "Draft/Expired";
+                $scope.config.rhsHeading = "Approved/Unapproved";
+                $scope.config.lhsTextField = "Name";
+                $scope.config.rhsTextField = "Name";
+                $scope.config.showRightLeftButtons = false;
             });
         };
 
-        $scope.displaySubpolicyDetails = function (subpolicy, index) {
-            datalayer.displaySubpolicyDetails(subpolicy).then(function (data) {
+        $scope.displaySubpolicyDetails = function () {
+            console.log($scope.selected);
+            datalayer.displaySubpolicyDetails($scope.selected.selectedItem).then(function (data) {
                 $scope.billingpolicy.BillTokens = data;
                 $scope.displaySubPolicy = {
                     conditionTokens: _.filter(data, { 'GroupType': 'Condition' }),
@@ -110,8 +122,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 };
             });
 
-            $scope.setButtonStatus(subpolicy.BillingRelations[0]);
-            $scope.manageUpDownArrow(subpolicy.BillingRelations[0], index);
+            $scope.setButtonStatus($scope.selected.selectedItem.BillingRelations[0]);
         };
 
         $scope.setButtonStatus = function (relation) {
@@ -180,7 +191,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 actionButtonText: 'Yes',
                 closeButtonText: 'Cancel',
                 headerText: activity + ' Subpolicy',
-                bodyText: 'Are you sure you want to ' + activity + ' Subpolicy : ' + subpolicy.Name + '?'
+                bodyText: 'Are you sure you want to ' + activity + ' Subpolicy : ' + subpolicy + '?'
             };
             modalService.showModal({}, modalOptions).then(function () {
                 datalayer.save({
@@ -197,7 +208,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 controller: 'billingPolicymodal',
                 size: 'modal-large',
                 resolve: {
-                    pageData: function() {
+                    pageData: function () {
                         return {
                             Activity: activity,
                             Subpolicy: subpolicy
@@ -206,7 +217,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 }
             });
 
-            modalInstance.result.then(function(data) {
+            modalInstance.result.then(function (data) {
                 datalayer.save({
                     Activity: activity,
                     Subpolicy: subpolicy,
@@ -220,7 +231,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
     }]);
 
 csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', '$csModels',
-    function ($scope, pageData, $modalInstance, datalayer, $csModels) {
+    function ($scope, pageData, $modalInstance, $csModels) {
 
         (function () {
             $scope.pageData = pageData;

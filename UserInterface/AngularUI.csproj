@@ -316,9 +316,9 @@
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Legal\Follow-Up\Follow-Up.html" />
     <Content Include="Legal\Follow-Up\Follow-Up.js" />
-    <Content Include="Legal\Legal.js" />
     <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.html" />
     <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.js" />
+    <Content Include="Legal\Legalmodels.js" />
     <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.html" />
     <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.js" />
     <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.html" />
