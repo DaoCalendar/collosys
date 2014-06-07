@@ -10,27 +10,18 @@
             CaseStatus: { label: 'Case Status', type: 'select' },
         };
     };
-
-    //$scope.location = [
-    //    { state: "Maharashtra", District: "Osmanabad" },
-    //    { state: "Maharashtra", District: "Nagpur" },
-    //    { state: "Maharashtra", District: "Latur" },
-    //    { state: "Maharashtra", District: "Beed" },
-    //    { state: "Gujrat", District: "Ahemadabad" },
-    //    { state: "Kolkatta", District: "Magma Carta" },
-    //    { state: "Karnatka", District: "Banglore" }
-    //];
+   
     var requisitionIntiation = function () {
         return {
-            Function: { label: 'Function', type: 'radio' },
-            Location: { label: "Location", type: "select", textField: "state", valueField: "District" },
-            Division: { label: "Division", type: "select", textField: "District", valueField: "District" },
+            Function: { label: 'Function', type: 'radio', options: [{ value: 'Initiate', display: 'Initiate' }, { value: 'Initiated', display: 'Initiated' }], textField: 'display', valueField: 'value' },
+            Location: { label: "Location", type: "select", },
+            Division: { label: "Division", type: "select", },
             LoanNo: { label: "Loan No", type: "text" },
-            DateFrom: { label: "Loan Date From", type: "text" },
-            DateTo: { label: "Loan Date To", type: "text" },
+            DateFrom: { label: "Loan Date To From", type: "date" },
+            DateTo: { label: "Loan Date To", type: "date" },
             RequsitionNo: { label: "Requsition No", type: "text" },
-            RequsitionDateFrom: { label: "Requsition Date From", type: "text" },
-            RequsitionDateTo: { label: "Requsition Date To", type: "text" },
+            RequsitionDateFrom: { label: "Requsition Date From", type: "date" },
+            RequsitionDateTo: { label: "Requsition Date To", type: "date" },
 
         };
     };
