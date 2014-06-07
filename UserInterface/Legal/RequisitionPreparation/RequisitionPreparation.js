@@ -10,6 +10,10 @@
         $scope.Clear = function (legal) {
             return datalayer.clear(legal);
         };
+        
+        $scope.save = function (legal) {
+            return datalayer.save(legal);
+        };
 
     }]);
 
@@ -25,6 +29,10 @@ csapp.factory("RequisitionDataLayer", ["$csnotify", function ($csnotify) {
     dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received','In-Principally Sanctioned'];
     dldata.casestatus = ['Cancelled', 'Closed', 'Disposed', 'Expired', 'Legal', 'Live', 'Released','Repossessed'];
 
+    var save = function() {
+        datalayer.save();
+    };
+
     var clear = function(legal) {
         legal.City = '';
         legal.Products = '';
@@ -37,6 +45,7 @@ csapp.factory("RequisitionDataLayer", ["$csnotify", function ($csnotify) {
     return {
         dldata: dldata,
         clear: clear,
+        save: save,
         //reset: resetdata
     };
 }]);

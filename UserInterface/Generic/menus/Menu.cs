@@ -70,7 +70,7 @@ namespace AngularUI.Generic.Menu
             stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
             stakeholder.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation");
             stakeholder.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequsitionIntiation");
-            stakeholder.AddChild("Follow-Up", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/Follow-Up");
+            stakeholder.AddChild("Follow-Up", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/FollowUp");
             stakeholder.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/LegalCaseexecution");
 
             var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");

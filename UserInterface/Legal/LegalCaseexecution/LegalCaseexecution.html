@@ -1,1 +1,91 @@
-﻿
+﻿<form name="Requisitionpreparationform">
+    <cs-form layout="6.3.9">
+        <cs-field data-ng-model="legal.Function" field="legalprepare.Function"></cs-field>
+    </cs-form>
+
+    <div data-ng-show="legal.Function">
+        <cs-form layout="6.3.5">
+            <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
+                      value-List="dldata.location"></cs-field>
+            
+            <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
+                      value-List="dldata.division"></cs-field>
+            
+            <cs-field  data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
+
+            <cs-field  data-ng-model="legal.PartyName" field="legalprepare.PartyName"></cs-field>
+            
+            <cs-field  data-ng-model="legal.AdvocateName" field="legalprepare.AdvocateName"></cs-field>
+            
+            <cs-field  data-ng-model="legal.LoanStatus" field="legalprepare.LoanStatus"
+                       value-List="dldata.loanstatus"></cs-field>
+
+            
+            <cs-field  data-ng-model="legal.LoanCloseStatus" field="legalprepare.LoanCloseStatus"></cs-field>
+
+        </cs-form>
+
+        <div class="text-right">
+            <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
+            <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="row" style="height: 100px; overflow: auto;">
+            <div class="col-md-12">
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Location</th>
+                            <th>Division</th>
+                            <th>RequsitionNo</th>
+                            <th>Party Name</th>
+                            <th>Loan Status</th>
+                            <th>Loan Case Status</th>
+                            <th>Withdrawn date</th>
+                            <th>Settlement amount</th>
+                            <th>Final close date</th>
+                            <th>Close/Settle</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr data-ng-repeat="data in datalayer.dldata.Requisitiondata">
+                            <td>{{data.Location}}
+                            </td>
+                            <td>{{data.Division}}
+                            </td>
+                            <td>{{data.RequsitionNo}}
+                            </td>
+                            <td>{{data.PartyName}}
+                            </td>
+                            <td>{{data.LoanStatus}}
+                            </td>
+                            <td>{{data.LoanCaseStatus}}
+                            </td>
+                            <td>{{data.Withdrawndate}}
+                            </td>
+                            <td>{{data.Settlementamount}}
+                            </td>
+                            <td>{{data.Finalclosedate}}
+                            </td>
+                            <td>
+                                <input type="checkbox" value="{{data.Close/Settle}}"></input>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="text-right">
+            <cs-button type="save" permission="All"></cs-button>
+        </div>
+    </div>
+</form>
+
+
+
+

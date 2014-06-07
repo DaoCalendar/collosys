@@ -318,8 +318,8 @@
     <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
-    <Content Include="Legal\Follow-Up\Follow-Up.html" />
-    <Content Include="Legal\Follow-Up\Follow-Up.js" />
+    <Content Include="Legal\FollowUp\Follow-Up.html" />
+    <Content Include="Legal\FollowUp\Follow-Up.js" />
     <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.html" />
     <Content Include="Legal\LegalCaseexecution\LegalCaseexecution.js" />
     <Content Include="Legal\Legalmodels.js" />

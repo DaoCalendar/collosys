@@ -1,10 +1,10 @@
-﻿csapp.controller("LegalCaseexecutionCtrl", ["$scope","$csModels","LegalCaseexecutionDataLayer",
+﻿csapp.controller("FollowUpCtrl", ["$scope","$csModels","FollowUpCtrlDataLayer",
     function ($scope,$csModels,datalayer) {
         (function () {
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.legal = {};
-            $scope.legalprepare = $csModels.getColumns("LegalCaseexecution");
+            $scope.legalprepare = $csModels.getColumns("FollowUp");
             $scope.dldata.Requisitiondata = [];
         })();
 
@@ -12,19 +12,26 @@
             return datalayer.save(legal);
         };
 
+        $scope.requsitionlist = function(data) {
+            if (angular.isDefined(data)) {
+                $scope.showDiv = true;
+            } else {
+                $scope.showDiv = false;
+            }
+        };
+
     }]);
 
-csapp.factory("LegalCaseexecutionDataLayer", ["$csnotify", function ($csnotify) {
+
+csapp.factory("FollowUpCtrlDataLayer", ["$csnotify", function ($csnotify) {
 
     var dldata = {};
     var errorDisplay = function (response) {
         $csnotify.error(response);
     };
-
-    //dldata.function = ['Initiate', 'Initiated'];
+    
     dldata.location = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
     dldata.division = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
-    dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received', 'In-Principally Sanctioned'];
 
     var save = function (legal) {
         dldata.Requisitiondata.push(legal);
