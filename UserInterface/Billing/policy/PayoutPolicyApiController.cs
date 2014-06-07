@@ -17,7 +17,7 @@ namespace AngularUI.Billing.policy
 {
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage GetStakeholerOrHier(PolicyDTO policy)
         {
             if (policy.PolicyFor == ColloSysEnums.PolicyOn.Stakeholder)

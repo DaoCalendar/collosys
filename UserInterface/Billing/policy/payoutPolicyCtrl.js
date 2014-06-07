@@ -5,8 +5,8 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
     var dldata = {};
     dldata.buttonStatus = "";
 
-    var getStakeholderOrHier = function (policydto) {
-        return restApi.customGET("GetStakeholerOrHier", { 'policy': policydto })
+    var getStakeholderOrHier = function (policy) {
+        return restApi.customPOST(policy, "GetStakeholerOrHier")
             .then(function (data) {
                 return data;
             });
