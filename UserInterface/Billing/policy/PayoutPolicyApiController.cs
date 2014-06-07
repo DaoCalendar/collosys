@@ -1,7 +1,6 @@
 ﻿#region references
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,77 +13,44 @@ using NHibernate.Linq;
 
 #endregion
 
-
 namespace AngularUI.Billing.policy
 {
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
         [HttpGet]
-        public HttpResponseMessage GetStakeholerOrHier(string policyfor)
+        public HttpResponseMessage GetStakeholerOrHier(PolicyDTO policy)
         {
-            if (policyfor == "Stakeholder")
+            if (policy.PolicyFor == ColloSysEnums.PolicyOn.Stakeholder)
             {
-                var data = Session.QueryOver<Stakeholders>()
+                var data = Session.Query<Stakeholders>()
                     .Where(x => x.LeavingDate == null || x.LeavingDate >= DateTime.Today)
-                    .List<Stakeholders>();
+                    .ToList();
+                //private StakeQueryBuilder stkhrepo = new StakeQueryBuilder();
+                //var data = stkhrepo.OnProduct(policy.Product);
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             else
             {
-                var data = Session.QueryOver<StkhHierarchy>()
+                var data = Session.Query<StkhHierarchy>()
                     .Where(x => x.Hierarchy != "Developer")
-                    .List<StkhHierarchy>().Distinct();
+                    .ToList();
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
         }
 
         [HttpGet]
-        public HttpResponseMessage GetBillingSubpolicyList(ScbEnums.Products product)
+        public HttpResponseMessage GetBillingSubpolicyList(PolicyDTO policy)
         {
+            policy.SetPolicyId(Session);
             var billingSubpolicies = Session.Query<BillingSubpolicy>()
-                .Where(x => x.Products == product)
+                .Where(x => x.Products == policy.Product && x.PolicyType == policy.PolicyType)
                 .Fetch(x => x.BillingRelations)
                 .ToList();
 
-
-            var list = new SubpolicyList();
-
-            foreach (var subpolicy in billingSubpolicies)
-            {
-                if (subpolicy.BillingRelations.Count == 0 || subpolicy.BillingRelations == null)
-                {
-                    list.NotInUseSubpolices.Add(subpolicy);
-                    continue;
-                }
-
-                if (subpolicy.BillingRelations.Count(x => x.EndDate == null) > 0)
-                {
-                    list.IsInUseSubpolices.Add(subpolicy);
-                    continue;
-                }
-
-                var relations = subpolicy.BillingRelations.OrderByDescending(x => x.StartDate).First();
-                if (relations.EndDate < DateTime.Today)
-                {
-                    list.NotInUseSubpolices.Add(subpolicy);
-                    continue;
-                }
-
-                // end is future or null (active)
-                list.IsInUseSubpolices.Add(subpolicy);
-            }
-
-            foreach (var subpolicy in billingSubpolicies)
-            {
-                if (subpolicy.BillingRelations.Count <= 1 || subpolicy.BillingRelations == null)
-                {
-                    continue;
-                }
-                var firstRelation = subpolicy.BillingRelations.OrderByDescending(x => x.StartDate).First();
-                subpolicy.BillingRelations = new List<BillingRelation> { firstRelation };
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, list);
+            var manager = new SubpolicyManager();
+            var list = manager.MoveSubpolicesToDTO(billingSubpolicies);
+            manager.SeperateDTO2List(policy, list);
+            return Request.CreateResponse(HttpStatusCode.OK, policy);
         }
 
         [HttpGet]
@@ -96,30 +62,10 @@ namespace AngularUI.Billing.policy
         }
 
         [HttpPost]
-        public HttpResponseMessage SaveSubpolicy(SubpolicySaveParams param)
+        public HttpResponseMessage SaveSubpolicy(SubpolicyDTO param)
         {
-            var manager = new SubpolicyRelationManager(GetUsername(), Session, param);
-
-            switch (param.Activity.Trim().ToLowerInvariant())
-            {
-                case "activate":
-                    manager.ActivateSubpolicy();
-                    break;
-                case "reactivate":
-                    manager.ReactivateSubpolicy();
-                    break;
-                case "deactivate":
-                    manager.DeactivateSubpolicy();
-                    break;
-                case "approve":
-                    manager.ApproveSubpolicy(ColloSysEnums.ApproveStatus.Approved);
-                    break;
-                case "reject":
-                    manager.ApproveSubpolicy(ColloSysEnums.ApproveStatus.Rejected);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("subpolicy");
-            }
+            var manager = new SubpolicySaver(GetUsername(), Session);
+            manager.ManageSubpolicyActivity(param);
             return Request.CreateResponse(HttpStatusCode.OK, "success");
         }
     }

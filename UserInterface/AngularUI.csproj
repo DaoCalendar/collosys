@@ -123,7 +123,12 @@
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />
-    <Compile Include="Billing\policy\SubpolicyRelationManager.cs" />
+    <Compile Include="Billing\policy\PolicyDTO.cs" />
+    <Compile Include="Billing\policy\SubpolicyActivityEnum.cs" />
+    <Compile Include="Billing\policy\SubpolicyDTO.cs" />
+    <Compile Include="Billing\policy\SubpolicyManager.cs" />
+    <Compile Include="Billing\policy\SubpolicySaver.cs" />
+    <Compile Include="Billing\policy\SubpolicyTypeEnum.cs" />
     <Compile Include="FileUpload\errorapproval\ApproveErrorDataApiController.cs" />
     <Compile Include="Billing\billstatus\BillPaymentStatusApiController.cs" />
     <Compile Include="FileUpload\errorcorrection\ErrorDataApiController.cs" />

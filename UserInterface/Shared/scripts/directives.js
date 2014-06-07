@@ -527,20 +527,23 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         rhsTemplate += '</ul>';
         rhsTemplate += '</div>';
         rhsTemplate += '</div>';
-        console.log(rhsTemplate);
 
         var rightLeftButtonTemplate = '<div ng-show="config.showRightLeftButtons" class="col-md-1">';
-        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.left()" ng-disabled="direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
-        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.right()" ng-disabled="direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.left()" '
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + 'ng-disabled="!direction.left"><i class="glyphicon glyphicon-arrow-left"></i></button>';
+        rightLeftButtonTemplate += '<button class="btn btn-success" ng-click="move.right()" '
+            + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
+            + 'ng-disabled="!direction.right"><i class="glyphicon glyphicon-arrow-right"></i></button>';
         rightLeftButtonTemplate += '</div>';
 
         var upDownButtonTemplate = '<div ng-show="config.showUpDownButtons" class="col-md-1">';
         upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.up()'
             + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
-            + '" ng-disabled="direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
+            + '" ng-disabled="!direction.up"><i class="glyphicon glyphicon-arrow-up"></i></button>';
         upDownButtonTemplate += '<button class="btn btn-success" ng-click="move.down()'
             + (angular.isDefined(attrs.onMove) ? ';onMove()' : ' ')
-            + '" ng-disabled="direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
+            + '" ng-disabled="!direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         upDownButtonTemplate += '</div>';
 
         var html = '<div class="row">';
@@ -553,7 +556,7 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
     };
 
     var linkFunction = function (scope) {
-        scope.direction = { left: true, right: true, up: true, down: true };
+        scope.direction = { left: false, right: false, up: false, down: false };
         scope.config.showRightLeftButtons = angular.isDefined(scope.config.showRightLeftButtons)
             ? scope.config.showRightLeftButtons === true : true;
         scope.config.showUpDownButtons = angular.isDefined(scope.config.showUpDownButtons)
@@ -564,11 +567,11 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         };
 
         scope.manageDirections = function () {
-            scope.direction = { left: true, right: true, up: true, down: true };
-            scope.direction.left = scope.params.selectedSide !== "lhs";
-            scope.direction.right = scope.params.selectedSide !== "rhs";
-            scope.direction.up = scope.direction.right || scope.params.selectedItemIndex === 0;
-            scope.direction.down = scope.direction.right || scope.config.rhsValueList.length === scope.params.selectedItemIndex + 1;
+            scope.direction = { left: false, right: false, up: false, down: false };
+            scope.direction.left = scope.params.selectedSide === "rhs";
+            scope.direction.right = scope.params.selectedSide === "lhs";
+            scope.direction.up = scope.direction.left && scope.params.selectedItemIndex !== 0;
+            scope.direction.down = scope.direction.left && scope.config.rhsValueList.length !== scope.params.selectedItemIndex + 1;
         };
 
         scope.getDisplayName = {
