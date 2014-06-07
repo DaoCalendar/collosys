@@ -25,6 +25,35 @@
 
         };
     };
+    
+    var legalCaseexecution = function () {
+        return {
+            Function: { label: 'Function', type: 'radio', options: [{ value: 'ReadyForWithDraw', display: 'Ready For WithDraw' }, { value: 'Withdrawn/Closed', display: 'Withdrawn/Closed' }], textField: 'display', valueField: 'value' },
+            Location: { label: "Location", type: "select", },
+            Division: { label: "Division", type: "select", },
+            LoanNo: { label: "Loan No", type: "text" },
+            PartyName: { label: "Party Name", type: "text" },
+            AdvocateName: { label: "Advocate Name", type: "text" },
+            LoanStatus: { label: "Loan Status", type: "select" },
+            LoanCloseStatus: { label: "Loan Close Status", type: "select" },
+        };
+    };
+    
+    var followup = function () {
+        return {
+            Function: { label: 'Function', type: 'radio', options: [{ value: 'Followup', display: 'Followup' }, { value: 'ReadyForWithDraw', display: 'ReadyForWithDraw' },{ value: 'All', display: 'All' }], textField: 'display', valueField: 'value' },
+            Location: { label: "Location", type: "select", },
+            Division: { label: "Division", type: "select", },
+            LoanNo: { label: "Loan No", type: "text" },
+            LoanDateTo: { label: "Loan Date To", type: "date" },
+            LoanDateFrom: { label: "Loan Date From", type: "date" },
+            RequsitionNo: { label: "Requsition No", type: "text" },
+            RequsitionDateFrom: { label: "Requsition Date From", type: "date" },
+            RequsitionDateTo: { label: "Requsition Date To", type: "date" },
+            AdvocateName: { label: "Advocate Name", type: "text" },
+          
+        };
+    };
 
     var init = function () {
         var models = {};
@@ -34,10 +63,21 @@
             Columns: requisitionPreparation(),
         };
 
-        models.RequsitionIntiation = {
-            Table: "RequsitionIntiation",
+        models.RequisitionIntiation = {
+            Table: "RequisitionIntiation",
             Columns: requisitionIntiation(),
         };
+        
+        models.LegalCaseexecution = {
+            Table: "LegalCaseexecution",
+            Columns: legalCaseexecution(),
+        };
+        
+        models.FollowUp = {
+            Table: "FollowUp",
+            Columns: followup(),
+        };
+
         return models;
     };
 

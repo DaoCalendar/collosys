@@ -145,7 +145,7 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
                 templateUrl: baseUrl + 'Legal/LegalCaseexecution/LegalCaseexecution.html',
                 controller: 'LegalCaseexecutionCtrl'
             }).when('/Legal/FollowUp', {
-                templateUrl: baseUrl + 'Legal/FollowUp/FollowUp.html',
+                templateUrl: baseUrl + 'Legal/FollowUp/Follow-Up.html',
                 controller: 'FollowUpCtrl'
             })
 
