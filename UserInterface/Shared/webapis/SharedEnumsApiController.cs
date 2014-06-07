@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AngularUI.Shared.Model;
 using System.Linq;
 
 namespace AngularUI.Shared.webapis

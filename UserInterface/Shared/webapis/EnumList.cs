@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AngularUI.Shared.Model
+namespace AngularUI.Shared.webapis
 {
     public struct EnumData
     {
-        public string Name;
-        public IList<string> Value;
+        public readonly string Name;
+        public readonly IList<string> Value;
 
-        public EnumData(string name, IList<string> values)
+        public EnumData(string name, IEnumerable<string> values)
         {
             Name = name;
-            Value = values;
+            Value = values.OrderBy(x => x).ToList();
         }
     }
 

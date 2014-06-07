@@ -501,7 +501,7 @@ csapp.directive('csList2', function () {
     };
 });
 
-csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
+csapp.directive('csDualList', function () {
     var templateFunction = function (element, attrs) {
 
         var lhsTemplate = '<div class="col-md-5">';
@@ -636,4 +636,4 @@ csapp.directive('csDualList', ["$csfactory", function ($csfactory) {
         template: templateFunction,
         link: linkFunction
     };
-}]);
+});

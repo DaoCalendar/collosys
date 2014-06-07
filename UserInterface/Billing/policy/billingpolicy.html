@@ -7,8 +7,8 @@
             <cs-field data-ng-show="policyDTO.Product" data-ng-model="policyDTO.PolicyType"
                       data-ng-change="onParamChange('policy')" field="BillingPolicyModel.PolicyType"></cs-field>
 
-            <cs-field data-ng-show="billingpolicy.Products" data-ng-model="policyDTO.PolicyFor"
-                      field="BillingPolicyModel.PolicyFor" data-ng-change="getStakeholderOrHierarchy(billingpolicy.PolicyFor)"></cs-field>
+            <cs-field data-ng-show="policyDTO.PolicyType" data-ng-model="policyDTO.PolicyFor"
+                      field="BillingPolicyModel.PolicyFor" data-ng-change="getStakeholderOrHierarchy(policyDTO)"></cs-field>
 
             <div data-ng-if="policyDTO.PolicyFor == 'Stakeholder' && policyDTO.Product">
                 <cs-field data-ng-model="billingpolicy.PolicyForId" data-ng-change="getSubpolicyList(billingpolicy.Products)"

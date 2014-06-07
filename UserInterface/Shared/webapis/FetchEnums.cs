@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AngularUI.Shared.Model;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.GenericBuilder;
