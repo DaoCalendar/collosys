@@ -14,23 +14,19 @@
                 
         <div data-ng-show="legal.Location && legal.Division">
             <div class="well">
-                <cs-form>
-                    <cs-field layout="7.3.5" data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
-                    
-                    <div class="row">
-                        <cs-field layout="6.3.5" data-ng-model="legal.DateFrom" field="legalprepare.DateFrom"></cs-field>
-                    
-                        <cs-field layout="6.3.5" data-ng-model="legal.DateTo" field="legalprepare.DateTo" no-label=""></cs-field>
-                    </div>
-                        
-                    <cs-field layout="7.3.5" data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo"></cs-field>
+                <cs-form layout="6.3.5">
+                    <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
 
+                    <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo"></cs-field>
+
+                    <cs-field  data-ng-model="legal.DateFrom" field="legalprepare.DateFrom"></cs-field>
+                        
+                    <cs-field data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo"></cs-field>
+
+                    <cs-field  data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo"></cs-field>
+
+                    <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom"></cs-field>
                     
-                    <div class="row">
-                        <cs-field layout="6.3.5" data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom"></cs-field>
-                    
-                        <cs-field layout="6.3.5" data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo" no-label=""></cs-field>
-                    </div>
                 </cs-form>
                     
                 <div class="text-right">

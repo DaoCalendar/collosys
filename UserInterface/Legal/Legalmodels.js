@@ -45,12 +45,17 @@
             Location: { label: "Location", type: "select", },
             Division: { label: "Division", type: "select", },
             LoanNo: { label: "Loan No", type: "text" },
-            LoanDateTo: { label: "Loan Date To", type: "date" },
-            LoanDateFrom: { label: "Loan Date From", type: "date" },
+            DateTo: { label: "Loan Date To", type: "date" },
+            DateFrom: { label: "Loan Date From", type: "date" },
             RequsitionNo: { label: "Requsition No", type: "text" },
             RequsitionDateFrom: { label: "Requsition Date From", type: "date" },
             RequsitionDateTo: { label: "Requsition Date To", type: "date" },
             AdvocateName: { label: "Advocate Name", type: "text" },
+            AdvocateCode: { label: "Advocate Code", type: "text" },
+            DateofAppointment: { label: "Date of Appointment", type: "date" },
+            Dateoftermination: { label: "Date of termination", type: "date" },
+            EmpCode: { label: "Employee Code", type: "text" },
+            EmpName: { label: "Employee Name", type: "text" },
           
         };
     };

@@ -4,13 +4,14 @@
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.legal = {};
-            $scope.legalprepare = $csModels.getColumns("RequsitionIntiation");
+            $scope.legalprepare = $csModels.getColumns("RequisitionIntiation");
             $scope.dldata.Requisitiondata = [];
         })();
         
         $scope.save = function (legal) {
             return datalayer.save(legal);
         };
+        
     }]);
 
 
