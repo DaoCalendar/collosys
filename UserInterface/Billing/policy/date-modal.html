@@ -1,27 +1,29 @@
-﻿<div data-ng-form="billingpolicyDateRangeForm">
+﻿<div data-ng-form="dateRangeForm">
     <cs-form layout="8.4.8">
         <div class="modal-header">
             <h3 class="modal-title">{{pageData.Subpolicy.Name}}</h3>
         </div>
         <div class="modal-body">
             <div class="row">
-                <cs-field data-ng-disabled="pageData.Activity==='Deactivate'" 
-                          data-ng-model="params.StartDate" ng-required="true" field="BillingPolicy.startdate"
-                          data-ng-change="pageData.endDate=null;modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
-                <cs-field field="BillingPolicy.enddate" data-ng-model="params.endDate"
-                          data-ng-change="modelDateValidation(pageData.StartDate,pageData.endDate)"></cs-field>
-
+                <cs-field data-ng-disabled="pageData.Activity==='Expire'"
+                          data-ng-model="pageData.Subpolicy.StartDate"
+                          field="model.StartDate"
+                          data-ng-change="validateDate(params)"></cs-field>
+                <cs-field field="model.EndDate"
+                          data-ng-model="pageData.Subpolicy.EndDate"
+                          data-ng-change="validateDate(params)"></cs-field>
             </div>
         </div>
         <div class="modal-footer text-right" style="margin-top: 10px">
-            <cs-button type="delete" text=" Deactivate" data-ng-show="pageData.Activity==='Deactivate'"
-                       data-ng-disabled="payoutpolicyDateRangeForm.$invalid"
+            <cs-button type="cancel" text="Expire"
+                       data-ng-show="pageData.Activity ==='Expire'"
+                       data-ng-disabled="dateRangeForm.$invalid"
                        data-ng-click="closeModal(params)"></cs-button>
             <cs-button type="save" text="Activate"
-                       data-ng-show="pageData.Activity==='Activate'"
-                       data-ng-disabled="!(payoutpolicyDateRangeForm.$valid && dldata.isModalDateValid) "
+                       data-ng-show="pageData.Activity === 'Activate' || pageData.Activity ==='Reactivate'"
+                       data-ng-disabled="dateRangeForm.$invalid "
                        data-ng-click="closeModal(params)"></cs-button>
-            <cs-button type="close" data-ng-click="dismissModal()"></cs-button>
+            <cs-button type="cancel" data-ng-click="dismissModal()"></cs-button>
         </div>
     </cs-form>
 </div>

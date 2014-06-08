@@ -377,14 +377,12 @@ multiselect {
         position: absolute;
         right: 0;
         line-height: 0;
-
     }
 
 
     .cs-fields .radio-margin {
         margin: 7px 0 0 0;
     }
-
 
     .cs-fields .cs-label {
         margin-top: 7px;
@@ -396,3 +394,17 @@ multiselect {
         min-width: 125px;
         padding-right: 0 !important;
     }
+
+
+.dual-list .list-group-item {
+    border-bottom: 1px solid #dddddd !important;
+    cursor: pointer;
+}
+
+.dual-list .list-group-item:hover {
+    background: #dddddd;
+}
+
+.dual-list .activ {
+    background: #dddddd;
+}

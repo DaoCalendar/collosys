@@ -11,8 +11,6 @@ namespace AngularUI.Billing.policy
         public ColloSysEnums.ApproveStatus ApproveStatus;
         public DateTime StartDate;
         public DateTime? EndDate;
-        public DateTime? UpdatedStartDate;
-        public DateTime? UpdatedEndDate;
         public SubpolicyActivityEnum Activity;
         public Guid PolicyId;
         public Guid SubpolicyId;

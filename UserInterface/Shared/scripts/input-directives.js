@@ -1497,7 +1497,7 @@ csapp.directive('csForm', ["$parse", function ($parse) {
     };
 
     var templateFn = function () {
-        var template = '<div class="clearfix">' +
+        var template = '<div class="clearfix cs-forms">' +
             '<div ng-transclude="">' +
             '</div>' +
             '</div>';

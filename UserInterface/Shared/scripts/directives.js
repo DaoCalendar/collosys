@@ -510,7 +510,7 @@ csapp.directive('csDualList', function () {
         lhsTemplate += '<ul class="list-group" style="height: 250px">';
         lhsTemplate += '<li class="list-group-item" ng-repeat="row in config.lhsValueList"';
         lhsTemplate += ' ng-click="clicked.left(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
-        lhsTemplate += ' ng-class="{\'active\' : isSelected($index,\'lhs\') }"';
+        lhsTemplate += ' ng-class="{\'activ\' : isSelected($index,\'lhs\') }"';
         lhsTemplate += ' value="row">{{getDisplayName.left(row, config.lhsTextField)}}</li>';
         lhsTemplate += '</ul>';
         lhsTemplate += '</div>';
@@ -522,7 +522,7 @@ csapp.directive('csDualList', function () {
         rhsTemplate += '<ul class="list-group" style="height: 250px">';
         rhsTemplate += '<li class="list-group-item" ng-repeat="row in config.rhsValueList"';
         rhsTemplate += ' ng-click="clicked.right(row)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
-        rhsTemplate += ' ng-class="{\'active\' : isSelected($index, \'rhs\') }"';
+        rhsTemplate += ' ng-class="{\'activ\' : isSelected($index, \'rhs\') }"';
         rhsTemplate += ' value="row">{{getDisplayName.right(row, config.rhsTextField)}}</li>';
         rhsTemplate += '</ul>';
         rhsTemplate += '</div>';
@@ -546,7 +546,7 @@ csapp.directive('csDualList', function () {
             + '" ng-disabled="!direction.down"><i class="glyphicon glyphicon-arrow-down"></i></button>';
         upDownButtonTemplate += '</div>';
 
-        var html = '<div class="row">';
+        var html = '<div class="row dual-list">';
         html += lhsTemplate;
         html += rightLeftButtonTemplate;
         html += rhsTemplate;

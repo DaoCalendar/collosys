@@ -29,45 +29,53 @@
                       on-click="displaySubpolicyDetails()"
                       on-move="moveSubpolicy()"></cs-dual-list>
     </div>
+
     <div class="clearfix"></div>
-    <div class="panel panel-default" data-ng-show="selected.selectedItem.SubpolicyId">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-8">{{selected.selectedItem.Name}}</div>
-                <div class="col-md-3">
-                    <cs-button type="cancel" text="Deactivate"
-                               data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
-                               data-ng-click="openModelforSubPolicy('Deactivate');"></cs-button>
-                    <cs-button type="ok" text="Activate"
-                               data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
-                               data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
-                    <cs-button type="ok" text="Reactivate"
-                               data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
-                               data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
-                    <cs-button type="ok" text="Approve"
-                               data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                               data-ng-click="approveORreject('Approve')"></cs-button>
-                    <cs-button type="cancel" text="Reject"
-                               data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                               data-ng-click="approveORreject('Reject')"></cs-button>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default" data-ng-show="selected.selectedItem.SubpolicyId">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-8">{{selected.selectedItem.Name}}</div>
+                        <div class="col-md-3">
+                            <cs-button type="cancel" text="Deactivate"
+                            data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
+                            data-ng-click="openModelforSubPolicy('Expire');"></cs-button>
+                            <cs-button type="ok" text="Activate"
+                                       data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
+                                       data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
+                            <cs-button type="ok" text="Reactivate"
+                                       data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
+                                       data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
+                            <cs-button type="ok" text="Approve"
+                                       data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
+                                       data-ng-click="approveORreject('Approve')"></cs-button>
+                            <cs-button type="cancel" text="Reject"
+                                       data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
+                                       data-ng-click="approveORreject('Reject')"></cs-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <cs-form layout="6.4.8">
+                        <div data-ng-show="selected.selectedItem.SubpolicyType !== 'Draft'">
+                            <cs-field field="BillingPolicyModel.StartDateText" ng-disabled="true"
+                                      ng-model="selected.selectedItem.StartDate"></cs-field>
+                            <cs-field field="BillingPolicyModel.EndDateText" ng-disabled="true"
+                                      ng-model="selected.selectedItem.EndDate"></cs-field>
+                        </div>
+                        <div class="row">
+                            <cs-output table-name="BillingSubpolicy"
+                                       tokens-list="displaySubPolicy.outputTokens"></cs-output>
+                        </div>
+                        <div class="row">
+                            <cs-condition table-name="BillingSubpolicy"
+                                          tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
+                        </div>
+                    </cs-form>
                 </div>
             </div>
-        </div>
-        <div class="panel-body">
-            <cs-form layout="6.4.6">
-                <div data-ng-show="selected.selectedItem.SubpolicyType !== 'Draft'">
-                    <cs-field field="BillingPolicyModel.startDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].StartDate"></cs-field>
-                    <cs-field field="BillingPolicyModel.endDateText" ng-disabled="true" ng-model="selected.selectedItem.BillingRelations[0].EndDate"></cs-field>
-                </div>
-                <div class="row">
-                    <cs-output table-name="BillingSubpolicy"
-                               tokens-list="displaySubPolicy.outputTokens"></cs-output>
-                </div>
-                <div class="row">
-                    <cs-condition table-name="BillingSubpolicy"
-                                  tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
-                </div>
-            </cs-form>
+
         </div>
     </div>
 </div>

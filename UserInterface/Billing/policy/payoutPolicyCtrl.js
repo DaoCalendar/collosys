@@ -36,7 +36,7 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
     };
 
     var saveSubpolicylist = function (subpolicy) {
-        return restApi.customPOST("SaveSubpolicy", subpolicy)
+        return restApi.customPOST(subpolicy, "SaveSubpolicy")
             .then(function (data) {
                 return data;
             });
@@ -47,7 +47,7 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
         getStakeholderOrHier: getStakeholderOrHier,
         getPolicyList: getPolicyList,
         displaySubpolicyDetails: displaySubpolicyDetails,
-        saveSubpolicylist: saveSubpolicylist
+        Save: saveSubpolicylist
     };
 
 }]);
@@ -56,11 +56,9 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
     function ($scope, $csfactory, $csModels, $csShared, datalayer, $csnotify, $modal, modalService, logManager) {
 
         (function () {
-            $scope.$log = logManager.getInstance("newpolicyController");
+            $scope.$log = logManager.getInstance("PolicyController");
             $scope.billingpolicy = {};
             $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
-            $scope.BillingPolicyModel.startDateText = { label: "Start date", type: "text" };
-            $scope.BillingPolicyModel.endDateText = { label: "End date", type: "text" };
             $scope.BillingPolicyModel.Products.valueList = _.reject($csShared.enums.Products, function (item) {
                 return (item.toUpperCase() === "UNKNOWN" || item.toUpperCase() === "ALL");
             });
@@ -137,30 +135,26 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
         $scope.saveSubpolicylist = function (subpolicy) {
             datalayer.saveSubpolicylist(subpolicy).then(function () {
                 $csnotify.success("SubPolices saved");
-
             });
         };
 
-        $scope.approveORreject = function (activity, subpolicy) {
+        $scope.approveORreject = function (activity) {
             var modalOptions = {
-                actionButtonText: 'Yes',
+                actionButtonText: activity,
                 closeButtonText: 'Cancel',
                 headerText: activity + ' Subpolicy',
-                bodyText: 'Are you sure you want to ' + activity + ' Subpolicy : ' + subpolicy + '?'
+                bodyText: 'Are you sure you want to ' + activity + ' Subpolicy : '
+                    + $scope.selected.selectedItem.Name + '?'
             };
             modalService.showModal({}, modalOptions).then(function () {
-                $scope.BillingSubpolicyForsave = {
-                    Activity: activity,
-                    Subpolicy: subpolicy,
-                    Policy: $scope.billingpolicy.policy
-                };
-                datalayer.saveSubpolicylist($scope.BillingSubpolicyForsave).then(function () {
-                    $csnotify.success("Subpolicy saved");
+                $scope.selected.selectedItem.Activity = activity;
+                datalayer.Save($scope.selected.selectedItem).then(function() {
+                    
                 });
             });
         };
 
-        $scope.openModelforSubPolicy = function (activity, selected) {
+        $scope.openModelforSubPolicy = function (activity) {
             var modalInstance = $modal.open({
                 templateUrl: baseUrl + 'Billing/policy/date-modal.html',
                 controller: 'billingPolicymodal',
@@ -169,22 +163,28 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                     pageData: function () {
                         return {
                             Activity: activity,
-                            Subpolicy: selected.selectedItem
+                            Subpolicy: $scope.selected.selectedItem
                         };
                     }
                 }
             });
 
             modalInstance.result.then(function (data) {
-                $scope.BillingSubpolicyForsave = {
-                    Activity: activity,
-                    Subpolicy: subpolicy,
-                    Policy: $scope.billingpolicy.policy,
-                    StartDate: data.startDate,
-                    EndDate: data.endDate
-                };
-                datalayer.saveSubpolicylist($scope.BillingSubpolicyForsave).then(function () {
-                    $csnotify.success("Subpolicy saved");
+                $scope.selected.selectedItem = data;
+                if (activity === "Activate" || activity === "Reactivate") {
+                    $scope.selected.selectedItem.Priority = $scope.config.rhsValueList.length + 1;
+                }
+                datalayer.Save($scope.selected.selectedItem).then(function () {
+                    if (activity === "Activate" || activity === "Reactivate") {
+                        var index = $scope.config.lhsValueList.indexOf($scope.selected.selectedItem);
+                        if (index === -1) {
+                            $log.error("could not find policy in lhs list to activate");
+                            return;
+                        };
+                        var policy = $scope.config.lhsValueList[index];
+                        $scope.config.lhsValueList.splice(policy, 1);
+                        $scope.config.rhsValueList.push(policy);
+                    }
                 });
             });
 
@@ -196,28 +196,31 @@ csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', 
 
         (function () {
             $scope.pageData = pageData;
-            $scope.BillingPolicy = $csModels.getColumns("BillingPolicy");
+            $scope.model = {
+                StartDate: { label: "Start Date", type: "date", required: true },
+                EndDate: { label: "End Date", type: "date", required: pageData.Activity === "Expire", startDate: "tomorrow" }
+            };
+            if (pageData.Subpolicy.SubpolicyType === "Draft") {
+                pageData.Subpolicy.StartDate = moment().add('d', 1).format("YYYY-MM-DD");
+            }
         })();
 
-        $scope.modelDateValidation = function (startDate, endDate) {
-            if (angular.isUndefined(endDate) || endDate == null) {
-                $scope.isModalDateValid = true;
+        $scope.modelDateValidation = function () {
+            if (angular.isUndefined(pageData.Subpolicy.EndDate) || pageData.Subpolicy.EndDate == null) {
                 return;
             }
-            startDate = moment(startDate);
-            endDate = moment(endDate);
-            $scope.isModalDateValid = (endDate > startDate);
-            if ($scope.isModalDateValid === false) {
-                $csnotify.success("EndDate should be Greater Than StartDate");
+            var startDate = moment(pageData.Subpolicy.StartDate);
+            var endDate = moment(pageData.Subpolicy.EndDate);
+            if (endDate.isBefore(startDate)) {
+                $scope.dateRangeForm.$setValidity("daterange", false);
             }
         };
 
-        $scope.closeModal = function (params) {
-            $modalInstance.close(params);
+        $scope.closeModal = function () {
+            $modalInstance.close(pageData.Subpolicy);
         };
 
         $scope.dismissModal = function () {
             $modalInstance.dismiss();
         };
-
     }]);

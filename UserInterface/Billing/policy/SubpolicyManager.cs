@@ -24,9 +24,12 @@ namespace AngularUI.Billing.policy
                     .Where(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
                     .OrderByDescending(x => x.StartDate)
                     .ThenByDescending(x => x.EndDate)
-                    .First();
-                dto.Update(relation);
-                dtoList.Add(dto);
+                    .FirstOrDefault();
+                if (relation != null)
+                {
+                    dto.Update(relation);
+                    dtoList.Add(dto);
+                }
 
                 var relation2 = subpolicy.BillingRelations
                     .Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted)
@@ -37,6 +40,7 @@ namespace AngularUI.Billing.policy
                 var dto2 = new SubpolicyDTO();
                 dto2.Update(subpolicy);
                 dto2.Update(relation2);
+                dtoList.Add(dto2);
             }
 
             return dtoList;

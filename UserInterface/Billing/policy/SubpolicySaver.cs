@@ -58,17 +58,12 @@ namespace AngularUI.Billing.policy
                 throw new NullReferenceException("Draft subpolicy must have zero relations");
             }
 
-            if (subpolicy.UpdatedStartDate == null)
-            {
-                throw new NullReferenceException("Draft subpolicy must have start date specified");
-            }
-
             var relation = new BillingRelation
             {
                 BillingPolicy = Session.Load<BillingPolicy>(subpolicy.PolicyId),
                 BillingSubpolicy = Session.Load<BillingSubpolicy>(subpolicy.SubpolicyId),
-                StartDate = subpolicy.UpdatedStartDate.Value,
-                EndDate = subpolicy.UpdatedEndDate,
+                StartDate = subpolicy.StartDate,
+                EndDate = subpolicy.EndDate,
                 Priority = subpolicy.Priority,
                 Status = ColloSysEnums.ApproveStatus.Submitted
             };
@@ -81,7 +76,7 @@ namespace AngularUI.Billing.policy
 
         private void DeactivateSubpolicy(SubpolicyDTO subpolicy)
         {
-            if (subpolicy.UpdatedStartDate == null || subpolicy.UpdatedEndDate == null)
+            if (!subpolicy.EndDate.HasValue)
             {
                 throw new InvalidProgramException("To Deactive any subpolicy start/end date are required");
             }
@@ -89,8 +84,8 @@ namespace AngularUI.Billing.policy
                 .Single(x => x.Id == subpolicy.RelationId);
             Session.Evict(relation);
             relation.ResetUniqueProperties();
-            relation.StartDate = subpolicy.UpdatedStartDate.Value;
-            relation.EndDate = subpolicy.UpdatedEndDate.Value;
+            relation.StartDate = subpolicy.StartDate;
+            relation.EndDate = subpolicy.EndDate.Value;
             relation.Status = ColloSysEnums.ApproveStatus.Submitted;
             using (var tx = Session.BeginTransaction())
             {
@@ -130,6 +125,8 @@ namespace AngularUI.Billing.policy
                 Session.SaveOrUpdate(relation);
                 tx.Commit();
             }
+
+            //subpolicy.SubpolicyType = 
         }
 
         public BillingRelation CreateRelation()
