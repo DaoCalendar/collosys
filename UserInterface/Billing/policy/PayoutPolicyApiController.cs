@@ -38,7 +38,7 @@ namespace AngularUI.Billing.policy
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage GetBillingSubpolicyList(PolicyDTO policy)
         {
             policy.SetPolicyId(Session);

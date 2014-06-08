@@ -247,10 +247,6 @@ div[ng-view].ng-enter, div[data-ng-view].ng-enter {
     resize: none;
 }
 
-.minWidth {
-    min-width: 125px;
-}
-
 .round-corners {
     -ms-border-radius: 10px 10px 10px 10px;
     border-radius: 10px 10px 10px 10px;
@@ -375,7 +371,13 @@ multiselect {
 
     .cs-fields .validation-icon {
         top: 0 !important;
-        margin-right: 10px;
+        margin-right: 30px;
+        height: 0;
+        width: 0;
+        position: absolute;
+        right: 0;
+        line-height: 0;
+
     }
 
 
@@ -388,4 +390,9 @@ multiselect {
         margin-top: 7px;
         white-space: nowrap;
         padding-right: 0;
+    }
+
+    .cs-fields .minWidth {
+        min-width: 125px;
+        padding-right: 0 !important;
     }

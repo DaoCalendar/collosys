@@ -3,7 +3,6 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
 
     var restApi = rest.all("PayoutPolicyApi");
     var dldata = {};
-    dldata.buttonStatus = "";
 
     var getStakeholderOrHier = function (policy) {
         return restApi.customPOST(policy, "GetStakeholerOrHier")
@@ -12,8 +11,8 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
             });
     };
 
-    var getPolicyList = function (product) {
-        return restApi.customGET("GetBillingSubpolicyList", { 'product': product })
+    var getPolicyList = function (policyDto) {
+        return restApi.customPOST(policy, "GetBillingSubpolicyList")
             .then(function (data) {
                 if (data.IsInUseSubpolices.length === 0 && data.NotInUseSubpolices.length === 0) {
                     $csnotify.success("No subpolices defined.");
@@ -81,19 +80,19 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             }
         };
 
-        $scope.getStakeholderOrHierarchy = function (policyfor) {
-            if (policyfor === 'Product') {
-                $scope.getSubpolicyList($scope.billingpolicy.Products);
+        $scope.getStakeholderOrHierarchy = function (policyDto) {
+            if (policyDto.PolicyFor === 'Product') {
+                $scope.getSubpolicyList(policyDto);
                 return;
             }
-            datalayer.getStakeholderOrHier(policyfor).then(function (data) {
-                if (policyfor === 'Stakeholder') {
+            datalayer.getStakeholderOrHier(policyDto).then(function (data) {
+                if (data.PolicyFor === 'Stakeholder') {
                     $scope.policyForList = data;
                 } else {
                     $scope.policyForList = [];
                     _.forEach(data, function (item) {
                         var obj = {
-                            Hierarchy: item.Hierarchy + '(' + item.Designation + ')',
+                            Hierarchy: item.Hierarchy + ' (' + item.Designation + ')',
                             row: item
                         };
                         $scope.policyForList.push(obj);
@@ -102,8 +101,8 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             });
         };
 
-        $scope.getSubpolicyList = function (product) {
-            datalayer.getPolicyList(product).then(function (data) {
+        $scope.getSubpolicyList = function (policyDto) {
+            datalayer.getPolicyList(policyDto).then(function (data) {
                 $scope.ExpiredAndSubpolicy = data.NotInUseSubpolices;
                 $scope.ApproveUnapproved = data.IsInUseSubpolices;
 
