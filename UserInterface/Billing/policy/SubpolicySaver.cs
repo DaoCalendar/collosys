@@ -119,7 +119,8 @@ namespace AngularUI.Billing.policy
             }
 
             var originRelation = subpolicyRelation.BillingRelations
-                .FirstOrDefault(x => x.EndDate == null || x.EndDate >= DateTime.Today);
+                .FirstOrDefault(x => (x.EndDate == null || x.EndDate >= DateTime.Today)
+                && x.Id != relation.Id);
             if (originRelation != null)
             {
                 originRelation.EndDate = subpolicy.EndDate;
@@ -127,7 +128,9 @@ namespace AngularUI.Billing.policy
                 originRelation.ApprovedOn = DateTime.Now;
             }
 
-            relation.Status = subpolicy.ApproveStatus;
+            relation.Status = subpolicy.Activity == SubpolicyActivityEnum.Approve
+                ? ColloSysEnums.ApproveStatus.Approved
+                : ColloSysEnums.ApproveStatus.Rejected;
             relation.ApprovedOn = DateTime.Now;
             relation.ApprovedBy = Username;
             using (var tx = Session.BeginTransaction())
@@ -144,8 +147,9 @@ namespace AngularUI.Billing.policy
                 tx.Commit();
             }
 
-            if (subpolicy.ApproveStatus == ColloSysEnums.ApproveStatus.Approved)
+            if (subpolicy.Activity == SubpolicyActivityEnum.Approve)
             {
+                subpolicy.ApproveStatus = ColloSysEnums.ApproveStatus.Approved;
                 subpolicy.SubpolicyType = SubpolicyTypeEnum.Active;
             }
             return subpolicy;

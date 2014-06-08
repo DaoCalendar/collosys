@@ -178,6 +178,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
 
                 if (!angular.isUndefined(items)) {
                     $csnotify.error("Expire request already pending");
+                    return;
                 }
             }
 
