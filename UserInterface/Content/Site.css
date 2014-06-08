@@ -370,7 +370,7 @@ multiselect {
 }
 
     .cs-fields .validation-icon {
-        top: 0 !important;
+        top: 28px !important;
         margin-right: 30px;
         height: 0;
         width: 0;

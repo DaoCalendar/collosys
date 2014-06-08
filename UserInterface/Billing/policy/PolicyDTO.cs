@@ -26,7 +26,11 @@ namespace AngularUI.Billing.policy
                                       x.PolicyFor == PolicyFor &&
                                       x.PolicyForId == PolicyForId);
 
-            if (billingPolicy != null) PolicyId = billingPolicy.Id;
+            if (billingPolicy != null)
+            {
+                PolicyId = billingPolicy.Id;
+                return;
+            }
 
             billingPolicy = new BillingPolicy
             {

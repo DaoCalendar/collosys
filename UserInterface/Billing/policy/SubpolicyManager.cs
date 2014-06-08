@@ -16,7 +16,10 @@ namespace AngularUI.Billing.policy
                 var dto = new SubpolicyDTO();
                 dto.Update(subpolicy);
                 if (subpolicy.BillingRelations == null || subpolicy.BillingRelations.Count == 0)
+                {
+                    dtoList.Add(dto);
                     continue;
+                }
                 var relation = subpolicy.BillingRelations
                     .Where(x => x.Status == ColloSysEnums.ApproveStatus.Approved)
                     .OrderByDescending(x => x.StartDate)
@@ -46,23 +49,23 @@ namespace AngularUI.Billing.policy
                 dto.PolicyId = policy.PolicyId;
                 if (dto.RelationId == Guid.Empty)
                 {
-                    dto.SubpolicyTypeEnum = SubpolicyTypeEnum.Draft;
+                    dto.SubpolicyType = SubpolicyTypeEnum.Draft;
                     policy.NotInUseSubpolices.Add(dto);
                     continue;
                 }
                 if (dto.ApproveStatus == ColloSysEnums.ApproveStatus.Submitted)
                 {
-                    dto.SubpolicyTypeEnum = SubpolicyTypeEnum.Unapproved;
+                    dto.SubpolicyType = SubpolicyTypeEnum.Unapproved;
                     policy.IsInUseSubpolices.Add(dto);
                     continue;
                 }
                 if (dto.EndDate == null || dto.EndDate > DateTime.Today)
                 {
-                    dto.SubpolicyTypeEnum = SubpolicyTypeEnum.Active;
+                    dto.SubpolicyType = SubpolicyTypeEnum.Active;
                     policy.IsInUseSubpolices.Add(dto);
                     continue;
                 }
-                dto.SubpolicyTypeEnum = SubpolicyTypeEnum.Expired;
+                dto.SubpolicyType = SubpolicyTypeEnum.Expired;
                 policy.NotInUseSubpolices.Add(dto);
             }
 

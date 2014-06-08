@@ -52,36 +52,36 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     tx.Commit();
                 }
 
-                // billing policies
-                var billigpolicies = (from string product in products
-                                      select new BillingPolicy
-                                      {
-                                          Name = product,
-                                          Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product),
-                                          Category = ScbEnums.Category.Liner
-                                      }).ToList();
+                //// billing policies
+                //var billigpolicies = (from string product in products
+                //                      select new BillingPolicy
+                //                      {
+                //                          Name = product,
+                //                          Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product),
+                //                          Category = ScbEnums.Category.Liner
+                //                      }).ToList();
 
-                var billingpoliciesWriteOff = (from string product in products
-                                               select new BillingPolicy
-                                               {
-                                                   Name = product + "_" + ScbEnums.Category.WriteOff.ToString(),
-                                                   Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product),
-                                                   Category = ScbEnums.Category.WriteOff
-                                               }).ToList();
+                //var billingpoliciesWriteOff = (from string product in products
+                //                               select new BillingPolicy
+                //                               {
+                //                                   Name = product + "_" + ScbEnums.Category.WriteOff.ToString(),
+                //                                   Products = (ScbEnums.Products)Enum.Parse(typeof(ScbEnums.Products), product),
+                //                                   Category = ScbEnums.Category.WriteOff
+                //                               }).ToList();
 
-                using (var tx = session.BeginTransaction())
-                {
-                    foreach (var bpolicy in billigpolicies)
-                    {
-                        session.SaveOrUpdate(bpolicy);
-                    }
+                //using (var tx = session.BeginTransaction())
+                //{
+                //    foreach (var bpolicy in billigpolicies)
+                //    {
+                //        session.SaveOrUpdate(bpolicy);
+                //    }
 
-                    foreach (var billingPolicy in billingpoliciesWriteOff)
-                    {
-                        session.SaveOrUpdate(billingPolicy);
-                    }
-                    tx.Commit();
-                }
+                //    foreach (var billingPolicy in billingpoliciesWriteOff)
+                //    {
+                //        session.SaveOrUpdate(billingPolicy);
+                //    }
+                //    tx.Commit();
+                //}
             }
         }
 

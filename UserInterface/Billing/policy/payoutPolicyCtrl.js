@@ -11,18 +11,25 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
             });
     };
 
-    var getPolicyList = function (policyDto) {
+    var getPolicyList = function (policy) {
         return restApi.customPOST(policy, "GetBillingSubpolicyList")
             .then(function (data) {
+                policy.PolicyId = data.PolicyId;
                 if (data.IsInUseSubpolices.length === 0 && data.NotInUseSubpolices.length === 0) {
                     $csnotify.success("No subpolices defined.");
+                    policy.IsInUseSubpolices = [];
+                    policy.NotInUseSubpolices = [];
+                    return policy;
+                } else {
+                    policy.IsInUseSubpolices = data.IsInUseSubpolices;
+                    policy.NotInUseSubpolices = data.NotInUseSubpolices;
                 }
-                return data;
+                return policy;
             });
     };
 
-    var displaySubpolicyDetails = function (subpolicy) {
-        return restApi.customGETLIST("GetBillingTokens", { 'id': subpolicy.Id })
+    var displaySubpolicyDetails = function (subpolicyId) {
+        return restApi.customGETLIST("GetBillingTokens", { 'id': subpolicyId })
             .then(function (data) {
                 return data;
             });
@@ -45,13 +52,12 @@ csapp.factory("newpolicyDatalayer", ['Restangular', '$csnotify', function (rest,
 
 }]);
 
-csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", "$modal", "modalService",
-    function ($scope, $csfactory, $csModels, $csShared, datalayer, $csnotify, $modal, modalService) {
+csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$csShared", "newpolicyDatalayer", "$csnotify", "$modal", "modalService", "Logger",
+    function ($scope, $csfactory, $csModels, $csShared, datalayer, $csnotify, $modal, modalService, logManager) {
 
         (function () {
-            $scope.direction = { up: true, down: true };
+            $scope.$log = logManager.getInstance("newpolicyController");
             $scope.billingpolicy = {};
-            $scope.buttonStatus = "";
             $scope.BillingPolicyModel = $csModels.getColumns("BillingPolicy");
             $scope.BillingPolicyModel.startDateText = { label: "Start date", type: "text" };
             $scope.BillingPolicyModel.endDateText = { label: "End date", type: "text" };
@@ -86,28 +92,14 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 return;
             }
             datalayer.getStakeholderOrHier(policyDto).then(function (data) {
-                if (data.PolicyFor === 'Stakeholder') {
-                    $scope.policyForList = data;
-                } else {
-                    $scope.policyForList = [];
-                    _.forEach(data, function (item) {
-                        var obj = {
-                            Hierarchy: item.Hierarchy + ' (' + item.Designation + ')',
-                            row: item
-                        };
-                        $scope.policyForList.push(obj);
-                    });
-                }
+                $scope.policyForList = data;
             });
         };
 
         $scope.getSubpolicyList = function (policyDto) {
-            datalayer.getPolicyList(policyDto).then(function (data) {
-                $scope.ExpiredAndSubpolicy = data.NotInUseSubpolices;
-                $scope.ApproveUnapproved = data.IsInUseSubpolices;
-
-                $scope.config.lhsValueList = data.NotInUseSubpolices;
-                $scope.config.rhsValueList = data.IsInUseSubpolices;
+            datalayer.getPolicyList(policyDto).then(function () {
+                $scope.config.lhsValueList = policyDto.NotInUseSubpolices;
+                $scope.config.rhsValueList = policyDto.IsInUseSubpolices;
                 $scope.config.lhsHeading = "Draft/Expired";
                 $scope.config.rhsHeading = "Approved/Unapproved";
                 $scope.config.lhsTextField = "Name";
@@ -117,35 +109,13 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
         };
 
         $scope.displaySubpolicyDetails = function () {
-            datalayer.displaySubpolicyDetails($scope.selected.selectedItem).then(function (data) {
-                $scope.billingpolicy.BillTokens = data;
+            datalayer.displaySubpolicyDetails($scope.selected.selectedItem.SubpolicyId).then(function (data) {
+                $scope.selected.selectedItem.BillTokens = data;
                 $scope.displaySubPolicy = {
                     conditionTokens: _.filter(data, { 'GroupType': 'Condition' }),
                     outputTokens: _.filter(data, { 'GroupType': 'Output' }),
                 };
             });
-
-            $scope.setButtonStatus();
-        };
-
-        $scope.setButtonStatus = function () {
-            var relation = $scope.selected.selectedItem.BillingRelations[0];
-            if (angular.isUndefined(relation)) {
-                $scope.buttonStatus = 'Draft';
-                return;
-            }
-            if (relation.Status === 'Approved') {
-                $scope.buttonStatus = relation.Status;
-            }
-            var today = moment();
-            var endDate = moment(relation.EndDate);
-            var diff = endDate.diff(today, 'days');
-            if ((diff < 0)) {
-                $scope.buttonStatus = 'Expired';
-            }
-            if ((relation.Status === 'Submitted') && (diff >= 0)) {
-                $scope.buttonStatus = 'UnApproved';
-            }
         };
 
         $scope.moveUp = function (subpolicy) {

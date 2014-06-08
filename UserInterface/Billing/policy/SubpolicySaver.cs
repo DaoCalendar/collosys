@@ -23,7 +23,7 @@ namespace AngularUI.Billing.policy
             switch (subpolicy.Activity)
             {
                 case SubpolicyActivityEnum.Activate:
-                    if (subpolicy.SubpolicyTypeEnum == SubpolicyTypeEnum.Draft)
+                    if (subpolicy.SubpolicyType == SubpolicyTypeEnum.Draft)
                     {
                         ActivateDraftSubpolicy(subpolicy);
                     }

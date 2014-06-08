@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,24 +18,55 @@ namespace AngularUI.Billing.policy
 {
     public class PayoutPolicyApiController : BaseApiController<BillingPolicy>
     {
+        public struct StkhInfo
+        {
+            public Guid Id;
+            public string Display;
+        }
         [HttpPost]
         public HttpResponseMessage GetStakeholerOrHier(PolicyDTO policy)
         {
             if (policy.PolicyFor == ColloSysEnums.PolicyOn.Stakeholder)
             {
                 var data = Session.Query<Stakeholders>()
-                    .Where(x => x.LeavingDate == null || x.LeavingDate >= DateTime.Today)
+                    //.Where(x => x.LeavingDate == null || x.LeavingDate >= DateTime.Today)
                     .ToList();
                 //private StakeQueryBuilder stkhrepo = new StakeQueryBuilder();
                 //var data = stkhrepo.OnProduct(policy.Product);
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+
+                var stkhData = new List<StkhInfo>();
+                foreach (var stkh in data)
+                {
+                    var info = new StkhInfo
+                    {
+                        Id = stkh.Id,
+                        Display =
+                            string.IsNullOrWhiteSpace(stkh.ExternalId)
+                                ? stkh.Name
+                                : string.Format("{0} - {1}", stkh.Name, stkh.ExternalId)
+                    };
+                    stkhData.Add(info);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, stkhData);
             }
             else
             {
                 var data = Session.Query<StkhHierarchy>()
                     .Where(x => x.Hierarchy != "Developer")
                     .ToList();
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                var hierData = new List<StkhInfo>();
+                foreach (var hier in data)
+                {
+                    var info = new StkhInfo
+                    {
+                        Id = hier.Id,
+                        Display = string.Format("{0} - {1}", hier.Designation, hier.Hierarchy)
+                    };
+                    hierData.Add(info);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, hierData);
             }
         }
 

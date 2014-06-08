@@ -17,7 +17,7 @@ namespace AngularUI.Billing.policy
         public Guid PolicyId;
         public Guid SubpolicyId;
         public Guid RelationId;
-        public SubpolicyTypeEnum SubpolicyTypeEnum;
+        public SubpolicyTypeEnum SubpolicyType;
 
         public void Update(BillingRelation relation)
         {
