@@ -148,13 +148,39 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             };
             modalService.showModal({}, modalOptions).then(function () {
                 $scope.selected.selectedItem.Activity = activity;
-                datalayer.Save($scope.selected.selectedItem).then(function() {
-                    
+                datalayer.Save($scope.selected.selectedItem).then(function (data) {
+                    if (activity === "Approve") {
+                        $scope.selected.selectedItem = data;
+                        var item = _.find($scope.config.rhsValueList, function (input) {
+                            return input.SubpolicyId === $scope.selected.selectedItem.SubpolicyId
+                                && input.RelationId !== $scope.selected.selectedItem.RelationId;
+                        });
+                        if (!angular.isUndefined(item)) {
+                            $scope.config.rhsValueList.splice(item, 1);
+                        }
+                    } else {
+                        $scope.config.rhsValueList.splice($scope.selected.selectedItem);
+                        $scope.selected.selectedItem = null;
+                        $scope.selected.selectedItemIndex = -1;
+                        $scope.selected.selectedSide = "";
+                    }
                 });
             });
         };
 
         $scope.openModelforSubPolicy = function (activity) {
+
+            if (activity === "Expire") {
+                var subpolicyId = $scope.selected.selectedItem.SubpolicyId;
+                var items = _.find($scope.config.rhsValueList, function (item) {
+                    return item.ApproveStatus === "Submitted" && item.SubpolicyId === subpolicyId;
+                });
+
+                if (!angular.isUndefined(items)) {
+                    $csnotify.error("Expire request already pending");
+                }
+            }
+
             var modalInstance = $modal.open({
                 templateUrl: baseUrl + 'Billing/policy/date-modal.html',
                 controller: 'billingPolicymodal',
@@ -174,7 +200,7 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 if (activity === "Activate" || activity === "Reactivate") {
                     $scope.selected.selectedItem.Priority = $scope.config.rhsValueList.length + 1;
                 }
-                datalayer.Save($scope.selected.selectedItem).then(function () {
+                datalayer.Save($scope.selected.selectedItem).then(function (data2) {
                     if (activity === "Activate" || activity === "Reactivate") {
                         var index = $scope.config.lhsValueList.indexOf($scope.selected.selectedItem);
                         if (index === -1) {
@@ -183,7 +209,10 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                         };
                         var policy = $scope.config.lhsValueList[index];
                         $scope.config.lhsValueList.splice(policy, 1);
-                        $scope.config.rhsValueList.push(policy);
+                        $scope.config.rhsValueList.push(data2);
+                    } else {
+                        $scope.config.rhsValueList.push(data2);
+                        $scope.config.rhsValueList = _.sortBy($scope.config.rhsValueList, 'Priority');
                     }
                 });
             });

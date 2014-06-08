@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Linq;
 using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using NHibernate;
 using NHibernate.Linq;
+
+#endregion
 
 namespace AngularUI.Billing.policy
 {
@@ -18,34 +22,26 @@ namespace AngularUI.Billing.policy
             Session = session;
         }
 
-        public void ManageSubpolicyActivity(SubpolicyDTO subpolicy)
+        public SubpolicyDTO ManageSubpolicyActivity(SubpolicyDTO subpolicy)
         {
             switch (subpolicy.Activity)
             {
                 case SubpolicyActivityEnum.Activate:
-                    if (subpolicy.SubpolicyType == SubpolicyTypeEnum.Draft)
-                    {
-                        ActivateDraftSubpolicy(subpolicy);
-                    }
-                    break;
+                    return ActivateDraftSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Expire:
-                    DeactivateSubpolicy(subpolicy);
-                    break;
+                    return DeactivateSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Reactivate:
-                    ReactivateSubpolicy(subpolicy);
-                    break;
+                    return ReactivateSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Approve:
-                    ApproveSubpolicy(subpolicy);
-                    break;
+                    return ApproveSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Reject:
-                    ApproveSubpolicy(subpolicy);
-                    break;
+                    return ApproveSubpolicy(subpolicy);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void ActivateDraftSubpolicy(SubpolicyDTO subpolicy)
+        private SubpolicyDTO ActivateDraftSubpolicy(SubpolicyDTO subpolicy)
         {
             var subpolicyRelation = Session.Query<BillingSubpolicy>()
                 .Where(x => x.Id == subpolicy.SubpolicyId)
@@ -72,9 +68,13 @@ namespace AngularUI.Billing.policy
                 Session.SaveOrUpdate(relation);
                 tx.Commit();
             }
+
+            subpolicy.ApproveStatus = ColloSysEnums.ApproveStatus.Submitted;
+            subpolicy.SubpolicyType = SubpolicyTypeEnum.Unapproved;
+            return subpolicy;
         }
 
-        private void DeactivateSubpolicy(SubpolicyDTO subpolicy)
+        private SubpolicyDTO DeactivateSubpolicy(SubpolicyDTO subpolicy)
         {
             if (!subpolicy.EndDate.HasValue)
             {
@@ -95,9 +95,10 @@ namespace AngularUI.Billing.policy
 
             subpolicy.RelationId = relation.Id;
             subpolicy.Update(relation);
+            return subpolicy;
         }
 
-        private void ApproveSubpolicy(SubpolicyDTO subpolicy)
+        private SubpolicyDTO ApproveSubpolicy(SubpolicyDTO subpolicy)
         {
             var subpolicyRelation = Session.Query<BillingSubpolicy>()
                 .Where(x => x.Id == subpolicy.SubpolicyId)
@@ -117,42 +118,70 @@ namespace AngularUI.Billing.policy
                 throw new NullReferenceException("Billing Relation cannot be null");
             }
 
+            var originRelation = subpolicyRelation.BillingRelations
+                .FirstOrDefault(x => x.EndDate == null || x.EndDate >= DateTime.Today);
+            if (originRelation != null)
+            {
+                originRelation.EndDate = subpolicy.EndDate;
+                originRelation.ApprovedBy = Username;
+                originRelation.ApprovedOn = DateTime.Now;
+            }
+
             relation.Status = subpolicy.ApproveStatus;
             relation.ApprovedOn = DateTime.Now;
             relation.ApprovedBy = Username;
+            using (var tx = Session.BeginTransaction())
+            {
+                if (originRelation != null)
+                {
+                    Session.SaveOrUpdate(originRelation);
+                    Session.Delete(relation);
+                }
+                else
+                {
+                    Session.SaveOrUpdate(relation);
+                }
+                tx.Commit();
+            }
+
+            if (subpolicy.ApproveStatus == ColloSysEnums.ApproveStatus.Approved)
+            {
+                subpolicy.SubpolicyType = SubpolicyTypeEnum.Active;
+            }
+            return subpolicy;
+        }
+
+        private SubpolicyDTO ReactivateSubpolicy(SubpolicyDTO subpolicy)
+        {
+            var subpolicyRelation = Session.Query<BillingSubpolicy>()
+                .Where(x => x.Id == subpolicy.SubpolicyId)
+                .Fetch(x => x.BillingRelations)
+                .SingleOrDefault();
+
+            if (subpolicyRelation == null || subpolicyRelation.BillingRelations == null
+                || subpolicyRelation.BillingRelations.Count == 0)
+            {
+                throw new NullReferenceException("Draft subpolicy must have atleast one relations");
+            }
+
+            var relation = new BillingRelation
+            {
+                BillingPolicy = Session.Load<BillingPolicy>(subpolicy.PolicyId),
+                BillingSubpolicy = Session.Load<BillingSubpolicy>(subpolicy.SubpolicyId),
+                StartDate = subpolicy.StartDate,
+                EndDate = subpolicy.EndDate,
+                Priority = subpolicy.Priority,
+                Status = ColloSysEnums.ApproveStatus.Submitted
+            };
             using (var tx = Session.BeginTransaction())
             {
                 Session.SaveOrUpdate(relation);
                 tx.Commit();
             }
 
-            //subpolicy.SubpolicyType = 
-        }
-
-        public BillingRelation CreateRelation()
-        {
-            return new BillingRelation
-            {
-
-            };
-        }
-
-        public BillingPolicy CreatePolicy()
-        {
-            return new BillingPolicy
-            {
-
-            };
-        }
-
-        private void ReactivateSubpolicy(SubpolicyDTO subpolicy)
-        {
-            //var subpolicy =
+            subpolicy.ApproveStatus = ColloSysEnums.ApproveStatus.Submitted;
+            subpolicy.SubpolicyType = SubpolicyTypeEnum.Unapproved;
+            return subpolicy;
         }
     }
 }
-
-//draft
-//submitted => only start date
-//approve/reject
-//deactiveate => enddate, if start==end delete

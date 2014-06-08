@@ -97,8 +97,8 @@ namespace AngularUI.Billing.policy
         public HttpResponseMessage SaveSubpolicy(SubpolicyDTO param)
         {
             var manager = new SubpolicySaver(GetUsername(), Session);
-            manager.ManageSubpolicyActivity(param);
-            return Request.CreateResponse(HttpStatusCode.OK, "success");
+            var result = manager.ManageSubpolicyActivity(param);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
     }
 }
