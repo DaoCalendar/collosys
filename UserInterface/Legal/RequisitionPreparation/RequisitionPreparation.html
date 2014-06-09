@@ -39,7 +39,6 @@
                                     <th>Case Status</th>
                                     <th>Loan No</th>
                                     <th>Party Name</th>
-                                    <th>Case Status</th>
                                     <th>OS amount</th>
                                     <th>Future Receivable</th>
                                 </tr>
@@ -57,8 +56,6 @@
                                     </td>
                                     <td>{{data.PartyName}}
                                     </td>
-                                    <td>{{data.CaseStatus}}
-                                    </td>
                                     <td>{{data.OSamount}}
                                     </td>
                                     <td>{{data.FutureReceivable}}
@@ -74,175 +71,178 @@
                     </div>
                 </div>
             </div>
-
-            <span class="help-block">Asset Details</span>
-            <div class="well">
-                <div class="row" style="height: 100px;">
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-hover table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>Group Name</th>
-                                    <th>Product</th>
-                                    <th>Product Type</th>
-                                    <th>Model Name</th>
-                                    <th>Vehicle No</th>
-                                    <th>Engine No</th>
-                                    <th>Chasis No</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr data-ng-repeat="data in dldata.Requisitiondata">
-
-                                    <td>{{data.GroupName}}
-                                    </td>
-                                    <td>{{data.Product}}
-                                    </td>
-                                    <td>{{data.ProductType}}
-                                    </td>
-                                    <td>{{data.ModelName}}
-                                    </td>
-                                    <td>{{data.VehicleNo}}
-                                    </td>
-                                    <td>{{data.EngineNo}}
-                                    </td>
-                                    <td>{{data.ChasisNo}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <span class="help-block">Guranterer details</span>
-            <cs-form layout="6.4.8">
-                <cs-field data-ng-model="legal.Nameofhirer" field="legalprepare.Nameofhirer"></cs-field>
-                 
-                <cs-field data-ng-model="legal.Addressasperaggrement" field="legalprepare.Addressasperaggrement"></cs-field>
-               
-               <cs-field data-ng-model="legal.Presentaddress" field="legalprepare.Presentaddress"></cs-field>
-               
-            </cs-form>
-
-            <div class="row">
-                <div class="col-md-8">
-                    <label class="col-md-3">Account Statement</label>
-                    <div class="col-md-5">
-                        <cs-button type="add" text="View delay/OS details button"></cs-button>
-                    </div>
-                </div>
-            </div>
-
-            <span class="help-block text-center">Status of Vehicle</span>
-            <div class="well">
-                <input type="radio" value="withParty" />With Party
-                <cs-form layout="6.4.8">
-                    <cs-field data-ng-model="legal.WithParty" field="legalprepare.WithParty"></cs-field>
-                </cs-form>
-
-
-                <input type="radio" value="false" />Repossessed By Bank
-                <cs-form layout="6.4.8">
-                
-                    <cs-field data-ng-model="legal.Dateofrepossession" field="legalprepare.Dateofrepossession"></cs-field>
-                
-                    <cs-field data-ng-model="legal.Dateofsalenotice" field="legalprepare.Dateofsalenotice"></cs-field>
-
-                    <cs-field data-ng-model="legal.DateofSale" field="legalprepare.DateofSale"></cs-field>
-
-                    <cs-field data-ng-model="legal.Saleconsideration" field="legalprepare.Saleconsideration"></cs-field>
-                        
-                </cs-form>
-
-                <cs-form layout="9.5.7">
-                    <cs-field data-ng-model="legal.Soldto" field="legalprepare.Soldto"></cs-field>
-
-                    <cs-field data-ng-model="legal.AddressSoldto" field="legalprepare.AddressSoldto"></cs-field>
-                </cs-form>
-
-
-                <input type="radio" />Vehicle Does Not Exist
-            </div>
-
-
-            <span class="help-block text-center">Other Cases Details</span>
-            <div class="well">
-                <cs-form>
-                    <cs-field data-ng-model="legal.CasePending" field="legalprepare.CasePending"></cs-field>
-                    <div class="row">
+            
+            <div data-ng-show="showDiv">
+                <span class="help-block">Asset Details</span>
+                <div class="well">
+                    <div class="row" style="height: 100px;">
                         <div class="col-md-12">
-                            <label class="col-md-4">Enclosure From Branch Office</label>
-                            <div class="col-md-8">
-                                <cs-button type="add" text="Select Enclosures"></cs-button>
-                            </div>
+                            <table class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Group Name</th>
+                                        <th>Product</th>
+                                        <th>Product Type</th>
+                                        <th>Model Name</th>
+                                        <th>Vehicle No</th>
+                                        <th>Engine No</th>
+                                        <th>Chasis No</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="data in Requisitionlist">
+
+                                        <td>{{data.GroupName}}
+                                        </td>
+                                        <td>{{data.Product}}
+                                        </td>
+                                        <td>{{data.ProductType}}
+                                        </td>
+                                        <td>{{data.ModelName}}
+                                        </td>
+                                        <td>{{data.VehicleNo}}
+                                        </td>
+                                        <td>{{data.EngineNo}}
+                                        </td>
+                                        <td>{{data.ChasisNo}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+                <span class="help-block text-center">Guranterer details</span>
+                <cs-form layout="6.4.8">
+                    <cs-field data-ng-model="legal.Nameofhirer" field="legalprepare.Nameofhirer"></cs-field>
+                 
+                    <cs-field data-ng-model="legal.Addressasperaggrement" field="legalprepare.Addressasperaggrement"></cs-field>
+               
+                    <cs-field data-ng-model="legal.Presentaddress" field="legalprepare.Presentaddress"></cs-field>
+               
                 </cs-form>
-                <span class="help-block">Details Required For Proceeding u/s 138 NIA (negotiable instrument act)
-                </span>
-                <cs-form layout="11.4.8">
-                    <cs-field data-ng-model="legal.ReasonBranchIncharge" field="legalprepare.ReasonBranchIncharge"></cs-field>
 
-                    <cs-field data-ng-model="legal.AccusedName" field="legalprepare.AccusedName"></cs-field>
-                
-                    <cs-field data-ng-model="legal.EntityType" field="legalprepare.EntityType"></cs-field>
-                
-                </cs-form>
-            </div>
-
-            <span class="help-block text-center">Details of Cheque</span>
-            <div class="well">
-                <div class="row" style="height: 100px;">
-                    <div class="col-md-12">
-                        <table class="table table-bordered table-hover table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>PDC Type</th>
-                                    <th>Cheque No</th>
-                                    <th>Date</th>
-                                    <th>Drawn on Bank</th>
-                                    <th>Deposit date</th>
-                                    <th>Bounce date</th>
-                                    <th>Bounce Reason</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr data-ng-repeat="data in dldata.Requisitiondata">
-
-                                    <td>{{data.PDCType}}
-                                    </td>
-                                    <td>{{data.ChequeNo}}
-                                    </td>
-                                    <td>{{data.Date}}
-                                    </td>
-                                    <td>{{data.DrawnonBank}}
-                                    </td>
-                                    <td>{{data.Depositdate}}
-                                    </td>
-                                    <td>{{data.Bouncedate}}
-                                    </td>
-                                    <td>{{data.BounceReason}}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="col-md-3">Account Statement</label>
+                        <div class="col-md-5">
+                            <cs-button type="add" text="View delay/OS details button"></cs-button>
+                        </div>
                     </div>
                 </div>
-            </div>
+
+                <span class="help-block text-center">Status of Vehicle</span>
+                <div class="well">
+                    <input type="radio" value="withParty" />With Party
+                    <cs-form layout="6.4.8">
+                        <cs-field data-ng-model="legal.WithParty" field="legalprepare.WithParty"></cs-field>
+                    </cs-form>
+
+
+                    <input type="radio" value="false" />Repossessed By Bank
+                    <cs-form layout="6.4.8">
+                
+                        <cs-field data-ng-model="legal.Dateofrepossession" field="legalprepare.Dateofrepossession"></cs-field>
+                
+                        <cs-field data-ng-model="legal.Dateofsalenotice" field="legalprepare.Dateofsalenotice"></cs-field>
+
+                        <cs-field data-ng-model="legal.DateofSale" field="legalprepare.DateofSale"></cs-field>
+
+                        <cs-field data-ng-model="legal.Saleconsideration" field="legalprepare.Saleconsideration"></cs-field>
+                        
+                    </cs-form>
+
+                    <cs-form layout="9.5.7">
+                        <cs-field data-ng-model="legal.Soldto" field="legalprepare.Soldto"></cs-field>
+
+                        <cs-field data-ng-model="legal.AddressSoldto" field="legalprepare.AddressSoldto"></cs-field>
+                    </cs-form>
+
+
+                    <input type="radio" />Vehicle Does Not Exist
+                </div>
+
+
+                <span class="help-block text-center">Other Cases Details</span>
+                <div class="well">
+                    <cs-form>
+                        <cs-field data-ng-model="legal.CasePending" field="legalprepare.CasePending"></cs-field>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="col-md-4">Enclosure From Branch Office</label>
+                                <div class="col-md-8">
+                                    <cs-button type="add" text="Select Enclosures"></cs-button>
+                                </div>
+                            </div>
+                        </div>
+                    </cs-form>
+                    <span class="help-block">Details Required For Proceeding u/s 138 NIA (negotiable instrument act)
+                    </span>
+                    <cs-form layout="11.4.8">
+                        <cs-field data-ng-model="legal.ReasonBranchIncharge" field="legalprepare.ReasonBranchIncharge"></cs-field>
+
+                        <cs-field data-ng-model="legal.AccusedName" field="legalprepare.AccusedName"></cs-field>
+                
+                        <cs-field data-ng-model="legal.EntityType" field="legalprepare.EntityType"></cs-field>
+                
+                    </cs-form>
+                </div>
+
+                <span class="help-block text-center">Details of Cheque</span>
+                <div class="well">
+                    <div class="row" style="height: 100px;">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>PDC Type</th>
+                                        <th>Cheque No</th>
+                                        <th>Date</th>
+                                        <th>Drawn on Bank</th>
+                                        <th>Deposit date</th>
+                                        <th>Bounce date</th>
+                                        <th>Bounce Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="data in Chequedata">
+
+                                        <td>{{data.PDCType}}
+                                        </td>
+                                        <td>{{data.ChequeNo}}
+                                        </td>
+                                        <td>{{data.Date}}
+                                        </td>
+                                        <td>{{data.DrawnonBank}}
+                                        </td>
+                                        <td>{{data.Depositdate}}
+                                        </td>
+                                        <td>{{data.Bouncedate}}
+                                        </td>
+                                        <td>{{data.BounceReason}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             
-            <cs-form layout="8.5.5">
-                <cs-field data-ng-model="legal.FileNo" field="legalprepare.FileNo"></cs-field>
-            </cs-form>
+                <cs-form layout="8.5.5">
+                    <cs-field data-ng-model="legal.FileNo" field="legalprepare.FileNo"></cs-field>
+                </cs-form>
 
 
-            <div class="text-right">
-                <cs-button type="save" text="Save" permission="All"></cs-button>
-                <cs-button type="save" text="Approve" text="Clear" permission="All"></cs-button>
-                <cs-button type="view" text="ViewAll" permission="All"></cs-button>
+                <div class="text-right">
+                    <cs-button type="save" text="Save" permission="All"></cs-button>
+                    <cs-button type="save" text="Approve" text="Clear" permission="All"></cs-button>
+                    <cs-button type="view" text="ViewAll" permission="All"></cs-button>
+                </div>
             </div>
         </div>
     </div>
 </form>
+
 
 
 

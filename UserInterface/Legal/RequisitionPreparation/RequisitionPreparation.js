@@ -17,8 +17,34 @@
         };
         
         $scope.save = function (legal) {
+            if (angular.isDefined(legal)) {
+                $scope.showDiv = true;
+            } else {
+                $scope.showDiv = false;
+            }
             return datalayer.save(legal);
         };
+        
+
+        $scope.Requisitionlist = [{
+            GroupName: 'abcd123456789',
+            Product: 'abc',
+            ProductType: 'abcd',
+            ModelName: 'Suzuki',
+            VehicleNo: 'MH40 123',
+            EngineNo: 123456789,
+            ChasisNo: 123456789,
+        }];
+        
+        $scope.Chequedata = [{
+            PDCType: 'Order Cheque',
+            ChequeNo: '1234abc',
+            Date: moment().format('LL'),
+            DrawnonBank: 'Dena Bank',
+            Depositdate: moment().format('L'),
+            Bouncedate: moment().format('LL'),
+            BounceReason:'Amount not Enough',
+        }];
 
     }]);
 
@@ -41,8 +67,7 @@ csapp.factory("RequisitionDataLayer", ["$csnotify", function ($csnotify) {
         legal.LoanStatus = '';
         legal.CaseStatus = '';
     };
-
-
+   
     return {
         dldata: dldata,
         clear: clear,

@@ -37,6 +37,15 @@ csapp.factory("FollowUpCtrlDataLayer", ["$csnotify", function ($csnotify) {
         dldata.Requisitiondata.push(legal);
     };
 
+    dldata.Requisitionlist = [{
+        CaseCode: 1,
+        CaseDateDescription: moment().format('L'),
+        LastDate: moment().format('L'),
+        ComplaintUser: 'No Complaints',
+        NextDate:  moment().format('MM-YYYY'),
+        CourtName:'High Court',
+    }];
+
 
     return {
         dldata: dldata,

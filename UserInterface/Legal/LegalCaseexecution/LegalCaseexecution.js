@@ -25,7 +25,7 @@ csapp.factory("LegalCaseexecutionDataLayer", ["$csnotify", function ($csnotify) 
     dldata.location = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
     dldata.division = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
     dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received', 'In-Principally Sanctioned'];
-    dldata.legalstatus = ["Closed", "Un-closed"];
+    dldata.legalstatus = ["Closed", "Unclosed"];
     var save = function (legal) {
         dldata.Requisitiondata.push(legal);
     };
