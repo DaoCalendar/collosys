@@ -39,7 +39,8 @@ namespace AngularUI.Billing.policy
                 if (relation2 == null) continue;
                 var dto2 = new SubpolicyDTO();
                 dto2.Update(subpolicy);
-                dto2.Update(relation2);
+                if (!relation2.EndDate.HasValue || relation2.EndDate > DateTime.Today)
+                    dto2.Update(relation2);
                 dtoList.Add(dto2);
             }
 

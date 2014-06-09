@@ -144,64 +144,11 @@ namespace AngularUI.Billing.policy
                 }
                 else
                 {
-                    Session.SaveOrUpdate(relation);
-                }
-                tx.Commit();
-            }
-
-            if (subpolicy.Activity == SubpolicyActivityEnum.Approve)
-            {
-                subpolicy.ApproveStatus = ColloSysEnums.ApproveStatus.Approved;
-                subpolicy.SubpolicyType = SubpolicyTypeEnum.Active;
-            }
-            return subpolicy;
-        }
-
-        private SubpolicyDTO RejectSubpolicy(SubpolicyDTO subpolicy)
-        {
-            var subpolicyRelation = Session.Query<BillingSubpolicy>()
-                .Where(x => x.Id == subpolicy.SubpolicyId)
-                .Fetch(x => x.BillingRelations)
-                .SingleOrDefault();
-
-            if (subpolicyRelation == null || subpolicyRelation.BillingRelations == null
-                || subpolicyRelation.BillingRelations.Count == 0)
-            {
-                throw new NullReferenceException("Billing Relation cannot be null");
-            }
-
-            var relation = subpolicyRelation.BillingRelations
-                .FirstOrDefault(x => x.Id == subpolicy.RelationId);
-            if (relation == null)
-            {
-                throw new NullReferenceException("Billing Relation cannot be null");
-            }
-
-            var originRelation = subpolicyRelation.BillingRelations
-                .FirstOrDefault(x => (x.EndDate == null || x.EndDate >= DateTime.Today)
-                && x.Id != relation.Id);
-            if (originRelation != null)
-            {
-                originRelation.EndDate = subpolicy.EndDate;
-                originRelation.ApprovedBy = Username;
-                originRelation.ApprovedOn = DateTime.Now;
-            }
-
-            relation.Status = subpolicy.Activity == SubpolicyActivityEnum.Approve
-                ? ColloSysEnums.ApproveStatus.Approved
-                : ColloSysEnums.ApproveStatus.Rejected;
-            relation.ApprovedOn = DateTime.Now;
-            relation.ApprovedBy = Username;
-            using (var tx = Session.BeginTransaction())
-            {
-                if (originRelation != null)
-                {
-                    Session.SaveOrUpdate(originRelation);
-                    Session.Delete(relation);
-                }
-                else
-                {
-                    Session.SaveOrUpdate(relation);
+                    if (subpolicy.Activity == SubpolicyActivityEnum.Approve)
+                        Session.SaveOrUpdate(relation);
+                    else
+                        subpolicyRelation.BillingRelations.Remove(relation);
+                       // Session.Delete(relation);
                 }
                 tx.Commit();
             }

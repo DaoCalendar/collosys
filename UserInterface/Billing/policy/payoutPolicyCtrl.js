@@ -200,7 +200,17 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                     break;
                 case "Reject":
                     var index = $scope.config.rhsValueList.indexOf($scope.selected.selectedItem);
-                    $scope.config.rhsValueList.splice(index,1);
+                    $scope.config.rhsValueList.splice(index, 1);
+                    var item2 = _.find($scope.config.rhsValueList, function (input) {
+                        return input.SubpolicyId === $scope.selected.selectedItem.SubpolicyId
+                            && input.RelationId !== $scope.selected.selectedItem.RelationId;
+                    });
+                    if (angular.isUndefined(item2)) {
+                        $scope.selected.selectedItem.SubpolicyType = "Draft";
+                        $scope.selected.selectedItem.Activity = "";
+                        $scope.config.lhsValueList.push($scope.selected.selectedItem);
+                    }
+
                     $scope.selected.selectedItem = undefined;
                     $scope.selected.selectedItemIndex = -1;
                     $scope.selected.selectedSide = undefined;
@@ -255,22 +265,27 @@ csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance',
             $scope.pageData = pageData;
             $scope.model = {
                 StartDate: { label: "Start Date", type: "date", required: true },
-                EndDate: { label: "End Date", type: "date", required: pageData.Activity === "Expire", startDate: "tomorrow" }
+                EndDate: { label: "End Date", type: "date", required: pageData.Activity === "Expire" }
             };
-            if (pageData.Subpolicy.SubpolicyType === "Draft") {
-                pageData.Subpolicy.StartDate = moment().add('d', 1).format("YYYY-MM-DD");
+            if (pageData.Activity === 'Activate' || pageData.Activity === 'Reactivate') {
+                $scope.model.EndDate.min = 'tomorrow';
+            }
+            if (pageData.Activity === 'Expire') {
+                $scope.model.EndDate.editable = false;
             }
         })();
 
         $scope.modelDateValidation = function () {
             if (angular.isUndefined(pageData.Subpolicy.EndDate) || pageData.Subpolicy.EndDate == null) {
-                return;
+                if ($scope.model.EndDate.required)
+                    return false;
             }
             var startDate = moment(pageData.Subpolicy.StartDate);
             var endDate = moment(pageData.Subpolicy.EndDate);
             if (endDate.isBefore(startDate)) {
-                $scope.dateRangeForm.$setValidity("daterange", false);
+                return false;
             }
+            return true;
         };
 
         $scope.closeModal = function () {
