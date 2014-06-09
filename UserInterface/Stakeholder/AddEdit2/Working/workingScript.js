@@ -3,6 +3,13 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
 
     var restApi = rest.all('WorkingApi');
 
+    var getReportsTo = function (stake) {
+        return restApi.customGET('GetWorkingReportsTo', { 'id': stake.Hierarchy.Id, 'level': stake.Hierarchy.ReportingLevel })
+            .then(function (data) {
+                return data;
+            });
+    };
+
     var getWorkingData = function (stakeId) {
         return restApi.customGET('GetStakeWorkingData', { stakeholderId: stakeId })
             .then(function (data) {
@@ -24,7 +31,8 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     return {
         GetStakeholder: getWorkingData,
         GetPaymentDetails: getPaymentDetails,
-        SavePayment: savePayment
+        SavePayment: savePayment,
+        GetReportsTo: getReportsTo
     };
 }]);
 
@@ -96,7 +104,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                     parseFloat($scope.SalDetails.totalNotEsic) +
                     parseFloat($scope.SalDetails.esicEmployee) +
                     parseFloat($scope.SalDetails.esicEmployer) +
-                    parseFloat($scope.SalDetails.serviceCharge) +
+                    angular.isDefined($scope.SalDetails.serviceCharge) ? $scope.SalDetails.serviceCharge : 0 +
                     parseFloat($scope.SalDetails.serviceTax);
                 $scope.SalDetails.total = $scope.SalDetails.total.toFixed(2);
             } else {
@@ -107,6 +115,11 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         return 0;
     };
 
+    $scope.getReportsTo = function (product) {
+        datalayer.GetReportsTo($scope.currStakeholder).then(function (reportsToList) {
+            $scope.reportsToList = reportsToList;
+        });
+    };
 
     $scope.savePayment = function (paymentData) {
         paymentData.Stakeholder = $scope.currStakeholder;

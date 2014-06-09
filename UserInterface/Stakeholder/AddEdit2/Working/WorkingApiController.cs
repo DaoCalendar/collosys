@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
@@ -44,6 +45,18 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
             paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
 
             StakePaymentBuilder.Save(paymentData);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetWorkingReportsTo(Guid id,ColloSysEnums.ReportingLevel level)
+        {
+
+            var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id,level);
+
+            
+
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

@@ -27,10 +27,12 @@
                   data-ng-model="Working"></cs-field>
 
         <cs-field field="workingModel.Products"
-                  data-ng-model="Working"></cs-field>
+                  data-ng-model="Working.Products"
+                  data-ng-change="getReportsTo(Working.Products)">
+        </cs-field>
 
         <cs-field field="workingModel.ReportsTo"
-                  data-ng-model="Working"></cs-field>
+                  data-ng-model="Working.ReportsTo"></cs-field>
 
         <cs-field field="workingModel.StartDate"
                   data-ng-model="Working"></cs-field>
