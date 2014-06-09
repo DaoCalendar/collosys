@@ -3,31 +3,39 @@
         <cs-field data-ng-model="legal.Function" field="legalprepare.Function"></cs-field>
     </cs-form>
     
-    <div data-ng-show="legal.Function === 'Initiated'">
-        <cs-form layout="6.3.5">
-            <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
-                      value-List="dldata.location"></cs-field>
-            <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
-                      value-List="dldata.division"></cs-field>
-        </cs-form>
+    <div data-ng-show="legal.Function">
+       <!-- <cs-form layout="6.3.5">
+            
+        </cs-form>-->
         
-                
-        <div data-ng-show="legal.Location && legal.Division">
+               <!--data-ng-show="legal.Location && legal.Division-->  
+        <div>
             <div class="well">
-                <cs-form layout="6.3.5">
+                <cs-form layout="4.5.7">
+                    
+                    <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
+                              value-List="dldata.location"></cs-field>
+                    <div>
+                        <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
+                                  value-List="dldata.division"></cs-field>
+                    </div>
+                   
                     <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
 
-                    <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo"></cs-field>
-
                     <cs-field  data-ng-model="legal.DateFrom" field="legalprepare.DateFrom"></cs-field>
+                    
+                    <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo"></cs-field>
                         
                     <cs-field data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo"></cs-field>
+                    
+                </cs-form>
+                <cs-form layout="4.5.7">
+                    <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom" class="pull-left"></cs-field>
 
                     <cs-field  data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo"></cs-field>
 
-                    <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom"></cs-field>
-                    
                 </cs-form>
+
                     
                 <div class="text-right">
                     <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
