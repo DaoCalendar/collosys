@@ -4,7 +4,12 @@
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
             $scope.legal = {};
+            $scope.dldata.Products = ['AUTO', 'SMC', 'SME-BIL', 'MORT'];
+            $scope.dldata.City = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
+            $scope.dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received', 'In-Principally Sanctioned'];
+            $scope.dldata.casestatus = ['Cancelled', 'Closed', 'Disposed', 'Expired', 'Legal', 'Live', 'Released', 'Repossessed'];
             $scope.legalprepare = $csModels.getColumns("RequisitionPreparation");
+            $scope.dldata.Requisitiondata = [];
         })();
 
         $scope.Clear = function (legal) {
@@ -23,15 +28,10 @@ csapp.factory("RequisitionDataLayer", ["$csnotify", function ($csnotify) {
     //var errorDisplay = function (response) {
     //    $csnotify.error(response);
     //};
-    
-    dldata.Products = ['AUTO', 'SMC', 'SME-BIL', 'MORT'];
-    console.log(dldata.Products);
-    dldata.City = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
-    dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received','In-Principally Sanctioned'];
-    dldata.casestatus = ['Cancelled', 'Closed', 'Disposed', 'Expired', 'Legal', 'Live', 'Released','Repossessed'];
+  
 
-    var save = function() {
-        datalayer.save();
+    var save = function (legal) {
+        dldata.Requisitiondata.push(legal);
     };
 
     var clear = function(legal) {

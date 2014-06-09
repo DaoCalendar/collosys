@@ -589,6 +589,8 @@
     <Content Include="Stakeholder\hierarchy\hierarchy-edit.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy-grid.html" />
     <Content Include="Stakeholder\hierarchy\hierarchy.js" />
+    <Content Include="Stakeholder\AddEdit2\Payment\Payment.html" />
+    <Content Include="Stakeholder\AddEdit2\Payment\PaymentScript.js" />
     <Content Include="Stakeholder\stakeholdersModels.js" />
     <Content Include="Stakeholder\view\approve.html" />
     <Content Include="Stakeholder\view\basic.html" />

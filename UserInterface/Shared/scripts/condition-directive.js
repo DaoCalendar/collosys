@@ -180,11 +180,19 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
                     formulaListC: [],
                     tableColumns: []
                 },
-                filterString: '',
-                hasConditional: false
+                filterString: ''
             };
             //$scope.tokensList = $scope.tokens.selected;
             $scope.tokensList = [];
+
+            $scope.validateToken = {
+                Type: '',
+                State: 'invalid',
+                Reason: '',
+                TokenState: '',
+                BracketCounter: 0,
+                hasConditional: false
+            };
         };
 
         var initFirstTokens = function () {
@@ -192,7 +200,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
                 $scope.tableName, $scope.formulaList);
 
             $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                return (row.Type == 'Formula' || row.Type == 'Table');
+                return (row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Operator' && row.DataType == 'bracket');
             });
             return;
         };
@@ -210,11 +218,12 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
 
         $scope.addToken = function (item, model, label) {
             tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
-            if (item.datatype == 'conditional') {
-                $scope.tokens.hasConditional = true;
+
+            if (item.DataType == 'conditional') {
+                $scope.validateToken.hasConditional = true;
             }
-            if (item.datatype == 'relational') {
-                $scope.tokens.hasConditional = false;
+            if (item.DataType == 'relational') {
+                $scope.validateToken.hasConditional = false;
             }
             setNextToken(item);
         };
@@ -222,7 +231,7 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
         $scope.addValue = function (value) {
             if (validations.validateValue($scope.tokens, value)) {
                 var seleVal = tokenHelper.setAddValue($scope.tokens, $scope.tokensList, value, $scope.groupId, $scope.groupType);
-                seleVal.datatype = $scope.tokens.secondLastToken.datatype;
+                seleVal.DataType = $scope.tokens.secondLastToken.DataType;
                 setNextToken(seleVal);
             } else {
                 $scope.tokens.error = 'Please select field or operator first';
@@ -237,34 +246,83 @@ csapp.controller('conditionCtrl', ['$scope', '$csModels', 'operatorsFactory', 't
             $scope.tokens.collections.tableColumns = [];
         };
 
-        var setNextToken = function (token) {
-            if (token.Type == 'Operator') {
-                if ($scope.tokens.secondLastToken.DataType == 'enum') {
-                    $scope.tokens.nextTokens = $scope.tokens.secondLastToken.valuelist;
-                } else {
+        var tokensForOperators = function (token) {
+            if ($scope.tokens.secondLastToken.DataType == 'enum') {
+                $scope.tokens.nextTokens = $scope.tokens.secondLastToken.valuelist;
+                return;
+            }
+            switch (token.DataType) {
+                case 'bracket':
                     $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.Type == 'Formula' || row.Type == 'Table') &&
-                    (row.datatype == $scope.tokens.secondLastToken.datatype));
+                        return ((row.Type == 'Formula' || row.Type == 'Table')
+                            || (row.Type == 'Operator' && row.DataType == 'bracket'));
                     });
-                }
+                    if (token.Value === 'OpenBracket') {
+                        $scope.validateToken.BracketCounter += 1;
+                    } else {
+                        $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                            return ((row.Type == 'Operator' && row.DataType == 'relational'));
+                        });
+                        $scope.validateToken.BracketCounter -= 1;
+                    }
+                    break;
+                case 'relational':
+                case 'conditional':
+                case 'number':
+                    if ($scope.tokens.secondLastToken.DataType == 'bracket') {
+                        $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                            return ((row.Type == 'Formula' || row.Type == 'Table')
+                                || (row.Type == 'Operator' && row.DataType == 'bracket'));
+                        });
+                    } else {
+                        $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                            return ((row.Type == 'Formula' || row.Type == 'Table') &&
+                                (row.DataType == $scope.tokens.secondLastToken.DataType)
+                                || (row.Type == 'Operator' && row.DataType == 'bracket'));
+                        });
+                    }
+                    break;
+                default:
+            }
+        };
 
-            } else { //(token.Type == 'Formula' || token.Type == 'Table' || token.Type=='Value')
-                if ($scope.tokens.hasConditional) {
-                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.Type == 'Operator') && (row.datatype == 'relational' ||
-                            $scope.tokens.lastToken.datatype == row.datatype));
-                    });
-                } else {
-                    $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-                        return ((row.Type == 'Operator') && (row.datatype == 'conditional' ||
-                            $scope.tokens.lastToken.datatype == row.datatype));
-                    });
-                }
+        var tokensForFormulaTableValue = function () {
+            if ($scope.validateToken.hasConditional && $scope.validateToken.BracketCounter == 0) {
+                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                    return ((row.Type == 'Operator') && (row.DataType == 'relational' ||
+                        $scope.tokens.lastToken.DataType == row.DataType));
+                });
+            } else if ($scope.validateToken.hasConditional && $scope.validateToken.BracketCounter > 0) {
+                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                    return ((row.Type == 'Operator' &&
+                        $scope.tokens.lastToken.DataType == row.DataType || row.DataType == 'bracket'));
+                });
+            } else {
+                $scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
+                    return ((row.Type == 'Operator') && (row.DataType == 'conditional' ||
+                        $scope.tokens.lastToken.DataType == row.DataType));
+                });
+            }
+        };
+
+        var setNextToken = function (token) {
+            switch (token.Type) {
+                case 'Operator':
+                    tokensForOperators(token);
+                    break;
+                case 'Formula':
+                case 'Table':
+                case 'Value':
+                    tokensForFormulaTableValue();
+                    break;
+                case 'Sql':
+                    break;
+                default:
             }
         };
 
         $scope.setValidation = function () {
-            if ($scope.tokens.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
+            if ($scope.validateToken.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
                 return 'alert-info';
             }
             return 'alert-danger';
@@ -657,6 +715,33 @@ csapp.factory('operatorsFactory', function () {
         ];
     };
 
+    operators.bracketOperators = function () {
+        return [{
+            'Type':
+                'Operator',
+            'Text':
+                '(',
+            'Value':
+                'OpenBracket',
+            'DataType':
+                'bracket',
+            'valuelist':
+                []
+        },
+            {
+                'Type':
+                    'Operator',
+                'Text':
+                    ')',
+                'Value':
+                    'CloseBracket',
+                'DataType':
+                    'bracket',
+                'valuelist':
+                    []
+            }];
+    };
+
     return {
         Operators: operators
     };
@@ -786,14 +871,15 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
                 operatorFactory.Operators.stringOperators(),
                 operatorFactory.Operators.sqlOperators(),
                 operatorFactory.Operators.dateOperators(),
-                operatorFactory.Operators.conditionals());
-
+                operatorFactory.Operators.conditionals(),
+                operatorFactory.Operators.bracketOperators());
         };
 
         token.loadOutputOperators = function (tokens) {
             tokens.tokensList = _.union(tokens.tokensList,
-           operatorFactory.Operators.numberOperators(),
-           operatorFactory.Operators.sqlOperators());
+                operatorFactory.Operators.numberOperators(),
+                operatorFactory.Operators.sqlOperators(),
+                operatorFactory.Operators.bracketOperators());
         };
 
         token.initListOutput = function (tokens, modal, tableName, formulaList, matrixList) {
@@ -828,7 +914,7 @@ csapp.factory('tokenHelpers', ['queryGenHelpers', 'operatorsFactory',
             tokenVal.GroupId = groupId;
             tokenVal.GroupType = groupType;
             tokenVal.priority = tokensList.length;
-            tokensList.push(tokenVal);
+            tokensList.push(angular.copy(tokenVal));
             token.setLastandSecondToken(tokens, tokenVal);
             token.clearFilterString(tokens);
         };
