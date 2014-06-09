@@ -4,24 +4,24 @@
     </cs-form>
 
     <div data-ng-show="legal.Function">
-        <cs-form layout="6.3.5">
+        <cs-form layout="4.4.8">
             <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
                       value-List="dldata.location"></cs-field>
             
-            <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
+            <cs-field data-ng-model="legal.Division" data-ng-show="legal.Location" field="legalprepare.Division"
                       value-List="dldata.division"></cs-field>
             
-            <cs-field  data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
+            <cs-field  data-ng-model="legal.LoanNo" data-ng-show="legal.Division" field="legalprepare.LoanNo"></cs-field>
 
-            <cs-field  data-ng-model="legal.PartyName" field="legalprepare.PartyName"></cs-field>
+            <cs-field  data-ng-model="legal.PartyName" data-ng-show="legal.LoanNo" field="legalprepare.PartyName"></cs-field>
             
-            <cs-field  data-ng-model="legal.AdvocateName" field="legalprepare.AdvocateName"></cs-field>
+            <cs-field  data-ng-model="legal.AdvocateName" data-ng-show="legal.PartyName" field="legalprepare.AdvocateName"></cs-field>
             
-            <cs-field  data-ng-model="legal.LoanStatus" field="legalprepare.LoanStatus"
+            <cs-field  data-ng-model="legal.LoanStatus" data-ng-show="legal.AdvocateName" field="legalprepare.LoanStatus"
                        value-List="dldata.loanstatus"></cs-field>
 
             
-            <cs-field  data-ng-model="legal.LoanCloseStatus" field="legalprepare.LoanCloseStatus"></cs-field>
+            <cs-field  data-ng-model="legal.LoanCloseStatus" data-ng-show="legal.LoanStatus" value-list="dldata.legalstatus" field="legalprepare.LoanCloseStatus"></cs-field>
 
         </cs-form>
 
