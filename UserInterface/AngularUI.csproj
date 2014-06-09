@@ -256,7 +256,6 @@
     <Content Include="Billing\billingModels.js" />
     <Content Include="Billing\billstatus\billstatus.js" />
     <Content Include="Billing\billstatus\billstatus.html" />
-    <Content Include="Billing\factories.js" />
     <Content Include="Billing\formula2\condition.html" />
     <Content Include="Billing\formula2\formula-details.html" />
     <Content Include="Billing\formula2\formula.html" />

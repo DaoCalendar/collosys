@@ -295,4 +295,5 @@ csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance',
         $scope.dismissModal = function () {
             $modalInstance.dismiss();
         };
-    }]);
+    }
+]);

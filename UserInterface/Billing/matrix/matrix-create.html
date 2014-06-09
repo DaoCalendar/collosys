@@ -35,7 +35,7 @@
                                         data-ng-disabled="dldata.isMatrixCreated"
                                         data-ng-required="!dldata.isMatrixCreated"
                                         data-ng-change="factory.setInputTypeForRow(dldata.matrix.Row1DTypeName)"
-                                        data-ng-options="c as c | custBillSubString2 for c in dldata.columnNames">
+                                        data-ng-options="c as c for c in dldata.columnNames">
                                 </select>
                             </div>
                             <div data-ng-switch-when="Formula">
@@ -71,9 +71,7 @@
                                         data-ng-disabled="dldata.isMatrixCreated"
                                         data-ng-required="!dldata.isMatrixCreated && dldata.matrix.Dimension!=='1'"
                                         data-ng-change="factory.setInputTypeForColumn(dldata.matrix.Column2DTypeName)"
-                                        data-ng-options="c as c | custBillSubString2 for c in dldata.columnNames">
-                                    <!--<option value=""></option>
-                                        <option data-ng-repeat="c in dldata.columnNames" value="{{c}}">{{c | custBillSubString2}}</option>-->
+                                        data-ng-options="c as c for c in dldata.columnNames">
                                 </select>
                             </div>
                             <div data-ng-switch-when="Formula">
@@ -109,7 +107,7 @@
                                     class="input-medium"
                                     data-ng-model="dldata.matrix.Row3DTypeName"
                                     data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.columnNames  | custBillSubString">
+                                    data-ng-options="c for c in dldata.columnNames ">
                             </select>
                             <select data-ng-switch-when="Formula"
                                     data-ui-select2=""
@@ -138,7 +136,7 @@
                                     data-ui-select2=""
                                     data-ng-model="dldata.matrix.Column4DTypeName"
                                     data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.columnNames | custBillSubString">
+                                    data-ng-options="c for c in dldata.columnNames ">
                             </select>
                             <select data-ng-switch-when="Formula" class="input-medium"
                                     data-ui-select2=""

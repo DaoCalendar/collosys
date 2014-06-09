@@ -965,7 +965,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-//{ label: 'Datepicker',  startDate:"+2d",template:"MonthPicker" endDate: "1y", defaultDate: "+10d",  type: 'date'},
+//{ label: 'Datepicker',  min:"+2d",template:"MonthPicker" max: "1y", default: "+10d",  type: 'date'},
 csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
         var openDatePicker = function ($event, field) {
@@ -988,8 +988,6 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
-            //html += 'min-date="' + "'" + field.minDate + "'" + '"';// + (angular.isDefined(attr.minDate) ? attr.minDate + "'" : +field.minDate + "'") + '"';
-            //html += 'max-date="' + "'" + field.maxDate + "'" + '"';// + (angular.isDefined(attr.maxDate) ? attr.maxDate + "'" : field.maxDate + "'") + '"';
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
             html += '/>';
@@ -1030,20 +1028,19 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
                         field.minViewMode = "year";
                         break;
                     case "future":
-                        field.startDate = "tomorrow";
+                        field.min = "tomorrow";
                         if (field.minViewMode === "month")
                             field.min = "next-month";
                         if (field.minViewMode === "year")
-                            field.max = "next-year";
+                            field.min = "next-year";
                         break;
                     case "past":
-                        field.endDate = "yesterday";
+                        field.max = "yesterday";
                         if (field.minViewMode === "month")
-                            field.min = "prev-month";
+                            field.max = "prev-month";
                         if (field.minViewMode === "year")
                             field.max = "prev-year";
                         break;
-
                     default:
                         console.error(template + " is not defined.");
                 }
@@ -1135,13 +1132,14 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var validateDate = function (startDate, endDate) {
-            if (!moment(startDate).isBefore(endDate)) throw "start date: " + startDate + " is greater than end date" + endDate;
+            if (!moment(startDate).isBefore(endDate))
+                throw "start date: " + startDate + " is greater than end date" + endDate;
         };
 
         var parseDates = function (field) {
             if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
             if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
-            if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.default)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
             validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
 
@@ -1171,152 +1169,8 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
 
     }]);
 
-csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
-    function ($csfactory, bstemplate, valtemplate) {
-
-        //options: label, placeholder, required, readonly, end-date, start-date, date-format, date-min-view-mode, days-of-week-disabled
-
-        var input = function (field, attr) {
-            var html = '<div class="input-group">';
-            html += '<input type="text" name="myfield" class="form-control" readonly="readonly"';
-            html += ' ng-model="$parent.' + attr.ngModel + '"';
-            html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
-            html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
-            html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
-            html += (angular.isDefined(field.minViewMode) ? ' data-date-min-view-mode="' + field.minViewMode + '"' : '');
-            html += (angular.isDefined(field.daysOfWeekDisabled) ? ' data-date-days-of-week-disabled="' + field.daysOfWeekDisabled + '"' : '');
-            html += (angular.isDefined(field.format) ? ' data-date-format="' + field.format + '"' : '');
-            html += (angular.isDefined(field.startDate) ? ' data-date-start-date="' + field.startDate + '"' : '');
-            html += (angular.isDefined(field.endDate) ? ' data-date-end-date="' + field.endDate + '"' : '');
-            html += ' bs-datepicker="" >';
-            html += ' <span class="input-group-btn"  data-toggle="datepicker"> <button type="button" class="btn btn-default"';
-            html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
-            html += '><i class="glyphicon glyphicon-calendar"></i></button> ';
-            html += ' </span></div>';
-            return html;
-
-
-
-        };
-
-        var htmlTemplate = function (field, attrs) {
-            var noBootstrap = angular.isDefined(attrs.noLabel);
-            var template = [
-                bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(field),
-                input(field, attrs),
-                valtemplate.after(attrs.field, field),
-                bstemplate.after(noBootstrap)
-            ].join(' ');
-            return template;
-        };
-
-        var applyTemplate = function (field) {
-            if (angular.isUndefined(field.template) || field.template === null) {
-                return;
-            }
-
-            var tmpl = field.template.split(",").filter(function (str) { return str !== ''; });
-            angular.forEach(tmpl, function (template) {
-                if (template.length < 1) return;
-                switch (template) {
-                    case "MonthPicker":
-                        field.minViewMode = "months";
-                        break;
-                    case "YearPicker":
-                        field.minViewMode = "years";
-                        break;
-                    case "future":
-                        field.startDate = "+0";
-                        break;
-                    case "past":
-                        field.endDate = "+0";
-                        break;
-                    case "Daily":
-                        field.startDate = "-15d";
-                        field.endDate = "+5d";
-                        break;
-                    case "Weekly":
-                        field.startDate = "-30d";
-                        field.endDate = "+15d";
-                        break;
-                    case "Monthly":
-                        field.minViewMode = "months";
-                        field.startDate = "-80d";
-                        field.endDate = "+30d";
-                        break;
-                    default:
-                        $log.error(template + " is not defined.");
-                }
-                return;
-            });
-        };
-
-        var manageViewMode = function (field) {
-            //month/year modes
-            if ($csfactory.isNullOrEmptyString(field.minViewMode))
-                field.minViewMode = 0;
-            else if (field.minViewMode === "1" || field.minViewMode === "months") {
-                field.minViewMode = 1;
-            } else if (field.minViewMode === "2" || field.minViewMode === "years") {
-                field.minViewMode = 2;
-            } else {
-                field.minViewMode = 0;
-            }
-
-            //format
-            if (field.minViewMode === 0) {
-                field.format = "dd-M-yyyy";
-            } else if (field.minViewMode === 1) {
-                field.format = "M-yyyy";
-            } else {
-                field.format = ".yyyy";
-            }
-
-            //min date        
-            if ($csfactory.isNullOrEmptyString(field.minDate)) {
-                if (field.minViewMode === 0) {
-                    field.minDate = '01-Jan-1800';
-                } else if (field.minViewMode === 1) {
-                    field.minDate = 'Jan-1800';
-                } else {
-                    field.minDate = '.1800';
-                }
-            }
-
-            //max date
-            if ($csfactory.isNullOrEmptyString(field.maxDate)) {
-                if (field.minViewMode === 0) {
-                    field.maxDate = '31-Dec-2400';
-                } else if (field.minViewMode === 1) {
-                    field.maxDate = 'Dec-2400';
-                } else {
-                    field.maxDate = '.2400';
-                }
-            }
-        };
-
-        var validateOptions = function (field) {
-            applyTemplate(field);
-            manageViewMode(field);
-
-            if ($csfactory.isNullOrEmptyString(field.label)) {
-                field.label = "Date";
-            }
-
-            if ($csfactory.isNullOrEmptyString(field.daysOfWeekDisabled)) {
-                field.daysOfWeekDisabled = [];
-            }
-        };
-
-        return {
-            htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
-        };
-    }]);
-
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csDateFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory", "$csfactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, dateFactory, boolFactory, dateFactory2, passwordFactory, $csfactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory", "$csfactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, boolFactory, dateFactory2, passwordFactory, $csfactory) {
 
         var getFactory = function (type) {
             switch (type) {

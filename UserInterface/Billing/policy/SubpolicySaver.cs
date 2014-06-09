@@ -147,6 +147,7 @@ namespace AngularUI.Billing.policy
                     if (subpolicy.Activity == SubpolicyActivityEnum.Approve)
                         Session.SaveOrUpdate(relation);
                     else
+                        //TODO: check with sonu (i dont think db entry is getting deleted)
                         subpolicyRelation.BillingRelations.Remove(relation);
                     // Session.Delete(relation);
                 }
@@ -186,6 +187,7 @@ namespace AngularUI.Billing.policy
 
             using (var tx = Session.BeginTransaction())
             {
+                //TODO: check with sonu
                 subpolicyRelation.BillingRelations.Clear();
                 subpolicyRelation.BillingRelations.Add(relation);
                 Session.SaveOrUpdate(subpolicyRelation);

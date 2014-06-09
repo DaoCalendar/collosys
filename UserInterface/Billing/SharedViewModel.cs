@@ -12,7 +12,7 @@ using UserInterfaceAngular.NgGrid;
 
 namespace ColloSys.UserInterface.Shared
 {
-    public class SharedViewModel
+    public static class SharedViewModel
     {
         public static IEnumerable<ColumnDef> ConditionColumns(ScbEnums.Products products)
         {
@@ -68,17 +68,6 @@ namespace ColloSys.UserInterface.Shared
                 dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
             }));
 
-            //var stkhBillType = typeof(StkhBillViewModel);
-            //var stkhBillprops = new List<PropertyInfo>();
-            //stkhBillprops.AddRange(GetPropertyList(stkhBillType));
-            //stkhBillprops.ForEach(c => columns.Add(new ColumnDef
-            //{
-            //    field = stkhBillType.Name + "." + c.Name,
-            //    displayName = "Stakeholder." + c.Name,
-            //    InputType = GetHtmlInputType(c.PropertyType),
-            //    dropDownValues = !c.PropertyType.IsEnum ? null : Enum.GetNames(c.PropertyType)
-            //}));
-
             return columns.OrderBy(x=>x.displayName).ToList();
         }
 
@@ -132,48 +121,3 @@ namespace ColloSys.UserInterface.Shared
         }
     }
 }
-
-//private static IEnumerable<Type> ProductClassTypes(string products, ScbEnums.Category category)
-//{
-//    if (category == ScbEnums.Category.Liner)
-//    {
-//        switch (products)
-//        {
-//            case "CreditCard":
-//                return new[] { typeof(CLiner) };
-//            case "AutoOd":
-//            case "SmartCredit":
-//                return new[] { typeof(ELiner) };
-//            case "BFS":
-//            case "BusinessLoan":
-//            case "Mortgage":
-//            case "PersonalLoan":
-//            case "SME":
-//                return new[] { typeof(RLiner) };
-//            default:
-//                throw new Exception("Invalid Product type");
-//        }
-//    }
-
-//    if (category == ScbEnums.Category.WriteOff)
-//    {
-//        switch (products)
-//        {
-//            case "CreditCard":
-//                return new[] { typeof(CWriteoff) };
-//            case "AutoOd":
-//            case "SmartCredit":
-//                return new[] { typeof(EWriteoff) };
-//            case "BFS":
-//            case "BusinessLoan":
-//            case "Mortgage":
-//            case "PersonalLoan":
-//            case "SME":
-//                return new[] { typeof(RWriteoff) };
-//            default:
-//                throw new Exception("Invalid Product type");
-//        }
-//    }
-
-//    throw new Exception("Invalid Category type");
-//}
