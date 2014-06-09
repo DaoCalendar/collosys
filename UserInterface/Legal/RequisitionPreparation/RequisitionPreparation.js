@@ -20,11 +20,12 @@
 csapp.factory("RequisitionDataLayer", ["$csnotify", function ($csnotify) {
 
     var dldata = {};
-    var errorDisplay = function (response) {
-        $csnotify.error(response);
-    };
+    //var errorDisplay = function (response) {
+    //    $csnotify.error(response);
+    //};
     
-    dldata.Products = ['AUTO','SMC','SME-BIL','MORT'];
+    dldata.Products = ['AUTO', 'SMC', 'SME-BIL', 'MORT'];
+    console.log(dldata.Products);
     dldata.City = ['Mumbai', 'Pune', 'Kolkata', 'Bangalore', 'Hyderabad', 'Jaipur'];
     dldata.loanstatus = ['Disbursed', 'Do/Sanction LetterMade', 'FCI Allocated', 'FCI Despatched', 'FCI Notrequired', 'Received','In-Principally Sanctioned'];
     dldata.casestatus = ['Cancelled', 'Closed', 'Disposed', 'Expired', 'Legal', 'Live', 'Released','Repossessed'];

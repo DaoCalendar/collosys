@@ -252,6 +252,11 @@ namespace ColloSys.DataLayer.Enumerations
             SystemExplorer,
             DbTables,
             ExecuteQuery,
+            Legal,
+            RequisitionPreparation,
+            RequsitionIntiation,
+            FollowUp,
+            LegalCaseexecution,
             Root
         }
 

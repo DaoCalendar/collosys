@@ -68,10 +68,6 @@ namespace AngularUI.Generic.Menu
             var stakeholder = home.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
             stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
             stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
-            stakeholder.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequisitionPreparation");
-            stakeholder.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/RequsitionIntiation");
-            stakeholder.AddChild("Follow-Up", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/FollowUp");
-            stakeholder.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/Legal/LegalCaseexecution");
 
             var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
             allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");
@@ -115,6 +111,12 @@ namespace AngularUI.Generic.Menu
             devTools.AddChild("Db Tables", new[] { ColloSysEnums.Activities.Developer }, "#/developer/viewdbtables");
             devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
             devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
+
+            var legal = home.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
+            legal.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequisitionPreparation");
+            legal.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequsitionIntiation");
+            legal.AddChild("FollowUp", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/FollowUp");
+            legal.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/LegalCaseexecution");
 
             return home;
         }

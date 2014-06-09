@@ -12,6 +12,7 @@
                 return dldata.permission;
             });
         }
+        return null;
     };
 
     var getStakeData = function () {
@@ -44,8 +45,8 @@
     };
 }]);
 
-csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'Restangular', 'PermissionsDatalayer', '$csModels',
-    function ($scope, permissionsFactory, rest, datalayer, $csModels) {
+csapp.controller("newPermissionsController", ['$scope', 'Restangular', 'PermissionsDatalayer', '$csModels',
+    function ($scope, rest, datalayer, $csModels) {
 
         (function () {
             datalayer.GetStakeData();
@@ -70,7 +71,7 @@ csapp.controller("newPermissionsController", ['$scope', '$permissionFactory', 'R
 
         var getRoleById = function (id, listOfHierarchy) {
             var hierarachy = _.find(listOfHierarchy, function (hier) {
-                if (hier.Id === id) return hier;
+                return (hier.Id === id);
             });
             return hierarachy;
         };

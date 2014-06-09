@@ -2,7 +2,7 @@
 
     var requisitionPreparation = function () {
         return {
-            Prepare: { label: 'Select options', type: 'radio', options: [{ value: 'Add', display: 'Add' }, { value: 'Edit', display: 'Edit' }, { value: 'Approve', display: 'Approve' }], textField: 'display', valueField: 'value' },
+            Function: { label: 'Select options', type: 'radio', options: [{ value: 'Add', display: 'Add' }, { value: 'Edit', display: 'Edit' }, { value: 'Approve', display: 'Approve' }], textField: 'display', valueField: 'value' },
             City: { label: 'City', type: 'select' },
             Products: { label: 'Products', type: 'select' },
             LoanNo: { label: 'Loan No', type: 'text' },
