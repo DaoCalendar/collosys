@@ -148,7 +148,7 @@ namespace AngularUI.Billing.policy
                         Session.SaveOrUpdate(relation);
                     else
                         subpolicyRelation.BillingRelations.Remove(relation);
-                       // Session.Delete(relation);
+                    // Session.Delete(relation);
                 }
                 tx.Commit();
             }
@@ -181,16 +181,19 @@ namespace AngularUI.Billing.policy
                 StartDate = subpolicy.StartDate,
                 EndDate = subpolicy.EndDate,
                 Priority = subpolicy.Priority,
-                Status = ColloSysEnums.ApproveStatus.Submitted
+                Status = ColloSysEnums.ApproveStatus.Submitted,
             };
+
             using (var tx = Session.BeginTransaction())
             {
-                Session.SaveOrUpdate(relation);
+                subpolicyRelation.BillingRelations.Clear();
+                subpolicyRelation.BillingRelations.Add(relation);
+                Session.SaveOrUpdate(subpolicyRelation);
                 tx.Commit();
             }
-
             subpolicy.ApproveStatus = ColloSysEnums.ApproveStatus.Submitted;
             subpolicy.SubpolicyType = SubpolicyTypeEnum.Unapproved;
+            subpolicy.RelationId = relation.Id;
             return subpolicy;
         }
     }
