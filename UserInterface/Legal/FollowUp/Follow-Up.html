@@ -122,6 +122,7 @@
         </div>
     </div>
     
+ <span class="help-block">Allocate Advocate</span>    
     <cs-form layout="4.5.7">
         
     <!--Allocate advocate-->
@@ -130,7 +131,7 @@
         <cs-field  data-ng-model="legal.DateofAppointment" data-ng-show="legal.AdvocateCode" field="legalprepare.DateofAppointment"></cs-field>
 
         <cs-field  data-ng-model="legal.Dateoftermination"  data-ng-show="legal.DateofAppointment" field="legalprepare.Dateoftermination"></cs-field>
-        
+  <span class="help-block">Allocate Bank Employee</span>
         <!-- Allocate Employee-->
         <cs-field data-ng-model="legal.EmpCode"  data-ng-show="legal.Dateoftermination"  field="legalprepare.EmpCode"></cs-field>
             
@@ -175,11 +176,14 @@
         </div>
     </div>
     
-     <div class="text-center">
-        <cs-button type="view" permission="All"></cs-button>
-         <cs-button type="add " text="Note Sheet Button" permission="All"></cs-button>
-         <input type="checkbox" value="Ready For withDraw"/>
-          <cs-button type="save" permission="All"></cs-button>
+    <div class="text-center">
+        <div>
+            <span class="help-block">View final settlement:<cs-button type="view" permission="All" width="90 px"></cs-button></span>
+        </div>
+
+         <span class="help-block">Note sheet of requsition:<cs-button type="add " text="Note Sheet Button" permission="All"></cs-button></span>
+        <span class="help-block">Ready for withdraw:<input type="checkbox" value="Ready For withDraw"/></span>
+        <cs-button type="save" permission="All"></cs-button>
     </div>
 
 
