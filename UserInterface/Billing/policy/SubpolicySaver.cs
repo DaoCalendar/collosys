@@ -29,7 +29,7 @@ namespace AngularUI.Billing.policy
                 case SubpolicyActivityEnum.Activate:
                     return ActivateDraftSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Expire:
-                    return DeactivateSubpolicy(subpolicy);
+                    return ExpireSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Reactivate:
                     return ReactivateSubpolicy(subpolicy);
                 case SubpolicyActivityEnum.Approve:
@@ -74,7 +74,7 @@ namespace AngularUI.Billing.policy
             return subpolicy;
         }
 
-        private SubpolicyDTO DeactivateSubpolicy(SubpolicyDTO subpolicy)
+        private SubpolicyDTO ExpireSubpolicy(SubpolicyDTO subpolicy)
         {
             if (!subpolicy.EndDate.HasValue)
             {

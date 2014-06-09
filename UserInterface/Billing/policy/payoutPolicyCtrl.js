@@ -149,38 +149,69 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             modalService.showModal({}, modalOptions).then(function () {
                 $scope.selected.selectedItem.Activity = activity;
                 datalayer.Save($scope.selected.selectedItem).then(function (data) {
-                    if (activity === "Approve") {
-                        $scope.selected.selectedItem = data;
-                        var item = _.find($scope.config.rhsValueList, function (input) {
-                            return input.SubpolicyId === $scope.selected.selectedItem.SubpolicyId
-                                && input.RelationId !== $scope.selected.selectedItem.RelationId;
-                        });
-                        if (!angular.isUndefined(item)) {
-                            $scope.config.rhsValueList.splice(item, 1);
-                        }
-                    } else {
-                        $scope.config.rhsValueList.splice($scope.selected.selectedItem);
-                        $scope.selected.selectedItem = null;
-                        $scope.selected.selectedItemIndex = -1;
-                        $scope.selected.selectedSide = "";
-                    }
+                    manageSubpolicyActivity(activity, data);
                 });
             });
         };
 
+        var isExpireRequestPending = function () {
+            var subpolicyId = $scope.selected.selectedItem.SubpolicyId;
+            var items = _.find($scope.config.rhsValueList, function (item) {
+                return item.ApproveStatus === "Submitted" && item.SubpolicyId === subpolicyId;
+            });
+
+            if (!angular.isUndefined(items)) {
+                $csnotify.error("Expire request already pending");
+                return true;
+            }
+            return false;
+        };
+
+        var manageSubpolicyActivity = function (activity, data) {
+            switch (activity) {
+                case "Reactivate":
+                case "Activate":
+                    var policy = $scope.config.lhsValueList[$scope.selected.selectedItemIndex];
+                    $scope.config.lhsValueList.splice(policy, 1);
+                    $scope.config.rhsValueList.push(data);
+                    $scope.selected.selectedItem = data;
+                    $scope.selected.selectedItemIndex = $scope.config.rhsValueList.length - 1;
+                    $scope.selected.selectedSide = "rhs";
+                    break;
+                case "Expire":
+                    $scope.config.rhsValueList.push(data);
+                    $scope.config.rhsValueList = _.sortBy($scope.config.rhsValueList, 'Priority');
+                    $scope.selected.selectedItemIndex = _.indexOf($scope.config.rhsValueList, data);
+                    $scope.selected.selectedItem = $scope.config.rhsValueList[$scope.selected.selectedItemIndex];
+                    break;
+                case "Approve":
+                    $scope.config.rhsValueList.splice($scope.selected.selectedItem, 1);
+                    var item = _.find($scope.config.rhsValueList, function (input) {
+                        return input.SubpolicyId === $scope.selected.selectedItem.SubpolicyId
+                            && input.RelationId !== $scope.selected.selectedItem.RelationId;
+                    });
+                    if (!angular.isUndefined(item)) {
+                        $scope.config.rhsValueList.splice(item, 1);
+                    }
+                    $scope.config.rhsValueList.push(data);
+                    $scope.config.rhsValueList = _.sortBy($scope.config.rhsValueList, 'Priority');
+                    $scope.selected.selectedItemIndex = _.indexOf($scope.config.rhsValueList, data);
+                    $scope.selected.selectedItem = data;
+                    break;
+                case "Reject":
+                    $scope.config.rhsValueList.splice($scope.selected.selectedItem);
+                    $scope.selected.selectedItem = undefined;
+                    $scope.selected.selectedItemIndex = -1;
+                    $scope.selected.selectedSide = undefined;
+                    break;
+                default:
+                    $log.error("invalid activity : " + activity);
+            }
+        };
+
         $scope.openModelforSubPolicy = function (activity) {
 
-            if (activity === "Expire") {
-                var subpolicyId = $scope.selected.selectedItem.SubpolicyId;
-                var items = _.find($scope.config.rhsValueList, function (item) {
-                    return item.ApproveStatus === "Submitted" && item.SubpolicyId === subpolicyId;
-                });
-
-                if (!angular.isUndefined(items)) {
-                    $csnotify.error("Expire request already pending");
-                    return;
-                }
-            }
+            if (activity === "Expire" && isExpireRequestPending()) return;
 
             var modalInstance = $modal.open({
                 templateUrl: baseUrl + 'Billing/policy/date-modal.html',
@@ -197,32 +228,22 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
             });
 
             modalInstance.result.then(function (data) {
-                $scope.selected.selectedItem = data;
+                $scope.selected.selectedItem.StartDate = data.StartDate;
+                $scope.selected.selectedItem.EndDate = data.EndDate;
+
                 if (activity === "Activate" || activity === "Reactivate") {
-                    $scope.selected.selectedItem.Priority = $scope.config.rhsValueList.length + 1;
+                    $scope.selected.selectedItem.Priority = $scope.config.rhsValueList[length - 1].Priority + 1;
                 }
+
                 datalayer.Save($scope.selected.selectedItem).then(function (data2) {
-                    if (activity === "Activate" || activity === "Reactivate") {
-                        var index = $scope.config.lhsValueList.indexOf($scope.selected.selectedItem);
-                        if (index === -1) {
-                            $log.error("could not find policy in lhs list to activate");
-                            return;
-                        };
-                        var policy = $scope.config.lhsValueList[index];
-                        $scope.config.lhsValueList.splice(policy, 1);
-                        $scope.config.rhsValueList.push(data2);
-                    } else {
-                        $scope.config.rhsValueList.push(data2);
-                        $scope.config.rhsValueList = _.sortBy($scope.config.rhsValueList, 'Priority');
-                    }
+                    manageSubpolicyActivity(activity, data2);
                 });
             });
-
         };
     }]);
 
-csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance', '$csModels', '$csnotify',
-    function ($scope, pageData, $modalInstance, $csModels, $csnotify) {
+csapp.controller("billingPolicymodal", ['$scope', 'pageData', '$modalInstance',
+    function ($scope, pageData, $modalInstance) {
 
         (function () {
             $scope.pageData = pageData;
