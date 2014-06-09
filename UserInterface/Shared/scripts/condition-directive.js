@@ -5,15 +5,15 @@ csapp.directive("csOutput", function () {
         controller: 'outputCtrl',
         templateUrl: baseUrl + 'Shared/templates/output-directive.html',
         scope: {
-            tableName: '@',
-            selected: '=',
+            tableName: '@', //replace with product - models.js getBillingColumns
+            selected: '=', //remove
             formulaList: '=',
             matrixList: '=',
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@',
-            edit: '@'
+            debug: '@', //remove
+            edit: '@' //remove
         }
     };
 });
@@ -31,7 +31,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
 
         var initToken = function () {
             $scope.tokens = {
-                tokensList: [],
+                AllTokensList: [],
                 //selected: [],
                 nextTokens: [],
                 lastToken: {},
@@ -42,7 +42,7 @@ csapp.controller('outputCtrl', ['$scope', '$csModels', 'operatorsFactory', 'toke
                 },
                 filterString: ''
             };
-            $scope.tokensList = [];
+            //$scope.SavedTokensList = [];  DO NOT RESET
             //$scope.tokensList = $scope.tokens.selected;
         };
 
