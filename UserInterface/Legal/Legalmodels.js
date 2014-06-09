@@ -17,7 +17,7 @@
             Location: { label: "Location", type: "select", },
             Division: { label: "Division", type: "select", },
             LoanNo: { label: "Loan No", type: "text" },
-            DateFrom: { label: "Loan Date To From", type: "date" },
+            DateFrom: { label: "Loan Date From", type: "date" },
             DateTo: { label: "Loan Date To", type: "date" },
             RequsitionNo: { label: "Requsition No", type: "text" },
             RequsitionDateFrom: { label: "Requsition Date From", type: "date" },
