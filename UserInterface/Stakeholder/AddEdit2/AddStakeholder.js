@@ -38,7 +38,7 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
     };
 }]);
 
-csapp.factory("AddEditStakeholderFactory", ["$csfactory", function ($csfactory) {
+csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function ($csfactory, $location) {
 
     var setHierarchyModel = function (hierarchy, model) {
         if (hierarchy.IsUser) {
@@ -82,6 +82,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
 
         (function () {
 
+            $scope.factory = factory;
             $scope.Stakeholder = {
                 GAddress: [],
                 StkhRegistrations: []
@@ -97,6 +98,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
                 $scope.HierarchyList = data;
                 $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
             });
+
         })();
 
 

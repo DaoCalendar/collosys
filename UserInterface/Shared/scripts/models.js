@@ -156,6 +156,7 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
         };
 
         var getColumns = function (tableName) {
+            init();
             var table = getTable(tableName);
             return table.Columns;
         };

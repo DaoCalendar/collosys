@@ -1,33 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Stakeholder;
+using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace AngularUI.Stakeholder.AddEdit2.Working
 {
     public class WorkingApiController : BaseApiController<StkhWorking>
     {
+        private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
+        private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
+
         [HttpGet]
         public HttpResponseMessage GetStakeWorkingData(Guid stakeholderId)
         {
-            var singleOrDefault = Session.Query<Stakeholders>().Where(x => x.Id == stakeholderId)
-                .Fetch(x => x.Hierarchy).SingleOrDefault();
-            if (singleOrDefault == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, "");
-            }
-            var data = new
-                {
-                    HierarchyData = singleOrDefault.Hierarchy,
-                    ReportsToList = Session.QueryOver<Stakeholders>()
-                                           .Where(x => x.Id != stakeholderId).List()
-                };
+            var stkh = Session.Query<Stakeholders>()
+                .Where(x => x.Id == stakeholderId)
+                .Fetch(x => x.Hierarchy)
+                .Fetch(x => x.StkhPayments)
+                .Fetch(x => x.StkhWorkings)
+                .Single();
+            return Request.CreateResponse(HttpStatusCode.OK, stkh);
+        }
 
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+        [HttpGet]
+        public HttpResponseMessage GetStakePaymentData()
+        {
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
+            return Request.CreateResponse(HttpStatusCode.OK, gKeyValue);
+        }
+
+        [HttpPost]
+        public void SavePayment(StkhPayment paymentData)
+        {
+            paymentData.StartDate = paymentData.Stakeholder.JoiningDate;
+            paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
+
+            StakePaymentBuilder.Save(paymentData);
         }
     }
 }

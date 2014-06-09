@@ -43,11 +43,23 @@
 
         <cs-field field="workingModel.BucketEnd"
                   data-ng-model="Working"></cs-field>
-
-        <cs-button type="submit"
-                   permission="Stakeholder,Stakeholder,AddEdit"
-                   text="prev"
-                   data-ng-click="prev()"></cs-button>
+        
+        <div class="pull-left">
+            <cs-button type="submit"
+                       permission="Stakeholder,Stakeholder,AddEdit"
+                       text="prev"
+                       data-ng-click="prev()">
+            </cs-button>
+            <cs-button 
+                type="submit"
+                text="Fill Payment Details"
+                permission="Stakeholder,Stakeholder,AddEdit">
+            </cs-button>
+        </div>
     </form>
-
 </cs-form>
+<div class="clearfix"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">Payment Details</div>
+    <div class="panel-body" data-ng-include="'/Stakeholder/AddEdit2/Payment/Payment.html'"></div>
+</div>

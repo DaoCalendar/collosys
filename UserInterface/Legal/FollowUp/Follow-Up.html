@@ -4,30 +4,34 @@
     </cs-form>
 
     <div data-ng-show="legal.Function">
-        <cs-form layout="6.3.5">
+        <cs-form layout="4.4.8">
             <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
                       value-List="dldata.location"></cs-field>
             
-            <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
+            <cs-field data-ng-model="legal.Division" data-ng-show="legal.Location" field="legalprepare.Division"
                       value-List="dldata.division"></cs-field>
-        </cs-form>
-    </div>
+            <!-- </cs-form>
+            </div>
     
-    <div data-ng-show="legal.Location && legal.Division">
-        <cs-form layout="6.3.5">
-            <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
+                <div data-ng-show="legal.Location && legal.Division">
+                <cs-form layout="4.4.5">-->
+            <cs-field data-ng-model="legal.LoanNo" data-ng-show="legal.Division" field="legalprepare.LoanNo"></cs-field>
             
-            <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo"></cs-field>
+            <cs-field  data-ng-model="legal.DateFrom" data-ng-show="legal.LoanNo" field="legalprepare.DateFrom"></cs-field>
+            
+            <cs-field  data-ng-model="legal.DateTo" data-ng-show="legal.DateFrom" field="legalprepare.DateTo"></cs-field>
 
-            <cs-field  data-ng-model="legal.DateFrom" field="legalprepare.DateFrom"></cs-field>
+            <cs-field data-ng-model="legal.RequsitionNo" data-ng-show="legal.DateTo" field="legalprepare.RequsitionNo"></cs-field>
+           
+              </cs-form>
+        
+        <cs-form layout="4.4.8">
+         <cs-field  data-ng-model="legal.RequsitionDateFrom" data-ng-show="legal.RequsitionNo"  field="legalprepare.RequsitionDateFrom"></cs-field>
 
-            <cs-field data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo"></cs-field>
-
-            <cs-field  data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo"></cs-field>
-
-            <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom"></cs-field>
-
+            <cs-field  data-ng-model="legal.RequsitionDateTo"  data-ng-show="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateTo"></cs-field>
+     
         </cs-form>
+
     </div>
 
 
@@ -118,19 +122,19 @@
         </div>
     </div>
     
-    <cs-form layout="6.3.5">
+    <cs-form layout="4.5.7">
         
     <!--Allocate advocate-->
         <cs-field data-ng-model="legal.AdvocateCode" field="legalprepare.AdvocateCode"></cs-field>
             
-        <cs-field  data-ng-model="legal.DateofAppointment" field="legalprepare.DateofAppointment"></cs-field>
+        <cs-field  data-ng-model="legal.DateofAppointment" data-ng-show="legal.AdvocateCode" field="legalprepare.DateofAppointment"></cs-field>
 
-        <cs-field  data-ng-model="legal.Dateoftermination" field="legalprepare.Dateoftermination"></cs-field>
+        <cs-field  data-ng-model="legal.Dateoftermination"  data-ng-show="legal.DateofAppointment" field="legalprepare.Dateoftermination"></cs-field>
         
         <!-- Allocate Employee-->
-        <cs-field data-ng-model="legal.EmpCode" field="legalprepare.EmpCode"></cs-field>
+        <cs-field data-ng-model="legal.EmpCode"  data-ng-show="legal.Dateoftermination"  field="legalprepare.EmpCode"></cs-field>
             
-        <cs-field  data-ng-model="legal.EmpName" field="legalprepare.EmpName"></cs-field>
+        <cs-field  data-ng-model="legal.EmpName"  data-ng-show="legal.EmpCode" field="legalprepare.EmpName"></cs-field>
     </cs-form>
     
     <div data-ng-show="legal.Function === 'Followup'">
