@@ -199,7 +199,8 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                     $scope.selected.selectedItem = data;
                     break;
                 case "Reject":
-                    $scope.config.rhsValueList.splice($scope.selected.selectedItem);
+                    var index = $scope.config.rhsValueList.indexOf($scope.selected.selectedItem);
+                    $scope.config.rhsValueList.splice(index,1);
                     $scope.selected.selectedItem = undefined;
                     $scope.selected.selectedItemIndex = -1;
                     $scope.selected.selectedSide = undefined;
@@ -232,9 +233,14 @@ csapp.controller("newpolicyController", ["$scope", "$csfactory", "$csModels", "$
                 $scope.selected.selectedItem.EndDate = data.EndDate;
 
                 if (activity === "Activate" || activity === "Reactivate") {
-                    $scope.selected.selectedItem.Priority = $scope.config.rhsValueList[length - 1].Priority + 1;
+                    if ($scope.config.rhsValueList.length === 0) {
+                        $scope.selected.selectedItem.Priority = 0;
+                    } else {
+                        $scope.selected.selectedItem.Priority = ($scope.config.rhsValueList[$scope.config.rhsValueList.length - 1].Priority) + 1;
+                    }
                 }
 
+                $scope.selected.selectedItem.Activity = activity;
                 datalayer.Save($scope.selected.selectedItem).then(function (data2) {
                     manageSubpolicyActivity(activity, data2);
                 });
