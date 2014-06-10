@@ -161,7 +161,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
         };
     }]);
 
-//{ label: 'Number', template: 'phone', editable: false, required: true, type: 'number'}
+//{ label: 'Number', editable: false, required: true, type: 'number'}
 csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -310,6 +310,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
     }]);
 
 //{ label: 'Name', template: 'phone', editable: false, required: true, type: 'text'},
+//don't use placeholder with template phone
 csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
 
     var $log = logManager.getInstance("csTextFieldFactory");
@@ -648,7 +649,6 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
 csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
-
         //#region template
         var prefix = function (field) {
 
@@ -738,18 +738,17 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
     function (logManager, bstemplate, valtemplate) {
 
         var input = function (field, attrs) {
-
-            var html = '<div class="row">';
-            html += '<div class="col-md-6 text-right radio-margin" ng-repeat="(key, record) in  field.options ">';
-            html += '<label><input name="myfield" type="radio"';
+            var html = '<div class="row radio-margin"';
+            html += field.initVal !== false ? 'data-ng-init ="$parent.' + attrs.ngModel + ' = field.initVal" >' : '>';
+            html += '<span class="text-right" ng-repeat="record in  field.options"> ';
+            html += '<input type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
-            html += ' style="margin-left: 0"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
             html += ' ng-value="' + field.valueField + '"';
             html += (attrs.ngDisabled ? ' ng-Disabled="' + attrs.ngDisabled + '"' : ' ng-Disabled="setReadonly()"');
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
-            html += '/>{{' + field.textField + '}}</label>';
+            html += '/><label>{{' + field.textField + '}}</label>';
             html += '</div></div>';
             return html;
         };
@@ -758,9 +757,9 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                valtemplate.before(field),
+                //valtemplate.before(field),
                 input(field, attrs),
-                valtemplate.after(attrs.field, field),
+                //valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
             ].join(' ');
             return template;
@@ -771,6 +770,8 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
         var validateOptions = function (field) {
             field.label = field.label || "Description";
             //field.textField = "record." + (field.textField || "text");
+
+            field.initVal = field.required === true ? field.options[0][field.valueField] : false;
 
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {
@@ -924,7 +925,6 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             return (field.daysOfWeekDisabled.indexOf(date.getDay()) !== -1);
         };
 
-        //TODO default date
         var input = function (field, attr) {
             var html = '<p class="input-group"';
             html += field.defaultDate !== false ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
