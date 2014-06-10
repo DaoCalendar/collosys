@@ -469,42 +469,6 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
 
     var $log = logManager.getInstance("csPasswordFieldFactory");
 
-    //#region template
-    //var prefix = function (fields) {
-    //    var html = ' ';
-    //    switch (fields.template) {
-    //        case 'user':
-    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
-    //            break;
-    //        case 'phone':
-    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
-    //            break;
-    //        case 'percentage':
-    //            html += '<div class="input-group">';
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //    return html;
-    //};
-
-    //var suffix = function (fields) {
-    //    var html = ' ';
-    //    switch (fields.template) {
-    //        case 'user':
-    //            html += '</div>';
-    //            break;
-    //        case 'phone':
-    //            html += '</div>';
-    //            break;
-    //        case 'percentage':
-    //            html += '<span class="input-group-addon"><label>%</label></span></div>';
-    //        default:
-    //            break;
-    //    }
-    //    return html;
-    //};
-
     var input = function (field, attrs) {
         var html = '<input  name="myfield" type="password"';
         html += ' ng-model="$parent.' + attrs.ngModel + '"';
@@ -523,9 +487,7 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
         var template = [
             bstemplate.before(field, noBootstrap, attrs),
             valtemplate.before(field),
-            //prefix(field),
             input(field, attrs),
-            //suffix(field),
             valtemplate.after(attrs.field, field),
             bstemplate.after(noBootstrap)
         ].join(' ');
@@ -555,20 +517,6 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
                 case "numeric":
                     options.pattern = "/^[0-9]*$/";
                     options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "phone":
-                    options.length = 10;
-                    options.pattern = "/^[0-9]{10}$/";
-                    options.patternMessage = "Phone number must contain 10 digits.";
-                    options.mask = "(999) 999-9999";
-                    break;
-                case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                    break;
-                case "user":
-                    options.pattern = "/^[0-9]{7}$/";
-                    options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 default:
                     $log.error(template + " is not defined");
@@ -657,7 +605,6 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
 csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
-        //var $log = logManager.getInstance("csCheckboxFactory");
 
         //#region template
         var input = function (field, attrs) {
@@ -701,7 +648,6 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
 csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
-        //var $log = logManager.getInstance("csEmailFactory");
 
         //#region template
         var prefix = function (field) {
@@ -980,7 +926,8 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
 
         //TODO default date
         var input = function (field, attr) {
-            var html = '<p class="input-group">';
+            var html = '<p class="input-group"';
+            html += field.defaultDate !== false ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
             html += '<input type="text" class="form-control" disabled="disabled"';
 
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
@@ -992,7 +939,9 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
             html += '/>';
             html += '<span class="input-group-btn">';
-            html += '<button type="button" class="btn btn-default" ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
+            html += '<button type="button" class="btn btn-default"';
+            html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+            html += ' ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
             html += '</button>';
             html += '</span>';
             html += '</p>';
@@ -1143,11 +1092,18 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
 
+        var setDefaultDate = function (defaultDate) {
+            if (angular.isDefined(defaultDate)) {
+                return parseDate(defaultDate);
+            } else return false;
+        };
+
         var validateOptions = function (field) {
             applyTemplate(field);
             manageViewMode(field);
             parseDates(field);
 
+            field.defaultDate = setDefaultDate(field.defaultDate);
             field.opened = false;
             field.open = openDatePicker;
             field.disableDate = disableDate; //fn ptr

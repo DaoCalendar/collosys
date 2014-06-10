@@ -2,6 +2,19 @@
 
 <cs-form>
     <form>
+        <div class="row">
+            <cs-field field="workingModel.Products"
+                      data-ng-model="Working.Products"
+                      data-ng-change="getReportsTo(Working.Products)">
+            </cs-field>
+
+            <cs-field field="workingModel.ReportsTo"
+                      data-ng-show="reportsToList.length>0"
+                      value-list="reportsToList"
+                      data-ng-model="Working.ReportsTo"></cs-field>
+        </div>
+        
+
         <cs-field field="workingModel.LocationLevel"
                   data-ng-model="Working"></cs-field>
 
@@ -26,13 +39,7 @@
         <cs-field field="workingModel.Area"
                   data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.Products"
-                  data-ng-model="Working.Products"
-                  data-ng-change="getReportsTo(Working.Products)">
-        </cs-field>
-
-        <cs-field field="workingModel.ReportsTo"
-                  data-ng-model="Working.ReportsTo"></cs-field>
+       
 
         <cs-field field="workingModel.StartDate"
                   data-ng-model="Working"></cs-field>

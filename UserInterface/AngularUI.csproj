@@ -120,6 +120,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Allocation\policy\AllocationPolicyApiController.cs" />
+    <Compile Include="Allocation\policy\PolicyDTO.cs" />
+    <Compile Include="Allocation\policy\SubpolicyDTO.cs" />
+    <Compile Include="Allocation\policy\SubpolicyManager.cs" />
+    <Compile Include="Allocation\policy\SubpolicySaver.cs" />
     <Compile Include="Allocation\subpolicy\AllocationSubPolicyApiController.cs" />
     <Compile Include="Billing\holdingactivate\ActivateHoldingApiController.cs" />
     <Compile Include="Billing\holdingpolicy\HoldingPolicyApiController.cs" />

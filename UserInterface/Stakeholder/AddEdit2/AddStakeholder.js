@@ -70,15 +70,13 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
 
     };
 
-
-
     return {
         SetHierarchyModel: setHierarchyModel
     };
 }]);
 
-csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory",
-    function ($routeParams, $scope, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels, datalayer, factory) {
+csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout",
+    function ($routeParams, $scope, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels, datalayer, factory, $timeout) {
 
         (function () {
 
@@ -152,6 +150,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
 
         $scope.assignSelectedHier = function (designation) {
             if ($csfactory.isNullOrEmptyArray(designation)) return;
+            $scope.showBasicInfo = false;
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
             factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             $scope.showBasicInfo = true;

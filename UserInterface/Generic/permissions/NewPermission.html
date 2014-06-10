@@ -56,37 +56,3 @@
 
 
 
-<!-- <div data-ng-repeat="(key, module) in dldata.permission track by key">
-                 <div class="panel">
-                     <div class="panel-heading">
-                         {{module.name}}
-                     </div>
-                     <div>
-                         <input type="checkbox" data-ng-checked="ticks(module)" data-ng-model="selAll" data-ng-click="selectAll(selAll,module)" /><label>Select All</label>
-                     </div>
-                     <div data-ng-repeat="(key,activity) in module.childrens track by key">
-
-                         <div class="col-md-5">
-                             <input type="checkbox" data-ng-model="activity.access" data-ng-click="uncheckChildren(activity)" />{{activity.name}}
-                             <div><sub>{{activity.description}}</sub></div>
-                         </div>
-
-                         <div data-ng-if="activity.access" data-ng-repeat="(key,permissions) in activity.childrens track by key">
-
-                             <div class="col-md-5">
-                                 <input type="checkbox" data-ng-model="permissions.access" data-ng-click="uncheckChildren(permissions)" />{{permissions.name}}
-                                 <div><sub>{{permissions.description}}</sub></div>
-                             </div>
-
-                             <div data-ng-repeat="(key,extraPermissions) in permissions.childrens track by key">
-                                 <div class="col-md-5">
-                                     <input type="checkbox" data-ng-model="extraPermissions.access" data-ng-click="uncheckChildren(extraPermissions)" />{{extraPermissions.name}}
-                                     <div><sub>{{extraPermissions.description}}</sub></div>
-                                 </div>
-                             </div>
-
-                         </div>
-
-                     </div>
-                 </div>
-             </div>-->

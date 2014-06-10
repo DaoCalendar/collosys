@@ -7,7 +7,7 @@
 
     var getPermission = function (id) {
         if (!$csfactory.isNullOrEmptyString(id)) {
-            return restApi.customGET('GetPermission', { 'id': id }).then(function(data) {
+            return restApi.customGET('GetPermission', { 'id': id }).then(function (data) {
                 dldata.permission = data;
                 return dldata.permission;
             });
@@ -21,13 +21,6 @@
         });
     };
 
-
-    var saveNew = function (data) {
-        restApi.customPOST(data, 'Post').then(function () {
-            $csnotify.success('Permission Saved');
-        });
-    };
-
     var savePerm = function (data) {
         return restApi.customPOST(data, 'SavePerm').then(function (updatedPerm) {
             $csnotify.success("Permisson Saved");
@@ -35,10 +28,8 @@
         });
     };
 
-
     return {
         dldata: dldata,
-        Save: saveNew,
         SavePerm: savePerm,
         GetPermission: getPermission,
         GetStakeData: getStakeData

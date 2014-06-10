@@ -45,7 +45,7 @@ namespace AngularUI.Generic.permissions
         #endregion
 
         #region save
-        private void SetParents(GPermission data)
+        private static void SetParents(GPermission data)
         {
             if (data.Childrens == null || data.Childrens.Count == 0)
             {
