@@ -13,7 +13,7 @@
             Presentaddress: { label: 'Present Resedential address', type: 'text' },
             Statementofaccount: { label: 'Statement of account', type: 'text' },
             WithParty: { label: 'Current Vehicle Status', type: 'radio', options: [{ value: 'Plying', display: 'Plying' }, { value: 'Accidental', display: 'Accidental' }, { value: 'WithPolice', display: 'WithPolice' }, { value: 'OtherParty', display: 'OtherParty' }], textField: 'value', valueField: 'display' },
-            Dateofrepossession: { label: 'Date of repossession', type: 'date',},
+            Dateofrepossession: { label: 'Date of repossession', type: 'date'},
             Dateofsalenotice: { label: 'Date of sale notice', type: 'date', },
             DateofSale: { label: 'DateofSale', type: 'date', },
             Saleconsideration: { label: 'Sale consideration', type: 'text', },
@@ -21,7 +21,7 @@
             AddressSoldto: { label: 'Address of party to whom vehicle sold', type: 'text', },
             CasePending: { label: 'Case Pending in Police-Station', type: 'radio', options: [{ value: 'true', display: 'Yes' }, { value: 'false', display: 'No' }], textField: 'display', valueField: 'value' },
             ReasonBranchIncharge: { label: 'Reason by branch incharge as to why he proposes', type: 'textarea'},
-            AccusedName: { label: 'Name of the Accused or signatory of cheques', type: 'textarea' },
+            AccusedName: { label: 'Name of the Accused or signatory of cheques', type: 'textarea'},
             EntityType: { label: 'EntityType', type: 'radio', options: [{ value: 'Individual', display: 'Individual' }, { value: 'Coorporate', display: 'Coorporate' }, { value: 'Partnership', display: 'Partnership' }, { value: 'Others', display: 'Others' }], textField: 'display', valueField: 'value' },
             FileNo: { label: 'Enter File No (of legal registration)', type: 'number',template:'int'},
          

@@ -35,6 +35,22 @@
             EngineNo: 123456789,
             ChasisNo: 123456789,
         }];
+
+        $scope.legal = {
+            Nameofhirer: 'Sandip',
+            Addressasperaggrement: 'Pune',
+            Presentaddress: 'Pune',
+            Dateofrepossession: moment().format('LL'),
+            Dateofsalenotice: moment().format('LL'),
+            DateofSale: moment().format('LLL'),
+            Saleconsideration: 'Old',
+            Soldto: 'Parekh Agrawal',
+            AddressSoldto: 'Mumbai',
+            ReasonBranchIncharge : 'Because of customer deposite his monthly',
+            AccusedName: 'Hakim',
+            FileNo: 007,
+            EntityType:true
+    };
         
         $scope.Chequedata = [{
             PDCType: 'Order Cheque',
