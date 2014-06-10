@@ -34,8 +34,8 @@
                     <div data-ng-show="hasUnscheduledFiles">
                         <div data-ng-show="hasUnscheduledFiles" ng-form="immediateReasonForm">
                             <cs-form>
-                                <cs-field layout="4.3.9" data-ng-model="datalayer.dldata.fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
-                                <span data-ng-if="datalayer.dldata.fileScheduleDetails.IsImmediate">
+                                <cs-field layout="4.4.8" data-ng-model="fileScheduleDetails.IsImmediate" field="fileSchedulerfield.IsImmediate"></cs-field>
+                                <span data-ng-if="fileScheduleDetails.IsImmediate">
                                     <cs-field data-ng-model="datalayer.dldata.fileScheduleDetails.ImmediateReason" field="fileSchedulerfield.ImmediateReason"></cs-field>
                                 </span>
                             </cs-form>

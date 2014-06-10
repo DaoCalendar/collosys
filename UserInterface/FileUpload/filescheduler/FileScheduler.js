@@ -67,7 +67,8 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.datalayer = datalayer;
             datalayer.GetAll();
             $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
-            $scope.IsImmediate = false;
+            //$scope.IsImmediate = false;
+            //$scope.fileScheduleDetails.IsImmediate = false;
         })();
 
         $scope.changeSelectedFrequency = function () {
