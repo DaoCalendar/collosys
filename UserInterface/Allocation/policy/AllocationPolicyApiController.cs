@@ -14,11 +14,102 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.QueryBuilder.AllocationBuilder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using NHibernate.Linq;
 
 #endregion
 
 namespace AngularUI.Allocation.policy
 {
+    //new code
+    //public class PayoutPolicyApiController : BaseApiController<AllocPolicy>
+    //{
+    //    public struct StkhInfo
+    //    {
+    //        public Guid Id;
+    //        public string Display;
+    //    }
+    //  //  [HttpPost]
+    //    //public HttpResponseMessage GetStakeholerOrHier(PolicyDTO policy)
+    //    //{
+    //    //    if (policy.PolicyFor == ColloSysEnums.PolicyOn.Stakeholder)
+    //    //    {
+    //    //        var data = Session.Query<Stakeholders>()
+    //    //            //.Where(x => x.LeavingDate == null || x.LeavingDate >= DateTime.Today)
+    //    //            .ToList();
+    //    //        //private StakeQueryBuilder stkhrepo = new StakeQueryBuilder();
+    //    //        //var data = stkhrepo.OnProduct(policy.Product);
+
+    //    //        var stkhData = new List<StkhInfo>();
+    //    //        foreach (var stkh in data)
+    //    //        {
+    //    //            var info = new StkhInfo
+    //    //            {
+    //    //                Id = stkh.Id,
+    //    //                Display =
+    //    //                    string.IsNullOrWhiteSpace(stkh.ExternalId)
+    //    //                        ? stkh.Name
+    //    //                        : string.Format("{0} - {1}", stkh.Name, stkh.ExternalId)
+    //    //            };
+    //    //            stkhData.Add(info);
+    //    //        }
+
+    //    //        return Request.CreateResponse(HttpStatusCode.OK, stkhData);
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        var data = Session.Query<StkhHierarchy>()
+    //    //            .Where(x => x.Hierarchy != "Developer")
+    //    //            .ToList();
+    //    //        var hierData = new List<StkhInfo>();
+    //    //        foreach (var hier in data)
+    //    //        {
+    //    //            var info = new StkhInfo
+    //    //            {
+    //    //                Id = hier.Id,
+    //    //                Display = string.Format("{0} - {1}", hier.Designation, hier.Hierarchy)
+    //    //            };
+    //    //            hierData.Add(info);
+    //    //        }
+
+    //    //        return Request.CreateResponse(HttpStatusCode.OK, hierData);
+    //    //    }
+    //    //}
+
+    //    [HttpPost]
+    //    public HttpResponseMessage GetBillingSubpolicyList(PolicyDTO policy)
+    //    {
+    //        policy.SetPolicyId(Session);
+    //        var billingSubpolicies = Session.Query<AllocSubpolicy>()
+    //            .Where(x => x.Products == policy.Product)
+    //            .Fetch(x => x.AllocRelations)
+    //            .ToList();
+
+    //        var manager = new SubpolicyManager();
+    //        var list = manager.MoveSubpolicesToDTO(billingSubpolicies);
+    //        manager.SeperateDTO2List(policy, list);
+    //        return Request.CreateResponse(HttpStatusCode.OK, policy);
+    //    }
+
+    //    [HttpGet]
+    //    public HttpResponseMessage GetBillingTokens(Guid id)
+    //    {
+    //        var billingTokens = Session.Query<AllocTokens>()
+    //            .Where(x => x.AllocSubpolicy.Id == id).ToList();
+    //        return Request.CreateResponse(HttpStatusCode.OK, billingTokens);
+    //    }
+
+    //    [HttpPost]
+    //    public HttpResponseMessage SaveSubpolicy(SubpolicyDTO param)
+    //    {
+    //        var manager = new SubpolicySaver(GetUsername(), Session);
+    //        var result = manager.ManageSubpolicyActivity(param);
+    //        return Request.CreateResponse(HttpStatusCode.OK, result);
+    //    }
+    //}
+
+    //oldcode
+
+
     public class AlloPolicyVm
     {
         public AllocPolicy AllocPolicy { get; set; }
