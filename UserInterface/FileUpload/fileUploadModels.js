@@ -9,10 +9,10 @@
             FileReaderType: { type: "enum", valueList: $csShared.enums.FileUploadBy },
             DateFormat: { label: "Date Format", type: "enum", valueList: $csShared.enums.DateFormat, required: true },
             FileType: { label: "File Type", type: "enum", valueList: $csShared.enums.FileType, required: true, },
-            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name"},
+            SheetName: { label: "Sheet Name", type: "text", placeholder: "Enter Sheet Name" },
             Frequency: { label: "Frequency", type: "enum", valueList: $csShared.enums.FileFrequency, required: true, },
             SkipLine: { label: "Skip Line", type: "number", template: 'int', pattern: "/^[0-9]+$/", min: 0, required: true, placeholder: "Enter Skip Lines" },
-            FileDirectory: { label: "FileDirectory", type: "text",  },
+            FileDirectory: { label: "FileDirectory", type: "text", },
             ActualTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             EmailId: { label: "Email Id", type: "email", required: true },
             Description: { label: "Description", type: "text", required: true },
@@ -41,11 +41,11 @@
 
     var fileMapping = function () {
         return {
-            ActualTable: { label: "Actual Table", type: "text",},
+            ActualTable: { label: "Actual Table", type: "text", },
             FileDetail: { label: "File Name", type: "enum" },// tobe disscuss Enum query 
             ActualColumn: { label: "Actual Column", type: "text" },
-            Position: { label: "Position", type: "number",template:"uint", required: true },
-            OutputPosition: { label: "Output Position", type: "number",template:"uint", required: true },
+            Position: { label: "Position", type: "number", template: "uint", required: true },
+            OutputPosition: { label: "Output Position", type: "number", template: "uint", required: true },
             OutputColumnName: { label: "Output ColumnName", type: "text", required: true },
             ValueType: { label: "Value Type", type: "enum", valueList: $csShared.enums.FileMappingValueType, required: true },
             TempTable: { label: "Temp Table", type: "text" },
@@ -66,7 +66,7 @@
             GlobalCustId: { type: "enum", valueList: [] },
             CustomerName: { label: "CustomerName", type: "text" },
             Pincode: { label: "Pincode", type: "number", template: "uint" },
-            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required:true },
+            Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
             CustStatus: { label: "CustStatus", type: "text" },
             AllocStartDate: { label: "AllocStartDate", type: "date" },
             IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
@@ -110,7 +110,7 @@
     var excludeCase = function () {
         return {
             Products: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
-            AccountNo: { label: "AccountNo", type: "text", required: true, pattern: "/^[0-9]+$/",patternMessage:'Only digits Required' },
+            AccountNo: { label: "AccountNo", type: "text", required: true, pattern: "/^[0-9]+$/", patternMessage: 'Only digits Required' },
             customerName: { label: "customerName", type: "text", required: "true" },
             TransCode: { label: "Transaction Code", type: "text", pattern: "/^[0-9]+$/", required: 'true' },
             TransDate: { label: "TransDate", type: "date", required: "true" },
@@ -131,11 +131,11 @@
         return {
             SelectedSystem: { label: 'System', type: 'enum' },
             SelectedCategory: { label: 'Category', type: 'enum' },
-            SelectedDateDaily: { label: 'File Date', type: 'date'},
+            SelectedDateDaily: { label: 'File Date', type: 'date' },
             SelectedDateWeekly: { label: 'File Date', type: 'date' },
             SelectedDateMonthly: { label: 'File Date', type: 'date', template: 'MonthPicker', },
-            IsImmediate: { label: 'Upload Mode', type: 'radio', options: [{ value: true, key: 'Immediate' }, { value: false, key: 'Nightly' }], valueField: 'value', textField: 'key',required:true },
-            ImmediateReason: { label: 'ImmediateReason',type:'textarea', required: true, minlength: 5 }
+            IsImmediate: { label: 'Upload Mode', type: 'radio', options: [{ value: true, key: 'Immediate' }, { value: false, key: 'Nightly' }], valueField: 'value', textField: 'key', required: true },
+            ImmediateReason: { label: 'ImmediateReason', type: 'textarea', required: true, minlength: 5 }
         };
     };
 

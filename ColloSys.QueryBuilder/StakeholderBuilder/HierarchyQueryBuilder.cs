@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
@@ -10,7 +11,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class HierarchyQueryBuilder:Repository<StkhHierarchy>
+    public class HierarchyQueryBuilder : Repository<StkhHierarchy>
     {
         [Transaction]
         public IEnumerable<StkhHierarchy> ExceptDeveloperExternal()
@@ -32,7 +33,15 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return data;
         }
 
-        public override QueryOver<StkhHierarchy,StkhHierarchy> ApplyRelations()
+        public StkhHierarchy OnHierarchyId(Guid id)
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            var data = session.Query<StkhHierarchy>().Single(x => x.Id == id);
+            return data;
+        }
+
+        public override QueryOver<StkhHierarchy, StkhHierarchy> ApplyRelations()
         {
             return QueryOver.Of<StkhHierarchy>()
                             .Fetch(x => x.GPermissions).Eager

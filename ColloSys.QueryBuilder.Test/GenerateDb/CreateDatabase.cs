@@ -51,10 +51,10 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AllocationService.StartAllocation.Start();
         }
 
-        [Test]
-        public void AllocateAc()
-        {
-            Allocation.StartAllocationProcessV2(ScbEnums.Products.MORT, ScbEnums.Category.Liner);
-        }
+        //[Test]
+        //public void AllocateAc()
+        //{
+        //    Allocation.StartAllocationProcessV2(ScbEnums.Products.MORT, ScbEnums.Category.Liner);
+        //}
     }
 }

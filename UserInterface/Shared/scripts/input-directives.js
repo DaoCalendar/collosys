@@ -738,8 +738,8 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
     function (logManager, bstemplate, valtemplate) {
 
         var input = function (field, attrs) {
-            var html = '<div class="row radio-margin"';
-            html += field.initVal !== false ? 'data-ng-init ="$parent.' + attrs.ngModel + ' = field.initVal" >' : '>';
+
+            var html = '<div class="row radio-margin">';
             html += '<span class="text-right" ng-repeat="record in  field.options"> ';
             html += '<input type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
@@ -749,7 +749,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
             html += '/><label>{{' + field.textField + '}}</label>';
-            html += '</div></div>';
+            html += '</span></div>';
             return html;
         };
 
@@ -771,7 +771,8 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             field.label = field.label || "Description";
             //field.textField = "record." + (field.textField || "text");
 
-            field.initVal = field.required === true ? field.options[0][field.valueField] : false;
+            field.initVal = field.required === true ? field.options[0][field.valueField] : undefined;
+            console.log('initVal: ', field.initVal);
 
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {

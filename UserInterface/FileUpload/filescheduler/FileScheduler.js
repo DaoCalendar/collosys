@@ -76,7 +76,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.Selected.Frequency = list[0].Frequency;
         };
 
-        $scope.changeSelectedSystem = function() {
+        $scope.changeSelectedSystem = function () {
             var fileDetails = _.filter(datalayer.dldata.fileDetails,
             { 'ScbSystems': $scope.Selected.System });
             datalayer.dldata.fileDetailsCategory = _.sortBy(_.uniq(_.pluck(fileDetails, 'Category')));
@@ -92,7 +92,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
                     selecteddate)
                 .then(function () {
                     hasAnyUnscheduledFiles();
-                }).finally(function() {
+                }).finally(function () {
                     $scope.fetchingFileStatus = false;
                 }
             );
