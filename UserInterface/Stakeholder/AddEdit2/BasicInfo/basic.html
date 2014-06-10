@@ -30,7 +30,7 @@
                   field="stakeholderModels.stakeholder.JoiningDate"></cs-field>
     
 
-        <div  data-ng-if="selectedHierarchy.HasAddress || true">
+        <div  data-ng-if="selectedHierarchy.HasAddress">
             <div class="clearfix"></div>
             <h5 class="modal-header">Address Details</h5>
             <cs-field data-ng-model="Stakeholder.Address.Line1"
@@ -48,7 +48,7 @@
                       typeahead-wait-ms="400"></cs-field>
         </div>
 
-        <div  data-ng-if="selectedHierarchy.HasRegistration || true">
+        <div  data-ng-if="selectedHierarchy.HasRegistration">
             <div class="clearfix"></div>
             <h5 class="modal-header">Registration Details</h5>
             <cs-field data-ng-model="Stakeholder.Regis.TanNo"
@@ -78,8 +78,6 @@
                 type="reset"
                 permission="Stakeholder,Stakeholder,AddEdit"
                 data-ng-click="reset()"></cs-button>
-          
-
         </div>
     </div>
         </cs-form>

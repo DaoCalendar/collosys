@@ -16,11 +16,11 @@
 
     var stkhHierarchy = function () {
         return {
-            designation: { label: 'Designation', type: 'text', maxlength: 100, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage:"Only Characters Required",required: true },
+            designation: { label: 'Designation', type: 'text', maxlength: 100, minlength: 2, pattern: "/^[a-zA-Z ]+$/", patternMessage: "Only Characters Required", required: true },
             Hierarchy: { label: 'Hierarchy', type: 'enum', required: true },
-            ReportsTo: { label: 'Reports To', type: 'select', textField: 'Name', valueField: 'Id'},
-            ReportsToDesignation: { label: 'Reports To', type: 'text'},
-            WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id',},
+            ReportsTo: { label: 'Reports To', type: 'select', textField: 'Name', valueField: 'Id' },
+            ReportsToDesignation: { label: 'Reports To', type: 'text' },
+            WorkingReportsTo: { label: 'Working Reports To', type: 'select', textField: 'Designation', valueField: 'Id', },
             WorkingReportsLevel: { label: 'Working Reports Level', type: 'enum', required: true, valueList: $csShared.enums.ReportingLevel },
             ApplicationName: { label: 'Name', type: 'text' },
             LocationLevel: { label: 'LocationLevel', type: 'select', valueField: 'key', textField: 'value', required: true },
@@ -92,7 +92,7 @@
             Stakeholder: { label: 'Stakeholder' },
             HasCollector: { label: 'HasCollector', type: 'checkbox' },
             RegistrationNo: { label: 'RegistrationNo', type: 'text' },
-            PanNo: { label: 'PanNo', type: 'text',template:'pan' },
+            PanNo: { label: 'PanNo', type: 'text', template: 'pan' },
             TanNo: { label: 'TanNo', type: 'text' },
             ServiceTaxNo: { label: 'ServiceTaxno', type: 'text' },
         };
@@ -103,8 +103,8 @@
             Line1: { label: 'Line1', type: 'text' },
             Line2: { label: 'Line2', type: 'text' },
             Line3: { label: 'Line3', type: 'text' },
-            LandlineNo: { label: 'LandlineNo', type: 'text' ,template:'phone'},
-            Pincode: { label: 'Pincode', type: 'text'},
+            LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone' },
+            Pincode: { label: 'Pincode', type: 'text' },
             Country: { label: 'Country', type: 'text' },
             StateCity: { label: 'StateCity', type: 'text' },
         };
