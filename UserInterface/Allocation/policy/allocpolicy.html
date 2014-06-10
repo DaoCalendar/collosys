@@ -1,4 +1,4 @@
-﻿<cs-form layout="5.4.8">
+﻿<!--<cs-form layout="5.4.8">
     <form name="allocPolicyForm">
 
         <div class="col-md-9" data-ng-form="allocPolicyForm">
@@ -107,12 +107,12 @@
             </div>
         </div>
     </form>
-</cs-form>
+</cs-form>-->
 
-<!--<div data-ng-form="allocPolicyForm">
+<div data-ng-form="allocPolicyForm">
     <cs-form layout="5.4.8">
-        <cs-field data-ng-model="dldata.allocPolicy.Products" field="allocpolicy.Product"
-                  data-ng-change="changeProductCategory()" ng-required="true"></cs-field>
+        <cs-field data-ng-model="policyDTO.Product" field="allocpolicy.Product"
+                  data-ng-change="getSubpolicyList(policyDTO)" ng-required="true"></cs-field>
     </cs-form>
 
     <div class="col-md-9" data-ng-show="config.lhsValueList.length > 0 || config.rhsValueList.length > 0 ">
@@ -154,18 +154,18 @@
                             <cs-field field="allocpolicy.EndDateText" ng-disabled="true"
                                       ng-model="selected.selectedItem.EndDate"></cs-field>
                         </div>
-                        <div class="row">
-                            <cs-output table-name="AllocSubpolicy"
-                                       tokens-list="displaySubPolicy.outputTokens"></cs-output>
+                          <div class="row">
+                        <div class="col-md-6" style="padding-top:7px">
+                            <label class="col-md-4">Condition</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" data-ng-model="displayCondition" readonly="readonly" style="height: 100px"></textarea>
+                            </div>
                         </div>
-                        <div class="row">
-                            <cs-condition table-name="AllocSubpolicy"
-                                          tokens-list="displaySubPolicy.conditionTokens"></cs-condition>
-                        </div>
+                    </div>
                     </cs-form>
                 </div>
             </div>
 
         </div>
     </div>
-</div>-->
+</div>

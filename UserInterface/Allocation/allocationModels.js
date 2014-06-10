@@ -32,6 +32,8 @@
             Product: { label: "Product", type: "enum", valueList:[] },
             startdate: { label: "StartDate:", type: 'date' },
             enddate: { label: "EndDate:", type: 'date' },
+            StartDateText: { label: "Start Date:", type: 'date' },
+            EndDateText: { label: "End Date:", type: 'date' },
         };
     };
 
