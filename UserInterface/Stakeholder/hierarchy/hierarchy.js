@@ -34,7 +34,7 @@
 
     var saveUpdatedData = function (stkh) {
         stkh.ApplicationName = 'ColloSys';
-        stkh.PositionLevel = 0;
+        stkh.PositionLevel = stkh.PositionLevel;
         stkh.LocationLevel = JSON.stringify(stkh.LocationLevel);
         return apiCalls.customPOST(stkh, 'SaveHierarchy').then(function (data) {
             $csnotify.success('Data Saved');
