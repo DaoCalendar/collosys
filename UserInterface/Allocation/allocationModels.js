@@ -29,6 +29,8 @@
 
     var allocPolicy = function () {
         return {
+            stakeholder: {label:"Stakeholder",type:"text"},
+            reason: {label:"Reason",type:"text"},
             Product: { label: "Product", type: "enum", valueList:[] },
             startdate: { label: "StartDate:", type: 'date' },
             enddate: { label: "EndDate:", type: 'date' },

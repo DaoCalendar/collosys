@@ -37,6 +37,12 @@
                 </div>
                 <div class="panel-body">
                     <cs-form layout="6.4.8">
+                        <div data-ng-show="selected.selectedItem.AllocateType==='AllocateToStkholder'">
+                            <cs-field field="allocpolicy.stakeholder" data-ng-model="selected.selectedItem.Stakeholder" ng-disabled="true"></cs-field>
+                        </div>
+                        <div data-ng-show="selected.selectedItem.AllocateType==='DoNotAllocate'">
+                            <cs-field field="allocpolicy.reason" data-ng-model="selected.selectedItem.ReasonNotAllocate" ng-disabled="true"></cs-field>
+                        </div>
                         <div data-ng-show="selected.selectedItem.SubpolicyType !== 'Draft'">
                             <cs-field field="allocpolicy.StartDateText" ng-disabled="true"
                                       ng-model="selected.selectedItem.StartDate"></cs-field>

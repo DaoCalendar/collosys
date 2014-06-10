@@ -5,6 +5,7 @@ using System.Web;
 using AngularUI.Billing.policy;
 using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace AngularUI.Allocation.policy
 {
@@ -18,6 +19,9 @@ namespace AngularUI.Allocation.policy
         public SubpolicyActivityEnum Activity;
         public Guid PolicyId;
         public Guid SubpolicyId;
+        public ColloSysEnums.AllocationType AllocateType;
+        public string ReasonNotAllocate;
+        public Stakeholders Stakeholder;
         public Guid RelationId;
         public SubpolicyTypeEnum SubpolicyType;
 
@@ -35,7 +39,11 @@ namespace AngularUI.Allocation.policy
         {
             if (subpolicy == null) return;
             Name = subpolicy.Name;
+            AllocateType = subpolicy.AllocateType;
+            Stakeholder = subpolicy.Stakeholder;
+            ReasonNotAllocate = subpolicy.ReasonNotAllocate;
             SubpolicyId = subpolicy.Id;
+
         }
     }
 
