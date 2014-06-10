@@ -938,7 +938,9 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
             html += '/>';
             html += '<span class="input-group-btn">';
-            html += '<button type="button" class="btn btn-default" ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
+            html += '<button type="button" class="btn btn-default"';
+            html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+            html += ' ng-click="field.open($event,field);"><i class="glyphicon glyphicon-calendar"></i>';
             html += '</button>';
             html += '</span>';
             html += '</p>';
