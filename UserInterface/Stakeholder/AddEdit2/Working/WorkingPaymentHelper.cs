@@ -33,8 +33,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
                     stakeholderList = GetReportsToTwoLevel(id).ToList();
                     return stakeholderList;
                 case ColloSysEnums.ReportingLevel.ThreeLevelUp:
-                    //stakeholderList = GetReportsToThree(id).ToList();
-                    stakeholderList = GetReportsToTwoLevel(id).ToList();
+                    stakeholderList = GetReportsToThreeLevel(id).ToList();
                     return stakeholderList;
                 default:
                     return null;
@@ -44,39 +43,47 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
         private static IEnumerable<Stakeholders> GetReportsToTwoLevel(Guid hierarchyId)
         {
             var secondLevel = GetReportsToList(hierarchyId).ToList();
-            if (secondLevel.Any() && (secondLevel.First().Hierarchy.Id != Guid.Empty))
-            {
-                var reporttoId = secondLevel[0].Hierarchy.Id;
-                if (reporttoId != Guid.Empty)
-                {
-                    //var stakeholder = StakeQuery.OnIdWithAllReferences(reporttoId).Hierarchy.Id;
-
-                    var onelevelupperlist = StakeQuery.OnHierarchyId(reporttoId).ToList();
-                    secondLevel.AddRange(onelevelupperlist);
-                }
-            }
+            secondLevel.AddRange(GetOneLevelUp(secondLevel));
             return secondLevel;
+        }
+
+        private static IEnumerable<Stakeholders> GetReportsToThreeLevel(Guid hierarchyId)
+        {
+            var threeLevelUp = new List<Stakeholders>();
+
+            var oneLevel = GetReportsToList(hierarchyId).ToList();
+            threeLevelUp.AddRange(oneLevel);
+
+            var twoLevel = GetOneLevelUp(oneLevel).ToList();
+            threeLevelUp.AddRange(twoLevel);
+
+            var thirdLevel = GetOneLevelUp(twoLevel).ToList();
+            threeLevelUp.AddRange(thirdLevel);
+
+            return threeLevelUp;
         }
 
         private static IEnumerable<Stakeholders> GetReportsToList(Guid hierarchyId)
         {
             var data = StakeQuery.OnHieararchyIdWithPayments(hierarchyId).ToList();
+            return GetOneLevelUp(data);
+        }
 
-            if (data.Any() && (data.First().Hierarchy.ReportsTo != Guid.Empty))
+
+        private static IEnumerable<Stakeholders> GetOneLevelUp(IList<Stakeholders> list)
+        {
+            if (list.Any() && (list.First().Hierarchy.ReportsTo != Guid.Empty))
             {
-                var reporttoId = data[0].Hierarchy.ReportsTo;
+                var reporttoId = list[0].Hierarchy.ReportsTo;
                 if (reporttoId != Guid.Empty)
                 {
-                    //var stakeholder = StakeQuery.OnIdWithAllReferences(reporttoId).Hierarchy.Id;
-
                     var onelevelupperlist = StakeQuery.OnHierarchyId(reporttoId).ToList();
                     return onelevelupperlist;
                 }
             }
-            else return data;
+            else return list;
             return null;
         }
-
 
     }
 
