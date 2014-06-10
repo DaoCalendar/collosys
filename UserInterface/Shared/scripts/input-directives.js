@@ -469,42 +469,6 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
 
     var $log = logManager.getInstance("csPasswordFieldFactory");
 
-    //#region template
-    //var prefix = function (fields) {
-    //    var html = ' ';
-    //    switch (fields.template) {
-    //        case 'user':
-    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>';
-    //            break;
-    //        case 'phone':
-    //            html += '<div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span><span class="input-group-addon">+91</span>';
-    //            break;
-    //        case 'percentage':
-    //            html += '<div class="input-group">';
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //    return html;
-    //};
-
-    //var suffix = function (fields) {
-    //    var html = ' ';
-    //    switch (fields.template) {
-    //        case 'user':
-    //            html += '</div>';
-    //            break;
-    //        case 'phone':
-    //            html += '</div>';
-    //            break;
-    //        case 'percentage':
-    //            html += '<span class="input-group-addon"><label>%</label></span></div>';
-    //        default:
-    //            break;
-    //    }
-    //    return html;
-    //};
-
     var input = function (field, attrs) {
         var html = '<input  name="myfield" type="password"';
         html += ' ng-model="$parent.' + attrs.ngModel + '"';
@@ -523,9 +487,7 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
         var template = [
             bstemplate.before(field, noBootstrap, attrs),
             valtemplate.before(field),
-            //prefix(field),
             input(field, attrs),
-            //suffix(field),
             valtemplate.after(attrs.field, field),
             bstemplate.after(noBootstrap)
         ].join(' ');
@@ -555,20 +517,6 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
                 case "numeric":
                     options.pattern = "/^[0-9]*$/";
                     options.patternMessage = "Value contains non-numeric character/s.";
-                    break;
-                case "phone":
-                    options.length = 10;
-                    options.pattern = "/^[0-9]{10}$/";
-                    options.patternMessage = "Phone number must contain 10 digits.";
-                    options.mask = "(999) 999-9999";
-                    break;
-                case "pan":
-                    options.pattern = "/^([A-Z]{5})(\d{4})([a-zA-Z]{1})$/";
-                    options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
-                    break;
-                case "user":
-                    options.pattern = "/^[0-9]{7}$/";
-                    options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 default:
                     $log.error(template + " is not defined");
@@ -657,7 +605,6 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
 csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
-        //var $log = logManager.getInstance("csCheckboxFactory");
 
         //#region template
         var input = function (field, attrs) {
@@ -701,7 +648,6 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
 csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
-        //var $log = logManager.getInstance("csEmailFactory");
 
         //#region template
         var prefix = function (field) {
