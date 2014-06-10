@@ -154,14 +154,7 @@
                             <cs-field field="allocpolicy.EndDateText" ng-disabled="true"
                                       ng-model="selected.selectedItem.EndDate"></cs-field>
                         </div>
-                          <div class="row">
-                        <div class="col-md-6" style="padding-top:7px">
-                            <label class="col-md-4">Condition</label>
-                            <div class="col-md-8">
-                                <textarea class="form-control" data-ng-model="displayCondition" readonly="readonly" style="height: 100px"></textarea>
-                            </div>
-                        </div>
-                    </div>
+                        <cs-field field="allocpolicy.condition" data-ng-model="displayCondition" ng-disabled="true"></cs-field>
                     </cs-form>
                 </div>
             </div>

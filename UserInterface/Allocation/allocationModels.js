@@ -34,6 +34,7 @@
             enddate: { label: "EndDate:", type: 'date' },
             StartDateText: { label: "Start Date:", type: 'date' },
             EndDateText: { label: "End Date:", type: 'date' },
+            condition: { label: "Condition", type: "textarea", editable: false }
         };
     };
 
