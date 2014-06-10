@@ -65,27 +65,38 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
         };
 
         var logoutUser = function () {
+            //if (angular.isDefined(authInfo.username) && authInfo.username !== '' && authInfo.username !== null)
+            //    $log.info(authInfo.username + " has logged out.");
+            //authInfo.isAuthorized = false;
+            //authInfo.username = undefined;
+            //$cookieStore.remove("authInfo");
+            //$cookieStore.put("authInfo", authInfo);
+            //hasLogIn = false;
+        };
+
+        var logOut = function() {
             if (angular.isDefined(authInfo.username) && authInfo.username !== '' && authInfo.username !== null)
                 $log.info(authInfo.username + " has logged out.");
             authInfo.isAuthorized = false;
             authInfo.username = undefined;
             $cookieStore.remove("authInfo");
             $cookieStore.put("authInfo", authInfo);
+            hasLogIn = false;
         };
-
         return {
             hasLoggedIn: hasLoggedIn,
             loginUser: loginUser,
             logoutUser: logoutUser,
             getUsername: getUsername,
             loadAuthCookie: loadCookie,
-            authInfo: authInfo
+            authInfo: authInfo,
+            logOut:logOut
         };
     }]);
 
 csapp.controller("logoutController", [
     "$csAuthFactory", "$location", function ($csAuthFactory, $location) {
-        $csAuthFactory.logoutUser();
+        $csAuthFactory.logOut();
         $location.path("/login");
     }
 ]);
@@ -113,6 +124,7 @@ csapp.controller("loginController",
                 if (data === "true") {
                     $scope.hasLoggedIn = true;
                     $csAuthFactory.loginUser($scope.login.username);
+                    hasLogIn = true;
                     $location.path("/home");
                 } else {
                     $scope.login.error = true;

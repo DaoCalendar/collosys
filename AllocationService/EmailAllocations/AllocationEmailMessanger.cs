@@ -210,7 +210,15 @@ namespace ColloSys.AllocationService.EmailAllocations
             {
                 return new Stakeholders();
             }
-            return StakeQueryBuilder.FilterBy(x => x.Id == reportingManager).Single();
+            try
+            {
+                return StakeQueryBuilder.FilterBy(x => x.Id == reportingManager).Single();
+            }
+            catch (Exception)
+            {
+                return new Stakeholders();
+            }
+
            
         }
 

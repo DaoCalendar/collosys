@@ -112,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+
                 <span class="help-block text-center">Guranterer details</span>
                 <cs-form layout="6.4.8">
                     <cs-field data-ng-model="legal.Nameofhirer" field="legalprepare.Nameofhirer"></cs-field>
@@ -139,7 +140,7 @@
                     </cs-form>
 
 
-                    <input type="radio" value="false" />Repossessed By Bank
+                    <input type="radio" value="false" data-ng-show="legal.WithParty"/>Repossessed By Bank
                     <cs-form layout="6.4.8">
                 
                         <cs-field data-ng-model="legal.Dateofrepossession" field="legalprepare.Dateofrepossession"></cs-field>

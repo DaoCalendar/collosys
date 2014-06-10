@@ -16,7 +16,9 @@
     <script>
         var baseUrl = document.location.pathname;
         document.write('<base href="' + document.location.pathname + '" />');
+        var hasLogIn = false;
     </script>
+
     <!--[if lt IE 9]>
       <script src="Scripts/html5shiv/modernizr-2.7.2.js"></script>
     <![endif]-->
@@ -38,7 +40,8 @@
     <link href="Content/loading-bar/loading-bar.css" rel="stylesheet" />
     <link href="Content/Site.css" rel="stylesheet" />
 </head>
-<body id="ng-app" ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
+<body id="ng-app"
+      ng-app="ui.collosys" data-ng-controller="RootCtrl" class="back-image" ng-cloak>
     <!--[if lt IE 8]>
       <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -124,7 +127,6 @@
     <script src="FileUpload/errorcorrection/errorDataController.js"></script>
     <script src="FileUpload/errorapproval/errorApprovalController.js"></script>
     <!--<script src="FileUpload/filterCondition/filterCondition.js"></script>-->
-
     <!--<script src="Stakeholder/add/BasicInfoScript.js"></script>-->
     <!--<script src="Stakeholder/add/AddressInfo.js"></script>
         <script src="Stakeholder/add/Payments.js"></script>

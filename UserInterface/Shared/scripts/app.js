@@ -299,6 +299,15 @@ csapp.run(["$rootScope", "$location", "$templateCache", "Logger",
         //$rootScope.$on('$viewContentLoaded', function () {
         //    $templateCache.removeAll();
         //});
+        
+        $rootScope.$on('$routeChangeStart', function () {
+            console.log('haslogin : ' + hasLogIn);
+            var path = $location.path();
+            console.log('path : ' + path);
+            if (hasLogIn == true && path == '/login') {
+                $location.path('/home');
+            }
+        });
     }]);
 
 csapp.constant("$csConstants", {
