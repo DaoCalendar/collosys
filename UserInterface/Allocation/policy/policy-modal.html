@@ -1,32 +1,4 @@
-﻿<!--<form name="allocpolicymodalform">
-    <div data-ng-form="allocpolicyDateRangeForm">
-        <div class="modal-header" style="text-align: center">
-            <h3>{{modalData.AllocRelation.AllocSubpolicy.Name}}</h3>
-        </div>
-        <div class="modal-body" style="margin-bottom: 7px">
-            <cs-form layout="8.4.8">
-           
-                <cs-field data-ng-disabled="!modalData.forActivate" data-ng-model="modalData.startDate" data-ng-required="modalData.forActivate"
-                          data-ng-change="modalData.endDate=null;modelDateValidation(modalData.startDate,modalData.endDate)" field="allocmodalData.startdate"></cs-field>
-                <cs-field field="allocmodalData.enddate" data-ng-model="modalData.endDate"
-                          data-ng-change="modelDateValidation(modalData.startDate,modalData.endDate)"></cs-field>
-            </cs-form>
-        </div>
-
-        <div class="modal-footer">
-            <cs-button type="delete" text="Deactivate" data-ng-disabled="!isModalDateValid" 
-                       permission ="Allocation,AllocationPolicy,AddEdit"
-                       data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
-            <cs-button type="save" text="Activate"  permission ="Allocation,AllocationPolicy,AddEdit"
-                       data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid)" 
-                       data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
-            <cs-button type="close"  permission ="Allocation,AllocationPolicy,AddEdit" 
-                       data-ng-click="closeModel()"></cs-button>
-        </div>
-    </div>
-</form>-->
-
-<div data-ng-form="dateRangeForm">
+﻿<div data-ng-form="dateRangeForm">
     <cs-form layout="8.4.8">
         <div class="modal-header">
             <h3 class="modal-title">{{pageData.Subpolicy.Name}}</h3>
