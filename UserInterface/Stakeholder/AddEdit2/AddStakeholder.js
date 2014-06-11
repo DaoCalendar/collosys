@@ -46,6 +46,11 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
             model.stakeholder.ExternalId.required = true;
             model.stakeholder.EmailId.required = true;
             model.stakeholder.EmailId.suffix = '@scb.com';
+        } else {
+            model.stakeholder.MobileNo.required = false;
+            model.stakeholder.ExternalId.required = false;
+            model.stakeholder.EmailId.required = false;
+            model.stakeholder.EmailId.suffix = undefined;
         }
 
         if (hierarchy.IsEmployee)
@@ -65,7 +70,7 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
 
             }
             model.stakeholder.ReportingManager.required = true;
-        }
+        } else model.label = 'Reporting Manager';
 
 
     };

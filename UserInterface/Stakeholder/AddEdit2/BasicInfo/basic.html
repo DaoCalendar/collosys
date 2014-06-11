@@ -14,18 +14,26 @@
         <h5 class="modal-header">Personal Information</h5>
         <cs-field data-ng-model="Stakeholder.Name" 
                   field="stakeholderModels.stakeholder.Name"></cs-field>
-        <cs-field data-ng-if="selectedHierarchy.IsUser"
-                  data-ng-model="Stakeholder.ExternalId"
-                  data-ng-change="checkUser(Stakeholder.ExternalId)"
-                  field="stakeholderModels.stakeholder.ExternalId"></cs-field>
+        
+        <div data-ng-if="selectedHierarchy.IsUser">
+            <cs-field 
+                data-ng-model="Stakeholder.ExternalId"
+                data-ng-change="checkUser(Stakeholder.ExternalId)"
+                field="stakeholderModels.stakeholder.ExternalId"></cs-field>
+        </div>
+
         <cs-field data-ng-model="Stakeholder.MobileNo"
                   field="stakeholderModels.stakeholder.MobileNo"></cs-field>
         <cs-field data-ng-model="Stakeholder.EmailId"
                   field="stakeholderModels.stakeholder.EmailId"></cs-field>
-        <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
-                  value-list="ReportsToList"
-                  data-ng-model="Stakeholder.ReportingManager"
-                  field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
+        
+        <div data-ng-if="selectedHierarchy.ManageReportsTo">
+            <cs-field 
+                value-list="ReportsToList"
+                data-ng-model="Stakeholder.ReportingManager"
+                field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
+        </div>
+
         <cs-field data-ng-model="Stakeholder.JoiningDate"
                   field="stakeholderModels.stakeholder.JoiningDate"></cs-field>
     
@@ -64,6 +72,7 @@
                       field="stakeholderModels.registration.ServiceTaxNo"></cs-field>
             <hr/>
         </div>
+        <div class="clearfix"></div>
         <div class="pull-right">
             <cs-button 
                 type="save"

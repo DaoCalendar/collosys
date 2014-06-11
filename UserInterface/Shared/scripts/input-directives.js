@@ -928,9 +928,8 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
 
         var input = function (field, attr) {
             var html = '<p class="input-group"';
-            html += field.defaultDate !== false ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
+            html +=  !angular.isUndefined(field.defaultDate)  ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
             html += '<input type="text" class="form-control" disabled="disabled"';
-
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
             html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
@@ -1096,10 +1095,10 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         var setDefaultDate = function (defaultDate) {
             if (angular.isDefined(defaultDate)) {
                 return parseDate(defaultDate);
-            } else return false;
+            } else return undefined;
         };
 
-        var validateOptions = function (field) {
+        var validateOptions = function(field) {
             applyTemplate(field);
             manageViewMode(field);
             parseDates(field);
