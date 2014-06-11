@@ -74,8 +74,40 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
 
     };
 
+    var resetVal = function (key, except) {
+        var reset = true;
+        _.forEach(except, function (prop) {
+            if (key === prop) reset = false;
+        });
+        return reset;
+    };
+
+    var resetObj = function (obj, except) {
+
+        angular.forEach(obj, function (value, key) {
+            if (resetVal(key, except)) {
+                switch (typeof value) {
+                    case 'object':
+                        (!angular.isArray(value)) ? obj[key] = {} : obj[key] = [];
+                        break;
+                    case 'string':
+                        obj[key] = "";
+                        break;
+                    case 'boolean':
+                        obj[key] = false;
+                        break;
+                    case 'number':
+                        obj[key] = 0;
+                        break;
+                }
+            };
+        });
+    };
+
     return {
-        SetHierarchyModel: setHierarchyModel
+        SetHierarchyModel: setHierarchyModel,
+        ResetObj: resetObj
+
     };
 }]);
 
@@ -153,7 +185,10 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
             return '';
         };
 
-        $scope.assignSelectedHier = function (designation) {
+        $scope.assignSelectedHier = function (designation, form) {
+            form.$setPristine();
+            factory.ResetObj($scope.Stakeholder, ['Hierarchy', 'Designation']);
+
             if ($csfactory.isNullOrEmptyArray(designation)) return;
             $scope.showBasicInfo = false;
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
