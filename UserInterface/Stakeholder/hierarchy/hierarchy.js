@@ -34,7 +34,7 @@
 
     var saveUpdatedData = function (stkh) {
         stkh.ApplicationName = 'ColloSys';
-        stkh.PositionLevel = stkh.PositionLevel;
+       // stkh.PositionLevel = stkh.PositionLevel;
         stkh.LocationLevel = JSON.stringify(stkh.LocationLevel);
         return apiCalls.customPOST(stkh, 'SaveHierarchy').then(function (data) {
             $csnotify.success('Data Saved');
@@ -106,6 +106,8 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
                 });
                 //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
 
+                dldata.highestPositionLevel = _.max(dldata.Designation, function (row) { return row.PositionLevel });
+                console.log(dldata.highestPositionLevel);
             } else {
 
                 var design = _.filter(dldata.HierarchyList, function (data) {
@@ -260,8 +262,12 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         };
         
         $scope.save = function (stkh) {
+            if ($scope.mode === "add") {
+                stkh.PositionLevel = $scope.dldata.highestPositionLevel.PositionLevel + 1;
+            } 
             datalayer.Save(stkh).then(function () {
                 $scope.hierarchy = {};
+                $scope.dldata.highestPositionLevel = {};
                 $location.path("/generic/hierarchy");
             });
         };
