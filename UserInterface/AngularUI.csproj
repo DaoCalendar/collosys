@@ -239,6 +239,9 @@
     <Compile Include="Stakeholder\AddEdit2\Working\WorkingPaymentHelper.cs" />
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\view\StakeholderApproveEmail.cs" />
+    <Compile Include="Stakeholder\view\ViewStakeApiController.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Allocation\allocationModels.js" />

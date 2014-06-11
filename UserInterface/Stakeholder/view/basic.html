@@ -1,92 +1,79 @@
 ﻿<form name="basicform">
-    <div class="row">
-        <div style="margin-bottom: 5px" class="col-md-4">
-            <label class="col-md-4 control-label">Name</label>
-            <div class="col-md-8">
-                <input readonly class="form-control" type="text" data-ng-model="data.Name">
-            </div>
-        </div>
-        <div style="margin-bottom: 5px" class="col-md-4">
-            <label class="col-md-4 control-label">Email ID</label>
-            <div class="col-md-8">
-                <input type="text" class="form-control" data-ng-model="data.EmailId" readonly>
-            </div>
-        </div>
-        <div style="margin-bottom: 5px" class="text-right col-md-4">
-            <span>
-                <input type="checkbox" data-ng-model="selected" ng-click="selectedStakeholder(data,selected)" />
-            </span>
+    <div style="margin-bottom: 5px" class="col-md-5">
+        <label class="col-md-4 control-label">Name</label>
+        <div class="col-md-8">
+            <input readonly class="form-control" type="text" data-ng-model="data.Name">
         </div>
     </div>
-    <div class="row">
-        <div style="margin-bottom: 5px" class="col-md-4">
-            <label class="col-md-5 control-label">Date of Joining</label>
-            <div class="col-md-7">
-                <input type="text" readonly class="form-control" value="{{data.JoiningDate|date:dd-MM-yyyy}}">
-            </div>
+    <div style="margin-bottom: 5px" class="col-md-5">
+        <label class="col-md-4 control-label">Email ID</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" data-ng-model="data.EmailId" readonly>
         </div>
     </div>
-    <!--<div data-ng-hide="true" class="form-group col-md-5">
-            <label class="control-label">Date of Birth</label>
-            <div class="controls">
-                <input type="text" readonly value="{{data.BirthDate|date:dd-MM-yyyy}}">
-            </div>
-        </div>-->
+    <div style="margin-bottom: 5px" class="text-right col-md-1">
+        <span>
+            <input type="checkbox" data-ng-model="selected" ng-click="selectedStakeholder(data,selected)" />
+        </span>
+    </div>
+
+    <div style="margin-bottom: 5px" class="col-md-5">
+        <label class="col-md-5 control-label">Date of Joining</label>
+        <div class="col-md-7">
+            <input type="text" readonly class="form-control" value="{{data.JoiningDate|date:dd-MM-yyyy}}">
+        </div>
+    </div>
     <div data-ng-show="moreDetails==$index+'MoreDetails'">
-        <div class="row">
-            <div style="margin-bottom: 5px" class="col-md-4">
-                <label class="col-md-4 control-label">User Id</label>
-                <div class="col-md-8">
-                    <input type="text" readonly class="form-control" data-ng-model="data.ExternalId">
-                </div>
+        <div style="margin-bottom: 5px" class="col-md-5">
+            <label class="col-md-4 control-label">User Id</label>
+            <div class="col-md-8">
+                <input type="text" readonly class="form-control" data-ng-model="data.ExternalId">
             </div>
-            <div style="margin-bottom: 5px" class="col-md-4">
-                <label class="col-md-4 control-label">Mobile No</label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" readonly data-ng-model="data.MobileNo">
-                </div>
+        </div>
+        <div style="margin-bottom: 5px" class="col-md-5">
+            <label class="col-md-4 control-label">Mobile No</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" readonly data-ng-model="data.MobileNo">
             </div>
         </div>
 
-        <div class="row">
-            <!-- <div class="form-group col-md-5" data-ng-hide="true">
+        <!-- <div class="form-group col-md-5" data-ng-hide="true">
                      <label class="control-label">Gender</label>
                      <div class="controls">
                          <input type="text" readonly data-ng-model="data.Gender">
                      </div>
                  </div>-->
-            <div style="margin-bottom: 5px" class="col-md-4">
-                <label class="col-md-4 control-label"
-                       data-ng-show="stakeholder.Hierarchy!='External'">
-                    Line Manager 
-                </label>
-                <label class="col-md-4"
-                       data-ng-show="stakeholder.Hierarchy=='External' &&
+        <div style="margin-bottom: 5px" class="col-md-5" data-ng-show="data.ReportingManagerName!==''">
+            <label class="col-md-4 control-label"
+                data-ng-show="stakeholder.Hierarchy!='External'">
+                Line Manager 
+            </label>
+            <label class="col-md-4"
+                data-ng-show="stakeholder.Hierarchy=='External' &&
                 !(getLabelDisplay(stakeholder.Designation) =='ExternalAgency' || 
                 getLabelDisplay(stakeholder.Designation) =='ManpowerAgency')">
-                    Agency Name
-                </label>
-                <label class="col-md-4 control-label"
-                       data-ng-show=" (getLabelDisplay(stakeholder.Designation)=='ExternalAgency' ||
+                Agency Name
+            </label>
+            <label class="col-md-4 control-label"
+                data-ng-show=" (getLabelDisplay(stakeholder.Designation)=='ExternalAgency' ||
                getLabelDisplay(stakeholder.Designation)=='ManpowerAgency')">
-                    Agency Supervisor
-                </label>
-                <div class="col-md-8">
-                    <input type="text" class="form-control" readonly data-ng-model="data.ReportingManagerName">
-                </div>
+                Agency Supervisor
+            </label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" readonly data-ng-model="data.ReportingManagerName">
             </div>
         </div>
     </div>
 
     <div data-ng-show="moreDetails==$index+'AddressDetails' && data.Hierarchy.HasAddress">
         <div class="row">
-            <div style="margin-bottom: 5px" class="col-md-4">
+            <div style="margin-bottom: 5px" class="col-md-5">
                 <label class="col-md-4 control-label">Line 1</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" readonly value="{{data.GAddress[0].Line1}}">
                 </div>
             </div>
-            <div style="margin-bottom: 5px" class=" col-md-4">
+            <div style="margin-bottom: 5px" class=" col-md-5">
                 <label class=" col-md-4 control-label">Line 2</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" readonly value="{{data.GAddress[0].Line2}}">
@@ -101,7 +88,7 @@
                     <input type="text" class="form-control" readonly value="{{data.GAddress[0].Line3}}">
                 </div>
             </div>
-            <div style="margin-bottom: 5px" class="col-md-4">
+            <div style="margin-bottom: 5px" class="col-md-5">
                 <label class="col-md-4">Pincode</label>
                 <div class="col-md-8">
                     <input type="text" class="form-control" readonly value="{{data.GAddress[0].Pincode}}">

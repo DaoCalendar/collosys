@@ -1,26 +1,20 @@
-﻿using ColloSys.DataLayer.Stakeholder;
+﻿using ColloSys.DataLayer.Generic;
+using ColloSys.DataLayer.Stakeholder;
 
 #region references
 
 using System;
 using System.Collections.Generic;
-using System.Configuration.Provider;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
-using System.Web.Security;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Components;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.DataLayer.Infra.SessionMgr;
-using ColloSys.DataLayer.Services.Shared;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.Shared.Encryption;
-using ColloSys.UserInterface.Areas.Stakeholder2.Models;
 using EMailServices;
 using NLog;
 
@@ -73,13 +67,13 @@ namespace AngularUI.Stakeholder.view
             return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);
         }
 
-        [HttpPost]
-        public HttpResponseMessage SetLeaveForStakeholder(ManageWorkingModel manageWorkingModel)
-        {
-            var changesStakeholders = ManageWorkingModel.ChangeWorking(manageWorkingModel);
+        //[HttpPost]
+        //public HttpResponseMessage SetLeaveForStakeholder(ManageWorkingModel manageWorkingModel)
+        //{
+        //    var changesStakeholders = ManageWorkingModel.ChangeWorking(manageWorkingModel);
 
-            return Request.CreateResponse(HttpStatusCode.OK, changesStakeholders);
-        }
+        //    return Request.CreateResponse(HttpStatusCode.OK, changesStakeholders);
+        //}
 
         private static IEnumerable<GPincode> GetPincodesCity(string pin)
         {
@@ -320,7 +314,7 @@ namespace AngularUI.Stakeholder.view
 
             if (filterView == "PendingForAll")
             {
-                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
+                //query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
                 var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
                 return RemoveUnusedPaymentsWorkings(stakeholder);
             }
@@ -463,8 +457,7 @@ namespace AngularUI.Stakeholder.view
                                               where d.Status != ColloSysEnums.ApproveStatus.Rejected
                                               select d).ToList();
                 var deletelist = (from d in stakeholderse.StkhWorkings
-                                  where d.Status == ColloSysEnums.ApproveStatus.Approved &&
-                                        d.RowStatus == RowStatus.Delete
+                                  where d.Status == ColloSysEnums.ApproveStatus.Approved
                                   select d).ToList();
                 var deletepayment = (from d in stakeholderse.StkhPayments
                                      where d.Status == ColloSysEnums.ApproveStatus.Approved &&
@@ -509,145 +502,145 @@ namespace AngularUI.Stakeholder.view
             return list;
         }
 
-        public void CreateUser(string username, string email, DateTime joiningDate, StkhHierarchy role)
-        {
-            const string passwordQuestion = "Date of Joining (format: yyyyMMdd e.g. 20131231)?";
-            var passwordAnswer = joiningDate.ToString("yyyyMMdd");
+        //public void CreateUser(string username, string email, DateTime joiningDate, StkhHierarchy role)
+        //{
+        //    const string passwordQuestion = "Date of Joining (format: yyyyMMdd e.g. 20131231)?";
+        //    var passwordAnswer = joiningDate.ToString("yyyyMMdd");
 
-            var user = new Users
-            {
-                Username = username,
-                Password = PasswordUtility.EncryptText("collosys"),
-                Email = email,
-                PasswordQuestion = passwordQuestion,
-                PasswordAnswer = PasswordUtility.EncryptText(passwordAnswer),
-                IsApproved = true,
-                Comment = "",
-                CreatedOn = DateTime.Now,
-                LastPasswordChangedDate = DateTime.Now,
-                LastActivityDate = DateTime.Now,
-                ApplicationName = "collosys",
-                IsLockedOut = false,
-                LastLockedOutDate = DateTime.Now,
-                FailedPasswordAttemptCount = 0,
-                FailedPasswordAttemptWindowStart = DateTime.Now,
-                FailedPasswordAnswerAttemptCount = 0,
-                FailedPasswordAnswerAttemptWindowStart = DateTime.Now,
-                Role = role
-            };
-            Session.Save(user);
-        }
+        //    var user = new Users
+        //    {
+        //        Username = username,
+        //        Password = PasswordUtility.EncryptText("collosys"),
+        //        Email = email,
+        //        PasswordQuestion = passwordQuestion,
+        //        PasswordAnswer = PasswordUtility.EncryptText(passwordAnswer),
+        //        IsApproved = true,
+        //        Comment = "",
+        //        CreatedOn = DateTime.Now,
+        //        LastPasswordChangedDate = DateTime.Now,
+        //        LastActivityDate = DateTime.Now,
+        //        ApplicationName = "collosys",
+        //        IsLockedOut = false,
+        //        LastLockedOutDate = DateTime.Now,
+        //        FailedPasswordAttemptCount = 0,
+        //        FailedPasswordAttemptWindowStart = DateTime.Now,
+        //        FailedPasswordAnswerAttemptCount = 0,
+        //        FailedPasswordAnswerAttemptWindowStart = DateTime.Now,
+        //        Role = role
+        //    };
+        //    Session.Save(user);
+        //}
 
-        [HttpPost]
-        public void SaveApprovedAndRejectUser(Stakeholders stakeholders)
-        {
-            var hierarchy = GetHierarchy(stakeholders.Hierarchy.Designation, stakeholders.Hierarchy.Hierarchy).ToList().FirstOrDefault();
+        //[HttpPost]
+        //public void SaveApprovedAndRejectUser(Stakeholders stakeholders)
+        //{
+        //    var hierarchy = GetHierarchy(stakeholders.Hierarchy.Designation, stakeholders.Hierarchy.Hierarchy).ToList().FirstOrDefault();
 
-            _log.Info("Hierarchy received for user in approve");
-            _log.Info("User Creation started");
+        //    _log.Info("Hierarchy received for user in approve");
+        //    _log.Info("User Creation started");
 
-            if (stakeholders.Status.Equals(ColloSysEnums.ApproveStatus.Rejected))
-            {
-                SetApproveRejectStatus(stakeholders, ColloSysEnums.ApproveStatus.Rejected);
-                var stake = Update(stakeholders);
-                _log.Info("Stakeholder Rejected" + stake.Id);
-            }
-            else
-            {
-                SetApproveRejectStatus(stakeholders, ColloSysEnums.ApproveStatus.Approved);
-                foreach (var stkhWorking in stakeholders.StkhWorkings)
-                {
-                    SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
-                }
-                foreach (var stkhPayment in stakeholders.StkhPayments)
-                {
-                    SetApproveRejectStatus(stkhPayment, ColloSysEnums.ApproveStatus.Approved);
-                }
+        //    if (stakeholders.Status.Equals(ColloSysEnums.ApproveStatus.Rejected))
+        //    {
+        //        SetApproveRejectStatus(stakeholders, ColloSysEnums.ApproveStatus.Rejected);
+        //        var stake = Update(stakeholders);
+        //        _log.Info("Stakeholder Rejected" + stake.Id);
+        //    }
+        //    else
+        //    {
+        //        SetApproveRejectStatus(stakeholders, ColloSysEnums.ApproveStatus.Approved);
+        //        foreach (var stkhWorking in stakeholders.StkhWorkings)
+        //        {
+        //            SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
+        //        }
+        //        foreach (var stkhPayment in stakeholders.StkhPayments)
+        //        {
+        //            SetApproveRejectStatus(stkhPayment, ColloSysEnums.ApproveStatus.Approved);
+        //        }
 
-                if (hierarchy != null && (hierarchy.IsUser))
-                {
-                    CreateUser(stakeholders.ExternalId, stakeholders.EmailId, stakeholders.JoiningDate, hierarchy);
+        //        if (hierarchy != null && (hierarchy.IsUser))
+        //        {
+        //            CreateUser(stakeholders.ExternalId, stakeholders.EmailId, stakeholders.JoiningDate, hierarchy);
 
-                    //var body = EMailServices.StakeholderApproveEmail.TemplateForApproveuser(stakeholders.Name, stakeholders.ExternalId);
-                    _log.Info("Sending mail to User");
+        //            //var body = EMailServices.StakeholderApproveEmail.TemplateForApproveuser(stakeholders.Name, stakeholders.ExternalId);
+        //            _log.Info("Sending mail to User");
 
-                    //TODO: send email on approve
-                    //MailReport.SendMail(body, stakeholders.EmailId);
-                    //EMailServices.StakeholderApproveEmail.SendMail(body, stakeholders.EmailId);
-                    StakeholderApproveEmail.Send(stakeholders.EmailId, stakeholders.Name, stakeholders.ExternalId);
+        //            //TODO: send email on approve
+        //            //MailReport.SendMail(body, stakeholders.EmailId);
+        //            //EMailServices.StakeholderApproveEmail.SendMail(body, stakeholders.EmailId);
+        //            StakeholderApproveEmail.Send(stakeholders.EmailId, stakeholders.Name, stakeholders.ExternalId);
 
-                    _log.Info("Mail sended to user");
-                    _log.Info("User created");
-                }
-                Update(stakeholders);
-                _log.Info("Stakeholder Approved and user created");
-            }
-        }
+        //            _log.Info("Mail sended to user");
+        //            _log.Info("User created");
+        //        }
+        //        Update(stakeholders);
+        //        _log.Info("Stakeholder Approved and user created");
+        //    }
+        //}
 
-        [HttpPost]
+        //[HttpPost]
 
-        public void SaveApprovedWorkings(Stakeholders stakeholders)
-        {
-            foreach (var stkhWorking in stakeholders.StkhWorkings)
-            {
-                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted)
-                {
-                    SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
-                    if (stakeholders.Hierarchy.HasPayment)
-                    {
-                        var working = stkhWorking;
-                        var payment = (from d in stakeholders.StkhPayments
-                                       where d.Id == working.StkhPayment.Id
-                                       select d).Single();
-                        SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Approved);
-                        SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Approved);
-                    }
-                }
+        //public void SaveApprovedWorkings(Stakeholders stakeholders)
+        //{
+        //    foreach (var stkhWorking in stakeholders.StkhWorkings)
+        //    {
+        //        if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted)
+        //        {
+        //            SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
+        //            if (stakeholders.Hierarchy.HasPayment)
+        //            {
+        //                var working = stkhWorking;
+        //                var payment = (from d in stakeholders.StkhPayments
+        //                               where d.Id == working.StkhPayment.Id
+        //                               select d).Single();
+        //                SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Approved);
+        //                SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Approved);
+        //            }
+        //        }
 
-            }
-            Update(stakeholders);
-            _log.Info("Stakeholders Workings Approved");
-        }
+        //    }
+        //    Update(stakeholders);
+        //    _log.Info("Stakeholders Workings Approved");
+        //}
 
-        [HttpPost]
+        //[HttpPost]
 
-        public void SaveRejectedWorkings(Stakeholders stakeholders)
-        {
-            foreach (var stkhWorking in stakeholders.StkhWorkings)
-            {
-                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted && stkhWorking.RowStatus != RowStatus.Delete)
-                {
-                    SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Rejected);
-                    if (stakeholders.Hierarchy.HasPayment)
-                    {
-                        var working = stkhWorking;
-                        var payment = (from d in stakeholders.StkhPayments
-                                       where d.Id == working.StkhPayment.Id
-                                       select d).Single();
-                        SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Rejected);
-                        SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Rejected);
-                    }
-                }
-                else if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted && stkhWorking.RowStatus == RowStatus.Delete)
-                {
-                    SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
-                    stkhWorking.RowStatus = RowStatus.Update;
-                    if (stakeholders.Hierarchy.HasPayment)
-                    {
-                        var working = stkhWorking;
-                        var payment = (from d in stakeholders.StkhPayments
-                                       where d.Id == working.StkhPayment.Id
-                                       select d).Single();
-                        SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Approved);
-                        payment.RowStatus = RowStatus.Update;
-                        SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Approved);
-                        stkhWorking.StkhPayment.RowStatus = RowStatus.Update;
-                    }
-                }
-            }
-            Update(stakeholders);
-            _log.Info("Stakeholders Workings Rejected");
-        }
+        //public void SaveRejectedWorkings(Stakeholders stakeholders)
+        //{
+        //    foreach (var stkhWorking in stakeholders.StkhWorkings)
+        //    {
+        //        if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted && stkhWorking.RowStatus != RowStatus.Delete)
+        //        {
+        //            SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Rejected);
+        //            if (stakeholders.Hierarchy.HasPayment)
+        //            {
+        //                var working = stkhWorking;
+        //                var payment = (from d in stakeholders.StkhPayments
+        //                               where d.Id == working.StkhPayment.Id
+        //                               select d).Single();
+        //                SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Rejected);
+        //                SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Rejected);
+        //            }
+        //        }
+        //        else if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted && stkhWorking.RowStatus == RowStatus.Delete)
+        //        {
+        //            SetApproveRejectStatus(stkhWorking, ColloSysEnums.ApproveStatus.Approved);
+        //            stkhWorking.RowStatus = RowStatus.Update;
+        //            if (stakeholders.Hierarchy.HasPayment)
+        //            {
+        //                var working = stkhWorking;
+        //                var payment = (from d in stakeholders.StkhPayments
+        //                               where d.Id == working.StkhPayment.Id
+        //                               select d).Single();
+        //                SetApproveRejectStatus(payment, ColloSysEnums.ApproveStatus.Approved);
+        //                payment.RowStatus = RowStatus.Update;
+        //                SetApproveRejectStatus(stkhWorking.StkhPayment, ColloSysEnums.ApproveStatus.Approved);
+        //                stkhWorking.StkhPayment.RowStatus = RowStatus.Update;
+        //            }
+        //        }
+        //    }
+        //    Update(stakeholders);
+        //    _log.Info("Stakeholders Workings Rejected");
+        //}
 
         private static void SetApproveRejectStatus(Stakeholders approved, ColloSysEnums.ApproveStatus status)
         {
@@ -661,189 +654,189 @@ namespace AngularUI.Stakeholder.view
             approved.ApprovedOn = DateTime.Now;
         }
 
-        [HttpPost]
-        public void SaveListApprovedAndRejectUser(IEnumerable<Stakeholders> stakeholderses)
-        {
-            foreach (var stake in stakeholderses)
-            {
-                SaveApprovedAndRejectUser(stake);
-            }
-        }
-        [HttpPost]
+        //[HttpPost]
+        //public void SaveListApprovedAndRejectUser(IEnumerable<Stakeholders> stakeholderses)
+        //{
+        //    foreach (var stake in stakeholderses)
+        //    {
+        //        SaveApprovedAndRejectUser(stake);
+        //    }
+        //}
+        //[HttpPost]
 
-        public void SavePushToHigher(Stakeholders data)
-        {
-            if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)
-            {
-                foreach (var stkh in data.StkhWorkings)
-                {
-                    stkh.Stakeholder = data;
-                }
-                foreach (var stkh in data.GAddress)
-                {
-                    stkh.Stakeholder = data;
-                }
-                foreach (var stkh in data.StkhRegistrations)
-                {
-                    stkh.Stakeholder = data;
-                }
-            }
-            if (data.Hierarchy.HasWorking && data.Hierarchy.HasPayment)
-            {
-                foreach (var working in data.StkhWorkings)
-                {
-                    working.Stakeholder = data;
-                }
+        //public void SavePushToHigher(Stakeholders data)
+        //{
+        //    if (data.Hierarchy.HasWorking && !data.Hierarchy.HasPayment)
+        //    {
+        //        foreach (var stkh in data.StkhWorkings)
+        //        {
+        //            stkh.Stakeholder = data;
+        //        }
+        //        foreach (var stkh in data.GAddress)
+        //        {
+        //            stkh.Stakeholder = data;
+        //        }
+        //        foreach (var stkh in data.StkhRegistrations)
+        //        {
+        //            stkh.Stakeholder = data;
+        //        }
+        //    }
+        //    if (data.Hierarchy.HasWorking && data.Hierarchy.HasPayment)
+        //    {
+        //        foreach (var working in data.StkhWorkings)
+        //        {
+        //            working.Stakeholder = data;
+        //        }
 
-                foreach (var payment in data.StkhPayments)
-                {
-                    payment.Stakeholder = data;
-                    payment.StkhWorkings = data.StkhWorkings;
-                }
-                foreach (var stkh in data.GAddress)
-                {
-                    stkh.Stakeholder = data;
-                }
-                foreach (var stkh in data.StkhRegistrations)
-                {
-                    stkh.Stakeholder = data;
-                }
-            }
-            StakeQuery.Save(data);
-        }
+        //        foreach (var payment in data.StkhPayments)
+        //        {
+        //            payment.Stakeholder = data;
+        //            payment.StkhWorkings = data.StkhWorkings;
+        //        }
+        //        foreach (var stkh in data.GAddress)
+        //        {
+        //            stkh.Stakeholder = data;
+        //        }
+        //        foreach (var stkh in data.StkhRegistrations)
+        //        {
+        //            stkh.Stakeholder = data;
+        //        }
+        //    }
+        //    StakeQuery.Save(data);
+        //}
 
-        #region approve individual
+        //#region approve individual
 
-        public static Stakeholders ApproveIndividual(Stakeholders stakeholders, string approve, string userName)
-        {
-            switch (approve)
-            {
-                case "Working":
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Working set for approve with Stake id: " + stakeholders.Id);
-                    SetApprovedWorking(stakeholders, userName);
-                    break;
-                case "Payment":
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Payment set for approve with Stake id: " + stakeholders.Id);
-                    SetApprovedPayment(stakeholders, userName);
-                    break;
-                case "Address":
-                    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Address set for approve with Stake id: " + stakeholders.Id);
-                    SetApprovedAddress(stakeholders, userName);
-                    break;
-            }
-            Update(stakeholders);
-            return stakeholders;
-        }
+        //public static Stakeholders ApproveIndividual(Stakeholders stakeholders, string approve, string userName)
+        //{
+        //    switch (approve)
+        //    {
+        //        case "Working":
+        //            LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Working set for approve with Stake id: " + stakeholders.Id);
+        //            SetApprovedWorking(stakeholders, userName);
+        //            break;
+        //        case "Payment":
+        //            LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Payment set for approve with Stake id: " + stakeholders.Id);
+        //            SetApprovedPayment(stakeholders, userName);
+        //            break;
+        //        case "Address":
+        //            LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholders Address set for approve with Stake id: " + stakeholders.Id);
+        //            SetApprovedAddress(stakeholders, userName);
+        //            break;
+        //    }
+        //    Update(stakeholders);
+        //    return stakeholders;
+        //}
 
-        private static void SetApprovedAddress(Stakeholders stakeholders, string userName)
-        {
-            foreach (var address in stakeholders.GAddress)
-            {
-                address.Status = ColloSysEnums.ApproveStatus.Approved;
-                address.ApprovedBy = userName;
-                address.ApprovedOn = DateTime.Now;
-            }
-        }
+        //private static void SetApprovedAddress(Stakeholders stakeholders, string userName)
+        //{
+        //    foreach (var address in stakeholders.GAddress)
+        //    {
+        //        address.Status = ColloSysEnums.ApproveStatus.Approved;
+        //        address.ApprovedBy = userName;
+        //        address.ApprovedOn = DateTime.Now;
+        //    }
+        //}
 
-        private static void SetApprovedPayment(Stakeholders stakeholders, string userName)
-        {
-            foreach (var payment in stakeholders.StkhPayments)
-            {
-                payment.Status = ColloSysEnums.ApproveStatus.Approved;
-                payment.ApprovedBy = userName;
-                payment.ApprovedOn = DateTime.Now;
-            }
-        }
+        //private static void SetApprovedPayment(Stakeholders stakeholders, string userName)
+        //{
+        //    foreach (var payment in stakeholders.StkhPayments)
+        //    {
+        //        payment.Status = ColloSysEnums.ApproveStatus.Approved;
+        //        payment.ApprovedBy = userName;
+        //        payment.ApprovedOn = DateTime.Now;
+        //    }
+        //}
 
-        private static void SetApprovedWorking(Stakeholders stakeholders, string userName)
-        {
-            foreach (var working in stakeholders.StkhWorkings)
-            {
-                working.Status = ColloSysEnums.ApproveStatus.Approved;
-                working.ApprovedBy = userName;
-                working.ApprovedOn = DateTime.Now;
-            }
-        }
+        //private static void SetApprovedWorking(Stakeholders stakeholders, string userName)
+        //{
+        //    foreach (var working in stakeholders.StkhWorkings)
+        //    {
+        //        working.Status = ColloSysEnums.ApproveStatus.Approved;
+        //        working.ApprovedBy = userName;
+        //        working.ApprovedOn = DateTime.Now;
+        //    }
+        //}
 
-        public static Stakeholders Update(Stakeholders stakeholders)
-        {
-            stakeholders = SetStakeholder(stakeholders);
-            StakeQuery.Save(stakeholders);
-            LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholder Updated with ID: " + stakeholders.Id);
-            return stakeholders;
-        }
+        //public static Stakeholders Update(Stakeholders stakeholders)
+        //{
+        //    stakeholders = SetStakeholder(stakeholders);
+        //    StakeQuery.Save(stakeholders);
+        //    LogManager.GetCurrentClassLogger().Info("StakeholderServices: Stakeholder Updated with ID: " + stakeholders.Id);
+        //    return stakeholders;
+        //}
 
-        private static Stakeholders SetStakeholder(Stakeholders stakeholders)
-        {
-            //set working
-            SetWorking(stakeholders);
-            //set payment
-            SetPayment(stakeholders);
+        //private static Stakeholders SetStakeholder(Stakeholders stakeholders)
+        //{
+        //    //set working
+        //    SetWorking(stakeholders);
+        //    //set payment
+        //    SetPayment(stakeholders);
 
-            //set working for payment
-            SetPaymentWorking(stakeholders);
-            //set registration
-            SetRegistration(stakeholders);
+        //    //set working for payment
+        //    SetPaymentWorking(stakeholders);
+        //    //set registration
+        //    SetRegistration(stakeholders);
 
-            //set address
-            SetGAddress(stakeholders);
-            return stakeholders;
-        }
+        //    //set address
+        //    SetGAddress(stakeholders);
+        //    return stakeholders;
+        //}
 
-        private static void SetGAddress(Stakeholders stakeholders)
-        {
-            foreach (var gAddress in stakeholders.GAddress)
-            {
-                gAddress.Country = "India";
-                gAddress.Stakeholder = stakeholders;
+        //private static void SetGAddress(Stakeholders stakeholders)
+        //{
+        //    foreach (var gAddress in stakeholders.GAddress)
+        //    {
+        //        gAddress.Country = "India";
+        //        gAddress.Stakeholder = stakeholders;
 
-            }
-        }
+        //    }
+        //}
 
-        private static void SetRegistration(Stakeholders stakeholders)
-        {
-            if (stakeholders.StkhRegistrations.Any())
-            {
-                foreach (var stkhRegistration in stakeholders.StkhRegistrations)
-                {
-                    stkhRegistration.Stakeholder = stakeholders;
-                }
-            }
-        }
+        //private static void SetRegistration(Stakeholders stakeholders)
+        //{
+        //    if (stakeholders.StkhRegistrations.Any())
+        //    {
+        //        foreach (var stkhRegistration in stakeholders.StkhRegistrations)
+        //        {
+        //            stkhRegistration.Stakeholder = stakeholders;
+        //        }
+        //    }
+        //}
 
-        private static void SetPayment(Stakeholders stakeholders)
-        {
-            if (stakeholders.StkhPayments.Any())
-            {
-                foreach (var stkhPayment in stakeholders.StkhPayments)
-                {
-                    stkhPayment.Stakeholder = stakeholders;
-                }
-            }
-        }
+        //private static void SetPayment(Stakeholders stakeholders)
+        //{
+        //    if (stakeholders.StkhPayments.Any())
+        //    {
+        //        foreach (var stkhPayment in stakeholders.StkhPayments)
+        //        {
+        //            stkhPayment.Stakeholder = stakeholders;
+        //        }
+        //    }
+        //}
 
-        private static void SetPaymentWorking(Stakeholders stakeholders)
-        {
-            if (stakeholders.StkhPayments.Any())
-            {
-                foreach (var stkhPayment in stakeholders.StkhPayments)
-                {
-                    stkhPayment.StkhWorkings = stakeholders.StkhWorkings;
-                }
-            }
-        }
+        //private static void SetPaymentWorking(Stakeholders stakeholders)
+        //{
+        //    if (stakeholders.StkhPayments.Any())
+        //    {
+        //        foreach (var stkhPayment in stakeholders.StkhPayments)
+        //        {
+        //            stkhPayment.StkhWorkings = stakeholders.StkhWorkings;
+        //        }
+        //    }
+        //}
 
-        private static void SetWorking(Stakeholders stakeholders)
-        {
-            if (stakeholders.StkhWorkings.Any())
-            {
-                foreach (var gWorking in stakeholders.StkhWorkings)
-                {
-                    gWorking.Stakeholder = stakeholders;
-                }
-            }
-        }
-        #endregion
+        //private static void SetWorking(Stakeholders stakeholders)
+        //{
+        //    if (stakeholders.StkhWorkings.Any())
+        //    {
+        //        foreach (var gWorking in stakeholders.StkhWorkings)
+        //        {
+        //            gWorking.Stakeholder = stakeholders;
+        //        }
+        //    }
+        //}
+        //#endregion
 
         private static IEnumerable<StkhHierarchy> GetHierarchy(string designation, string hierarchy)
         {
