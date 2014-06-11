@@ -57,7 +57,6 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
             model.stakeholder.JoiningDate.label = "Date of Joining";
         else model.stakeholder.JoiningDate.label = "Date of Starting";
 
-
         if (hierarchy.ManageReportsTo) {
             if (hierarchy.Hierarchy != 'External') {
                 model.stakeholder.ReportingManager.label = "Line Manager";

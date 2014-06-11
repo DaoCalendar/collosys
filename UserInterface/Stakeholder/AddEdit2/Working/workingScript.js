@@ -60,6 +60,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         }).then(function () {
             datalayer.GetPaymentDetails().then(function (data) {
                 $scope.FixedPay = factory.GetFixedPayObj(data);
+                console.log("fixedPay: ", $scope.FixedPay);
             });
         });
 
@@ -81,32 +82,36 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         if (angular.isUndefined(other)) {
             other = 0;
         }
-        if (Number(basic) !== 0) {
-            if ($scope.selectedHierarchy.HasFixedIndividual) {
-                $scope.SalDetails.pf = (Number(basic) * Number($scope.FixedPay.EmployeePF)) / 100;
-                $scope.SalDetails.employerPf = (Number(basic) * Number($scope.FixedPay.EmployerPF)) / 100;
+        if (basic !== 0) {
+            if ($scope.selectedHierarchy.HasFixedIndividual || true) {
+                $scope.SalDetails.pf = Number((basic) * ($scope.FixedPay.EmployeePF) / 100);
+                $scope.SalDetails.pf = Number($scope.SalDetails.pf.toFixed(2));
 
-                $scope.SalDetails.totalNotEsic = Number(basic) + Number(hra) + Number(other);
+                $scope.SalDetails.employerPf = Number((basic) * ($scope.FixedPay.EmployerPF) / 100);
+                $scope.SalDetails.employerPf = Number($scope.SalDetails.employerPf.toFixed(2));
 
-                $scope.SalDetails.esicEmployee = (($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployeeESIC)) / 100);
-                $scope.SalDetails.esicEmployee = Number(parseFloat($scope.SalDetails.esicEmployee).toFixed(2));
+                $scope.SalDetails.totalNotEsic = Number((basic) + (hra) + (other));
 
-                $scope.SalDetails.esicEmployer = ($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployerESIC)) / 100;
-                $scope.SalDetails.esicEmployer = Number(parseFloat($scope.SalDetails.esicEmployer).toFixed(2));
+                $scope.SalDetails.esicEmployee = Number(($scope.SalDetails.totalNotEsic * ($scope.FixedPay.EmployeeESIC)) / 100);
+                $scope.SalDetails.esicEmployee = Number($scope.SalDetails.esicEmployee.toFixed(2));
 
-                $scope.SalDetails.serviceCharge = ((Number(basic) * $scope.FixedPay.serviceCharge) / 100);
-                $scope.SalDetails.serviceCharge = Number(parseFloat($scope.SalDetails.serviceCharge).toFixed(2));
+                $scope.SalDetails.esicEmployer = Number($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployerESIC) / 100);
+                $scope.SalDetails.esicEmployer = Number($scope.SalDetails.esicEmployer.toFixed(2));
 
-                $scope.SalDetails.serviceTax = ((Number(basic) * Number($scope.FixedPay.ServiceTax)) / 100);
-                $scope.SalDetails.serviceTax = Number(parseFloat($scope.SalDetails.serviceTax).toFixed(2));
+                $scope.SalDetails.ServiceCharge = $scope.FixedPay.ServiceCharge !== 0 ? Number((basic * $scope.FixedPay.ServiceCharge)) / 100 : 0;
+                $scope.SalDetails.ServiceCharge = Number($scope.SalDetails.ServiceCharge.toFixed(2));
 
-                $scope.SalDetails.total = angular.isDefined($scope.SalDetails.pf) ? $scope.SalDetails.pf * 2 : 0 +
-                    angular.isDefined($scope.SalDetails.totalNotEsic) ? $scope.SalDetails.totalNotEsic : 0 +
-                    angular.isDefined($scope.SalDetails.esicEmployee) ? $scope.SalDetails.esicEmployee : 0 +
-                    angular.isDefined($scope.SalDetails.esicEmployer) ? $scope.SalDetails.esicEmployer : 0 +
-                    angular.isDefined($scope.SalDetails.serviceCharge) ? $scope.SalDetails.serviceCharge : 0 +
-                    angular.isDefined($scope.SalDetails.serviceTax) ? $scope.SalDetails.serviceTax : 0;
-                $scope.SalDetails.total = $scope.SalDetails.total.toFixed(2);
+                $scope.SalDetails.serviceTax = Number(basic * ($scope.FixedPay.ServiceTax) / 100);
+                $scope.SalDetails.serviceTax = Number($scope.SalDetails.serviceTax.toFixed(2));
+
+                $scope.SalDetails.total =
+                    $scope.SalDetails.pf * 2 +
+                    $scope.SalDetails.totalNotEsic +
+                    $scope.SalDetails.esicEmployee +
+                    $scope.SalDetails.esicEmployer +
+                    $scope.SalDetails.ServiceCharge +
+                    $scope.SalDetails.serviceTax;
+                $scope.SalDetails.total = Number($scope.SalDetails.total.toFixed(2));
             } else {
                 $scope.SalDetails.total = basic;
             }
