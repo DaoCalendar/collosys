@@ -118,6 +118,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
             if (angular.isDefined(userId) && userId.length === 7) {
                 datalayer.CheckUser(userId).then(function (exist) {
                     $scope.userExists = exist === "true" ? true : false;
+                    if ($scope.userExists) $csnotify.error('User ID exists');
                 });
             }
         };

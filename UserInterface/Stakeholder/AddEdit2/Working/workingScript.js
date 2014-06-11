@@ -82,7 +82,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             other = 0;
         }
         if (Number(basic) !== 0) {
-            if ($scope.selectedHierarchy.HasFixedIndividual || true) {
+            if ($scope.selectedHierarchy.HasFixedIndividual) {
                 $scope.SalDetails.pf = (Number(basic) * Number($scope.FixedPay.EmployeePF)) / 100;
                 $scope.SalDetails.employerPf = (Number(basic) * Number($scope.FixedPay.EmployerPF)) / 100;
 
@@ -100,17 +100,16 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.SalDetails.serviceTax = ((Number(basic) * Number($scope.FixedPay.ServiceTax)) / 100);
                 $scope.SalDetails.serviceTax = Number(parseFloat($scope.SalDetails.serviceTax).toFixed(2));
 
-                $scope.SalDetails.total = $scope.SalDetails.pf * 2 +
-                    parseFloat($scope.SalDetails.totalNotEsic) +
-                    parseFloat($scope.SalDetails.esicEmployee) +
-                    parseFloat($scope.SalDetails.esicEmployer) +
+                $scope.SalDetails.total = angular.isDefined($scope.SalDetails.pf) ? $scope.SalDetails.pf * 2 : 0 +
+                    angular.isDefined($scope.SalDetails.totalNotEsic) ? $scope.SalDetails.totalNotEsic : 0 +
+                    angular.isDefined($scope.SalDetails.esicEmployee) ? $scope.SalDetails.esicEmployee : 0 +
+                    angular.isDefined($scope.SalDetails.esicEmployer) ? $scope.SalDetails.esicEmployer : 0 +
                     angular.isDefined($scope.SalDetails.serviceCharge) ? $scope.SalDetails.serviceCharge : 0 +
-                    parseFloat($scope.SalDetails.serviceTax);
+                    angular.isDefined($scope.SalDetails.serviceTax) ? $scope.SalDetails.serviceTax : 0;
                 $scope.SalDetails.total = $scope.SalDetails.total.toFixed(2);
             } else {
                 $scope.SalDetails.total = basic;
             }
-            return $scope.SalDetails.total;
         }
         return 0;
     };

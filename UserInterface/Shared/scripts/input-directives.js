@@ -431,8 +431,9 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
                     break;
                 case "user":
-                    options.pattern = "/^[0-9]{7}$/";
-                    options.patternMessage = "UserId must be a 7 digit number";
+                    //options.pattern = "/^[0-9]{7}$/";
+                    options.mask = '9999999';
+                    //options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 case "percentage":
                     options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
@@ -928,7 +929,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
 
         var input = function (field, attr) {
             var html = '<p class="input-group"';
-            html +=  !angular.isUndefined(field.defaultDate)  ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
+            html += !angular.isUndefined(field.defaultDate) ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
             html += '<input type="text" class="form-control" disabled="disabled"';
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
@@ -1098,7 +1099,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             } else return undefined;
         };
 
-        var validateOptions = function(field) {
+        var validateOptions = function (field) {
             applyTemplate(field);
             manageViewMode(field);
             parseDates(field);
