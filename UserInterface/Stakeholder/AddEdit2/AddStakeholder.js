@@ -77,7 +77,9 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
     var resetVal = function (key, except) {
         var reset = true;
         _.forEach(except, function (prop) {
-            if (key === prop) reset = false;
+            if (key === prop) {
+                return reset = false;
+            }
         });
         return reset;
     };

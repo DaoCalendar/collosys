@@ -1089,13 +1089,14 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         var parseDates = function (field) {
             if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
             if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
-            if (!$csfactory.isNullOrEmptyString(field.default)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
+            //if (!$csfactory.isNullOrEmptyString(field.default)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
             validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
         };
 
         var setDefaultDate = function (defaultDate) {
             if (angular.isDefined(defaultDate)) {
-                return parseDate(defaultDate);
+                return moment(defaultDate, 'YYYY-MM-DD').isValid() ? moment(defaultDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
+                                                                     : parseDate(defaultDate);
             } else return undefined;
         };
 
