@@ -2,7 +2,8 @@
     <table class="table table-bordered" data-ng-form="addForm">
         <tr>
             <td class="col-md-1"><span>Condition</span></td>
-            <td class="col-md-8" data-ng-class="setValidation()">
+            <td class="col-md-8" data-ng-class="{'alert-info':tokensSupport.isValid,'alert-danger':!tokensSupport.isValid}">
+                <!--data-ng-class="setValidation()"-->
                 <div style="word-wrap:normal;">
                     <label style="padding-left: 15px;" data-ng-repeat="d in tokensList track by $index ">{{d.Text| changetext}}</label>
                 </div>
@@ -67,7 +68,7 @@
             <td>
                 Validation Object
             </td>
-            <td>{{validateToken}}</td>
+            <td>{{tokenSupport}}</td>
         </tr>
     </table>
 </div>

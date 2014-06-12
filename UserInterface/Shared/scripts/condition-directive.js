@@ -225,7 +225,7 @@ csapp.controller('conditionCtrl',
                 $scope.tokensSupport.bracketCounter -= 1;
         };
 
-        $scope.addToken = function (item) { //, model, label
+        $scope.addToken = function (item, model, label) {
             tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
             manageBracketCounter(item);
             setNextToken(item);
@@ -269,26 +269,30 @@ csapp.controller('conditionCtrl',
 
             switch (currentGroupType) {
                 case 'group1': //group1:Formula/Column/Matrix/Brackets
-                    if (currentToken.Type == 'Formula' || currentToken.Type == 'Table' || currentToken.Type == 'Matrix') {
-                        $scope.tokensSupport.DataType = currentToken.DataType;
-                    }
+
                     if (dataType == undefined) {
                         return operatorsGroup.group1($scope.tokens.tokensList, dataType);
                     }
                     switch (dataType.toUpperCase()) {
                         case 'NUMBER':
-                            return _.union(operatorsGroup.group2(),
+                            var tokens = _.union(operatorsGroup.group2(),
                             operatorsGroup.group3(),
                             operatorsGroup.group4(),
                             operatorsGroup.addCloseBracket());
+                            if ($scope.tokensSupport.hasConditional === true)
+                                tokens = _.union(tokens, operatorsGroup.group5());
+                            return tokens;
                         case 'BOOLEAN':
                             $scope.tokensSupport.hasConditional = true;
                             return _.union(operatorsGroup.group4(),
                             operatorsGroup.group5(),
                             operatorsGroup.addCloseBracket());
                         case 'ENUM':
-                            return _.union(operatorsGroup.group4(),
-                            operatorsGroup.addCloseBracket()); //TODO: attach enum value list
+                            var tokens2 = _.union(operatorsGroup.group4(),
+                            operatorsGroup.addCloseBracket());
+                            if ($scope.tokensSupport.hasConditional === true)
+                                tokens2 = _.union(tokens2, operatorsGroup.group5());
+                            return tokens2;//TODO: attach enum value list
                         default:
                             return operatorsGroup.group1($scope.tokens.tokensList, dataType);
                     }
@@ -327,6 +331,9 @@ csapp.controller('conditionCtrl',
 
         var setNextToken = function (token) {
             var currentGroupType = operatorsGroup.getGroupType(token);
+            if (token.Type == 'Formula' || token.Type == 'Table' || token.Type == 'Matrix') {
+                $scope.tokensSupport.DataType = token.DataType;
+            }
             $scope.tokens.nextTokens = getNextTokens($scope.tokensSupport.DataType, currentGroupType, token);
             isValidState(token);
         };
@@ -391,9 +398,8 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
                 return 'group1';
             case 'Operator':
                 if (token.DataType == 'bracket') {
-                    return 'group1';
+                        return 'group1';
                 }
-
                 if (token.DataType == 'number')
                     return 'group2';
                 if (token.DataType == 'conditional')
@@ -402,6 +408,7 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
                     return 'group5';
                 if (token.DataType == 'equality' || token.DataType == 'enumvals')
                     return 'group4';
+                break;
             default:
                 throw "invalid token type" + token.Type;
         }
