@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Generic;
+﻿using System.Text.RegularExpressions;
+using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Stakeholder;
 
 #region references
@@ -56,9 +57,21 @@ namespace AngularUI.Stakeholder.view
         }
 
         [HttpGet]
-        public IEnumerable<Stakeholders> GetStakeById(string id)
+        public HttpResponseMessage GetStakeById(string param)
         {
-            return StakeQuery.GetStakeByExtId(id);
+            var data = new List<Stakeholders>();
+            if (Regex.IsMatch(param, @"^\d+$"))
+            {
+                if (param.Count() == 7) data.AddRange(StakeQuery.GetStakeByExtId(param).ToList());
+            }
+            data.AddRange(StakeQuery.GetStakeByName(param));
+            var returnVal = new
+                {
+                    stake = data,
+                    count = data.Count,
+                    reportingMngr = GetReportingManager(data)
+                };
+            return Request.CreateResponse(HttpStatusCode.OK, returnVal);
         }
 
         [HttpGet]
@@ -390,7 +403,7 @@ namespace AngularUI.Stakeholder.view
 
         [HttpPost]
 
-        public IEnumerable<Stakeholders> GetReportingManager(List<Stakeholders> data)
+        public IEnumerable<Stakeholders> GetReportingManager(IEnumerable<Stakeholders> data)
         {
             if (data != null)
             {

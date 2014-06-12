@@ -16,9 +16,13 @@
                                 data-ng-model="stakeholder.filter"></cs-field>
                             
                             <div data-ng-if="stakeholder.filter==='SearchById'">
-                                <cs-field field="viewModels.SearchByName" no-label="" 
-                                          data-ng-model="stakeholder.name"
-                                          data-ng-change="getStakeById(stakeholder.name)"></cs-field>
+                                
+                                <cs-field layout="3.0.12" field="viewModels.SearchByName" no-label="" 
+                                          data-ng-model="stakeholder.name">
+                                </cs-field>
+                                <cs-button type="submit" text="search"   data-ng-click="getStakeById(stakeholder.name)">
+                                </cs-button>
+
                             </div>
                             <div data-ng-if="checkFilter(stakeholder.filter)">
                                 <!--get unique array-->
@@ -75,8 +79,8 @@
                 <cs-button type="delete" text="Reject" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()"></cs-button>
                 <cs-button type="close" text="Leave/Exit" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()"></cs-button>
             </div>
-            <div data-ng-if="stakeholder.filter!=='SearchById'">
-                <cspagination
+            <div>
+                <cspagination data-ng-if="!stakeholder.filter==='SearchById'"
                     gotofirstpage="gotoFirstPage()"
                     gotolastpage="gotoLastPage()"
                     stepforward="stepForward()"

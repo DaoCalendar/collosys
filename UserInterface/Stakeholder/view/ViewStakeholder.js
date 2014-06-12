@@ -100,6 +100,9 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                     $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
                                 }
                             });
+
+                case "SearchById":
+                    getStakeIdDatalayerCall();
                     break;
             }
         };
@@ -333,20 +336,23 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
         };
 
-        $scope.getStakeById = function (id) {
-            if (id.length < 7 || id.length > 7) {
+        $scope.getStakeById = function (param) {
+            if (param.length < 3) {
                 $scope.stakeholderData = [];
                 $scope.showDiv = false;
                 return;
             }
-
-            restApi.customGET('GetStakeById', { 'Id': id })
-                .then(function (data) {
-                    $scope.stakeholderData = data;
-                    $scope.stakeholderData.length > 0 ? $scope.showDiv = true : $csnotify.success("Stakeholder not available");
-                }, function () {
-                    $csnotify.error('eror loading data');
-                });
+            restApi.customGET('GetStakeById', { 'param': param })
+                 .then(function (data) {
+                     $scope.stakeholderData = data.stake;
+                     var reportingMngr = data.reportingMngr;
+                     for (var i = 0; i < $scope.stakeholderData.length; i++) {
+                         $scope.stakeholderData[i].ReportingManagerName = reportingMngr[i].Name;
+                     }
+                     $scope.stakeholderData.length > 0 ? $scope.showDiv = true : $csnotify.success('stakeholder not available');
+                 }, function () {
+                     $csnotify.error('eror loading data');
+                 });
         };
 
         $scope.getReportsToStakeholders = function (stakeId) {
@@ -895,7 +901,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                 Designation: { label: "Designation", type: "select", valueField: 'Id', textField: 'Designation' },
                 Stake: { label: "Stakeholder", type: "select", valueField: 'Id', textField: 'Name' },
                 Products: { label: "Products", type: "enum" },
-                SearchByName: { label: 'ID', placeholder: "enter ID to edit", type: 'text', maxlength: 7 }
+                SearchByName: { label: 'ID', placeholder: "enter ID/Name to edit", type: 'text' }
             };
             $scope.currUser = $csfactory.getCurrentUserName();
 

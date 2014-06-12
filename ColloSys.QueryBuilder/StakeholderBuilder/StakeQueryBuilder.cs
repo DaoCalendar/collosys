@@ -38,7 +38,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                          JoinType.LeftOuterJoin)
                               .Where(() => workings.Products == products || workings.Products == ScbEnums.Products.ALL)
                               .And(() => hierarchy.IsInAllocation)
-                              //.And(() => hierarchy.IsInField)
+                //.And(() => hierarchy.IsInField)
                               .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
                               .And(() => stakeholders.LeavingDate == null ||
                                          stakeholders.LeavingDate > Util.GetTodayDate())
@@ -62,16 +62,29 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             var stakeholder = session.QueryOver<Stakeholders>()
                 .Where(x => x.ExternalId == id)
                 .Fetch(x => x.StkhWorkings).Eager
-                .Fetch(x=>x.StkhPayments).Eager
+                .Fetch(x => x.StkhPayments).Eager
                 .Fetch(x => x.Hierarchy).Eager.List();
             return stakeholder;
         }
-        
+
+        [Transaction]
+        public IList<Stakeholders> GetStakeByName(string name)
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            var stakeholder = session.QueryOver<Stakeholders>()
+                .Where(x => x.Name == name)
+                .Fetch(x => x.StkhWorkings).Eager
+                .Fetch(x => x.StkhPayments).Eager
+                .Fetch(x => x.Hierarchy).Eager.List();
+            return stakeholder;
+        }
+
         [Transaction]
         public IList<Stakeholders> ListForAdhoc(string name, ScbEnums.Products products)
         {
             var list = OnProduct(products);
-            var data=list.Where(x => x.Name.ToString().StartsWith(name)).Take(10).ToList();
+            var data = list.Where(x => x.Name.ToString().StartsWith(name)).Take(10).ToList();
             return data;
         }
 
@@ -183,7 +196,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                      x.StkhPayments.First(y => y.StartDate < DateTime.Now && y.EndDate > DateTime.Now))
                                  .ToList();
         }
-        
+
         //[Transaction]
         //public IEnumerable<Stakeholders> GetPendingApprovals(string currUser, ColloSysEnums.ApproveStatus status)
         //{
