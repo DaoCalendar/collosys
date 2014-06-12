@@ -1,4 +1,4 @@
-﻿csapp.factory("hierarchyDataLayer", ['Restangular', '$csnotify', function (rest, $csnotify) {
+﻿csapp.factory("hierarchyDataLayer", ['Restangular', '$csnotify', 'ngTableParams', '$filter', function (rest, $csnotify, ngTableParams, $filter) {
 
     var dldata = {};
 
@@ -12,6 +12,11 @@
 
     var getAllHierarchy = function () {
         return apiCalls.customGET('GetAllHierarchies').then(function (data) {
+            dldata.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                total: data.length, // length of data
+                count: 10           // count per page
+                });
             dldata.HierarchyList = data;
             dldata.HierarchyData = _.uniq(_.pluck(data, 'Hierarchy'));
             _.forEach(dldata.HierarchyList, function (item) {

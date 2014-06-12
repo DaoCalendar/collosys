@@ -4,7 +4,7 @@ var csapp = angular.module("ui.collosys",
     'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', //'ngAnimate',
     'ngCookies', 'chieffancypants.loadingBar',
-    'ui.utils', 'ui.modules', 'ui.multiselect'
+    'ui.utils', 'ui.modules', 'ui.multiselect','ngTable'
 ]);
 
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
