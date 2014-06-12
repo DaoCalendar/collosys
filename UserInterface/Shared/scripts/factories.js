@@ -485,9 +485,38 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
         if (perm.trim().toUpperCase() === "ALL") return true;
 
         switch (perm) {
-            case "createfile":
-                perm = "FileUpload,FileDetails,Create";
+            case "FileDetailAddEdit":
+                perm = "FileUploader,CreateFile,AddEdit";
                 break;
+            case "FileDetailView":
+                perm = "FileUploader,CreateFile,View";
+                break;
+            case "FileDetailApprove":
+                perm = "FileUploader,CreateFile,Approve";
+                break;
+            case "FileSchedule":
+                perm = "FileUploader,ScheduleFile,Schedule";
+                break;
+            case "FileStatusView":
+                perm = "FileUploader,Status,View";
+                break;
+            case "FileStatusAddEdit":
+                perm = "FileUploader,Status,AddEdit";
+                break;
+            case "FileStatusDelete":
+                perm = "FileUploader,Status,Delete";
+                break;
+            case "FileCustomerData":
+                perm = "FileUploader,CustomerData,View";
+                break;
+            case "FileUploadCustInfo":
+                perm = "FileUploader,UploadCustInfo,AddEdit";
+                break;
+            case "FileErrorCorrection":
+                perm = "FileUploader,ErrorCorrection,AddEdit";
+                break;
+
+
             default:
                 break;
         }
