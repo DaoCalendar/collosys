@@ -192,7 +192,7 @@ namespace AngularUI.Stakeholder.view
             var query = StakeQuery.ApplyRelations();
             if (filterView == "PendingForAll")
             {
-                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted);
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted || x.Status == ColloSysEnums.ApproveStatus.Rejected);
                 var count = StakeQuery.Execute(query).Count();
                 return count;
             }
@@ -203,13 +203,13 @@ namespace AngularUI.Stakeholder.view
 
                 List<Stakeholders> stakeList = new List<Stakeholders>();
 
-                queryCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && x.ApprovedBy == currUser);
+                queryCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted || x.Status == ColloSysEnums.ApproveStatus.Rejected)
+                                 .And(x => x.ApprovedBy == currUser);
                 var stakeholder = StakeQuery.Execute(queryCount).ToList();
                 stakeList.AddRange(stakeholder);
 
-                workingCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && x.ApprovedBy == currUser);
+                workingCount.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted || x.Status == ColloSysEnums.ApproveStatus.Rejected)
+                                 .And(x => x.ApprovedBy == currUser);
                 var working = WorkingQueryBuilder.Execute(workingCount).ToList();
 
                 List<Guid> guid = working.Select(x => x.Stakeholder.Id).Distinct().ToList();
@@ -335,13 +335,13 @@ namespace AngularUI.Stakeholder.view
             if (filterView == "PendingForMe")
             {
                 List<Stakeholders> stakeList = new List<Stakeholders>();
-                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && x.ApprovedBy == currUser);
+                query.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted || x.Status == ColloSysEnums.ApproveStatus.Rejected)
+                                .And(x => x.ApprovedBy == currUser);
                 var stakeholder = StakeQuery.Execute(query).Skip(start).Take(size).ToList();
                 stakeList.AddRange(stakeholder);
 
-                workingQuery.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted
-                                  && x.ApprovedBy == currUser);
+                workingQuery.Where(x => x.Status == ColloSysEnums.ApproveStatus.Submitted || x.Status == ColloSysEnums.ApproveStatus.Rejected)
+                                .And(x => x.ApprovedBy == currUser);
                 var working = WorkingQueryBuilder.Execute(workingQuery).Skip(start).Take(size).ToList();
 
                 List<Guid> guid = working.Select(x => x.Stakeholder.Id).Distinct().ToList();

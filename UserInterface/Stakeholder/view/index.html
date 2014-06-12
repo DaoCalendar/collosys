@@ -80,7 +80,7 @@
                 <cs-button type="close" text="Leave/Exit" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()"></cs-button>
             </div>
             <div>
-                <cspagination data-ng-if="!stakeholder.filter==='SearchById'"
+                <cspagination data-ng-if="stakeholder.filter!=='SearchById'"
                     gotofirstpage="gotoFirstPage()"
                     gotolastpage="gotoLastPage()"
                     stepforward="stepForward()"

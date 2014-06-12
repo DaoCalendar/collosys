@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Stakeholder;
+﻿using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.Stakeholder;
 
 namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
 {
@@ -6,6 +7,7 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
     {
         public static void SetStakeholderObj(Stakeholders data)
         {
+            data.Status = ColloSysEnums.ApproveStatus.Submitted;
             //add stakeholder reference in address
             foreach (var address in data.GAddress)
             {
