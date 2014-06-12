@@ -165,6 +165,7 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
             $scope.fileScheduler.toDate = moment().format('L');
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            factory.timer.reset();
             $scope.fileSchedulerfield = $csModels.getColumns("FileStatus");
         })();
 
