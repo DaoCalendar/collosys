@@ -1,25 +1,24 @@
-﻿csapp.factory("loginDataLayer", [
-    "Restangular", "$csnotify", "$csfactory", function (rest, $csnotify, $csfactory) {
-        var restApi = rest.all("AutheticationApi");
+﻿csapp.factory("loginDataLayer", ["Restangular", function (rest) {
+    var restApi = rest.all("AutheticationApi");
 
-        var authenticate = function (loginInfo) {
-            return restApi.customPOST(loginInfo, "AutheticateUser");
-        };
+    var authenticate = function (loginInfo) {
+        return restApi.customPOST(loginInfo, "AutheticateUser");
+    };
 
-        var validate = function (forgotInfo) {
-            return restApi.customPOST(forgotInfo, "CheckUser");
-        };
+    var validate = function (forgotInfo) {
+        return restApi.customPOST(forgotInfo, "CheckUser");
+    };
 
-        var resetPassword = function (forgotInfo) {
-            return restApi.customPOST(forgotInfo, "ResetPassword");
-        };
+    var resetPassword = function (forgotInfo) {
+        return restApi.customPOST(forgotInfo, "ResetPassword");
+    };
 
-        return {
-            authenticate: authenticate,
-            doesUserExist: validate,
-            resetPassword: resetPassword,
-        };
-    }
+    return {
+        authenticate: authenticate,
+        doesUserExist: validate,
+        resetPassword: resetPassword,
+    };
+}
 ]);
 
 csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
@@ -65,24 +64,14 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
         };
 
         var logoutUser = function () {
-            //if (angular.isDefined(authInfo.username) && authInfo.username !== '' && authInfo.username !== null)
-            //    $log.info(authInfo.username + " has logged out.");
-            //authInfo.isAuthorized = false;
-            //authInfo.username = undefined;
-            //$cookieStore.remove("authInfo");
-            //$cookieStore.put("authInfo", authInfo);
-            //hasLogIn = false;
-        };
-
-        var logOut = function() {
             if (angular.isDefined(authInfo.username) && authInfo.username !== '' && authInfo.username !== null)
                 $log.info(authInfo.username + " has logged out.");
             authInfo.isAuthorized = false;
             authInfo.username = undefined;
             $cookieStore.remove("authInfo");
             $cookieStore.put("authInfo", authInfo);
-            hasLogIn = false;
         };
+
         return {
             hasLoggedIn: hasLoggedIn,
             loginUser: loginUser,
@@ -90,13 +79,12 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
             getUsername: getUsername,
             loadAuthCookie: loadCookie,
             authInfo: authInfo,
-            logOut:logOut
         };
     }]);
 
 csapp.controller("logoutController", [
     "$csAuthFactory", "$location", function ($csAuthFactory, $location) {
-        $csAuthFactory.logOut();
+        $csAuthFactory.logoutUser();
         $location.path("/login");
     }
 ]);
@@ -104,14 +92,16 @@ csapp.controller("logoutController", [
 csapp.controller("loginController",
     ["$scope", "$csAuthFactory", "loginDataLayer", "$location", "$csfactory", "$csnotify",
     function ($scope, $csAuthFactory, datalayer, $location, $csfactory, $csnotify) {
-        $scope.login = {
-            error: false
-        };
-        $scope.forgot = {
-            isUserValid: false
-        };
-        $csAuthFactory.logoutUser();
 
+        if ($csAuthFactory.hasLoggedIn()) {
+            $location.path("/home");
+            return;
+        }
+
+        $scope.login = { error: false };
+        $scope.forgot = { isUserValid: false };
+
+        $csAuthFactory.logoutUser();
         $scope.hasLoggedIn = false;
 
         $scope.loginUser = function () {
@@ -124,7 +114,6 @@ csapp.controller("loginController",
                 if (data === "true") {
                     $scope.hasLoggedIn = true;
                     $csAuthFactory.loginUser($scope.login.username);
-                    hasLogIn = true;
                     $location.path("/home");
                 } else {
                     $scope.login.error = true;
