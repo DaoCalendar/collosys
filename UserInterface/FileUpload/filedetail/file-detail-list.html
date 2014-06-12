@@ -25,7 +25,7 @@
                 </tr>
                 <tr>
                     <th class="text-center">
-                        <icon-btn type="add" permission ="FileUploader,CreateFile,AddEdit" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                        <icon-btn type="add" permission ="FileDetailAddEdit" data-ng-click="showAddEditPopup('add')"></icon-btn>
                     </th>
                     <th>
                         <input type="text" class="form-control" data-ng-model="search.AliasName" />
@@ -83,10 +83,10 @@
             <tbody>
                 <tr data-ng-repeat="fileDetail in datalayer.dldata.fileDetailsList | filter:search">
                     <td>
-                        <div class="btn-group" style="width: 120px">
-                            <icon-btn permission ="FileUploader,CreateFile,View" type="view" data-ng-click="showAddEditPopup('view',fileDetail)"></icon-btn>
-                            <icon-btn permission ="FileUploader,CreateFile,AddEdit" type="edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></icon-btn>
-                            <icon-btn permission ="FileUploader,CreateFile,Delete" type="delete" data-ng-click="showDeleteModelPopup(fileDetail)"></icon-btn>
+                        <div class="btn-group" style="width: 75px">
+                            <icon-btn permission ="FileDetailView" type="view" data-ng-click="showAddEditPopup('view',fileDetail)"></icon-btn>
+                            <icon-btn permission ="FileDetailAddEdit" type="edit" data-ng-click="showAddEditPopup('edit',fileDetail)"></icon-btn>
+<!--                            <icon-btn permission ="FileUploader,CreateFile,Delete" type="delete" data-ng-click="showDeleteModelPopup(fileDetail)"></icon-btn>-->
                         </div>
 
                     </td>
