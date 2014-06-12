@@ -52,9 +52,6 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         //#region helpers
         $scope.ResetPage = function () {
             $scope.Selected.Date = null;
-            $scope.fileScheduleDetails = {};
-            $scope.IsImmediate = false;
-            $scope.immedateReason = '';
             $scope.hasUnscheduledFiles = false;
             $scope.selectedFiles = { file: [] };
         };
@@ -67,8 +64,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.datalayer = datalayer;
             datalayer.GetAll();
             $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
-            //$scope.IsImmediate = false;
-            //$scope.fileScheduleDetails.IsImmediate = false;
+
         })();
 
         $scope.changeSelectedFrequency = function () {
@@ -152,6 +148,8 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
 
         $scope.scheduleFiles = function () {
             $csfactory.enableSpinner();
+            datalayer.dldata.fileScheduleDetails.IsImmediate = $scope.Selected.IsImmediate;
+            datalayer.dldata.fileScheduleDetails.ImmediateReason = $scope.Selected.ImmediateReason;
             datalayer.Schedule().then(function () {
                 $scope.upload = [];
                 hasAnyUnscheduledFiles();

@@ -41,7 +41,8 @@
         (function () {
             //$scope.myModel = 1;
             $scope.fields = [
-               { name: 'DOB', label: 'DOB',  endDate: "1y", defaultDate: "+10d", editable: false, required: true, type: 'date', min: 10, max: 100 },
+                 { label: 'Upload Mode', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key', required: true },
+               { name: 'DOB', label: 'DOB', endDate: "1y", defaultDate: "+10d", editable: false, required: true, type: 'date', min: 10, max: 100 },
                { name: 'Name', editable: true, required: true, type: 'password' },
                { name: 'select', label: 'select', textField: 'display', useRepeat: true, valueField: 'value', editable: false, required: true, type: 'select', min: 10, max: 100 },
                { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
@@ -57,7 +58,7 @@
             $scope.cars = [{ id: 1, name: 'Audi' }, { id: 2, name: 'BMW' }, { id: 1, name: 'Honda' }];
             $scope.array1 = [1, 2, 3, 4, 5];
             $scope.array = [{ display: 1, value: 1 }, { display: 2, value: 2 }, { display: 3, value: 3 }];
-
+            $scope.fileScheduleDetails = {};
             $scope.clicked = 0;
             $scope.abc = {};
             $scope.abce = { data: 1 };

@@ -740,8 +740,11 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         var input = function (field, attrs) {
 
-            var html = '<div class="row radio-margin">';
-            html += '<span class="text-right" ng-repeat="record in  field.options"> ';
+            console.log('field:', field);
+
+            var html = '<div class="row radio-margin"';
+            html += angular.isDefined(field.isSelected) ? 'ng-init="$parent.' + attrs.ngModel + ' = field.isSelected">' : '>';
+            html += '<span class="text-right" ng-repeat="record in  field.options" > ';
             html += '<input type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
             html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
@@ -770,10 +773,8 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
 
         var validateOptions = function (field) {
             field.label = field.label || "Description";
-            //field.textField = "record." + (field.textField || "text");
 
-            field.initVal = field.required === true ? field.options[0][field.valueField] : undefined;
-            console.log('initVal: ', field.initVal);
+            field.isSelected = field.required === true ? field.options[0][field.valueField].toString() : undefined;
 
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {
@@ -1086,20 +1087,20 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         var parseDates = function (field) {
             if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
             if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
-            if (!$csfactory.isNullOrEmptyString(field.default)) field.dateOptions.defaultDate = "'" + parseDate(field.default) + "'";
+            if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.dateOptions.defaultDate = parseDate(field.defaultDate);
 
-            if (moment(field.dateOptions.endDate).isBefore(field.dateOptions.startDate))
-                throw "start date: " + field.dateOptions.startDate + " is greater than end date" + field.dateOptions.endDate;
+            if (moment(field.dateOptions.maxDate).isBefore(field.dateOptions.minDate))
+                throw "start date: " + field.dateOptions.minDate + " is greater than end date" + field.dateOptions.maxDate;
 
             if (angular.isDefined(field.dateOptions.defaultDate) &&
-                moment(field.dateOptions.defaultDate).isBefore(field.dateOptions.startDate))
-                throw "start date: " + field.dateOptions.startDate
+                moment(field.dateOptions.defaultDate).isBefore(field.dateOptions.minDate))
+                throw "start date: " + field.dateOptions.minDate
                     + " is greater than default date" + field.dateOptions.defaultDate;
 
             if (angular.isDefined(field.dateOptions.defaultDate) &&
-                moment(field.dateOptions.endDate).isBefore(field.dateOptions.defaultDate))
+                moment(field.dateOptions.maxDate).isBefore(field.dateOptions.defaultDate))
                 throw "default date: " + field.dateOptions.defaultDate
-                    + " is greater than end date" + field.dateOptions.endDate;
+                    + " is greater than end date" + field.dateOptions.maxDate;
         };
 
         var validateOptions = function (field) {
