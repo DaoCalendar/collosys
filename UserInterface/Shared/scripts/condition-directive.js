@@ -11,7 +11,6 @@ csapp.directive("csOutput", function () {
         require: ['^csForm'],
         scope: {
             tableName: '@', //replace with product - models.js getBillingColumns
-            selected: '=', //remove
             formulaList: '=',
             matrixList: '=',
             groupId: '@',
@@ -183,7 +182,6 @@ csapp.controller('conditionCtrl',
         var initToken = function () {
             $scope.tokens = {
                 tokensList: [],
-                // selected: [],
                 nextTokens: [],
                 lastToken: {},
                 collections: {
@@ -192,13 +190,14 @@ csapp.controller('conditionCtrl',
                 },
                 filterString: ''
             };
-            //$scope.tokensList = $scope.tokens.selected;
+
             $scope.tokensList = [];
 
             $scope.tokensSupport = {
                 isValid: false,
                 hasConditional: false,
-                DataType: ''
+                DataType: undefined,
+                bracketCounter: 0
             };
         };
 
@@ -207,9 +206,6 @@ csapp.controller('conditionCtrl',
                 $scope.tableName, $scope.formulaList);
 
             $scope.tokens.nextTokens = operatorsGroup.group1($scope.tokens.tokensList);
-            //$scope.tokens.nextTokens = _.filter($scope.tokens.tokensList, function (row) {
-            //    return (row.Type == 'Formula' || row.Type == 'Table' || row.Type == 'Operator' && row.DataType == 'bracket');
-            //});
             return;
         };
 
@@ -223,10 +219,15 @@ csapp.controller('conditionCtrl',
         //#endregion
 
         //#region 
-
+        var manageBracketCounter = function (token) {
+            if (token.Type == 'Operator' && token.Value == 'OpenBracket')
+                $scope.tokensSupport.bracketCounter += 1;
+            if (token.Type == 'Operator' && token.Value == 'CloseBracket')
+                $scope.tokensSupport.bracketCounter -= 1;
+        };
         $scope.addToken = function (item, model, label) {
             tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
-
+            manageBracketCounter(item);
             if (item.DataType == 'conditional') {
                 $scope.tokensSupport.hasConditional = true;
             }
@@ -254,34 +255,56 @@ csapp.controller('conditionCtrl',
             $scope.tokens.collections.tableColumns = [];
         };
 
-        var getNextTokens = function (dataType, currentGroupType) {
-
+        var getNextTokens = function (dataType, currentGroupType, currentToken) {
+            //group1:Formula/Column/Matrix/Brackets
+            //group2:Plus,Minus,Brackets
+            //group3:gt,lt,etc
+            //group4:equal,noteaual
+            //group5:And/Or
             switch (currentGroupType) {
                 case 'group1':
-                    if (dataType.toUpperCase() == 'NUMBER')
-                        return _.union(operatorsGroup.group2(),
-                            operatorsGroup.group3());
-                    
-                    if (dataType.toUpperCase() == 'BOOLEAN' || dataType.toUpperCase()=='ENUM')
-                        return _.union(operatorsGroup.group4(), operatorsGroup.group5());
-                    
-                    if (dataType.toUpperCase() == 'BRACKET')
-                        return operatorsGroup.group1($scope.tokens.tokensList);
-                    
+                    if (dataType == undefined) {
+                        return operatorsGroup.group1($scope.tokens.tokensList, dataType);
+                    }
+                    switch (dataType.toUpperCase()) {
+                        case 'NUMBER':
+                            return _.union(operatorsGroup.group2(),
+                            operatorsGroup.group3(), operatorsGroup.addCloseBracket());
+                        case 'BOOLEAN':
+                            return _.union(operatorsGroup.group4(),
+                            operatorsGroup.group5(),
+                            operatorsGroup.addCloseBracket());
+                        case 'ENUM':
+                            return _.union(operatorsGroup.group4(),
+                            operatorsGroup.addCloseBracket());
+                        default:
+                            return operatorsGroup.group1($scope.tokens.tokensList, dataType);
+                    }
+                    //if (dataType.toUpperCase() == 'NUMBER')
+                    //    return _.union(operatorsGroup.group2(),
+                    //        operatorsGroup.group3(), operatorsGroup.addCloseBracket());
+
+                    //if (dataType.toUpperCase() == 'BOOLEAN')
+                    //    return _.union(operatorsGroup.group4(),
+                    //        operatorsGroup.group5(),
+                    //        operatorsGroup.addCloseBracket());
+
+                    //if(dataType.toUpperCase() == 'ENUM')
+                    //    return _.union(operatorsGroup.group4(),
+                    //        operatorsGroup.addCloseBracket());
                 case 'group2':
-                    if (dataType.toUpperCase() == 'NUMBER' || dataType.toUpperCase() == 'BRACKET')
-                        return operatorsGroup.group1($scope.tokens.tokensList);
-                    
+                    if (dataType.toUpperCase() == 'NUMBER')
+                        return operatorsGroup.group1($scope.tokens.tokensList, dataType);
+
                 case 'group3':
-                    if (dataType.toUpperCase() == 'CONDITIONAL')
-                        return operatorsGroup.group1($scope.tokens.tokensList);
-                    
+                    return operatorsGroup.group1($scope.tokens.tokensList, dataType);
+
                 case 'group4':
-                    if (dataType.toUpperCase() == 'EQUALITY')
-                        return operatorsGroup.boolTokens(); 
-                    if (dataType.toUpperCase() == 'ENUMVALS')
-                        return operatorsGroup.group5();
-                    
+                    if (dataType.toUpperCase() == 'BOOLEAN')
+                        return operatorsGroup.boolTokens();
+                    else {//ToDo:attach enum value list
+                        return _.union(operatorsGroup.group5(), operatorsGroup.addCloseBracket());
+                    }
                 case 'group5':
                     return operatorsGroup.group1($scope.tokens.tokensList);
             }
@@ -289,13 +312,15 @@ csapp.controller('conditionCtrl',
         };
 
         var setNextToken = function (token) {
-            $scope.tokensSupport.DataType = token.DataType;
+            if (token.Type == 'Formula' || token.Type == 'Table' || token.Type == 'Matrix')
+                $scope.tokensSupport.DataType = token.DataType;
             var currentGroupType = operatorsGroup.getGroupType(token);
-            $scope.tokens.nextTokens = getNextTokens(token.DataType, currentGroupType);
+            $scope.tokens.nextTokens = getNextTokens($scope.tokensSupport.DataType, currentGroupType, token);
         };
 
         $scope.setValidation = function () {
-            if ($scope.tokensSupport.hasConditional && $scope.tokens.lastToken.Type !== 'Operator') {
+            if ($scope.tokensSupport.hasConditional
+                && $scope.tokens.lastToken.Type !== 'Operator' && $scope.tokensSupport.bracketCounter == 0) {
                 return 'alert-info';
             }
             return 'alert-danger';
@@ -317,28 +342,25 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
     //group4:equal,noteaual
     //group5:And/Or
 
-    var group1 = function (tokensList) {
+    var group1 = function (tokensList, dataType) {
+        if (angular.isUndefined(dataType))
+            dataType = 'All';
         return _.filter(tokensList, function (token) {
-            return (token.Type == 'Formula'
+            return ((token.Type == 'Formula'
                 || token.Type == 'Table'
-                || token.Type == 'Matrix'
-                || (token.Type == 'Operator' && token.DataType == 'bracket'));
+                || token.Type == 'Matrix') &&
+                ((token.DataType.toUpperCase() == dataType.toUpperCase()
+                    || dataType == 'All'))
+                || (token.Type == 'Operator' && token.Value == 'OpenBracket'));
         });
     };
 
     var group2 = function () {
         return operatorsFactory.Operators.numberOperators();
-        //return _.filter(tokensList, function (token) {
-        //    return (token.Type=='Operator' && token.DataType=='number');
-        //});
     };
 
     var group3 = function () {
         return operatorsFactory.Operators.conditionals();
-        //return _.filter(tokensList, function (token) {
-        //    return (token.Type == 'Operator' && token.DataType == 'conditional');
-        //});
-
     };
 
     var group4 = function () {
@@ -354,10 +376,13 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
             case 'Formula':
             case 'Table':
             case 'Matrix':
+            case 'Value':
                 return 'group1';
             case 'Operator':
-                if (token.DataType == 'bracket')
+                if (token.DataType == 'bracket') {
                     return 'group1';
+                }
+
                 if (token.DataType == 'number')
                     return 'group2';
                 if (token.DataType == 'conditional')
@@ -389,6 +414,12 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
         ];
     };
 
+    var addCloseBracket = function () {
+        return _.filter(operatorsFactory.Operators.bracketOperators(), function (token) {
+            return (token.Value == 'CloseBracket');
+        });
+    };
+
     return {
         group1: group1,
         group2: group2,
@@ -396,7 +427,8 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
         group4: group4,
         group5: group5,
         getGroupType: getGroupType,
-        boolTokens: boolTokens
+        boolTokens: boolTokens,
+        addCloseBracket: addCloseBracket
     };
 }]);
 //#region Single If else directive
