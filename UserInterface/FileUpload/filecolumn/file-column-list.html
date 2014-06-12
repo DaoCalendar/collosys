@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th class="text-center">
-                        <icon-btn type="add" permission ="FileUploader,CreateFile,AddEdit" data-ng-click="showAddSingleColumnModal()"></icon-btn>
+                        <icon-btn type="add" permission ="FileDetailAddEdit" data-ng-click="showAddSingleColumnModal()"></icon-btn>
                     </th>
                     <th>File Column Name </th>
                     <th>Position </th>
@@ -21,11 +21,11 @@
                 <tr data-ng-repeat="column in datalayer.dldata.fileDetail.FileColumns | orderBy: 'Position'" data-ng-animate="{ enter: 'animation-enter', leave: 'animation-leave'} ">
                     <td>
                         <div class="btn-group" style="width: 100px">
-                            <icon-btn type="up-arrow" permission ="FileUploader,CreateFile,AddEdit" data-ng-disabled="$index==0"
+                            <icon-btn type="up-arrow" permission ="FileDetailAddEdit" data-ng-disabled="$index==0"
                                 data-ng-click="factory.moveUpward($index, datalayer.dldata.fileDetail.FileColumns)"></icon-btn>
-                            <icon-btn type="down-arrow" permission ="FileUploader,CreateFile,AddEdit" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
+                            <icon-btn type="down-arrow" permission ="FileDetailAddEdit" data-ng-disabled="$index==fileDetail.FileColumns.length-1"
                                 data-ng-click="factory.moveDownward($index, datalayer.dldata.fileDetail.FileColumns)"></icon-btn>
-                            <icon-btn type="delete" permission ="FileUploader,CreateFile,Delete" data-ng-click="showDeleteModal(column,$index)"></icon-btn>
+                            <icon-btn type="delete" permission ="FileDetailAddEdit" data-ng-click="showDeleteModal(column,$index)"></icon-btn>
                         </div>
                     </td>
                     <td>
@@ -79,7 +79,7 @@
 </div>
 
 <div class="row text-center">
-    <cs-button type="save" permission ="FileUploader,CreateFile,Approve" text="Save All Columns" data-ng-show="datalayer.dldata.fileDetail.FileColumns.length>0"
+    <cs-button type="save" permission ="FileDetailApprove" text="Save All Columns" data-ng-show="datalayer.dldata.fileDetail.FileColumns.length>0"
         data-ng-click="SaveMulti(datalayer.dldata.fileDetail)">
     </cs-button>
 </div>

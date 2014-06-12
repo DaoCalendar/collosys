@@ -2,7 +2,7 @@
     <cs-form layout="5.3.6" class="">
         <cs-field field="productList" ng-model="fileAliasName"
                   ng-change="datalayer.GetAll(fileAliasName)"></cs-field>
-        <cs-button type="add" permission ="FileUploader,CreateFile,AddEdit" text="Add Multiple Columns" data-ng-show="fileAliasName"
+        <cs-button type="add" permission ="FileDetailAddEdit" text="Add Multiple Columns" data-ng-show="fileAliasName"
                 data-ng-click="showAddMultiColumnModal()">
         </cs-button>
         <div data-ng-include="baseUrl +'FileUpload/filecolumn/file-column-list.html'"></div>
