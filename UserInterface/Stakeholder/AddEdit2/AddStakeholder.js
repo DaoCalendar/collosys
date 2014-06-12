@@ -75,13 +75,8 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
     };
 
     var resetVal = function (key, except) {
-        var reset = true;
-        _.forEach(except, function (prop) {
-            if (key === prop) {
-                return reset = false;
-            }
-        });
-        return reset;
+        var index = _.find(except, key);
+        return index !== -1;
     };
 
     var resetObj = function (obj, except) {
@@ -90,17 +85,13 @@ csapp.factory("AddEditStakeholderFactory", ["$csfactory", "$location", function 
             if (resetVal(key, except)) {
                 switch (typeof value) {
                     case 'object':
-                        (!angular.isArray(value)) ? obj[key] = {} : obj[key] = [];
-                        break;
-                    case 'string':
-                        obj[key] = "";
-                        break;
                     case 'boolean':
-                        obj[key] = false;
-                        break;
                     case 'number':
-                        obj[key] = 0;
+                    case 'string':
+                        delete obj[key];
                         break;
+                    default:
+                        console.log('cannot reset type : ' + typeof value);
                 }
             };
         });

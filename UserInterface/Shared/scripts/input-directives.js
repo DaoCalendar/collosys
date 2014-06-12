@@ -929,7 +929,7 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
 
         var input = function (field, attr) {
             var html = '<p class="input-group"';
-            html += !angular.isUndefined(field.defaultDate) ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.defaultDate">' : '>';
+            html += angular.isDefined(field.dateOptions.defaultDate) ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.dateOptions.defaultDate">' : '>';
             html += '<input type="text" class="form-control" disabled="disabled"';
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
@@ -1060,6 +1060,8 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
         };
 
         var parseDate = function (dateParams) {
+            var date = moment(dateParams);
+            if (date.isValid()) return date.format("YYYY-MM-DD");
 
             switch (dateParams) {
                 case "today":
@@ -1081,23 +1083,23 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             }
         };
 
-        var validateDate = function (startDate, endDate) {
-            if (!moment(startDate).isBefore(endDate))
-                throw "start date: " + startDate + " is greater than end date" + endDate;
-        };
-
         var parseDates = function (field) {
             if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
             if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
-            //if (!$csfactory.isNullOrEmptyString(field.default)) field.defaultDate = "'" + parseDate(field.defaultDate) + "'";
-            validateDate(field.dateOptions.minDate, field.dateOptions.maxDate);
-        };
+            if (!$csfactory.isNullOrEmptyString(field.default)) field.dateOptions.defaultDate = "'" + parseDate(field.default) + "'";
 
-        var setDefaultDate = function (defaultDate) {
-            if (angular.isDefined(defaultDate)) {
-                return moment(defaultDate, 'YYYY-MM-DD').isValid() ? moment(defaultDate, 'YYYY-MM-DD').format('YYYY-MM-DD')
-                                                                     : parseDate(defaultDate);
-            } else return undefined;
+            if (moment(field.dateOptions.endDate).isBefore(field.dateOptions.startDate))
+                throw "start date: " + field.dateOptions.startDate + " is greater than end date" + field.dateOptions.endDate;
+
+            if (angular.isDefined(field.dateOptions.defaultDate) &&
+                moment(field.dateOptions.defaultDate).isBefore(field.dateOptions.startDate))
+                throw "start date: " + field.dateOptions.startDate
+                    + " is greater than default date" + field.dateOptions.defaultDate;
+
+            if (angular.isDefined(field.dateOptions.defaultDate) &&
+                moment(field.dateOptions.endDate).isBefore(field.dateOptions.defaultDate))
+                throw "default date: " + field.dateOptions.defaultDate
+                    + " is greater than end date" + field.dateOptions.endDate;
         };
 
         var validateOptions = function (field) {
@@ -1105,7 +1107,6 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             manageViewMode(field);
             parseDates(field);
 
-            field.defaultDate = setDefaultDate(field.defaultDate);
             field.opened = false;
             field.open = openDatePicker;
             field.disableDate = disableDate; //fn ptr
