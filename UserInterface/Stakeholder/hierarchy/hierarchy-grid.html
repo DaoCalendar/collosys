@@ -24,9 +24,60 @@
                 <th>Working</th>
                 <th>Payment</th>
             </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.Designation" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.Hierarchy" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.ReportsToName.Designation" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.ReportingLevel" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.WorkingReportsToName.Designation" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.WorkingReportsLevel" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.LocationLevel" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.IsIndividual" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.IsUser" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.IsInAllocation" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.IsInField" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.IsEmployee" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.HasRegistration" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.HasAddress" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.HasWorking" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.HasPayment" required />
+                </td>
+            </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="hierarchy in dldata.HierarchyList">
+            <tr data-ng-repeat="hierarchy in dldata.HierarchyList| filter:search | orderBy: 'PositionLevel'">
                 <!--Button Edit n Delete-->
                 <td>
                     <div class="btn-group" style="width: 80px">
@@ -99,7 +150,7 @@
             </tr>
         </tbody>
     </table>
-    
+
     <!--<table ng-table  class="table">
         <tr ng-repeat="hierarchy in dldata.HierarchyList">
             <td data-title="'Designation'">
