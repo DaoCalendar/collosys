@@ -42,7 +42,7 @@ csapp.factory("csValidationInputTemplate", function () {
             maxlength: '{{' + fieldname + '.label}} can have maximum {{' + fieldname + '.maxlength}} character/s.',
             min: '{{' + fieldname + '.label}} cannot be less than {{' + fieldname + '.min}}.',
             max: '{{' + fieldname + '.label}} cannot be greater than {{' + fieldname + '.max}}.',
-            unique: '{{' + fieldname + '.label}} is already in user.'
+            unique: '{{' + fieldname + '.label}} is already used.'
         };
     };
 
