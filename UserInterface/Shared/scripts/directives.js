@@ -18,7 +18,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
 
-        var getFileInputTemplate = function () {
+        var getFileInputTemplate = function (element,attrs) {
             return '<div ng-form="" name="myform" style="margin: 20px">' +
                     '<div class="form-group"><div class="controls">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
@@ -27,6 +27,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<div class="text-danger">Copying file to server!!!</div>' +
                         '</div>' +
                         '<div data-ng-hide="fileInfo.isUploading">' +
+                            '<label>'+ attrs.cslabel + '</label>' +
                             '<label class="fileContainer btn btn-default col-md-2"> Select ' +
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
@@ -50,7 +51,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
             file.size = cfile.size;
         };
 
-        var saveFileOnServer = function (scope, ngModel,attr) {
+        var saveFileOnServer = function (scope, ngModel, attr) {
             scope.fileInfo.isUploading = true;
             scope.fileInfo.copied = false;
             ngModel.$setValidity("noncopying", false);
@@ -66,7 +67,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 scope.fileInfo.isUploading = false;
                 scope.fileInfo.copied = true;
                 if (angular.isFunction(scope.onSave)) {
-                  //  scope.onSave({ 'fileInfo': scope.fileInfo });
+                    //  scope.onSave({ 'fileInfo': scope.fileInfo });
                     scope.$eval(attr.onSave);
                 }
                 ngModel.$setValidity("noncopying", true);
@@ -75,7 +76,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 //scope.onSave({ 'fileInfo': scope.fileInfo });
                 ngModel.$setValidity("noncopying", true);
             });
-                       
+
         };
 
         var linkFunction = function (scope, element, attr, ngModel) {
@@ -150,7 +151,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 setParams(scope.cfile, scope.fileInfo);
                 ngModel.$render(scope.fileInfo.name);
                 if (scope.isFileValid()) {
-                    saveFileOnServer(scope, ngModel,attr);
+                    saveFileOnServer(scope, ngModel, attr);
                 }
             };
         };
@@ -446,7 +447,7 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
                + '"  data-placement="top" title=' + tooltip + '>' +
                '<span class="' + btntype + '"></span>' +
                '</button>';
-        
+
     };
 
     return {
