@@ -74,7 +74,9 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         {
             var session = SessionManager.GetCurrentSession();
 
-            var stakeholder = session.QueryOver<Stakeholders>().List();
+            var stakeholder = session.Query<Stakeholders>()
+                .Where(x => x.LeavingDate == null || x.LeavingDate > DateTime.Today)
+                .ToList();
             return stakeholder;
         }
 
@@ -192,13 +194,14 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IList<Stakeholders> OnHierarchyId(List<Guid> hierarchyIds)
+        public IList<Stakeholders> OnHierarchyId(IList<Guid> hierarchyIds)
         {
             return SessionManager.GetCurrentSession().Query<Stakeholders>()
-                                 .Fetch(x => x.Hierarchy)
-                                 .Fetch(x => x.StkhWorkings)
-                                 .Where(x => x.LeavingDate < DateTime.Now || x.LeavingDate == null)
-                                 .Where(Restrictions.In(hierarchyIds)).ToList();
+                .Fetch(x => x.StkhWorkings)
+                .Fetch(x => x.Hierarchy)
+                .Where(x => hierarchyIds.Any(y => x.Hierarchy.Id == y)
+                    && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
+                .ToList();
         }
 
         [Transaction]
