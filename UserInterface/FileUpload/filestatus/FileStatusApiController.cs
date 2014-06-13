@@ -6,7 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.QueryBuilder.FileUploadBuilder;
+using NHibernate.Transform;
 
 #endregion
 
@@ -31,6 +33,17 @@ namespace AngularUI.FileUpload.filestatus
             var todate = Convert.ToDateTime(toDate);
 
             return FileStatusHelper.GetScheduledList(fromdate, todate);
+        }
+
+        [HttpGet]
+
+        public IEnumerable<FileScheduler> GetStatus()
+        {
+            return SessionManager.GetCurrentSession().QueryOver<FileScheduler>()
+                                 .Fetch(c => c.FileStatuss).Eager
+                                 .Fetch(c => c.FileDetail).Eager
+                                 .TransformUsing(Transformers.DistinctRootEntity)
+                                 .List();
         }
 
         [HttpDelete]

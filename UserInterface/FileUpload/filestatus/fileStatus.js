@@ -17,6 +17,18 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", "$csfactory",
                 $csnotify.error(data.Message);
             });
     };
+        
+    var getStatus= function () {
+        dldata.isHttpCallInProgress = true;
+        return restApi.customGET("GetStatus")
+            .then(function (data) {
+                dldata.isHttpCallInProgress = false;
+                dldata.fileSchedulers = data;
+            }, function (data) {
+                dldata.isHttpCallInProgress = false;
+                $csnotify.error(data.Message);
+            });
+    };
 
     var retryFileUpload = function (fileScheduler) {
         dldata.isHttpCallInProgress = true;
@@ -80,6 +92,7 @@ csapp.factory("fileStatusDataLayer", ["Restangular", "$csnotify", "$csfactory",
     return {
         dldata: dldata,
         GetStatus: getStatusByDateRange,
+        Status: getStatus,
         Retry: retryFileUpload,
         Delete: deleteUpload,
         MakeImmediate: rescheduleFile,
@@ -166,6 +179,9 @@ csapp.controller("fileStatusController", ["$scope", "$interval", "$csfactory", "
             $scope.datalayer = datalayer;
             $scope.factory = factory;
             factory.timer.reset();
+            $scope.datalayer = datalayer;
+            datalayer.Status();
+            datalayer.dldata.fileSchedulers = [];
             $scope.fileSchedulerfield = $csModels.getColumns("FileStatus");
         })();
 
