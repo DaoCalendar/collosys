@@ -8,6 +8,7 @@ using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
+using ColloSys.FileUploaderService.FileReader;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 

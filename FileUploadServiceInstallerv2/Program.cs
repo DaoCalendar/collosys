@@ -2,7 +2,7 @@
 using System.Configuration.Install;
 using System.ServiceProcess;
 
-namespace ColloSys.FileUploadServiceInstaller
+namespace FileUploadServiceInstallerv2
 {
     [RunInstaller(true)]
     public class ProjectInstaller : Installer

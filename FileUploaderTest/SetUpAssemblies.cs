@@ -29,10 +29,10 @@ namespace ReflectionExtension.Tests
 
         private void InitNhibernate()
         {
-            var connectionString = new ConnectionStringSettings("sqlte", 
-                string.Format("Data Source='{0}';Version=3;", ":memory:"));
+          
+            var connectionString = ColloSysParam.WebParams.ConnectionString;
             var obj = new NhInitParams { ConnectionString = connectionString, 
-                DbType = ConfiguredDbTypes.SqLite, 
+                DbType = ConfiguredDbTypes.MsSql, 
                 IsWeb = false };
 
             SessionManager.InitNhibernate(obj);

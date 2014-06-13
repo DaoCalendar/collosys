@@ -8,16 +8,16 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.AliasRecordCreator;
+using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using NLog;
 using ReflectionExtension.ExcelReader;
-using LogManager = NLog.LogManager;
 
 #endregion
 
-namespace ColloSys.FileUploader.FileReader
+namespace ColloSys.FileUploaderService.FileReader
 {
     public abstract class FileReader<T> : IFileReader<T> where T : class, IFileUploadable, new()
     {
@@ -101,7 +101,7 @@ namespace ColloSys.FileUploader.FileReader
                 _log.Info("FileUpload: uploading file : " + _fs.FileName + ", for date" +
                             _fs.FileDate.ToShortDateString());
                 _fileProcess.UpdateFileScheduler(_fs, _counter, ColloSysEnums.UploadStatus.UploadStarted);
-
+                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.UploadStarted, _counter);
                 ReadAndSaveBatch();
 
                 _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
@@ -111,6 +111,7 @@ namespace ColloSys.FileUploader.FileReader
                 _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
                 _fileProcess.ComputeStatus(_fs,_counter);
                 _fileProcess.UpdateFileScheduler(_fs, _counter, _fs.UploadStatus);
+                _fileProcess.UpdateFileStatus(_fs, _fs.UploadStatus, _counter);
             }
             catch (Exception exception)
             {

@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.FileReader;
+using ColloSys.FileUploaderService.AliasFileReader;
 using NLog;
 
 #endregion
