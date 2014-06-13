@@ -357,7 +357,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += angular.isDefined(attrs.ngRequired) ? 'ng-required = "' + attrs.ngRequired + '"' : ' ng-required="' + attrs.field + '.required"';
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
-        html += ' class ="minWidth form-control"';
+        html += ' class ="minWidth form-control" ';
+        html += angular.isDefined(attrs.onValidate) ? 'ui-validate="' + attrs.onValidate + '"' : '';
         html += angular.isDefined(field.mask) ? 'ui-mask="{{field.mask}}"' : ' ';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
@@ -431,9 +432,9 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.patternMessage = "Value not matching with PAN Pattern e.g. ABCDE1234A";
                     break;
                 case "user":
-                    //options.pattern = "/^[0-9]{7}$/";
-                    options.mask = '9999999';
-                    //options.patternMessage = "UserId must be a 7 digit number";
+                    options.pattern = "/^[0-9]{7}$/";
+                   // options.mask = '9999999';
+                    options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 case "percentage":
                     options.pattern = "/^[0-9]+(\.[0-9][0-9]?)?$/";
@@ -739,8 +740,6 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
     function (logManager, bstemplate, valtemplate) {
 
         var input = function (field, attrs) {
-
-            console.log('field:', field);
 
             var html = '<div class="row radio-margin"';
             html += angular.isDefined(field.isSelected) ? 'ng-init="$parent.' + attrs.ngModel + ' = field.isSelected">' : '>';

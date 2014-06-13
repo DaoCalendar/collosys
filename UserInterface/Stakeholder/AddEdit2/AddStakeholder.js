@@ -107,7 +107,7 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
     function ($routeParams, $scope, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels, datalayer, factory, $timeout) {
 
         (function () {
-
+            $scope.val = false;
             $scope.factory = factory;
             $scope.Stakeholder = {
                 GAddress: [],
@@ -137,13 +137,26 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
 
         };
 
-        $scope.checkUser = function (userId) {
-            if (angular.isDefined(userId) && userId.length === 7) {
-                datalayer.CheckUser(userId).then(function (exist) {
-                    $scope.userExists = exist === "true" ? true : false;
-                    if ($scope.userExists) $csnotify.error('User ID exists');
-                });
-            }
+
+        $scope.validate2 = function (val) {
+            return val === "1";
+            //return $scope.val;
+        };
+
+        $scope.validate = function (userId) {
+            //if ($scope.checkingUserId === true) return false;
+            console.log("userId: ", userId);
+            //if ($csfactory.isNullOrEmptyString(userId) || userId.length !== 7) return true;
+            //else {
+            $scope.checkingUserId = true;
+            return datalayer.CheckUser(userId).finally(function () {
+                $scope.checkingUserId = false;
+            });
+            //}
+            //    .then(function (exist) {
+            //    console.log('exists: ', exist);
+            //    return !(exist !== "true");
+            //});
         };
 
         $scope.changeInHierarchy = function (hierarchy) {

@@ -236,6 +236,7 @@
     <Compile Include="Stakeholder\AddEdit2\BasicInfo\AddEditStakeholder.cs" />
     <Compile Include="Stakeholder\AddEdit2\BasicInfo\StakeholderApiController.cs" />
     <Compile Include="Stakeholder\AddEdit2\Working\WorkingApiController.cs" />
+    <Compile Include="Stakeholder\AddEdit2\Working\WorkingModel.cs" />
     <Compile Include="Stakeholder\AddEdit2\Working\WorkingPaymentHelper.cs" />
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
     <Compile Include="Stakeholder\view\StakeholderApproveEmail.cs" />

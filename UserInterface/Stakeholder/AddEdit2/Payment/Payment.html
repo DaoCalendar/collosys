@@ -37,7 +37,6 @@
                 <thead>
                     <tr>
                         <th data-ng-show="Payment.FixpayBasic">Basic</th>
-                        <th data-ng-show="Payment.FixpayBasic">Total ESIC</th>
                         <th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">Allowances</th>
                         <th data-ng-show="Payment.FixpayBasic">Employee PF</th>
                         <th data-ng-show="Payment.FixpayBasic">Employer PF</th>
@@ -49,12 +48,11 @@
                     </tr>
                     <tr>
                         <th data-ng-show="Payment.FixpayBasic"></th>
-                        <th data-ng-show="Payment.FixpayBasic">Basic + HRA + Other</th>
                         <th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>
                         <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
                         <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
-                        <th>Total ESIC * {{FixedPay.EmployeeESIC}}%</th>
-                        <th>Total ESIC * {{FixedPay.EmployerESIC}}% </th>
+                        <th>Gross Salary * {{FixedPay.EmployeeESIC}}%</th>
+                        <th>Gross Salary * {{FixedPay.EmployerESIC}}% </th>
                         <th>Basic * {{FixedPay.ServiceCharge}}%</th>
                         <th>Basic * {{FixedPay.ServiceTax}}% </th>
                         <th></th>

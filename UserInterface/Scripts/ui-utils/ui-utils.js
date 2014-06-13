@@ -1950,23 +1950,25 @@ angular.module('ui.validate',[]).directive('uiValidate', function () {
       angular.forEach(validateExpr, function (exprssn, key) {
         validateFn = function (valueToValidate) {
           var expression = scope.$eval(exprssn, { '$value' : valueToValidate });
-          if (angular.isObject(expression) && angular.isFunction(expression.then)) {
-            // expression is a promise
-            expression.then(function(){
-              ctrl.$setValidity(key, true);
-            }, function(){
-              ctrl.$setValidity(key, false);
-            });
-            return valueToValidate;
-          } else if (expression) {
-            // expression is true
-            ctrl.$setValidity(key, true);
-            return valueToValidate;
-          } else {
-            // expression is false
-            ctrl.$setValidity(key, false);
-            return valueToValidate;
-          }
+            if (angular.isObject(expression) && angular.isFunction(expression.then)) {
+                // expression is a promise
+                expression.then(function() {
+                    ctrl.$setValidity(key, true);
+                }, function() {
+                    ctrl.$setValidity(key, false);
+                });
+                return valueToValidate;
+            } else {
+                if (expression) {
+                    // expression is true
+                    ctrl.$setValidity(key, true);
+                    return valueToValidate;
+                } else {
+                    // expression is false
+                    ctrl.$setValidity(key, false);
+                    return valueToValidate;
+                }
+            }
         };
         validators[key] = validateFn;
         ctrl.$formatters.push(validateFn);
