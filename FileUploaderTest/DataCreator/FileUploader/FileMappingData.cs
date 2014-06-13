@@ -208,7 +208,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public Payment GetPayment()
         {
-            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500 };
+            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500};
 
             return objPayment;
         }

@@ -115,14 +115,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
         $scope.uploadCount = 0;
         $scope.upload = [];
         $scope.onFileSelect = function (file, $files, $index) {
-            var filename = ($files[0].name).split(".");
-            var extension = filename[1];
-            if (extension !== "txt") {
-                $csnotify.success("File extension not valid...");
-                $scope.uploadCount = 0;
-                $scope.upload = [];
-                return;
-            };
+           
             var cfile = $files[0];
             file.IsUploading = true;
             $scope.uploadCount++;

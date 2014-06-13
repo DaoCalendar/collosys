@@ -6,12 +6,11 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.RowCounter;
-using ColloSys.FileUploaderService.AliasRecordCreator;
 using ReflectionExtension.ExcelReader;
 
 #endregion
 
-namespace ColloSys.FileUploader.AliasReader
+namespace ColloSys.FileUploaderService.AliasRecordCreator
 {
    public class EbbsPaymentLinerRecordCreator : AliasPaymentRecordCreator
     {
@@ -20,14 +19,14 @@ namespace ColloSys.FileUploader.AliasReader
         private readonly IList<string> _ePaymentExcludeCodes;
         private const uint AccountPosition = 1;
         private const uint AccountLength = 11;
-       public readonly FileScheduler _scheduler;
+       public readonly FileScheduler Scheduler;
 
         public EbbsPaymentLinerRecordCreator(FileScheduler fileScheduler)
             : base(fileScheduler, AccountPosition, AccountLength)
        {
          
             _ePaymentExcludeCodes = Reader.GetValuesFromKey(ColloSysEnums.Activities.FileUploader, "EPaymentExcludeCode");
-            _scheduler = fileScheduler;
+            Scheduler = fileScheduler;
             base.FileScheduler = fileScheduler;
         }
 
@@ -54,12 +53,12 @@ namespace ColloSys.FileUploader.AliasReader
 
        public override bool IsRecordValid(Payment record,ICounter counter)
        {
-           if (record.TransDate.Month != _scheduler.FileDate.Month)
+           if (record.TransDate.Month != Scheduler.FileDate.Month)
            {
                counter.IncrementIgnoreRecord();
                return false;
            }
-           return record.TransDate.Month == _scheduler.FileDate.Month;
+           return record.TransDate.Month == Scheduler.FileDate.Month;
        }
     }
 }

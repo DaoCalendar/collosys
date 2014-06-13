@@ -4,6 +4,7 @@ using ColloSys.DataLayer.NhSetup;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.FileReader;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 
