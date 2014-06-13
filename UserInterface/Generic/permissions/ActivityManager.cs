@@ -213,17 +213,17 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         private static void AddAllocationActivities(GPermission allocation)
         {
             var definePolicy = AddActivity(allocation, ColloSysEnums.Activities.AllocationPolicy, desciption: "define policy");
-            AddActivity(definePolicy, ColloSysEnums.Activities.View);
+            //AddActivity(definePolicy, ColloSysEnums.Activities.View);
             AddActivity(definePolicy, ColloSysEnums.Activities.AddEdit);
             AddActivity(definePolicy, ColloSysEnums.Activities.Approve);
 
             var defineSubpolicy = AddActivity(allocation, ColloSysEnums.Activities.AllocationSubpolicy, desciption: "define subpolicy");
-            AddActivity(defineSubpolicy, ColloSysEnums.Activities.View);
+            //AddActivity(defineSubpolicy, ColloSysEnums.Activities.View);
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.AddEdit);
             AddActivity(defineSubpolicy, ColloSysEnums.Activities.Approve);
 
             var chechAllocation = AddActivity(allocation, ColloSysEnums.Activities.CheckAllocation, desciption: "view/change allocation");
-            AddActivity(chechAllocation, ColloSysEnums.Activities.View);
+            //AddActivity(chechAllocation, ColloSysEnums.Activities.View);
             AddActivity(chechAllocation, ColloSysEnums.Activities.AddEdit);
             AddActivity(chechAllocation, ColloSysEnums.Activities.Approve);
         }
@@ -231,52 +231,52 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         private static void AddBillingActivities(GPermission billing)
         {
             var defineBillingPolicy = AddActivity(billing, ColloSysEnums.Activities.BillingPolicy, desciption: "Define Policy");
-            AddActivity(defineBillingPolicy, ColloSysEnums.Activities.View);
+            //AddActivity(defineBillingPolicy, ColloSysEnums.Activities.View);
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.AddEdit);
             AddActivity(defineBillingPolicy, ColloSysEnums.Activities.Approve);
 
             var defineBillingSubpolicy = AddActivity(billing, ColloSysEnums.Activities.BillingSubpolicy, desciption: "Define Subpolicy");
-            AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.View);
+            //AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.View);
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.AddEdit);
             AddActivity(defineBillingSubpolicy, ColloSysEnums.Activities.Approve);
 
             var defineFormulaActivity = AddActivity(billing, ColloSysEnums.Activities.Formula, desciption: "Define Formula");
-            AddActivity(defineFormulaActivity, ColloSysEnums.Activities.View);
+            //AddActivity(defineFormulaActivity, ColloSysEnums.Activities.View);
             AddActivity(defineFormulaActivity, ColloSysEnums.Activities.AddEdit);
 
             var defineMatrix = AddActivity(billing, ColloSysEnums.Activities.Matrix, desciption: "Define Matrix");
-            AddActivity(defineMatrix, ColloSysEnums.Activities.View);
+            //AddActivity(defineMatrix, ColloSysEnums.Activities.View);
             AddActivity(defineMatrix, ColloSysEnums.Activities.AddEdit);
 
             var adhocPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.AdhocPayout, desciption: "Adhoc Payout");
-            AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.View);
+            //AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.View);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.AddEdit);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.Approve);
 
             var holdingPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.HoldingPolicy, desciption: "Holding Policy");
-            AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.View);
+            //AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.View);
             AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.AddEdit);
             AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.Approve);
 
             var manageHoldingActivity = AddActivity(billing, ColloSysEnums.Activities.ManageHolidng, desciption: "Manage Holding");
-            AddActivity(manageHoldingActivity, ColloSysEnums.Activities.View);
+            //AddActivity(manageHoldingActivity, ColloSysEnums.Activities.View);
             AddActivity(manageHoldingActivity, ColloSysEnums.Activities.AddEdit);
             AddActivity(manageHoldingActivity, ColloSysEnums.Activities.Delete);
 
             var modifyPayment = AddActivity(billing, ColloSysEnums.Activities.ModifyPayment);
-            AddActivity(modifyPayment, ColloSysEnums.Activities.View);
+            //AddActivity(modifyPayment, ColloSysEnums.Activities.View);
             AddActivity(modifyPayment, ColloSysEnums.Activities.AddEdit);
             AddActivity(modifyPayment, ColloSysEnums.Activities.Approve);
 
 
             var readyForBilling = AddActivity(billing, ColloSysEnums.Activities.ReadyForBilling, desciption: "Ready for Billing");
-            AddActivity(readyForBilling, ColloSysEnums.Activities.View);
+            //AddActivity(readyForBilling, ColloSysEnums.Activities.View);
             AddActivity(readyForBilling, ColloSysEnums.Activities.Approve);
 
             var payoutStatusActivity = AddActivity(billing, ColloSysEnums.Activities.PayoutStatus, desciption: "Billing Status");
             AddActivity(payoutStatusActivity, ColloSysEnums.Activities.AddEdit);
             AddActivity(payoutStatusActivity, ColloSysEnums.Activities.Approve);
-            AddActivity(payoutStatusActivity, ColloSysEnums.Activities.View);
+            //AddActivity(payoutStatusActivity, ColloSysEnums.Activities.View);
 
 
         }
@@ -284,35 +284,35 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         private static void AddConfigActivities(GPermission config)
         {
             var permissionActivity = AddActivity(config, ColloSysEnums.Activities.Permission, desciption: "Config");
-            AddActivity(permissionActivity, ColloSysEnums.Activities.View);
+            //AddActivity(permissionActivity, ColloSysEnums.Activities.View);
             AddActivity(permissionActivity, ColloSysEnums.Activities.Approve);
             AddActivity(permissionActivity, ColloSysEnums.Activities.AddEdit);
 
             var HierarchyActivity = AddActivity(config, ColloSysEnums.Activities.Hierarchy);
-            AddActivity(HierarchyActivity, ColloSysEnums.Activities.View);
+            //AddActivity(HierarchyActivity, ColloSysEnums.Activities.View);
             AddActivity(HierarchyActivity, ColloSysEnums.Activities.AddEdit);
 
             var productActivity = AddActivity(config, ColloSysEnums.Activities.Product, desciption: "Config");
-            AddActivity(productActivity, ColloSysEnums.Activities.View);
+            //AddActivity(productActivity, ColloSysEnums.Activities.View);
             AddActivity(productActivity, ColloSysEnums.Activities.Approve);
             AddActivity(productActivity, ColloSysEnums.Activities.AddEdit);
 
             var keyValueActivity = AddActivity(config, ColloSysEnums.Activities.KeyValue, desciption: "Config");
-            AddActivity(keyValueActivity, ColloSysEnums.Activities.View);
+            //AddActivity(keyValueActivity, ColloSysEnums.Activities.View);
             AddActivity(keyValueActivity, ColloSysEnums.Activities.Approve);
             AddActivity(keyValueActivity, ColloSysEnums.Activities.AddEdit);
 
             var pincodeActivity = AddActivity(config, ColloSysEnums.Activities.Pincode, desciption: "Config");
-            AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
+            //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.AddEdit);
 
 
             var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, desciption: "Config");
-            AddActivity(taxlistActivity, ColloSysEnums.Activities.View);
+            //AddActivity(taxlistActivity, ColloSysEnums.Activities.View);
             AddActivity(taxlistActivity, ColloSysEnums.Activities.AddEdit);
 
             var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
-            AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
+            //AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.AddEdit);
         }
 
