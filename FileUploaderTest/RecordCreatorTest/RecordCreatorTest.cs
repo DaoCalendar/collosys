@@ -8,9 +8,12 @@ using ColloSys.FileUploader.AliasReader;
 using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.RecordCreator;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
+using Remotion.Linq.EagerFetching;
 
 #endregion
 
@@ -23,20 +26,21 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         #region octor
 
         private FileMappingData _mappingData;
+        private FileDataProvider _dataProvider;
         private IRecord<Payment> _record;
         private IExcelReader _reader;
         private ICounter _counter;
         // ReSharper disable once UnassignedField.Compiler
         private IAliasRecordCreator<Payment> _aliasRecordCreator;
         private Payment _payment;
-        private readonly IList<string> _strlist = new List<string>();
-        private readonly List<string> _eWriteoff = new List<string>();
+       
         private FileScheduler _uploadedFile;
 
         [SetUp]
         public void Init()
         {
-            _uploadedFile = new FileScheduler();
+            _dataProvider=new FileDataProvider();
+            _uploadedFile = _dataProvider.GetFileScheduler();
            _aliasRecordCreator = new RlsPaymentLinerRecordCreator(_uploadedFile);
             _payment = new Payment();
             _mappingData = new FileMappingData();
@@ -185,7 +189,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Test_CreateRecord_Assigning_ValidMapping_Check_AccNo()
         {
             //Arrange
-            var mapping = _mappingData.CreateRecord();
+            var mapping = _uploadedFile.FileDetail.FileMappings;
 
             //Act
             _reader.Skip(3);
@@ -200,7 +204,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Test_CreateRecord_Assigning_Valid_Mapping()
         {
             //Arrange
-            var mapping = _mappingData.CreateRecord();
+            var mapping = _uploadedFile.FileDetail.FileMappings;
 
             //Act
             _reader.Skip(3);
@@ -211,17 +215,17 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         }
 
         [Test]
-        public void Test_CreateRecord_Assigning_InValid_Record_Mapping()
+        public void Test_CreateRecord_Assigning_Valid_Record_Mapping_ValidRecord()
         {
             //Arrange
-            var mapping = _mappingData.CreateRecord();
+            var mapping = _uploadedFile.FileDetail.FileMappings;
 
             //Act
-            _reader.Skip(2);
+            _reader.Skip(3);
             _record.CreateRecord(_payment, mapping,_counter  );
 
             //Assert
-            Assert.AreEqual(_counter.IgnoreRecord, 1);
+            Assert.AreEqual(_counter.ValidRecords, 1);
 
         }
 
@@ -229,7 +233,7 @@ namespace ReflectionExtension.Tests.RecordCreatorTest
         public void Test_CreateRecord_Assigning_InValid_Mapping_ErrorCount()
         {
             //Arrange
-            var mapping = _mappingData.CreateRecord();
+            var mapping = _uploadedFile.FileDetail.FileMappings;
 
             //Act
             _reader.Skip(9);

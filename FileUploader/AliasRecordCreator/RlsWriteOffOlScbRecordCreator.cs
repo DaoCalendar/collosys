@@ -1,9 +1,8 @@
 ﻿using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.AliasReader
+namespace ColloSys.FileUploaderService.AliasRecordCreator
 {
     public class RlsWriteOffPlScbRecordCreator : AliasWriteOffRecordCreator
     {

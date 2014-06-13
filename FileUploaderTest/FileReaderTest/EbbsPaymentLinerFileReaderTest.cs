@@ -3,6 +3,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploader.FileReader;
+using ColloSys.FileUploaderService.AliasFileReader;
 using NUnit.Framework;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 

@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />
+    <Folder Include="ExcelDataForTest\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
