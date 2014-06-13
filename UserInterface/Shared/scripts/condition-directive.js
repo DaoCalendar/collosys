@@ -150,6 +150,7 @@ csapp.directive("csCondition", function () {
     return {
         restrict: 'E',
         controller: 'conditionCtrl',
+        require: ['^csForm'],
         templateUrl: baseUrl + 'Shared/templates/condition-directive.html',
         scope: {
             tableName: '@',
@@ -196,7 +197,8 @@ csapp.controller('conditionCtrl',
                 isValid: false,
                 hasConditional: false,
                 DataType: undefined,
-                bracketCounter: 0
+                bracketCounter: 0,
+                valueList:[]
             };
         };
 
@@ -252,17 +254,26 @@ csapp.controller('conditionCtrl',
         var isValidState = function (currentToken) {
             if ($scope.tokensSupport.bracketCounter !== 0) {
                 $scope.tokensSupport.isValid = false;
+                $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
                 return;
             }
             if ($scope.tokensSupport.hasConditional === false) {
                 $scope.tokensSupport.isValid = false;
+                $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
                 return;
             }
             if (currentToken.Type === "Operator") {
+                if (currentToken.Value == 'CloseBracket' && $scope.tokensSupport.bracketCounter == 0) {
+                    $scope.tokensSupport.isValid = true;
+                    $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
+                    return;
+                }
                 $scope.tokensSupport.isValid = false;
+                $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
                 return;
             }
             $scope.tokensSupport.isValid = true;
+            $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
         };
 
         var getNextTokens = function (dataType, currentGroupType, currentToken) {
@@ -291,7 +302,8 @@ csapp.controller('conditionCtrl',
                             var tokens2 = _.union(operatorsGroup.group4(),
                             operatorsGroup.addCloseBracket());
                             if ($scope.tokensSupport.hasConditional === true)
-                                tokens2 = _.union(tokens2, operatorsGroup.group5());
+                                tokens2 = _.union(tokens2, operatorsGroup.group5(),
+                                    $scope.tokensSupport.valueList);
                             return tokens2;//TODO: attach enum value list
                         default:
                             return operatorsGroup.group1($scope.tokens.tokensList, dataType);
@@ -305,18 +317,22 @@ csapp.controller('conditionCtrl',
                 case 'group4': //group4:equal,noteaual
                     switch (dataType.toUpperCase()) {
                         case 'NUMBER':
+                            $scope.tokensSupport.hasConditional = true;
                             return _.union(
                                 operatorsGroup.group1($scope.tokens.tokensList, dataType)
                             );
                         case 'BOOLEAN':
+                            $scope.tokensSupport.hasConditional = true;
                             return _.union(
                                 operatorsGroup.group1($scope.tokens.tokensList, dataType),
                                 operatorsGroup.boolTokens()
                             );
                         case 'ENUM':
+                            $scope.tokensSupport.hasConditional = true;
                             return _.union(
-                                operatorsGroup.group1($scope.tokens.tokensList, dataType)
-                            ); //TODO: attach enum value list
+                                operatorsGroup.group1($scope.tokens.tokensList, dataType),
+                                $scope.tokensSupport.valueList
+                            );
                         default:
                             return operatorsGroup.group1($scope.tokens.tokensList, dataType);
                     }
@@ -333,19 +349,11 @@ csapp.controller('conditionCtrl',
             var currentGroupType = operatorsGroup.getGroupType(token);
             if (token.Type == 'Formula' || token.Type == 'Table' || token.Type == 'Matrix') {
                 $scope.tokensSupport.DataType = token.DataType;
+                $scope.tokensSupport.valueList = token.valuelist;
             }
             $scope.tokens.nextTokens = getNextTokens($scope.tokensSupport.DataType, currentGroupType, token);
             isValidState(token);
         };
-
-        //$scope.setValidation = function () {
-        //    if ($scope.tokensSupport.hasConditional
-        //        && $scope.tokens.lastToken.Type !== 'Operator' &&
-        //        $scope.tokensSupport.bracketCounter == 0) {
-        //        return 'alert-info';
-        //    }
-        //    return 'alert-danger';
-        //};
 
         $scope.reset = function () {
             initToken();
@@ -398,7 +406,7 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
                 return 'group1';
             case 'Operator':
                 if (token.DataType == 'bracket') {
-                        return 'group1';
+                    return 'group1';
                 }
                 if (token.DataType == 'number')
                     return 'group2';

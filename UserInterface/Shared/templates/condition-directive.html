@@ -30,7 +30,6 @@
                 </div>
             </td>
         </tr>
-
     </table>
     <table class="table table-bordered" data-ng-show="debug=='true'">
         <tr>
@@ -66,9 +65,13 @@
         </tr>
         <tr>
             <td>
-                Validation Object
+                tokensSupport Object
             </td>
-            <td>{{tokenSupport}}</td>
+            <td>{{tokensSupport}}</td>
+        </tr>
+        <tr>
+            <td>add form valid: </td>
+            <td>{{addForm.$valid}}</td>
         </tr>
     </table>
 </div>

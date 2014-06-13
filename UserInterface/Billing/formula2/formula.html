@@ -1,6 +1,7 @@
 ﻿<cs-form layout="5.4.8">
-    <form name="formulaMain" novalidate="">
+    <div data-ng-form="formulaMain">
         <div class="row">
+            formulaMain: {{formulaMain.$valid}}
             <cs-field data-ng-model="selParams.selectedProduct"
                       field="Formula.Products"
                       data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
@@ -19,8 +20,8 @@
                             </div>
                         </div>
                     </div>-->
-                <cs-list list-heading="Formula List" value-list="formulaList" text-field="Name"
-                         data-ng-model="sformula" data-ng-click="selectFormula(sformula)"></cs-list>
+                <cs-list2 list-heading="Formula List" value-list="formulaList" text-field="Name"
+                          data-ng-model="sformula" data-ng-click="selectFormula(sformula)"></cs-list2>
           
             </div>
             
@@ -40,7 +41,7 @@
             </div>
 
         </div>
-    </form>
+    </div>
 </cs-form>
 
 
