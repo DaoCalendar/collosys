@@ -51,7 +51,7 @@ namespace AngularUI.Generic.Menu
             fileUpload.AddChild("File Detail", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filedetail");
             fileUpload.AddChild("File Column", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filecolumn");
             fileUpload.AddChild("File Mapping", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filemapping");
-            fileUpload.AddChild("Filter Data", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filterCondition");
+            //fileUpload.AddChild("Filter Data", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filterCondition");
 
             fileUpload.AddChild("Schedule", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.ScheduleFile }, "#/fileupload/filescheduler");
             fileUpload.AddChild("Check Status", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.Status }, "#/fileupload/filestatus");
