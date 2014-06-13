@@ -168,24 +168,24 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         private static void AddFileUploadActivities(GPermission fileUpload)
         {
             var createfile = AddActivity(fileUpload, ColloSysEnums.Activities.CreateFile);
-            AddActivity(createfile, ColloSysEnums.Activities.View);
+            //AddActivity(createfile, ColloSysEnums.Activities.View);
             AddActivity(createfile, ColloSysEnums.Activities.AddEdit);
-            AddActivity(createfile, ColloSysEnums.Activities.Delete);
+            //AddActivity(createfile, ColloSysEnums.Activities.Delete);
             AddActivity(createfile, ColloSysEnums.Activities.Approve);
 
             var schedule = AddActivity(fileUpload, ColloSysEnums.Activities.ScheduleFile);
-            AddActivity(schedule, ColloSysEnums.Activities.Schedule);
+            //AddActivity(schedule, ColloSysEnums.Activities.Schedule);
 
             var status = AddActivity(fileUpload, ColloSysEnums.Activities.Status);
             AddActivity(status, ColloSysEnums.Activities.AddEdit);
             AddActivity(status, ColloSysEnums.Activities.Delete);
-            AddActivity(status, ColloSysEnums.Activities.View);
+            //AddActivity(status, ColloSysEnums.Activities.View);
 
             var customerData = AddActivity(fileUpload, ColloSysEnums.Activities.CustomerData);
-            AddActivity(customerData, ColloSysEnums.Activities.View);
+            //AddActivity(customerData, ColloSysEnums.Activities.View);
 
             var uploadCustInfo = AddActivity(fileUpload, ColloSysEnums.Activities.UploadCustInfo);
-            AddActivity(uploadCustInfo, ColloSysEnums.Activities.AddEdit);
+            //AddActivity(uploadCustInfo, ColloSysEnums.Activities.AddEdit);
 
             var errorCorrection = AddActivity(fileUpload, ColloSysEnums.Activities.ErrorCorrection);
             AddActivity(errorCorrection, ColloSysEnums.Activities.AddEdit);

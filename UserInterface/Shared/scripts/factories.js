@@ -485,11 +485,12 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
         if (perm.trim().toUpperCase() === "ALL") return true;
 
         switch (perm) {
+        //fileupload
             case "FileDetailAddEdit":
                 perm = "FileUploader,CreateFile,AddEdit";
                 break;
-            case "FileDetailView":
-                perm = "FileUploader,CreateFile,View";
+            case "FileDetail":
+                perm = "FileUploader,CreateFile";
                 break;
             case "FileDetailApprove":
                 perm = "FileUploader,CreateFile,Approve";
@@ -497,8 +498,8 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "FileSchedule":
                 perm = "FileUploader,ScheduleFile,Schedule";
                 break;
-            case "FileStatusView":
-                perm = "FileUploader,Status,View";
+            case "FileStatus":
+                perm = "FileUploader,Status";
                 break;
             case "FileStatusAddEdit":
                 perm = "FileUploader,Status,AddEdit";
@@ -510,11 +511,153 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
                 perm = "FileUploader,CustomerData,View";
                 break;
             case "FileUploadCustInfo":
-                perm = "FileUploader,UploadCustInfo,AddEdit";
+                perm = "FileUploader,UploadCustInfo";
                 break;
             case "FileErrorCorrection":
                 perm = "FileUploader,ErrorCorrection,AddEdit";
                 break;
+                
+                //Allocation
+            case "AllocationPolicyAddEdit":
+                perm = "Allocation,AllocationPolicy,AddEdit";
+                break;
+            case "AllocationPolicyApprove":
+                perm = "Allocation,AllocationPolicy,Approve";
+                break;
+            case "AllocationPolicyView":
+                perm = "Allocation,AllocationPolicy,View";
+                break;
+            case "AllocationSubpolicyAddEdit":
+                perm = "Allocation,AllocationSubpolicy,AddEdit";
+                break;
+            case "AllocationSubpolicyView":
+                perm = "Allocation,AllocationSubpolicy,View";
+                break;
+            case "AllocationSubpolicyApprove":
+                perm = "Allocation,AllocationSubpolicy,Approve";
+                break;
+            case "CheckAllocationView":
+                perm = "Allocation,CheckAllocation,View";
+                break;
+            case "CheckAllocationAddEdit":
+                perm = "Allocation,CheckAllocation,AddEdit";
+                break;
+            case "CheckAllocationApprove":
+                perm = "Allocation,CheckAllocation,Approve";
+                break;
+                
+                //Billing
+            case "BillingPolicyAddEdit":
+                perm = "Billing,BillingPolicy,AddEdit";
+                break;
+            case "BillingPolicyView":
+                perm = "Billing,BillingPolicy,View";
+                break;
+            case "BillingPolicyApprove":
+                perm = "Billing,BillingPolicy,Approve";
+                break;
+            case "BillingSubpolicyApprove":
+                perm = "Billing,BillingSubpolicy,Approve";
+                break;
+            case "BillingSubpolicyAddEdit":
+                perm = "Billing,BillingSubpolicy,AddEdit";
+                break;
+            case "BillingSubpolicyView":
+                perm = "Billing,BillingSubpolicy,View";
+                break;
+            case "BillingFormulaAddEdit":
+                perm = "Billing,Formula,AddEdit";
+                break;
+            case "BillingFormulaView":
+                perm = "Billing,Formula,View";
+                break;
+            case "BillingMatrixView":
+                perm = "Billing,Matrix,View";
+                break;
+            case "BillingMatrixAddEdit":
+                perm = "Billing,Matrix,AddEdit";
+                break;
+            case "BillingHoldingPolicyAddEdit":
+                perm = "Billing,HoldingPolicy,AddEdit";
+                break;
+            case "BillingHoldingPolicy":
+                perm = "Billing,HoldingPolicy";
+                break;
+            case "BillingHoldingPolicyView":
+                perm = "Billing,HoldingPolicy,View";
+                break;
+            case "BillingManageHolidngAddEdit":
+                perm = "Billing,ManageHolidng,AddEdit";
+                break;
+            case "BillingManageHolidng":
+                perm = "Billing,ManageHolidng";
+                break;
+            case "BillingManageHolidngView":
+                perm = "Billing,ManageHolidng,View";
+                break;
+            case "BillingAdhocPayoutAddEdit":
+                perm = "Billing,AdhocPayout,AddEdit";
+                break;
+            case "BillingAdhocPayoutView":
+                perm = "Billing,AdhocPayout,View";
+                break;
+            case "BillingAdhocPayoutApprove":
+                perm = "Billing,AdhocPayout,Approve";
+                break;
+            //case "BillingPayoutStatusApprove":
+            //    perm = "Billing,PayoutStatus,Approve";
+            //    break;
+            //case "BillingPayoutStatusApprove":
+            //    perm = "Billing,PayoutStatus,Approve";
+            //    break;
+
+                //Config
+            case "Configpincode":
+                perm = "Config,Pincode";
+                break;
+            case "ConfigpincodeAddEdit":
+                perm = "Config,Pincode,AddEdit";
+                break;
+            case "ConfigpincodeView":
+                perm = "Config,Pincode,View";
+                break;
+            case "ConfigTaxlistAddEdit":
+                perm = "Config,Taxlist,AddEdit";
+                break;
+            case "ConfigTaxlist":
+                perm = "Config,Taxlist";
+                break;
+            case "ConfigTaxlistView":
+                perm = "Config,Taxlist,View";
+                break;
+            case "ConfigTaxmasterAddEdit":
+                perm = "Config,Taxmaster,AddEdit";
+                break;
+            case "ConfigTaxmaster":
+                perm = "Config,Taxmaster";
+                break;
+            case "ConfigTaxmasterView":
+                perm = "Config,Taxmaster,View";
+                break;
+            case "ConfigKeyValueAddEdit":
+                perm = "Config,KeyValue,AddEdit";
+                break;
+            case "ConfigProductView":
+                perm = "Config,Product,View";
+                break;
+            case "ConfigProductAddEdit":
+                perm = "Config,Product,AddEdit";
+                break;
+            case "ConfigHierarchyAddEdit":
+                perm = "Config,Hierarchy,AddEdit";
+                break;
+            case "ConfigHierarchy":
+                perm = "Config,Hierarchy";
+                break;
+            case "ConfigHierarchyView":
+                perm = "Config,Hierarchy,View";
+                break;
+                
 
 
             default:
