@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.SessionMgr;
+using NHibernate.Linq;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests
@@ -26,6 +30,58 @@ namespace ReflectionExtension.Tests
 
         }
 
+        public FileDetail GetFileDetail()
+        {
+           var session= SessionManager.GetNewSession();
+
+            return session.Query<FileDetail>()
+                .SingleOrDefault(x => x.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"));
+
+        }
+
+        public FileScheduler GetFileScheduler()
+        {
+
+            var fs = new FileScheduler()
+            {
+                FileName = "",
+                FileDetail = GetFileDetail(),
+                FileDate = new DateTime(2014-06-12),
+                FileDirectory = "",
+                StartDateTime = new DateTime(2014-06-11),
+                EndDateTime = new DateTime(2014-0610),
+                IsImmediate = true,
+                ScbSystems = ScbEnums.ScbSystems.RLS,
+                
+
+                
+            };
+            return fs;
+        }
+
+        //public IEnumerable<FileMapping> ExcelMapper()
+        //{
+        //    IList<FileMapping> mappings = new List<FileMapping>();
+
+        //    var mapping1 = GetDefaultMapping();
+        //    mapping1.ActualColumn = "AccountNo";
+        //    mapping1.Position = 3;
+        //    mappings.Add(mapping1);
+
+        //    var mapping2 = GetDefaultMapping();
+        //    mapping2.ActualColumn = "DebitAmount";
+        //    mapping2.Position = 4;
+        //    mappings.Add(mapping2);
+
+        //    var mapping3 = GetDefaultMapping();
+        //    mapping3.ActualColumn = "CreditAmount";
+        //    mapping3.Position = 5;
+        //    mappings.Add(mapping3);
+
+        //    return mappings;
+        //}
+
+   
         public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
         {
             var data =

@@ -5,22 +5,22 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploaderService.AliasRecordCreator
+namespace ColloSys.FileUploaderService.AliasRecordCreator.RwriteOff
 {
-   public abstract class AliasWriteOffRecordCreator :IAliasRecordCreator<RWriteoff>
+   public abstract class AliasEWriteOffRecordCreator :IAliasRecordCreator<EWriteoff>
    {
       
        private readonly uint _accountPosition;
        private readonly uint _accountLength;
        public FileScheduler FileScheduler { get; private set; }
-       protected AliasWriteOffRecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
+       protected AliasEWriteOffRecordCreator(FileScheduler scheduler, uint accountPosition, uint accountLength)
        {
            FileScheduler = scheduler;
            _accountLength = accountLength;
            _accountPosition = accountPosition;
        }
 
-       public bool ComputedSetter(RWriteoff record, IExcelReader reader, ICounter counter)
+       public bool ComputedSetter(EWriteoff record, IExcelReader reader, ICounter counter)
        {
            record.FileDate = FileScheduler.FileDate;
            record.AccountNo = ulong.Parse(reader.GetValue(_accountPosition))
@@ -28,7 +28,7 @@ namespace ColloSys.FileUploaderService.AliasRecordCreator
            return true;
        }
 
-       public bool ComputedSetter(RWriteoff obj, RWriteoff yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
+       public bool ComputedSetter(EWriteoff obj, EWriteoff yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
        {
            return true;
        }
@@ -47,7 +47,7 @@ namespace ColloSys.FileUploaderService.AliasRecordCreator
        public  abstract bool GetCheckBasicField(IExcelReader reader, ICounter counter);
        
 
-       public bool IsRecordValid(RWriteoff record, ICounter counter)
+       public bool IsRecordValid(EWriteoff record, ICounter counter)
        {
            throw new NotImplementedException();
        }

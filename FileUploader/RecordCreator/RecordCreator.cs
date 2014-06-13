@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.AliasRecordCreator;
+using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.Logging;
 using ColloSys.Shared.ConfigSectionReader;
 using NLog;
 using ReflectionExtension.ExcelReader;
-using NLogConfig = ColloSys.FileUploaderService.Logging.NLogConfig;
 
 #endregion
 
-namespace ColloSys.FileUploader.RecordCreator
+namespace ColloSys.FileUploaderService.RecordCreator
 {
     public class RecordCreator<TEntity> : IRecord<TEntity> where TEntity : class , new()
     {

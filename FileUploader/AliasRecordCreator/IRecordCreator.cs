@@ -3,7 +3,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
 using ReflectionExtension.ExcelReader;
 
-namespace ColloSys.FileUploader.AliasRecordCreator
+namespace ColloSys.FileUploaderService.AliasRecordCreator
 {
     public interface IAliasRecordCreator<in TEntity> where TEntity : class, new()
     {

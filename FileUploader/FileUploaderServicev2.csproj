@@ -67,14 +67,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AliasFileReader\EbbsPaymentLinerFileReader.cs" />
-    <Compile Include="AliasFileReader\EbbsPaymentWoAutoFileReader.cs" />
-    <Compile Include="AliasFileReader\EbbsPaymentWoSmcFileReader.cs" />
-    <Compile Include="AliasFileReader\RlsPaymentManualReversalFileReader.cs" />
-    <Compile Include="AliasFileReader\RlsPaymentWoAebFileReader.cs" />
-    <Compile Include="AliasFileReader\RlsPaymentWoPlpcFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\EbbsPaymentLinerFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\EbbsPaymentWoAutoFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\EbbsPaymentWoSmcFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\RlsPaymentLinerFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\RlsPaymentManualReversalFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\RlsPaymentWoAebFileReader.cs" />
+    <Compile Include="AliasFileReader\Payment\RlsPaymentWoPlpcFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\EbbsRwriteOffAutoFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\EbbsWriteOffSmcFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffAutoAebFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffAutoFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffAutoGbFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffAutoScbFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffPlAebFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRwriteOffPlGbfileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffPlLoardFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffPlScbFileReader.cs" />
+    <Compile Include="AliasFileReader\RWriteOff\RlsRWriteOffSmeFileReader.cs" />
+    <Compile Include="AliasRecordCreator\AliasLinerRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\AliasPaymentRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\AliasWriteOffRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\EbbsPaymentLinerRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\EbbsPaymentWoAutoRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\EbbsPaymentWoSmcRecordCreator.cs" />
@@ -82,15 +94,21 @@
     <Compile Include="AliasRecordCreator\RlsPaymentManualReversalRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsPaymentWoAebRecordCreator.cs" />
     <Compile Include="AliasRecordCreator\RlsPaymentWoPlpcRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffAutoAebRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffAutoGbRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffAutoRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffAutoScbRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffOlScbRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffPlAebRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffPlGbRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffPlLordsRecordCreator.cs" />
-    <Compile Include="AliasRecordCreator\RlsWriteOffSmeRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\AliasEWriteOffRecordCreator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AliasRecordCreator\RwriteOff\AliasRWriteOffRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\EbbsRwriteOffSmcRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\EbbsRwriteOffAutoRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffAutoAebrecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffAutoGbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffAutoRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffAutoScbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffPlScbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffPlAebRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffPlGbRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffPlLordsRecordCreator.cs" />
+    <Compile Include="AliasRecordCreator\RwriteOff\RlsRWriteOffSmeRecordCreator.cs" />
     <Compile Include="AllFileUploader.cs" />
     <Compile Include="FileUploaderService1.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
@@ -105,7 +123,6 @@
     <Compile Include="FileReader\FileProcess.cs" />
     <Compile Include="FileReader\FileReader.cs" />
     <Compile Include="FileReader\IfileReader.cs" />
-    <Compile Include="AliasFileReader\RlsPaymentLinerFileReader.cs" />
     <Compile Include="Logging\NLogSetup.cs" />
     <Compile Include="RecordCreator\IRecord.cs" />
     <Compile Include="RecordCreator\RecordCreator.cs" />
@@ -150,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AliasRecordCreator\Liner\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

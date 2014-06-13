@@ -12,6 +12,8 @@ using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
+using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.RecordCreator;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
