@@ -6,9 +6,12 @@ namespace ColloSys.FileUploaderService.AliasRecordCreator.RwriteOff
 {
     public class RlsRRWriteOffAutoAebrecordCreator : AliasRWriteOffRecordCreator
     {
+        private const uint AccountPosition = 1;
+        private const uint AccountLength = 11;
+        private const uint CycleString = 4;
 
         public RlsRRWriteOffAutoAebrecordCreator(FileScheduler file)
-            : base(file)
+            : base(file,AccountPosition,AccountLength,CycleString)
         {
         }
 
