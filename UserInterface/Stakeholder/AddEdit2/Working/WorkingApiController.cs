@@ -50,7 +50,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
         [HttpGet]
         public HttpResponseMessage GetWorkingReportsTo(Guid id, ColloSysEnums.ReportingLevel level)
         {
-            var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id, level);
+            var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id,level);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }

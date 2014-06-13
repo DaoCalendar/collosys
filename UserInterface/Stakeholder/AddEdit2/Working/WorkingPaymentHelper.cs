@@ -19,25 +19,42 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
 
 
-        public static IEnumerable<Stakeholders> GetReportsOnreportingLevel(Guid id, ColloSysEnums.ReportingLevel level)
+        //public static IEnumerable<Stakeholders> GetReportsOnreportingLevel(Guid id, ColloSysEnums.ReportingLevel level)
+        //{
+
+        //    List<Stakeholders> stakeholderList;
+
+        //    switch (level)
+        //    {
+        //        case ColloSysEnums.ReportingLevel.OneLevelUp:
+        //            stakeholderList = GetOneLevelUp(id).ToList();
+        //            return stakeholderList;
+        //        case ColloSysEnums.ReportingLevel.TwoLevelUp:
+        //            stakeholderList = GetReportsToTwoLevel(id).ToList();
+        //            return stakeholderList;
+        //        case ColloSysEnums.ReportingLevel.ThreeLevelUp:
+        //            stakeholderList = GetReportsToThreeLevel(id).ToList();
+        //            return stakeholderList;
+        //        default:
+        //            return null;
+        //    }
+        //}
+
+
+        public static IEnumerable<Stakeholders> GetReportsOnreportingLevel(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
         {
-
-            List<Stakeholders> stakeholderList;
-
-            switch (level)
+            var hierarchyList = new List<Guid>();
+            if ((int)level == 0)
             {
-                case ColloSysEnums.ReportingLevel.OneLevelUp:
-                    stakeholderList = GetOneLevelUp(id).ToList();
-                    return stakeholderList;
-                case ColloSysEnums.ReportingLevel.TwoLevelUp:
-                    stakeholderList = GetReportsToTwoLevel(id).ToList();
-                    return stakeholderList;
-                case ColloSysEnums.ReportingLevel.ThreeLevelUp:
-                    stakeholderList = GetReportsToThreeLevel(id).ToList();
-                    return stakeholderList;
-                default:
-                    return null;
+                return StakeQuery.GetAllStakeholders();
             }
+            var allHierarchies = HierarchyQuery.GetAllHierarchies().ToList();
+            for (var i = 1; i <= (int)level; i++)
+            {
+                hierarchyList.Add(allHierarchies.Single(x => x.Id == hierarchyId).ReportsTo);
+                hierarchyId = hierarchyList.Last();
+            }
+            return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }
 
         private static IEnumerable<Stakeholders> GetReportsToTwoLevel(Guid hierarchyId)
@@ -96,8 +113,8 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
             return new List<Stakeholders>();
         }
 
+       
+
+        
     }
-
-
-
 }

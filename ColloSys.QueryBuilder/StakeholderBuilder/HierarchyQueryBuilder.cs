@@ -23,6 +23,15 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public IEnumerable<StkhHierarchy> GetAllHierarchies()
+        {
+            var Session = SessionManager.GetCurrentSession();
+            return Session.QueryOver<StkhHierarchy>()
+                          .Where(x => x.Hierarchy != "Developer")
+                          .List();
+        }
+
+        [Transaction]
         public IEnumerable<StkhHierarchy> OnDesignationHierarchy(string designation, string hierarchy)
         {
             var session = SessionManager.GetCurrentSession();

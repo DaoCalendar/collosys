@@ -18,7 +18,7 @@
         <div data-ng-if="selectedHierarchy.IsUser">
             <cs-field 
                 data-ng-model="Stakeholder.ExternalId"
-                on-validate ="{unique:'validate2($value)'}"
+                on-validate ="{unique:'validate($value)'}"
                 field="stakeholderModels.stakeholder.ExternalId"></cs-field>
         </div>
 

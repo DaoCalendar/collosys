@@ -9,6 +9,7 @@ using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
+using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
@@ -64,6 +65,16 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                 .Fetch(x => x.StkhWorkings).Eager
                 .Fetch(x => x.StkhPayments).Eager
                 .Fetch(x => x.Hierarchy).Eager.List();
+            return stakeholder;
+        }
+
+
+        [Transaction]
+        public IList<Stakeholders> GetAllStakeholders()
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            var stakeholder = session.QueryOver<Stakeholders>().List();
             return stakeholder;
         }
 
@@ -178,6 +189,16 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                           .Where(x => x.Hierarchy.Id == reporting &&
                                                       (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
                                           .ToList();
+        }
+
+        [Transaction]
+        public IList<Stakeholders> OnHierarchyId(List<Guid> hierarchyIds)
+        {
+            return SessionManager.GetCurrentSession().Query<Stakeholders>()
+                                 .Fetch(x => x.Hierarchy)
+                                 .Fetch(x => x.StkhWorkings)
+                                 .Where(x => x.LeavingDate < DateTime.Now || x.LeavingDate == null)
+                                 .Where(Restrictions.In(hierarchyIds)).ToList();
         }
 
         [Transaction]

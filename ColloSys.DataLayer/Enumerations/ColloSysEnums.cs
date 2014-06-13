@@ -330,10 +330,10 @@ namespace ColloSys.DataLayer.Enumerations
         [Serializable]
         public enum ReportingLevel
         {
-            OneLevelUp,
-            TwoLevelUp,
-            ThreeLevelUp,
-            AllLevels
+            OneLevelUp = 1,
+            TwoLevelUp = 2,
+            ThreeLevelUp = 3,
+            AllLevels = 0
         }
 
         [Serializable]
