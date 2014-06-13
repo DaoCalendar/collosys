@@ -5,8 +5,8 @@
             <textarea rows="4" style="width: 80%" data-ng-model="file.ImmediateReason" required></textarea>
         </div>
         <div class="modal-footer">
-            <cs-button type="add" permission ="FileUploader,Status,AddEdit" text="Reschedule" data-ng-disabled="immidiateform.$invalid" data-ng-click="reschedule()"></cs-button>
-            <cs-button type="close" permission ="FileUploader,Status,AddEdit" data-ng-click="close()"></cs-button>
+            <cs-button type="add" permission ="FileStatusAddEdit" text="Reschedule" data-ng-disabled="immidiateform.$invalid" data-ng-click="reschedule()"></cs-button>
+            <cs-button type="close" permission ="FileStatusAddEdit" data-ng-click="close()"></cs-button>
         </div>
 </ng-form>
 

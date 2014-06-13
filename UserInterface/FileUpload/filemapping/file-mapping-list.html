@@ -48,7 +48,7 @@
             <tr data-ng-repeat="fileMapping in datalayer.dldata.fileMappings | filter:search">
                 <td>
                    <div class="btn-group" style="width: 70px">
-                        <icon-btn type="view" permission ="FileDetailView" data-ng-click="openEditModalPopup('view', fileMapping)"></icon-btn>
+                        <icon-btn type="view" permission ="FileDetail" data-ng-click="openEditModalPopup('view', fileMapping)"></icon-btn>
                         <icon-btn type="edit" permission ="FileDetailAddEdit" data-ng-click="openEditModalPopup('edit', fileMapping)"></icon-btn>
                     </div>
                 </td>

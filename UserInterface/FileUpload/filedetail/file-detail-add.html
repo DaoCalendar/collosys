@@ -35,7 +35,7 @@
         <cs-button type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid"></cs-button>
         <cs-button type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')"></cs-button>
         <cs-button type="reset" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)"></cs-button>
-        <cs-button type="close" permission ="FileDetailView" data-ng-show="isReadOnly" data-ng-click="close('Close')"></cs-button>
+        <cs-button type="close" permission ="FileDetail" data-ng-show="isReadOnly" data-ng-click="close('Close')"></cs-button>
     </div>
 </form>
 

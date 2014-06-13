@@ -4,163 +4,165 @@
     </div>
     <div class="panel-body" style="overflow: auto">
         <cs-form layout="6.4.8">
-        <table data-ng-show="dldata.matrix.Dimension" class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>Count</td>
-                    <td>Type</td>
-                    <td>Type Name</td>
-                    <td>Operator</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Rows 1D</td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Row1DCount" field="Matrix.RowDCount"
-                                  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Row1DType"  class="input-medium" field="Matrix.MatrixPerType"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <div data-ng-switch on="dldata.matrix.Row1DType">
-                            <div data-ng-switch-when="Table">
-                                <select class="input-xlarge"
-                                        data-ui-select2=""
-                                        data-ng-model="dldata.matrix.Row1DTypeName"
-                                        data-ng-disabled="dldata.isMatrixCreated"
-                                        data-ng-required="!dldata.isMatrixCreated"
-                                        data-ng-change="factory.setInputTypeForRow(dldata.matrix.Row1DTypeName)"
-                                        data-ng-options="c as c for c in dldata.columnNames">
-                                </select>
+            <table data-ng-show="dldata.matrix.Dimension" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Count</td>
+                        <td>Type</td>
+                        <td>Type Name</td>
+                        <td>Operator</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rows 1D</td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Row1DCount" field="Matrix.RowDCount"
+                                      class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Row1DType"  class="input-medium" field="Matrix.MatrixPerType"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <div data-ng-switch on="dldata.matrix.Row1DType">
+                                <div data-ng-switch-when="Table">
+                                    <select class="input-xlarge"
+                                            data-ui-select2=""
+                                            data-ng-model="dldata.matrix.Row1DTypeName"
+                                            data-ng-disabled="dldata.isMatrixCreated"
+                                            data-ng-required="!dldata.isMatrixCreated"
+                                            data-ng-change="factory.setInputTypeForRow(dldata.matrix.Row1DTypeName)"
+                                            data-ng-options="c as c for c in dldata.columnNames">
+                                    </select>
+                                </div>
+                                <div data-ng-switch-when="Formula">
+                                    <cs-field  class="input-medium" data-ng-model="dldata.matrix.Row1DTypeName" ng-required="true" field="Matrix.MatrixPerTypeName"
+                                               value-list="dldata.formulaNames" data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                                </div>
                             </div>
-                            <div data-ng-switch-when="Formula">
-                                <cs-field  class="input-medium" data-ng-model="dldata.matrix.Row1DTypeName" ng-required="true" field="Matrix.MatrixPerTypeName"
-                                           value-list="dldata.formulaNames" data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <!--opertor select box-->
-                        <cs-field data-ng-model="dldata.matrix.RowsOperator"  class="input-medium"
-                                  data-ng-required="dldata.isMatrixCreated" field="Matrix.Operator"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                </tr>
+                        </td>
+                        <td>
+                            <!--opertor select box-->
+                            <cs-field data-ng-model="dldata.matrix.RowsOperator"  class="input-medium"
+                                      data-ng-required="dldata.isMatrixCreated" field="Matrix.Operator"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                    </tr>
 
-                <tr data-ng-show="dldata.matrix.Dimension>1">
-                    <td>Columns 2D</td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Column2DCount" field="Matrix.RowDCount"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Column2DType" field="Matrix.MatrixPerType"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <div data-ng-switch on="dldata.matrix.Column2DType">
-                            <div data-ng-switch-when="Table">
-                                <select class="input-xlarge"
+                    <tr data-ng-show="dldata.matrix.Dimension>1">
+                        <td>Columns 2D</td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Column2DCount" field="Matrix.RowDCount"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Column2DType" field="Matrix.MatrixPerType"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <div data-ng-switch on="dldata.matrix.Column2DType">
+                                <div data-ng-switch-when="Table">
+                                    <select class="input-xlarge"
+                                            data-ui-select2=""
+                                            data-ng-model="dldata.matrix.Column2DTypeName"
+                                            data-ng-disabled="dldata.isMatrixCreated"
+                                            data-ng-required="!dldata.isMatrixCreated && dldata.matrix.Dimension!=='1'"
+                                            data-ng-change="factory.setInputTypeForColumn(dldata.matrix.Column2DTypeName)"
+                                            data-ng-options="c as c for c in dldata.columnNames">
+                                    </select>
+                                </div>
+                                <div data-ng-switch-when="Formula">
+                                    <cs-field data-ng-model="dldata.matrix.Column2DTypeName"  class="input-medium" ng-required="true" field="Matrix.MatrixPerTypeName"
+                                              value-list="dldata.formulaNames" data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                                </div>
+                                <div data-ng-show="factory.buttonDisable(dldata.matrix.Dimension)">
+                                    <span class="field-validation-error">Type Names cannot be same </span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <!--opertor select box-->
+                            <cs-field data-ng-model="dldata.matrix.ColumnsOperator"  class="input-medium"
+                                      data-ng-required="dldata.matrix.Dimension!=='1'" field="Matrix.Operator"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                    </tr>
+                    <tr data-ng-show="matrix.Dimension>2">
+                        <td>Rows 3D</td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Row3DCount" field="Matrix.RowDCount"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Row3DType" field="Matrix.MatrixPerType"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <div data-ng-switch on="dldata.matrix.Row3DType">
+                                <select data-ng-switch-when="Table"
                                         data-ui-select2=""
-                                        data-ng-model="dldata.matrix.Column2DTypeName"
+                                        class="input-medium"
+                                        data-ng-model="dldata.matrix.Row3DTypeName"
                                         data-ng-disabled="dldata.isMatrixCreated"
-                                        data-ng-required="!dldata.isMatrixCreated && dldata.matrix.Dimension!=='1'"
-                                        data-ng-change="factory.setInputTypeForColumn(dldata.matrix.Column2DTypeName)"
-                                        data-ng-options="c as c for c in dldata.columnNames">
+                                        data-ng-options="c for c in dldata.columnNames ">
+                                </select>
+                                <select data-ng-switch-when="Formula"
+                                        data-ui-select2=""
+                                        class="input-medium"
+                                        data-ng-model="dldata.matrix.Row3DTypeName"
+                                        data-ng-disabled="dldata.isMatrixCreated"
+                                        data-ng-options="c for c in dldata.formulaNames">
                                 </select>
                             </div>
-                            <div data-ng-switch-when="Formula">
-                                <cs-field data-ng-model="dldata.matrix.Column2DTypeName"  class="input-medium" ng-required="true" field="Matrix.MatrixPerTypeName"
-                                          value-list="dldata.formulaNames" data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr data-ng-show="dldata.matrix.Dimension>3">
+                        <td>Columns 4D</td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Column4DCount" field="Matrix.RowDCount"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <cs-field data-ng-model="dldata.matrix.Column4DType" field="Matrix.MatrixPerType"  class="input-medium"
+                                      data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
+                        </td>
+                        <td>
+                            <div data-ng-switch on="dldata.matrix.Column4DType">
+                                <select data-ng-switch-when="Table" class="input-medium"
+                                        data-ui-select2=""
+                                        data-ng-model="dldata.matrix.Column4DTypeName"
+                                        data-ng-disabled="dldata.isMatrixCreated"
+                                        data-ng-options="c for c in dldata.columnNames ">
+                                </select>
+                                <select data-ng-switch-when="Formula" class="input-medium"
+                                        data-ui-select2=""
+                                        data-ng-model="dldata.matrix.Column4DTypeName"
+                                        data-ng-disabled="dldata.isMatrixCreated"
+                                        data-ng-options="c for c in dldata.formulaNames">
+                                </select>
                             </div>
-                            <div data-ng-show="factory.buttonDisable(dldata.matrix.Dimension)">
-                                <span class="field-validation-error">Type Names cannot be same </span>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div class="text-right">
+                                <cs-button type="add" text="Create Matrix"
+                                           permission="Billing,Matrix,AddEdit"
+                                           data-ng-disabled="(dldata.isMatrixCreated || !matrixform.$valid)
+                                       ||(factory.buttonDisable(dldata.matrix.Dimension)||dldata.isDuplicate)"
+                                           data-ng-click="factory.createMatrix(dldata.matrix)"></cs-button>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <!--opertor select box-->
-                        <cs-field data-ng-model="dldata.matrix.ColumnsOperator"  class="input-medium"
-                                  data-ng-required="dldata.matrix.Dimension!=='1'" field="Matrix.Operator"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                </tr>
-                <tr data-ng-show="matrix.Dimension>2">
-                    <td>Rows 3D</td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Row3DCount" field="Matrix.RowDCount"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Row3DType" field="Matrix.MatrixPerType"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <div data-ng-switch on="dldata.matrix.Row3DType">
-                            <select data-ng-switch-when="Table"
-                                    data-ui-select2=""
-                                    class="input-medium"
-                                    data-ng-model="dldata.matrix.Row3DTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.columnNames ">
-                            </select>
-                            <select data-ng-switch-when="Formula"
-                                    data-ui-select2=""
-                                    class="input-medium"
-                                    data-ng-model="dldata.matrix.Row3DTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.formulaNames">
-                            </select>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr data-ng-show="dldata.matrix.Dimension>3">
-                    <td>Columns 4D</td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Column4DCount" field="Matrix.RowDCount"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <cs-field data-ng-model="dldata.matrix.Column4DType" field="Matrix.MatrixPerType"  class="input-medium"
-                                  data-ng-disabled="dldata.isMatrixCreated" no-label=""></cs-field>
-                    </td>
-                    <td>
-                        <div data-ng-switch on="dldata.matrix.Column4DType">
-                            <select data-ng-switch-when="Table" class="input-medium"
-                                    data-ui-select2=""
-                                    data-ng-model="dldata.matrix.Column4DTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.columnNames ">
-                            </select>
-                            <select data-ng-switch-when="Formula" class="input-medium"
-                                    data-ui-select2=""
-                                    data-ng-model="dldata.matrix.Column4DTypeName"
-                                    data-ng-disabled="dldata.isMatrixCreated"
-                                    data-ng-options="c for c in dldata.formulaNames">
-                            </select>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="5">
-                        <div class="text-right">
-                            <cs-button type="add" text="Create Matrix"
-                                    data-ng-disabled="(dldata.isMatrixCreated || !matrixform.$valid)
-                    ||(factory.buttonDisable(dldata.matrix.Dimension)||dldata.isDuplicate)"
-                                    data-ng-click="factory.createMatrix(dldata.matrix)"></cs-button>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </cs-form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </cs-form>
     </div>
 </div>
+
 
