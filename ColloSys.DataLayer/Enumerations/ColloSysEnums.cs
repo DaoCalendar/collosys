@@ -333,6 +333,7 @@ namespace ColloSys.DataLayer.Enumerations
             OneLevelUp = 1,
             TwoLevelUp = 2,
             ThreeLevelUp = 3,
+            FourLevelUp = 4,
             AllLevels = 0
         }
 

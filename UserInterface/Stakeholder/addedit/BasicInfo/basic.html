@@ -1,44 +1,42 @@
 ﻿<cs-form>
-            <cs-field data-ng-model="Stakeholder.Hierarchy"
-                      data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
-                      value-list="hierarchyDisplayList"
-                      field="stakeholderModels.stakeholder.hierarchy"></cs-field>
-            <div data-ng-if="Designation">
-                <cs-field data-ng-model="Stakeholder.Designation"
-                          value-list="Designation"
-                          data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
-                          field="stakeholderModels.stakeholder.designation"></cs-field>
-            </div>
-    
+    <cs-field data-ng-model="Stakeholder.Hierarchy"
+              data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
+              value-list="hierarchyDisplayList"
+              field="stakeholderModels.stakeholder.hierarchy"></cs-field>
+    <div data-ng-if="Designation">
+        <cs-field data-ng-model="Stakeholder.Designation"
+                  value-list="Designation"
+                  data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
+                  field="stakeholderModels.stakeholder.designation"></cs-field>
+    </div>
+
     <div data-ng-if="showBasicInfo">
         <h5 class="modal-header">Personal Information</h5>
-        <cs-field data-ng-model="Stakeholder.Name" 
+        <cs-field data-ng-model="Stakeholder.Name"
                   field="stakeholderModels.stakeholder.Name"></cs-field>
-        
+
         <div data-ng-if="selectedHierarchy.IsUser">
-            <cs-field 
-                data-ng-model="Stakeholder.ExternalId"
-                on-validate ="{unique:'validate($value)'}"
-                field="stakeholderModels.stakeholder.ExternalId"></cs-field>
+            <cs-field data-ng-model="Stakeholder.ExternalId"
+                      on-validate="{unique:'validate($value)'}"
+                      field="stakeholderModels.stakeholder.ExternalId"></cs-field>
         </div>
 
         <cs-field data-ng-model="Stakeholder.MobileNo"
                   field="stakeholderModels.stakeholder.MobileNo"></cs-field>
         <cs-field data-ng-model="Stakeholder.EmailId"
                   field="stakeholderModels.stakeholder.EmailId"></cs-field>
-        
+
         <div data-ng-if="selectedHierarchy.ManageReportsTo">
-            <cs-field 
-                value-list="ReportsToList"
-                data-ng-model="Stakeholder.ReportingManager"
-                field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
+            <cs-field value-list="ReportsToList"
+                      data-ng-model="Stakeholder.ReportingManager"
+                      field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
         </div>
 
         <cs-field data-ng-model="Stakeholder.JoiningDate"
                   field="stakeholderModels.stakeholder.JoiningDate"></cs-field>
-    
 
-        <div  data-ng-if="selectedHierarchy.HasAddress">
+
+        <div data-ng-if="selectedHierarchy.HasAddress">
             <div class="clearfix"></div>
             <h5 class="modal-header">Address Details</h5>
             <cs-field data-ng-model="Stakeholder.Address.Line1"
@@ -56,37 +54,34 @@
                       typeahead-wait-ms="400"></cs-field>
         </div>
 
-        <div  data-ng-if="selectedHierarchy.HasRegistration">
+        <div data-ng-if="selectedHierarchy.HasRegistration">
             <div class="clearfix"></div>
             <h5 class="modal-header">Registration Details</h5>
             <cs-field data-ng-model="Stakeholder.Regis.TanNo"
                       field="stakeholderModels.registration.TanNo"></cs-field>
-       
+
             <cs-field data-ng-model="Stakeholder.Regis.PanNo"
                       field="stakeholderModels.registration.PanNo"></cs-field>
-      
+
             <cs-field data-ng-model="Stakeholder.Regis.RegistrationNo"
                       field="stakeholderModels.registration.RegistrationNo"></cs-field>
-      
+
             <cs-field data-ng-model="Stakeholder.Registration.ServiceTaxno"
                       field="stakeholderModels.registration.ServiceTaxNo"></cs-field>
-            <hr/>
+            <hr />
         </div>
         <div class="clearfix"></div>
         <div class="pull-right">
-            <cs-button 
-                type="save"
-                permission="Stakeholder,Stakeholder,AddEdit"
-                data-ng-disabled="basicInfoForm.$invalid || userExists"
-                data-ng-click="saveData(Stakeholder)"></cs-button>
-            <cs-button 
-                type="cancel"
-                permission="Stakeholder,Stakeholder,AddEdit"
-                data-ng-click="cancel()"></cs-button>
-            <cs-button 
-                type="reset"
-                permission="Stakeholder,Stakeholder,AddEdit"
-                data-ng-click="reset()"></cs-button>
+            <cs-button type="save"
+                       permission="Stakeholder,Stakeholder,AddEdit"
+                       data-ng-disabled="basicInfoForm.$invalid || userExists"
+                       data-ng-click="saveData(Stakeholder)"></cs-button>
+            <cs-button type="cancel"
+                       permission="Stakeholder,Stakeholder,AddEdit"
+                       data-ng-click="cancel()"></cs-button>
+            <cs-button type="reset"
+                       permission="Stakeholder,Stakeholder,AddEdit"
+                       data-ng-click="reset()"></cs-button>
         </div>
     </div>
-        </cs-form>
+</cs-form>

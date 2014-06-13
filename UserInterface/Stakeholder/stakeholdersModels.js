@@ -100,13 +100,13 @@
 
     var stakeAddress = function () {
         return {
-            Line1: { label: 'Line1', type: 'text' },
-            Line2: { label: 'Line2', type: 'text' },
-            Line3: { label: 'Line3', type: 'text' },
-            LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone' },
+            Line1: { label: 'Building Name', type: 'text' },
+            Line2: { label: 'Street/Area Name', type: 'text' },
+            Line3: { label: 'Landmark', type: 'text' },
+            StateCity: { label: 'City/State', type: 'text' },
             Pincode: { label: 'Pincode', type: 'text' },
             Country: { label: 'Country', type: 'text' },
-            StateCity: { label: 'StateCity', type: 'text' },
+            LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone' },
         };
     };
 

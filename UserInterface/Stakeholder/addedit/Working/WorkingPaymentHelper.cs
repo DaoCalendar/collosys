@@ -5,7 +5,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 
-namespace AngularUI.Stakeholder.AddEdit2.Working
+namespace AngularUI.Stakeholder.addedit.Working
 {
     public static class WorkingPaymentHelper
     {
@@ -25,6 +25,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
                 hierarchyList.Add(allHierarchies.Single(x => x.Id == hierarchyId).ReportsTo);
                 hierarchyId = hierarchyList.Last();
             }
+
             //TODO : filter by product
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }

@@ -17,6 +17,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
             });
     };
 
+    //TODO: get fix pay components
     var getPaymentDetails = function () {
         return restApi.customGET('GetStakePaymentData')
             .then(function (data) {
@@ -58,6 +59,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.selectedHierarchy = data.Hierarchy;
             $scope.currStakeholder = data;
         }).then(function () {
+            //TODO: has fixed pay individual
             datalayer.GetPaymentDetails().then(function (data) {
                 $scope.FixedPay = factory.GetFixedPayObj(data);
                 console.log("fixedPay: ", $scope.FixedPay);
@@ -67,9 +69,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.paymentModel = $csModels.getColumns("StkhPayment");
         $scope.workingModel = $csModels.getColumns("StkhWorking");
         $scope.Payment = {};
-
     })();
 
+    //TODO: move to factory
     $scope.TotalPayment = function (basic, hra, other) {
         $scope.SalDetails = {};
 
