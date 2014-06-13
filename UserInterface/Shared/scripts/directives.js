@@ -19,7 +19,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
         //var $log = logManager.getInstance("csFileUploadDirective");
 
         var getFileInputTemplate = function (element,attrs) {
-            return '<div ng-form="" name="myform" style="margin: 20px">' +
+            return '<div ng-form="myform" style="margin: 20px">' +
                     '<div class="form-group"><div class="controls">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
                             '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
