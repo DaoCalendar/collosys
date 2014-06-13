@@ -9,6 +9,7 @@
                 </th>
                 <th>Designation</th>
                 <th>Hierarchy</th>
+                <th>Position Level</th>
                 <th>Reports To</th>
                 <th>Reporting Level</th>
                 <th>Working Reports To</th>
@@ -31,6 +32,9 @@
                 </td>
                 <td>
                     <input class="form-control" type="text" data-ng-model="search.Hierarchy" required />
+                </td>
+                <td>
+                    <input class="form-control" type="text" data-ng-model="search.PositionLevel" required />
                 </td>
                 <td>
                     <input class="form-control" type="text" data-ng-model="search.ReportsToName.Designation" required />
@@ -88,6 +92,7 @@
 
                 <td>{{hierarchy.Designation}}</td>
                 <td>{{hierarchy.Hierarchy}}</td>
+                <td>{{hierarchy.PositionLevel}}</td>
                 <td>{{hierarchy.ReportsToName.Designation}}</td>
                 <td>{{hierarchy.ReportingLevel}}</td>
                 <td>{{hierarchy.WorkingReportsToName.Designation}}</td>
