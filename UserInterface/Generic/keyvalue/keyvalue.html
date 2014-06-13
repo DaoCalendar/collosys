@@ -4,14 +4,14 @@
             <div class="panel-heading"><strong>Set Key Value</strong></div>
             <div class="panel-body">
                 <cs-form layout="6.3.7">
-                        <cs-field data-ng-model="gKeyValue.Area" field="gKeyValuefield.Area"
-                                  data-ng-change="getKeyValues(gKeyValue.Area)"></cs-field>
+                    <cs-field data-ng-model="gKeyValue.Area" field="gKeyValuefield.Area"
+                              data-ng-change="getKeyValues(gKeyValue.Area)"></cs-field>
                     
-                        <cs-field data-ng-model="gKeyValue.Key" value-list="dldata.Keys"
-                                  class="input-large"
-                                  data-ng-change="changeKey(gKeyValue.Key,dldata)" field="gKeyValuefield.Key"></cs-field>
-                        <i class="btn glyphicon glyphicon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
-                    </cs-form>
+                    <cs-field data-ng-model="gKeyValue.Key" value-list="dldata.Keys"
+                              class="input-large"
+                              data-ng-change="changeKey(gKeyValue.Key,dldata)" field="gKeyValuefield.Key"></cs-field>
+                    <i class="btn glyphicon glyphicon-plus" data-ng-hide="true" data-ng-click="openModel(gKeyValue)"></i>
+                </cs-form>
 
             </div>
         </div>
@@ -106,6 +106,8 @@
 
     </form>
 </div>
+
+
 
 <!--<div data-ng-hide="true" modal="shouldBeOpen" close="closeModel()" options="modelOption">
     <div class="modal-header well">

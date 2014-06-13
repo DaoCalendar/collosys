@@ -50,7 +50,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
             file.size = cfile.size;
         };
 
-        var saveFileOnServer = function (scope, ngModel) {
+        var saveFileOnServer = function (scope, ngModel,attr) {
             scope.fileInfo.isUploading = true;
             scope.fileInfo.copied = false;
             ngModel.$setValidity("noncopying", false);
@@ -66,14 +66,16 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 scope.fileInfo.isUploading = false;
                 scope.fileInfo.copied = true;
                 if (angular.isFunction(scope.onSave)) {
-                    scope.onSave({ 'fileInfo': scope.fileInfo });
+                  //  scope.onSave({ 'fileInfo': scope.fileInfo });
+                    scope.$eval(attr.onSave);
                 }
                 ngModel.$setValidity("noncopying", true);
             }).error(function () {
                 scope.fileInfo.isUploading = false;
-                scope.onSave({ 'fileInfo': scope.fileInfo });
+                //scope.onSave({ 'fileInfo': scope.fileInfo });
                 ngModel.$setValidity("noncopying", true);
             });
+                       
         };
 
         var linkFunction = function (scope, element, attr, ngModel) {
@@ -148,7 +150,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                 setParams(scope.cfile, scope.fileInfo);
                 ngModel.$render(scope.fileInfo.name);
                 if (scope.isFileValid()) {
-                    saveFileOnServer(scope, ngModel);
+                    saveFileOnServer(scope, ngModel,attr);
                 }
             };
         };

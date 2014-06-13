@@ -5,46 +5,36 @@
             <!--Edit hierarchy page-1-->
             <div data-ng-form="step1form" data-ng-show="step==1">
                 <cs-form layout="7.3.8" mode="mode">
-                    <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"
-                        ></cs-field>
+                    <cs-field data-ng-model="hierarchy.Designation" field="hierarchyfield.designation"></cs-field>
 
                     <cs-field data-ng-model="hierarchy.Hierarchy" field="hierarchyfield.Hierarchy"
                               value-list="dldata.HierarchyData" data-ng-change="reloadReportsTo(hierarchy,dldata);hierarchyChange()"></cs-field>
-                
-                    <div data-ng-show="mode === 'add'">
-                        <cs-field data-ng-model="hierarchy.ReportsTo" field="hierarchyfield.ReportsTo"
-                                  value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
-                        <span class="col-md-5">
-                            <span >{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
-                        </span>
 
-                        <cs-field data-ng-model="hierarchy.ReportingLevel" 
-                                  field="hierarchyfield.ReportingLevel"
-                                  data-ng-change="reportinglevelChange()"></cs-field>
+                    <cs-field data-ng-model="hierarchy.ReportsTo" field="hierarchyfield.ReportsTo"
+                              value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
+                    <span class="col-md-5">
+                        <span>{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
+                    </span>
 
-                        <cs-field data-ng-model="hierarchy.WorkingReportsTo" 
-                                  field="hierarchyfield.WorkingReportsTo"
-                                  value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
-                        <span class="col-md-5">
-                            <span >{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
-                        </span>
+                    <cs-field data-ng-model="hierarchy.ReportingLevel"
+                              field="hierarchyfield.ReportingLevel"
+                              data-ng-change="reportinglevelChange()"></cs-field>
 
-                        <cs-field data-ng-model="hierarchy.WorkingReportsLevel" 
-                                  field="hierarchyfield.WorkingReportsLevel"></cs-field>
-                    </div>
+                    <cs-field data-ng-model="hierarchy.WorkingReportsTo"
+                              field="hierarchyfield.WorkingReportsTo"
+                              value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
+                    <span class="col-md-5">
+                        <span>{{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy</span>
+                    </span>
 
-                    <div data-ng-show="mode !== 'add'">
-                        <cs-field data-ng-model="hierarchy.ReportsToName.Designation"
-                                  field="hierarchyfield.ReportsToDesignation"></cs-field>
-                    </div>
-                
+                    <cs-field data-ng-model="hierarchy.WorkingReportsLevel"
+                              field="hierarchyfield.WorkingReportsLevel"></cs-field>
+
                     <cs-field data-ng-model="hierarchy.LocationLevel" field="hierarchyfield.LocationLevel"
                               value-list="dldata.LocationlevelList" multiple="multiple"></cs-field>
 
                 </cs-form>
             </div>
-
-
 
             <!--Edit hierarchy page-2-->
             <div data-ng-form="step2form" data-ng-show="step==2">
@@ -71,13 +61,13 @@
                     </div>
 
                     <div data-ng-show="hierarchy.IsIndividual">
-                        <cs-field data-ng-model="hierarchy.IsEmployee" 
+                        <cs-field data-ng-model="hierarchy.IsEmployee"
                                   field="hierarchyfield.IsEmployee"></cs-field>
                         <span class="col-md-5">
                             <span>Is {{hierarchy.Designation}} Employee of Algosys</span>
                         </span>
                     </div>
-                
+
                     <cs-field data-ng-model="hierarchy.ManageReportsTo" field="hierarchyfield.ManageReportsTo"></cs-field>
                     <span class="col-md-5">
                         <span>{{hierarchy.Designation}} having any highest level designation</span>
@@ -107,7 +97,7 @@
                     <cs-form layout="1">
                         <span>{{hierarchy.Designation}} has working</span>
                     </cs-form>
-             
+
 
                     <div data-ng-show="hierarchy.HasWorking">
                         <cs-field data-ng-model="hierarchy.HasBuckets" field="hierarchyfield.HasBuckets"></cs-field>
@@ -136,7 +126,7 @@
             <!--Edit hierarchy page-4-->
             <div data-ng-form="step4form" data-ng-show="step==4">
                 <cs-form layout="7.4.8" mode="mode">
-                    
+
                     <cs-field data-ng-model="hierarchy.HasPayment" field="hierarchyfield.HasPayment"
                               data-ng-change="ResetPaymentChlidVal()"></cs-field>
                     <cs-form layout="1">
@@ -171,7 +161,7 @@
                             <span>{{hierarchy.Designation}} Has Fixed</span>
                         </cs-form>
                     </div>
-                
+
                     <div data-ng-show="hierarchy.HasFixed">
                         <cs-field data-ng-model="hierarchy.HasFixedIndividual" field="hierarchyfield.HasFixedIndividual"></cs-field>
                         <cs-form layout="1">
@@ -367,19 +357,3 @@
             <span>{{hierarchy.Designation}} Has Service Charge </span>
         </div>
     </div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,8 +6,8 @@
 
     <div class="col-md-9" data-ng-show="config.lhsValueList.length > 0 || config.rhsValueList.length > 0 ">
         <cs-dual-list config="config" selected="selected"
-                      on-click="displaySubpolicyDetails()"
-                      on-move="moveSubpolicy()"></cs-dual-list>
+            on-click="displaySubpolicyDetails()"
+            on-move="moveSubpolicy()"></cs-dual-list>
     </div>
     <div class="clearfix"></div>
     <div class="row">
@@ -18,20 +18,25 @@
                         <div class="col-md-8">{{selected.selectedItem.Name}}</div>
                         <div class="col-md-3">
                             <cs-button type="cancel" text="Deactivate"
-                                       data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
-                                       data-ng-click="openModelforSubPolicy('Expire');"></cs-button>
+                                permission="Allocation,AllocationPolicy,AddEdit"
+                                data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
+                                data-ng-click="openModelforSubPolicy('Expire');"></cs-button>
                             <cs-button type="ok" text="Activate"
-                                       data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
-                                       data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
+                                permission="Allocation,AllocationPolicy,AddEdit"
+                                data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
+                                data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
                             <cs-button type="ok" text="Reactivate"
-                                       data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
-                                       data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
+                                permission="Allocation,AllocationPolicy,AddEdit"
+                                data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
+                                data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
                             <cs-button type="ok" text="Approve"
-                                       data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                                       data-ng-click="approveORreject('Approve')"></cs-button>
+                                permission="Allocation,AllocationPolicy,Approve"
+                                data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
+                                data-ng-click="approveORreject('Approve')"></cs-button>
                             <cs-button type="cancel" text="Reject"
-                                       data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                                       data-ng-click="approveORreject('Reject')"></cs-button>
+                                permission="Allocation,AllocationPolicy,Approve"
+                                data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
+                                data-ng-click="approveORreject('Reject')"></cs-button>
                         </div>
                     </div>
                 </div>
