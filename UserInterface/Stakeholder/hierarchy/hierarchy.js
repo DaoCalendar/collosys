@@ -101,34 +101,12 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
 
     var reloadReportsTo = function (stakeholder, dldata) {
         dldata.Designation = [];
+        if ($csfactory.isNullOrEmptyArray(dldata.HierarchyList)) { return; }
 
         dldata.HierarchyList = _.sortBy(dldata.HierarchyList, 'PositionLevel');
-        if (!$csfactory.isNullOrEmptyArray(dldata.HierarchyList)) {
-            if ((stakeholder.Hierarchy !== 'External')) {//|| (hierarchy.IsIndividual === false
-                dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
-                    if (data.Hierarchy === stakeholder.Hierarchy) return data;
-                });
-                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;                            
-            } else {
-
-                var design = _.filter(dldata.HierarchyList, function (data) {
-                    return (data.Hierarchy === stakeholder.Hierarchy);
-                });
-
-                _.forEach(design, function (item) {
-                    var reportTo = _.find(dldata.HierarchyList, { 'Id': item.ReportsTo });
-                    var desig = {
-                        Designation: angular.copy(item.Designation) + '(' + reportTo.Designation + ')',
-                        Id: item.Id
-                    };
-                    dldata.Designation.push(desig);
-                });
-                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
-            }
-        }
-
-
-
+        dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
+            return (data.Hierarchy === stakeholder.Hierarchy);
+        });
     };
 
     var designationName = function (hierarchy) {
@@ -189,13 +167,7 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
 
         (function () {
             $scope.factory = factory;
-            if (angular.isDefined($routeParams.id)) {
-                datalayer.Get($routeParams.id).then(function (data) {
-                    $scope.hierarchy = data;
-                });
-            } else {
-                $scope.hierarchy = {};
-            }
+
             $scope.hierarchy = datalayer.hierarchy;
             $scope.datalayer = datalayer;
             $scope.dldata = datalayer.dldata;
@@ -203,6 +175,15 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
             $scope.factoryMethods = factory;
             factory.initLocationLevelList(datalayer.dldata);
             datalayer.GetAll();
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function (data) {
+                    $scope.hierarchy = data;
+                    $scope.reloadReportsTo($scope.hierarchy, $scope.dldata);
+
+                });
+            } else {
+                $scope.hierarchy = {};
+            }
             $scope.hierarchy = {};
         })();
 
@@ -263,13 +244,11 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         };
 
         $scope.save = function (stkh) {
-            if ($scope.mode === "add") {
-                _.forEach($scope.dldata.Designation, function (item) {
-                    if (item.Id === stkh.ReportsTo) {
-                        stkh.PositionLevel = item.PositionLevel + 1;
-                    }
-                });
-            }
+            _.forEach($scope.dldata.Designation, function (item) {
+                if (item.Id === stkh.ReportsTo) {
+                    stkh.PositionLevel = item.PositionLevel + 1;
+                }
+            });
             datalayer.Save(stkh).then(function () {
                 $scope.hierarchy = {};
                 $scope.dldata.highestPositionLevel = {};
