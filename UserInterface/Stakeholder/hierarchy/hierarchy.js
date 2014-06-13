@@ -12,11 +12,11 @@
 
     var getAllHierarchy = function () {
         return apiCalls.customGET('GetAllHierarchies').then(function (data) {
-            dldata.tableParams = new ngTableParams({
-                page: 1,            // show first page
-                total: data.length, // length of data
-                count: 10           // count per page
-                });
+            //dldata.tableParams = new ngTableParams({
+            //    page: 1,            // show first page
+            //    total: data.length, // length of data
+            //    count: 10           // count per page
+            //    });
             dldata.HierarchyList = data;
             dldata.HierarchyData = _.uniq(_.pluck(data, 'Hierarchy'));
             _.forEach(dldata.HierarchyList, function (item) {
@@ -39,7 +39,6 @@
 
     var saveUpdatedData = function (stkh) {
         stkh.ApplicationName = 'ColloSys';
-       // stkh.PositionLevel = stkh.PositionLevel;
         stkh.LocationLevel = JSON.stringify(stkh.LocationLevel);
         return apiCalls.customPOST(stkh, 'SaveHierarchy').then(function (data) {
             $csnotify.success('Data Saved');
@@ -109,10 +108,7 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
                 dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
                     if (data.Hierarchy === stakeholder.Hierarchy) return data;
                 });
-                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;
-
-                dldata.highestPositionLevel = _.max(dldata.Designation, function (row) { return row.PositionLevel });
-                console.log(dldata.highestPositionLevel);
+                //$scope.$parent.stakeholderModels.designation.valueList = $scope.Designation;                            
             } else {
 
                 var design = _.filter(dldata.HierarchyList, function (data) {
@@ -194,7 +190,7 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         (function () {
             $scope.factory = factory;
             if (angular.isDefined($routeParams.id)) {
-                datalayer.Get($routeParams.id).then(function(data) {
+                datalayer.Get($routeParams.id).then(function (data) {
                     $scope.hierarchy = data;
                 });
             } else {
@@ -257,19 +253,23 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
                 $scope.hierarchy.WorkingReportsLevel = '';
             };
         };
-   
+
         $scope.closeModal = function () {
             $location.path("/generic/hierarchy");
         };
 
-        $scope.reloadReportsTo = function(stkh,dldata) {
+        $scope.reloadReportsTo = function (stkh, dldata) {
             return factory.reloadReportsTo(stkh, dldata);
         };
-        
+
         $scope.save = function (stkh) {
             if ($scope.mode === "add") {
-                stkh.PositionLevel = $scope.dldata.highestPositionLevel.PositionLevel + 1;
-            } 
+                _.forEach($scope.dldata.Designation, function (item) {
+                    if (item.Id === stkh.ReportsTo) {
+                        stkh.PositionLevel = item.PositionLevel + 1;
+                    }
+                });
+            }
             datalayer.Save(stkh).then(function () {
                 $scope.hierarchy = {};
                 $scope.dldata.highestPositionLevel = {};
