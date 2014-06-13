@@ -101,9 +101,6 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
                                 }
                             });
 
-                case "SearchById":
-                    getStakeIdDatalayerCall();
-                    break;
             }
         };
         //#endregion
