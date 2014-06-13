@@ -26,9 +26,9 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
 
         [HttpGet]
-        public IEnumerable<StkhHierarchy> GetAllHierarchies()
+        public HttpResponseMessage GetAllHierarchies()
         {
-            return HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer");
+            return Request.CreateResponse(HttpStatusCode.OK, HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer"));
         }
 
         [HttpGet]
@@ -45,9 +45,9 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
         }
 
         [HttpGet]
-        public IEnumerable<Stakeholders> GetReportsToData(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
+        public HttpResponseMessage GetReportsToData(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
         {
-            return WorkingPaymentHelper.GetReportsOnreportingLevel(hierarchyId, level);
+            return Request.CreateResponse(HttpStatusCode.OK, WorkingPaymentHelper.GetReportsOnreportingLevel(hierarchyId, level));
         }
 
         [HttpPost]
@@ -60,47 +60,4 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
     }
 }
 
-
-//[HttpGet]
-//public IEnumerable<GPincode> GetPincodes(string pincode, string level)
-//{
-//    return level == "City" ? GetPincodesCity(pincode) : GetPincodesArea(pincode);
-//}
-
-
-//private static IEnumerable<GPincode> GetPincodesCity(string pin)
-//{
-//    var list = GPincodeBuilder.OnPinOrCity(pin).ToList();
-//    if (list.Count == 0) return null;
-
-//    var uniq = (from l in list group l by l.City into g select g.First()).ToList();
-//    uniq.RemoveAll(x => x.City.Trim().Equals("-"));
-//    return uniq.Take(10);
-//}
-
-
-//private static IEnumerable<GPincode> GetPincodesArea(string pin)
-//{
-//    var list = GPincodeBuilder.OnPinOrArea(pin).ToList();
-//    if (list.Count == 0) return null;
-
-//    var uniq = (from l in list group l by l.Area into g select g.First()).ToList();
-//    uniq.RemoveAll(x => x.City.Trim().Equals("-"));
-//    return uniq.Take(10);
-//}
-
-//var hiegherhierarchyId = session.Query<StakeHierarchy>()
-//                         .Where(x => x.ReportsTo == reporttoId)
-//                         .Select(x => x.Id).Single();
-
-//Stakeholders stake = null;
-//StkhPayment payment = null;
-//var listStake = session.QueryOver<Stakeholders>(() => stake)
-//                       .Fetch(x => x.StkhPayments).Eager
-//                       .JoinAlias(() => stake.StkhPayments, () => payment, JoinType.LeftOuterJoin)
-//                       .Where(() => stake.HierarchyId == stakeholder)
-//                       .And(() => stake.LeavingDate == null || stake.LeavingDate < DateTime.Now)
-//                       //.And(() => payment.StartDate < DateTime.Now)
-//                       //.And(() => payment.EndDate > DateTime.Now)
-//                       .List();
 

@@ -22,13 +22,15 @@ namespace AngularUI.Stakeholder.addedit.Working
             var allHierarchies = HierarchyQuery.GetAllHierarchies().ToList();
             for (var i = 1; i <= (int)level; i++)
             {
-                hierarchyList.Add(allHierarchies.Single(x => x.Id == hierarchyId).ReportsTo);
-                hierarchyId = hierarchyList.Last();
+                var reportsToId = allHierarchies.Single(x => x.Id == hierarchyId).ReportsTo;
+                if (reportsToId == Guid.Empty) break;
+                hierarchyList.Add(reportsToId);
+                hierarchyId = reportsToId;
             }
 
             //TODO : filter by product
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }
-       
+
     }
 }

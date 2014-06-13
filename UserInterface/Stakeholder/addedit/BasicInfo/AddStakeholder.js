@@ -30,10 +30,17 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         });
     };
 
+    var getReportsToList = function (hierarchyId, level) {
+        return apistake.customGET('GetReportsToData', { hierarchyId: hierarchyId, level: level }).then(function (data) {
+            return data;
+        });
+    };
+
     return {
         CheckUser: checkUser,
         GetHierarchies: getHierarchies,
         GetPincode: getPincode,
+        GetReportsToList: getReportsToList,
         Save: save
     };
 }]);
@@ -156,6 +163,12 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
             form.$setPristine();
             factory.ResetObj($scope.Stakeholder, ['Hierarchy', 'Designation']);
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
+
+            datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
+                .then(function (data) {
+                    $scope.reportsToList = data;
+                });
+
             factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             $timeout(function () { $scope.showBasicInfo = true; }, 100);
         };

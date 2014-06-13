@@ -108,10 +108,10 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
 
             //stakeholder
             .when('/stakeholder/add', {
-                templateUrl: baseUrl + 'Stakeholder/AddEdit2/AddBasicIndex.html',
+                templateUrl: baseUrl + 'Stakeholder/addedit/BasicInfo/basic.html',
                 controller: 'AddStakeHolderCtrl'
             }).when('/stakeholder/working/:stakeId', {
-                templateUrl: baseUrl + 'Stakeholder/AddEdit2/Working/Working.html',
+                templateUrl: baseUrl + 'Stakeholder/addedit/Working/Working.html',
                 controller: 'StakeWorkingCntrl'
             }).when('/stakeholder/edit/:data', {
                 templateUrl: baseUrl + 'Stakeholder/add/index2.html',

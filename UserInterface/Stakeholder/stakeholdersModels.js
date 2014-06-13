@@ -10,7 +10,7 @@
             MobileNo: { label: "Mobile No", type: 'text', template: 'phone' },
             EmailId: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
             JoiningDate: { type: 'date', required: true },
-            ReportingManager: { type: 'select', valueField: 'Id', textField: 'Name' },
+            ReportingManager: { type: 'select', valueField: 'Id', textField: 'Name', label: "Reporting Manager" },
         };
     };
 

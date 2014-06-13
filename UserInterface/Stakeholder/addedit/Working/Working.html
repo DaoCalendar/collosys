@@ -1,72 +1,75 @@
-﻿<h1>Working</h1>
+﻿<div class="panel panel-default">
+    <div class="panel-heading">Working Details</div>
+    <div class="panel-body">
+        <cs-form>
+            <form>
+                <div class="row">
+                    <cs-field field="workingModel.Products"
+                              data-ng-model="Working.Products"
+                              data-ng-change="getReportsTo(Working.Products)">
+                    </cs-field>
 
-<cs-form>
-    <form>
-        <div class="row">
-            <cs-field field="workingModel.Products"
-                      data-ng-model="Working.Products"
-                      data-ng-change="getReportsTo(Working.Products)">
-            </cs-field>
-
-            <cs-field field="workingModel.ReportsTo"
-                      data-ng-show="reportsToList.length>0"
-                      value-list="reportsToList"
-                      data-ng-model="Working.ReportsTo"></cs-field>
-        </div>
+                    <cs-field field="workingModel.ReportsTo"
+                              data-ng-show="reportsToList.length>0"
+                              value-list="reportsToList"
+                              data-ng-model="Working.ReportsTo"></cs-field>
+                </div>
         
 
-        <cs-field field="workingModel.LocationLevel"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.LocationLevel"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.Country"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.Country"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.State"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.State"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.Region"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.Region"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.Cluster"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.Cluster"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.District"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.District"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.City"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.City"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.Area"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.Area"
+                          data-ng-model="Working"></cs-field>
 
        
 
-        <cs-field field="workingModel.StartDate"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.StartDate"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.EndDate"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.EndDate"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.BucketStart"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.BucketStart"
+                          data-ng-model="Working"></cs-field>
 
-        <cs-field field="workingModel.BucketEnd"
-                  data-ng-model="Working"></cs-field>
+                <cs-field field="workingModel.BucketEnd"
+                          data-ng-model="Working"></cs-field>
         
-        <div class="pull-left">
-            <cs-button type="submit"
-                       permission="Stakeholder,Stakeholder,AddEdit"
-                       text="prev"
-                       data-ng-click="prev()">
-            </cs-button>
-            <cs-button 
-                type="submit"
-                text="Fill Payment Details"
-                permission="Stakeholder,Stakeholder,AddEdit">
-            </cs-button>
-        </div>
-    </form>
-</cs-form>
+                <div class="pull-left">
+                    <cs-button type="submit"
+                               permission="Stakeholder,Stakeholder,AddEdit"
+                               text="prev"
+                               data-ng-click="prev()">
+                    </cs-button>
+                    <cs-button 
+                        type="submit"
+                        text="Fill Payment Details"
+                        permission="Stakeholder,Stakeholder,AddEdit">
+                    </cs-button>
+                </div>
+            </form>
+        </cs-form>
+    </div>
+</div>
 <div class="clearfix"></div>
 <div class="panel panel-default">
     <div class="panel-heading">Payment Details</div>
