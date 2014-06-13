@@ -18,7 +18,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
 
-        var getFileInputTemplate = function (element,attrs) {
+        var getFileInputTemplate = function (element, attrs) {
             return '<div ng-form="myform" style="margin: 20px">' +
                     '<div class="form-group"><div class="controls">' +
                         '<div data-ng-show="fileInfo.isUploading">' +
@@ -27,7 +27,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
                             '<div class="text-danger">Copying file to server!!!</div>' +
                         '</div>' +
                         '<div data-ng-hide="fileInfo.isUploading">' +
-                            '<label>'+ attrs.cslabel + '</label>' +
+                            '<label>' + attrs.cslabel + '</label>' +
                             '<label class="fileContainer btn btn-default col-md-2"> Select ' +
                             '<input name="myfield" ng-model="ngModel" type="file" ' +
                                 'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
@@ -165,6 +165,32 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
         };
     }
 ]);
+
+csapp.directive("csMultiFileUpload", ["Restangular", "Logger", "$csfactory", "$upload", function (rest, logManager, $csfactory, $upload) {
+
+    var fileTemplate = function (element, attrs) {
+        var html = '<div ng-form="myform">';
+        html += '<div data-ng-repeat="file in config.fileData">';
+        html += '<cs-file-upload  ng-model="selected.filename" file-info="file">';
+        html += '</cs-file-upload>';
+        html += '</div>';
+        html += '</div>';
+        return html;
+    };
+
+    var linkFunction = function () {
+
+    };
+
+    return {
+        restrict: 'E',
+        template: fileTemplate,
+        link: linkFunction,
+        scope: { config: '=' },
+        require: '^ngForm',
+    };
+}]);
+
 
 csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger',
     function ($parse, $compile, permFactory, logManager) {
