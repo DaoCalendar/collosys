@@ -37,7 +37,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                               .JoinAlias(() => stakeholders.StkhWorkings, () => workings, JoinType.LeftOuterJoin)
                               .JoinAlias(() => stakeholders.Hierarchy, () => hierarchy,
                                          JoinType.LeftOuterJoin)
-                              .Where(() => workings.Products == products || workings.Products == ScbEnums.Products.ALL)
+                              .Where(() => workings.Products == products)
                               .And(() => hierarchy.IsInAllocation)
                 //.And(() => hierarchy.IsInField)
                               .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
