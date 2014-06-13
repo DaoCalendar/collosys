@@ -199,7 +199,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return SessionManager.GetCurrentSession().Query<Stakeholders>()
                 .Fetch(x => x.StkhWorkings)
                 .Fetch(x => x.Hierarchy)
-                .Where(x => hierarchyIds.Any(y => x.Hierarchy.Id == y)
+                .Where(x => hierarchyIds.Contains(x.Hierarchy.Id)
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
                 .ToList();
         }
