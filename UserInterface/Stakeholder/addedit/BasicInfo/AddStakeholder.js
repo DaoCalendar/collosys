@@ -1,49 +1,75 @@
 ﻿
-csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restangular", function ($csfactory, $csnotify, rest) {
+csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restangular", "$q",
+    function ($csfactory, $csnotify, rest, $q) {
 
-    var apistake = rest.all('StakeholderApi');
+        var apistake = rest.all('StakeholderApi');
 
-    var getPincode = function (pincode, level) {
-        return apistake.customGET('GetPincodes', { pincode: pincode, level: level }).then(function (data) {
-            return data;
-        });
-    };
+        var getPincode = function (pincode, level) {
+            var params = { pincode: pincode, level: level };
+            return apistake.customGET('GetPincodes', params)
+                .then(
+                    function (data) {
+                        return data;
+                    });
+        };
 
-    var getHierarchies = function () {
-        return apistake.customGET('GetAllHierarchies').then(function (data) {
-            return data;
-        }, function () {
-            $csnotify.error('Error loading hierarchies');
-        });
+        var getHierarchies = function () {
+            return apistake.customGET('GetAllHierarchies').then(function (data) {
+                _.forEach(data, function (item) {
+                    if (item.Hierarchy !== 'External') return;
+                    var reportTo = _.find(data, { 'Id': item.ReportsTo });
+                    reportTo.Designation = item.Designation + '(' + reportTo.Designation + ')';
+                });
+                return data;
+            }, function () {
+                $csnotify.error('Error loading hierarchies');
+            });
 
-    };
+        };
 
-    var save = function (data) {
-        return apistake.customPOST(data, 'SaveStake').then(function (afterPostData) {
-            return afterPostData;
-        });
-    };
+        var save = function (data) {
+            return apistake.customPOST(data, 'SaveStake').then(function (afterPostData) {
+                return afterPostData;
+            });
+        };
 
-    var checkUser = function (userId) {
-        return apistake.customGET('CheckUserId', { id: userId }).then(function (data) {
-            return data;
-        });
-    };
+        var dldata = {};
+        var checkUser = function (userId) {
+            var deferred = $q.defer();
 
-    var getReportsToList = function (hierarchyId, level) {
-        return apistake.customGET('GetReportsToData', { hierarchyId: hierarchyId, level: level }).then(function (data) {
-            return data;
-        });
-    };
+            if ($csfactory.isNullOrEmptyString(userId) || userId.length !== 7 || dldata.isAlreadyCheckingUser === true) {
+                deferred.resolve();
+            } else {
+                dldata.isAlreadyCheckingUser = true;
+                apistake.customGET('CheckUserId', { id: userId })
+                    .then(function (data) {
+                        if (data === "true") {
+                            deferred.reject();
+                        } else {
+                            deferred.resolve();
+                        }
+                    }).finally(function () {
+                        dldata.isAlreadyCheckingUser = false;
+                    });
+            }
 
-    return {
-        CheckUser: checkUser,
-        GetHierarchies: getHierarchies,
-        GetPincode: getPincode,
-        GetReportsToList: getReportsToList,
-        Save: save
-    };
-}]);
+            return deferred.promise;
+        };
+
+        var getReportsToList = function (hierarchyId, level) {
+            return apistake.customGET('GetReportsToData', { hierarchyId: hierarchyId, level: level }).then(function (data) {
+                return data;
+            });
+        };
+
+        return {
+            CheckUser: checkUser,
+            GetHierarchies: getHierarchies,
+            GetPincode: getPincode,
+            GetReportsToList: getReportsToList,
+            Save: save
+        };
+    }]);
 
 csapp.factory("AddEditStakeholderFactory", function () {
 
@@ -115,11 +141,10 @@ csapp.factory("AddEditStakeholderFactory", function () {
     };
 });
 
-csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout",
-    function ($routeParams, $scope, $log, $window, $csfactory, $csnotify, $csConstants, $location, $csModels, datalayer, factory, $timeout) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout",
+    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout) {
 
         (function () {
-            $scope.val = false;
             $scope.factory = factory;
             $scope.Stakeholder = {
                 GAddress: [],
@@ -134,16 +159,8 @@ csapp.controller("AddStakeHolderCtrl", ['$routeParams', '$scope', '$log', '$wind
 
             datalayer.GetHierarchies().then(function (data) {
                 $scope.HierarchyList = data;
-
-                _.forEach(data, function (item) {
-                    if (item.Hierarchy !== 'External') return;
-                    var reportTo = _.find($scope.HierarchyList, { 'Id': item.ReportsTo });
-                    reportTo.Designation = item.Designation + '(' + reportTo.Designation + ')';
-                });
-
                 $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
             });
-
         })();
 
         $scope.validate = function (userId) {

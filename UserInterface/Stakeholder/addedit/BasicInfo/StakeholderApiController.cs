@@ -34,14 +34,8 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
         [HttpGet]
         public HttpResponseMessage CheckUserId(string id)
         {
-            if (id == null || id.Count() != 7)
-                return Request.CreateResponse(HttpStatusCode.OK, "success");
-
             var idExists = StakeQuery.FilterBy(x => x.ExternalId == id);
-
-            return (idExists.Count > 0)
-                ? Request.CreateErrorResponse(HttpStatusCode.Conflict, "error")
-                : Request.CreateResponse(HttpStatusCode.OK, "success");
+            return Request.CreateResponse(HttpStatusCode.OK, idExists.Count > 0);
         }
 
         [HttpGet]
