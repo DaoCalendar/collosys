@@ -14,7 +14,6 @@ csapp.factory("ChangePasswordDataLayer", ["$csnotify", 'Restangular', "$csAuthFa
                 } else {
                     $csnotify.success("Password Changed Successfully");
                 }
-                return data;
             }, function (data) {
                 $csnotify.error(data.message);
             });

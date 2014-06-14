@@ -524,20 +524,20 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "AllocationPolicyApprove":
                 perm = "Allocation,AllocationPolicy,Approve";
                 break;
-            case "AllocationPolicyView":
-                perm = "Allocation,AllocationPolicy,View";
+            case "AllocationPolicy":
+                perm = "Allocation,AllocationPolicy";
                 break;
             case "AllocationSubpolicyAddEdit":
                 perm = "Allocation,AllocationSubpolicy,AddEdit";
                 break;
-            case "AllocationSubpolicyView":
-                perm = "Allocation,AllocationSubpolicy,View";
+            case "AllocationSubpolicy":
+                perm = "Allocation,AllocationSubpolicy";
                 break;
             case "AllocationSubpolicyApprove":
                 perm = "Allocation,AllocationSubpolicy,Approve";
                 break;
-            case "CheckAllocationView":
-                perm = "Allocation,CheckAllocation,View";
+            case "CheckAllocation":
+                perm = "Allocation,CheckAllocation";
                 break;
             case "CheckAllocationAddEdit":
                 perm = "Allocation,CheckAllocation,AddEdit";
@@ -550,8 +550,8 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "BillingPolicyAddEdit":
                 perm = "Billing,BillingPolicy,AddEdit";
                 break;
-            case "BillingPolicyView":
-                perm = "Billing,BillingPolicy,View";
+            case "BillingPolicy":
+                perm = "Billing,BillingPolicy";
                 break;
             case "BillingPolicyApprove":
                 perm = "Billing,BillingPolicy,Approve";
@@ -562,17 +562,17 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "BillingSubpolicyAddEdit":
                 perm = "Billing,BillingSubpolicy,AddEdit";
                 break;
-            case "BillingSubpolicyView":
-                perm = "Billing,BillingSubpolicy,View";
+            case "BillingSubpolicy":
+                perm = "Billing,BillingSubpolicy";
                 break;
             case "BillingFormulaAddEdit":
                 perm = "Billing,Formula,AddEdit";
                 break;
-            case "BillingFormulaView":
-                perm = "Billing,Formula,View";
+            case "BillingFormula":
+                perm = "Billing,Formula";
                 break;
-            case "BillingMatrixView":
-                perm = "Billing,Matrix,View";
+            case "BillingMatrix":
+                perm = "Billing,Matrix";
                 break;
             case "BillingMatrixAddEdit":
                 perm = "Billing,Matrix,AddEdit";
@@ -583,33 +583,34 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "BillingHoldingPolicy":
                 perm = "Billing,HoldingPolicy";
                 break;
-            case "BillingHoldingPolicyView":
-                perm = "Billing,HoldingPolicy,View";
-                break;
             case "BillingManageHolidngAddEdit":
                 perm = "Billing,ManageHolidng,AddEdit";
                 break;
             case "BillingManageHolidng":
                 perm = "Billing,ManageHolidng";
                 break;
-            case "BillingManageHolidngView":
-                perm = "Billing,ManageHolidng,View";
-                break;
             case "BillingAdhocPayoutAddEdit":
                 perm = "Billing,AdhocPayout,AddEdit";
-                break;
-            case "BillingAdhocPayoutView":
-                perm = "Billing,AdhocPayout,View";
                 break;
             case "BillingAdhocPayoutApprove":
                 perm = "Billing,AdhocPayout,Approve";
                 break;
-            //case "BillingPayoutStatusApprove":
-            //    perm = "Billing,PayoutStatus,Approve";
-            //    break;
-            //case "BillingPayoutStatusApprove":
-            //    perm = "Billing,PayoutStatus,Approve";
-            //    break;
+            case "BillingModifyPaymentAddEdit":
+                perm = "Billing,ModifyPayment,AddEdit";
+                break;
+            case "BillingModifyPaymentApprove":
+                perm = "Billing,ModifyPayment,Approve";
+                break;
+            case "BillingReadyForBillingApprove":
+                perm = "Billing,ReadyForBilling,Approve";
+                break;
+            case "BillingPayoutStatusAddEdit":
+                perm = "Billing,PayoutStatus,AddEdit";
+                break;
+            case "BillingPayoutStatusApprove":
+                perm = "Billing,PayoutStatus,Approve";
+                break;
+           
 
                 //Config
             case "Configpincode":
@@ -618,17 +619,11 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "ConfigpincodeAddEdit":
                 perm = "Config,Pincode,AddEdit";
                 break;
-            case "ConfigpincodeView":
-                perm = "Config,Pincode,View";
-                break;
             case "ConfigTaxlistAddEdit":
                 perm = "Config,Taxlist,AddEdit";
                 break;
             case "ConfigTaxlist":
                 perm = "Config,Taxlist";
-                break;
-            case "ConfigTaxlistView":
-                perm = "Config,Taxlist,View";
                 break;
             case "ConfigTaxmasterAddEdit":
                 perm = "Config,Taxmaster,AddEdit";
@@ -636,14 +631,8 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "ConfigTaxmaster":
                 perm = "Config,Taxmaster";
                 break;
-            case "ConfigTaxmasterView":
-                perm = "Config,Taxmaster,View";
-                break;
             case "ConfigKeyValueAddEdit":
                 perm = "Config,KeyValue,AddEdit";
-                break;
-            case "ConfigProductView":
-                perm = "Config,Product,View";
                 break;
             case "ConfigProductAddEdit":
                 perm = "Config,Product,AddEdit";
@@ -654,8 +643,30 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "ConfigHierarchy":
                 perm = "Config,Hierarchy";
                 break;
-            case "ConfigHierarchyView":
-                perm = "Config,Hierarchy,View";
+                
+                //user
+            case "UserLogout":
+                perm = "User,Logout";
+                break;
+            case "UserProfile":
+                perm = "User,Profile";
+                break;
+            case "UserChangePassword":
+                perm = "User,ChangePassword";
+                break;
+                
+                //Developer
+            case "DeveloperGenerateDb":
+                perm = "Developer,GenerateDb";
+                break;
+            case "DeveloperSystemExplorer":
+                perm = "Developer,SystemExplorer";
+                break;
+            case "DeveloperDbTables":
+                perm = "Developer,DbTables";
+                break;
+            case "DeveloperExecuteQuery":
+                perm = "Developer,ExecuteQuery";
                 break;
                 
 

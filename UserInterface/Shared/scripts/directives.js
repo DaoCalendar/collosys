@@ -464,6 +464,10 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
                 btntype = 'glyphicon glyphicon-forward';
                 tooltip = 'Forward';
                 break;
+            case 'openFolder':
+                btntype = 'glyphicon glyphicon-folder-open';
+                tooltip = 'Forward';
+                break;
             default:
 
         }

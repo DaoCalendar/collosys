@@ -11,10 +11,10 @@
                     <input type="text" name="directory" class="form-control" required data-ng-model="dldata.logfile.Path" />
                 </div>
                 <div class="col-md-2">
-                    <cs-button type="save" text="GO" permission="Developer,SystemExplorer" data-ng-disabled="!pageForm.$valid"
+                    <cs-button type="save" text="GO" permission="DeveloperSystemExplorer" data-ng-disabled="!pageForm.$valid"
                                data-ng-click="datalayer.getStatus(dldata.logfile.Path)"></cs-button>
 
-                    <cs-button type="save" text="UP" permission="Developer,SystemExplorer" data-ng-disabled="!pageForm.$valid"
+                    <cs-button type="save" text="UP" permission="DeveloperSystemExplorer" data-ng-disabled="!pageForm.$valid"
                                data-ng-click="datalayer.getParentDir(dldata.logfile.Path)"></cs-button>
                 </div>
 
@@ -25,12 +25,13 @@
 
             <div class="row form-group">
                 <span class="col-md-6" data-ng-repeat="dir in dldata.logfile.Directories|filter:search">
-                    <i class="glyphicon glyphicon-folder-open" style="color: wheat"></i>
+                    <icon-btn type="openFolder" permission="DeveloperSystemExplorer" style="color: wheat"></icon-btn>
                     <button class="btn btn-link" data-ng-click="changeDirectory(dir)" type="button">{{dir.Name}}</button>
                 </span>
                 <span class="col-md-6" data-ng-repeat="logFile in dldata.logfile.LogFiles|filter:search">
                     <span>{{logFile.Name}}</span>
-                    <i class="btn glyphicon glyphicon-arrow-down" data-ng-click="downloadFile(logFile)"></i>
+                    <icon-btn type="down-arrow" permission="DeveloperSystemExplorer" data-ng-click="downloadFile(logFile)"></icon-btn>
+                   <!-- <span>{{logFile.Name}}</span>-->
                 </span>
             </div>
 
