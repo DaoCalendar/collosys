@@ -138,7 +138,7 @@
             RowDTypeName: { type: "select", valueList: [] },
             Operator: { type: "select", valueField: "value", textField: "text", valueList: [{ value: "EqualTo", text: "EqualTo" }, { value: "GreaterThan", text: "Greater Than" }, { value: "LessThan", text: "Less Than" }] },
             MatrixPerType: { label: "Matrix Per Type", type: "enum", valueList: ["Table", "Formula"] },
-            MatrixPerTypeName: { type: "select", valueList: [], label: "Matrix Per Type Name", textField: 'Name', valueField: 'Id' }
+            MatrixPerTypeName: { type: "enum", valueList: [], label: "Matrix Per Type Name", textField: 'Name', valueField: 'Id' }
         };
     };
 

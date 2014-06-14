@@ -3,7 +3,7 @@
         <cs-form layout="4.3.8">
             <cs-field data-ng-model="Sele.Product" field="BillAmount.Products"></cs-field>
             <cs-field data-ng-model="Sele.Month" field="BillAmount.Month"></cs-field>
-            <cs-button type="save" text="Fetch data" permission="Billing,PayoutStatus,View" ng-disabled="billstatusform.$invalid"
+            <cs-button type="save" text="Fetch data" permission="BillingPayoutStatusAddEdit" ng-disabled="billstatusform.$invalid"
                        ng-click="fetchData(Sele)"></cs-button>
             <!--ng-disabled="billstatusform.$invalid"-->
         </cs-form>
@@ -40,7 +40,8 @@
                         <td>
                             <cs-button type="add" value="Update as {{getNextStatus(amount.PayStatus)}}"
                                        data-ng-click="changeStatus(amount)"
-                                       data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" ></cs-button>
+                                       data-ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'" 
+                                       permission="BillingPayoutStatusApprove"></cs-button>
                             <!--<cs-button type="Add" text="{{nextStatusText}}"
                                            ng-click="changeStatus(amount)"
                                            ng-disabled="!amount.ChangeStatus || amount.PayStatus=='Closed'"></cs-button>-->

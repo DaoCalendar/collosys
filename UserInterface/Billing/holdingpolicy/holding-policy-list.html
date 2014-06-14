@@ -15,7 +15,7 @@
                     </tr>
                     <tr>
                         <th class="text-center">
-                            <icon-btn type="add" permission="Billing,HoldingPolicy,AddEdit" data-ng-click="showAddEditPopup('add')"></icon-btn>
+                            <icon-btn type="add" permission="BillingHoldingPolicyAddEdit" data-ng-click="showAddEditPopup('add')"></icon-btn>
                         </th>
                         <th>
                             <input type="text" class="form-control" data-ng-model="search.Name" /></th>
@@ -35,8 +35,8 @@
                     <tr data-ng-repeat="tax in policyList| filter:search">
                         <td>
                             <div class="btn-group" style="width: 80px">
-                                <icon-btn type="view" permission="Billing,HoldingPolicy,View" data-ng-click="showAddEditPopup('view',tax)"></icon-btn>
-                                <icon-btn type="edit" permission="Billing,HoldingPolicy,AddEdit" data-ng-click="showAddEditPopup('edit',tax)"></icon-btn>
+                                <icon-btn type="view" permission="BillingHoldingPolicy" data-ng-click="showAddEditPopup('view',tax)"></icon-btn>
+                                <icon-btn type="edit" permission="BillingHoldingPolicyAddEdit" data-ng-click="showAddEditPopup('edit',tax)"></icon-btn>
                             </div>
                         </td>
                         <td>{{tax.Name}}</td>

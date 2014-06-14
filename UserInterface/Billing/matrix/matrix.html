@@ -24,8 +24,8 @@
                 <!--buttons-->
               
                 <div class="text-right" data-ng-show="dldata.matrix.BMatricesValues.length>0">
-                    <cs-button type="save" permission="Billing,Matrix,AddEdit" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)"></cs-button>
-                    <cs-button type="reset" permission="Billing,Matrix,AddEdit" data-ng-click="datalayer.reset()"></cs-button>
+                    <cs-button type="save" permission="BillingMatrixAddEdit" data-ng-show="dldata.isMatrixCreated" data-ng-disabled="!(matrixform.$valid && dldata.matrix.BMatricesValues.length>0)" data-ng-click="datalayer.saveMatrix(dldata.matrix)"></cs-button>
+                    <cs-button type="reset" permission="BillingMatrixAddEdit" data-ng-click="datalayer.reset()"></cs-button>
                 </div>
             </div>
         </div>
