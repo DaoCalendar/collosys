@@ -433,7 +433,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     break;
                 case "user":
                     options.pattern = "/^[0-9]{7}$/";
-                   // options.mask = '9999999';
+                    // options.mask = '9999999';
                     options.patternMessage = "UserId must be a 7 digit number";
                     break;
                 case "percentage":
@@ -736,13 +736,13 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
     }]);
 
 //{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
-csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
-    function (logManager, bstemplate, valtemplate) {
+csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
+    function (logManager, bstemplate) {
 
         var input = function (field, attrs) {
 
             var html = '<div class="row radio-margin"';
-            html += angular.isDefined(field.isSelected) ? 'ng-init="$parent.' + attrs.ngModel + ' = field.isSelected">' : '>';
+            html += angular.isDefined(field.defaultValue) ? 'ng-init="$parent.' + attrs.ngModel + ' = field.defaultValue">' : '>';
             html += '<span class="text-right" ng-repeat="record in  field.options" > ';
             html += '<input type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
@@ -760,20 +760,15 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "cs
             var noBootstrap = angular.isDefined(attrs.noLabel);
             var template = [
                 bstemplate.before(field, noBootstrap, attrs),
-                //valtemplate.before(field),
                 input(field, attrs),
-                //valtemplate.after(attrs.field, field),
                 bstemplate.after(noBootstrap)
             ].join(' ');
             return template;
         };
 
-
-
         var validateOptions = function (field) {
             field.label = field.label || "Description";
-
-            field.isSelected = field.required === true ? field.options[0][field.valueField].toString() : undefined;
+            field.defaultValue = field.required === true ? field.options[0][field.valueField].toString() : undefined;
 
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {
@@ -1286,7 +1281,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
     }]);
 
-csapp.directive('csForm', ["$parse", function ($parse) {
+csapp.directive('csForm', function () {
 
     var cntrlFn = function ($scope, $element, $attrs) {
 
@@ -1325,7 +1320,7 @@ csapp.directive('csForm', ["$parse", function ($parse) {
         controller: cntrlFn,
         require: '^form'
     };
-}]);
+});
 
 angular.module('ui.multiselect', [])
 
@@ -1333,7 +1328,9 @@ angular.module('ui.multiselect', [])
   .factory('optionParser', ['$parse', function ($parse) {
 
       //                      00000111000000000000022200000000000000003333333333333330000000000044000
+      // ReSharper disable InconsistentNaming
       var TYPEAHEAD_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+(.*)$/;
+      // ReSharper restore InconsistentNaming
 
       return {
           parse: function (input) {
@@ -1414,7 +1411,7 @@ angular.module('ui.multiselect', [])
                 //watch model change
                 scope.$watch(function () {
                     return modelCtrl.$modelValue;
-                }, function (newVal, oldVal) {
+                }, function (newVal) {
                     //when directive initialize, newVal usually undefined. Also, if model value already set in the controller
                     //for preselected list then we need to mark checked in our scope item. But we don't want to do this every time
                     //model changes. We need to do this only if it is done outside directive scope, from controller, for example.
@@ -1446,7 +1443,7 @@ angular.module('ui.multiselect', [])
                 element.append($compile(popUpEl)(scope));
 
                 function getHeaderText() {
-                    if (is_empty(modelCtrl.$modelValue)) return scope.header = 'Select';
+                    if (is_empty(modelCtrl.$modelValue)) scope.header = 'Select';
                     if (isMultiple) {
                         scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
                     } else {
@@ -1455,9 +1452,11 @@ angular.module('ui.multiselect', [])
 
                         scope.header = parsedResult.viewMapper(local);
                     }
-                }
+                };
 
+                // ReSharper disable InconsistentNaming
                 function is_empty(obj) {
+                    // ReSharper restore InconsistentNaming
                     if (!obj) return true;
                     if (obj.length && obj.length > 0) return false;
                     for (var prop in obj) if (obj[prop]) return false;
@@ -1485,21 +1484,22 @@ angular.module('ui.multiselect', [])
                     setModelValue(true);
                 }
 
+                // ReSharper disable once DuplicatingLocalDeclaration
                 function setModelValue(isMultiple) {
                     var value;
 
                     if (isMultiple) {
                         value = [];
-                        angular.forEach(scope.items, function (item) {
+                        angular.forEach(scope.items, function(item) {
                             if (item.checked) value.push(item.model);
-                        })
+                        });
                     } else {
-                        angular.forEach(scope.items, function (item) {
+                        angular.forEach(scope.items, function(item) {
                             if (item.checked) {
                                 value = item.model;
-                                return false;
+                                //return false;
                             }
-                        })
+                        });
                     }
                     modelCtrl.$setViewValue(value);
                 }
@@ -1509,7 +1509,7 @@ angular.module('ui.multiselect', [])
                         angular.forEach(scope.items, function (item) {
                             if (angular.equals(item.model, newVal)) {
                                 item.checked = true;
-                                return false;
+                                //return false;
                             }
                         });
                     } else {
@@ -1538,14 +1538,14 @@ angular.module('ui.multiselect', [])
                     setModelValue(true);
                 };
 
-                scope.select = function (item) {
+                scope.select = function(item) {
                     if (isMultiple === false) {
                         selectSingle(item);
                         scope.toggleSelect();
                     } else {
                         selectMultiple(item);
                     }
-                }
+                };
             }
         };
     }])
