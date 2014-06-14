@@ -2,7 +2,6 @@
 csapp.directive("csOutput", function () {
     var linkfunction = function (scope, ele, attr, ctrl) {
         scope.csForm = ctrl[0];
-        console.log(scope.csForm);
     };
     return {
         restrict: 'E',
@@ -10,14 +9,14 @@ csapp.directive("csOutput", function () {
         templateUrl: baseUrl + 'Shared/templates/output-directive.html',
         require: ['^csForm'],
         scope: {
-            tableName: '@', //replace with product - models.js getBillingColumns
+            tableName: '@', //TODO: replace with product - models.js getBillingColumns
             formulaList: '=',
             matrixList: '=',
             groupId: '@',
             groupType: '@',
             tokensList: '=',
-            debug: '@', //remove
-            edit: '@' //remove
+            debug: '@', //TODO: remove
+            edit: '@' //TODO: remove
         },
         link: linkfunction
     };
@@ -36,7 +35,6 @@ csapp.controller('outputCtrl',
         };
 
         var initToken = function () {
-            console.log($scope);
             $scope.tokens = {
                 AllTokensList: [],
                 //selected: [],
@@ -227,7 +225,7 @@ csapp.controller('conditionCtrl',
                 $scope.tokensSupport.bracketCounter -= 1;
         };
 
-        $scope.addToken = function (item, model, label) {
+        $scope.addToken = function (item) { //, model, label
             tokenHelper.addTokenToTokenList($scope.tokens, $scope.tokensList, item, $scope.groupId, $scope.groupType);
             manageBracketCounter(item);
             setNextToken(item);
@@ -276,7 +274,7 @@ csapp.controller('conditionCtrl',
             $scope.addForm.$setValidity('valid', $scope.tokensSupport.isValid);
         };
 
-        var getNextTokens = function (dataType, currentGroupType, currentToken) {
+        var getNextTokens = function (dataType, currentGroupType) {
 
             switch (currentGroupType) {
                 case 'group1': //group1:Formula/Column/Matrix/Brackets
@@ -405,18 +403,21 @@ csapp.factory('OperatorsGroup', ['operatorsFactory', function (operatorsFactory)
             case 'Value':
                 return 'group1';
             case 'Operator':
-                if (token.DataType == 'bracket') {
-                    return 'group1';
+                switch (token.DataType) {
+                    case 'bracket':
+                        return 'group1';
+                    case 'number':
+                        return 'group2';
+                    case 'conditional':
+                        return 'group3';
+                    case 'relational':
+                        return 'group5';
+                    case 'equality':
+                    case 'enumvals':
+                        return 'group4';
+                    default:
+                        throw "invalid operator token datatype" + token.DataType;
                 }
-                if (token.DataType == 'number')
-                    return 'group2';
-                if (token.DataType == 'conditional')
-                    return 'group3';
-                if (token.DataType == 'relational')
-                    return 'group5';
-                if (token.DataType == 'equality' || token.DataType == 'enumvals')
-                    return 'group4';
-                break;
             default:
                 throw "invalid token type" + token.Type;
         }
@@ -522,7 +523,7 @@ csapp.controller('multiIfElseCtrl', ['$scope', '$csModels', 'operatorsFactory', 
 
 
 //#region factory
-csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
+csapp.factory('tokenValidations', function () {
 
     var validateOperator = function (tokens, newToken) {
 
@@ -550,7 +551,7 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
         return false;
     };
 
-    var validateFormula = function (tokens, newToken) {
+    var validateFormula = function (tokens) {
         if (angular.isUndefined(tokens.lastToken.Type)) {
             return true;
         }
@@ -582,7 +583,7 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
         return result;
     };
 
-    var validateValue = function (tokens, value) {
+    var validateValue = function (tokens) {
         if (angular.isDefined(tokens.lastToken.Type) &&
             tokens.lastToken.Type === 'Operator') {
             return true;
@@ -594,7 +595,7 @@ csapp.factory('tokenValidations', ['$csfactory', function ($csfactory) {
         validate: validate,
         validateValue: validateValue
     };
-}]);
+});
 
 csapp.factory('operatorsFactory', function () {
     var operators = {};

@@ -15,9 +15,11 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
         var getHierarchies = function () {
             return apistake.customGET('GetAllHierarchies').then(function (data) {
+                //var externalList = _.filter()
                 _.forEach(data, function (item) {
                     if (item.Hierarchy !== 'External') return;
                     var reportTo = _.find(data, { 'Id': item.ReportsTo });
+                    if (angular.isUndefined(reportTo)) return;
                     reportTo.Designation = item.Designation + '(' + reportTo.Designation + ')';
                 });
                 return data;
@@ -113,6 +115,7 @@ csapp.factory("AddEditStakeholderFactory", function () {
 
     //TODO: move to $csfactory
     var resetVal = function (key, except) {
+        if (angular.isUndefined(except)) return true;
         var index = except.indexOf(key);
         return index === -1;
     };
@@ -172,7 +175,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             var hierarchies = _.filter($scope.HierarchyList, function (item) {
                 return (item.Hierarchy === hierarchy);
             });
-            $scope.Designation = _.sortBy(hierarchies, 'PositionLevel');
+            $scope.DesignationList = _.sortBy(hierarchies, 'PositionLevel');
         };
 
         $scope.assignSelectedHier = function (designation, form) {
@@ -193,7 +196,13 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         $scope.saveData = function (data) {
             setStakeObject(data);
             datalayer.Save(data).then(function (savedStakeholder) {
-                $location.path('/stakeholder/working/' + savedStakeholder.Id);
+                if ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true)
+                    $location.path('/stakeholder/working/' + savedStakeholder.Id);
+                else {
+                    factory.ResetObj($scope.Stakeholder);
+                    console.log($scope.Stakeholder);
+                    $scope.basicInfoForm.$setPristine();
+                }
             });
         };
 

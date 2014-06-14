@@ -62,7 +62,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             //TODO: has fixed pay individual
             datalayer.GetPaymentDetails().then(function (data) {
                 $scope.FixedPay = factory.GetFixedPayObj(data);
-                console.log("fixedPay: ", $scope.FixedPay);
             });
         });
 
