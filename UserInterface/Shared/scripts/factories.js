@@ -496,7 +496,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
                 perm = "FileUploader,CreateFile,Approve";
                 break;
             case "FileSchedule":
-                perm = "FileUploader,ScheduleFile,Schedule";
+                perm = "FileUploader,ScheduleFile";
                 break;
             case "FileStatus":
                 perm = "FileUploader,Status";
