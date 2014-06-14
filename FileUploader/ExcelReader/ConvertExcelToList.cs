@@ -15,6 +15,12 @@ namespace ReflectionExtension.ExcelReader
 
         private IExcelReader _iExcelReader;
 
+        public ConvertExcelToList(FileInfo fileInfo)
+        {
+            var stream = fileInfo.Open(FileMode.Open, FileAccess.Read);
+            _iExcelReader = GetInstance(stream);
+        }
+
         public ConvertExcelToList(FileStream fileStream)
         {
             _iExcelReader = GetInstance(fileStream);

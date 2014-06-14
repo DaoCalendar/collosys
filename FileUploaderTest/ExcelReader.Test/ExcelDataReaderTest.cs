@@ -1,16 +1,20 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
-    class ExcelDataReaderTest :SetUpAssemblies
+    class ExcelDataReaderTest
     {
         private IExcelReader _excel;
+        private FileInfo _fileInfo;
+
         [SetUp]
         public void Init()
         {
-            _excel=new ExcelDataReader(FileStream);
+            _fileInfo = new FileInfo("DrillDown_Txn_1.xls");
+            _excel = new ExcelDataReader(_fileInfo);
         }
 
         #region:: Total Rows & Total Columns ::
@@ -122,7 +126,8 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Test_Constructor_With_FileInfo()
         {
-            _excel = new ExcelDataReader(FileInfo);
+            var fileInfo = new FileInfo("DrillDown_Txn_1.xls");
+            _excel = new ExcelDataReader(fileInfo);
 
             Assert.AreEqual(_excel.TotalRows, 6);
             Assert.AreEqual(_excel.TotalColumns, 11);

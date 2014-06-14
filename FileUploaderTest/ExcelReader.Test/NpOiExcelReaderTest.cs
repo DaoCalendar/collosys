@@ -1,17 +1,20 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
-    class NpOiExcelReaderTest: SetUpAssemblies
+    class NpOiExcelReaderTest
     {
-        private NpOiExcelReader Excel;
-     
+        private NpOiExcelReader _excel;
+        private FileInfo _fileInfo;
+
         [SetUp]
         public void Init()
         {
-            Excel = new NpOiExcelReader(FileStream);
+            _fileInfo = new FileInfo("DrillDown_Txn_1.xls");
+            _excel = new NpOiExcelReader(_fileInfo);
         }
 
         #region:: ColumnWise Test Case ::
@@ -19,14 +22,14 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Read_String_StartAt_Initial_Column_Values()
         {
-            string value = Excel.GetValue(1);
+            string value = _excel.GetValue(1);
             Assert.AreEqual(value, "Skydiving");
         }
 
         [Test]
         public void Read_String_StartAt_Initial_Column_Values1()
         {
-            string value = Excel.GetValue(2);
+            string value = _excel.GetValue(2);
             Assert.AreEqual(value, "710");
         }
 
@@ -38,7 +41,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(1, 6, "non Numbric string")]
         public void Read_String_Column_Values(int colPos, int rowPos, string expected)
         {
-         string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -50,7 +53,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(2, 6, "123")]
         public void Read_Int32_Column_Values(int colPos, int rowPos, string expected)
         {
-           string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -62,7 +65,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(3, 6, "18-Nov-03 11:25 ")]
         public void Read_DateTime_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -74,7 +77,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(4, 6, "654")]
         public void Read_Double_Column_Values(int colPos, int rowPos, string expected)
         {
-           string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
         [TestCase(5, 1, "12.3215")]
@@ -85,7 +88,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(5, 6, "654")]
         public void Read_Float_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -97,8 +100,8 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(6, 6, "684")]
         public void Read_Int64_Column_Values(int colPos, int rowPos, string expected)
         {
-            Excel.NextRow();
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            _excel.NextRow();
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -110,7 +113,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(7, 6, "789")]
         public void Read_Uint32_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -122,7 +125,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(8, 6, "5441")]
         public void Read_Decimal_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -134,7 +137,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(9, 6, "123")]
         public void Read_Uint64_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
         [TestCase(10, 1, "101")]
@@ -145,7 +148,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(10, 6, "123")]
         public void Read_int16_Column_Values(int colPos, int rowPos, string expected)
         {
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -157,8 +160,8 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(11, 6, "d")]
         public void Read_Character_Column_Values(int colPos, int rowPos, string expected)
         {
-          
-            string value = Excel.GetValue((uint)rowPos, (uint)colPos);
+
+            string value = _excel.GetValue((uint)rowPos, (uint)colPos);
             Assert.AreEqual(value, expected);
         }
 
@@ -180,7 +183,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(11, "A")]
         public void Test_Read_firstRow_Each_Columns(int pos, string expected)
         {
-            string val = Excel.GetValue((uint)pos);
+            string val = _excel.GetValue((uint)pos);
             Assert.AreEqual(val, expected);
         }
 
@@ -197,8 +200,8 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(11, "6")]
         public void Test_Read_SecoundRow_Each_Columns(int pos, string expected)
         {
-            Excel.NextRow();
-            string val = Excel.GetValue((uint)pos);
+            _excel.NextRow();
+            string val = _excel.GetValue((uint)pos);
             Assert.AreEqual(val, expected);
         }
 
@@ -215,9 +218,9 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [TestCase(11, "F")]
         public void Test_Read_ThirdRow_Each_Columns(int pos, string expected)
         {
-            Excel.NextRow();
-            Excel.NextRow();
-            string val = Excel.GetValue((uint)pos);
+            _excel.NextRow();
+            _excel.NextRow();
+            string val = _excel.GetValue((uint)pos);
             Assert.AreEqual(val, expected);
         }
 
@@ -226,31 +229,31 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Assigning_Count_To_Skip()
         {
-            Excel.Skip(3);
-            Assert.AreEqual(Excel.CurrentRow, 4);
+            _excel.Skip(3);
+            Assert.AreEqual(_excel.CurrentRow, 4);
         }
 
         [Test]
         public void Assigning_Count_GreaterThan_TotalRows_To_Skip()
         {
-            Excel.Skip(7);
-            Assert.AreEqual(Excel.CurrentRow, 6);
+            _excel.Skip(7);
+            Assert.AreEqual(_excel.CurrentRow, 6);
         }
 
         [Test]
         public void Assigning_Count_After_Reading_FirstRows_To_Skip()
         {
-            Excel.NextRow();
-            Excel.Skip(3);
-            Assert.AreEqual(Excel.CurrentRow, 5);
+            _excel.NextRow();
+            _excel.Skip(3);
+            Assert.AreEqual(_excel.CurrentRow, 5);
         }
 
         [Test]
         public void Test_Constructor_With_FileInfo()
         {
-            Excel = new NpOiExcelReader(FileInfo);
-            Assert.AreEqual(Excel.TotalRows, 6);
-            Assert.AreEqual(Excel.TotalColumns, 11);
+            _excel = new NpOiExcelReader(_fileInfo);
+            Assert.AreEqual(_excel.TotalRows, 6);
+            Assert.AreEqual(_excel.TotalColumns, 11);
         }
         #endregion
 

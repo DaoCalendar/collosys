@@ -7,19 +7,17 @@ using ReflectionExtension.ExcelReader;
 namespace ReflectionExtension.Tests.ExcelReader.Test
 {
     [TestFixture]
-    internal class EpPlusExcelReaderTest :SetUpAssemblies
+    internal class EpPlusExcelReaderTest
     {
-        private ConvertExcelToList<ExcelReaderHelper> _data;
         private IExcelReader _excel;
-        //private FileStream _filetream;
+        private FileInfo _fileInfo;
 
         [SetUp]
         public void Init()
         {
-            _excel = new EpPlusExcelReader(FileStream);
+            _fileInfo = new FileInfo("DrillDown_Txn_1.xls");
+            _excel = new EpPlusExcelReader(_fileInfo);
         }
-
-       
 
         #region::Assigning Diffrent files to Constructor::
 
@@ -40,7 +38,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Test_GetList_For_EpPlusReader()
         {
-            var obj = new ConvertExcelToList<ExcelReaderHelper>(FileStream);
+            var obj = new ConvertExcelToList<ExcelReaderHelper>(_fileInfo);
             var excelmaping = ExcelReaderHelper.GetMappingInfo();
             obj.GetList(excelmaping);
         }
@@ -48,7 +46,6 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
 
 
         #endregion
-
 
         #region::Read Excel ColumnsWise::
         
