@@ -332,6 +332,8 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         };
 
         (function () {
+            $scope.datalayer = datalayer;
+            $scope.dldata = datalayer.dldata;
             $scope.eGPincodeModel = $csModels.getColumns("Pincode");
             if (angular.isDefined($routeParams.id)) {
                 datalayer.Get($routeParams.id).then(function (data) {

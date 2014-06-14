@@ -31,7 +31,7 @@
                     </div>
                     <div data-ng-if="showTextBox">
                         <div class="col-md-9">
-                            <label class="col-md-3 text-right" style="padding-top: 8px">City<span style="color: red">*</span></label>
+                            <label class="col-md-3" style="padding-top: 8px">City<span style="color: red">*</span></label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" data-ng-model="GPincodedata.City" 
                                        data-ng-required="showTextBox" />
@@ -46,7 +46,7 @@
 
 
                 <cs-field data-ng-model="GPincodedata.CityCategory" 
-                          field="eGPincodeModel.CityCategory"></cs-field>
+                          field="eGPincodeModel.CityCategory" value-List="dldata.CityCategory"></cs-field>
 
                 <cs-field data-ng-model="GPincodedata.Area" field="eGPincodeModel.Area"
                           typeahead="c for c in pincodeArea($viewValue,GPincodedata.City)"
@@ -63,10 +63,10 @@
         </div>
     </div>
     <div class="text-right">
-        <cs-button type="save" permission="Config,Pincode" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist"></cs-button>
-        <cs-button type="close" permission="Config,Pincode" data-ng-click="closeEditModel()"></cs-button>
-        <cs-button type="reset" permission="Config,Pincode,AddEdit" data-ng-hide="mode === 'edit'" data-ng-click="reset(GPincodedata,formEditPincode)"></cs-button>
-        <cs-button type="reset" permission="Config,Pincode,View" data-ng-hide="mode === 'add'" data-ng-click="resetedit(GPincodedata)"></cs-button>
+        <cs-button type="save" permission="ConfigPincode" data-ng-click="save(GPincodedata,mode)" data-ng-disabled="!formEditPincode.$valid || alreadyExist"></cs-button>
+        <cs-button type="close" permission="ConfigPincode" data-ng-click="closeEditModel()"></cs-button>
+        <cs-button type="reset" permission="ConfigPincodeAddEdit" data-ng-hide="mode === 'edit'" data-ng-click="reset(GPincodedata,formEditPincode)"></cs-button>
+        <cs-button type="reset" permission="ConfigPincode" data-ng-hide="mode === 'add'" data-ng-click="resetedit(GPincodedata)"></cs-button>
     </div>
 </form>
 

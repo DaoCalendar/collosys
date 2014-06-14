@@ -44,8 +44,8 @@
                     <tr data-ng-repeat="product in dldata.productList | filter:search">
                         <td>
                             <div class="btn-group" style="width: 90px">
-                                <icon-btn type="view" permission="Config,Product,View" data-ng-click="openModelData('view',product)"></icon-btn>
-                                <icon-btn type="edit" permission="Config,Product,AddEdit" data-ng-click="openModelData('edit',product)"></icon-btn>
+                                <icon-btn type="view" permission="ConfigProduct" data-ng-click="openModelData('view',product)"></icon-btn>
+                                <icon-btn type="edit" permission="ConfigProductAddEdit" data-ng-click="openModelData('edit',product)"></icon-btn>
 <!--                                <icon-btn type="delete" data-ng-click="openModelData(product,false,$index)"></icon-btn>-->
                             </div>
                         </td>

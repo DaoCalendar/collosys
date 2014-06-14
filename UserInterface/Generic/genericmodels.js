@@ -35,7 +35,7 @@
             Cluster: { label: 'Cluster', type: 'select', editable: false, required: true, valueList: [] },
             District: { label: 'District', type: 'select', editable: false, required: true, valueList: [] },
             City: { label: 'City', type: 'select', required: true, valueList: [] },
-            CityCategory: { label: 'CityCategory', type: 'enum', valueList: $csShared.enums.CityCategory, required: true },
+            CityCategory: { label: 'CityCategory', type: 'enum', required: true },
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "enum", valueList: ['Yes', 'No'], required: true },
             Pincode: { label: 'Pincode', type: 'number', template: 'uint', editable: false, pattern: '/^[0-9]{6}$/', patternMessage: 'Only 6 digits required', required: true },

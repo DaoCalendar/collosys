@@ -613,10 +613,10 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
            
 
                 //Config
-            case "Configpincode":
+            case "ConfigPincode":
                 perm = "Config,Pincode";
                 break;
-            case "ConfigpincodeAddEdit":
+            case "ConfigPincodeAddEdit":
                 perm = "Config,Pincode,AddEdit";
                 break;
             case "ConfigTaxlistAddEdit":
@@ -636,6 +636,12 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
                 break;
             case "ConfigProductAddEdit":
                 perm = "Config,Product,AddEdit";
+                break;
+            case "ConfigProductApprove":
+                perm = "Config,Product,Approve";
+                break;
+            case "ConfigProduct":
+                perm = "Config,Product";
                 break;
             case "ConfigHierarchyAddEdit":
                 perm = "Config,Hierarchy,AddEdit";

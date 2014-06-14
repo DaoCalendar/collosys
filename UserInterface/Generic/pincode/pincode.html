@@ -10,7 +10,7 @@
                         <cs-field data-ng-model="selectedState" field="eGPincodeModel.selectedState" data-ng-change="datalayer.changeState(selectedState)"
                                   value-list="dldata.States"></cs-field>
                     <cs-form layout="7" >
-                        <cs-button type="add" text="Add New Pincode" permission="Config,Pincode,AddEdit" data-ng-click="openAddEditModal('add')"></cs-button>
+                        <cs-button type="add" text="Add New Pincode" permission="ConfigPincodeAddEdit" data-ng-click="openAddEditModal('add')"></cs-button>
                     </cs-form>
                 </div>
             </cs-form>
@@ -72,7 +72,7 @@
                     <tr data-ng-repeat="GPincode in dldata.GPincodes | filter:search | orderBy: 'Pincode'">
                         <td>
                             <div class="btn-group">
-                                <icon-btn type="edit" permission="Config,Pincode,View" data-ng-click="openAddEditModal('edit',GPincode)"></icon-btn>
+                                <icon-btn type="edit" permission="ConfigPincodeAddEdit" data-ng-click="openAddEditModal('edit',GPincode)"></icon-btn>
                             </div>
                         </td>
                         <td>{{GPincode.Pincode}}</td>

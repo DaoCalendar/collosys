@@ -5,7 +5,7 @@
 
             <tr>
                 <th class="text-center">
-                    <icon-btn type="add" permission="Config,Hierarchy,AddEdit" data-ng-click="openEditModal('add')"></icon-btn>
+                    <icon-btn type="add" permission="ConfigHierarchyAddEdit" data-ng-click="openEditModal('add')"></icon-btn>
                 </th>
                 <th>Designation</th>
                 <th>Hierarchy</th>
@@ -85,8 +85,8 @@
                 <!--Button Edit n Delete-->
                 <td>
                     <div class="btn-group" style="width: 80px">
-                        <icon-btn type="view" permission="Config,Hierarchy,View" data-ng-click="openEditModal('view',hierarchy)"></icon-btn>
-                        <icon-btn type="edit" permission="Config,Hierarchy,AddEdit" data-ng-click="openEditModal('edit',hierarchy)"></icon-btn>
+                        <icon-btn type="view" permission="ConfigHierarchy" data-ng-click="openEditModal('view',hierarchy)"></icon-btn>
+                        <icon-btn type="edit" permission="ConfigHierarchyAddEdit" data-ng-click="openEditModal('edit',hierarchy)"></icon-btn>
                     </div>
                 </td>
 

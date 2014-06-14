@@ -23,10 +23,10 @@
                      
                         <div data-ng-show="dldata.productconfig.HasTelecalling">
                             <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysCycle"
-                                      field="Products.FrCutOffDaysCycle" data-ng-disabled="dldata.isreadonly" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
+                                      field="Products.FrCutOffDaysCycle" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
 
                             <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysMonth"
-                                      field="Products.FrCutOffDaysMonth" data-ng-disabled="dldata.isreadonly" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
+                                      field="Products.FrCutOffDaysMonth" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
                         </div>
                         
                          <cs-field data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple"
@@ -39,9 +39,9 @@
             </div>
         </div>
         <div class="text-right">
-            <cs-button type="save" permission="Config,Product,AddEdit" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid"></cs-button>
-            <cs-button type="close" permission="Config,Product,AddEdit" data-ng-click="closeModel('Cancel')"></cs-button>
-            <cs-button type="close" permission="Config,Product,View" data-ng-click="closeModel('Close')"></cs-button>
+            <cs-button type="save" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid"></cs-button>
+            <cs-button type="close" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" data-ng-click="closeModel('Cancel')"></cs-button>
+            <cs-button type="close" permission="Config,Product" data-ng-hide="mode === 'edit'" data-ng-click="closeModel('Close')"></cs-button>
         </div>
     </form>
 </div>
