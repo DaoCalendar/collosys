@@ -9,7 +9,12 @@ csapp.factory("ChangePasswordDataLayer", ["$csnotify", 'Restangular', "$csAuthFa
         var savepassword = function (changepassword) {
             return apictrl.customPOST(changepassword, 'changedpassword').then(function (data) {
                 dldata.PasswordChanged = data;
-                $csnotify.success("Password Changed Successfully");
+                if (data == "null") {
+                    $csnotify.error("User does not exist or Password do not Match");
+                } else {
+                    $csnotify.success("Password Changed Successfully");
+                }
+                return data;
             }, function (data) {
                 $csnotify.error(data.message);
             });

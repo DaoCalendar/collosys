@@ -26,16 +26,12 @@ namespace AngularUI.Generic.changepassword
 
             var data = _usersRepo.FilterBy(x => x.Password == currentpassword)
                 .FirstOrDefault();
+                
             if (data != null)
             {
                 data.Password = newpassword;
                 _usersRepo.Save(data);
             }
-            else
-            {
-                throw new Exception("User does not exist or passwords do not match!!!");
-            }
-
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
