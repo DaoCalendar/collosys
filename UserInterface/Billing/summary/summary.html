@@ -81,7 +81,7 @@
                 <div class="row text-center">
                     <span data-ng-show="(dldata.BillAmount.Month)">
                         <cs-button type="save" text="Approve"
-                                   permission="Billing,PayoutStatus,Approve"
+                                   permission="BillingPayoutStatusApprove"
                                    data-ng-show="!factory.enableLink()"
                                    data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Approve')"
                                    data-ng-disabled="dldata.billingData.Status==='Approved'">
@@ -91,14 +91,14 @@
 
 
                     <cs-button type="save" text="Paid"
-                               permission="Billing,PayoutStatus,AddEdit"
+                               permission="BillingPayoutStatusAddEdit"
                                data-ng-click="datalayer.approvePayBillingAmount(dldata.billingData,'Pay')"
                                data-ng-show="dldata.billingData.Status==='Approved'"
                                data-ng-disabled="dldata.billingData.PayStatus =='Paid'"></cs-button>
 
                     <span data-ng-show="(dldata.BillAmount.Month)">
                         <cs-button type="save" text="Download Excel"
-                                   permission="Billing,PayoutStatus,AddEdit"
+                                   permission="BillingPayoutStatusAddEdit"
                                    data-ng-click="downloadBillSummaryExcel(dldata.BillAmount.Product,dldata.BillAmount.Stakeholder,dldata.BillAmount.Month)">
                         </cs-button>
                     </span>

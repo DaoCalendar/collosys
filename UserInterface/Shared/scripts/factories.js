@@ -610,6 +610,9 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "BillingPayoutStatusApprove":
                 perm = "Billing,PayoutStatus,Approve";
                 break;
+            case "BillingPayoutStatus":
+                perm = "Billing,PayoutStatus";
+                break;
            
 
                 //Config

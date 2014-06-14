@@ -1,9 +1,11 @@
-﻿<div class="row" data-ng-if="formula.OutputType=='Number'">
-    <cs-output table-name="CustomerInfo"
-               selected="selParams"
-               formula-list="formulaList"
-               tokens-list="groupTokens[0].IfOutput"
-               group-id="0"
-               group-type="Output"
-               debug="false"></cs-output>
-</div>
+﻿<form name="formulaoutputform">
+    <div class="row" data-ng-if="formula.OutputType=='Number'">
+        <cs-output table-name="CustomerInfo"
+                   selected="selParams"
+                   formula-list="formulaList"
+                   tokens-list="groupTokens[0].IfOutput"
+                   group-id="0"
+                   group-type="Output"
+                   debug="false"></cs-output>
+    </div>
+</form>

@@ -30,7 +30,7 @@
                             <!-- <div class="btn-group">
                                      <i class="btn glyphicon glyphicon-trash" data-ng-click="Delete($index)"></i>
                                  </div>-->
-                            <icon-btn type="remove" permission="Billing,AdhocPayout,AddEdit" ng-click="Delete($index)"></icon-btn>
+                            <icon-btn type="remove" permission="BillingAdhocPayoutAddEdit" ng-click="Delete($index)"></icon-btn>
                         </td>
                         <td>
                             <input data-ng-bind="pay.Products"
@@ -103,7 +103,7 @@
                         </td>
                         <td>
                             <!--<cs-button type="submit" text="Add" ng-show="$last"></cs-button>-->
-                            <cs-button type="add" text="Add Another" permission="Billing,AdhocPayout,AddEdit"
+                            <cs-button type="add" text="Add Another" permission="BillingAdhocPayoutAddEdit"
                                        data-ng-show="$last"></cs-button>
                         </td>
                     </tr>
@@ -111,7 +111,7 @@
             </table>
         </div>
         <div data-ng-show="PaymentList.length>0">
-            <icon-btn type="save" permission="Billing,AdhocPayout,AddEdit" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></icon-btn>
+            <icon-btn type="save" permission="BillingAdhocPayoutAddEdit" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></icon-btn>
             <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
                        value="Save" data-ng-click="save(PaymentList)" />
                 <cs-button type="Delete"  ng-disabled="true"></cs-button>

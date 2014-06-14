@@ -3,7 +3,7 @@
     <div class="modal-header">Add-Payment Screen</div>
 
     <div class="modal-body">
-        <cs-form layout="9.5.7">
+        <cs-form layout="10.5.7">
             <cs-field data-ng-model="addpayment.Products" field="addpaymentModel.Products"></cs-field>
 
             <cs-field data-ng-model="addpayment.AccountNo" field="addpaymentModel.AccountNo"
@@ -27,9 +27,9 @@
     </div>
 
     <div class="modal-footer">
-        <cs-button type="save" permission="Billing,ModifyPayment,AddEdit" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)"></cs-button>
-        <cs-button type="close" permission="Billing,ModifyPayment,AddEdit" data-ng-click="close()"></cs-button>
-        <cs-button type="reset"  permission="Billing,ModifyPayment,AddEdit" data-ng-click="reset()"></cs-button>
+        <cs-button type="save" permission="BillingModifyPaymentAddEdit" data-ng-disabled="!addpaymentform.$valid" data-ng-click="save(addpayment)"></cs-button>
+        <cs-button type="close" permission="BillingModifyPaymentAddEdit" data-ng-click="close()"></cs-button>
+        <cs-button type="reset"  permission="BillingModifyPaymentAddEdit" data-ng-click="reset()"></cs-button>
     </div>
 </form>
 

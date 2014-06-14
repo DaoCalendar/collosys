@@ -24,10 +24,10 @@
             </cs-form>
         </div>
         <div class="modal-footer">
-            <cs-button type="add" permission="Billing,PayoutStatus,AddEdit"
+            <cs-button type="add" permission="BillingPayoutStatusAddEdit"
                 data-ng-disabled="!(adhocPayoutform.$valid)"
                 data-ng-click="addAdhocPayout(adhocPayout,dldata.billingData);AddPopUp=false"></cs-button>
-            <cs-button type="close" permission="Billing,PayoutStatus,AddEdit" data-ng-click="closeModal()"></cs-button>
+            <cs-button type="close" permission="BillingPayoutStatusAddEdit" data-ng-click="closeModal()"></cs-button>
         </div>
     </form>
 </div>
