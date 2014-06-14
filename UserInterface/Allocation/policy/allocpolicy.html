@@ -18,23 +18,23 @@
                         <div class="col-md-8">{{selected.selectedItem.Name}}</div>
                         <div class="col-md-3">
                             <cs-button type="cancel" text="Deactivate"
-                                permission="Allocation,AllocationPolicy,AddEdit"
+                                permission="AllocationPolicyAddEdit"
                                 data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
                                 data-ng-click="openModelforSubPolicy('Expire');"></cs-button>
                             <cs-button type="ok" text="Activate"
-                                permission="Allocation,AllocationPolicy,AddEdit"
+                                permission="AllocationPolicyAddEdit"
                                 data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
                                 data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
                             <cs-button type="ok" text="Reactivate"
-                                permission="Allocation,AllocationPolicy,AddEdit"
+                                permission="AllocationPolicyAddEdit"
                                 data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
                                 data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
                             <cs-button type="ok" text="Approve"
-                                permission="Allocation,AllocationPolicy,Approve"
+                                permission="AllocationPolicyApprove"
                                 data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
                                 data-ng-click="approveORreject('Approve')"></cs-button>
                             <cs-button type="cancel" text="Reject"
-                                permission="Allocation,AllocationPolicy,Approve"
+                                permission="AllocationPolicyApprove"
                                 data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
                                 data-ng-click="approveORreject('Reject')"></cs-button>
                         </div>

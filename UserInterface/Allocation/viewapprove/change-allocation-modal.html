@@ -54,9 +54,9 @@
 
         </div>
         <div class="modal-footer">
-            <cs-button type="save" permission="Allocation,CheckAllocation,AddEdit" data-ng-click="saveAllocationChanges(dldata.approveView.Param)"
+            <cs-button type="save" permission="CheckAllocationAddEdit" data-ng-click="saveAllocationChanges(dldata.approveView.Param)"
                        data-ng-disabled="((dldata.selectedAllocations.length === 0 )|| changeAllocationForm.$invalid)"></cs-button>
-            <cs-button type="close" permission="Allocation,CheckAllocation,AddEdit" data-ng-click="closeModel()"></cs-button>
+            <cs-button type="close" permission="CheckAllocationAddEdit" data-ng-click="closeModel()"></cs-button>
         </div>
     </form>
 </div>
