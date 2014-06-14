@@ -2,15 +2,12 @@
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.AliasReader;
-using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.FileReader;
-using ColloSys.FileUploader.RecordCreator;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
-using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.FileReader;
-using ColloSys.FileUploaderService.RecordCreator;
+using ColloSys.FileUploaderService.RecordManager;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 

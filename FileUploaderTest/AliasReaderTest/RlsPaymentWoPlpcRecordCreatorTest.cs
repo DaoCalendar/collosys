@@ -1,6 +1,5 @@
 ﻿using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasReader;
-using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.AliasPayment;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;

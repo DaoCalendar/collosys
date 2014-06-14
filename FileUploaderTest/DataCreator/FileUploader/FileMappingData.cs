@@ -7,7 +7,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.SessionMgr;
-using NHibernate.Cfg;
 
 #endregion
 
@@ -15,30 +14,8 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 {
     public class FileMappingData
     {
-      //  SetUpAssemblies obj1 = new SetUpAssemblies();
-       // SetUpAssembliesForTest obj=new SetUpAssembliesForTest();
-        private Configuration d;
-       public FileMappingData()
-        {
-            //obj.InitNhibernate();
-        }
-
-        //public ISession BindNewSession()
-        //{
-            
-        //  //return  obj1.BindNewSession();
-        //    //var session = SessionFactory.OpenSession();
-        //    //session.FlushMode = FlushMode.Commit;
-        //    ////CurrentSessionContext.Bind(session);
-        //    //return session;
-        //}
-
-     
         private FileMapping GetDefaultMapping()
         {
-            
-
-
             return new FileMapping
             {
                 CreatedOn = DateTime.Now,
@@ -208,7 +185,7 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
 
         public Payment GetPayment()
         {
-            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500};
+            var objPayment = new Payment { TransCode = 204, TransDesc = "PARTIAL REPAYMENT - REVERSAL", CreditAmount = 400, DebitAmount = 500 };
 
             return objPayment;
         }
@@ -224,17 +201,35 @@ namespace ReflectionExtension.Tests.DataCreator.FileUploader
         {
             using (var session = SessionManager.GetNewSession())
             {
-                using (var tx=session.BeginTransaction())
+                using (var tx = session.BeginTransaction())
                 {
-                    var data = new FileScheduler() { ErrorRows = 0,AllocBillDone = true,CreateAction = "insert",
-                                                     CreatedBy = "abhijeet",
-                                                     CreatedOn = DateTime.Now,
-                                                     FileDetail = new FileDetail() { Id = new Guid("58f60a6b-edd8-4cc2-a796-c5698eff45c6"), FileName = ""},
-                        FileName = "somthing",FileDirectory = "",EndDateTime = DateTime.Now,
-                        FileDate = DateTime.Now,FileStatuss = new FileStatus[]{},FileSize = 123,Category = new ScbEnums.Category(){},
-                        TotalRows = 11,ValidRows = 11,UploadStatus = ColloSysEnums.UploadStatus.UploadRequest,StatusDescription = "", Version = 1,
-                        CLiners = new List<CLiner>(){},CUnbilleds = new CUnbilled[]{},CWriteoffs = new CWriteoff[]{},
-                        Id = new Guid("f11e47b8-8c7b-430e-9e29-d0246a54af2d"), StartDateTime = DateTime.Now};
+                    var data = new FileScheduler
+                    {
+                        ErrorRows = 0,
+                        AllocBillDone = true,
+                        CreateAction = "insert",
+                        CreatedBy = "abhijeet",
+                        CreatedOn = DateTime.Now,
+                        FileDetail =
+                        new FileDetail
+                        {
+                            Id = new Guid("58f60a6b-edd8-4cc2-a796-c5698eff45c6"),
+                        },
+                        FileName = "somthing",
+                        FileDirectory = "",
+                        EndDateTime = DateTime.Now,
+                        FileDate = DateTime.Now,
+                        FileStatuss = new FileStatus[] { },
+                        FileSize = 123,
+                        Category = ScbEnums.Category.Liner,
+                        TotalRows = 11,
+                        ValidRows = 11,
+                        UploadStatus = ColloSysEnums.UploadStatus.UploadRequest,
+                        StatusDescription = "",
+                        Version = 1,
+                        Id = new Guid("f11e47b8-8c7b-430e-9e29-d0246a54af2d"),
+                        StartDateTime = DateTime.Now
+                    };
 
                     session.Save(data);
                     tx.Commit();

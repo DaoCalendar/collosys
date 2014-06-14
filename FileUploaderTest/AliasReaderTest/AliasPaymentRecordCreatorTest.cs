@@ -3,9 +3,8 @@
 using System;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.AliasRecordCreator;
 using ColloSys.FileUploader.RowCounter;
-using ColloSys.FileUploaderService.AliasRecordCreator;
+using ColloSys.FileUploaderService.AliasPayment;
 using NSubstitute;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
@@ -23,7 +22,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
         private FileMappingData _mappingData;
         private FileScheduler _fileScheduler;
-        private IAliasRecordCreator<Payment> _objCreator;
+        private PaymentRecordCreator _objCreator;
         private IExcelReader _reader;
         private ICounter _counter;
 
@@ -32,10 +31,10 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Arrange
             _mappingData = new FileMappingData();
-           // _fileScheduler = _mappingData.GetUploadedFile();
+            _fileScheduler = _mappingData.GetUploadedFile();
             _reader = new NpOiExcelReader(FileInfo);
             _counter = new ExcelRecordCounter();
-            _objCreator = Substitute.For<AliasPaymentRecordCreator>(_fileScheduler, (uint) 3, (uint) 8);
+            _objCreator = Substitute.For<PaymentRecordCreator>(_fileScheduler, (uint) 3, (uint) 8);
         }
 
         #endregion
