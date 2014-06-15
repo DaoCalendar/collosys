@@ -15,12 +15,11 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
         var getHierarchies = function () {
             return apistake.customGET('GetAllHierarchies').then(function (data) {
-                //var externalList = _.filter()
                 _.forEach(data, function (item) {
-                    if (item.Hierarchy !== 'External') return;
+                    if (item.Hierarchy !== 'External' || !item.IsIndividual) return;
                     var reportTo = _.find(data, { 'Id': item.ReportsTo });
                     if (angular.isUndefined(reportTo)) return;
-                    reportTo.Designation = item.Designation + '(' + reportTo.Designation + ')';
+                    item.Designation = item.Designation + ' ( ' + reportTo.Designation + ' )';
                 });
                 return data;
             }, function () {

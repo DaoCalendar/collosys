@@ -202,43 +202,54 @@ csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger'
                 className: ' btn-default'
             };
 
+            var classes = {
+                success: "btn-success",
+                error: "btn-danger",
+                warning: "btn-warning",
+                action: "btn-default",
+                submit: "btn-primary"
+            };
+
             switch (type) {
                 case 'submit':
                     templateParams.type = 'submit';
                     templateParams.text = text || 'Submit';
+                    templateParams.className = classes.submit;
                     break;
                 case 'delete':
-                    //templateParams.className = 'btn-danger';
+                    templateParams.className = classes.error;
                     templateParams.text = text || 'Delete';
                     break;
                 case 'save':
-                    //templateParams.className = 'btn-success';
+                    templateParams.className = classes.success;
                     templateParams.text = text || 'Save';
                     break;
                 case 'reset':
-                    //templateParams.className = 'btn-info';
+                    templateParams.className = classes.warning;
                     templateParams.text = text || 'Reset';
                     break;
                 case 'close':
-                    //templateParams.className = 'btn-warning';
+                    templateParams.className = classes.warning;
                     templateParams.text = text || 'Close';
                     break;
                 case 'ok':
-                    //templateParams.className = 'btn-primary';
+                    templateParams.className = classes.success;
                     templateParams.text = text || 'OK';
                     break;
                 case 'cancel':
-                    //templateParams.className = 'btn-primary';
+                    templateParams.className = classes.error;
                     templateParams.text = text || 'Cancel';
                     break;
                 case 'add':
-                    //templateParams.className = 'btn-primary';
+                    templateParams.className = classes.action;
                     templateParams.text = text || 'Add';
                     break;
                 case 'edit':
+                    templateParams.className = classes.action;
                     templateParams.text = text || 'Edit';
                     break;
                 case 'view':
+                    templateParams.className = classes.action;
                     templateParams.text = text || 'View';
                     break;
                 default:
@@ -662,3 +673,6 @@ csapp.directive('csDualList', function () {
         link: linkFunction
     };
 });
+
+
+

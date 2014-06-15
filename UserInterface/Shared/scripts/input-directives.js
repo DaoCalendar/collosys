@@ -104,9 +104,159 @@ csapp.directive("csInputSuffix", function () {
     };
 });
 
+csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
+    function (rest, logManager, $csfactory, $upload) {
+        //var $log = logManager.getInstance("csFileUploadDirective");
+
+        var getFileInputTemplate = function (element, attrs) {
+            return '<div ng-form="myform" style="margin: 20px">' +
+                    '<div class="form-group"><div class="controls">' +
+                        '<div data-ng-show="fileInfo.isUploading">' +
+                            '<progressbar class="progress-striped active" value="fileInfo.uploadPercent" ' +
+                                'type="success"></progressbar>' +
+                            '<div class="text-danger">Copying file to server!!!</div>' +
+                        '</div>' +
+                        '<div data-ng-hide="fileInfo.isUploading">' +
+                            '<label>' + attrs.cslabel + '</label>' +
+                            '<label class="fileContainer btn btn-default col-md-2"> Select ' +
+                            '<input name="myfield" ng-model="ngModel" type="file" ' +
+                                'ng-file-select="copyToServer($files)" ng-required="validations.required" />' +
+                             '</label>' +
+                             '<div class="col-md-6">' +
+                                '<input type="text" class="form-control" tooltip-position="top" tooltip="{{fileInfo.name}}" readonly="readonly" ng-model="fileInfo.name">' +
+                             '</div>' +
+                        '</div>' +
+                        '<div data-ng-show="valerror.$invalid">' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.nonempty">Please provide non-empty files</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.extension">Please select {{validations.extension}} file.</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.pattern">Pattern {{validations.pattern}} mismatch.</div>' +
+                            '<div class="text-danger" data-ng-show="valerror.$error.required">Please select a file.</div>' +
+                        '</div>' +
+                    '</div></div>' +
+                    '</div>';
+        };
+
+        var setParams = function (cfile, file) {
+            file.name = cfile.name;
+            file.size = cfile.size;
+        };
+
+        var saveFileOnServer = function (scope, ngModel, attr) {
+            scope.fileInfo.isUploading = true;
+            scope.fileInfo.copied = false;
+            ngModel.$setValidity("noncopying", false);
+
+            $upload.upload({
+                url: '/api/FileIoApi/SaveFile',
+                method: "Post",
+                file: scope.cfile
+            }).progress(function (evt) {
+                scope.fileInfo.uploadPercent = parseInt(100.0 * evt.loaded / evt.total);
+            }).success(function (data) {
+                scope.fileInfo.path = data.FullPath;
+                scope.fileInfo.isUploading = false;
+                scope.fileInfo.copied = true;
+                if (angular.isFunction(scope.onSave)) {
+                    //  scope.onSave({ 'fileInfo': scope.fileInfo });
+                    scope.$eval(attr.onSave);
+                }
+                ngModel.$setValidity("noncopying", true);
+            }).error(function () {
+                scope.fileInfo.isUploading = false;
+                //scope.onSave({ 'fileInfo': scope.fileInfo });
+                ngModel.$setValidity("noncopying", true);
+            });
+
+        };
+
+        var linkFunction = function (scope, element, attr, ngModel) {
+            ngModel.$render = function (filename) {
+                ngModel.$setViewValue(filename);
+            };
+
+            if (angular.isUndefined(scope.fileInfo)) {
+                throw "please provide file info.";
+            }
+
+            scope.valerror = {
+                $invalid: false,
+                $error: {},
+                add: function (prop) {
+                    scope.valerror.$invalid = true;
+                    scope.valerror.$error[prop] = true;
+                },
+                reset: function () {
+                    scope.valerror.$invalid = false;
+                    scope.valerror.$error = {};
+                }
+            };
+
+            scope.isFileValid = function () {
+                scope.valerror.reset();
+                ngModel.$setValidity("pattern", true);
+                ngModel.$setValidity("extension", true);
+                ngModel.$setValidity("nonEmpty", true);
+                ngModel.$setValidity("required", true);
+                if (angular.isUndefined(scope.validations)) {
+                    return true;
+                }
+
+                if (scope.validations.required === true) {
+                    if ($csfactory.isNullOrEmptyString(scope.fileInfo.name)) {
+                        ngModel.$setValidity("required", false);
+                        scope.valerror.add("required");
+                        return false;
+                    }
+                }
+
+                if (!$csfactory.isNullOrEmptyString(scope.validations.pattern)) {
+                    if (!scope.fileInfo.name.match(scope.validations.pattern)) {
+                        ngModel.$setValidity("pattern", false);
+                        scope.valerror.add("pattern");
+                        return false;
+                    }
+                }
+
+                if (scope.fileInfo.size === 0) {
+                    ngModel.$setValidity("nonempty", false);
+                    scope.valerror.add("nonempty");
+                    return false;
+                }
+
+                if (!$csfactory.isNullOrEmptyString(scope.validations.extension)) {
+                    var extension = scope.fileInfo.name.substring(scope.fileInfo.name.lastIndexOf('.') + 1);
+                    if (extension !== scope.validations.extension) {
+                        ngModel.$setValidity("extension", false);
+                        scope.valerror.add("extension");
+                        return false;
+                    }
+                }
+
+                return true;
+            };
+            scope.isFileValid();
+
+            scope.copyToServer = function ($files) {
+                scope.cfile = $files[0];
+                setParams(scope.cfile, scope.fileInfo);
+                ngModel.$render(scope.fileInfo.name);
+                if (scope.isFileValid()) {
+                    saveFileOnServer(scope, ngModel, attr);
+                }
+            };
+        };
+
+        return {
+            scope: { onSave: '&', ngModel: '=', fileInfo: '=', validations: '=' },
+            restrict: 'E',
+            template: getFileInputTemplate,
+            link: linkFunction,
+            require: 'ngModel'
+        };
+    }]);
+
 csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
-
 
         var input = function (field, attrs) {
             var html = '<div class="btn-group">';
@@ -136,6 +286,10 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
         var validateOptions = function (options) {
             options.label = options.label || "Boolean";
 
+            if (angular.isUndefined(options.options)) {
+                options.options = [true, false];
+            }
+
             if (angular.isDefined(options.valueField)) {
                 if (options.valueField.substring(0, 6) !== "record") {
                     options.valueField = "record." + options.valueField;
@@ -154,10 +308,12 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
 
         };
 
+        var linkFunction = function () { };
 
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
@@ -303,9 +459,18 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         };
         //#endregion
 
+        var linkFunction = function ($scope, $element, $attrs) {
+            if (angular.isDefined(scope.field.default)) {
+                var getter = $parse($attrs.ngModel);
+                var setter = getter.assign;
+                setter($scope, scope.field.default);
+            }
+        };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
@@ -461,9 +626,12 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
     };
     //#endregion
 
+    var linkFunction = function () { };
+
     return {
         htmlTemplate: htmlTemplate,
-        checkOptions: validateOptions
+        checkOptions: validateOptions,
+        linkFunction: linkFunction
     };
 }]);
 
@@ -542,9 +710,12 @@ csapp.factory("csPasswordFieldFactory", ["Logger", "csBootstrapInputTemplate", "
     };
     //#endregion
 
+    var linkFunction = function () { };
+
     return {
         htmlTemplate: htmlTemplate,
-        checkOptions: validateOptions
+        checkOptions: validateOptions,
+        linkFunction: linkFunction
     };
 }]);
 
@@ -599,15 +770,17 @@ csapp.factory("csTextareaFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         };
         //#endregion
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
 csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
-
 
         //#region template
         var input = function (field, attrs) {
@@ -641,9 +814,12 @@ csapp.factory("csCheckboxFactory", ["Logger", "csBootstrapInputTemplate", "csVal
         };
         //#endregion
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
@@ -729,9 +905,12 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
         };
         //#endregion
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
@@ -787,9 +966,13 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
             }
 
         };
+
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
 
     }]);
@@ -857,9 +1040,12 @@ csapp.factory("csSelectField", ["$csfactory", "csBootstrapInputTemplate", "csVal
             return template;
         };
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
@@ -903,15 +1089,19 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             return template;
         };
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
     }]);
 
 //{ label: 'Datepicker',  min:"+2d",template:"MonthPicker" max: "1y", default: "+10d",  type: 'date',defaultDate:'today'},
-csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
+csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
+
         var openDatePicker = function ($event, field) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -1115,16 +1305,18 @@ csapp.factory("csDateFactory2", ["$csfactory", "csBootstrapInputTemplate", "csVa
             }
         };
 
+        var linkFunction = function () { };
+
         return {
             htmlTemplate: htmlTemplate,
-            checkOptions: validateOptions
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
         };
-
 
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csBooleanFieldFactory", "csDateFactory2", "csPasswordFieldFactory", "$csfactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, boolFactory, dateFactory2, passwordFactory, $csfactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csBooleanFieldFactory", "csDateFactory", "csPasswordFieldFactory", "$csfactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, boolFactory, dateFactory, passwordFactory, $csfactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -1145,10 +1337,11 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case "enum":
                     return enumFactory;
                 case 'date':
-                    return dateFactory2;
+                    return dateFactory;
                 case 'password':
                     return passwordFactory;
-                case 'btn-radio':
+                case 'bool':
+                case 'boolean':
                     return boolFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;
@@ -1196,10 +1389,11 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             size.label = (isNaN(size.label) || size.label < 0 || size.label > 12) ? field.size.label : size.label;
             size.control = (isNaN(size.control) || size.control < 1 || size.control > 12) ? field.size.control : size.control;
             field.size = size;
+
             return;
         };
 
-        var setClasses = function (field) {
+        var setLayoutClasses = function (field) {
             field.size.nolabel = field.size.label === 0;
 
             field.layoutClass = {
@@ -1208,7 +1402,6 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 control: 'col-md-' + field.size.control,
             };
         };
-
 
         var setValidateParam = function (validateParam) {
 
@@ -1244,6 +1437,13 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             }
         };
 
+        var setDefaultValue = function(scope, $attrs) {
+            if (angular.isUndefined(scope.field.defaultValue)) return;
+            var getter = $parse($attrs.ngModel);
+            var setter = getter.assign;
+            setter(scope, scope.field.defaultValue);
+        };
+
         var linkFunction = function (scope, element, attrs, ctrl) {
             var controllers = {
                 ngModelCtrl: ctrl[0],
@@ -1260,11 +1460,14 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
             scope.mode = angular.isDefined(controllers.csFormCtrl) ? controllers.csFormCtrl.mode : '';
             setLayout(scope.field, controllers.csFormCtrl, attrs);
-            setClasses(scope.field);
+            setLayoutClasses(scope.field);
             setValidation(scope.field, attrs, controllers.csFormCtrl);
+            setDefaultValue(scope, attrs);
 
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
+            typedFactory.linkFunction(scope, element, attrs, ctrl);
+
             var html = typedFactory.htmlTemplate(scope.field, attrs);
             var newElem = angular.element(html);
             element.replaceWith(newElem);
@@ -1322,289 +1525,4 @@ csapp.directive('csForm', function () {
     };
 });
 
-angular.module('ui.multiselect', [])
 
-  //from bootstrap-ui typeahead parser
-  .factory('optionParser', ['$parse', function ($parse) {
-
-      //                      00000111000000000000022200000000000000003333333333333330000000000044000
-      // ReSharper disable InconsistentNaming
-      var TYPEAHEAD_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?\s+for\s+(?:([\$\w][\$\w\d]*))\s+in\s+(.*)$/;
-      // ReSharper restore InconsistentNaming
-
-      return {
-          parse: function (input) {
-
-              var match = input.match(TYPEAHEAD_REGEXP);
-              if (!match) {
-                  throw new Error(
-                    "Expected typeahead specification in form of '_modelValue_ (as _label_)? for _item_ in _collection_'" +
-                      " but got '" + input + "'.");
-              }
-
-              return {
-                  itemName: match[3],
-                  source: $parse(match[4]),
-                  viewMapper: $parse(match[2] || match[1]),
-                  modelMapper: $parse(match[1])
-              };
-          }
-      };
-  }])
-
-  .directive('multiselect', ['$parse', '$document', '$compile', 'optionParser',
-
-    function ($parse, $document, $compile, optionParser) {
-        return {
-            restrict: 'E',
-            require: 'ngModel',
-            link: function (originalScope, element, attrs, modelCtrl) {
-
-                var exp = attrs.options,
-                  parsedResult = optionParser.parse(exp),
-                  isMultiple = attrs.multiple ? true : false,
-                  required = false,
-                  scope = originalScope.$new(),
-                  changeHandler = attrs.change || angular.noop;
-
-                scope.items = [];
-                scope.header = 'Select';
-                scope.multiple = isMultiple;
-                scope.disabled = false;
-
-                originalScope.$on('$destroy', function () {
-                    scope.$destroy();
-                });
-
-                var popUpEl = angular.element('<multiselect-popup></multiselect-popup>');
-
-                //required validator
-                if (attrs.required || attrs.ngRequired) {
-                    required = true;
-                }
-                attrs.$observe('required', function (newVal) {
-                    required = newVal;
-                });
-
-                //watch disabled state
-                scope.$watch(function () {
-                    return $parse(attrs.disabled)(originalScope);
-                }, function (newVal) {
-                    scope.disabled = newVal;
-                });
-
-                //watch single/multiple state for dynamically change single to multiple
-                scope.$watch(function () {
-                    return $parse(attrs.multiple)(originalScope);
-                }, function (newVal) {
-                    isMultiple = newVal || false;
-                });
-
-                //watch option changes for options that are populated dynamically
-                scope.$watch(function () {
-                    return parsedResult.source(originalScope);
-                }, function (newVal) {
-                    if (angular.isDefined(newVal))
-                        parseModel();
-                }, true);
-
-                //watch model change
-                scope.$watch(function () {
-                    return modelCtrl.$modelValue;
-                }, function (newVal) {
-                    //when directive initialize, newVal usually undefined. Also, if model value already set in the controller
-                    //for preselected list then we need to mark checked in our scope item. But we don't want to do this every time
-                    //model changes. We need to do this only if it is done outside directive scope, from controller, for example.
-                    if (angular.isDefined(newVal)) {
-                        markChecked(newVal);
-                        scope.$eval(changeHandler);
-                    }
-                    getHeaderText();
-                    modelCtrl.$setValidity('required', scope.valid());
-                }, true);
-
-                function parseModel() {
-                    scope.items.length = 0;
-                    var model = parsedResult.source(originalScope);
-                    if (!angular.isDefined(model)) return;
-                    for (var i = 0; i < model.length; i++) {
-                        var local = {};
-                        local[parsedResult.itemName] = model[i];
-                        scope.items.push({
-                            label: parsedResult.viewMapper(local),
-                            model: model[i],
-                            checked: false
-                        });
-                    }
-                }
-
-                parseModel();
-
-                element.append($compile(popUpEl)(scope));
-
-                function getHeaderText() {
-                    if (is_empty(modelCtrl.$modelValue)) scope.header = 'Select';
-                    if (isMultiple) {
-                        scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
-                    } else {
-                        var local = {};
-                        local[parsedResult.itemName] = modelCtrl.$modelValue;
-
-                        scope.header = parsedResult.viewMapper(local);
-                    }
-                };
-
-                // ReSharper disable InconsistentNaming
-                function is_empty(obj) {
-                    // ReSharper restore InconsistentNaming
-                    if (!obj) return true;
-                    if (obj.length && obj.length > 0) return false;
-                    for (var prop in obj) if (obj[prop]) return false;
-                    return true;
-                };
-
-                scope.valid = function validModel() {
-                    if (!required) return true;
-                    var value = modelCtrl.$modelValue;
-                    return (angular.isArray(value) && value.length > 0) || (!angular.isArray(value) && value != null);
-                };
-
-                function selectSingle(item) {
-                    if (item.checked) {
-                        scope.uncheckAll();
-                    } else {
-                        scope.uncheckAll();
-                        item.checked = !item.checked;
-                    }
-                    setModelValue(false);
-                }
-
-                function selectMultiple(item) {
-                    item.checked = !item.checked;
-                    setModelValue(true);
-                }
-
-                // ReSharper disable once DuplicatingLocalDeclaration
-                function setModelValue(isMultiple) {
-                    var value;
-
-                    if (isMultiple) {
-                        value = [];
-                        angular.forEach(scope.items, function(item) {
-                            if (item.checked) value.push(item.model);
-                        });
-                    } else {
-                        angular.forEach(scope.items, function(item) {
-                            if (item.checked) {
-                                value = item.model;
-                                //return false;
-                            }
-                        });
-                    }
-                    modelCtrl.$setViewValue(value);
-                }
-
-                function markChecked(newVal) {
-                    if (!angular.isArray(newVal)) {
-                        angular.forEach(scope.items, function (item) {
-                            if (angular.equals(item.model, newVal)) {
-                                item.checked = true;
-                                //return false;
-                            }
-                        });
-                    } else {
-                        angular.forEach(newVal, function (i) {
-                            angular.forEach(scope.items, function (item) {
-                                if (angular.equals(item.model, i)) {
-                                    item.checked = true;
-                                }
-                            });
-                        });
-                    }
-                }
-
-                scope.checkAll = function () {
-                    if (!isMultiple) return;
-                    angular.forEach(scope.items, function (item) {
-                        item.checked = true;
-                    });
-                    setModelValue(true);
-                };
-
-                scope.uncheckAll = function () {
-                    angular.forEach(scope.items, function (item) {
-                        item.checked = false;
-                    });
-                    setModelValue(true);
-                };
-
-                scope.select = function(item) {
-                    if (isMultiple === false) {
-                        selectSingle(item);
-                        scope.toggleSelect();
-                    } else {
-                        selectMultiple(item);
-                    }
-                };
-            }
-        };
-    }])
-
-  .directive('multiselectPopup', ['$document', function ($document) {
-      return {
-          restrict: 'E',
-          scope: false,
-          replace: true,
-          templateUrl: baseUrl + 'Shared/scripts/multiselect.tmpl.html',
-          link: function (scope, element) {
-
-              scope.isVisible = false;
-
-              scope.toggleSelect = function () {
-                  if (element.hasClass('open')) {
-                      element.removeClass('open');
-                      $document.unbind('click', clickHandler);
-                  } else {
-                      element.addClass('open');
-                      $document.bind('click', clickHandler);
-                      scope.focus();
-                  }
-              };
-
-              function clickHandler(event) {
-                  if (elementMatchesAnyInArray(event.target, element.find(event.target.tagName)))
-                      return;
-                  element.removeClass('open');
-                  $document.unbind('click', clickHandler);
-                  scope.$apply();
-              }
-
-              scope.focus = function () {
-                  var searchBox = element.find('input')[0];
-                  searchBox.focus();
-              };
-
-              var elementMatchesAnyInArray = function (el, elementArray) {
-                  for (var i = 0; i < elementArray.length; i++)
-                      if (el == elementArray[i])
-                          return true;
-                  return false;
-              };
-          }
-      };
-  }]);
-
-
-//case "Daily":
-//    field.startDate = "-15d";
-//    field.endDate = "+5d";
-//    break;
-//case "Weekly":
-//    field.startDate = "-30d";
-//    field.endDate = "+15d";
-//    break;
-//case "Monthly":
-//    field.minViewMode = "months";
-//    field.startDate = "-80d";
-//    field.endDate = "+30d";
-//    break;
