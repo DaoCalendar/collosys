@@ -255,6 +255,45 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
         };
     }]);
 
+csapp.factory("csFileFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
+    function (logManager, bstemplate, valtemplate) {
+
+        var input = function (field, attrs) {
+            var html = '<div class="btn-group">';
+            html += '<button  ng-repeat="data in field.options" class="btn btn-primary"';
+            html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
+            html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
+            html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
+            html += ' ng-model="$parent.' + attrs.ngModel + '" btn-radio="data" uncheckable>';
+            html += '{{data}}<i data-ng-show="$parent.' + attrs.ngModel + '=== data " class="glyphicon glyphicon-ok"></i>';
+            html += '</button>';
+            html += '</div>';
+            return html;
+        };
+
+        var htmlTemplate = function (field, attrs) {
+            var noBootstrap = angular.isDefined(attrs.noLabel);
+            var template = [
+                bstemplate.before(field, noBootstrap, attrs),
+                valtemplate.before(field),
+                input(field, attrs),
+                valtemplate.after(attrs.field, field),
+                bstemplate.after(noBootstrap)
+            ].join(' ');
+            return template;
+        };
+
+        var validateOptions = function () { };
+
+        var linkFunction = function () { };
+
+        return {
+            htmlTemplate: htmlTemplate,
+            checkOptions: validateOptions,
+            linkFunction: linkFunction
+        };
+    }]);
+
 csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function (logManager, bstemplate, valtemplate) {
 
@@ -1315,8 +1354,8 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
 
     }]);
 
-csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csBooleanFieldFactory", "csDateFactory", "csPasswordFieldFactory", "$csfactory",
-    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, boolFactory, dateFactory, passwordFactory, $csfactory) {
+csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTextFieldFactory", "csTextareaFactory", "csEmailFactory", "csCheckboxFactory", "csRadioButtonFactory", "csSelectField", "csEnumFactory", "csBooleanFieldFactory", "csDateFactory", "csPasswordFieldFactory", "$csfactory", "csFileFieldFactory",
+    function ($compile, $parse, numberFactory, textFactory, textareaFactory, emailFactory, checkboxFactory, radioFactory, selectFactory, enumFactory, boolFactory, dateFactory, passwordFactory, $csfactory, fileFactory) {
 
         var getFactory = function (type) {
             switch (type) {
@@ -1343,6 +1382,8 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
                 case 'bool':
                 case 'boolean':
                     return boolFactory;
+                case 'file':
+                    return fileFactory;
                 default:
                     throw "Invalid type specification in csField directive : " + type;
             }
@@ -1437,7 +1478,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             }
         };
 
-        var setDefaultValue = function(scope, $attrs) {
+        var setDefaultValue = function (scope, $attrs) {
             if (angular.isUndefined(scope.field.defaultValue)) return;
             var getter = $parse($attrs.ngModel);
             var setter = getter.assign;
@@ -1462,10 +1503,10 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             setLayout(scope.field, controllers.csFormCtrl, attrs);
             setLayoutClasses(scope.field);
             setValidation(scope.field, attrs, controllers.csFormCtrl);
-            setDefaultValue(scope, attrs);
 
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
+            setDefaultValue(scope, attrs);
             typedFactory.linkFunction(scope, element, attrs, ctrl);
 
             var html = typedFactory.htmlTemplate(scope.field, attrs);
