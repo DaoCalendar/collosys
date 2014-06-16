@@ -72,9 +72,9 @@
 
             <!--Button-->
             <div class="row text-right" id="subpolicy-buttons">
-                <cs-button type="save" permission = "BillingSubpolicyAddEdit"
-                           data-ng-click="saveSubPolicy(subpolicy,selectedTokens)">
-                </cs-button>
+                <cs-button2 type="save" permission = "BillingSubpolicyAddEdit"
+                           on-click="saveSubPolicy(subpolicy,selectedTokens)">
+                </cs-button2>
                 <!--data-ng-disabled="(payoutSubpolicyForm.$invalid || (selectedTokens.conditionTokens.length < 3 ||selectedTokens.ifOutputTokens.length < 3))"-->
                 <cs-button type="reset" permission = "BillingSubpolicyAddEdit"
                            data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button>

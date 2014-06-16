@@ -79,10 +79,10 @@ csapp.controller('payoutSubpolicyCtrl', ['$scope', 'payoutSubpolicyDataLayer', '
             subpolicy.PayoutSubpolicyType = 'Subpolicy';
             subpolicy.Category = 'Liner';
             subpolicy.BillTokens = combineTokens(selectedTokens);
-            datalayer.saveSubpolicy(subpolicy).then(function (data) {
+           return  datalayer.saveSubpolicy(subpolicy).then(function (data) {
                 $scope.subpolicyList.push(data);
                 $scope.resetSubPolicy();
-            });
+           });
         };
 
         $scope.resetSubPolicy = function (products) {
