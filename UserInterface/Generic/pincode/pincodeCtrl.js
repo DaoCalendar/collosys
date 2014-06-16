@@ -357,12 +357,6 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
                 };
                 $scope.getRegion();
             }
-            //if ($routeParams.displaymode === 'edit') {
-            //    $scope.GPincodedata = gPincodes.gpincode;
-
-            //} else {
-
-            //};
             datalayer.getWholePincode();
         })();
 
@@ -513,16 +507,3 @@ csapp.controller("editPincodeModalController", ["$scope", "pincodeDataLayer", "$
         })($routeParams.mode);
     }]);
 
-
-
-//$scope.missingPincode = function (value) {
-//    if (value.length >= 3) {
-//        return datalayer.missingPincode(value);
-//    };
-//};
-
-//var missingPincode = function (pincode) {
-//    return pincodeApi.customGET('GetMissingPincodes', { pincode: pincode }).then(function (data) {
-//        return data;
-//    });
-//};

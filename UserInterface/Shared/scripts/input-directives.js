@@ -499,7 +499,7 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
         //#endregion
 
         var linkFunction = function ($scope, $element, $attrs) {
-            if (angular.isDefined(scope.field.default)) {
+            if (angular.isDefined($scope.field.default)) {
                 var getter = $parse($attrs.ngModel);
                 var setter = getter.assign;
                 setter($scope, scope.field.default);
