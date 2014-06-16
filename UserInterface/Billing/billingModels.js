@@ -19,7 +19,7 @@
         return {
             selectedProduct: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
-            IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
+            IsRecurring: { label: 'IsRecurring', type: 'bool' },
             IsPretax: { label: ' IsPretax', type: 'select' },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },

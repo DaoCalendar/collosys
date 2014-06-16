@@ -69,9 +69,9 @@
             Product: { label: "Product", type: "enum", valueList: $csShared.enums.Products, required: true },
             CustStatus: { label: "CustStatus", type: "text" },
             AllocStartDate: { label: "AllocStartDate", type: "date" },
-            IsInRecovery: { type: "enum", valueList: ['Yes', 'No'] },//to be disscuss for checkbox
-            IsReferred: { label: "IsReferred", type: 'radio', options: [{ value: true, key: 'True' }, { value: false, key: 'False' }], valueField: 'value', textField: 'key', },
-            IsXHoldAccount: { type: "enum", valueList: ['Yes', 'No'] },
+            IsInRecovery: { type: "bool" },//to be disscuss for checkbox
+            IsReferred: { label: "IsReferred", type: 'bool' },
+            IsXHoldAccount: { type: "bool" },
             AllocEndDate: { label: "AllocEndDate", type: "date" },
             ChargeofDate: { type: "date" },
             AllocStatus: { type: "enum", valueList: $csShared.enums.AllocStatus },
