@@ -30,14 +30,14 @@ namespace ColloSys.FileUploaderService.AliasPayment
         #endregion
 
         #region abstract implemntations
-        protected override bool ComputedSetter(Payment obj, IExcelReader reader, ICounter counter)
+        public override bool ComputedSetter(Payment obj)
         {
             try
             {
                 obj.FileDate = FileScheduler.FileDate.Date;
-                obj.AccountNo = ulong.Parse(reader.GetValue(_accountPosition))
+                obj.AccountNo = ulong.Parse(Reader.GetValue(_accountPosition))
                     .ToString("D" + _accountLength.ToString(CultureInfo.InvariantCulture));
-                GetComputations(obj, reader);
+                GetComputations(obj, Reader);
                 return true;
             }
             catch (Exception)
@@ -47,13 +47,13 @@ namespace ColloSys.FileUploaderService.AliasPayment
 
         }
 
-        protected override bool CheckBasicField(IExcelReader reader, ICounter counter)
+        public override bool CheckBasicField()
         {
             // loan no should be a number
             ulong loanNumber;
-            if (!ulong.TryParse(reader.GetValue(_accountPosition), out loanNumber))
+            if (!ulong.TryParse(Reader.GetValue(_accountPosition), out loanNumber))
             {
-                counter.IncrementIgnoreRecord();
+                Counter.IncrementIgnoreRecord();
                 return false;
             }
 
@@ -61,12 +61,17 @@ namespace ColloSys.FileUploaderService.AliasPayment
             return (loanNumber.ToString(CultureInfo.InvariantCulture).Length >= 2);
         }
 
+        public override Payment GetRecordForUpdate()
+        {
+            return new Payment();
+        }
+
         public virtual bool ComputedSetter(Payment obj, Payment yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
         {
             return true;
         }
 
-        protected override bool IsRecordValid(Payment record, ICounter counter)
+        public override bool IsRecordValid(Payment record)
         {
             return true;
         }

@@ -44,11 +44,11 @@ namespace ColloSys.FileUploaderService.AliasPayment
             }
         }
 
-        protected override bool IsRecordValid(Payment record, ICounter counter)
+        public override bool IsRecordValid(Payment record)
         {
             if (record.TransDate.Month != FileScheduler.FileDate.Month)
             {
-                counter.IncrementIgnoreRecord();
+                Counter.IncrementIgnoreRecord();
                 return false;
             }
             return true;

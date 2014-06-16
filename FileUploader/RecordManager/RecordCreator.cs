@@ -15,15 +15,15 @@ namespace ColloSys.FileUploaderService.RecordManager
     public abstract class RecordCreator<TEntity> : IRecord<TEntity> where TEntity : class , new()
     {
         #region ctor
-        private IExcelReader _reader;
-        private ICounter _counter;
+        protected IExcelReader Reader;
+        protected ICounter Counter;
         protected FileScheduler FileScheduler;
 
         public void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader)
         {
             FileScheduler = fileScheduler;
-            _reader = reader;
-            _counter = counter;
+            Reader = reader;
+            Counter = counter;
         }
         #endregion
 
@@ -34,13 +34,13 @@ namespace ColloSys.FileUploaderService.RecordManager
             {
                 try
                 {
-                    var data = _reader.GetValue(info.Position);
+                    var data = Reader.GetValue(info.Position);
                     ReflectionHelper.SetValue(info.ActualColumn, data, obj);
                 }
                 catch
                 {
-                    _counter.IncrementErrorRecords();
-                    _counter.IncrementTotalRecords();
+                    Counter.IncrementErrorRecords();
+                    Counter.IncrementTotalRecords();
                    return false;
                 }
             }
@@ -57,8 +57,8 @@ namespace ColloSys.FileUploaderService.RecordManager
                 }
                 catch
                 {
-                    _counter.IncrementErrorRecords();
-                    _counter.IncrementTotalRecords();
+                    Counter.IncrementErrorRecords();
+                    Counter.IncrementTotalRecords();
                     return false;
                 }
 
@@ -73,12 +73,12 @@ namespace ColloSys.FileUploaderService.RecordManager
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())
             {
-                if (!CheckBasicField(_reader, _counter))
+                if (!CheckBasicField())
                     return false;
 
                 excelstatus = ExcelMapper(obj, excelType);
             }
-            if (!excelstatus || !IsRecordValid(obj, _counter)) return false;
+            if (!excelstatus || !IsRecordValid(obj)) return false;
 
             var defaultType = GetMappings(ColloSysEnums.FileMappingValueType.DefaultValue, mappingss);
             var typeDefault = defaultType as FileMapping[] ?? defaultType.ToArray();
@@ -91,13 +91,13 @@ namespace ColloSys.FileUploaderService.RecordManager
             var typeComputed = computedType as FileMapping[] ?? computedType.ToArray();
             if (typeComputed.Any())
             {
-                computedMap = ComputedSetter(obj, _reader, _counter);
+                computedMap = ComputedSetter(obj);
             }
             if (!defaultMap || !computedMap) return false;
 
-            _counter.IncrementInsertRecords();
-            _counter.IncrementValidRecords();
-            _counter.IncrementTotalRecords();
+            Counter.IncrementInsertRecords();
+            Counter.IncrementValidRecords();
+            Counter.IncrementTotalRecords();
             return true;
         }
 
@@ -108,11 +108,14 @@ namespace ColloSys.FileUploaderService.RecordManager
         #endregion
 
         #region abstract
-        protected abstract bool ComputedSetter(TEntity entity, IExcelReader reader, ICounter counter);
+        public abstract bool ComputedSetter(TEntity entity);
 
-        protected abstract bool IsRecordValid(TEntity entity, ICounter counter);
+        public abstract bool IsRecordValid(TEntity entity);
 
-        protected abstract bool CheckBasicField(IExcelReader reader, ICounter counter);
+        public abstract bool CheckBasicField();
+
+        public abstract TEntity GetRecordForUpdate();
+
         #endregion
     }
 }

@@ -10,7 +10,7 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
-    public interface IRecord<in TEntity> where TEntity : class , new()
+    public interface IRecord<TEntity> where TEntity : class , new()
     {
         IList<FileMapping> GetMappings(ColloSysEnums.FileMappingValueType eNumType, IEnumerable<FileMapping> mappingss);
 
@@ -18,7 +18,15 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         bool DefaultMapper(TEntity obj, IList<FileMapping> mapings);
 
+        TEntity GetRecordForUpdate();
+
         bool CreateRecord(TEntity obj, IList<FileMapping> mapings,ICounter counter);
+
+        bool ComputedSetter(TEntity entity);
+
+        bool IsRecordValid(TEntity entity);
+
+        bool CheckBasicField();
 
         void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader);
     }

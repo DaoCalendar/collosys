@@ -37,7 +37,6 @@ namespace ColloSys.FileUploaderService.FileReader
             _counter = new ExcelRecordCounter();
             _excelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
             recordCreator.Init(_fs, _counter, _excelReader);
-
             _fileProcess = new FileProcess();
             _objRecord = recordCreator;
             _batchSize = 500;
@@ -79,7 +78,7 @@ namespace ColloSys.FileUploaderService.FileReader
             var list = new List<T>();
             for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)
             {
-                var obj = new T();
+                var obj = _objRecord.GetRecordForUpdate();
                 var isRecordCreate = _objRecord.CreateRecord(obj, _fs.FileDetail.FileMappings, _counter);
                 if (isRecordCreate)
                 {
@@ -120,6 +119,8 @@ namespace ColloSys.FileUploaderService.FileReader
                 _log.Error(string.Format("FileUpload : Could not upload file {0}-error description-{1}", _fs.FileName, exception));
             }
         }
+
+
         #endregion
     }
 }
