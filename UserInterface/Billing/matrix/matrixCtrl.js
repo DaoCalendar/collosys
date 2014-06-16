@@ -72,7 +72,7 @@
                 item.RowOperator = operatorNameFromValue(item.RowOperator);
             });
             matrix.Dimension = parseInt(matrix.Dimension);
-            restApi.customPOST(matrix, "Post")
+           return restApi.customPOST(matrix, "Post")
                 .then(function (data) {
                     $csnotify.success('matrix created successfully');
                     afterSavedMatrix(data);

@@ -7,7 +7,7 @@
                       data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
 
             <div class="col-md-2 text-left" style="margin-left: 0;" data-ng-show="selParams.selectedProduct">
-                <cs-button type="add" text="Add Formula" permission="BillingFormulaAddEdit" data-ng-click="addformula(selParams.selectedProduct,formulaMain)"></cs-button>
+                <cs-button2 type="add" text="Add Formula" permission="BillingFormulaAddEdit" on-click="addformula(selParams.selectedProduct,formulaMain)"></cs-button2>
             </div>
         </div>
         <div>
@@ -34,10 +34,10 @@
                 <div data-ng-include="baseUrl + 'Billing/formula2/multi-if-else.html'">load condition details</div>
             </div>
             <div class="text-right" data-ng-show="showDiv">
-                <cs-button type="save" permission="BillingFormulaAddEdit" data-ng-disabled="formulaMain.$invalid"
-                           data-ng-click="saveFormula(formula,groupTokens)"></cs-button>
-                <cs-button type="reset" permission="BillingFormulaAddEdit"
-                           data-ng-click="reset(selParams.selectedProduct,formulaMain)" />
+                <cs-button2 type="save" permission="BillingFormulaAddEdit" data-ng-disabled="formulaMain.$invalid"
+                           on-click="saveFormula(formula,groupTokens)"></cs-button2>
+                <cs-button2 type="reset" permission="BillingFormulaAddEdit"
+                           on-click="reset(selParams.selectedProduct,formulaMain)" />
             </div>
 
         </div>

@@ -138,7 +138,7 @@ csapp.controller('formulaController', ['$scope', 'formulaDataLayer', 'formulaFac
 
         $scope.saveFormula = function (formula, groupTokens) {
             formula.BillTokens = combineTokens(groupTokens);
-            datalayer.saveFormula(formula).then(function (data) {
+           return datalayer.saveFormula(formula).then(function (data) {
                 $scope.formulaList.push(data);
                 $scope.reset();
             });

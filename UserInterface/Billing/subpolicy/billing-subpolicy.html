@@ -11,10 +11,10 @@
                           field="payoutSubpolicy.PolicyType">
                 </cs-field>
 
-                <cs-button type="add" text="Add Subpolicy" permission = "BillingSubpolicyAddEdit"
+                <cs-button2 type="add" text="Add Subpolicy" permission = "BillingSubpolicyAddEdit"
                            data-ng-show="sele.PolicyType"
-                           data-ng-click="addSubPolicy(sele,subpolicyForm)">
-                </cs-button>
+                           on-click="addSubPolicy(sele,subpolicyForm)">
+                </cs-button2>
             </div>
         </cs-form>
     </div>
@@ -76,8 +76,8 @@
                            on-click="saveSubPolicy(subpolicy,selectedTokens)">
                 </cs-button2>
                 <!--data-ng-disabled="(payoutSubpolicyForm.$invalid || (selectedTokens.conditionTokens.length < 3 ||selectedTokens.ifOutputTokens.length < 3))"-->
-                <cs-button type="reset" permission = "BillingSubpolicyAddEdit"
-                           data-ng-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button>
+                <cs-button2 type="reset" permission = "BillingSubpolicyAddEdit"
+                           on-click="resetSubPolicy(sele.Products,subpolicyForm)"></cs-button2>
             </div>
         </div>
     </div>
