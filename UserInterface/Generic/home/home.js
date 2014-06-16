@@ -12,9 +12,9 @@
         var init = function () {
             $scope.data = {};
             $scope.fields = [
-                { label: 'Upload Mode', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key', required: true },
-                { name: 'DOB', label: 'DOB', endDate: "1y", defaultDate: "+10d", editable: false, required: true, type: 'date', min: 10, max: 100 },
-                { name: 'Name', editable: true, required: true, type: 'password' },
+                { label: 'Upload Mode', type: 'radio', options: [{ value: 'true', key: 'Immediate' }, { value: 'false', key: 'Nightly' }], valueField: 'value', textField: 'key', init: 'true', required: true },
+                { name: 'DOB', label: 'DOB', endDate: "1y", init: '+10d', editable: false, required: true, type: 'date', min: 10, max: 100 },
+                { name: 'Name', editable: true, required: true, type: 'text', init: "soham" },
                 { name: 'select', label: 'select', textField: 'display', useRepeat: true, valueField: 'value', editable: false, required: true, type: 'select', min: 10, max: 100 },
                 { name: 'enum', label: 'enum', editable: false, required: true, type: 'enum', valueList: $scope.array1, min: 10, max: 100 },
                 { type: 'bool', options: ['boom1', 'boom2'], textField: 'display', valueField: 'value' },

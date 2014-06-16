@@ -959,8 +959,7 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
 
         var input = function (field, attrs) {
 
-            var html = '<div class="row radio-margin"';
-            html += angular.isDefined(field.defaultValue) ? 'ng-init="$parent.' + attrs.ngModel + ' = field.defaultValue">' : '>';
+            var html = '<div class="row radio-margin">';
             html += '<span class="text-right" ng-repeat="record in  field.options" > ';
             html += '<input type="radio"';
             html += ' ng-model="$parent.' + attrs.ngModel + '"';
@@ -986,7 +985,6 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
 
         var validateOptions = function (field) {
             field.label = field.label || "Description";
-            field.defaultValue = field.required === true ? field.options[0][field.valueField].toString() : undefined;
 
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {
@@ -1137,7 +1135,7 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-//{ label: 'Datepicker',  min:"+2d",template:"MonthPicker" max: "1y", default: "+10d",  type: 'date',defaultDate:'today'},
+//{ label: 'Datepicker',  min:"+2d",template:"MonthPicker" max: "1y", default: "+10d",  type: 'date',init:'today'},
 csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
 
@@ -1152,8 +1150,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
 
         var input = function (field, attr) {
-            var html = '<p class="input-group"';
-            html += angular.isDefined(field.dateOptions.defaultDate) ? 'data-ng-init="$parent.' + attr.ngModel + ' = field.dateOptions.defaultDate">' : '>';
+            var html = '<p class="input-group">';
             html += '<input type="text" class="form-control" disabled="disabled"';
             html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
@@ -1344,7 +1341,9 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             }
         };
 
-        var linkFunction = function () { };
+        var linkFunction = function (scope) {
+            scope.$parent.date = parseDate(scope.$parent.date);
+        };
 
         return {
             htmlTemplate: htmlTemplate,
@@ -1479,10 +1478,10 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
         var setDefaultValue = function (scope, $attrs) {
-            if (angular.isUndefined(scope.field.defaultValue)) return;
+            if (angular.isUndefined(scope.field.init)) return;
             var getter = $parse($attrs.ngModel);
             var setter = getter.assign;
-            setter(scope, scope.field.defaultValue);
+            setter(scope.$parent, scope.field.init);
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
