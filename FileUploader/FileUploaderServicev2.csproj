@@ -88,6 +88,10 @@
     <Compile Include="AliasPayment\RlsPaymentManualReversalRecordCreator.cs" />
     <Compile Include="AliasPayment\RlsPaymentWoAebRecordCreator.cs" />
     <Compile Include="AliasPayment\RlsPaymentWoPlpcRecordCreator.cs" />
+    <Compile Include="AliasWriteOff\Ebbs\EWriteOffSharedFR.cs" />
+    <Compile Include="AliasWriteOff\Ebbs\EWriteOffSharedRC.cs" />
+    <Compile Include="AliasWriteOff\Ebbs\EWriteOffSmcFR.cs" />
+    <Compile Include="AliasWriteOff\Ebbs\EWriteOffSmcRC.cs" />
     <Compile Include="AllFileUploader.cs" />
     <Compile Include="FileUploaderService1.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
