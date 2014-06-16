@@ -39,9 +39,9 @@
             </div>
         </div>
         <div class="text-right">
-            <cs-button type="save" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" data-ng-click="saveProduct(dldata.productconfig)" data-ng-disabled="!formAddProduct.$valid"></cs-button>
-            <cs-button type="close" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" data-ng-click="closeModel('Cancel')"></cs-button>
-            <cs-button type="close" permission="Config,Product" data-ng-hide="mode === 'edit'" data-ng-click="closeModel('Close')"></cs-button>
+            <cs-button2 type="save" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" on-click="saveProduct(dldata.productconfig)"></cs-button2>
+            <cs-button2 type="close" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" on-click="closeModel('Cancel')"></cs-button2>
+            <cs-button2 type="close" permission="Config,Product" data-ng-hide="mode === 'edit'" on-click="closeModel('Close')"></cs-button2>
         </div>
     </form>
 </div>
