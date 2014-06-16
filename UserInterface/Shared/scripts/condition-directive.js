@@ -37,7 +37,6 @@ csapp.controller('outputCtrl',
         var initToken = function () {
             $scope.tokens = {
                 AllTokensList: [],
-                //selected: [],
                 nextTokens: [],
                 lastToken: {},
                 collections: {
@@ -47,8 +46,6 @@ csapp.controller('outputCtrl',
                 },
                 filterString: ''
             };
-            //$scope.SavedTokensList = [];  DO NOT RESET
-            //$scope.tokensList = $scope.tokens.selected;
         };
 
         var initFirstTokens = function () {
@@ -128,11 +125,14 @@ csapp.controller('outputCtrl',
 
         $scope.setValidation = function () {
             if (angular.isUndefined($scope.tokensList)) {
+                $scope.addForm.$setValidity('valid', false);
                 return '';
             }
             if ($scope.tokens.lastToken.Type == 'Operator' || $scope.tokensList.length < 2) {
+                $scope.addForm.$setValidity('valid', false);
                 return 'alert-danger';
             }
+            $scope.addForm.$setValidity('valid', true);
             return 'alert-info';
         };
 
@@ -302,7 +302,7 @@ csapp.controller('conditionCtrl',
                             if ($scope.tokensSupport.hasConditional === true)
                                 tokens2 = _.union(tokens2, operatorsGroup.group5(),
                                     $scope.tokensSupport.valueList);
-                            return tokens2;//TODO: attach enum value list
+                            return tokens2;
                         default:
                             return operatorsGroup.group1($scope.tokens.tokensList, dataType);
                     }
