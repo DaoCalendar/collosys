@@ -581,6 +581,7 @@
     <Content Include="Shared\scripts\factories.js" />
     <Content Include="Shared\scripts\input-directives.js" />
     <Content Include="Shared\scripts\models.js" />
+    <Content Include="Shared\scripts\ui-multiselect.js" />
     <Content Include="Shared\templates\multiselect.tmpl.html" />
     <Content Include="Shared\templates\condition-directive.html" />
     <Content Include="Shared\templates\confirm-modal.html" />
