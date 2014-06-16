@@ -32,9 +32,9 @@
         </div>
     </div>
     <div class="text-right">
-        <cs-button type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)" data-ng-disabled="!formAddfileDetail.$valid"></cs-button>
-        <cs-button type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')"></cs-button>
-        <cs-button type="reset" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)"></cs-button>
+        <cs-button2 type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="add(fileDetail)"></cs-button2>
+        <cs-button2 type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="close('Cancel')"></cs-button2>
+        <cs-button2 type="reset" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="reset(fileDetail)"></cs-button2>
         <cs-button type="close" permission ="FileDetail" data-ng-show="isReadOnly" data-ng-click="close('Close')"></cs-button>
     </div>
 </form>
