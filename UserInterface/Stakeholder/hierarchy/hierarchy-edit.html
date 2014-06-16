@@ -180,7 +180,7 @@
         </div>
     </div>
     <div class="text-right">
-        <cs-button type="save" permission="ConfigHierarchyAddEdit" data-ng-hide="mode === 'view'" data-ng-disabled="step1form.$invalid" data-ng-click="save(hierarchy)" data-ng-show="step==4"></cs-button>
+        <cs-button2 type="save" permission="ConfigHierarchyAddEdit" data-ng-hide="mode === 'view'" data-ng-disabled="step1form.$invalid" on-click="save(hierarchy)" data-ng-show="step==4"></cs-button2>
         <cs-button type="submit" text="Prev" permission="ConfigHierarchy" data-ng-disabled="step==1" data-ng-click="step=step-1"></cs-button>
         <cs-button type="add" text="Next" permission="ConfigHierarchy" data-ng-disabled="step1form.$invalid || step==4" data-ng-click="step=step+1"></cs-button>
         <cs-button type="close" permission="ConfigHierarchy" data-ng-click="closeModal()"></cs-button>
