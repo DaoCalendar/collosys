@@ -192,72 +192,81 @@ csapp.directive("csMultiFileUpload", ["Restangular", "Logger", "$csfactory", "$u
 }]);
 
 
-csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger',
-    function ($parse, $compile, permFactory, logManager) {
-
-        var $log = logManager.getInstance('buttonFactory');
-        var getTemplateParams = function (type, text) {
-            var templateParams = {
-                type: 'button',
-                className: ' btn-default'
-            };
-
-            var classes = {
-                success: "btn-success",
-                error: "btn-danger",
-                warning: "btn-warning",
-                action: "btn-default",
-                submit: "btn-primary"
-            };
-
-            switch (type) {
-                case 'submit':
-                    templateParams.type = 'submit';
-                    templateParams.text = text || 'Submit';
-                    templateParams.className = classes.submit;
-                    break;
-                case 'delete':
-                    templateParams.className = classes.error;
-                    templateParams.text = text || 'Delete';
-                    break;
-                case 'save':
-                    templateParams.className = classes.success;
-                    templateParams.text = text || 'Save';
-                    break;
-                case 'reset':
-                    templateParams.className = classes.warning;
-                    templateParams.text = text || 'Reset';
-                    break;
-                case 'close':
-                    templateParams.className = classes.warning;
-                    templateParams.text = text || 'Close';
-                    break;
-                case 'ok':
-                    templateParams.className = classes.success;
-                    templateParams.text = text || 'OK';
-                    break;
-                case 'cancel':
-                    templateParams.className = classes.error;
-                    templateParams.text = text || 'Cancel';
-                    break;
-                case 'add':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'Add';
-                    break;
-                case 'edit':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'Edit';
-                    break;
-                case 'view':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'View';
-                    break;
-                default:
-                    $log.error('invalid button type: ' + type);
-            }
-
-            return templateParams;
+csapp.factory("csButtonFactory", ['Logger', function (logManager) {
+    var $log = logManager.getInstance('buttonFactory');
+    var getTemplateParams = function (type, text) {
+        var templateParams = {
+            type: 'button',
+            className: ' btn-default',
+            checkFormValidity: false
         };
+
+        var classes = {
+            success: "btn-success",
+            error: "btn-danger",
+            warning: "btn-warning",
+            action: "btn-default",
+            submit: "btn-primary"
+        };
+
+        switch (type) {
+            case 'submit':
+                templateParams.type = 'submit';
+                templateParams.text = text || 'Submit';
+                templateParams.className = classes.submit;
+                templateParams.checkFormValidity = true;
+                break;
+            case 'delete':
+                templateParams.className = classes.error;
+                templateParams.text = text || 'Delete';
+                break;
+            case 'save':
+                templateParams.className = classes.success;
+                templateParams.text = text || 'Save';
+                templateParams.checkFormValidity = true;
+                break;
+            case 'reset':
+                templateParams.className = classes.warning;
+                templateParams.text = text || 'Reset';
+                break;
+            case 'close':
+                templateParams.className = classes.warning;
+                templateParams.text = text || 'Close';
+                break;
+            case 'ok':
+                templateParams.className = classes.success;
+                templateParams.text = text || 'OK';
+                break;
+            case 'cancel':
+                templateParams.className = classes.error;
+                templateParams.text = text || 'Cancel';
+                break;
+            case 'add':
+                templateParams.className = classes.action;
+                templateParams.text = text || 'Add';
+                break;
+            case 'edit':
+                templateParams.className = classes.action;
+                templateParams.text = text || 'Edit';
+                break;
+            case 'view':
+                templateParams.className = classes.action;
+                templateParams.text = text || 'View';
+                break;
+            default:
+                $log.error('invalid button type: ' + type);
+        }
+
+        return templateParams;
+    };
+
+    return {
+        getTemplateParams: getTemplateParams
+    };
+}]);
+
+csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'csButtonFactory',
+    function ($parse, $compile, permFactory, factory) {
 
         var generateTemplate = function (templateParams, attrs) {
             var permission = attrs.permission;
@@ -280,7 +289,7 @@ csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger'
 
         var linkFunction = function (scope, element, attrs) {
             var buttonType = attrs.type;
-            var templateParams = getTemplateParams(buttonType, attrs.text);
+            var templateParams = factory.getTemplateParams(buttonType, attrs.text);
             var template = generateTemplate(templateParams, attrs);
 
             var newElem = angular.element(template);
@@ -296,72 +305,8 @@ csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger'
     }
 ]);
 
-csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'Logger',
-    function ($parse, $compile, permFactory, logManager) {
-
-        var $log = logManager.getInstance('buttonFactory');
-        var getTemplateParams = function (type, text) {
-            var templateParams = {
-                type: 'button',
-                className: ' btn-default'
-            };
-
-            var classes = {
-                success: "btn-success",
-                error: "btn-danger",
-                warning: "btn-warning",
-                action: "btn-default",
-                submit: "btn-primary"
-            };
-
-            switch (type) {
-                case 'submit':
-                    templateParams.type = 'submit';
-                    templateParams.text = text || 'Submit';
-                    templateParams.className = classes.submit;
-                    break;
-                case 'delete':
-                    templateParams.className = classes.error;
-                    templateParams.text = text || 'Delete';
-                    break;
-                case 'save':
-                    templateParams.className = classes.success;
-                    templateParams.text = text || 'Save';
-                    break;
-                case 'reset':
-                    templateParams.className = classes.warning;
-                    templateParams.text = text || 'Reset';
-                    break;
-                case 'close':
-                    templateParams.className = classes.warning;
-                    templateParams.text = text || 'Close';
-                    break;
-                case 'ok':
-                    templateParams.className = classes.success;
-                    templateParams.text = text || 'OK';
-                    break;
-                case 'cancel':
-                    templateParams.className = classes.error;
-                    templateParams.text = text || 'Cancel';
-                    break;
-                case 'add':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'Add';
-                    break;
-                case 'edit':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'Edit';
-                    break;
-                case 'view':
-                    templateParams.className = classes.action;
-                    templateParams.text = text || 'View';
-                    break;
-                default:
-                    $log.error('invalid button type: ' + type);
-            }
-
-            return templateParams;
-        };
+csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButtonFactory',
+    function ($parse, $compile, permFactory, factory) {
 
         var generateTemplate = function (templateParams, attrs) {
             var permission = attrs.permission;
@@ -375,7 +320,7 @@ csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'Logger
             html += (attrs.ngShow ? ' ng-show="' + attrs.ngShow + '"' : '');
             html += (attrs.ngHide ? ' ng-hide="' + attrs.ngHide + '"' : '');
             html += ' ng-click="ngClickOnPromise()"';
-            html += ' ng-disabled="' + (attrs.ngDisabled ? (attrs.ngDisabled + ' || isDisabled()"') : 'isDisabled()"');
+            html += ' ng-disabled="' + (attrs.ngDisabled ? (attrs.ngDisabled + '|| isDisabled()"') : 'isDisabled()"');
             html += '/>';
             html += '</span>';
             console.log(html);
@@ -383,31 +328,35 @@ csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'Logger
             return html;
         };
 
-        var linkFunction = function (scope, iElement, iAttrs) {
+        var linkFunction = function (scope, iElement, iAttrs, formctrl) {
+
             var buttonType = iAttrs.type;
-            var templateParams = getTemplateParams(buttonType, iAttrs.text);
-            var template = generateTemplate(templateParams, iAttrs);
+            scope.templateParams = factory.getTemplateParams(buttonType, iAttrs.text);
+            var template = generateTemplate(scope.templateParams, iAttrs);
 
             var newElem = angular.element(template);
             iElement.replaceWith(newElem);
             $compile(newElem)(scope);
 
             scope.ngClickOnPromise = function () {
-                scope.enabled = false;
+                scope.isProcessing = true;
                 var result = scope.$eval(iAttrs.onClick);
 
                 if (angular.isObject(result) && angular.isFunction(result.then)) {
                     result.finally(function () {
-                        scope.enabled = true;
+                        scope.isProcessing = false;
                     });
                 } else {
-                    scope.enabled = true;
+                    scope.isProcessing = false;
                 }
             };
 
-            scope.enabled = true;
+            scope.isProcessing = false;
             scope.isDisabled = function () {
-                return !scope.enabled;
+                if (scope.templateParams.checkFormValidity) {
+                    return formctrl.$invalid;
+                }
+                return scope.isProcessing;
             };
         };
 
