@@ -119,7 +119,7 @@ csapp.controller("allocPolicyCtrl", ["$scope", "$csfactory", "$csModels", "$csSh
             };
             modalService.showModal({}, modalOptions).then(function () {
                 $scope.selected.selectedItem.Activity = activity;
-                datalayer.Save($scope.selected.selectedItem).then(function (data) {
+                return datalayer.Save($scope.selected.selectedItem).then(function (data) {
                     manageSubpolicyActivity(activity, data);
                 });
             });

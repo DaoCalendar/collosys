@@ -38,26 +38,26 @@
                     <div class="row">
                         <div class="col-md-8">{{selected.selectedItem.Name}}</div>
                         <div class="col-md-3">
-                            <cs-button type="cancel" text="Deactivate"
+                            <cs-button2 type="cancel" text="Deactivate"
                                        permission="BillingPolicyAddEdit"
                                        data-ng-show="selected.selectedItem.SubpolicyType == 'Active'"
-                                       data-ng-click="openModelforSubPolicy('Expire');"></cs-button>
-                            <cs-button type="ok" text="Activate"
+                                       on-click="openModelforSubPolicy('Expire');"></cs-button2>
+                            <cs-button2 type="ok" text="Activate"
                                        permission="BillingPolicyAddEdit"
                                        data-ng-show="selected.selectedItem.SubpolicyType =='Draft'"
-                                       data-ng-click="openModelforSubPolicy('Activate');"></cs-button>
-                            <cs-button type="ok" text="Reactivate"
+                                       on-click="openModelforSubPolicy('Activate');"></cs-button2>
+                            <cs-button2 type="ok" text="Reactivate"
                                        permission="BillingPolicyAddEdit"
                                        data-ng-show="selected.selectedItem.SubpolicyType =='Expired'"
-                                       data-ng-click="openModelforSubPolicy('Reactivate');"></cs-button>
-                            <cs-button type="ok" text="Approve"
+                                       on-click="openModelforSubPolicy('Reactivate');"></cs-button2>
+                            <cs-button2 type="ok" text="Approve"
                                        permission="BillingPolicyApprove"
                                        data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                                       data-ng-click="approveORreject('Approve')"></cs-button>
-                            <cs-button type="cancel" text="Reject"
+                                       on-click="approveORreject('Approve')"></cs-button2>
+                            <cs-button2 type="cancel" text="Reject"
                                        permission="BillingPolicyApprove"
                                        data-ng-show="selected.selectedItem.SubpolicyType =='Unapproved'"
-                                       data-ng-click="approveORreject('Reject')"></cs-button>
+                                       on-click="approveORreject('Reject')"></cs-button2>
                         </div>
                     </div>
                 </div>
