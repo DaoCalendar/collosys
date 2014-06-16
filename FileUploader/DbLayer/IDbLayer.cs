@@ -18,5 +18,10 @@ namespace ColloSys.FileUploaderService.DbLayer
        IList<string> GetValuesFromKey(ColloSysEnums.Activities area, string key);
 
        List<string> GetAccountNosForDate<TEntity>(DateTime dateTime)  where TEntity : Entity, IUniqueKey;
+
+       IList<TEntity> GetDataForPreviousDay<TEntity>(ColloSysEnums.FileAliasName aliasName,
+           DateTime date, uint filecount)
+           where TEntity : Entity, IFileUploadable;
+
    }
 }
