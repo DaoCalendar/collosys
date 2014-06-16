@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Allocation;
+﻿using System.Globalization;
+using ColloSys.DataLayer.Allocation;
 using ColloSys.DataLayer.Stakeholder;
 
 #region references
@@ -25,22 +26,23 @@ namespace ColloSys.AllocationService.EmailAllocations
         private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
         private static readonly AllocBuilder AllocBuilder=new AllocBuilder();
 
-        public IEnumerable<StakeholdersStat> GetStakeholderWithManger()
+        public IList<StakeholdersStat> GetStakeholderWithManger()
         {
             var stakeholerInitialData = StakeQueryBuilder
                 .FilterBy(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
            
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
-                                               select new StakeholdersStat()
+                                               select new StakeholdersStat
                                                    {
                                                        AllocatedStakeholder = d,
                                                        Manager = GetReportingManger(d.ReportingManager)
                                                    }).ToList();
+            listOfStakeholderAndMangers = listOfStakeholderAndMangers.Where(x => x.Manager != null).ToList();
             Log.Info(string.Format("Stakeholders For mailing process Loaded {0}", listOfStakeholderAndMangers.Count));
             return listOfStakeholderAndMangers;
         }
 
-        public bool InitSendingMail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers)
+        public bool InitSendingMail(IList<StakeholdersStat> listOfStakeholdersAndMangers)
         {
             foreach (ScbEnums.Products products in Enum.GetValues(typeof(ScbEnums.Products)))
             {
@@ -56,7 +58,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return true;
         }
 
-        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IEnumerable<Allocations> allocData, ScbEnums.Products products)
+        private void SendEmail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers, IList<Allocations> allocData, ScbEnums.Products products)
         {
             Log.Info("In SendMail");
             foreach (var allocated in listOfStakeholdersAndMangers)
@@ -190,7 +192,7 @@ namespace ColloSys.AllocationService.EmailAllocations
             return columnPositionInfo;
         }
 
-        private IEnumerable<Allocations> GetAllocationData(ScbEnums.Products products)
+        private IList<Allocations> GetAllocationData(ScbEnums.Products products)
         {
             var criteria = AllocBuilder.CriteriaForEmail();
             Log.Info(string.Format("Criteria for {0} is {1}", products.ToString(), criteria));
@@ -203,12 +205,11 @@ namespace ColloSys.AllocationService.EmailAllocations
             return data;
         }
 
-        //TODO:change call here
         private Stakeholders GetReportingManger(Guid reportingManager)
         {
             if (reportingManager == Guid.Empty)
             {
-                return new Stakeholders();
+                return null;
             }
             try
             {
@@ -216,10 +217,8 @@ namespace ColloSys.AllocationService.EmailAllocations
             }
             catch (Exception)
             {
-                return new Stakeholders();
+                return null;
             }
-
-           
         }
 
         #region Set AllocationStat
@@ -232,7 +231,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 
         private List<AllocationStat> ConvertForAllocInfo(IEnumerable<Allocations> allocationList)
         {
-            return allocationList.Select(alloc => new AllocationStat()
+            return allocationList.Select(alloc => new AllocationStat
                 {
                     AccountNo = alloc.Info.AccountNo,
                     PolicyName = alloc.AllocPolicy.Name,
@@ -243,9 +242,9 @@ namespace ColloSys.AllocationService.EmailAllocations
                                   ? alloc.EndDate.ToString()
                                   : string.Empty,
                     Product = alloc.AllocPolicy.Products.ToString(),
-                    TotalDue = alloc.Info.TotalDue.ToString(),
+                    TotalDue = alloc.Info.TotalDue.ToString(CultureInfo.InvariantCulture),
                     CustomerName = alloc.Info.CustomerName,
-                    Pincode = alloc.Info.Pincode.ToString()
+                    Pincode = alloc.Info.Pincode.ToString(CultureInfo.InvariantCulture)
                 }).ToList();
         }
 

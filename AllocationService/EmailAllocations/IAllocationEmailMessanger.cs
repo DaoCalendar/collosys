@@ -4,7 +4,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 {
     public interface IAllocationEmailMessanger
     {
-        IEnumerable<StakeholdersStat> GetStakeholderWithManger();
-        bool InitSendingMail(IEnumerable<StakeholdersStat> listOfStakeholdersAndMangers);
+        IList<StakeholdersStat> GetStakeholderWithManger();
+        bool InitSendingMail(IList<StakeholdersStat> listOfStakeholdersAndMangers);
     }
 }
