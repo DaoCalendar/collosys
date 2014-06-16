@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.RowCounter;
-using ReflectionExtension.ExcelReader;
 
 #endregion
 
@@ -28,7 +26,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
         #endregion
 
         #region overrides
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        protected override bool GetComputations(Payment record)
         {
             try
             {

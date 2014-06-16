@@ -37,7 +37,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
                 obj.FileDate = FileScheduler.FileDate.Date;
                 obj.AccountNo = ulong.Parse(Reader.GetValue(_accountPosition))
                     .ToString("D" + _accountLength.ToString(CultureInfo.InvariantCulture));
-                GetComputations(obj, Reader);
+                GetComputations(obj);
                 return true;
             }
             catch (Exception)
@@ -66,7 +66,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
             return new Payment();
         }
 
-        public virtual bool ComputedSetter(Payment obj, Payment yobj, IExcelReader reader, IEnumerable<FileMapping> mapplings)
+        public virtual bool ComputedSetter(Payment obj, Payment yobj, IEnumerable<FileMapping> mappings)
         {
             return true;
         }
@@ -78,7 +78,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
         #endregion
 
         #region abstract
-        protected abstract bool GetComputations(Payment obj, IExcelReader reader);
+        protected abstract bool GetComputations(Payment obj);
         #endregion
     }
 }

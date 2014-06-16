@@ -20,7 +20,7 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         TEntity GetRecordForUpdate();
 
-        bool CreateRecord(TEntity obj, IList<FileMapping> mapings,ICounter counter);
+        bool CreateRecord(IList<FileMapping> mapings,out TEntity obj);
 
         bool ComputedSetter(TEntity entity);
 

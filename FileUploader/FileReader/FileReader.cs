@@ -78,8 +78,8 @@ namespace ColloSys.FileUploaderService.FileReader
             var list = new List<T>();
             for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)
             {
-                var obj = _objRecord.GetRecordForUpdate();
-                var isRecordCreate = _objRecord.CreateRecord(obj, _fs.FileDetail.FileMappings, _counter);
+                T obj;
+                var isRecordCreate = _objRecord.CreateRecord(_fs.FileDetail.FileMappings,out obj);
                 if (isRecordCreate)
                 {
                     obj.FileScheduler = _fs;

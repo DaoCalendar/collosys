@@ -66,9 +66,11 @@ namespace ColloSys.FileUploaderService.RecordManager
             return true;
         }
 
-        public bool CreateRecord(TEntity obj, IList<FileMapping> mappingss,ICounter counter)
+        public bool CreateRecord(IList<FileMapping> mappingss,out TEntity obj)
         {
             bool excelstatus = false, defaultMap = false, computedMap = true;
+
+            obj = GetRecordForUpdate();
 
             var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
             if (excelType.Any())

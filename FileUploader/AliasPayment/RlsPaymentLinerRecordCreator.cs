@@ -26,7 +26,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
         #endregion
 
         #region overrides
-        protected override bool GetComputations(Payment record, IExcelReader reader)
+        protected override bool GetComputations(Payment record)
         {
             record.IsDebit = _paymentcodes.Contains(record.TransCode);
 
