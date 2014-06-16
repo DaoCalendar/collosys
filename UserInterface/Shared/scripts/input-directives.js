@@ -954,8 +954,8 @@ csapp.factory("csEmailFactory", ["Logger", "csBootstrapInputTemplate", "csValida
     }]);
 
 //{label: 'Radio', valueField: 'value', textField: 'display', editable: false, required: true, type: 'radio', options: arrayOfObjects }
-csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
-    function (logManager, bstemplate) {
+csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate", "$csfactory",
+    function (logManager, bstemplate, $csfactory) {
 
         var input = function (field, attrs) {
 
@@ -986,6 +986,11 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
         var validateOptions = function (field) {
             field.label = field.label || "Description";
 
+            if ($csfactory.isNullOrEmptyArray(field.options) && angular.isUndefined(field.init)) {
+                throw "initial value is required for radio button";
+            }
+            field.defaultValue = field.init ? field.init : field.options[0][field.valueField];
+
             if (angular.isDefined(field.valueField)) {
                 if (field.valueField.substring(0, 6) !== "record") {
                     field.valueField = "record." + field.valueField;
@@ -1001,7 +1006,6 @@ csapp.factory("csRadioButtonFactory", ["Logger", "csBootstrapInputTemplate",
             } else {
                 field.textField = "record";
             }
-
         };
 
         var linkFunction = function () { };
@@ -1307,7 +1311,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var parseDates = function (field) {
             if (!$csfactory.isNullOrEmptyString(field.min)) field.dateOptions.minDate = "'" + parseDate(field.min) + "'";
             if (!$csfactory.isNullOrEmptyString(field.max)) field.dateOptions.maxDate = "'" + parseDate(field.max) + "'";
-            if (!$csfactory.isNullOrEmptyString(field.defaultDate)) field.dateOptions.defaultDate = parseDate(field.defaultDate);
+            if (!$csfactory.isNullOrEmptyString(field.init)) field.defaultValue = parseDate(field.init);
 
             if (moment(field.dateOptions.maxDate).isBefore(field.dateOptions.minDate))
                 throw "start date: " + field.dateOptions.minDate + " is greater than end date" + field.dateOptions.maxDate;
@@ -1341,9 +1345,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             }
         };
 
-        var linkFunction = function (scope) {
-            scope.$parent.date = parseDate(scope.$parent.date);
-        };
+        var linkFunction = function () { };
 
         return {
             htmlTemplate: htmlTemplate,
@@ -1478,10 +1480,10 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
         };
 
         var setDefaultValue = function (scope, $attrs) {
-            if (angular.isUndefined(scope.field.init)) return;
+            if (angular.isUndefined(scope.field.defaultValue)) return;
             var getter = $parse($attrs.ngModel);
             var setter = getter.assign;
-            setter(scope.$parent, scope.field.init);
+            setter(scope.$parent, scope.field.defaultValue);
         };
 
         var linkFunction = function (scope, element, attrs, ctrl) {
