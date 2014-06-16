@@ -5,7 +5,7 @@ using ColloSys.FileUploaderService.RecordManager;
 
 #endregion
 
-namespace ColloSys.FileUploaderService.AliasLiner
+namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 {
 // ReSharper disable once InconsistentNaming
    public class EbbsLinerOdSmeFR:EbbsLinerSharedFR
