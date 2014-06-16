@@ -73,6 +73,14 @@
     <Compile Include="AliasLiner\Ebbs\EbbsLinerOdSmeRC.cs" />
     <Compile Include="AliasLiner\Ebbs\EbbsLinerSharedFR.cs" />
     <Compile Include="AliasLiner\Ebbs\EbbsLinerSharedRC.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerPlFR.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerMortFR.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerBfsFR.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerPlRC.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerMortRC.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerBfsRC.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerSharedFR.cs" />
+    <Compile Include="AliasLiner\Rls\RLinerSharedRC.cs" />
     <Compile Include="AliasPayment\EbbsPaymentLinerFileReader.cs" />
     <Compile Include="AliasPayment\EbbsPaymentWoAutoFileReader.cs" />
     <Compile Include="AliasPayment\EbbsPaymentWoSmcFileReader.cs" />
@@ -152,9 +160,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AliasLiner\Rls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
