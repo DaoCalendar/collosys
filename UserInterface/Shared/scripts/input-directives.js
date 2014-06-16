@@ -299,7 +299,7 @@ csapp.factory("csBooleanFieldFactory", ["Logger", "csBootstrapInputTemplate", "c
 
         var input = function (field, attrs) {
             var html = '<div class="btn-group">';
-            html += '<button  ng-repeat="data in field.options" class="btn btn-primary"';
+            html += '<button  ng-repeat="data in field.options" class="btn btn-default"';
             html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
             html += (attrs.ngClick ? ' ng-click="' + attrs.ngClick + '"' : '');
             html += (attrs.ngDisabled ? ' ng-disabled="' + attrs.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
