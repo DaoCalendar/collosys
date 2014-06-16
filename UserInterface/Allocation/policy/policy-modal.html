@@ -15,17 +15,15 @@
             </div>
         </div>
         <div class="modal-footer text-right" style="margin-top: 10px">
-            <cs-button type="cancel" text="Expire"
+            <cs-button2 type="cancel" text="Expire"
                        permission="AllocationPolicyAddEdit"
                        data-ng-show="pageData.Activity ==='Expire'"
-                       data-ng-disabled="dateRangeForm.$invalid"
-                       data-ng-click="closeModal(params)"></cs-button>
-            <cs-button type="save" text="Activate"
+                       on-click="closeModal(params)"></cs-button2>
+            <cs-button2 type="save" text="Activate"
                        permission="AllocationPolicyAddEdit"
                        data-ng-show="pageData.Activity === 'Activate' || pageData.Activity ==='Reactivate'"
-                       data-ng-disabled="dateRangeForm.$invalid "
-                       data-ng-click="closeModal(params)"></cs-button>
-            <cs-button type="cancel" permission="AllocationPolicy" data-ng-click="dismissModal()"></cs-button>
+                     on-click="closeModal(params)"></cs-button2>
+            <cs-button2 type="cancel" permission="AllocationPolicy" on-click="dismissModal()"></cs-button2>
         </div>
     </cs-form>
 </div>

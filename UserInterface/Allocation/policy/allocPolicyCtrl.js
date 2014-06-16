@@ -222,7 +222,7 @@ csapp.controller("allocPolicyCtrl", ["$scope", "$csfactory", "$csModels", "$csSh
                 }
 
                 $scope.selected.selectedItem.Activity = activity;
-                datalayer.Save($scope.selected.selectedItem).then(function (data2) {
+               return  datalayer.Save($scope.selected.selectedItem).then(function (data2) {
                     manageSubpolicyActivity(activity, data2);
                 });
             });
