@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="AliasLiner\EbbsLinerAutoFR.cs" />
     <Compile Include="AliasLiner\EbbsLinerAutoRC.cs" />
+    <Compile Include="AliasLiner\EbbsLinerOdSmeFR.cs" />
+    <Compile Include="AliasLiner\EbbsLinerOdSmeRC.cs" />
     <Compile Include="AliasLiner\EbbsLinerSharedFR.cs" />
     <Compile Include="AliasLiner\EbbsLinerSharedRC.cs" />
     <Compile Include="AliasPayment\EbbsPaymentLinerFileReader.cs" />
