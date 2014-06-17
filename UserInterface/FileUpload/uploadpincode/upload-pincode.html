@@ -10,7 +10,7 @@
         <div class="panel panel-default" data-ng-show="selected.Product">
             <div class="panel-heading">Download Missing {{mode.toUpperCase()}}</div>
             <div class="text-center panel-body">
-                <cs-button2 type="save" text="Download" permission="FileUploadCustInfo" value="Download" on-click="download(selected.Product)" ></cs-button2>
+                <cs-button type="save" text="Download" permission="FileUploadCustInfo" value="Download" data-ng-click="download(selected.Product)" ></cs-button>
             </div>
         </div>
 
