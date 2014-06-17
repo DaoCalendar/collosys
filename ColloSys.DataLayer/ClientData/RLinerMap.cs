@@ -63,6 +63,51 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.NoAllocResons);
             Property(x => x.CustStatus, map => map.NotNullable(false));
             Property(x => x.AllocStatus);
+            Property(x => x.Insurance);
+            Property(x => x.PrincipalArrears);
+            //ProductCode
+            Property(x => x.BranchCode);
+            Property(x => x.DSAID);
+            Property(x => x.SCBSchemeCode);
+            Property(x => x.ActualDisbursalDate);
+            Property(x => x.FirstInstallment);
+            Property(x => x.PrincipalProvision);
+            Property(x => x.CurrentFSV);
+            Property(x => x.FSVforProvision);
+            Property(x => x.InterestProvision);
+            Property(x => x.LateChargeProvision);
+            Property(x => x.BounceChargesProvision);
+            Property(x => x.FeeProvision);
+            Property(x => x.InterestNonRevenue);
+            Property(x => x.LateChargeNonRevenue);
+            Property(x => x.BounceChargesNonRevenue);
+            Property(x => x.FeeNonRevenue);
+            Property(x => x.ImpairmentFlag);
+            Property(x => x.ImpairmentMode);
+            Property(x => x.DiscountProvision);
+            Property(x => x.DiscountProvisionUnwind);
+            Property(x => x.SecuritisationFlag);
+            Property(x => x.CurrentValuationDate);
+            Property(x => x.CurrentFSVDate);
+            Property(x => x.RelatedLoanNumber1);
+            Property(x => x.RelatedLoanNumber2);
+            Property(x => x.RelatedLoanNumber3);
+            Property(x => x.RelatedLoanNumber4);
+            Property(x => x.RelatedLoanNumber5);
+            Property(x => x.RelatedLoanNumber6);
+            Property(x => x.RelatedLoanNumber7);
+            Property(x => x.RelatedLoanNumber8);
+            Property(x => x.RelatedLoanNumber9);
+            Property(x => x.IASLoanBalance);
+            Property(x => x.Totalofallprovisionfields);
+            Property(x => x.Totalofallnon_revenues);
+            Property(x => x.CustomerClass);
+            Property(x => x.Employer);
+            Property(x => x.PayrollFlag);
+            Property(x => x.PDCFlag);
+            Property(x => x.ECSFlag);
+            Property(x => x.M2Reference);
+            //FileDate 
 
             #endregion
         }

@@ -63,6 +63,53 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
         public override FileScheduler FileScheduler { get; set; }
         public virtual GPincode GPincode { get; set; }
+
+        public virtual string Insurance { get; set; }
+        public virtual string PrincipalArrears { get; set; }
+        //public virtual string ProductCode { get; set; } already exist
+        public virtual string BranchCode { get; set; }
+        public virtual string DSAID { get; set; }
+        public virtual string SCBSchemeCode { get; set; }
+        public virtual string ActualDisbursalDate { get; set; }
+        public virtual string FirstInstallment { get; set; }
+        public virtual string PrincipalProvision { get; set; }
+        public virtual string CurrentFSV { get; set; }
+        public virtual string FSVforProvision { get; set; }
+        public virtual string InterestProvision { get; set; }
+        public virtual string LateChargeProvision { get; set; }
+        public virtual string BounceChargesProvision { get; set; }
+        public virtual string FeeProvision { get; set; }
+        public virtual string InterestNonRevenue { get; set; }
+        public virtual string LateChargeNonRevenue { get; set; }
+        public virtual string BounceChargesNonRevenue { get; set; }
+        public virtual string FeeNonRevenue { get; set; }
+        public virtual string ImpairmentFlag { get; set; }
+        public virtual string ImpairmentMode { get; set; }
+        public virtual string DiscountProvision { get; set; }
+        public virtual string DiscountProvisionUnwind { get; set; }
+        public virtual string SecuritisationFlag { get; set; }
+        public virtual string CurrentValuationDate { get; set; }
+        public virtual string CurrentFSVDate { get; set; }
+        public virtual string RelatedLoanNumber1 { get; set; }
+        public virtual string RelatedLoanNumber2 { get; set; }
+        public virtual string RelatedLoanNumber3 { get; set; }
+        public virtual string RelatedLoanNumber4 { get; set; }
+        public virtual string RelatedLoanNumber5 { get; set; }
+        public virtual string RelatedLoanNumber6 { get; set; }
+        public virtual string RelatedLoanNumber7 { get; set; }
+        public virtual string RelatedLoanNumber8 { get; set; }
+        public virtual string RelatedLoanNumber9 { get; set; }
+        public virtual string IASLoanBalance { get; set; }
+        public virtual string Totalofallprovisionfields { get; set; }
+        public virtual string Totalofallnon_revenues { get; set; }
+        public virtual string CustomerClass { get; set; }
+        public virtual string Employer { get; set; }
+        public virtual string PayrollFlag { get; set; } //present in 2 files but not in one (ExcelSheet)
+        public virtual string PDCFlag { get; set; }
+        public virtual string ECSFlag { get; set; }
+        public virtual string M2Reference { get; set; }
+        //FileDate already exist 
+
         #endregion
 
         #region Relationship
@@ -132,7 +179,7 @@ namespace ColloSys.DataLayer.Domain
 
         #region NotMapped Fields
 
-        
+
 
         #endregion
     }
