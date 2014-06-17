@@ -8,6 +8,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RecordManager;
+using NLog;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -20,6 +21,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
         protected readonly IDbLayer DbLayer;
         private readonly uint _accountPosition;
         private readonly uint _accountLength;
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         protected PaymentRecordCreator(uint accountPosition, uint accountLength)
         {
@@ -44,7 +46,6 @@ namespace ColloSys.FileUploaderService.AliasPayment
             {
                 return false;
             }
-
         }
 
         public override bool CheckBasicField()
@@ -54,6 +55,7 @@ namespace ColloSys.FileUploaderService.AliasPayment
             if (!ulong.TryParse(Reader.GetValue(_accountPosition), out loanNumber))
             {
                 Counter.IncrementIgnoreRecord();
+                _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(_accountPosition)));
                 return false;
             }
 

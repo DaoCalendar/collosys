@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.RecordManager;
+using NLog;
 
 #endregion
 
@@ -15,6 +16,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
         private uint AccountPos { get; set; }
         private uint AccountNoLength { get; set; }
         private uint CycleString { get; set; }
+        private readonly Logger _log = LogManager.GetCurrentClassLogger();
 
         public  RWriteOffSharedRC(uint accPos,uint accNolength,uint cyclestring)
         {
@@ -46,6 +48,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
             if (!ulong.TryParse(Reader.GetValue(AccountPos), out loanNumber))
             {
                 Counter.IncrementIgnoreRecord();
+                _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountPos)));
                 return false;
             }
 
