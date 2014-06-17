@@ -987,7 +987,6 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
-
 csapp.directive("csDateToIso", function() {
 
     var linkFunction = function (scope, element, attrs, ngModelCtrl) {
