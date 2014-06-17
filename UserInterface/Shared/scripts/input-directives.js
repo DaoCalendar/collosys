@@ -363,7 +363,6 @@ csapp.factory("csNumberFieldFactory", ["Logger", "csBootstrapInputTemplate", "cs
     }]);
 
 //{ label: 'Name', template: 'phone', editable: false, required: true, type: 'text'},
-//don't use placeholder with template phone
 csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csValidationInputTemplate", function (logManager, bstemplate, valtemplate) {
 
     var $log = logManager.getInstance("csTextFieldFactory");
@@ -988,6 +987,25 @@ csapp.factory("csEnumFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         };
     }]);
 
+csapp.directive("csDateToIso", function() {
+
+    var linkFunction = function (scope, element, attrs, ngModelCtrl) {
+        ngModelCtrl.$parsers.push(function (datepickerValue) {
+            var localTime = datepickerValue.getTime();
+            var localOffset = datepickerValue.getTimezoneOffset() * -60000;
+            var utc = localTime + localOffset;
+            var utcDate = new Date(utc);
+            return utcDate.toISOString();
+        });
+    };
+
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: linkFunction
+    };
+});
+
 //{ label: 'Datepicker',  min:"+2d",template:"MonthPicker" max: "1y", default: "+10d",  type: 'date',init:'today'},
 csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csValidationInputTemplate",
     function ($csfactory, bstemplate, valtemplate) {
@@ -1012,7 +1030,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
-            html += '/>';
+            html += ' cs-date-to-iso="" />';
             html += '<span class="input-group-btn">';
             html += '<button type="button" class="btn btn-default"';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
@@ -1357,7 +1375,7 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
             var typedFactory = getFactory(scope.field.type);
             typedFactory.checkOptions(scope.field, attrs);
             setDefaultValue(scope, attrs);
-            typedFactory.linkFunction(scope, element, attrs, ctrl);
+            typedFactory.linkFunction(scope, element, attrs, controllers);
 
             var html = typedFactory.htmlTemplate(scope.field, attrs);
             var newElem = angular.element(html);

@@ -200,31 +200,6 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
-csapp.directive("csMultiFileUpload", ["Restangular", "Logger", "$csfactory", "$upload", function (rest, logManager, $csfactory, $upload) {
-
-    var fileTemplate = function (element, attrs) {
-        var html = '<div ng-form="myform">';
-        html += '<div data-ng-repeat="file in config.fileData">';
-        html += '<cs-file-upload  ng-model="selected.filename" file-info="file">';
-        html += '</cs-file-upload>';
-        html += '</div>';
-        html += '</div>';
-        return html;
-    };
-
-    var linkFunction = function () {
-
-    };
-
-    return {
-        restrict: 'E',
-        template: fileTemplate,
-        link: linkFunction,
-        scope: { config: '=' },
-        require: '^ngForm',
-    };
-}]);
-
 csapp.factory("csButtonFactory", ['Logger', function (logManager) {
     var $log = logManager.getInstance('buttonFactory');
     var getTemplateParams = function (type, text) {
@@ -338,8 +313,8 @@ csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'csButto
     }
 ]);
 
-csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButtonFactory',
-    function ($parse, $compile, permFactory, factory) {
+csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButtonFactory', "$csfactory",
+    function ($parse, $compile, permFactory, factory, $csfactory) {
 
         var generateTemplate = function (templateParams, attrs) {
             var permission = attrs.permission;
@@ -376,6 +351,7 @@ csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButt
                 var result = scope.$eval(iAttrs.onClick);
 
                 if (angular.isObject(result) && angular.isFunction(result.then)) {
+                    $csfactory.enableSpinner();
                     result.finally(function () {
                         scope.isProcessing = false;
                     });
