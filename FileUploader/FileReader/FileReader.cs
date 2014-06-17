@@ -7,7 +7,6 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.RecordManager;
@@ -23,37 +22,43 @@ namespace ColloSys.FileUploaderService.FileReader
         #region ctor
 
         private readonly FileProcess _fileProcess;
-        private readonly FileScheduler _fs;
+       
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly IRecord<T> _objRecord;
-        private readonly IExcelReader _excelReader;
+        //public IRecord<T> _objRecord;
+        
         private readonly uint _batchSize;
-        private readonly ICounter _counter;
+        public ICounter Counter { get; set; }
+        public IExcelReader ExcelReader { get; private set; }
+        public IRecord<T> ObjRecord { get; private set; }
+        public FileScheduler _fs { get; private set; }
 
         protected FileReader(FileScheduler fileScheduler, IRecord<T> recordCreator)
         {
 
             _fs = fileScheduler;
-            _counter = new ExcelRecordCounter();
-            _excelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
-            recordCreator.Init(_fs, _counter, _excelReader);
+            Counter = new ExcelRecordCounter();
+            ExcelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
+            recordCreator.Init(_fs, Counter, ExcelReader);
             _fileProcess = new FileProcess();
-            _objRecord = recordCreator;
+            ObjRecord = recordCreator;
             _batchSize = 500;
         }
         #endregion
 
         #region batch processing
+
+        
+
         public void ReadAndSaveBatch()
         {
-            for (var i = _excelReader.CurrentRow;
-                i < _excelReader.TotalRows && (!_excelReader.EndOfFile());
+            for (var i = ExcelReader.CurrentRow;
+                i < ExcelReader.TotalRows && (!ExcelReader.EndOfFile());
                 i = i + _batchSize)
             {
                 var list = GetNextBatch();
                 SaveNextBatch(list);
 
-                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.ActInserting, _counter);
+                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.ActInserting, Counter);
             }
         }
 
@@ -76,18 +81,18 @@ namespace ColloSys.FileUploaderService.FileReader
         public IList<T> GetNextBatch()
         {
             var list = new List<T>();
-            for (var j = 0; j < _batchSize && (!_excelReader.EndOfFile()); j++)
+            for (var j = 0; j < _batchSize && (!ExcelReader.EndOfFile()); j++)
             {
                 T obj;
-                var isRecordCreate = _objRecord.CreateRecord(_fs.FileDetail.FileMappings,out obj);
+                var isRecordCreate = ObjRecord.CreateRecord(_fs.FileDetail.FileMappings,out obj);
                 if (isRecordCreate)
                 {
                     obj.FileScheduler = _fs;
                     obj.FileDate = _fs.FileDate;
-                    obj.FileRowNo = _excelReader.CurrentRow;
+                    obj.FileRowNo = ExcelReader.CurrentRow;
                     list.Add(obj);
                 }
-                _excelReader.NextRow();
+                ExcelReader.NextRow();
             }
             return list;
         }
@@ -98,24 +103,24 @@ namespace ColloSys.FileUploaderService.FileReader
             {
                 _log.Info("FileUpload: uploading file : " + _fs.FileName + ", for date" +
                             _fs.FileDate.ToShortDateString());
-                _fileProcess.UpdateFileScheduler(_fs, _counter, ColloSysEnums.UploadStatus.UploadStarted);
-                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.UploadStarted, _counter);
+                _fileProcess.UpdateFileScheduler(_fs, Counter, ColloSysEnums.UploadStatus.UploadStarted);
+                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.UploadStarted, Counter);
                 ReadAndSaveBatch();
 
                 _log.Info(string.Format("BatchProcessing : PostProcessing Start"));
-                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.PostProcessing, _counter);
+                _fileProcess.UpdateFileStatus(_fs, ColloSysEnums.UploadStatus.PostProcessing, Counter);
                 _fileProcess.PostProcesing();
 
                 _log.Info(string.Format("BatchProcessing : PostProcessing() Done"));
-                _fileProcess.ComputeStatus(_fs, _counter);
-                _fileProcess.UpdateFileScheduler(_fs, _counter, _fs.UploadStatus);
-                _fileProcess.UpdateFileStatus(_fs, _fs.UploadStatus, _counter);
+                _fileProcess.ComputeStatus(_fs, Counter);
+                _fileProcess.UpdateFileScheduler(_fs, Counter, _fs.UploadStatus);
+                _fileProcess.UpdateFileStatus(_fs, _fs.UploadStatus, Counter);
             }
             catch (Exception exception)
             {
                 _fs.UploadStatus = ColloSysEnums.UploadStatus.Error;
                 _fs.StatusDescription = exception.Message;
-                _fileProcess.UpdateFileScheduler(_fs, _counter, ColloSysEnums.UploadStatus.Error);
+                _fileProcess.UpdateFileScheduler(_fs, Counter, ColloSysEnums.UploadStatus.Error);
                 _log.Error(string.Format("FileUpload : Could not upload file {0}-error description-{1}", _fs.FileName, exception));
             }
         }
