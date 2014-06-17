@@ -64,6 +64,7 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
             $scope.datalayer = datalayer;
             datalayer.GetAll();
             $scope.fileSchedulerfield = $csModels.getColumns("FileScheduler");
+           // $scope.config = {};
 
         })();
 
@@ -88,10 +89,16 @@ csapp.controller("fileSchedulerController", ["$scope", "$filter", "$csfactory", 
                     selecteddate)
                 .then(function () {
                     hasAnyUnscheduledFiles();
+                    //$scope.config = {
+                    //    fileData: datalayer.dldata.fileScheduleDetails.ScheduleInfo,
+                    //    csRequired: 1
+                    //};
                 }).finally(function () {
                     $scope.fetchingFileStatus = false;
                 }
             );
+
+          
         };
 
         var hasAnyUnscheduledFiles = function () {

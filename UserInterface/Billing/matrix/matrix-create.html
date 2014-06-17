@@ -151,11 +151,11 @@
                     <tr>
                         <td colspan="5">
                             <div class="text-right">
-                                <cs-button type="add" text="Create Matrix"
+                                <cs-button2 type="add" text="Create Matrix"
                                            permission="BillingMatrixAddEdit"
                                            data-ng-disabled="(dldata.isMatrixCreated || !matrixform.$valid)
                                        ||(factory.buttonDisable(dldata.matrix.Dimension)||dldata.isDuplicate)"
-                                           data-ng-click="factory.createMatrix(dldata.matrix)"></cs-button>
+                                           on-click="factory.createMatrix(dldata.matrix)"></cs-button2>
                             </div>
                         </td>
                     </tr>

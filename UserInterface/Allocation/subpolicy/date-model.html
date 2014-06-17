@@ -12,9 +12,9 @@
             </cs-form>
         </div>
         <div class="modal-footer">
-            <cs-button type="save" permission ="AllocationSubpolicyAddEdit" text="Activate" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid) " data-ng-show="modalData.forActivate" data-ng-click="activateSubPoicy(modalData)"></cs-button>
-            <cs-button type="delete" permission ="AllocationSubpolicyAddEdit" text="Deactivate" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" data-ng-click="deactivateSubPoicy(modalData)"></cs-button>
-            <cs-button type="close" permission ="AllocationSubpolicyAddEdit" data-ng-click="closeModel()"></cs-button>
+            <cs-button2 type="save" permission ="AllocationSubpolicyAddEdit" text="Activate" data-ng-disabled="!(allocpolicyDateRangeForm.$valid && isModalDateValid) " data-ng-show="modalData.forActivate" on-click="activateSubPoicy(modalData)"></cs-button2>
+            <cs-button2 type="delete" permission ="AllocationSubpolicyAddEdit" text="Deactivate" data-ng-disabled="!isModalDateValid" data-ng-show="!modalData.forActivate" on-click="deactivateSubPoicy(modalData)"></cs-button2>
+            <cs-button2 type="close" permission ="AllocationSubpolicyAddEdit" on-click="closeModel()"></cs-button2>
         </div>
     </form>
 </div>

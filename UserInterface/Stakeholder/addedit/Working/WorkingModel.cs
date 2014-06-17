@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.Infra.SessionMgr;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate;
 using NHibernate.Criterion;
 using ColloSys.UserInterface.Areas.Generic.ViewModels;
 
-namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
+namespace AngularUI.Stakeholder.addedit.Working
 {
     public class WorkingModel
     {
@@ -71,6 +69,8 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
 
         public WorkingModel SetWorkingList(WorkingModel workingModel)
         {
+            SetSelectedPincode(workingModel, QueryFor);
+
             switch (QueryFor)
             {
                 case LocationLevels.Country:
@@ -97,6 +97,42 @@ namespace ColloSys.UserInterface.Areas.Stakeholder2.Models
                     throw new ArgumentOutOfRangeException();
             }
             return workingModel;
+        }
+
+        private static void SetSelectedPincode(WorkingModel workingModel, LocationLevels queryFor)
+        {
+            switch (queryFor)
+            {
+                case LocationLevels.Country:
+                    break;
+                case LocationLevels.Region:
+                    workingModel.SelectedPincodeData.Region = null;
+                    workingModel.ListOfRegions = new List<string>();
+                    goto case LocationLevels.State;
+                case LocationLevels.State:
+                    workingModel.SelectedPincodeData.State = null;
+                    workingModel.ListOfStates = new List<string>();
+                    goto case LocationLevels.Cluster;
+                case LocationLevels.Cluster:
+                    workingModel.SelectedPincodeData.Cluster = null;
+                    workingModel.ListOfClusters = new List<string>();
+                    goto case LocationLevels.District;
+                case LocationLevels.District:
+                    workingModel.SelectedPincodeData.District = null;
+                    workingModel.ListOfDistricts = new List<string>();
+                    goto case LocationLevels.City;
+                case LocationLevels.City:
+                    workingModel.SelectedPincodeData.City = null;
+                    workingModel.ListOfCities = new List<string>();
+                    goto case LocationLevels.Area;
+                case LocationLevels.Area:
+                    workingModel.SelectedPincodeData.Area = null;
+                    workingModel.ListOfAreas = new List<string>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+
+            }
         }
 
         public WorkingModel GetGPincodeData(WorkingModel workingModel)
