@@ -8,7 +8,6 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
@@ -26,7 +25,6 @@ namespace ColloSys.FileUploaderService.FileReader
         #region ctor
 
         private readonly FileProcess _fileProcess;
-        protected readonly FileScheduler _fs;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         protected readonly IRecord<T> _objRecord;
         private readonly IExcelReader _excelReader;
@@ -34,6 +32,10 @@ namespace ColloSys.FileUploaderService.FileReader
         protected readonly ICounter _counter;
         protected readonly MultiKeyEntityList<T> TodayRecordList;
         protected readonly IDbLayer _DbLayer;
+        public ICounter Counter { get; set; }
+        public IExcelReader ExcelReader { get; private set; }
+        public IRecord<T> ObjRecord { get; private set; }
+        public FileScheduler _fs { get; private set; }
         protected FileReader(FileScheduler fileScheduler, IRecord<T> recordCreator)
         {
             _fs = fileScheduler;
@@ -49,6 +51,8 @@ namespace ColloSys.FileUploaderService.FileReader
         #endregion
 
         #region batch processing
+
+       
 
         public void ReadAndSaveBatch()
         {
