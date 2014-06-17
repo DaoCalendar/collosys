@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,6 +18,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
     {
         private static readonly GKeyValueBuilder GKeyValueBuilder = new GKeyValueBuilder();
         private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
+        private static readonly StakeWorkingQueryBuilder StakeWorkingQueryBuilder = new StakeWorkingQueryBuilder();
 
         [HttpGet]
         public HttpResponseMessage GetStakeWorkingData(Guid stakeholderId)
@@ -55,10 +57,23 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
             StakePaymentBuilder.Save(paymentData);
         }
 
+        [HttpPost]
+        public void SaveWorking(List<StkhWorking> workingData)
+        {
+            StakeWorkingQueryBuilder.Save(workingData);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage GetGPincodeData(WorkingModel workingModel)
+        {
+            workingModel.GetGPincodeData(workingModel);
+            return Request.CreateResponse(HttpStatusCode.OK, workingModel);
+        }
+
         [HttpGet]
         public HttpResponseMessage GetWorkingReportsTo(Guid id, ColloSysEnums.ReportingLevel level)
         {
-            var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id,level);
+            var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id, level);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }

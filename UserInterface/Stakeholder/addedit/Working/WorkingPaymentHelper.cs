@@ -31,6 +31,5 @@ namespace AngularUI.Stakeholder.addedit.Working
             //TODO : filter by product
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }
-
     }
 }

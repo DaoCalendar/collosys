@@ -41,11 +41,13 @@
                                 <cs-field data-ng-show="!showDropdown('Region')" 
                                           field="workingModel.Region"
                                           no-label=""  
+                                          data-ng-change="getPincodeData(WorkingModel,'Region')"    
                                           data-ng-model="WorkingModel.SelectedPincodeData.Region"
                                           value-list="WorkingModel.ListOfRegions">
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Region')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Region"
+                                                 change="getPincodeData(WorkingModel,'Region')"    
                                                  options="c for c in WorkingModel.ListOfRegions" multiple="true">
                                     </multiselect>
                                 </div>
@@ -55,24 +57,28 @@
                                 <cs-field field="workingModel.Cluster"
                                           no-label=""  
                                           data-ng-show="!showDropdown('Cluster')"
+                                           data-ng-change="getPincodeData(WorkingModel,'Cluster')"   
                                           data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
                                           value-list="WorkingModel.ListOfStates">
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Cluster')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
+                                                 change="getPincodeData(WorkingModel,'Cluster')"    
                                                  options="c for c in WorkingModel.ListOfClusters" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
                             
-                            <td data-ng-show="displayManager.showState "  >
+                            <td data-ng-show="displayManager.showState">
                                 <cs-field field="workingModel.State"
-                                          data-ng-model="Working.State"   
-                                          no-label=""  
+                                          data-ng-model="WorkingModel.SelectedPincodeData.State"   
+                                          no-label="" 
+                                          data-ng-change="getPincodeData(WorkingModel,'State')"   
                                           data-ng-show="!showDropdown('State')"
                                           value-list="WorkingModel.ListOfStates"></cs-field>
                                 <div data-ng-if="showDropdown('State')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.State"
+                                                 change="getPincodeData(WorkingModel,'State')" 
                                                  options="c for c in WorkingModel.ListOfStates" multiple="true">
                                     </multiselect>
                                 </div>
@@ -82,11 +88,13 @@
                                 <cs-field field="workingModel.District"
                                           no-label=""  
                                           data-ng-show="!showDropdown('District')"
+                                           data-ng-change="getPincodeData(WorkingModel,'District')"   
                                           data-ng-model="WorkingModel.SelectedPincodeData.District" 
                                           value-list="WorkingModel.ListOfDistricts" >
                                 </cs-field>
                                 <div data-ng-if="showDropdown('District')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.District"
+                                                 change="getPincodeData(WorkingModel,'District')"    
                                                  options="c for c in WorkingModel.ListOfDistricts" multiple="true">
                                     </multiselect>
                                 </div>
@@ -97,10 +105,12 @@
                                           no-label=""  
                                           data-ng-show="!showDropdown('City')" 
                                           value-list="WorkingModel.ListOfCities"
+                                          data-ng-change="getPincodeData(WorkingModel,'City')" 
                                           data-ng-model="WorkingModel.SelectedPincodeData.City">
                                 </cs-field>
                                 <div data-ng-if="showDropdown('City')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.City"
+                                                 change="getPincodeData(WorkingModel,'City')"    
                                                  options="c for c in WorkingModel.ListOfCities" multiple="true">
                                     </multiselect>
                                 </div>
@@ -111,53 +121,37 @@
                                           no-label=""    
                                           data-ng-show="!showDropdown('Area')"
                                           data-ng-model="Working.Area"
+                                           data-ng-change="getPincodeData(WorkingModel,'Area')"   
                                           value-list="WorkingModel.ListOfAreas">
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Area')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Area"
+                                                 change="getPincodeData(WorkingModel,'Area')"    
                                                  options="c for c in WorkingModel.ListOfAreas" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
                             <td >
-                                <cs-button type="submit" text="add"></cs-button>
+                                <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)"></cs-button>
                             </td>
+                        </tr>
+                        <tr data-ng-repeat="data in workingDetailsList">
+                            <td class="col-md-2">{{Working.Products}}</td>
+                            <td class="col-md-2">{{Working.ReportsTo}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showDistrict">{{data.District}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showCity">{{data.City}}</td>
+                            <td class="col-md-2" data-ng-show="displayManager.showArea">{{data.Area}}</td>
+                            <td class="col-md-2"></td>
                         </tr>
                     </tbody>
                 </table>
-             
-
-                <!-- <cs-field field="workingModel.LocationLevel"
-                               data-ng-model="Working.LocationLevel"></cs-field>
-
-                    <cs-field field="workingModel.Country"
-                              data-ng-model="Working.Country"></cs-field>-->
-
-               
-             
-
-                <!-- <cs-field field="workingModel.StartDate"
-                               data-ng-model="Working.StartDate"></cs-field>
-
-                    <cs-field field="workingModel.EndDate"
-                              data-ng-model="Working.EndDate"></cs-field>
-
-                    <cs-field field="workingModel.BucketStart"
-                              data-ng-model="Working.BucketStart"></cs-field>
-
-                    <cs-field field="workingModel.BucketEnd"
-                              data-ng-model="Working.BucketEnd"></cs-field>-->
-        
                 <div class="pull-left">
-                    <cs-button type="submit"
+                    <cs-button type="save"
                                permission="Stakeholder,Stakeholder,AddEdit"
-                               text="prev"
-                               data-ng-click="prev()">
-                    </cs-button>
-                    <cs-button 
-                        type="submit"
-                        text="Fill Payment Details"
-                        permission="Stakeholder,Stakeholder,AddEdit">
+                               data-ng-click="save(workingDetailsList)">
                     </cs-button>
                 </div>
             </form>
@@ -270,9 +264,35 @@
                 </cs-button>
             </form>
         </cs-form>
+    </div>
+</div>
 
 
-        <!--<cs-field field="paymentModel.Products"
+
+<!-- <cs-field field="workingModel.LocationLevel"
+                               data-ng-model="Working.LocationLevel"></cs-field>
+
+                    <cs-field field="workingModel.Country"
+                              data-ng-model="Working.Country"></cs-field>-->
+
+
+
+
+<!-- <cs-field field="workingModel.StartDate"
+                               data-ng-model="Working.StartDate"></cs-field>
+
+                    <cs-field field="workingModel.EndDate"
+                              data-ng-model="Working.EndDate"></cs-field>
+
+                    <cs-field field="workingModel.BucketStart"
+                              data-ng-model="Working.BucketStart"></cs-field>
+
+                    <cs-field field="workingModel.BucketEnd"
+                              data-ng-model="Working.BucketEnd"></cs-field>-->
+
+
+
+<!--<cs-field field="paymentModel.Products"
                           data-ng-model="Payment.Products"></cs-field>
                 <cs-field field="paymentModel.BankAccNo"
                           data-ng-model="Payment.BankAccNo"></cs-field>
@@ -286,5 +306,3 @@
                           data-ng-model="Payment.StartDate"></cs-field>
                 <cs-field field="paymentModel.EndDate"
                           data-ng-model="Payment.EndDate"></cs-field>-->
-    </div>
-</div>
