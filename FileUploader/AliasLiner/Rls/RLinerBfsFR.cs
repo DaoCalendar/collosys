@@ -10,8 +10,14 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 // ReSharper disable once InconsistentNaming
    public class RLinerBfsFR:RLinerSharedFR
     {
-       public RLinerBfsFR(FileScheduler fileScheduler, IRecord<RLiner> recordCreator) : base(fileScheduler, recordCreator)
+       public RLinerBfsFR(FileScheduler fileScheduler)
+           : base(fileScheduler, new RLinerBfsRC())
        {
+       }
+
+       public override bool PostProcessing()
+       {
+           return true;
        }
     }
 }
