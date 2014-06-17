@@ -3,5 +3,11 @@
 // ReSharper disable once InconsistentNaming
     public class RWriteOffAutoScbRC:RWriteOffSharedRC
     {
+        private const uint AccountPosition = 1;
+        private const uint AccountLength = 11;
+        private const uint CycleString = 4;
+        public RWriteOffAutoScbRC() : base(AccountPosition, AccountLength, CycleString)
+        {
+        }
     }
 }

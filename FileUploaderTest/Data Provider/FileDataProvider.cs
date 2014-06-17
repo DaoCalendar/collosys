@@ -6,23 +6,117 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.SessionMgr;
 using NHibernate.Linq;
+using NHibernate.Transform;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests
 {
-    class FileDataProvider
+    public class FileDataProvider
     {
         FileMappingData data = new FileMappingData();
 
-        public FileScheduler GetUploadedFile()
+        public FileScheduler GetUploadedFile(ColloSysEnums.FileAliasName alias)
+        {
+            var filename = string.Empty;
+            switch (alias)
+            {
+                case ColloSysEnums.FileAliasName.CACS_ACTIVITY:
+                    filename = "DrillDown_Txn_1.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.C_LINER_COLLAGE:
+                    break;
+                case ColloSysEnums.FileAliasName.C_LINER_UNBILLED:
+                    break;
+                case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
+                    break;
+                case ColloSysEnums.FileAliasName.C_PAYMENT_UIT:
+                    break;
+                case ColloSysEnums.FileAliasName.C_PAYMENT_VISA:
+                    break;
+                case ColloSysEnums.FileAliasName.C_WRITEOFF:
+                    break;
+                case ColloSysEnums.FileAliasName.E_LINER_AUTO:
+                    break;
+                case ColloSysEnums.FileAliasName.E_LINER_OD_SME:
+                    break;
+                case ColloSysEnums.FileAliasName.E_PAYMENT_LINER:
+                    filename = "./FileUploaderTest/ExcelData/product code_501N.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO:
+                    filename = "./FileUploaderTest/ExcelData/AEB Auto Charge Off Base - 28.01.2014.xls";
+
+                    break;
+                case ColloSysEnums.FileAliasName.E_PAYMENT_WO_SMC:
+                    filename = "./FileUploaderTest/ExcelData/SMC Final Flash - April 2013.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.E_WRITEOFF_AUTO:
+                    break;
+                case ColloSysEnums.FileAliasName.E_WRITEOFF_SMC:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
+                    break;
+                case ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN:
+                    break;
+                case ColloSysEnums.FileAliasName.R_LINER_MORT_LOAN:
+                    break;
+                case ColloSysEnums.FileAliasName.R_LINER_PL:
+                    break;
+                case ColloSysEnums.FileAliasName.R_MANUAL_REVERSAL:
+                    break;
+                case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
+                    filename = "./FileUploaderTest/ExcelData/DrillDown_Txn_1.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:
+                    filename = "./FileUploaderTest/ExcelData/Final GB, SCB & AEB PL Flash - July 2013.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.R_PAYMENT_WO_PLPC:
+                    filename = "./FileUploaderTest/ExcelData/Final GB, SCB & AEB PL Flash - July 2013.xls";
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_SCB:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_GB:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_LORDS:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_AEB:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("alias");
+            }
+            return GetFileScheduler(filename, alias);
+        }
+
+        public FileDetail GetFileDetail(ColloSysEnums.FileAliasName name)
+        {
+
+            var session = SessionManager.GetNewSession();
+            var file = session
+                  .QueryOver<FileDetail>()
+                  .Where(c => c.AliasName == name)
+                  .SingleOrDefault();
+
+            return file;
+
+        }
+
+
+        public FileScheduler GetUploadedFileForWoAuto()
         {
             FileScheduler file;
             var session = SessionManager.GetNewSession();
-            data.SetFileScheduler();
+            //data.SetFileScheduler();
             file = session
-                .QueryOver<FileScheduler>()
-                .Where(c => c.FileDetail.Id == new Guid("f11e47b8-8c7b-430e-9e29-d0246a54af2d"))
-                .List<FileScheduler>().FirstOrDefault();
+                .Query<FileScheduler>()
+                .Where(c => c.FileDetail.Id == new Guid("4CBEF63A-6965-4FA0-8601-B5A98D5BDD21"))
+                .Fetch(x => x.FileDetail)
+                .ThenFetchMany(x => x.FileMappings)
+                .FirstOrDefault();
 
             return file;
 
@@ -30,31 +124,25 @@ namespace ReflectionExtension.Tests
 
         }
 
-        public FileDetail GetFileDetail()
-        {
-           var session= SessionManager.GetNewSession();
 
-            return session.Query<FileDetail>()
-                .SingleOrDefault(x => x.Id == new Guid("A42EF611-808D-4CC2-9F6F-D15069664D4C"));
 
-        }
 
-        public FileScheduler GetFileScheduler()
+        public FileScheduler GetFileScheduler(string fileName, ColloSysEnums.FileAliasName aliasName)
         {
 
             var fs = new FileScheduler()
             {
-                FileName = "",
-                FileDetail = GetFileDetail(),
-                FileDate = new DateTime(2014-06-12),
-                FileDirectory = "",
-                StartDateTime = new DateTime(2014-06-11),
-                EndDateTime = new DateTime(2014-0610),
+                FileName = fileName,
+                FileDetail = GetFileDetail(aliasName),
+                FileDate = new DateTime(2014 - 06 - 12),
+                FileDirectory = "E:/Abhijeet/Collosys2",
+                StartDateTime = new DateTime(2014 - 06 - 11),
+                EndDateTime = new DateTime(2014 - 0610),
                 IsImmediate = true,
                 ScbSystems = ScbEnums.ScbSystems.RLS,
-                
 
-                
+
+
             };
             return fs;
         }
@@ -81,65 +169,65 @@ namespace ReflectionExtension.Tests
         //    return mappings;
         //}
 
-   
-        public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
-        {
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("910696CC-A1D7-4035-9449-59F96D31D099"))
-                    .And(c => c.FileName == "20140429_184726_REVERSAL MIS.xls")
-                    .List<FileScheduler>().FirstOrDefault();
 
-            return data;
-        }
-        public FileScheduler GetUploadedFileForRlsPaymentWoAeb()
-        {
+        //public FileScheduler GetUploadedFileForRlsPaymentManualReserval()
+        //{
+        //    var data =
+        //        SessionManager.GetCurrentSession()
+        //            .QueryOver<FileScheduler>()
+        //            .Where(c => c.FileDetail.Id == new Guid("910696CC-A1D7-4035-9449-59F96D31D099"))
+        //            .And(c => c.FileName == "20140429_184726_REVERSAL MIS.xls")
+        //            .List<FileScheduler>().FirstOrDefault();
 
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("755fb655-d76d-46ab-9c4f-714a49dd7e90"))
-                    .And(c => c.FileName == "20140430_180100_Final GB, SCB & AEB PL Flash - July 2013-14ColumnAuto.xls")
-                    .List<FileScheduler>().FirstOrDefault();
+        //    return data;
+        //}
+        //public FileScheduler GetUploadedFileForRlsPaymentWoAeb()
+        //{
 
-            return data;
-        }
-        public FileScheduler GetUploadedFileForWoSmc()
-        {
+        //    var data =
+        //        SessionManager.GetCurrentSession()
+        //            .QueryOver<FileScheduler>()
+        //            .Where(c => c.FileDetail.Id == new Guid("755fb655-d76d-46ab-9c4f-714a49dd7e90"))
+        //            .And(c => c.FileName == "20140430_180100_Final GB, SCB & AEB PL Flash - July 2013-14ColumnAuto.xls")
+        //            .List<FileScheduler>().FirstOrDefault();
 
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("c89db479-6534-432c-ad81-7e43c5591eec"))
-                    .And(c => c.FileName == "20140429_160810_SMC Final Flash - April 2013 - Copy (2).xls")
-                    .List<FileScheduler>().FirstOrDefault();
+        //    return data;
+        //}
+        //public FileScheduler GetUploadedFileForWoSmc()
+        //{
 
-            return data;
-        }
+        //    var data =
+        //        SessionManager.GetCurrentSession()
+        //            .QueryOver<FileScheduler>()
+        //            .Where(c => c.FileDetail.Id == new Guid("c89db479-6534-432c-ad81-7e43c5591eec"))
+        //            .And(c => c.FileName == "20140429_160810_SMC Final Flash - April 2013 - Copy (2).xls")
+        //            .List<FileScheduler>().FirstOrDefault();
 
-        public FileScheduler GetUploadedFileForEbbsAutoOd()
-        {
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("4CBEF63A-6965-4FA0-8601-B5A98D5BDD21"))
-                    .And(c => c.FileName == "20140429_161823_Final Auto OD Flash - July 2013.xls")
-                    .List<FileScheduler>().FirstOrDefault();
+        //    return data;
+        //}
 
-            return data;
-        }
-        public FileScheduler GetUploadedFileForEbbs()
-        {
-            var data =
-                SessionManager.GetCurrentSession()
-                    .QueryOver<FileScheduler>()
-                    .Where(c => c.FileDetail.Id == new Guid("26DB346F-0ACD-4FB6-AF25-A0EB5A28BFAE"))
-                    .And(c => c.FileName == "20140429_182525_product code_501N.xls")
-                    .List<FileScheduler>().FirstOrDefault();
+        //public FileScheduler GetUploadedFileForEbbsAutoOd()
+        //{
+        //    var data =
+        //        SessionManager.GetCurrentSession()
+        //            .QueryOver<FileScheduler>()
+        //            .Where(c => c.FileDetail.Id == new Guid("4CBEF63A-6965-4FA0-8601-B5A98D5BDD21"))
+        //            .And(c => c.FileName == "20140429_161823_Final Auto OD Flash - July 2013.xls")
+        //            .List<FileScheduler>().FirstOrDefault();
 
-            return data;
-        }
+        //    return data;
+        //}
+        //public FileScheduler GetUploadedFileForEbbs()
+        //{
+        //    var data =
+        //        SessionManager.GetCurrentSession()
+        //            .QueryOver<FileScheduler>()
+        //            .Where(c => c.FileDetail.Id == new Guid("26DB346F-0ACD-4FB6-AF25-A0EB5A28BFAE"))
+        //            .And(c => c.FileName == "20140429_182525_product code_501N.xls")
+        //            .List<FileScheduler>().FirstOrDefault();
+
+        //    return data;
+        //}
 
     }
 }

@@ -47,6 +47,32 @@
         return true;
     };
 
+
+    var resetVal = function (key, except) {
+        if (angular.isUndefined(except)) return true;
+        var index = except.indexOf(key);
+        return index === -1;
+    };
+
+    var resetObject = function (obj, except) {
+
+        angular.forEach(obj, function (value, key) {
+            if (resetVal(key, except)) {
+                switch (typeof value) {
+                    case 'object':
+                    case 'boolean':
+                    case 'number':
+                    case 'string':
+                        delete obj[key];
+                        break;
+                    default:
+                        console.log('cannot reset type : ' + typeof value);
+                }
+            };
+        });
+    };
+
+
     var isNullOrEmptyArray = function (val) {
         if (isNullOrEmptyString(val)) {
             return true;
@@ -110,7 +136,8 @@
         getCurrentUserName: getCurrentUserName,
         enableSpinner: enableSpinner,
         findIndex: findIndex,
-        getPropertyValue: getPropertyValue
+        getPropertyValue: getPropertyValue,
+        ResetObject: resetObject
     };
 }]);
 
@@ -485,7 +512,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
         if (perm.trim().toUpperCase() === "ALL") return true;
 
         switch (perm) {
-        //fileupload
+            //fileupload
             case "FileDetailAddEdit":
                 perm = "FileUploader,CreateFile,AddEdit";
                 break;
@@ -516,7 +543,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "FileErrorCorrection":
                 perm = "FileUploader,ErrorCorrection,AddEdit";
                 break;
-                
+
                 //Allocation
             case "AllocationPolicyAddEdit":
                 perm = "Allocation,AllocationPolicy,AddEdit";
@@ -545,7 +572,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "CheckAllocationApprove":
                 perm = "Allocation,CheckAllocation,Approve";
                 break;
-                
+
                 //Billing
             case "BillingPolicyAddEdit":
                 perm = "Billing,BillingPolicy,AddEdit";
@@ -613,7 +640,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "BillingPayoutStatus":
                 perm = "Billing,PayoutStatus";
                 break;
-           
+
 
                 //Config
             case "ConfigPincode":
@@ -652,7 +679,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "ConfigHierarchy":
                 perm = "Config,Hierarchy";
                 break;
-                
+
                 //user
             case "UserLogout":
                 perm = "User,Logout";
@@ -663,7 +690,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "UserChangePassword":
                 perm = "User,ChangePassword";
                 break;
-                
+
                 //Developer
             case "DeveloperGenerateDb":
                 perm = "Developer,GenerateDb";
@@ -677,7 +704,7 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
             case "DeveloperExecuteQuery":
                 perm = "Developer,ExecuteQuery";
                 break;
-                
+
 
 
             default:

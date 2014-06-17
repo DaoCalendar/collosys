@@ -65,7 +65,7 @@ namespace ReflectionExtension.Tests.DummyTest
     public class TestGetNxtRw
     {
        
-        private ColloSys.FileUploader.FileReader.IFileReader<Payment> _reader;
+        private ColloSys.FileUploaderService.FileReader.IFileReader<Payment> _reader;
         readonly FileMappingData _data=new FileMappingData();
     
         [SetUp]
