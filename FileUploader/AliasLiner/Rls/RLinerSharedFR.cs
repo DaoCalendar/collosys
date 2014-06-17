@@ -9,16 +9,11 @@ using ColloSys.FileUploaderService.RecordManager;
 namespace ColloSys.FileUploaderService.AliasLiner.Rls
 {
 // ReSharper disable once InconsistentNaming
-   public class RLinerSharedFR:FileReader<RLiner>
+   public abstract class RLinerSharedFR:FileReader<RLiner>
    {
        public RLinerSharedFR(FileScheduler fileScheduler, IRecord<RLiner> recordCreator) 
            : base(fileScheduler, recordCreator)
        {
-       }
-
-       public override bool PostProcessing()
-       {
-           throw new System.NotImplementedException();
        }
    }
 }
