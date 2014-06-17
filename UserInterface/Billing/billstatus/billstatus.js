@@ -41,7 +41,7 @@ csapp.controller('billStatusController', ['$scope', 'billStatusDataLayer', 'bill
         $scope.fetchData = function (seleData) {
             var month = moment(seleData.Month).format('YYYYMM');
 
-            datalayer.fetchData(seleData.Product, month).then(function (data) {
+           return datalayer.fetchData(seleData.Product, month).then(function (data) {
                 $scope.billAmountList = data;
             });
         };

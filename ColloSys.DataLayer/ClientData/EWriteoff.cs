@@ -31,12 +31,44 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Branch { get; set; }
         public virtual decimal CurrentDue { get; set; }
         public virtual bool IsSetteled { get; set; }
-        public virtual string CustStatus { get  ; set; }
+        public virtual string CustStatus { get; set; }
         public virtual DateTime? AllocStartDate { get; set; }
         public virtual DateTime? AllocEndDate { get; set; }
         public virtual string Comments { get; set; }
         public override DateTime FileDate { get; set; }
         public override ulong FileRowNo { get; set; }
+        public virtual string Recoverydate_2002 { get; set; }
+        public virtual string Amountrecovered_2002 { get; set; }
+        public virtual string Recoverydate_2003 { get; set; }
+        public virtual string Amountrecovered_2003 { get; set; }
+        public virtual string Recoverydate_2004 { get; set; }
+        public virtual string Amountrecovered_2004 { get; set; }
+        public virtual string Recoverydate_2005 { get; set; }
+        public virtual string Amountrecovered_2005 { get; set; }
+        public virtual string Recoverydate_2006 { get; set; }
+        public virtual string Amountrecovered_2006 { get; set; }
+        public virtual string Recoverydate_2007 { get; set; }
+        public virtual string Amountrecovered_2007 { get; set; }
+        public virtual string Recoverydate_2008 { get; set; }
+        public virtual string Amountrecovered_2008 { get; set; }
+        public virtual string Recoverydate_2009 { get; set; }
+        public virtual string Amountrecovered_2009 { get; set; }
+        public virtual string Recoverydate_2010 { get; set; }
+        public virtual string Amountrecovered_2010 { get; set; }
+        public virtual string BadDebtsIncurred_2010 { get; set; }
+        public virtual string Recoverydate_2011 { get; set; }
+        public virtual string Amountrecovered_2011 { get; set; }
+        public virtual string BadDebtsIncurred_2011 { get; set; }
+        public virtual string Recoverydate_2012 { get; set; }
+        public virtual string Amountrecovered_2012 { get; set; }
+        public virtual string BadDebtsIncurred_2012 { get; set; }
+        public virtual string Recoverydate_2013 { get; set; }
+        public virtual string Amountrecovered_2013 { get; set; }
+        public virtual string BadDebtsIncurred_2013 { get; set; }
+        public virtual string Settlement_Y { get; set; }
+        public virtual string DISPUTE { get; set; }
+        public virtual string DONOTFOLLOW { get; set; }
+
 
         //public virtual decimal AmountRepaid { get; set; }
         public virtual bool IsReferred { get; set; }

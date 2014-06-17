@@ -16,6 +16,9 @@ namespace ColloSys.FileUploaderService.FileReader
         void ReadAndSaveBatch();
         void ProcessFile();
         IList<T> GetNextBatch();
+
+        //void PreProcessing();
+        bool PostProcessing();
     }
 
 }

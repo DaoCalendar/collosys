@@ -249,7 +249,7 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
                     stkh.PositionLevel = item.PositionLevel + 1;
                 }
             });
-            datalayer.Save(stkh).then(function () {
+          return datalayer.Save(stkh).then(function () {
                 $scope.hierarchy = {};
                 $scope.dldata.highestPositionLevel = {};
                 $location.path("/generic/hierarchy");

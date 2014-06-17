@@ -52,7 +52,7 @@ csapp.controller('readyForBillingController', ["$scope", "$csnotify", "$csfactor
         $scope.dldata.billing.BillCycle = 0;
         billing.BillMonth = moment(billing.BillMonth).format('YYYYMM');
 
-        factoryForBilling.SaveBillingData(billing);
+       factoryForBilling.SaveBillingData(billing);
     };
 
     //#endregion

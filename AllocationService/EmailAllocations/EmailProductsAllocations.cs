@@ -14,7 +14,7 @@ namespace ColloSys.AllocationService.EmailAllocations
 
             var stakeholdersWithManagerId = emailMessanger.GetStakeholderWithManger();
 
-            var result = emailMessanger.InitSendingMail(stakeholdersWithManagerId);
+            emailMessanger.InitSendingMail(stakeholdersWithManagerId);
             Log.Info("Email Allocations Process ended");
         }
     }

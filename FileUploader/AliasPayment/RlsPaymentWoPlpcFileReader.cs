@@ -13,5 +13,10 @@ namespace ColloSys.FileUploader.AliasFileReader
         {
             
         }
+
+       public override bool PostProcessing()
+       {
+           throw new System.NotImplementedException();
+       }
     }
 }

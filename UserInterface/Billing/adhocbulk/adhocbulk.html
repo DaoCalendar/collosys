@@ -103,15 +103,16 @@
                         </td>
                         <td>
                             <!--<cs-button type="submit" text="Add" ng-show="$last"></cs-button>-->
-                            <cs-button type="add" text="Add Another" permission="BillingAdhocPayoutAddEdit"
-                                       data-ng-show="$last"></cs-button>
+                            <cs-button2 type="submit" text="Add Another" permission="BillingAdhocPayoutAddEdit"
+                                       data-ng-show="$last"></cs-button2>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div data-ng-show="PaymentList.length>0">
-            <icon-btn type="save" permission="BillingAdhocPayoutAddEdit" ng-disabled="!adhocForm.$valid" ng-click="save(PaymentList)"></icon-btn>
+            <cs-button2 type="save" permission="BillingAdhocPayoutAddEdit" on-click="save(PaymentList)"></cs-button2>
+            <!--<icon-btn type="save" permission="BillingAdhocPayoutAddEdit" ng-disabled="!adhocForm.$valid"></icon-btn>-->
             <!--<input type="button" data-ng-disabled="!adhocForm.$valid" class="btn btn-default"
                        value="Save" data-ng-click="save(PaymentList)" />
                 <cs-button type="Delete"  ng-disabled="true"></cs-button>

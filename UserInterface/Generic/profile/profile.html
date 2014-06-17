@@ -11,7 +11,7 @@
             <div data-ng-show="dldata.profile">
                 <div class="row">
                     <!-- Name -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">Name</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" data-ng-model="dldata.profile.Name" readonly="readonly" />
@@ -19,7 +19,7 @@
                     </div>
 
                     <!-- User Id -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">User Id</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" data-ng-model="dldata.profile.ExternalId" readonly="readonly" />
@@ -27,17 +27,17 @@
                     </div>
 
                     <!-- Joining Date -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">Joining Date</label>
                         <span class="col-md-5">
                             <input type="text" class="form-control" name="DateOfJoining" class="input-medium"
-                                data-ng-disabled="true" data-ng-model="dldata.profile.JoiningDate" bs-datepicker />
+                                data-ng-disabled="true" value="{{dldata.profile.JoiningDate|date:'dd-MM-yyyy'}}" bs-datepicker />
                         </span>
                         <!--                        <icon-btn type="calendar" class="btn btn-default" data-toggle="datepicker"></icon-btn>-->
                     </div>
 
                     <!-- StkhType -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">Hierarchy</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Hierarchy" readonly="readonly" />
@@ -45,7 +45,7 @@
                     </div>
 
                     <!-- StkhSubtype -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">Designation</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" data-ng-model="dldata.profile.Hierarchy.Designation" readonly="readonly" />
@@ -53,7 +53,7 @@
                     </div>
 
                     <!-- Email -->
-                    <div class="col-md-10" style="margin-bottom: 7px">
+                    <div class="col-md-11" style="margin-bottom: 7px">
                         <label class="col-md-3 text-right">Email Id</label>
                         <div class="col-md-5">
                             <input type="email" class="form-control" data-ng-model="dldata.profile.EmailId" readonly="readonly" />
@@ -61,7 +61,7 @@
                     </div>
 
                     <!-- Mobile No -->
-                    <div class="col-md-10" style="margin-bottom: 7px" data-ng-form="mobileNoForm">
+                    <div class="col-md-11" style="margin-bottom: 7px" data-ng-form="mobileNoForm">
                         <label class="col-md-3 text-right">Mobile Number</label>
                         <div class="col-md-5">
                             <input type="text" class="form-control" name="mobileNo" data-ng-model="dldata.profile.MobileNo" data-ng-minlength="10"

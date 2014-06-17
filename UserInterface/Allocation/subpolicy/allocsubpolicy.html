@@ -5,9 +5,9 @@
                 <div class="col-md-9">
                     <cs-field data-ng-model="dldata.allocSubpolicy.Products" data-ng-change="changeProductCategory(dldata.allocSubpolicy.Products)"
                               field="allocSubpolicy.Products" ng-required="true"></cs-field>
-                    <cs-button type="add" permission="AllocationSubpolicyAddEdit" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
-                               data-ng-click="addsubpolicy(dldata.allocSubpolicy.Products)">
-                    </cs-button>
+                    <cs-button2 type="add" permission="AllocationSubpolicyAddEdit" text="Add Subpolicy" data-ng-show="dldata.allocSubpolicy.Products"
+                               on-click="addsubpolicy(dldata.allocSubpolicy.Products)">
+                    </cs-button2>
                 </div>
             </div>
             <div>
@@ -117,10 +117,10 @@
                         </div>
                     </div>
 
-                    <div class="text-right">
+                    <div class="text-right" data-ng-show="!dldata.policyapproved">
                         <cs-button type="save" permission="AllocationSubpolicyAddEdit" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0) && !dldata.isDuplicateName) || dldata.policyapproved" data-ng-click="datalayer.saveAllocSubpolicy(dldata.allocSubpolicy)"></cs-button>
-                        <cs-button type="save" permission="AllocationSubpolicyAddEdit" text="Activate" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled=" !(allocSubpolicyForm.$valid && (dldata.allocSubpolicy.Conditions.length >0))|| factory.disableIfRelationExists()" data-ng-click="openmodal()"></cs-button>
-                        <cs-button type="reset" permission="AllocationSubpolicyAddEdit" data-ng-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)"></cs-button>
+                        <cs-button2 type="save" permission="AllocationSubpolicyAddEdit" text="Activate" data-ng-show="dldata.allocSubpolicy.Id" data-ng-disabled="factory.disableIfRelationExists()" on-click="openmodal()"></cs-button2>
+                        <cs-button2 type="reset" permission="AllocationSubpolicyAddEdit" on-click="datalayer.resetAllocSubpolicy(dldata.allocSubpolicy.Products,allocSubpolicyForm,newConditionForm)"></cs-button2>
                     </div>
                 </div>
             </div>

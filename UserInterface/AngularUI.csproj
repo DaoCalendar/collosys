@@ -271,13 +271,6 @@
     <Content Include="Billing\formula2\formula.js" />
     <Content Include="Billing\formula2\multi-if-else.html" />
     <Content Include="Billing\formula2\output.html" />
-    <Content Include="Billing\formula\formula-condition.html" />
-    <Content Include="Billing\formula\formula-details.html" />
-    <Content Include="Billing\formula\formula-group-by.html" />
-    <Content Include="Billing\formula\formula-output.html" />
-    <Content Include="Billing\formula\formula-output2.html" />
-    <Content Include="Billing\formula\formula.html" />
-    <Content Include="Billing\formula\formula.js" />
     <Content Include="Billing\holdingactivate\holding-policy-activate-list.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.html" />
     <Content Include="Billing\holdingactivate\holding-policy-active.js" />

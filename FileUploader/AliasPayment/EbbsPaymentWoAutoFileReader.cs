@@ -15,5 +15,10 @@ namespace ColloSys.FileUploaderService.AliasPayment
         {
 
         }
+
+        public override bool PostProcessing()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

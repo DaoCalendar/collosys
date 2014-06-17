@@ -17,7 +17,7 @@ using NHibernate.Transform;
 
 namespace ColloSys.FileUploaderService.DbLayer
 {
-  public  class DbLayer: IDbLayer
+    public class DbLayer : IDbLayer
     {
         public FileScheduler GetNextFileForSchedule()
         {
@@ -132,6 +132,69 @@ namespace ColloSys.FileUploaderService.DbLayer
                     return new List<string>(data);
                 }
             }
+        }
+
+        public IList<TEntity> GetDataForPreviousDay<TEntity>(ColloSysEnums.FileAliasName aliasName, DateTime date, uint filecount) where TEntity : Entity, IFileUploadable
+        {
+            using (var session = SessionManager.GetStatelessSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    FileScheduler fs = null;
+                    FileDetail fd = null;
+                    var date2 = date.Date;
+                    var lastuploadedfile = session.QueryOver(() => fs)
+                                               .JoinAlias(x => x.FileDetail, () => fd)
+                                               .Where(() => fd.AliasName == aliasName)
+                                               .And(x => x.FileDate < date2)
+                                               .And(x => x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
+                                                         x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                                               .OrderBy(x => x.FileDate).Desc
+                                               .Take((int)filecount)
+                                               .List<FileScheduler>();
+
+                    if (lastuploadedfile.Count <= 0)
+                    {
+                        return new List<TEntity>();
+                    }
+                    var maxdate = lastuploadedfile.Max(x => x.FileDate);
+                    var lastuploadedfileid = lastuploadedfile.Where(x => x.FileDate == maxdate).Select(x => x.Id);
+
+                    var data = session.QueryOver<TEntity>()
+                                      .WhereRestrictionOn(x => x.FileScheduler.Id)
+                                      .IsIn(lastuploadedfileid.ToArray())
+                                      .List();
+
+                    tx.Rollback();
+                    return data;
+                }
+            }
+        }
+
+        public bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
+            where TEntity : Entity
+        {
+            var dataList = data as IList<TEntity> ?? data.ToList();
+            for (var i = 0; i < dataList.Count(); i += 1000)
+            {
+
+                var batchToSave = dataList.Skip(i).Take(1000);
+
+                using (var session = SessionManager.GetNewSession())
+                {
+                    using (var tx = session.BeginTransaction())
+                    {
+                        foreach (var entity in batchToSave)
+                        {
+                            session.SaveOrUpdate(entity);
+                        }
+
+                        tx.Commit();
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

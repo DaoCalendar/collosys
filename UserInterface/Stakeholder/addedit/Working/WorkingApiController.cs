@@ -39,6 +39,14 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
         }
 
         [HttpPost]
+        public HttpResponseMessage GetPincodeData(WorkingModel workingModel)
+        {
+            workingModel.SetWorkingList(workingModel);
+            return Request.CreateResponse(HttpStatusCode.OK, workingModel);
+        }
+
+
+        [HttpPost]
         public void SavePayment(StkhPayment paymentData)
         {
             paymentData.StartDate = paymentData.Stakeholder.JoiningDate;

@@ -76,6 +76,7 @@
     <Compile Include="GenerateDb\PermissionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StakeBuilder.Test\StakeBuilderTest.cs" />
+    <Compile Include="Stakeholder\StakeWorkingTest.cs" />
     <Compile Include="TestingSetup\GlobalSetup.cs" />
   </ItemGroup>
   <ItemGroup>

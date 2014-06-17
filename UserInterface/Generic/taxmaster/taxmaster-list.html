@@ -41,9 +41,9 @@
                 </div>
             </div>
             <div class="text-right">
-                <cs-button type="save" permission="ConfigTaxmasterAddEdit" data-ng-hide="mode === 'view'" ng-click="applyedit(tax)" ng-disabled="taxForm.$invalid"></cs-button>
-                <cs-button type="close" permission="ConfigTaxmaster" data-ng-click="closeTaxlist()"></cs-button>
-                <cs-button type="reset" permission="ConfigTaxmasterAddEdit" data-ng-hide="mode === 'view'" ng-click="resetTax()"></cs-button>
+                <cs-button2 type="save" permission="ConfigTaxmasterAddEdit" data-ng-hide="mode === 'view'" on-click="applyedit(tax)"></cs-button2>
+                <cs-button2 type="close" permission="ConfigTaxmaster" on-click="closeTaxlist()"></cs-button2>
+                <cs-button2 type="reset" permission="ConfigTaxmasterAddEdit" data-ng-hide="mode === 'view'" on-click="resetTax()"></cs-button2>
             </div>
         </form>
     </div>

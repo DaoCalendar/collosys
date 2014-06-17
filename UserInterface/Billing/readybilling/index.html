@@ -13,7 +13,7 @@
         <div class="text-right">
             <span class="label-warning" data-ng-show="dldata.oldBillStatus!='null'">Billing for this product & month already created.</span>
             <span class="label-warning" data-ng-show="dldata.pageData.length<1">There is no Billing data for this product & month</span>
-            <cs-button type="save" text="Ready For Billing" permission="BillingReadyForBillingApprove" data-ng-disabled="dldata.oldBillStatus!='null' || dldata.pageData.length<1" data-ng-click="saveData(dldata.billing)"></cs-button>
+            <cs-button2 type="save" text="Ready For Billing" permission="BillingReadyForBillingApprove" data-ng-disabled="dldata.oldBillStatus!='null' || dldata.pageData.length<1" on-click="saveData(dldata.billing)"></cs-button2>
         </div>
     </form>
     

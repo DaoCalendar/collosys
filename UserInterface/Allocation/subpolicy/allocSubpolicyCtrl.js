@@ -260,7 +260,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
 
             if (allocSubpolicy.Id) {
 
-                restApi.customPUT(allocSubpolicy, "Put", { id: allocSubpolicy.Id }).then(function (data) {
+               return restApi.customPUT(allocSubpolicy, "Put", { id: allocSubpolicy.Id }).then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
                     resetAllocSubpolicy(data.Products);
@@ -271,7 +271,7 @@ csapp.factory('subpolicyDataLayer', ['Restangular', '$csnotify',
                 });
 
             } else {
-                restApi.customPOST(allocSubpolicy, "Post").then(function (data) {
+               return restApi.customPOST(allocSubpolicy, "Post").then(function (data) {
                     dldata.allocSubpolicyList = _.reject(dldata.allocSubpolicyList, function (subpolicy) { return subpolicy.Id == data.Id; });
                     dldata.allocSubpolicyList.push(data);
                     resetAllocSubpolicy(data.Products);
@@ -435,7 +435,7 @@ csapp.controller('datemodelCtrl', ['$scope', 'modalData', 'subpolicyDataLayer', 
         $scope.activateSubPoicy = function (modelData) {
             $scope.dldata.curRelation.StartDate = modelData.startDate;
             $scope.dldata.curRelation.EndDate = modelData.endDate;
-            datalayer.activateSubpolicy($scope.dldata.curRelation).then(function (data) {
+           return datalayer.activateSubpolicy($scope.dldata.curRelation).then(function (data) {
                 $scope.dldata.curRelation = data;
                 $scope.closeModel();
             });

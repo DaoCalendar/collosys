@@ -197,7 +197,7 @@ csapp.controller('adhocPaymentCtrl', ['$scope', 'adhocPayoutDataLayer', 'adhocPa
         $scope.saveData = function (adhocPayout) {
             adhocPayout.Products = $scope.dldata.selectedProduct;
             adhocPayout.Stakeholder = $scope.dldata.adhocPayout.Stakeholder;
-            datalayer.saveData(adhocPayout).then(function (data) {
+           return datalayer.saveData(adhocPayout).then(function (data) {
                 $scope.adhocPayout.TotalAmount = '';
                 $scope.adhocPayout.IsCredit = [];
                 $scope.adhocPayout.ReasonCode = [];

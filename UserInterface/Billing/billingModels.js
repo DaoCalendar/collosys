@@ -19,7 +19,7 @@
         return {
             selectedProduct: { label: "Product", type: "enum", valueList: $csShared.enums.ProductEnum, required: true },
             TotalAmount: { label: 'Total Amount', type: 'text', pattern: '/^[0-9]+$/', patternMessage: 'Please insert valid amount', required: true },
-            IsRecurring: { label: 'IsRecurring', type: 'checkbox' },
+            IsRecurring: { label: 'IsRecurring', type: 'bool' },
             IsPretax: { label: ' IsPretax', type: 'select' },
             IsCredit: { label: 'Transaction Type', valueField: 'value', textField: 'display', type: 'select', required: true, valueList: [] },
             ReasonCode: { label: 'Reason', type: 'select', required: true, valueField: 'display', textField: 'display' },
@@ -138,7 +138,7 @@
             RowDTypeName: { type: "select", valueList: [] },
             Operator: { type: "select", valueField: "value", textField: "text", valueList: [{ value: "EqualTo", text: "EqualTo" }, { value: "GreaterThan", text: "Greater Than" }, { value: "LessThan", text: "Less Than" }] },
             MatrixPerType: { label: "Matrix Per Type", type: "enum", valueList: ["Table", "Formula"] },
-            MatrixPerTypeName: { type: "enum", valueList: [], label: "Matrix Per Type Name", textField: 'Name', valueField: 'Id' }
+            MatrixPerTypeName: { type: "select", valueList: [], label: "Matrix Per Type Name", textField: 'Name', valueField: 'Id' }
         };
     };
 

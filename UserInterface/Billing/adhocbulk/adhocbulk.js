@@ -143,7 +143,7 @@ csapp.controller('adhocbulkCtrl', ['$scope', 'adhocbulkDataLayer', 'adhocbulkFac
         };
 
         $scope.save = function (paymentList) {
-            datalayer.save(paymentList).then(function () {
+           return datalayer.save(paymentList).then(function () {
                 $scope.Product = '';
                 $scope.PaymentList = [];
             });

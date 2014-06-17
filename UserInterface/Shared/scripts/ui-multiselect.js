@@ -231,7 +231,7 @@
           restrict: 'E',
           scope: false,
           replace: true,
-          templateUrl: baseUrl + 'Shared/scripts/multiselect.tmpl.html',
+          templateUrl: baseUrl + 'Shared/templates/multiselect.tmpl.html',
           link: function (scope, element) {
 
               scope.isVisible = false;
