@@ -1,6 +1,5 @@
 ﻿using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.FileReader;
 

@@ -6,8 +6,9 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.AliasWriteOff.Rls;
+using ColloSys.FileUploaderService.FileReader;
 using NLog;
 
 #endregion
@@ -32,7 +33,7 @@ namespace ColloSys.FileUploaderService
             }
             catch (Exception exception)
             {
-                Logger.ErrorException("Could not upload file : " + scheduler.FileName+"error deswcriptions here--", exception);
+                Logger.ErrorException("Could not upload file : " + scheduler.FileName + "error deswcriptions here--", exception);
                 throw;
             }
             finally
@@ -85,6 +86,20 @@ namespace ColloSys.FileUploaderService
                     var ePaymentEoSmc = new EbbsPaymentWoSmcFileReader(scheduler);
                     ePaymentEoSmc.ProcessFile();
                     break;
+
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB:
+                    var rWriteOff = new RWriteOffPlAebFR(scheduler);
+                    rWriteOff.ProcessFile();
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_SCB:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_LORDS:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_GB:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_AEB:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
+                    //case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
+                    //  var payment  new RlsPaymentLinerFileReader(scheduler);
+                    break;
+
                 #endregion
 
                 #region commented

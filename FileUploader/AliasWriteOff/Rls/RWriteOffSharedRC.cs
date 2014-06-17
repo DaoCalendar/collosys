@@ -1,6 +1,7 @@
 ﻿#region ref
 
 using System;
+using System.Globalization;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.RecordManager;
 
@@ -9,11 +10,23 @@ using ColloSys.FileUploaderService.RecordManager;
 namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 {
 // ReSharper disable once InconsistentNaming
-    public class RWriteOffSharedRC:RecordCreator<RWriteoff>
+    public abstract class RWriteOffSharedRC:RecordCreator<RWriteoff>
     {
+        private uint AccountPos { get; set; }
+        private uint AccountNoLength { get; set; }
+        private uint CycleString { get; set; }
+
+        public  RWriteOffSharedRC(uint accPos,uint accNolength,uint cyclestring)
+        {
+            AccountPos = accPos;
+            AccountNoLength = accNolength;
+            CycleString = cyclestring;
+        }
+
         public override bool ComputedSetter(RWriteoff entity)
         {
-            throw new NotImplementedException();
+            entity.FileDate =FileScheduler.FileDate;
+            return true;
         }
 
         public override bool ComputedSetter(RWriteoff entity, RWriteoff preEntity)
@@ -23,12 +36,28 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override bool IsRecordValid(RWriteoff entity)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override bool CheckBasicField()
         {
-            throw new NotImplementedException();
+            // loan no should be a number
+            ulong loanNumber;
+            if (!ulong.TryParse(Reader.GetValue(AccountPos), out loanNumber))
+            {
+                Counter.IncrementIgnoreRecord();
+                return false;
+            }
+
+            var cycleString = Reader.GetValue(CycleString);
+            uint cycle;
+            if (!uint.TryParse(cycleString, out cycle))
+            {
+                return false;
+            }
+
+            // loan number must be of 2 digits min
+            return (loanNumber.ToString(CultureInfo.InvariantCulture).Length >= 2);
         }
 
         public override RWriteoff GetRecordForUpdate()

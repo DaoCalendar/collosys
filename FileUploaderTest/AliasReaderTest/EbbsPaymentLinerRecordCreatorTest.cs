@@ -1,84 +1,156 @@
-﻿using System.Collections.Generic;
-using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
+﻿using System;
+using System.Linq;
+using ColloSys.DataLayer.ClientData;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.FileReader;
 using NUnit.Framework;
-using ReflectionExtension.ExcelReader;
-using ReflectionExtension.Tests.DataCreator.FileUploader;
 
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
-    class EbbsPaymentLinerRecordCreatorTest:SetUpAssemblies
+    class EbbsPaymentLinerRecordCreatorTest:FileProvider
     {
-        private AliasPaymentRecordCreator _recordCreator;
-        private FileScheduler _fileScheduler;
-        private FileMappingData _mappingData;
-        private IExcelReader _reader;
-        private ICounter _counter;
-        private List<string> _ePaymentExcludeCodes;
+
+        #region ctor
+
+        private IFileReader<Payment> _paymentLiner;
+        Payment _record = new Payment();
 
         [SetUp]
         public void Init()
         {
-            _mappingData=new FileMappingData();
-            _counter=new ExcelRecordCounter();
-            //_fileScheduler = _mappingData.GetUploadedFile();
-            _reader=new NpOiExcelReader(FileInfo);
-            
-            _recordCreator=new EbbsPaymentLinerRecordCreator(_fileScheduler); 
+            var mappingData = new FileDataProvider();
+            var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.E_PAYMENT_LINER);
+            _paymentLiner = new EbbsPaymentLinerFileReader(fileScheduler);
+           
         }
 
-        [Test]
-        public void Test_GetComputation_Assigning_ExcludeCode_Check_IsDebit()
-        {
-            //Arrange
-            var payment = _mappingData.GetPayment();
+        #endregion
 
-            //Act
-            _recordCreator.GetComputations(payment,_reader);
-
-            //Arrange
-            Assert.AreEqual(payment.IsDebit,true);
-        }
+        #region Test Case
 
         [Test]
-        public void Test_IsValidRecord_Assigning_Schedular_check_IgnoreRecord()
+        public void Test_CreateRecord_Assigning_ValidMapping_Check_AccNo()
         {
-            //Arrange
-            var payment = _mappingData.GetPayment();
-
-            //Act
-            _recordCreator.IsRecordValid(payment, _counter);
+            _paymentLiner.ExcelReader.Skip(3);
+            _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
 
             //Assert
-            Assert.AreEqual(_counter.IgnoreRecord, 1);
+            Assert.AreEqual(_record.AccountNo, "22505938568");
         }
 
         [Test]
-        public void Test_GetComputation_Assigning_FileSchedular_Check_IsExcluded()
+        public void Test_CreateRecord_Assigning_ValidMapping_Check_()
         {
-            //Arrange
-            var payment = _mappingData.GetPayment();
+            _paymentLiner.ExcelReader.Skip(3);
+            _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
 
-            //Act
-            _recordCreator.GetComputations(payment, _reader);
 
-            //Arrange
-            Assert.AreEqual(payment.IsExcluded, true);
+            //Assert
+            Assert.AreEqual(_record.TransAmount, 70500);
         }
 
         [Test]
-        public void Test_GetComputation_Assigning_ExcludeCode_Check_ExcludeResion()
+        public void Test_CreateRecord_Assigning_InValid_FileDate()
         {
-            //Arrange
-            var payment = _mappingData.GetPayment();
-
             //Act
-            _recordCreator.GetComputations(payment, _reader);
+            _paymentLiner.ExcelReader.Skip(1);
+            var isRecordValid = _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
 
-            //Arrange
-            Assert.AreEqual(payment.ExcludeReason, "TransCode : 204, and TransDesc : PARTIAL REPAYMENT - REVERSAL");
+            //Assert
+            Assert.AreEqual(isRecordValid, false);
         }
+
+        [Test]
+        public void Test_ExcelMapper_Assigning_Mapping_with_AccNo_Position()
+        {
+            _paymentLiner.ExcelReader.Skip(3);
+            var excelMap =
+               _paymentLiner._fs.FileDetail.FileMappings.Where(
+                   x => x.ValueType == ColloSysEnums.FileMappingValueType.ExcelValue).ToList();
+            _paymentLiner.ObjRecord.ExcelMapper(_record, excelMap);
+
+            //Assert
+            Assert.AreEqual(_record.DebitAmount, 0);
+        }
+
+        [Test]
+        public void Test_ExcelMapper_Assigning_Mapping_with_TranceCode_Position()
+        {
+            _paymentLiner.ExcelReader.Skip(3);
+            var excelMap =
+                _paymentLiner._fs.FileDetail.FileMappings.Where(
+                    x => x.ValueType == ColloSysEnums.FileMappingValueType.ExcelValue).ToList();
+            _paymentLiner.ObjRecord.ExcelMapper(_record, excelMap);
+
+            //Assert
+            Assert.AreEqual(_record.TransAmount, 70500);
+        }
+
+        [Test]
+        public void Test_Defaultmapper_Assigning_ValidMapping_Check_BilStatus()
+        {
+            _paymentLiner.ExcelReader.Skip(3);
+            var defMapping =
+                _paymentLiner._fs.FileDetail.FileMappings.Where(
+                    x => x.ValueType == ColloSysEnums.FileMappingValueType.DefaultValue).ToList();
+            _paymentLiner.ObjRecord.DefaultMapper(_record,defMapping);
+            
+            //Assert
+            Assert.AreEqual(_record.BillStatus, ColloSysEnums.BillStatus.Unbilled);
+        }
+
+        [Test]
+        public void Test_ComputtedMapper_Assigning_Valid_Mapping()
+        {
+            //Act
+            _paymentLiner.ExcelReader.Skip(3);
+            bool isComputtedSetter = _paymentLiner.ObjRecord.ComputedSetter(_record);
+
+            //Assert
+            Assert.AreEqual(isComputtedSetter, true);
+
+        }
+
+        [Test]
+        public void Test_CheckBasicField_Assigning_Valid_AccounNo()
+        {
+            //Act
+            _paymentLiner.ExcelReader.Skip(3);
+            bool isValidBasicField = _paymentLiner.ObjRecord.CheckBasicField();
+
+            //Assert
+            Assert.AreEqual(isValidBasicField, true);
+
+        }
+
+        [Test]
+        public void Test_CheckBasicField_Assignsing_InValid_AccounNo()
+        {
+            //Act
+            _paymentLiner.ExcelReader.Skip(1);
+            bool isValidBasicField = _paymentLiner.ObjRecord.CheckBasicField();
+
+            //Assert
+            Assert.AreEqual(isValidBasicField, false);
+
+        }
+
+        [Test]
+        public void Test_CheckBasicField_Assigning_InValidAccountNo_Check_IgnoreCount()
+        {
+            //Act
+            _paymentLiner.ExcelReader.Skip(1);
+            _paymentLiner.ObjRecord.CheckBasicField();
+
+
+            //Assert
+            Assert.AreEqual(_paymentLiner.Counter.IgnoreRecord, 0);
+        }
+
+        #endregion
+
+
     }
 }

@@ -69,6 +69,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasReaderTest\AliasPaymentRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentLinerRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentWoAutoRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\EbbsPaymentWoSmcRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsEPaymentLinerRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentLinerRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentManualReversalRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentWoAebRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsPaymentWoPlpcRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsWriteOffAutoAebRecordCreatorTest.cs" />
+    <Compile Include="AliasReaderTest\RlsWriteOffOlScbRecordCreatorTest.cs" />
     <Compile Include="Data Provider\FileDataProvider.cs" />
     <Compile Include="DataCreator\FileUploader\FileMappingData.cs" />
     <Compile Include="DataCreator\Generic\G_KeyValue.cs" />
@@ -77,6 +88,15 @@
     <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
     <Compile Include="ExcelReader.Test\FileShedulerForTest.cs" />
     <Compile Include="FileMappings.Test\ColumnMappingTest.cs" />
+    <Compile Include="FileProvider.cs" />
+    <Compile Include="FileReaderTest\EbbsPaymentLinerFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\EbbsPaymentWoAutoFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\EbbsPaymentWoSmcFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\FileProcessesTest.cs" />
+    <Compile Include="FileReaderTest\RlsPaymentLinerFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\RlsPaymentManualReversalFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\RlsPaymentWoAebFileReaderTest.cs" />
+    <Compile Include="FileReaderTest\RlsPaymentWoPlpcFileReaderTest.cs" />
     <Compile Include="FileUploaderTest\FileUploaderServiceTest.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
@@ -136,9 +156,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
+    <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
-    <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
+    <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="ExcelData\Final Auto OD Flash - July 2013.xls" />
+    <None Include="ExcelData\Final GB, SCB &amp; AEB PL Flash - July 2013.xls" />
+    <None Include="ExcelData\SMC Final Flash - April 2013.xls" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />

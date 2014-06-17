@@ -1,6 +1,5 @@
 ﻿using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
-using ColloSys.FileUploaderService.AliasRecordCreator.RwriteOff;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
@@ -8,11 +7,11 @@ using ReflectionExtension.Tests.DataCreator.FileUploader;
 namespace ReflectionExtension.Tests.AliasReaderTest
 {
     [TestFixture]
-    class RlsWriteOffPlScbRecordCreatorTest : SetUpAssemblies
+    class RlsWriteOffPlScbRecordCreatorTest : FileProvider
     {
 
         private IExcelReader _excelReader;
-        private AliasRWriteOffRecordCreator _record;
+      //  private AliasRWriteOffRecordCreator _record;
         private FileScheduler _fileScheduler;
         private FileMappingData _mappingData;
         private ICounter _counter;
@@ -21,10 +20,10 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Init()
         {
             _mappingData = new FileMappingData();
-            _excelReader = new NpOiExcelReader(FileInfo);
+            _excelReader = new NpOiExcelReader(FileInfoForDrillDown);
             //_fileScheduler = _mappingData.GetUploadedFile();
             _counter = new ExcelRecordCounter();
-            _record = new RlsRWriteOffPlScbRecordCreator(_fileScheduler);
+           // _record = new RlsRWriteOffPlScbRecordCreator(_fileScheduler);
         }
 
 
@@ -36,7 +35,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
 
             //Act
             reader.Skip(2);
-         //   var isValidField = _record.GetCheckBasicField(reader, _counter);
+          //  var isValidField = _record.GetCheckBasicField(reader, _counter);
 
             //Assert
             //Assert.AreEqual(isValidField, true);

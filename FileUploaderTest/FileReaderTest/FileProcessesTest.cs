@@ -2,7 +2,6 @@
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.AliasPayment;
@@ -32,8 +31,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _counter = new ExcelRecordCounter();
             _fileProcess = new FileProcess();
 
-            _fileScheduler = _obj.GetUploadedFile();
-
+            _fileScheduler = _obj.GetFileScheduler("", ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO);
         }
 
         [Test]
@@ -58,8 +56,8 @@ namespace ReflectionExtension.Tests.FileReaderTest
 
             var fs = new FileScheduler();
             IExcelReader exreader = SharedUtility.GetInstance(new FileInfo(_fileScheduler.FileDirectory + @"\" + _fileScheduler.FileName));
-            IAliasRecordCreator<Payment> objrecord = new RlsPaymentLinerRecordCreator(_fileScheduler);
-            IRecord<Payment> record = new RecordCreator<Payment>(objrecord, exreader, _counter);
+            //IAliasRecordCreator<Payment> objrecord = new RlsPaymentLinerRecordCreator(_fileScheduler);
+           // IRecord<Payment> record = new RecordCreator<Payment>(objrecord, exreader, _counter);
             // RlsPaymentLinerFileReader rls=new RlsPaymentLinerFileReader();
 
             //Act
