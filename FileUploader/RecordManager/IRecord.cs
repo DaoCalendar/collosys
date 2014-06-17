@@ -32,5 +32,9 @@ namespace ColloSys.FileUploaderService.RecordManager
         void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader);
 
         IList<TEntity> PreviousDayLiner { get; set; }
+
+        bool HasMultiDayComputation { get; set; }
+
+
     }
 }

@@ -84,6 +84,11 @@ namespace ColloSys.FileUploaderService.AliasPayment
             throw new NotImplementedException();
         }
 
+        public override Payment GetPreviousDayEntity(Payment entity)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

@@ -13,6 +13,13 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
     // ReSharper disable once InconsistentNaming
     public class EbbsLinerAutoRC : EbbsLinerSharedRC
     {
+        public EbbsLinerAutoRC()
+        {
+            HasMultiDayComputation = true;
+            var dbLayer = new DbLayer.DbLayer();
+            PreviousDayLiner = dbLayer.GetDataForPreviousDay<ELiner>(ColloSysEnums.FileAliasName.E_LINER_OD_SME,
+                FileScheduler.FileDate, FileScheduler.FileDetail.FileCount);
+        }
         public override bool ComputedSetter(ELiner entity)
         {
             ulong loanNumber;

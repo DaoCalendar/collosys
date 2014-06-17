@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -12,6 +13,7 @@ using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RecordManager;
+using ColloSys.FileUploaderService.Utilities;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -19,18 +21,19 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.FileReader
 {
-    public abstract class FileReader<T> : IFileReader<T> where T : class, IFileUploadable, new()
+    public abstract class FileReader<T> : IFileReader<T> where T : Entity, IFileUploadable, IUniqueKey, new()
     {
         #region ctor
 
         private readonly FileProcess _fileProcess;
-        private readonly FileScheduler _fs;
+        protected readonly FileScheduler _fs;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
-        private readonly IRecord<T> _objRecord;
+        protected readonly IRecord<T> _objRecord;
         private readonly IExcelReader _excelReader;
         private readonly uint _batchSize;
-        private readonly ICounter _counter;
-        protected readonly IList<T> TodayRecordList;
+        protected readonly ICounter _counter;
+        protected readonly MultiKeyEntityList<T> TodayRecordList;
+        protected readonly IDbLayer _DbLayer;
         protected FileReader(FileScheduler fileScheduler, IRecord<T> recordCreator)
         {
             _fs = fileScheduler;
@@ -40,7 +43,8 @@ namespace ColloSys.FileUploaderService.FileReader
             _fileProcess = new FileProcess();
             _objRecord = recordCreator;
             _batchSize = 500;
-            TodayRecordList=new List<T>();
+            TodayRecordList=new MultiKeyEntityList<T>();
+            _DbLayer=new DbLayer.DbLayer();
         }
         #endregion
 
@@ -85,15 +89,17 @@ namespace ColloSys.FileUploaderService.FileReader
                 if (isRecordCreate)
                 {
                     obj.FileScheduler = _fs;
-                    obj.FileDate = _fs.FileDate;
+                    ((IFileUploadable)obj).FileDate = _fs.FileDate;
                     obj.FileRowNo = _excelReader.CurrentRow;
                     list.Add(obj);
-                    TodayRecordList.Add(obj);
+                    TodayRecordList.AddEntity(obj);
                 }
                 _excelReader.NextRow();
             }
             return list;
         }
+
+        public abstract bool PostProcessing();
 
         public void ProcessFile()
         {

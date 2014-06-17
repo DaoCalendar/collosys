@@ -9,6 +9,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
     {
         public EbbsLinerOdSmeRC()
         {
+            HasMultiDayComputation = true;
             var dbLayer = new DbLayer.DbLayer();
             PreviousDayLiner = dbLayer.GetDataForPreviousDay<ELiner>(ColloSysEnums.FileAliasName.E_LINER_OD_SME,
                 FileScheduler.FileDate,FileScheduler.FileDetail.FileCount);

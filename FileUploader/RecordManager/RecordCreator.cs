@@ -31,6 +31,8 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         public IList<TEntity> PreviousDayLiner { get; set; }
 
+        public bool HasMultiDayComputation { get; set; }
+
         #endregion
 
         #region IRecord
@@ -101,6 +103,11 @@ namespace ColloSys.FileUploaderService.RecordManager
             {
                 computedMap = ComputedSetter(obj);
             }
+            if (HasMultiDayComputation)
+            {
+                var preEntity = GetPreviousDayEntity(obj);
+                computedMap = ComputedSetter(obj, preEntity);
+            }
             if (!defaultMap || !computedMap) return false;
 
             Counter.IncrementInsertRecords();
@@ -124,6 +131,8 @@ namespace ColloSys.FileUploaderService.RecordManager
         public abstract bool CheckBasicField();
 
         public abstract TEntity GetRecordForUpdate();
+
+        public abstract TEntity GetPreviousDayEntity(TEntity entity);
 
         #endregion
     }

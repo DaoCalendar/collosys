@@ -35,5 +35,10 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
        {
            throw new NotImplementedException();
        }
+
+       public override EWriteoff GetPreviousDayEntity(EWriteoff entity)
+       {
+           throw new NotImplementedException();
+       }
    }
 }

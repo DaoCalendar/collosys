@@ -35,5 +35,10 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
         {
             throw new NotImplementedException();
         }
+
+        public override RLiner GetPreviousDayEntity(RLiner entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

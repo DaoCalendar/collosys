@@ -9,7 +9,7 @@ using ColloSys.FileUploaderService.RecordManager;
 namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 {
 // ReSharper disable once InconsistentNaming
-    public class EbbsLinerSharedFR:FileReader<ELiner>
+    public abstract class EbbsLinerSharedFR:FileReader<ELiner>
     {
         public EbbsLinerSharedFR(FileScheduler fileScheduler, IRecord<ELiner> recordCreator) 
             : base(fileScheduler, recordCreator)

@@ -33,7 +33,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 
         public override ELiner GetRecordForUpdate()
         {
-            throw new NotImplementedException();
+            return new ELiner();
         }
 
         protected static uint GetBucketForELiner(ELiner eLiner)
@@ -58,8 +58,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 
         public override bool ComputedSetter(ELiner entity, ELiner preEntity)
         {
-            var priviousLiner = PreviousDayLiner.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
-            if (priviousLiner == null)
+            if (preEntity == null)
             {
                 entity.TotalDue = entity.CurrentDue;
                 entity.PeakBucket = entity.Bucket;
@@ -72,8 +71,8 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             entity.TotalDue = entity.CurrentDue;
             entity.PeakBucket = entity.Bucket;
             entity.DelqHistoryString = (entity.Cycle == FileScheduler.FileDate.Day)
-                                           ? priviousLiner.DelqHistoryString.Substring(1) + entity.Bucket
-                                           : priviousLiner.DelqHistoryString;
+                                           ? preEntity.DelqHistoryString.Substring(1) + entity.Bucket
+                                           : preEntity.DelqHistoryString;
 
             if (PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)
             {
@@ -86,15 +85,21 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             entity.Flag = ColloSysEnums.DelqFlag.O;
             entity.AccountStatus = ColloSysEnums.DelqAccountStatus.PEND;
 
-            entity.BucketDue = priviousLiner.BucketDue;
-            entity.Bucket1Due = priviousLiner.Bucket1Due;
-            entity.Bucket2Due = priviousLiner.Bucket2Due;
-            entity.Bucket3Due = priviousLiner.Bucket3Due;
-            entity.Bucket4Due = priviousLiner.Bucket4Due;
-            entity.Bucket5Due = priviousLiner.Bucket5Due;
+            entity.BucketDue = preEntity.BucketDue;
+            entity.Bucket1Due = preEntity.Bucket1Due;
+            entity.Bucket2Due = preEntity.Bucket2Due;
+            entity.Bucket3Due = preEntity.Bucket3Due;
+            entity.Bucket4Due = preEntity.Bucket4Due;
+            entity.Bucket5Due = preEntity.Bucket5Due;
             //entity.MinimumDue = priviousLiner.MinimumDue;
             return true;
         }
 
+        public override ELiner GetPreviousDayEntity(ELiner entity)
+        {
+            return PreviousDayLiner.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
+        }
+
+       
     }
 }

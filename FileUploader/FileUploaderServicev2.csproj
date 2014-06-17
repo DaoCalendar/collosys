@@ -142,6 +142,7 @@
     <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="RowCounter\ExcelRecordCounter.cs" />
     <Compile Include="RowCounter\ICounter.cs" />
+    <Compile Include="Utilities\MultiKeyEntityList.cs" />
     <Compile Include="Utilities\SharedUtility.cs" />
     <Compile Include="ValueSetters\BooleanSetter.cs" />
     <Compile Include="ValueSetters\ByteSetter.cs" />

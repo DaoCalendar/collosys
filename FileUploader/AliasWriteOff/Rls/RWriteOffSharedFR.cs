@@ -14,5 +14,10 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
         public RWriteOffSharedFR(FileScheduler fileScheduler, IRecord<RWriteoff> recordCreator) : base(fileScheduler, recordCreator)
         {
         }
+
+        public override bool PostProcessing()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

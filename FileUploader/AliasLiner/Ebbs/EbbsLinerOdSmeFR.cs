@@ -13,5 +13,10 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
        public EbbsLinerOdSmeFR(FileScheduler fileScheduler, IRecord<ELiner> recordCreator) : base(fileScheduler, recordCreator)
        {
        }
+
+       public override bool PostProcessing()
+       {
+           return false;
+       }
     }
 }

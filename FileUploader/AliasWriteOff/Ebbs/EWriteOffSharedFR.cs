@@ -15,5 +15,10 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
             : base(fileScheduler, recordCreator)
         {
         }
+
+        public override bool PostProcessing()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -170,5 +170,31 @@ namespace ColloSys.FileUploaderService.DbLayer
                 }
             }
         }
+
+        public bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
+            where TEntity : Entity
+        {
+            var dataList = data as IList<TEntity> ?? data.ToList();
+            for (var i = 0; i < dataList.Count(); i += 1000)
+            {
+
+                var batchToSave = dataList.Skip(i).Take(1000);
+
+                using (var session = SessionManager.GetNewSession())
+                {
+                    using (var tx = session.BeginTransaction())
+                    {
+                        foreach (var entity in batchToSave)
+                        {
+                            session.SaveOrUpdate(entity);
+                        }
+
+                        tx.Commit();
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

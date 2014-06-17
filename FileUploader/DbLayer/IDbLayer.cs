@@ -23,5 +23,8 @@ namespace ColloSys.FileUploaderService.DbLayer
            DateTime date, uint filecount)
            where TEntity : Entity, IFileUploadable;
 
+       bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
+           where TEntity : Entity;
+
    }
 }
