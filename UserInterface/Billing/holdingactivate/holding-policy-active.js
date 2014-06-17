@@ -136,7 +136,7 @@ csapp.controller('holdingactiveAddEditCtrl', [
         };
 
         $scope.save = function (policy) {
-            datalayer.create(policy).then(function (data) {
+           return datalayer.create(policy).then(function (data) {
                 $scope.policyList.push(data);
                 $scope.reset();
                 $location.path("/billing/holdingactive");

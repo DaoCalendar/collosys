@@ -103,7 +103,7 @@ csapp.controller("paymentAddController", ["$scope", "paymentDataLayer", "$modalI
         };
 
         $scope.save = function(item) {
-            datalayer.AddPayment(item, $scope.selectedSystem).then(function (data) {
+           return datalayer.AddPayment(item, $scope.selectedSystem).then(function (data) {
                 $modalInstance.close(data);
             });
         };

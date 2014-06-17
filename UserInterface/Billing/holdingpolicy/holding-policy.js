@@ -78,7 +78,7 @@ csapp.controller('holdingpolicyAddEditCtrl', [
         };
 
         $scope.applyedit = function (t) {
-            datalayer.save(t).then(function (data) {
+           return datalayer.save(t).then(function (data) {
                 $scope.policyList[$scope.indexOfSelected] = data;
                 $scope.reset();
                 $location.path("/billing/holdingpolicy");
