@@ -1,38 +1,43 @@
-﻿<form name="generatedbform">
-    <div class="container-fluid">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Generate DB
-            </div>
-            <div class="panel-body text-center">
-                <cs-button type="save" text="Generate DB" permission="DeveloperGenerateDb" data-ng-click="generateDB()"></cs-button>
+﻿<div>
+    <form name="generatedbform">
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Generate DB
+                </div>
+                <div class="panel-body text-center">
+                    <cs-button2 type="save" text="Generate DB" permission="DeveloperGenerateDb" on-click="generateDB()"></cs-button2>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
-    <div ng-form="encryptForm">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Encrypt / Decrypt Sections Web.config
-            </div>
-            <div class="panel-body">
-                <div class="col-md-11">
-                    <label class="col-md-3">Select Section</label>
-                    <div class="col-md-6">
-                        <select data-ng-model="sectionName" class="form-control"
-                                ng-options="c for c in sections" required>
-                            <option value=""></option>
-                        </select>
+    <div>
+        <form name="encryptForm">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Encrypt / Decrypt Sections Web.config
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-11" style="padding-bottom: 10px">
+                        <label class="col-md-3">Select Section</label>
+                        <div class="col-md-6">
+                            <select data-ng-model="sectionName" class="form-control"
+                                    ng-options="c for c in sections" required>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <cs-button2 type="add" text="Encrypt Section" permission="DeveloperGenerateDb" on-click="encryptSection()"></cs-button2>
+                        <cs-button2 type="add" text="Decrypt Section" permission="DeveloperGenerateDb" on-click="decryptSection()"></cs-button2>
                     </div>
                 </div>
-                <div>
-                    <cs-button type="add" text="Encrypt Section" permission="DeveloperGenerateDb" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
-                    <cs-button type="add" text="Decrypt Section" permission="DeveloperGenerateDb" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid"></cs-button>
-                </div>
             </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
+
 
 
 

@@ -11,11 +11,11 @@
                     <input type="text" name="directory" class="form-control" required data-ng-model="dldata.logfile.Path" />
                 </div>
                 <div class="col-md-2">
-                    <cs-button type="save" text="GO" permission="DeveloperSystemExplorer" data-ng-disabled="!pageForm.$valid"
-                               data-ng-click="datalayer.getStatus(dldata.logfile.Path)"></cs-button>
+                    <cs-button2 type="save" text="GO" permission="DeveloperSystemExplorer" 
+                                on-click="datalayer.getStatus(dldata.logfile.Path)"></cs-button2>
 
-                    <cs-button type="save" text="UP" permission="DeveloperSystemExplorer" data-ng-disabled="!pageForm.$valid"
-                               data-ng-click="datalayer.getParentDir(dldata.logfile.Path)"></cs-button>
+                    <cs-button2 type="save" text="UP" permission="DeveloperSystemExplorer" 
+                                on-click="datalayer.getParentDir(dldata.logfile.Path)"></cs-button2>
                 </div>
 
                 <div class="col-md-2">
