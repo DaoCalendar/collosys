@@ -14,6 +14,40 @@ csapp.directive('csInclude', ["$document", function ($document) {
     };
 }]);
 
+csapp.directive('ngDelay', ['$timeout', function ($timeout) {
+    return {
+        restrict: 'A',
+        scope: true,
+        compile: function (element, attributes) {
+            var expression = attributes['ngChange'];
+            if (!expression) return;
+
+            var ngModel = attributes['ngModel'];
+            if (ngModel) attributes['ngModel'] = '$parent.' + ngModel;
+            attributes['ngChange'] = '$$delay.execute()';
+
+            var postLink = function (scope, iElement, iAttributes) {
+                scope.$$delay = {
+                    expression: expression,
+                    delay: scope.$eval(iAttributes['ngDelay']),
+                    execute: function () {
+                        var state = scope.$$delay;
+                        state.then = Date.now();
+                        $timeout(function () {
+                            if (Date.now() - state.then >= state.delay)
+                                scope.$parent.$eval(expression);
+                        }, state.delay);
+                    }
+                };
+
+                return {
+                    post: postLink
+                };
+            };
+        }
+    };
+}]);
+
 csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload",
     function (rest, logManager, $csfactory, $upload) {
         //var $log = logManager.getInstance("csFileUploadDirective");
@@ -190,7 +224,6 @@ csapp.directive("csMultiFileUpload", ["Restangular", "Logger", "$csfactory", "$u
         require: '^ngForm',
     };
 }]);
-
 
 csapp.directive('csButton', ['$parse', '$compile', 'PermissionFactory', 'Logger',
     function ($parse, $compile, permFactory, logManager) {
@@ -798,5 +831,4 @@ csapp.directive('csDualList', function () {
         link: linkFunction
     };
 });
-
 
