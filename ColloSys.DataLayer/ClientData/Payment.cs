@@ -35,6 +35,14 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string Description { get; set; }
         public virtual string ApprovedBy { get; set; }
         public virtual DateTime? ApprovedOn { get; set; }
+        public virtual string ChargeOffMonth { get; set; }
+        public virtual string SHORT_NAME { get; set; }
+        public virtual string PROV_CHG_OF { get; set; }
+        public virtual string INT_IN_SUS { get; set; }
+        public virtual string CHARGE_OFF { get; set; }  //CHARGE_OFF(Total due)
+        public virtual string PRODUCT { get; set; }
+        public virtual string STATE { get; set; }
+
 
         public override FileScheduler FileScheduler { get; set; }
         #endregion

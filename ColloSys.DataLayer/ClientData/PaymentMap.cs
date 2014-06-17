@@ -8,7 +8,7 @@ using ColloSys.DataLayer.ClientData;
 namespace ColloSys.DataLayer.Mapping
 {
 
-    public  class PaymentMap : EntityMap<Payment>
+    public class PaymentMap : EntityMap<Payment>
     {
         public PaymentMap()
         {
@@ -35,6 +35,14 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Description, map => map.NotNullable(false));
             Property(x => x.ApprovedBy, map => map.NotNullable(false));
             Property(p => p.ApprovedOn);
+            Property(x => x.ChargeOffMonth);
+            Property(x => x.SHORT_NAME);
+            Property(x => x.PROV_CHG_OF);
+            Property(x => x.INT_IN_SUS);
+            Property(x => x.CHARGE_OFF);
+            Property(x => x.PRODUCT);
+            Property(x => x.STATE);
+
         }
     }
 
