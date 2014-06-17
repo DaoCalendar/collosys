@@ -14,6 +14,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
         public EbbsLinerAutoFR(FileScheduler fileScheduler, IRecord<ELiner> recordCreator) 
             : base(fileScheduler, recordCreator)
         {
+            
         }
     }
 }

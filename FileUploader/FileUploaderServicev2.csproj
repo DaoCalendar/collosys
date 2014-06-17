@@ -121,6 +121,7 @@
     <Compile Include="AliasWriteOff\Rls\RWriteOffSharedFR.cs" />
     <Compile Include="AliasWriteOff\Rls\RWriteOffSharedRC.cs" />
     <Compile Include="AllFileUploader.cs" />
+    <Compile Include="ExcelReader\DecodeScbProduct.cs" />
     <Compile Include="FileUploaderService1.cs" />
     <Compile Include="DbLayer\DbLayer.cs" />
     <Compile Include="DbLayer\IDbLayer.cs" />

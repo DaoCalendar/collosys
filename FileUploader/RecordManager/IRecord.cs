@@ -23,11 +23,14 @@ namespace ColloSys.FileUploaderService.RecordManager
         bool CreateRecord(IList<FileMapping> mapings,out TEntity obj);
 
         bool ComputedSetter(TEntity entity);
+        bool ComputedSetter(TEntity entity, TEntity preEntity);
 
         bool IsRecordValid(TEntity entity);
 
         bool CheckBasicField();
 
         void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader);
+
+        IList<TEntity> PreviousDayLiner { get; set; }
     }
 }

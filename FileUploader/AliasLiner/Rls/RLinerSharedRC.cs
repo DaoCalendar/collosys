@@ -16,6 +16,11 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
             throw new NotImplementedException();
         }
 
+        public override bool ComputedSetter(RLiner entity, RLiner preEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool IsRecordValid(RLiner entity)
         {
             throw new NotImplementedException();

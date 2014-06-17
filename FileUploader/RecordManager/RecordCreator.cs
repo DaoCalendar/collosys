@@ -6,6 +6,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
+using NLog;
 using ReflectionExtension.ExcelReader;
 
 #endregion
@@ -18,6 +19,8 @@ namespace ColloSys.FileUploaderService.RecordManager
         protected IExcelReader Reader;
         protected ICounter Counter;
         protected FileScheduler FileScheduler;
+        protected readonly Logger _log = LogManager.GetCurrentClassLogger();
+       
 
         public void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader)
         {
@@ -25,6 +28,9 @@ namespace ColloSys.FileUploaderService.RecordManager
             Reader = reader;
             Counter = counter;
         }
+
+        public IList<TEntity> PreviousDayLiner { get; set; }
+
         #endregion
 
         #region IRecord
@@ -111,7 +117,8 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         #region abstract
         public abstract bool ComputedSetter(TEntity entity);
-
+        public abstract bool ComputedSetter(TEntity entity, TEntity preEntity);
+       
         public abstract bool IsRecordValid(TEntity entity);
 
         public abstract bool CheckBasicField();

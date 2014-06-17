@@ -79,6 +79,11 @@ namespace ColloSys.FileUploaderService.AliasPayment
 
         #region abstract
         protected abstract bool GetComputations(Payment obj);
+        public override bool ComputedSetter(Payment entity, Payment preEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

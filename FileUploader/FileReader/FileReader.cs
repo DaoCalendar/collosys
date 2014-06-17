@@ -10,6 +10,7 @@ using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploader.FileReader;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
+using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RecordManager;
 using NLog;
 using ReflectionExtension.ExcelReader;
@@ -29,10 +30,9 @@ namespace ColloSys.FileUploaderService.FileReader
         private readonly IExcelReader _excelReader;
         private readonly uint _batchSize;
         private readonly ICounter _counter;
-
+        protected readonly IList<T> TodayRecordList;
         protected FileReader(FileScheduler fileScheduler, IRecord<T> recordCreator)
         {
-
             _fs = fileScheduler;
             _counter = new ExcelRecordCounter();
             _excelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
@@ -40,10 +40,12 @@ namespace ColloSys.FileUploaderService.FileReader
             _fileProcess = new FileProcess();
             _objRecord = recordCreator;
             _batchSize = 500;
+            TodayRecordList=new List<T>();
         }
         #endregion
 
         #region batch processing
+
         public void ReadAndSaveBatch()
         {
             for (var i = _excelReader.CurrentRow;
@@ -86,6 +88,7 @@ namespace ColloSys.FileUploaderService.FileReader
                     obj.FileDate = _fs.FileDate;
                     obj.FileRowNo = _excelReader.CurrentRow;
                     list.Add(obj);
+                    TodayRecordList.Add(obj);
                 }
                 _excelReader.NextRow();
             }

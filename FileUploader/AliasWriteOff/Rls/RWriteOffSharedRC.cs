@@ -16,6 +16,11 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
             throw new NotImplementedException();
         }
 
+        public override bool ComputedSetter(RWriteoff entity, RWriteoff preEntity)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool IsRecordValid(RWriteoff entity)
         {
             throw new NotImplementedException();
