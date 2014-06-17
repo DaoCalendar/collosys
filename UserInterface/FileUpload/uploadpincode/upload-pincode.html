@@ -10,7 +10,7 @@
         <div class="panel panel-default" data-ng-show="selected.Product">
             <div class="panel-heading">Download Missing {{mode.toUpperCase()}}</div>
             <div class="text-center panel-body">
-                <cs-button type="save" text="Download" permission="FileUploadCustInfo" value="Download" data-ng-click="download(selected.Product)" ></cs-button>
+                <cs-button2 type="save" text="Download" permission="FileUploadCustInfo" value="Download" on-click="download(selected.Product)" ></cs-button2>
             </div>
         </div>
 
@@ -22,7 +22,7 @@
                     <cs-file-upload ng-model="selected.filename" file-info="selected.fileInfo"
                                     validations="fileValidations"></cs-file-upload>
                     <div class="text-center">
-                        <cs-button type="add" text="Upload" permission="FileUploadCustInfo" data-ng-disabled="uploadpincodeform.$invalid" data-ng-click="upload()"></cs-button>
+                        <cs-button2 type="add" text="Upload" permission="FileUploadCustInfo" on-click="upload()"></cs-button2>
                     </div>
                 </div>
             </div>

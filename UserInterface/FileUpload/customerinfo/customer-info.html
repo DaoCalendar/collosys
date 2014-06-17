@@ -2,9 +2,10 @@
     <cs-form layout="4.3.8">
         <cs-field data-ng-model="custInfo.Product" field="custInfoModel.Product"></cs-field>
         <cs-field data-ng-model="custInfo.AccountNo" field="custInfoModel.AccountNo"></cs-field>
-        <cs-button type="save" text="Get Details" permission="FileCustomerData" data-ng-disabled="custInfoform.$invalid" 
-            data-ng-click="GetCustomerDetails(custInfo)">
-        </cs-button>
+        <cs-button2 type="save" text="Get Details" permission="FileCustomerData" 
+                    on-click="GetCustomerDetails(custInfo)">
+        </cs-button2>
+
     </cs-form>
     <hr />
 
