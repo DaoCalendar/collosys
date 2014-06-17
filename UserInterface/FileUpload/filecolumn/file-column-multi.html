@@ -3,13 +3,13 @@
 
     <div class="modal-body">
         <textarea class="noResize" style="width: 100%" rows="5" cols="50" placeholder="Copy/Paste the excel headers into this text area"
-                  data-ng-model="excelData" data-ng-required="true"></textarea>
+                  data-ng-model="excelData" required></textarea>
     </div>
 
 
     <div class="modal-footer">
-        <cs-button type="add" permission ="FileDetailAddEdit" data-ng-click="add(excelData)" data-ng-disabled="!formMultipleColumns.$valid"></cs-button>
-        <cs-button type="close" permission ="FileDetailAddEdit" data-ng-click="close()"></cs-button>
+        <cs-button2 type="add" permission ="FileDetailAddEdit" on-click="add(excelData)"></cs-button2>
+        <cs-button2 type="close" permission ="FileDetailAddEdit" on-click="close()"></cs-button2>
     </div>
 </div>
 

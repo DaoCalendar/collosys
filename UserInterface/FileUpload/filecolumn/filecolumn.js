@@ -212,13 +212,15 @@ csapp.factory("fileColumnDataLayer", ["Restangular", "$csnotify", function (rest
     };
 }]);
 
-csapp.controller("fileColumnMultiAddModalController", ["$scope", "$modalInstance", "fileColumnFactory", "fileColumnDataLayer",
-    function ($scope, $modalInstance, factory, datalayer) {
+csapp.controller("fileColumnMultiAddModalController", ["$scope", "$modalInstance",
+    "fileColumnFactory", "fileColumnDataLayer","$csModels",
+    function ($scope, $modalInstance, factory, datalayer, $csModels) {
         "use strict";
 
         (function () {
             $scope.datalayer = datalayer;
             $scope.factory = factory;
+            $scope.fileColumnModel = $csModels.getColumns("FileColumn");
         })();
 
         $scope.add = function (columns) {

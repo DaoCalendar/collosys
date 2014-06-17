@@ -33,9 +33,9 @@
         </div>
     </div>
     <div class="text-right">
-        <cs-button type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="save(fileMapping)" data-ng-disabled="!formAddfileMapping.$valid"></cs-button>
-        <cs-button type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="close('cancel')"></cs-button>
-        <cs-button type="close" permission ="FileDetail" data-ng-show="isReadOnly" data-ng-click="close('close')"></cs-button>
+        <cs-button2 type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" on-click="save(fileMapping)"></cs-button2>
+        <cs-button2 type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" on-click="close('cancel')"></cs-button2>
+        <cs-button2 type="close" permission ="FileDetail" data-ng-show="isReadOnly" on-click="close('close')"></cs-button2>
     </div>
 </form>
 

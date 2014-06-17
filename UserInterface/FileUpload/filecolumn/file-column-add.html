@@ -20,8 +20,9 @@
     </div>
 
     <div class="modal-footer">
-        <cs-button type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="add(fileColumn,fileDetail)" data-ng-disabled="!formAddfileColumn.$valid"></cs-button>
-        <cs-button type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" data-ng-click="close()"></cs-button>
+        <cs-button2 type="save" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" on-click="add(fileColumn,fileDetail)"></cs-button2>
+        <cs-button2 type="close" permission ="FileDetailAddEdit" data-ng-show="!isReadOnly" on-click="close()"></cs-button2>
     </div>
 </div>
+
 
