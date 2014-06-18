@@ -8,7 +8,7 @@ namespace ColloSys.FileUploaderService.FileReader
 {
     public interface IFileReader<T> where T:class,new()
     {
-        ICounter Counter { get; set; }
+        ICounter Counter { get; }
         IExcelReader ExcelReader { get; }
         IRecord<T> ObjRecord { get; }
         FileScheduler _fs { get;  }

@@ -18,7 +18,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 
         public override bool PostProcessing()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

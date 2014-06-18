@@ -15,6 +15,21 @@ namespace ReflectionExtension.Tests
     {
         FileMappingData data = new FileMappingData();
 
+        private DateTime _fileDate;
+        private string _dirPath;
+
+        private FileDataProvider()
+        {
+            _fileDate=new DateTime(2013,06,12);
+            _dirPath = "";
+        }
+
+        public FileDataProvider(DateTime fileDate,string dirPath)
+        {
+            _fileDate = fileDate;
+            _dirPath = dirPath;
+        }
+
         public FileScheduler GetUploadedFile(ColloSysEnums.FileAliasName alias)
         {
             var filename = string.Empty;
@@ -50,8 +65,10 @@ namespace ReflectionExtension.Tests
                     filename = "./FileUploaderTest/ExcelData/SMC Final Flash - April 2013.xls";
                     break;
                 case ColloSysEnums.FileAliasName.E_WRITEOFF_AUTO:
+                    filename = "./FileUploaderTest/ExcelData/Dummy AUTO OD charge off base.xls";
                     break;
                 case ColloSysEnums.FileAliasName.E_WRITEOFF_SMC:
+                    filename = "./FileUploaderTest/ExcelData/SMC Charge Off base - 17.08.2013.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
                     break;
@@ -105,7 +122,6 @@ namespace ReflectionExtension.Tests
 
         }
 
-
         public FileScheduler GetUploadedFileForWoAuto()
         {
             FileScheduler file;
@@ -124,9 +140,6 @@ namespace ReflectionExtension.Tests
 
         }
 
-
-
-
         public FileScheduler GetFileScheduler(string fileName, ColloSysEnums.FileAliasName aliasName)
         {
 
@@ -134,15 +147,12 @@ namespace ReflectionExtension.Tests
             {
                 FileName = fileName,
                 FileDetail = GetFileDetail(aliasName),
-                FileDate = new DateTime(2014 - 06 - 12),
-                FileDirectory = "E:/Abhijeet/Collosys2",
-                StartDateTime = new DateTime(2014 - 06 - 11),
-                EndDateTime = new DateTime(2014 - 0610),
+                FileDate = _fileDate,
+                FileDirectory = _dirPath,
+                StartDateTime = new DateTime(2014, 06,11),
+                EndDateTime = new DateTime(2014,06,10),
                 IsImmediate = true,
                 ScbSystems = ScbEnums.ScbSystems.RLS,
-
-
-
             };
             return fs;
         }

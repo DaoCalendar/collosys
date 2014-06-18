@@ -33,8 +33,10 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         [SetUp]
         public void Init()
         {
+            var fileDate = new DateTime();
+            var dirPath = "";
             //Arrange
-            _mappingData = new FileDataProvider();
+            _mappingData = new FileDataProvider(fileDate, dirPath);
             _reader = new NpOiExcelReader(FileInfoForDrillDown);
             _counter = new ExcelRecordCounter();
             var Scheduler = _mappingData.GetFileScheduler("DrillDown_Txn_1.xls",

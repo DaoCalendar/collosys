@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.AliasWriteOff.Ebbs;
 using ColloSys.FileUploaderService.AliasWriteOff.Rls;
 using ColloSys.FileUploaderService.FileReader;
 using NLog;
@@ -100,6 +101,13 @@ namespace ColloSys.FileUploaderService
                     //  var payment  new RlsPaymentLinerFileReader(scheduler);
                     break;
 
+                #endregion
+
+                #region EWriteoff
+                case ColloSysEnums.FileAliasName.E_WRITEOFF_AUTO:
+                    var eWriteOffAuto = new EWriteOffAutoFR(scheduler);
+                    eWriteOffAuto.ProcessFile();
+                    break;
                 #endregion
 
                 #region commented
