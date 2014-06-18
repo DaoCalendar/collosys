@@ -8,7 +8,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
     public class EbbsLinerOdSmeRC:EbbsLinerSharedRC
     {
         private const uint AccountNoPosition = 1;
-        private const uint AccountNoLength = 8;
+        private const uint AccountNoLength = 11;
         public EbbsLinerOdSmeRC():base(AccountNoPosition,AccountNoLength)
         {
             HasMultiDayComputation = true;
@@ -28,7 +28,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             // CurrentDue
             //record.CurrentDue = record.CurrentBalance;
 
-            // bucket
+            // buckets
             entity.Bucket = GetBucketForELiner(entity);
 
             

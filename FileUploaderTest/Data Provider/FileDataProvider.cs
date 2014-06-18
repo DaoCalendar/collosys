@@ -73,6 +73,7 @@ namespace ReflectionExtension.Tests
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
                     break;
                 case ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN:
+                    filename = "./FileUploaderTest/ExcelData/BFS DELQ 13-08-13n.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_LINER_MORT_LOAN:
                     break;

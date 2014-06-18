@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AliasLinerTest\EbbsLinerOdSme.cs" />
+    <Compile Include="AliasLinerTest\RLinerBfsTest.cs" />
     <Compile Include="AliasReaderTest\AliasPaymentRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\EbbsPaymentLinerRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\EbbsPaymentWoAutoRecordCreatorTest.cs" />
@@ -168,6 +169,7 @@
     </EmbeddedResource>
     <None Include="ExcelData\AEB Auto charge off base - 17.08.13.xls" />
     <None Include="ExcelData\Dummy AUTO OD charge off base.xls" />
+    <None Include="ExcelData\BFS DELQ 13-08-13n.xls" />
     <None Include="ExcelData\Final Auto OD Flash - July 2013.xls" />
     <None Include="ExcelData\Final GB, SCB &amp; AEB PL Flash - July 2013.xls" />
     <None Include="ExcelData\SMC Charge Off base - 17.08.2013.xls" />
