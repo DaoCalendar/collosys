@@ -1,5 +1,5 @@
 ﻿<div class="dropdown">
-    <button class="btn form-control"  ng-click="toggleSelect()" ng-disabled="disabled" ng-class="{'error': !valid()}">
+    <button class="btn form-control" ng-click="toggleSelect()" ng-disabled="disabled" ng-class="{'error': !valid()}">
         <span class="pull-left">{{header}}</span>
         <span class="caret pull-right" style="margin-top: 5px"></span>
     </button>
@@ -12,11 +12,11 @@
             <button class="btn-link btn-small" ng-click="uncheckAll()"><i class="glyphicon glyphicon-remove"></i>Uncheck all</button>
         </li>
         <li ng-repeat="i in items | filter:searchText">
-            <a ng-click="select(i); focus()">
-                <span class="col-md-9">{{i.label}}</span>
+            <a ng-click="select(i);">
                 <span class="col-md-1">
                     <i ng-class="{'fa  fa-check': i.checked, 'fa fa-empty': !i.checked}"></i>
                 </span>
+                <span class="col-md-9">{{i.label}}</span>
             </a>
         </li>
     </ul>

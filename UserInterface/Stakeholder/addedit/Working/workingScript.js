@@ -32,20 +32,45 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
           });
     };
 
+    var getGPincodeData = function (workingModel) {
+        return restApi.customPOST(workingModel, 'GetGPincodeData')
+            .then(function (data) {
+                return data;
+            });
+    };
+
     var savePayment = function (paymentData) {
         restApi.customPOST(paymentData, "SavePayment");
+    };
+
+    var saveWorking = function (workData) {
+        return restApi.customPOST(workData, "SaveWorking").then(function () {
+            $csnotify.success("Working Saved");
+        });
     };
 
     return {
         GetStakeholder: getWorkingData,
         GetPaymentDetails: getPaymentDetails,
-        SavePayment: savePayment,
         GetReportsTo: getReportsTo,
-        GetPincodeData: getPincodeData
+        GetPincodeData: getPincodeData,
+        GetGPincodeData: getGPincodeData,
+        SavePayment: savePayment,
+        SaveWorking: saveWorking,
     };
 }]);
 
 csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
+
+    var displayManager = {
+        showCountry: true,
+        showRegion: false,
+        showState: false,
+        showCluster: false,
+        showDistrict: false,
+        showCity: false,
+        showArea: false,
+    };
 
     var getFixedPayObj = function (data) {
         var fixedPayObj = {};
@@ -55,13 +80,21 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         return fixedPayObj;
     };
 
-    var getQueryFor = function (locLevel) {
+    // ReSharper disable DuplicatingLocalDeclaration
+    var getQueryFor = function (locLevel, displayMngr) {
+        // ReSharper restore DuplicatingLocalDeclaration
+        return $csfactory.isEmptyObject(displayMngr) ? getInitialQueryFor(locLevel) : getNextQueryFor(locLevel, displayMngr);
+    };
+
+    var getInitialQueryFor = function (locLevel) {
         switch (locLevel.toUpperCase()) {
             case "COUNTRY":
                 return "State";
-            case "CLUSTER":
-                return "State";
+            case "REGION":
+                return "Region";
             case "STATE":
+                return "State";
+            case "CLUSTER":
                 return "State";
             case "DISTRICT":
                 return "State";
@@ -74,26 +107,41 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         }
     };
 
-    var displayManager = {
-        showCountry: true,
-        showRegion: false,
-        showCluster: false,
-        showState: false,
-        showCity: false,
-        showArea: false,
+    var getNextQueryFor = function (selected, displayMngr) {
+        switch (selected.toUpperCase()) {
+            case "COUNTRY":
+                if (displayMngr.showRegion === true) return "Region";
+            case "REGION":
+                if (displayMngr.showCluster === true) return "Cluster";
+            case "STATE":
+                if (displayMngr.showCluster === true) return "Cluster";
+            case "CLUSTER":
+                if (displayMngr.showDistrict === true) return "District";
+            case "DISTRICT":
+                if (displayMngr.showCity === true) return "City";
+            case "CITY":
+                if (displayMngr.showArea === true) return "Area";
+            case "AREA":
+                return "";
+
+            default:
+                throw "invalid location level";
+        }
     };
 
     var getDisplayManager = function (locLevel) {
         switch (locLevel.toUpperCase()) {
             case "COUNTRY":
                 return displayManager;
-            case "CLUSTER":
-                displayManager.showState = true;
-                displayManager.showCluster = true;
+            case "REGION":
+                displayManager.showRegion = true;
                 return displayManager;
             case "STATE":
                 displayManager.showState = true;
+                return displayManager;
+            case "CLUSTER":
                 displayManager.showState = true;
+                displayManager.showCluster = true;
                 return displayManager;
             case "DISTRICT":
                 displayManager.showState = true;
@@ -113,10 +161,32 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
     };
 
+    var getWorkingDetailsList = function (workingModel, locLevel, workingDetailsList) {
+        var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
+        _.forEach(multiSelectList, function (location) {
+            workingModel.SelectedPincodeData[locLevel] = location;
+            workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
+        });
+        return workingDetailsList;
+    };
+
+    var setWorkList = function (stakeholder, worklist, working) {
+        _.forEach(worklist, function (workdata) {
+            workdata.Stakeholder = stakeholder;
+            workdata.StartDate = stakeholder.JoiningDate;
+            workdata.Products = working.Products;
+            workdata.ReportsTo = working.ReportsTo;
+            workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
+        });
+
+    };
+
     return {
         GetFixedPayObj: getFixedPayObj,
         GetQueryFor: getQueryFor,
-        GetDisplayManager: getDisplayManager
+        GetDisplayManager: getDisplayManager,
+        GetWorkingDetailsList: getWorkingDetailsList,
+        SetWorkList: setWorkList
     };
 }]);
 
@@ -129,6 +199,15 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
                 $scope.selectedHierarchy = data.Hierarchy;
                 $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
+
+                $scope.WorkingModel = {
+                    SelectedPincodeData: {},
+                    QueryFor: "",
+                    MultiSelectValues: [],
+                    DisplayManager: $scope.displayManager,
+                    Buckets: []
+                };
+
                 $scope.currStakeholder = data;
             }).then(function () {
                 //TODO: has fixed pay individual
@@ -139,10 +218,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
             $scope.Payment = {};
-            $scope.WorkingModel = {
-                SelectedPincodeData: {},
-                QueryFor: ""
-            };
+            $scope.Working = {};
+            $scope.workingDetailsList = [];
         })();
 
         //TODO: move to factory
@@ -206,10 +283,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             datalayer.SavePayment(paymentData);
         };
 
-        $scope.getPincodeData = function (workingModel, queryFor) {
-            workingModel.QueryFor = $csfactory.isNullOrEmptyString(queryFor) ?
-                factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : queryFor;
-            console.log("display Manager: ", $scope.displayManager);
+        $scope.getPincodeData = function (workingModel, selected) {
+            workingModel.QueryFor = $csfactory.isNullOrEmptyString(selected) ?
+                factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : factory.GetQueryFor(selected, $scope.displayManager);
+            if ($csfactory.isNullOrEmptyString(workingModel.QueryFor)) return;
             datalayer.GetPincodeData(workingModel).then(function (data) {
                 $scope.WorkingModel = data;
             });
@@ -218,6 +295,18 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.showDropdown = function (locLevel) {
             if ($csfactory.isEmptyObject($scope.selectedHierarchy)) return false;
             return $scope.selectedHierarchy.LocationLevel === locLevel;
+        };
+
+        $scope.addWorking = function (workingModel, locLevel) {
+            $scope.workingDetailsList = factory.GetWorkingDetailsList(workingModel, locLevel, $scope.workingDetailsList);
+            workingModel.SelectedPincodeData[locLevel] = [];
+        };
+
+        $scope.save = function (workList) {
+            factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
+            datalayer.SaveWorking(workList).then(function () {
+                $scope.workingDetailsList = [];
+            });
         };
 
     }]);

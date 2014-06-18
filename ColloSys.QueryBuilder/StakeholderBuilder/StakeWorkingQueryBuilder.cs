@@ -17,5 +17,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.Stakeholder).Eager
                             .TransformUsing(Transformers.DistinctRootEntity);
         }
+
+       
     }
 }
