@@ -1,18 +1,21 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using AngularUI.Stakeholder.addedit.Working;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate.Linq;
 
-namespace AngularUI.Stakeholder.AddEdit2.Working
+#endregion
+
+namespace AngularUI.Stakeholder.addedit.Working
 {
     public class WorkingApiController : BaseApiController<StkhWorking>
     {
@@ -71,7 +74,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage GetSalaryDetails(StkhPayment payment)
+        public HttpResponseMessage GetSalaryDetails(SalaryDetails payment)
         {
             var gKeyValue = GKeyValueBuilder.ForStakeholders();
             var fixPay = gKeyValue.ToDictionary(keyValue => keyValue.ParamName, keyValue => decimal.Parse(keyValue.Value));

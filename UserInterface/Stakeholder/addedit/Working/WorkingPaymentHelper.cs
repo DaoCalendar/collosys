@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region references
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+
+#endregion
 
 namespace AngularUI.Stakeholder.addedit.Working
 {
@@ -32,30 +36,38 @@ namespace AngularUI.Stakeholder.addedit.Working
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }
 
-        public static SalaryDetails GetSalaryDetails(StkhPayment payment, Dictionary<string, decimal> fixpayData)
+        public static SalaryDetails GetSalaryDetails(SalaryDetails payment, Dictionary<string, decimal> fixpayData)
         {
-            var salDetail = new SalaryDetails();
+            //payment.EmployeePfPct = fixpayData["EmployeePF"];
+            payment.EmployeePfPct = 12;
+            payment.EmployeePf = payment.FixpayBasic * (payment.EmployeePfPct / 100);
 
-            salDetail.EmployeePF = payment.FixpayBasic * (fixpayData["EmployeePF"] / 100);
-            if (payment.FixpayTotal < 15000)
-            {
-                salDetail.EmployeeESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployeeESIC"] / 100);
-            }
-            salDetail.EmployerPF = (double)payment.FixpayBasic * (double)(fixpayData["EmployerPF"] / 100);
-            if (payment.FixpayTotal < 15000)
-            {
-                salDetail.EmployerESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployerESIC"] / 100);
-            }
+            //payment.EmployerPfPct = fixpayData["EmployerPF"];
+            payment.EmployerPfPct = (decimal)13.61;
+            payment.EmployerPf = payment.FixpayBasic * (payment.EmployerPfPct / 100);
 
-            return salDetail;
+            //payment.EmployeeEsicPct = payment.FixpayTotal >= 15000 ? 0 : fixpayData["EmployeeESIC"];
+            payment.EmployeeEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)1.75;
+            payment.EmployeeEsic = payment.FixpayTotal * (payment.EmployeeEsicPct / 100);
+
+            //payment.EmployerEsicPct = payment.FixpayTotal >= 15000 ? 0 : fixpayData["EmployerESIC"];
+            payment.EmployerEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)4.75;
+            payment.EmployerEsic = payment.FixpayTotal * (payment.EmployerEsicPct / 100);
+
+            var midTotal = payment.FixpayTotal + payment.EmployeeEsic + payment.EmployeePf
+                           + payment.EmployerEsic + payment.EmployerPf;
+
+            //TODO : get count of employees from db
+            payment.ServiceChargePct = 8;
+            payment.ServiceCharge = midTotal * (payment.EmployerEsicPct / 100);
+
+            //payment.ServiceTaxPct = fixpayData["ServiceTax"];
+            payment.ServiceTaxPct = (decimal)12.36;
+            payment.ServiceTax = midTotal * (payment.ServiceTaxPct / 100);
+
+            payment.TotalPayout = midTotal + payment.ServiceTax + payment.ServiceCharge;
+
+            return payment;
         }
-    }
-
-    public class SalaryDetails
-    {
-        public decimal EmployeePF { get; set; }
-        public double EmployeeESI { get; set; }
-        public double EmployerPF { get; set; }
-        public double EmployerESI { get; set; }
     }
 }
