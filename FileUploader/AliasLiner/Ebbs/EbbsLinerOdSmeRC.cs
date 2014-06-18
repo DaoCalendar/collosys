@@ -7,7 +7,9 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 // ReSharper disable once InconsistentNaming
     public class EbbsLinerOdSmeRC:EbbsLinerSharedRC
     {
-        public EbbsLinerOdSmeRC()
+        private const uint AccountNoPosition = 1;
+        private const uint AccountNoLength = 8;
+        public EbbsLinerOdSmeRC():base(AccountNoPosition,AccountNoLength)
         {
             HasMultiDayComputation = true;
             var dbLayer = new DbLayer.DbLayer();

@@ -11,12 +11,21 @@ using ColloSys.FileUploaderService.RecordManager;
 
 namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 {
-// ReSharper disable once InconsistentNaming
-    public abstract class EbbsLinerSharedRC:RecordCreator<ELiner>
+    // ReSharper disable once InconsistentNaming
+    public abstract class EbbsLinerSharedRC : RecordCreator<ELiner>
     {
+        public uint AccountNoPosition { get; set; }
+        public uint AccountNoLegnth { get; set; }
+
+        public EbbsLinerSharedRC(uint accNo, uint accLength)
+        {
+            AccountNoPosition = accNo;
+            AccountNoLegnth = accLength;
+        }
+
         public override bool IsRecordValid(ELiner entity)
         {
-           return true;
+            return true;
         }
 
         public override bool CheckBasicField()
@@ -100,6 +109,6 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             return PreviousDayLiner.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
         }
 
-       
+
     }
 }

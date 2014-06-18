@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AliasLinerTest\EbbsLinerOdSme.cs" />
     <Compile Include="AliasReaderTest\AliasPaymentRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\EbbsPaymentLinerRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\EbbsPaymentWoAutoRecordCreatorTest.cs" />
