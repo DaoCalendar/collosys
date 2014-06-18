@@ -37,6 +37,6 @@ namespace ColloSys.FileUploaderService.RecordManager
 
         bool HasMultiDayComputation { get; set; }
 
-
+        void InitPreviousDayLiner(FileScheduler fileScheduler);
     }
 }

@@ -2,6 +2,8 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
@@ -14,7 +16,7 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
-    public abstract class RecordCreator<TEntity> : IRecord<TEntity> where TEntity : class , new()
+    public abstract class RecordCreator<TEntity> : IRecord<TEntity> where TEntity : Entity, IFileUploadable, new()
     {
         #region ctor
         protected IExcelReader Reader;
@@ -22,19 +24,26 @@ namespace ColloSys.FileUploaderService.RecordManager
         protected FileScheduler FileScheduler;
         protected IDbLayer _DbLayer;
         protected readonly Logger _log = LogManager.GetCurrentClassLogger();
-       
+
 
         public void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader)
         {
             FileScheduler = fileScheduler;
             Reader = reader;
             Counter = counter;
-            _DbLayer=new DbLayer.DbLayer();
+            _DbLayer = new DbLayer.DbLayer();
         }
 
         public IList<TEntity> PreviousDayLiner { get; set; }
 
         public bool HasMultiDayComputation { get; set; }
+
+        public void InitPreviousDayLiner( FileScheduler fileScheduler)
+        {
+            if (HasMultiDayComputation)
+                PreviousDayLiner = _DbLayer.GetDataForPreviousDay<TEntity>(fileScheduler.FileDetail.AliasName,
+                   fileScheduler.FileDate, fileScheduler.FileDetail.FileCount);
+        }
 
         #endregion
 
@@ -52,7 +61,7 @@ namespace ColloSys.FileUploaderService.RecordManager
                 {
                     Counter.IncrementErrorRecords();
                     Counter.IncrementTotalRecords();
-                   return false;
+                    return false;
                 }
             }
             return true;
@@ -77,9 +86,9 @@ namespace ColloSys.FileUploaderService.RecordManager
             return true;
         }
 
-        public bool CreateRecord(IList<FileMapping> mappingss,out TEntity obj)
+        public bool CreateRecord(IList<FileMapping> mappingss, out TEntity obj)
         {
-            bool excelstatus = false, defaultMap = false, computedMap = true;
+            bool excelstatus = false, defaultMap = true, computedMap = true;
 
             obj = GetRecordForUpdate();
 
@@ -128,7 +137,7 @@ namespace ColloSys.FileUploaderService.RecordManager
         #region abstract
         public abstract bool ComputedSetter(TEntity entity);
         public abstract bool ComputedSetter(TEntity entity, TEntity preEntity);
-       
+
         public abstract bool IsRecordValid(TEntity entity);
 
         public abstract bool CheckBasicField();

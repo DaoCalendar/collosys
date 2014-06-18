@@ -37,16 +37,20 @@ namespace ColloSys.FileUploaderService.DbLayer
                                      .Fetch(x => x.FileDetail).Eager
                                      .Fetch(x => x.FileStatuss).Eager
                                      .Fetch(x => x.FileDetail.FileColumns).Eager
-                                     .Fetch(x => x.FileDetail.FileMappings).Eager
                                      .TransformUsing(Transformers.DistinctRootEntity)
                                      .OrderBy(x => x.FileDate).Asc
                                      .ThenBy(x => x.CreatedOn).Asc
                                      .List();
 
+                    
                     FileScheduler file2Upload = null;
                     IList<FileScheduler> filesWaiting = new List<FileScheduler>();
                     foreach (var fileScheduler in obj)
                     {
+                        fileScheduler.FileDetail.FileMappings =
+                            session.QueryOver<FileMapping>()
+                                .Where(x => x.FileDetail.Id == fileScheduler.FileDetail.Id)
+                                .List();
                         // if no depend alias then continue with upload
                         var dependAlias = fileScheduler.FileDetail.DependsOnAlias;
                         if (dependAlias == null)
@@ -64,6 +68,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                                                          .Where(c => c.FileDate == schedulerDate && fd1.AliasName == dependAlias)
                                                          .And(c => c.UploadStatus == ColloSysEnums.UploadStatus.Done ||
                                                              c.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                                                             .TransformUsing(Transformers.DistinctRootEntity)
                                                          .List<FileScheduler>();
 
                         if ((dependFileScheduler.Count != 0)

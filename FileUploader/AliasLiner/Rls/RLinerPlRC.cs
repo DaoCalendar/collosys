@@ -15,9 +15,6 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
            : base(AccPos, AccountLength)
        {
            HasMultiDayComputation = true;
-           var dbLayer = new DbLayer.DbLayer();
-           PreviousDayLiner = dbLayer.GetDataForPreviousDay<RLiner>(ColloSysEnums.FileAliasName.E_LINER_OD_SME,
-               FileScheduler.FileDate, FileScheduler.FileDetail.FileCount);
        }
 
        public override bool ComputedSetter(RLiner entity)

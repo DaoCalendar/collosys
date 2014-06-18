@@ -16,16 +16,16 @@ namespace ReflectionExtension.Tests.AliasLinerTest
     [TestFixture]
     class RLinerBfsTest
     {
-        private IFileReader<RLiner> _RLiner;
+        private IFileReader<RLiner> _rLiner;
         RLiner _record = new RLiner();
         [SetUp]
         public void Init()
         {
-             var date=new DateTime();
-            const string dirPath = "";
+             var date=new DateTime(2013,06,18);
+            const string dirPath = "E:/Abhijeet/Collosys2";
             var mappingData = new FileDataProvider(date,dirPath);
             var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN);
-            _RLiner = new RLinerBfsFR(fileScheduler);
+            _rLiner = new RLinerBfsFR(fileScheduler);
 
         }
 
@@ -33,8 +33,9 @@ namespace ReflectionExtension.Tests.AliasLinerTest
         public void Test_CreateRecord_Assigning_Valid_Mapping()
         {
             //Act
-            _RLiner.ObjRecord.CreateRecord(_RLiner._fs.FileDetail.FileMappings,out _record);
-
+            _rLiner.ExcelReader.Skip(3);
+            _rLiner.ObjRecord.CreateRecord(_rLiner._fs.FileDetail.FileMappings,out _record);
+            
             //Assert
             Assert.AreEqual(_record.AccountNo,132);
         }

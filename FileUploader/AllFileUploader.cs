@@ -6,6 +6,8 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.AliasFileReader;
+using ColloSys.FileUploaderService.AliasLiner.Ebbs;
+using ColloSys.FileUploaderService.AliasLiner.Rls;
 using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.AliasWriteOff.Ebbs;
 using ColloSys.FileUploaderService.AliasWriteOff.Rls;
@@ -109,6 +111,31 @@ namespace ColloSys.FileUploaderService
                     eWriteOffAuto.ProcessFile();
                     break;
                 #endregion
+
+                #region Liner
+
+                case ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN:
+                    var rlinerBfs = new RLinerBfsFR(scheduler);
+                    rlinerBfs.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.R_LINER_MORT_LOAN:
+                    var rlinerMort = new RLinerMortFR(scheduler);
+                    rlinerMort.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.R_LINER_PL:
+                    var rlinerPl = new RLinerPlFR(scheduler);
+                    rlinerPl.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.E_LINER_AUTO:
+                    var elinerAuto = new EbbsLinerAutoFR(scheduler);
+                    elinerAuto.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.E_LINER_OD_SME:
+                    var elinerOdSme = new EbbsLinerOdSmeFR(scheduler);
+                    elinerOdSme.ProcessFile();
+                    break;
+                #endregion
+
 
                 #region commented
 

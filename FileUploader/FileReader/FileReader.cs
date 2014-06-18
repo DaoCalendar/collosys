@@ -57,6 +57,7 @@ namespace ColloSys.FileUploaderService.FileReader
             _counter = new ExcelRecordCounter();
             _excelReader = SharedUtility.GetInstance(new FileInfo(_fs.FileDirectory + @"\" + _fs.FileName));
             recordCreator.Init(_fs, _counter, _excelReader);
+            recordCreator.InitPreviousDayLiner(_fs);
             _fileProcess = new FileProcess();
             _objRecord = recordCreator;
             _batchSize = 500;
