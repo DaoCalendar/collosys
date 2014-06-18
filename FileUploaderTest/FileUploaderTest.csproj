@@ -104,6 +104,7 @@
     <Compile Include="FileUploaderTest\FileUploaderServiceTest.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
+    <Compile Include="RWriteOffTest\AebAutoTest.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />

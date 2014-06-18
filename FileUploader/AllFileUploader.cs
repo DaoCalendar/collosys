@@ -108,6 +108,14 @@ namespace ColloSys.FileUploaderService
                     var eWriteOffAuto = new EWriteOffAutoFR(scheduler);
                     eWriteOffAuto.ProcessFile();
                     break;
+                case ColloSysEnums.FileAliasName.E_WRITEOFF_SMC:
+                    var eWriteOffSmc = new EWriteOffSmcFR(scheduler);
+                    eWriteOffSmc.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_AEB:
+                    var rWriteOffAutoAeb = new RWriteOffAutoAebFR(scheduler);
+                    rWriteOffAutoAeb.ProcessFile();
+                    break;
                 #endregion
 
                 #region commented

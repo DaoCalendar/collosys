@@ -99,6 +99,7 @@ namespace ReflectionExtension.Tests
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_LORDS:
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_AEB:
+                    filename = "./FileUploaderTest/ExcelData/AEB Auto Charge Off Base - 28.01.2014.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
                     break;
