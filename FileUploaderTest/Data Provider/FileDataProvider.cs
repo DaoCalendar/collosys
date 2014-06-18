@@ -91,6 +91,7 @@ namespace ReflectionExtension.Tests
                     filename = "./FileUploaderTest/ExcelData/Final GB, SCB & AEB PL Flash - July 2013.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB:
+                    filename = "./FileUploaderTest/ExcelData/AEB PL Charge off base - 10.12.13.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_SCB:
                     break;
@@ -105,6 +106,7 @@ namespace ReflectionExtension.Tests
                     filename = "./FileUploaderTest/ExcelData/GB Auto Charge Off Base - 28.01.2014.xls";
                     break;
                 case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
+                    filename = "./FileUploaderTest/ExcelData/SCB Auto Charge Off Base - 28.01.2014.xls";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("alias");

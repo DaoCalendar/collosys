@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace ReflectionExtension.Tests.EWriteOffTest
 {
-    public class AutoGbTest : FileProvider
+    public class PL_AEB_Test : FileProvider
     {
         #region ctor
 
@@ -20,8 +20,8 @@ namespace ReflectionExtension.Tests.EWriteOffTest
             var fileDate = new DateTime(2013, 08, 17);
             const string fileDirectory = "C:/Users/Ast011/Documents/collosys";
             var mappingData = new FileDataProvider(fileDate,fileDirectory);
-            var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB);
-            _paymentLiner = new RWriteOffAutoGbFR(fileScheduler);
+            var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB);
+            _paymentLiner = new RWriteOffPlAebFR(fileScheduler);
         }
 
         #endregion
@@ -33,7 +33,7 @@ namespace ReflectionExtension.Tests.EWriteOffTest
            var record= _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
            
             //Assert
-            Assert.AreEqual(_record.AccountNo, "12345678902");
+            Assert.IsTrue(record);
         }
     }
 }
