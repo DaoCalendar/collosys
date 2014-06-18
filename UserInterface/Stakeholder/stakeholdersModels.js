@@ -75,10 +75,10 @@
             BankIfscCode: { label: 'BankIfscCode', type: 'text' },
             MobileElig: { label: 'Mobile', type: 'number', template: 'decimal' },
             TravelElig: { label: 'Travel', type: 'number', template: 'decimal' },
-            FixpayBasic: { label: 'Basic', type: 'number', template: 'rupee' },
-            FixpayHra: { label: 'Hra', type: 'number', template: 'rupee' },
-            FixpayOther: { label: 'Other', type: 'number', template: 'rupee' },
-            FixpayTotal: { label: 'FixpayTotal', type: 'number', template: 'rupee' },
+            FixpayBasic: { label: 'Basic', type: 'number', template: 'decimal' },
+            FixpayHra: { label: 'Hra', type: 'number', template: 'decimal' },
+            FixpayOther: { label: 'Other', type: 'number', template: 'decimal' },
+            FixpayTotal: { label: 'Gross Pay', type: 'number', template: 'decimal' },
             ServiceCharge: { label: 'Service Charge', type: 'number', template: 'percentage' },
             StartDate: { label: 'StartDate', type: 'date' },
             EndDate: { label: 'EndDate', type: 'date' },
@@ -106,7 +106,7 @@
             StateCity: { label: 'City/State', type: 'text' },
             Pincode: { label: 'Pincode', type: 'text' },
             Country: { label: 'Country', type: 'text' },
-            LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone' },
+            LandlineNo: { label: 'LandlineNo', type: 'text', template: 'phone', required: true },
         };
     };
 

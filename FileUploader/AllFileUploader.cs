@@ -90,9 +90,6 @@ namespace ColloSys.FileUploaderService
                     ePaymentEoSmc.ProcessFile();
                     break;
 
-                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB:
-                    var rWriteOff = new RWriteOffPlAebFR(scheduler);
-                    rWriteOff.ProcessFile();
                     //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_SCB:
                     //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_LORDS:
                     //case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_GB:
@@ -109,6 +106,33 @@ namespace ColloSys.FileUploaderService
                 case ColloSysEnums.FileAliasName.E_WRITEOFF_AUTO:
                     var eWriteOffAuto = new EWriteOffAutoFR(scheduler);
                     eWriteOffAuto.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.E_WRITEOFF_SMC:
+                    var eWriteOffSmc = new EWriteOffSmcFR(scheduler);
+                    eWriteOffSmc.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_AEB:
+                    var rWriteOffAutoAeb = new RWriteOffAutoAebFR(scheduler);
+                    rWriteOffAutoAeb.ProcessFile();
+                    break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
+                    var rWriteOffAutoGb = new RWriteOffAutoGbFR(scheduler);
+                    rWriteOffAutoGb.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_SCB:
+                    var rWriteOffAutoScb = new RWriteOffAutoScbFR(scheduler);
+                    rWriteOffAutoScb.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_PL_AEB:
+                    var rWriteOffPlAeb = new RWriteOffPlAebFR(scheduler);
+                    rWriteOffPlAeb.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
+                    var rWriteOffSme = new RWriteOffSmeFR(scheduler);
+                    rWriteOffSme.ProcessFile();
                     break;
                 #endregion
 

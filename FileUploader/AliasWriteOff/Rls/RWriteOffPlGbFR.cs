@@ -10,8 +10,8 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 // ReSharper disable once InconsistentNaming
     public class RWriteOffPlGbFR:RWriteOffSharedFR
     {
-        public RWriteOffPlGbFR(FileScheduler fileScheduler, IRecord<RWriteoff> recordCreator)
-            : base(fileScheduler, recordCreator)
+        public RWriteOffPlGbFR(FileScheduler fileScheduler)
+            : base(fileScheduler, new RWriteOffPlGbRC())
         {
         }
     }

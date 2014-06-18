@@ -43,6 +43,12 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         restApi.customPOST(paymentData, "SavePayment");
     };
 
+    var getSalaryDetails = function (payment) {
+        return restApi.customPOST(payment, "GetSalaryDetails").then(function (sal) {
+            return sal;
+        });
+    };
+
     var saveWorking = function (workData) {
         return restApi.customPOST(workData, "SaveWorking").then(function () {
             $csnotify.success("Working Saved");
@@ -57,6 +63,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         GetGPincodeData: getGPincodeData,
         SavePayment: savePayment,
         SaveWorking: saveWorking,
+        GetSalaryDetails: getSalaryDetails
     };
 }]);
 
@@ -78,6 +85,18 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             fixedPayObj[item.ParamName] = parseFloat(item.Value);
         });
         return fixedPayObj;
+    };
+
+    var resetDisplayManager = function () {
+        return displayManager = {
+            showCountry: true,
+            showRegion: false,
+            showState: false,
+            showCluster: false,
+            showDistrict: false,
+            showCity: false,
+            showArea: false,
+        };
     };
 
     // ReSharper disable DuplicatingLocalDeclaration
@@ -130,6 +149,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     var getDisplayManager = function (locLevel) {
+        resetDisplayManager();
         switch (locLevel.toUpperCase()) {
             case "COUNTRY":
                 return displayManager;
@@ -162,8 +182,14 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     var getWorkingDetailsList = function (workingModel, locLevel, workingDetailsList) {
+        if (locLevel === 'Country') {
+            workingModel.SelectedPincodeData[locLevel] = [];
+            workingModel.SelectedPincodeData[locLevel].push('India');
+        }
+
         var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
         _.forEach(multiSelectList, function (location) {
+            workingModel.SelectedPincodeData.Status = 'Submitted';
             workingModel.SelectedPincodeData[locLevel] = location;
             workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
         });
@@ -174,6 +200,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
+            working.EndDate =
             workdata.Products = working.Products;
             workdata.ReportsTo = working.ReportsTo;
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
@@ -181,12 +208,28 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
     };
 
+    var push = function (list, data) {
+        list.push(data);
+    };
+
+    var splice = function (list, data, param) {
+        if ($csfactory.isNullOrEmptyString(param)) {
+            list.splice(list.indexOf(data), 1);
+        } else {
+            var pluckedList = _.pluck(list, param);
+            var index = pluckedList.indexOf(data[param]);
+            if (index !== -1) list.splice(index, 1);
+        }
+    };
+
     return {
         GetFixedPayObj: getFixedPayObj,
         GetQueryFor: getQueryFor,
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
-        SetWorkList: setWorkList
+        SetWorkList: setWorkList,
+        Push: push,
+        Splice: splice
     };
 }]);
 
@@ -220,6 +263,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.Payment = {};
             $scope.Working = {};
             $scope.workingDetailsList = [];
+            $scope.deleteWorkingList = [];
         })();
 
         //TODO: move to factory
@@ -272,9 +316,17 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             return 0;
         };
 
+        $scope.getSalaryDetails = function (payment) {
+            datalayer.GetSalaryDetails(payment).then(function (sal) {
+                $scope.SalDetails = sal;
+                console.log("Salary Details: ", $scope.SalDetails);
+            });
+        };
+
         $scope.getReportsTo = function (product) {
             datalayer.GetReportsTo($scope.currStakeholder).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
+                if ($scope.reportsToList.length === 1) $scope.workingModel.ReportsTo = $scope.reportsToList[0];
             });
         };
 
@@ -309,4 +361,34 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
+        $scope.addWorkingToDelete = function (data) {
+            var selected = _.find($scope.deleteWorkingList, function (working) { return working === data; });
+            $csfactory.isEmptyObject(selected) ? factory.Push($scope.deleteWorkingList, data) : factory.Splice($scope.deleteWorkingList, data);
+        };
+
+        //$scope.selectAll = function () {
+        //    $scope.deleteWorkingList = $scope.workingDetailsList.length === $scope.deleteWorkingList.length ? []
+        //        : $scope.workingDetailsList;
+
+        //};
+
+        $scope.workingChecked = function (data) {
+            return $scope.deleteWorkingList.indexOf(data) !== -1;
+        };
+
+        $scope.assignEndDate = function (data, endDate) {
+            data.EndDate = endDate;
+        };
+
+        $scope.deleteSelectedWorking = function () {
+            _.forEach($scope.deleteWorkingList, function (workingToBeDeleted) {
+                factory.Splice($scope.workingDetailsList, workingToBeDeleted, 'Area');
+            });
+            $scope.deleteWorkingList = [];
+        };
+
+        $scope.getReportsToName = function (reportsToId) {
+            var data = _.find($scope.reportsToList, { 'Id': reportsToId });
+            return data.Name;
+        };
     }]);
