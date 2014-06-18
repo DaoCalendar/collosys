@@ -317,7 +317,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.getSalaryDetails = function (payment) {
-            $scope.SalDetails = datalayer.GetSalaryDetails(payment);
+            datalayer.GetSalaryDetails(payment).then(function (sal) {
+                $scope.SalDetails = sal;
+                console.log("Salary Details: ", $scope.SalDetails);
+            });
         };
 
         $scope.getReportsTo = function (product) {

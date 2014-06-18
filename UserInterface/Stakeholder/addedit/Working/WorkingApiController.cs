@@ -70,6 +70,7 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
             return Request.CreateResponse(HttpStatusCode.OK, workingModel);
         }
 
+        [HttpPost]
         public HttpResponseMessage GetSalaryDetails(StkhPayment payment)
         {
             var gKeyValue = GKeyValueBuilder.ForStakeholders();

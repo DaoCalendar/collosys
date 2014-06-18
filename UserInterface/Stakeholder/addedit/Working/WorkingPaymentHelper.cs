@@ -36,12 +36,12 @@ namespace AngularUI.Stakeholder.addedit.Working
         {
             var salDetail = new SalaryDetails();
 
-            salDetail.EmployeePF = payment.FixpayBasic * (fixpayData["EmployeePf"] / 100);
+            salDetail.EmployeePF = payment.FixpayBasic * (fixpayData["EmployeePF"] / 100);
             if (payment.FixpayTotal < 15000)
             {
                 salDetail.EmployeeESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployeeESIC"] / 100);
             }
-            salDetail.EmployerPF = (double)payment.FixpayBasic * (double)(fixpayData["EmployerPf"] / 100);
+            salDetail.EmployerPF = (double)payment.FixpayBasic * (double)(fixpayData["EmployerPF"] / 100);
             if (payment.FixpayTotal < 15000)
             {
                 salDetail.EmployerESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployerESIC"] / 100);
