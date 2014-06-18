@@ -159,7 +159,7 @@ namespace ColloSys.FileUploader.Reflection
             }
             else if (propertyInfo.PropertyType == typeof(decimal))
             {
-                if (value == null) return;
+                if (string.IsNullOrEmpty(value)) return;
                 var decimalHelper = new DecimalSetter();
                 decimalHelper.SetValue(propertyInfo, obj, value);
             }

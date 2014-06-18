@@ -104,6 +104,7 @@
     <Compile Include="FileUploaderTest\FileUploaderServiceTest.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
+    <Compile Include="RWriteOffTest\AutoGBTest.cs" />
     <Compile Include="RWriteOffTest\AebAutoTest.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
@@ -168,11 +169,11 @@
     <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Include="ExcelData\AEB Auto charge off base - 17.08.13.xls" />
     <None Include="ExcelData\Dummy AUTO OD charge off base.xls" />
     <None Include="ExcelData\BFS DELQ 13-08-13n.xls" />
     <None Include="ExcelData\Final Auto OD Flash - July 2013.xls" />
     <None Include="ExcelData\Final GB, SCB &amp; AEB PL Flash - July 2013.xls" />
+    <None Include="ExcelData\GB Auto Charge Off Base - 28.01.2014.xls" />
     <None Include="ExcelData\SMC Charge Off base - 17.08.2013.xls" />
     <None Include="ExcelData\SMC Final Flash - April 2013.xls" />
   </ItemGroup>

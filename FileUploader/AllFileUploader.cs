@@ -116,6 +116,10 @@ namespace ColloSys.FileUploaderService
                     var rWriteOffAutoAeb = new RWriteOffAutoAebFR(scheduler);
                     rWriteOffAutoAeb.ProcessFile();
                     break;
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_AUTO_GB:
+                    var rWriteOffAutoGb = new RWriteOffAutoGbFR(scheduler);
+                    rWriteOffAutoGb.ProcessFile();
+                    break;
                 #endregion
 
                 #region commented
