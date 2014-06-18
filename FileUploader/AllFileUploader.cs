@@ -127,6 +127,11 @@ namespace ColloSys.FileUploaderService
                     var rWriteOffPlAeb = new RWriteOffPlAebFR(scheduler);
                     rWriteOffPlAeb.ProcessFile();
                     break;
+
+                case ColloSysEnums.FileAliasName.R_WRITEOFF_SME:
+                    var rWriteOffSme = new RWriteOffSmeFR(scheduler);
+                    rWriteOffSme.ProcessFile();
+                    break;
                 #endregion
 
                 #region commented

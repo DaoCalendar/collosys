@@ -105,6 +105,8 @@
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
     <Compile Include="RWriteOffTest\AutoGbTest.cs" />
+    <Compile Include="RWriteOffTest\SmeTest.cs" />
+    <Compile Include="RWriteOffTest\PlGBTest.cs" />
     <Compile Include="RWriteOffTest\PlAebTest.cs" />
     <Compile Include="RWriteOffTest\AutoSCBTest.cs" />
     <Compile Include="RWriteOffTest\AebAutoTest.cs" />
@@ -168,9 +170,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="ExcelData\product code_501N.xls" />
-    <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <None Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
     <None Include="ExcelData\AEB PL Charge off base - 10.12.13.xls" />
     <None Include="ExcelData\Dummy AUTO OD charge off base.xls" />
     <None Include="ExcelData\BFS DELQ 13-08-13n.xls" />
@@ -180,6 +180,7 @@
     <None Include="ExcelData\SCB Auto Charge Off Base - 28.01.2014.xls" />
     <None Include="ExcelData\SMC Charge Off base - 17.08.2013.xls" />
     <None Include="ExcelData\SMC Final Flash - April 2013.xls" />
+    <None Include="ExcelData\SME Charge off base - BIL 10.12.1333.xls" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />
