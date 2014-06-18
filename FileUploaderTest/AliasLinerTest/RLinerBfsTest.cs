@@ -21,7 +21,9 @@ namespace ReflectionExtension.Tests.AliasLinerTest
         [SetUp]
         public void Init()
         {
-            var mappingData = new FileDataProvider();
+             var date=new DateTime();
+            const string dirPath = "";
+            var mappingData = new FileDataProvider(date,dirPath);
             var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.R_LINER_BFS_LOAN);
             _RLiner = new RLinerBfsFR(fileScheduler);
 
