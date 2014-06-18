@@ -32,9 +32,10 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
         {
             // check loan number
             ulong loanNumber;
-            if (!ulong.TryParse(Reader.GetValue(2), out loanNumber) || (loanNumber.ToString(CultureInfo.InvariantCulture).Length < 5))
+            if (!ulong.TryParse(Reader.GetValue(AccountNoPosition), out loanNumber))
             {
-                _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(2)));
+                Counter.IncrementIgnoreRecord();
+                _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
                 return false;
             }
             return true;
