@@ -6,6 +6,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.DbLayer;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -19,6 +20,7 @@ namespace ColloSys.FileUploaderService.RecordManager
         protected IExcelReader Reader;
         protected ICounter Counter;
         protected FileScheduler FileScheduler;
+        protected IDbLayer _DbLayer;
         protected readonly Logger _log = LogManager.GetCurrentClassLogger();
        
 
@@ -27,6 +29,7 @@ namespace ColloSys.FileUploaderService.RecordManager
             FileScheduler = fileScheduler;
             Reader = reader;
             Counter = counter;
+            _DbLayer=new DbLayer.DbLayer();
         }
 
         public IList<TEntity> PreviousDayLiner { get; set; }

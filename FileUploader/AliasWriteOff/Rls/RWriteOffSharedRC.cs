@@ -33,7 +33,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override bool ComputedSetter(RWriteoff entity, RWriteoff preEntity)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override bool IsRecordValid(RWriteoff entity)
@@ -65,7 +65,8 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override RWriteoff GetRecordForUpdate()
         {
-            throw new NotImplementedException();
+            return _DbLayer.GetRecordForUpdate<RWriteoff>(Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture)) 
+                ?? new RWriteoff();
         }
 
         public override RWriteoff GetPreviousDayEntity(RWriteoff entity)

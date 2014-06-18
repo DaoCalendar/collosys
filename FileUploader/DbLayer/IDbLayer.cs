@@ -26,5 +26,7 @@ namespace ColloSys.FileUploaderService.DbLayer
        bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
            where TEntity : Entity;
 
+       TEntity GetRecordForUpdate<TEntity>(string accountNo)
+           where TEntity : Entity, IDelinquentCustomer;
    }
 }

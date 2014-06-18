@@ -196,5 +196,23 @@ namespace ColloSys.FileUploaderService.DbLayer
 
             return true;
         }
+
+        public TEntity GetRecordForUpdate<TEntity>(string accountNo)
+            where TEntity : Entity, IDelinquentCustomer
+        {
+            TEntity objEntity = null;
+            using (var session = SessionManager.GetNewSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    objEntity = session.QueryOver<TEntity>()
+                        .Where(x => x.AccountNo == accountNo).SingleOrDefault();
+                    tx.Commit();
+                }
+            }
+            if (objEntity.Id == Guid.Empty)
+                objEntity = null;
+            return objEntity;
+        }
     }
 }
