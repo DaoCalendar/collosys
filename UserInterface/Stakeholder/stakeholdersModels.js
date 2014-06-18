@@ -78,7 +78,7 @@
             FixpayBasic: { label: 'Basic', type: 'number', template: 'rupee' },
             FixpayHra: { label: 'Hra', type: 'number', template: 'rupee' },
             FixpayOther: { label: 'Other', type: 'number', template: 'rupee' },
-            FixpayTotal: { label: 'FixpayTotal', type: 'number', template: 'rupee' },
+            FixpayTotal: { label: 'Gross Pay', type: 'number', template: 'rupee' },
             ServiceCharge: { label: 'Service Charge', type: 'number', template: 'percentage' },
             StartDate: { label: 'StartDate', type: 'date' },
             EndDate: { label: 'EndDate', type: 'date' },

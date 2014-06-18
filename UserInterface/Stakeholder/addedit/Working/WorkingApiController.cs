@@ -70,6 +70,13 @@ namespace AngularUI.Stakeholder.AddEdit2.Working
             return Request.CreateResponse(HttpStatusCode.OK, workingModel);
         }
 
+        public HttpResponseMessage GetSalaryDetails(StkhPayment payment)
+        {
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
+            var fixPay = gKeyValue.ToDictionary(keyValue => keyValue.ParamName, keyValue => decimal.Parse(keyValue.Value));
+            return Request.CreateResponse(HttpStatusCode.OK, WorkingPaymentHelper.GetSalaryDetails(payment, fixPay));
+        }
+
         [HttpGet]
         public HttpResponseMessage GetWorkingReportsTo(Guid id, ColloSysEnums.ReportingLevel level)
         {

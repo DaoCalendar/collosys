@@ -31,5 +31,31 @@ namespace AngularUI.Stakeholder.addedit.Working
             //TODO : filter by product
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
         }
+
+        public static SalaryDetails GetSalaryDetails(StkhPayment payment, Dictionary<string, decimal> fixpayData)
+        {
+            var salDetail = new SalaryDetails();
+
+            salDetail.EmployeePF = payment.FixpayBasic * (fixpayData["EmployeePf"] / 100);
+            if (payment.FixpayTotal < 15000)
+            {
+                salDetail.EmployeeESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployeeESIC"] / 100);
+            }
+            salDetail.EmployerPF = (double)payment.FixpayBasic * (double)(fixpayData["EmployerPf"] / 100);
+            if (payment.FixpayTotal < 15000)
+            {
+                salDetail.EmployerESI = (double)payment.FixpayTotal * (double)(fixpayData["EmployerESIC"] / 100);
+            }
+
+            return salDetail;
+        }
+    }
+
+    public class SalaryDetails
+    {
+        public decimal EmployeePF { get; set; }
+        public double EmployeeESI { get; set; }
+        public double EmployerPF { get; set; }
+        public double EmployerESI { get; set; }
     }
 }

@@ -6,6 +6,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th style="width: 2%"></th>
                             <th class="col-md-2">Product</th>
                             <th class="col-md-2">Reports To</th>
                             <th class="col-md-2" data-ng-show="displayManager.showRegion">Region</th>
@@ -14,12 +15,14 @@
                             <th class="col-md-2" data-ng-show="displayManager.showDistrict">District</th>
                             <th class="col-md-2" data-ng-show="displayManager.showCity"  >City</th>
                             <th class="col-md-2" data-ng-show="displayManager.showArea"  >Area</th>
-                            <th class="col-md-2"></th>
+                            <th class="col-md-1"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            
+                            <td><!--<input type="checkbox" 
+                                       data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
+                                       data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
                             <td>
                                 <cs-field field="workingModel.Products"
                                           data-ng-model="Working.Products"
@@ -132,23 +135,38 @@
                                 </div>
                             </td>
                             <td >
-                                <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)"></cs-button>
+                                <div data-ng-if="deleteWorkingList.length === 0">
+                                    <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
+                                    </cs-button>
+                                </div>
+                                <div data-ng-if="deleteWorkingList.length > 0">
+                                    <cs-button type="submit" text="delete" data-ng-click="deleteSelectedWorking()">
+                                    </cs-button>
+                                </div>
                             </td>
                         </tr>
                         <tr data-ng-repeat="data in workingDetailsList">
+                            <td><input type="checkbox" data-ng-model="checked" 
+                                       data-ng-click="addWorkingToDelete(data)"/></td>
                             <td class="col-md-2">{{Working.Products}}</td>
-                            <td class="col-md-2">{{Working.ReportsTo}}</td>
+                            <td class="col-md-2">{{getReportsToName(Working.ReportsTo)}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showDistrict">{{data.District}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showCity">{{data.City}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showArea">{{data.Area}}</td>
-                            <td class="col-md-2"></td>
+                            <td><div data-ng-show="checked && data.Status === 'Approved'">
+                                                     <cs-field field="workingModel.EndDate"
+                                                               data-ng-model="endDate"
+                                                               no-label=""
+                                                               data-ng-change="assignEndDate(data,endDate)">
+                                                     </cs-field>
+                                                 </div></td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="pull-left">
+                <div class="pull-right">
                     <cs-button type="save"
                                permission="Stakeholder,Stakeholder,AddEdit"
                                data-ng-click="save(workingDetailsList)">
@@ -173,17 +191,25 @@
                               field="paymentModel.FixpayBasic">
                     </cs-field>
                     <!--HRA-->
-                    <div data-ng-show="selectedHierarchy.HasFixedIndividual || true">
+                    <div data-ng-show="selectedHierarchy.HasFixedIndividual && false">
                         <cs-field data-ng-model="Payment.FixpayHra"
                                   data-ng-required="selectedHierarchy.HasFixedIndividual"
                                   data-ng-change="TotalPayment(Payment.FixpayBasic,Payment.FixpayHra,Payment.FixpayOther)"
                                   field="paymentModel.FixpayHra"></cs-field>
                     </div>
+                    <div data-ng-show="selectedHierarchy.HasFixedIndividual||true">
+                        <cs-field field="paymentModel.FixpayTotal"
+                                  data-ng-model="Payment.FixpayTotal">
+                        </cs-field>
+                        </div>
                 </div>
-
+                <div class="pull-right">
+                    <cs-button type="submit" data-ng-click="getSalaryDetails(Payment)">
+                    </cs-button>
+                </div>
                 <div class="clearfix"></div>
 
-                <div data-ng-if="selectedHierarchy.HasFixedIndividual  ">
+                <div data-ng-if="selectedHierarchy.HasFixedIndividual && false ">
                     <cs-field field="paymentModel.FixpayOther"
                               data-ng-required="selectedHierarchy.HasFixedIndividual"
                               data-ng-change="TotalPayment(Payment.FixpayBasic,Payment.FixpayHra,Payment.FixpayOther)"
@@ -238,7 +264,7 @@
 
                 <div class="clearfix"></div>
 
-                <div data-ng-show="selectedHierarchy.HasMobileTravel || true">
+                <div data-ng-show="selectedHierarchy.HasMobileTravel">
                     <h5 class="modal-header"><b>Reimbursement elgibility</b></h5>
                     <cs-field data-ng-required="selectedHierarchy.HasMobileTravel"
                               data-ng-model="Payment.MobileElig"
@@ -251,7 +277,7 @@
 
                 <div class="clearfix"></div>
 
-                <div data-ng-show="selectedHierarchy.HasServiceCharge || true">
+                <div data-ng-show="selectedHierarchy.HasServiceCharge">
                     <h5 class="modal-header"><b>Other Charges</b></h5>
                     <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
                               data-ng-model="Payment.ServiceCharge"

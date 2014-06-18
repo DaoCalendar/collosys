@@ -1,4 +1,8 @@
-﻿using AngularUI.Stakeholder.addedit.Working;
+﻿using System.Linq;
+using System.Net;
+using AngularUI.Stakeholder.addedit.Working;
+using ColloSys.DataLayer.Stakeholder;
+using ColloSys.QueryBuilder.GenericBuilder;
 using NUnit.Framework;
 
 namespace ColloSys.QueryBuilder.Test.Stakeholder
@@ -37,6 +41,18 @@ namespace ColloSys.QueryBuilder.Test.Stakeholder
             Assert.AreEqual(0, pincodeData.ListOfAreas.Count);
             Assert.AreEqual(5, pincodeData.ListOfDistricts.Count);
 
+        }
+
+        [Test]
+        public void SalCalculation()
+        {
+            var GKeyValueBuilder = new GKeyValueBuilder();
+            StkhPayment sp = new StkhPayment();
+            sp.FixpayTotal = 9350;
+            sp.FixpayBasic = 5610;
+            var gKeyValue = GKeyValueBuilder.ForStakeholders();
+            var fixPay = gKeyValue.ToDictionary(keyValue => keyValue.ParamName, keyValue => decimal.Parse(keyValue.Value));
+            var data = WorkingPaymentHelper.GetSalaryDetails(sp, fixPay);
         }
     }
 }
