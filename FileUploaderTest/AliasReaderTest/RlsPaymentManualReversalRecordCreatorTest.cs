@@ -19,7 +19,9 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         [SetUp]
         public void Init()
         {
-            var mappingData = new FileDataProvider();
+            var fileDate = new DateTime();
+            var dirPath = "";
+            var mappingData = new FileDataProvider(fileDate,dirPath);
             var fileScheduler = mappingData.GetUploadedFile(ColloSysEnums.FileAliasName.R_PAYMENT_LINER);
             _paymentLiner = new RlsPaymentManualReversalFileReader(fileScheduler);
 

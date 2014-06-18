@@ -14,7 +14,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
     public class EbbsLinerAutoRC : EbbsLinerSharedRC
     {
         private const uint AccountNoPosition = 1;
-        private const uint AccountNoLength = 8;
+        private const uint AccountNoLength = 11;
         public EbbsLinerAutoRC()
             :base(AccountNoPosition,AccountNoLength)
         {

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
@@ -27,15 +28,29 @@ namespace ColloSys.FileUploaderService.FileReader
         private readonly FileProcess _fileProcess;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         protected readonly IRecord<T> _objRecord;
-        private readonly IExcelReader _excelReader;
+        readonly IExcelReader _excelReader;
         private readonly uint _batchSize;
         protected readonly ICounter _counter;
         protected readonly MultiKeyEntityList<T> TodayRecordList;
         protected readonly IDbLayer _DbLayer;
-        public ICounter Counter { get; set; }
-        public IExcelReader ExcelReader { get; private set; }
-        public IRecord<T> ObjRecord { get; private set; }
+
+        public ICounter Counter {
+            get { return _counter; }
+        }
+
+        public IExcelReader ExcelReader
+        {
+            get { return _excelReader; } 
+        }
+
+
+        public IRecord<T> ObjRecord
+        {
+            get { return _objRecord; }
+        }
+
         public FileScheduler _fs { get; private set; }
+
         protected FileReader(FileScheduler fileScheduler, IRecord<T> recordCreator)
         {
             _fs = fileScheduler;

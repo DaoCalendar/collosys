@@ -10,7 +10,8 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 // ReSharper disable once InconsistentNaming
     public class EWriteOffSmcFR : EWriteOffSharedFR
     {
-        public EWriteOffSmcFR(FileScheduler fileScheduler, IRecord<EWriteoff> recordCreator) : base(fileScheduler, recordCreator)
+        public EWriteOffSmcFR(FileScheduler fileScheduler) : 
+            base(fileScheduler, new EWriteOffSmcRC())
         {
         }
     }

@@ -210,8 +210,7 @@ namespace ColloSys.FileUploaderService.DbLayer
                     tx.Commit();
                 }
             }
-            if (objEntity.Id == Guid.Empty)
-                objEntity = null;
+            
             return objEntity;
         }
     }

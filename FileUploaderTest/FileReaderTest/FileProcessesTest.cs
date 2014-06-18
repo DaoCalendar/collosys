@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
@@ -19,7 +20,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
     {
         private FileProcess _fileProcess;
         private FileScheduler _fileScheduler;
-        readonly FileDataProvider _obj = new FileDataProvider();
+        private FileDataProvider _obj;
         private ICounter _counter;
         //SetUpAssembliesForTest objTest = new SetUpAssembliesForTest();
         private SchemaExport _db;
@@ -27,10 +28,12 @@ namespace ReflectionExtension.Tests.FileReaderTest
         [SetUp]
         public void Init()
         {
-
+            var fileDate = new DateTime();
+            var dirPath = "";
+            _obj = new FileDataProvider(fileDate,dirPath);
             _counter = new ExcelRecordCounter();
             _fileProcess = new FileProcess();
-
+            
             _fileScheduler = _obj.GetFileScheduler("", ColloSysEnums.FileAliasName.E_PAYMENT_WO_AUTO);
         }
 
