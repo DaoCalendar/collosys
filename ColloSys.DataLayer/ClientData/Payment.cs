@@ -40,7 +40,7 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string PROV_CHG_OF { get; set; }
         public virtual string INT_IN_SUS { get; set; }
         public virtual string CHARGE_OFF { get; set; }  //CHARGE_OFF(Total due)
-        public virtual string PRODUCT { get; set; }
+        //public virtual string PRODUCT { get; set; }
         public virtual string STATE { get; set; }
 
 

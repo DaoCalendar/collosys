@@ -40,7 +40,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.PROV_CHG_OF);
             Property(x => x.INT_IN_SUS);
             Property(x => x.CHARGE_OFF);
-            Property(x => x.PRODUCT);
+            //Property(x => x.PRODUCT);
             Property(x => x.STATE);
 
             #region RLS Payment_PropertiesMapping
