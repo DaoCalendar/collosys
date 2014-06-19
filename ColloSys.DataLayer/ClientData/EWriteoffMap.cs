@@ -80,9 +80,13 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.Recoverydate_2013);
             Property(x => x.Amountrecovered_2013);
             Property(x => x.BadDebtsIncurred_2013);
-            Property(x => x.Settlement_Y);
+            Property(x => x.SettlementY);
             Property(x => x.DISPUTE);
             Property(x => x.DONOTFOLLOW);
+            Property(x => x.SNo);
+            Property(x => x.RemarksNamechange);
+            Property(x => x.MANUALXHOLDINGCHGOFFREMARKS);
+            Property(x => x.SELLDOWNACTS);
             #endregion
 
         }

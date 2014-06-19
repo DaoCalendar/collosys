@@ -65,11 +65,13 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Recoverydate_2013 { get; set; }
         public virtual string Amountrecovered_2013 { get; set; }
         public virtual string BadDebtsIncurred_2013 { get; set; }
-        public virtual string Settlement_Y { get; set; }
+        public virtual string SettlementY { get; set; }
         public virtual string DISPUTE { get; set; }
         public virtual string DONOTFOLLOW { get; set; }
-
-
+        public virtual string SNo { get; set; }
+        public virtual string RemarksNamechange { get; set; }
+        public virtual string MANUALXHOLDINGCHGOFFREMARKS { get; set; }
+        public virtual string SELLDOWNACTS { get; set; }
         //public virtual decimal AmountRepaid { get; set; }
         public virtual bool IsReferred { get; set; }
         public virtual uint Pincode { get; set; }
@@ -77,6 +79,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
         public virtual GPincode GPincode { get; set; }
         public override FileScheduler FileScheduler { get; set; }
+
         #endregion
 
         #region Relationship
