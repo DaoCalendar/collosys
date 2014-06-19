@@ -62,6 +62,7 @@ namespace ColloSys.FileUploader.Reflection
 
         public static void SetValue(string propName, string value, object obj)
         {
+            value = ChangeValue(value);
             var propertyInfo = obj.GetType().GetProperty(propName);
             if (propertyInfo.PropertyType == typeof(string))
             {
@@ -205,6 +206,15 @@ namespace ColloSys.FileUploader.Reflection
                 }
 
             }
+        }
+
+        public static string ChangeValue(string value)
+        {
+            if (value==" - ")
+            {
+                return string.Empty;
+            }
+            return value;
         }
     }
 }
