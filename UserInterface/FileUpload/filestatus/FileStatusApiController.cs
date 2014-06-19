@@ -35,17 +35,6 @@ namespace AngularUI.FileUpload.filestatus
             return FileStatusHelper.GetScheduledList(fromdate, todate);
         }
 
-        [HttpGet]
-
-        public IEnumerable<FileScheduler> GetStatus()
-        {
-            return SessionManager.GetCurrentSession().QueryOver<FileScheduler>()
-                                 .Fetch(c => c.FileStatuss).Eager
-                                 .Fetch(c => c.FileDetail).Eager
-                                 .TransformUsing(Transformers.DistinctRootEntity)
-                                 .List();
-        }
-
         [HttpDelete]
         
         public void Delete(Guid id)
