@@ -1,4 +1,5 @@
-﻿using ColloSys.DataLayer.Domain;
+﻿using ColloSys.DataLayer.ClientData;
+using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService;
 using NUnit.Framework;
 
@@ -26,6 +27,13 @@ namespace ReflectionExtension.Tests.FileUploaderTest
             var rWriteOff = new RWriteoff();
             var trimed = " SETTLEMENT".TrimEnd().TrimStart();
             var propertyInfo = rWriteOff.GetType().GetProperty(" SETTLEMENT".TrimEnd().TrimStart());
+        }
+
+        [Test]
+        public void Check_Property_Type_Payment()
+        {
+            var rWriteOff = new Payment();
+            var propertyInfo = rWriteOff.GetType().GetProperty("Status".TrimEnd().TrimStart());
         }
     }
 }
