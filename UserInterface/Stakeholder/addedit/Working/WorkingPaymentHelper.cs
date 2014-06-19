@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using NHibernate;
+using NHibernate.Linq;
 
 #endregion
 
@@ -15,6 +18,7 @@ namespace AngularUI.Stakeholder.addedit.Working
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
+        private static readonly StakeWorkingQueryBuilder StakeWorking = new StakeWorkingQueryBuilder();
 
         public static IEnumerable<Stakeholders> GetReportsOnreportingLevel(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
         {
@@ -34,6 +38,31 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             //TODO : filter by product
             return StakeQuery.OnHierarchyId(hierarchyList).ToList();
+        }
+
+        public static void UpdateAndSave(List<StkhWorking> workList)
+        {
+            var session = SessionManager.GetCurrentSession();
+
+            using (var transaction = session.BeginTransaction())
+            {
+                var stake = session.Query<Stakeholders>()
+                       .Where(x => x.Id == workList[0].Stakeholder.Id)
+                       .Fetch(x => x.StkhWorkings)
+                       .Single();
+                stake.StkhWorkings = workList;
+                session.Merge(stake);
+                transaction.Commit();
+                session.Close();
+            }
+            //if (workings.Count != 0)
+            //{
+            //    foreach (var stkhWorking in workings)
+            //    {
+            //        session.Delete(stkhWorking);
+            //    }
+            //}
+
         }
 
         public static SalaryDetails GetSalaryDetails(SalaryDetails payment, Dictionary<string, decimal> fixpayData)

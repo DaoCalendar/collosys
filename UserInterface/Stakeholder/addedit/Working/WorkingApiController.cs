@@ -50,7 +50,6 @@ namespace AngularUI.Stakeholder.addedit.Working
             return Request.CreateResponse(HttpStatusCode.OK, workingModel);
         }
 
-
         [HttpPost]
         public void SavePayment(StkhPayment paymentData)
         {
@@ -61,8 +60,10 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public void SaveWorking(List<StkhWorking> workingData)
+        public void SaveWorking(IEnumerable<StkhWorking> workingData)
         {
+            //WorkingPaymentHelper.UpdateAndSave(workingData);
+            //TODO: update stakeholder
             StakeWorkingQueryBuilder.Save(workingData);
         }
 
@@ -86,6 +87,18 @@ namespace AngularUI.Stakeholder.addedit.Working
         {
             var data = WorkingPaymentHelper.GetReportsOnreportingLevel(id, level);
             return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetEditData(Guid stakeholderId)
+        {
+            var stkh = Session.Query<Stakeholders>()
+               .Where(x => x.Id == stakeholderId)
+               .Fetch(x => x.Hierarchy)
+               .Fetch(x => x.StkhPayments)
+               .Fetch(x => x.StkhWorkings)
+               .Single();
+            return Request.CreateResponse(HttpStatusCode.OK, stkh);
         }
     }
 }

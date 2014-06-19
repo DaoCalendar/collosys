@@ -25,9 +25,9 @@
                                        data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
                             <td>
                                 <cs-field field="workingModel.Products"
-                                          data-ng-model="Working.Products"
+                                          data-ng-model="WorkingModel.SelectedPincodeData.Products"
                                           no-label=""
-                                          data-ng-change="getReportsTo(Working.Products)">
+                                          data-ng-change="getReportsTo(WorkingModel.SelectedPincodeData.Products)">
                                 </cs-field>
                             </td>
 
@@ -35,8 +35,8 @@
                                 <cs-field field="workingModel.ReportsTo"
                                           no-label=""
                                           value-list="reportsToList"
-                                          data-ng-change="getPincodeData(WorkingModel)"
-                                          data-ng-model="Working.ReportsTo">
+                                          data-ng-change="getPincodeData(WorkingModel.SelectedPincodeData)"
+                                          data-ng-model="WorkingModel.SelectedPincodeData.ReportsTo">
                                 </cs-field>
                             </td>
 
@@ -148,8 +148,8 @@
                         <tr data-ng-repeat="data in workingDetailsList">
                             <td><input type="checkbox" data-ng-model="checked" 
                                        data-ng-click="addWorkingToDelete(data)"/></td>
-                            <td class="col-md-2">{{Working.Products}}</td>
-                            <td class="col-md-2">{{getReportsToName(Working.ReportsTo)}}</td>
+                            <td class="col-md-2">{{data.Products}}</td>
+                            <td class="col-md-2">{{getReportsToName(data.ReportsTo)}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
@@ -182,6 +182,7 @@
     <div class="panel-body">
         <cs-form>
             <form>
+                <div ng-form="paymentForm">
                 <div data-ng-if="selectedHierarchy.HasFixed || true">
                     <h5 class="modal-header"><b>Fixed Pay</b></h5>
                     <!--Basic-->
@@ -200,7 +201,7 @@
                                   data-ng-required="selectedHierarchy.HasFixed || true"
                                   data-ng-model="Payment.FixpayTotal">
                         </cs-field>
-                        </div>
+                    </div>
                 </div>
                 <div class="pull-right">
                     <cs-button type="submit" data-ng-click="getSalaryDetails(Payment)">
@@ -234,10 +235,10 @@
                             <tr>
                                 <th data-ng-show="Payment.FixpayBasic"></th>
                                 <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
-                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePF}}%</th>
-                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPF}}%</th>
-                                <th>Gross Salary * {{FixedPay.EmployeeESIC}}%</th>
-                                <th>Gross Salary * {{FixedPay.EmployerESIC}}% </th>
+                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePf}}%</th>
+                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPf}}%</th>
+                                <th>Gross Salary * {{FixedPay.EmployeeEsic}}%</th>
+                                <th>Gross Salary * {{FixedPay.EmployerEsic}}% </th>
                                 <th>Basic * {{FixedPay.ServiceCharge}}%</th>
                                 <th>Basic * {{FixedPay.ServiceTax}}% </th>
                                 <th></th>
@@ -247,13 +248,13 @@
                             <tr>
                                 <td data-ng-show="Payment.FixpayBasic">{{Payment.FixpayBasic}}</td>
                                 <!--<td data-ng-show="Payment.FixpayBasic">{{SalDetails.totalNotEsic}}</td>-->
-                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePF*1)}}</td>
-                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPF*1)}}</td>
+                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePf*1)}}</td>
+                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPf*1)}}</td>
                                 <td>{{SalDetails.EmployeeESI}}</td>
                                 <td>{{SalDetails.EmployerESI}}</td>
                                 <td>{{SalDetails.ServiceCharge}}</td>
-                                <td>{{SalDetails.serviceTax}}</td>
-                                <td>{{SalDetails.total}}</td>
+                                <td>{{SalDetails.ServiceTax}}</td>
+                                <td>{{SalDetails.TotalPayout}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -274,17 +275,21 @@
 
                 <div class="clearfix"></div>
 
-                <div data-ng-show="selectedHierarchy.HasServiceCharge">
-                    <h5 class="modal-header"><b>Other Charges</b></h5>
-                    <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
-                              data-ng-model="Payment.ServiceCharge"
-                              field="paymentModel.ServiceCharge">
-                    </cs-field>
+                    <div data-ng-show="selectedHierarchy.HasServiceCharge">
+                        <h5 class="modal-header"><b>Other Charges</b></h5>
+                        <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
+                                  data-ng-model="Payment.ServiceCharge"
+                                  field="paymentModel.ServiceCharge">
+                        </cs-field>
+                    </div>
+                    <br/>
+                    <div class="pull-right">
+                        <cs-button type="save"
+                                   permission="Stakeholder,Stakeholder,AddEdit"
+                                   data-ng-click="savePayment(Payment)">
+                        </cs-button>
+                    </div>
                 </div>
-                <cs-button type="save"
-                           permission="Stakeholder,Stakeholder,AddEdit"
-                           data-ng-click="savePayment(Payment)">
-                </cs-button>
             </form>
         </cs-form>
     </div>

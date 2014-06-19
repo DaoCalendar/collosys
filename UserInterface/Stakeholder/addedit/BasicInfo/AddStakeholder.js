@@ -120,6 +120,7 @@ csapp.factory("AddEditStakeholderFactory", function () {
     };
 
     //TODO: move to $csfactory
+
     var resetVal = function (key, except) {
         if (angular.isUndefined(except)) return true;
         var index = except.indexOf(key);
@@ -163,6 +164,10 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) {
                 datalayer.GetStakeholderForEdit($routeParams.stakeId).then(function (data) {
                     $scope.Stakeholder = data;
+                    $scope.selectedHierarchy = data.Hierarchy;
+                    $scope.mode = 'edit';
+                    $scope.showBasicInfo = true;
+                    console.log("stake data: ", data);
                 });
             } else {
                 datalayer.GetHierarchies().then(function (data) {
@@ -170,7 +175,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                     $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
                 });
             }
-            
+
+
             $scope.stakeholderModels = {
                 stakeholder: $csModels.getColumns("Stakeholder"),
                 address: $csModels.getColumns("StakeAddress"),

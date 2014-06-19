@@ -130,8 +130,22 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', '$csfactory
             });
         })();
 
-        $scope.switchPage = function (data) {
-            $location.path('/stakeholder/add/' + data.Id);
+        $scope.switchPage = function (data, page) {
+
+            switch (page.toUpperCase()) {
+                case 'BASIC':
+                    $location.path('/stakeholder/add/' + data.Id);
+                    break;
+                case 'WORKING':
+                    $location.path('/stakeholder/working/edit/' + data.Id);
+                    break;
+                case 'PAYMENT':
+                    $location.path('/stakeholder/working/edit' + data.Id);
+                    break;
+
+                default:
+                    throw "invalid page name " + page;
+            }
         };
 
 

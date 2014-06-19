@@ -4,7 +4,7 @@ var csapp = angular.module("ui.collosys",
     'ui.bootstrap', 'ui', 'ngGrid', 'restangular',
     'ngRoute', 'angularFileUpload', //'ngAnimate',
     'ngCookies', 'chieffancypants.loadingBar',
-    'ui.utils', 'ui.modules', 'ui.multiselect','ngTable'
+    'ui.utils', 'ui.modules', 'ui.multiselect', 'ngTable'
 ]);
 
 csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
@@ -110,10 +110,13 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             .when('/stakeholder/add', {
                 templateUrl: baseUrl + 'Stakeholder/addedit/BasicInfo/basic.html',
                 controller: 'AddStakeHolderCtrl'
-            }).when('/stakeholder/add:stakeId', {
+            }).when('/stakeholder/add/:stakeId', {
                 templateUrl: baseUrl + 'Stakeholder/addedit/BasicInfo/basic.html',
                 controller: 'AddStakeHolderCtrl'
             }).when('/stakeholder/working/:stakeId', {
+                templateUrl: baseUrl + 'Stakeholder/addedit/Working/Working.html',
+                controller: 'StakeWorkingCntrl'
+            }).when('/stakeholder/working/edit/:editStakeId', {
                 templateUrl: baseUrl + 'Stakeholder/addedit/Working/Working.html',
                 controller: 'StakeWorkingCntrl'
             }).when('/stakeholder/edit/:data', {

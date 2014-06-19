@@ -3,16 +3,21 @@
         <div class="panel-heading">Add Edit Stakeholder</div>
         <div class="panel-body" data-ng-form="basicInfoForm">
             <cs-form>
-                <cs-field data-ng-model="Stakeholder.Hierarchy"
-                          data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
-                          value-list="hierarchyDisplayList"
-                          field="stakeholderModels.stakeholder.hierarchy"></cs-field>
-                <div data-ng-if="Stakeholder.Hierarchy">
-                    <cs-field data-ng-model="Stakeholder.Designation"
-                              value-list="DesignationList"
-                              data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
-                              field="stakeholderModels.stakeholder.designation"></cs-field>
+                
+                <div data-ng-show="mode!=='edit'">
+                    <cs-field data-ng-model="Stakeholder.Hierarchy"
+                              data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
+                              value-list="hierarchyDisplayList"
+                              field="stakeholderModels.stakeholder.hierarchy"></cs-field>
+                    <div data-ng-show="Stakeholder.Hierarchy">
+                        <cs-field data-ng-model="Stakeholder.Designation"
+                                  value-list="DesignationList"
+                                  data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
+                                  field="stakeholderModels.stakeholder.designation"></cs-field>
+                    </div>
                 </div>
+
+                <div class="clearfix"></div>
 
                 <div data-ng-if="showBasicInfo">
                     <h5 class="modal-header">Personal Information</h5>

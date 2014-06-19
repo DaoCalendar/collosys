@@ -40,7 +40,9 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var savePayment = function (paymentData) {
-        restApi.customPOST(paymentData, "SavePayment");
+        return restApi.customPOST(paymentData, "SavePayment").then(function () {
+            $csnotify.success("Payment Saved");
+        });
     };
 
     var getSalaryDetails = function (payment) {
@@ -55,6 +57,13 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         });
     };
 
+    var getDataForEdit = function (stakeId) {
+        return restApi.customGET('GetEditData', { stakeholderId: stakeId })
+           .then(function (data) {
+               return data;
+           });
+    };
+
     return {
         GetStakeholder: getWorkingData,
         GetPaymentDetails: getPaymentDetails,
@@ -63,7 +72,8 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         GetGPincodeData: getGPincodeData,
         SavePayment: savePayment,
         SaveWorking: saveWorking,
-        GetSalaryDetails: getSalaryDetails
+        GetSalaryDetails: getSalaryDetails,
+        GetDataForEdit: getDataForEdit
     };
 }]);
 
@@ -197,23 +207,28 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     var setWorkList = function (stakeholder, worklist, working) {
+        stakeholder.StkhWorkings = [];
+        stakeholder.StkhPayment = [];
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
-            working.EndDate =
-            workdata.Products = working.Products;
-            workdata.ReportsTo = working.ReportsTo;
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
 
+    var setProduct = function (obj, data) {
+        obj.SelectedPincodeData.Products = data.Products;
+        obj.SelectedPincodeData.ReportsTo = data.ReportsTo;
+    };
+
     //TODO: move to $csfactory, if it is generic
-    var safeSplice = function (list, data, param) {
-        if ($csfactory.isNullOrEmptyString(param)) {
-            list.splice(list.indexOf(data), 1);
+    var safeSplice = function (list, data, property) {
+        if ($csfactory.isNullOrEmptyString(property)) {
+            var indx = list.indexOf(data);
+            if (indx !== -1) list.splice(indx, 1);
         } else {
-            var pluckedList = _.pluck(list, param);
-            var index = pluckedList.indexOf(data[param]);
+            var pluckedList = _.pluck(list, property);
+            var index = pluckedList.indexOf(data[property]);
             if (index !== -1) list.splice(index, 1);
         }
     };
@@ -223,6 +238,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         GetQueryFor: getQueryFor,
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
+        SetProduct: setProduct,
         SetWorkList: setWorkList,
         Splice: safeSplice
     };
@@ -230,6 +246,33 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
 csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory",
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory) {
+
+
+        var getStakeholderData = function (stakeId) {
+
+            datalayer.GetStakeholder(stakeId).then(function (data) {
+                data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);
+                data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
+                $scope.selectedHierarchy = data.Hierarchy;
+                $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
+                $scope.currStakeholder = data;
+                $scope.Payment = {};
+            });
+        };
+
+        var getStakeholderForEdit = function (stakeId) {
+            datalayer.GetStakeholder(stakeId).then(function (data) {
+                console.log("edit data: ", data);
+                data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);
+                data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
+                $scope.selectedHierarchy = data.Hierarchy;
+                $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
+                $scope.currStakeholder = data;
+                $scope.getReportsTo();
+                $scope.workingDetailsList = data.StkhWorkings;
+                $scope.Payment = data.StkhPayments.length === 0 ? {} : data.StkhPayments[0];
+            });
+        };
 
         (function () {
             $scope.WorkingModel = {
@@ -241,27 +284,24 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             };
 
             //TODO: move this to a function & call that function from here
-            datalayer.GetStakeholder($routeParams.stakeId).then(function (data) {
-                data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);
-                data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
-                $scope.selectedHierarchy = data.Hierarchy;
-                $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
-                $scope.currStakeholder = data;
-            }).then(function () {
-                //TODO: harish: get it only on ng-change not before of basic or other
-                //datalayer.GetPaymentDetails().then(function (data) {
-                //    $scope.FixedPay = factory.GetFixedPayObj(data);
-                //});
-            });
+            $routeParams.editStakeId ? getStakeholderForEdit($routeParams.editStakeId) : getStakeholderData($routeParams.stakeId);
+
+            //getStakeholderData($routeParams.editStakeId);
+
+            //}).then(function () {
+            //    //TODO: harish: get it only on ng-change not before of basic or other
+            //    //datalayer.GetPaymentDetails().then(function (data) {
+            //    //    $scope.FixedPay = factory.GetFixedPayObj(data);
+            //    //});
+            //});
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
-            $scope.Payment = {};
-            $scope.Working = {};
-            $scope.workingDetailsList = [];
+            $scope.workingDetailsList = angular.isUndefined($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
             $scope.deleteWorkingList = [];
         })();
 
         //TODO: post salary object & not payment - harish
+
         //$scope.TotalPayment = function (basic, hra, other) {
         //    $scope.SalDetails = {};
         //    if (angular.isUndefined(basic)) {
@@ -302,8 +342,13 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //    }
         //    return 0;
         //};
+
+
         $scope.getSalaryDetails = function (payment) {
-            datalayer.GetSalaryDetails(payment).then(function (sal) {
+            $scope.SalDetails = {};
+            $scope.SalDetails.FixpayBasic = angular.copy(payment.FixpayBasic);
+            $scope.SalDetails.FixpayTotal = angular.copy(payment.FixpayTotal);
+            datalayer.GetSalaryDetails($scope.SalDetails).then(function (sal) {
                 $scope.SalDetails = sal;
                 console.log("Salary Details: ", $scope.SalDetails);
             });
@@ -318,16 +363,26 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.savePayment = function (paymentData) {
             paymentData.Stakeholder = $scope.currStakeholder;
-            datalayer.SavePayment(paymentData);
+            paymentData.Stakeholder.StkhPayments = [];
+            paymentData.Stakeholder.StkhWorkings = [];
+            datalayer.SavePayment(paymentData).then(function () {
+                $scope.paymentForm.$setPristine();
+            });
         };
 
         $scope.getPincodeData = function (workingModel, selected) {
+
+            var temp = {};
+            temp.Products = angular.copy(workingModel.Products);
+            temp.ReportsTo = angular.copy(workingModel.ReportsTo);
+
             workingModel.QueryFor = $csfactory.isNullOrEmptyString(selected) ?
                 factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : factory.GetQueryFor(selected, $scope.displayManager);
             if ($csfactory.isNullOrEmptyString(workingModel.QueryFor))
                 return;
             datalayer.GetPincodeData(workingModel).then(function (data) {
                 $scope.WorkingModel = data;
+                factory.SetProduct($scope.WorkingModel, temp);
             });
         };
 
@@ -374,6 +429,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.getReportsToName = function (reportsToId) {
+            if ($csfactory.isNullOrEmptyArray($scope.reportsToList)) return "";
             var data = _.find($scope.reportsToList, { 'Id': reportsToId });
             return data.Name;
         };

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using AngularUI.Stakeholder.addedit.Working;
+using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using NUnit.Framework;
@@ -60,6 +62,15 @@ namespace ColloSys.QueryBuilder.Test.Stakeholder
             Assert.AreEqual(673.2, data.EmployeePf);
             Assert.AreEqual(444.125, data.EmployerEsic);
             Assert.AreEqual(763.52, data.EmployeePf);
+        }
+
+        [Test]
+        public void DeleteWorking()
+        {
+            var stakeId = Guid.Parse("35a3aac9-4411-4ac6-9973-a34f00fb9f2f");
+            SessionManager.GetCurrentSession().CreateSQLQuery("Delete from StkhWorking where StakeholdersId = :Id")
+            .SetParameter("Id", stakeId)
+            .UniqueResult();
         }
     }
 }
