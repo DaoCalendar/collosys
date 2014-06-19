@@ -88,8 +88,8 @@ namespace ColloSys.DataLayer.Domain
         public virtual string DiscountProvision { get; set; }
         public virtual string DiscountProvisionUnwind { get; set; }
         public virtual string SecuritisationFlag { get; set; }
-        public virtual string CurrentValuationDate { get; set; }
-        public virtual string CurrentFSVDate { get; set; }
+        public virtual string CurrentValuationDateDDMMYYYY { get; set; }
+        public virtual string CurrentFSVDateDDMMYYYY { get; set; }
         public virtual string RelatedLoanNumber1 { get; set; }
         public virtual string RelatedLoanNumber2 { get; set; }
         public virtual string RelatedLoanNumber3 { get; set; }
@@ -101,7 +101,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual string RelatedLoanNumber9 { get; set; }
         public virtual string IASLoanBalance { get; set; }
         public virtual string Totalofallprovisionfields { get; set; }
-        public virtual string Totalofallnon_revenues { get; set; }
+        public virtual string Totalofallnonrevenues { get; set; }
         public virtual string CustomerClass { get; set; }
         public virtual string Employer { get; set; }
         public virtual string PayrollFlag { get; set; } //present in 2 files but not in one (ExcelSheet)

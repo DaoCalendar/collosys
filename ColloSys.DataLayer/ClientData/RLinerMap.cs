@@ -87,8 +87,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.DiscountProvision);
             Property(x => x.DiscountProvisionUnwind);
             Property(x => x.SecuritisationFlag);
-            Property(x => x.CurrentValuationDate);
-            Property(x => x.CurrentFSVDate);
+            Property(x => x.CurrentValuationDateDDMMYYYY);
+            Property(x => x.CurrentFSVDateDDMMYYYY);
             Property(x => x.RelatedLoanNumber1);
             Property(x => x.RelatedLoanNumber2);
             Property(x => x.RelatedLoanNumber3);
@@ -100,7 +100,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.RelatedLoanNumber9);
             Property(x => x.IASLoanBalance);
             Property(x => x.Totalofallprovisionfields);
-            Property(x => x.Totalofallnon_revenues);
+            Property(x => x.Totalofallnonrevenues);
             Property(x => x.CustomerClass);
             Property(x => x.Employer);
             Property(x => x.PayrollFlag);
