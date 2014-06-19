@@ -18,7 +18,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override bool PostProcessing()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

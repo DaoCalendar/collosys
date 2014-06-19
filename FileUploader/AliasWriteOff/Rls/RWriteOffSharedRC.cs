@@ -28,6 +28,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
         public override bool ComputedSetter(RWriteoff entity)
         {
             entity.FileDate =FileScheduler.FileDate;
+            entity.Allocs = null;
             return true;
         }
 

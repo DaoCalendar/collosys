@@ -211,7 +211,7 @@ namespace ColloSys.FileUploader.Reflection
 
         public static string ChangeValue(string value)
         {
-            if (value==" - ")
+            if (value==" - " || value.TrimEnd().TrimStart()=="-")
             {
                 return string.Empty;
             }
