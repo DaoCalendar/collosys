@@ -147,7 +147,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.CHGOFFREASONASPER402SCREEN);
             Property(x => x.SELLDOWNACTS);
             Property(x => x.Count);
-            Property(x => x.PRODUCT);
+            Property(x => x.Product);
             Property(x => x.AmttakenfromSCGB);
             Property(x => x.LTCHGWAIVED_723);
             Property(x => x.AMTUTLPROV567);
@@ -179,11 +179,11 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.RECDT_52);
             Property(x => x.AMOUNTRECD);
             Property(x => x.BTDRECOVONPOS);
-            Property(x => x.SETTLEMENT);
+           // Property(x => x.SETTLEMENT);
             Property(x => x.MANUALCHGOFF_REMARKS);
             Property(x => x.APPBR_63);
-            Property(x => x.DISPUTE);
-            Property(x => x.DONOTFOLLOW);
+            //Property(x => x.DISPUTE);
+            //Property(x => x.DONOTFOLLOW);
             Property(x => x.REMARKS_66);
             Property(x => x.PLSELLDOWN);
             Property(x => x.LORDSLoan);

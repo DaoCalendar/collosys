@@ -152,7 +152,7 @@ namespace ColloSys.DataLayer.Domain
 
         // TempTable=>TEMP_R_WRITEOFF_PL_GB
 
-        public virtual string PRODUCT { get; set; }
+        //public virtual string PRODUCT { get; set; }
         public virtual string AmttakenfromSCGB { get; set; }
         public virtual string LTCHGWAIVED_723 { get; set; }
         public virtual string AMTUTLPROV567 { get; set; }
@@ -184,11 +184,11 @@ namespace ColloSys.DataLayer.Domain
         public virtual string RECDT_52 { get; set; }
         public virtual string AMOUNTRECD { get; set; }
         public virtual string BTDRECOVONPOS { get; set; }
-        public virtual string SETTLEMENT { get; set; }
+       // public virtual string SETTLEMENT { get; set; }
         public virtual string MANUALCHGOFF_REMARKS { get; set; }
         public virtual string APPBR_63 { get; set; }
-        public virtual string DISPUTE { get; set; }
-        public virtual string DONOTFOLLOW { get; set; }
+      //  public virtual string DISPUTE { get; set; }
+        //public virtual string DONOTFOLLOW { get; set; }
         public virtual string REMARKS_66 { get; set; }
         public virtual string PLSELLDOWN { get; set; }
 
