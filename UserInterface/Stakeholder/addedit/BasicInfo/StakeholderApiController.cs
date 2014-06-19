@@ -8,7 +8,6 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using AngularUI.Stakeholder.addedit.Working;
-using AngularUI.Stakeholder.AddEdit2.Working;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;

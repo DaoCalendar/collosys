@@ -46,18 +46,20 @@ namespace ColloSys.QueryBuilder.Test.Stakeholder
         [Test]
         public void SalCalculation()
         {
-            var GKeyValueBuilder = new GKeyValueBuilder();
-            StkhPayment sp = new StkhPayment();
-            sp.FixpayTotal = 9350;
-            sp.FixpayBasic = 5610;
-            var gKeyValue = GKeyValueBuilder.ForStakeholders();
-            var fixPay = gKeyValue.ToDictionary(keyValue => keyValue.ParamName, keyValue => decimal.Parse(keyValue.Value));
+            var gKeyValueBuilder = new GKeyValueBuilder();
+            var sp = new SalaryDetails { FixpayTotal = 9350, FixpayBasic = 5610 };
+            var gKeyValue = gKeyValueBuilder.ForStakeholders();
+            var fixPay = gKeyValue
+                .ToDictionary(
+                    keyValue => keyValue.ParamName,
+                    keyValue => decimal.Parse(keyValue.Value)
+                );
             var data = WorkingPaymentHelper.GetSalaryDetails(sp, fixPay);
 
-            Assert.AreEqual(163.625, data.EmployeeESI);
-            Assert.AreEqual(673.2, data.EmployeePF);
-            Assert.AreEqual(444.125, data.EmployerESI);
-            Assert.AreEqual(763.52, data.EmployeePF);
+            Assert.AreEqual(163.625, data.EmployeeEsic);
+            Assert.AreEqual(673.2, data.EmployeePf);
+            Assert.AreEqual(444.125, data.EmployerEsic);
+            Assert.AreEqual(763.52, data.EmployeePf);
         }
     }
 }

@@ -173,12 +173,12 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
                 return displayManager;
             case "AREA":
                 displayManager.showState = true;
+                displayManager.showCity = true;
                 displayManager.showArea = true;
                 return displayManager;
             default:
                 throw "invalid location level";
         }
-
     };
 
     var getWorkingDetailsList = function (workingModel, locLevel, workingDetailsList) {
@@ -205,14 +205,10 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             workdata.ReportsTo = working.ReportsTo;
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
-
     };
 
-    var push = function (list, data) {
-        list.push(data);
-    };
-
-    var splice = function (list, data, param) {
+    //TODO: move to $csfactory, if it is generic
+    var safeSplice = function (list, data, param) {
         if ($csfactory.isNullOrEmptyString(param)) {
             list.splice(list.indexOf(data), 1);
         } else {
@@ -228,8 +224,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
         SetWorkList: setWorkList,
-        Push: push,
-        Splice: splice
+        Splice: safeSplice
     };
 }]);
 
@@ -237,26 +232,26 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory) {
 
         (function () {
+            $scope.WorkingModel = {
+                SelectedPincodeData: {},
+                QueryFor: "",
+                MultiSelectValues: [],
+                DisplayManager: $scope.displayManager,
+                Buckets: []
+            };
+
+            //TODO: move this to a function & call that function from here
             datalayer.GetStakeholder($routeParams.stakeId).then(function (data) {
                 data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);
                 data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
                 $scope.selectedHierarchy = data.Hierarchy;
                 $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
-
-                $scope.WorkingModel = {
-                    SelectedPincodeData: {},
-                    QueryFor: "",
-                    MultiSelectValues: [],
-                    DisplayManager: $scope.displayManager,
-                    Buckets: []
-                };
-
                 $scope.currStakeholder = data;
             }).then(function () {
-                //TODO: has fixed pay individual
-                datalayer.GetPaymentDetails().then(function (data) {
-                    $scope.FixedPay = factory.GetFixedPayObj(data);
-                });
+                //TODO: harish: get it only on ng-change not before of basic or other
+                //datalayer.GetPaymentDetails().then(function (data) {
+                //    $scope.FixedPay = factory.GetFixedPayObj(data);
+                //});
             });
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
@@ -266,10 +261,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.deleteWorkingList = [];
         })();
 
-        //TODO: move to factory
+        //TODO: post salary object & not payment - harish
         //$scope.TotalPayment = function (basic, hra, other) {
         //    $scope.SalDetails = {};
-
         //    if (angular.isUndefined(basic)) {
         //        basic = 0;
         //    }
@@ -283,24 +277,17 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //        if ($scope.selectedHierarchy.HasFixedIndividual || true) {
         //            $scope.SalDetails.pf = Number((basic) * ($scope.FixedPay.EmployeePF) / 100);
         //            $scope.SalDetails.pf = Number($scope.SalDetails.pf.toFixed(2));
-
         //            $scope.SalDetails.employerPf = Number((basic) * ($scope.FixedPay.EmployerPF) / 100);
         //            $scope.SalDetails.employerPf = Number($scope.SalDetails.employerPf.toFixed(2));
-
         //            $scope.SalDetails.totalNotEsic = Number((basic) + (hra) + (other));
-
         //            $scope.SalDetails.esicEmployee = Number(($scope.SalDetails.totalNotEsic * ($scope.FixedPay.EmployeeESIC)) / 100);
         //            $scope.SalDetails.esicEmployee = Number($scope.SalDetails.esicEmployee.toFixed(2));
-
         //            $scope.SalDetails.esicEmployer = Number($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployerESIC) / 100);
         //            $scope.SalDetails.esicEmployer = Number($scope.SalDetails.esicEmployer.toFixed(2));
-
         //            $scope.SalDetails.ServiceCharge = $scope.FixedPay.ServiceCharge !== 0 ? Number((basic * $scope.FixedPay.ServiceCharge)) / 100 : 0;
         //            $scope.SalDetails.ServiceCharge = Number($scope.SalDetails.ServiceCharge.toFixed(2));
-
         //            $scope.SalDetails.serviceTax = Number(basic * ($scope.FixedPay.ServiceTax) / 100);
         //            $scope.SalDetails.serviceTax = Number($scope.SalDetails.serviceTax.toFixed(2));
-
         //            $scope.SalDetails.total =
         //                $scope.SalDetails.pf * 2 +
         //                $scope.SalDetails.totalNotEsic +
@@ -315,7 +302,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //    }
         //    return 0;
         //};
-
         $scope.getSalaryDetails = function (payment) {
             datalayer.GetSalaryDetails(payment).then(function (sal) {
                 $scope.SalDetails = sal;
@@ -323,7 +309,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        $scope.getReportsTo = function (product) {
+        $scope.getReportsTo = function () {
             datalayer.GetReportsTo($scope.currStakeholder).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
                 if ($scope.reportsToList.length === 1) $scope.workingModel.ReportsTo = $scope.reportsToList[0];
@@ -338,7 +324,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.getPincodeData = function (workingModel, selected) {
             workingModel.QueryFor = $csfactory.isNullOrEmptyString(selected) ?
                 factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : factory.GetQueryFor(selected, $scope.displayManager);
-            if ($csfactory.isNullOrEmptyString(workingModel.QueryFor)) return;
+            if ($csfactory.isNullOrEmptyString(workingModel.QueryFor))
+                return;
             datalayer.GetPincodeData(workingModel).then(function (data) {
                 $scope.WorkingModel = data;
             });
@@ -363,23 +350,22 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.addWorkingToDelete = function (data) {
             var selected = _.find($scope.deleteWorkingList, function (working) { return working === data; });
-            $csfactory.isEmptyObject(selected) ? factory.Push($scope.deleteWorkingList, data) : factory.Splice($scope.deleteWorkingList, data);
+            if ($csfactory.isEmptyObject(selected)) {
+                $scope.deleteWorkingList.push(data);
+            } else {
+                factory.Splice($scope.deleteWorkingList, data);
+            };
         };
 
-        //$scope.selectAll = function () {
-        //    $scope.deleteWorkingList = $scope.workingDetailsList.length === $scope.deleteWorkingList.length ? []
-        //        : $scope.workingDetailsList;
-
-        //};
-
-        $scope.workingChecked = function (data) {
-            return $scope.deleteWorkingList.indexOf(data) !== -1;
+        $scope.workingChecked = function (data2) {
+            return $scope.deleteWorkingList.indexOf(data2) !== -1;
         };
 
-        $scope.assignEndDate = function (data, endDate) {
-            data.EndDate = endDate;
+        $scope.assignEndDate = function (data3, endDate) {
+            data3.EndDate = endDate;
         };
 
+        //TODO: why seperate logic for splicing it when it can maintained as is
         $scope.deleteSelectedWorking = function () {
             _.forEach($scope.deleteWorkingList, function (workingToBeDeleted) {
                 factory.Splice($scope.workingDetailsList, workingToBeDeleted, 'Area');
@@ -391,4 +377,5 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             var data = _.find($scope.reportsToList, { 'Id': reportsToId });
             return data.Name;
         };
-    }]);
+    }
+]);
