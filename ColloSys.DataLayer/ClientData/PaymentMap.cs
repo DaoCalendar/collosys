@@ -46,23 +46,23 @@ namespace ColloSys.DataLayer.Mapping
             #region RLS Payment_PropertiesMapping
             Property(x => x.CostCenter);
             Property(x => x.NAME);
+            Property(x => x.DISBURSEMENTDATE);
             Property(x => x.FINALINSTDT);
             Property(x => x.CYCLEDUEDT);
             Property(x => x.APPBR);
             Property(x => x.DTCHGOFF);
             Property(x => x.BOUNECHARGES);
-            Property(x => x.LTCHGWAIVED);
-            Property(x => x.UTLPROV);
-            Property(x => x.UTLINTTSUS);
-            Property(x => x.ANYOTHERDUES);
-            Property(x => x.DISBURSEMENTDATE);
-            Property(x => x.S_No);
+            Property(x => x.LTCHGWAIVED723);
+            Property(x => x.AMTUTLPROV567);
+            Property(x => x.AMTUTLINTTSUS797);
+            Property(x => x.ANYOTHERDUES799);
+            Property(x => x.SNo);
             Property(x => x.Product);
             Property(x => x.Product_7);
             Property(x => x.Account);
             Property(x => x.Deptid);
             Property(x => x.OperUnit);
-            Property(x => x.CorClass);
+            Property(x => x.CClass);
             Property(x => x.Unit);
             #endregion
         }
