@@ -44,16 +44,16 @@ namespace AngularUI.Stakeholder.view
         [HttpGet]
         public IEnumerable<Stakeholders> GetAllStakeHolders()
         {
-            var query = StakeQuery.ApplyRelations();
 
-            var allData = StakeQuery.Execute(query).ToList();
-            //remove rejected stakeholders
-            allData = (from d in allData
-                       where d.Status != ColloSysEnums.ApproveStatus.Rejected
-                       select d).ToList();
+            return StakeQuery.GetAllStakeholders();
 
-            RemoveUnusedPaymentsWorkings(allData);
-            return allData;
+            //var allData = StakeQuery.Execute(query).ToList();
+            ////remove rejected stakeholders
+            //allData = (from d in allData
+            //           where d.Status != ColloSysEnums.ApproveStatus.Rejected
+            //           select d).ToList();
+
+            //RemoveUnusedPaymentsWorkings(allData);
         }
 
         [HttpGet]

@@ -183,6 +183,14 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public Stakeholders OnId(Guid id)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .Query<Stakeholders>().Single(x => x.Id == id);
+
+        }
+
+        [Transaction]
         public IList<Stakeholders> OnHierarchyId(Guid reporting)
         {
             return SessionManager.GetCurrentSession().Query<Stakeholders>()

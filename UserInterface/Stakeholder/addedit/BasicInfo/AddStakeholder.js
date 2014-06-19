@@ -63,11 +63,18 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             });
         };
 
+        var getStakeholderForEdit = function (id) {
+            return apistake.customGET('GetStakeForEdit', { 'stakeholderId': id }).then(function (data) {
+                return data;
+            });
+        };
+
         return {
             CheckUser: checkUser,
             GetHierarchies: getHierarchies,
             GetPincode: getPincode,
             GetReportsToList: getReportsToList,
+            GetStakeholderForEdit: getStakeholderForEdit,
             Save: save
         };
     }]);
@@ -143,8 +150,8 @@ csapp.factory("AddEditStakeholderFactory", function () {
     };
 });
 
-csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout",
-    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout) {
+csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams",
+    function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
 
         (function () {
             $scope.factory = factory;
@@ -153,16 +160,24 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 StkhRegistrations: []
             };
 
+            if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) {
+                datalayer.GetStakeholderForEdit($routeParams.stakeId).then(function (data) {
+                    $scope.Stakeholder = data;
+                });
+            } else {
+                datalayer.GetHierarchies().then(function (data) {
+                    $scope.HierarchyList = data;
+                    $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
+                });
+            }
+            
             $scope.stakeholderModels = {
                 stakeholder: $csModels.getColumns("Stakeholder"),
                 address: $csModels.getColumns("StakeAddress"),
                 registration: $csModels.getColumns("StkhRegistration")
             };
 
-            datalayer.GetHierarchies().then(function (data) {
-                $scope.HierarchyList = data;
-                $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
-            });
+
         })();
 
         $scope.validate = function (userId) {

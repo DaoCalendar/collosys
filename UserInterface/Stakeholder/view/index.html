@@ -1,4 +1,51 @@
-﻿<div class="container-fluid">
+﻿<form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>External Id</th>
+                <th>Email Id</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="data in stakeholders">
+                <td>
+                    <input type="checkbox" />
+                </td>
+                <td>{{data.Name}}</td>
+                <td>{{data.ExternalId}}</td>
+                <td>{{data.Name}}</td>
+                <td>
+                    <cs-button type="submit" text="edit" data-ng-click="switchPage(data)">
+                </cs-button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container-fluid">
 
     <form name="stkhindexform">
         <div>
@@ -26,7 +73,7 @@
                             </div>
                             <div data-ng-if="checkFilter(stakeholder.filter)">
                                 <!--get unique array-->
-                                <cs-field
+<!-- <cs-field
                                     field="viewModels.Hierarchy"
                                     value-list="HierarchyData"
                                     data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist(stakeholder)"></cs-field>
@@ -48,9 +95,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row">-->
 
-                            <div data-ng-if="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
+<!--  <div data-ng-if="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
                                 <cs-field
                                     field="viewModels.Stake"
                                     value-list="selStakeholder"
@@ -68,12 +115,12 @@
 
                         </div>
                     </cs-form>
-                </div>
-            </div>
+                </div>-->
+<!--   </div>
         </div>
-        <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">
-            <!--TODO remove true from data-ng-show-->
-            <div class="row">
+        <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">-->
+<!--TODO remove true from data-ng-show-->
+<!-- <div class="row">
                 <cs-button type="edit" text="Edit Selected" class="btn  btn-success" data-ng-hide="true"></cs-button>
                 <cs-button type="save" text="Approve" data-ng-show="canApprove || true" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()"></cs-button>
                 <cs-button type="delete" text="Reject" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()"></cs-button>
@@ -90,8 +137,8 @@
                     pagesize="size">
                 </cspagination>
             </div>
-        </div>
-        <div class="well container" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
+        </div>-->
+<!--<div class="well container" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
 
             <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
 
@@ -109,8 +156,8 @@
                             <th>Email Id</th>
                             <th>Date of Joining</th>
                             <th>Payment</th>
-                            <th>Working</th>
-                        </tr>
+                            <th>Working</th>-->
+<!--    </tr>
                     </thead>
                     <tbody>
                         <tr data-ng-repeat="reportee in ReporteeList">
@@ -147,8 +194,8 @@
                 </table>
             </div>
         </div>
-    </form>
-</div>
+    </form>-->
+<!--</div>-->
 
 <!-- <div class="row">
                      <button class="btn btn-success" data-ng-show="CurrUserInfo.Permission=='Approve'||CurrUserInfo.Permission=='Modify'" data-ng-click="addStakeholder()">Add New</button>

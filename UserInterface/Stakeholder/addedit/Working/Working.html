@@ -193,7 +193,6 @@
                     <div data-ng-show="selectedHierarchy.HasFixedIndividual && false">
                         <cs-field data-ng-model="Payment.FixpayHra"
                                   data-ng-required="selectedHierarchy.HasFixedIndividual "
-                                  data-ng-change="TotalPayment(Payment.FixpayBasic,Payment.FixpayHra,Payment.FixpayOther)"
                                   field="paymentModel.FixpayHra"></cs-field>
                     </div>
                     <div data-ng-show="selectedHierarchy.HasFixedIndividual||true">
@@ -212,7 +211,6 @@
                 <div data-ng-if="selectedHierarchy.HasFixedIndividual && false ">
                     <cs-field field="paymentModel.FixpayOther"
                               data-ng-required="selectedHierarchy.HasFixedIndividual"
-                              data-ng-change="TotalPayment(Payment.FixpayBasic,Payment.FixpayHra,Payment.FixpayOther)"
                               data-ng-model="Payment.FixpayOther">
                     </cs-field>
                 </div>
@@ -220,7 +218,7 @@
                 <div class="clearfix"></div>
 
                 <div data-ng-show="selectedHierarchy.HasFixedIndividual || true">
-                    <table class="table table-bordered table-hover" data-ng-show="Payment.FixpayBasic">
+                    <table class="table table-bordered table-hover" data-ng-show="SalDetails">
                         <thead>
                             <tr>
                                 <th data-ng-show="Payment.FixpayBasic">Basic</th>

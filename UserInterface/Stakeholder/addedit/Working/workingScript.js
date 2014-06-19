@@ -267,54 +267,54 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         })();
 
         //TODO: move to factory
-        $scope.TotalPayment = function (basic, hra, other) {
-            $scope.SalDetails = {};
+        //$scope.TotalPayment = function (basic, hra, other) {
+        //    $scope.SalDetails = {};
 
-            if (angular.isUndefined(basic)) {
-                basic = 0;
-            }
-            if (angular.isUndefined(hra)) {
-                hra = 0;
-            }
-            if (angular.isUndefined(other)) {
-                other = 0;
-            }
-            if (basic !== 0) {
-                if ($scope.selectedHierarchy.HasFixedIndividual || true) {
-                    $scope.SalDetails.pf = Number((basic) * ($scope.FixedPay.EmployeePF) / 100);
-                    $scope.SalDetails.pf = Number($scope.SalDetails.pf.toFixed(2));
+        //    if (angular.isUndefined(basic)) {
+        //        basic = 0;
+        //    }
+        //    if (angular.isUndefined(hra)) {
+        //        hra = 0;
+        //    }
+        //    if (angular.isUndefined(other)) {
+        //        other = 0;
+        //    }
+        //    if (basic !== 0) {
+        //        if ($scope.selectedHierarchy.HasFixedIndividual || true) {
+        //            $scope.SalDetails.pf = Number((basic) * ($scope.FixedPay.EmployeePF) / 100);
+        //            $scope.SalDetails.pf = Number($scope.SalDetails.pf.toFixed(2));
 
-                    $scope.SalDetails.employerPf = Number((basic) * ($scope.FixedPay.EmployerPF) / 100);
-                    $scope.SalDetails.employerPf = Number($scope.SalDetails.employerPf.toFixed(2));
+        //            $scope.SalDetails.employerPf = Number((basic) * ($scope.FixedPay.EmployerPF) / 100);
+        //            $scope.SalDetails.employerPf = Number($scope.SalDetails.employerPf.toFixed(2));
 
-                    $scope.SalDetails.totalNotEsic = Number((basic) + (hra) + (other));
+        //            $scope.SalDetails.totalNotEsic = Number((basic) + (hra) + (other));
 
-                    $scope.SalDetails.esicEmployee = Number(($scope.SalDetails.totalNotEsic * ($scope.FixedPay.EmployeeESIC)) / 100);
-                    $scope.SalDetails.esicEmployee = Number($scope.SalDetails.esicEmployee.toFixed(2));
+        //            $scope.SalDetails.esicEmployee = Number(($scope.SalDetails.totalNotEsic * ($scope.FixedPay.EmployeeESIC)) / 100);
+        //            $scope.SalDetails.esicEmployee = Number($scope.SalDetails.esicEmployee.toFixed(2));
 
-                    $scope.SalDetails.esicEmployer = Number($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployerESIC) / 100);
-                    $scope.SalDetails.esicEmployer = Number($scope.SalDetails.esicEmployer.toFixed(2));
+        //            $scope.SalDetails.esicEmployer = Number($scope.SalDetails.totalNotEsic * Number($scope.FixedPay.EmployerESIC) / 100);
+        //            $scope.SalDetails.esicEmployer = Number($scope.SalDetails.esicEmployer.toFixed(2));
 
-                    $scope.SalDetails.ServiceCharge = $scope.FixedPay.ServiceCharge !== 0 ? Number((basic * $scope.FixedPay.ServiceCharge)) / 100 : 0;
-                    $scope.SalDetails.ServiceCharge = Number($scope.SalDetails.ServiceCharge.toFixed(2));
+        //            $scope.SalDetails.ServiceCharge = $scope.FixedPay.ServiceCharge !== 0 ? Number((basic * $scope.FixedPay.ServiceCharge)) / 100 : 0;
+        //            $scope.SalDetails.ServiceCharge = Number($scope.SalDetails.ServiceCharge.toFixed(2));
 
-                    $scope.SalDetails.serviceTax = Number(basic * ($scope.FixedPay.ServiceTax) / 100);
-                    $scope.SalDetails.serviceTax = Number($scope.SalDetails.serviceTax.toFixed(2));
+        //            $scope.SalDetails.serviceTax = Number(basic * ($scope.FixedPay.ServiceTax) / 100);
+        //            $scope.SalDetails.serviceTax = Number($scope.SalDetails.serviceTax.toFixed(2));
 
-                    $scope.SalDetails.total =
-                        $scope.SalDetails.pf * 2 +
-                        $scope.SalDetails.totalNotEsic +
-                        $scope.SalDetails.esicEmployee +
-                        $scope.SalDetails.esicEmployer +
-                        $scope.SalDetails.ServiceCharge +
-                        $scope.SalDetails.serviceTax;
-                    $scope.SalDetails.total = Number($scope.SalDetails.total.toFixed(2));
-                } else {
-                    $scope.SalDetails.total = basic;
-                }
-            }
-            return 0;
-        };
+        //            $scope.SalDetails.total =
+        //                $scope.SalDetails.pf * 2 +
+        //                $scope.SalDetails.totalNotEsic +
+        //                $scope.SalDetails.esicEmployee +
+        //                $scope.SalDetails.esicEmployer +
+        //                $scope.SalDetails.ServiceCharge +
+        //                $scope.SalDetails.serviceTax;
+        //            $scope.SalDetails.total = Number($scope.SalDetails.total.toFixed(2));
+        //        } else {
+        //            $scope.SalDetails.total = basic;
+        //        }
+        //    }
+        //    return 0;
+        //};
 
         $scope.getSalaryDetails = function (payment) {
             datalayer.GetSalaryDetails(payment).then(function (sal) {

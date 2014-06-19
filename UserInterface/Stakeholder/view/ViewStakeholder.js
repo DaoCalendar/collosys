@@ -1,9 +1,26 @@
 ﻿
-csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangular', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams', '$csShared',
-    function ($scope, $http, $log, $window, rest, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams, $csShared) {
+csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
+
+    var restApi = rest.all('ViewStakeApi');
+
+    var getStakeholder = function () {
+        return restApi.customGET('GetAllStakeHolders').then(function (stakes) {
+            return stakes;
+        });
+    };
 
 
-        var restApi = rest.all('ViewStakeApi');
+    return {
+        GetStakeholder: getStakeholder
+    };
+
+}]);
+
+csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', '$csfactory', '$csnotify', '$csConstants', '$location', '$modal', '$routeParams', '$csShared', 'ViewStakeholderDatalayer',
+    function ($scope, $http, $log, $window, $csfactory, $csnotify, $csConstants, $location, $modal, $routeParams, $csShared, datalayer) {
+
+
+        //var restApi = rest.all('ViewStakeApi');
 
         //#region pagination 
 
@@ -104,6 +121,18 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
         };
         //#endregion
+
+
+        (function () {
+            datalayer.GetStakeholder().then(function (data) {
+                $scope.stakeholders = data;
+                console.log('stakeholders:', data);
+            });
+        })();
+
+        $scope.switchPage = function (data) {
+            $location.path('/stakeholder/add/' + data.Id);
+        };
 
 
         $scope.assignName = function (data) {
@@ -954,7 +983,7 @@ csapp.controller('viewStake', ['$scope', '$http', '$log', '$window', 'Restangula
             }
         };
 
-        init();
+        //init();
 
 
     }]

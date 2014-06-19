@@ -45,6 +45,12 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
         }
 
         [HttpPost]
+        public HttpResponseMessage GetStakeForEdit(Guid stakeholderId)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, StakeQuery.OnId(stakeholderId));
+        }
+
+        [HttpPost]
         public HttpResponseMessage SaveStake(Stakeholders data)
         {
             AddEditStakeholder.SetStakeholderObj(data);
