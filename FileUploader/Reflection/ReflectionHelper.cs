@@ -63,7 +63,8 @@ namespace ColloSys.FileUploader.Reflection
         public static void SetValue(string propName, string value, object obj)
         {
             value = ChangeValue(value);
-            var propertyInfo = obj.GetType().GetProperty(propName);
+
+            var propertyInfo = obj.GetType().GetProperty(propName.TrimEnd().TrimStart());
             if (propertyInfo.PropertyType == typeof(string))
             {
                 var stringHelper = new StringSetter();
