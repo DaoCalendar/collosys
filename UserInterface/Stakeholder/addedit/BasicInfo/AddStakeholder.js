@@ -216,12 +216,17 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         $scope.saveData = function (data) {
             setStakeObject(data);
             datalayer.Save(data).then(function (savedStakeholder) {
-                if ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true)
-                    $location.path('/stakeholder/working/' + savedStakeholder.Id);
-                else {
-                    factory.ResetObj($scope.Stakeholder);
-                    console.log($scope.Stakeholder);
-                    $scope.basicInfoForm.$setPristine();
+
+                if ($scope.mode !== 'edit') {
+                    if ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true)
+                        $location.path('/stakeholder/working/' + savedStakeholder.Id);
+                    else {
+                        factory.ResetObj($scope.Stakeholder);
+                        console.log($scope.Stakeholder);
+                        $scope.basicInfoForm.$setPristine();
+                    }
+                } else {
+                    $location.path('/stakeholder/view');
                 }
             });
         };

@@ -51,12 +51,13 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public void SavePayment(StkhPayment paymentData)
+        public HttpResponseMessage SavePayment(StkhPayment paymentData)
         {
             paymentData.StartDate = paymentData.Stakeholder.JoiningDate;
             paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
-
             StakePaymentBuilder.Save(paymentData);
+
+            return Request.CreateResponse(HttpStatusCode.OK, paymentData);
         }
 
         [HttpPost]
