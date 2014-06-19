@@ -46,6 +46,36 @@ namespace ColloSys.DataLayer.ClientData
 
         public override FileScheduler FileScheduler { get; set; }
         #endregion
+        #region RLS Payment_Properties
+        //AliasDescription =>RLS Payment - DrillDown
+        public virtual string CostCenter { get; set; }
+
+        //AliasDescription => RLS Payment - Writeoff(AEB PL)
+        public virtual string NAME { get; set; }
+        public virtual string FINALINSTDT { get; set; }
+        public virtual string CYCLEDUEDT { get; set; }
+        public virtual string APPBR { get; set; }
+        public virtual string DTCHGOFF { get; set; }
+        //public virtual string PRODUCT{ get; set; } already exist
+        public virtual string BOUNECHARGES { get; set; }
+        public virtual string LTCHGWAIVED { get; set; }//LTCHGWAIVED-723
+        public virtual string UTLPROV { get; set; }//567AMT(UTLPROV)
+        public virtual string UTLINTTSUS { get; set; }//797AMT(UTLINTTSUS)
+        public virtual string ANYOTHERDUES { get; set; }//ANYOTHERDUES-799
+
+        //AliasDescription =>RLS Payment - Writeoff(SCB PL)
+        public virtual string DISBURSEMENTDATE { get; set; }
+
+        //AliasDescription =>RLS Payment - Reversal
+        public virtual string S_No { get; set; } //S.No.
+        public virtual string Product { get; set; }
+        public virtual string Account { get; set; }
+       public virtual string Product_7 { get; set; }
+        public virtual string Deptid { get; set; }
+        public virtual string OperUnit { get; set; }
+        public virtual string CorClass { get; set; } //C/Class
+        public virtual string Unit { get; set; }
+        #endregion
 
         #region Relationship None
 
