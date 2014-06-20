@@ -105,6 +105,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.RemarksNamechange);
             Property(x => x.MANUALXHOLDINGCHGOFFREMARKS);
             Property(x => x.SELLDOWNACTS);
+            Property(x=>x.BadDebtsIncurred_3011);
             #endregion
 
         }

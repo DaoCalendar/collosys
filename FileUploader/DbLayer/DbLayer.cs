@@ -62,17 +62,30 @@ namespace ColloSys.FileUploaderService.DbLayer
                         FileScheduler fs1 = null;
                         FileDetail fd1 = null;
                         var schedulerDate = fileScheduler.FileDate.Date;
-                        var dependFileScheduler = session.QueryOver(() => fs1)
-                                                         .Fetch(x => x.FileDetail).Eager
-                                                         .JoinAlias(() => fs1.FileDetail, () => fd1)
-                                                         .Where(c => c.FileDate == schedulerDate && fd1.AliasName == dependAlias)
-                                                         .And(c => c.UploadStatus == ColloSysEnums.UploadStatus.Done ||
-                                                             c.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
-                                                             .TransformUsing(Transformers.DistinctRootEntity)
-                                                         .List<FileScheduler>();
+                        var fileDetailOnAlias =
+                            session.QueryOver<FileDetail>()
+                            .Where(x => x.AliasName == dependAlias)
+                            .SingleOrDefault();
+
+                        var dependFileScheduler = session.QueryOver<FileScheduler>()
+                            .Where(x => x.FileDate == schedulerDate)
+                            .And(x=>x.FileDetail.Id==fileDetailOnAlias.Id)
+                            .And(
+                                x =>
+                                    x.UploadStatus == ColloSysEnums.UploadStatus.Done ||
+                                    x.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                            .List();
+                        //var dependFileScheduler = session.QueryOver(() => fs1)
+                        //                                 .Fetch(x => x.FileDetail).Eager
+                        //                                 .JoinAlias(() => fs1.FileDetail, () => fd1)
+                        //                                 .Where(c => c.FileDate == schedulerDate && fd1.AliasName == dependAlias)
+                        //                                 .And(c => c.UploadStatus == ColloSysEnums.UploadStatus.Done ||
+                        //                                     c.UploadStatus == ColloSysEnums.UploadStatus.DoneWithError)
+                        //                                     .TransformUsing(Transformers.DistinctRootEntity)
+                        //                                 .List<FileScheduler>();
 
                         if ((dependFileScheduler.Count != 0)
-                            && (dependFileScheduler.Count == dependFileScheduler.First().FileDetail.FileCount))
+                            && (dependFileScheduler.Count == fileDetailOnAlias.FileCount))
                         {
                             file2Upload = fileScheduler;
                             break;
