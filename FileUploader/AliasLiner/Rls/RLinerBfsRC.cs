@@ -21,8 +21,9 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
            entity.AccountNo = ulong.Parse(Reader.GetValue(AccPos))
                .ToString("D" + AccountLength.ToString(CultureInfo.InvariantCulture));
            entity.Bucket = GetRLinerBucketNumber(entity.AgeCode);
-
            entity.Product = DecodeScbProduct.GetRlsBFSProduct(entity.ProductCode);
+
+           GetComputetions(entity);
            return true;
        }
 

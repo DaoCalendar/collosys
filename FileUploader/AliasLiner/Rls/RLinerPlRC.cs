@@ -39,7 +39,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
                                           ? preEntity.DelqHistoryString.Substring(1) + entity.Bucket
                                           : preEntity.DelqHistoryString;
 
-
+           GetComputetions(entity);
 
            //for month start liner
            if (PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)

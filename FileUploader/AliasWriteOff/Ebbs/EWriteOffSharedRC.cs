@@ -32,6 +32,12 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
                 entity.FileDate = FileScheduler.FileDate.Date;
                 entity.AccountNo = ulong.Parse(Reader.GetValue(AccountPosition))
                     .ToString("D" + AccountPosition.ToString(CultureInfo.InvariantCulture));
+
+                if ( entity.SettlementY=="Y")
+                {
+                    entity.IsSetteled = true;
+                }
+                entity.IsSetteled = false;
                 return true;
             }
             catch (Exception)

@@ -23,6 +23,8 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
            entity.Bucket = GetRLinerBucketNumber(entity.AgeCode);
 
            entity.Product = DecodeScbProduct.GetRlsMORTProduct(entity.ProductCode);
+
+           GetComputetions(entity);
            return true;
        }
 

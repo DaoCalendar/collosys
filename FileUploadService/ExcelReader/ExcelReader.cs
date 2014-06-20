@@ -189,14 +189,6 @@ namespace ColloSys.FileUploadService.ExcelReader
                     _dataTable.AcceptChanges();
                 }
 
-                // add expression column in data table
-                var expMapping = Reader.UploadedFile.FileDetail.FileMappings
-                                        .Where(m => m.ValueType == ColloSysEnums.FileMappingValueType.ExpressionValue);
-                foreach (var mapping in expMapping)
-                {
-                    var dc = new DataColumn("Exp_" + mapping.ActualColumn, typeof(string), mapping.DefaultValue);
-                    _dataTable.Columns.Add(dc);
-                }
 
                 // add error columns 
                 if (!_dataTable.Columns.Contains(UploaderConstants.ErrorFileDate))
@@ -307,9 +299,6 @@ namespace ColloSys.FileUploadService.ExcelReader
                             {
                                 prop.SetValueWithType(record, fileMapping.DefaultValue);
                             }
-                            break;
-                        case ColloSysEnums.FileMappingValueType.ExpressionValue:
-                            prop.SetValueWithType(record, dr["Exp_" + fileMapping.ActualColumn].ToString());
                             break;
                         case ColloSysEnums.FileMappingValueType.ExcelValue:
                             var dateFormat = Reader.UploadedFile.FileDetail.FileColumns.Single(c => c.Position == fileMapping.Position).DateFormat;

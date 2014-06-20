@@ -179,7 +179,6 @@ namespace ColloSys.DataLayer.Enumerations
         {
             ComputedValue,
             DefaultValue,
-            ExpressionValue,
             ExcelValue,
             MappedValue
         }

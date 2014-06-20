@@ -43,5 +43,6 @@ namespace ReflectionExtension.Tests.FileUploaderTest
             var propertyInfo = rWriteOff.GetType().GetProperty("BADDEBTSINCURRED_2005".TrimEnd().TrimStart());
         }
 
+
     }
 }

@@ -29,6 +29,12 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
         {
             entity.FileDate =FileScheduler.FileDate;
             entity.Allocs = null;
+            if (entity.Settlement=="Y")
+            {
+                entity.IsSetteled = true;
+            }
+            entity.IsReferred = false;
+            
             return true;
         }
 

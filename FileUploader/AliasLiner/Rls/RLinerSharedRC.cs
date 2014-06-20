@@ -82,5 +82,18 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
             }
             return bucketNo - 1;
         }
+
+        public void GetComputetions(RLiner entity)
+        {
+            if (entity.ImpairmentFlag == "Y")
+            {
+                entity.IsImpaired = true;
+            }
+            else
+            {
+                entity.IsImpaired = false;
+                
+            }
+        }
     }
 }

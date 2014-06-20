@@ -28,7 +28,7 @@ namespace ColloSys.DataLayer.Domain
         public virtual DateTime? ExpirtyDate { get; set; }
         public virtual decimal OdLimit { get; set; }
         public virtual uint Cycle { get; set; }
-        public virtual uint DayPastDue { get; set; }
+        public virtual uint? DayPastDue { get; set; }
         public virtual string CustomerName { get; set; }
         public virtual decimal InterestCharge { get; set; }
         public virtual decimal FeeCharge { get; set; }

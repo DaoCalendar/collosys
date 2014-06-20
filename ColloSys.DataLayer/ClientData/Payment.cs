@@ -35,45 +35,8 @@ namespace ColloSys.DataLayer.ClientData
         public virtual string Description { get; set; }
         public virtual string ApprovedBy { get; set; }
         public virtual DateTime? ApprovedOn { get; set; }
-        public virtual string ChargeOffMonth { get; set; }
-        public virtual string SHORT_NAME { get; set; }
-        public virtual string PROV_CHG_OF { get; set; }
-        public virtual string INT_IN_SUS { get; set; }
-        public virtual string CHARGE_OFF { get; set; }  //CHARGE_OFF(Total due)
-        //public virtual string PRODUCT { get; set; }
-        public virtual string STATE { get; set; }
-
 
         public override FileScheduler FileScheduler { get; set; }
-        #endregion
-        #region RLS Payment_Properties
-        //AliasDescription =>RLS Payment - DrillDown
-        public virtual string CostCenter { get; set; }
-
-        //TempTable => TEMP_R_PAYMENT_WO_PLPC
-        public virtual string NAME { get; set; }
-        public virtual string DISBURSEMENTDATE { get; set; }
-        public virtual string FINALINSTDT { get; set; }
-        public virtual string CYCLEDUEDT { get; set; }
-        public virtual string APPBR { get; set; }
-        public virtual string DTCHGOFF { get; set; }
-       // public virtual string PRODUCT { get; set; }
-        public virtual string BOUNECHARGES { get; set; }
-        public virtual string LTCHGWAIVED723 { get; set; }
-        public virtual string AMTUTLPROV567 { get; set; }
-        public virtual string AMTUTLINTTSUS797 { get; set; }
-        public virtual string ANYOTHERDUES799 { get; set; }
-
-        //AliasDescription =>RLS Payment - Writeoff(SCB PL)
-        //AliasDescription =>RLS Payment - Reversal
-        public virtual string SNo { get; set; } //S.No.
-        public virtual string Product { get; set; }
-        public virtual string Account { get; set; }
-        public virtual string Product_7 { get; set; }
-        public virtual string Deptid { get; set; }
-        public virtual string OperUnit { get; set; }
-        public virtual string CClass { get; set; } //C/Class
-        public virtual string Unit { get; set; }
         #endregion
 
         #region Relationship None

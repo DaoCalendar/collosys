@@ -45,7 +45,7 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.MinimumDue);
             Property(x => x.IsReferred);
             Property(x => x.Cycle);
-            Property(x => x.DayPastDue);
+            Property(x => x.DayPastDue,map=>map.NotNullable(false));
             Property(x => x.Bucket);
             Property(x => x.BucketDue);
             Property(x => x.Bucket1Due);

@@ -27,15 +27,7 @@ namespace ColloSys.Shared.ErrorTables
             columns.AddRange(fileDetail.FileColumns.OrderBy(c => c.Position)
                                        .Select(c => string.Format("[{0}] [nvarchar](max) NULL", c.TempColumnName)));
 
-            var expressionColumn = SessionManager.GetCurrentSession().QueryOver<FileMapping>()
-                                                 .Where(m => m.TempTable == fileDetail.TempTable
-                                                             &&
-                                                             m.ValueType ==
-                                                             ColloSysEnums.FileMappingValueType.ExpressionValue)
-                                                 .List<FileMapping>()
-                                                 .Select(
-                                                     c => string.Format("[Exp_{0}] [nvarchar](max) NULL", c.ActualColumn));
-            columns.AddRange(expressionColumn);
+
 
             var res = fileDetail.FileColumns.SingleOrDefault(c => c.TempColumnName == UploaderConstants.ErrorFileDate);
             if (res == null)
