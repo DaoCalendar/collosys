@@ -15,7 +15,6 @@ namespace ColloSys.DataLayer.Domain
 {
     public class EWriteoff : UploadableEntity, IDelinquentCustomer, IUniqueKey
     {
-
         #region Properties
         public virtual string AccountNo { get; set; }
         public virtual DateTime ChargeOffDate { get; set; }
@@ -98,6 +97,9 @@ namespace ColloSys.DataLayer.Domain
         public virtual GPincode GPincode { get; set; }
         public override FileScheduler FileScheduler { get; set; }
 
+        public virtual string BadDebtsIncurred_3011 { get; set; }
+
+
         #endregion
 
         #region Relationship
@@ -157,7 +159,6 @@ namespace ColloSys.DataLayer.Domain
         public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         #endregion
-
     }
 }
 
