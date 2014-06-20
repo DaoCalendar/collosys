@@ -15,28 +15,15 @@ namespace ColloSys.DataLayer.Domain
 {
     public class EWriteoff : UploadableEntity, IDelinquentCustomer, IUniqueKey
     {
-
         #region Properties
         public virtual string AccountNo { get; set; }
         public virtual DateTime ChargeOffDate { get; set; }
         public virtual string CustomerName { get; set; }
         public virtual decimal PrincipalDue { get; set; }
         public virtual decimal InterestCharge { get; set; }
-        public virtual decimal FeeCharge { get; set; }
-        public virtual decimal BounceCharge { get; set; }
-        public virtual decimal LateCharge { get; set; }
         public virtual decimal TotalDue { get; set; }
         public virtual string ProductName { get; set; }
-        public virtual ScbEnums.Products Product { get; set; }
         public virtual string Branch { get; set; }
-        public virtual decimal CurrentDue { get; set; }
-        public virtual bool IsSetteled { get; set; }
-        public virtual string CustStatus { get; set; }
-        public virtual DateTime? AllocStartDate { get; set; }
-        public virtual DateTime? AllocEndDate { get; set; }
-        public virtual string Comments { get; set; }
-        public override DateTime FileDate { get; set; }
-        public override ulong FileRowNo { get; set; }
         public virtual string Recoverydate_2002 { get; set; }
         public virtual string Amountrecovered_2002 { get; set; }
         public virtual string Recoverydate_2003 { get; set; }
@@ -65,16 +52,29 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Recoverydate_2013 { get; set; }
         public virtual string Amountrecovered_2013 { get; set; }
         public virtual string BadDebtsIncurred_2013 { get; set; }
+        public virtual decimal FinalAmountDue { get; set; }
         public virtual string SettlementY { get; set; }
+        public virtual string MANUALXHOLDINGCHGOFFREMARKS { get; set; }
+        public virtual string Remarks { get; set; }
         public virtual string DISPUTE { get; set; }
         public virtual string DONOTFOLLOW { get; set; }
-        public virtual string SNo { get; set; }
         public virtual string RemarksNamechange { get; set; }
-        public virtual string MANUALXHOLDINGCHGOFFREMARKS { get; set; }
+        public virtual string SNo { get; set; }
         public virtual string SELLDOWNACTS { get; set; }
-        //public virtual decimal AmountRepaid { get; set; }
+
+        public virtual decimal BounceCharge { get; set; }
+        public virtual string CustStatus { get; set; }
+        public virtual decimal FeeCharge { get; set; }
+        public virtual decimal LateCharge { get; set; }
+        public override DateTime FileDate { get; set; }
+        public override ulong FileRowNo { get; set; }
+        public virtual bool IsSetteled { get; set; }
+        public virtual ScbEnums.Products Product { get; set; }
+
         public virtual bool IsReferred { get; set; }
         public virtual uint Pincode { get; set; }
+        public virtual DateTime? AllocStartDate { get; set; }
+        public virtual DateTime? AllocEndDate { get; set; }
         public virtual ColloSysEnums.AllocStatus AllocStatus { get; set; }
         public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
         public virtual GPincode GPincode { get; set; }
@@ -126,17 +126,10 @@ namespace ColloSys.DataLayer.Domain
                     memberHelper.GetName(x => x.Comments ),
                     memberHelper.GetName(x => x.FileDate ),
                     memberHelper.GetName(x => x.FileRowNo ),
-
-
                 };
         }
 
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    if (!NHibernateUtil.IsInitialized(EAllocs) || forceEmpty) EAllocs = null;
-        //}
-
-        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
+        public virtual IList<Allocations> Allocs { get; set; }
 
         #endregion
 
