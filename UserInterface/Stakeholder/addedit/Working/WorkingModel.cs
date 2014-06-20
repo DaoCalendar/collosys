@@ -60,7 +60,7 @@ namespace AngularUI.Stakeholder.addedit.Working
                 query.And(x => x.District == workingModel.SelectedPincodeData.District);
 
             if (workingModel.DisplayManager.ShowCity && !string.IsNullOrEmpty(workingModel.SelectedPincodeData.City))
-                query.And(x => x.District == workingModel.SelectedPincodeData.District);
+                query.And(x => x.City == workingModel.SelectedPincodeData.City);
 
             if (workingModel.DisplayManager.ShowArea && !string.IsNullOrEmpty(workingModel.SelectedPincodeData.Area))
                 query.And(x => x.Area == workingModel.SelectedPincodeData.Area);

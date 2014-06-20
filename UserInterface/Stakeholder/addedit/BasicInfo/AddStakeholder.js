@@ -155,27 +155,31 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
     function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
 
         (function () {
+            $scope.showForm = true;
+            if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) $scope.formMode = 'view';
+
             $scope.factory = factory;
             $scope.Stakeholder = {
                 GAddress: [],
                 StkhRegistrations: []
             };
 
-            if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) {
-                datalayer.GetStakeholderForEdit($routeParams.stakeId).then(function (data) {
-                    $scope.Stakeholder = data;
-                    $scope.selectedHierarchy = data.Hierarchy;
-                    $scope.mode = 'edit';
-                    $scope.showBasicInfo = true;
-                    console.log("stake data: ", data);
-                });
-            } else {
-                datalayer.GetHierarchies().then(function (data) {
-                    $scope.HierarchyList = data;
-                    $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
-                });
-            }
-
+            datalayer.GetHierarchies().then(function (data) {
+                $scope.HierarchyList = data;
+                $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
+            }).then(function () {
+                if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) {
+                    datalayer.GetStakeholderForEdit($routeParams.stakeId).then(function (data) {
+                        $scope.Stakeholder = data;
+                        $scope.selectedHierarchy = $scope.Stakeholder.Hierarchy;
+                        $scope.Stakeholder.Hierarchy = angular.copy($scope.selectedHierarchy.Hierarchy);
+                        $scope.mode = 'edit';
+                        $scope.changeInHierarchy(data.Hierarchy.Hierarchy);
+                        $scope.Stakeholder.Designation = angular.copy($scope.selectedHierarchy.Id);
+                        $scope.assignSelectedHier($scope.Stakeholder.Designation);
+                    });
+                }
+            });
 
             $scope.stakeholderModels = {
                 stakeholder: $csModels.getColumns("Stakeholder"),
@@ -190,8 +194,14 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             return datalayer.CheckUser(userId);
         };
 
+        $scope.changeMode = function () {
+            $scope.showForm = false;
+            $scope.formMode = 'edit';
+            $timeout(function () { $scope.showForm = true; }, 100);
+        };
+
         $scope.changeInHierarchy = function (hierarchy) {
-            $scope.showBasicInfo = false;
+            $scope.showBasicInfo = $scope.formMode == 'edit' ? true : false;
             var hierarchies = _.filter($scope.HierarchyList, function (item) {
                 return (item.Hierarchy === hierarchy);
             });
@@ -199,18 +209,24 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         };
 
         $scope.assignSelectedHier = function (designation, form) {
-            $scope.showBasicInfo = false;
-            form.$setPristine();
-            factory.ResetObj($scope.Stakeholder, ['Hierarchy', 'Designation']);
-            $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
+            $scope.showBasicInfo = $scope.formMode == 'edit' ? true : false;
+            if (angular.isDefined(form)) {
+                form.$setPristine();
+            }
+            if (!$scope.formMode == 'edit') factory.ResetObj($scope.Stakeholder, ['Hierarchy', 'Designation']);
 
+            $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
             datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
                 .then(function (data) {
                     $scope.reportsToList = data;
                 });
-
-            factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
-            $timeout(function () { $scope.showBasicInfo = true; }, 100);
+            
+            if (!$scope.formMode == 'edit') {
+                factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
+                $timeout(function () { $scope.showBasicInfo = true; }, 100);
+            } else {
+                $scope.showBasicInfo = true;
+            }
         };
 
         $scope.saveData = function (data) {

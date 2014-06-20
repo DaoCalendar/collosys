@@ -1,10 +1,9 @@
-﻿<form>
+﻿<form data-ng-if="showForm">
     <div class="panel panel-default">
         <div class="panel-heading">Add Edit Stakeholder</div>
         <div class="panel-body" data-ng-form="basicInfoForm">
-            <cs-form>
-                
-                <div data-ng-show="mode!=='edit'">
+            <cs-form mode="formMode">
+                <div>
                     <cs-field data-ng-model="Stakeholder.Hierarchy"
                               data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
                               value-list="hierarchyDisplayList"
@@ -12,15 +11,23 @@
                     <div data-ng-show="Stakeholder.Hierarchy">
                         <cs-field data-ng-model="Stakeholder.Designation"
                                   value-list="DesignationList"
+                                  track-by="Id"
                                   data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
                                   field="stakeholderModels.stakeholder.designation"></cs-field>
                     </div>
                 </div>
 
                 <div class="clearfix"></div>
+                 
 
                 <div data-ng-if="showBasicInfo">
-                    <h5 class="modal-header">Personal Information</h5>
+                    <div class="modal-header">
+                        <h5>Personal Information</h5>
+                    </div>
+
+                   
+                    <div class="clearfix"></div>
+                    <br/>
                     <cs-field data-ng-model="Stakeholder.Name"
                               field="stakeholderModels.stakeholder.Name"></cs-field>
 
@@ -35,7 +42,7 @@
                     <cs-field data-ng-model="Stakeholder.EmailId"
                               field="stakeholderModels.stakeholder.EmailId"></cs-field>
 
-                    <div data-ng-if="selectedHierarchy.ManageReportsTo || true">
+                    <div data-ng-if="selectedHierarchy.ManageReportsTo">
                         <cs-field value-list="reportsToList"
                                   data-ng-model="Stakeholder.ReportingManager"
                                   field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
@@ -89,6 +96,12 @@
                         <cs-button type="reset"
                                    permission="Stakeholder,Stakeholder,AddEdit"
                                    data-ng-click="reset()"></cs-button>
+                        <span data-ng-if="mode==='edit'">
+                            <cs-button type="submit" text="Edit" 
+                                       data-ng-click="changeMode()">
+                            </cs-button>
+                        </span>
+                       
                     </div>
                 </div>
             </cs-form>

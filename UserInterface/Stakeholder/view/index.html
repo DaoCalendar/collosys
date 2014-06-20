@@ -1,57 +1,67 @@
 ﻿<form>
-    <div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox" />
-                    </th>
-                    <th></th>
-                    <th>Name</th>
-                    <th>External Id</th>
-                    <th>Email Id</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+    <div data-ng-repeat="data in stakeholders" class="rectangle col-md-12">
+        <table class="col-md-12 ">
+            <!-- <thead>
+                     <tr>
+                         <th>
+                             <input type="checkbox" />
+                         </th>
+                         <th></th>
+                         <th>Name</th>
+                         <th>External Id</th>
+                         <th>Email Id</th>
+                         <th>Action</th>
+                     </tr>
+                 </thead>-->
             <tbody>
-                <tr data-ng-repeat="data in stakeholders">
-                    <td>
+                <tr>
+                    <td class="col-md-1">
                         <input type="checkbox" /></td>
-                    <td>
-                        <span class="dropdown" on-toggle="toggled(open)">
-                            <button type="button" class="dropdown-toggle"><i class="glyphicon glyphicon-zoom-in"></i></button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'basic')">Basic Info</a>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'working')">Working</a>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'payment')">Payment</a>
-                                </li>
-                            </ul>
-                        </span>
-                        <span class="dropdown" on-toggle="toggled(open)">
-                            <button type="button" class="dropdown-toggle"><i class="glyphicon glyphicon-edit"></i></button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'basic')">Basic Info</a>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'working')">Working</a>
-                                    <a style="cursor: pointer" data-ng-click="switchPage(data,'payment')">Payment</a>
-                                </li>
-                            </ul>
-                        </span>
 
-                    </td>
-                    <td>{{data.Name}}</td>
-                    <td>{{data.ExternalId}}</td>
-                    <td>{{data.EmailId}}</td>
+                    <td class="col-md-4">{{data.Name}}</td>
+                    <td class="col-md-3">{{data.ExternalId}}</td>
+                    <td class="col-md-4">{{data.EmailId}}</td>
                     <td>
 
                         <!--<button class="btn btn-link">view</button>-->
-                        <button class="btn btn-link">approve</button>
-                        <button class="btn btn-link">reject</button>
+
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div class="pull-right">
+            <span class="dropdown" on-toggle="toggled(open)">
+                <button type="button" class="dropdown-toggle btn btn-link">View</button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a style="cursor: pointer"
+                            data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
+                        <a style="cursor: pointer"
+                            data-ng-show="data.HasWorking"
+                            data-ng-click="switchPage(data,'working','view')">Working</a>
+                        <a style="cursor: pointer"
+                            data-ng-show="data.HasPayment"
+                            data-ng-click="switchPage(data,'payment','view')">Payment</a>
+                    </li>
+                </ul>
+            </span>
+            <span class="dropdown" on-toggle="toggled(open)">
+                <button type="button" class="dropdown-toggle btn btn-link">Edit</button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a style="cursor: pointer" data-ng-click="switchPage(data,'basic')">Basic Info</a>
+                        <a style="cursor: pointer"
+                            data-ng-show="data.HasWorking"
+                            data-ng-click="switchPage(data,'working','edit')">Working</a>
+                        <a style="cursor: pointer"
+                            data-ng-show="data.HasPayment"
+                            data-ng-click="switchPage(data,'payment','edit')">Payment</a>
+                    </li>
+                </ul>
+            </span>
+            <button class="btn btn-link">Approve</button>
+            <button class="btn btn-link">Reject</button>
+        </div>
     </div>
 </form>
 

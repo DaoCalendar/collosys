@@ -58,6 +58,12 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         });
     };
 
+    var deleteWorkingList = function (list) {
+        return restApi.customPOST(list, "DeleteWorking").then(function (remainingWorkings) {
+            return remainingWorkings;
+        });
+    };
+
     var getDataForEdit = function (stakeId) {
         return restApi.customGET('GetEditData', { stakeholderId: stakeId })
            .then(function (data) {
@@ -74,7 +80,8 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         SavePayment: savePayment,
         SaveWorking: saveWorking,
         GetSalaryDetails: getSalaryDetails,
-        GetDataForEdit: getDataForEdit
+        GetDataForEdit: getDataForEdit,
+        DeleteWorkingList: deleteWorkingList
     };
 }]);
 
@@ -223,18 +230,24 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     //TODO: move to $csfactory, if it is generic
-    var safeSplice = function (list, data, property) {
-        if ($csfactory.isNullOrEmptyString(property)) {
-            var indx = list.indexOf(data);
-            if (indx !== -1) list.splice(indx, 1);
-        } else {
-            var pluckedList = [];
-            _.forEach(list, function (item) {
-                pluckedList.push(item[property]);
-            });
-            var index = pluckedList.indexOf(data[property]);
-            if (index !== -1) list.splice(index, 1);
+    var safeSplice = function (list, row, property) {
+        var indx = list.indexOf(row);
+        if (indx !== -1) {
+            list.splice(indx, 1);
+            return;
         }
+
+        if ($csfactory.isNullOrEmptyString(property)) {
+            return;
+        }
+
+        var pluckedList = [];
+        _.forEach(list, function (item) {
+            pluckedList.push(item[property]);
+        });
+
+        var index = pluckedList.indexOf(row[property]);
+        if (index !== -1) list.splice(index, 1);
     };
 
     return {
@@ -248,8 +261,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 }]);
 
-csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory",
-    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory) {
+csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location",
+    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location) {
 
 
         var setData = function (data) {
@@ -264,6 +277,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var getStakeholderData = function (stakeId) {
             datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
+                $scope.formMode = 'add';
             });
         };
 
@@ -273,6 +287,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.getReportsTo();
                 $scope.workingDetailsList = data.StkhWorkings;
                 $scope.mode = 'edit';
+                $scope.formMode = 'view';
             });
         };
 
@@ -286,7 +301,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             };
 
             //TODO: move this to a function & call that function from here
-            $routeParams.editStakeId ? getStakeholderForEdit($routeParams.editStakeId) : getStakeholderData($routeParams.stakeId);
+            $routeParams.editStakeId
+                ? getStakeholderForEdit($routeParams.editStakeId)
+                : getStakeholderData($routeParams.stakeId);
 
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
@@ -298,13 +315,16 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             return $scope.workingDetailsList.length == 0;
         };
 
+        $scope.gotoView = function () {
+            $location.path('/stakeholder/view');
+        };
+
         $scope.getSalaryDetails = function (payment) {
             $scope.SalDetails = {};
             $scope.SalDetails.FixpayBasic = angular.copy(payment.FixpayBasic);
             $scope.SalDetails.FixpayTotal = angular.copy(payment.FixpayTotal);
             datalayer.GetSalaryDetails($scope.SalDetails).then(function (sal) {
                 $scope.SalDetails = sal;
-                console.log("Salary Details: ", $scope.SalDetails);
             });
         };
 
@@ -321,6 +341,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             paymentData.Stakeholder.StkhWorkings = [];
             datalayer.SavePayment(paymentData).then(function (data) {
                 $scope.Payment = data;
+                $scope.gotoView();
             });
         };
 
@@ -329,6 +350,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             var temp = {};
             temp.Products = angular.copy(workingModel.SelectedPincodeData.Products);
             temp.ReportsTo = angular.copy(workingModel.SelectedPincodeData.ReportsTo);
+            workingModel.DisplayManager = $scope.displayManager;
 
             workingModel.QueryFor = $csfactory.isNullOrEmptyString(selected) ?
                 factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : factory.GetQueryFor(selected, $scope.displayManager);
@@ -354,6 +376,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
             datalayer.SaveWorking(workList).then(function () {
                 $scope.workingDetailsList = [];
+                if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
             });
         };
 
@@ -376,8 +399,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         //TODO: why seperate logic for splicing it when it can maintained as is
         $scope.deleteSelectedWorking = function () {
-            _.forEach($scope.deleteWorkingList, function (workingToBeDeleted) {
-                factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
+            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function (remainingWorking) {
+                _.forEach(remainingWorking, function (workingToBeDeleted) {
+                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
+                });
             });
             $scope.deleteWorkingList = [];
         };

@@ -75,6 +75,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             var session = SessionManager.GetCurrentSession();
 
             var stakeholder = session.Query<Stakeholders>()
+                .Fetch(x => x.Hierarchy)
                 .Where(x => x.LeavingDate == null || x.LeavingDate > DateTime.Today)
                 .ToList();
             return stakeholder;

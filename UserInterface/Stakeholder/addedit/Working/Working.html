@@ -3,6 +3,15 @@
     <div class="panel-body">
         <cs-form>
             <form>
+                <div data-ng-if="mode === 'edit'" style="margin-bottom: 10px">
+                    <cs-button
+                        type="submit"
+                        text="back to view"
+                        permission="Stakeholder,Stakeholder,AddEdit"
+                        data-ng-click="gotoView()">
+                    </cs-button>
+                </div>
+                
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -21,8 +30,8 @@
                     <tbody>
                         <tr>
                             <td><!--<input type="checkbox" 
-                                       data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
-                                       data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
+                                           data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
+                                           data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
                             <td>
                                 <cs-field field="workingModel.Products"
                                           data-ng-model="WorkingModel.SelectedPincodeData.Products"
@@ -60,7 +69,7 @@
                                 <cs-field field="workingModel.Cluster"
                                           no-label=""  
                                           data-ng-show="!showDropdown('Cluster')"
-                                           data-ng-change="getPincodeData(WorkingModel,'Cluster')"   
+                                          data-ng-change="getPincodeData(WorkingModel,'Cluster')"   
                                           data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
                                           value-list="WorkingModel.ListOfStates">
                                 </cs-field>
@@ -91,7 +100,7 @@
                                 <cs-field field="workingModel.District"
                                           no-label=""  
                                           data-ng-show="!showDropdown('District')"
-                                           data-ng-change="getPincodeData(WorkingModel,'District')"   
+                                          data-ng-change="getPincodeData(WorkingModel,'District')"   
                                           data-ng-model="WorkingModel.SelectedPincodeData.District" 
                                           value-list="WorkingModel.ListOfDistricts" >
                                 </cs-field>
@@ -124,7 +133,7 @@
                                           no-label=""    
                                           data-ng-show="!showDropdown('Area')"
                                           data-ng-model="Working.Area"
-                                           data-ng-change="getPincodeData(WorkingModel,'Area')"   
+                                          data-ng-change="getPincodeData(WorkingModel,'Area')"   
                                           value-list="WorkingModel.ListOfAreas">
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Area')">
@@ -287,6 +296,7 @@
                     </div>
                     <br/>
                     <div class="pull-right">
+                       
                         <cs-button type="save"
                                    permission="Stakeholder,Stakeholder,AddEdit"
                                    data-ng-click="savePayment(Payment,paymentForm)">

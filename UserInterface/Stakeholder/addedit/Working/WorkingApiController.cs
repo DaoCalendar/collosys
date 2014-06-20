@@ -51,6 +51,18 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
+        public HttpResponseMessage DeleteWorking(IEnumerable<StkhWorking> deleteList)
+        {
+            var stkhWorkings = deleteList as IList<StkhWorking> ?? deleteList.ToList();
+            foreach (var stkhWorking in stkhWorkings.Where(stkhWorking => stkhWorking.Id != Guid.Empty))
+            {
+                StakeWorkingQueryBuilder.Delete(stkhWorking);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, stkhWorkings);
+        }
+
+        [HttpPost]
         public HttpResponseMessage SavePayment(StkhPayment paymentData)
         {
             paymentData.StartDate = paymentData.Stakeholder.JoiningDate;
