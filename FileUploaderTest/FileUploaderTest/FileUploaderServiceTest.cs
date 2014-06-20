@@ -35,5 +35,13 @@ namespace ReflectionExtension.Tests.FileUploaderTest
             var rWriteOff = new Payment();
             var propertyInfo = rWriteOff.GetType().GetProperty("Status".TrimEnd().TrimStart());
         }
+
+        [Test]
+        public void Check_Property_Type_E_WriteOff()
+        {
+            var rWriteOff = new EWriteoff();//BadDebtsIncurred_3011 BADDEBTSINCURRED_2005
+            var propertyInfo = rWriteOff.GetType().GetProperty("BadDebtsIncurred_3011".TrimEnd().TrimStart());
+        }
+
     }
 }
