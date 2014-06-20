@@ -28,9 +28,7 @@ namespace ColloSys.DataLayer.ClientData
             });
             Property(x => x.CustomerName, map => map.NotNullable(false));
 
-            Property(x => x.AccountNo);
             Property(x => x.ChargeOffDate);
-            Property(x => x.CustomerName);
             Property(x => x.PrincipalDue);
             Property(x => x.InterestCharge);
             Property(x => x.FeeCharge);
@@ -52,8 +50,6 @@ namespace ColloSys.DataLayer.ClientData
             Property(x => x.Pincode);
             Property(x => x.AllocStatus);
             Property(x => x.NoAllocResons);
-            Property(x => x.GPincode);
-            Property(x => x.FileScheduler);
 
 
             Property(x => x.CCY);

@@ -4,6 +4,7 @@ using System.Linq;
 using AngularUI.Developer.generatedb;
 using ColloSys.AllocationService.AllocationLayer;
 using ColloSys.DataLayer.Enumerations;
+using ColloSys.DataLayer.FileUploader;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.FileUploadService;
 using ColloSys.QueryBuilder.GenericBuilder;
@@ -43,6 +44,16 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 session.SaveOrUpdate(user);
                 tx.Commit();
             }
+        }
+
+        [Test]
+        public void Check_FileDetail_OnAlias()
+        {
+            var session = SessionManager.GetCurrentSession();
+            var fileDetailOnAlias =
+                            session.QueryOver<FileDetail>()
+                            .Where(x => x.AliasName == ColloSysEnums.FileAliasName.E_WRITEOFF_AUTO)
+                            .SingleOrDefault();
         }
 
         [Test]
