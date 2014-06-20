@@ -54,32 +54,50 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.AllocStatus);
             Property(x => x.Recoverydate_2002);
             Property(x => x.Amountrecovered_2002);
+
             Property(x => x.Recoverydate_2003);
             Property(x => x.Amountrecovered_2003);
+            Property(x=>x.BadDebtsIncurred_2003);
+
             Property(x => x.Recoverydate_2004);
             Property(x => x.Amountrecovered_2004);
+            Property(x => x.BadDebtsIncurred_2004);
+
             Property(x => x.Recoverydate_2005);
             Property(x => x.Amountrecovered_2005);
+            Property(x => x.BadDebtsIncurred_2005);
+
             Property(x => x.Recoverydate_2006);
             Property(x => x.Amountrecovered_2006);
+            Property(x => x.BadDebtsIncurred_2006);
+
             Property(x => x.Recoverydate_2007);
             Property(x => x.Amountrecovered_2007);
+            Property(x => x.BadDebtsIncurred_2007);
+
             Property(x => x.Recoverydate_2008);
             Property(x => x.Amountrecovered_2008);
+            Property(x => x.BadDebtsIncurred_2008);
+
             Property(x => x.Recoverydate_2009);
             Property(x => x.Amountrecovered_2009);
+
             Property(x => x.Recoverydate_2010);
             Property(x => x.Amountrecovered_2010);
             Property(x => x.BadDebtsIncurred_2010);
+
             Property(x => x.Recoverydate_2011);
             Property(x => x.Amountrecovered_2011);
             Property(x => x.BadDebtsIncurred_2011);
+
             Property(x => x.Recoverydate_2012);
             Property(x => x.Amountrecovered_2012);
             Property(x => x.BadDebtsIncurred_2012);
+
             Property(x => x.Recoverydate_2013);
             Property(x => x.Amountrecovered_2013);
             Property(x => x.BadDebtsIncurred_2013);
+
             Property(x => x.SettlementY);
             Property(x => x.DISPUTE);
             Property(x => x.DONOTFOLLOW);
