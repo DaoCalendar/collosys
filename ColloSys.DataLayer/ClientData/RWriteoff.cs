@@ -21,6 +21,17 @@ namespace ColloSys.DataLayer.Domain
 {
     public class RWriteoff : UploadableEntity, IDelinquentCustomer, IUniqueKey
     {
+        public virtual ScbEnums.Products Product { get; set; }
+        public virtual string CustStatus { get; set; }
+        public virtual DateTime? AllocStartDate { get; set; }
+        public virtual DateTime? AllocEndDate { get; set; }
+        public override DateTime FileDate { get; set; }
+        public override ulong FileRowNo { get; set; }
+        public virtual ColloSysEnums.AllocStatus AllocStatus { get; set; }
+        public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
+        public virtual GPincode GPincode { get; set; }
+        public override FileScheduler FileScheduler { get; set; }
+
         #region Properties
         public virtual string AccountNo { get; set; }
         public virtual string CustomerName { get; set; }
@@ -30,181 +41,74 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Branch { get; set; }
         public virtual DateTime? ChargeOffDate { get; set; }
         public virtual string ProductName { get; set; }
-        public virtual ScbEnums.Products Product { get; set; }
         public virtual decimal BounceCharge { get; set; }
         public virtual decimal LateCharge { get; set; }
         public virtual decimal PrincipalDue { get; set; }
         public virtual decimal InterestCharge { get; set; }
         public virtual decimal FeeCharge { get; set; }
         public virtual decimal TotalDue { get; set; }
+
+        
         public virtual decimal Recovery { get; set; }
         public virtual decimal CurrentDue { get; set; }
+
         public virtual bool IsSetteled { get; set; }
         public virtual string Comment { get; set; }
-        public virtual string CustStatus { get; set; }
-        public virtual DateTime? AllocStartDate { get; set; }
-        public virtual DateTime? AllocEndDate { get; set; }
-        public override DateTime FileDate { get; set; }
-        public override ulong FileRowNo { get; set; }
+        
 
         public virtual bool IsReferred { get; set; }
         public virtual uint Pincode { get; set; }
-        public virtual ColloSysEnums.AllocStatus AllocStatus { get; set; }
-        public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
-        public virtual GPincode GPincode { get; set; }
-        public override FileScheduler FileScheduler { get; set; }
+        
         #endregion
 
-        #region "RWriteoff_Properties"
-        // tempTable=> TEMP_E_LINER_AUTO
-        public virtual string DiscProv { get; set; }
-        public virtual string AmtrecvdDATE_2005 { get; set; }
-        public virtual string AmtrecvdMSA81183_2005 { get; set; }
-        public virtual string BDincurredMSA81131_2005 { get; set; }
-        public virtual string AmtrecvdDATE_2006 { get; set; } //  S/FWITHDEBITPOSTCOFF
-        public virtual string AmtrecvdMSA81183_2006 { get; set; }
-        public virtual string BDincurredMSA81131_2006 { get; set; }
-        public virtual string AmtrecvdDATE_2007 { get; set; }
-        public virtual string AmtrecvdMSA81183_2007 { get; set; }
-        public virtual string BDincurredMSA81131_2007 { get; set; }
-        public virtual string AmtrecvdDATE_2008 { get; set; }
-        public virtual string AmtrecvdMSA81183_2008 { get; set; }
-        public virtual string BDincurredMSA81131_2008 { get; set; }
-        public virtual string AmtrecvdDATE_2009 { get; set; }
-        public virtual string AmtrecvdMSA81183_2009 { get; set; }
-        public virtual string AmtrecvdDATE_2010 { get; set; }
-        public virtual string AmtrecvdMSA81183_2010 { get; set; }
-        public virtual string BDincurredMSA81131_2010 { get; set; }
-        public virtual string AmtrecvdDATE_2011 { get; set; }
-        public virtual string AmtrecvdMSA81183_2011 { get; set; }
-        public virtual string BDincurredMSA81131_2011 { get; set; }
-        public virtual string AmtrecvdDATE_2012 { get; set; }
-        public virtual string AmtrecvdMSA81183_2012 { get; set; }
-        public virtual string BDincurredMSA81131_2012 { get; set; }
-        public virtual string AmtrecvdDATE_2013 { get; set; }
-        public virtual string AmtrecvdMSA81183_2013 { get; set; }
-        public virtual string BDincurredMSA81131_2013 { get; set; }
-        public virtual string SFWITHDEBITPOSTCOFF { get; set; }
-        public virtual string Settlement { get; set; }
-        public virtual string REMARKS_43 { get; set; }
-        public virtual string ECS { get; set; }
-        public virtual string PDC { get; set; }
-        public virtual string APPBRANCHCODE { get; set; }
-        public virtual string Dispute { get; set; }
-        public virtual string DonotFollow { get; set; }
-        public virtual string COReason { get; set; }// C/OReason
-        public virtual string Remarks_48 { get; set; }
-
+        #region R_WRITEOFF_PL_AEB
         // TempTable=> TEMP_R_WRITEOFF_PL_AEB
         public virtual string RECOVERYASPERAMEX { get; set; }
-        public virtual string BDincurredMSA81131_2002 { get; set; }
         public virtual string RECOVERDT_2008 { get; set; }
-        public virtual string RECOVERDT_2002 { get; set; }
         public virtual string Amtrecvd710901_2008 { get; set; }
-        public virtual string AmountrecovdMSA81183_2003 { get; set; }
         public virtual string BDincurred710401_2008 { get; set; }
-        public virtual string BaddebtsincurredMSA81131_2003 { get; set; }
         public virtual string RECOVERDT_2009 { get; set; }
-        public virtual string RECOVERDT_2003 { get; set; }
         public virtual string Amtrecvd710901_2009 { get; set; }
-        public virtual string AmtrecvdMSA81183_2004 { get; set; }
         public virtual string RECOVERDT_2010 { get; set; }
-        public virtual string BDincurredMSA81131_2004 { get; set; }
         public virtual string Amtrecvd710901_2010 { get; set; }
-        public virtual string RECOVERDT_2004 { get; set; }
         public virtual string BDincurred710401_2010 { get; set; }
         public virtual string RECOVERDT_2011 { get; set; }
         public virtual string Amtrecvd710901_2011 { get; set; }
-        public virtual string RECOVERDT_2005 { get; set; }
         public virtual string BDincurred710401_2011 { get; set; }
         public virtual string RECOVERDT_2012 { get; set; }
         public virtual string Amtrecvd710901_2012 { get; set; }
-        public virtual string RECOVERDT_2006 { get; set; }
         public virtual string BDincurred710401_2012 { get; set; }
-        public virtual string Amtrecvd710901_2007 { get; set; }
         public virtual string RECOVERDT_2013 { get; set; }
-        public virtual string BDincurred710401_2007 { get; set; }
         public virtual string Amtrecvd710901_2013 { get; set; }
-        public virtual string RECOVERDT_2007 { get; set; }
         public virtual string BDincurred710401_2013 { get; set; }
         public virtual string SFWITH81131 { get; set; }
         public virtual string ManualChgoffRemarks { get; set; }
-        public virtual string ECSFLAG { get; set; }
-        public virtual string PDCFLAG { get; set; }
         public virtual string APPBR_38 { get; set; }
         public virtual string Remarks_41 { get; set; }
         public virtual string CHGOFFREASONCODE { get; set; }
 
-        // TempTable=>TEMP_R_WRITEOFF_PL_SCB
-        public virtual string AmtrecovdMSA81183_2002 { get; set; }
+        /// <summary>
+        /// TEMP_R_WRITEOFF_PL_AEB does have following fields.
+        /// </summary>
+        public virtual string RECOVERDT_2002 { get; set; }
+        public virtual string AmountrecovdMSA81183_2003 { get; set; }
+        public virtual string BDincurredMSA81131_2002 { get; set; }
+        public virtual string BaddebtsincurredMSA81131_2003 { get; set; }
+        public virtual string RECOVERDT_2003 { get; set; }
+        public virtual string AmtrecvdMSA81183_2004 { get; set; }
+        public virtual string BDincurredMSA81131_2004 { get; set; }
+        public virtual string RECOVERDT_2004 { get; set; }
+        public virtual string RECOVERDT_2005 { get; set; }
+        public virtual string RECOVERDT_2006 { get; set; }
+        public virtual string Amtrecvd710901_2007 { get; set; }
+        public virtual string BDincurred710401_2007 { get; set; }
+        public virtual string RECOVERDT_2007 { get; set; }
+        
 
-        public virtual string Amtrecvd710901_2000 { get; set; }
-        public virtual string BDincurred710401_2000 { get; set; }
-        public virtual string RECOVERDT_2001 { get; set; }
-        public virtual string Amtrecvd710901_2001 { get; set; }
-        public virtual string BDincurred710401_2001 { get; set; }
-        public virtual string BTDRECONP0S { get; set; }
-        public virtual string APPBR_61 { get; set; }
-        public virtual string Remarks_64 { get; set; }
-        public virtual string CHGOFFREASONASPER402SCREEN { get; set; }
-        public virtual string SELLDOWNACTS { get; set; }
-        public virtual string Count { get; set; }
+        #endregion
 
-        // TempTable=>TEMP_R_WRITEOFF_PL_GB
-
-        //public virtual string PRODUCT { get; set; }
-        public virtual string AmttakenfromSCGB { get; set; }
-        public virtual string LTCHGWAIVED_723 { get; set; }
-        public virtual string AMTUTLPROV567 { get; set; }
-        public virtual string AMTUTLINTTSUS797 { get; set; }
-        public virtual string ANYOTHERDUES_851799 { get; set; }
-        public virtual string AmountrecovdMSA_81183_2002 { get; set; }
-        public virtual string BaddebtsincurredMSA_81131_2002 { get; set; }
-        public virtual string AmountrecovdMSA_81183_2003 { get; set; }
-        public virtual string BaddebtsincurredMSA_81131_2003 { get; set; }
-        public virtual string AmountrecovdMSA_81183_2004 { get; set; }
-        public virtual string BaddebtsincurredMSA_81131_2004 { get; set; }
-        public virtual string Amountrecovd710961_2005 { get; set; }
-        public virtual string Baddebtsincurred710461_2005 { get; set; }
-        public virtual string Amountrecovd710961_2006 { get; set; }
-        public virtual string Baddebtsincurred710461_2006 { get; set; }
-        public virtual string Amountrecovd710961_2007 { get; set; }
-        public virtual string Baddebtsincurred710461_2007 { get; set; }
-        public virtual string Amountrecovd710961_2008 { get; set; }
-        public virtual string Baddebtsincurred710461_2008 { get; set; }
-        public virtual string Amountrecovd710961_2009 { get; set; }
-        public virtual string Amountrecovd710961_2010 { get; set; }
-        public virtual string Baddebtsincurred710461_2010 { get; set; }
-        public virtual string Amountrecovd710961_2011 { get; set; }
-        public virtual string Baddebtsincurred710461_2011 { get; set; }
-        public virtual string Amountrecovd710961_2012 { get; set; }
-        public virtual string Baddebtsincurred710461_2012 { get; set; }
-        public virtual string Amountrecovd710961_2013 { get; set; }
-        public virtual string Baddebtsincurred710461_2013 { get; set; }
-        public virtual string RECDT_52 { get; set; }
-        public virtual string AMOUNTRECD { get; set; }
-        public virtual string BTDRECOVONPOS { get; set; }
-       // public virtual string SETTLEMENT { get; set; }
-        public virtual string MANUALCHGOFF_REMARKS { get; set; }
-        public virtual string APPBR_63 { get; set; }
-      //  public virtual string DISPUTE { get; set; }
-        //public virtual string DONOTFOLLOW { get; set; }
-        public virtual string REMARKS_66 { get; set; }
-        public virtual string PLSELLDOWN { get; set; }
-
-        // TempTable=>TEMP_R_WRITEOFF_PL_LORDS
-        public virtual string LORDSLoan { get; set; }//LORDSLoan#
-        public virtual string PRODCODE { get; set; }
-        public virtual string BANKNBFC { get; set; }
-        public virtual string BTDRECONPS0 { get; set; }
-        public virtual string REMARKS_26 { get; set; }
-        public virtual string APPBR { get; set; }
-        public virtual string BRANCHNAME { get; set; }
-        public virtual string Remarks { get; set; }
-        public virtual string CHGOFFREASON_ASPERSCREEN402 { get; set; }
-
+        #region R_WRITEOFF_AUTO_AEB
         // tempTable=>TEMP_R_WRITEOFF_AUTO_AEB
-
         public virtual string ANYOTHERDUES_799 { get; set; }
         public virtual string RECOVERDT { get; set; }
         public virtual string Amtrecvd710901 { get; set; }
@@ -225,12 +129,14 @@ namespace ColloSys.DataLayer.Domain
         public virtual string BDincurred710401_31 { get; set; }
         public virtual string RECOVERDT_32 { get; set; }
         public virtual string Amtrecvd710901_33 { get; set; }
+        public virtual string ECSFLAG { get; set; }
+        public virtual string PDCFLAG { get; set; }
         public virtual string APPBR_43 { get; set; }
         public virtual string Remarks_46 { get; set; }
+        #endregion
 
-
+        #region R_WRITEOFF_AUTO_GB
         //TempTable=> TEMP_R_WRITEOFF_AUTO_GB
-
         public virtual string ANYOTHERDUES_799851 { get; set; }//ANYOTHERDUES_&799,851
         public virtual string AmountrecovdMSA_81183 { get; set; }
         public virtual string BaddebtsincurredMSA_81131 { get; set; }
@@ -275,6 +181,9 @@ namespace ColloSys.DataLayer.Domain
         public virtual string REMARKS_65 { get; set; }
         public virtual string CHARGEOFFREASONCODE { get; set; }
 
+        #endregion
+
+        #region R_WRITEOFF_AUTO_SCB
         //TempTable=> TEMP_R_WRITEOFF_AUTO_SCB
 
         public virtual string AmtrecovdMSA_81183 { get; set; }
@@ -313,6 +222,118 @@ namespace ColloSys.DataLayer.Domain
         public virtual string Remarks_67 { get; set; }
         public virtual string BuyBackACTS { get; set; }
 
+        #endregion
+
+        #region E_LINER_AUTO
+        // tempTable=> TEMP_E_LINER_AUTO
+        public virtual string DiscProv { get; set; }
+        public virtual string AmtrecvdDATE_2005 { get; set; }
+        public virtual string AmtrecvdMSA81183_2005 { get; set; }
+        public virtual string BDincurredMSA81131_2005 { get; set; }
+        public virtual string AmtrecvdDATE_2006 { get; set; } //  S/FWITHDEBITPOSTCOFF
+        public virtual string AmtrecvdMSA81183_2006 { get; set; }
+        public virtual string BDincurredMSA81131_2006 { get; set; }
+        public virtual string AmtrecvdDATE_2007 { get; set; }
+        public virtual string AmtrecvdMSA81183_2007 { get; set; }
+        public virtual string BDincurredMSA81131_2007 { get; set; }
+        public virtual string AmtrecvdDATE_2008 { get; set; }
+        public virtual string AmtrecvdMSA81183_2008 { get; set; }
+        public virtual string BDincurredMSA81131_2008 { get; set; }
+        public virtual string AmtrecvdDATE_2009 { get; set; }
+        public virtual string AmtrecvdMSA81183_2009 { get; set; }
+        public virtual string AmtrecvdDATE_2010 { get; set; }
+        public virtual string AmtrecvdMSA81183_2010 { get; set; }
+        public virtual string BDincurredMSA81131_2010 { get; set; }
+        public virtual string AmtrecvdDATE_2011 { get; set; }
+        public virtual string AmtrecvdMSA81183_2011 { get; set; }
+        public virtual string BDincurredMSA81131_2011 { get; set; }
+        public virtual string AmtrecvdDATE_2012 { get; set; }
+        public virtual string AmtrecvdMSA81183_2012 { get; set; }
+        public virtual string BDincurredMSA81131_2012 { get; set; }
+        public virtual string AmtrecvdDATE_2013 { get; set; }
+        public virtual string AmtrecvdMSA81183_2013 { get; set; }
+        public virtual string BDincurredMSA81131_2013 { get; set; }
+        public virtual string SFWITHDEBITPOSTCOFF { get; set; }
+        public virtual string Settlement { get; set; }
+        public virtual string REMARKS_43 { get; set; }
+        public virtual string ECS { get; set; }
+        public virtual string PDC { get; set; }
+        public virtual string APPBRANCHCODE { get; set; }
+        public virtual string Dispute { get; set; }
+        public virtual string DonotFollow { get; set; }
+        public virtual string COReason { get; set; }// C/OReason
+        public virtual string Remarks_48 { get; set; }
+        #endregion
+
+        #region R_WRITEOFF_PL_SCB
+        // TempTable=>TEMP_R_WRITEOFF_PL_SCB
+        public virtual string AmtrecovdMSA81183_2002 { get; set; }
+        public virtual string Amtrecvd710901_2000 { get; set; }
+        public virtual string BDincurred710401_2000 { get; set; }
+        public virtual string RECOVERDT_2001 { get; set; }
+        public virtual string Amtrecvd710901_2001 { get; set; }
+        public virtual string BDincurred710401_2001 { get; set; }
+        public virtual string BTDRECONP0S { get; set; }
+        public virtual string APPBR_61 { get; set; }
+        public virtual string Remarks_64 { get; set; }
+        public virtual string CHGOFFREASONASPER402SCREEN { get; set; }
+        public virtual string SELLDOWNACTS { get; set; }
+        public virtual string Count { get; set; }
+        #endregion
+
+        #region R_WRITEOFF_PL_GB
+        // TempTable=>TEMP_R_WRITEOFF_PL_GB
+        public virtual string AmttakenfromSCGB { get; set; }
+        public virtual string LTCHGWAIVED_723 { get; set; }
+        public virtual string AMTUTLPROV567 { get; set; }
+        public virtual string AMTUTLINTTSUS797 { get; set; }
+        public virtual string ANYOTHERDUES_851799 { get; set; }
+        public virtual string AmountrecovdMSA_81183_2002 { get; set; }
+        public virtual string BaddebtsincurredMSA_81131_2002 { get; set; }
+        public virtual string AmountrecovdMSA_81183_2003 { get; set; }
+        public virtual string BaddebtsincurredMSA_81131_2003 { get; set; }
+        public virtual string AmountrecovdMSA_81183_2004 { get; set; }
+        public virtual string BaddebtsincurredMSA_81131_2004 { get; set; }
+        public virtual string Amountrecovd710961_2005 { get; set; }
+        public virtual string Baddebtsincurred710461_2005 { get; set; }
+        public virtual string Amountrecovd710961_2006 { get; set; }
+        public virtual string Baddebtsincurred710461_2006 { get; set; }
+        public virtual string Amountrecovd710961_2007 { get; set; }
+        public virtual string Baddebtsincurred710461_2007 { get; set; }
+        public virtual string Amountrecovd710961_2008 { get; set; }
+        public virtual string Baddebtsincurred710461_2008 { get; set; }
+        public virtual string Amountrecovd710961_2009 { get; set; }
+        public virtual string Amountrecovd710961_2010 { get; set; }
+        public virtual string Baddebtsincurred710461_2010 { get; set; }
+        public virtual string Amountrecovd710961_2011 { get; set; }
+        public virtual string Baddebtsincurred710461_2011 { get; set; }
+        public virtual string Amountrecovd710961_2012 { get; set; }
+        public virtual string Baddebtsincurred710461_2012 { get; set; }
+        public virtual string Amountrecovd710961_2013 { get; set; }
+        public virtual string Baddebtsincurred710461_2013 { get; set; }
+        public virtual string RECDT_52 { get; set; }
+        public virtual string AMOUNTRECD { get; set; }
+        public virtual string BTDRECOVONPOS { get; set; }
+       // public virtual string SETTLEMENT { get; set; }
+        public virtual string MANUALCHGOFF_REMARKS { get; set; }
+        public virtual string APPBR_63 { get; set; }
+      //  public virtual string DISPUTE { get; set; }
+        //public virtual string DONOTFOLLOW { get; set; }
+        public virtual string REMARKS_66 { get; set; }
+        public virtual string PLSELLDOWN { get; set; }
+        #endregion
+
+        #region R_WRITEOFF_PL_LORDS
+        // TempTable=>TEMP_R_WRITEOFF_PL_LORDS
+        public virtual string LORDSLoan { get; set; }//LORDSLoan#
+        public virtual string PRODCODE { get; set; }
+        public virtual string BANKNBFC { get; set; }
+        public virtual string BTDRECONPS0 { get; set; }
+        public virtual string REMARKS_26 { get; set; }
+        public virtual string APPBR { get; set; }
+        public virtual string BRANCHNAME { get; set; }
+        public virtual string Remarks { get; set; }
+        public virtual string CHGOFFREASON_ASPERSCREEN402 { get; set; }
         #endregion
 
         #region Relationship
