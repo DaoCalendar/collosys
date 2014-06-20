@@ -28,12 +28,12 @@ namespace ColloSys.DataLayer.Domain
         public virtual string ProductName { get; set; }
         public virtual ScbEnums.Products Product { get; set; }
         public virtual string Branch { get; set; }
-        public virtual decimal CurrentDue { get; set; }
+        public virtual decimal FinalAmountDue { get; set; }
         public virtual bool IsSetteled { get; set; }
         public virtual string CustStatus { get; set; }
         public virtual DateTime? AllocStartDate { get; set; }
         public virtual DateTime? AllocEndDate { get; set; }
-        public virtual string Comments { get; set; }
+        public virtual string Remarks { get; set; }
         public override DateTime FileDate { get; set; }
         public override ulong FileRowNo { get; set; }
         public virtual string Recoverydate_2002 { get; set; }
@@ -89,17 +89,12 @@ namespace ColloSys.DataLayer.Domain
         public virtual string RemarksNamechange { get; set; }
         public virtual string MANUALXHOLDINGCHGOFFREMARKS { get; set; }
         public virtual string SELLDOWNACTS { get; set; }
-        //public virtual decimal AmountRepaid { get; set; }
         public virtual bool IsReferred { get; set; }
         public virtual uint Pincode { get; set; }
         public virtual ColloSysEnums.AllocStatus AllocStatus { get; set; }
         public virtual ColloSysEnums.NoAllocResons? NoAllocResons { get; set; }
         public virtual GPincode GPincode { get; set; }
         public override FileScheduler FileScheduler { get; set; }
-
-        public virtual string BadDebtsIncurred_3011 { get; set; }
-
-
         #endregion
 
         #region Relationship
@@ -140,10 +135,10 @@ namespace ColloSys.DataLayer.Domain
                     memberHelper.GetName(x => x.ProductName ),
                     memberHelper.GetName(x => x.Product ),
                     memberHelper.GetName(x => x.Branch ),
-                    memberHelper.GetName(x => x.CurrentDue ),
+                    memberHelper.GetName(x => x.FinalAmountDue ),
                     memberHelper.GetName(x => x.IsSetteled ),
                     memberHelper.GetName(x => x.CustStatus ),
-                    memberHelper.GetName(x => x.Comments ),
+                    memberHelper.GetName(x => x.Remarks ),
                     memberHelper.GetName(x => x.FileDate ),
                     memberHelper.GetName(x => x.FileRowNo ),
 

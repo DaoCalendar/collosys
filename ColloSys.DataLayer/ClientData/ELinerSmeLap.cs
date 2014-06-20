@@ -164,10 +164,10 @@ namespace ColloSys.DataLayer.ClientData
                     memberHelper.GetName(x => x.ProductName ),
                     memberHelper.GetName(x => x.Product ),
                     memberHelper.GetName(x => x.Branch ),
-                    memberHelper.GetName(x => x.CurrentDue ),
+                    memberHelper.GetName(x => x.FinalAmountDue ),
                     memberHelper.GetName(x => x.IsSetteled ),
                     memberHelper.GetName(x => x.CustStatus ),
-                    memberHelper.GetName(x => x.Comments ),
+                    memberHelper.GetName(x => x.Remarks ),
                     memberHelper.GetName(x => x.FileDate ),
                     memberHelper.GetName(x => x.FileRowNo ),
 

@@ -13,7 +13,7 @@ namespace ColloSys.DataLayer.Mapping
         {
             #region Relationship Mapping
 
-            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(true));
             ManyToOne(x => x.GPincode, map => { });
 
@@ -42,8 +42,8 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.PrincipalDue);
             Property(p => p.InterestCharge);
             //Property(x => x.AmountRepaid);
-            Property(x => x.CurrentDue);
-            Property(x => x.Comments, map => map.NotNullable(false));
+            Property(x => x.FinalAmountDue);
+            Property(x => x.Remarks, map => map.NotNullable(false));
             Property(p => p.BounceCharge);
             Property(p => p.FeeCharge);
             Property(p => p.LateCharge);
@@ -105,7 +105,6 @@ namespace ColloSys.DataLayer.Mapping
             Property(x => x.RemarksNamechange);
             Property(x => x.MANUALXHOLDINGCHGOFFREMARKS);
             Property(x => x.SELLDOWNACTS);
-            Property(x=>x.BadDebtsIncurred_3011);
             #endregion
 
         }
