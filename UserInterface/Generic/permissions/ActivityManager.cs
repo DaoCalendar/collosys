@@ -62,7 +62,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         {
             var devPermission = CreateDevPermissions(hierarchy);
 
-            if (hierarchy.Hierarchy == "Developer")
+            if (hierarchy.Hierarchy == "Admin" && hierarchy.Designation == "SuperAdmin")
             {
                 SetAccess(devPermission, true);
                 return devPermission;

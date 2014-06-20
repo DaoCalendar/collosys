@@ -53,7 +53,6 @@ namespace AngularUI.Billing.policy
             else
             {
                 var data = Session.Query<StkhHierarchy>()
-                    .Where(x => x.Hierarchy != "Developer")
                     .ToList();
                 var hierData = new List<StkhInfo>();
                 foreach (var hier in data)

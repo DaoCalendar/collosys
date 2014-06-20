@@ -515,18 +515,12 @@
     <Content Include="FileUpload\clientdatadownload\client-data-download.html" />
     <Content Include="FileUpload\customerinfo\customer-info.html" />
     <Content Include="FileUpload\paymentreversal\view-payments.html" />
-    <EmbeddedResource Include="ExcelData\ExampleData.xls" />
-    <EmbeddedResource Include="ExcelData\ExampleData.xlsx" />
-    <EmbeddedResource Include="ExcelData\DrillDown_Txn_1.xls" />
-    <EmbeddedResource Include="ExcelData\Copy of DrillDown_Txn_1.xls" />
     <Content Include="FileUpload\uploadpincode\upload-pincode.html" />
     <Content Include="Scripts\file-upload\angular-file-upload.min.js.map">
       <DependentUpon>angular-file-upload.js</DependentUpon>
     </Content>
     <Content Include="FileUpload\errorcorrection\error-correction.html" />
     <Content Include="FileUpload\errorapproval\error-approval.html" />
-    <EmbeddedResource Include="ExcelData\product code_501N.xls" />
-    <EmbeddedResource Include="ExcelData\AEB Auto Charge Off Base - 28.01.2014.xls" />
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />

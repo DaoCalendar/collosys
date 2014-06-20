@@ -22,8 +22,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             using (var rx = session.BeginTransaction())
             {
                 var hierarchy = session.QueryOver<StkhHierarchy>()
-                    .Where(x => x.Designation == "Developer")
-                    .And(x => x.Hierarchy == "Developer")
+                    .Where(x => x.Designation == "SuperAdmin")
+                    .And(x => x.Hierarchy == "Admin")
                     .SingleOrDefault();
                 var root = PermissionManager.CreateDevPermissions(hierarchy);
                 root = PermissionManager.SetAccess(root, true);
@@ -64,8 +64,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             using (var rx = session.BeginTransaction())
             {
                 var hierarchy = session.QueryOver<StkhHierarchy>()
-                    .Where(x => x.Designation == "Developer")
-                    .And(x => x.Hierarchy == "Developer")
+                    .Where(x => x.Designation == "SuperAdmin")
+                    .And(x => x.Hierarchy == "Admin")
                     .SingleOrDefault();
                 var root = session.QueryOver<GPermission>()
                     .Where(x => x.Role.Id == hierarchy.Id)
@@ -118,8 +118,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             using (var tx = session.BeginTransaction())
             {
                 var hierarchy = session.QueryOver<StkhHierarchy>()
-                     .Where(x => x.Designation == "Developer")
-                     .And(x => x.Hierarchy == "Developer")
+                     .Where(x => x.Designation == "SuperAdmin")
+                     .And(x => x.Hierarchy == "Admin")
                      .SingleOrDefault();
                 var root = session.QueryOver<GPermission>()
                     .Where(x => x.Role.Id == hierarchy.Id)
@@ -145,8 +145,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             using (var rx = session.BeginTransaction())
             {
                 var hierarchy = session.QueryOver<StkhHierarchy>()
-                   .Where(x => x.Designation == "Developer")
-                   .And(x => x.Hierarchy == "Developer")
+                   .Where(x => x.Designation == "SuperAdmin")
+                   .And(x => x.Hierarchy == "Admin")
                    .SingleOrDefault();
 
                 var root = session.QueryOver<GPermission>()

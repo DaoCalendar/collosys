@@ -14,20 +14,10 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
     public class HierarchyQueryBuilder : Repository<StkhHierarchy>
     {
         [Transaction]
-        public IEnumerable<StkhHierarchy> ExceptDeveloperExternal()
-        {
-            var Session = SessionManager.GetCurrentSession();
-            return Session.QueryOver<StkhHierarchy>()
-                          .Where(x => x.Hierarchy != "Developer" && x.Hierarchy != "External")
-                          .List();
-        }
-
-        [Transaction]
         public IEnumerable<StkhHierarchy> GetAllHierarchies()
         {
-            var Session = SessionManager.GetCurrentSession();
-            return Session.QueryOver<StkhHierarchy>()
-                          .Where(x => x.Hierarchy != "Developer")
+            var session = SessionManager.GetCurrentSession();
+            return session.QueryOver<StkhHierarchy>()
                           .List();
         }
 
