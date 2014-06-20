@@ -15,27 +15,32 @@ namespace ColloSys.DataLayer.Domain
 {
     public class EWriteoff : UploadableEntity, IDelinquentCustomer, IUniqueKey
     {
+       
+        public virtual decimal BounceCharge { get; set; }
+        public virtual decimal FeeCharge { get; set; }
+         public virtual string CustStatus { get; set; }
+        public virtual bool IsSetteled { get; set; }
+        public virtual decimal LateCharge { get; set; }
+        public override DateTime FileDate { get; set; }
+        public override ulong FileRowNo { get; set; }
+
         #region Properties
         public virtual string AccountNo { get; set; }
         public virtual DateTime ChargeOffDate { get; set; }
         public virtual string CustomerName { get; set; }
         public virtual decimal PrincipalDue { get; set; }
         public virtual decimal InterestCharge { get; set; }
-        public virtual decimal FeeCharge { get; set; }
-        public virtual decimal BounceCharge { get; set; }
-        public virtual decimal LateCharge { get; set; }
+        
         public virtual decimal TotalDue { get; set; }
         public virtual string ProductName { get; set; }
         public virtual ScbEnums.Products Product { get; set; }
         public virtual string Branch { get; set; }
         public virtual decimal FinalAmountDue { get; set; }
-        public virtual bool IsSetteled { get; set; }
-        public virtual string CustStatus { get; set; }
+        
+       
         public virtual DateTime? AllocStartDate { get; set; }
         public virtual DateTime? AllocEndDate { get; set; }
         public virtual string Remarks { get; set; }
-        public override DateTime FileDate { get; set; }
-        public override ulong FileRowNo { get; set; }
         public virtual string Recoverydate_2002 { get; set; }
         public virtual string Amountrecovered_2002 { get; set; }
 
