@@ -195,7 +195,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         private static void AddStakeholderActivities(GPermission stakeholder)
         {
             var addStakeholder = AddActivity(stakeholder, ColloSysEnums.Activities.Stakeholder, desciption: "Add,Edit,Approve other users");
-            AddActivity(addStakeholder, ColloSysEnums.Activities.View);
+            //AddActivity(addStakeholder, ColloSysEnums.Activities.View);
             AddActivity(addStakeholder, ColloSysEnums.Activities.AddEdit);
             AddActivity(addStakeholder, ColloSysEnums.Activities.Approve);
 
