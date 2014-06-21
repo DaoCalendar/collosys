@@ -36,7 +36,7 @@ namespace ReflectionExtension.Tests.EWriteOffTest
         public void Test_CreateRecord_Assigning_ValidMapping_Check_AccNo()
         {
             _paymentLiner.ExcelReader.Skip(3);
-           var record= _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
+           var record= _paymentLiner.RecordCreatorObj.CreateRecord(_paymentLiner.FileScheduler.FileDetail.FileMappings, out _record);
            
             //Assert
             Assert.AreEqual(_record.AccountNo, "12345678902");

@@ -34,7 +34,7 @@ namespace ReflectionExtension.Tests.AliasLinerTest
         {
             //Act
             _rLiner.ExcelReader.Skip(3);
-            _rLiner.ObjRecord.CreateRecord(_rLiner._fs.FileDetail.FileMappings,out _record);
+            _rLiner.RecordCreatorObj.CreateRecord(_rLiner.FileScheduler.FileDetail.FileMappings,out _record);
             
             //Assert
             Assert.AreEqual(_record.AccountNo,132);

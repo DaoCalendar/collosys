@@ -156,7 +156,7 @@ namespace ColloSys.DataLayer.Domain
         //    if (!NHibernateUtil.IsInitialized(EAllocs) || forceEmpty) EAllocs = null;
         //}
 
-        public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
+        public virtual IList<Allocations> Allocs { get; set; }
 
         #endregion
     }

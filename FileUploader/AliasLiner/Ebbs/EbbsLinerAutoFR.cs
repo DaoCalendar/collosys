@@ -33,7 +33,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             }
 
             // for month start liner
-            if (_objRecord.PreviousDayLiner.First().FileDate.Month != _fs.FileDate.Month)
+            if (_objRecord.PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)
             {
                 return;
             }
@@ -45,8 +45,8 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
                 liner.ResetUniqueProperties();
                 liner.Flag = ColloSysEnums.DelqFlag.R;
                 liner.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
-                liner.FileDate = _fs.FileDate;
-                liner.FileScheduler = _fs;
+                liner.FileDate = FileScheduler.FileDate;
+                liner.FileScheduler = FileScheduler;
                 liner.FileRowNo = 0;
                 liner.MinimumDue = 0;
                 _counter.IncrementInsertRecords();

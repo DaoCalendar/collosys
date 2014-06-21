@@ -36,7 +36,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_CreateRecord_Assigning_ValidMapping_Check_AccNo()
         {
             _paymentLiner.ExcelReader.Skip(3);
-            _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
+            _paymentLiner.RecordCreatorObj.CreateRecord(_paymentLiner.FileScheduler.FileDetail.FileMappings, out _record);
 
             //Assert
             Assert.AreEqual(_record.AccountNo, "22505938568");
@@ -46,7 +46,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Test_CreateRecord_Assigning_ValidMapping_Check_()
         {
             _paymentLiner.ExcelReader.Skip(3);
-            _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
+            _paymentLiner.RecordCreatorObj.CreateRecord(_paymentLiner.FileScheduler.FileDetail.FileMappings, out _record);
 
 
             //Assert
@@ -58,7 +58,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Act
             _paymentLiner.ExcelReader.Skip(1);
-            var isRecordValid = _paymentLiner.ObjRecord.CreateRecord(_paymentLiner._fs.FileDetail.FileMappings, out _record);
+            var isRecordValid = _paymentLiner.RecordCreatorObj.CreateRecord(_paymentLiner.FileScheduler.FileDetail.FileMappings, out _record);
 
             //Assert
             Assert.AreEqual(isRecordValid, false);
@@ -69,9 +69,9 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             _paymentLiner.ExcelReader.Skip(3);
             var excelMap =
-               _paymentLiner._fs.FileDetail.FileMappings.Where(
+               _paymentLiner.FileScheduler.FileDetail.FileMappings.Where(
                    x => x.ValueType == ColloSysEnums.FileMappingValueType.ExcelValue).ToList();
-            _paymentLiner.ObjRecord.ExcelMapper(_record, excelMap);
+            _paymentLiner.RecordCreatorObj.ExcelMapper(_record, excelMap);
 
             //Assert
             Assert.AreEqual(_record.DebitAmount, 0);
@@ -82,9 +82,9 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             _paymentLiner.ExcelReader.Skip(3);
             var excelMap =
-                _paymentLiner._fs.FileDetail.FileMappings.Where(
+                _paymentLiner.FileScheduler.FileDetail.FileMappings.Where(
                     x => x.ValueType == ColloSysEnums.FileMappingValueType.ExcelValue).ToList();
-            _paymentLiner.ObjRecord.ExcelMapper(_record, excelMap);
+            _paymentLiner.RecordCreatorObj.ExcelMapper(_record, excelMap);
 
             //Assert
             Assert.AreEqual(_record.TransAmount, 70500);
@@ -95,9 +95,9 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             _paymentLiner.ExcelReader.Skip(3);
             var defMapping =
-                _paymentLiner._fs.FileDetail.FileMappings.Where(
+                _paymentLiner.FileScheduler.FileDetail.FileMappings.Where(
                     x => x.ValueType == ColloSysEnums.FileMappingValueType.DefaultValue).ToList();
-            _paymentLiner.ObjRecord.DefaultMapper(_record,defMapping);
+            _paymentLiner.RecordCreatorObj.DefaultMapper(_record,defMapping);
             
             //Assert
             Assert.AreEqual(_record.BillStatus, ColloSysEnums.BillStatus.Unbilled);
@@ -108,7 +108,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Act
             _paymentLiner.ExcelReader.Skip(3);
-            bool isComputtedSetter = _paymentLiner.ObjRecord.ComputedSetter(_record);
+            bool isComputtedSetter = _paymentLiner.RecordCreatorObj.ComputedSetter(_record);
 
             //Assert
             Assert.AreEqual(isComputtedSetter, true);
@@ -120,7 +120,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Act
             _paymentLiner.ExcelReader.Skip(3);
-            bool isValidBasicField = _paymentLiner.ObjRecord.CheckBasicField();
+            bool isValidBasicField = _paymentLiner.RecordCreatorObj.CheckBasicField();
 
             //Assert
             Assert.AreEqual(isValidBasicField, true);
@@ -132,7 +132,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Act
             _paymentLiner.ExcelReader.Skip(1);
-            bool isValidBasicField = _paymentLiner.ObjRecord.CheckBasicField();
+            bool isValidBasicField = _paymentLiner.RecordCreatorObj.CheckBasicField();
 
             //Assert
             Assert.AreEqual(isValidBasicField, false);
@@ -144,7 +144,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             //Act
             _paymentLiner.ExcelReader.Skip(1);
-            _paymentLiner.ObjRecord.CheckBasicField();
+            _paymentLiner.RecordCreatorObj.CheckBasicField();
 
 
             //Assert

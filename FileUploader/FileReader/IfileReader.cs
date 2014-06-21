@@ -10,14 +10,13 @@ namespace ColloSys.FileUploaderService.FileReader
     {
         ICounter Counter { get; }
         IExcelReader ExcelReader { get; }
-        IRecord<T> ObjRecord { get; }
-        FileScheduler _fs { get;  }
+        IRecord<T> RecordCreatorObj { get; }
+        FileScheduler FileScheduler { get;  }
     
         void ReadAndSaveBatch();
         void ProcessFile();
         IList<T> GetNextBatch();
 
-        //void PreProcessing();
         bool PostProcessing();
     }
 
