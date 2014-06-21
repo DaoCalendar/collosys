@@ -3,187 +3,194 @@
     <div class="panel-body">
         <cs-form>
             <form>
-                <div data-ng-if="mode === 'edit'" style="margin-bottom: 10px">
-                    <cs-button
-                        type="submit"
-                        text="back to view"
-                        permission="Stakeholder,Stakeholder,AddEdit"
-                        data-ng-click="gotoView()">
-                    </cs-button>
-                </div>
-                
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width: 2%"></th>
-                            <th class="col-md-2">Product</th>
-                            <th class="col-md-2">Reports To</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showRegion">Region</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showCluster">Cluster</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showState">State</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showDistrict">District</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showCity"  >City</th>
-                            <th class="col-md-2" data-ng-show="displayManager.showArea"  >Area</th>
-                            <th class="col-md-1"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><!--<input type="checkbox" 
-                                           data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
-                                           data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
-                            <td>
-                                <cs-field field="workingModel.Products"
-                                          data-ng-model="WorkingModel.SelectedPincodeData.Products"
-                                          no-label=""
-                                          data-ng-change="getReportsTo(WorkingModel.SelectedPincodeData.Products)">
-                                </cs-field>
-                            </td>
-
-                            <td >
-                                <cs-field field="workingModel.ReportsTo"
-                                          no-label=""
-                                          value-list="reportsToList"
-                                          data-ng-change="getPincodeData(WorkingModel)"
-                                          data-ng-model="WorkingModel.SelectedPincodeData.ReportsTo">
-                                </cs-field>
-                            </td>
-
-                            <td data-ng-show="displayManager.showRegion">
-                                <cs-field data-ng-show="!showDropdown('Region')" 
-                                          field="workingModel.Region"
-                                          no-label=""  
-                                          data-ng-change="getPincodeData(WorkingModel,'Region')"    
-                                          data-ng-model="WorkingModel.SelectedPincodeData.Region"
-                                          value-list="WorkingModel.ListOfRegions">
-                                </cs-field>
-                                <div data-ng-if="showDropdown('Region')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Region"
-                                                 change="getPincodeData(WorkingModel,'Region')"    
-                                                 options="c for c in WorkingModel.ListOfRegions" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-
-                            <td data-ng-show="displayManager.showCluster "  >
-                                <cs-field field="workingModel.Cluster"
-                                          no-label=""  
-                                          data-ng-show="!showDropdown('Cluster')"
-                                          data-ng-change="getPincodeData(WorkingModel,'Cluster')"   
-                                          data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
-                                          value-list="WorkingModel.ListOfStates">
-                                </cs-field>
-                                <div data-ng-if="showDropdown('Cluster')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
-                                                 change="getPincodeData(WorkingModel,'Cluster')"    
-                                                 options="c for c in WorkingModel.ListOfClusters" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-                            
-                            <td data-ng-show="displayManager.showState">
-                                <cs-field field="workingModel.State"
-                                          data-ng-model="WorkingModel.SelectedPincodeData.State"   
-                                          no-label="" 
-                                          data-ng-change="getPincodeData(WorkingModel,'State')"   
-                                          data-ng-show="!showDropdown('State')"
-                                          value-list="WorkingModel.ListOfStates"></cs-field>
-                                <div data-ng-if="showDropdown('State')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.State"
-                                                 change="getPincodeData(WorkingModel,'State')" 
-                                                 options="c for c in WorkingModel.ListOfStates" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-                            
-                            <td data-ng-show="displayManager.showDistrict "  >
-                                <cs-field field="workingModel.District"
-                                          no-label=""  
-                                          data-ng-show="!showDropdown('District')"
-                                          data-ng-change="getPincodeData(WorkingModel,'District')"   
-                                          data-ng-model="WorkingModel.SelectedPincodeData.District" 
-                                          value-list="WorkingModel.ListOfDistricts" >
-                                </cs-field>
-                                <div data-ng-if="showDropdown('District')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.District"
-                                                 change="getPincodeData(WorkingModel,'District')"    
-                                                 options="c for c in WorkingModel.ListOfDistricts" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-                            
-                            <td  data-ng-show="displayManager.showCity "  >
-                                <cs-field field="workingModel.City"
-                                          no-label=""  
-                                          data-ng-show="!showDropdown('City')" 
-                                          value-list="WorkingModel.ListOfCities"
-                                          data-ng-change="getPincodeData(WorkingModel,'City')" 
-                                          data-ng-model="WorkingModel.SelectedPincodeData.City">
-                                </cs-field>
-                                <div data-ng-if="showDropdown('City')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.City"
-                                                 change="getPincodeData(WorkingModel,'City')"    
-                                                 options="c for c in WorkingModel.ListOfCities" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-                            
-                            <td data-ng-show="displayManager.showArea "  >
-                                <cs-field field="workingModel.Area"
-                                          no-label=""    
-                                          data-ng-show="!showDropdown('Area')"
-                                          data-ng-model="Working.Area"
-                                          data-ng-change="getPincodeData(WorkingModel,'Area')"   
-                                          value-list="WorkingModel.ListOfAreas">
-                                </cs-field>
-                                <div data-ng-if="showDropdown('Area')">
-                                    <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Area"
-                                                 change="getPincodeData(WorkingModel,'Area')"    
-                                                 options="c for c in WorkingModel.ListOfAreas" multiple="true">
-                                    </multiselect>
-                                </div>
-                            </td>
-                            <td >
-                                <div data-ng-if="deleteWorkingList.length === 0">
-                                    <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
-                                    </cs-button>
-                                </div>
-                                <div data-ng-if="deleteWorkingList.length > 0">
-                                    <cs-button type="submit" text="delete" data-ng-click="deleteSelectedWorking()">
-                                    </cs-button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-ng-repeat="data in workingDetailsList">
-                            <td><input type="checkbox" data-ng-model="checked" 
-                                       data-ng-click="addWorkingToDelete(data)"/></td>
-                            <td class="col-md-2">{{data.Products}}</td>
-                            <td class="col-md-2">{{getReportsToName(data.ReportsTo)}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showDistrict">{{data.District}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showCity">{{data.City}}</td>
-                            <td class="col-md-2" data-ng-show="displayManager.showArea">{{data.Area}}</td>
-                            <td>
-                                <div data-ng-show="checked && data.Status === 'Approved'">
-                                    <cs-field field="workingModel.EndDate"
-                                              data-ng-model="endDate"
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 2%"></th>
+                                <th class="col-md-2">Product</th>
+                                <th class="col-md-2">Reports To</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showRegion">Region</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showCluster">Cluster</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showState">State</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showDistrict">District</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showCity"  >City</th>
+                                <th class="col-md-2" data-ng-show="displayManager.showArea"  >Area</th>
+                                <th class="col-md-2" data-ng-show="selectedHierarchy.HasBuckets">Bucket</th>
+                                <th class="col-md-2" data-ng-show="formMode!=='view'"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-show="formMode!=='view'">
+                                <td><!--<input type="checkbox" 
+                                                                  data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
+                                                                  data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
+                                <td>
+                                    <cs-field field="workingModel.Products"
+                                              data-ng-model="WorkingModel.SelectedPincodeData.Products"
                                               no-label=""
-                                              data-ng-change="assignEndDate(data,endDate)">
+                                              data-ng-change="getReportsTo(WorkingModel.SelectedPincodeData.Products)">
                                     </cs-field>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="pull-right">
-                    <cs-button type="save"
-                               data-ng-disabled="showSaveButton()" 
-                               permission="Stakeholder,Stakeholder,AddEdit"
-                               data-ng-click="save(workingDetailsList)">
-                    </cs-button>
-                </div>
+                                </td>
+
+                                <td >
+                                    <cs-field field="workingModel.ReportsTo"
+                                              no-label=""
+                                              value-list="reportsToList"
+                                              data-ng-change="getPincodeData(WorkingModel)"
+                                              data-ng-model="WorkingModel.SelectedPincodeData.ReportsTo">
+                                    </cs-field>
+                                </td>
+
+                                <td data-ng-show="displayManager.showRegion">
+                                    <cs-field data-ng-show="!showDropdown('Region')" 
+                                              field="workingModel.Region"
+                                              no-label=""  
+                                              data-ng-change="getPincodeData(WorkingModel,'Region')"    
+                                              data-ng-model="WorkingModel.SelectedPincodeData.Region"
+                                              value-list="WorkingModel.ListOfRegions">
+                                    </cs-field>
+                                    <div data-ng-if="showDropdown('Region')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Region"
+                                                     change="getPincodeData(WorkingModel,'Region')"    
+                                                     options="c for c in WorkingModel.ListOfRegions" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+
+                                <td data-ng-show="displayManager.showCluster "  >
+                                    <cs-field field="workingModel.Cluster"
+                                              no-label=""  
+                                              data-ng-show="!showDropdown('Cluster')"
+                                              data-ng-change="getPincodeData(WorkingModel,'Cluster')"   
+                                              data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
+                                              value-list="WorkingModel.ListOfStates">
+                                    </cs-field>
+                                    <div data-ng-if="showDropdown('Cluster')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
+                                                     change="getPincodeData(WorkingModel,'Cluster')"    
+                                                     options="c for c in WorkingModel.ListOfClusters" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                            
+                                <td data-ng-show="displayManager.showState">
+                                    <cs-field field="workingModel.State"
+                                              data-ng-model="WorkingModel.SelectedPincodeData.State"   
+                                              no-label="" 
+                                              data-ng-change="getPincodeData(WorkingModel,'State')"   
+                                              data-ng-show="!showDropdown('State')"
+                                              value-list="WorkingModel.ListOfStates"></cs-field>
+                                    <div data-ng-if="showDropdown('State')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.State"
+                                                     change="getPincodeData(WorkingModel,'State')" 
+                                                     options="c for c in WorkingModel.ListOfStates" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                            
+                                <td data-ng-show="displayManager.showDistrict "  >
+                                    <cs-field field="workingModel.District"
+                                              no-label=""  
+                                              data-ng-show="!showDropdown('District')"
+                                              data-ng-change="getPincodeData(WorkingModel,'District')"   
+                                              data-ng-model="WorkingModel.SelectedPincodeData.District" 
+                                              value-list="WorkingModel.ListOfDistricts" >
+                                    </cs-field>
+                                    <div data-ng-if="showDropdown('District')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.District"
+                                                     change="getPincodeData(WorkingModel,'District')"    
+                                                     options="c for c in WorkingModel.ListOfDistricts" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                            
+                                <td  data-ng-show="displayManager.showCity "  >
+                                    <cs-field field="workingModel.City"
+                                              no-label=""  
+                                              data-ng-show="!showDropdown('City')" 
+                                              value-list="WorkingModel.ListOfCities"
+                                              data-ng-change="getPincodeData(WorkingModel,'City')" 
+                                              data-ng-model="WorkingModel.SelectedPincodeData.City">
+                                    </cs-field>
+                                    <div data-ng-if="showDropdown('City')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.City"
+                                                     change="getPincodeData(WorkingModel,'City')"    
+                                                     options="c for c in WorkingModel.ListOfCities" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                            
+                                <td data-ng-show="displayManager.showArea "  >
+                                    <cs-field field="workingModel.Area"
+                                              no-label=""    
+                                              data-ng-show="!showDropdown('Area')"
+                                              data-ng-model="Working.Area"
+                                              data-ng-change="getPincodeData(WorkingModel,'Area')"   
+                                              value-list="WorkingModel.ListOfAreas">
+                                    </cs-field>
+                                    <div data-ng-if="showDropdown('Area')">
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Area"
+                                                     change="getPincodeData(WorkingModel,'Area')"    
+                                                     options="c for c in WorkingModel.ListOfAreas" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                                <td data-ng-show="selectedHierarchy.HasBuckets">
+                                    <div>
+                                        <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Buckets"
+                                                     options="c for c in bucketList" multiple="true">
+                                        </multiselect>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div data-ng-if="deleteWorkingList.length === 0">
+                                        <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
+                                        </cs-button>
+                                    </div>
+                                    <div data-ng-if="deleteWorkingList.length > 0">
+                                        <cs-button type="submit" text="delete" data-ng-click="deleteSelectedWorking()">
+                                        </cs-button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-ng-repeat="data in workingDetailsList">
+                                <td><input data-ng-show="formMode!=='view'" type="checkbox" 
+                                           data-ng-model="checked" 
+                                           data-ng-click="addWorkingToDelete(data)"/></td>
+                                <td class="col-md-2">{{data.Products}}</td>
+                                <td class="col-md-2">{{getReportsToName(data.ReportsTo)}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showDistrict">{{data.District}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showCity">{{data.City}}</td>
+                                <td class="col-md-2" data-ng-show="displayManager.showArea">{{data.Area}}</td>
+                                <td data-ng-show="selectedHierarchy.HasBuckets">
+                                </td>
+                                <td data-ng-show="formMode!=='view'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pull-right">
+                        <cs-button type="save"
+                                   data-ng-disabled="showSaveButton()" 
+                                   permission="Stakeholder,Stakeholder,AddEdit"
+                                   data-ng-click="save(workingDetailsList)">
+                        </cs-button>
+                        <cs-button
+                            type="cancel"
+                            text="Close"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-ng-click="gotoView()">
+                        </cs-button>
+                        <cs-button
+                            type="submit"
+                            text="Edit"
+                            data-ng-show="formMode === 'view'"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-ng-click="changeMode('working')">
+                        </cs-button>
+                    </div>
             </form>
         </cs-form>
     </div>
@@ -191,101 +198,101 @@
 <div class="clearfix"></div>
 <div class="panel panel-default" data-ng-if="selectedHierarchy.HasPayment">
     <div class="panel-heading">Payment Details</div>
-    <div class="panel-body">
-        <cs-form>
+    <div class="panel-body" data-ng-if="showPayment">
+        <cs-form mode="paymentMode">
             <form>
                 <div data-ng-form="paymentForm">
-                <div data-ng-if="selectedHierarchy.HasFixed">
-                    <h5 class="modal-header"><b>Fixed Pay</b></h5>
-                    <!--Basic-->
-                    <cs-field data-ng-model="Payment.FixpayBasic"
-                              data-ng-required="selectedHierarchy.HasFixed"
-                              field="paymentModel.FixpayBasic">
-                    </cs-field>
-                    <!--HRA-->
-                    <div data-ng-show="selectedHierarchy.HasFixedIndividual  && false">
-                        <cs-field data-ng-model="Payment.FixpayHra"
-                                  data-ng-required="selectedHierarchy.HasFixedIndividual "
-                                  field="paymentModel.FixpayHra"></cs-field>
-                    </div>
-                    <div data-ng-show="selectedHierarchy.HasFixedIndividual  ">
-                        <cs-field field="paymentModel.FixpayTotal"
+                    <div data-ng-if="selectedHierarchy.HasFixed">
+                        <h5 class="modal-header"><b>Fixed Pay</b></h5>
+                        <!--Basic-->
+                        <cs-field data-ng-model="Payment.FixpayBasic"
                                   data-ng-required="selectedHierarchy.HasFixed"
-                                  data-ng-model="Payment.FixpayTotal">
+                                  field="paymentModel.FixpayBasic">
+                        </cs-field>
+                        <!--HRA-->
+                        <div data-ng-show="selectedHierarchy.HasFixedIndividual  && false">
+                            <cs-field data-ng-model="Payment.FixpayHra"
+                                      data-ng-required="selectedHierarchy.HasFixedIndividual "
+                                      field="paymentModel.FixpayHra"></cs-field>
+                        </div>
+                        <div data-ng-show="selectedHierarchy.HasFixedIndividual  ">
+                            <cs-field field="paymentModel.FixpayTotal"
+                                      data-ng-required="selectedHierarchy.HasFixedIndividual"
+                                      data-ng-model="Payment.FixpayTotal">
+                            </cs-field>
+                        </div>
+                    </div>
+                    <div class="pull-right">
+                        <cs-button type="submit" data-ng-click="getSalaryDetails(Payment)">
+                        </cs-button>
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <div data-ng-if="selectedHierarchy.HasFixedIndividual">
+                        <cs-field field="paymentModel.FixpayOther"
+                                  data-ng-required="selectedHierarchy.HasFixedIndividual"
+                                  data-ng-model="Payment.FixpayOther">
                         </cs-field>
                     </div>
-                </div>
-                <div class="pull-right">
-                    <cs-button type="submit" data-ng-click="getSalaryDetails(Payment)">
-                    </cs-button>
-                </div>
-                <div class="clearfix"></div>
 
-                <div data-ng-if="selectedHierarchy.HasFixedIndividual">
-                    <cs-field field="paymentModel.FixpayOther"
-                              data-ng-required="selectedHierarchy.HasFixedIndividual"
-                              data-ng-model="Payment.FixpayOther">
-                    </cs-field>
-                </div>
+                    <div class="clearfix"></div>
 
-                <div class="clearfix"></div>
+                    <div data-ng-show="selectedHierarchy.HasFixedIndividual">
+                        <table class="table table-bordered table-hover" data-ng-show="SalDetails">
+                            <thead>
+                                <tr>
+                                    <th data-ng-show="Payment.FixpayBasic">Basic</th>
+                                    <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">Allowances</th>-->
+                                    <th data-ng-show="Payment.FixpayBasic">Employee PF</th>
+                                    <th data-ng-show="Payment.FixpayBasic">Employer PF</th>
+                                    <th>Employee ESIC</th>
+                                    <th>Employer ESIC</th>
+                                    <th>Service Charge</th>
+                                    <th>Service Tax</th>
+                                    <th>Gross Pay</th>
+                                </tr>
+                                <tr>
+                                    <th data-ng-show="Payment.FixpayBasic"></th>
+                                    <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
+                                    <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePf}}%</th>
+                                    <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPf}}%</th>
+                                    <th>Gross Salary * {{FixedPay.EmployeeEsic}}%</th>
+                                    <th>Gross Salary * {{FixedPay.EmployerEsic}}% </th>
+                                    <th>Basic * {{FixedPay.ServiceCharge}}%</th>
+                                    <th>Basic * {{FixedPay.ServiceTax}}% </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-ng-show="Payment.FixpayBasic">{{Payment.FixpayBasic}}</td>
+                                    <!--<td data-ng-show="Payment.FixpayBasic">{{SalDetails.totalNotEsic}}</td>-->
+                                    <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePf*1)}}</td>
+                                    <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPf*1)}}</td>
+                                    <td>{{SalDetails.EmployeeEsic}}</td>
+                                    <td>{{SalDetails.EmployerEsic}}</td>
+                                    <td>{{SalDetails.ServiceCharge}}</td>
+                                    <td>{{SalDetails.ServiceTax}}</td>
+                                    <td>{{SalDetails.TotalPayout}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div data-ng-show="selectedHierarchy.HasFixedIndividual  ">
-                    <table class="table table-bordered table-hover" data-ng-show="SalDetails">
-                        <thead>
-                            <tr>
-                                <th data-ng-show="Payment.FixpayBasic">Basic</th>
-                                <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">Allowances</th>-->
-                                <th data-ng-show="Payment.FixpayBasic">Employee PF</th>
-                                <th data-ng-show="Payment.FixpayBasic">Employer PF</th>
-                                <th>Employee ESIC</th>
-                                <th>Employer ESIC</th>
-                                <th>Service Charge</th>
-                                <th>Service Tax</th>
-                                <th>Gross Pay</th>
-                            </tr>
-                            <tr>
-                                <th data-ng-show="Payment.FixpayBasic"></th>
-                                <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
-                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePf}}%</th>
-                                <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPf}}%</th>
-                                <th>Gross Salary * {{FixedPay.EmployeeEsic}}%</th>
-                                <th>Gross Salary * {{FixedPay.EmployerEsic}}% </th>
-                                <th>Basic * {{FixedPay.ServiceCharge}}%</th>
-                                <th>Basic * {{FixedPay.ServiceTax}}% </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-ng-show="Payment.FixpayBasic">{{Payment.FixpayBasic}}</td>
-                                <!--<td data-ng-show="Payment.FixpayBasic">{{SalDetails.totalNotEsic}}</td>-->
-                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePf*1)}}</td>
-                                <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPf*1)}}</td>
-                                <td>{{SalDetails.EmployeeEsic}}</td>
-                                <td>{{SalDetails.EmployerEsic}}</td>
-                                <td>{{SalDetails.ServiceCharge}}</td>
-                                <td>{{SalDetails.ServiceTax}}</td>
-                                <td>{{SalDetails.TotalPayout}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="clearfix"></div>
 
-                <div class="clearfix"></div>
-
-                <div data-ng-show="selectedHierarchy.HasMobileTravel">
-                    <h5 class="modal-header"><b>Reimbursement elgibility</b></h5>
-                    <cs-field data-ng-required="selectedHierarchy.HasMobileTravel"
-                              data-ng-model="Payment.MobileElig"
-                              field="paymentModel.MobileElig"></cs-field>
-                    <cs-field data-ng-required="selectedHierarchy.HasMobileTravel"
-                              data-ng-model="Payment.TravelElig"
-                              field="paymentModel.TravelElig"></cs-field>
-                </div>
+                    <div data-ng-show="selectedHierarchy.HasMobileTravel">
+                        <h5 class="modal-header"><b>Reimbursement elgibility</b></h5>
+                        <cs-field data-ng-required="selectedHierarchy.HasMobileTravel"
+                                  data-ng-model="Payment.MobileElig"
+                                  field="paymentModel.MobileElig"></cs-field>
+                        <cs-field data-ng-required="selectedHierarchy.HasMobileTravel"
+                                  data-ng-model="Payment.TravelElig"
+                                  field="paymentModel.TravelElig"></cs-field>
+                    </div>
 
 
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
                     <div data-ng-show="selectedHierarchy.HasServiceCharge">
                         <h5 class="modal-header"><b>Other Charges</b></h5>
@@ -300,6 +307,19 @@
                         <cs-button type="save"
                                    permission="Stakeholder,Stakeholder,AddEdit"
                                    data-ng-click="savePayment(Payment,paymentForm)">
+                        </cs-button>
+                        <cs-button
+                            type="cancel"
+                            text="Close"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-ng-click="gotoView()">
+                        </cs-button>
+                        <cs-button
+                            type="submit"
+                            text="Edit"
+                            data-ng-show="paymentMode === 'view'"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-ng-click="changeMode('payment')">
                         </cs-button>
                     </div>
                 </div>

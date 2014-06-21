@@ -11,7 +11,6 @@
                     <div data-ng-show="Stakeholder.Hierarchy">
                         <cs-field data-ng-model="Stakeholder.Designation"
                                   value-list="DesignationList"
-                                  track-by="Id"
                                   data-ng-change="assignSelectedHier(Stakeholder.Designation,basicInfoForm)"
                                   field="stakeholderModels.stakeholder.designation"></cs-field>
                     </div>
@@ -30,7 +29,7 @@
                     <br/>
                     <cs-field data-ng-model="Stakeholder.Name"
                               field="stakeholderModels.stakeholder.Name"></cs-field>
-
+                    
                     <div data-ng-if="selectedHierarchy.IsUser">
                         <cs-field data-ng-model="Stakeholder.ExternalId"
                                   on-validate="{unique:'validate($value)'}"
@@ -87,21 +86,24 @@
                     <div class="clearfix"></div>
                     <div class="pull-right">
                         <cs-button type="save"
+                                   data-ng-show="formMode!=='view'" 
+                                   text ="{{getTextForSaveBtn()}}" 
                                    permission="Stakeholder,Stakeholder,AddEdit"
-                                   data-ng-disabled="basicInfoForm.$invalid || userExists"
+                                   data-ng-disabled="basicInfoForm.$invalid"
                                    data-ng-click="saveData(Stakeholder)"></cs-button>
                         <cs-button type="cancel"
                                    permission="Stakeholder,Stakeholder,AddEdit"
                                    data-ng-click="cancel()"></cs-button>
-                        <cs-button type="reset"
-                                   permission="Stakeholder,Stakeholder,AddEdit"
-                                   data-ng-click="reset()"></cs-button>
-                        <span data-ng-if="mode==='edit'">
+                        <span data-ng-if="formMode==='add'">
+                            <cs-button type="reset"
+                                       permission="Stakeholder,Stakeholder,AddEdit"
+                                       data-ng-click="reset()"></cs-button>
+                        </span>
+                        <span data-ng-if="formMode==='view'">
                             <cs-button type="submit" text="Edit" 
                                        data-ng-click="changeMode()">
                             </cs-button>
                         </span>
-                       
                     </div>
                 </div>
             </cs-form>

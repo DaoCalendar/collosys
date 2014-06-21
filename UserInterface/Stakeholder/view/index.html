@@ -31,31 +31,14 @@
         </table>
         <div class="pull-right">
             <span class="dropdown" on-toggle="toggled(open)">
-                <button type="button" class="dropdown-toggle btn btn-link">View</button>
+                <button type="button" class="dropdown-toggle btn btn-link">View/Edit</button>
                 <ul class="dropdown-menu">
                     <li>
                         <a style="cursor: pointer"
                             data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
                         <a style="cursor: pointer"
-                            data-ng-show="data.HasWorking"
-                            data-ng-click="switchPage(data,'working','view')">Working</a>
-                        <a style="cursor: pointer"
-                            data-ng-show="data.HasPayment"
-                            data-ng-click="switchPage(data,'payment','view')">Payment</a>
-                    </li>
-                </ul>
-            </span>
-            <span class="dropdown" on-toggle="toggled(open)">
-                <button type="button" class="dropdown-toggle btn btn-link">Edit</button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a style="cursor: pointer" data-ng-click="switchPage(data,'basic')">Basic Info</a>
-                        <a style="cursor: pointer"
-                            data-ng-show="data.HasWorking"
-                            data-ng-click="switchPage(data,'working','edit')">Working</a>
-                        <a style="cursor: pointer"
-                            data-ng-show="data.HasPayment"
-                            data-ng-click="switchPage(data,'payment','edit')">Payment</a>
+                            data-ng-show="data.Hierarchy.HasWorking || data.Hierarchy.HasPayment"
+                            data-ng-click="switchPage(data,'working','view')">Working/Payment</a>
                     </li>
                 </ul>
             </span>

@@ -995,6 +995,7 @@ csapp.directive("csDateToIso", function() {
             var localOffset = datepickerValue.getTimezoneOffset() * -60000;
             var utc = localTime + localOffset;
             var utcDate = new Date(utc);
+            //return utcDate.toISOString();
             return utcDate.toISOString();
         });
     };
@@ -1023,14 +1024,14 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
         var input = function (field, attr) {
             var html = '<p class="input-group">';
             html += '<input type="text" class="form-control" disabled="disabled"';
-            html += 'datepicker-popup="' + field.format + '" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
+            html += 'datepicker-popup="'+field.format+'" ng-model="$parent.' + attr.ngModel + '" ';//datepicker-popup="' + field.format + '"
             html += 'is-open="field.opened" show-button-bar="field.showButtons"  datepicker-options="field.dateOptions"';
             html += (angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"');
             html += (attr.ngChange ? ' ng-change="' + attr.ngChange + '"' : '');
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
-            html += ' cs-date-to-iso="" />';
+            html += ' />';//cs-date-to-iso="" 
             html += '<span class="input-group-btn">';
             html += '<button type="button" class="btn btn-default"';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');
@@ -1038,7 +1039,8 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += '</button>';
             html += '</span>';
             html += '</p>';
-
+            console.log(html);
+            console.log(field);
             return html;
         };
 
@@ -1335,15 +1337,16 @@ csapp.directive('csField', ["$compile", "$parse", "csNumberFieldFactory", "csTex
 
             var validateParam = $csfactory.isNullOrEmptyString(attrs.validation) ? csFormCntrl.validation : attrs.validation;
             field.validate = csFormCntrl.mode == 'view' ? false : setValidateParam(validateParam);
-            if (!field.validate) {
-                field.minlength = undefined;
-                field.maxlength = undefined;
-                field.pattern = undefined;
-                field.required = false;
-                attrs.required = false;
-                field.min = undefined;
-                field.max = undefined;
-            }
+            //if (!field.validate) {
+            //    field = angular.copy(field);
+            //    field.minlength = undefined;
+            //    field.maxlength = undefined;
+            //    field.pattern = undefined;
+            //    field.required = false;
+            //    //attrs.required = false;
+            //    field.min = undefined;
+            //    field.max = undefined;
+            //}
         };
 
         var setDefaultValue = function (scope, $attrs) {

@@ -81,7 +81,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     Password = PasswordUtility.EncryptText("p@55w0rld"),
                     PasswordAnswer = "20100101",
                     PasswordQuestion = "Joining Date?",
-                    Username = "devadmin",
+                    Username = "9999999",
                     LastLoginDate = DateTime.Now,
                     LastPasswordChangedDate = DateTime.Now
                 };
@@ -102,30 +102,30 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     Password = PasswordUtility.EncryptText("password"),
                     PasswordAnswer = "20100101",
                     PasswordQuestion = "Joining Date?",
-                    Username = "scbuser",
+                    Username = "0000000",
                     LastLoginDate = DateTime.Now,
                     LastPasswordChangedDate = DateTime.Now
                 };
 
-            var user2Stkh = new Stakeholders
-            {
-                Status = ColloSysEnums.ApproveStatus.Approved,
-                ApprovedBy = "System",
-                ApprovedOn = DateTime.Now,
-                ExternalId = "devadmin",
-                Password = PasswordUtility.EncryptText("p@55w0rld"),
-                EmailId = "collosys@sc.com",
-                JoiningDate = DateTime.Today,
-                MobileNo = "9999999999",
-                Name = "AlgoSys User",
-                Hierarchy = role4,
-            };
+            //var user2Stkh = new Stakeholders
+            //{
+            //    Status = ColloSysEnums.ApproveStatus.Approved,
+            //    ApprovedBy = "System",
+            //    ApprovedOn = DateTime.Now,
+            //    ExternalId = "devadmin",
+            //    Password = PasswordUtility.EncryptText("p@55w0rld"),
+            //    EmailId = "collosys@sc.com",
+            //    JoiningDate = DateTime.Today,
+            //    MobileNo = "9999999999",
+            //    Name = "AlgoSys User",
+            //    Hierarchy = role4,
+            //};
 
             using (var trans = session.BeginTransaction())
             {
                 session.SaveOrUpdate(user1);
                 session.SaveOrUpdate(user2);
-                session.SaveOrUpdate(user2Stkh);
+                //session.SaveOrUpdate(user2Stkh);
                 trans.Commit();
             }
         }

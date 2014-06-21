@@ -17,7 +17,7 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual IList<StkhPayment> StkhPayments { get; set; }
         public virtual IList<StkhRegistration> StkhRegistrations { get; set; }
         public virtual IList<StkhWorking> StkhWorkings { get; set; }
-        public virtual IList<StakeAddress> GAddress { get; set; }
+        public virtual IList<StakeAddress> StkhAddress { get; set; }
         public virtual IList<AllocSubpolicy> AllocSubpolicies { get; set; }
 
         public virtual string ExternalId { get; set; }

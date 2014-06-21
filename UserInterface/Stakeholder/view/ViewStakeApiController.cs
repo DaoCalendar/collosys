@@ -462,7 +462,7 @@ namespace AngularUI.Stakeholder.view
                 stakeholderse.StkhPayments = stakeholderse.StkhPayments.Distinct().ToList();
                 stakeholderse.StkhWorkings = stakeholderse.StkhWorkings.Distinct().ToList();
                 stakeholderse.StkhRegistrations = stakeholderse.StkhRegistrations.Distinct().ToList();
-                stakeholderse.GAddress = stakeholderse.GAddress.Distinct().ToList();
+                stakeholderse.StkhAddress = stakeholderse.StkhAddress.Distinct().ToList();
                 stakeholderse.StkhWorkings = (from d in stakeholderse.StkhWorkings
                                               where d.Status != ColloSysEnums.ApproveStatus.Rejected
                                               select d).ToList();

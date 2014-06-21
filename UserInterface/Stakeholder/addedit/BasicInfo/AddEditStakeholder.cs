@@ -9,7 +9,7 @@ namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
         {
             data.Status = ColloSysEnums.ApproveStatus.Submitted;
             //add stakeholder reference in address
-            foreach (var address in data.GAddress)
+            foreach (var address in data.StkhAddress)
             {
                 address.Stakeholder = data;
             }

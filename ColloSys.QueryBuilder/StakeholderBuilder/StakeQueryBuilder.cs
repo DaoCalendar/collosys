@@ -174,7 +174,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                        .QueryOver<Stakeholders>()
                                        .Fetch(x => x.Hierarchy).Eager
                                        .Fetch(x => x.StkhRegistrations).Eager
-                                       .Fetch(x => x.GAddress).Eager
+                                       .Fetch(x => x.StkhAddress).Eager
                                        .Fetch(x => x.StkhPayments).Eager
                                        .Fetch(x => x.StkhWorkings).Eager
                                        .Where(x => x.Id == id)
@@ -187,7 +187,11 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         public Stakeholders OnId(Guid id)
         {
             return SessionManager.GetCurrentSession()
-                                 .Query<Stakeholders>().Fetch(x => x.Hierarchy).Single(x => x.Id == id);
+                                 .Query<Stakeholders>()
+                                 .Fetch(x => x.Hierarchy)
+                                 .Fetch(x=>x.StkhAddress)
+                                 .Fetch(x=>x.StkhRegistrations)
+                                 .Single(x => x.Id == id);
 
         }
 
@@ -246,7 +250,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.StkhRegistrations).Eager
                             .Fetch(x => x.StkhWorkings).Eager
                             .Fetch(x => x.Hierarchy).Eager
-                            .Fetch(x => x.GAddress).Eager
+                            .Fetch(x => x.StkhAddress).Eager
                             .TransformUsing(Transformers.DistinctRootEntity);
             return query;
         }

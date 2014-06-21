@@ -261,8 +261,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 }]);
 
-csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location",
-    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location) {
+csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location", "$timeout",
+    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout) {
 
 
         var setData = function (data) {
@@ -278,6 +278,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
                 $scope.formMode = 'add';
+                $scope.paymentMode = 'add';
             });
         };
 
@@ -286,8 +287,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 setData(data);
                 $scope.getReportsTo();
                 $scope.workingDetailsList = data.StkhWorkings;
-                $scope.mode = 'edit';
                 $scope.formMode = 'view';
+                $scope.paymentMode = 'view';
             });
         };
 
@@ -299,6 +300,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 DisplayManager: $scope.displayManager,
                 Buckets: []
             };
+            $scope.showPayment = true;
+
+            $scope.bucketList = ["1", "2", "3", "4", "5", "6"];
 
             //TODO: move this to a function & call that function from here
             $routeParams.editStakeId
@@ -317,6 +321,22 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.gotoView = function () {
             $location.path('/stakeholder/view');
+        };
+
+        $scope.changeMode = function (param) {
+            switch (param) {
+                case 'working':
+                    $scope.formMode = 'edit';
+                    break;
+                case 'payment':
+                    $scope.showPayment = false;
+                    $scope.paymentMode = 'add';
+                    $timeout(function () { $scope.showPayment = true; }, 100);
+                    break;
+                default:
+                    throw "invalid param " + param;
+            }
+
         };
 
         $scope.getSalaryDetails = function (payment) {

@@ -35,7 +35,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     JoiningDate = DateTime.Now,
                     //Designation = "HOC",
                     EmailId = "hoc@gmail.com",
-                    ExternalId = "1236547",
+                    ExternalId = "0000000",
                     //Gender = 0,
                     //Hierarchy = "Field",
                     MobileNo = "1236547891",
@@ -43,7 +43,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     StkhPayments = new List<StkhPayment> { GetDefaultPayment() },
                     StkhWorkings = new List<StkhWorking> { GetDefaultWorking() },
                     StkhRegistrations = new List<StkhRegistration> { GetDefaultRegistration() },
-                    GAddress = new List<StakeAddress> { GetDefaultAddress() }
+                    StkhAddress = new List<StakeAddress> { GetDefaultAddress() }
                 };
 
             return stakeholder;
@@ -122,7 +122,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                 using (var tx = unit.BeginTransaction())
                 {
                     unit.SaveOrUpdate(stakeholders);
-                    if (stakeholders.GAddress.Any())
+                    if (stakeholders.StkhAddress.Any())
                     {
                         var listOfAddresses = SetGAddress(stakeholders);
                         foreach (var gAddress in listOfAddresses)
@@ -148,7 +148,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
 
         private static IEnumerable<StakeAddress> SetGAddress(Stakeholders stakeholders)
         {
-            var gAddresses = stakeholders.GAddress;
+            var gAddresses = stakeholders.StkhAddress;
             foreach (var gAddress in gAddresses)
             {
                 //gAddress.Source = "Stakeholder";

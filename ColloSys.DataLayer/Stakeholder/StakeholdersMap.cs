@@ -30,7 +30,7 @@ namespace ColloSys.DataLayer.Stakeholder
             Bag(x => x.StkhRegistrations, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.StkhWorkings, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.AllocSubpolicies, colmap => { }, map => map.OneToMany(x => { }));
-            Bag(x => x.GAddress, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.StkhAddress, colmap => { }, map => map.OneToMany(x => { }));
             Bag(x => x.ActivateHoldingPolicies, colmap => { }, map => map.OneToMany(x => { }));
         }
     }
