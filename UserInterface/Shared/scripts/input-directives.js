@@ -474,10 +474,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
                     options.patternMessage = "Value contains non-numeric character/s.";
                     break;
                 case "phone":
-                    //options.length = 10;
-                    //options.pattern = "/^[0-9]{10}$/";
-                    //options.patternMessage = "Phone number must contain 10 digits.";
-                    options.mask = "(999) 999-9999";
+                    options.mask = "9999-999-999";
                     break;
                 case "pan":
                     options.pattern = "/^([A-Z]{5})([0-9]{4})([a-zA-Z]{1})$/";
@@ -1039,8 +1036,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += '</button>';
             html += '</span>';
             html += '</p>';
-            console.log(html);
-            console.log(field);
+
             return html;
         };
 

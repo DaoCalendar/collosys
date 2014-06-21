@@ -56,7 +56,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IList<Stakeholders> GetStakeByExtId(string id)
+        public Stakeholders GetStakeByExtId(string id)
         {
             var session = SessionManager.GetCurrentSession();
 
@@ -64,7 +64,8 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                 .Where(x => x.ExternalId == id)
                 .Fetch(x => x.StkhWorkings).Eager
                 .Fetch(x => x.StkhPayments).Eager
-                .Fetch(x => x.Hierarchy).Eager.List();
+                .Fetch(x => x.Hierarchy).Eager
+                .SingleOrDefault();
             return stakeholder;
         }
 

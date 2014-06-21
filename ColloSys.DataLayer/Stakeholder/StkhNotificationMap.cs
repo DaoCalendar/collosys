@@ -7,7 +7,8 @@ namespace ColloSys.DataLayer.Stakeholder
         public StkhNotificationMap()
         {
             Property(x => x.EntityId);
-            Property(x => x.NotificationType);
+            Property(x => x.NoteType);
+            Property(x => x.NoteStatus);
             Property(x => x.Description);
             Property(x => x.ParamsJson, map => map.NotNullable(false));
             ManyToOne(x => x.ForStakeholder, map => map.NotNullable(true));

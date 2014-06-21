@@ -17,6 +17,21 @@ namespace ColloSys.DataLayer.Enumerations
         }
 
         [Serializable]
+        public enum NotificationStatus
+        {
+            Active,
+            Escalated,
+            Archived
+        }
+
+        [Serializable]
+        public enum NotifyHierarchy
+        {
+            Creator,
+            Reporting
+        }
+
+        [Serializable]
         public enum PolicyOn
         {
             Stakeholder,

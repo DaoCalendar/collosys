@@ -70,7 +70,7 @@ csapp.factory("AddEditStakeholderFactory", function () {
             model.stakeholder.MobileNo.required = true;
             model.stakeholder.ExternalId.required = true;
             model.stakeholder.EmailId.required = true;
-            model.stakeholder.EmailId.suffix = '@scb.com';
+            model.stakeholder.EmailId.suffix = '@sc.com';
         } else {
             model.stakeholder.MobileNo.required = false;
             model.stakeholder.ExternalId.required = false;

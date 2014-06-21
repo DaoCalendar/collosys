@@ -137,6 +137,8 @@
     <Compile Include="Enumerations\ScbEnums.cs" />
     <Compile Include="Generic\GKeyValue.cs" />
     <Compile Include="Generic\GKeyValueMap.cs" />
+    <Compile Include="Generic\GNotification.cs" />
+    <Compile Include="Generic\GNotificationMap.cs" />
     <Compile Include="Stakeholder\StkhNotificationMap.cs" />
     <Compile Include="Generic\GTaxDetail.cs" />
     <Compile Include="Generic\GTaxDetailMap.cs" />

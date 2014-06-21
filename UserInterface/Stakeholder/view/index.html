@@ -1,298 +1,35 @@
-﻿<form>
-    <div data-ng-repeat="data in stakeholders" class="rectangle col-md-12">
-        <table class="col-md-12 ">
-            <!-- <thead>
-                     <tr>
-                         <th>
-                             <input type="checkbox" />
-                         </th>
-                         <th></th>
-                         <th>Name</th>
-                         <th>External Id</th>
-                         <th>Email Id</th>
-                         <th>Action</th>
-                     </tr>
-                 </thead>-->
-            <tbody>
-                <tr>
-                    <td class="col-md-1">
-                        <input type="checkbox" /></td>
-
-                    <td class="col-md-4">{{data.Name}}</td>
-                    <td class="col-md-3">{{data.ExternalId}}</td>
-                    <td class="col-md-4">{{data.EmailId}}</td>
-                    <td>
-
-                        <!--<button class="btn btn-link">view</button>-->
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="pull-right">
-            <span class="dropdown" on-toggle="toggled(open)">
-                <button type="button" class="dropdown-toggle btn btn-link">View/Edit</button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a style="cursor: pointer"
-                            data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
-                        <a style="cursor: pointer"
-                            data-ng-show="data.Hierarchy.HasWorking || data.Hierarchy.HasPayment"
-                            data-ng-click="switchPage(data,'working','view')">Working/Payment</a>
-                    </li>
-                </ul>
-            </span>
-            <button class="btn btn-link">Approve</button>
-            <button class="btn btn-link">Reject</button>
-        </div>
-    </div>
-</form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<div class="container-fluid">
-
-    <form name="stkhindexform">
-        <div>
-            <div class="panel panel-default ">
-                <div class="panel-heading">
-                    View Stakeholders
-                </div>
-                <div class="panel-body">
-                    <cs-form layout="4.4.8">
-                        <div class="row">
-                            <cs-field
-                                value-list="filters"
-                                field="viewModels.View"
-                                data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)"
-                                data-ng-model="stakeholder.filter"></cs-field>
-                            
-                            <div data-ng-if="stakeholder.filter==='SearchById'">
-                                
-                                <cs-field layout="3.0.12" field="viewModels.SearchByName" no-label="" 
-                                          data-ng-model="stakeholder.name">
-                                </cs-field>
-                                <cs-button type="submit" text="search"   data-ng-click="getStakeById(stakeholder.name)">
-                                </cs-button>
-
-                            </div>
-                            <div data-ng-if="checkFilter(stakeholder.filter)">
-                                <!--get unique array-->
-<!-- <cs-field
-                                    field="viewModels.Hierarchy"
-                                    value-list="HierarchyData"
-                                    data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist(stakeholder)"></cs-field>
-                               
-                                 <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter!='ReportingTo'">
-                                    <cs-field
-                                        field="viewModels.Designation"
-                                        value-list="Designation"
-                                        data-ng-model="stakeholder.Designation"
-                                        data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
-                                </div>
-                               
-                                 <div data-ng-show="stakeholder.Hierarchy && stakeholder.filter==='ReportingTo'">
-                                    <cs-field
-                                        field="viewModels.Designation"
-                                        value-list="Designation"
-                                        data-ng-model="stakeholder.Designation"
-                                        data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()"></cs-field>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">-->
-
-<!--  <div data-ng-if="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
-                                <cs-field
-                                    field="viewModels.Stake"
-                                    value-list="selStakeholder"
-                                    data-ng-model="reportsToStakeholder"
-                                    data-ng-change="setPageNumber();getReportsToStakeholders(reportsToStakeholder)"></cs-field>
-                            </div>
-
-                            <div  data-ng-if="stakeholder.filter==='BasedOnWorking'">
-                                <cs-field
-                                    value-list="productList"
-                                    field="viewModels.Products"
-                                    data-ng-model="product"
-                                    data-ng-change="setPageNumber();getStakeForProduct(product,'product')"></cs-field>
-                            </div>
-
-                        </div>
-                    </cs-form>
-                </div>-->
-<!--   </div>
-        </div>
-        <div class="container" data-ng-show="showDiv" style="margin-left: 10px; padding-bottom: 10px;">-->
-<!--TODO remove true from data-ng-show-->
-<!-- <div class="row">
-                <cs-button type="edit" text="Edit Selected" class="btn  btn-success" data-ng-hide="true"></cs-button>
-                <cs-button type="save" text="Approve" data-ng-show="canApprove || true" data-ng-disabled="Approved || chosenStakeholders.length==0" data-ng-click="approveSelected()"></cs-button>
-                <cs-button type="delete" text="Reject" data-ng-show="canApprove || true" data-ng-disabled="Rejected ||Approved ||chosenStakeholders.length==0" data-ng-click="rejected()"></cs-button>
-                <cs-button type="close" text="Leave/Exit" data-ng-disabled="LeavingDate ||StakeForLeave.StkhWorkings.length==0 || chosenStakeholders.length==0 || chosenStakeholders.length>1" data-ng-click="setLeave()"></cs-button>
-            </div>
-            <div>
-                <cspagination data-ng-if="stakeholder.filter!=='SearchById'"
-                    gotofirstpage="gotoFirstPage()"
-                    gotolastpage="gotoLastPage()"
-                    stepforward="stepForward()"
-                    stepbackward="stepBackward()"
-                    currpagenum="pagenum"
-                    totalrecords="tolRec"
-                    pagesize="size">
-                </cspagination>
-            </div>
-        </div>-->
-<!--<div class="well container" data-ng-show="showDiv" data-ng-repeat="data in stakeholderData">
-
-            <div data-ng-include="baseUrl +'Stakeholder/view/basic.html'"></div>
-
-            <div data-ng-show="moreDetails==$index+'RegistrationDetails' && data.StkhRegistrations.length>0">
-                <div class="form-horizontal well">
-                    <div class="row" data-ng-include="baseUrl +'Stakeholder/view/registration.html'"></div>
-                </div>
-            </div>
-
-            <div data-ng-show="moreDetails==$index+'ReporteeDetails' && ReporteeList.length>0">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr class="info">
-                            <th>Name</th>
-                            <th>Email Id</th>
-                            <th>Date of Joining</th>
-                            <th>Payment</th>
-                            <th>Working</th>-->
-<!--    </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="reportee in ReporteeList">
-                            <td>{{reportee.Name}}</td>
-                            <td>{{reportee.EmailId}}</td>
-                            <td>{{reportee.JoiningDate | date}}</td>
-                            <td>{{reportee.StkhPayments.length}}</td>
-                            <td>{{reportee.StkhWorkings.length}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div data-ng-include="baseUrl +'Stakeholder/view/workings.html'"></div>
-
-            <div data-ng-show="moreDetails==$index+'PaymentDetails' && data.StkhPayments.length>0">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <td>Collection Policy</td>
-                            <td>Recovery Policy</td>
-                            <td>Fixpay  Total</td>
-                            <td>Service Charge</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-repeat="payment in data.StkhPayments">
-                            <td>{{payment.VariableLiner}}</td>
-                            <td>{{payment.VariableWriteoff}}</td>
-                            <td>{{payment.FixpayTotal}}</td>
-                            <td>{{payment.ServiceCharge}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </form>-->
-<!--</div>-->
-
-<!-- <div class="row">
-                     <button class="btn btn-success" data-ng-show="CurrUserInfo.Permission=='Approve'||CurrUserInfo.Permission=='Modify'" data-ng-click="addStakeholder()">Add New</button>
-                 </div>-->
-<!--<div class="form-group col-md-3">
-        <label class="control-label">View</label>
-        <div class="controls">
-            <select class="input-medium" data-ng-model="stakeholder.filter"
-                    data-ng-change="setPageNumber();stakeholder.Hierarchy='';changeHierarchylist();getStakeData(stakeholder)">
-                <option></option>
-                <option data-ng-repeat="data in filters">{{data}}</option>
-            </select>
-        </div>
-    </div>-->
-<!-- <div class="form-group col-md-3">
-         <label class="control-label">Designation</label>
-         <div class="controls">
-             <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data); updateScreen()">
-                 <option></option>
-                 <option data-ng-repeat="data in hierarchyDesignation|filter:{'Hierarchy':stakeholder.Hierarchy}|orderBy:'PositionLevel'"
-                         value="{{data.Id}}">{{getHierarchyDisplayName(data)}}</option>
-             </select>
-         </div>
-     </div>-->
-<!--<div class="form-group col-md-3">
-                                    <label class="control-label">Hierarchy</label>
-                                    <div class="controls">
-                                        <div data-ng-show="stakeholder.filter!=='ReportingTo'">
-                                            <select class="input-medium"
-                                                    data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()">
-                                                <option></option>
-                                                <option data-ng-repeat="data in hierarchyDesignation|unique:'Hierarchy'">{{data.Hierarchy}}</option>
-                                            </select>
-                                        </div>
-                                        <div data-ng-show="stakeholder.filter=='ReportingTo'">
-                                            <select
-                                                data-ng-show="stakeholder.filter==='ReportingTo'"
-                                                class="input-medium" data-ng-model="stakeholder.Hierarchy" data-ng-change="changeHierarchylist()">
-                                                <option></option>
-                                                <option>External</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>-->
-<!--<div class="form-group col-md-3">
-                                        <label class="control-label">Designation</label>
-                                        <div class="controls">
-                                            <select class="input-medium" data-ng-model="stakeholder.Designation" data-ng-change="startCount=0;getStakeData(stakeholder); setHierarchy(data);reportsToStakeholder=''; updateScreen()">
-                                                <option></option>
-                                                <option data-ng-repeat="data in hierarchyDesignation|filter:{'Hierarchy':stakeholder.Hierarchy}|filter:{'IsIndividual':'false'}|orderBy:'PositionLevel'"
-                                                        value="{{data.Id}}">{{data.Designation}}</option>
-                                            </select>
-                                        </div>
-                                    </div>-->
-<!--  <div class="form-group col-md-2"
-                                       data-ng-show="stakeholder.filter==='ReportingTo' && stakeholder.Designation!==''">
-                                      <label class="control-label">Stakeholder/Agency</label>
-                                      <div class="controls">
-                                          <select data-ng-model="reportsToStakeholder"
-                                                  class="input-medium"
-                                                  data-ng-change="setPageNumber();getReportsToStakeholders(reportsToStakeholder)">
-                                              <option></option>
-                                              <option data-ng-repeat="data in selStakeholder" value="{{data.Id}}">{{data.Name}}</option>
-                                          </select>
-                                      </div>
-                                  </div>-->
-<!--<div class="form-group col-md-2"
-                                 data-ng-show="stakeholder.filter==='BasedOnWorking'">
-                                <label class="control-label">Working for Product</label>
-                                <div class="controls">
-                                    <select data-ng-model="product"
-                                            class="input-medium"
-                                            data-ng-change="setPageNumber();getStakeForProduct(product,'product')">
-                                        <option></option>
-                                        <option data-ng-repeat="data in productList">{{data}}</option>
-                                    </select>
-                                </div>
-                            </div>-->
+﻿<div class="col-md-12">
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+        <th class="col-md-1 col-md-offset-1">Select</th>
+        <th class="col-md-2">Name</th>
+        <th class="col-md-3">Designation</th>
+        <th class="col-md-1">External Id</th>
+        <th class="col-md-2">Email</th>
+        <th class="col-md-1"></th>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="data in stakeholders">
+                <td> <input type="checkbox" /> </td>
+                <td>{{data.Name}}</td>
+                <td>{{data.Hierarchy.Designation}}, {{data.Hierarchy.Hierarchy}}</td>
+                <td>{{data.ExternalId}}</td>
+                <td>{{data.EmailId}}</td>
+                <td>
+                    <span class="dropdown" on-toggle="toggled(open)">
+                        <button type="button" class="dropdown-toggle btn btn-link">View/Edit</button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a style="cursor: pointer"
+                                   data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
+                                <a style="cursor: pointer"
+                                   data-ng-show="data.Hierarchy.HasWorking || data.Hierarchy.HasPayment"
+                                   data-ng-click="switchPage(data,'working','view')">Working/Payment</a>
+                            </li>
+                        </ul>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

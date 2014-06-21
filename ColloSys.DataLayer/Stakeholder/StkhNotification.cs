@@ -7,9 +7,10 @@ namespace ColloSys.DataLayer.Stakeholder
     public class StkhNotification : Entity
     {
         public virtual Stakeholders ForStakeholder { get; set; }
-        public virtual ColloSysEnums.NotificationType NotificationType { get; set; }
+        public virtual ColloSysEnums.NotificationType NoteType { get; set; }
         public virtual Guid EntityId { get; set; }
         public virtual String Description { get; set; }
         public virtual String ParamsJson { get; set; }
+        public virtual ColloSysEnums.NotificationStatus NoteStatus { get; set; }
     }
 }

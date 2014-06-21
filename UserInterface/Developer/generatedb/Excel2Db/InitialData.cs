@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -26,6 +27,32 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             InsertProducts();
             // InsertPincodes();
             InsertAllocPolicies();
+            InsertNofications();
+        }
+
+        private static void InsertNofications()
+        {
+            var valueList = Enum.GetValues(typeof (ColloSysEnums.NotificationType));
+            var valueArray = (ColloSysEnums.NotificationType[]) (valueList);
+            IList<GNotification> notifications = valueArray
+                .Select(notify => new GNotification
+                {
+                    NotificationType = notify,
+                    NotifyHierarchy = ColloSysEnums.NotifyHierarchy.Creator,
+                    EsclationDays = 15
+                }).ToList();
+
+            using (var session = SessionManager.GetNewSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    foreach (var notification in notifications)
+                    {
+                        session.Save(notification);
+                    }
+                    tx.Commit();
+                }
+            }
         }
 
         private static void InsertAllocPolicies()
@@ -53,14 +80,10 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                 }
             }
         }
-
         
         private static void InsertIntoUsers()
         {
             var session = SessionManager.GetCurrentSession();
-            var role2 = session.QueryOver<StkhHierarchy>()
-                               .Where(x => x.Designation == "Officer" && x.Hierarchy == "BackOffice")
-                               .SingleOrDefault();
             var role4 = session.QueryOver<StkhHierarchy>()
                                .Where(x => x.Designation == "SuperAdmin" && x.Hierarchy == "Admin")
                                .SingleOrDefault();
@@ -79,53 +102,32 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     LastActivityDate = SqlDateTime.MinValue.Value,
                     LastLockedOutDate = SqlDateTime.MinValue.Value,
                     Password = PasswordUtility.EncryptText("p@55w0rld"),
-                    PasswordAnswer = "20100101",
+                    PasswordAnswer = "20140101",
                     PasswordQuestion = "Joining Date?",
                     Username = "9999999",
                     LastLoginDate = DateTime.Now,
                     LastPasswordChangedDate = DateTime.Now
                 };
 
-            var user2 = new GUsers
-                {
-                    Role = role2,
-                    ApplicationName = "ColloSys",
-                    Email = "collosys@sc.com",
-                    FailedPasswordAnswerAttemptCount = 0,
-                    FailedPasswordAnswerAttemptWindowStart = SqlDateTime.MinValue.Value,
-                    FailedPasswordAttemptCount = 0,
-                    FailedPasswordAttemptWindowStart = SqlDateTime.MinValue.Value,
-                    IsApproved = true,
-                    IsLockedOut = false,
-                    LastActivityDate = SqlDateTime.MinValue.Value,
-                    LastLockedOutDate = SqlDateTime.MinValue.Value,
-                    Password = PasswordUtility.EncryptText("password"),
-                    PasswordAnswer = "20100101",
-                    PasswordQuestion = "Joining Date?",
-                    Username = "0000000",
-                    LastLoginDate = DateTime.Now,
-                    LastPasswordChangedDate = DateTime.Now
-                };
-
-            //var user2Stkh = new Stakeholders
-            //{
-            //    Status = ColloSysEnums.ApproveStatus.Approved,
-            //    ApprovedBy = "System",
-            //    ApprovedOn = DateTime.Now,
-            //    ExternalId = "devadmin",
-            //    Password = PasswordUtility.EncryptText("p@55w0rld"),
-            //    EmailId = "collosys@sc.com",
-            //    JoiningDate = DateTime.Today,
-            //    MobileNo = "9999999999",
-            //    Name = "AlgoSys User",
-            //    Hierarchy = role4,
-            //};
+            var user2Stkh = new Stakeholders
+            {
+                Status = ColloSysEnums.ApproveStatus.Approved,
+                ApprovedBy = "System",
+                ApprovedOn = DateTime.Now,
+                ExternalId = "9999999",
+                Password = PasswordUtility.EncryptText("p@55w0rld"),
+                EmailId = "collosys@sc.com",
+                JoiningDate = DateTime.Today,
+                MobileNo = "9999999999",
+                Name = "AlgoSys User",
+                Hierarchy = role4,
+            };
 
             using (var trans = session.BeginTransaction())
             {
                 session.SaveOrUpdate(user1);
-                session.SaveOrUpdate(user2);
-                //session.SaveOrUpdate(user2Stkh);
+                //session.SaveOrUpdate(user2);
+                session.SaveOrUpdate(user2Stkh);
                 trans.Commit();
             }
         }
