@@ -69,29 +69,6 @@ namespace ColloSys.DataLayer.ClientData
             return list;
         }
 
-        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
-        {
-            var memberHelper = new MemberHelper<Payment>();
-            return new List<string>
-                {
-                memberHelper.GetName(x => x.AccountNo ),
-                memberHelper.GetName(x => x.TransCode ),
-                memberHelper.GetName(x => x.TransDate ),
-                memberHelper.GetName(x => x.TransDesc ),
-                memberHelper.GetName(x => x.TransAmount ),
-                memberHelper.GetName(x => x.IsDebit ),
-                memberHelper.GetName(x => x.FileDate ),
-                memberHelper.GetName(x => x.FileRowNo ),
-                memberHelper.GetName(x => x.IsExcluded ),
-                memberHelper.GetName(x => x.ExcludeReason ),
-                memberHelper.GetName(x=>x.Products),
-               
-                };
-        }
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //}
         #endregion
     }
 }

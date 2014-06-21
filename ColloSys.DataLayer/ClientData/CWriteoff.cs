@@ -72,42 +72,6 @@ namespace ColloSys.DataLayer.Domain
                     memberHelper.GetName(x => x.Product)
                 };
         }
-
-        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
-        {
-            var memberHelper = new MemberHelper<CWriteoff>();
-            return new List<string>
-                {
-                   memberHelper.GetName(x => x.AccountNo),
-                   memberHelper.GetName(x => x.CustomerName),
-                   memberHelper.GetName(x => x.Cycle),
-                   memberHelper.GetName(x => x.Location),
-                   memberHelper.GetName(x => x.Block),
-                   memberHelper.GetName(x => x.AltBlock),
-                   memberHelper.GetName(x => x.TotalDue),
-                   memberHelper.GetName(x => x.ActivationDate),
-                   memberHelper.GetName(x => x.Bucket1Due),
-                   memberHelper.GetName(x => x.Bucket2Due),
-                   memberHelper.GetName(x => x.Bucket3Due),
-                   memberHelper.GetName(x => x.Bucket4Due),
-                   memberHelper.GetName(x => x.Bucket5Due),
-                   memberHelper.GetName(x => x.Bucket6Due),
-                   memberHelper.GetName(x => x.Bucket7Due),
-                   memberHelper.GetName(x => x.LastPayDate),
-                   memberHelper.GetName(x => x.ExpirtyDate),
-                   memberHelper.GetName(x => x.CustStatus),
-                   memberHelper.GetName(x => x.GlobalCustId),
-                   memberHelper.GetName(x => x.CreditLimit),
-                   memberHelper.GetName(x => x.FileDate),
-                   memberHelper.GetName(x => x.FileRowNo)
-                };
-        }
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    if (!NHibernateUtil.IsInitialized(CAllocs) || forceEmpty) CAllocs = null;
-        //}
-
         public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         #endregion

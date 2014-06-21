@@ -52,7 +52,6 @@ namespace ColloSys.DataLayer.Domain
         #endregion
 
         #region Relationship None
-
         public override IList<string> GetExcludeInExcelProperties()
         {
             var memberHelper = new MemberHelper<CacsActivity>();
@@ -67,20 +66,6 @@ namespace ColloSys.DataLayer.Domain
                 memberHelper.GetName(x => x.FileScheduler)
             };
         }
-
-        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
-        {
-            var memberHelper = new MemberHelper<CacsActivity>();
-            return new List<string> {
-                memberHelper.GetName(x => x.TelecallerId),
-                memberHelper.GetName(x => x.AccountNo),
-                memberHelper.GetName(x => x.Products)
-            };
-        }
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //}
         #endregion
     }
 }

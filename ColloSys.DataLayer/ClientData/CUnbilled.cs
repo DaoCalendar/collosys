@@ -46,31 +46,6 @@ namespace ColloSys.DataLayer.Domain
             };
         }
 
-        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
-        {
-            var memberHelper = new MemberHelper<CUnbilled>();
-            return new List<string>
-                {
-                    memberHelper.GetName(x => x.AccountNo),
-                    memberHelper.GetName(x => x.CustomerName),
-                    memberHelper.GetName(x => x.OriginalTenure),
-                    memberHelper.GetName(x => x.RemainingTenure ),
-                    memberHelper.GetName(x => x.InterestPct),
-                    memberHelper.GetName(x => x.LoanAmount),
-                    memberHelper.GetName(x => x.BilledAmount),
-                    memberHelper.GetName(x => x.UnbilledAmount),
-                    memberHelper.GetName(x => x.BilledInterest),
-                    memberHelper.GetName(x => x.StartDate),
-                    memberHelper.GetName(x => x.EndDate),
-                    memberHelper.GetName(x => x.FileDate),
-                    memberHelper.GetName(x => x.FileRowNo),
-                  
-                 };
-         }
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //}
         #endregion
     }
 }

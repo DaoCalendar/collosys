@@ -13,7 +13,7 @@ using ColloSys.DataLayer.SharedDomain;
 
 namespace ColloSys.DataLayer.Domain
 {
-    public class ELiner : UploadableEntity, ISoftDelq, IUniqueKey
+    public class ELiner : UploadableEntity, IUniqueKey
     {
         #region Properties
         public virtual ColloSysEnums.DelqFlag Flag { get; set; }
@@ -82,50 +82,6 @@ namespace ColloSys.DataLayer.Domain
                 };
         }
 
-        public override IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null)
-        {
-            var memberHelper = new MemberHelper<ELiner>();
-            return new List<string>
-                {
-                    memberHelper.GetName(x => x.Flag),
-                    memberHelper.GetName(x => x.ProductCode),
-                    memberHelper.GetName(x => x.AccountNo),
-                    memberHelper.GetName(x => x.IsSetteled),
-                    memberHelper.GetName(x => x.AccountOpenDate),
-                    memberHelper.GetName(x => x.Product),
-                    memberHelper.GetName(x => x.TotalDue),
-                    memberHelper.GetName(x => x.CurrentDue),
-                    memberHelper.GetName(x => x.AmountRepaid),
-                    memberHelper.GetName(x => x.ExpirtyDate ),
-                    memberHelper.GetName(x => x.OdLimit ),
-                    memberHelper.GetName(x => x.Cycle ),
-                    memberHelper.GetName(x => x.DayPastDue ),
-                    memberHelper.GetName(x => x.CustomerName ),
-                    memberHelper.GetName(x => x.InterestCharge ),
-                    memberHelper.GetName(x => x.FeeCharge ),
-                    memberHelper.GetName(x => x.InterestPct ),
-                    memberHelper.GetName(x => x.MinimumDue ),
-                    memberHelper.GetName(x => x.Bucket ),
-                    memberHelper.GetName(x => x.BucketDue),
-                    memberHelper.GetName(x => x.Bucket1Due ),
-                    memberHelper.GetName(x => x.Bucket2Due ),
-                    memberHelper.GetName(x => x.Bucket3Due ),
-                    memberHelper.GetName(x => x.Bucket4Due ),
-                    memberHelper.GetName(x => x.Bucket5Due ),
-                    memberHelper.GetName(x => x.PeakBucket),
-                    memberHelper.GetName(x => x.DelqHistoryString ),
-                    memberHelper.GetName(x => x.AccountStatus ),
-                    memberHelper.GetName(x => x.CustStatus ),
-                    memberHelper.GetName(x => x.FileDate ),
-                    memberHelper.GetName(x => x.FileRowNo ),
-
-                };
-        }
-
-        //public override void MakeEmpty(bool forceEmpty = false)
-        //{
-        //    if (!NHibernateUtil.IsInitialized(EAllocs) || forceEmpty) EAllocs = null;
-        //}
         public virtual Iesi.Collections.Generic.ISet<Allocations> Allocs { get; set; }
 
         #endregion

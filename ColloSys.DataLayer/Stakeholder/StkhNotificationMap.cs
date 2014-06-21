@@ -7,12 +7,10 @@ namespace ColloSys.DataLayer.Stakeholder
         public StkhNotificationMap()
         {
             Property(x => x.EntityId);
-            Property(x => x.Description);
             Property(x => x.NotificationType);
-            Property(x => x.ParamsJson);
-
+            Property(x => x.Description);
+            Property(x => x.ParamsJson, map => map.NotNullable(false));
             ManyToOne(x => x.ForStakeholder, map => map.NotNullable(true));
-            ManyToOne(x => x.DelegatedTo);
         }
     }
 }

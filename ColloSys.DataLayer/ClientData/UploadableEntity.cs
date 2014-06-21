@@ -17,6 +17,5 @@ namespace ColloSys.DataLayer.ClientData
         public abstract DateTime FileDate { get; set; }
         public abstract ulong FileRowNo { get; set; }
         public abstract IList<string> GetExcludeInExcelProperties();
-        public abstract IList<string> GetWriteInExcelProperties(ColloSysEnums.FileAliasName? aliasName = null);
     }
 }

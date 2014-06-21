@@ -14,7 +14,6 @@ namespace ColloSys.DataLayer.ClientData
 
             #endregion
 
-
             Property(x => x.FileDate, map =>
             {
                 map.UniqueKey("EBBS_UQ_WRITEOFF");
