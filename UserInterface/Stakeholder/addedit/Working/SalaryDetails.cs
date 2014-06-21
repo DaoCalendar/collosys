@@ -6,7 +6,7 @@ namespace AngularUI.Stakeholder.addedit.Working
     {
         public Guid AgencyId { get; set; } //report to id, input from client
         public decimal FixpayBasic { get; set; } //input from client
-        public decimal FixpayTotal { get; set; } //input from client
+        public decimal FixpayGross { get; set; } //input from client
         public decimal EmployeePfPct { get; set; }
         public decimal EmployeePf { get; set; }
         public decimal EmployerPfPct { get; set; }
@@ -19,6 +19,6 @@ namespace AngularUI.Stakeholder.addedit.Working
         public decimal ServiceCharge { get; set; }
         public decimal ServiceTaxPct { get; set; }
         public decimal ServiceTax { get; set; }
-        public decimal TotalPayout { get; set; }
+        public decimal FixpayTotal { get; set; }
     }
 }

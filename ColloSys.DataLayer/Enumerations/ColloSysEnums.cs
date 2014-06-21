@@ -9,6 +9,14 @@ namespace ColloSys.DataLayer.Enumerations
     public static class ColloSysEnums
     {
         [Serializable]
+        public enum NotificationType
+        {
+            StakeholderChange,
+            StakeholderWorkingChange,
+            StakeholderPaymentChange
+        }
+
+        [Serializable]
         public enum PolicyOn
         {
             Stakeholder,

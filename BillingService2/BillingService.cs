@@ -116,21 +116,21 @@ namespace BillingService2
 
             var billDetails = new List<BillDetail>();
 
-            var stkhPayment = stakeholder.StkhPayments.FirstOrDefault(x => x.Products == billStatus.Products);
-            if (stkhPayment == null)
-            {
-                Logger.Info(string.Format("No working for stakeholder : {0} and product : {1}", stakeholder.Name,
-                                          billStatus.Products));
-                return billDetails;
-            }
+            //var stkhPayment = stakeholder.StkhPayments.FirstOrDefault(x => x.Products == billStatus.Products);
+            //if (stkhPayment == null)
+            //{
+            //    Logger.Info(string.Format("No working for stakeholder : {0} and product : {1}", stakeholder.Name,
+            //                              billStatus.Products));
+            //    return billDetails;
+            //}
 
             var payouts = new Payouts(stakeholder, billStatus);
 
-            // for fixed payment
-            if (stakeholder.Hierarchy.HasFixed)
-            {
-                billDetails.Add(payouts.GetFixedPayout(stkhPayment));
-            }
+            //// for fixed payment
+            //if (stakeholder.Hierarchy.HasFixed)
+            //{
+            //    billDetails.Add(payouts.GetFixedPayout(stkhPayment));
+            //}
 
             // for variable payment
             if (stakeholder.Hierarchy.HasVarible)

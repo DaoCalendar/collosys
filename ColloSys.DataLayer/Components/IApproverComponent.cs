@@ -22,6 +22,13 @@ namespace ColloSys.DataLayer.Components
         RowStatus RowStatus { get; set; }
     }
 
+    public interface IApprovalStatus
+    {
+        ColloSysEnums.ApproveStatus ApprovalStatus { get; set; }
+        string ApprovedBy { get; set; }
+        DateTime? ApprovedOn { get; set; }
+    }
+
     public enum RowStatus
     {
         NotApplicable,

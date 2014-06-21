@@ -10,16 +10,8 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
             });
     };
 
-    var getWorkingData = function (stakeId) {
-        return restApi.customGET('GetStakeWorkingData', { stakeholderId: stakeId })
-            .then(function (data) {
-                return data;
-            });
-    };
-
-    //TODO: get fix pay components
-    var getPaymentDetails = function () {
-        return restApi.customGET('GetStakePaymentData')
+    var getStakeholder = function (stakeId) {
+        return restApi.customGET('GetStakeholder', { stakeholderId: stakeId })
             .then(function (data) {
                 return data;
             });
@@ -64,23 +56,14 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         });
     };
 
-    var getDataForEdit = function (stakeId) {
-        return restApi.customGET('GetEditData', { stakeholderId: stakeId })
-           .then(function (data) {
-               return data;
-           });
-    };
-
     return {
-        GetStakeholder: getWorkingData,
-        GetPaymentDetails: getPaymentDetails,
+        GetStakeholder: getStakeholder,
         GetReportsTo: getReportsTo,
         GetPincodeData: getPincodeData,
         GetGPincodeData: getGPincodeData,
         SavePayment: savePayment,
         SaveWorking: saveWorking,
         GetSalaryDetails: getSalaryDetails,
-        GetDataForEdit: getDataForEdit,
         DeleteWorkingList: deleteWorkingList
     };
 }]);
@@ -117,9 +100,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         };
     };
 
-    // ReSharper disable DuplicatingLocalDeclaration
     var getQueryFor = function (locLevel, displayMngr) {
-        // ReSharper restore DuplicatingLocalDeclaration
         return $csfactory.isEmptyObject(displayMngr) ? getInitialQueryFor(locLevel) : getNextQueryFor(locLevel, displayMngr);
     };
 
@@ -263,7 +244,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
 csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location", "$timeout",
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout) {
-
 
         var setData = function (data) {
             data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);

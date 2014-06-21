@@ -43,15 +43,15 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                     StkhPayments = new List<StkhPayment> { GetDefaultPayment() },
                     StkhWorkings = new List<StkhWorking> { GetDefaultWorking() },
                     StkhRegistrations = new List<StkhRegistration> { GetDefaultRegistration() },
-                    StkhAddress = new List<StakeAddress> { GetDefaultAddress() }
+                    StkhAddress = new List<StkhAddress> { GetDefaultAddress() }
                 };
 
             return stakeholder;
         }
 
-        private StakeAddress GetDefaultAddress()
+        private StkhAddress GetDefaultAddress()
         {
-            var address = new StakeAddress
+            var address = new StkhAddress
                 {
                     //AddressType = "Head Office",
                     Country = "India",
@@ -101,9 +101,9 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
                 {
                     EndDate = DateTime.Now.AddMonths(6),
                     FixpayBasic = 1000,
-                    FixpayHra = 2000,
-                    FixpayOther = 1000,
-                    FixpayTotal = 4000,
+                    //FixpayHra = 2000,
+                    FixpayGross = 1000,
+                    //FixpayTotal = 0,
                     MobileElig = 2000,
                     TravelElig = 1000,
                     StartDate = DateTime.Now
@@ -146,7 +146,7 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
             return stakeholders;
         }
 
-        private static IEnumerable<StakeAddress> SetGAddress(Stakeholders stakeholders)
+        private static IEnumerable<StkhAddress> SetGAddress(Stakeholders stakeholders)
         {
             var gAddresses = stakeholders.StkhAddress;
             foreach (var gAddress in gAddresses)

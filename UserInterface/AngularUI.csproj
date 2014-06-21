@@ -235,6 +235,8 @@
     <Compile Include="Shared\webapis\Utilities.cs" />
     <Compile Include="Stakeholder\addedit\BasicInfo\AddEditStakeholder.cs" />
     <Compile Include="Stakeholder\addedit\BasicInfo\StakeholderApiController.cs" />
+    <Compile Include="Stakeholder\addedit\Working\DisplayManager.cs" />
+    <Compile Include="Stakeholder\addedit\Working\LocationLevels.cs" />
     <Compile Include="Stakeholder\addedit\Working\SalaryDetails.cs" />
     <Compile Include="Stakeholder\addedit\Working\WorkingApiController.cs" />
     <Compile Include="Stakeholder\addedit\Working\WorkingModel.cs" />

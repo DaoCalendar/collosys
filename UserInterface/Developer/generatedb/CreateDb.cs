@@ -33,8 +33,8 @@ namespace AngularUI.Developer.generatedb
 
         private static void MigrateToLatest()
         {
-            var createTable = MigrateRunner.VersionInfoTableCreate();
-            QueryExecuter.ExecuteDataChange(createTable);
+            //var createTable = MigrateRunner.VersionInfoTableCreate();
+            //QueryExecuter.ExecuteDataChange(createTable);
             var connString = ColloSysParam.WebParams.ConnectionString.ConnectionString;
             var insertInto = MigrateRunner.VersionInfoTableInsert(connString);
             if (string.IsNullOrWhiteSpace(insertInto)) return;

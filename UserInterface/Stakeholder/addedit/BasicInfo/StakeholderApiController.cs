@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using AngularUI.Stakeholder.AddEdit2.BasicInfo;
 using AngularUI.Stakeholder.addedit.Working;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
@@ -15,18 +14,16 @@ using ColloSys.QueryBuilder.StakeholderBuilder;
 
 namespace AngularUI.Stakeholder.addedit.BasicInfo
 {
-    //TODO: 1. remove pincode typeahead
-    //TODO: 2. reporting list
-    //TODO: 3. return HttpResponseMessage
     public class StakeholderApiController : BaseApiController<Stakeholders>
     {
-        private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
 
         [HttpGet]
         public HttpResponseMessage GetAllHierarchies()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, HierarchyQuery.FilterBy(x => x.Hierarchy != "Developer"));
+            var hierarchyQuery = new HierarchyQueryBuilder();
+            var hierarchies = hierarchyQuery.GetAllHierarchies();
+            return Request.CreateResponse(HttpStatusCode.OK, hierarchies);
         }
 
         [HttpGet]
@@ -37,19 +34,20 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         }
 
         [HttpGet]
-        public HttpResponseMessage GetReportsToData(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
+        public HttpResponseMessage GetReportsToList(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, WorkingPaymentHelper.GetReportsOnreportingLevel(hierarchyId, level));
+            var list = WorkingPaymentHelper.GetStkhByReportingLevel(hierarchyId, level);
+            return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
         [HttpGet]
-        public HttpResponseMessage GetStakeForEdit(Guid stakeholderId)
+        public HttpResponseMessage GetStakeholder(Guid stakeholderId)
         {
             return Request.CreateResponse(HttpStatusCode.OK, StakeQuery.OnId(stakeholderId));
         }
 
         [HttpPost]
-        public HttpResponseMessage SaveStake(Stakeholders data)
+        public HttpResponseMessage SaveStakeholder(Stakeholders data)
         {
             AddEditStakeholder.SetStakeholderObj(data);
             StakeQuery.Save(data);

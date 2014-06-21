@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
@@ -9,7 +10,6 @@ using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.BaseTypes;
 using ColloSys.QueryBuilder.Generic;
 using ColloSys.QueryBuilder.TransAttributes;
-using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
 using NHibernate.SqlCommand;
@@ -98,7 +98,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         public IList<Stakeholders> ListForAdhoc(string name, ScbEnums.Products products)
         {
             var list = OnProduct(products);
-            var data = list.Where(x => x.Name.ToString().StartsWith(name)).Take(10).ToList();
+            var data = list.Where(x => x.Name.ToString(CultureInfo.InvariantCulture).StartsWith(name)).Take(10).ToList();
             return data;
         }
 
@@ -110,7 +110,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             StkhHierarchy hierarchy = null;
             var session = SessionManager.GetCurrentSession();
 
-            var listOfStakeholders = session.QueryOver<Stakeholders>(() => stakeholders)
+            var listOfStakeholders = session.QueryOver(() => stakeholders)
                                              .Fetch(x => x.StkhWorkings).Eager
                                              .Fetch(x => x.Hierarchy).Eager
                                              .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
@@ -133,9 +133,9 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             Stakeholders stakeholders = null;
             StkhWorking working = null;
             StkhHierarchy hierarchy = null;
-            var _session = SessionManager.GetCurrentSession();
+            var session = SessionManager.GetCurrentSession();
 
-            var listOfStakeholders = _session.QueryOver<Stakeholders>(() => stakeholders)
+            var listOfStakeholders = session.QueryOver(() => stakeholders)
                                              .Fetch(x => x.StkhWorkings).Eager
                                              .Fetch(x => x.Hierarchy).Eager
                                              .JoinQueryOver(() => stakeholders.StkhWorkings, () => working,
@@ -154,20 +154,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
-        public IList<Stakeholders> AllocationBulkChange()
-        {
-            var session = SessionManager.GetCurrentSession();
-            Stakeholders stake = null;
-            StkhHierarchy hierarchy = null;
-            var data = session.QueryOver<Stakeholders>(() => stake)
-                                      .Fetch(x => x.Hierarchy).Eager
-                                      .JoinAlias(() => stake.Hierarchy, () => hierarchy, JoinType.InnerJoin)
-                                      .Where(() => hierarchy.IsInAllocation)
-                                      .List();
-            return data;
-        }
-
-        [Transaction]
         public Stakeholders OnIdWithAllReferences(Guid id)
         {
             return SessionManager.GetCurrentSession()
@@ -178,9 +164,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                        .Fetch(x => x.StkhPayments).Eager
                                        .Fetch(x => x.StkhWorkings).Eager
                                        .Where(x => x.Id == id)
-                                       .TransformUsing(Transformers.DistinctRootEntity)
-                                       .List()
-                                       .FirstOrDefault();
+                                       .SingleOrDefault();
         }
 
         [Transaction]
@@ -216,32 +200,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
                 .ToList();
         }
-
-        [Transaction]
-        public IEnumerable<Stakeholders> OnHieararchyIdWithPayments(Guid hierarchyid)
-        {
-            return SessionManager.GetCurrentSession().Query<Stakeholders>()
-                                 .Fetch(x => x.StkhPayments)
-                                 .Fetch(x => x.Hierarchy)
-                                 .Where(
-                                     x =>
-                                     x.Hierarchy.Id == hierarchyid &&
-                                     (x.LeavingDate < DateTime.Now || x.LeavingDate == null))
-                                 .Select(x => x)
-                                 .OrderByDescending(
-                                     x =>
-                                     x.StkhPayments.First(y => y.StartDate < DateTime.Now && y.EndDate > DateTime.Now))
-                                 .ToList();
-        }
-
-        //[Transaction]
-        //public IEnumerable<Stakeholders> GetPendingApprovals(string currUser, ColloSysEnums.ApproveStatus status)
-        //{
-        //    var session = SessionManager.GetCurrentSession();
-
-        //    var pendingStake = session.QueryOver<Stakeholders>();
-
-        //} 
 
         public override QueryOver<Stakeholders, Stakeholders> ApplyRelations()
         {

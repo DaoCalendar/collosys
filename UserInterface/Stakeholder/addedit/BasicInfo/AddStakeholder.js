@@ -4,15 +4,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
         var apistake = rest.all('StakeholderApi');
 
-        var getPincode = function (pincode, level) {
-            var params = { pincode: pincode, level: level };
-            return apistake.customGET('GetPincodes', params)
-                .then(
-                    function (data) {
-                        return data;
-                    });
-        };
-
         var getHierarchies = function () {
             return apistake.customGET('GetAllHierarchies').then(function (data) {
                 return data;
@@ -23,7 +14,7 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         };
 
         var save = function (data) {
-            return apistake.customPOST(data, 'SaveStake').then(function (afterPostData) {
+            return apistake.customPOST(data, 'SaveStakeholder').then(function (afterPostData) {
                 return afterPostData;
             });
         };
@@ -52,13 +43,13 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         };
 
         var getReportsToList = function (hierarchyId, level) {
-            return apistake.customGET('GetReportsToData', { hierarchyId: hierarchyId, level: level }).then(function (data) {
+            return apistake.customGET('GetReportsToList', { hierarchyId: hierarchyId, level: level }).then(function (data) {
                 return data;
             });
         };
 
-        var getStakeholderForEdit = function (id) {
-            return apistake.customGET('GetStakeForEdit', { 'stakeholderId': id }).then(function (data) {
+        var getStakeholder = function (id) {
+            return apistake.customGET('GetStakeholder', { 'stakeholderId': id }).then(function (data) {
                 return data;
             });
         };
@@ -66,10 +57,9 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
         return {
             CheckUser: checkUser,
             GetHierarchies: getHierarchies,
-            GetPincode: getPincode,
             GetReportsToList: getReportsToList,
-            GetStakeholderForEdit: getStakeholderForEdit,
-            Save: save
+            GetStakeholder: getStakeholder,
+            SaveStakeholder: save
         };
     }]);
 
@@ -109,54 +99,15 @@ csapp.factory("AddEditStakeholderFactory", function () {
         } else {
             model.label = 'Reporting Manager';
         }
-
-
-    };
-
-    //TODO: move to $csfactory
-
-    var resetVal = function (key, except) {
-        if (angular.isUndefined(except)) return true;
-        var index = except.indexOf(key);
-        return index === -1;
-    };
-
-    var resetObj = function (obj, except) {
-
-        angular.forEach(obj, function (value, key) {
-            if (resetVal(key, except)) {
-                switch (typeof value) {
-                    case 'object':
-                    case 'boolean':
-                    case 'number':
-                    case 'string':
-                        delete obj[key];
-                        break;
-                    default:
-                        console.log('cannot reset type : ' + typeof value);
-                }
-            };
-        });
-    };
-
-    var getValFromId = function (list, id, val) {
-        if (angular.isUndefined(list)) return "";
-        if (angular.isUndefined(id)) return "";
-        if (angular.isUndefined(val)) return "";
-        var data = _.find(list, { 'Id': id });
-        return data[val];
     };
 
     return {
-        SetHierarchyModel: setHierarchyModel,
-        ResetObj: resetObj,
-        GetValFromId: getValFromId
+        ResetHierarchyModel: setHierarchyModel,
     };
 });
 
 csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams",
     function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
-
 
         var getModels = function () {
             $scope.stakeholderModels = {
@@ -166,40 +117,46 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             };
         };
 
-        (function () {
-            $scope.showForm = true;
-            $scope.formMode = ($csfactory.isNullOrEmptyString($routeParams.stakeId)) ? 'add' : 'view';
+        var initdata = function (data) {
+            $scope.Stakeholder.Address = $csfactory.isNullOrEmptyArray(data.StkhAddress)
+                ? {}
+                : data.StkhAddress[0];
+            $scope.Stakeholder.Regis = $csfactory.isNullOrEmptyArray(data.StkhRegistrations)
+                ? {}
+                : data.StkhRegistrations[0];
+            $scope.selectedHierarchy = $scope.Stakeholder.Hierarchy;
+            $scope.Stakeholder.Hierarchy = $scope.selectedHierarchy.Hierarchy;
+            $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
+            $scope.Stakeholder.Designation = $scope.selectedHierarchy.Id;
+            $scope.assignSelectedHier($scope.selectedHierarchy.Id);
+        };
 
-            $scope.factory = factory;
-            $scope.Stakeholder = {
-                StkhAddress: [],
-                StkhRegistrations: []
-            };
-
-            datalayer.GetHierarchies().then(function (data) {
+        var getHiearachy = function () {
+            return datalayer.GetHierarchies().then(function (data) {
                 $scope.HierarchyList = data;
                 $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
-            }).then(function () {
-                if (!$csfactory.isNullOrEmptyString($routeParams.stakeId)) {
-                    datalayer.GetStakeholderForEdit($routeParams.stakeId).then(function (data) {
-                        $scope.Stakeholder = data;
-                        $scope.Stakeholder.Address = $csfactory.isNullOrEmptyArray(data.StkhAddress) ? "" : data.StkhAddress[0];
-                        $scope.Stakeholder.Regis = $csfactory.isNullOrEmptyArray(data.StkhRegistrations) ? "" : data.StkhRegistrations[0];
-                        $scope.selectedHierarchy = $scope.Stakeholder.Hierarchy;
-                        $scope.Stakeholder.Hierarchy = angular.copy($scope.selectedHierarchy.Hierarchy);
-                        $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
-                        $scope.Stakeholder.Designation = angular.copy($scope.selectedHierarchy.Id);
-                        $scope.assignSelectedHier($scope.selectedHierarchy.Id);
-                    });
-                }
             });
+        };
 
+        var getStakeholder = function () {
+            if ($csfactory.isNullOrEmptyGuid($routeParams.stakeId)) return;
+
+            datalayer.GetStakeholder($routeParams.stakeId).then(function (data) {
+                $scope.Stakeholder = data;
+                initdata(data);
+            });
+        };
+
+        (function () {
             getModels();
-
+            $scope.formMode = ($csfactory.isNullOrEmptyString($routeParams.stakeId)) ? 'add' : 'view';
+            $scope.factory = factory;
+            $scope.Stakeholder = { StkhAddress: [], StkhRegistrations: [] };
+            getHiearachy().then(getStakeholder());
         })();
 
         $scope.reset = function () {
-            factory.ResetObj($scope.Stakeholder);
+            $csfactory.ResetObject($scope.Stakeholder);
         };
 
         $scope.cancel = function () {
@@ -213,7 +170,6 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         $scope.changeMode = function () {
             $scope.showForm = false;
             $scope.formMode = 'edit';
-            //getModels();
             $timeout(function () { $scope.showForm = true; }, 100);
         };
 
@@ -231,14 +187,14 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             }
 
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
-            factory.SetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
+            factory.ResetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
                 .then(function (data) {
                     $scope.reportsToList = data;
                 });
 
             if ($scope.formMode === 'add') {
-                factory.ResetObj($scope.Stakeholder, ['Hierarchy', 'Designation']);
+                $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
                 $timeout(function () { $scope.showBasicInfo = true; }, 100);
             } else {
                 $scope.showBasicInfo = true;
@@ -247,7 +203,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
 
         $scope.saveData = function (data) {
             setStakeObject(data);
-            datalayer.Save(data).then(function (savedStakeholder) {
+            datalayer.SaveStakeholder(data).then(function (savedStakeholder) {
                 if ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true) {
                     $scope.formMode === 'add' ? $location.path('/stakeholder/working/' + savedStakeholder.Id)
                         : $location.path('/stakeholder/working/edit/' + data.Id);
@@ -258,19 +214,18 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
         };
 
         $scope.getTextForSaveBtn = function () {
-            return ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true) ?
-                "Next" : "Save";
+            return ($scope.selectedHierarchy.HasWorking === true
+                    || $scope.selectedHierarchy.HasPayment === true)
+                ? "Next"
+                : "Save";
         };
 
         var setStakeObject = function (data) {
-            //TODO: fix address/registration for edit
             data.StkhAddress = [];
             data.StkhRegistrations = [];
             data.Hierarchy = $scope.selectedHierarchy;//set hierarchy
             if (!$csfactory.isEmptyObject(data.Address)) data.StkhAddress.push(data.Address);
             if (!$csfactory.isEmptyObject(data.Regis)) data.StkhRegistrations.push(data.Regis);
         };
-
-
     }
 ]);

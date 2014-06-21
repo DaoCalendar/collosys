@@ -4,9 +4,9 @@ using NHibernate.Criterion;
 
 namespace ColloSys.QueryBuilder.StakeholderBuilder
 {
-    public class AddressQueryBuilder : Repository<StakeAddress>
+    public class AddressQueryBuilder : Repository<StkhAddress>
     {
-        public override QueryOver<StakeAddress, StakeAddress> ApplyRelations()
+        public override QueryOver<StkhAddress, StkhAddress> ApplyRelations()
         {
             return null;
         }

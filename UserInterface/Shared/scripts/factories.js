@@ -47,8 +47,7 @@
         return true;
     };
 
-
-    var resetVal = function (key, except) {
+    var doResetVal = function (key, except) {
         if (angular.isUndefined(except)) return true;
         var index = except.indexOf(key);
         return index === -1;
@@ -57,7 +56,7 @@
     var resetObject = function (obj, except) {
 
         angular.forEach(obj, function (value, key) {
-            if (resetVal(key, except)) {
+            if (doResetVal(key, except)) {
                 switch (typeof value) {
                     case 'object':
                     case 'boolean':
@@ -71,7 +70,6 @@
             };
         });
     };
-
 
     var isNullOrEmptyArray = function (val) {
         if (isNullOrEmptyString(val)) {
@@ -110,7 +108,7 @@
         return index;
     };
 
-    function getPropertyValue(targetObj, keyPath) {
+    var getPropertyValue = function (targetObj, keyPath) {
         var keys = keyPath.split('.');
         if (keys.length === 0) return undefined;
         keys = keys.reverse();
@@ -126,6 +124,14 @@
         return subObject;
     }
 
+    var getPropValFromListById = function (list, id, val) {
+        if (angular.isUndefined(list)) return undefined;
+        if (angular.isUndefined(id)) return undefined;
+        if (angular.isUndefined(val)) return undefined;
+        var data = _.find(list, { 'Id': id });
+        return data[val];
+    };
+
     return {
         isNullOrEmptyArray: isNullOrEmptyArray,
         isNullOrEmptyString: isNullOrEmptyString,
@@ -137,7 +143,8 @@
         enableSpinner: enableSpinner,
         findIndex: findIndex,
         getPropertyValue: getPropertyValue,
-        ResetObject: resetObject
+        ResetObject: resetObject,
+        GetPropertyById: getPropValFromListById
     };
 }]);
 

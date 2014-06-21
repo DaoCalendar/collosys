@@ -7,7 +7,6 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
-using NHibernate;
 using NHibernate.Linq;
 
 #endregion
@@ -18,9 +17,8 @@ namespace AngularUI.Stakeholder.addedit.Working
     {
         private static readonly StakeQueryBuilder StakeQuery = new StakeQueryBuilder();
         private static readonly HierarchyQueryBuilder HierarchyQuery = new HierarchyQueryBuilder();
-        private static readonly StakeWorkingQueryBuilder StakeWorking = new StakeWorkingQueryBuilder();
 
-        public static IEnumerable<Stakeholders> GetReportsOnreportingLevel(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
+        public static IEnumerable<Stakeholders> GetStkhByReportingLevel(Guid hierarchyId, ColloSysEnums.ReportingLevel level)
         {
             var hierarchyList = new List<Guid>();
             if ((int)level == 0)
@@ -36,8 +34,21 @@ namespace AngularUI.Stakeholder.addedit.Working
                 hierarchyId = reportsToId;
             }
 
-            //TODO : filter by product
-            return StakeQuery.OnHierarchyId(hierarchyList).ToList();
+            var stkhList = StakeQuery.OnHierarchyId(hierarchyList).ToList();
+            return stkhList;
+        }
+
+        public static IEnumerable<Stakeholders> GetStkhWorkingByReportingLevel(Guid hierarchyId, ColloSysEnums.ReportingLevel level, ScbEnums.Products product)
+        {
+            var stkhList = GetStkhByReportingLevel(hierarchyId, level);
+            var stkhProductList = new List<Stakeholders>();
+            foreach (var stkh in stkhList)
+            {
+                if (stkh.StkhWorkings.Count == 0) stkhProductList.Add(stkh);
+                var hasProduct = stkh.StkhWorkings.Any(x => x.Products == product);
+                if (hasProduct) stkhProductList.Add(stkh);
+            }
+            return stkhProductList;
         }
 
         public static void UpdateAndSave(List<StkhWorking> workList)
@@ -55,46 +66,43 @@ namespace AngularUI.Stakeholder.addedit.Working
                 transaction.Commit();
                 session.Close();
             }
-            //if (workings.Count != 0)
-            //{
-            //    foreach (var stkhWorking in workings)
-            //    {
-            //        session.Delete(stkhWorking);
-            //    }
-            //}
-
         }
 
-        public static SalaryDetails GetSalaryDetails(SalaryDetails payment, Dictionary<string, decimal> fixpayData)
+        public static SalaryDetails GetSalaryDetails(StkhPayment currentPayment, Dictionary<string, decimal> fixpayData)
         {
-            //payment.EmployeePfPct = fixpayData["EmployeePF"];
-            payment.EmployeePfPct = 12;
+            var payment = new SalaryDetails
+            {
+                FixpayBasic = currentPayment.FixpayBasic,
+                FixpayGross = currentPayment.FixpayGross,
+            };
+
+            payment.EmployeePfPct = fixpayData["EmployeePF"];
+            //payment.EmployeePfPct = 12;
             payment.EmployeePf = payment.FixpayBasic * (payment.EmployeePfPct / 100);
 
-            //payment.EmployerPfPct = fixpayData["EmployerPF"];
-            payment.EmployerPfPct = (decimal)13.61;
+            payment.EmployerPfPct = fixpayData["EmployerPF"];
+            //payment.EmployerPfPct = (decimal)13.61;
             payment.EmployerPf = payment.FixpayBasic * (payment.EmployerPfPct / 100);
 
-            //payment.EmployeeEsicPct = payment.FixpayTotal >= 15000 ? 0 : fixpayData["EmployeeESIC"];
-            payment.EmployeeEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)1.75;
-            payment.EmployeeEsic = payment.FixpayTotal * (payment.EmployeeEsicPct / 100);
+            payment.EmployeeEsicPct = payment.FixpayGross >= 15000 ? 0 : fixpayData["EmployeeESIC"];
+            //payment.EmployeeEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)1.75;
+            payment.EmployeeEsic = payment.FixpayGross * (payment.EmployeeEsicPct / 100);
 
-            //payment.EmployerEsicPct = payment.FixpayTotal >= 15000 ? 0 : fixpayData["EmployerESIC"];
-            payment.EmployerEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)4.75;
-            payment.EmployerEsic = payment.FixpayTotal * (payment.EmployerEsicPct / 100);
+            payment.EmployerEsicPct = payment.FixpayGross >= 15000 ? 0 : fixpayData["EmployerESIC"];
+            //payment.EmployerEsicPct = payment.FixpayTotal >= 15000 ? 0 : (decimal)4.75;
+            payment.EmployerEsic = payment.FixpayGross * (payment.EmployerEsicPct / 100);
 
-            var midTotal = payment.FixpayTotal + payment.EmployeeEsic + payment.EmployeePf
-                           + payment.EmployerEsic + payment.EmployerPf;
+            var midTotal = payment.FixpayGross + payment.EmployerEsic + payment.EmployerPf;
 
             //TODO : get count of employees from db
             payment.ServiceChargePct = 8;
             payment.ServiceCharge = midTotal * (payment.EmployerEsicPct / 100);
 
-            //payment.ServiceTaxPct = fixpayData["ServiceTax"];
-            payment.ServiceTaxPct = (decimal)12.36;
-            payment.ServiceTax = midTotal * (payment.ServiceTaxPct / 100);
+            payment.ServiceTaxPct = fixpayData["ServiceTax"];
+            //payment.ServiceTaxPct = (decimal)12.36;
+            payment.ServiceTax = (midTotal + payment.ServiceCharge) * (payment.ServiceTaxPct / 100);
 
-            payment.TotalPayout = midTotal + payment.ServiceTax + payment.ServiceCharge;
+            payment.FixpayTotal = midTotal + payment.ServiceTax + payment.ServiceCharge;
 
             return payment;
         }

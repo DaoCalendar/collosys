@@ -2,9 +2,9 @@ using ColloSys.DataLayer.BaseEntity;
 
 namespace ColloSys.DataLayer.Stakeholder
 {
-    public class StakeAddressMap : EntityMap<StakeAddress>
+    public class StkhAddressMap : EntityMap<StkhAddress>
     {
-        public StakeAddressMap()
+        public StkhAddressMap()
         {
             Property(x => x.Line1);
             Property(x => x.Line2, map => map.NotNullable(false));

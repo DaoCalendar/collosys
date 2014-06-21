@@ -65,7 +65,7 @@ namespace BillingService2.Calculation
                 BillMonth = _billStatus.BillMonth,
                 BillCycle = _billStatus.BillCycle,
                 Products = _billStatus.Products,
-                Amount = stkhPayment.FixpayTotal + stkhPayment.MobileElig + stkhPayment.TravelElig,
+                Amount = stkhPayment.FixpayGross + stkhPayment.MobileElig + stkhPayment.TravelElig,
                 PaymentSource = ColloSysEnums.PaymentSource.Fixed,
                 BillingPolicy = null,
                 BillingSubpolicy = null

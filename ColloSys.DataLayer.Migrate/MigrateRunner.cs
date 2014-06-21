@@ -48,10 +48,10 @@ namespace ColloSys.DataLayer.Migrate
             return maxno;
         }
 
-        public static string VersionInfoTableCreate()
-        {
-            return @"create table VersionInfo ( [Version] bigint primary key  , AppliedOn datetime2 )";
-        }
+        //public static string VersionInfoTableCreate()
+        //{
+        //    return @"create table VersionInfo ( [Version] bigint primary key  , AppliedOn datetime2 )";
+        //}
 
         public static string VersionInfoTableInsert(string connectionstring)
         {

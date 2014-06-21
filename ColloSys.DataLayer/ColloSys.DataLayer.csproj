@@ -139,6 +139,7 @@
     <Compile Include="Enumerations\ScbEnums.cs" />
     <Compile Include="Generic\GKeyValue.cs" />
     <Compile Include="Generic\GKeyValueMap.cs" />
+    <Compile Include="Stakeholder\StkhNotificationMap.cs" />
     <Compile Include="Generic\GTaxDetail.cs" />
     <Compile Include="Generic\GTaxDetailMap.cs" />
     <Compile Include="Generic\GTaxesList.cs" />
@@ -152,8 +153,13 @@
     <Compile Include="FileUploader\FileValueMappingMap.cs" />
     <Compile Include="Generic\GReports.cs" />
     <Compile Include="Generic\GReportsMap.cs" />
-    <Compile Include="Stakeholder\StakeAddress.cs" />
-    <Compile Include="Stakeholder\StakeAddressMap.cs" />
+    <Compile Include="Stakeholder\StkhLeave.cs" />
+    <Compile Include="Stakeholder\StkhLeaveMap.cs" />
+    <Compile Include="Stakeholder\StkhNotification.cs" />
+    <Compile Include="Generic\VersionInfo.cs" />
+    <Compile Include="Generic\VersionInfoMap.cs" />
+    <Compile Include="Stakeholder\StkhAddress.cs" />
+    <Compile Include="Stakeholder\StkhAddressMap.cs" />
     <Compile Include="Generic\GPermission.cs" />
     <Compile Include="Generic\GPermissionMap.cs" />
     <Compile Include="Generic\GPincode.cs" />

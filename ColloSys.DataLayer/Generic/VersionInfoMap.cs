@@ -8,7 +8,12 @@ namespace ColloSys.DataLayer.Generic
     {
         public VersionInfoMap()
         {
-            Id(x => x.Version, map => { map.Generator(Generators.Assigned); map.UnsavedValue(0); map.Column("Version"); });
+            Id(x => x.Version, map =>
+            {
+                map.Generator(Generators.Assigned);
+                map.UnsavedValue(0);
+                map.Column("Version");
+            });
             Property(x => x.AppliedOn, map => map.Type(NHibernateUtil.DateTime2));
         }
     }

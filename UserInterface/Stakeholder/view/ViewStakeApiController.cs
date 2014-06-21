@@ -467,14 +467,13 @@ namespace AngularUI.Stakeholder.view
                                               where d.Status != ColloSysEnums.ApproveStatus.Rejected
                                               select d).ToList();
                 stakeholderse.StkhPayments = (from d in stakeholderse.StkhPayments
-                                              where d.Status != ColloSysEnums.ApproveStatus.Rejected
+                                              where d.ApprovalStatus != ColloSysEnums.ApproveStatus.Rejected
                                               select d).ToList();
                 var deletelist = (from d in stakeholderse.StkhWorkings
                                   where d.Status == ColloSysEnums.ApproveStatus.Approved
                                   select d).ToList();
                 var deletepayment = (from d in stakeholderse.StkhPayments
-                                     where d.Status == ColloSysEnums.ApproveStatus.Approved &&
-                                           d.RowStatus == RowStatus.Delete
+                                     where d.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved
                                      select d).ToList();
                 deletelist.ForEach(x => stakeholderse.StkhWorkings.Remove(x));
                 deletepayment.ForEach(x => stakeholderse.StkhPayments.Remove(x));

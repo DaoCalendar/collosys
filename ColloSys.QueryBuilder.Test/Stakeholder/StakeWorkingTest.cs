@@ -49,7 +49,7 @@ namespace ColloSys.QueryBuilder.Test.Stakeholder
         public void SalCalculation()
         {
             var gKeyValueBuilder = new GKeyValueBuilder();
-            var sp = new SalaryDetails { FixpayTotal = 9350, FixpayBasic = 5610 };
+            var sp = new StkhPayment() { FixpayGross = 9350, FixpayBasic = 5610 };
             var gKeyValue = gKeyValueBuilder.ForStakeholders();
             var fixPay = gKeyValue
                 .ToDictionary(

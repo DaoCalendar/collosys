@@ -1,7 +1,7 @@
 ﻿using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 
-namespace AngularUI.Stakeholder.AddEdit2.BasicInfo
+namespace AngularUI.Stakeholder.addedit.BasicInfo
 {
     public static class AddEditStakeholder
     {

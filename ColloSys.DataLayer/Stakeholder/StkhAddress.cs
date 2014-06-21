@@ -2,7 +2,7 @@
 
 namespace ColloSys.DataLayer.Stakeholder
 {
-    public class StakeAddress : Entity
+    public class StkhAddress : Entity
     {
         public virtual Stakeholders Stakeholder { get; set; }
         public virtual string Line1 { get; set; }
