@@ -11,6 +11,7 @@ namespace ColloSys.DataLayer.Stakeholder
             Property(x => x.NoteStatus);
             Property(x => x.Description);
             Property(x => x.ParamsJson, map => map.NotNullable(false));
+            Property( x=> x.IsResponse);
             ManyToOne(x => x.ForStakeholder, map => map.NotNullable(true));
         }
     }

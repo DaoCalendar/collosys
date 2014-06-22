@@ -101,6 +101,7 @@
     <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakePaymentQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakeWorkingQueryBuilder.cs" />
+    <Compile Include="StakeholderBuilder\StkhLeaveRepository.cs" />
     <Compile Include="StakeholderBuilder\StkhNotificationRepository.cs" />
     <Compile Include="TransAttributes\SessionAttribute.cs" />
     <Compile Include="Generic\Util.cs" />

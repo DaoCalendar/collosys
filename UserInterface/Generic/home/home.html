@@ -1,5 +1,15 @@
-﻿<form name="form">
-    <cs-form>
-       
-    </cs-form>
-</form>
+﻿<div class="col-md-12">
+    <div class="col-md-2" style="height: 300px; overflow: auto">
+        <ul class="list-group">
+            <li class="list-group-item" data-ng-repeat="user in userNotifyCount"
+                data-ng-click="GetUserNotificationList(user)" data-ng-class="{active: 'user === selectedUser'}">
+                {{user.StakeholderName}} <span class="badge">{{user.NotifyCount}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        <div class="rectangle" data-ng-repeat="notify in userNotifications">
+            <span>{{notify.Description}}</span>
+        </div>
+    </div>
+</div>

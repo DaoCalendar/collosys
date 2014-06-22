@@ -51,7 +51,8 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         {
             AddEditStakeholder.SetStakeholderObj(data);
             StakeQuery.Save(data);
-            AddEditStakeholder.NotifyNewStakeholder(data, GetUsername());
+            var notify = new StkhNotificationRepository();
+            notify.NotifyNewStakeholder(data, GetUsername());
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
     }

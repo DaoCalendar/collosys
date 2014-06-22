@@ -1,10 +1,12 @@
-﻿namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
+﻿using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
+
+namespace AngularUI.Developer.generatedb.Excel2Db
 {
-    public class Excel2Db
+    public class Excel2Database
     {
         private readonly string _connectionString;
 
-        public Excel2Db(string connString)
+        public Excel2Database(string connString)
         {
             _connectionString = connString;
         }

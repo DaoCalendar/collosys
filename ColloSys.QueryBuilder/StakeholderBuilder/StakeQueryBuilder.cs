@@ -69,7 +69,6 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return stakeholder;
         }
 
-
         [Transaction]
         public IList<Stakeholders> GetAllStakeholders()
         {
@@ -174,8 +173,8 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return SessionManager.GetCurrentSession()
                                  .Query<Stakeholders>()
                                  .Fetch(x => x.Hierarchy)
-                                 .Fetch(x=>x.StkhAddress)
-                                 .Fetch(x=>x.StkhRegistrations)
+                                 .Fetch(x => x.StkhAddress)
+                                 .Fetch(x => x.StkhRegistrations)
                                  .Single(x => x.Id == id);
 
         }
@@ -212,6 +211,17 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                             .Fetch(x => x.StkhAddress).Eager
                             .TransformUsing(Transformers.DistinctRootEntity);
             return query;
+        }
+
+        [Transaction]
+        public IList<Stakeholders> GetReportingList(Guid managerId)
+        {
+            if (managerId == Guid.Empty) return null;
+            var session = SessionManager.GetCurrentSession();
+            return session.Query<Stakeholders>()
+                .Where(x => x.ReportingManager == managerId 
+                    && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
+                .ToList();
         }
     }
 }

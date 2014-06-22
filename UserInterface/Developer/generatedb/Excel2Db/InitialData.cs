@@ -1,12 +1,10 @@
 ﻿#region references
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using ColloSys.DataLayer.Allocation;
-using ColloSys.DataLayer.Billing;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.SessionMgr;
@@ -15,7 +13,7 @@ using ColloSys.Shared.Encryption;
 
 #endregion
 
-namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
+namespace AngularUI.Developer.generatedb.Excel2Db
 {
     public static class InitialData
     {
@@ -315,52 +313,3 @@ namespace ColloSys.UserInterface.Areas.Developer.Models.Excel2Db
     }
 }
 
-
-//private static void InsertPincodes()
-//{
-//    var pincode1 = new GPincode()
-//        {
-//            Area = "Wakad",
-//            City = "Pune",
-//            Cluster = "West",
-//            Country = "India",
-//            District = "Pune",
-//            Region = "West",
-//            IsInUse = true,
-//            Pincode = 411057,
-//            State = "MH"
-//        };
-
-//    var pincode2 = new GPincode()
-//    {
-//        Area = "Hadapsar",
-//        City = "Pune",
-//        Cluster = "West",
-//        Country = "India",
-//        District = "Pune",
-//        Region = "West",
-//        IsInUse = true,
-//        Pincode = 411028,
-//        State = "MH"
-//    };
-
-//    var pincode3 = new GPincode()
-//    {
-//        Area = "Chembur",
-//        City = "Mumbai",
-//        Cluster = "West",
-//        Country = "India",
-//        District = "Mumbai",
-//        Region = "West",
-//        IsInUse = true,
-//        Pincode = 400071,
-//        State = "MH"
-//    };
-
-//    var uow = SessionManager.GetCurrentUnitOfWork();
-//    uow.CurrentSession.SaveOrUpdate(pincode1);
-//    uow.CurrentSession.SaveOrUpdate(pincode2);
-//    uow.CurrentSession.SaveOrUpdate(pincode3);
-//    uow.Commit();
-
-//}

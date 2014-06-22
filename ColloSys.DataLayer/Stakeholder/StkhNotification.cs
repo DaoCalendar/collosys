@@ -12,5 +12,6 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual String Description { get; set; }
         public virtual String ParamsJson { get; set; }
         public virtual ColloSysEnums.NotificationStatus NoteStatus { get; set; }
+        public virtual bool IsResponse { get; set; }
     }
 }

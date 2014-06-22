@@ -2,6 +2,7 @@
 
 using System;
 using System.Data.SqlClient;
+using AngularUI.Developer.generatedb.Excel2Db;
 using AngularUI.Developer.queryexecuter;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.FileUploader;
@@ -9,7 +10,6 @@ using ColloSys.DataLayer.Migrate;
 using ColloSys.DataLayer.SessionMgr;
 using ColloSys.Shared.ConfigSectionReader;
 using ColloSys.Shared.ErrorTables;
-using ColloSys.UserInterface.Areas.Developer.Models.Excel2Db;
 using NHibernate.Tool.hbm2ddl;
 
 #endregion
@@ -51,7 +51,7 @@ namespace AngularUI.Developer.generatedb
 
         private static void UploadExcelData()
         {
-            var uploader = new Excel2Db(ColloSysParam.WebParams.ConnectionString.ConnectionString);
+            var uploader = new Excel2Database(ColloSysParam.WebParams.ConnectionString.ConnectionString);
             uploader.UploadExcel2Db("FileUploader.xls");
         }
 
