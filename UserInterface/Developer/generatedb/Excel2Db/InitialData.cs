@@ -109,15 +109,13 @@ namespace AngularUI.Developer.generatedb.Excel2Db
 
             var user2Stkh = new Stakeholders
             {
-                Status = ColloSysEnums.ApproveStatus.Approved,
-                ApprovedBy = "System",
-                ApprovedOn = DateTime.Now,
+                ApprovalStatus = ColloSysEnums.ApproveStatus.Approved,
                 ExternalId = "9999999",
                 Password = PasswordUtility.EncryptText("p@55w0rld"),
                 EmailId = "collosys@sc.com",
                 JoiningDate = DateTime.Today,
                 MobileNo = "9999999999",
-                Name = "AlgoSys User",
+                Name = "Vendor Admin",
                 Hierarchy = role4,
             };
 

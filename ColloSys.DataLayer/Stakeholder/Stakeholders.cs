@@ -30,8 +30,6 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual DateTime? LeavingDate { get; set; }
         public virtual StkhHierarchy Hierarchy { get; set; }
 
-        public virtual ColloSysEnums.ApproveStatus Status { get; set; }
-        public virtual string ApprovedBy { get; set; }
-        public virtual DateTime? ApprovedOn { get; set; }
+        public virtual ColloSysEnums.ApproveStatus ApprovalStatus { get; set; }
     }
 }

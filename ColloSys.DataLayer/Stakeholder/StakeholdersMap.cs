@@ -15,10 +15,7 @@ namespace ColloSys.DataLayer.Stakeholder
             Property(x => x.ReportingManager);
             Property(x => x.JoiningDate);
             Property(x => x.LeavingDate);
-
-            Property(x => x.ApprovedBy, map => map.NotNullable(false));
-            Property(p => p.ApprovedOn);
-            Property(x => x.Status);
+            Property(x => x.ApprovalStatus);
 
             ManyToOne(x => x.Hierarchy, map => map.NotNullable(false));
 

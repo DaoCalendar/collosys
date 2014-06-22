@@ -3,7 +3,7 @@
         <div class="panel-heading">Add/Edit Stakeholder</div>
         <div class="panel-body" data-ng-form="basicInfoForm">
             <cs-form mode="formMode">
-                <div>
+                <div data-ng-show="hierarchyDisplayList">
                     <cs-field data-ng-model="Stakeholder.Hierarchy"
                               data-ng-change="changeInHierarchy(Stakeholder.Hierarchy)"
                               value-list="hierarchyDisplayList"

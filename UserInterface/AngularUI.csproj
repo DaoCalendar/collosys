@@ -153,6 +153,8 @@
     <Compile Include="Generic\changepassword\ChangePasswordApiController.cs" />
     <Compile Include="Generic\changepassword\ChangePasswordModel.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
+    <Compile Include="Generic\home\NotificationManager.cs" />
+    <Compile Include="Generic\home\StakeholderNotificationManager.cs" />
     <Compile Include="Generic\login\AutheticationController.cs" />
     <Compile Include="Generic\login\ForgotPasswordModel.cs" />
     <Compile Include="Generic\login\LoginModel.cs" />

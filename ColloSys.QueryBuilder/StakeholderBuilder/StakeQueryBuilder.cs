@@ -43,7 +43,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                               .And(() => stakeholders.JoiningDate < Util.GetTodayDate())
                               .And(() => stakeholders.LeavingDate == null ||
                                          stakeholders.LeavingDate > Util.GetTodayDate())
-                              .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+                              .And(() => stakeholders.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
                               .TransformUsing(Transformers.DistinctRootEntity)
                               .List();
             data.ForEach(x =>
@@ -118,7 +118,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                              .JoinQueryOver(() => stakeholders.Hierarchy, () => hierarchy,
                                                             JoinType.InnerJoin)
                                              .Where(() => stakeholders.LeavingDate < DateTime.Now)
-                                             .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+                                             .And(() => stakeholders.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
                                              .And(() => working.Products == products)
                                              .And(() => hierarchy.IsInAllocation)
                                              .And(() => hierarchy.IsInField)
@@ -145,7 +145,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                              .Where(() => stakeholders.LeavingDate == null || stakeholders.LeavingDate < DateTime.Now)
                                              .And(() => working.Products == products)
                                              .And(() => working.EndDate <= DateTime.Now)
-                                             .And(() => stakeholders.Status == ColloSysEnums.ApproveStatus.Approved)
+                                             .And(() => stakeholders.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
                                              .And(() => hierarchy.IsInAllocation)
                                              .And(() => hierarchy.IsInField)
                                              .TransformUsing(Transformers.DistinctRootEntity)
@@ -177,6 +177,16 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                  .Fetch(x => x.StkhRegistrations)
                                  .Single(x => x.Id == id);
 
+        }
+
+        [Transaction]
+        public Stakeholders GetById(Guid id)
+        {
+            var session = SessionManager.GetCurrentSession();
+            var stkh = session.Query<Stakeholders>()
+                                 .Fetch(x => x.Hierarchy)
+                                 .Single(x => x.Id == id);
+            return stkh;
         }
 
         [Transaction]
@@ -219,7 +229,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             if (managerId == Guid.Empty) return null;
             var session = SessionManager.GetCurrentSession();
             return session.Query<Stakeholders>()
-                .Where(x => x.ReportingManager == managerId 
+                .Where(x => x.ReportingManager == managerId
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
                 .ToList();
         }

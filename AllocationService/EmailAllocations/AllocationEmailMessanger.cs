@@ -29,7 +29,7 @@ namespace ColloSys.AllocationService.EmailAllocations
         public IList<StakeholdersStat> GetStakeholderWithManger()
         {
             var stakeholerInitialData = StakeQueryBuilder
-                .FilterBy(x => x.Status == ColloSysEnums.ApproveStatus.Approved).ToList();
+                .FilterBy(x => x.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved).ToList();
            
             var listOfStakeholderAndMangers = (from d in stakeholerInitialData
                                                select new StakeholdersStat

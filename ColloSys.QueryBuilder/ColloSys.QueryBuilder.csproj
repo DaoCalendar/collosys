@@ -97,6 +97,7 @@
     <Compile Include="GenericBuilder\GTaxesListBuilder.cs" />
     <Compile Include="GenericBuilder\GUsersRepository.cs" />
     <Compile Include="GenericBuilder\ProductConfigBuilder.cs" />
+    <Compile Include="StakeholderBuilder\ActiveNotifications.cs" />
     <Compile Include="StakeholderBuilder\AddressQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\HierarchyQueryBuilder.cs" />
     <Compile Include="StakeholderBuilder\StakePaymentQueryBuilder.cs" />

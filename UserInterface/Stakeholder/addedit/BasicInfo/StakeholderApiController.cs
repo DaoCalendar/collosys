@@ -4,6 +4,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AngularUI.Generic.home;
 using AngularUI.Shared.apis;
 using AngularUI.Stakeholder.addedit.Working;
 using ColloSys.DataLayer.Enumerations;
@@ -49,10 +50,14 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         [HttpPost]
         public HttpResponseMessage SaveStakeholder(Stakeholders data)
         {
+            //save stakeholder
             AddEditStakeholder.SetStakeholderObj(data);
             StakeQuery.Save(data);
-            var notify = new StkhNotificationRepository();
-            notify.NotifyNewStakeholder(data, GetUsername());
+
+            //notify approver
+            var notify = new StakeholderNotificationManager(GetUsername());
+            notify.NotifyNewStakeholder(data);
+
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
     }
