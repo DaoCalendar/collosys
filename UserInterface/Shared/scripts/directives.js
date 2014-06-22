@@ -200,6 +200,7 @@ csapp.directive("csFileUpload", ["Restangular", "Logger", "$csfactory", "$upload
     }
 ]);
 
+//#region buttons directives
 csapp.factory("csButtonFactory", ['Logger', function (logManager) {
     var $log = logManager.getInstance('buttonFactory');
     var getTemplateParams = function (type, text) {
@@ -378,8 +379,6 @@ csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButt
     }
 ]);
 
-
-//#region switch-buttons 3 directives
 csapp.directive('btnSwitch', function () {
     return {
         restrict: 'A',
@@ -460,49 +459,6 @@ csapp.directive("csswitch", function () {
         link: linkfunction
     };
 });
-//#endregion
-
-csapp.directive('cspagination', function () {
-
-    return {
-        restrict: 'E',
-        scope: {
-            gotofirstpage: '&',
-            gotolastpage: '&',
-            stepforward: '&',
-            stepbackward: '&',
-            totalrecords: '=',
-            currpagenum: '=',
-            pagesize: '='
-        },
-
-        link: function (scope) {
-            scope.pagesize = 5;
-            //scope.currpagenum = 1;
-            scope.getrecordnum = function () {
-                if (scope.currpagenum * scope.pagesize > scope.totalrecords)
-                    return scope.totalrecords;
-                else return (scope.currpagenum * scope.pagesize);
-            };
-            scope.getInitialNum = function () {
-                return (scope.pagesize * (scope.currpagenum - 1)) + 1;
-            };
-        },
-
-        template:
-            '<div class="pull-right col-md-3">' +
-            '<div><b>Records: {{getInitialNum()}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
-            '<div class="input-group">' +
-            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="fa fa-angle-double-left"></i></button></span>' +
-            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepbackward()"><i class="fa fa-chevron-left"></i></button></span>' +
-            '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="form-control text-center"></span>' +
-            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepforward()"><i class="fa fa-chevron-right"></i></button></span>' +
-            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotolastpage()"><i class="fa fa-angle-double-right"></i></button></span>' +
-            '</div>' +
-            '</div>' +
-            '</div>'
-    };
-});
 
 csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
 
@@ -580,6 +536,49 @@ csapp.directive('iconBtn', ['PermissionFactory', function (permFactory) {
         template: templateFn
     };
 }]);
+//#endregion
+
+csapp.directive('cspagination', function () {
+
+    return {
+        restrict: 'E',
+        scope: {
+            gotofirstpage: '&',
+            gotolastpage: '&',
+            stepforward: '&',
+            stepbackward: '&',
+            totalrecords: '=',
+            currpagenum: '=',
+            pagesize: '='
+        },
+
+        link: function (scope) {
+            scope.pagesize = 5;
+            //scope.currpagenum = 1;
+            scope.getrecordnum = function () {
+                if (scope.currpagenum * scope.pagesize > scope.totalrecords)
+                    return scope.totalrecords;
+                else return (scope.currpagenum * scope.pagesize);
+            };
+            scope.getInitialNum = function () {
+                return (scope.pagesize * (scope.currpagenum - 1)) + 1;
+            };
+        },
+
+        template:
+            '<div class="pull-right col-md-3">' +
+            '<div><b>Records: {{getInitialNum()}}</b> - <b>{{getrecordnum()}}</b> of <b>{{totalrecords}}</b></div>' +
+            '<div class="input-group">' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotofirstpage()"><i class="fa fa-angle-double-left"></i></button></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepbackward()"><i class="fa fa-chevron-left"></i></button></span>' +
+            '<input type="text" readonly data-ng-model=currpagenum style="margin-top: 0px" class="form-control text-center"></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="stepforward()"><i class="fa fa-chevron-right"></i></button></span>' +
+            '<span class="input-group-btn"><button class="btn btn-default" data-ng-click="gotolastpage()"><i class="fa fa-angle-double-right"></i></button></span>' +
+            '</div>' +
+            '</div>' +
+            '</div>'
+    };
+});
 
 csapp.directive('csList2', function () {
 
@@ -588,10 +587,13 @@ csapp.directive('csList2', function () {
         template += '<div class="panel panel-default" style="height: 400px;overflow: auto">';
         template += '<div class="panel-heading">' + attrs.listHeading + ' </div>';
         template += '<ul class="list-group">';
-        template += '<li class="list-group-item" ng-repeat="row in valueList"';
+        template += '<li class="list-group-item" ng-repeat="row in valueList" style="cursor: pointer"';
         template += ' ng-click="onChange(row, $index)' + (angular.isDefined(attrs.onClick) ? ';onClick()' : ' ') + '"';
-        template += ' ng-model="ngModel" ng-class="{active : isSelected($index) }"';
-        template += ' value="row">{{row.' + attrs.textField + '}}</li>';
+        template += ' ng-model="ngModel" ng-class="{active : isSelected($index) }">';
+        template += ' {{row.' + attrs.textField + '}}';
+        if (angular.isDefined(attrs.subtextField))
+            template += '<span class="badge">{{row.' + attrs.subtextField + '}}</span>';
+        template += '</li>';
         template += '</ul>';
         template += '</div>';
         template += '</div>';
@@ -613,7 +615,8 @@ csapp.directive('csList2', function () {
     return {
         restrict: 'E',
         replace: true,
-        scope: { heading: '@', valueList: '=', ngModel: '=', onClick: '&', selectedIndex: '=' }, //textField
+        scope: { valueList: '=', ngModel: '=', onClick: '&', selectedIndex: '=' },
+        //list-heading, text-field
         template: templateFn,
         link: linkFn,
         require: 'ngModel'

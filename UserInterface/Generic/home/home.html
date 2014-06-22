@@ -1,15 +1,23 @@
-﻿<div class="col-md-12">
-    <div class="col-md-2" style="height: 300px; overflow: auto">
-        <ul class="list-group">
-            <li class="list-group-item" data-ng-repeat="user in userNotifyCount"
-                data-ng-click="GetUserNotificationList(user)" data-ng-class="{active: 'user === selectedUser'}">
-                {{user.StakeholderName}} <span class="badge">{{user.NotifyCount}}</span>
-            </li>
-        </ul>
+﻿<div class="col-md-12" data-ng-show="userNotifyCount">
+    <div class="col-md-3">
+        <cs-list2 list-heading="Notifications" value-list="userNotifyCount"
+                  ng-model="selectedUser" text-field="StakeholderName" subtext-field="NotifyCount"
+                  on-click="GetUserNotificationList()" selected-index="selectedUserIndex">
+        </cs-list2>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="rectangle" data-ng-repeat="notify in userNotifications">
-            <span>{{notify.Description}}</span>
+            <div>{{notify.Description}}</div>
+            <div data-ng-show="notify.IsResponse">
+                <button class="btn btn-link">Dismiss</button>
+            </div>
+            <div data-ng-show="!notify.IsResponse">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-link">Approve</button>
+                    <button class="btn btn-link">Reject</button>
+                    <button class="btn btn-link">Details</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

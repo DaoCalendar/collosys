@@ -23,9 +23,8 @@ csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', function ($scope, datal
         });
     })();
 
-    $scope.GetUserNotificationList = function (user) {
-        $scope.selectedUser = user;
-        datalayer.GetNotificationDetails(user).then(function (data) {
+    $scope.GetUserNotificationList = function () {
+        datalayer.GetNotificationDetails($scope.selectedUser).then(function (data) {
             $scope.userNotifications = data;
         });
     };

@@ -360,9 +360,10 @@ multiselect {
         }
 
 .rectangle {
+    border-radius: 5px;
     border: 1px solid #dddddd;
-    margin: 3px;
-    padding: 3px;
+    margin: 5px;
+    padding: 5px;
 }
 
 .cs-fields {
