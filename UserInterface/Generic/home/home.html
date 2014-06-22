@@ -7,15 +7,27 @@
     </div>
     <div class="col-md-9">
         <div class="rectangle" data-ng-repeat="notify in userNotifications">
-            <div>{{notify.Description}}</div>
+            <div>{{notify.Description}}<span class="text-muted"> {{notify.CreatedOn | fromNow}}</span></div>
             <div data-ng-show="notify.IsResponse">
-                <button class="btn btn-link">Dismiss</button>
+                <button type="button" data-ng-click="onDismiss(notify)" 
+                        class="btn btn-link">
+                    Dismiss
+                </button>
             </div>
             <div data-ng-show="!notify.IsResponse">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-link">Approve</button>
-                    <button class="btn btn-link">Reject</button>
-                    <button class="btn btn-link">Details</button>
+                    <button type="button" data-ng-show="notify.buttons.showApprove"
+                            class="btn btn-link" data-ng-click="onApprove(notify)">
+                        Approve
+                    </button>
+                    <button type="button" data-ng-show="notify.buttons.showReject"
+                            class="btn btn-link" data-ng-click="onReject(notify)">
+                        Reject
+                    </button>
+                    <button type="button" data-ng-show="notify.buttons.showDetails"
+                            class="btn btn-link" data-ng-click="onDetails(notify)">
+                        Details
+                    </button>
                 </div>
             </div>
         </div>

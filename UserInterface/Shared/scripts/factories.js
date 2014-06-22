@@ -156,11 +156,6 @@ csapp.factory('$csnotify', function () {
 
     var log = function (messege) {
         $.notify(messege, "info");
-        //if (isSticky) {
-        //    alertify.log(messege, '', 0);
-        //} else {
-        //    alertify.log(messege);
-        //}
     };
 
     var error = function (messege) {
