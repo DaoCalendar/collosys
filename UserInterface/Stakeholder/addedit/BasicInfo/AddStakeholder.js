@@ -106,6 +106,8 @@ csapp.factory("AddEditStakeholderFactory", function () {
     };
 });
 
+//TODO: clean hierarchy designation variable name, why you complicated it so much
+//TODO: can you please not make it simple
 csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$location", "$csModels", "AddEditStakeholderDatalayer", "AddEditStakeholderFactory", "$timeout", "$routeParams",
     function ($scope, $log, $csfactory, $location, $csModels, datalayer, factory, $timeout, $routeParams) {
 
@@ -195,17 +197,16 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
 
             if ($scope.formMode === 'add') {
                 $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
-                $timeout(function () { $scope.showBasicInfo = true; }, 100);
-            } else {
-                $scope.showBasicInfo = true;
-            }
+            } 
+            $timeout(function () { $scope.showBasicInfo = true; }, 100);
         };
 
         $scope.saveData = function (data) {
             setStakeObject(data);
-            datalayer.SaveStakeholder(data).then(function (savedStakeholder) {
+            return datalayer.SaveStakeholder(data).then(function (savedStakeholder) {
                 if ($scope.selectedHierarchy.HasWorking === true || $scope.selectedHierarchy.HasPayment === true) {
-                    $scope.formMode === 'add' ? $location.path('/stakeholder/working/' + savedStakeholder.Id)
+                    $scope.formMode === 'add'
+                        ? $location.path('/stakeholder/working/' + savedStakeholder.Id)
                         : $location.path('/stakeholder/working/edit/' + data.Id);
                 } else {
                     $location.path('/stakeholder/view');

@@ -16,35 +16,24 @@
                     </div>
                 </div>
 
-                <div class="clearfix"></div>
-                 
-
                 <div data-ng-if="showBasicInfo">
-                    <div class="modal-header">
-                        <h5>Personal Information</h5>
-                    </div>
-                   
-                    <div class="clearfix"></div>
-                    <br/>
+                    <h5 class="rectangle">Personal Information</h5>
                     <cs-field data-ng-model="Stakeholder.Name"
                               field="stakeholderModels.stakeholder.Name"></cs-field>
-                    
-                    <div data-ng-if="selectedHierarchy.IsUser">
-                        <cs-field data-ng-model="Stakeholder.ExternalId"
-                                  on-validate="{unique:'validate($value)'}"
-                                  field="stakeholderModels.stakeholder.ExternalId"></cs-field>
-                    </div>
 
+                    <cs-field data-ng-if="selectedHierarchy.IsUser"
+                              data-ng-model="Stakeholder.ExternalId"
+                              ui-validate="{unique:'validate($value)'}"
+                              field="stakeholderModels.stakeholder.ExternalId"></cs-field>
                     <cs-field data-ng-model="Stakeholder.MobileNo"
                               field="stakeholderModels.stakeholder.MobileNo"></cs-field>
                     <cs-field data-ng-model="Stakeholder.EmailId"
                               field="stakeholderModels.stakeholder.EmailId"></cs-field>
 
-                    <div data-ng-if="selectedHierarchy.ManageReportsTo">
-                        <cs-field value-list="reportsToList"
-                                  data-ng-model="Stakeholder.ReportingManager"
-                                  field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
-                    </div>
+                    <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
+                              value-list="reportsToList"
+                              data-ng-model="Stakeholder.ReportingManager"
+                              field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
 
                     <cs-field data-ng-model="Stakeholder.JoiningDate"
                               field="stakeholderModels.stakeholder.JoiningDate"></cs-field>
@@ -52,7 +41,7 @@
 
                     <div data-ng-if="selectedHierarchy.HasAddress">
                         <div class="clearfix"></div>
-                        <h5 class="modal-header">Address Details</h5>
+                        <h5 class="rectangle">Address Details</h5>
                         <cs-field data-ng-model="Stakeholder.Address.Line1"
                                   field="stakeholderModels.address.Line1"></cs-field>
                         <cs-field data-ng-model="Stakeholder.Address.Line2"
@@ -68,7 +57,7 @@
 
                     <div data-ng-if="selectedHierarchy.HasRegistration">
                         <div class="clearfix"></div>
-                        <h5 class="modal-header">Registration Details</h5>
+                        <h5 class="rectangle">Registration Details</h5>
                         <cs-field data-ng-model="Stakeholder.Regis.TanNo"
                                   field="stakeholderModels.registration.TanNo"></cs-field>
 
@@ -85,8 +74,8 @@
                     <div class="clearfix"></div>
                     <div class="pull-right">
                         <cs-button type="save"
-                                   data-ng-show="formMode!=='view'" 
-                                   text ="{{getTextForSaveBtn()}}" 
+                                   data-ng-show="formMode!=='view'"
+                                   text="{{getTextForSaveBtn()}}"
                                    permission="Stakeholder,Stakeholder,AddEdit"
                                    data-ng-disabled="basicInfoForm.$invalid"
                                    data-ng-click="saveData(Stakeholder)"></cs-button>
@@ -99,7 +88,7 @@
                                        data-ng-click="reset()"></cs-button>
                         </span>
                         <span data-ng-if="formMode==='view'">
-                            <cs-button type="submit" text="Edit" 
+                            <cs-button type="submit" text="Edit"
                                        data-ng-click="changeMode()">
                             </cs-button>
                         </span>
