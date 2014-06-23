@@ -229,9 +229,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 form.$setPristine();
             }
 
-            if ($csfactory.isEmptyObject($scope.selectedHierarchy)) {
-                $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
-            }
+            $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
+
             factory.ResetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
                 .then(function (data) {
@@ -242,8 +241,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
             }
             $timeout(function () {
+                console.log("timeout");
                 $scope.showBasicInfo = true;
-                $scope.showForm = true;
             }, 100);
         };
 

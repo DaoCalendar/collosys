@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
+using AngularUI.Stakeholder.addedit.BasicInfo;
+using AngularUI.Stakeholder.view;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
@@ -75,12 +77,21 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage DeleteWorking(IEnumerable<StkhWorking> deleteList)
         {
-            foreach (var stkhWorking in deleteList.Where(stkhWorking => stkhWorking.Id != Guid.Empty))
+            var stkhWorkings = deleteList as IList<StkhWorking> ?? deleteList.ToList();
+            foreach (var stkhWorking in stkhWorkings.Where(stkhWorking => stkhWorking.Id != Guid.Empty))
             {
-                StakeWorkingQueryBuilder.Delete(stkhWorking);
+                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Approved || stkhWorking.Status == ColloSysEnums.ApproveStatus.Changed)
+                {
+                    StakeWorkingQueryBuilder.Save(stkhWorking);
+                }
+                else
+                {
+                    StakeWorkingQueryBuilder.Delete(stkhWorking);
+
+                }
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, "success");
+            return Request.CreateResponse(HttpStatusCode.OK, stkhWorkings);
         }
 
         [HttpPost]
@@ -101,6 +112,42 @@ namespace AngularUI.Stakeholder.addedit.Working
             StakePaymentBuilder.Save(paymentData);
 
             return Request.CreateResponse(HttpStatusCode.OK, paymentData);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
+        {
+            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            foreach (var stkhWorking in stkh.StkhWorkings
+                .Where(stkhWorking => stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted))
+            {
+                stkhWorking.Status = ColloSysEnums.ApproveStatus.Approved;
+            }
+
+            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                stkh.StkhWorkings);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RejectStakeholder(StkhId stakeholder)
+        {
+            var stkh = StakeQueryBuilder.OnId(stakeholder.Id);
+            foreach (var stkhWorking in stkh.StkhWorkings)
+            {
+                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Approved)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        ColloSysEnums.ApproveStatus.Approved.ToString());
+                }
+                stkhWorking.Status = ColloSysEnums.ApproveStatus.Rejected;
+            }
+
+            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+
+            return Request.CreateResponse(HttpStatusCode.OK,
+                stkh.StkhWorkings);
         }
     }
 

@@ -1,4 +1,4 @@
-﻿<form data-ng-if="showForm">
+﻿<form >
     <div class="panel panel-default">
         <div class="panel-heading">Add/Edit Stakeholder</div>
         <div class="panel-body" data-ng-form="basicInfoForm">
@@ -30,8 +30,8 @@
                                   field="stakeholderModels.stakeholder.MobileNo"></cs-field>
                         <cs-field data-ng-model="Stakeholder.EmailId"
                                   field="stakeholderModels.stakeholder.EmailId"></cs-field>
-
-                        <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
+                    
+                    <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
                                   value-list="reportsToList"
                                   data-ng-model="Stakeholder.ReportingManager"
                                   field="stakeholderModels.stakeholder.ReportingManager"></cs-field>

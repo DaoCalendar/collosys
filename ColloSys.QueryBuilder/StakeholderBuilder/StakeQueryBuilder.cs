@@ -180,6 +180,16 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public Stakeholders GetStakeWithWorkings(Guid id)
+        {
+            return SessionManager.GetCurrentSession()
+                                .Query<Stakeholders>()
+                                .Fetch(x => x.Hierarchy)
+                                .Fetch(x=>x.StkhWorkings)
+                                .Single(x => x.Id == id);
+        }
+
+        [Transaction]
         public IList<Stakeholders> GetByIdList(List<Guid> stakeholderIds)
         {
             return SessionManager.GetCurrentSession()

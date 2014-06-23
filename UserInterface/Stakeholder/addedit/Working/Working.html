@@ -144,13 +144,10 @@
                                 </td>
                                 <td >
                                     <div data-ng-if="deleteWorkingList.length === 0">
-                                        <cs-button type="submit" text="add" data-ng-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
-                                        </cs-button>
+                                        <cs-button2 type="add" data-on-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
+                                        </cs-button2>
                                     </div>
-                                    <div data-ng-if="deleteWorkingList.length > 0">
-                                        <cs-button type="submit" text="delete" data-ng-click="deleteSelectedWorking()">
-                                        </cs-button>
-                                    </div>
+                                   
                                 </td>
                             </tr>
                             <tr data-ng-repeat="data in workingDetailsList">
@@ -167,40 +164,53 @@
                                 <td class="col-md-2" data-ng-show="displayManager.showArea">{{data.Area}}</td>
                                 <td data-ng-show="selectedHierarchy.HasBuckets">
                                 </td>
-                                <td data-ng-show="formMode!=='view'"></td>
+                                <td data-ng-show="formMode!=='view'">
+                                    <span>{{getEndDate(data)}}</span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
-                <div class="pull-right">
-                    <cs-button type="save"
-                               data-ng-disabled="showSaveButton()" 
-                               permission="Stakeholder,Stakeholder,AddEdit"
-                               data-ng-click="save(workingDetailsList)">
-                    </cs-button>
+                <div>
+                    <span class="pull-left" data-ng-if="deleteWorkingList.length > 0">
+                        
+                        <cs-button2 type="delete" data-ng-disabled="disableDeleteBtn(EndDate)" text="delete" data-on-click="deleteSelectedWorking(EndDate)">
+                        </cs-button2>
 
-                    <cs-button2 type="approve"
-                                permission="Stakeholder,Stakeholder,AddEdit"
-                                data-on-click="save(workingDetailsList)">
-                    </cs-button2> 
+                        <cs-field layout="4.4.8" field="workingModel.EndDate"
+                                  data-ng-model="EndDate"></cs-field>
 
-                    <cs-button2 type="reject"
-                                permission="Stakeholder,Stakeholder,AddEdit"
-                                data-on-click="save(workingDetailsList)">
-                    </cs-button2>
+                    </span>
+                   
+                    <span  class="pull-right">
+                        <cs-button2 type="save"
+                                    data-ng-disabled="showSaveButton()" 
+                                    permission="Stakeholder,Stakeholder,AddEdit"
+                                    data-on-click="save(workingDetailsList)">
+                        </cs-button2>
+                        <span data-ng-if="showApproveButtons(workingDetailsList)">
+                            <cs-button2 type="approve"
+                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve')">
+                            </cs-button2> 
 
-                    <cs-button
-                        type="cancel"
-                        text="Close"
-                        permission="Stakeholder,Stakeholder,AddEdit"
-                        data-ng-click="gotoView()">
-                    </cs-button>
-                    <cs-button
-                        type="submit"
-                        text="Edit"
-                        data-ng-show="formMode === 'view'"
-                        permission="Stakeholder,Stakeholder,AddEdit"
-                        data-ng-click="changeMode('working')">
-                    </cs-button>
+                            <cs-button2 type="reject"
+                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject')">
+                            </cs-button2>
+                        </span>
+                        <cs-button2
+                            type="cancel"
+                            text="Close"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-on-click="gotoView()">
+                        </cs-button2>
+                        <cs-button2
+                            type="edit"
+                            data-ng-show="formMode === 'view'"
+                            permission="Stakeholder,Stakeholder,AddEdit"
+                            data-on-click="changeMode('working')">
+                        </cs-button2>
+                    </span>
                 </div>
             </form>
         </cs-form>
@@ -211,7 +221,6 @@
     <div class="panel-heading">Payment Details</div>
     <div class="panel-body" data-ng-if="showPayment">
         <cs-form mode="paymentMode">
-            <form>
                 <div data-ng-form="paymentForm">
                     <div data-ng-if="selectedHierarchy.HasFixed">
                         <h5 class="modal-header"><b>Fixed Pay</b></h5>
@@ -221,12 +230,12 @@
                                   field="paymentModel.FixpayBasic">
                         </cs-field>
                         <!--HRA-->
-                        <div data-ng-show="selectedHierarchy.HasFixedIndividual  && false">
+                        <div data-ng-if="selectedHierarchy.HasFixedIndividual  && false">
                             <cs-field data-ng-model="Payment.FixpayHra"
                                       data-ng-required="selectedHierarchy.HasFixedIndividual "
                                       field="paymentModel.FixpayHra"></cs-field>
                         </div>
-                        <div data-ng-show="selectedHierarchy.HasFixedIndividual  ">
+                        <div data-ng-if="selectedHierarchy.HasFixedIndividual">
                             <cs-field field="paymentModel.FixpayTotal"
                                       data-ng-required="selectedHierarchy.HasFixedIndividual"
                                       data-ng-model="Payment.FixpayTotal">
@@ -239,7 +248,7 @@
                     </div>
                     <div class="clearfix"></div>
 
-                    <div data-ng-if="selectedHierarchy.HasFixedIndividual">
+                    <div data-ng-if="selectedHierarchy.HasFixedIndividual && false">
                         <cs-field field="paymentModel.FixpayOther"
                                   data-ng-required="selectedHierarchy.HasFixedIndividual"
                                   data-ng-model="Payment.FixpayOther">
@@ -305,7 +314,7 @@
 
                     <div class="clearfix"></div>
 
-                    <div data-ng-show="selectedHierarchy.HasServiceCharge">
+                    <div data-ng-if="selectedHierarchy.HasServiceCharge && false">
                         <h5 class="modal-header"><b>Other Charges</b></h5>
                         <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
                                   data-ng-model="Payment.ServiceCharge"
@@ -334,7 +343,6 @@
                         </cs-button>
                     </div>
                 </div>
-            </form>
         </cs-form>
     </div>
 </div>
