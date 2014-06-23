@@ -70,24 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AliasLinerTest\EbbsLinerOdSme.cs" />
-    <Compile Include="AliasLinerTest\RLinerBfsTest.cs" />
     <Compile Include="AliasReaderTest\AliasPaymentRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\EbbsPaymentLinerRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\EbbsPaymentWoAutoRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\EbbsPaymentWoSmcRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsEPaymentLinerRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\RlsPaymentLinerRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\RlsPaymentManualReversalRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\RlsPaymentWoAebRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\RlsPaymentWoPlpcRecordCreatorTest.cs" />
-    <Compile Include="AliasReaderTest\RlsWriteOffAutoAebRecordCreatorTest.cs" />
     <Compile Include="AliasReaderTest\RlsWriteOffOlScbRecordCreatorTest.cs" />
     <Compile Include="Data Provider\FileDataProvider.cs" />
     <Compile Include="DataCreator\FileUploader\FileMappingData.cs" />
     <Compile Include="DataCreator\Generic\G_KeyValue.cs" />
     <Compile Include="DummyTest\DummyTest.cs" />
-    <Compile Include="EWriteOffTest\SMCTest.cs" />
-    <Compile Include="EWriteOffTest\AUTOTest.cs" />
     <Compile Include="ExcelReader.Test\EpPlusExcelReaderTest.cs" />
     <Compile Include="ExcelReader.Test\ExcelDataReaderTest.cs" />
     <Compile Include="ExcelReader.Test\FileShedulerForTest.cs" />
@@ -104,12 +93,6 @@
     <Compile Include="FileUploaderTest\FileUploaderServiceTest.cs" />
     <Compile Include="NSubstitude.Test\NsubstitudeDemo.cs" />
     <Compile Include="NSubstitude.Test\NSubstitudeTest.cs" />
-    <Compile Include="RWriteOffTest\AutoGbTest.cs" />
-    <Compile Include="RWriteOffTest\SmeTest.cs" />
-    <Compile Include="RWriteOffTest\PlGBTest.cs" />
-    <Compile Include="RWriteOffTest\PlAebTest.cs" />
-    <Compile Include="RWriteOffTest\AutoSCBTest.cs" />
-    <Compile Include="RWriteOffTest\AebAutoTest.cs" />
     <Compile Include="SetUpAssemblies.cs" />
     <Compile Include="ExcelReader.Test\SetValueOfNpOiTest.cs" />
     <Compile Include="ExcelReader.Test\SetValuesOfEpPlusTest.cs" />
@@ -184,7 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DbLayerTest\" />
+    <Folder Include="EWriteOffTest\" />
     <Folder Include="ExcelDataForTest\" />
+    <Folder Include="RWriteOffTest\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

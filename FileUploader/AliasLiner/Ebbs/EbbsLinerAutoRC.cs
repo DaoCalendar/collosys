@@ -35,7 +35,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             uint dayPastDue;
             if (string.IsNullOrWhiteSpace(dateofReagingExcel) && !uint.TryParse(dayPastDueExcel, out dayPastDue))
             {
-                _log.Debug(string.Format("Data is rejected, Because DateOfReagin : {0} and DayPastDue : {1} is Empty", dateofReagingExcel, dayPastDueExcel));
+                Log.Debug(string.Format("Data is rejected, Because DateOfReagin : {0} and DayPastDue : {1} is Empty", dateofReagingExcel, dayPastDueExcel));
                 return false;
             }
 
@@ -44,7 +44,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             var product = DecodeScbProduct.GetEBBSProduct(limitProvnPdtCode);
             if (product == ScbEnums.Products.UNKNOWN)
             {
-                _log.Debug(string.Format("Data is rejected, Because LimitProvnPdtCode : {0}", limitProvnPdtCode));
+                Log.Debug(string.Format("Data is rejected, Because LimitProvnPdtCode : {0}", limitProvnPdtCode));
                 return false;
             }
 

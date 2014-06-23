@@ -79,7 +79,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 
         public override EWriteoff GetRecordForUpdate()
         {
-            return _DbLayer.GetRecordForUpdate<EWriteoff>(Reader.GetValue(AccountPosition).ToString(CultureInfo.InvariantCulture))
+            return DbLayer.GetRecordForUpdate<EWriteoff>(Reader.GetValue(AccountPosition).ToString(CultureInfo.InvariantCulture))
                 ?? new EWriteoff();
         }
 

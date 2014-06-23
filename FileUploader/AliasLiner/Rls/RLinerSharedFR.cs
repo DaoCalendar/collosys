@@ -11,7 +11,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 // ReSharper disable once InconsistentNaming
    public abstract class RLinerSharedFR:FileReader<RLiner>
    {
-       public RLinerSharedFR(FileScheduler fileScheduler, IRecord<RLiner> recordCreator) 
+       public RLinerSharedFR(FileScheduler fileScheduler, IExcelRecord<RLiner> recordCreator) 
            : base(fileScheduler, recordCreator)
        {
        }

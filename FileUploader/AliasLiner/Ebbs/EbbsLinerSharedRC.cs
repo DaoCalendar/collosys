@@ -35,7 +35,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             if (!ulong.TryParse(Reader.GetValue(AccountNoPosition), out loanNumber))
             {
                 Counter.IncrementIgnoreRecord();
-                _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
+                Log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
                 return false;
             }
             return true;
@@ -84,7 +84,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
                                            ? preEntity.DelqHistoryString.Substring(1) + entity.Bucket
                                            : preEntity.DelqHistoryString;
 
-            if (PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)
+            if (YesterdayRecords.First().FileDate.Month != FileScheduler.FileDate.Month)
             {
                 entity.Flag = ColloSysEnums.DelqFlag.N;
                 entity.AccountStatus = ColloSysEnums.DelqAccountStatus.Norm;
@@ -107,7 +107,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 
         public override ELiner GetPreviousDayEntity(ELiner entity)
         {
-            return PreviousDayLiner.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
+            return YesterdayRecords.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
         }
 
 

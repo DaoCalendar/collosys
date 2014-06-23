@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
@@ -8,6 +9,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
 using NLog;
 using ReflectionExtension.ExcelReader;
@@ -16,32 +18,41 @@ using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
-    public abstract class RecordCreator<TEntity> : IRecord<TEntity> where TEntity : Entity, IFileUploadable, new()
+    public abstract class RecordCreator<TEntity> : IExcelRecord<TEntity> 
+        where TEntity : Entity, IFileUploadable, new()
     {
         #region ctor
         protected IExcelReader Reader;
         protected ICounter Counter;
         protected FileScheduler FileScheduler;
-        protected IDbLayer _DbLayer;
-        protected readonly Logger _log = LogManager.GetCurrentClassLogger();
+        protected readonly IDbLayer DbLayer = new DbLayer.DbLayer();
+        protected readonly Logger Log = LogManager.GetCurrentClassLogger();
 
-
-        public void Init(FileScheduler fileScheduler, ICounter counter, IExcelReader reader)
+        public void Init(FileScheduler fileScheduler, ICounter counter)
         {
             FileScheduler = fileScheduler;
-            Reader = reader;
+            Reader = SharedUtility.GetInstance(new FileInfo(FileScheduler.FileDirectory + @"\" + FileScheduler.FileName));
             Counter = counter;
-            _DbLayer = new DbLayer.DbLayer();
         }
 
-        public IList<TEntity> PreviousDayLiner { get; set; }
+        public bool EndOfFile()
+        {
+            return Reader.EndOfFile();
+        }
+
+        public uint CurrentRow
+        {
+            get { return Reader.CurrentRow; }
+        }
+
+        public IList<TEntity> YesterdayRecords { get; set; }
 
         public bool HasMultiDayComputation { get; set; }
 
         public void InitPreviousDayLiner( FileScheduler fileScheduler)
         {
             if (HasMultiDayComputation)
-                PreviousDayLiner = _DbLayer.GetDataForPreviousDay<TEntity>(fileScheduler.FileDetail.AliasName,
+                YesterdayRecords = DbLayer.GetDataForPreviousDay<TEntity>(fileScheduler.FileDetail.AliasName,
                    fileScheduler.FileDate, fileScheduler.FileDetail.FileCount);
         }
 
@@ -125,6 +136,7 @@ namespace ColloSys.FileUploaderService.RecordManager
             Counter.IncrementInsertRecords();
             Counter.IncrementValidRecords();
             Counter.IncrementTotalRecords();
+            Reader.NextRow();
             return true;
         }
 

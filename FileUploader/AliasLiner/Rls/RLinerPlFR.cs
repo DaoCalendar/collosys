@@ -25,18 +25,18 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 
        private void InsertResolvedCustomer()
        {
-           if (_objRecord.PreviousDayLiner == null || _objRecord.PreviousDayLiner.Count <= 0)
+           if (RecordCreatorObj.YesterdayRecords == null || RecordCreatorObj.YesterdayRecords.Count <= 0)
            {
                return;
            }
 
            //for month start liner
-           if (_objRecord.PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)
+           if (RecordCreatorObj.YesterdayRecords.First().FileDate.Month != FileScheduler.FileDate.Month)
            {
                return;
            }
 
-           var missingEnties = _objRecord.PreviousDayLiner.Where(x => !TodayRecordList.DoesAccountExist(x)).ToList();
+           var missingEnties = RecordCreatorObj.YesterdayRecords.Where(x => !TodayRecordList.DoesAccountExist(x)).ToList();
 
            foreach (var liner in missingEnties)
            {
@@ -46,10 +46,10 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
                liner.FileScheduler = FileScheduler;
                liner.FileRowNo = 0;
                liner.Allocs = null;
-               _counter.IncrementInsertRecords();
+               Counter.IncrementInsertRecords();
            }
 
-           _DbLayer.SaveOrUpdateData(missingEnties);
+           DbLayer.SaveOrUpdateData(missingEnties);
        }
     }
 }

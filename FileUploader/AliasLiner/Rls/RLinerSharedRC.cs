@@ -51,7 +51,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
 
         public override RLiner GetPreviousDayEntity(RLiner entity)
         {
-            return PreviousDayLiner.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
+            return YesterdayRecords.SingleOrDefault(x => x.AccountNo == entity.AccountNo);
         }
 
         protected uint GetRLinerBucketNumber(string bucket)

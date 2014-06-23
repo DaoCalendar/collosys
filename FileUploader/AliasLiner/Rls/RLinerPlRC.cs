@@ -42,7 +42,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
            GetComputetions(entity);
 
            //for month start liner
-           if (PreviousDayLiner.First().FileDate.Month != FileScheduler.FileDate.Month)
+           if (YesterdayRecords.First().FileDate.Month != FileScheduler.FileDate.Month)
            {
                entity.Flag = ColloSysEnums.DelqFlag.N;
 

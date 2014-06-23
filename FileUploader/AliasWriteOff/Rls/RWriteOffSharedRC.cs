@@ -72,7 +72,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
 
         public override RWriteoff GetRecordForUpdate()
         {
-            return _DbLayer.GetRecordForUpdate<RWriteoff>(Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture)) 
+            return DbLayer.GetRecordForUpdate<RWriteoff>(Reader.GetValue(AccountPos).ToString(CultureInfo.InvariantCulture)) 
                 ?? new RWriteoff();
         }
 

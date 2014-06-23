@@ -11,7 +11,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 // ReSharper disable once InconsistentNaming
     public abstract class EbbsLinerSharedFR:FileReader<ELiner>
     {
-        public EbbsLinerSharedFR(FileScheduler fileScheduler, IRecord<ELiner> recordCreator) 
+        public EbbsLinerSharedFR(FileScheduler fileScheduler, IExcelRecord<ELiner> recordCreator) 
             : base(fileScheduler, recordCreator)
         {
         }
