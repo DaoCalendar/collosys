@@ -102,7 +102,7 @@ namespace AngularUI.Developer.generatedb.Excel2Db
                     Password = PasswordUtility.EncryptText("p@55w0rld"),
                     PasswordAnswer = "20140101",
                     PasswordQuestion = "Joining Date?",
-                    Username = "9999999",
+                    Username = "1469319",
                     LastLoginDate = DateTime.Now,
                     LastPasswordChangedDate = DateTime.Now
                 };
@@ -110,11 +110,11 @@ namespace AngularUI.Developer.generatedb.Excel2Db
             var user2Stkh = new Stakeholders
             {
                 ApprovalStatus = ColloSysEnums.ApproveStatus.Approved,
-                ExternalId = "9999999",
+                ExternalId = "1469319",
                 Password = PasswordUtility.EncryptText("p@55w0rld"),
                 EmailId = "collosys@sc.com",
                 JoiningDate = DateTime.Today,
-                MobileNo = "9999999999",
+                MobileNo = "9819696687",
                 Name = "Vendor Admin",
                 Hierarchy = role4,
             };
