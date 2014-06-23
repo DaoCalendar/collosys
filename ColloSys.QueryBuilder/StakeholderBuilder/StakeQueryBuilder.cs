@@ -242,5 +242,16 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
                 .ToList();
         }
+
+        [Transaction]
+        public uint GetReportingCount(Guid managerId)
+        {
+            if (managerId == Guid.Empty) return 0;
+            var session = SessionManager.GetCurrentSession();
+            var count = session.Query<Stakeholders>()
+                .Count(x => x.ReportingManager == managerId
+                    && (x.LeavingDate == null || x.LeavingDate > DateTime.Today));
+            return (uint)count;
+        }
     }
 }
