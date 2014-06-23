@@ -138,10 +138,12 @@ namespace AngularUI.FileUpload.filescheduler
             schedulerInfo.FileName = file.Name;
 
             // immediate reason
-            if (scheduledFiles.IsImmediate && scheduledFiles.ImmediateReason != null)
+            if (scheduledFiles.IsImmediate && !string.IsNullOrEmpty(scheduledFiles.ImmediateReason))
             {
-                scheduledFiles.ImmediateReason = scheduledFiles.ImmediateReason.Length > 250
-                        ? scheduledFiles.ImmediateReason.Substring(0, 250) : string.Empty;
+                if (scheduledFiles.ImmediateReason.Length > 250)
+                {
+                    scheduledFiles.ImmediateReason = scheduledFiles.ImmediateReason.Substring(0, 250);
+                }
             }
 
             // save file schedulers
