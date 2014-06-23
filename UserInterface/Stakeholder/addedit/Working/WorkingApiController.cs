@@ -73,12 +73,12 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage GetSalaryDetails(StkhPayment payment)
+        public HttpResponseMessage GetSalaryDetails(PaymentIds paymentId)
         {
             var gKeyValueBuilder = new GKeyValueBuilder();
             var gKeyValue = gKeyValueBuilder.ForStakeholders();
             var fixPay = gKeyValue.ToDictionary(keyValue => keyValue.ParamName, keyValue => decimal.Parse(keyValue.Value));
-            var result = WorkingPaymentHelper.GetSalaryDetails(payment, fixPay);
+            var result = WorkingPaymentHelper.GetSalaryDetails(paymentId, fixPay);
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
@@ -91,5 +91,11 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             return Request.CreateResponse(HttpStatusCode.OK, paymentData);
         }
+    }
+
+    public class PaymentIds
+    {
+        public Guid ReportingId { get; set; }
+        public Guid? PaymentId { get; set; }
     }
 }

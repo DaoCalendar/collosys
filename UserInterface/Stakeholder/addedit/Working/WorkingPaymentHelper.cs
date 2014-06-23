@@ -68,13 +68,22 @@ namespace AngularUI.Stakeholder.addedit.Working
             }
         }
 
-        public static SalaryDetails GetSalaryDetails(StkhPayment currentPayment, Dictionary<string, decimal> fixpayData)
+        public static SalaryDetails GetSalaryDetails(PaymentIds parentIds, Dictionary<string, decimal> fixpayData)
         {
-            var payment = new SalaryDetails
+            var payment = new SalaryDetails();
+            if (parentIds.PaymentId != null && parentIds.PaymentId.Value != Guid.Empty)
             {
-                FixpayBasic = currentPayment.FixpayBasic,
-                FixpayGross = currentPayment.FixpayGross,
-            };
+                var stkhPayRepo = new StakePaymentQueryBuilder();
+                var paymentObj = stkhPayRepo.GetPaymentWithStakeholder(parentIds.PaymentId.Value);
+                payment.FixpayBasic = paymentObj == null ? 0 : paymentObj.FixpayBasic;
+                payment.FixpayGross = paymentObj == null ? 0 : paymentObj.FixpayGross;
+            }
+
+            if (parentIds.ReportingId != Guid.Empty)
+            {
+                var stkhRepo = new StakeQueryBuilder();
+                payment.ReporteeCount = stkhRepo.GetReportingCount(parentIds.ReportingId);
+            }
 
             payment.EmployeePfPct = fixpayData["EmployeePF"];
             //payment.EmployeePfPct = 12;
@@ -94,8 +103,9 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             var midTotal = payment.FixpayGross + payment.EmployerEsic + payment.EmployerPf;
 
-            //TODO : get count of employees from db
-            payment.ServiceChargePct = 8;
+            if(payment.ReporteeCount > 100) payment.ServiceChargePct = 7;
+            else if (payment.ReporteeCount > 50) payment.ServiceChargePct = 8;
+            else payment.ServiceChargePct = 9;
             payment.ServiceCharge = midTotal * (payment.EmployerEsicPct / 100);
 
             payment.ServiceTaxPct = fixpayData["ServiceTax"];
