@@ -103,6 +103,7 @@ namespace AngularUI.Generic.Menu
 
             var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
+            user.AddChild("Leave Management", new[] { ColloSysEnums.Activities.User }, "#/generic/stkhleave");
             user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User }, "#/generic/changepassword");
             user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
 

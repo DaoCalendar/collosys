@@ -10,7 +10,7 @@ namespace ColloSys.DataLayer.Stakeholder
             Property(x => x.ToDate);
 
             ManyToOne(x => x.Stakeholder, map => map.NotNullable(true));
-            ManyToOne(x => x.DelegatedTo, map => map.NotNullable(true));
+            ManyToOne(x => x.DelegatedTo, map => { map.NotNullable(true); map.Column("DelegatedTo"); });
         }
     }
 }

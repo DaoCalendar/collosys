@@ -150,6 +150,9 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                 case "Grid":
                     return angular.copy(models.Generic.Grid);
 
+                case "StkhLeave":
+                    return angular.copy(models.Generic.StkhLeave);
+
                 default:
                     throw "Invalid Table Name : " + tableName + ".";
             }
