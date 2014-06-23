@@ -17,9 +17,9 @@
                             <td>{{leave.FromDate | date}}</td>
                             <td>{{leave.ToDate | date}}</td>
                             <td>{{leave.DelegatedTo.Name}}</td>
-                            <td><cs-button2 type="cancel" data-ng-show="leaveStatus(leave)" permission="all" 
-                                            on-click="cancelLeave(leave)" text="Cancel Delegation"></cs-button2>
-                                <cs-button2 type="cancel" data-ng-show="updateLeave(leave)" permission="all"
+                            <td><cs-button2 type="cancel" data-ng-show="cancelLeaveStatus(leave)" permission="all"
+            on-click="cancelLeave(leave)" text="Cancel Delegation"></cs-button2>
+                                <cs-button2 type="cancel" data-ng-show="endLeaveStatus(leave)" permission="all"
                                             on-click="endLeave(leave)" text="End Delegation"></cs-button2></td>
                         </tr>
                     </tbody>

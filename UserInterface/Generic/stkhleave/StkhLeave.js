@@ -19,9 +19,11 @@ csapp.factory("StakhLeaveDatalayer", ['Restangular', function (rest) {
     var getDeligatedTo = function () {
         return restapi.customGET("GetDeligateToStkh");
     };
+
     var cancelLeave = function (leave) {
         return restapi.customPOST(leave, "Deleteleave");
     };
+
     return {
         GetLeavesData: getLeavesData,
         Save: save,
@@ -55,15 +57,16 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
         });
     };
 
-    $scope.leaveStatus = function (date) {
+    $scope.cancelLeaveStatus = function (date) {
         var today = moment().utc().format("YYYY-MM-DD");
       return (moment(date.FromDate).isAfter(today));
     };
 
-    $scope.updateLeave = function(date) {
+    $scope.endLeaveStatus = function (date) {
         var today = moment().utc().format("YYYY-MM-DD");
         return (moment(date.FromDate).isBefore(today) && moment(date.Todate).isAfter(today));
     };
+
     $scope.isDateValid = function (stakeleave) {
         if (stakeleave.FromDate >= stakeleave.ToDate) {
             stakeleave.ToDate = "";
@@ -93,6 +96,7 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
             $scope.stkhleaveList.push(data);
         });
     };
+
     $scope.cancel = function () {
         $scope.showAddButton = true;
     };
