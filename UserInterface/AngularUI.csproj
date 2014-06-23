@@ -152,6 +152,7 @@
     <Compile Include="FileUpload\uploadpincode\RcodeUploadHelper.cs" />
     <Compile Include="Generic\changepassword\ChangePasswordApiController.cs" />
     <Compile Include="Generic\changepassword\ChangePasswordModel.cs" />
+    <Compile Include="Generic\GNotifications\GNotificationsApiController.cs" />
     <Compile Include="Generic\home\HomeApiController.cs" />
     <Compile Include="Generic\home\NotificationManager.cs" />
     <Compile Include="Generic\home\StakeholderNotificationManager.cs" />
@@ -318,6 +319,8 @@
     <Content Include="Content\select2\css\select2.css" />
     <Content Include="Content\select2\select2-bootstrap.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Generic\GNotifications\Gnotifications.html" />
+    <Content Include="Generic\GNotifications\GNotifications.js" />
     <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
@@ -526,6 +529,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js.map">
       <DependentUpon>ui-bootstrap-tpls-0.11.0.js</DependentUpon>

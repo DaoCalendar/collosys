@@ -262,6 +262,7 @@ namespace ColloSys.DataLayer.Enumerations
             Pincode,
             Taxlist,
             Taxmaster,
+            GNotifications,
             Developer,
             Hierarchy,
             Schedule,

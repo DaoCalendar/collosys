@@ -66,6 +66,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ScbEnums.Category));
             list.AddToList(typeof(ScbEnums.ClientDataTables));
 
+            list.AddToList(typeof(ColloSysEnums.NotifyHierarchy));
             list.AddToList(typeof(ColloSysEnums.GridScreenName));
             list.AddToList(typeof(ColloSysEnums.BasicValueTypes));
             list.AddToList(typeof(ColloSysEnums.FileUploadBy));

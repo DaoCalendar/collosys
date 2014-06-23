@@ -104,6 +104,14 @@
         };
     };
 
+    var gnotify = function() {
+        return {
+            NotificationType: { label: "NotificationType", type: "text" },
+            EsclationDays: { label: "EsclationDays", type: "number", template: "uint", min: "1", max: "30" },
+            NotifyHierarchy: { label: "NotifyHierarchy", type: "enum", valueList: $csShared.enums.NotifyHierarchy }
+        };
+    };
+
     var grid = function () {
         return {
             ReportName: { label: 'ReportName', type: 'text', maxlength: 100, minlength: 6, pattern: '/[A-Za-z0-9 ]+/', patternMessage: 'ReportName must not have special characters', required: true },
@@ -167,6 +175,11 @@
         models.Grid = {
             Table: "Grid",
             Columns: grid(),
+        };
+        
+        models.GNotification = {
+            Table: "GNotification",
+            Columns: gnotify(),
         };
 
         return models;

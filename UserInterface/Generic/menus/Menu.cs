@@ -100,6 +100,7 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Pincode", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Pincode }, "#/generic/pincode");
             config.AddChild("Tax List", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxlist }, "#/generic/taxlist");
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
+            config.AddChild("GNotifications", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.GNotifications }, "#/generic/GNotifications");
 
             var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");

@@ -252,6 +252,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/changepassword', {
                 templateUrl: baseUrl + 'Generic/changepassword/changepassword.html',
                 controller: 'changepasswordCtrl'
+            }).when('/generic/GNotifications', {
+                templateUrl: baseUrl + 'Generic/GNotifications/Gnotifications.html',
+                controller: 'GNotificationsCtrl'
             })
 
             //developer

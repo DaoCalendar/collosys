@@ -306,6 +306,10 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.AddEdit);
 
+            var GnotifyActivity = AddActivity(config, ColloSysEnums.Activities.GNotifications, desciption: "Config");
+            //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
+            AddActivity(GnotifyActivity, ColloSysEnums.Activities.AddEdit);
+
 
             var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, desciption: "Config");
             //AddActivity(taxlistActivity, ColloSysEnums.Activities.View);
