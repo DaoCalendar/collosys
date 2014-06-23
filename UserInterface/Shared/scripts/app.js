@@ -47,6 +47,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/taxmaster/addedit/:mode', {
                 templateUrl: baseUrl + 'Generic/taxmaster/taxmaster-list.html',
                 controller: 'taxmasterAddEditCtrl'
+            }).when('/generic/stkhleave', {
+                templateUrl: baseUrl + 'Generic/stkhleave/StkhLeave.html',
+                controller: 'StkhLeaveManagementCtrl'
             })
 
             //file upload

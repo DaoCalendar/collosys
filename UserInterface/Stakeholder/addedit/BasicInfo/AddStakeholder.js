@@ -135,6 +135,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 address: $csModels.getColumns("StakeAddress"),
                 registration: $csModels.getColumns("StkhRegistration")
             };
+            $scope.selectedHier = {};
+            $scope.Stakeholder = {};
         };
 
         var initdata = function (data) {
@@ -144,12 +146,12 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             $scope.Stakeholder.Regis = $csfactory.isNullOrEmptyArray(data.StkhRegistrations)
                 ? {}
                 : data.StkhRegistrations[0];
-            $scope.selectedHierarchy = $scope.Stakeholder.Hierarchy;
+            $scope.selectedHierarchy = data.Hierarchy;
 
             //if edit mode
-            // $scope.selectedHierarchy.Hierarchy = $scope.selectedHierarchy.Hierarchy;
+            $scope.selectedHier.Hierarchy = $scope.selectedHierarchy.Hierarchy;
             $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
-            $scope.selectedHierarchy.Designation = $scope.selectedHierarchy.Id;
+            $scope.selectedHier.Designation = $scope.selectedHierarchy.Id;
             $scope.assignSelectedHier($scope.selectedHierarchy.Id);
         };
 
@@ -163,10 +165,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
 
         var getStakeholder = function () {
             if ($csfactory.isNullOrEmptyGuid($routeParams.stakeId)) return;
-
             datalayer.GetStakeholder($routeParams.stakeId).then(function (data) {
                 $scope.Stakeholder = data;
-                console.log('Stakeholder: ', $scope.Stakeholder);
                 initdata(data);
             });
         };
@@ -230,6 +230,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             }
 
             $scope.selectedHierarchy = _.find($scope.HierarchyList, { 'Id': designation });
+
             factory.ResetHierarchyModel($scope.selectedHierarchy, $scope.stakeholderModels);
             datalayer.GetReportsToList($scope.selectedHierarchy.Id, $scope.selectedHierarchy.ReportingLevel)
                 .then(function (data) {
@@ -240,8 +241,8 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
             }
             $timeout(function () {
+                console.log("timeout");
                 $scope.showBasicInfo = true;
-                $scope.showForm = true;
             }, 100);
         };
 

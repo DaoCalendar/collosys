@@ -219,6 +219,7 @@
     <Compile Include="Developer\queryexecuter\ExecuteQueryApiController.cs" />
     <Compile Include="Developer\queryexecuter\Executer.cs" />
     <Compile Include="Developer\queryexecuter\QueryResult.cs" />
+    <Compile Include="Generic\stkhleave\StkhLeaveApiController.cs" />
     <Compile Include="Generic\taxlist\TaxListApiController.cs" />
     <Compile Include="Generic\taxmaster\TaxMasterApiController.cs" />
     <Compile Include="Global.asax.cs">
@@ -322,6 +323,8 @@
     <Content Include="Generic\GNotifications\Gnotifications.html" />
     <Content Include="Generic\GNotifications\GNotifications.js" />
     <Content Include="Generic\menus\menu-vertical.html" />
+    <Content Include="Generic\stkhleave\StkhLeave.html" />
+    <Content Include="Generic\stkhleave\StkhLeave.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />
     <Content Include="Generic\taxmaster\taxmaster-list.html" />
     <Content Include="Legal\FollowUp\Follow-Up.html" />

@@ -39,7 +39,7 @@
             Area: { label: 'Area', type: 'text', required: true },
             IsInUse: { type: "bool", required: true },
             Pincode: { label: 'Pincode', type: 'number', template: 'uint', editable: false, pattern: '/^[0-9]{6}$/', patternMessage: 'Only 6 digits required', required: true },
-            selectedState:{label:'State',type:'enum'}
+            selectedState: { label: 'State', type: 'enum' }
         };
     };
 
@@ -87,17 +87,17 @@
             Designation: { label: "Designation", type: "select", textField: "Designation", valueField: "Id" }
         };
     };
-    
+
     var product = function () {
         return {
             Product: { label: "Product Name", type: "text", maxlength: "40", placeholder: "Enter Product Name" },
             ProductGroup: { label: "Product Group", type: "text", maxlength: "40", placeholder: "Enter Product Group" },
             AllocationResetStrategy: { label: "Allocation Reset Strategy", type: "select", textField: "display", valueField: "value" },
-            BillingResetStrategy: { label: "Billing Reset Strategy", type: "select",  textField: "display", valueField: "value" },
+            BillingResetStrategy: { label: "Billing Reset Strategy", type: "select", textField: "display", valueField: "value" },
             HasTelecalling: { label: "HasTelecalling", type: "bool" },
-            FrCutOffDaysCycle: { label: "FR Cycle Cut Off Days", type: "number", min: "0", max: "30", placeholder: "Enter FR Cycle Cut Off Days", required:true },
+            FrCutOffDaysCycle: { label: "FR Cycle Cut Off Days", type: "number", min: "0", max: "30", placeholder: "Enter FR Cycle Cut Off Days", required: true },
             FrCutOffDaysMonth: { label: "FR Month Cut Off Days", type: "number", min: "0", max: "30", placeholder: "Enter FR Month Cut Off Days", required: true },
-            CycleCodes: { label:"Cycle Codes",type: "text",required:"true" },
+            CycleCodes: { label: "Cycle Codes", type: "text", required: "true" },
             LinerTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             WriteoffTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             PaymentTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
@@ -124,13 +124,21 @@
             UseFieldName4Header: { label: 'Use both field & display name as excel headers', type: 'checkbox' },
             SendOnlyIfData: { label: 'Send Only If Data', type: 'checkbox' },
             Send2Hierarchy: { label: 'Send Mail to Multiple', type: 'checkbox' },
-            
+
             doResetFilter: { label: 'Filter', type: 'checkbox' },
-            doResetRenames:{label:'Renames',type:'checkbox'},
+            doResetRenames: { label: 'Renames', type: 'checkbox' },
             doResetSorting: { label: 'Sorting', type: 'checkbox' },
             doResetPosition: { label: 'Postion-Changes', type: 'checkbox' },
             doResetFreeze: { label: 'Freeze', type: 'checkbox' },
             doResetVisibility: { label: 'Column-Display', type: 'checkbox' },
+        };
+    };
+
+    var stkhLeave = function () {
+        return {
+            FromDate: { type: "date", label: "LeaveFrom", template: "future" },
+            ToDate: { type: "date", label: "LeaveTo", template: "future" },
+            DelegatedTo: { label: "DelegatedTo", type: "select", valueField: "row", textField: "Hierarchy.Designation", valueList: [] },
         };
     };
 
@@ -176,10 +184,15 @@
             Table: "Grid",
             Columns: grid(),
         };
-        
+
         models.GNotification = {
             Table: "GNotification",
             Columns: gnotify(),
+         
+        };
+        models.StkhLeave = {
+            Table: "StkhLeave",
+            Columns: stkhLeave(),
         };
 
         return models;

@@ -20,5 +20,6 @@ namespace AngularUI.Stakeholder.addedit.Working
         public decimal ServiceTaxPct { get; set; }
         public decimal ServiceTax { get; set; }
         public decimal FixpayTotal { get; set; }
+        public uint ReporteeCount { get; set; }
     }
 }

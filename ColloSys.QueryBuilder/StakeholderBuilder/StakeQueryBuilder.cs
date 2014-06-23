@@ -180,6 +180,25 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public Stakeholders GetStakeWithWorkings(Guid id)
+        {
+            return SessionManager.GetCurrentSession()
+                                .Query<Stakeholders>()
+                                .Fetch(x => x.Hierarchy)
+                                .Fetch(x=>x.StkhWorkings)
+                                .Single(x => x.Id == id);
+        }
+
+        [Transaction]
+        public IList<Stakeholders> GetByIdList(List<Guid> stakeholderIds)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .Query<Stakeholders>()
+                                 .Where(x => stakeholderIds.Contains(x.Id))
+                                 .ToList();
+        }
+
+        [Transaction]
         public Stakeholders GetById(Guid id)
         {
             var session = SessionManager.GetCurrentSession();
@@ -232,6 +251,17 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                 .Where(x => x.ReportingManager == managerId
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today))
                 .ToList();
+        }
+
+        [Transaction]
+        public uint GetReportingCount(Guid managerId)
+        {
+            if (managerId == Guid.Empty) return 0;
+            var session = SessionManager.GetCurrentSession();
+            var count = session.Query<Stakeholders>()
+                .Count(x => x.ReportingManager == managerId
+                    && (x.LeavingDate == null || x.LeavingDate > DateTime.Today));
+            return (uint)count;
         }
     }
 }

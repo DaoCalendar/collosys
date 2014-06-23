@@ -18,6 +18,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         [Transaction]
         public IList<Stakeholders> GetDelegatedToMe(Guid stakeholderId, DateTime todayDate)
         {
+
             var session = SessionManager.GetCurrentSession();
             return session.Query<StkhLeave>()
                 .Where(x => x.DelegatedTo.Id == stakeholderId

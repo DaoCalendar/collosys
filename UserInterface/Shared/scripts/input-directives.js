@@ -410,7 +410,7 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
         html += ' class ="minWidth form-control" ';
-        html += angular.isDefined(attrs.onValidate) ? 'ui-validate="' + attrs.onValidate + '"' : '';
+        html += angular.isDefined(attrs.uiValidate) ? 'ui-validate="' + attrs.uiValidate + '"' : '';
         html += angular.isDefined(field.mask) ? 'ui-mask="{{field.mask}}"' : ' ';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
@@ -1028,7 +1028,7 @@ csapp.factory("csDateFactory", ["$csfactory", "csBootstrapInputTemplate", "csVal
             html += (angular.isDefined(field.placeholder) ? ' placeholder="' + field.placeholder + '"' : '');
             html += angular.isDefined(attr.ngRequired) ? 'ng-required = "' + attr.ngRequired + '"' : ' ng-required="' + attr.field + '.required"';
             html += angular.isDefined(field.daysOfWeekDisabled) ? 'date-disabled="field.disableDate(date,field)"' : ' ';
-            html += ' />';//cs-date-to-iso="" 
+            html += ' cs-date-to-iso="" />';
             html += '<span class="input-group-btn">';
             html += '<button type="button" class="btn btn-default"';
             html += (attr.ngDisabled ? ' ng-disabled="' + attr.ngDisabled + '"' : ' ng-disabled="setReadonly()"');

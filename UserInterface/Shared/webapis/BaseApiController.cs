@@ -74,7 +74,7 @@ namespace AngularUI.Shared.apis
 
         // POST api/baseapi
         [HttpPost]
-        public HttpResponseMessage Post(TEntity entity)
+        protected HttpResponseMessage Post(TEntity entity)
         {
             try
             {

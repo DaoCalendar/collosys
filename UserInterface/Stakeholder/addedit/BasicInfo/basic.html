@@ -1,17 +1,17 @@
-﻿<form data-ng-if="showForm">
+﻿<form >
     <div class="panel panel-default">
         <div class="panel-heading">Add/Edit Stakeholder</div>
         <div class="panel-body" data-ng-form="basicInfoForm">
             <cs-form mode="formMode">
                 <div data-ng-show="hierarchyDisplayList">
-                    <cs-field data-ng-model="selectedHierarchy.Hierarchy"
-                              data-ng-change="changeInHierarchy(selectedHierarchy.Hierarchy)"
+                    <cs-field data-ng-model="selectedHier.Hierarchy"
+                              data-ng-change="changeInHierarchy(selectedHier.Hierarchy)"
                               value-list="hierarchyDisplayList"
                               field="stakeholderModels.stakeholder.hierarchy"></cs-field>
-                    <div data-ng-show="selectedHierarchy.Hierarchy">
-                        <cs-field data-ng-model="selectedHierarchy.Designation"
+                    <div data-ng-show="selectedHier.Hierarchy">
+                        <cs-field data-ng-model="selectedHier.Designation"
                                   value-list="DesignationList"
-                                  data-ng-change="assignSelectedHier(selectedHierarchy.Designation,basicInfoForm)"
+                                  data-ng-change="assignSelectedHier(selectedHier.Designation,basicInfoForm)"
                                   field="stakeholderModels.stakeholder.designation"></cs-field>
                     </div>
                 </div>
@@ -30,8 +30,8 @@
                                   field="stakeholderModels.stakeholder.MobileNo"></cs-field>
                         <cs-field data-ng-model="Stakeholder.EmailId"
                                   field="stakeholderModels.stakeholder.EmailId"></cs-field>
-
-                        <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
+                    
+                    <cs-field data-ng-if="selectedHierarchy.ManageReportsTo"
                                   value-list="reportsToList"
                                   data-ng-model="Stakeholder.ReportingManager"
                                   field="stakeholderModels.stakeholder.ReportingManager"></cs-field>
