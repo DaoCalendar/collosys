@@ -128,8 +128,8 @@
 
     var stkhLeave = function () {
         return {
-            FromDate: { type: "date", label: "LeaveFrom" },
-            ToDate: { type: "date", label: "LeaveTo" },
+            FromDate: { type: "date", label: "LeaveFrom", template: "future" },
+            ToDate: { type: "date", label: "LeaveTo", template: "future" },
             DelegatedTo: { label: "DelegatedTo", type: "select", valueField: "row", textField: "Hierarchy.Designation", valueList: [] },
         };
     };

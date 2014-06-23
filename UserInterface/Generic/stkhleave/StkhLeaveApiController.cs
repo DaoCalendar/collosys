@@ -31,18 +31,28 @@ namespace AngularUI.Generic.stkhleave
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        //[HttpPost]
+        //public HttpResponseMessage SaveLeave(LeaveRequest request)
+        //{
+        //    var stkhRepo = new StakeQueryBuilder();
+        //    var stkh = stkhRepo.GetStakeByExtId(GetUsername());
+        //    var leave = new StkhLeave
+        //    {
+        //        Stakeholder = stkh,
+        //        ToDate = request.ToDate,
+        //        FromDate = request.FromDate,
+        //        DelegatedTo = Session.Load<Stakeholders>(request.DelegateTo)
+        //    };
+        //    StaRepository.Save(leave);
+        //    return Request.CreateResponse(HttpStatusCode.OK, leave);
+        //}
+
         [HttpPost]
-        public HttpResponseMessage SaveLeave(LeaveRequest request)
+        public HttpResponseMessage SaveLeave2(StkhLeave leave)
         {
             var stkhRepo = new StakeQueryBuilder();
             var stkh = stkhRepo.GetStakeByExtId(GetUsername());
-            var leave = new StkhLeave
-            {
-                Stakeholder = stkh,
-                ToDate = request.ToDate,
-                FromDate = request.FromDate,
-                DelegatedTo = Session.Load<Stakeholders>(request.DelegateTo)
-            };
+            leave.Stakeholder = stkh;
             StaRepository.Save(leave);
             return Request.CreateResponse(HttpStatusCode.OK, leave);
         }
@@ -56,12 +66,12 @@ namespace AngularUI.Generic.stkhleave
         
     }
 
-    public class LeaveRequest
-    {
-        public DateTime FromDate;
-        public DateTime ToDate;
-        public Guid DelegateTo;
-    }
+    //public class LeaveRequest
+    //{
+    //    public DateTime FromDate;
+    //    public DateTime ToDate;
+    //    public Guid DelegateTo;
+    //}
 
    
 }

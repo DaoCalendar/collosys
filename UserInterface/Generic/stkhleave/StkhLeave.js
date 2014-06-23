@@ -8,12 +8,12 @@ csapp.factory("StakhLeaveDatalayer", ['Restangular', function (rest) {
     };
 
     var save = function (stakeleave) {
-        var params = {
-            FromDate: stakeleave.FromDate,
-            ToDate: stakeleave.ToDate,
-            DelegateTo: stakeleave.DelegatedTo.Id
-        };
-        return restapi.customPOST(params, "SaveLeave");
+        //var params = {
+        //    FromDate: stakeleave.FromDate,
+        //    ToDate: stakeleave.ToDate,
+        //    DelegateTo: stakeleave.DelegatedTo.Id
+        //};
+        return restapi.customPOST(stakeleave, "SaveLeave2");
     };
 
     var getDeligatedTo = function () {
@@ -62,15 +62,15 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
       return (moment(date.FromDate).isAfter(today));
     };
 
-    $scope.endLeaveStatus = function (date) {
+    $scope.endLeaveStatus = function (leave) {
         var today = moment().utc().format("YYYY-MM-DD");
-        return (moment(date.FromDate).isBefore(today) && moment(date.Todate).isAfter(today));
+        return (moment(leave.ToDate).isAfter(today)) && (moment(leave.FromDate).isBefore(today));
     };
 
     $scope.isDateValid = function (stakeleave) {
         if (stakeleave.FromDate >= stakeleave.ToDate) {
             stakeleave.ToDate = "";
-            $csnotify.success("FromDate should be less that Todate");
+            $csnotify.success("Leave starting day should be earlier than ending day!");
         }
     };
 
