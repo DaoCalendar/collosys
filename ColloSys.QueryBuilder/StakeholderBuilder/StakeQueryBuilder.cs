@@ -180,6 +180,15 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         }
 
         [Transaction]
+        public IList<Stakeholders> GetByIdList(List<Guid> stakeholderIds)
+        {
+            return SessionManager.GetCurrentSession()
+                                 .Query<Stakeholders>()
+                                 .Where(x => stakeholderIds.Contains(x.Id))
+                                 .ToList();
+        }
+
+        [Transaction]
         public Stakeholders GetById(Guid id)
         {
             var session = SessionManager.GetCurrentSession();

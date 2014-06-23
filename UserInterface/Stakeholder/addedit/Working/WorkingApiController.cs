@@ -12,6 +12,7 @@ using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate.Linq;
+using NHibernate.Mapping;
 
 #endregion
 
@@ -21,6 +22,7 @@ namespace AngularUI.Stakeholder.addedit.Working
     {
         private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
         private static readonly StakeWorkingQueryBuilder StakeWorkingQueryBuilder = new StakeWorkingQueryBuilder();
+        private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
 
         [HttpGet]
         public HttpResponseMessage GetStakeholder(Guid stakeholderId)
@@ -31,7 +33,16 @@ namespace AngularUI.Stakeholder.addedit.Working
                 .Fetch(x => x.StkhPayments)
                 .Fetch(x => x.StkhWorkings)
                 .Single();
-            return Request.CreateResponse(HttpStatusCode.OK, stkh);
+
+            var reportsToIds = stkh.StkhWorkings.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+
+            var data = new
+                {
+                    Stakeholder = stkh,
+                    ReportsToStakes = reportsToStakeholders
+                };
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpPost]
