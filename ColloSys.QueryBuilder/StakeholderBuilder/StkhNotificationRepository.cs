@@ -55,12 +55,14 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                 var counter = data.SingleOrDefault(x => x.key == stakeholder.Id);
                 var count = counter == null ? 0 : counter.value;
 
-                reponse.Add(new ActiveNotifications
+                var notification = new ActiveNotifications
                 {
                     StakeholderName = stakeholder.Name,
                     StakeholderId = stakeholder.Id,
                     NotifyCount = count
-                });
+                };
+
+                reponse.Add(notification);
             }
 
             return reponse;

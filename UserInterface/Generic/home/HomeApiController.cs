@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -31,6 +32,20 @@ namespace AngularUI.Generic.home
 
             var repoNotify = new StkhNotificationRepository();
             var list = repoNotify.GetNotifications(stkhList);
+            foreach (var user in list)
+            {
+                if (user.StakeholderId == stkh.Id)
+                {
+                    user.UserRole = "Self";
+                    continue;
+                }
+                if (reportingStkh.Any(x => x.Id == user.StakeholderId))
+                {
+                    user.UserRole = "Reportee";
+                    continue;
+                }
+                user.UserRole = "Delegate";
+            }
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
