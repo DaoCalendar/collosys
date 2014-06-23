@@ -158,7 +158,7 @@
                                            data-ng-model="checked" 
                                            data-ng-click="addWorkingToDelete(data)"/></td>
                                 <td class="col-md-2">{{data.Products}}</td>
-                                <td class="col-md-2">{{getReportsToName(data.ReportsTo)}}</td>
+                                <td class="col-md-2">{{data.ReportsToName}}</td>
                                 <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
                                 <td class="col-md-2" data-ng-show="displayManager.showCluster">{{data.Cluster}}</td>
                                 <td class="col-md-2" data-ng-show="displayManager.showState">{{data.State}}</td>
@@ -171,26 +171,37 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="pull-right">
-                        <cs-button type="save"
-                                   data-ng-disabled="showSaveButton()" 
-                                   permission="Stakeholder,Stakeholder,AddEdit"
-                                   data-ng-click="save(workingDetailsList)">
-                        </cs-button>
-                        <cs-button
-                            type="cancel"
-                            text="Close"
-                            permission="Stakeholder,Stakeholder,AddEdit"
-                            data-ng-click="gotoView()">
-                        </cs-button>
-                        <cs-button
-                            type="submit"
-                            text="Edit"
-                            data-ng-show="formMode === 'view'"
-                            permission="Stakeholder,Stakeholder,AddEdit"
-                            data-ng-click="changeMode('working')">
-                        </cs-button>
-                    </div>
+                <div class="pull-right">
+                    <cs-button type="save"
+                               data-ng-disabled="showSaveButton()" 
+                               permission="Stakeholder,Stakeholder,AddEdit"
+                               data-ng-click="save(workingDetailsList)">
+                    </cs-button>
+
+                    <cs-button2 type="approve"
+                                permission="Stakeholder,Stakeholder,AddEdit"
+                                data-on-click="save(workingDetailsList)">
+                    </cs-button2> 
+
+                    <cs-button2 type="reject"
+                                permission="Stakeholder,Stakeholder,AddEdit"
+                                data-on-click="save(workingDetailsList)">
+                    </cs-button2>
+
+                    <cs-button
+                        type="cancel"
+                        text="Close"
+                        permission="Stakeholder,Stakeholder,AddEdit"
+                        data-ng-click="gotoView()">
+                    </cs-button>
+                    <cs-button
+                        type="submit"
+                        text="Edit"
+                        data-ng-show="formMode === 'view'"
+                        permission="Stakeholder,Stakeholder,AddEdit"
+                        data-ng-click="changeMode('working')">
+                    </cs-button>
+                </div>
             </form>
         </cs-form>
     </div>

@@ -198,6 +198,17 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         return workingDetailsList;
     };
 
+    var getReportsToName = function (id, list) {
+        var reportsTo = _.find(list, { Id: id });
+        return reportsTo.Name;
+    };
+
+    var setReportsToName = function (workList, reportsToList) {
+        _.forEach(workList, function (item) {
+            item.ReportsToName = getReportsToName(item.ReportsTo, reportsToList);
+        });
+    };
+
     var setWorkList = function (stakeholder, worklist, working) {
         stakeholder.StkhWorkings = [];
         stakeholder.StkhPayment = [];
@@ -240,6 +251,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
         SetProduct: setProduct,
+        SetReportsToName: setReportsToName,
         SetWorkList: setWorkList,
         Splice: safeSplice
     };
@@ -249,12 +261,14 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout) {
 
         var setData = function (data) {
-            data.Hierarchy.LocationLevelArray = JSON.parse(data.Hierarchy.LocationLevel);
-            data.Hierarchy.LocationLevel = data.Hierarchy.LocationLevelArray[0];
-            $scope.selectedHierarchy = data.Hierarchy;
+            data.Stakeholder.Hierarchy.LocationLevelArray = JSON.parse(data.Stakeholder.Hierarchy.LocationLevel);
+            data.Stakeholder.Hierarchy.LocationLevel = data.Stakeholder.Hierarchy.LocationLevelArray[0];
+            $scope.selectedHierarchy = data.Stakeholder.Hierarchy;
             $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
-            $scope.currStakeholder = data;
-            $scope.Payment = data.StkhPayments.length === 0 ? {} : data.StkhPayments[0];
+            $scope.currStakeholder = data.Stakeholder;
+            factory.SetReportsToName(data.Stakeholder.StkhWorkings, data.ReportsToStakes);
+            $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.StkhPayments.StkhPayments[0];
+            $scope.workingDetailsList = data.Stakeholder.StkhWorkings;
         };
 
         var getStakeholderData = function (stakeId) {
@@ -268,8 +282,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var getStakeholderForEdit = function (stakeId) {
             datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
-               // $scope.getReportsTo();
-                $scope.workingDetailsList = data.StkhWorkings;
+               
                 $scope.formMode = 'view';
                 $scope.paymentMode = 'view';
             });
@@ -294,11 +307,12 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
-            $scope.workingDetailsList = angular.isUndefined($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
+            $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
             $scope.deleteWorkingList = [];
         })();
 
         $scope.showSaveButton = function () {
+            if (angular.isUndefined($scope.workingDetailsList)) return false;
             return $scope.workingDetailsList.length == 0;
         };
 
@@ -372,6 +386,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.addWorking = function (workingModel, locLevel) {
             $scope.workingDetailsList = factory.GetWorkingDetailsList(workingModel, locLevel, $scope.workingDetailsList);
+            factory.SetReportsToName($scope.workingDetailsList, $scope.reportsToList);
             workingModel.SelectedPincodeData[locLevel] = [];
         };
 
