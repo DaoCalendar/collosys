@@ -94,7 +94,7 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
         });
     };
     $scope.cancel = function () {
-        $scope.showAddButton = false;
+        $scope.showAddButton = true;
     };
 
 }]);
