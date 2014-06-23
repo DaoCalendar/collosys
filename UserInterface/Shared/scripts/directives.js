@@ -225,6 +225,14 @@ csapp.factory("csButtonFactory", ['Logger', function (logManager) {
                 templateParams.className = classes.submit;
                 templateParams.checkFormValidity = true;
                 break;
+            case 'approve':
+                templateParams.className = classes.success;
+                templateParams.text = text || 'Approve';
+                break;
+            case 'reject':
+                templateParams.className = classes.error;
+                templateParams.text = text || 'Reject';
+                break;
             case 'delete':
                 templateParams.className = classes.error;
                 templateParams.text = text || 'Delete';

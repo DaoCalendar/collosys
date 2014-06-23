@@ -2,6 +2,8 @@
 csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restangular", "$q",
     function ($csfactory, $csnotify, rest, $q) {
 
+        var dldata = {};
+
         var apistake = rest.all('StakeholderApi');
 
         var getHierarchies = function () {
@@ -13,13 +15,6 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
 
         };
 
-        var save = function (data) {
-            return apistake.customPOST(data, 'SaveStakeholder').then(function (afterPostData) {
-                return afterPostData;
-            });
-        };
-
-        var dldata = {};
         var checkUser = function (userId) {
             var deferred = $q.defer();
 
@@ -54,12 +49,35 @@ csapp.factory("AddEditStakeholderDatalayer", ["$csfactory", "$csnotify", "Restan
             });
         };
 
+        var save = function (data) {
+            return apistake.customPOST(data, 'SaveStakeholder').then(function (afterPostData) {
+                return afterPostData;
+            });
+        };
+
+        var approveStakeholder = function (stakeObj) {
+            return apistake.customPOST(stakeObj, 'ApproveStakeholder').then(function (data) {
+                $csnotify.success('Stakeholder Approved');
+                return data;
+            });
+        };
+
+        var rejectStakeholder = function (stakeObj) {
+            return apistake.customPOST(stakeObj, 'RejectStakeholder').then(function (data) {
+                $csnotify.success('Stakeholder Rejected');
+                return data;
+            });
+        };
+
+
         return {
             CheckUser: checkUser,
             GetHierarchies: getHierarchies,
             GetReportsToList: getReportsToList,
             GetStakeholder: getStakeholder,
-            SaveStakeholder: save
+            SaveStakeholder: save,
+            RejectStakeholder: rejectStakeholder,
+            ApproveStakeholder: approveStakeholder
         };
     }]);
 
@@ -127,9 +145,11 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 ? {}
                 : data.StkhRegistrations[0];
             $scope.selectedHierarchy = $scope.Stakeholder.Hierarchy;
-            $scope.Stakeholder.Hierarchy = $scope.selectedHierarchy.Hierarchy;
+
+            //if edit mode
+            // $scope.selectedHierarchy.Hierarchy = $scope.selectedHierarchy.Hierarchy;
             $scope.changeInHierarchy($scope.selectedHierarchy.Hierarchy);
-            $scope.Stakeholder.Designation = $scope.selectedHierarchy.Id;
+            $scope.selectedHierarchy.Designation = $scope.selectedHierarchy.Id;
             $scope.assignSelectedHier($scope.selectedHierarchy.Id);
         };
 
@@ -137,6 +157,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             return datalayer.GetHierarchies().then(function (data) {
                 $scope.HierarchyList = data;
                 $scope.hierarchyDisplayList = _.uniq(_.pluck($scope.HierarchyList, "Hierarchy"));
+                $scope.showForm = true;
             });
         };
 
@@ -145,6 +166,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
 
             datalayer.GetStakeholder($routeParams.stakeId).then(function (data) {
                 $scope.Stakeholder = data;
+                console.log('Stakeholder: ', $scope.Stakeholder);
                 initdata(data);
             });
         };
@@ -154,8 +176,24 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             $scope.formMode = ($csfactory.isNullOrEmptyString($routeParams.stakeId)) ? 'add' : 'view';
             $scope.factory = factory;
             $scope.Stakeholder = { StkhAddress: [], StkhRegistrations: [] };
-            getHiearachy().then(getStakeholder());
+            getHiearachy().then(function () { getStakeholder(); });
         })();
+
+        $scope.setApprovalStatus = function (id, status) {
+            var stakeObj = { Id: id };
+            switch (status) {
+                case 'approve':
+                    return datalayer.ApproveStakeholder(stakeObj).then(function (data) {
+                        return $scope.Stakeholder = data;
+                    });
+                case 'reject':
+                    return datalayer.RejectStakeholder(stakeObj).then(function (data) {
+                        return $scope.Stakeholder = data;
+                    });
+                default:
+                    throw "invalid approval status";
+            }
+        };
 
         $scope.reset = function () {
             $csfactory.ResetObject($scope.Stakeholder);
@@ -181,9 +219,12 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 return (item.Hierarchy === hierarchy);
             });
             $scope.DesignationList = _.sortBy(hierarchies, 'PositionLevel');
+            console.log('DesignationList: ', $scope.DesignationList);
+            console.log('HierarchyList: ', $scope.HierarchyList);
         };
 
         $scope.assignSelectedHier = function (designation, form) {
+            $scope.showBasicInfo = false;
             if (angular.isDefined(form)) {
                 form.$setPristine();
             }
@@ -197,8 +238,11 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
 
             if ($scope.formMode === 'add') {
                 $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
-            } 
-            $timeout(function () { $scope.showBasicInfo = true; }, 100);
+            }
+            $timeout(function () {
+                $scope.showBasicInfo = true;
+                $scope.showForm = true;
+            }, 100);
         };
 
         $scope.saveData = function (data) {

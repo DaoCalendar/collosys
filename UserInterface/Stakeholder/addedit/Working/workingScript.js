@@ -3,11 +3,14 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
 
     var restApi = rest.all('WorkingApi');
 
-    var getReportsTo = function (stake) {
-        return restApi.customGET('GetWorkingReportsTo', { 'id': stake.Hierarchy.Id, 'level': stake.Hierarchy.ReportingLevel })
-            .then(function (data) {
-                return data;
-            });
+    var getReportsTo = function (stake, product) {
+        return restApi.customGET('GetWorkingReportsTo', {
+            'id': stake.Hierarchy.Id,
+            'level': stake.Hierarchy.ReportingLevel,
+            'product': product
+        }).then(function (data) {
+            return data;
+        });
     };
 
     var getStakeholder = function (stakeId) {
@@ -265,7 +268,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var getStakeholderForEdit = function (stakeId) {
             datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
-                $scope.getReportsTo();
+               // $scope.getReportsTo();
                 $scope.workingDetailsList = data.StkhWorkings;
                 $scope.formMode = 'view';
                 $scope.paymentMode = 'view';
@@ -328,8 +331,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        $scope.getReportsTo = function () {
-            datalayer.GetReportsTo($scope.currStakeholder).then(function (reportsToList) {
+        $scope.getReportsTo = function (product) {
+            datalayer.GetReportsTo($scope.currStakeholder, product).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
                 if ($scope.reportsToList.length === 1) $scope.workingModel.ReportsTo = $scope.reportsToList[0];
             });
