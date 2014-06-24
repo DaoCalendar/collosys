@@ -17,20 +17,9 @@
             _.forEach(dldata.HierarchyList, function (item) {
                 setHierarchy(item, dldata.HierarchyList);
             });
-            getReportee();
         }, function () {
             $csnotify.error('Error loading hierarchies');
         });
-    };
-
-    //TODO : no need of this call
-    var getReportee = function () {
-        return apiCalls.customGET('GetReportingLevel').then(function (data) {
-            dldata.ReportingLevelEnum = data;
-        }, function () {
-            $csnotify.error('Error loading Reporting level');
-        });
-
     };
 
     var saveUpdatedData = function (stkh) {
@@ -102,19 +91,6 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         });
     };
 
-    //TODO: remove this call, now designations are stored as required
-    var designationName = function (hierarchy) {
-        if (!$csfactory.isEmptyObject(hierarchy)) {
-            if ((hierarchy.Hierarchy !== 'External') || (hierarchy.IsIndividual === false)) {
-                return hierarchy.Designation;
-            } else {
-                var reportTo = _.find(datalayer.dldata.HierarchyList, { 'Id': hierarchy.ReportsTo });
-                return hierarchy.Designation + ' (' + reportTo.Designation + ')';
-            }
-        }
-        return '';
-    };
-
     var setHierarchy = function (hierarchy, hierarchyList) {
         hierarchy.ReportsToName = _.find(hierarchyList, { 'Id': item.ReportsTo });
         hierarchy.WorkingReportsToName = _.find(hierarchyList, { 'Id': item.WorkingReportsTo });
@@ -126,7 +102,6 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         resetPaymentChlidVal: resetPaymentChlidVal,
         ResetBtnValue: resetBtnValue,
         reloadReportsTo: reloadReportsTo,
-        DesignationName: designationName,
         setHierarchy: setHierarchy
     };
 }]);
@@ -239,13 +214,12 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         };
 
         $scope.save = function (stkh) {
-            //TODO: use _.find
-            _.forEach($scope.dldata.Designation, function (item) {
-                if (item.Id === stkh.ReportsTo) {
-                    stkh.PositionLevel = item.PositionLevel + 1;
-                }
+            var reportsTo = _.find($scope.dldata.Designation, function (item) {
+                return item.Id === stkh.ReportsTo;
             });
-          return datalayer.Save(stkh).then(function () {
+            stkh.PositionLevel = reportsTo.PositionLevel + 1;
+
+            return datalayer.Save(stkh).then(function () {
                 $scope.hierarchy = {};
                 $scope.dldata.highestPositionLevel = {};
                 $location.path("/generic/hierarchy");
