@@ -10,6 +10,7 @@ namespace ColloSys.DataLayer.Stakeholder
             Property(x => x.TravelElig);
             Property(x => x.FixpayBasic);
             Property(x => x.FixpayGross);
+            Property(x => x.ServiceCharge);
             Property(x => x.StartDate);
             Property(x => x.EndDate);
 

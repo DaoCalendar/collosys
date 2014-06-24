@@ -48,8 +48,9 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var saveWorking = function (workData) {
-        return restApi.customPOST(workData, "SaveWorking").then(function () {
+        return restApi.customPOST(workData, "SaveWorking").then(function (data) {
             $csnotify.success("Working Saved");
+            return data;
         });
     };
 
@@ -67,7 +68,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var rejectWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectWorking').then(function (data) {
+        return restApi.customPOST(stakeObj, 'RejectStakeholder').then(function (data) {
             $csnotify.success('Workings Rejected');
             return data;
         });
@@ -215,7 +216,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
         _.forEach(multiSelectList, function (location) {
             workingModel.SelectedPincodeData[locLevel] = location;
-            workingModel.SelectedPincodeData.Buckets = JSON.stringify(workingModel.SelectedPincodeData.Buckets);
             workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
         });
         return workingDetailsList;
@@ -246,13 +246,15 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
-            //if (workdata.Status === 'Approved' || workdata.Status === 'Changed') {
-            //    workdata.Status = 'Changed';
-            //} else {
-            //    workdata.Status = 'Submitted';
-            //}
+            workdata.Buckets = JSON.stringify(workdata.Buckets);
             workdata.Status = getApprovalStatus(workdata.Status);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
+        });
+    };
+
+    var parseBuckets = function (workList) {
+        _.forEach(workList, function (work) {
+            work.Buckets = JSON.parse(work.Buckets);
         });
     };
 
@@ -314,7 +316,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
                     filteredList.push(work);
                 }
             }
-            else if(work.Status!=='Rejected'){
+            else if (work.Status !== 'Rejected') {
                 filteredList.push(work);
             }
         });
@@ -353,6 +355,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         GetQueryFor: getQueryFor,
         GetApprovalStatus: getApprovalStatus,
         ComputeSalary: computeSalary,
+        ParseBuckets: parseBuckets,
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
         SetProduct: setProduct,
@@ -369,7 +372,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
     function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout, $csnotify) {
 
         var getPaymentData = function (hierarchy) {
-            if (hierarchy.HasFixedPayIndividual) {
+            if (hierarchy.HasFixedIndividual) {
                 $scope.getSalaryDetails();
             }
         };
@@ -385,6 +388,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.Stakeholder.StkhPayments[0];
             getPaymentData($scope.selectedHierarchy);
             $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
+            factory.ParseBuckets($scope.workingDetailsList);
         };
 
         var getStakeholderData = function (stakeId) {
@@ -413,7 +417,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 Buckets: []
             };
             $scope.showPayment = true;
-            $scope.bucketList = [1,2,3,4,5,6];
+            $scope.bucketList = [1, 2, 3, 4, 5, 6];
 
             //TODO: move this to a function & call that function from here
             $routeParams.editStakeId
@@ -432,7 +436,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 PaymentId: $scope.Payment.Id
             };
             datalayer.GetSalaryDetails(paymentIds).then(function (sal) {
-                $scope.SalDetails = sal;
+                $scope.SalDetails = $csfactory.isEmptyObject($scope.Payment) ? sal
+                    : factory.ComputeSalary($scope.Payment.FixpayBasic, $scope.FixpayGross, sal);
             });
         };
 
@@ -482,8 +487,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.save = function (workList) {
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
-            return datalayer.SaveWorking(workList).then(function () {
-                $scope.workingDetailsList = [];
+            return datalayer.SaveWorking(workList).then(function (data) {
+                $scope.workingDetailsList = data.WorkList;
+                factory.ParseBuckets($scope.workingDetailsList);
+                factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
                 if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
                 return "";
             });
@@ -520,14 +527,16 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         var postApproval = function (data, param) {
-            console.log("post approval called");
             switch (param) {
                 case 'working':
                     factory.SetReportsToName(data, $scope.reportsToStakes);
-                    $scope.workingDetailsList = factory.FilterWorkingList(data);
+                    $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
+                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
+                    $csnotify("Workings Approved");
                     return $scope.workingDetailsList;
                 case 'payment':
                     $scope.Payment = data;
+                    $csnotify("Payment Approved");
                     return $scope.Payment;
                 default:
                     throw "invalid param " + param;

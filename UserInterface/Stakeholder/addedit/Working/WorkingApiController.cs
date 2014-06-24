@@ -69,9 +69,20 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public void SaveWorking(IEnumerable<StkhWorking> workingData)
+        public HttpResponseMessage SaveWorking(IEnumerable<StkhWorking> workingData)
         {
-            StakeWorkingQueryBuilder.Save(workingData);
+            var listOfObjects = workingData as IList<StkhWorking> ?? workingData.ToList();
+            StakeWorkingQueryBuilder.Save(listOfObjects);
+            var reportsToIds = listOfObjects.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+
+            var data = new
+                {
+                    WorkList = listOfObjects,
+                    ReportsToList = reportsToStakeholders
+                };
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpPost]
@@ -129,9 +140,17 @@ namespace AngularUI.Stakeholder.addedit.Working
                     }
 
                     StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+                    var reportsToIds = stkh.StkhWorkings.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+                    var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+
+                    var data = new
+                        {
+                            WorkList = stkh.StkhWorkings,
+                            ReportsToList = reportsToStakeholders
+                        };
 
                     return Request.CreateResponse(HttpStatusCode.OK,
-                        stkh.StkhWorkings);
+                        data);
                 case "payment":
                     if (stkh.StkhPayments[0] != null && stkh.StkhPayments[0].ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
                     {
@@ -141,7 +160,7 @@ namespace AngularUI.Stakeholder.addedit.Working
                     return Request.CreateResponse(HttpStatusCode.OK,
                         stkh.StkhPayments[0]);
                 default:
-                    throw new Exception();
+                    throw new Exception("invalid SetStatusFor: " + stakeholder.SetStatusFor);
             }
 
         }
@@ -149,16 +168,31 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage RejectStakeholder(StkhId stakeholder)
         {
-            var stkh = StakeQueryBuilder.OnId(stakeholder.Id);
-            foreach (var stkhWorking in stkh.StkhWorkings)
+            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            switch (stakeholder.SetStatusFor)
             {
-                stkhWorking.Status = ColloSysEnums.ApproveStatus.Rejected;
+                case "working":
+                    foreach (var stkhWorking in stkh.StkhWorkings)
+                    {
+                        stkhWorking.Status = ColloSysEnums.ApproveStatus.Rejected;
+                    }
+
+                    StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        stkh.StkhWorkings);
+                case "payment":
+                    if (stkh.StkhPayments[0] != null)
+                    {
+                        stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
+                    }
+                    StakePaymentBuilder.Save(stkh.StkhPayments[0]);
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        stkh.StkhPayments[0]);
+                default:
+                    throw new Exception("invalid SetStatusFor: " + stakeholder.SetStatusFor);
             }
 
-            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
-
-            return Request.CreateResponse(HttpStatusCode.OK,
-                stkh.StkhWorkings);
         }
     }
 

@@ -70,14 +70,12 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved || stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
             {
                 stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
-                //return Request.CreateResponse(HttpStatusCode.OK,
-                //    ColloSysEnums.ApproveStatus.Approved.ToString());
+                StakeQuery.Save(stkh);
+                return Request.CreateResponse(HttpStatusCode.OK,
+                    stkh);
             }
-            else
-            {
-                stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
 
-            }
+            stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
             StakeQuery.Save(stkh);
 
             if (!string.IsNullOrWhiteSpace(stkh.ExternalId))
@@ -89,6 +87,9 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
 
             return Request.CreateResponse(HttpStatusCode.OK,
                 stkh);
+
+
+
         }
 
         [HttpPost]
