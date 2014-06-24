@@ -161,6 +161,7 @@
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\menus\Menu.cs" />
     <Compile Include="Generic\menus\MenuApiController.cs" />
+    <Compile Include="Generic\performancemanagement\PerformanceManagementApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
