@@ -9,6 +9,11 @@
         })();
 
         $scope.save = function (legal) {
+            legal.RequsitionNo = 1231;
+            legal.LoanCaseStatus = 'Pending';
+            legal.Withdrawndate = moment().format('L');
+            legal.Settlementamount = 12345;
+            legal.Finalclosedate = moment().add('months', +1).format('L');
             return datalayer.save(legal);
         };
 

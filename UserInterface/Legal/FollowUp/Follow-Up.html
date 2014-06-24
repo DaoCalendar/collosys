@@ -4,86 +4,92 @@
     </cs-form>
 
     <div data-ng-show="legal.Function">
-        <cs-form layout="4.5.7">
-            <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
-                      value-List="dldata.location"></cs-field>
+        <div class="panel panel-default">
+            <div class="panel-heading">Requsition To Be Initiated</div>
+            <div class="panel-body">
+                <cs-form layout="4.5.7">
+                    <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
+                              value-List="dldata.location"></cs-field>
             
-            <cs-field data-ng-model="legal.Division" data-ng-show="legal.Location" field="legalprepare.Division"
-                      value-List="dldata.division"></cs-field>
-            <!-- </cs-form>
-            </div>
-             <div data-ng-show="legal.Location && legal.Division">
-                <cs-form layout="4.4.5">-->
-            <cs-field data-ng-model="legal.LoanNo" data-ng-show="legal.Division" field="legalprepare.LoanNo"></cs-field>
+                    <cs-field data-ng-model="legal.Division" data-ng-show="legal.Location" field="legalprepare.Division"
+                              value-List="dldata.division"></cs-field>
+                    <!-- </cs-form>
+                    </div>
+                        <div data-ng-show="legal.Location && legal.Division">
+                        <cs-form layout="4.4.5">-->
+                    <cs-field data-ng-model="legal.LoanNo" data-ng-show="legal.Division" field="legalprepare.LoanNo"></cs-field>
             
-            <cs-field  data-ng-model="legal.DateFrom" data-ng-show="legal.LoanNo" field="legalprepare.DateFrom"></cs-field>
+                    <cs-field  data-ng-model="legal.DateFrom" data-ng-show="legal.LoanNo" field="legalprepare.DateFrom"></cs-field>
             
-            <cs-field  data-ng-model="legal.DateTo" data-ng-show="legal.DateFrom" field="legalprepare.DateTo"></cs-field>
+                    <cs-field  data-ng-model="legal.DateTo" data-ng-show="legal.DateFrom" field="legalprepare.DateTo"></cs-field>
 
-            <cs-field data-ng-model="legal.RequsitionNo" data-ng-show="legal.DateTo" field="legalprepare.RequsitionNo"></cs-field>
+                    <cs-field data-ng-model="legal.RequsitionNo" data-ng-show="legal.DateTo" field="legalprepare.RequsitionNo"></cs-field>
            
-              </cs-form>
+                </cs-form>
 
-        <cs-form layout="4.5.7">
-         <cs-field  data-ng-model="legal.RequsitionDateFrom" data-ng-show="legal.RequsitionNo"  field="legalprepare.RequsitionDateFrom"></cs-field>
+                <cs-form layout="4.5.7">
+                    <cs-field  data-ng-model="legal.RequsitionDateFrom" data-ng-show="legal.RequsitionNo"  field="legalprepare.RequsitionDateFrom"></cs-field>
 
-            <cs-field  data-ng-model="legal.RequsitionDateTo"  data-ng-show="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateTo"></cs-field>
+                    <cs-field  data-ng-model="legal.RequsitionDateTo"  data-ng-show="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateTo"></cs-field>
      
-        </cs-form>
-
-    </div>
-
-
-
-    <div class="text-right">
-        <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
-        <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
-    </div>
-
-    <div class="well">
-        <div class="row" style="height: 100px; overflow: auto;">
-            <div class="col-md-12">
-                <table class="table table-bordered table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Location</th>
-                            <th>Division</th>
-                            <th>RequsitionNo</th>
-                            <th>Loan No</th>
-                            <th>Party Name</th>
-                            <th>Loan Status</th>
-                            <th>Loan Case Status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr data-ng-repeat="data in datalayer.dldata.Requisitiondata">
-                            <td>{{data.Location}}
-                            </td>
-                            <td>{{data.Division}}
-                            </td>
-                            <td>{{data.RequsitionNo}}
-                            </td>
-                            <td>{{data.LoanNo}}
-                            </td>
-                            <td>{{data.PartyName}}
-                            </td>
-                            <td>{{data.LoanStatus}}
-                            </td>
-                            <td>{{data.LoanCaseStatus}}
-                            </td>
-                            <td>
-                                <cs-button type="add" text="Follow-Up" value="{{data.Followup}}" data-ng-click="requsitionlist(data)"></cs-button>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
+                </cs-form>
+            </div>
+            <div class="text-right">
+                <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
+                <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
             </div>
         </div>
     </div>
 
-    <div data-ng-show="showDiv">
+    <div class="panel panel-default">
+        <div class="panel-heading">Search Requsition</div>
+        <div class="panel-body">
+            <div class="well">
+                <div class="row" style="height: 100px; overflow: auto;">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Division</th>
+                                    <th>RequsitionNo</th>
+                                    <th>Loan No</th>
+                                    <th>Party Name</th>
+                                    <th>Loan Status</th>
+                                    <th>Loan Case Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr data-ng-repeat="data in datalayer.dldata.Requisitiondata">
+                                    <td>{{data.Location}}
+                                    </td>
+                                    <td>{{data.Division}}
+                                    </td>
+                                    <td>{{data.RequsitionNo}}
+                                    </td>
+                                    <td>{{data.LoanNo}}
+                                    </td>
+                                    <td>{{data.PartyName}}
+                                    </td>
+                                    <td>{{data.LoanStatus}}
+                                    </td>
+                                    <td>{{data.LoanCaseStatus}}
+                                    </td>
+                                    <td>
+                                        <cs-button type="add" text="Follow-Up" value="{{data.Followup}}" data-ng-click="requsitionlist(data)"></cs-button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <div data-ng-show="legal.RequsitionDateFrom">
         <div class="well">
             <div class="row" style="height: 100px; overflow: auto;">
                 <div class="col-md-12">
@@ -119,79 +125,83 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <span class="help-block">Allocate Advocate</span>
-    <cs-form layout="4.5.7">
+    
+        <div class="panel panel-default">
+            <div class="panel-heading">Allocate Advocate</div>
+            <div class="panel-body">
+                <cs-form layout="4.5.7">
         
-        <!--Allocate advocate-->
-        <cs-field data-ng-model="legal.AdvocateCode" field="legalprepare.AdvocateCode"></cs-field>
+                    <!--Allocate advocate-->
+                    <cs-field data-ng-model="legal.AdvocateCode" field="legalprepare.AdvocateCode"></cs-field>
             
-        <cs-field  data-ng-model="legal.DateofAppointment" data-ng-show="legal.AdvocateCode" field="legalprepare.DateofAppointment"></cs-field>
+                    <cs-field  data-ng-model="legal.DateofAppointment" data-ng-show="legal.AdvocateCode" field="legalprepare.DateofAppointment"></cs-field>
 
-        <cs-field  data-ng-model="legal.Dateoftermination"  data-ng-show="legal.DateofAppointment" field="legalprepare.Dateoftermination"></cs-field>
+                    <cs-field  data-ng-model="legal.Dateoftermination"  data-ng-show="legal.DateofAppointment" field="legalprepare.Dateoftermination"></cs-field>
  
-    </cs-form>
-
-    <cs-form layout="4.5.7">
-        <span class="help-block">Allocate Bank Employee</span>
-        <!-- Allocate Employee-->
-        <cs-field data-ng-model="legal.EmpCode" field="legalprepare.EmpCode"></cs-field>
+                </cs-form>
             
-        <cs-field  data-ng-model="legal.EmpName"  data-ng-show="legal.EmpCode" field="legalprepare.EmpName"></cs-field>
-    </cs-form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Allocate Bank Employee</div>
+            <div class="panel-body">
+                <cs-form layout="4.5.7">
+                    <!-- Allocate Employee-->
+                    <cs-field data-ng-model="legal.EmpCode" field="legalprepare.EmpCode"></cs-field>
+            
+                    <cs-field  data-ng-model="legal.EmpName"  data-ng-show="legal.EmpCode" field="legalprepare.EmpName"></cs-field>
+                </cs-form>
+            </div>
+        </div>
+    
+        <div data-ng-show="legal.EmpName">
+            <div class="well">
+                <div class="row" style="height: 100px; overflow: auto;">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Case Code</th>
+                                    <th>Case Date Description</th>
+                                    <th>Last Date</th>
+                                    <th>Complaint User</th>
+                                    <th>Next Date</th>
+                                    <th>Court Name</th>
+                                </tr>
+                            </thead>
 
-
-    <div data-ng-show="legal.EmpName">
-        <div class="well">
-            <div class="row" style="height: 100px; overflow: auto;">
-                <div class="col-md-12">
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Case Code</th>
-                                <th>Case Date Description</th>
-                                <th>Last Date</th>
-                                <th>Complaint User</th>
-                                <th>Next Date</th>
-                                <th>Court Name</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr data-ng-repeat="data in datalayer.dldata.Requisitionlist">
-                                <td>{{data.CaseCode}}
-                                </td>
-                                <td>{{data.CaseDateDescription}}
-                                </td>
-                                <td>{{data.LastDate}}
-                                </td>
-                                <td>{{data.ComplaintUser}}
-                                </td>
-                                <td>{{data.NextDate}}
-                                </td>
-                                <td>{{data.CourtName}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            <tbody>
+                                <tr data-ng-repeat="data in datalayer.dldata.Requisitionlist">
+                                    <td>{{data.CaseCode}}
+                                    </td>
+                                    <td>{{data.CaseDateDescription}}
+                                    </td>
+                                    <td>{{data.LastDate}}
+                                    </td>
+                                    <td>{{data.ComplaintUser}}
+                                    </td>
+                                    <td>{{data.NextDate}}
+                                    </td>
+                                    <td>{{data.CourtName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div>
         <div>
-            <span class="help-block">View final settlement:<cs-button type="view" permission="All"></cs-button></span>
+            <div>
+                <span class="help-block">View final settlement:<cs-button type="view" permission="All"></cs-button></span>
+            </div>
+
+            <span class="help-block">Note sheet of requsition:<cs-button type="add " text="Note Sheet Button" permission="All"></cs-button></span>
+            <span class="help-block">Ready for withdraw:<input type="checkbox" value="Ready For withDraw" /></span>
+            <cs-button type="save" permission="All"></cs-button>
         </div>
-
-        <span class="help-block">Note sheet of requsition:<cs-button type="add " text="Note Sheet Button" permission="All"></cs-button></span>
-        <span class="help-block">Ready for withdraw:<input type="checkbox" value="Ready For withDraw" /></span>
-        <cs-button type="save" permission="All"></cs-button>
     </div>
-
-
-
 </form>
 
 

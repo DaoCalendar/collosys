@@ -4,31 +4,38 @@
     </cs-form>
 
     <div>
-        <span class="help-block">Search Loan Details</span>
-        <div data-ng-show="legal.Function">
-            <cs-form layout="4.3.8">
-                <cs-field data-ng-model="legal.City" field="legalprepare.City"
-                          value-List="dldata.City"></cs-field>
+        <!--<span class="help-block">Search Loan Details</span>-->
+        <div class="panel panel-default">
+            <div class="panel-heading">Search Loan Details</div>
+            <div class="panel-body">
+                <div data-ng-show="legal.Function">
+                    <cs-form layout="4.3.8">
+                        <cs-field data-ng-model="legal.City" field="legalprepare.City"
+                                  value-List="dldata.City"></cs-field>
 
-                <cs-field data-ng-model="legal.Products" field="legalprepare.Products"
-                          value-List="dldata.Products"></cs-field>
+                        <cs-field data-ng-model="legal.Products" field="legalprepare.Products"
+                                  value-List="dldata.Products"></cs-field>
 
-                <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
+                        <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo"></cs-field>
 
-                <cs-field data-ng-model="legal.LoanStatus" field="legalprepare.LoanStatus"
-                          value-List="dldata.loanstatus"></cs-field>
+                        <cs-field data-ng-model="legal.LoanStatus" field="legalprepare.LoanStatus"
+                                  value-List="dldata.loanstatus"></cs-field>
 
-                <cs-field data-ng-model="legal.CaseStatus" field="legalprepare.CaseStatus"
-                          value-List="dldata.casestatus"></cs-field>
-            </cs-form>
+                        <cs-field data-ng-model="legal.CaseStatus" field="legalprepare.CaseStatus"
+                                  value-List="dldata.casestatus"></cs-field>
+                    </cs-form>
 
-            <div class="text-right">
-                <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
-                <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
+                    <div class="text-right">
+                        <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
+                        <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <span class="help-block">Search Requisition</span>
-            <div class="well">
+        <div class="panel panel-default">
+            <div class="panel-heading">Search Requisition</div>
+            <div class="panel-body">
                 <div class="row" style="height: 100px;">
                     <div class="col-md-12">
                         <table class="table table-bordered table-hover table-condensed">
@@ -69,12 +76,14 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> 
             </div>
+        </div>
             
-            <div data-ng-show="showDiv">
-                <span class="help-block">Asset Details</span>
-                <div class="well">
+        <div data-ng-show="showDiv">
+            <div class="panel panel-default">
+                <div class="panel-heading">Asset Details</div>
+                <div class="panel-body">
                     <div class="row" style="height: 100px;">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover table-condensed">
@@ -112,35 +121,42 @@
                         </div>
                     </div>
                 </div>
+            </div> 
+       
 
-                <span class="help-block text-center">Guranterer details</span>
-                <cs-form layout="6.4.8">
-                    <cs-field data-ng-model="legal.Nameofhirer" field="legalprepare.Nameofhirer"></cs-field>
+            <div class="panel panel-default">
+                <div class="panel-heading">Guranterer details</div>
+                <div class="panel-body">
+                    <cs-form layout="6.4.8">
+                        <cs-field data-ng-model="legal.Nameofhirer" field="legalprepare.Nameofhirer"></cs-field>
                  
-                    <cs-field data-ng-model="legal.Addressasperaggrement" field="legalprepare.Addressasperaggrement"></cs-field>
+                        <cs-field data-ng-model="legal.Addressasperaggrement" field="legalprepare.Addressasperaggrement"></cs-field>
                
-                    <cs-field data-ng-model="legal.Presentaddress" field="legalprepare.Presentaddress"></cs-field>
+                        <cs-field data-ng-model="legal.Presentaddress" field="legalprepare.Presentaddress"></cs-field>
                
-                </cs-form>
+                    </cs-form>
+                </div> 
+            </div>
 
-                <div class="row">
-                    <div class="col-md-8">
-                        <label class="col-md-3">Account Statement</label>
-                        <div class="col-md-5">
-                            <cs-button type="add" text="View delay/OS details button"></cs-button>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-md-8" style="padding-bottom: 10px">
+                <label class="col-md-3">Account Statement</label>
+                <div class="col-md-5">
+                    <cs-button type="add" text="View delay/OS details button"></cs-button>
                 </div>
+            </div>
+        </div>
 
-                <span class="help-block text-center">Status of Vehicle</span>
-                <div class="well">
-                    <input type="radio" value="withParty" />With Party
+            <div class="panel panel-default">
+                <div class="panel-heading">Status of Vehicle</div>
+                <div class="panel-body">
+                    <input type="radio" value="withParty" checked="checked" />With Party
                     <cs-form layout="6.4.8">
                         <cs-field data-ng-model="legal.WithParty" field="legalprepare.WithParty"></cs-field>
                     </cs-form>
 
 
-                    <input type="radio" value="false" data-ng-show="legal.WithParty"/>Repossessed By Bank
+                    <input type="radio" value="false" checked="checked" data-ng-show="legal.WithParty"/>Repossessed By Bank
                     <cs-form layout="6.4.8">
                 
                         <cs-field data-ng-model="legal.Dateofrepossession" field="legalprepare.Dateofrepossession"></cs-field>
@@ -158,25 +174,25 @@
 
                         <cs-field data-ng-model="legal.AddressSoldto" field="legalprepare.AddressSoldto"></cs-field>
                     </cs-form>
-
-
-                    <input type="radio" />Vehicle Does Not Exist
+                    <input type="radio" checked="checked" />Vehicle Does Not Exist
                 </div>
-
-
-                <span class="help-block text-center">Other Cases Details</span>
-                <div class="well">
+            </div>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">Other Cases Details</div>
+                <div class="panel-body">
                     <cs-form>
-                        <cs-field layout="12.8.4" data-ng-model="legal.CasePending" field="legalprepare.CasePending"></cs-field>
+                        <cs-field layout="5.8.4" data-ng-model="legal.CasePending" field="legalprepare.CasePending"></cs-field>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-md-4">Enclosure From Branch Office</label>
-                                <div class="col-md-8">
+                            <div class="col-md-7">
+                                <label class="col-md-5">Enclosure From Branch Office</label>
+                                <div class="col-md-4">
                                     <cs-button type="add" text="Select Enclosures"></cs-button>
                                 </div>
                             </div>
                         </div>
                     </cs-form>
+                
                     <span class="help-block">Details Required For Proceeding u/s 138 NIA (negotiable instrument act)
                     </span>
                     <cs-form layout="11.4.8">
@@ -188,9 +204,13 @@
                 
                     </cs-form>
                 </div>
+            </div>
 
-                <span class="help-block text-center">Details of Cheque</span>
-                <div class="well">
+
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">Details of Cheque Enclosed</div>
+                <div class="panel-body">
                     <div class="row" style="height: 100px;">
                         <div class="col-md-12">
                             <table class="table table-bordered table-hover table-condensed">
@@ -228,21 +248,26 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
             
-                <cs-form layout="8.5.5">
-                    <cs-field data-ng-model="legal.FileNo" field="legalprepare.FileNo"></cs-field>
-                </cs-form>
+            <cs-form layout="8.5.5">
+                <cs-field data-ng-model="legal.FileNo" field="legalprepare.FileNo"></cs-field>
+            </cs-form>
 
 
-                <div class="text-right">
-                    <cs-button type="save" text="Save" permission="All"></cs-button>
-                    <cs-button type="save" text="Approve" text="Clear" permission="All"></cs-button>
-                    <cs-button type="view" text="ViewAll" permission="All"></cs-button>
-                </div>
+            <div class="text-right">
+                <cs-button type="save" text="Save" permission="All"></cs-button>
+                <cs-button type="save" text="Approve" text="Clear" permission="All"></cs-button>
+                <cs-button type="view" text="ViewAll" permission="All"></cs-button>
             </div>
         </div>
     </div>
+
 </form>
+
+
+
 
 
 

@@ -15,6 +15,9 @@
         $scope.Clear = function (legal) {
             return datalayer.clear(legal);
         };
+        {
+           
+        }
         
         $scope.save = function (legal) {
             if (angular.isDefined(legal)) {
@@ -22,6 +25,11 @@
             } else {
                 $scope.showDiv = false;
             }
+            legal.RequsitionNo = 123456789;
+            legal.ReqDate = moment().format('L');
+            legal.PartyName = 'sandip';
+            legal.OSamount = 123456;
+            legal.FutureReceivable = 'Unpredictable';
             return datalayer.save(legal);
         };
         
@@ -40,9 +48,9 @@
             Nameofhirer: 'Sandip',
             Addressasperaggrement: 'Pune',
             Presentaddress: 'Pune',
-            Dateofrepossession: moment().format('LL'),
-            Dateofsalenotice: moment().format('LL'),
-            DateofSale: moment().format('LLL'),
+            Dateofrepossession: moment().format('L'),
+            Dateofsalenotice: moment().format('L'),
+            DateofSale: moment().format('L'),
             Saleconsideration: 'Old',
             Soldto: 'Parekh Agrawal',
             AddressSoldto: 'Mumbai',
@@ -55,10 +63,10 @@
         $scope.Chequedata = [{
             PDCType: 'Order Cheque',
             ChequeNo: '1234abc',
-            Date: moment().format('LL'),
+            Date: moment().format('L'),
             DrawnonBank: 'Dena Bank',
             Depositdate: moment().format('L'),
-            Bouncedate: moment().format('LL'),
+            Bouncedate: moment().format('L'),
             BounceReason:'Amount not Enough',
         }];
 

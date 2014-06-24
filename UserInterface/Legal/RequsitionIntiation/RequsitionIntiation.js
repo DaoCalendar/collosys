@@ -9,6 +9,9 @@
         })();
         
         $scope.save = function (legal) {
+            legal.PartyName = 'Sandip';
+            legal.LoanStatus = 'Pending';
+            legal.LoanCaseStatus = 'Unpredicted';
             return datalayer.save(legal);
         };
         

@@ -4,80 +4,84 @@
     </cs-form>
 
     <div data-ng-show="legal.Function">
-        <!-- <cs-form layout="6.3.5">
-        </cs-form>-->
-        <!--data-ng-show="legal.Location && legal.Division-->
-        <div>
-            <cs-form layout="4.5.7">
+        <div class="panel panel-default">
+            <div class="panel-heading">Requsition To Be Initiated</div>
+            <div class="panel-body">
+                <cs-form layout="4.5.7">
                     
-                <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
-                          value-List="dldata.location"></cs-field>
+                    <cs-field data-ng-model="legal.Location" field="legalprepare.Location"
+                              value-List="dldata.location"></cs-field>
                    
-                <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
-                          value-List="dldata.division" data-ng-show="legal.Location"></cs-field>
+                    <cs-field data-ng-model="legal.Division" field="legalprepare.Division"
+                              value-List="dldata.division" data-ng-show="legal.Location"></cs-field>
                     
-                <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo" data-ng-show="legal.Division"></cs-field>
+                    <cs-field data-ng-model="legal.LoanNo" field="legalprepare.LoanNo" data-ng-show="legal.Division"></cs-field>
 
-                <cs-field  data-ng-model="legal.DateFrom" field="legalprepare.DateFrom" data-ng-show="legal.LoanNo"></cs-field>
+                    <cs-field  data-ng-model="legal.DateFrom" field="legalprepare.DateFrom" data-ng-show="legal.LoanNo"></cs-field>
                     
-                <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo" data-ng-show="legal.DateFrom"></cs-field>
+                    <cs-field  data-ng-model="legal.DateTo" field="legalprepare.DateTo" data-ng-show="legal.DateFrom"></cs-field>
                         
-                <cs-field data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo" data-ng-show="legal.DateTo"></cs-field>
+                    <cs-field data-ng-model="legal.RequsitionNo" field="legalprepare.RequsitionNo" data-ng-show="legal.DateTo"></cs-field>
                     
-            </cs-form>
+                </cs-form>
 
-            <cs-form layout="4.5.7">
-                <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom" data-ng-show="legal.RequsitionNo"></cs-field>
+                <cs-form layout="4.5.7">
+                    <cs-field  data-ng-model="legal.RequsitionDateFrom" field="legalprepare.RequsitionDateFrom" data-ng-show="legal.RequsitionNo"></cs-field>
 
-                <cs-field  data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo" data-ng-show="legal.RequsitionDateFrom"></cs-field>
+                    <cs-field  data-ng-model="legal.RequsitionDateTo" field="legalprepare.RequsitionDateTo" data-ng-show="legal.RequsitionDateFrom"></cs-field>
 
-            </cs-form>
+                </cs-form>
 
 
-            <div class="text-right">
-                <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
-                <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
-            </div>
-
-        </div>
-
-        <div class="well">
-            <div class="row" style="height: 100px; overflow: auto;">
-                <div class="col-md-12">
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th>Location</th>
-                                <th>Division</th>
-                                <th>RequsitionNo</th>
-                                <th>Loan No</th>
-                                <th>Party Name</th>
-                                <th>Loan Status</th>
-                                <th>Loan Case Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-ng-repeat="data in datalayer.dldata.Requisitiondata">
-                                <td>{{data.Location}}
-                                </td>
-                                <td>{{data.Division}}
-                                </td>
-                                <td>{{data.RequsitionNo}}
-                                </td>
-                                <td>{{data.LoanNo }}
-                                </td>
-                                <td>{{data.PartyName}}
-                                </td>
-                                <td>{{data.LoanStatus}}
-                                </td>
-                                <td>{{data.LoanCaseStatus}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="text-right">
+                    <cs-button type="save" text="GO" permission="All" data-ng-click="save(legal)"></cs-button>
+                    <cs-button type="cancel" text="Clear" permission="All" data-ng-click="Clear(legal)"></cs-button>
                 </div>
             </div>
         </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Search Requsition</div>
+            <div class="panel-body">
+                <div class="row" style="height: 100px; overflow: auto;">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Division</th>
+                                    <th>RequsitionNo</th>
+                                    <th>Loan No</th>
+                                    <th>Party Name</th>
+                                    <th>Loan Status</th>
+                                    <th>Loan Case Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="data in datalayer.dldata.Requisitiondata">
+                                    <td>{{data.Location}}
+                                    </td>
+                                    <td>{{data.Division}}
+                                    </td>
+                                    <td>{{data.RequsitionNo}}
+                                    </td>
+                                    <td>{{data.LoanNo }}
+                                    </td>
+                                    <td>{{data.PartyName}}
+                                    </td>
+                                    <td>{{data.LoanStatus}}
+                                    </td>
+                                    <td>{{data.LoanCaseStatus}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
         <div class="text-right">
             <cs-button type="save" permission="All"></cs-button>
         </div>

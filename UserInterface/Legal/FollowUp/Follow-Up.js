@@ -9,6 +9,12 @@
         })();
 
         $scope.save = function (legal) {
+            legal.PartyName = 'Sandip';
+            legal.LoanStatus = 'Pending';
+            legal.LoanCaseStatus = 'unpredictable';
+            legal.CaseNo = 111;
+            legal.DealingLocation = 'pune';
+            legal.CourtName = 'highcourt';
             return datalayer.save(legal);
         };
 
