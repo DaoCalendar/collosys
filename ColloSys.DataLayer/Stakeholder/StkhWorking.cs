@@ -15,6 +15,7 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual GPincode GPincode { get; set; }
 
         public virtual Guid ReportsTo { get; set; }
+        public virtual string Buckets { get; set; }
         public virtual uint BucketStart { get; set; }
         public virtual uint? BucketEnd { get; set; }
         public virtual string Country { get; set; }

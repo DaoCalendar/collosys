@@ -8,6 +8,7 @@ namespace ColloSys.DataLayer.Stakeholder
         {
             Property(x => x.BucketStart);
             Property(x=>x.ReportsTo);
+            Property(x=>x.Buckets);
             Property(x => x.BucketEnd);
             Property(x => x.Country);
             Property(x => x.Region);

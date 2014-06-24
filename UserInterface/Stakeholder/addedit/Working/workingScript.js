@@ -251,7 +251,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             //} else {
             //    workdata.Status = 'Submitted';
             //}
-            workdata.Status = setApprovalStatus(workdata.Status);
+            workdata.Status = getApprovalStatus(workdata.Status);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
@@ -482,10 +482,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.save = function (workList) {
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
-            datalayer.SaveWorking(workList).then(function () {
-                $csnotify.success('Workings Approved');
+            return datalayer.SaveWorking(workList).then(function () {
                 $scope.workingDetailsList = [];
                 if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
+                return "";
             });
         };
 
@@ -520,6 +520,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         var postApproval = function (data, param) {
+            console.log("post approval called");
             switch (param) {
                 case 'working':
                     factory.SetReportsToName(data, $scope.reportsToStakes);
