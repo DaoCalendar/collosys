@@ -322,7 +322,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
             $scope.currStakeholder = data.Stakeholder;
             factory.SetReportsToName(data.Stakeholder.StkhWorkings, data.ReportsToStakes);
-            $scope.reportsToStakes = data.ReportsToStakes;//this variable is used to set the reportsTo name after approving
+            $scope.reportsToStakes = data.ReportsToStakes; //this variable is used to set the reportsTo name after approving
             $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.StkhPayments.StkhPayments[0];
             $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
         };
@@ -365,32 +365,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
             $scope.deleteWorkingList = [];
         })();
-
-        $scope.showSaveButton = function () {
-            if (angular.isUndefined($scope.workingDetailsList)) return false;
-            return $scope.workingDetailsList.length == 0;
-        };
-
-        $scope.gotoView = function () {
-            $location.path('/stakeholder/view');
-        };
-
-        $scope.changeMode = function (param) {
-            switch (param) {
-                case 'working':
-                    $scope.formMode = 'edit';
-                    break;
-                case 'payment':
-                    $scope.showPayment = false;
-                    $scope.paymentMode = 'add';
-                    $timeout(function () { $scope.showPayment = true; }, 100);
-                    break;
-                default:
-                    throw "invalid param " + param;
-            }
-
-        };
-
+       
         $scope.getSalaryDetails = function (payment) {
             $scope.SalDetails = {};
             $scope.SalDetails.FixpayBasic = angular.copy(payment.FixpayBasic);
@@ -416,9 +391,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.gotoView();
             });
         };
-
+       
         $scope.getPincodeData = function (workingModel, selected) {
-
             var temp = {};
             temp.Products = angular.copy(workingModel.SelectedPincodeData.Products);
             temp.ReportsTo = angular.copy(workingModel.SelectedPincodeData.ReportsTo);
@@ -432,11 +406,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.WorkingModel = data;
                 factory.SetProduct($scope.WorkingModel, temp);
             });
-        };
-
-        $scope.showDropdown = function (locLevel) {
-            if ($csfactory.isEmptyObject($scope.selectedHierarchy)) return false;
-            return $scope.selectedHierarchy.LocationLevel === locLevel;
         };
 
         $scope.addWorking = function (workingModel, locLevel) {
@@ -459,7 +428,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.deleteWorkingList.push(data);
             } else {
                 factory.Splice($scope.deleteWorkingList, data);
-            };
+            }
+            ;
         };
 
         $scope.setApprovalStatus = function (id, status) {
@@ -481,15 +451,34 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         };
 
-        $scope.showApproveButtons = function (workList) {
-            var showApproveBtn = false;
-            _.forEach(workList, function (work) {
-                if (work.Status == 'Submitted') {
-                    showApproveBtn = true;
-                }
+        //TODO: why seperate logic for splicing it when it can maintained as is
+        $scope.deleteSelectedWorking = function (endDate) {
+            factory.SetEndDate($scope.deleteWorkingList, endDate);
+            factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);
+            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function () {
+                getStakeholderForEdit($routeParams.editStakeId);
             });
+            $scope.deleteWorkingList = [];
+        };
 
-            return showApproveBtn;
+        $scope.gotoView = function () {
+            $location.path('/stakeholder/view');
+        };
+
+        $scope.changeMode = function (param) {
+            switch (param) {
+                case 'working':
+                    $scope.formMode = 'edit';
+                    break;
+                case 'payment':
+                    $scope.showPayment = false;
+                    $scope.paymentMode = 'add';
+                    $timeout(function () { $scope.showPayment = true; }, 100);
+                    break;
+                default:
+                    throw "invalid param " + param;
+            }
+
         };
 
         $scope.getEndDate = function (data) {
@@ -501,18 +490,42 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
-        $scope.disableDeleteBtn = function (endDate) {
-            return $csfactory.isNullOrEmptyString(endDate);
+        $scope.disableDeleteBtn = function (deleteList, endDate) {
+            if ($scope.showEndDate(deleteList)) {
+                return $csfactory.isNullOrEmptyString(endDate);
+            } else {
+                return false;
+            }
         };
 
-        //TODO: why seperate logic for splicing it when it can maintained as is
-        $scope.deleteSelectedWorking = function(endDate) {
-            factory.SetEndDate($scope.deleteWorkingList, endDate);
-            factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);
-            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function() {
-                getStakeholderForEdit($routeParams.editStakeId);
+        $scope.showEndDate = function (deleteList) {
+            var showEndDt = false;
+            _.forEach(deleteList, function (working) {
+                if (working.Status === 'Approved' || working.Status === 'Changed')
+                    showEndDt = true;
             });
-            $scope.deleteWorkingList = [];
+            return showEndDt;
+        };
+        
+        $scope.showApproveButtons = function (workList) {
+            var showApproveBtn = false;
+            _.forEach(workList, function (work) {
+                if (work.Status == 'Submitted') {
+                    showApproveBtn = true;
+                }
+            });
+
+            return showApproveBtn;
+        };
+        
+        $scope.showDropdown = function (locLevel) {
+            if ($csfactory.isEmptyObject($scope.selectedHierarchy)) return false;
+            return $scope.selectedHierarchy.LocationLevel === locLevel;
+        };
+        
+        $scope.showSaveButton = function () {
+            if (angular.isUndefined($scope.workingDetailsList)) return false;
+            return $scope.workingDetailsList.length == 0;
         };
     }
 ]);
