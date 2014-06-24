@@ -34,15 +34,14 @@
                        
                     </cs-form>
                 </div>
-
-
             </div>
         </div>
         <div class="text-right">
             <cs-button2 type="save" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" on-click="saveProduct(dldata.productconfig)"></cs-button2>
-            <cs-button2 type="close" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" on-click="closeModel('Cancel')"></cs-button2>
+            <cs-button2 type="cancel" permission="Config,Product,AddEdit" data-ng-hide="mode === 'view'" on-click="closeModel('Cancel')"></cs-button2>
             <cs-button2 type="close" permission="Config,Product" data-ng-hide="mode === 'edit'" on-click="closeModel('Close')"></cs-button2>
         </div>
     </form>
 </div>
+
 
