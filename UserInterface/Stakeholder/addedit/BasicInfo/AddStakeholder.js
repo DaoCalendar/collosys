@@ -241,7 +241,6 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 $csfactory.ResetObject($scope.Stakeholder, ['Hierarchy', 'Designation']);
             }
             $timeout(function () {
-                console.log("timeout");
                 $scope.showBasicInfo = true;
             }, 100);
         };

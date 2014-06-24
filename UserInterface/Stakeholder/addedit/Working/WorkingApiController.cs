@@ -118,16 +118,32 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
-            foreach (var stkhWorking in stkh.StkhWorkings
-                .Where(stkhWorking => stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted))
+
+            switch (stakeholder.SetStatusFor)
             {
-                stkhWorking.Status = ColloSysEnums.ApproveStatus.Approved;
+                case "working":
+                    foreach (var stkhWorking in stkh.StkhWorkings
+                .Where(stkhWorking => stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted))
+                    {
+                        stkhWorking.Status = ColloSysEnums.ApproveStatus.Approved;
+                    }
+
+                    StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        stkh.StkhWorkings);
+                case "payment":
+                    if (stkh.StkhPayments[0] != null && stkh.StkhPayments[0].ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
+                    {
+                        stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+                    }
+                    StakePaymentBuilder.Save(stkh.StkhPayments[0]);
+                    return Request.CreateResponse(HttpStatusCode.OK,
+                        stkh.StkhPayments[0]);
+                default:
+                    throw new Exception();
             }
 
-            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
-
-            return Request.CreateResponse(HttpStatusCode.OK,
-                stkh.StkhWorkings);
         }
 
         [HttpPost]

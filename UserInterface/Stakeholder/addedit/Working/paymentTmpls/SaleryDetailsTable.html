@@ -1,0 +1,39 @@
+﻿<table class="table table-bordered table-hover" data-ng-show="SalDetails">
+    <thead>
+        <tr>
+            <th data-ng-show="Payment.FixpayBasic">Basic</th>
+            <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">Allowances</th>-->
+            <th data-ng-show="Payment.FixpayBasic">Employee PF</th>
+            <th data-ng-show="Payment.FixpayBasic">Employer PF</th>
+            <th>Employee ESIC</th>
+            <th>Employer ESIC</th>
+            <th>Service Charge</th>
+            <th>Service Tax</th>
+            <th>Total Pay</th>
+        </tr>
+        <tr>
+            <th data-ng-show="Payment.FixpayBasic"></th>
+            <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
+            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployeePf}}%</th>
+            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployerPf}}%</th>
+            <th>Gross Salary * {{SalDetails.EmployeeEsic}}%</th>
+            <th>Gross Salary * {{SalDetails.EmployerEsic}}% </th>
+            <th>Basic * {{SalDetails.ServiceCharge}}%</th>
+            <th>Basic * {{SalDetails.ServiceTax}}% </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td data-ng-show="Payment.FixpayBasic">{{Payment.FixpayBasic}}</td>
+            <!--<td data-ng-show="Payment.FixpayBasic">{{SalDetails.totalNotEsic}}</td>-->
+            <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePf*1)}}</td>
+            <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPf*1)}}</td>
+            <td>{{SalDetails.EmployeeEsic}}</td>
+            <td>{{SalDetails.EmployerEsic}}</td>
+            <td>{{SalDetails.ServiceCharge}}</td>
+            <td>{{SalDetails.ServiceTax}}</td>
+            <td>{{SalDetails.FixpayTotal}}</td>
+        </tr>
+    </tbody>
+</table>

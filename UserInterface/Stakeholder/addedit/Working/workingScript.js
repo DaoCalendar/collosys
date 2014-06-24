@@ -41,8 +41,8 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         });
     };
 
-    var getSalaryDetails = function (payment) {
-        return restApi.customPOST(payment, "GetSalaryDetails").then(function (sal) {
+    var getSalaryDetails = function (paymentIds) {
+        return restApi.customPOST(paymentIds, "GetSalaryDetails").then(function (sal) {
             return sal;
         });
     };
@@ -61,7 +61,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
 
     var approveWorkings = function (stakeObj) {
         return restApi.customPOST(stakeObj, 'ApproveStakeholder').then(function (data) {
-            $csnotify.success('Workings Approved');
+
             return data;
         });
     };
@@ -105,6 +105,13 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             fixedPayObj[item.ParamName] = parseFloat(item.Value);
         });
         return fixedPayObj;
+    };
+
+    var getApprovalStatus = function (status) {
+        if (status === 'Approved' || status === 'Changed') return 'Changed';
+        else {
+            return 'Submitted';
+        }
     };
 
     var resetDisplayManager = function () {
@@ -239,11 +246,12 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         _.forEach(worklist, function (workdata) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
-            if (workdata.Status === 'Approved' || workdata.Status === 'Changed') {
-                workdata.Status = 'Changed';
-            } else {
-                workdata.Status = 'Submitted';
-            }
+            //if (workdata.Status === 'Approved' || workdata.Status === 'Changed') {
+            //    workdata.Status = 'Changed';
+            //} else {
+            //    workdata.Status = 'Submitted';
+            //}
+            workdata.Status = setApprovalStatus(workdata.Status);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
@@ -254,6 +262,50 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         return moment().isBefore(moment(endDate));
     };
 
+    //dunno how it works, copy pasted for getting the amount with precision of 2 
+    var round = function (value, exp) {
+        if (typeof exp === 'undefined' || +exp === 0)
+            return Math.round(value);
+
+        value = +value;
+        exp = +exp;
+
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+            return NaN;
+
+        // Shift
+        value = value.toString().split('e');
+        value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    };
+
+    var computeSalary = function (basic, gross, salObj) {
+        salObj.FixpayBasic = angular.isUndefined(basic) ? 0 : basic;
+        salObj.FixpayGross = angular.isUndefined(gross) ? 0 : gross;
+
+        salObj.EmployeePf = round(salObj.FixpayBasic * (salObj.EmployeePfPct / 100), 2);
+
+        salObj.EmployerPf = round(salObj.FixpayBasic * (salObj.EmployerPfPct / 100), 2);
+
+        salObj.EmployeeEsic = round(salObj.FixpayGross * (salObj.EmployeeEsicPct / 100), 2);
+
+        salObj.EmployerEsic = round(salObj.FixpayGross * (salObj.EmployerEsicPct / 100), 2);
+
+        var midTotal = round(salObj.FixpayGross + salObj.EmployerEsic + salObj.EmployerPf, 2);
+
+        salObj.ServiceCharge = round(midTotal * (salObj.EmployerEsicPct / 100), 2);
+
+        salObj.ServiceTax = round((midTotal + salObj.ServiceCharge) * (salObj.ServiceTaxPct / 100), 2);
+
+        salObj.FixpayTotal = round(midTotal + salObj.ServiceTax + salObj.ServiceCharge, 2);
+
+        return salObj;
+    };
+
+    //TODO: move this logic to server sides
     var filterWorkingList = function (workList) {
         var filteredList = [];
         _.forEach(workList, function (work) {
@@ -299,7 +351,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     return {
         GetFixedPayObj: getFixedPayObj,
         GetQueryFor: getQueryFor,
-        //GetReportsToName:getReportsToName,
+        GetApprovalStatus: getApprovalStatus,
+        ComputeSalary: computeSalary,
         GetDisplayManager: getDisplayManager,
         GetWorkingDetailsList: getWorkingDetailsList,
         SetProduct: setProduct,
@@ -312,8 +365,14 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 }]);
 
-csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location", "$timeout",
-    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout) {
+csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDatalayer", "$csModels", "StakeWorkingFactory", "$csfactory", "$location", "$timeout", "$csnotify",
+    function ($scope, $routeParams, datalayer, $csModels, factory, $csfactory, $location, $timeout, $csnotify) {
+
+        var getPaymentData = function (hierarchy) {
+            if (hierarchy.HasFixedPayIndividual) {
+                $scope.getSalaryDetails();
+            }
+        };
 
         var setData = function (data) {
             data.Stakeholder.Hierarchy.LocationLevelArray = JSON.parse(data.Stakeholder.Hierarchy.LocationLevel);
@@ -323,7 +382,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.currStakeholder = data.Stakeholder;
             factory.SetReportsToName(data.Stakeholder.StkhWorkings, data.ReportsToStakes);
             $scope.reportsToStakes = data.ReportsToStakes; //this variable is used to set the reportsTo name after approving
-            $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.StkhPayments.StkhPayments[0];
+            $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.Stakeholder.StkhPayments[0];
+            getPaymentData($scope.selectedHierarchy);
             $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
         };
 
@@ -365,14 +425,19 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
             $scope.deleteWorkingList = [];
         })();
-       
-        $scope.getSalaryDetails = function (payment) {
-            $scope.SalDetails = {};
-            $scope.SalDetails.FixpayBasic = angular.copy(payment.FixpayBasic);
-            $scope.SalDetails.FixpayTotal = angular.copy(payment.FixpayTotal);
-            datalayer.GetSalaryDetails($scope.SalDetails).then(function (sal) {
+
+        $scope.getSalaryDetails = function () {
+            var paymentIds = {
+                ReportingId: $scope.currStakeholder.ReportingManager,
+                PaymentId: $scope.Payment.Id
+            };
+            datalayer.GetSalaryDetails(paymentIds).then(function (sal) {
                 $scope.SalDetails = sal;
             });
+        };
+
+        $scope.computeSalary = function (basic, gross) {
+            $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
         };
 
         $scope.getReportsTo = function (product) {
@@ -382,16 +447,17 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        $scope.savePayment = function (paymentData, form) {
+        $scope.savePayment = function (paymentData) {
             paymentData.Stakeholder = $scope.currStakeholder;
             paymentData.Stakeholder.StkhPayments = [];
             paymentData.Stakeholder.StkhWorkings = [];
+            paymentData.ApprovalStatus = factory.GetApprovalStatus(paymentData.ApprovalStatus);
             datalayer.SavePayment(paymentData).then(function (data) {
                 $scope.Payment = data;
                 $scope.gotoView();
             });
         };
-       
+
         $scope.getPincodeData = function (workingModel, selected) {
             var temp = {};
             temp.Products = angular.copy(workingModel.SelectedPincodeData.Products);
@@ -417,6 +483,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.save = function (workList) {
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
             datalayer.SaveWorking(workList).then(function () {
+                $csnotify.success('Workings Approved');
                 $scope.workingDetailsList = [];
                 if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
             });
@@ -432,23 +499,38 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             ;
         };
 
-        $scope.setApprovalStatus = function (id, status) {
-            var stakeObj = { Id: id };
+        $scope.setApprovalStatus = function (id, status, param) {
+            var stakeObj = {
+                Id: id,
+                setStatusFor: param
+            };
             switch (status) {
                 case 'approve':
                     return datalayer.ApproveWorkings(stakeObj).then(function (data) {
-                        factory.SetReportsToName(data, $scope.reportsToStakes);
-                        return $scope.workingDetailsList = factory.FilterWorkingList(data);
+                        return postApproval(data, param);
                     });
                 case 'reject':
                     return datalayer.RejectWorkings(stakeObj).then(function (data) {
-                        factory.SetReportsToName(data, $scope.reportsToStakes);
-                        return $scope.workingDetailsList = factory.FilterWorkingList(data);
+                        return postApproval(data, param);
                     });
                 default:
                     throw "invalid approval status";
             }
 
+        };
+
+        var postApproval = function (data, param) {
+            switch (param) {
+                case 'working':
+                    factory.SetReportsToName(data, $scope.reportsToStakes);
+                    $scope.workingDetailsList = factory.FilterWorkingList(data);
+                    return $scope.workingDetailsList;
+                case 'payment':
+                    $scope.Payment = data;
+                    return $scope.Payment;
+                default:
+                    throw "invalid param " + param;
+            }
         };
 
         //TODO: why seperate logic for splicing it when it can maintained as is
@@ -506,7 +588,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
             return showEndDt;
         };
-        
+
         $scope.showApproveButtons = function (workList) {
             var showApproveBtn = false;
             _.forEach(workList, function (work) {
@@ -517,15 +599,19 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
             return showApproveBtn;
         };
-        
+
         $scope.showDropdown = function (locLevel) {
             if ($csfactory.isEmptyObject($scope.selectedHierarchy)) return false;
             return $scope.selectedHierarchy.LocationLevel === locLevel;
         };
-        
+
         $scope.showSaveButton = function () {
             if (angular.isUndefined($scope.workingDetailsList)) return false;
             return $scope.workingDetailsList.length == 0;
+        };
+
+        $scope.showPaymentApproval = function () {
+            return $scope.Payment.ApprovalStatus === 'Submitted';
         };
     }
 ]);

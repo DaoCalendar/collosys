@@ -192,12 +192,12 @@
                         <span data-ng-if="showApproveButtons(workingDetailsList)">
                             <cs-button2 type="approve"
                                         permission="Stakeholder,Stakeholder,AddEdit"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve')">
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve','working')">
                             </cs-button2> 
 
                             <cs-button2 type="reject"
                                         permission="Stakeholder,Stakeholder,AddEdit"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject')">
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject','working')">
                             </cs-button2>
                         </span>
                         <cs-button2
@@ -230,76 +230,23 @@
                         <!--Basic-->
                         <cs-field data-ng-model="Payment.FixpayBasic"
                                   data-ng-required="selectedHierarchy.HasFixed"
-                                  field="paymentModel.FixpayBasic">
+                                  field="paymentModel.FixpayBasic"
+                                  data-ng-change="computeSalary(Payment.FixpayBasic,Payment.Gross)">
                         </cs-field>
-                        <!--HRA-->
-                        <div data-ng-if="selectedHierarchy.HasFixedIndividual  && false">
-                            <cs-field data-ng-model="Payment.FixpayHra"
-                                      data-ng-required="selectedHierarchy.HasFixedIndividual "
-                                      field="paymentModel.FixpayHra"></cs-field>
-                        </div>
+                      
                         <div data-ng-if="selectedHierarchy.HasFixedIndividual">
                             <cs-field field="paymentModel.FixpayTotal"
                                       data-ng-required="selectedHierarchy.HasFixedIndividual"
-                                      data-ng-model="Payment.FixpayTotal">
+                                      data-ng-model="Payment.FixpayGross"
+                                      data-ng-change="computeSalary(Payment.FixpayBasic,Payment.FixpayGross)">
                             </cs-field>
                         </div>
-                    </div>
-                    <div class="pull-right">
-                        <cs-button type="submit" data-ng-click="getSalaryDetails(Payment)">
-                        </cs-button>
-                    </div>
-                    <div class="clearfix"></div>
-
-                    <div data-ng-if="selectedHierarchy.HasFixedIndividual && false">
-                        <cs-field field="paymentModel.FixpayOther"
-                                  data-ng-required="selectedHierarchy.HasFixedIndividual"
-                                  data-ng-model="Payment.FixpayOther">
-                        </cs-field>
                     </div>
 
                     <div class="clearfix"></div>
 
                     <div data-ng-show="selectedHierarchy.HasFixedIndividual">
-                        <table class="table table-bordered table-hover" data-ng-show="SalDetails">
-                            <thead>
-                                <tr>
-                                    <th data-ng-show="Payment.FixpayBasic">Basic</th>
-                                    <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">Allowances</th>-->
-                                    <th data-ng-show="Payment.FixpayBasic">Employee PF</th>
-                                    <th data-ng-show="Payment.FixpayBasic">Employer PF</th>
-                                    <th>Employee ESIC</th>
-                                    <th>Employer ESIC</th>
-                                    <th>Service Charge</th>
-                                    <th>Service Tax</th>
-                                    <th>Gross Pay</th>
-                                </tr>
-                                <tr>
-                                    <th data-ng-show="Payment.FixpayBasic"></th>
-                                    <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
-                                    <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployeePf}}%</th>
-                                    <th data-ng-show="Payment.FixpayBasic">Basic * {{FixedPay.EmployerPf}}%</th>
-                                    <th>Gross Salary * {{FixedPay.EmployeeEsic}}%</th>
-                                    <th>Gross Salary * {{FixedPay.EmployerEsic}}% </th>
-                                    <th>Basic * {{FixedPay.ServiceCharge}}%</th>
-                                    <th>Basic * {{FixedPay.ServiceTax}}% </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td data-ng-show="Payment.FixpayBasic">{{Payment.FixpayBasic}}</td>
-                                    <!--<td data-ng-show="Payment.FixpayBasic">{{SalDetails.totalNotEsic}}</td>-->
-                                    <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployeePf*1)}}</td>
-                                    <td data-ng-show="Payment.FixpayBasic">{{(SalDetails.EmployerPf*1)}}</td>
-                                    <td>{{SalDetails.EmployeeEsic}}</td>
-                                    <td>{{SalDetails.EmployerEsic}}</td>
-                                    <td>{{SalDetails.ServiceCharge}}</td>
-                                    <td>{{SalDetails.ServiceTax}}</td>
-                                    <td>{{SalDetails.TotalPayout}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                       <div data-ng-include="'/Stakeholder/addedit/Working/paymentTmpls/SaleryDetailsTable.html'"></div>
                     </div>
 
                     <div class="clearfix"></div>
@@ -313,42 +260,74 @@
                                   data-ng-model="Payment.TravelElig"
                                   field="paymentModel.TravelElig"></cs-field>
                     </div>
-
-
                     <div class="clearfix"></div>
-
-                    <div data-ng-if="selectedHierarchy.HasServiceCharge && false">
-                        <h5 class="modal-header"><b>Other Charges</b></h5>
-                        <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
-                                  data-ng-model="Payment.ServiceCharge"
-                                  field="paymentModel.ServiceCharge">
-                        </cs-field>
-                    </div>
                     <br/>
+
                     <div class="pull-right">
                        
-                        <cs-button type="save"
-                                   permission="Stakeholder,Stakeholder,AddEdit"
-                                   data-ng-click="savePayment(Payment,paymentForm)">
-                        </cs-button>
-                        <cs-button
+                        <cs-button2 type="save"
+                                    permission="Stakeholder,Stakeholder,AddEdit"
+                                    data-on-click="savePayment(Payment,paymentForm)">
+                        </cs-button2>
+
+                         <span data-ng-if="showPaymentApproval(Payment)">
+                            <cs-button2 type="approve"
+                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve','payment')">
+                            </cs-button2> 
+
+                            <cs-button2 type="reject"
+                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject','payment')">
+                            </cs-button2>
+                        </span>
+
+                        <cs-button2
                             type="cancel"
                             text="Close"
                             permission="Stakeholder,Stakeholder,AddEdit"
-                            data-ng-click="gotoView()">
-                        </cs-button>
-                        <cs-button
-                            type="submit"
-                            text="Edit"
+                            data-on-click="gotoView()">
+                        </cs-button2>
+                        <cs-button2
+                            type="edit"
                             data-ng-show="paymentMode === 'view'"
                             permission="Stakeholder,Stakeholder,AddEdit"
-                            data-ng-click="changeMode('payment')">
-                        </cs-button>
+                            data-on-click="changeMode('payment')">
+                        </cs-button2>
                     </div>
                 </div>
         </cs-form>
     </div>
 </div>
+
+
+
+<!--HRA-->
+<!--<div data-ng-if="selectedHierarchy.HasFixedIndividual  && false">
+                            <cs-field data-ng-model="Payment.FixpayHra"
+                                      data-ng-required="selectedHierarchy.HasFixedIndividual "
+                                      field="paymentModel.FixpayHra"></cs-field>
+                        </div>-->
+
+
+<!--  <div data-ng-if="selectedHierarchy.HasFixedIndividual && false">
+                        <cs-field field="paymentModel.FixpayOther"
+                                  data-ng-required="selectedHierarchy.HasFixedIndividual"
+                                  data-ng-model="Payment.FixpayOther">
+                        </cs-field>
+                    </div>-->
+
+<!--  <div data-ng-if="selectedHierarchy.HasServiceCharge && false">
+                        <h5 class="modal-header"><b>Other Charges</b></h5>
+                        <cs-field data-ng-required="selectedHierarchy.HasServiceCharge"
+                                  data-ng-model="Payment.ServiceCharge"
+                                  field="paymentModel.ServiceCharge">
+                        </cs-field>
+                    </div>-->
+
+
+
+
 
 
 

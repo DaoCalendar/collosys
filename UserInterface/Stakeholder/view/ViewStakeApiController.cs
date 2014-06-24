@@ -30,6 +30,7 @@ namespace AngularUI.Stakeholder.view
         public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
         {
             var stkh = StakeQuery.Get(stakeholder.Id);
+           
             if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
             {
                 return Request.CreateResponse(HttpStatusCode.OK,
@@ -68,5 +69,6 @@ namespace AngularUI.Stakeholder.view
     public class StkhId
     {
         public Guid Id { get; set; }
+        public string SetStatusFor { get; set; }
     }
 }

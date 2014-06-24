@@ -186,6 +186,7 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                                 .Query<Stakeholders>()
                                 .Fetch(x => x.Hierarchy)
                                 .Fetch(x=>x.StkhWorkings)
+                                .Fetch(x=>x.StkhPayments)
                                 .Single(x => x.Id == id);
         }
 
