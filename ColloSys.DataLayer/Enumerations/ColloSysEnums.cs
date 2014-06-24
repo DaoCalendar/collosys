@@ -280,7 +280,8 @@ namespace ColloSys.DataLayer.Enumerations
             RequsitionIntiation,
             FollowUp,
             LegalCaseexecution,
-            Root
+            Root,
+            Home
         }
 
         [Serializable]
