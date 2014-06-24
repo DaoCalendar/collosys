@@ -50,16 +50,25 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
 
 
     $scope.save = function (stakeleave) {
-        return datalayer.Save(stakeleave).then(function (data) {
-            $scope.stkhleaveList.push(data);
-            $scope.StkhLeave = {};
-            $scope.showAddButton = true;
+        var isoverlapping = _.find($scope.stkhleaveList, function (existingLeave) {
+            return ((stakeleave.FromDate <= existingLeave.ToDate) &&
+             (stakeleave.ToDate >= existingLeave.FromDate));
         });
+        if (angular.isUndefined(isoverlapping)) {
+            return datalayer.Save(stakeleave).then(function (data) {
+                $scope.stkhleaveList.push(data);
+                $scope.StkhLeave = {};
+                $scope.showAddButton = true;
+            });
+        } else {
+            $csnotify.success("Date is overlapping, please insert Valid Date range");
+            $scope.StkhLeave = {};
+        }
     };
 
     $scope.cancelLeaveStatus = function (date) {
         var today = moment().utc().format("YYYY-MM-DD");
-      return (moment(date.FromDate).isAfter(today));
+        return (moment(date.FromDate).isAfter(today));
     };
 
     $scope.endLeaveStatus = function (leave) {

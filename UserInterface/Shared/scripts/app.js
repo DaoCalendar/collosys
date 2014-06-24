@@ -50,6 +50,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/stkhleave', {
                 templateUrl: baseUrl + 'Generic/stkhleave/StkhLeave.html',
                 controller: 'StkhLeaveManagementCtrl'
+            }).when('/generic/performancemanagement', {
+                templateUrl: baseUrl + 'Generic/performancemanagement/PerformanaceManagement.html',
+                controller: 'PerformanaceManagementCtrl'
             })
 
             //file upload
