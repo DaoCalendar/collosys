@@ -1,4 +1,4 @@
-﻿csapp.factory("hierarchyDataLayer", ['Restangular', '$csnotify', 'ngTableParams', '$filter', function (rest, $csnotify, ngTableParams, $filter) {
+﻿csapp.factory("hierarchyDataLayer", ['Restangular', '$csnotify', function (rest, $csnotify) {
 
     var dldata = {};
 
@@ -12,11 +12,6 @@
 
     var getAllHierarchy = function () {
         return apiCalls.customGET('GetAllHierarchies').then(function (data) {
-            //dldata.tableParams = new ngTableParams({
-            //    page: 1,            // show first page
-            //    total: data.length, // length of data
-            //    count: 10           // count per page
-            //    });
             dldata.HierarchyList = data;
             dldata.HierarchyData = _.uniq(_.pluck(data, 'Hierarchy'));
             _.forEach(dldata.HierarchyList, function (item) {
@@ -28,6 +23,7 @@
         });
     };
 
+    //TODO : no need of this call
     var getReportee = function () {
         return apiCalls.customGET('GetReportingLevel').then(function (data) {
             dldata.ReportingLevelEnum = data;
@@ -70,8 +66,6 @@
 
 csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function ($csfactory, datalayer) {
 
-
-
     var initLocationLevelList = function (dldata) {
         dldata.LocationlevelList = [{ key: 'Pincode', value: 'Pincode' },
                                          { key: 'Area', value: 'Area' },
@@ -98,7 +92,6 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
 
     };
 
-
     var reloadReportsTo = function (stakeholder, dldata) {
         dldata.Designation = [];
         if ($csfactory.isNullOrEmptyArray(dldata.HierarchyList)) { return; }
@@ -109,6 +102,7 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         });
     };
 
+    //TODO: remove this call, now designations are stored as required
     var designationName = function (hierarchy) {
         if (!$csfactory.isEmptyObject(hierarchy)) {
             if ((hierarchy.Hierarchy !== 'External') || (hierarchy.IsIndividual === false)) {
@@ -126,6 +120,7 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
         hierarchy.WorkingReportsToName = _.find(hierarchyList, { 'Id': item.WorkingReportsTo });
         hierarchy.LocationLevel = JSON.parse(item.LocationLevel);
     };
+
     return {
         initLocationLevelList: initLocationLevelList,
         resetPaymentChlidVal: resetPaymentChlidVal,
@@ -244,6 +239,7 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         };
 
         $scope.save = function (stkh) {
+            //TODO: use _.find
             _.forEach($scope.dldata.Designation, function (item) {
                 if (item.Id === stkh.ReportsTo) {
                     stkh.PositionLevel = item.PositionLevel + 1;

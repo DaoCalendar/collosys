@@ -1,7 +1,6 @@
 ﻿<cs-form layout="5.4.8">
     <div data-ng-form="formulaMain">
         <div class="row">
-            formulaMain: {{formulaMain.$valid}}
             <cs-field data-ng-model="selParams.selectedProduct"
                       field="Formula.Products"
                       data-ng-change="initFormulaList(selParams.selectedProduct)"></cs-field>
@@ -24,8 +23,6 @@
                           data-ng-model="sformula" data-ng-click="selectFormula(sformula)"></cs-list2>
           
             </div>
-            
-
 
             <div class="col-md-9 form-horizontal" data-ng-show="selParams.selectedProduct">
                 <div data-ng-include="baseUrl + 'Billing/formula2/formula-details.html'">load formula details</div>
