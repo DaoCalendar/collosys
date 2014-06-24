@@ -1,6 +1,30 @@
 ﻿<form name="performancemanagementForm">
-    <cs-form>
-        <div><h2>Performance management</h2>  {{acccc}}</div>
+    <cs-form >
+        <div layout="6.4.8">
+            <cs-field field="PerformanceModel.Product" ng-model="performanceMgt.Products" ng-change="setParams(performanceMgt.Products)"></cs-field>
+            <div class="col-md-8" data-ng-show="performanceMgt.Products">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Param</td>
+                            <td>Weightage</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="row in ParamList">
+                            <td class="col-md-1">{{row}}</td>
+                            <td class="col-md-4">
+                                <cs-field field="PerformanceModel.Weightage" ng-model="PerformanceParam.Weightage[$index]"
+                                          no-label="true"></cs-field>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-7" data-ng-show="performanceMgt.Products">
+            <cs-button2 type="save" permission="all" on-click="save(Products, PerformanceParam)"></cs-button2>
+            <cs-button2 type="cancel" permission="all" on-click="cancel()"></cs-button2>
+        </div>
     </cs-form>
-    
 </form>
