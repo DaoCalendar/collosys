@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ColloSys.FileUploader.Reflection;
+using ColloSys.FileUploaderService.ExcelReader;
 using ReflectionExtension.ExcelReader;
 
 namespace FileUploader.ExcelReader
@@ -95,20 +96,20 @@ namespace FileUploader.ExcelReader
             }
         }
 
-        public  IExcelReader GetInstance(FileInfo fileInfo)
-        {
+        //public  IExcelReader GetInstance(FileInfo fileInfo)
+        //{
             
-            var file = Path.GetExtension(fileInfo.Name);
-            switch (file)
-            {
-                case ".xlsx":
-                    return _iExcelReader = new EpPlusExcelReader(fileInfo);
-                case ".xls":
-                    return _iExcelReader = new NpOiExcelReader(fileInfo);
-                default:
-                    throw new Exception("Invalid File");
-            }
-        }
+        //    var file = Path.GetExtension(fileInfo.Name);
+        //    switch (file)
+        //    {
+        //        case ".xlsx":
+        //            return _iExcelReader = new EpPlusExcelReader(fileInfo);
+        //        case ".xls":
+        //            return _iExcelReader = new NpOiExcelReader(fileInfo);
+        //        default:
+        //            throw new Exception("Invalid File");
+        //    }
+        //}
 
 
         public static string ReadList(IList<ExcelReaderHelper> list, string propname, int index)

@@ -3,6 +3,7 @@ using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.ExcelReader;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
@@ -28,8 +29,9 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         {
             _uploadedFile = new FileScheduler();
             _mappingData = new FileMappingData();
-            _reader = new NpOiExcelReader(FileInfoForDrillDown);
             _counter = new ExcelRecordCounter();
+
+            _reader = new NpOiExcelReader(FileInfoForDrillDown,_counter);
             _ePaymentExcludeCode = new List<string>();
             _ePaymentExcludeCode = _mappingData.GetTransactionList();
             _rlsPaymentLiner = new RlsPaymentLinerRecordCreator();

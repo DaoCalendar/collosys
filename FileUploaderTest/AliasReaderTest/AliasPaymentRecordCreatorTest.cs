@@ -7,6 +7,7 @@ using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.ExcelReader;
 using ColloSys.FileUploaderService.RecordManager;
 using NSubstitute;
 using NUnit.Framework;
@@ -36,9 +37,10 @@ namespace ReflectionExtension.Tests.AliasReaderTest
             var fileDate = new DateTime();
             var dirPath = "";
             //Arrange
-            _mappingData = new FileDataProvider(fileDate, dirPath);
-            _reader = new NpOiExcelReader(FileInfoForDrillDown);
             _counter = new ExcelRecordCounter();
+
+            _mappingData = new FileDataProvider(fileDate, dirPath);
+            _reader = new NpOiExcelReader(FileInfoForDrillDown,_counter);
             var Scheduler = _mappingData.GetFileScheduler("DrillDown_Txn_1.xls",
                 ColloSysEnums.FileAliasName.E_PAYMENT_LINER);
             record=new Payment();

@@ -1,4 +1,4 @@
-﻿namespace ReflectionExtension.ExcelReader
+﻿namespace ColloSys.FileUploaderService.ExcelReader
 {
     public interface IExcelReader
     {

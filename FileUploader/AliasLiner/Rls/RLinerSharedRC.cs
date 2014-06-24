@@ -36,7 +36,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Rls
             ulong loanNumber;
             if (!ulong.TryParse(Reader.GetValue(AccountPos), out loanNumber))
             {
-                Counter.IncrementIgnoreRecord();
+               // Counter.IncrementIgnoreRecord();
                 return false;
             }
 

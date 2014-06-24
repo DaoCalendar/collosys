@@ -3,6 +3,7 @@ namespace ColloSys.FileUploader.RowCounter
 {
     public class ExcelRecordCounter : ICounter
     {
+        public uint CurrentRow { get; private set; }
         public ulong TotalRecords { get; private set; }
         public uint ErrorRecords { get; private set; }
         public uint ValidRecords { get; private set; }
@@ -13,16 +14,19 @@ namespace ColloSys.FileUploader.RowCounter
         public void IncrementErrorRecords()
         {
             ErrorRecords++;
+            CurrentRow++;
         }
 
         public void IncrementValidRecords()
         {
             ValidRecords++;
+            CurrentRow++;
         }
 
         public void IncrementIgnoreRecord()
         {
             IgnoreRecord++;
+            CurrentRow++;
         }
 
         public void IncrementInsertRecords()

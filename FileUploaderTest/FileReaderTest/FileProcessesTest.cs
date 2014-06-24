@@ -6,6 +6,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.ExcelReader;
 using ColloSys.FileUploaderService.FileReader;
 using ColloSys.FileUploaderService.RecordManager;
 using NHibernate.Tool.hbm2ddl;
@@ -58,7 +59,7 @@ namespace ReflectionExtension.Tests.FileReaderTest
             _fileProcess.UpdateFileScheduler(_fileScheduler, _counter, ColloSysEnums.UploadStatus.DoneWithError);
 
             var fs = new FileScheduler();
-            IExcelReader exreader = SharedUtility.GetInstance(new FileInfo(_fileScheduler.FileDirectory + @"\" + _fileScheduler.FileName));
+            IExcelReader exreader = SharedUtility.GetInstance(new FileInfo(_fileScheduler.FileDirectory + @"\" + _fileScheduler.FileName),_counter);
             //IAliasRecordCreator<Payment> objrecord = new RlsPaymentLinerRecordCreator(_fileScheduler);
            // IRecord<Payment> record = new RecordCreator<Payment>(objrecord, exreader, _counter);
             // RlsPaymentLinerFileReader rls=new RlsPaymentLinerFileReader();

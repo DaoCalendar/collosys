@@ -9,6 +9,7 @@ using ColloSys.FileUploader.AliasFileReader;
 using ColloSys.FileUploaderService.AliasLiner.Ebbs;
 using ColloSys.FileUploaderService.AliasLiner.Rls;
 using ColloSys.FileUploaderService.AliasPayment;
+using ColloSys.FileUploaderService.AliasTextReader;
 using ColloSys.FileUploaderService.AliasWriteOff.Ebbs;
 using ColloSys.FileUploaderService.AliasWriteOff.Rls;
 using ColloSys.FileUploaderService.FileReader;
@@ -55,6 +56,16 @@ namespace ColloSys.FileUploaderService
                 case ColloSysEnums.FileAliasName.R_PAYMENT_LINER:
                     IFileReader<Payment> paymentLiner = new RlsPaymentLinerFileReader(scheduler);
                     paymentLiner.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
+                    IFileReader<Payment> paymentLit = new LitUitFileReader(scheduler); 
+                    paymentLit.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.C_PAYMENT_VISA:
+                    IFileReader<Payment> paymentVmt = new VmtFileReader(scheduler);
+                    paymentVmt.ProcessFile();
                     break;
 
                 case ColloSysEnums.FileAliasName.R_PAYMENT_WO_AEB:

@@ -5,7 +5,7 @@ namespace ColloSys.FileUploaderService.RecordManager
 {
     public interface IRecordCreator<TEntity>
     {
-        bool CreateRecord(IList<FileMapping> mapings, out TEntity obj);
+        bool CreateRecord( out TEntity obj);
 
         IList<TEntity> YesterdayRecords { get; set; }
 

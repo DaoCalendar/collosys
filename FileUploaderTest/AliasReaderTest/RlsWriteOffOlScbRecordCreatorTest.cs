@@ -1,5 +1,6 @@
 ﻿using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.ExcelReader;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;
@@ -20,7 +21,7 @@ namespace ReflectionExtension.Tests.AliasReaderTest
         public void Init()
         {
             _mappingData = new FileMappingData();
-            _excelReader = new NpOiExcelReader(FileInfoForDrillDown);
+            _excelReader = new NpOiExcelReader(FileInfoForDrillDown,_counter);
             //_fileScheduler = _mappingData.GetUploadedFile();
             _counter = new ExcelRecordCounter();
            // _record = new RlsRWriteOffPlScbRecordCreator(_fileScheduler);

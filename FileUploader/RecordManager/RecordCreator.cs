@@ -11,6 +11,7 @@ using ColloSys.FileUploader.Reflection;
 using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.ExcelReader;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -31,7 +32,7 @@ namespace ColloSys.FileUploaderService.RecordManager
         public void Init(FileScheduler fileScheduler, ICounter counter)
         {
             FileScheduler = fileScheduler;
-            Reader = SharedUtility.GetInstance(new FileInfo(FileScheduler.FileDirectory + @"\" + FileScheduler.FileName));
+            Reader = SharedUtility.GetInstance(new FileInfo(FileScheduler.FileDirectory + @"\" + FileScheduler.FileName),counter);
             Counter = counter;
         }
 
@@ -97,30 +98,34 @@ namespace ColloSys.FileUploaderService.RecordManager
             return true;
         }
 
-        public bool CreateRecord(IList<FileMapping> mappingss, out TEntity obj)
+        public bool CreateRecord( out TEntity obj)
         {
             bool excelstatus = false, defaultMap = true, computedMap = true;
 
             obj = GetRecordForUpdate();
 
-            var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, mappingss);
+            var excelType = GetMappings(ColloSysEnums.FileMappingValueType.ExcelValue, FileScheduler.FileDetail.FileMappings);
             if (excelType.Any())
             {
                 if (!CheckBasicField())
+                {
+                    Counter.IncrementIgnoreRecord();
                     return false;
+                }
+             
 
                 excelstatus = ExcelMapper(obj, excelType);
             }
             if (!excelstatus || !IsRecordValid(obj)) return false;
 
-            var defaultType = GetMappings(ColloSysEnums.FileMappingValueType.DefaultValue, mappingss);
+            var defaultType = GetMappings(ColloSysEnums.FileMappingValueType.DefaultValue, FileScheduler.FileDetail.FileMappings);
             var typeDefault = defaultType as FileMapping[] ?? defaultType.ToArray();
             if (typeDefault.Any())
             {
                 defaultMap = DefaultMapper(obj, typeDefault);
             }
 
-            var computedType = GetMappings(ColloSysEnums.FileMappingValueType.ComputedValue, mappingss);
+            var computedType = GetMappings(ColloSysEnums.FileMappingValueType.ComputedValue, FileScheduler.FileDetail.FileMappings);
             var typeComputed = computedType as FileMapping[] ?? computedType.ToArray();
             if (typeComputed.Any())
             {
@@ -135,7 +140,6 @@ namespace ColloSys.FileUploaderService.RecordManager
 
             Counter.IncrementInsertRecords();
             Counter.IncrementValidRecords();
-            Counter.IncrementTotalRecords();
             Reader.NextRow();
             return true;
         }

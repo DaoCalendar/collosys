@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using ColloSys.FileUploader.RowCounter;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 
@@ -9,12 +10,12 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
     {
         private NpOiExcelReader _excel;
         private FileInfo _fileInfo;
-
+        private ICounter counter;
         [SetUp]
         public void Init()
         {
             _fileInfo = new FileInfo("DrillDown_Txn_1.xls");
-            _excel = new NpOiExcelReader(_fileInfo);
+            _excel = new NpOiExcelReader(_fileInfo,counter);
         }
 
         #region:: ColumnWise Test Case ::
@@ -251,7 +252,7 @@ namespace ReflectionExtension.Tests.ExcelReader.Test
         [Test]
         public void Test_Constructor_With_FileInfo()
         {
-            _excel = new NpOiExcelReader(_fileInfo);
+            _excel = new NpOiExcelReader(_fileInfo,counter);
             Assert.AreEqual(_excel.TotalRows, 6);
             Assert.AreEqual(_excel.TotalColumns, 11);
         }

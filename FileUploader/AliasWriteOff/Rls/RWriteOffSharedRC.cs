@@ -54,7 +54,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Rls
             ulong loanNumber;
             if (!ulong.TryParse(Reader.GetValue(AccountPos), out loanNumber))
             {
-                Counter.IncrementIgnoreRecord();
+               // Counter.IncrementIgnoreRecord();
                 _log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountPos)));
                 return false;
             }
