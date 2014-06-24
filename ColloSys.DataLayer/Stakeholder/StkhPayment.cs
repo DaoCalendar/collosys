@@ -19,7 +19,6 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual decimal FixpayGross { get; set; }
         public virtual DateTime StartDate { get; set; }
         public virtual DateTime? EndDate { get; set; }
-        public virtual decimal ServiceCharge { get; set; }
 
         public virtual ColloSysEnums.ApproveStatus ApprovalStatus { get; set; }
         public virtual string ApprovedBy { get; set; }

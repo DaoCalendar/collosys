@@ -186,11 +186,13 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 case 'approve':
                     return datalayer.ApproveStakeholder(stakeObj).then(function (data) {
                         $scope.Stakeholder = data;
+                        $location.path('/stakeholder/view');
                         return $scope.Stakeholder;
                     });
                 case 'reject':
                     return datalayer.RejectStakeholder(stakeObj).then(function (data) {
                         $scope.Stakeholder = data;
+                        $location.path('/stakeholder/view');
                         return $scope.Stakeholder;
                     });
                 default:

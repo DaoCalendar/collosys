@@ -254,7 +254,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
     var parseBuckets = function (workList) {
         _.forEach(workList, function (work) {
-            work.Buckets = JSON.parse(work.Buckets);
+            if (!$csfactory.isNullOrEmptyString(work.Buckets))
+                work.Buckets = JSON.parse(work.Buckets);
         });
     };
 
@@ -489,9 +490,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
             return datalayer.SaveWorking(workList).then(function (data) {
                 $scope.workingDetailsList = data.WorkList;
+                //if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
                 factory.ParseBuckets($scope.workingDetailsList);
                 factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
                 return "";
             });
         };
@@ -532,11 +533,12 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                     factory.SetReportsToName(data, $scope.reportsToStakes);
                     $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                    $csnotify("Workings Approved");
+                    $csnotify("Workings Approved"); J
                     return $scope.workingDetailsList;
                 case 'payment':
                     $scope.Payment = data;
                     $csnotify("Payment Approved");
+                    $scope.gotoView();
                     return $scope.Payment;
                 default:
                     throw "invalid param " + param;
