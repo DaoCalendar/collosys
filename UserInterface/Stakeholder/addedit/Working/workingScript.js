@@ -6,7 +6,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     var getReportsTo = function (stake, product) {
         return restApi.customGET('GetWorkingReportsTo', {
             'id': stake.Hierarchy.Id,
-            'level': stake.Hierarchy.ReportingLevel,
+            'level': stake.Hierarchy.WorkingReportsLevel,
             'product': product
         }).then(function (data) {
             return data;
@@ -490,7 +490,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
             return datalayer.SaveWorking(workList).then(function (data) {
                 $scope.workingDetailsList = data.WorkList;
-                //if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
+                if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
                 factory.ParseBuckets($scope.workingDetailsList);
                 factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
                 return "";
