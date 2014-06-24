@@ -1,7 +1,7 @@
-﻿<form >
+﻿<form>
     <div class="panel panel-default">
         <div class="panel-heading">Add/Edit Stakeholder</div>
-        <div class="panel-body" data-ng-form="basicInfoForm">
+        <div class="panel-body" data-ng-if="showForm" data-ng-form="basicInfoForm">
             <cs-form mode="formMode">
                 <div data-ng-show="hierarchyDisplayList">
                     <cs-field data-ng-model="selectedHier.Hierarchy"

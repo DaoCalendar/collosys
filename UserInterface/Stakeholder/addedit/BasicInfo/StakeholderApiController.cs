@@ -67,12 +67,17 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
         {
             var stkh = StakeQuery.Get(stakeholder.Id);
-            if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
+            if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved || stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
             {
-                return Request.CreateResponse(HttpStatusCode.OK,
-                    ColloSysEnums.ApproveStatus.Approved.ToString());
+                stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
+                //return Request.CreateResponse(HttpStatusCode.OK,
+                //    ColloSysEnums.ApproveStatus.Approved.ToString());
             }
-            stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+            else
+            {
+                stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+
+            }
             StakeQuery.Save(stkh);
 
             if (!string.IsNullOrWhiteSpace(stkh.ExternalId))
@@ -83,7 +88,7 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             }
 
             return Request.CreateResponse(HttpStatusCode.OK,
-                ColloSysEnums.ApproveStatus.Approved.ToString());
+                stkh);
         }
 
         [HttpPost]
@@ -98,7 +103,7 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
             StakeQuery.Save(stkh);
             return Request.CreateResponse(HttpStatusCode.OK,
-                ColloSysEnums.ApproveStatus.Rejected.ToString());
+                stkh);
         }
 
     }

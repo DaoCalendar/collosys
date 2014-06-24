@@ -137,6 +137,7 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             };
             $scope.selectedHier = {};
             $scope.Stakeholder = {};
+            $scope.showForm = true;
         };
 
         var initdata = function (data) {
@@ -184,11 +185,13 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
             switch (status) {
                 case 'approve':
                     return datalayer.ApproveStakeholder(stakeObj).then(function (data) {
-                        return $scope.Stakeholder = data;
+                        $scope.Stakeholder = data;
+                        return $scope.Stakeholder;
                     });
                 case 'reject':
                     return datalayer.RejectStakeholder(stakeObj).then(function (data) {
-                        return $scope.Stakeholder = data;
+                        $scope.Stakeholder = data;
+                        return $scope.Stakeholder;
                     });
                 default:
                     throw "invalid approval status";

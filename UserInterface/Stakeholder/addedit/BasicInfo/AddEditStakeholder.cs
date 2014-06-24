@@ -17,7 +17,15 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
     {
         public static void SetStakeholderObj(Stakeholders data)
         {
-            data.ApprovalStatus = ColloSysEnums.ApproveStatus.Submitted;
+            if (data.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
+                data.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
+            {
+                data.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
+            }
+            else
+            {
+                data.ApprovalStatus = ColloSysEnums.ApproveStatus.Submitted;
+            }
             //add stakeholder reference in address
             foreach (var address in data.StkhAddress)
             {

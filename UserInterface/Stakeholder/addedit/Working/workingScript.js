@@ -214,8 +214,8 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
         var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
         _.forEach(multiSelectList, function (location) {
-
             workingModel.SelectedPincodeData[locLevel] = location;
+            workingModel.SelectedPincodeData.Buckets = JSON.stringify(workingModel.SelectedPincodeData.Buckets);
             workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
         });
         return workingDetailsList;
@@ -314,7 +314,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
                     filteredList.push(work);
                 }
             }
-            else {
+            else if(work.Status!=='Rejected'){
                 filteredList.push(work);
             }
         });
@@ -413,7 +413,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 Buckets: []
             };
             $scope.showPayment = true;
-            $scope.bucketList = ["1", "2", "3", "4", "5", "6"];
+            $scope.bucketList = [1,2,3,4,5,6];
 
             //TODO: move this to a function & call that function from here
             $routeParams.editStakeId

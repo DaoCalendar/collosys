@@ -152,11 +152,6 @@ namespace AngularUI.Stakeholder.addedit.Working
             var stkh = StakeQueryBuilder.OnId(stakeholder.Id);
             foreach (var stkhWorking in stkh.StkhWorkings)
             {
-                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Approved)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK,
-                        ColloSysEnums.ApproveStatus.Approved.ToString());
-                }
                 stkhWorking.Status = ColloSysEnums.ApproveStatus.Rejected;
             }
 
