@@ -1,19 +1,17 @@
 ﻿csapp.factory("PerformanceManagemnetDatalayer", ["Restangular", function (rest) {
 
-    var dldata = {};
-    var restapi = rest.all("");
+    var restapi = rest.all("PerformanceManagementApi");
 
-    var save = function(performanceMgt) {
-        return restapi.customPOST("Saveperformanace", performanceMgt);
+    var save = function (performanceMgt) {
+        return restapi.customPOST(performanceMgt, "Saveperformanace");
     };
 
     return {
-        dldata: dldata,
-        Save:save
+        Save: save
     };
 }]);
 
-csapp.controller("PerformanaceManagementCtrl", ["$scope", "PerformanceManagemnetDatalayer", "$csShared", function ($scope, datalayer, $csShared) {
+csapp.controller("PerformanaceManagementCtrl", ["$scope", "PerformanceManagemnetDatalayer", "$csShared", "$csnotify", function ($scope, datalayer, $csShared, $csnotify) {
 
     (function () {
         $scope.PerformanceModel = {
@@ -27,28 +25,43 @@ csapp.controller("PerformanaceManagementCtrl", ["$scope", "PerformanceManagemnet
             Products: ""
         };
         $scope.PerformanceParam = {
-            Param:[],
+            Param: [],
             Weightage: []
         };
     })();
 
 
     $scope.save = function (performanceParam) {
-        performanceParam.Param = $scope.ParamList;
-        for (var i = 0; i < performanceParam.Param.length; i++) {
-            var item = {
-                Param: performanceParam.Param[i],
-                Weightage: performanceParam.Weightage[i]
-            };
-            $scope.performanceMgt.PerformanceParamses.push(item);
-        }
-        return datalayer.Save($scope.performanceMgt).then(function (data) {
-            
+        var sum = 0;
+        _.forEach(performanceParam.Weightage, function (row) {
+            sum = sum + row;
         });
+        if (sum === 100) {
+            performanceParam.Param = $scope.ParamList;
+            for (var i = 0; i < performanceParam.Param.length; i++) {
+                var item = {
+                    Param: performanceParam.Param[i],
+                    Weightage: performanceParam.Weightage[i]
+                };
+                $scope.performanceMgt.PerformanceParamses.push(item);
+            }
+            return datalayer.Save($scope.performanceMgt).then(function (data) {
+                $scope.performanceMgt = {};
+                $csnotify.success("Performance Saved.....!!");
+            });
 
-
+        } else {
+            $csnotify.success("Total weightage should be exact 100%");
+        }
     };
 
+    $scope.cancel = function() {
+        $scope.performanceMgt = {};
+        $scope.PerformanceParam = {
+            Param: [],
+            Weightage: []
+        };
+    };
     $scope.setParams = function (product) {
         switch (product) {
             case 'AUTO':
@@ -63,8 +76,26 @@ csapp.controller("PerformanaceManagementCtrl", ["$scope", "PerformanceManagemnet
             case 'CC':
                 $scope.ParamList = $csShared.enums.Param_CC;
                 break;
-            default:
-                $scope.ParamList = ["SME_ME_Param1", "SME_ME_Param2", "SME_ME_Param3", "SME_ME_Param4"];
+            case 'PL':
+                $scope.ParamList = $csShared.enums.Param_PL;
+                break;
+            case 'SMC':
+                $scope.ParamList = $csShared.enums.Param_SMC;
+                break;
+            case 'SME_BIL':
+                $scope.ParamList = $csShared.enums.Param_SME_BIL;
+                break;
+            case 'SME_LAP':
+                $scope.ParamList = $csShared.enums.Param_SME_LAP;
+                break;
+            case 'SME_LAP_OD':
+                $scope.ParamList = $csShared.enums.Param_SME_LAP_OD;
+                break;
+            case 'SME_ME':
+                $scope.ParamList = $csShared.enums.Param_SME_ME;
+                break;
+           default:
+                $scope.ParamList = [];
         }
 
     };

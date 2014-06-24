@@ -73,8 +73,8 @@ namespace AngularUI.Shared.webapis
             string[] plParams = { "PL_Param1", "PL_Param2", "PL_Param3", "PL_Param4"};
             list.AddToList("Param_PL", new List<string>(plParams));
 
-            string[] smeParams = { "SME_Param1", "SME_Param2", "SME_Param3", "SME_Param4" };
-            list.AddToList("Param_SME", new List<string>(smeParams));
+            string[] smcParams = { "SMC_Param1", "SMC_Param2", "SMC_Param3", "SMC_Param4" };
+            list.AddToList("Param_SMC", new List<string>(smcParams));
 
             string[] smebilParams = { "SME_BIL_Param1", "SME_BIL_Param2", "SME_BIL_Param3"};
             list.AddToList("Param_SME_BIL", new List<string>(smebilParams));
