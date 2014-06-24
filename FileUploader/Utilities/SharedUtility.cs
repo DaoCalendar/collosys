@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.ExcelReader;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.Utilities
@@ -27,7 +29,7 @@ namespace ColloSys.FileUploader.Utilities
                      throw new Exception("Invalid File");
              }
          }
-         public static IExcelReader GetInstance(FileInfo fileInfo)
+         public static IExcelReader GetInstance(FileInfo fileInfo,ICounter counter)
          {
              var file = Path.GetExtension(fileInfo.Name);
              switch (file)
@@ -35,7 +37,7 @@ namespace ColloSys.FileUploader.Utilities
                  case ".xlsx":
                      return _iExcelReader = new EpPlusExcelReader(fileInfo);
                  case ".xls":
-                     return _iExcelReader = new NpOiExcelReader(fileInfo);
+                     return _iExcelReader = new NpOiExcelReader(fileInfo,counter);
                  default:
                      throw new Exception("Invalid File");
              }

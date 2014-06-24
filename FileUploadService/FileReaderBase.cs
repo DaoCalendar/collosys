@@ -29,7 +29,7 @@ namespace ColloSys.FileUploadService
 {
     public class FileReaderBase : IFileReader
     {
-        private static readonly Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #region interface - properties
 
@@ -96,7 +96,7 @@ namespace ColloSys.FileUploadService
             //{
             //    FileDateList.Add(UploadedFile.FileDate.Date);
             //}
-            ReaderNeeds = reader;
+            ReaderNeeds = reader; 
 
             Properties = properties;
 
@@ -115,46 +115,46 @@ namespace ColloSys.FileUploadService
                 throw new InvalidProgramException("Please call Initialize method before uploading the file.");
             }
 
-            _logger.Info("FileReaderBase: validating file :" + GetInputFile.Name);
+            Logger.Info("FileReaderBase: validating file :" + GetInputFile.Name);
             string errorMessage;
             if (!IsFileValid(out errorMessage) || !ReaderNeeds.ReadFile(out errorMessage))
             {
                 UploadedFile.StatusDescription = errorMessage;
                 UploadedFile.UploadStatus = ColloSysEnums.UploadStatus.Error;
                 GetDataLayer.ChangeStatus(UploadedFile);
-                _logger.Error("FileReaderBase: file is not valid. reason : " + errorMessage);
+                Logger.Error("FileReaderBase: file is not valid. reason : " + errorMessage);
                 return;
             }
 
-            _logger.Info("FileReaderBase: uploading file : " + UploadedFile.FileName);
+            Logger.Info("FileReaderBase: uploading file : " + UploadedFile.FileName);
 
             while (!ReaderNeeds.HasEofReached())
             {
-                _logger.Info(string.Format("BatchProcessing : Starting with next batch."));
+                Logger.Info(string.Format("BatchProcessing : Starting with next batch."));
 
                 ReaderNeeds.EnqueueRowList();
-                _logger.Info(string.Format("BatchProcessing : EnqueueRowList() Done."));
+                Logger.Info(string.Format("BatchProcessing : EnqueueRowList() Done."));
                 ReaderNeeds.SaveRowList(out errorMessage);
-                _logger.Info(string.Format("BatchProcessing : SaveRowList() Done."));
+                Logger.Info(string.Format("BatchProcessing : SaveRowList() Done."));
                 ReaderNeeds.SaveErrorTable();
-                _logger.Info(string.Format("BatchProcessing : SaveErrorTable() Done."));
+                Logger.Info(string.Format("BatchProcessing : SaveErrorTable() Done."));
 
-                _logger.Debug(string.Format("BatchProcessing : Record Status : {0}", Counter.GetRecordStatusAsString()));
+                Logger.Debug(string.Format("BatchProcessing : Record Status : {0}", Counter.GetRecordStatusAsString()));
             }
 
-            _logger.Info(string.Format("BatchProcessing : PostProcessing Start"));
+            Logger.Info(string.Format("BatchProcessing : PostProcessing Start"));
             UploadedFile.UploadStatus = ColloSysEnums.UploadStatus.PostProcessing;
             GetDataLayer.ChangeStatus(UploadedFile);
             ReaderNeeds.PostProcesing();
-            _logger.Info(string.Format("BatchProcessing : PostProcessing() Done"));
+            Logger.Info(string.Format("BatchProcessing : PostProcessing() Done"));
 
-            _logger.Info("ReadFile: Retry error record.");
+            Logger.Info("ReadFile: Retry error record.");
             ReaderNeeds.RetryErrorRows();
 
-            _logger.Info("ReadFile: saving the error table.");
+            Logger.Info("ReadFile: saving the error table.");
             SaveDoneStatus();
 
-            _logger.Info("ReadFile: send status mail");
+            Logger.Info("ReadFile: send status mail");
             //SendStatusMail(UploadedFile);
             
         }
@@ -180,7 +180,7 @@ namespace ColloSys.FileUploadService
 
                 if (fileScheduler == null)
                 {
-                    _logger.Fatal("FileStatus: DownloadFile: no file scheduler entry found.");
+                    Logger.Fatal("FileStatus: DownloadFile: no file scheduler entry found.");
                     throw new InvalidDataException("No such file found.");
                 }
 
@@ -191,13 +191,13 @@ namespace ColloSys.FileUploadService
             }
             catch (Exception exception)
             {
-                _logger.ErrorException("SendStatusMail :", exception);
+                Logger.ErrorException("SendStatusMail :", exception);
             }
         }
 
         private void SaveDoneStatus()
         {
-            _logger.Info("ReadFile: updating the file status to Done.");
+            Logger.Info("ReadFile: updating the file status to Done.");
             GetDataLayer.SetDoneStatus(UploadedFile, Counter);
         }
 
@@ -211,19 +211,19 @@ namespace ColloSys.FileUploadService
             IList result;
             try
             {
-                _logger.Info(string.Format("FileStatus: DownloadFile: download data for {0}."
+                Logger.Info(string.Format("FileStatus: DownloadFile: download data for {0}."
                                            , fileScheduler.FileDetail.ActualTable));
                 var session = SessionManager.GetCurrentSession();
                 var criteria = session.CreateCriteria(uploadableentity.GetType(), entityName);
                 criteria.CreateCriteria(fileschdulerName, fileschdulerName, JoinType.InnerJoin);
                 criteria.Add(Restrictions.Eq(string.Format("{0}.{1}.Id", entityName, fileschdulerName), fileScheduler.Id));
-                _logger.Info("FileStatus: DownloadFile: criteria =>" + criteria);
+                Logger.Info("FileStatus: DownloadFile: criteria =>" + criteria);
                 result = criteria.List();
-                _logger.Fatal("FileStatus: DownloadFile: total rows to write in excel : " + result.Count);
+                Logger.Fatal("FileStatus: DownloadFile: total rows to write in excel : " + result.Count);
             }
             catch (HibernateException exception)
             {
-                _logger.ErrorException("Error occured while executing command : " + exception.Data, exception);
+                Logger.ErrorException("Error occured while executing command : " + exception.Data, exception);
                 throw new Exception("NHibernate Error : " + (exception.InnerException != null
                                                                  ? exception.InnerException.Message
                                                                  : exception.Message));
@@ -233,7 +233,7 @@ namespace ColloSys.FileUploadService
             var filename = Regex.Replace(fileScheduler.FileName.Substring(16), @"[^\w]", "_");
             var outputfilename = string.Format("output_{0}_{1}.xlsx", filename, DateTime.Now.ToString("HHmmssfff"));
             var file = new FileInfo(Path.GetTempPath() + outputfilename);
-            _logger.Info(string.Format("FileStatus: DownloadFile: generating file from {0} for {1}, date {2}"
+            Logger.Info(string.Format("FileStatus: DownloadFile: generating file from {0} for {1}, date {2}"
                     , entityName, fileScheduler.Id, fileScheduler.FileDate.ToShortDateString()));
             try
             {
@@ -245,7 +245,7 @@ namespace ColloSys.FileUploadService
             }
             catch (Exception exception)
             {
-                _logger.ErrorException("FileStatus : could not generate excel. ", exception);
+                Logger.ErrorException("FileStatus : could not generate excel. ", exception);
                 throw new ExternalException("Could not generate excel. " + exception.Message);
             }
 
