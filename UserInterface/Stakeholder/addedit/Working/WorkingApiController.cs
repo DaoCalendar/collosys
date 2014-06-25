@@ -7,14 +7,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
-using AngularUI.Stakeholder.addedit.BasicInfo;
 using AngularUI.Stakeholder.view;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
 using NHibernate.Linq;
-using NHibernate.Mapping;
 
 #endregion
 
@@ -131,7 +129,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage ApproveWorking(StkhId stakeholder)
         {
-            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
 
             foreach (var stkhWorking in stkh.StkhWorkings
                                             .Where(
@@ -158,7 +156,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage ApprovePayment(StkhId stakeholder)
         {
-            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
             if (stkh.StkhPayments[0] != null &&
                 stkh.StkhPayments[0].ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
             {
@@ -172,7 +170,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage RejectWorking(StkhId stakeholder)
         {
-            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
 
             foreach (var stkhWorking in stkh.StkhWorkings)
             {
@@ -188,7 +186,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage RejectPayment(StkhId stakeholder)
         {
-            var stkh = StakeQueryBuilder.GetStakeWithWorkings(stakeholder.Id);
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
             if (stkh.StkhPayments[0] != null)
             {
                 stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
