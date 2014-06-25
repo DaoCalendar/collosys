@@ -159,6 +159,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
             AddDeveloperActivities(developer);
 
+            var performanceParam = AddActivity(root, ColloSysEnums.Activities.PerformanceParameter);
+            AddDeveloperActivities(performanceParam);
+
             var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
             AddDeveloperActivities(legal);
 

@@ -58,35 +58,8 @@ namespace AngularUI.Shared.webapis
             string[] vertical = { "Field", "Telecalling", "BackOffice" };
             list.AddToList("Vertical", new List<string>(vertical));
 
-            string[] autoParams = { "AUTO_Param1", "AUTO_Param2", "AUTO_Param3", "AUTO_Param4"};
-            list.AddToList("Param_Auto", new List<string>(autoParams));
-
-            string[] autoOdParams = { "AUTO_OD_Param1", "AUTO_OD_Param2", "AUTO_OD_Param3" };
-            list.AddToList("Param_Auto_OD", new List<string>(autoOdParams));
-
-            string[] ccParams = { "CC_Param1", "CC_Param2", "CC_Param3", "CC_Param4" };
-            list.AddToList("Param_CC", new List<string>(ccParams));
-
-            string[] mortParams = { "MORT_Param1", "MORT_Param2", "MORT_Param3"};
-            list.AddToList("Param_MORT", new List<string>(mortParams));
-
-            string[] plParams = { "PL_Param1", "PL_Param2", "PL_Param3", "PL_Param4"};
-            list.AddToList("Param_PL", new List<string>(plParams));
-
-            string[] smcParams = { "SMC_Param1", "SMC_Param2", "SMC_Param3", "SMC_Param4" };
-            list.AddToList("Param_SMC", new List<string>(smcParams));
-
-            string[] smebilParams = { "SME_BIL_Param1", "SME_BIL_Param2", "SME_BIL_Param3"};
-            list.AddToList("Param_SME_BIL", new List<string>(smebilParams));
-
-            string[] smeLapParams = { "SME_LAP_Param1", "SME_LAP_Param2", "SME_LAP_Param3", "SME_LAP_Param4" };
-            list.AddToList("Param_SME_LAP", new List<string>(smeLapParams));
-
-            string[] smeLapOdParams = { "SME_LAP_OD_Param1", "SME_LAP_OD_Param2"};
-            list.AddToList("Param_SME_LAP_OD", new List<string>(smeLapOdParams));
-
-            string[] smeMeParams = { "SME_ME_Param1", "SME_ME_Param2", "SME_ME_Param3", "SME_ME_Param4" };
-            list.AddToList("Param_SME_ME", new List<string>(smeMeParams));
+            string[] performance = { "Pram_1", "Pram_2", "Pram_3", "Pram_4", "Pram_5" };
+            list.AddToList("PerformanceParam", new List<string>(performance));
 
         }
 

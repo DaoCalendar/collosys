@@ -108,7 +108,6 @@ namespace AngularUI.Generic.Menu
             var user = menu.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
             user.AddChild("Leave Management", new[] { ColloSysEnums.Activities.User }, "#/generic/stkhleave");
-            user.AddChild("Performance Management", new[] { ColloSysEnums.Activities.User }, "#/generic/performancemanagement");
             user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User }, "#/generic/changepassword");
             user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
 
@@ -118,6 +117,9 @@ namespace AngularUI.Generic.Menu
             devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
             devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
 
+            var performanceParam = menu.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#", "fa-question-circle");
+            performanceParam.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#/performanceparameter");
+           
             var legal = menu.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
             legal.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequisitionPreparation");
             legal.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequsitionIntiation");

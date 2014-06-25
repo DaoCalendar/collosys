@@ -50,9 +50,6 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/stkhleave', {
                 templateUrl: baseUrl + 'Generic/stkhleave/StkhLeave.html',
                 controller: 'StkhLeaveManagementCtrl'
-            }).when('/generic/performancemanagement', {
-                templateUrl: baseUrl + 'Generic/performancemanagement/PerformanaceManagement.html',
-                controller: 'PerformanaceManagementCtrl'
             })
 
             //file upload
@@ -276,6 +273,12 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/developer/queryexecuter', {
                 templateUrl: baseUrl + 'Developer/queryexecuter/query-executer.html',
                 controller: 'queryExecuterController'
+            })
+
+            //PerformanaceParameter
+            .when('/performanceparameter', {
+                templateUrl: baseUrl + 'performanceparameter/PerformanaceParams.html',
+                controller: 'PerformanaceParameterCtrl'
             })
 
             //otherwise

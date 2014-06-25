@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using ColloSys.DataLayer.BaseEntity;
 
-namespace ColloSys.DataLayer.Generic
+namespace ColloSys.DataLayer.PerformanceParameter
 {
-   public class PerformanceParamsMap:EntityMap<PerformanceParams>
-    {
+   public  class PerformanceParamsMap:EntityMap<PerformanceParams>
+   {
        public PerformanceParamsMap()
        {
            Property(x => x.Param);
            Property(x => x.Weightage);
-           ManyToOne(x => x.PerformanceManagement, map => map.NotNullable(true));
+           Property(x => x.Products);
        }
-    }
+   }
 }
