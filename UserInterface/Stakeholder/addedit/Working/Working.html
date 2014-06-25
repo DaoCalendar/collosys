@@ -1,5 +1,8 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">Working Details</div>
+    <div class="panel-heading">
+        <span>Working Details</span>
+        <span class="pull-right">{{currStakeholder.Name}} ({{selectedHierarchy.Hierarchy}} / {{selectedHierarchy.Designation}})</span>
+    </div>
     <div class="panel-body">
         <cs-form>
             <form>
@@ -222,7 +225,10 @@
 
 <div class="clearfix"></div>
 <div class="panel panel-default" data-ng-if="selectedHierarchy.HasPayment">
-    <div class="panel-heading">Payment Details</div>
+    <div class="panel-heading">
+        <span>Payment Details</span>
+        <span class="pull-right">{{currStakeholder.Name}} ({{selectedHierarchy.Hierarchy}} / {{selectedHierarchy.Designation}})</span>
+    </div>
     <div class="panel-body" data-ng-if="showPayment">
         <cs-form mode="paymentMode">
                 <div data-ng-form="paymentForm">
