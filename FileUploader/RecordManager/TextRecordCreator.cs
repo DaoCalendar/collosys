@@ -4,6 +4,8 @@ using System.IO;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.DbLayer;
+using NLog;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
@@ -13,7 +15,8 @@ namespace ColloSys.FileUploaderService.RecordManager
         public FileScheduler FileScheduler;
         public ICounter Counter;
         public StreamReader InpuStreamReader;
-
+        protected readonly IDbLayer DbLayer = new DbLayer.DbLayer();
+        public readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public void Init(FileScheduler fileScheduler, ICounter counter)
         {
             var info = new FileInfo(fileScheduler.FileDirectory + @"\" + fileScheduler.FileName);
@@ -51,6 +54,9 @@ namespace ColloSys.FileUploaderService.RecordManager
 
        public void InitPreviousDayLiner(FileScheduler fileScheduler)
        {
+           //if (HasMultiDayComputation)
+           //    YesterdayRecords = DbLayer.GetDataForPreviousDay<TEntity>(fileScheduler.FileDetail.AliasName,
+           //       fileScheduler.FileDate, fileScheduler.FileDetail.FileCount);
 
        }
 

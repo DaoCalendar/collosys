@@ -16,5 +16,6 @@
         void IncrementInsertRecords();
         void IncrementDuplicateRecords();
         void IncrementTotalRecords();
+        void IncrementLineNo();
     }
 }

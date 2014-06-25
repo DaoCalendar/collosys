@@ -43,5 +43,10 @@ namespace ColloSys.FileUploader.RowCounter
         {
             TotalRecords++;
         }
+
+        public void IncrementLineNo()
+        {
+            CurrentRow++;
+        }
     }
 }

@@ -169,6 +169,16 @@ namespace ColloSys.FileUploaderService
                     var elinerOdSme = new EbbsLinerOdSmeFR(scheduler);
                     elinerOdSme.ProcessFile();
                     break;
+
+                case ColloSysEnums.FileAliasName.C_LINER_COLLAGE:
+                    IFileReader<CLiner> paymentCollage = new CCollageFileReader(scheduler);
+                    paymentCollage.ProcessFile();
+                    break;
+
+                case ColloSysEnums.FileAliasName.C_LINER_UNBILLED:
+                    IFileReader<CUnbilled> paymentUnBilled = new CUnBilledFileReader(scheduler);
+                    paymentUnBilled.ProcessFile();
+                    break;
                 #endregion
 
 
