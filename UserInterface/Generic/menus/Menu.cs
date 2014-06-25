@@ -48,7 +48,7 @@ namespace AngularUI.Generic.Menu
         {
             var menu = new Menu { Title = "Home" };
 
-            var home = menu.AddChild("Home", new[] { ColloSysEnums.Activities.Home }, "#/generic/home", "fa-home");
+            var home = menu.AddChild("Home", new[] { ColloSysEnums.Activities.User }, "#/generic/home", "fa-home");
             var logout = menu.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout", "fa-lock");
             var fileUpload = menu.AddChild("File Upload", new[] { ColloSysEnums.Activities.FileUploader }, "#", "fa-cloud-upload");
             fileUpload.AddChild("File Detail", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filedetail");
