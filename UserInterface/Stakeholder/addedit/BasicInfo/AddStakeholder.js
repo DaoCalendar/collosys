@@ -224,8 +224,6 @@ csapp.controller("AddStakeHolderCtrl", ['$scope', '$log', '$csfactory', "$locati
                 return (item.Hierarchy === hierarchy);
             });
             $scope.DesignationList = _.sortBy(hierarchies, 'PositionLevel');
-            console.log('DesignationList: ', $scope.DesignationList);
-            console.log('HierarchyList: ', $scope.HierarchyList);
         };
 
         $scope.assignSelectedHier = function (designation, form) {

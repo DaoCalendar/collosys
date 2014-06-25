@@ -212,13 +212,44 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             workingModel.SelectedPincodeData[locLevel] = [];
             workingModel.SelectedPincodeData[locLevel].push('India');
         }
-
+        checkSelectAll(workingModel, locLevel);
         var multiSelectList = angular.copy(workingModel.SelectedPincodeData[locLevel]);
         _.forEach(multiSelectList, function (location) {
             workingModel.SelectedPincodeData[locLevel] = location;
             workingDetailsList.push(angular.copy(workingModel.SelectedPincodeData));
         });
         return workingDetailsList;
+    };
+    var checkSelectAll = function (workingModel, locLevel) {
+        if (workingModel.SelectedPincodeData[locLevel].length === getLength(workingModel, locLevel)) {
+            workingModel.SelectedPincodeData[locLevel] = [];
+            workingModel.SelectedPincodeData[locLevel].push('ALL');
+        }
+    };
+    var getLength = function (workingModel, locLevel) {
+        var listName = getListName(locLevel);
+        if (angular.isUndefined(listName)) return 0;
+        return angular.isUndefined(workingModel[listName]) ? 0 : workingModel[listName].length;
+    };
+    var getListName = function (locLevel) {
+        switch (locLevel.toUpperCase()) {
+            case "COUNTRY":
+                return "ListOfCountries";
+            case "REGION":
+                return "ListOfRegions";
+            case "STATE":
+                return "ListOfStates";
+            case "CLUSTER":
+                return "ListOfClusters";
+            case "DISTRICT":
+                return "ListOfDistricts";
+            case "CITY":
+                return "ListOfCities";
+            case "AREA":
+                return "ListOfAreas";
+            default:
+                throw "invalid location level";
+        }
     };
 
     var getReportsToName = function (id, list) {
@@ -321,7 +352,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
                 filteredList.push(work);
             }
         });
-        console.log("filteredList: ", filteredList);
         return filteredList;
     };
 
@@ -394,18 +424,19 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var getStakeholderData = function (stakeId) {
             datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
-                $scope.formMode = 'add';
-                $scope.paymentMode = 'add';
+                if (angular.isDefined($routeParams.editStakeId)) {
+                    $scope.formMode = 'view';
+                    $scope.paymentMode = 'view';
+                } else {
+                    $scope.formMode = 'add';
+                    $scope.paymentMode = 'add';
+                }
             });
         };
 
-        var getStakeholderForEdit = function (stakeId) {
-            datalayer.GetStakeholder(stakeId).then(function (data) {
-                setData(data);
-
-                $scope.formMode = 'view';
-                $scope.paymentMode = 'view';
-            });
+        var getStakeData = function () {
+            angular.isDefined($routeParams.editStakeId) ? getStakeholderData($routeParams.editStakeId)
+               : getStakeholderData($routeParams.stakeId);
         };
 
         (function () {
@@ -418,10 +449,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             };
             $scope.showPayment = true;
             $scope.bucketList = [1, 2, 3, 4, 5, 6];
-            $routeParams.editStakeId
-                ? getStakeholderForEdit($routeParams.editStakeId)
-                : getStakeholderData($routeParams.stakeId);
-
+            getStakeData();
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
             $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
@@ -481,6 +509,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.workingDetailsList = factory.GetWorkingDetailsList(workingModel, locLevel, $scope.workingDetailsList);
             factory.SetReportsToName($scope.workingDetailsList, $scope.reportsToList);
             workingModel.SelectedPincodeData[locLevel] = [];
+            workingModel.SelectedPincodeData.Buckets = [];
         };
 
         $scope.save = function (workList) {
@@ -548,9 +577,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.deleteSelectedWorking = function (endDate) {
             factory.SetEndDate($scope.deleteWorkingList, endDate);
             factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);
-            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function () {
-                getStakeholderForEdit($routeParams.editStakeId);
-            });
+            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function () { getStakeData(); });
             $scope.deleteWorkingList = [];
         };
 
@@ -626,6 +653,16 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
     }
 ]);
+
+
+
+//var getStakeholderForEdit = function (stakeId) {
+//    datalayer.GetStakeholder(stakeId).then(function (data) {
+//        setData(data);
+
+
+//    });
+//};
 
 
 
