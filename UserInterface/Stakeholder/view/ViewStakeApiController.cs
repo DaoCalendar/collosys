@@ -69,6 +69,5 @@ namespace AngularUI.Stakeholder.view
     public class StkhId
     {
         public Guid Id { get; set; }
-        public string SetStatusFor { get; set; }
     }
 }

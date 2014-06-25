@@ -1,5 +1,4 @@
-﻿
-csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($csnotify, rest) {
+﻿csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($csnotify, rest) {
 
     var restApi = rest.all('WorkingApi');
 
@@ -8,8 +7,6 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
             'id': stake.Hierarchy.Id,
             'level': stake.Hierarchy.WorkingReportsLevel,
             'product': product
-        }).then(function (data) {
-            return data;
         });
     };
 
@@ -21,17 +18,11 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var getPincodeData = function (workingModel) {
-        return restApi.customPOST(workingModel, 'GetPincodeData')
-          .then(function (data) {
-              return data;
-          });
+        return restApi.customPOST(workingModel, 'GetPincodeData');
     };
 
     var getGPincodeData = function (workingModel) {
-        return restApi.customPOST(workingModel, 'GetGPincodeData')
-            .then(function (data) {
-                return data;
-            });
+        return restApi.customPOST(workingModel, 'GetGPincodeData');
     };
 
     var savePayment = function (paymentData) {
@@ -42,9 +33,7 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var getSalaryDetails = function (paymentIds) {
-        return restApi.customPOST(paymentIds, "GetSalaryDetails").then(function (sal) {
-            return sal;
-        });
+        return restApi.customPOST(paymentIds, "GetSalaryDetails");
     };
 
     var saveWorking = function (workData) {
@@ -55,21 +44,27 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
     };
 
     var deleteWorkingList = function (list) {
-        return restApi.customPOST(list, "DeleteWorking").then(function (remainingWorkings) {
-            return remainingWorkings;
-        });
+        return restApi.customPOST(list, "DeleteWorking");
     };
 
     var approveWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'ApproveStakeholder').then(function (data) {
+        return restApi.customPOST(stakeObj, 'ApproveWorking');
+    };
 
+    var approvePayment = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'ApprovePayment');
+    };
+
+    var rejectWorkings = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'RejectWorking').then(function (data) {
+            $csnotify.success('Workings Rejected');
             return data;
         });
     };
 
-    var rejectWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectStakeholder').then(function (data) {
-            $csnotify.success('Workings Rejected');
+    var rejectPayment = function (stakeObj) {
+        return restApi.customPOST(stakeObj, 'RejectWorking').then(function (data) {
+            $csnotify.success('Payment Rejected');
             return data;
         });
     };
@@ -84,7 +79,9 @@ csapp.factory("StakeWorkingDatalayer", ["$csnotify", "Restangular", function ($c
         GetSalaryDetails: getSalaryDetails,
         DeleteWorkingList: deleteWorkingList,
         ApproveWorkings: approveWorkings,
-        RejectWorkings: rejectWorkings
+        ApprovePayment: approvePayment,
+        RejectWorkings: rejectWorkings,
+        RejectPayment: rejectPayment
     };
 }]);
 
@@ -538,17 +535,31 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.setApprovalStatus = function (id, status, param) {
             var stakeObj = {
                 Id: id,
-                setStatusFor: param
             };
             switch (status) {
                 case 'approve':
-                    return datalayer.ApproveWorkings(stakeObj).then(function (data) {
-                        return postApproval(data, param);
-                    });
+                    switch (param) {
+                        case 'working':
+                            return datalayer.ApproveWorkings(stakeObj).then(function (data) {
+                                return postApproval(data, param);
+                            });
+                        case 'payment':
+                            return datalayer.ApprovePayment(stakeObj).then(function (data) {
+                                return postApproval(data, param);
+                            });
+                    }
                 case 'reject':
-                    return datalayer.RejectWorkings(stakeObj).then(function (data) {
-                        return postApproval(data, param);
-                    });
+                    switch (param) {
+                        case 'working':
+                            return datalayer.RejectWorkings(stakeObj).then(function (data) {
+                                return postApproval(data, param);
+                            });
+                        case 'payment':
+                            return datalayer.RejectPayment(stakeObj).then(function (data) {
+                                return postApproval(data, param);
+                            });
+                    }
+
                 default:
                     throw "invalid approval status";
             }
@@ -560,11 +571,11 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 case 'working':
                     $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                    $csnotify("Workings Approved");
+                    $csnotify.success("Workings Approved");
                     return $scope.workingDetailsList;
                 case 'payment':
                     $scope.Payment = data;
-                    $csnotify("Payment Approved");
+                    $csnotify.success("Payment Approved");
                     $scope.gotoView();
                     return $scope.Payment;
                 default:
