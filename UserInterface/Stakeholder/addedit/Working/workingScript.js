@@ -475,8 +475,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $scope.reportsToList = reportsToList;
                 autoSelect($scope.reportsToList);
                 if ($scope.reportsToList.length === 1) {
-                    $scope.workingModel.ReportsTo = $scope.reportsToList[0];
-                    $scope.getPincodeData($scope.workingModel);
+                    $scope.$parent.workingModel.ReportsTo = $scope.reportsToList[0];
+                    $scope.getPincodeData($scope.$parent.workingModel);
                 }
             });
         };
@@ -502,15 +502,25 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             temp.Products = angular.copy(workingModel.SelectedPincodeData.Products);
             temp.ReportsTo = angular.copy(workingModel.SelectedPincodeData.ReportsTo);
             workingModel.DisplayManager = $scope.displayManager;
-
             workingModel.QueryFor = $csfactory.isNullOrEmptyString(selected) ?
                 factory.GetQueryFor($scope.selectedHierarchy.LocationLevel) : factory.GetQueryFor(selected, $scope.displayManager);
             if ($csfactory.isNullOrEmptyString(workingModel.QueryFor))
                 return;
+            clearArray(workingModel, $scope.selectedHierarchy.LocationLevel);
             datalayer.GetPincodeData(workingModel).then(function (data) {
                 $scope.WorkingModel = data;
                 factory.SetProduct($scope.WorkingModel, temp);
             });
+        };
+        var clearArray = function (workingModel, locLevel) {
+            if (workingModel.QueryFor !== locLevel) {
+                workingModel.SelectedPincodeData[locLevel] = [];
+                if ($scope.selectedHierarchy.HasBuckets) {
+                    if (angular.isDefined(workingModel.SelectedPincodeData.Buckets)) {
+                        workingModel.SelectedPincodeData.Buckets = [];
+                    }
+                }
+            }
         };
 
         $scope.addWorking = function (workingModel, locLevel) {
@@ -576,7 +586,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
 
         };
-
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
