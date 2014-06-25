@@ -187,30 +187,30 @@
                     <span  class="pull-right">
                         <cs-button2 type="save"
                                     data-ng-disabled="showSaveButton()" 
-                                    permission="Stakeholder,Stakeholder,AddEdit"
+                                    permission="AddEdit"
                                     data-on-click="save(workingDetailsList)">
                         </cs-button2>
                         <span data-ng-if="showApproveButtons(workingDetailsList)">
                             <cs-button2 type="approve"
-                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        permission="Approve"
                                         data-on-click="setApprovalStatus(currStakeholder.Id,'approve','working')">
                             </cs-button2> 
 
                             <cs-button2 type="reject"
-                                        permission="Stakeholder,Stakeholder,AddEdit"
+                                        permission="Approve"
                                         data-on-click="setApprovalStatus(currStakeholder.Id,'reject','working')">
                             </cs-button2>
                         </span>
                         <cs-button2
                             type="cancel"
                             text="Close"
-                            permission="Stakeholder,Stakeholder,AddEdit"
+                            permission="AddEdit"
                             data-on-click="gotoView()">
                         </cs-button2>
                         <cs-button2
                             type="edit"
                             data-ng-show="formMode === 'view'"
-                            permission="Stakeholder,Stakeholder,AddEdit"
+                            permission="AddEdit"
                             data-on-click="changeMode('working')">
                         </cs-button2>
                     </span>

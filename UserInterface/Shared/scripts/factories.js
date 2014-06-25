@@ -707,6 +707,13 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
                 perm = "Developer,ExecuteQuery";
                 break;
 
+                //stakeholder
+            case "AddEdit":
+                perm = "Stakeholder,Stakeholder,AddEdit";
+                break;
+            case "Approve":
+                perm = "Stakeholder,Stakeholder,Approve";
+                break;
 
 
             default:

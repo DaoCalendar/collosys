@@ -385,7 +385,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.displayManager = factory.GetDisplayManager($scope.selectedHierarchy.LocationLevel);
             $scope.currStakeholder = data.Stakeholder;
             factory.SetReportsToName(data.Stakeholder.StkhWorkings, data.ReportsToStakes);
-            $scope.reportsToStakes = data.ReportsToStakes; //this variable is used to set the reportsTo name after approving
             $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.Stakeholder.StkhPayments[0];
             getPaymentData($scope.selectedHierarchy);
             $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
@@ -419,8 +418,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             };
             $scope.showPayment = true;
             $scope.bucketList = [1, 2, 3, 4, 5, 6];
-
-            //TODO: move this to a function & call that function from here
             $routeParams.editStakeId
                 ? getStakeholderForEdit($routeParams.editStakeId)
                 : getStakeholderData($routeParams.stakeId);
@@ -490,10 +487,13 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
             return datalayer.SaveWorking(workList).then(function (data) {
                 $scope.workingDetailsList = data.WorkList;
-                if (!$scope.selectedHierarchy.HasPayment) $scope.gotoView();
-                factory.ParseBuckets($scope.workingDetailsList);
-                factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                return "";
+                if (!$scope.selectedHierarchy.HasPayment) {
+                    $scope.gotoView();
+                } else {
+                    factory.ParseBuckets($scope.workingDetailsList);
+                    factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
+                }
+                return data;
             });
         };
 
@@ -504,7 +504,6 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             } else {
                 factory.Splice($scope.deleteWorkingList, data);
             }
-            ;
         };
 
         $scope.setApprovalStatus = function (id, status, param) {
@@ -530,10 +529,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
-                    factory.SetReportsToName(data, $scope.reportsToStakes);
                     $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                    $csnotify("Workings Approved"); J
+                    $csnotify("Workings Approved");
                     return $scope.workingDetailsList;
                 case 'payment':
                     $scope.Payment = data;
@@ -546,6 +544,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         //TODO: why seperate logic for splicing it when it can maintained as is
+        //TODO: handle delete of unsaved working
         $scope.deleteSelectedWorking = function (endDate) {
             factory.SetEndDate($scope.deleteWorkingList, endDate);
             factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);

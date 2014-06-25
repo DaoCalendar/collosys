@@ -73,34 +73,35 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="pull-right">
-                            <cs-button type="save"
-                                       data-ng-show="formMode!=='view'"
-                                       text="{{getTextForSaveBtn()}}"
-                                       permission="Stakeholder,Stakeholder,AddEdit"
-                                       data-ng-disabled="basicInfoForm.$invalid"
-                                       data-ng-click="saveData(Stakeholder)"></cs-button>
+                            <cs-button2 type="save"
+                                        data-ng-show="formMode!=='view'"
+                                        text="{{getTextForSaveBtn()}}"
+                                        permission="AddEdit"
+                                        data-ng-disabled="basicInfoForm.$invalid"
+                                        data-on-click="saveData(Stakeholder)"></cs-button2>
                             <span data-ng-if="formMode !== 'add'">
                                 <cs-button2 type="approve"
                                             data-ng-show="Stakeholder.ApprovalStatus === 'Submitted'" 
-                                            permission="Stakeholder,Stakeholder,AddEdit"
+                                            permission="Approve"
                                             data-on-click="setApprovalStatus(Stakeholder.Id,'approve')"></cs-button2> 
                                 <cs-button2 type="reject"
                                             data-ng-show="Stakeholder.ApprovalStatus === 'Submitted'" 
-                                            permission="Stakeholder,Stakeholder,AddEdit"
+                                            permission="Approve"
                                             on-click="setApprovalStatus(Stakeholder.Id,'reject')"></cs-button2>
                             </span>
-                            <cs-button type="cancel"
-                                       permission="Stakeholder,Stakeholder,AddEdit"
-                                       data-ng-click="cancel()"></cs-button>
+                            <cs-button2 type="cancel"
+                                       permission="AddEdit"
+                                       data-on-click="cancel()"></cs-button2>
                             <span data-ng-if="formMode==='add'">
-                                <cs-button type="reset"
-                                           permission="Stakeholder,Stakeholder,AddEdit"
-                                           data-ng-click="reset()"></cs-button>
+                                <cs-button2 type="reset"
+                                           permission="AddEdit"
+                                           data-on-click="reset()"></cs-button2>
                             </span>
                             <span data-ng-if="formMode==='view'">
-                                <cs-button type="submit" text="Edit"
-                                           data-ng-click="changeMode()">
-                                </cs-button>
+                                <cs-button2
+                                    type="edit"
+                                    permission ="AddEdit"
+                                    data-on-click="changeMode()"> </cs-button2>
                             </span>
                        
                         </div>
