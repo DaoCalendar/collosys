@@ -1,9 +1,0 @@
-﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()">
-    <ul class="nav nav-tabs">
-        <li data-ng-repeat="menu in menus.Childrens" data-ng-if="menu.HasAccess && !menu.Childrens">
-            <span class="col-md-1">
-                <a href="{{menu.Url}}"><i ng-class="'fa {{menu.Icon}} fa-3x'" data-toggle="tooltip" title="{{menu.Title}}"></i></a>
-            </span>
-        </li>
-    </ul>
-</div>
