@@ -1,10 +1,5 @@
 ﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
     <ul>
-        <!--<li data-ng-repeat="menu in menus.Childrens" data-ng-if="menu.HasAccess && !menu.Childrens">
-            <span class="text-center">
-                <a href="{{menu.Url}}"><i ng-class="'fa {{menu.Icon}} fa-3x'"></i></a>
-            </span>
-        </li>-->
         <li data-ng-repeat="menu in menus.Childrens" data-ng-if="menu.HasAccess && menu.Childrens">
             <span class="text-center">
                 <i ng-class="'fa {{menu.Icon}} fa-3x'"></i>
