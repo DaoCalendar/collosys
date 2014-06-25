@@ -323,6 +323,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Generic\GNotifications\Gnotifications.html" />
     <Content Include="Generic\GNotifications\GNotifications.js" />
+    <Content Include="Generic\menus\menu-horizantal.html" />
     <Content Include="Generic\menus\menu-vertical.html" />
     <Content Include="Generic\performancemanagement\PerformanaceManagement.html" />
     <Content Include="Generic\performancemanagement\PerformanceManagement.js" />
