@@ -102,6 +102,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
 
                     if (mcc == 6012 || mcc == 6051)
                     {
+                        //throw new Exception("");
                         return true;
                         //return new TextFileRow<string[]>
                         //{
