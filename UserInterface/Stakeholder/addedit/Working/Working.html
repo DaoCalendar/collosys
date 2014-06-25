@@ -1,4 +1,4 @@
-﻿<div class="panel panel-default">
+﻿<div class="panel panel-default" data-ng-show="selectedHierarchy.HasWorking">
     <div class="panel-heading">
         <span>Working Details</span>
         <span class="pull-right">{{currStakeholder.Name}} ({{selectedHierarchy.Hierarchy}} / {{selectedHierarchy.Designation}})</span>
@@ -227,6 +227,7 @@
 </div>
 
 <div class="clearfix"></div>
+
 <div class="panel panel-default" data-ng-if="selectedHierarchy.HasPayment">
     <div class="panel-heading">
         <span>Payment Details</span>
@@ -277,6 +278,7 @@
                        
                         <cs-button2 type="save"
                                     permission="Stakeholder,Stakeholder,AddEdit"
+                                    data-ng-disabled="paymentMode === 'view'"    
                                     data-on-click="savePayment(Payment,paymentForm)">
                         </cs-button2>
 
@@ -295,13 +297,13 @@
                         <cs-button2
                             type="cancel"
                             text="Close"
-                            permission="Stakeholder,Stakeholder,AddEdit"
+                            permission="AddEdit"
                             data-on-click="gotoView()">
                         </cs-button2>
                         <cs-button2
                             type="edit"
                             data-ng-show="paymentMode === 'view'"
-                            permission="Stakeholder,Stakeholder,AddEdit"
+                            permission="AddEdit"
                             data-on-click="changeMode('payment')">
                         </cs-button2>
                     </div>

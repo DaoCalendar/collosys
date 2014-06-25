@@ -437,7 +437,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         (function () {
-            $scope.WorkingModel = {
+            $scope.$parent.WorkingModel = {
                 SelectedPincodeData: {},
                 QueryFor: "",
                 MultiSelectValues: [],
@@ -461,6 +461,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             datalayer.GetSalaryDetails(paymentIds).then(function (sal) {
                 $scope.SalDetails = $csfactory.isEmptyObject($scope.Payment) ? sal
                     : factory.ComputeSalary($scope.Payment.FixpayBasic, $scope.FixpayGross, sal);
+
+                console.log("salary details: ", $scope.SalDetails);
             });
         };
 
@@ -471,8 +473,14 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.getReportsTo = function (product) {
             datalayer.GetReportsTo($scope.currStakeholder, product).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
+                autoSelect($scope.reportsToList);
                 if ($scope.reportsToList.length === 1) $scope.workingModel.ReportsTo = $scope.reportsToList[0];
             });
+        };
+        var autoSelect = function (reportsToList) {
+            if (reportsToList.length === 1) {
+                $scope.$parent.WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
+            }
         };
 
         $scope.savePayment = function (paymentData) {

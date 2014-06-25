@@ -14,12 +14,12 @@
         <tr>
             <th data-ng-show="Payment.FixpayBasic"></th>
             <!--<th data-ng-show="Payment.FixpayHra && Payment.FixpayOther">HRA + Other</th>-->
-            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployeePf}}%</th>
-            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployerPf}}%</th>
-            <th>Gross Salary * {{SalDetails.EmployeeEsic}}%</th>
-            <th>Gross Salary * {{SalDetails.EmployerEsic}}% </th>
-            <th>Basic * {{SalDetails.ServiceCharge}}%</th>
-            <th>Basic * {{SalDetails.ServiceTax}}% </th>
+            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployeePct}}%</th>
+            <th data-ng-show="Payment.FixpayBasic">Basic * {{SalDetails.EmployerPct}}%</th>
+            <th>Gross Salary * {{SalDetails.EmployeeEsicPct}}%</th>
+            <th>Gross Salary * {{SalDetails.EmployerEsicPct}}% </th>
+            <th>{{SalDetails.ServiceChargePct}}%</th>
+            <th>{{SalDetails.ServiceTaxPct}}% </th>
             <th></th>
         </tr>
     </thead>
