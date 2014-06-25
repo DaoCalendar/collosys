@@ -61,7 +61,7 @@ csapp.controller("StkhLeaveManagementCtrl", ["$scope", "StakhLeaveDatalayer", "$
                 $scope.showAddButton = true;
             });
         } else {
-            $csnotify.success("Date is overlapping, please insert Valid Date range");
+            $csnotify.error("Date is overlapping, please insert Valid Date range");
             $scope.StkhLeave = {};
         }
     };
