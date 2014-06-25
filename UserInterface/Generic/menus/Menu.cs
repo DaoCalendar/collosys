@@ -109,7 +109,7 @@ namespace AngularUI.Generic.Menu
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
             user.AddChild("Leave Management", new[] { ColloSysEnums.Activities.User }, "#/generic/stkhleave");
             user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User }, "#/generic/changepassword");
-            user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
+           // user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
 
             var devTools = menu.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
             devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer }, "#/developer/generatedb");
