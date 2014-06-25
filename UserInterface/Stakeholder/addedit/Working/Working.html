@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-show="formMode!=='view'">
+                        <tr data-ng-show="formMode!=='view'" data-ng-form="addWorkingForm">
                             <td><!--<input type="checkbox" 
                                            data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
                                            data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
@@ -147,7 +147,10 @@
                             </td>
                             <td >
                                 <div data-ng-if="deleteWorkingList.length === 0">
-                                    <cs-button2 type="add" data-on-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
+                                    <cs-button2 
+                                        type="add" 
+                                        data-ng-disabled ="disableAddBtn(WorkingModel,addWorkingForm)"
+                                        data-on-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
                                     </cs-button2>
                                 </div>
                                    

@@ -618,6 +618,16 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
         };
 
+        $scope.disableAddBtn = function (workModel, form) {
+            if (form.$invalid) return true;
+            if (angular.isUndefined(workModel)) return true;
+            if (angular.isUndefined($scope.selectedHierarchy)) return true;
+            if ($scope.selectedHierarchy.HasBuckets)//isDefined check required because the multiselect component keeps the model undefined untill selected
+                return !(angular.isDefined(workModel.SelectedPincodeData.Buckets) && workModel.SelectedPincodeData.Buckets.length > 0);
+            if ($scope.selectedHierarchy.LocationLevel === 'Country') return false;
+            return !(angular.isDefined(workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel]) && workModel.SelectedPincodeData[$scope.selectedHierarchy.LocationLevel].length > 0);
+        };
+
         $scope.showEndDate = function (deleteList) {
             var showEndDt = false;
             _.forEach(deleteList, function (working) {

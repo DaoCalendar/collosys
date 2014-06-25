@@ -6,7 +6,7 @@
             hierarchy: { label: 'Hierarchy', type: 'select' },
             designation: { label: 'Designation', valueField: 'Id', textField: 'Designation', type: 'select' },
             Name: { placeholder: 'enter name', label: "Name", type: 'text', pattern: '/^[a-zA-Z ]{1,100}$/', required: true, patternMessage: 'Invalid Name' },
-            ExternalId: { label: "UserId",   required: true, type: "text", length: 7 },
+            ExternalId: { label: "UserId", required: true, type: "text", length: 7 },
             MobileNo: { label: "Mobile No", type: 'text', template: 'phone' },
             EmailId: { label: "Email", type: 'email', patternMessage: 'Invalid Email' },
             JoiningDate: { type: 'date', required: true },
