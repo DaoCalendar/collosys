@@ -43,7 +43,7 @@ namespace ColloSys.FileUploadService.TextReader
                     try
                     {
                         LineNo++;
-                        string currentLine = InputFileStream.ReadLine();
+                        var currentLine = InputFileStream.ReadLine();
 
                         if ((currentLine == null) || (string.IsNullOrWhiteSpace(currentLine)))
                         {

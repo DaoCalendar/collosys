@@ -46,8 +46,11 @@ namespace AngularUI.Generic.Menu
     {
         public Menu CreateMenu()
         {
-            var home = new Menu { Title = "Home" };
-            var fileUpload = home.AddChild("File Upload", new[] { ColloSysEnums.Activities.FileUploader }, "#", "fa-cloud-upload");
+            var menu = new Menu { Title = "Home" };
+
+            var home = menu.AddChild("Home", new[] { ColloSysEnums.Activities.User }, "#/generic/home", "fa-home");
+            var logout = menu.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout", "fa-lock");
+            var fileUpload = menu.AddChild("File Upload", new[] { ColloSysEnums.Activities.FileUploader }, "#", "fa-cloud-upload");
             fileUpload.AddChild("File Detail", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filedetail");
             fileUpload.AddChild("File Column", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filecolumn");
             fileUpload.AddChild("File Mapping", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.CreateFile }, "#/fileupload/filemapping");
@@ -65,16 +68,16 @@ namespace AngularUI.Generic.Menu
             fileUpload.AddChild("Correct Errors", new[] { ColloSysEnums.Activities.FileUploader, ColloSysEnums.Activities.ErrorCorrection }, "#/fileupload/errorcorrection");
 
 
-            var stakeholder = home.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
+            var stakeholder = menu.AddChild("Stakeholder", new[] { ColloSysEnums.Activities.Stakeholder }, "#", "fa-users");
             stakeholder.AddChild("Add", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/add");
             stakeholder.AddChild("View", new[] { ColloSysEnums.Activities.Stakeholder, ColloSysEnums.Activities.Stakeholder }, "#/stakeholder/view");
 
-            var allocation = home.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
+            var allocation = menu.AddChild("Allocation", new[] { ColloSysEnums.Activities.Allocation }, "#", "fa-briefcase");
             allocation.AddChild("Policy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationPolicy }, "#/allocation/policy");
             allocation.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.AllocationSubpolicy }, "#/allocation/subpolicy");
             allocation.AddChild("View/Approve", new[] { ColloSysEnums.Activities.Allocation, ColloSysEnums.Activities.CheckAllocation }, "#/allocation/viewapprove");
 
-            var billing = home.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
+            var billing = menu.AddChild("Billing", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billing.AddChild("Policy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.BillingPolicy }, "#/billing/policy");
             billing.AddChild("Subpolicy", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.BillingSubpolicy }, "#/billing/subpolicy");
             billing.AddChild("Formula", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.Formula }, "#/billing/formula2");
@@ -85,13 +88,13 @@ namespace AngularUI.Generic.Menu
             billing.AddChild("Adhoc", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhoc");
             billing.AddChild("Adhoc Bulk", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.AdhocPayout }, "#/billing/adhocbulk");
 
-            var billingStatus = home.AddChild("Billing Status", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
+            var billingStatus = menu.AddChild("Billing Status", new[] { ColloSysEnums.Activities.Billing }, "#", "fa-inr");
             billingStatus.AddChild("Ready For Billing", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/readybilling");
             billingStatus.AddChild("Execution Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.ReadyForBilling }, "#/billing/status");
             billingStatus.AddChild("Bill Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/summary");
             billingStatus.AddChild("Pay Clearance Status", new[] { ColloSysEnums.Activities.Billing, ColloSysEnums.Activities.PayoutStatus }, "#/billing/billstatus");
 
-            var config = home.AddChild("Config", new[] { ColloSysEnums.Activities.Config }, "#", "fa-cogs");
+            var config = menu.AddChild("Config", new[] { ColloSysEnums.Activities.Config }, "#", "fa-cogs");
             config.AddChild("Permission", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Permission }, "#/generic/permission");
             //config.AddChild("Add Hierarchy", new[] { ColloSysEnums.Activities.Config }, "#/generic/hierarchy/add");
             config.AddChild("Hierarchy", new[] { ColloSysEnums.Activities.Config }, "#/generic/hierarchy");
@@ -102,26 +105,26 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
             config.AddChild("GNotifications", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.GNotifications }, "#/generic/GNotifications");
 
-            var user = home.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
+            var user = menu.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
             user.AddChild("Leave Management", new[] { ColloSysEnums.Activities.User }, "#/generic/stkhleave");
             user.AddChild("Performance Management", new[] { ColloSysEnums.Activities.User }, "#/generic/performancemanagement");
             user.AddChild("Change Password", new[] { ColloSysEnums.Activities.User }, "#/generic/changepassword");
             user.AddChild("Logout", new[] { ColloSysEnums.Activities.User }, "#/logout");
 
-            var devTools = home.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
+            var devTools = menu.AddChild("Dev Tools", new[] { ColloSysEnums.Activities.Developer }, "#", "fa fa-wrench");
             devTools.AddChild("Generate Db", new[] { ColloSysEnums.Activities.Developer }, "#/developer/generatedb");
             devTools.AddChild("Db Tables", new[] { ColloSysEnums.Activities.Developer }, "#/developer/viewdbtables");
             devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
             devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
 
-            var legal = home.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
+            var legal = menu.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
             legal.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequisitionPreparation");
             legal.AddChild("RequsitionIntiation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequsitionIntiation");
             legal.AddChild("FollowUp", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/FollowUp");
             legal.AddChild("LegalCaseexecution", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/LegalCaseexecution");
 
-            return home;
+            return menu;
         }
 
         public static Menu CreateAutherizedMenu(GPermission permission, Menu menulist)
