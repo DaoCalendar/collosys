@@ -474,7 +474,10 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             datalayer.GetReportsTo($scope.currStakeholder, product).then(function (reportsToList) {
                 $scope.reportsToList = reportsToList;
                 autoSelect($scope.reportsToList);
-                if ($scope.reportsToList.length === 1) $scope.workingModel.ReportsTo = $scope.reportsToList[0];
+                if ($scope.reportsToList.length === 1) {
+                    $scope.workingModel.ReportsTo = $scope.reportsToList[0];
+                    getPincodeData($scope.workingModel);
+                }
             });
         };
         var autoSelect = function (reportsToList) {
