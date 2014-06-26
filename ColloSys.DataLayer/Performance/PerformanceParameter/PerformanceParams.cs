@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Enumerations;
 
-namespace ColloSys.DataLayer.PerformanceParameter
+namespace ColloSys.DataLayer.Performance.PerformanceParameter
 {
    public class PerformanceParams:Entity
     {

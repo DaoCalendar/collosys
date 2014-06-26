@@ -139,8 +139,8 @@
     <Compile Include="Generic\GKeyValueMap.cs" />
     <Compile Include="Generic\GNotification.cs" />
     <Compile Include="Generic\GNotificationMap.cs" />
-    <Compile Include="PerformanceParameter\PerformanceParams.cs" />
-    <Compile Include="PerformanceParameter\PerformanceParamsMap.cs" />
+    <Compile Include="Performance\PerformanceParameter\PerformanceParams.cs" />
+    <Compile Include="Performance\PerformanceParameter\PerformanceParamsMap.cs" />
     <Compile Include="Stakeholder\StkhNotificationMap.cs" />
     <Compile Include="Generic\GTaxDetail.cs" />
     <Compile Include="Generic\GTaxDetailMap.cs" />

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Performance.PerformanceParameter;
 
-namespace ColloSys.DataLayer.PerformanceParameter
+namespace ColloSys.DataLayer.Performance.PerformanceParameter
 {
    public  class PerformanceParamsMap:EntityMap<PerformanceParams>
    {

@@ -276,8 +276,8 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             })
 
             //PerformanaceParameter
-            .when('/performanceparameter', {
-                templateUrl: baseUrl + 'performanceparameter/PerformanaceParams.html',
+            .when('/performance/performanceparameter', {
+                templateUrl: baseUrl + 'performance/performanceparameter/PerformanaceParams.html',
                 controller: 'PerformanaceParameterCtrl'
             })
 

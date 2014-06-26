@@ -117,8 +117,8 @@ namespace AngularUI.Generic.Menu
             devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
             devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
 
-            var performanceParam = menu.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#", "fa-question-circle");
-            performanceParam.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#/performanceparameter");
+            var performance = menu.AddChild("Performance", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#", "fa-question-circle");
+            performance.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#/performance/performanceparameter");
            
             var legal = menu.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
             legal.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequisitionPreparation");

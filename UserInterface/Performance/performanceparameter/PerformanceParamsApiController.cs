@@ -6,11 +6,12 @@ using System.Net.Http;
 using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Generic;
-using ColloSys.DataLayer.PerformanceParameter;
+using ColloSys.DataLayer.Performance;
+using ColloSys.DataLayer.Performance.PerformanceParameter;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.PerformanceBuilder;
 
-namespace AngularUI.Generic.performancemanagement
+namespace AngularUI.Performance.performanceparameter
 {
     public class PerformanceManagementApiController : BaseApiController<PerformanceParams>
     {
