@@ -185,8 +185,8 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return SessionManager.GetCurrentSession()
                                 .Query<Stakeholders>()
                                 .Fetch(x => x.Hierarchy)
-                                .Fetch(x=>x.StkhWorkings)
-                                .Fetch(x=>x.StkhPayments)
+                                .Fetch(x => x.StkhWorkings)
+                                .Fetch(x => x.StkhPayments)
                                 .Single(x => x.Id == id);
         }
 
@@ -263,6 +263,29 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
                 .Count(x => x.ReportingManager == managerId
                     && (x.LeavingDate == null || x.LeavingDate > DateTime.Today));
             return (uint)count;
+        }
+
+        [Transaction]
+        public IEnumerable<Stakeholders> GetAllApproved()
+        {
+            return SessionManager.GetCurrentSession().Query<Stakeholders>()
+                           .Where(
+                               x =>
+                               x.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
+                               x.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
+                               .Fetch(x => x.Hierarchy)
+                           .ToList();
+        }
+
+        [Transaction]
+        public IEnumerable<Stakeholders> GetAllUnApproved()
+        {
+            return SessionManager.GetCurrentSession().Query<Stakeholders>()
+                           .Where(
+                               x =>
+                              x.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
+                              .Fetch(x => x.Hierarchy)
+                           .ToList();
         }
     }
 }

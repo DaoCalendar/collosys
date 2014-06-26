@@ -708,10 +708,10 @@ csapp.factory("PermissionFactory", ["$csShared", "$csfactory", function ($csShar
                 break;
 
                 //stakeholder
-            case "AddEdit":
+            case "StakeholderAddEdit":
                 perm = "Stakeholder,Stakeholder,AddEdit";
                 break;
-            case "Approve":
+            case "StakeholderApprove":
                 perm = "Stakeholder,Stakeholder,Approve";
                 break;
 
