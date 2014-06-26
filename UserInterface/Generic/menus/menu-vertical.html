@@ -1,5 +1,11 @@
 ﻿<div data-ng-show="$csAuthFactory.hasLoggedIn()" class="cssmenu">
     <ul>
+        <li data-ng-repeat="menu in menus.Childrens" data-ng-if="!menu.Childrens">
+            <a href="{{menu.Url}}">
+                <span style="display: inline"><i ng-class="'fa {{menu.Icon}} fa-2x'"></i></span>
+                <span style="font-weight: bold; display: inline">{{menu.Title}}</span>
+            </a>
+        </li>
         <li data-ng-repeat="menu in menus.Childrens" data-ng-if="menu.HasAccess && menu.Childrens">
             <span class="text-center">
                 <i ng-class="'fa {{menu.Icon}} fa-3x'"></i>
@@ -8,8 +14,7 @@
             <span class="text-center" style="font-weight: bold">{{menu.Title}}</span>
             <ul>
                 <li data-ng-repeat="child in menu.Childrens" data-ng-if="child.HasAccess">
-                    <!--data-ng-if="child.HasAccess"-->
-                    <a href="{{child.Url}}">{{child.Title}}</a>
+                    <div><a href="{{child.Url}}">{{child.Title}}</a></div>
                 </li>
             </ul>
         </li>

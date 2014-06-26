@@ -68,6 +68,14 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
             return reponse;
         }
 
+        public bool DoesNotificationExist(ColloSysEnums.NotificationType type, Guid EntityId)
+        {
+            var session = SessionManager.GetCurrentSession();
+            var count = session.Query<StkhNotification>()
+                .Count(x => x.NoteType == type && x.EntityId == EntityId);
+            return count != 0;
+        }
+
         #endregion
 
         #region create

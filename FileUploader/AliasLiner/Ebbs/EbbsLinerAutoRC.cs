@@ -39,14 +39,7 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
                 return false;
             }
 
-            // check limit provn pdt code
-            var limitProvnPdtCode =Reader.GetValue(15).ToString(CultureInfo.InvariantCulture);
-            var product = DecodeScbProduct.GetEBBSProduct(limitProvnPdtCode);
-            if (product == ScbEnums.Products.UNKNOWN)
-            {
-                Log.Debug(string.Format("Data is rejected, Because LimitProvnPdtCode : {0}", limitProvnPdtCode));
-                return false;
-            }
+            
 
             // cycle
             entity.Cycle = Convert.ToUInt32(entity.CycleDate.Day);
@@ -57,6 +50,28 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             // bucket
             entity.Bucket = GetBucketForELiner(entity) + 1;
 
+            return true;
+        }
+
+        public override bool CheckBasicField()
+        {
+            // check loan number
+            ulong loanNumber;
+            if (!ulong.TryParse(Reader.GetValue(AccountNoPosition), out loanNumber))
+            {
+                //Counter.IncrementIgnoreRecord();
+                Log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
+                return false;
+            }
+
+            // check limit provn pdt code
+            var limitProvnPdtCode = Reader.GetValue(15).ToString(CultureInfo.InvariantCulture);
+            var product = DecodeScbProduct.GetEBBSProduct(limitProvnPdtCode);
+            if (product == ScbEnums.Products.UNKNOWN)
+            {
+                Log.Debug(string.Format("Data is rejected, Because LimitProvnPdtCode : {0}", limitProvnPdtCode));
+                return false;
+            }
             return true;
         }
     }

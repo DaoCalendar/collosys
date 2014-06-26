@@ -163,7 +163,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddPerformanceActivities(performance);
 
             var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
-            AddDeveloperActivities(legal);
+            AddLegalActivities(legal);
 
             return root;
         }
@@ -309,9 +309,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.AddEdit);
 
-            var GnotifyActivity = AddActivity(config, ColloSysEnums.Activities.GNotifications, desciption: "Config");
+            var esclationmatrix = AddActivity(config, ColloSysEnums.Activities.EsclationMatrix, desciption: "Config");
             //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
-            AddActivity(GnotifyActivity, ColloSysEnums.Activities.AddEdit);
+            AddActivity(esclationmatrix, ColloSysEnums.Activities.AddEdit);
 
 
             var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, desciption: "Config");
@@ -321,6 +321,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
             //AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.AddEdit);
+
+            var encryptDecryptActivity = AddActivity(config, ColloSysEnums.Activities.EncryptDecrypt, desciption: "Config");
+            AddActivity(encryptDecryptActivity, ColloSysEnums.Activities.AddEdit);
         }
 
         private static void AddDeveloperActivities(GPermission dev)
@@ -343,5 +346,12 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(user, ColloSysEnums.Activities.Profile);
             AddActivity(user, ColloSysEnums.Activities.ChangePassword);
         }
+
+        private static void AddLegalActivities(GPermission user)
+        {
+            AddActivity(user, ColloSysEnums.Activities.AddEdit);
+           
+        }
+        
     }
 }

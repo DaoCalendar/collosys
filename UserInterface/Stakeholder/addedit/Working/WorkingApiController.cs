@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AngularUI.Generic.home;
 using AngularUI.Shared.apis;
 using AngularUI.Stakeholder.view;
 using ColloSys.DataLayer.Enumerations;
@@ -23,6 +24,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
         private static readonly StakeWorkingQueryBuilder StakeWorkingQueryBuilder = new StakeWorkingQueryBuilder();
         private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
+        private static readonly StkhNotificationRepository StkhNotificationRepository = new StkhNotificationRepository();
 
         [HttpGet]
         public HttpResponseMessage GetStakeholder(Guid stakeholderId)
@@ -68,18 +70,24 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage SaveWorking(IEnumerable<StkhWorking> workingData)
+        public HttpResponseMessage SaveWorking(List<StkhWorking> workingData)
         {
-            var listOfObjects = workingData as IList<StkhWorking> ?? workingData.ToList();
-            StakeWorkingQueryBuilder.Save(listOfObjects);
-            var reportsToIds = listOfObjects.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            StakeWorkingQueryBuilder.Save(workingData);
+            var reportsToIds = workingData.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
 
             var data = new
                 {
-                    WorkList = listOfObjects,
+                    WorkList = workingData,
                     ReportsToList = reportsToStakeholders
                 };
+
+            if (!StkhNotificationRepository.DoesNotificationExist(
+                ColloSysEnums.NotificationType.StakeholderWorkingChange, workingData[0].Stakeholder.Id))
+            {
+                var notify = new StakeholderNotificationManager(GetUsername());
+                notify.NotifyStkhWorkingAdded(workingData[0].Stakeholder);
+            }
 
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
@@ -123,6 +131,13 @@ namespace AngularUI.Stakeholder.addedit.Working
             paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
             StakePaymentBuilder.Save(paymentData);
 
+            if (!StkhNotificationRepository.DoesNotificationExist(
+                ColloSysEnums.NotificationType.StakeholderPaymentChange, paymentData.Stakeholder.Id))
+            {
+                var notify = new StakeholderNotificationManager(GetUsername());
+                notify.NotifyStkhPaymentAdded(paymentData.Stakeholder);
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK, paymentData);
         }
 
@@ -132,8 +147,8 @@ namespace AngularUI.Stakeholder.addedit.Working
             //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
 
             foreach (var stkhWorking in worklist
-                                            .Where(
-                                                stkhWorking =>
+                                            .Where(stkhWorking => stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted
+                                            || stkhWorking.Status == ColloSysEnums.ApproveStatus.Changed))
                                                 stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted || stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed))
             {
                 stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
@@ -196,6 +211,7 @@ namespace AngularUI.Stakeholder.addedit.Working
                                           stkh.StkhPayments[0]);
         }
     }
+
     public class PaymentIds
     {
         public Guid ReportingId { get; set; }

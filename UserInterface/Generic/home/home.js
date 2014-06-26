@@ -31,8 +31,8 @@
     };
 }]);
 
-csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', 'StakeholderAddNotificationFactory',
-    function ($scope, datalayer, stkhAddFactory) {
+csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', 'StakeholderAddNotificationFactory', 'StakeholderWorkingNotificationFactory', 'StakeholderPaymentNotificationFactory',
+    function ($scope, datalayer, stkhAddFactory, stkhWorkFactory, stkhPayFactory) {
         (function () {
             datalayer.GetNotifications().then(function (data) {
                 $scope.userNotifyCount = data;
@@ -86,21 +86,21 @@ csapp.controller("HomeCtrl", ['$scope', 'HomeDatalayer', 'StakeholderAddNotifica
                     notification.factory = stkhAddFactory;
                     break;
                 case "StakeholderPaymentChange":
+                    notification.factory = stkhPayFactory;
                     break;
                 case "StakeholderWorkingChange":
+                    notification.factory = stkhWorkFactory;
                     break;
                 default:
                     throw "invalid notification type : " + notification.NoteType;
             }
             notification.buttons = notification.factory.Buttons();
         };
-
     }]);
-
 
 csapp.factory("StakeholderAddNotificationFactory", ["Restangular", "$location", function (rest, $location) {
 
-    var restApi = rest.all("ViewStakeApi");
+    var restApi = rest.all("StakeholderApi");
 
     var buttons = function () {
         return {
@@ -112,12 +112,12 @@ csapp.factory("StakeholderAddNotificationFactory", ["Restangular", "$location", 
 
     var approve = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "ApproveStakeholder");
+        return restApi.customPOST(stakeholder, "ApproveStakeholder").then(function () { return; });
     };
 
     var reject = function (notification) {
         var stakeholder = { Id: notification.EntityId };
-        return restApi.customPOST(stakeholder, "RejectStakeholder");
+        return restApi.customPOST(stakeholder, "RejectStakeholder").then(function () { return; });
     };
 
     var details = function (notification) {
@@ -132,3 +132,71 @@ csapp.factory("StakeholderAddNotificationFactory", ["Restangular", "$location", 
     };
 }]);
 
+csapp.factory("StakeholderWorkingNotificationFactory", ["Restangular", "$location", function (rest, $location) {
+
+    var restApi = rest.all("WorkingApi");
+
+    var buttons = function () {
+        return {
+            showApprove: true,
+            showReject: true,
+            showDetails: true
+        };
+    };
+
+    var approve = function (notification) {
+        var stakeholder = { Id: notification.EntityId };
+        return restApi.customPOST(stakeholder, "ApproveWorking").then(function () { return; });
+    };
+
+    var reject = function (notification) {
+        var stakeholder = { Id: notification.EntityId };
+        return restApi.customPOST(stakeholder, "RejectWorking").then(function () { return; });
+    };
+
+    var details = function (notification) {
+        $location.path('/stakeholder/working/edit/' + notification.EntityId);
+    };
+
+    return {
+        Buttons: buttons,
+        Approve: approve,
+        Reject: reject,
+        Details: details
+    };
+}]);
+
+
+csapp.factory("StakeholderPaymentNotificationFactory", ["Restangular", "$location", function (rest, $location) {
+
+    var restApi = rest.all("WorkingApi");
+
+    var buttons = function () {
+        return {
+            showApprove: true,
+            showReject: true,
+            showDetails: true
+        };
+    };
+
+    var approve = function (notification) {
+        var stakeholder = { Id: notification.EntityId };
+        return restApi.customPOST(stakeholder, "ApprovePayment").then(function () { return; });
+    };
+
+    var reject = function (notification) {
+        var stakeholder = { Id: notification.EntityId };
+        return restApi.customPOST(stakeholder, "RejectPayment").then(function () { return; });
+    };
+
+    var details = function (notification) {
+        $location.path('/stakeholder/working/edit/' + notification.EntityId);
+    };
+
+    return {
+        Buttons: buttons,
+        Approve: approve,
+        Reject: reject,
+        Details: details
+    };
+}]);

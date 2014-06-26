@@ -262,7 +262,7 @@ namespace ColloSys.DataLayer.Enumerations
             Pincode,
             Taxlist,
             Taxmaster,
-            GNotifications,
+            EsclationMatrix,
             Developer,
             Hierarchy,
             Schedule,
@@ -282,7 +282,8 @@ namespace ColloSys.DataLayer.Enumerations
             LegalCaseexecution,
             Root,
             Performance,
-            PerformanceParam
+            PerformanceParam,
+            EncryptDecrypt
         }
 
         [Serializable]
