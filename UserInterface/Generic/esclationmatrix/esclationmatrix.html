@@ -2,7 +2,7 @@
     <cs-form layout="12.0.12">
         <div class="panel panel-default">
             <div class="panel-heading">
-               GNotification Details
+               EsclationMatrix Details
             </div>
             <div class="panel-body">
                
@@ -16,22 +16,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="data in notificationsList">
+                            <tr data-ng-repeat="data in eMatrixList">
                                 <td>
                                     <cs-field data-ng-model="data.NotificationType" 
-                                              field="Gnotify.NotificationType" 
+                                              field="eMatrix.NotificationType" 
                                               data-ng-disabled="true">
                                     </cs-field>
                                 </td>
                                 <td>
                                     <cs-field data-ng-model="data.EsclationDays" 
-                                              field="Gnotify.EsclationDays" 
+                                              field="eMatrix.EsclationDays" 
                                               data-ng-disabled="!data.isEdit">
                                     </cs-field>
                                 </td>
                                 <td>
                                     <cs-field data-ng-model="data.NotifyHierarchy" 
-                                              field="Gnotify.NotifyHierarchy" 
+                                              field="eMatrix.NotifyHierarchy" 
                                               data-ng-disabled="!data.isEdit" >
                                     </cs-field>
                                 </td>

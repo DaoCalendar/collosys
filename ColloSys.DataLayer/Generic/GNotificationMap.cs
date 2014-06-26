@@ -2,9 +2,9 @@
 
 namespace ColloSys.DataLayer.Generic
 {
-    public class GNotificationMap : EntityMap<GNotification>
+    public class GNotifyConfigMap : EntityMap<GNotifyConfig>
     {
-        public GNotificationMap()
+        public GNotifyConfigMap()
         {
             Property( x=> x.NotificationType);
             Property(x => x.EsclationDays);

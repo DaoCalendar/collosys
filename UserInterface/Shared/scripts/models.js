@@ -135,8 +135,8 @@ csapp.factory("$csModels", ["$csFileUploadModels", "$csStakeholderModels", "$csA
                 case "Product":
                     return angular.copy(models.Generic.Product);
                     
-                case "GNotification":
-                    return angular.copy(models.Generic.GNotification);
+                case "EsclationMatrix":
+                    return angular.copy(models.Generic.EsclationMatrix);
                     
                 case "RequisitionPreparation":
                     return angular.copy(models.Legal.RequisitionPreparation);

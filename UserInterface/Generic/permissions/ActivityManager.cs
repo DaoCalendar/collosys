@@ -163,7 +163,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddDeveloperActivities(performanceParam);
 
             var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
-            AddDeveloperActivities(legal);
+            AddLegalActivities(legal);
 
             return root;
         }
@@ -309,9 +309,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
             AddActivity(pincodeActivity, ColloSysEnums.Activities.AddEdit);
 
-            var GnotifyActivity = AddActivity(config, ColloSysEnums.Activities.GNotifications, desciption: "Config");
+            var esclationmatrix = AddActivity(config, ColloSysEnums.Activities.EsclationMatrix, desciption: "Config");
             //AddActivity(pincodeActivity, ColloSysEnums.Activities.View);
-            AddActivity(GnotifyActivity, ColloSysEnums.Activities.AddEdit);
+            AddActivity(esclationmatrix, ColloSysEnums.Activities.AddEdit);
 
 
             var taxlistActivity = AddActivity(config, ColloSysEnums.Activities.Taxlist, desciption: "Config");
@@ -337,5 +337,12 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(user, ColloSysEnums.Activities.Profile);
             AddActivity(user, ColloSysEnums.Activities.ChangePassword);
         }
+
+        private static void AddLegalActivities(GPermission user)
+        {
+            AddActivity(user, ColloSysEnums.Activities.AddEdit);
+           
+        }
+        
     }
 }

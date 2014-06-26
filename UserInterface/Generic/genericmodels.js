@@ -104,7 +104,7 @@
         };
     };
 
-    var gnotify = function() {
+    var esclationmatrix = function () {
         return {
             NotificationType: { label: "NotificationType", type: "text" },
             EsclationDays: { label: "EsclationDays", type: "number", template: "uint", min: "1", max: "30" },
@@ -185,9 +185,9 @@
             Columns: grid(),
         };
 
-        models.GNotification = {
-            Table: "GNotification",
-            Columns: gnotify(),
+        models.EsclationMatrix = {
+            Table: "EsclationMatrix",
+            Columns: esclationmatrix(),
          
         };
         models.StkhLeave = {

@@ -32,8 +32,8 @@ namespace AngularUI.Developer.generatedb.Excel2Db
         {
             var valueList = Enum.GetValues(typeof (ColloSysEnums.NotificationType));
             var valueArray = (ColloSysEnums.NotificationType[]) (valueList);
-            IList<GNotification> notifications = valueArray
-                .Select(notify => new GNotification
+            IList<GNotifyConfig> notifications = valueArray
+                .Select(notify => new GNotifyConfig
                 {
                     NotificationType = notify,
                     NotifyHierarchy = ColloSysEnums.NotifyHierarchy.Creator,

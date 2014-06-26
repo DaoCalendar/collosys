@@ -7,10 +7,10 @@ using System.Web.Http;
 using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Generic;
 
-namespace AngularUI.Generic.GNotifications
+namespace AngularUI.Generic.esclationmatrix
 {
-    public class GNotificationsApiController : BaseApiController<GNotification>
+    public class EsclationMatrixApiController : BaseApiController<GNotifyConfig>
     {
-       
+        
     }
 }

@@ -3,7 +3,7 @@ using ColloSys.DataLayer.Enumerations;
 
 namespace ColloSys.DataLayer.Generic
 {
-    public class GNotification : Entity
+    public class GNotifyConfig : Entity
     {
         public virtual ColloSysEnums.NotificationType NotificationType { get; set; }
         public virtual uint EsclationDays { get; set; }
