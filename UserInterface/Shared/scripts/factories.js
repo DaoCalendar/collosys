@@ -9,7 +9,7 @@
         var ifr = document.createElement('iframe');
         ifr.style.display = 'none';
         document.body.appendChild(ifr);
-        ifr.src = baseUrl + "api/GridApi/DownloadFile?filename='" + filename + "'";
+        ifr.src = baseUrl + "api/GridApi/DownloadFile?filename='" + escape(filename) + "'";
         ifr.onload = function () {
             document.body.removeChild(ifr);
             ifr = null;
