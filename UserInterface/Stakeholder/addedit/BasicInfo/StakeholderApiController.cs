@@ -12,6 +12,7 @@ using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
 using ColloSys.QueryBuilder.StakeholderBuilder;
+using Glimpse.Core.ClientScript;
 
 #endregion
 
@@ -52,13 +53,14 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
         [HttpPost]
         public HttpResponseMessage SaveStakeholder(Stakeholders data)
         {
-            //save stakeholder
             AddEditStakeholder.SetStakeholderObj(data);
             StakeQuery.Save(data);
 
-            //notify approver
-            var notify = new StakeholderNotificationManager(GetUsername());
-            notify.NotifyNewStakeholder(data);
+            if (data.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
+            {
+                var notify = new StakeholderNotificationManager(GetUsername());
+                notify.NotifyNewStakeholder(data);
+            }
 
             return Request.CreateResponse(HttpStatusCode.Created, data);
         }
@@ -71,8 +73,7 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
             {
                 stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
                 StakeQuery.Save(stkh);
-                return Request.CreateResponse(HttpStatusCode.OK,
-                    stkh);
+                return Request.CreateResponse(HttpStatusCode.OK, stkh);
             }
 
             stkh.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
@@ -85,11 +86,7 @@ namespace AngularUI.Stakeholder.addedit.BasicInfo
                 repo.Save(user);
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK,
-                stkh);
-
-
-
+            return Request.CreateResponse(HttpStatusCode.OK, stkh);
         }
 
         [HttpPost]
