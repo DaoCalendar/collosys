@@ -34,5 +34,19 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             
             return true;
         }
+
+        public override bool CheckBasicField()
+        {
+            // check loan number
+            ulong loanNumber;
+            if (!ulong.TryParse(Reader.GetValue(AccountNoPosition), out loanNumber))
+            {
+                //Counter.IncrementIgnoreRecord();
+                Log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
+                return false;
+            }
+
+            return true;
+        }
     }
 }
