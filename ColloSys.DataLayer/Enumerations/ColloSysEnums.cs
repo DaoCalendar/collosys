@@ -492,6 +492,16 @@ namespace ColloSys.DataLayer.Enumerations
             Products
         }
 
+        [Serializable]
+        public enum PerformanceParam
+        { 
+         Param_1,   
+         Param_2,   
+         Param_3,   
+         Param_4,   
+         Param_5,   
+        }
+
 
         #region Billing
 

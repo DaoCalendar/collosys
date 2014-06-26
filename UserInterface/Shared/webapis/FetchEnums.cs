@@ -57,10 +57,7 @@ namespace AngularUI.Shared.webapis
 
             string[] vertical = { "Field", "Telecalling", "BackOffice" };
             list.AddToList("Vertical", new List<string>(vertical));
-
-            string[] performance = { "Pram_1", "Pram_2", "Pram_3", "Pram_4", "Pram_5" };
-            list.AddToList("PerformanceParam", new List<string>(performance));
-
+            
         }
 
         public void InitSystemEnums(EnumList list)
@@ -117,6 +114,7 @@ namespace AngularUI.Shared.webapis
             list.AddToList(typeof(ColloSysEnums.Activities));
             list.AddToList(typeof(ColloSysEnums.PolicyType));
             list.AddToList(typeof(ColloSysEnums.PolicyOn));
+            list.AddToList(typeof(ColloSysEnums.PerformanceParam));
 
         }
     }
