@@ -82,12 +82,12 @@ csapp.factory("hierarchyFactory", ["$csfactory", "hierarchyDataLayer", function 
     };
 
     var reloadReportsTo = function (stakeholder, dldata) {
-        dldata.Designation = [];
+        dldata.DesignationList = [];
         if ($csfactory.isNullOrEmptyArray(dldata.HierarchyList)) { return; }
 
         dldata.HierarchyList = _.sortBy(dldata.HierarchyList, 'PositionLevel');
-        dldata.Designation = _.filter(dldata.HierarchyList, function (data) {
-            return (data.Hierarchy === stakeholder.Hierarchy);
+        dldata.DesignationList = _.filter(dldata.HierarchyList, function (data) {
+            return data;
         });
     };
 
@@ -214,7 +214,7 @@ csapp.controller("hierarchyEditController", ["$scope", "$routeParams",
         };
 
         $scope.save = function (stkh) {
-            var reportsTo = _.find($scope.dldata.Designation, function (item) {
+            var reportsTo = _.find($scope.dldata.DesignationList, function (item) {
                 return item.Id === stkh.ReportsTo;
             });
             stkh.PositionLevel = reportsTo.PositionLevel + 1;

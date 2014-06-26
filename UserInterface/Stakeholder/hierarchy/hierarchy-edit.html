@@ -11,7 +11,7 @@
                               value-list="dldata.HierarchyData" data-ng-change="reloadReportsTo(hierarchy,dldata);hierarchyChange()"></cs-field>
 
                     <cs-field data-ng-model="hierarchy.ReportsTo" field="hierarchyfield.ReportsTo"
-                              value-list="dldata.Designation" data-ng-change="reportsChange()"></cs-field>
+                              value-list="dldata.DesignationList" data-ng-change="reportsChange()"></cs-field>
                     <span class="col-md-5">
                         {{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy
                     </span>
@@ -22,7 +22,7 @@
 
                     <cs-field data-ng-model="hierarchy.WorkingReportsTo"
                               field="hierarchyfield.WorkingReportsTo"
-                              value-list="dldata.Designation" data-ng-change="workingReportsChange()"></cs-field>
+                              value-list="dldata.DesignationList" data-ng-change="workingReportsChange()"></cs-field>
                     <span class="col-md-5">
                         {{hierarchy.Designation}} Reports to Designation of {{hierarchy.hierarchy}} hierarchy
                     </span>
