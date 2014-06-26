@@ -16,10 +16,12 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
     (function () {
         $scope.PerformanceModel = {
             Product: { type: "enum", label: "Product" },
+            Weightage: { type: "number", template: "percentage" },
         };
         $scope.PerformanceModel.Product.valueList = $csShared.enums.Products;
         $scope.ParamList = $csShared.enums.PerformanceParam;
         $scope.performanceMgt = [];
+        $scope.total = 0;
         $scope.PerformanceParam = {
             Param: [],
             Weightage: [],
@@ -29,11 +31,12 @@ csapp.controller("PerformanaceParameterCtrl", ["$scope", "PerformanceManagemnetD
 
 
     $scope.save = function (performanceParam) {
-        var sum = 0;
+
         _.forEach(performanceParam.Weightage, function (row) {
-            sum = sum + row;
+            $scope.total = $scope.total + row;
         });
-        if (sum === 100) {
+
+        if ($scope.total === 100) {
             performanceParam.Param = $scope.ParamList;
             for (var i = 0; i < performanceParam.Param.length; i++) {
                 var item = {

@@ -14,9 +14,14 @@
                         <tr data-ng-repeat="row in ParamList">
                             <td class="col-md-1">{{row}}</td>
                             <td class="col-md-4">
-                                <div class="controls">
-                                    <input type="number" class="input-medium" data-ng-model="PerformanceParam.Weightage[$index]" ng-required="true" />
-                                </div>
+                                <cs-field field="PerformanceModel.Weightage" data-ng-model="PerformanceParam.Weightage[$index]" no-label="true" ng-required="true"></cs-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-1">Total</td>
+                            <td class="col-md-4">
+                               <!--<cs-field field="PerformanceModel.Weightage" ng-model="total" no-label="true"></cs-field>-->
+                                <input class="input-medium" type="number" data-ng-model="total" data-ng-disabled="true" />
                             </td>
                         </tr>
                     </tbody>
