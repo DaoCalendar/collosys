@@ -68,45 +68,25 @@ namespace AngularUI.Stakeholder.addedit.Working
             }
         }
 
-        public static void SetStatusForApprove(List<StkhWorking> workList)
-        {
-            foreach (var stkhWorking in workList)
-            {
-                switch (stkhWorking.ApprovalStatus)
-                {
-                    case ColloSysEnums.ApproveStatus.NotApplicable:
-                    case ColloSysEnums.ApproveStatus.Submitted:
-                    case ColloSysEnums.ApproveStatus.Changed:
-                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
-                        break;
-                }
-            }
-        }
-
-        public static List<StkhWorking> SetStatusForReject(List<StkhWorking> workList)
+        public static List<StkhWorking> SetStatusForApprove(List<StkhWorking> workList)
         {
             var newWorkList = new List<StkhWorking>();
-
             foreach (var stkhWorking in workList)
             {
                 switch (stkhWorking.ApprovalStatus)
                 {
                     case ColloSysEnums.ApproveStatus.NotApplicable:
                     case ColloSysEnums.ApproveStatus.Submitted:
-                        break;
                     case ColloSysEnums.ApproveStatus.Changed:
-                        stkhWorking.EndDate = null;
                         stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
                         newWorkList.Add(stkhWorking);
                         break;
                     case ColloSysEnums.ApproveStatus.Approved:
-                        newWorkList.Add(stkhWorking);
                         break;
                     default:
-                        throw new Exception("invalid approval status: " + stkhWorking.ApprovalStatus);
+                        throw new Exception("invalid appraval status: " + stkhWorking.ApprovalStatus);
                 }
             }
-
             return newWorkList;
         }
 
@@ -124,6 +104,11 @@ namespace AngularUI.Stakeholder.addedit.Working
         public static void SetStatusForDelete(List<StkhWorking> workList)
         {
 
+        }
+
+        public static List<StkhWorking> RejectedWorkingDelete(List<StkhWorking> workList)
+        {
+            return workList.Where(stkhWorking => stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted).ToList();
         }
 
         public static SalaryDetails GetSalaryDetails(PaymentIds parentIds, Dictionary<string, decimal> fixpayData)
@@ -174,5 +159,7 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             return payment;
         }
+
+
     }
 }

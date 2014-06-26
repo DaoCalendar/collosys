@@ -48,22 +48,22 @@
     };
 
     var approveWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'ApproveWorking');
+        return restApi.customPOST(stakeObj, 'ApproveWorkingList');
     };
 
-    var approvePayment = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'ApprovePayment');
+    var approvePayment = function (list) {
+        return restApi.customPOST(list, 'ApprovePayment');
     };
 
     var rejectWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectWorking').then(function (data) {
+        return restApi.customPOST(stakeObj, 'RejectWorkingList').then(function (data) {
             $csnotify.success('Workings Rejected');
             return data;
         });
     };
 
-    var rejectPayment = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectWorking').then(function (data) {
+    var rejectPayment = function (list) {
+        return restApi.customPOST(list, 'RejectWorking').then(function (data) {
             $csnotify.success('Payment Rejected');
             return data;
         });
@@ -103,10 +103,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             fixedPayObj[item.ParamName] = parseFloat(item.Value);
         });
         return fixedPayObj;
-    };
-
-    var getApprovalStatus = function (status) {
-        return undefined;
     };
 
     var resetDisplayManager = function () {
@@ -259,7 +255,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
     var setEndDate = function (list, endDate) {
         _.forEach(list, function (working) {
-            if (working.Status === 'Approved' || working.Status === 'Changed') {
+            if (working.ApprovalStatus === 'Approved' || working.ApprovalStatus === 'Changed') {
                 working.EndDate = endDate;
             }
         });
@@ -272,7 +268,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
             workdata.Stakeholder = stakeholder;
             workdata.StartDate = stakeholder.JoiningDate;
             workdata.Buckets = JSON.stringify(workdata.Buckets);
-            workdata.Status = getApprovalStatus(workdata.Status);
             workdata.LocationLevel = stakeholder.Hierarchy.LocationLevel;
         });
     };
@@ -336,12 +331,12 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     var filterWorkingList = function (workList) {
         var filteredList = [];
         _.forEach(workList, function (work) {
-            if (work.Status === 'Changed') {
+            if (work.ApprovalStatus === 'Changed') {
                 if (checkEndDate(work.EndDate)) {
                     filteredList.push(work);
                 }
             }
-            else if (work.Status !== 'Rejected') {
+            else if (work.ApprovalStatus !== 'Rejected') {
                 filteredList.push(work);
             }
         });
@@ -380,7 +375,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     return {
         GetFixedPayObj: getFixedPayObj,
         GetQueryFor: getQueryFor,
-        GetApprovalStatus: getApprovalStatus,
         ComputeSalary: computeSalary,
         ParseBuckets: parseBuckets,
         GetDisplayManager: getDisplayManager,
@@ -589,8 +583,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 $csnotify.success("Workings Approved");
             });
         };
-        var rejectWorking = function(worklist, param) {
-            datalayer.RejectWorkings(worklist).then(function(data) {
+        var rejectWorking = function (worklist, param) {
+            factory.SetWorkList($scope.currStakeholder, worklist);
+            datalayer.RejectWorkings(worklist).then(function (data) {
                 postApproval(data, param);
                 $csnotify.success("Workings Rejected");
             });
@@ -625,9 +620,9 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
         var removeFromWorkList = function (remainingWorking) {
             _.forEach(remainingWorking, function (workingToBeDeleted) {
-                if (workingToBeDeleted.Status === 'Approved' || workingToBeDeleted.Status === 'Changed') {
+                if (workingToBeDeleted.ApprovalStatus === 'Approved' || workingToBeDeleted.ApprovalStatus === 'Changed') {
                     if (!factory.CheckEndDate(workingToBeDeleted.EndDate))
-                        factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
+                        factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Product", $scope.selectedHierarchy.LocationLevel]);
                 } else {
                     factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Product", $scope.selectedHierarchy.LocationLevel]);
                 }
@@ -662,7 +657,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.getEndDate = function (data) {
-            if (data.Status === 'Changed') {
+            if (data.ApprovalStatus === 'Changed') {
                 if ($csfactory.isNullOrEmptyString(data.EndDate)) return "";
                 else {
                     return 'End Date: ' + moment(data.EndDate).format('YYYY-MM-DD');
@@ -691,7 +686,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.showEndDate = function (deleteList) {
             var showEndDt = false;
             _.forEach(deleteList, function (working) {
-                if (working.Status === 'Approved' || working.Status === 'Changed')
+                if (working.ApprovalStatus === 'Approved' || working.ApprovalStatus === 'Changed')
                     showEndDt = true;
             });
             return showEndDt;
@@ -700,7 +695,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.showApproveButtons = function (workList) {
             var showApproveBtn = false;
             _.forEach(workList, function (work) {
-                if (work.Status == 'Submitted') {
+                if (work.ApprovalStatus == 'Submitted') {
                     showApproveBtn = true;
                 }
             });

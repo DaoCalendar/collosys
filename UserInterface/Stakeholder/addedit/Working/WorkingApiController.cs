@@ -72,6 +72,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage SaveWorking(List<StkhWorking> workingData)
         {
+            workingData = WorkingPaymentHelper.SetStatusForSave(workingData);
             StakeWorkingQueryBuilder.Save(workingData);
             var reportsToIds = workingData.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
@@ -93,24 +94,32 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage DeleteWorking(IEnumerable<StkhWorking> deleteList)
+        public HttpResponseMessage DeleteWorking(List<StkhWorking> deleteList)
         {
-            var stkhWorkings = deleteList as IList<StkhWorking> ?? deleteList.ToList();
-            foreach (var stkhWorking in stkhWorkings.Where(stkhWorking => stkhWorking.Id != Guid.Empty))
+            foreach (var stkhWorking in deleteList)
             {
-                if (stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
-                    stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
+                switch (stkhWorking.ApprovalStatus)
                 {
-                    StakeWorkingQueryBuilder.Save(stkhWorking);
-                }
-                else
-                {
-                    StakeWorkingQueryBuilder.Delete(stkhWorking);
+                    case ColloSysEnums.ApproveStatus.NotApplicable:
+                        break;
+                    case ColloSysEnums.ApproveStatus.Submitted:
+                        StakeWorkingQueryBuilder.Delete(stkhWorking);
+                        break;
+                    case ColloSysEnums.ApproveStatus.Approved:
+                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
+                        StakeWorkingQueryBuilder.Save(stkhWorking);
+                        break;
+                    case ColloSysEnums.ApproveStatus.Changed:
+                        stkhWorking.EndDate = null;
+                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+                        StakeWorkingQueryBuilder.Save(stkhWorking);
+                        break;
 
+                    default:
+                        throw new Exception("invalid approval status: " + stkhWorking.ApprovalStatus);
                 }
             }
-
-            return Request.CreateResponse(HttpStatusCode.OK, stkhWorkings);
+            return Request.CreateResponse(HttpStatusCode.OK, deleteList);
         }
 
         [HttpPost]
@@ -145,16 +154,7 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage ApproveWorkingList(List<StkhWorking> worklist)
         {
             //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
-
-            foreach (var stkhWorking in worklist
-                                            .Where(stkhWorking => stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted
-                                            || stkhWorking.Status == ColloSysEnums.ApproveStatus.Changed))
-                                                stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted || stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed))
-            {
-                stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
-            }
-
-            StakeWorkingQueryBuilder.Save(worklist);
+            StakeWorkingQueryBuilder.Save(WorkingPaymentHelper.SetStatusForApprove(worklist));
             var reportsToIds = worklist.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
 
@@ -186,14 +186,24 @@ namespace AngularUI.Stakeholder.addedit.Working
         public HttpResponseMessage RejectWorkingList(List<StkhWorking> workList)
         {
             //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
-
             foreach (var stkhWorking in workList)
             {
-                stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
+                switch (stkhWorking.ApprovalStatus)
+                {
+                    case ColloSysEnums.ApproveStatus.NotApplicable:
+                    case ColloSysEnums.ApproveStatus.Submitted:
+                        StakeWorkingQueryBuilder.Delete(stkhWorking);
+                        break;
+                    case ColloSysEnums.ApproveStatus.Changed:
+                        stkhWorking.EndDate = null;
+                        StakeWorkingQueryBuilder.Save(stkhWorking);
+                        break;
+                    case ColloSysEnums.ApproveStatus.Approved:
+                        break;
+                    default:
+                        throw new Exception("invalid approval status: " + stkhWorking.ApprovalStatus);
+                }
             }
-
-            StakeWorkingQueryBuilder.Save(workList);
-
             return Request.CreateResponse(HttpStatusCode.OK,
                                           workList);
         }
