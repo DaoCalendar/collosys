@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.DbLayer;
+using ColloSys.FileUploaderService.RowCounter;
 using NLog;
 
 namespace ColloSys.FileUploaderService.RecordManager

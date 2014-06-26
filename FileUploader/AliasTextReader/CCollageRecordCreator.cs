@@ -69,7 +69,7 @@ namespace ColloSys.FileUploaderService.AliasTextReader
                 obj = null;
                 return false;
             }
-
+            Counter.IncrementValidRecords();
             obj = liner;
             return true;
         }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.ExcelReader;
+using ColloSys.FileUploaderService.RowCounter;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 using ReflectionExtension.Tests.DataCreator.FileUploader;

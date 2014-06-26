@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.ExcelReader;
+using ColloSys.FileUploaderService.RowCounter;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploader.Utilities

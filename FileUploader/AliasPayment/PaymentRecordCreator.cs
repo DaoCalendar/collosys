@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RecordManager;
 using NLog;

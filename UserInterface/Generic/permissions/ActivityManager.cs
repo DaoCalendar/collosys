@@ -340,6 +340,11 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 
         }
 
+        private static void AddLegalActivities(GPermission user)
+        {
+            AddActivity(user, ColloSysEnums.Activities.Legal);
+        }
+
         private static void AddUserActivity(GPermission user)
         {
             AddActivity(user, ColloSysEnums.Activities.Logout);
@@ -347,11 +352,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(user, ColloSysEnums.Activities.ChangePassword);
         }
 
-        private static void AddLegalActivities(GPermission user)
-        {
-            AddActivity(user, ColloSysEnums.Activities.AddEdit);
-           
-        }
+       
         
     }
 }

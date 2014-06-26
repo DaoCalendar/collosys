@@ -8,10 +8,10 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploader.Reflection;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.ExcelReader;
+using ColloSys.FileUploaderService.RowCounter;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -141,6 +141,7 @@ namespace ColloSys.FileUploaderService.RecordManager
             Counter.IncrementInsertRecords();
             Counter.IncrementValidRecords();
             Reader.NextRow();
+            
             return true;
         }
 

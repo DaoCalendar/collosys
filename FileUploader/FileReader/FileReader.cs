@@ -8,9 +8,9 @@ using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
 using ColloSys.DataLayer.SessionMgr;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RecordManager;
+using ColloSys.FileUploaderService.RowCounter;
 using ColloSys.FileUploaderService.Utilities;
 using NLog;
 
@@ -104,13 +104,15 @@ namespace ColloSys.FileUploaderService.FileReader
                 {
                     obj.FileScheduler = FileScheduler;
                     ((IFileUploadable) obj).FileDate = FileScheduler.FileDate;
-                    obj.FileRowNo = Counter.CurrentRow-1;
+                    obj.FileRowNo = Counter.CurrentRow;
                     list.Add(obj);
                     TodayRecordList.AddEntity(obj);
                 }
+                
             }
-
+            Counter.CalculateTotalRecord();
             return list;
+
         }
 
         public abstract bool PostProcessing();

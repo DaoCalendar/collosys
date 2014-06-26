@@ -1,4 +1,4 @@
-﻿namespace ColloSys.FileUploader.RowCounter
+﻿namespace ColloSys.FileUploaderService.RowCounter
 {
     public interface ICounter
     {
@@ -17,5 +17,6 @@
         void IncrementDuplicateRecords();
         void IncrementTotalRecords();
         void IncrementLineNo();
+        void CalculateTotalRecord();
     }
 }

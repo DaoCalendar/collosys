@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploaderService.RecordManager;
+using ColloSys.FileUploaderService.RowCounter;
 using ReflectionExtension.ExcelReader;
 
 namespace ColloSys.FileUploaderService.FileReader

@@ -100,6 +100,8 @@
     <Compile Include="AliasPayment\RlsPaymentManualReversalRecordCreator.cs" />
     <Compile Include="AliasPayment\RlsPaymentWoAebRecordCreator.cs" />
     <Compile Include="AliasPayment\RlsPaymentWoPlpcRecordCreator.cs" />
+    <Compile Include="AliasTextReader\CACSActivityFileReader.cs" />
+    <Compile Include="AliasTextReader\CACSActivityRecordCreator.cs" />
     <Compile Include="AliasTextReader\CCollageFileReader.cs" />
     <Compile Include="AliasTextReader\CCollageRecordCreator.cs" />
     <Compile Include="AliasTextReader\CUnBilledFileReader.cs" />

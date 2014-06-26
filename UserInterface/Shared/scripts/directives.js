@@ -340,8 +340,6 @@ csapp.directive('csButton2', ['$parse', '$compile', 'PermissionFactory', 'csButt
             html += ' ng-disabled="' + (attrs.ngDisabled ? (attrs.ngDisabled + '|| isDisabled()"') : 'isDisabled()"');
             html += '/>';
             html += '</span>';
-            console.log(html);
-
             return html;
         };
 

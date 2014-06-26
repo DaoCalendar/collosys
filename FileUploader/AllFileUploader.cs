@@ -59,7 +59,7 @@ namespace ColloSys.FileUploaderService
                     break;
 
                 case ColloSysEnums.FileAliasName.C_PAYMENT_LIT:
-                    IFileReader<Payment> paymentLit = new LitUitFileReader(scheduler); 
+                    IFileReader<Payment> paymentLit = new LitUitFileReader(scheduler);
                     paymentLit.ProcessFile();
                     break;
 
@@ -145,7 +145,14 @@ namespace ColloSys.FileUploaderService
                     var rWriteOffSme = new RWriteOffSmeFR(scheduler);
                     rWriteOffSme.ProcessFile();
                     break;
+                case ColloSysEnums.FileAliasName.C_WRITEOFF:
+                    var cWriteOff = new CWriteOffFileReader(scheduler);
+                    cWriteOff.ProcessFile();
+                    break;
+
                 #endregion
+
+
 
                 #region Liner
 
@@ -178,6 +185,14 @@ namespace ColloSys.FileUploaderService
                 case ColloSysEnums.FileAliasName.C_LINER_UNBILLED:
                     IFileReader<CUnbilled> paymentUnBilled = new CUnBilledFileReader(scheduler);
                     paymentUnBilled.ProcessFile();
+                    break;
+                #endregion
+
+
+                #region CACSActivity
+                case ColloSysEnums.FileAliasName.CACS_ACTIVITY:
+                    var cacsActivity = new CacsActivityFileReader(scheduler);
+                    cacsActivity.ProcessFile();
                     break;
                 #endregion
 

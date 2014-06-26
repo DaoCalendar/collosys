@@ -29,6 +29,9 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             ulong.TryParse(Reader.GetValue(2), out loanNumber);
             entity.AccountNo = loanNumber.ToString("D11");
 
+            var limitProvnPdtCode = Reader.GetValue(15).ToString(CultureInfo.InvariantCulture);
+            entity.Product = DecodeScbProduct.GetEBBSProduct(limitProvnPdtCode);
+
             // check date of reaging and date past due
             var dateofReagingExcel = Reader.GetValue(19).ToString(CultureInfo.InvariantCulture);
             var dayPastDueExcel = Reader.GetValue(21).ToString(CultureInfo.InvariantCulture);
@@ -49,6 +52,8 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
 
             // bucket
             entity.Bucket = GetBucketForELiner(entity) + 1;
+
+            
 
             return true;
         }
