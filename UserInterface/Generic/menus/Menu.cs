@@ -104,6 +104,7 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax List", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxlist }, "#/generic/taxlist");
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
             config.AddChild("Esclation Matrix", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.EsclationMatrix }, "#/generic/esclationmatrix");
+            config.AddChild("Encrypt", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.EncryptDecrypt }, "#/generic/Encrypt");
 
             var user = menu.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");
@@ -117,8 +118,8 @@ namespace AngularUI.Generic.Menu
             devTools.AddChild("Execute Query", new[] { ColloSysEnums.Activities.Developer }, "#/developer/queryexecuter");
             devTools.AddChild("System Explorer", new[] { ColloSysEnums.Activities.Developer }, "#/developer/logdownload");
 
-            var performanceParam = menu.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#", "fa-question-circle");
-            performanceParam.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.PerformanceParameter }, "#/performanceparameter");
+            var performance = menu.AddChild("Performance", new[] { ColloSysEnums.Activities.Performance }, "#", "fa-question-circle");
+            performance.AddChild("PerformanceParam", new[] { ColloSysEnums.Activities.Performance, ColloSysEnums.Activities.PerformanceParam }, "#/performance/performanceparameter");
            
             var legal = menu.AddChild("Legal", new[] { ColloSysEnums.Activities.Legal }, "#", "fa-legal");
             legal.AddChild("RequisitionPreparation", new[] { ColloSysEnums.Activities.Legal }, "#/Legal/RequisitionPreparation");

@@ -1,18 +1,18 @@
-﻿<div class="row" ng-controller="config" data-ng-cloak="">
+﻿<div>
     <div class="panel panel-default" ng-form="encryptForm">
         <div class="panel-heading">
             Encrypt / Decrypt Sections Web.config
         </div>
-        <div class="row form-horizontal">
-            <div class="form-group">
+        <div>
+            <div>
                 <label class="control-label">Select Section</label>
                 <div class="controls">
-                    <select ng-model="sectionName" id="section"  ng-options="c for c in sections" required>
+                    <select style="width: 150px;" ng-model="sectionName" id="section"  ng-options="c for c in sections" required>
                         <option value=""></option>
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div >
                 <div class="controls">
                     <input type="button" ng-click="encryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Encrypt Section"/>
                     <input type="button" ng-click="decryptSection()" ng-disabled="!encryptForm.$valid" class="btn btn-info" value="Decrypt Section"/>

@@ -76,31 +76,31 @@
                             <cs-button2 type="save"
                                         data-ng-show="formMode!=='view'"
                                         text="{{getTextForSaveBtn()}}"
-                                        permission="AddEdit"
+                                        permission="StakeholderAddEdit"
                                         data-ng-disabled="basicInfoForm.$invalid"
                                         data-on-click="saveData(Stakeholder)"></cs-button2>
                             <span data-ng-if="formMode !== 'add'">
                                 <cs-button2 type="approve"
                                             data-ng-show="Stakeholder.ApprovalStatus === 'Submitted'" 
-                                            permission="Approve"
+                                            permission="StakeholderApprove"
                                             data-on-click="setApprovalStatus(Stakeholder.Id,'approve')"></cs-button2> 
                                 <cs-button2 type="reject"
                                             data-ng-show="Stakeholder.ApprovalStatus === 'Submitted'" 
-                                            permission="Approve"
+                                            permission="StakeholderApprove"
                                             on-click="setApprovalStatus(Stakeholder.Id,'reject')"></cs-button2>
                             </span>
                             <cs-button2 type="cancel"
-                                       permission="AddEdit"
+                                       permission="StakeholderAddEdit"
                                        data-on-click="cancel()"></cs-button2>
                             <span data-ng-if="formMode==='add'">
                                 <cs-button2 type="reset"
-                                           permission="AddEdit"
+                                           permission="StakeholderAddEdit"
                                            data-on-click="reset()"></cs-button2>
                             </span>
                             <span data-ng-if="formMode==='view'">
                                 <cs-button2
                                     type="edit"
-                                    permission ="AddEdit"
+                                    permission ="StakeholderAddEdit"
                                     data-on-click="changeMode()"> </cs-button2>
                             </span>
                        

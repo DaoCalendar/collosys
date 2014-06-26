@@ -161,7 +161,7 @@
     <Compile Include="Generic\login\LoginModel.cs" />
     <Compile Include="Generic\menus\Menu.cs" />
     <Compile Include="Generic\menus\MenuApiController.cs" />
-    <Compile Include="performanceparameter\PerformanceParamsApiController.cs" />
+    <Compile Include="Performance\performanceparameter\PerformanceParamsApiController.cs" />
     <Compile Include="Generic\permissions\ActivityManager.cs" />
     <Compile Include="Generic\permissions\PermissionApi.cs" />
     <Compile Include="Generic\csgrid\NgGridOptions.cs" />
@@ -325,8 +325,8 @@
     <Content Include="Generic\esclationmatrix\esclationmatrix.html" />
     <Content Include="Generic\esclationmatrix\esclationmatrix.js" />
     <Content Include="Generic\menus\menu-vertical.html" />
-    <Content Include="performanceparameter\PerformanaceParams.html" />
-    <Content Include="performanceparameter\PerformanceParams.js" />
+    <Content Include="Performance\performanceparameter\PerformanaceParams.html" />
+    <Content Include="Performance\performanceparameter\PerformanceParams.js" />
     <Content Include="Generic\stkhleave\StkhLeave.html" />
     <Content Include="Generic\stkhleave\StkhLeave.js" />
     <Content Include="Generic\taxlist\taxlist-list.html" />

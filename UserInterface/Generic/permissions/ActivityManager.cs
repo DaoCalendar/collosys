@@ -159,8 +159,8 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
             AddDeveloperActivities(developer);
 
-            var performanceParam = AddActivity(root, ColloSysEnums.Activities.PerformanceParameter);
-            AddDeveloperActivities(performanceParam);
+            var performance= AddActivity(root, ColloSysEnums.Activities.Performance);
+            AddPerformanceActivities(performance);
 
             var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
             AddLegalActivities(legal);
@@ -321,6 +321,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
             //AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.AddEdit);
+
+            var encryptDecryptActivity = AddActivity(config, ColloSysEnums.Activities.EncryptDecrypt, desciption: "Config");
+            AddActivity(encryptDecryptActivity, ColloSysEnums.Activities.AddEdit);
         }
 
         private static void AddDeveloperActivities(GPermission dev)
@@ -329,6 +332,12 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(dev, ColloSysEnums.Activities.SystemExplorer, desciption: "cofigure new file for upload");
             AddActivity(dev, ColloSysEnums.Activities.DbTables, desciption: "cofigure new file for upload");
             AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, desciption: "cofigure new file for upload");
+        }
+
+        private static void AddPerformanceActivities(GPermission performance)
+        {
+            AddActivity(performance, ColloSysEnums.Activities.PerformanceParam, desciption: "Performance parameter");
+
         }
 
         private static void AddUserActivity(GPermission user)

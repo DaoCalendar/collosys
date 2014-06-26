@@ -9,9 +9,11 @@ namespace AngularUI.Generic.connection
         {
 
             //var config = WebConfigurationManager.OpenWebConfiguration(Request.ApplicationPath);
-            var config = WebConfigurationManager.OpenWebConfiguration("~");
+            //var config = WebConfigurationManager.OpenWebConfiguration("~");
+            var config = ConnectionStringMgr.ReadConfiguration();
             var section = config.GetSection(sectionName);
             if (section.SectionInformation.IsProtected) return;
+
             section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
             section.SectionInformation.ForceSave = true;
             config.Save(ConfigurationSaveMode.Full);
@@ -19,7 +21,8 @@ namespace AngularUI.Generic.connection
 
         public static void DecryptConnString(string sectionName)
         {
-            var config = WebConfigurationManager.OpenWebConfiguration("~");
+            //var config = WebConfigurationManager.OpenWebConfiguration("~");
+            var config = ConnectionStringMgr.ReadConfiguration();
             var section = config.GetSection(sectionName);
             if (!section.SectionInformation.IsProtected) return;
             section.SectionInformation.ForceSave = true;

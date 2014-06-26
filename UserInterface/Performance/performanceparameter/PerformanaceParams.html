@@ -1,0 +1,31 @@
+﻿<form name="performancemanagementForm">
+    <cs-form mode="mode">
+        <div layout="6.4.8">
+            <cs-field field="PerformanceModel.Product" ng-model="PerformParam.Products" ng-change="fetchParams(PerformParam.Products)" ng-required="true"></cs-field>
+            <div class="col-md-7" data-ng-show="PerformParam.Products">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Params</td>
+                            <td>Weightage</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="row in performanceMgt">
+                            <td><cs-field field="PerformanceModel.Param" no-label="true" ng-model="performanceMgt[$index].Param" ng-disabled="true"></cs-field></td>
+                            <td><cs-field field="PerformanceModel.Weightage" no-label="true" ng-model="performanceMgt[$index].Weightage" ng-change="totalWeightage(performanceMgt)"></cs-field></td>
+                        </tr>
+                        <tr class="text-center">
+                            <td>Total</td>
+                            <td><cs-field field="PerformanceModel.Total" no-label="true" ng-model="PerformParam.total" ng-disabled="true"></cs-field></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-7" data-ng-show="PerformParam.Products">
+                <cs-button2 type="save" permission="all" on-click="save(performanceMgt)"></cs-button2>
+                <cs-button2 type="cancel" permission="all" on-click="cancel()"></cs-button2>
+            </div>
+        </div>
+    </cs-form>
+</form>
