@@ -106,10 +106,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     var getApprovalStatus = function (status) {
-        if (status === 'Approved' || status === 'Changed') return 'Changed';
-        else {
-            return 'Submitted';
-        }
+        return undefined;
     };
 
     var resetDisplayManager = function () {
@@ -268,7 +265,7 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         });
     };
 
-    var setWorkList = function (stakeholder, worklist, working) {
+    var setWorkList = function (stakeholder, worklist) {
         stakeholder.StkhWorkings = [];
         stakeholder.StkhPayment = [];
         _.forEach(worklist, function (workdata) {
@@ -454,7 +451,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
             $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
-            $scope.deleteWorkingList = [];
+            $scope.selectedWorkingList = [];
         })();
 
         $scope.getSalaryDetails = function () {
@@ -532,7 +529,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         $scope.save = function (workList) {
-            factory.SetWorkList($scope.currStakeholder, workList, $scope.Working);
+            factory.SetWorkList($scope.currStakeholder, workList);
             return datalayer.SaveWorking(workList).then(function (data) {
                 $scope.workingDetailsList = data.WorkList;
                 if (!$scope.selectedHierarchy.HasPayment) {
@@ -545,26 +542,25 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             });
         };
 
-        $scope.addWorkingToDelete = function (data) {
-            var selected = _.find($scope.deleteWorkingList, function (working) { return working === data; });
+        $scope.addWorkingToList = function (data) {
+            var selected = _.find($scope.selectedWorkingList, function (working) { return working === data; });
             if ($csfactory.isEmptyObject(selected)) {
-                $scope.deleteWorkingList.push(data);
+                $scope.selectedWorkingList.push(data);
             } else {
-                factory.Splice($scope.deleteWorkingList, data);
+                factory.Splice($scope.selectedWorkingList, data);
             }
         };
 
-        $scope.setApprovalStatus = function (id, status, param) {
+        $scope.setApprovalStatus = function (param1, status, param) {
             var stakeObj = {
-                Id: id,
+                Id: param1,
             };
             switch (status) {
                 case 'approve':
                     switch (param) {
                         case 'working':
-                            return datalayer.ApproveWorkings(stakeObj).then(function (data) {
-                                return postApproval(data, param);
-                            });
+                            return approveWorking(param1, param);
+
                         case 'payment':
                             return datalayer.ApprovePayment(stakeObj).then(function (data) {
                                 return postApproval(data, param);
@@ -573,9 +569,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                 case 'reject':
                     switch (param) {
                         case 'working':
-                            return datalayer.RejectWorkings(stakeObj).then(function (data) {
-                                return postApproval(data, param);
-                            });
+                            return rejectWorking(param1, param);
+
                         case 'payment':
                             return datalayer.RejectPayment(stakeObj).then(function (data) {
                                 return postApproval(data, param);
@@ -587,12 +582,25 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             }
 
         };
+        var approveWorking = function (workList, param) {
+            factory.SetWorkList($scope.currStakeholder, workList);
+            datalayer.ApproveWorkings(workList).then(function (data) {
+                postApproval(data, param);
+                $csnotify.success("Workings Approved");
+            });
+        };
+        var rejectWorking = function(worklist, param) {
+            datalayer.RejectWorkings(worklist).then(function(data) {
+                postApproval(data, param);
+                $csnotify.success("Workings Rejected");
+            });
+        };
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
                     $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
-                    $csnotify.success("Workings Approved");
+                    $scope.selectedWorkingList = [];
                     return $scope.workingDetailsList;
                 case 'payment':
                     $scope.Payment = data;
@@ -607,13 +615,13 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         //TODO: why seperate logic for splicing it when it can maintained as is
         //TODO: handle delete of unsaved working
         $scope.deleteSelectedWorking = function (endDate) {
-            factory.SetEndDate($scope.deleteWorkingList, endDate);
-            factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);
-            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function (remainingWorking) {
+            factory.SetEndDate($scope.selectedWorkingList, endDate);
+            factory.SetWorkList($scope.currStakeholder, $scope.selectedWorkingList);
+            datalayer.DeleteWorkingList($scope.selectedWorkingList).then(function (remainingWorking) {
                 var remainingData = angular.copy(removeFromWorkList(remainingWorking));
                 getStakeData().then(function (data) { addUnsavedDataToList(data.Stakeholder, remainingData); });
             });
-            $scope.deleteWorkingList = [];
+            $scope.selectedWorkingList = [];
         };
         var removeFromWorkList = function (remainingWorking) {
             _.forEach(remainingWorking, function (workingToBeDeleted) {

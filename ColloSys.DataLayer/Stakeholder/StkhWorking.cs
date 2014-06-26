@@ -30,7 +30,7 @@ namespace ColloSys.DataLayer.Stakeholder
         public virtual DateTime? EndDate { get; set; }
         public virtual string LocationLevel { get; set; }
 
-        public virtual ColloSysEnums.ApproveStatus Status { get; set; }
+        public virtual ColloSysEnums.ApproveStatus ApprovalStatus { get; set; }
         public virtual string ApprovedBy { get; set; }
         public virtual DateTime? ApprovedOn { get; set; }
     }

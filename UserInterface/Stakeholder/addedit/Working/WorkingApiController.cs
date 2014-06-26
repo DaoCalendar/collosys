@@ -90,8 +90,8 @@ namespace AngularUI.Stakeholder.addedit.Working
             var stkhWorkings = deleteList as IList<StkhWorking> ?? deleteList.ToList();
             foreach (var stkhWorking in stkhWorkings.Where(stkhWorking => stkhWorking.Id != Guid.Empty))
             {
-                if (stkhWorking.Status == ColloSysEnums.ApproveStatus.Approved ||
-                    stkhWorking.Status == ColloSysEnums.ApproveStatus.Changed)
+                if (stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved ||
+                    stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed)
                 {
                     StakeWorkingQueryBuilder.Save(stkhWorking);
                 }
@@ -127,25 +127,25 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage ApproveWorking(StkhId stakeholder)
+        public HttpResponseMessage ApproveWorkingList(List<StkhWorking> worklist)
         {
-            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
 
-            foreach (var stkhWorking in stkh.StkhWorkings
+            foreach (var stkhWorking in worklist
                                             .Where(
                                                 stkhWorking =>
-                                                stkhWorking.Status == ColloSysEnums.ApproveStatus.Submitted))
+                                                stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted || stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Changed))
             {
-                stkhWorking.Status = ColloSysEnums.ApproveStatus.Approved;
+                stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
             }
 
-            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
-            var reportsToIds = stkh.StkhWorkings.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            StakeWorkingQueryBuilder.Save(worklist);
+            var reportsToIds = worklist.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
 
             var data = new
                 {
-                    WorkList = stkh.StkhWorkings,
+                    WorkList = worklist,
                     ReportsToList = reportsToStakeholders
                 };
 
@@ -168,19 +168,19 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage RejectWorking(StkhId stakeholder)
+        public HttpResponseMessage RejectWorkingList(List<StkhWorking> workList)
         {
-            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
 
-            foreach (var stkhWorking in stkh.StkhWorkings)
+            foreach (var stkhWorking in workList)
             {
-                stkhWorking.Status = ColloSysEnums.ApproveStatus.Rejected;
+                stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
             }
 
-            StakeWorkingQueryBuilder.Save(stkh.StkhWorkings);
+            StakeWorkingQueryBuilder.Save(workList);
 
             return Request.CreateResponse(HttpStatusCode.OK,
-                                          stkh.StkhWorkings);
+                                          workList);
         }
 
         [HttpPost]
