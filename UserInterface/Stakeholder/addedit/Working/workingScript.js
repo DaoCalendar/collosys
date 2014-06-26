@@ -437,7 +437,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         (function () {
-            $scope.$parent.WorkingModel = {
+            $scope. WorkingModel = {
                 SelectedPincodeData: {},
                 QueryFor: "",
                 MultiSelectValues: [],
@@ -478,8 +478,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
         var autoSelect = function (reportsToList) {
             if (reportsToList.length === 1) {
-                $scope.$parent.WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
-                $scope.getPincodeData($scope.$parent.WorkingModel);
+                $scope. WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
+                $scope.getPincodeData($scope. WorkingModel);
             }
         };
 
