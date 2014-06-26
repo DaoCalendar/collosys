@@ -1,5 +1,5 @@
 ﻿using ColloSys.DataLayer.Domain;
-using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.RowCounter;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ColloSys.FileUploader.RowCounter;
+using ColloSys.FileUploaderService.RowCounter;
 using NUnit.Framework;
 using ReflectionExtension.ExcelReader;
 

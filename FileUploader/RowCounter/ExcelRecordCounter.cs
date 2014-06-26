@@ -1,5 +1,5 @@
 ﻿
-namespace ColloSys.FileUploader.RowCounter
+namespace ColloSys.FileUploaderService.RowCounter
 {
     public class ExcelRecordCounter : ICounter
     {
@@ -47,6 +47,11 @@ namespace ColloSys.FileUploader.RowCounter
         public void IncrementLineNo()
         {
             CurrentRow++;
+        }
+
+        public void CalculateTotalRecord()
+        {
+            TotalRecords = CurrentRow;
         }
     }
 }

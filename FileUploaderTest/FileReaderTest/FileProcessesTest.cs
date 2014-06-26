@@ -3,12 +3,12 @@ using System.IO;
 using ColloSys.DataLayer.ClientData;
 using ColloSys.DataLayer.Domain;
 using ColloSys.DataLayer.Enumerations;
-using ColloSys.FileUploader.RowCounter;
 using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.AliasPayment;
 using ColloSys.FileUploaderService.ExcelReader;
 using ColloSys.FileUploaderService.FileReader;
 using ColloSys.FileUploaderService.RecordManager;
+using ColloSys.FileUploaderService.RowCounter;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 
