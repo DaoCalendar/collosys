@@ -64,7 +64,7 @@ namespace ColloSys.FileUploader.Reflection
         {
             value = ChangeValue(value);
 
-            var propertyInfo = obj.GetType().GetProperty(propName.TrimEnd().TrimStart());
+            var propertyInfo = obj.GetType().GetProperty(propName.Trim());
             if (propertyInfo.PropertyType == typeof(string))
             {
                 var stringHelper = new StringSetter();
@@ -214,7 +214,7 @@ namespace ColloSys.FileUploader.Reflection
             if (value == null)
                 return null;
 
-            if ( value==" - " || value.TrimEnd().TrimStart()=="-")
+            if ( value==" - " || value.Trim()=="-")
             {
                 return string.Empty;
             }
