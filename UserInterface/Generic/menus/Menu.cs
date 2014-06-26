@@ -104,6 +104,7 @@ namespace AngularUI.Generic.Menu
             config.AddChild("Tax List", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxlist }, "#/generic/taxlist");
             config.AddChild("Tax Master", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.Taxmaster }, "#/generic/taxmaster");
             config.AddChild("Esclation Matrix", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.GNotifications }, "#/generic/GNotifications");
+            config.AddChild("Encrypt", new[] { ColloSysEnums.Activities.Config, ColloSysEnums.Activities.EncryptDecrypt }, "#/generic/Encrypt");
 
             var user = menu.AddChild("User", new[] { ColloSysEnums.Activities.User }, "#", "fa fa-users");
             user.AddChild("Profile", new[] { ColloSysEnums.Activities.User }, "#/generic/profile");

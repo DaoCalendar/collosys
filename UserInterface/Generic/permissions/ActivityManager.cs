@@ -321,6 +321,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
             //AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.AddEdit);
+
+            var encryptDecryptActivity = AddActivity(config, ColloSysEnums.Activities.EncryptDecrypt, desciption: "Config");
+            AddActivity(encryptDecryptActivity, ColloSysEnums.Activities.AddEdit);
         }
 
         private static void AddDeveloperActivities(GPermission dev)

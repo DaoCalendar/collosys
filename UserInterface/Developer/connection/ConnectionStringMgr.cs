@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web.Configuration;
 
 namespace AngularUI.Generic.connection
@@ -12,15 +14,15 @@ namespace AngularUI.Generic.connection
     {
         public static IList<ConnectionStringData> GetAllConnectionStrings()
         {
-            IList<ConnectionStringData> list=new List<ConnectionStringData>();
+            IList<ConnectionStringData> list = new List<ConnectionStringData>();
             foreach (ConnectionStringSettings connectionString in ConfigurationManager.ConnectionStrings)
             {
                 var item = new ConnectionStringData
-                    {
-                        Name = connectionString.Name,
-                        ProviderName = connectionString.ProviderName,
-                        ConnectionString = connectionString.ConnectionString
-                    };
+                {
+                    Name = connectionString.Name,
+                    ProviderName = connectionString.ProviderName,
+                    ConnectionString = connectionString.ConnectionString
+                };
                 try
                 {
                     CreateParamsFromConnectionString(item);
@@ -39,9 +41,9 @@ namespace AngularUI.Generic.connection
         {
             if (connection == null)
                 return null;
-            
+
             //if (string.IsNullOrEmpty(connection.ConnectionString))
-                connection.ConnectionString = CreateConnectionStringFromParams(connection);
+            connection.ConnectionString = CreateConnectionStringFromParams(connection);
 
 
             var config = WebConfigurationManager.OpenWebConfiguration("~");
@@ -58,7 +60,7 @@ namespace AngularUI.Generic.connection
             var list = GetAllConnectionStrings();
             if (list.Any(x => x.Name == connection.Name))
                 config.ConnectionStrings.ConnectionStrings.Remove(connection.Name);
-            
+
             config.ConnectionStrings.ConnectionStrings.Add(settings);
             config.Save(ConfigurationSaveMode.Modified);
 
@@ -74,13 +76,18 @@ namespace AngularUI.Generic.connection
             return CreateConnection(connection.ConnectionString);
         }
 
+        //public static IList<string> GetSectionsNames()
+        //{
+        //    var config = WebConfigurationManager.OpenWebConfiguration("~");
+
+        //    return (from ConfigurationSection cs in config.Sections select cs.SectionInformation.SectionName).ToList();
+        //}
+
         public static IList<string> GetSectionsNames()
         {
-            var config = WebConfigurationManager.OpenWebConfiguration("~");
-
+            var config = ReadConfiguration();
             return (from ConfigurationSection cs in config.Sections select cs.SectionInformation.SectionName).ToList();
         }
-
         private static string CreateConnectionStringFromParams(ConnectionStringData data)
         {
             var connectionstring = "Data Source=" + data.DataSource + ";" +
@@ -93,7 +100,7 @@ namespace AngularUI.Generic.connection
 
         private static void CreateParamsFromConnectionString(ConnectionStringData data)
         {
-            if(data.ConnectionString==string.Empty)
+            if (data.ConnectionString == string.Empty)
                 return;
             var paramarray = data.ConnectionString.Split(';');
             data.DataSource = paramarray[0].Split('=')[1];
@@ -120,7 +127,22 @@ namespace AngularUI.Generic.connection
             }
             return isValidConnectionString;
         }
+
+        public static Configuration ReadConfiguration()
+        {
+            var appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase);
+            if (appPath == null)
+                throw new InvalidDataException("Could not get the config path!!!");
+            appPath = appPath.Replace("file:\\", "");
+            //var currentDomainPath = AppDomain.CurrentDomain.RelativeSearchPath + "\\" + "ColloSys.config";
+            var currentDomainPath = appPath + "\\" + "ColloSys.config";
+            var fileMap = new ConfigurationFileMap(currentDomainPath); //Path to your config file
+            var configuration = ConfigurationManager.OpenMappedMachineConfiguration(fileMap);
+            return configuration;
+        }
     }
+
+
 
     public class ConnectionStringData
     {

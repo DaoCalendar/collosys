@@ -258,6 +258,9 @@ csapp.provider("routeConfiguration", function RouteConfigurationProvider() {
             }).when('/generic/GNotifications', {
                 templateUrl: baseUrl + 'Generic/GNotifications/Gnotifications.html',
                 controller: 'GNotificationsCtrl'
+            }).when('/generic/Encrypt', {
+                templateUrl: baseUrl + 'Generic/general/index.html',
+                controller: 'config'
             })
 
             //developer
