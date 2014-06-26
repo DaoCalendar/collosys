@@ -7,8 +7,13 @@ csapp.factory('ViewStakeholderDatalayer', ["Restangular", function (rest) {
         return restApi.customGET('GetAllStakeHolders');
     };
 
+    var getFilteredList = function (filterParam) {
+        return restApi.customGET("GetFilteredList", { "filterParam": filterParam });
+    };
+
     return {
-        GetStakeholder: getStakeholder
+        GetStakeholder: getStakeholder,
+        GetFilteredList: getFilteredList
     };
 
 }]);
@@ -25,6 +30,10 @@ csapp.controller('viewStake', [
 
         (function () {
             getAllStakeholders();
+            $scope.fields = {
+                filters: { type: 'enum', label: 'Filters' }
+            };
+            $scope.filterList = ['Approved', 'Unapproved'];
         })();
 
         $scope.switchPage = function (data, page) {
@@ -39,6 +48,12 @@ csapp.controller('viewStake', [
                 default:
                     throw "invalid page name " + page;
             }
+        };
+
+        $scope.getStakeholders = function (filterParam) {
+            datalayer.GetFilteredList(filterParam).then(function (data) {
+                $scope.stakeholders = data;
+            });
         };
     }
 ]);

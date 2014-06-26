@@ -247,6 +247,7 @@
     <Compile Include="Stakeholder\addedit\Working\WorkingModel.cs" />
     <Compile Include="Stakeholder\addedit\Working\WorkingPaymentHelper.cs" />
     <Compile Include="Stakeholder\hierarchy\HierarchyApiController.cs" />
+    <Compile Include="Stakeholder\view\FilterDataHelper.cs" />
     <Compile Include="Stakeholder\view\ViewStakeApiController.cs" />
   </ItemGroup>
   <ItemGroup>

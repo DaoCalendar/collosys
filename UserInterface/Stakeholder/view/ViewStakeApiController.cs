@@ -26,11 +26,19 @@ namespace AngularUI.Stakeholder.view
             return Request.CreateResponse(HttpStatusCode.OK, list);
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetFilteredList(string filterParam)
+        {
+            var data = FilterDataHelper.GetFilteredStakeData(filterParam);
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
         [HttpPost]
         public HttpResponseMessage ApproveStakeholder(StkhId stakeholder)
         {
             var stkh = StakeQuery.Get(stakeholder.Id);
-           
+
             if (stkh.ApprovalStatus == ColloSysEnums.ApproveStatus.Approved)
             {
                 return Request.CreateResponse(HttpStatusCode.OK,
@@ -65,6 +73,8 @@ namespace AngularUI.Stakeholder.view
                 ColloSysEnums.ApproveStatus.Rejected.ToString());
         }
     }
+
+
 
     public class StkhId
     {

@@ -1,11 +1,21 @@
-﻿<div class="col-md-12">
+﻿<cs-form>
+    <div data-ng-form="filterForm">
+        <cs-field field="fields.filters" 
+                  value-list="filterList" 
+                  data-ng-model="filter.name"
+                  data-ng-change="getStakeholders(filter.name)">
+        </cs-field>
+    </div>
+</cs-form>
+
+<div class="col-md-12">
     <table class="table table-bordered table-condensed table-hover table-striped">
         <thead>
-        <th class="col-md-2">Name</th>
-        <th class="col-md-3">Designation</th>
-        <th class="col-md-1">External Id</th>
-        <th class="col-md-2">Email</th>
-        <th class="col-md-1"></th>
+            <th class="col-md-2">Name</th>
+            <th class="col-md-3">Designation</th>
+            <th class="col-md-1">External Id</th>
+            <th class="col-md-2">Email</th>
+            <th class="col-md-1"></th>
         </thead>
         <tbody>
             <tr data-ng-repeat="data in stakeholders">
@@ -19,10 +29,10 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a style="cursor: pointer"
-                                   data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
+                                    data-ng-click="switchPage(data,'basic','view')">Basic Info</a>
                                 <a style="cursor: pointer"
-                                   data-ng-show="data.Hierarchy.HasWorking || data.Hierarchy.HasPayment"
-                                   data-ng-click="switchPage(data,'working','view')">Working/Payment</a>
+                                    data-ng-show="data.Hierarchy.HasWorking || data.Hierarchy.HasPayment"
+                                    data-ng-click="switchPage(data,'working','view')">Working/Payment</a>
                             </li>
                         </ul>
                     </span>
