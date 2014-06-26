@@ -281,7 +281,8 @@ namespace ColloSys.DataLayer.Enumerations
             FollowUp,
             LegalCaseexecution,
             Root,
-            PerformanceParameter
+            Performance,
+            PerformanceParam
         }
 
         [Serializable]
