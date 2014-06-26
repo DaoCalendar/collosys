@@ -312,7 +312,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         value = value.toString().split('e');
         return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
     };
-
     var computeSalary = function (basic, gross, salObj) {
         salObj.FixpayBasic = angular.isUndefined(basic) ? 0 : basic;
         salObj.FixpayGross = angular.isUndefined(gross) ? 0 : gross;
@@ -358,24 +357,27 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
     };
 
     //TODO: move to $csfactory, if it is generic
-    var safeSplice = function (list, row, property) {
+    var safeSplice = function (list, row, properties) {
         var indx = list.indexOf(row);
         if (indx !== -1) {
             list.splice(indx, 1);
             return;
         }
 
-        if ($csfactory.isNullOrEmptyString(property)) {
+        if ($csfactory.isNullOrEmptyString(properties)) {
             return;
         }
 
-        var pluckedList = [];
-        _.forEach(list, function (item) {
-            pluckedList.push(item[property]);
-        });
-
-        var index = pluckedList.indexOf(row[property]);
+        var record = _.find(list, comparisons(row, properties));
+        var index = list.indexOf(record);
         if (index !== -1) list.splice(index, 1);
+    };
+    var comparisons = function (row, properties) {
+        var comparison = {};
+        _.forEach(properties, function (property) {
+            comparison[property] = row[property];
+        });
+        return comparison;
     };
 
     return {
@@ -416,10 +418,11 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             getPaymentData($scope.selectedHierarchy);
             $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
             factory.ParseBuckets($scope.workingDetailsList);
+            return data;
         };
 
         var getStakeholderData = function (stakeId) {
-            datalayer.GetStakeholder(stakeId).then(function (data) {
+            return datalayer.GetStakeholder(stakeId).then(function (data) {
                 setData(data);
                 if (angular.isDefined($routeParams.editStakeId)) {
                     $scope.formMode = 'view';
@@ -428,16 +431,17 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
                     $scope.formMode = 'add';
                     $scope.paymentMode = 'add';
                 }
+                return data;
             });
         };
 
         var getStakeData = function () {
-            angular.isDefined($routeParams.editStakeId) ? getStakeholderData($routeParams.editStakeId)
-               : getStakeholderData($routeParams.stakeId);
+            return angular.isDefined($routeParams.editStakeId) ? getStakeholderData($routeParams.editStakeId)
+              : getStakeholderData($routeParams.stakeId);
         };
 
         (function () {
-            $scope. WorkingModel = {
+            $scope.WorkingModel = {
                 SelectedPincodeData: {},
                 QueryFor: "",
                 MultiSelectValues: [],
@@ -478,8 +482,8 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
         var autoSelect = function (reportsToList) {
             if (reportsToList.length === 1) {
-                $scope. WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
-                $scope.getPincodeData($scope. WorkingModel);
+                $scope.WorkingModel.SelectedPincodeData.ReportsTo = reportsToList[0].Id;
+                $scope.getPincodeData($scope.WorkingModel);
             }
         };
 
@@ -605,8 +609,28 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.deleteSelectedWorking = function (endDate) {
             factory.SetEndDate($scope.deleteWorkingList, endDate);
             factory.SetWorkList($scope.currStakeholder, $scope.deleteWorkingList);
-            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function () { getStakeData(); });
+            datalayer.DeleteWorkingList($scope.deleteWorkingList).then(function (remainingWorking) {
+                var remainingData = angular.copy(removeFromWorkList(remainingWorking));
+                getStakeData().then(function (data) { addUnsavedDataToList(data.Stakeholder, remainingData); });
+            });
             $scope.deleteWorkingList = [];
+        };
+        var removeFromWorkList = function (remainingWorking) {
+            _.forEach(remainingWorking, function (workingToBeDeleted) {
+                if (workingToBeDeleted.Status === 'Approved' || workingToBeDeleted.Status === 'Changed') {
+                    if (!factory.CheckEndDate(workingToBeDeleted.EndDate))
+                        factory.Splice($scope.workingDetailsList, workingToBeDeleted, $scope.selectedHierarchy.LocationLevel);
+                } else {
+                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Product", $scope.selectedHierarchy.LocationLevel]);
+                }
+            });
+            return $scope.workingDetailsList;
+        };
+        var addUnsavedDataToList = function (stakedata, unsavedList) {
+            _.forEach(unsavedList, function (unsavedData) {
+                stakedata.StkhWorkings.push(unsavedData);
+            });
+            $scope.workingDetailsList = stakedata.StkhWorkings;
         };
 
         $scope.gotoView = function () {
