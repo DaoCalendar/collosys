@@ -28,7 +28,7 @@ namespace ColloSys.FileUploaderService.FileReader
         //public IExcelReader ExcelReader2 { get; private set; }
         public ICounter Counter { get; private set; }
         private readonly uint _batchSize;
-        protected readonly MultiKeyEntityList<T> TodayRecordList;
+        
         protected readonly IDbLayer DbLayer;
         public readonly StreamReader InpuStreamReader;
 
@@ -43,7 +43,7 @@ namespace ColloSys.FileUploaderService.FileReader
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
             _batchSize = 500;
-            TodayRecordList = new MultiKeyEntityList<T>();
+            
             DbLayer = new DbLayer.DbLayer();
             
         }
@@ -57,7 +57,6 @@ namespace ColloSys.FileUploaderService.FileReader
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
             _batchSize = 500;
-            TodayRecordList = new MultiKeyEntityList<T>();
             DbLayer = new DbLayer.DbLayer();
         }
 
@@ -106,8 +105,7 @@ namespace ColloSys.FileUploaderService.FileReader
                     ((IFileUploadable) obj).FileDate = FileScheduler.FileDate;
                     obj.FileRowNo = Counter.CurrentRow;
                     list.Add(obj);
-                    TodayRecordList.AddEntity(obj);
-                    
+                    RecordCreatorObj.TodayRecordList.AddEntity(obj);
                 }
                 
             }
