@@ -37,7 +37,7 @@ csapp.factory("$csAuthFactory", ["$cookieStore", "Logger",
             if (angular.isUndefined(cookie)) return;
             if (cookie.isAuthorized === true) {
                 var time = moment(cookie.loginTime);
-                if (time.isValid() && moment().diff(time, 'minutes') <= 30) {
+                if (time.isValid() && moment().diff(time, 'minutes') <= 60) {
                     authInfo = cookie;
                     $log.info(authInfo.username + " has logged in from cookie.");
                 } else {
