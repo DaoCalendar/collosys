@@ -56,17 +56,11 @@
     };
 
     var rejectWorkings = function (stakeObj) {
-        return restApi.customPOST(stakeObj, 'RejectWorkingList').then(function (data) {
-            $csnotify.success('Workings Rejected');
-            return data;
-        });
+        return restApi.customPOST(stakeObj, 'RejectWorkingList');
     };
 
     var rejectPayment = function (list) {
-        return restApi.customPOST(list, 'RejectWorking').then(function (data) {
-            $csnotify.success('Payment Rejected');
-            return data;
-        });
+        return restApi.customPOST(list, 'RejectWorking');
     };
 
     return {
@@ -327,22 +321,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         return salObj;
     };
 
-    //TODO: move this logic to server sides
-    var filterWorkingList = function (workList) {
-        var filteredList = [];
-        _.forEach(workList, function (work) {
-            if (work.ApprovalStatus === 'Changed') {
-                if (checkEndDate(work.EndDate)) {
-                    filteredList.push(work);
-                }
-            }
-            else if (work.ApprovalStatus !== 'Rejected') {
-                filteredList.push(work);
-            }
-        });
-        return filteredList;
-    };
-
     var setProduct = function (obj, data) {
         obj.SelectedPincodeData.Products = data.Products;
         obj.SelectedPincodeData.ReportsTo = data.ReportsTo;
@@ -382,7 +360,6 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
         SetProduct: setProduct,
         SetEndDate: setEndDate,
         CheckEndDate: checkEndDate,
-        FilterWorkingList: filterWorkingList,
         SetReportsToName: setReportsToName,
         SetWorkList: setWorkList,
         Splice: safeSplice
@@ -407,7 +384,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             factory.SetReportsToName(data.Stakeholder.StkhWorkings, data.ReportsToStakes);
             $scope.Payment = data.Stakeholder.StkhPayments.length === 0 ? {} : data.Stakeholder.StkhPayments[0];
             getPaymentData($scope.selectedHierarchy);
-            $scope.workingDetailsList = factory.FilterWorkingList(data.Stakeholder.StkhWorkings);
+            $scope.workingDetailsList = data.Stakeholder.StkhWorkings;
             factory.ParseBuckets($scope.workingDetailsList);
             return data;
         };
@@ -593,7 +570,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         var postApproval = function (data, param) {
             switch (param) {
                 case 'working':
-                    $scope.workingDetailsList = factory.FilterWorkingList(data.WorkList);
+                    $scope.workingDetailsList = data.WorkList;
                     factory.SetReportsToName($scope.workingDetailsList, data.ReportsToList);
                     $scope.selectedWorkingList = [];
                     return $scope.workingDetailsList;
@@ -608,23 +585,25 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         };
 
         //TODO: why seperate logic for splicing it when it can maintained as is
-        //TODO: handle delete of unsaved working
         $scope.deleteSelectedWorking = function (endDate) {
+            var remainingData = angular.copy(deleteData());
             factory.SetEndDate($scope.selectedWorkingList, endDate);
             factory.SetWorkList($scope.currStakeholder, $scope.selectedWorkingList);
-            datalayer.DeleteWorkingList($scope.selectedWorkingList).then(function (remainingWorking) {
-                var remainingData = angular.copy(removeFromWorkList(remainingWorking));
+            datalayer.DeleteWorkingList($scope.selectedWorkingList).then(function () {
                 getStakeData().then(function (data) { addUnsavedDataToList(data.Stakeholder, remainingData); });
             });
             $scope.selectedWorkingList = [];
         };
-        var removeFromWorkList = function (remainingWorking) {
-            _.forEach(remainingWorking, function (workingToBeDeleted) {
-                if (workingToBeDeleted.ApprovalStatus === 'Approved' || workingToBeDeleted.ApprovalStatus === 'Changed') {
-                    if (!factory.CheckEndDate(workingToBeDeleted.EndDate))
-                        factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Product", $scope.selectedHierarchy.LocationLevel]);
-                } else {
-                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Product", $scope.selectedHierarchy.LocationLevel]);
+        var deleteData = function () {
+            _.forEach($scope.selectedWorkingList, function (workingToBeDeleted) {
+                if ($csfactory.isNullOrEmptyGuid(workingToBeDeleted.Id)) {
+                    factory.Splice($scope.workingDetailsList, workingToBeDeleted, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
+                }
+            });
+
+            _.forEach(angular.copy($scope.workingDetailsList), function (work) {
+                if (!$csfactory.isNullOrEmptyGuid(work.Id)) {
+                    factory.Splice($scope.workingDetailsList, work, ["ReportsTo", "Products", "EndDate", $scope.selectedHierarchy.LocationLevel]);
                 }
             });
             return $scope.workingDetailsList;
@@ -686,7 +665,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
         $scope.showEndDate = function (deleteList) {
             var showEndDt = false;
             _.forEach(deleteList, function (working) {
-                if (working.ApprovalStatus === 'Approved' || working.ApprovalStatus === 'Changed')
+                if (working.ApprovalStatus === 'Approved')
                     showEndDt = true;
             });
             return showEndDt;

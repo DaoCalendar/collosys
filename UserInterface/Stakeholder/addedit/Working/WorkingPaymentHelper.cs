@@ -101,16 +101,6 @@ namespace AngularUI.Stakeholder.addedit.Working
             return newWorkList;
         }
 
-        public static void SetStatusForDelete(List<StkhWorking> workList)
-        {
-
-        }
-
-        public static List<StkhWorking> RejectedWorkingDelete(List<StkhWorking> workList)
-        {
-            return workList.Where(stkhWorking => stkhWorking.ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted).ToList();
-        }
-
         public static SalaryDetails GetSalaryDetails(PaymentIds parentIds, Dictionary<string, decimal> fixpayData)
         {
             var payment = new SalaryDetails();
@@ -160,6 +150,16 @@ namespace AngularUI.Stakeholder.addedit.Working
             return payment;
         }
 
+        public static List<StkhWorking> FilterWorkList(IList<StkhWorking> workList)
+        {
+            return
+                workList.Where(
+                    x =>
+                    (x.EndDate > DateTime.Today || x.EndDate == null) &&
+                    x.ApprovalStatus != ColloSysEnums.ApproveStatus.Rejected)
+                        .ToList();
 
+
+        }
     }
 }
