@@ -136,7 +136,28 @@ namespace AngularUI.Stakeholder.addedit.Working
         {
             paymentData.StartDate = paymentData.Stakeholder.JoiningDate;
             paymentData.Stakeholder = Session.Load<Stakeholders>(paymentData.Stakeholder.Id);
-            StakePaymentBuilder.Save(paymentData);
+
+            switch (paymentData.ApprovalStatus)
+            {
+                case ColloSysEnums.ApproveStatus.Approved:
+                    paymentData.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
+                    StakePaymentBuilder.Save(paymentData);
+                    break;
+                case ColloSysEnums.ApproveStatus.Changed:
+                    StakePaymentBuilder.Save(paymentData);
+                    break;
+                case ColloSysEnums.ApproveStatus.NotApplicable:
+                    paymentData.ApprovalStatus = ColloSysEnums.ApproveStatus.Submitted;
+                    StakePaymentBuilder.Save(paymentData);
+                    break;
+                case ColloSysEnums.ApproveStatus.Submitted:
+                    StakePaymentBuilder.Save(paymentData);
+                    break;
+                case ColloSysEnums.ApproveStatus.Rejected:
+                    break;
+                default:
+                    throw new Exception("invalid approval level: " + paymentData.ApprovalStatus);
+            }
 
             if (!StkhNotificationRepository.DoesNotificationExist(
                 ColloSysEnums.NotificationType.StakeholderPaymentChange, paymentData.Stakeholder.Id))
@@ -174,8 +195,8 @@ namespace AngularUI.Stakeholder.addedit.Working
                 stkh.StkhPayments[0].ApprovalStatus == ColloSysEnums.ApproveStatus.Submitted)
             {
                 stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+                StakePaymentBuilder.Save(stkh.StkhPayments[0]);
             }
-            StakePaymentBuilder.Save(stkh.StkhPayments[0]);
             return Request.CreateResponse(HttpStatusCode.OK,
                                           stkh.StkhPayments[0]);
         }
