@@ -12,6 +12,7 @@ using ColloSys.FileUploader.Utilities;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.ExcelReader;
 using ColloSys.FileUploaderService.RowCounter;
+using ColloSys.FileUploaderService.Utilities;
 using NLog;
 using ReflectionExtension.ExcelReader;
 
@@ -20,7 +21,7 @@ using ReflectionExtension.ExcelReader;
 namespace ColloSys.FileUploaderService.RecordManager
 {
     public abstract class RecordCreator<TEntity> : IExcelRecord<TEntity> 
-        where TEntity : Entity, IFileUploadable, new()
+        where TEntity : Entity, IFileUploadable, IUniqueKey, new()
     {
         #region ctor
         protected IExcelReader Reader;
@@ -34,7 +35,10 @@ namespace ColloSys.FileUploaderService.RecordManager
             FileScheduler = fileScheduler;
             Reader = SharedUtility.GetInstance(new FileInfo(FileScheduler.FileDirectory + @"\" + FileScheduler.FileName),counter);
             Counter = counter;
+            TodayRecordList = new MultiKeyEntityList<TEntity>();
         }
+
+        public MultiKeyEntityList<TEntity> TodayRecordList { get; set; }
 
         public bool EndOfFile()
         {

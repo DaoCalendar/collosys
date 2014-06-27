@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.IO;
 using ColloSys.DataLayer.BaseEntity;
+using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.DbLayer;
 using ColloSys.FileUploaderService.RowCounter;
+using ColloSys.FileUploaderService.Utilities;
 using NLog;
 
 namespace ColloSys.FileUploaderService.RecordManager
 {
     public abstract class TextRecordCreator<TEntity> : ITextRecord<TEntity>
-        where TEntity : Entity, new()
+        where TEntity : Entity, IFileUploadable, IUniqueKey, new()
     {
         public FileScheduler FileScheduler;
         public ICounter Counter;
@@ -34,9 +36,11 @@ namespace ColloSys.FileUploaderService.RecordManager
         }
     
 
-    public IList<TEntity> YesterdayRecords { get; set; }
+        public IList<TEntity> YesterdayRecords { get; set; }
 
-       public bool EndOfFile()
+        public MultiKeyEntityList<TEntity> TodayRecordList { get; set; }
+
+        public bool EndOfFile()
        {
            if (InpuStreamReader==null|| InpuStreamReader.EndOfStream)
            {

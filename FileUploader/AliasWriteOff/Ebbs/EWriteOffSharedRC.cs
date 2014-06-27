@@ -1,6 +1,7 @@
 ﻿#region references
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.RecordManager;
@@ -30,12 +31,13 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
             try
             {
                 entity.FileDate = FileScheduler.FileDate.Date;
+                entity.Allocs = null;
                 entity.AccountNo = ulong.Parse(Reader.GetValue(AccountPosition))
                     .ToString("D" + AccountPosition.ToString(CultureInfo.InvariantCulture));
 
                 var value = GetValueForIsSettled();
-                    entity.IsSetteled = !string.IsNullOrWhiteSpace(value) 
-                        && value.Trim().ToUpperInvariant() == "Y";
+                entity.IsSetteled = !string.IsNullOrWhiteSpace(value)
+                    && value.Trim().ToUpperInvariant() == "Y";
                 return true;
             }
             catch (Exception)
@@ -77,8 +79,11 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 
         public override EWriteoff GetRecordForUpdate()
         {
-            return DbLayer.GetRecordForUpdate<EWriteoff>(Reader.GetValue(AccountPosition).ToString(CultureInfo.InvariantCulture))
-                ?? new EWriteoff();
+            var accno = Reader.GetValue(AccountPosition).ToString(CultureInfo.InvariantCulture);
+            return TodayRecordList.GetEntity(accno) ??
+                new EWriteoff();
+            //return DbLayer.GetRecordForUpdate<EWriteoff>(Reader.GetValue(AccountPosition).ToString(CultureInfo.InvariantCulture))
+            //    ?? new EWriteoff();
         }
 
         public override EWriteoff GetPreviousDayEntity(EWriteoff entity)

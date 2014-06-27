@@ -1,4 +1,7 @@
-﻿namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
+﻿using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
+
+namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
 {
     // ReSharper disable once InconsistentNaming
     public class EWriteOffAutoRC : EWriteOffSharedRC
@@ -9,6 +12,7 @@
         public EWriteOffAutoRC()
             : base(Accountpos, AccountLength, ProductPos)
         {
+            TodayRecordList.AddEntities(DbLayer.GetPreviousRecords<EWriteoff>(ScbEnums.Products.AUTO_OD));
         }
 
 

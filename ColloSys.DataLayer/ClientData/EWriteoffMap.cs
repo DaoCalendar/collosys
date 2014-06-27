@@ -13,7 +13,7 @@ namespace ColloSys.DataLayer.Mapping
         {
             #region Relationship Mapping
 
-            Set(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
+            Bag(x => x.Allocs, colmap => { }, map => map.OneToMany(x => { }));
             ManyToOne(x => x.FileScheduler, map => map.NotNullable(true));
             ManyToOne(x => x.GPincode, map => { });
 

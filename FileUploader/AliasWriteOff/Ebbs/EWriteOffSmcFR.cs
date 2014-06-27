@@ -1,6 +1,7 @@
 ﻿#region references
 
 using ColloSys.DataLayer.Domain;
+using ColloSys.DataLayer.Enumerations;
 using ColloSys.FileUploaderService.RecordManager;
 
 #endregion
@@ -13,6 +14,7 @@ namespace ColloSys.FileUploaderService.AliasWriteOff.Ebbs
         public EWriteOffSmcFR(FileScheduler fileScheduler) : 
             base(fileScheduler, new EWriteOffSmcRC())
         {
+            
         }
     }
 }
