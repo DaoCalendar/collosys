@@ -139,7 +139,7 @@ namespace AngularUI.Stakeholder.addedit.Working
             if (payment.ReporteeCount > 100) payment.ServiceChargePct = 7;
             else if (payment.ReporteeCount > 50) payment.ServiceChargePct = 8;
             else payment.ServiceChargePct = 9;
-            payment.ServiceCharge = midTotal * (payment.EmployerEsicPct / 100);
+            payment.ServiceCharge = midTotal * (payment.ServiceChargePct / 100);
 
             payment.ServiceTaxPct = fixpayData["ServiceTax"];
             //payment.ServiceTaxPct = (decimal)12.36;

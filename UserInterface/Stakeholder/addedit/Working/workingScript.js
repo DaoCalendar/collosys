@@ -312,7 +312,11 @@ csapp.factory("StakeWorkingFactory", ["$csfactory", function ($csfactory) {
 
         var midTotal = round(salObj.FixpayGross + salObj.EmployerEsic + salObj.EmployerPf, 2);
 
-        salObj.ServiceCharge = round(midTotal * (salObj.EmployerEsicPct / 100), 2);
+        if (salObj.ReporteeCount > 100) salObj.ServiceChargePct = 7;
+        else if (salObj.ReporteeCount > 50) salObj.ServiceChargePct = 8;
+        else salObj.ServiceChargePct = 9;
+
+        salObj.ServiceCharge = round(midTotal * (salObj.ServiceChargePct / 100), 2);
 
         salObj.ServiceTax = round((midTotal + salObj.ServiceCharge) * (salObj.ServiceTaxPct / 100), 2);
 
@@ -421,6 +425,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
             getStakeData();
             $scope.paymentModel = $csModels.getColumns("StkhPayment");
             $scope.workingModel = $csModels.getColumns("StkhWorking");
+            $scope.reporteeCount = { label: "Reportee Count", type: "number" };
             $scope.workingDetailsList = $csfactory.isNullOrEmptyArray($scope.workingDetailsList) ? [] : $scope.workingDetailsList;
             $scope.selectedWorkingList = [];
         })();
@@ -440,6 +445,7 @@ csapp.controller("StakeWorkingCntrl", ["$scope", "$routeParams", "StakeWorkingDa
 
         $scope.computeSalary = function (basic, gross) {
             $scope.SalDetails = factory.ComputeSalary(basic, gross, $scope.SalDetails);
+            console.log("salObj : ",$scope.SalDetails);
         };
 
         $scope.getReportsTo = function (product) {
