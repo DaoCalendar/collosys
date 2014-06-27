@@ -25,8 +25,11 @@ namespace ColloSys.DataLayer.Generic
 
         public virtual ScbEnums.ClientDataTables LinerTable { get; set; }
 
-        public virtual ScbEnums.ClientDataTables? WriteoffTable { get; set; }
+        public virtual ScbEnums.ClientDataTables WriteoffTable { get; set; }
 
         public virtual ScbEnums.ClientDataTables PaymentTable { get; set; }
+
+        public virtual string Buckets { get; set; }
+
     }
 }

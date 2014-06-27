@@ -36,7 +36,7 @@ csapp.factory("ProductsDatalayer", ["Restangular", "$csnotify", function (rest, 
             });
         }
     };
-    
+
     var getFileDetails = function (detailsid) {
         return reatApi.customGET('Get', { id: detailsid })
             .then(function (data) {
@@ -69,7 +69,8 @@ csapp.factory("ProductFactory", [function () {
             HasTelecalling: true,
             FrCutOffDaysCycle: 5,
             FrCutOffDaysMonth: 7,
-            CycleCodes: ["1", "5", "15", "25"]
+            CycleCodes: ["1", "5", "15", "25"],
+            Buckets: ["1", "5", "15", "25"]
         };
     };
 
@@ -97,15 +98,15 @@ csapp.factory("ProductFactory", [function () {
 
 
 csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular', '$modal',
-    "ProductsDatalayer","$location",
-    function ($scope, $csnotify, rest, $modal, datalayer,$location) {
+    "ProductsDatalayer", "$location",
+    function ($scope, $csnotify, rest, $modal, datalayer, $location) {
 
         $scope.codes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
 
         (function () {
             $scope.dldata = datalayer.dldata;
             datalayer.GetAll();
-         
+
         })();
 
         $scope.openModelData = function (mode, productRow) {
@@ -128,72 +129,72 @@ csapp.controller("ProductConfigController", ["$scope", '$csnotify', 'Restangular
             if (mode === "edit" || mode === "view") {
                 $location.path("/generic/product/addedit/" + mode + "/" + productRow.Id);
             }
-        };       
+        };
     }]);
 
 
 csapp.controller("updateViewController", ["$scope", "ProductsDatalayer", "ProductFactory",
     "$csModels", "$routeParams", "$location",
     function ($scope, datalayer, factory, $csModels, $routeParams, $location) {
-    
+
         (function () {
             $scope.datalayer = datalayer.dldata;
-        $scope.dldata = datalayer.dldata;
-        $scope.factory = factory;
-        if (angular.isDefined($routeParams.id)) {
-            datalayer.Get($routeParams.id).then(function (data) {
-                $scope.productconfig = data;
-            });
-        }
-        $scope.Products = $csModels.getColumns("Product");
+            $scope.dldata = datalayer.dldata;
+            $scope.factory = factory;
+            if (angular.isDefined($routeParams.id)) {
+                datalayer.Get($routeParams.id).then(function (data) {
+                    $scope.productconfig = data;
+                });
+            }
+            $scope.Products = $csModels.getColumns("Product");
         })();
-        
-    
-    $scope.isSelected = function (item, val) {
-        if (item === val) {
-            return "btn btn-small btn-success";
-        } else {
-            return "btn btn-small btn-info";
-        }
-    };
 
-   //$scope.dldata.productconfig.AllocationResetStrategy.valueList = datalayer.dldata.AllocationResetStrategy;
-    
-    $scope.closeModel = function () {
-        $location.path("/generic/product");
-    };
-   
-    $scope.saveProduct = function (productconfig) {
-        datalayer.Save(productconfig).then(function (data) {
-            factory.AddinLocal(data,$scope.dldata);
-            factory.reset($scope.dldata);
+
+        $scope.isSelected = function (item, val) {
+            if (item === val) {
+                return "btn btn-small btn-success";
+            } else {
+                return "btn btn-small btn-info";
+            }
+        };
+
+        //$scope.dldata.productconfig.AllocationResetStrategy.valueList = datalayer.dldata.AllocationResetStrategy;
+
+        $scope.closeModel = function () {
             $location.path("/generic/product");
-        });
-    };
+        };
 
-    $scope.noTelecalling = function (productconfig) {
-        if (productconfig.HasTelecalling == false) {
-            productconfig.FrCutOffDaysCycle = 0;
-            productconfig.FrCutOffDaysMonth = 0;
-        }
-    };
-        
-    (function (mode) {
-        switch (mode) {
-           case "edit":
-               $scope.modelTitle = "Update Product Configuration";
-                break;
-            case "view":
-                $scope.modelTitle = "View Product Configuration";
-                break;
-            default:
-                throw ("Invalid display mode : " + JSON.stringify(productRow));
-        }
-        $scope.mode = mode;
-    })($routeParams.mode);
+        $scope.saveProduct = function (productconfig) {
+            datalayer.Save(productconfig).then(function (data) {
+                factory.AddinLocal(data, $scope.dldata);
+                factory.reset($scope.dldata);
+                $location.path("/generic/product");
+            });
+        };
 
-    
-}]);
+        $scope.noTelecalling = function (productconfig) {
+            if (productconfig.HasTelecalling == false) {
+                productconfig.FrCutOffDaysCycle = 0;
+                productconfig.FrCutOffDaysMonth = 0;
+            }
+        };
+
+        (function (mode) {
+            switch (mode) {
+                case "edit":
+                    $scope.modelTitle = "Update Product Configuration";
+                    break;
+                case "view":
+                    $scope.modelTitle = "View Product Configuration";
+                    break;
+                default:
+                    throw ("Invalid display mode : " + JSON.stringify(productRow));
+            }
+            $scope.mode = mode;
+        })($routeParams.mode);
+
+
+    }]);
 
 //#endregion
 

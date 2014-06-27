@@ -18,6 +18,7 @@ namespace ColloSys.DataLayer.Generic
             Property(x=>x.LinerTable);
             Property(x=>x.WriteoffTable);
             Property(x => x.PaymentTable);
+            Property(x=>x.Buckets);
         }
     }
 }
