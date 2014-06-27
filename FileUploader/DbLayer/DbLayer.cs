@@ -152,6 +152,22 @@ namespace ColloSys.FileUploaderService.DbLayer
             }
         }
 
+        public IList<TEntity> GetDataForDate<TEntity>(DateTime dateTime)
+          where TEntity : Entity, IFileUploadable
+        {
+            using (var session = SessionManager.GetStatelessSession())
+            {
+                using (var tx = session.BeginTransaction())
+                {
+                    var data = session.QueryOver<TEntity>()
+                                      .Where(x => x.FileDate == dateTime)
+                                      .List<TEntity>();
+                    tx.Rollback();
+                    return data;
+                }
+            }
+        }
+
         public IList<TEntity> GetDataForPreviousDay<TEntity>(ColloSysEnums.FileAliasName aliasName, DateTime date, uint filecount) where TEntity : Entity, IFileUploadable
         {
             using (var session = SessionManager.GetStatelessSession())
@@ -189,14 +205,13 @@ namespace ColloSys.FileUploaderService.DbLayer
             }
         }
 
-        public bool SaveOrUpdateData<TEntity>(IEnumerable<TEntity> data)
+        public bool SaveOrUpdateData<TEntity>(IList<TEntity> data)
             where TEntity : Entity
         {
-            var dataList = data as IList<TEntity> ?? data.ToList();
-            for (var i = 0; i < dataList.Count(); i += 1000)
+            var commitCount = 0;
+            do
             {
-
-                var batchToSave = dataList.Skip(i).Take(1000);
+                var batchToSave = data.Skip(commitCount).Take(1000);
 
                 using (var session = SessionManager.GetNewSession())
                 {
@@ -210,7 +225,10 @@ namespace ColloSys.FileUploaderService.DbLayer
                         tx.Commit();
                     }
                 }
-            }
+
+                commitCount += 1000;
+
+            } while (commitCount < data.Count);
 
             return true;
         }

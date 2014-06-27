@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ColloSys.DataLayer.Domain;
 using ColloSys.FileUploaderService.RecordManager;
-using ColloSys.FileUploadService.TextReader;
 using ColloSys.Shared.SharedUtils;
 
 namespace ColloSys.FileUploaderService.AliasTextReader
 {
     public class CUnbilledRecordCreator : TextRecordCreator<CUnbilled>
     {
+        public readonly Dictionary<string, decimal> UnbilledAmount = new Dictionary<string, decimal>(); 
 
         public override bool CreateRecord(out CUnbilled obj)
         {
@@ -57,77 +53,67 @@ namespace ColloSys.FileUploaderService.AliasTextReader
 
                 Counter.IncrementValidRecords();
                 obj = unbilled;
-                return true;
+                AddRecordToList(unbilled);
+                return false;
             }
             catch (Exception exception)
             {
                 throw new Exception(exception.Message);
             }
-
-
-
-
         }
 
         private bool CheckValidRecord(string reader)
         {
-            string currentLine;
-
-
-            //Counter.IncrementLineNo();
-            currentLine = reader;
-
-
+            var currentLine = reader;
             if ((currentLine == null) || (string.IsNullOrWhiteSpace(currentLine)))
             {
                 Counter.IncrementIgnoreRecord();
                 return false;
             }
+
             try
             {
                 var scbIndex = currentLine.IndexOf("STANDARD CHARTERED BANK INDIA",
                                                   StringComparison.InvariantCulture);
                 if (scbIndex > 0)
                 {
-                    //var filedatestring = currentLine.Substring2((uint)(100 + scbIndex), 8);
-                    //Reader.UploadedFile.FileDate = Utilities.ParseDateTime(filedatestring, "dd/MM/yy");
                     Counter.IncrementIgnoreRecord();
                     return false;
                 }
 
                 // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
                 Convert.ToDecimal(currentLine.Substring2(1, 16));
-
-
-
                 return true;
             }
-            // ReSharper disable EmptyGeneralCatchClause
             catch (Exception)
-            // ReSharper restore EmptyGeneralCatchClause
             {
                 Counter.IncrementIgnoreRecord();
                 return false;
             }
         }
 
-        protected bool IsRecordValid(CUnbilled record)
+        private bool IsRecordValid(CUnbilled record)
         {
             var cardNo = record.AccountNo.ToString(CultureInfo.InvariantCulture);
             var validChar = new List<char> { '9', '4', '5' };
-            if (!validChar.Contains(cardNo[0]))
-                return false;
-
-            //var dummyAc = new List<ulong> { 0999999900000810, 0999999900001210 };
-            //if (dummyAc.Contains(record.CardNo))
-            //    isValid = false;
-
-            return true;
+            return (validChar.Contains(cardNo[0]));
         }
 
         public override CUnbilled GetRecordForUpdate()
         {
             throw new NotImplementedException();
+        }
+
+        private void AddRecordToList(CUnbilled record)
+        {
+            if (UnbilledAmount.ContainsKey(record.AccountNo))
+            {
+                UnbilledAmount[record.AccountNo] += record.UnbilledAmount;
+            }
+            else
+            {
+                UnbilledAmount[record.AccountNo] = record.UnbilledAmount;
+            }
         }
     }
 }
