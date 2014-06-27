@@ -304,14 +304,6 @@
     <Content Include="Billing\summary\view-billamount-modal.html" />
     <Content Include="Content\font-awesome\font-awesome.css" />
     <Content Include="Content\font-awesome\font-awesome.min.css" />
-    <Content Include="Content\select2\css\select2.png" />
-    <Content Include="Content\select2\css\select2x2.png" />
-    <Content Include="Content\select2\css\spinner.gif" />
-    <Content Include="Content\ny-select\bootstrap-select.css" />
-    <Content Include="Content\ny-select\bootstrap-select.min.css" />
-    <Content Include="Content\chosen\chosen-sprite%402x.png" />
-    <Content Include="Content\chosen\chosen-sprite.png" />
-    <Content Include="Content\chosen\chosen.css" />
     <Content Include="Content\images\algologo.jpg" />
     <Content Include="Content\images\algologo2.jpg" />
     <Content Include="Content\images\Dhfl\DHFLlogo4.jpg" />
@@ -319,8 +311,6 @@
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\loading-bar\loading-bar.css" />
-    <Content Include="Content\select2\css\select2.css" />
-    <Content Include="Content\select2\select2-bootstrap.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Generic\esclationmatrix\esclationmatrix.html" />
     <Content Include="Generic\esclationmatrix\esclationmatrix.js" />
@@ -340,41 +330,19 @@
     <Content Include="Legal\RequisitionPreparation\RequisitionPreparation.js" />
     <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.html" />
     <Content Include="Legal\RequsitionIntiation\RequsitionIntiation.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-0.11.0.min.js" />
-    <Content Include="Scripts\bootstrap-select\bootstrap-select.js" />
-    <Content Include="Scripts\bootstrap-select\bootstrap-select.min.js" />
+    <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.js" />
+    <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.min.js" />
+    <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-0.11.0.js" />
+    <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-0.11.0.min.js" />
     <Content Include="Scripts\chosen\chosen.jquery.js" />
     <Content Include="Scripts\chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\nf-fx\ng-Fx.js" />
     <Content Include="Scripts\nf-fx\ng-Fx.min.js" />
-    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui-ieshiv.js" />
-    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui-ieshiv.min.js" />
-    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.js" />
-    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.min.js" />
-    <Content Include="Scripts\ng-modules\select2.js" />
-    <Content Include="Scripts\ng-modules\select2.min.js" />
-    <Content Include="Scripts\ng-modules\ui-module.js" />
-    <Content Include="Scripts\ng-modules\ui-select2.js" />
-    <Content Include="Scripts\ngtabledir\ng-table.js" />
-    <Content Include="Scripts\ngtabledir\ng-table.min.js" />
-    <Content Include="Scripts\nya-select\nya-bootstrap-select.js" />
-    <Content Include="Scripts\ui-utils\ui-utils-ieshiv.js" />
-    <Content Include="Scripts\ui-utils\ui-utils-ieshiv.min.js" />
-    <Content Include="Scripts\ui-utils\ui-utils.js" />
-    <Content Include="Scripts\ui-utils\ui-utils.min.js" />
+    <Content Include="Scripts\angular-ui\ui-utils.js" />
     <Content Include="Scripts\loading-bar\loading-bar.js" />
-    <Content Include="Content\angularui\angular-ui.css" />
-    <Content Include="Content\angularui\angular-ui.min.css" />
+    <Content Include="Content\angular-ui\angular-ui.css" />
+    <Content Include="Content\angular-ui\angular-ui.min.css" />
     <Content Include="Content\animation\animate.css" />
-    <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap2.3.2\bootstrap-responsive.min.css" />
-    <Content Include="Content\bootstrap2.3.2\bootstrap.css" />
-    <Content Include="Content\bootstrap2.3.2\bootstrap.min.css" />
-    <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings-white.png" />
-    <Content Include="Content\bootstrap2.3.2\images\glyphicons-halflings.png" />
     <Content Include="Content\images\stanc\footer.png" />
     <Content Include="Content\images\stanc\LoginPage.png" />
     <Content Include="Content\images\stanc\scbcollosys.png" />
@@ -448,7 +416,7 @@
     <Content Include="Generic\taxlist\taxlist.js" />
     <Content Include="Generic\taxmaster\taxmaster.html" />
     <Content Include="Generic\taxmaster\taxmaster.js" />
-    <Content Include="Scripts\angular.ui\autofill-event.js" />
+    <Content Include="Scripts\angular-ui\autofill-event.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-html5-shim.min.js" />
     <Content Include="Scripts\file-upload\angular-file-upload-shim.js" />
@@ -461,19 +429,15 @@
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\html5shiv\modernizr-2.7.2.js" />
-    <Content Include="Scripts\ng-modules\calender.js" />
-    <Content Include="Scripts\ng-modules\map.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
-    <Content Include="Scripts\angular.ui\ui-router.js" />
-    <Content Include="Scripts\angular.ui\ui-router.min.js" />
+    <Content Include="Scripts\angular-ui\ui-router.js" />
+    <Content Include="Scripts\angular-ui\ui-router.min.js" />
     <Content Include="Scripts\nggrid\ng-grid-2.0.7.js" />
     <Content Include="Scripts\nggrid\ng-grid-2.0.7.min.js" />
     <Content Include="Scripts\ngupload\ng-upload.js" />
     <Content Include="Scripts\ngupload\ng-upload.min.js" />
     <Content Include="Scripts\restangular\restangular.js" />
     <Content Include="Scripts\restangular\restangular.min.js" />
-    <Content Include="Content\bootstrap3.0\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap3.0\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.css" />
     <Content Include="Content\bootstrap3.0\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
@@ -537,7 +501,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
     <Content Include="Content\fonts\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\release.pubxml" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.11.0.min.js.map">
+    <Content Include="Scripts\angular-ui-bootstrap\ui-bootstrap-tpls-0.11.0.min.js.map">
       <DependentUpon>ui-bootstrap-tpls-0.11.0.js</DependentUpon>
     </Content>
     <None Include="Scripts\jquery\jquery-1.9.1.intellisense.js" />
@@ -562,12 +526,6 @@
     <Content Include="Scripts\moment\moment-with-langs.min.js" />
     <Content Include="Scripts\moment\moment.js" />
     <Content Include="Scripts\moment\moment.min.js" />
-    <Content Include="Scripts\spin\spin.js" />
-    <Content Include="Scripts\spin\spin.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-0.10.0.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-0.10.0.min.js" />
     <Content Include="Generic\csgrid\cs-ng-grid.js" />
     <Content Include="Generic\login\login.js" />
     <Content Include="Generic\csgrid\grid-buttons.html" />
@@ -616,11 +574,8 @@
     <Content Include="Scripts\nggrid\ng-grid-2.0.7.min.js.map">
       <DependentUpon>ng-grid-2.0.7.js</DependentUpon>
     </Content>
-    <Content Include="Scripts\ui-utils\ui-utils.min.js.map">
+    <Content Include="Scripts\angular-ui\ui-utils.min.js.map">
       <DependentUpon>ui-utils.js</DependentUpon>
-    </Content>
-    <Content Include="Scripts\ng-modules\oldAngularUi\angular-ui.min.js.map">
-      <DependentUpon>angular-ui.js</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup />

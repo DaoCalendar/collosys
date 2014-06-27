@@ -42,7 +42,8 @@ csapp.factory("csValidationInputTemplate", function () {
             maxlength: '{{' + fieldname + '.label}} can have maximum {{' + fieldname + '.maxlength}} character/s.',
             min: '{{' + fieldname + '.label}} cannot be less than {{' + fieldname + '.min}}.',
             max: '{{' + fieldname + '.label}} cannot be greater than {{' + fieldname + '.max}}.',
-            unique: '{{' + fieldname + '.label}} is already used.'
+            unique: '{{' + fieldname + '.label}} is not unique.',
+            mask: '{{' + fieldname + '.label}} value is matching with required pattern.'
         };
     };
 
@@ -63,6 +64,7 @@ csapp.factory("csValidationInputTemplate", function () {
            '<div class="text-danger" data-ng-show="myform.myfield.$error.min">' + field.messages.min + '</div>' +
            '<div class="text-danger" data-ng-show="myform.myfield.$error.max">' + field.messages.max + '</div>' +
            '<div class="text-danger" data-ng-show="myform.myfield.$error.unique">' + field.messages.unique + '</div>' +
+           '<div class="text-danger" data-ng-show="myform.myfield.$error.mask">' + field.messages.unique + '</div>' +
            '</div>';
         html += '</div>'; //ng-form; 
         return html;
@@ -410,8 +412,8 @@ csapp.factory("csTextFieldFactory", ["Logger", "csBootstrapInputTemplate", "csVa
         html += (attrs.ngDisabled ? ' ng-readonly="' + attrs.ngDisabled + '"' : ' ng-readonly="setReadonly()"');
         html += (attrs.ngChange ? ' ng-change="' + attrs.ngChange + '"' : '');
         html += ' class ="minWidth form-control" ';
-        html += angular.isDefined(attrs.uiValidate) ? 'ui-validate="' + attrs.uiValidate + '"' : '';
-        html += angular.isDefined(field.mask) ? 'ui-mask="{{field.mask}}"' : ' ';
+        html += angular.isDefined(attrs.uiValidate) ? ' ui-validate="' + attrs.uiValidate + '"' : ' ';
+        html += angular.isDefined(field.mask) ? ' ui-mask="{{field.mask}}"' : ' ';
         html += (angular.isDefined(field.minlength) && angular.isUndefined(attrs.typeahead) ? ' ng-minlength="' + field.minlength + '"' : '');
         html += (angular.isDefined(field.maxlength) && angular.isUndefined(attrs.typeahead) ? ' ng-maxlength="' + field.maxlength + '"' : '');
         html += (angular.isDefined(field.pattern) ? ' ng-pattern="' + field.pattern + '"' : '');
