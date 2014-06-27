@@ -19,7 +19,7 @@ angular.module("templates/tags.html", []).run(["$templateCache", function($templ
     "    <!-- may want to fiddle with limitTo here, but it was inhibiting my results\n" +
     "    so perhaps there is another way -->\n" +
     "    <input ng-if=\"srcTags.length\" type=\"text\" data-ng-model=\"inputTag\"\n" +
-    "           class=\"decipher-tags-input\"\n" +
+    "           class=\"decipher-tags-input\" \n" +
     "           data-typeahead=\"stag as stag.name for stag in srcTags|filter:$viewValue|orderBy:orderBy\"\n" +
     "           data-typeahead-input-formatter=\"{{typeaheadOptions.inputFormatter}}\"\n" +
     "           data-typeahead-loading=\"{{typeaheadOptions.loading}}\"\n" +

@@ -97,7 +97,7 @@
             HasTelecalling: { label: "HasTelecalling", type: "bool" },
             FrCutOffDaysCycle: { label: "FR Cycle Cut Off Days", type: "number", min: "0", max: "30", placeholder: "Enter FR Cycle Cut Off Days", required: true },
             FrCutOffDaysMonth: { label: "FR Month Cut Off Days", type: "number", min: "0", max: "30", placeholder: "Enter FR Month Cut Off Days", required: true },
-            CycleCodes: { label: "Cycle Codes", type: "text", required: "true" },
+            CycleCodes: { label: "Cycle Codes", type: "select",valueField:"row",textField:"row", valueList:[], required: "true" },
             LinerTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             WriteoffTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             PaymentTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },

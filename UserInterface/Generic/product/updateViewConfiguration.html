@@ -29,14 +29,22 @@
                                       field="Products.FrCutOffDaysMonth" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
                         </div>
 
-                        <cs-field data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple"
-                                  field="Products.CycleCodes" value-list="dldata.codes"></cs-field>
+                        <!--<cs-field data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple"
+                                  field="Products.CycleCodes" value-list="cyclecodeList"></cs-field>-->
+                        <div class="col-md-9">
+                            <label class="col-md-3 control-label">Cycle Codes</label>
+                            <div class="col-md-6">
+                                <tags data-options="{addable: true, classes: {white: 'black', red: 'red'}}"
+                                      data-src="s for s in cyclecodeList"
+                                      data-model="dldata.productconfig.CycleCodes"></tags>
+                            </div>
+                        </div>
 
                         <div class="col-md-9">
-                            <div class="col-md-3"><label class="control-label">Bucket</label></div>
-                            <div class="col-lg-6">
+                            <label class="control-label col-md-3">Bucket</label>
+                            <div class="col-md-6">
                                 <tags data-options="{addable: true, classes: {white: 'black', red: 'red'}}"
-                                      data-src="s as s.name for s in sourceTags"
+                                      data-src="s for s in sourceTags"
                                       data-model="dldata.productconfig.Buckets"></tags>
                             </div>
                         </div>
