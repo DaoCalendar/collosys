@@ -14,9 +14,9 @@ namespace AngularUI.Generic.connection
             var section = config.GetSection(sectionName);
             if (section.SectionInformation.IsProtected) return;
 
-            section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+            section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
             section.SectionInformation.ForceSave = true;
-            config.Save(ConfigurationSaveMode.Full);
+            config.Save(ConfigurationSaveMode.Modified);
         }
 
         public static void DecryptConnString(string sectionName)
