@@ -429,6 +429,8 @@
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\html5shiv\modernizr-2.7.2.js" />
+    <Content Include="Scripts\ng-storage\ngStorage.js" />
+    <Content Include="Scripts\ng-storage\ngStorage.min.js" />
     <Content Include="Scripts\ngupload\ng-upload-sample.html" />
     <Content Include="Scripts\angular-ui\ui-router.js" />
     <Content Include="Scripts\angular-ui\ui-router.min.js" />

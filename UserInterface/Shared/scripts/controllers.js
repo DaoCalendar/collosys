@@ -38,11 +38,11 @@ csapp.factory("rootDatalayer", ["Restangular", "$csnotify", "$csfactory", "$csSh
 ]);
 
 csapp.factory("routeManagerFactory", [
-    "Logger", "$location", "$csAuthFactory", "$route", "$cookieStore",
-    function (logManager, $location, $csAuthFactory, $route, $cookieStore) {
+    "Logger", "$location", "$csAuthFactory", "$route", "$localStorage",
+    function (logManager, $location, $csAuthFactory, $route, $localStorage) {
 
         var $log = logManager.getInstance("RootController");
-
+        var $storage = $localStorage.$default();
         var $locationChangeStart = function () { //evt, next, current
         };
 
@@ -58,12 +58,11 @@ csapp.factory("routeManagerFactory", [
         };
 
         var saveLastLocation = function () {
-            $cookieStore.remove("routelastroute");
-            $cookieStore.put("routelastroute", $location.path());
+            $storage.routelastroute = $location.path(); 
         };
 
         var getLastLocation = function () {
-            var location = $cookieStore.get("routelastroute");
+            var location = $storage.routelastroute;
             if (angular.isUndefined(location) || location === null || location === "")
                 location = "/home";
             $log.info("previous location was : " + location);
