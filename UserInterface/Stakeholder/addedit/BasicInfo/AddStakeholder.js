@@ -106,16 +106,16 @@ csapp.factory("AddEditStakeholderFactory", function () {
             if (hierarchy.Hierarchy != 'External') {
                 model.stakeholder.ReportingManager.label = "Line Manager";
 
-            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency')) {
+            } else if (hierarchy.Hierarchy === 'External' && !(hierarchy.Designation === 'External Agency' || hierarchy.Designation === 'Manpower Agency')) {
                 model.stakeholder.ReportingManager.label = "Agency Name";
 
-            } else if (hierarchy.Designation == 'ExternalAgency' || hierarchy.Designation == 'ManpowerAgency') {
-                model.stakeholder.ReportingManager.label = "Agency Supervisor";
+            } else if (hierarchy.Designation == 'External Agency' || hierarchy.Designation == 'Manpower Agency') {
+                model.stakeholder.ReportingManager.label = "Reports To";
 
             }
             model.stakeholder.ReportingManager.required = true;
         } else {
-            model.label = 'Reporting Manager';
+            model.label = 'Repoets To';
         }
     };
 

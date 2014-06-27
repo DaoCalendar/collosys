@@ -1,1 +1,0 @@
-﻿angular.module('ui.modules', ['ui.select3']);

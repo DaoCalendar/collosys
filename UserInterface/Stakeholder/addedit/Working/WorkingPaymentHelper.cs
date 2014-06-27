@@ -68,6 +68,39 @@ namespace AngularUI.Stakeholder.addedit.Working
             }
         }
 
+        public static List<StkhWorking> SetStatusForApprove(List<StkhWorking> workList)
+        {
+            var newWorkList = new List<StkhWorking>();
+            foreach (var stkhWorking in workList)
+            {
+                switch (stkhWorking.ApprovalStatus)
+                {
+                    case ColloSysEnums.ApproveStatus.NotApplicable:
+                    case ColloSysEnums.ApproveStatus.Submitted:
+                    case ColloSysEnums.ApproveStatus.Changed:
+                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+                        newWorkList.Add(stkhWorking);
+                        break;
+                    case ColloSysEnums.ApproveStatus.Approved:
+                        break;
+                    default:
+                        throw new Exception("invalid appraval status: " + stkhWorking.ApprovalStatus);
+                }
+            }
+            return newWorkList;
+        }
+
+        public static List<StkhWorking> SetStatusForSave(List<StkhWorking> workList)
+        {
+            var newWorkList = new List<StkhWorking>();
+            foreach (var stkhWorking in workList.Where(stkhWorking => stkhWorking.Id == Guid.Empty))
+            {
+                stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Submitted;
+                newWorkList.Add(stkhWorking);
+            }
+            return newWorkList;
+        }
+
         public static SalaryDetails GetSalaryDetails(PaymentIds parentIds, Dictionary<string, decimal> fixpayData)
         {
             var payment = new SalaryDetails();
@@ -103,7 +136,7 @@ namespace AngularUI.Stakeholder.addedit.Working
 
             var midTotal = payment.FixpayGross + payment.EmployerEsic + payment.EmployerPf;
 
-            if(payment.ReporteeCount > 100) payment.ServiceChargePct = 7;
+            if (payment.ReporteeCount > 100) payment.ServiceChargePct = 7;
             else if (payment.ReporteeCount > 50) payment.ServiceChargePct = 8;
             else payment.ServiceChargePct = 9;
             payment.ServiceCharge = midTotal * (payment.EmployerEsicPct / 100);
@@ -115,6 +148,18 @@ namespace AngularUI.Stakeholder.addedit.Working
             payment.FixpayTotal = midTotal + payment.ServiceTax + payment.ServiceCharge;
 
             return payment;
+        }
+
+        public static List<StkhWorking> FilterWorkList(IList<StkhWorking> workList)
+        {
+            return
+                workList.Where(
+                    x =>
+                    (x.EndDate > DateTime.Today || x.EndDate == null) &&
+                    x.ApprovalStatus != ColloSysEnums.ApproveStatus.Rejected)
+                        .ToList();
+
+
         }
     }
 }

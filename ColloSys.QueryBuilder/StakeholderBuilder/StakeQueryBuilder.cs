@@ -86,11 +86,11 @@ namespace ColloSys.QueryBuilder.StakeholderBuilder
         {
             var session = SessionManager.GetCurrentSession();
 
-            var stakeholder = session.QueryOver<Stakeholders>()
+            var stakeholder = session.Query<Stakeholders>()
                 .Where(x => x.Name == name)
-                .Fetch(x => x.StkhWorkings).Eager
-                .Fetch(x => x.StkhPayments).Eager
-                .Fetch(x => x.Hierarchy).Eager.List();
+                .Fetch(x => x.StkhWorkings)
+                .Fetch(x => x.StkhPayments)
+                .Fetch(x => x.Hierarchy).ToList();
             return stakeholder;
         }
 

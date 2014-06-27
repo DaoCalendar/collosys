@@ -24,7 +24,7 @@ namespace AngularUI.Generic.Menu
         {
             var query = GUserQueryBuilder.ApplyRelations().Where(x => x.Username == user);
             var userData = GUserQueryBuilder.Execute(query).Single();
-            var permission = PermissionManager.GetPermission(userData.Role);
+            var permission = PermissionManager.GetPermission(userData.Role,user);
 
             var menuMgr = new MenuManager();
             var menu = menuMgr.CreateMenu();

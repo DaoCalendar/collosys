@@ -32,18 +32,6 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             var limitProvnPdtCode = Reader.GetValue(15).ToString(CultureInfo.InvariantCulture);
             entity.Product = DecodeScbProduct.GetEBBSProduct(limitProvnPdtCode);
 
-            // check date of reaging and date past due
-            var dateofReagingExcel = Reader.GetValue(19).ToString(CultureInfo.InvariantCulture);
-            var dayPastDueExcel = Reader.GetValue(21).ToString(CultureInfo.InvariantCulture);
-            uint dayPastDue;
-            if (string.IsNullOrWhiteSpace(dateofReagingExcel) && !uint.TryParse(dayPastDueExcel, out dayPastDue))
-            {
-                Log.Debug(string.Format("Data is rejected, Because DateOfReagin : {0} and DayPastDue : {1} is Empty", dateofReagingExcel, dayPastDueExcel));
-                return false;
-            }
-
-            
-
             // cycle
             entity.Cycle = Convert.ToUInt32(entity.CycleDate.Day);
 
@@ -66,6 +54,16 @@ namespace ColloSys.FileUploaderService.AliasLiner.Ebbs
             {
                 //Counter.IncrementIgnoreRecord();
                 Log.Debug(string.Format("Data is rejected, Because account No {0} is not valid number", Reader.GetValue(AccountNoPosition)));
+                return false;
+            }
+
+            // check date of reaging and date past due
+            var dateofReagingExcel = Reader.GetValue(19).ToString(CultureInfo.InvariantCulture);
+            var dayPastDueExcel = Reader.GetValue(21).ToString(CultureInfo.InvariantCulture);
+            uint dayPastDue;
+            if (string.IsNullOrWhiteSpace(dateofReagingExcel) && !uint.TryParse(dayPastDueExcel, out dayPastDue))
+            {
+                Log.Debug(string.Format("Data is rejected, Because DateOfReagin : {0} and DayPastDue : {1} is Empty", dateofReagingExcel, dayPastDueExcel));
                 return false;
             }
 

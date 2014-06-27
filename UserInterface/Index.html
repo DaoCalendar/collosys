@@ -24,11 +24,8 @@
 
     <link href="Content/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap.css" />
-    <link rel="stylesheet" href="Content/bootstrap3.0/bootstrap-theme.css" />
     <link href="Content/font-awesome/font-awesome.css" rel="stylesheet" />
-    <link href="Content/select2/css/select2.css" rel="stylesheet" />
-    <link href="Content/select2/select2-bootstrap.css" rel="stylesheet" />
-    <link href="Content/angularui/angular-ui.css" rel="stylesheet" />
+    <link href="Content/angular-ui/angular-ui.css" rel="stylesheet" />
     <link href="Content/ng-grid/ng-grid.css" rel="stylesheet" />
     <link href="Content/animation/animate.css" rel="stylesheet" />
     <link href="Content/loading-bar/loading-bar.css" rel="stylesheet" />
@@ -47,7 +44,7 @@
     </div>
 
     <!-- Add your site or application content here -->
-    <div class="container-fluid" ng-init="verticalMenu = true">
+    <div ng-init="verticalMenu = true">
         <div ng-if="verticalMenu">
             <div class="col-md-1" style="padding: 0">
                 <div data-ng-include="baseUrl +'Generic/menus/menu-vertical.html'" data-ng-controller="menuController"></div>
@@ -72,9 +69,7 @@
     <script src="Scripts/lodash/lodash.js"></script>
     <script src="Scripts/moment/moment.js"></script>
     <script src="Scripts/notifyjs/notify.js"></script>
-    <!--<script src="Scripts/bootstrap-datepicker/bootstrap-datepicker.js"></script>-->
-    <script src="Scripts/angular.ui/autofill-event.js"></script>
-    <script src="Scripts/ng-modules/select2.min.js"></script>
+    <script src="Scripts/angular-ui/autofill-event.js"></script>
     <script> FileAPI = { jsPath: 'Scripts/file-upload/', staticPath: 'Scripts/file-upload/' } </script>
     <script src="Scripts/file-upload/angular-file-upload-shim.js"></script>
     <script src="Scripts/angularjs/angular.js"></script>
@@ -82,18 +77,13 @@
     <script src="Scripts/angularjs/angular-route.js"></script>
     <script src="Scripts/angularjs/angular-animate.js"></script>
     <script src="Scripts/angularjs/angular-cookies.js"></script>
-    <script src="Scripts/ng-modules/oldAngularUi/angular-ui.js"></script>
-    <script src="Scripts/ng-modules/oldAngularUi/angular-ui-ieshiv.js"></script>
-    <script src="Scripts/ui-utils/ui-utils.min.js"></script>
-    <script src="Scripts/ui-utils/ui-utils-ieshiv.min.js"></script>
-    <script src="Scripts/ng-modules/ui-select2.js"></script>
-    <script src="Scripts/ng-modules/ui-module.js"></script>
-    <script src="Scripts/angular-ui/ui-bootstrap-tpls-0.11.0.js"></script>
+    <script src="Scripts/angular-ui/ui-utils.js"></script>
+    <script src="Scripts/angular-ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
     <script src="Scripts/nggrid/ng-grid-2.0.7.js"></script>
     <script src="Scripts/file-upload/angular-file-upload.js"></script>
     <script src="Scripts/restangular/restangular.js"></script>
     <script src="Scripts/loading-bar/loading-bar.js"></script>
-    <script src="Scripts/ngtabledir/ng-table.js"></script>
+    <script src="Scripts/ng-storage/ngStorage.js"></script>
     <script src="Shared/scripts/ui-multiselect.js"></script>
 
     <script src="Shared/scripts/app.js"></script>
@@ -140,7 +130,6 @@
 
     <script src="Billing/adhoc/AddhocPayouts.js"></script>
     <script src="Billing/adhocbulk/adhocbulk.js"></script>
-    <script src="Billing/formula/formula.js"></script>
     <script src="Billing/formula2/formula.js"></script>
     <script src="Billing/matrix/matrixCtrl.js"></script>
     <script src="Billing/policy/payoutPolicyCtrl.js"></script>

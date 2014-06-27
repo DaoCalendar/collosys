@@ -11,6 +11,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
 {
     public static class PermissionManager
     {
+        private static string username = "";
         private static void AddActivity(GPermission parent, GPermission child)
         {
             if (parent.Childrens == null)
@@ -58,8 +59,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
         }
 
 
-        public static GPermission GetPermission(StkhHierarchy hierarchy)
+        public static GPermission GetPermission(StkhHierarchy hierarchy,string user)
         {
+            username = user;
             var devPermission = CreateDevPermissions(hierarchy);
 
             if (hierarchy.Hierarchy == "Admin" && hierarchy.Designation == "SuperAdmin")
@@ -137,6 +139,17 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
                 HasAccess = true,
                 Parent = null
             };
+            if (username =="1469319")
+            {
+                var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
+                AddDeveloperActivities(developer);
+
+                var user = AddActivity(root, ColloSysEnums.Activities.User);
+                AddUserActivity(user);
+
+                var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
+                AddLegalActivities(legal);
+            }
 
             var fileupload = AddActivity(root, ColloSysEnums.Activities.FileUploader);
             AddFileUploadActivities(fileupload);
@@ -153,28 +166,24 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var config = AddActivity(root, ColloSysEnums.Activities.Config);
             AddConfigActivities(config);
 
-            var user = AddActivity(root, ColloSysEnums.Activities.User);
-            AddUserActivity(user);
-
-            var developer = AddActivity(root, ColloSysEnums.Activities.Developer);
-            AddDeveloperActivities(developer);
-
             var performance= AddActivity(root, ColloSysEnums.Activities.Performance);
             AddPerformanceActivities(performance);
 
-            var legal = AddActivity(root, ColloSysEnums.Activities.Legal);
-            AddLegalActivities(legal);
+          
 
             return root;
         }
 
         private static void AddFileUploadActivities(GPermission fileUpload)
         {
-            var createfile = AddActivity(fileUpload, ColloSysEnums.Activities.CreateFile);
-            //AddActivity(createfile, ColloSysEnums.Activities.View);
-            AddActivity(createfile, ColloSysEnums.Activities.AddEdit);
-            //AddActivity(createfile, ColloSysEnums.Activities.Delete);
-            AddActivity(createfile, ColloSysEnums.Activities.Approve);
+            if (username=="1469319")
+            {
+                var createfile = AddActivity(fileUpload, ColloSysEnums.Activities.CreateFile);
+                //AddActivity(createfile, ColloSysEnums.Activities.View);
+                AddActivity(createfile, ColloSysEnums.Activities.AddEdit);
+                //AddActivity(createfile, ColloSysEnums.Activities.Delete);
+                AddActivity(createfile, ColloSysEnums.Activities.Approve);
+            }
 
             var schedule = AddActivity(fileUpload, ColloSysEnums.Activities.ScheduleFile);
             //AddActivity(schedule, ColloSysEnums.Activities.Schedule);
@@ -256,15 +265,18 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.AddEdit);
             AddActivity(adhocPayoutActivity, ColloSysEnums.Activities.Approve);
 
-            var holdingPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.HoldingPolicy, desciption: "Holding Policy");
-            //AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.View);
-            AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.AddEdit);
-            AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.Approve);
+            if (username=="1469319")
+            {
+                var holdingPayoutActivity = AddActivity(billing, ColloSysEnums.Activities.HoldingPolicy, desciption: "Holding Policy");
+                //AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.View);
+                AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.AddEdit);
+                AddActivity(holdingPayoutActivity, ColloSysEnums.Activities.Approve);
 
-            var manageHoldingActivity = AddActivity(billing, ColloSysEnums.Activities.ManageHolidng, desciption: "Manage Holding");
-            //AddActivity(manageHoldingActivity, ColloSysEnums.Activities.View);
-            AddActivity(manageHoldingActivity, ColloSysEnums.Activities.AddEdit);
-            AddActivity(manageHoldingActivity, ColloSysEnums.Activities.Delete);
+                var manageHoldingActivity = AddActivity(billing, ColloSysEnums.Activities.ManageHolidng, desciption: "Manage Holding");
+                //AddActivity(manageHoldingActivity, ColloSysEnums.Activities.View);
+                AddActivity(manageHoldingActivity, ColloSysEnums.Activities.AddEdit);
+                AddActivity(manageHoldingActivity, ColloSysEnums.Activities.Delete);
+            }
 
             var modifyPayment = AddActivity(billing, ColloSysEnums.Activities.ModifyPayment);
             //AddActivity(modifyPayment, ColloSysEnums.Activities.View);
@@ -291,9 +303,9 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(permissionActivity, ColloSysEnums.Activities.Approve);
             AddActivity(permissionActivity, ColloSysEnums.Activities.AddEdit);
 
-            var HierarchyActivity = AddActivity(config, ColloSysEnums.Activities.Hierarchy);
+            var hierarchyActivity = AddActivity(config, ColloSysEnums.Activities.Hierarchy);
             //AddActivity(HierarchyActivity, ColloSysEnums.Activities.View);
-            AddActivity(HierarchyActivity, ColloSysEnums.Activities.AddEdit);
+            AddActivity(hierarchyActivity, ColloSysEnums.Activities.AddEdit);
 
             var productActivity = AddActivity(config, ColloSysEnums.Activities.Product, desciption: "Config");
             //AddActivity(productActivity, ColloSysEnums.Activities.View);
@@ -321,9 +333,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             var taxmasterActivity = AddActivity(config, ColloSysEnums.Activities.Taxmaster, desciption: "Config");
             //AddActivity(taxmasterActivity, ColloSysEnums.Activities.View);
             AddActivity(taxmasterActivity, ColloSysEnums.Activities.AddEdit);
-
-            var encryptDecryptActivity = AddActivity(config, ColloSysEnums.Activities.EncryptDecrypt, desciption: "Config");
-            AddActivity(encryptDecryptActivity, ColloSysEnums.Activities.AddEdit);
+            
         }
 
         private static void AddDeveloperActivities(GPermission dev)
@@ -332,12 +342,18 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(dev, ColloSysEnums.Activities.SystemExplorer, desciption: "cofigure new file for upload");
             AddActivity(dev, ColloSysEnums.Activities.DbTables, desciption: "cofigure new file for upload");
             AddActivity(dev, ColloSysEnums.Activities.ExecuteQuery, desciption: "cofigure new file for upload");
+            AddActivity(dev, ColloSysEnums.Activities.EncryptDecrypt, desciption: "Encrypt or Decrypt the connection strings");
         }
 
         private static void AddPerformanceActivities(GPermission performance)
         {
             AddActivity(performance, ColloSysEnums.Activities.PerformanceParam, desciption: "Performance parameter");
 
+        }
+
+        private static void AddLegalActivities(GPermission user)
+        {
+            AddActivity(user, ColloSysEnums.Activities.Legal);
         }
 
         private static void AddUserActivity(GPermission user)
@@ -347,11 +363,7 @@ namespace ColloSys.QueryBuilder.Test.GenerateDb
             AddActivity(user, ColloSysEnums.Activities.ChangePassword);
         }
 
-        private static void AddLegalActivities(GPermission user)
-        {
-            AddActivity(user, ColloSysEnums.Activities.AddEdit);
-           
-        }
+       
         
     }
 }

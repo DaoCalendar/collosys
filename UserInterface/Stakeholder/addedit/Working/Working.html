@@ -25,7 +25,7 @@
                     <tbody>
                         <tr data-ng-show="formMode!=='view'" data-ng-form="addWorkingForm">
                             <td><!--<input type="checkbox" 
-                                           data-ng-checked="deleteWorkingList.length === workingDetailsList.length && workingDetailsList.length!==0"       
+                                           data-ng-checked="selectedWorkingList .length === workingDetailsList.length && workingDetailsList.length!==0"       
                                            data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
                             <td>
                                 <cs-field field="workingModel.Products"
@@ -146,7 +146,7 @@
                                 </div>
                             </td>
                             <td >
-                                <div data-ng-if="deleteWorkingList.length === 0">
+                                <div data-ng-if="selectedWorkingList .length === 0">
                                     <cs-button2 
                                         type="add" 
                                         data-ng-disabled ="disableAddBtn(WorkingModel,addWorkingForm)"
@@ -159,7 +159,7 @@
                         <tr data-ng-repeat="data in workingDetailsList">
                             <td><input data-ng-show="formMode!=='view'" type="checkbox" 
                                        data-ng-model="checked" 
-                                       data-ng-click="addWorkingToDelete(data)"/></td>
+                                       data-ng-click="addWorkingToList(data)"/></td>
                             <td class="col-md-2">{{data.Products}}</td>
                             <td class="col-md-2">{{data.ReportsToName}}</td>
                             <td class="col-md-2" data-ng-show="displayManager.showRegion">{{data.Region}}</td>
@@ -178,14 +178,14 @@
                     </tbody>
                 </table>
                 <div>
-                    <span class="pull-left" data-ng-if="deleteWorkingList.length>0">
+                    <span class="pull-left" data-ng-if="selectedWorkingList .length>0">
                         <cs-field layout="4.4.8" 
-                                  data-ng-show="showEndDate(deleteWorkingList)"
+                                  data-ng-show="showEndDate(selectedWorkingList)"
                                   field="workingModel.EndDate"
                                   data-ng-model="EndDate"></cs-field>
 
                         <cs-button2 type="delete" 
-                                    data-ng-disabled="disableDeleteBtn(deleteWorkingList,EndDate)"  
+                                    data-ng-disabled="disableDeleteBtn(selectedWorkingList ,EndDate)"  
                                     data-on-click="deleteSelectedWorking(EndDate)">
                         </cs-button2>
                     </span>
@@ -196,15 +196,15 @@
                                     permission="StakeholderAddEdit"
                                     data-on-click="save(workingDetailsList)">
                         </cs-button2>
-                        <span data-ng-if="showApproveButtons(workingDetailsList)">
+                        <span data-ng-if="selectedWorkingList.length>0">
                             <cs-button2 type="approve"
                                         permission="StakeholderApprove"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'approve','working')">
+                                        data-on-click="setApprovalStatus(selectedWorkingList,'approve','working')">
                             </cs-button2> 
 
                             <cs-button2 type="reject"
                                         permission="StakeholderApprove"
-                                        data-on-click="setApprovalStatus(currStakeholder.Id,'reject','working')">
+                                        data-on-click="setApprovalStatus(selectedWorkingList,'reject','working')">
                             </cs-button2>
                         </span>
                         <cs-button2
