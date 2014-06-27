@@ -21,6 +21,8 @@ namespace AngularUI.Stakeholder.addedit.Working
 {
     public class WorkingApiController : BaseApiController<StkhWorking>
     {
+        #region get data
+
         private static readonly StakePaymentQueryBuilder StakePaymentBuilder = new StakePaymentQueryBuilder();
         private static readonly StakeWorkingQueryBuilder StakeWorkingQueryBuilder = new StakeWorkingQueryBuilder();
         private static readonly StakeQueryBuilder StakeQueryBuilder = new StakeQueryBuilder();
@@ -70,6 +72,10 @@ namespace AngularUI.Stakeholder.addedit.Working
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
+        #endregion
+
+        #region working
+
         [HttpPost]
         public HttpResponseMessage SaveWorking(List<StkhWorking> workingData)
         {
@@ -79,10 +85,10 @@ namespace AngularUI.Stakeholder.addedit.Working
             var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
 
             var data = new
-                {
-                    WorkList = workingData,
-                    ReportsToList = reportsToStakeholders
-                };
+            {
+                WorkList = workingData,
+                ReportsToList = reportsToStakeholders
+            };
 
             if (!StkhNotificationRepository.DoesNotificationExist(
                 ColloSysEnums.NotificationType.StakeholderWorkingChange, workingData[0].Stakeholder.Id))
@@ -97,28 +103,109 @@ namespace AngularUI.Stakeholder.addedit.Working
         [HttpPost]
         public HttpResponseMessage DeleteWorking(List<StkhWorking> deleteList)
         {
+            var hasAnyValidDelete = false;
             foreach (var stkhWorking in deleteList)
             {
                 switch (stkhWorking.ApprovalStatus)
                 {
-                    case ColloSysEnums.ApproveStatus.NotApplicable:
-                        break;
                     case ColloSysEnums.ApproveStatus.Submitted:
                         StakeWorkingQueryBuilder.Delete(stkhWorking);
+                        hasAnyValidDelete = true;
                         break;
                     case ColloSysEnums.ApproveStatus.Approved:
                         stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
                         StakeWorkingQueryBuilder.Save(stkhWorking);
+                        hasAnyValidDelete = true;
+                        break;
+                }
+            }
+
+            if (hasAnyValidDelete && (!StkhNotificationRepository.DoesNotificationExist(
+                    ColloSysEnums.NotificationType.StakeholderWorkingChange, deleteList[0].Stakeholder.Id)))
+            {
+                var notify = new StakeholderNotificationManager(GetUsername());
+                notify.NotifyStkhWorkingAdded(deleteList[0].Stakeholder);
+            }
+
+            var list = WorkingPaymentHelper.FilterWorkList(deleteList);
+            return Request.CreateResponse(HttpStatusCode.OK, list);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ApproveWorkingList(StkhId stakeholder)
+        {
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            return ApproveWorkingList(stkh.StkhWorkings);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ApproveWorkingList(IList<StkhWorking> worklist)
+        {
+            StakeWorkingQueryBuilder.Save(WorkingPaymentHelper.SetStatusForApprove(worklist));
+
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderWorkingChange, worklist[0].Stakeholder.Id);
+
+            var reportsToIds = worklist.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+
+            var data = new
+            {
+                WorkList = WorkingPaymentHelper.FilterWorkList(worklist),
+                ReportsToList = reportsToStakeholders
+            };
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RejectWorkingList(StkhId stakeholder)
+        {
+            var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
+            return RejectWorkingList(stkh.StkhWorkings);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage RejectWorkingList(IList<StkhWorking> workList)
+        {
+            foreach (var stkhWorking in workList)
+            {
+                switch (stkhWorking.ApprovalStatus)
+                {
+                    case ColloSysEnums.ApproveStatus.NotApplicable:
+                    case ColloSysEnums.ApproveStatus.Submitted:
+                        StakeWorkingQueryBuilder.Delete(stkhWorking);
                         break;
                     case ColloSysEnums.ApproveStatus.Changed:
+                        stkhWorking.EndDate = null;
+                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
+                        StakeWorkingQueryBuilder.Save(stkhWorking);
                         break;
-
+                    case ColloSysEnums.ApproveStatus.Approved:
+                        break;
                     default:
                         throw new Exception("invalid approval status: " + stkhWorking.ApprovalStatus);
                 }
             }
-            return Request.CreateResponse(HttpStatusCode.OK, WorkingPaymentHelper.FilterWorkList(deleteList));
+
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderWorkingChange, workList[0].Stakeholder.Id);
+
+            var reportsToIds = workList.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
+            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+
+            var data = new
+            {
+                WorkList = WorkingPaymentHelper.FilterWorkList(workList),
+                ReportsToList = reportsToStakeholders
+            };
+
+            return Request.CreateResponse(HttpStatusCode.OK, data);
         }
+
+        #endregion
+
+        #region payment
 
         [HttpPost]
         public HttpResponseMessage GetSalaryDetails(PaymentIds paymentId)
@@ -141,23 +228,12 @@ namespace AngularUI.Stakeholder.addedit.Working
             {
                 case ColloSysEnums.ApproveStatus.Approved:
                     paymentData.ApprovalStatus = ColloSysEnums.ApproveStatus.Changed;
-                    StakePaymentBuilder.Save(paymentData);
-                    break;
-                case ColloSysEnums.ApproveStatus.Changed:
-                    StakePaymentBuilder.Save(paymentData);
                     break;
                 case ColloSysEnums.ApproveStatus.NotApplicable:
                     paymentData.ApprovalStatus = ColloSysEnums.ApproveStatus.Submitted;
-                    StakePaymentBuilder.Save(paymentData);
                     break;
-                case ColloSysEnums.ApproveStatus.Submitted:
-                    StakePaymentBuilder.Save(paymentData);
-                    break;
-                case ColloSysEnums.ApproveStatus.Rejected:
-                    break;
-                default:
-                    throw new Exception("invalid approval level: " + paymentData.ApprovalStatus);
             }
+            StakePaymentBuilder.Save(paymentData);
 
             if (!StkhNotificationRepository.DoesNotificationExist(
                 ColloSysEnums.NotificationType.StakeholderPaymentChange, paymentData.Stakeholder.Id))
@@ -170,24 +246,6 @@ namespace AngularUI.Stakeholder.addedit.Working
         }
 
         [HttpPost]
-        public HttpResponseMessage ApproveWorkingList(List<StkhWorking> worklist)
-        {
-            //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
-            StakeWorkingQueryBuilder.Save(WorkingPaymentHelper.SetStatusForApprove(worklist));
-            var reportsToIds = worklist.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
-            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
-
-            var data = new
-                {
-                    WorkList = WorkingPaymentHelper.FilterWorkList(worklist),
-                    ReportsToList = reportsToStakeholders
-                };
-
-            return Request.CreateResponse(HttpStatusCode.OK,
-                                          data);
-        }
-
-        [HttpPost]
         public HttpResponseMessage ApprovePayment(StkhId stakeholder)
         {
             var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
@@ -197,43 +255,11 @@ namespace AngularUI.Stakeholder.addedit.Working
                 stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
                 StakePaymentBuilder.Save(stkh.StkhPayments[0]);
             }
-            return Request.CreateResponse(HttpStatusCode.OK,
-                                          stkh.StkhPayments[0]);
-        }
 
-        [HttpPost]
-        public HttpResponseMessage RejectWorkingList(List<StkhWorking> workList)
-        {
-            //var stkh = StakeQueryBuilder.GetStakeWorkingPayment(stakeholder.Id);
-            foreach (var stkhWorking in workList)
-            {
-                switch (stkhWorking.ApprovalStatus)
-                {
-                    case ColloSysEnums.ApproveStatus.NotApplicable:
-                    case ColloSysEnums.ApproveStatus.Submitted:
-                        StakeWorkingQueryBuilder.Delete(stkhWorking);
-                        break;
-                    case ColloSysEnums.ApproveStatus.Changed:
-                        stkhWorking.EndDate = null;
-                        stkhWorking.ApprovalStatus = ColloSysEnums.ApproveStatus.Approved;
-                        StakeWorkingQueryBuilder.Save(stkhWorking);
-                        break;
-                    case ColloSysEnums.ApproveStatus.Approved:
-                        break;
-                    default:
-                        throw new Exception("invalid approval status: " + stkhWorking.ApprovalStatus);
-                }
-            }
-            var reportsToIds = workList.Select(stkhWorking => stkhWorking.ReportsTo).ToList();
-            var reportsToStakeholders = StakeQueryBuilder.GetByIdList(reportsToIds);
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyApprove(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
 
-            var data = new
-            {
-                WorkList = WorkingPaymentHelper.FilterWorkList(workList),
-                ReportsToList = reportsToStakeholders
-            };
-
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Request.CreateResponse(HttpStatusCode.OK, stkh.StkhPayments[0]);
         }
 
         [HttpPost]
@@ -245,14 +271,23 @@ namespace AngularUI.Stakeholder.addedit.Working
                 stkh.StkhPayments[0].ApprovalStatus = ColloSysEnums.ApproveStatus.Rejected;
             }
             StakePaymentBuilder.Save(stkh.StkhPayments[0]);
-            return Request.CreateResponse(HttpStatusCode.OK,
-                                          stkh.StkhPayments[0]);
+
+            var manager = new StakeholderNotificationManager(GetUsername());
+            manager.NotifyReject(ColloSysEnums.NotificationType.StakeholderPaymentChange, stakeholder.Id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, stkh.StkhPayments[0]);
         }
+
+        #endregion
     }
+
+    #region helpers for payment
 
     public class PaymentIds
     {
         public Guid ReportingId { get; set; }
         public Guid? PaymentId { get; set; }
     }
+
+    #endregion
 }

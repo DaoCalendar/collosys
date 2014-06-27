@@ -319,11 +319,8 @@ csapp.run(["$rootScope", "$location", "$templateCache", "Logger",
         $rootScope.$on("$csLoginRequired", function () {
             $location.path("/login");
         });
-
-        //$rootScope.$on('$viewContentLoaded', function () {
-        //    $templateCache.removeAll();
-        //});
-    }]);
+    }
+]);
 
 csapp.constant("$csConstants", {
     GUID_EMPTY: '00000000-0000-0000-0000-000000000000',

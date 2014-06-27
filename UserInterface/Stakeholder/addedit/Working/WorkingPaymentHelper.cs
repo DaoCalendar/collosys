@@ -68,7 +68,7 @@ namespace AngularUI.Stakeholder.addedit.Working
             }
         }
 
-        public static List<StkhWorking> SetStatusForApprove(List<StkhWorking> workList)
+        public static IEnumerable<StkhWorking> SetStatusForApprove(IEnumerable<StkhWorking> workList)
         {
             var newWorkList = new List<StkhWorking>();
             foreach (var stkhWorking in workList)
