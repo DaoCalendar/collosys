@@ -8,6 +8,7 @@ using AngularUI.Shared.apis;
 using ColloSys.DataLayer.Generic;
 using ColloSys.DataLayer.Stakeholder;
 using ColloSys.QueryBuilder.GenericBuilder;
+using ColloSys.QueryBuilder.StakeholderBuilder;
 using ColloSys.QueryBuilder.Test.GenerateDb;
 
 #endregion
@@ -38,8 +39,11 @@ namespace AngularUI.Generic.permissions
         [HttpGet]
         public HttpResponseMessage GetPermission(Guid id)
         {
+            var stkhRepo = new StakeQueryBuilder();
+            var stkh = stkhRepo.GetStakeByExtId(GetUsername());
+
             var hierarchy = Session.Get<StkhHierarchy>(id);
-            var devPermission = PermissionManager.GetPermission(hierarchy);
+            var devPermission = PermissionManager.GetPermission(hierarchy,stkh.ExternalId);
             return Request.CreateResponse(HttpStatusCode.OK, devPermission); 
         }
         #endregion
