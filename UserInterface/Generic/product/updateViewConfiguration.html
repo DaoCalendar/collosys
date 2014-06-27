@@ -6,21 +6,21 @@
             <div data-ng-form="formAddProduct">
                 <div class="panel-body">
                     <cs-form layout="9.3.8" mode="mode">
-                
+
                         <cs-field data-ng-model="dldata.productconfig.Product"
                                   field="Products.Product" data-ng-disabled="true" ng-required="true"></cs-field>
-              
+
                         <cs-field data-ng-model="dldata.productconfig.ProductGroup"
                                   field="Products.ProductGroup" data-ng-disabled="true" ng-required="true"></cs-field>
-               
-                        <cs-field data-ng-model="dldata.productconfig.AllocationResetStrategy" 
-                                  field="Products.AllocationResetStrategy" value-List="dldata.AllocationStrategy"></cs-field>
-                        
-                        <cs-field data-ng-model="dldata.productconfig.BillingStrategy" 
-                                  field="Products.BillingResetStrategy" value-List="dldata.BillingStrategy"></cs-field>
-                   
+
+                        <cs-field data-ng-model="dldata.productconfig.AllocationResetStrategy"
+                                  field="Products.AllocationResetStrategy" value-list="dldata.AllocationStrategy"></cs-field>
+
+                        <cs-field data-ng-model="dldata.productconfig.BillingStrategy"
+                                  field="Products.BillingResetStrategy" value-list="dldata.BillingStrategy"></cs-field>
+
                         <cs-field data-ng-model="dldata.productconfig.HasTelecalling" field="Products.HasTelecalling"></cs-field>
-                     
+
                         <div data-ng-show="dldata.productconfig.HasTelecalling">
                             <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysCycle"
                                       field="Products.FrCutOffDaysCycle" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
@@ -28,11 +28,20 @@
                             <cs-field data-ng-model="dldata.productconfig.FrCutOffDaysMonth"
                                       field="Products.FrCutOffDaysMonth" ng-required="dldata.productconfig.HasTelecalling"></cs-field>
                         </div>
-                        
+
                         <cs-field data-ng-model="dldata.productconfig.CycleCodes" multiple="multiple"
-                                  field="Products.CycleCodes" value-List="dldata.codes"></cs-field>
-                       
+                                  field="Products.CycleCodes" value-list="dldata.codes"></cs-field>
+
+                        <div class="col-md-9">
+                            <div class="col-md-3"><label class="control-label">Bucket</label></div>
+                            <div class="col-lg-6">
+                                <tags data-options="{addable: true, classes: {white: 'black', red: 'red'}}"
+                                      data-src="s as s.name for s in sourceTags"
+                                      data-model="dldata.productconfig.Buckets"></tags>
+                            </div>
+                        </div>
                     </cs-form>
+                  
                 </div>
             </div>
         </div>

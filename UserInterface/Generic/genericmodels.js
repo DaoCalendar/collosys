@@ -101,6 +101,7 @@
             LinerTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             WriteoffTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
             PaymentTable: { type: "enum", valueList: $csShared.enums.ClientDataTables },
+            Buckets: { label: "Buckets", type: "text", required: "true" }
         };
     };
 

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ColloSys.DataLayer.BaseEntity;
 using ColloSys.DataLayer.Components;
 using ColloSys.DataLayer.Domain;
@@ -21,7 +22,7 @@ namespace ColloSys.FileUploaderService.FileReader
     public abstract class FileReader<T> : IFileReader<T> where T : Entity, IFileUploadable, IUniqueKey, new()
     {
         #region ctor
-
+        private const uint BatchSize = 1000;
         private readonly FileProcess _fileProcess;
         private readonly Logger _log = LogManager.GetCurrentClassLogger();
         public IRecordCreator<T> RecordCreatorObj { get; private set; }
@@ -43,9 +44,8 @@ namespace ColloSys.FileUploaderService.FileReader
             _fileProcess = new FileProcess();
             RecordCreatorObj = recordCreator;
             _batchSize = 500;
-            
             DbLayer = new DbLayer.DbLayer();
-            
+
         }
 
         protected FileReader(FileScheduler fileScheduler, ITextRecord<T> recordCreator)
@@ -66,17 +66,17 @@ namespace ColloSys.FileUploaderService.FileReader
 
         public void ReadAndSaveBatch()
         {
-            for (var i = 0; i < _batchSize; i++)
+            do
             {
-                if (RecordCreatorObj.EndOfFile()) break;
-                var list = GetNextBatch();
-                SaveNextBatch(list);
+                SaveNextBatch(GetNextBatch());
                 _fileProcess.UpdateFileStatus(FileScheduler, ColloSysEnums.UploadStatus.ActInserting, Counter);
-            }
+            } while (!RecordCreatorObj.EndOfFile());
         }
 
-        private void SaveNextBatch(IEnumerable<T> list)
+        private void SaveNextBatch(IList<T> list)
         {
+            if(!list.Any()) return;
+
             using (var session = SessionManager.GetNewSession())
             {
                 using (var transaction = session.BeginTransaction())
@@ -94,21 +94,22 @@ namespace ColloSys.FileUploaderService.FileReader
         public IList<T> GetNextBatch()
         {
             var list = new List<T>();
-            for (var j = 0; j < _batchSize; j++)
+            do
             {
                 if (RecordCreatorObj.EndOfFile()) break;
                 T obj;
-                var isRecordCreate = RecordCreatorObj.CreateRecord( out obj);
+                var isRecordCreate = RecordCreatorObj.CreateRecord(out obj);
                 if (isRecordCreate)
                 {
                     obj.FileScheduler = FileScheduler;
-                    ((IFileUploadable) obj).FileDate = FileScheduler.FileDate;
+                    ((IFileUploadable)obj).FileDate = FileScheduler.FileDate;
                     obj.FileRowNo = Counter.CurrentRow;
                     list.Add(obj);
                     RecordCreatorObj.TodayRecordList.AddEntity(obj);
                 }
-                
-            }
+
+            } while (list.Count != BatchSize);
+
             _log.Info("GetNextBatch: Batch Create ");
             Counter.CalculateTotalRecord();
             return list;

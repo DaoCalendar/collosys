@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
         <cs-form>
-            <form>
+            <div data-ng-form="addWorkingForm">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-ng-show="formMode!=='view'" data-ng-form="addWorkingForm">
+                        <tr data-ng-show="formMode!=='view'" >
                             <td><!--<input type="checkbox" 
                                            data-ng-checked="selectedWorkingList .length === workingDetailsList.length && workingDetailsList.length!==0"       
                                            data-ng-model="selAll" data-ng-click="selectAll(selAll)"/>--></td>
@@ -55,6 +55,7 @@
                                 <div data-ng-if="showDropdown('Region')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Region"
                                                  change="getPincodeData(WorkingModel,'Region')"    
+                                                 ng-required="true"
                                                  options="c for c in WorkingModel.ListOfRegions" multiple="true">
                                     </multiselect>
                                 </div>
@@ -70,6 +71,7 @@
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Cluster')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Cluster"
+                                                 required="true"   
                                                  change="getPincodeData(WorkingModel,'Cluster')"    
                                                  options="c for c in WorkingModel.ListOfClusters" multiple="true">
                                     </multiselect>
@@ -86,12 +88,13 @@
                                 <div data-ng-if="showDropdown('State')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.State"
                                                  change="getPincodeData(WorkingModel,'State')" 
+                                                 required="true"   
                                                  options="c for c in WorkingModel.ListOfStates" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
                             
-                            <td data-ng-show="displayManager.showDistrict "  >
+                            <td data-ng-show="displayManager.showDistrict ">
                                 <cs-field field="workingModel.District"
                                           no-label=""  
                                           data-ng-show="!showDropdown('District')"
@@ -101,13 +104,14 @@
                                 </cs-field>
                                 <div data-ng-if="showDropdown('District')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.District"
+                                                 required="true"
                                                  change="getPincodeData(WorkingModel,'District')"    
                                                  options="c for c in WorkingModel.ListOfDistricts" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
                             
-                            <td  data-ng-show="displayManager.showCity "  >
+                            <td  data-ng-show="displayManager.showCity">
                                 <cs-field field="workingModel.City"
                                           no-label=""  
                                           data-ng-show="!showDropdown('City')" 
@@ -117,6 +121,7 @@
                                 </cs-field>
                                 <div data-ng-if="showDropdown('City')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.City"
+                                                 required="true"
                                                  change="getPincodeData(WorkingModel,'City')"    
                                                  options="c for c in WorkingModel.ListOfCities" multiple="true">
                                     </multiselect>
@@ -133,23 +138,26 @@
                                 </cs-field>
                                 <div data-ng-if="showDropdown('Area')">
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Area"
-                                                 change="getPincodeData(WorkingModel,'Area')"    
+                                                 change="getPincodeData(WorkingModel,'Area')"  
+                                                 ng-required="true"     
                                                  options="c for c in WorkingModel.ListOfAreas" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
-                            <td data-ng-show="selectedHierarchy.HasBuckets">
+                            <td data-ng-if="selectedHierarchy.HasBuckets">
                                 <div>
                                     <multiselect data-ng-model="WorkingModel.SelectedPincodeData.Buckets"
+                                                 required="true"
                                                  options="c for c in bucketList" multiple="true">
                                     </multiselect>
                                 </div>
                             </td>
                             <td >
+                                <!--disableAddBtn(WorkingModel,addWorkingForm)-->
                                 <div data-ng-if="selectedWorkingList .length === 0">
                                     <cs-button2 
                                         type="add" 
-                                        data-ng-disabled ="disableAddBtn(WorkingModel,addWorkingForm)"
+                                        data-ng-disabled ="addWorkingForm.$invalid"
                                         data-on-click="addWorking(WorkingModel,selectedHierarchy.LocationLevel)">
                                     </cs-button2>
                                 </div>
@@ -191,8 +199,9 @@
                     </span>
                    
                     <span  class="pull-right">
-                        <cs-button2 type="save"
-                                    data-ng-disabled="showSaveButton()" 
+                        <cs-button2 type="reset"
+                                    text="save"
+                                    data-ng-disabled="showSaveButton()"
                                     permission="StakeholderAddEdit"
                                     data-on-click="save(workingDetailsList)">
                         </cs-button2>
@@ -221,7 +230,7 @@
                         </cs-button2>
                     </span>
                 </div>
-            </form>
+            </div>
         </cs-form>
     </div>
 </div>
